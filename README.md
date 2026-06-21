@@ -64,6 +64,7 @@ proportionally allocated, modeled, or illustrative.
 
 - `PRODUCT_PLAN.md` records the product thesis, non-goals, and wave plan.
 - `context/waves/` records implementation waves and pulses.
+- `docs/sources/` records source versions before data extraction.
 - `docs/research/` holds cited research notes and decision records.
 - `.roles/` defines the review panel for taxpayer, accounting, source custody,
   public-goods, beneficiary, compliance, fiscal, and reform-skeptic interests.

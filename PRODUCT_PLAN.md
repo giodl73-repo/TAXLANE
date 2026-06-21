@@ -38,6 +38,7 @@ Before INCOME-TAX publishes taxpayer-facing receipts or program-linked tax lane
 models, the repo must close these gates:
 
 1. Source-version ledger for each IRS, OMB, Treasury, CBO, or USAspending source.
+   The ledger starts at `docs/sources/source-version-ledger.md`.
 2. Budget-accounting explainer with exact cited definitions for receipts,
    outlays, trust funds, federal funds, offsetting collections, borrowing,
    deficits, and debt service.
