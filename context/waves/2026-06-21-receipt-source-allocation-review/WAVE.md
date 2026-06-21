@@ -18,7 +18,7 @@ or mixed until their own budget-concept support exists.
 | Pulse | Title | Status | Outcome |
 |------:|---|---|---|
 | 01 | Individual income receipt allocation | done | Promoted the first receipt-source slice to source-reviewed and labeled individual income-tax rows as general receipts. |
-| 02 | Other receipt category blockers | pending | Record blockers for corporation, social-insurance, excise, other, and total receipt categories. |
+| 02 | Other receipt category blockers | done | Recorded blockers for corporation, social-insurance, excise, other, and total receipt categories. |
 | 03 | Receipt-source public wording update | pending | Tighten public wording for receipt-source allocation labels. |
 
 ## Success Criteria

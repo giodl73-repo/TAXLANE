@@ -27,3 +27,13 @@
   public-purpose lane.
 - Future taxpayer receipt models still need allocation method and deficit
   context.
+
+## Blocker Map
+
+| Category | Blocker |
+|---|---|
+| `corporation-income-taxes` | Candidate for later general-receipt review, but intentionally outside the individual-income-tax public-reader slice. |
+| `social-insurance-and-retirement-receipts` | Needs Table 2.4 subcomponent extraction and trust-fund concept linkage. |
+| `excise-taxes` | Needs Table 2.4 subcomponent extraction because excise receipts can be general or dedicated. |
+| `other-receipts` | Needs source-specific review because the category is heterogeneous. |
+| `total-receipts` | Must remain `mixed`; total receipts are not a legal allocation category. |
