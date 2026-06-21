@@ -18,7 +18,7 @@ and validation gates.
 |------:|---|---|---|
 | 01 | Data dictionary scaffold | done | Created canonical record families, fields, and extraction rules for rates, receipts, outlays, and lanes. |
 | 02 | Rates timeline schema | done | Defined tax-year rate-row identity, controlled values, extraction rules, validation checks, and public wording rules. |
-| 03 | Receipts and fund schema | pending | Define fiscal-year receipt-source and fund-group records from OMB historical tables. |
+| 03 | Receipts and fund schema | done | Defined fiscal-year receipt-source and fund-group identity, controlled values, extraction rules, reconciliation checks, and public wording rules. |
 | 04 | Outlays and public-purpose schema | pending | Define OMB function/subfunction/agency/program records and TAXLANE lane crosswalk fields. |
 | 05 | Extraction custody review | pending | Apply Source Custodian and Budget Accountant roles before any raw-source import. |
 
