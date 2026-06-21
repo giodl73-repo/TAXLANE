@@ -17,7 +17,7 @@ dedicated to a program.
 | Pulse | Title | Status | Outcome |
 |------:|---|---|---|
 | 01 | Fund-group schema alignment | done | Profiled OMB Table 1.4 and added explicit `interfund-transactions` controlled value. |
-| 02 | Fund-group first draft rows | pending | Extract 1934-1936 fund-group receipt/outlay/surplus-deficit draft rows and reconcile totals. |
+| 02 | Fund-group first draft rows | done | Extracted 1934 fund-group receipt/outlay/surplus-deficit draft rows and reconciled totals. |
 | 03 | Fund-group source review | pending | Verify Table 1.4 checksum, row anchors, labels, and extracted values. |
 | 04 | Fund concept guardrail | pending | Record what Table 1.4 can and cannot prove about legal dedication. |
 | 05 | Receipt allocation blocker note | pending | Summarize how fund groups affect future taxpayer receipt allocation. |
