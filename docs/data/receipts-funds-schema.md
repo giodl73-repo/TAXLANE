@@ -112,6 +112,7 @@ Use:
 - `special-funds`
 - `trust-funds`
 - `revolving-funds`
+- `interfund-transactions`
 - `offsetting-receipts`
 - `mixed`
 - `total`
@@ -119,6 +120,8 @@ Use:
 
 Use `general-fund` only when the source or concept source explicitly supports
 that level. OMB Table 1.4 may require broader `federal-funds` treatment.
+Use `interfund-transactions` only when the source reports transfers or
+adjustments between fund groups as their own table column or row.
 
 ## Allocation status rules
 
