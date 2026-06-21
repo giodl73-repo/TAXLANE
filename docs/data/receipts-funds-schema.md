@@ -183,8 +183,10 @@ Before marking records `reviewed`, check:
 |---|---|
 | Individual income tax amount | "Federal individual income-tax receipts..." |
 | Payroll/social-insurance amount | "Social-insurance and retirement receipts..." |
-| General receipt | "This receipt is treated as general revenue unless a legal dedication is cited." |
+| General receipt | "This receipt is treated as general revenue unless a legal dedication is cited; this is not a program allocation." |
 | Dedicated receipt | "This receipt is legally credited to a fund or purpose under the cited source." |
+| Mixed receipt | "This category combines receipts with different budget treatment and cannot be used as one legal allocation." |
+| Unknown receipt | "This category needs additional source review before TAXLANE assigns an allocation label." |
 | Projection | "OMB projects..." |
 | Actual | "OMB reports..." |
 | Offsetting collection | "This collection reduces reported outlays or is recorded as an offset, not as ordinary tax revenue." |

@@ -90,9 +90,9 @@ Those words are not interchangeable.
 
 The current source-backed finding is:
 
-> Ordinary income tax is mostly a general fund receipt. That means it is
-> generally not legally tagged to one program before Congress and budget law
-> determine spending.
+> Ordinary individual income-tax receipts are generally treated as general-fund
+> revenue unless a specific legal dedication is cited. That label is not a
+> program allocation.
 
 So "what did my income tax pay for?" needs a method label.
 

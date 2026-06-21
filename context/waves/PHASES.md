@@ -4,10 +4,11 @@ Work is organized into small waves and pulses.
 
 ## Active wave
 
-- `2026-06-21-receipt-source-allocation-review`
+- None.
 
 ## Completed waves
 
+- `2026-06-21-receipt-source-allocation-review`
 - `2026-06-21-budget-concept-extraction`
 - `2026-06-21-fund-group-review`
 - `2026-06-21-draft-record-review`
