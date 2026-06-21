@@ -1,7 +1,7 @@
 # Fund Group Extraction
 
-This directory is reserved for draft `fund_group` records extracted from OMB
-Historical Table 1.4 and related budget concept sources.
+This directory contains `fund_group` records extracted from OMB Historical
+Table 1.4 and related budget concept sources.
 
 ## Initial Sources
 
@@ -12,10 +12,11 @@ Historical Table 1.4 and related budget concept sources.
 
 ## Planned Output
 
-Use JSONL draft records named by source and observed date:
+Use JSONL records named by source, observed date, and review state:
 
 ```text
 fund_group.SRC-OMB-HIST-1-4-FY2027.2026-06-21.draft.jsonl
+fund_group.SRC-OMB-HIST-1-4-FY2027.2026-06-21.source-reviewed.jsonl
 ```
 
 Rows must follow `docs/data/receipts-funds-schema.md`.
@@ -27,3 +28,9 @@ Rows must follow `docs/data/receipts-funds-schema.md`.
 3. Reconcile fund-group totals to Table 1.1 within displayed precision.
 4. Do not label a fund group legally dedicated without budget-concept support.
 5. Do not treat trust fund as private trust ownership.
+
+## Current Output
+
+- `fund_group.SRC-OMB-HIST-1-4-FY2027.2026-06-21.source-reviewed.jsonl`
+- `first-slice-reconciliation.md`
+- `budget-interpretation.md`

@@ -15,7 +15,7 @@ Historical Table 1.4:
 - Outlays by total, federal funds, trust funds, and interfund transactions.
 - Surplus/deficit by total, federal funds, and trust funds.
 
-All records are `draft-extracted`.
+All records are `source-reviewed`.
 
 ## Reconciliation
 
@@ -30,8 +30,11 @@ Amounts are in millions of dollars.
 ## Extraction Decisions
 
 - `interfund-transactions` is preserved as its own source column.
-- `legal_dedication` remains `unknown` for every row.
-- `appropriation_required` remains `unknown` for every row.
+- `legal_dedication` uses reviewed AP13 concept support: `mixed` for total and
+  federal-funds rows, `dedicated` for trust-funds rows, and `unknown` for
+  interfund transactions.
+- `appropriation_required` is `mixed` for total and federal-funds rows and
+  remains `unknown` for trust-funds and interfund-transaction rows.
 - `budget_concept_source_id` points to `SRC-OMB-AP-13-FUNDS-FY2027` as the
-  concept source needed before interpretation.
+  concept source used for interpretation.
 - No receipt-source category is linked to a fund group in this pulse.
