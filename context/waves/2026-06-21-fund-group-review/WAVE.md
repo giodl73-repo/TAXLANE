@@ -20,7 +20,7 @@ dedicated to a program.
 | 02 | Fund-group first draft rows | done | Extracted 1934 fund-group receipt/outlay/surplus-deficit draft rows and reconciled totals. |
 | 03 | Fund-group source review | done | Verified Table 1.4 checksum, row anchors, source labels, signs, and extracted 1934 values. |
 | 04 | Fund concept guardrail | done | Recorded Table 1.4 public-use limits, legal-dedication blockers, trust-fund caveats, and interfund transaction handling. |
-| 05 | Receipt allocation blocker note | pending | Summarize how fund groups affect future taxpayer receipt allocation. |
+| 05 | Receipt allocation blocker note | done | Summarized fund-group lessons, receipt allocation blockers, and next safe data work. |
 
 ## Success Criteria
 
