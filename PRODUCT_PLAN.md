@@ -39,6 +39,13 @@ The repo organizes the topic around four connected records:
 - Distinguish taxes, fees, fines, borrowing, premiums, and transfers.
 - Show funding flows without pretending money is not fungible.
 - Treat "one income tax vs many program taxes" as a design question with tradeoffs.
+- Require every taxpayer-facing allocation claim to identify its method: legal
+  dedication, proportional allocation, modeled marginal effect, or illustrative
+  civic education.
+- Include deficits and borrowing in public explanations so receipts do not make
+  current spending look fully tax-funded when it is not.
+- Make program-linked tax lanes auditable before treating them as reform
+  proposals.
 
 ## Initial waves
 
@@ -48,6 +55,13 @@ The repo organizes the topic around four connected records:
 | History and authority map | Build a cited timeline of income-tax authorization and expansion. |
 | Current funding map | Explain how revenue and appropriations work today. |
 | Program-linked reform model | Prototype a legible set of tax lanes and taxpayer-facing receipts. |
+
+## Working name
+
+INCOME-TAX is a temporary literal name. Keep the final repo name open until the
+research spine shows whether the repo is mainly an income-tax history, a tax
+civics explainer, a public-finance transparency standard, or a reform-design
+workspace.
 
 ## Non-goals
 

@@ -18,10 +18,11 @@ choosing a reform design.
 | Pulse | Title | Status | Outcome |
 |------:|-------|--------|---------|
 | 01 | Workspace foundation | done | Created repo skeleton, docs, skills, and first validation contract. |
-| 02 | Income-tax history map | pending | Build a cited timeline of income-tax authorization, repeal, amendment, and expansion. |
-| 03 | Current-system explainer | pending | Explain taxable income, rates, withholding, deductions, credits, receipts, appropriations, and debt. |
-| 04 | Program-linked tax model | pending | Draft options for visible tax lanes by public purpose, including earmark and fungibility risks. |
-| 05 | Public reading packet | pending | Produce a plain-language reader that separates facts, tradeoffs, and reform proposals. |
+| 02 | Tax design source map | done | Defined source families, records, allocation labels, and taxpayer-legibility principles. |
+| 03 | Income-tax history map | pending | Build a cited timeline of income-tax authorization, repeal, amendment, and expansion. |
+| 04 | Current-system explainer | pending | Explain taxable income, rates, withholding, deductions, credits, receipts, appropriations, and debt. |
+| 05 | Program-linked tax model | pending | Draft options for visible tax lanes by public purpose, including earmark and fungibility risks. |
+| 06 | Public reading packet | pending | Produce a plain-language reader that separates facts, tradeoffs, and reform proposals. |
 
 ## Success criteria
 

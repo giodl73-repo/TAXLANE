@@ -46,6 +46,20 @@ as an assumed answer.
 - What would be clearer, fairer, or riskier about splitting income tax into
   visible funding lanes?
 
+## Design process
+
+The first design pass is source-first:
+
+1. Build a rates timeline from inception.
+2. Build receipts records by source and fund group.
+3. Build outlay records by function, subfunction, agency, and program.
+4. Explain the accounting rules that connect receipts, outlays, trust funds,
+   borrowing, and deficits.
+5. Only then prototype taxpayer receipts or program-linked tax lanes.
+
+Every public allocation claim must say whether it is legally dedicated,
+proportionally allocated, modeled, or illustrative.
+
 ## Repository shape
 
 - `PRODUCT_PLAN.md` records the product thesis, non-goals, and wave plan.
