@@ -202,7 +202,10 @@ explicit
 
 1. Download and parse the IRS and OMB spreadsheets into a local, cited data
    dictionary.
-2. Draft the budget accounting explainer from OMB Analytical Perspectives.
-3. Build the first taxpayer-receipt method note with explicit allocation rules.
-4. Compare at least two existing taxpayer-receipt designs before choosing the
+2. Create a source-version ledger with URL, table/version, download date,
+   coverage years, and update cadence for every source.
+3. Draft the budget accounting explainer from OMB Analytical Perspectives using
+   exact cited definitions.
+4. Build the first taxpayer-receipt method note with explicit allocation rules.
+5. Compare at least two existing taxpayer-receipt designs before choosing the
    repo's public standard.

@@ -32,6 +32,21 @@ The repo organizes the topic around four connected records:
    taxpayer receipts, budget transparency, and safeguards against misleading
    labels.
 
+## Required design gates
+
+Before INCOME-TAX publishes taxpayer-facing receipts or program-linked tax lane
+models, the repo must close these gates:
+
+1. Source-version ledger for each IRS, OMB, Treasury, CBO, or USAspending source.
+2. Budget-accounting explainer with exact cited definitions for receipts,
+   outlays, trust funds, federal funds, offsetting collections, borrowing,
+   deficits, and debt service.
+3. Allocation-method label on every "what you paid for" claim.
+4. Shortfall, surplus, reserve, appropriation override, and beneficiary-impact
+   fields for every program-linked tax lane.
+5. Taxpayer, employer, preparer, and administrator compliance-burden fields for
+   every reform model.
+
 ## Design principles
 
 - Separate descriptive claims from reform proposals.
@@ -74,6 +89,8 @@ workspace.
 - Do not claim a program-linked tax fixes budget discipline by itself.
 - Do not import partisan messaging as fact; record policy arguments as claims
   with sources.
+- Do not publish a taxpayer receipt or program-linked lane until the role-review
+  gates in this plan are satisfied.
 
 ## Dependency placement
 
