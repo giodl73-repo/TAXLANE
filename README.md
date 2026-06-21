@@ -64,6 +64,11 @@ The current source-backed finding is that ordinary income tax is mostly a
 general fund receipt, so "what your income tax paid for" should be presented as
 an allocation model unless a legal dedication is cited.
 
+The first advocacy position is that taxpayers should see public-purpose lanes,
+not only a total tax number. Those lanes should map to traditional budget
+functions and mandatory/discretionary categories while clearly labeling whether
+the lane is legally dedicated, proportional, deficit-inclusive, or proposed.
+
 ## Repository shape
 
 - `PRODUCT_PLAN.md` records the product thesis, non-goals, and wave plan.

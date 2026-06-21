@@ -32,6 +32,15 @@ The repo organizes the topic around four connected records:
    taxpayer receipts, budget transparency, and safeguards against misleading
    labels.
 
+## Advocacy position
+
+INCOME-TAX advocates taxpayer legibility: people should see the public-purpose
+lanes their taxes support. The first lane taxonomy is documented in
+`docs/research/2026-06-21-public-purpose-lane-taxonomy.md`. The advocacy claim is
+not that current income-tax dollars are legally tagged to those lanes; it is that
+citizens deserve a standard that distinguishes actual legal dedication,
+proportional allocation, deficit-inclusive allocation, and proposed reform lanes.
+
 ## Required design gates
 
 Before INCOME-TAX publishes taxpayer-facing receipts or program-linked tax lane

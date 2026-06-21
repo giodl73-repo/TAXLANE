@@ -246,6 +246,8 @@ question. It should ask:
   2. deficit-inclusive allocation showing the borrowed share of federal outlays.
 - A program-lane schema that includes shortfall, surplus, reserve, override,
   beneficiary, and compliance-burden fields.
+- A public-purpose lane crosswalk that maps taxpayer-friendly lane names to OMB
+  functions and mandatory/discretionary spending-control labels.
 
 ## Defer
 
