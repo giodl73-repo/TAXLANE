@@ -1,0 +1,7 @@
+.DS_Store
+Thumbs.db
+target/
+dist/
+build/
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
