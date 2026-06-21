@@ -38,3 +38,4 @@ Rows must follow `docs/data/receipts-funds-schema.md`.
 - `receipt_source.SRC-OMB-HIST-2-1-FY2027.2026-06-21.source-reviewed.jsonl`
 - `first-slice-reconciliation.md`
 - `allocation-review.md`
+- `table-2-4-profile.md`
