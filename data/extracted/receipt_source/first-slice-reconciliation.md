@@ -18,7 +18,7 @@ Historical Table 2.1:
 - Other receipts
 - Total receipts
 
-All records are `draft-extracted`.
+All records are `source-reviewed`.
 
 ## Reconciliation
 
@@ -33,7 +33,12 @@ Amounts are in millions of dollars.
 ## Extraction Decisions
 
 - Social-insurance receipts remain separate from individual income taxes.
-- Fund allocation status remains `unknown` until fund-group and budget-concept
-  review occurs.
+- Individual income-tax rows use `allocation_status = "general_receipt"` based
+  on reviewed AP13 general-fund concept support.
+- Total receipt rows use `allocation_status = "mixed"` because they combine
+  categories with different treatment.
+- Corporation income-tax, social-insurance, excise, and other receipt rows keep
+  `allocation_status = "unknown"` pending narrower review.
 - Amount rows have `amount` values and null `percent` values.
-- No public taxpayer allocation should use these draft rows.
+- No public taxpayer allocation should use these records without an explicit
+  allocation method and deficit context.

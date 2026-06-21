@@ -1,7 +1,7 @@
 # Receipt Source Extraction
 
-This directory is reserved for draft `receipt_source` records extracted from
-OMB Historical Tables.
+This directory contains `receipt_source` records extracted from OMB Historical
+Tables and reviewed budget-concept sources.
 
 ## Initial Sources
 
@@ -14,10 +14,11 @@ OMB Historical Tables.
 
 ## Planned Output
 
-Use JSONL draft records named by source and observed date:
+Use JSONL records named by source, observed date, and review state:
 
 ```text
 receipt_source.SRC-OMB-HIST-2-1-FY2027.2026-06-21.draft.jsonl
+receipt_source.SRC-OMB-HIST-2-1-FY2027.2026-06-21.source-reviewed.jsonl
 receipt_source.SRC-OMB-HIST-2-2-FY2027.2026-06-21.draft.jsonl
 receipt_source.SRC-OMB-HIST-2-4-FY2027.2026-06-21.draft.jsonl
 ```
@@ -31,3 +32,9 @@ Rows must follow `docs/data/receipts-funds-schema.md`.
 3. Keep amount and percentage rows separate.
 4. Reconcile Table 2.1 total receipts to Table 1.1 within displayed precision.
 5. Keep social-insurance receipts separate from individual income taxes.
+
+## Current Output
+
+- `receipt_source.SRC-OMB-HIST-2-1-FY2027.2026-06-21.source-reviewed.jsonl`
+- `first-slice-reconciliation.md`
+- `allocation-review.md`

@@ -4,7 +4,7 @@ Work is organized into small waves and pulses.
 
 ## Active wave
 
-- None.
+- `2026-06-21-receipt-source-allocation-review`
 
 ## Completed waves
 
