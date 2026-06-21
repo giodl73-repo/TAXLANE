@@ -46,3 +46,5 @@ Dynamic query records must also include:
 
 Dynamic query exports remain blocked until `context/waves` records a query
 snapshot pulse.
+
+The first query snapshot rules are defined in `dynamic-query-rules.md`.

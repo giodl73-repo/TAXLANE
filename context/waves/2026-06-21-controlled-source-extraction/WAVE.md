@@ -21,7 +21,7 @@ records move from raw source to reviewed data.
 | 02 | IRS rates first-source capture | done | Captured IRS SOI Table 23 raw artifact, sidecar metadata, checksum, and draft extraction workspace. |
 | 03 | OMB receipts first-source capture | done | Captured OMB receipt/fund raw artifacts, metadata, checksums, and draft extraction workspaces. |
 | 04 | OMB outlays first-source capture | done | Captured OMB outlay raw artifacts, metadata, checksums, and draft outlay/lane extraction workspaces. |
-| 05 | Dynamic query rules | pending | Define Treasury, USAspending, and other dynamic query snapshot rules before use. |
+| 05 | Dynamic query rules | done | Defined Treasury, USAspending, and CBO query snapshot metadata, raw layout, and review gates. |
 
 ## Success criteria
 
