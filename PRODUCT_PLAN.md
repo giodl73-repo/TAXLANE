@@ -91,6 +91,11 @@ research spine shows whether the repo is mainly an income-tax history, a tax
 civics explainer, a public-finance transparency standard, or a reform-design
 workspace.
 
+The first naming bakeoff is recorded in
+`docs/research/2026-06-21-project-name-bakeoff.md`. Current recommendation:
+continue under `INCOME-TAX` until the first lane crosswalk and taxpayer receipt
+method exist; if the lane thesis holds, rename to `TAXLANE`.
+
 ## Non-goals
 
 - Do not provide tax, legal, investment, or accounting advice.
