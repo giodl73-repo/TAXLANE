@@ -12,10 +12,11 @@ This directory is reserved for draft budget-concept records extracted from
 
 ## Planned Output
 
-Use JSONL records named by source and observed date:
+Use JSONL records named by source, observed date, and review state:
 
 ```text
 budget_concept.SRC-OMB-AP-13-FUNDS-FY2027.2026-06-21.draft.jsonl
+budget_concept.SRC-OMB-AP-13-FUNDS-FY2027.2026-06-21.source-reviewed.jsonl
 ```
 
 Each row should include:
@@ -42,3 +43,8 @@ Each row should include:
 4. Keep legal dedication unknown unless a source specifically supports the
    label.
 5. Run `git diff --check`.
+
+## Current Output
+
+- `budget_concept.SRC-OMB-AP-13-FUNDS-FY2027.2026-06-21.source-reviewed.jsonl`
+- `source-review.md`

@@ -20,7 +20,7 @@ funds are treated.
 |------:|---|---|---|
 | 01 | AP13 source capture | done | Captured OMB AP Chapter 13 PDF, checksum, and concept extraction workspace. |
 | 02 | Fund concept first draft records | done | Extracted initial concept records for federal funds, general fund, special funds, trust funds, revolving funds, and trust-fund caveats. |
-| 03 | Concept source review | pending | Verify concept source anchors against the captured AP13 text. |
+| 03 | Concept source review | done | Verified AP13 anchors and promoted first concept records to source-reviewed. |
 | 04 | Fund rows budget interpretation | pending | Apply concept records to the first fund-group slice without overclaiming legal dedication. |
 | 05 | Income-tax general-fund note | pending | Summarize what concept records support about ordinary income-tax general-fund treatment. |
 
