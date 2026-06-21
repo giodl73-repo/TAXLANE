@@ -75,9 +75,17 @@ the lane is legally dedicated, proportional, deficit-inclusive, or proposed.
 - `context/waves/` records implementation waves and pulses.
 - `docs/sources/` records source versions before data extraction.
 - `docs/research/` holds cited research notes and decision records.
+- `docs/reading/` holds public reading packets derived from the research notes.
 - `.roles/` defines the review panel for taxpayer, accounting, source custody,
   public-goods, beneficiary, compliance, fiscal, and reform-skeptic interests.
 - `.claude/skills/` contains repo-local wave, pulse, and research workflows.
+
+## First reader
+
+Start with `docs/reading/income-tax-foundation.md` for the public foundation
+packet. It explains the income-tax history, current mechanics, budget accounting
+labels, and program-linked tax lane hypothesis without treating modeled
+allocations as legal dedication.
 
 ## Validation
 

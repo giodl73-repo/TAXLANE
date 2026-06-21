@@ -29,7 +29,7 @@ choosing a reform design.
 | 10 | Income-tax history map | done | Built a cited timeline scaffold for authorization, repeal, amendment, mass-tax administration, and modern-code reform. |
 | 11 | Current-system explainer | done | Explained the current chain from income and Form 1040 mechanics through receipts, outlays, and deficit context. |
 | 12 | Program-linked tax model | done | Drafted visibility, budget-presentation, and statutory-lane tiers with required shortfall, surplus, override, beneficiary, fiscal, and burden fields. |
-| 13 | Public reading packet | pending | Produce a plain-language reader that separates facts, tradeoffs, and reform proposals. |
+| 13 | Public reading packet | done | Published the first plain-language foundation reader separating current law, allocation models, and reform proposals. |
 
 ## Success criteria
 
