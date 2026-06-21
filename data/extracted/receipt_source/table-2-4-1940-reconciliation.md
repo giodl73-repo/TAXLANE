@@ -14,7 +14,7 @@ The first Table 2.4 draft extraction covers fiscal year 1940:
 - Excise taxes by federal-funds subcomponent.
 - Table 2.4 parent totals for social-insurance and excise categories.
 
-All records are `draft-extracted`.
+All records are `source-reviewed`.
 
 ## Reconciliation
 

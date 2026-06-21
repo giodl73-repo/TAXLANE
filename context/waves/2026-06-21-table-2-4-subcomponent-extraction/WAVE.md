@@ -20,7 +20,7 @@ social-insurance or excise categories.
 |------:|---|---|---|
 | 01 | Table 2.4 workbook profile | done | Profiled the raw workbook XML, row groups, coverage, and first-year reconciliation targets. |
 | 02 | 1940 subcomponent draft rows | done | Extracted first 1940 social-insurance and excise subcomponent draft rows. |
-| 03 | 1940 subcomponent source review | pending | Verify source anchors and totals against Table 2.1 parent categories. |
+| 03 | 1940 subcomponent source review | done | Verified source anchors and promoted 1940 subcomponent rows to source-reviewed. |
 | 04 | Historical funding learning note | pending | Summarize what the 1940 subcomponents teach about historical funding. |
 
 ## Success Criteria
