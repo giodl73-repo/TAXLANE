@@ -11,6 +11,7 @@ custody rules for that source family are written and role-reviewed.
 | `dictionary.md` | Canonical record families, required fields, extraction rules, and validation gates. |
 | `rates-timeline-schema.md` | Tax-year rates timeline row schema and extraction rules. |
 | `receipts-funds-schema.md` | Fiscal-year receipt-source and fund-group schemas for OMB tables. |
+| `outlays-lanes-schema.md` | Fiscal-year outlay function, program, and lane crosswalk schemas for OMB tables. |
 
 ## Data principles
 
