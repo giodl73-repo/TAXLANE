@@ -21,7 +21,7 @@ models.
 | 02 | OMB receipts source review | done | Verified Table 2.1 checksum, row anchors, source labels, and 1934-1936 extracted values. |
 | 03 | OMB outlays source review | done | Verified Table 3.1 checksum, row anchors, labels, and 1940-1942 extracted values. |
 | 04 | First-slice budget review | done | Checked year basis, amount/percent semantics, reconciliation evidence, and public-allocation blockers across first slices. |
-| 05 | Public learning note | pending | Summarize what the reviewed slices teach and what remains blocked. |
+| 05 | Public learning note | done | Summarized reviewed-slice lessons, public-use limits, and remaining blockers. |
 
 ## Success Criteria
 
