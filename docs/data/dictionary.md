@@ -14,6 +14,7 @@ contract for future data work, not a dataset.
 | `rates_timeline` | Tax year | `SRC-IRS-SOI-HT23`, statutes | Explain rate schedules and tax-base changes over time. |
 | `receipt_source` | Fiscal year | OMB Historical Tables 1.1, 2.1, 2.2, 2.4 | Show federal receipts by source. |
 | `fund_group` | Fiscal year | OMB Historical Table 1.4; OMB fund concepts | Separate general fund, trust fund, special fund, and other fund treatment. |
+| `budget_concept` | Source concept | OMB Analytical Perspectives; GAO budget glossary | Define budget-accounting concepts used to interpret extracted rows. |
 | `outlay_function` | Fiscal year | OMB Historical Tables 3.1, 3.2 | Show spending by public-purpose function and subfunction. |
 | `outlay_program` | Fiscal year | OMB Historical Tables 8.5, 8.7, 11.3; USAspending | Show mandatory, discretionary, beneficiary, and program detail. |
 | `lane_crosswalk` | Fiscal year or model version | OMB functions plus TAXLANE lane taxonomy | Map public-purpose labels to budget functions. |
@@ -106,6 +107,27 @@ Rules:
 - Trust fund does not mean private trust ownership.
 - Legal dedication does not imply automatic spending unless the authority says
   so.
+
+## `budget_concept`
+
+Use for source-grounded budget-accounting concepts that support interpretation
+of receipts, fund groups, offsetting treatment, and allocation caveats.
+
+| Field | Required | Meaning |
+|---|---|---|
+| `concept_key` | Yes | Stable concept key. |
+| `source_ref` | Yes | Page, section, table, or other source anchor. |
+| `concept_summary` | Yes | Paraphrased source-grounded concept summary. |
+| `fund_group_implication` | Yes | How the concept affects fund-group interpretation. |
+| `legal_dedication_implication` | Yes | What, if anything, the source supports about legal dedication. |
+| `appropriation_implication` | Yes | What, if anything, the source supports about appropriation or spending availability. |
+| `public_caveat` | Yes | Plain-language caveat for downstream public use. |
+
+Rules:
+
+- Keep concept records separate from numeric OMB historical table rows.
+- Do not treat a broad OMB concept as proof for a specific statute or account.
+- Use paraphrases unless a public note needs a short source excerpt.
 
 ## `outlay_function`
 
