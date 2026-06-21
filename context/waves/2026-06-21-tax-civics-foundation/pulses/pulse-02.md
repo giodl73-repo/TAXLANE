@@ -2,7 +2,7 @@
 
 ## Goal
 
-Define the source-backed design process for understanding income-tax rates,
+Define the source-backed design process for understanding TAXLANE rates,
 receipts, budget uses, accounting rules, and taxpayer-facing legibility
 principles.
 

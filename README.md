@@ -1,6 +1,6 @@
-# INCOME-TAX
+# TAXLANE
 
-INCOME-TAX is a public-policy knowledge repo about the income tax: how it works
+TAXLANE is a public-policy knowledge repo about the income tax: how it works
 today, how it came to exist, what taxes are supposed to fund, and whether the
 single income-tax label should be replaced or explained as a set of distinct,
 program-linked taxes.
@@ -9,7 +9,7 @@ program-linked taxes.
 
 The income tax is usually presented as one tax on income, but public trust and
 fiscal legibility improve when taxpayers can see which public purposes a tax is
-meant to cover. INCOME-TAX studies three layers:
+meant to cover. TAXLANE studies three layers:
 
 1. The historical layer: why the modern income tax was passed, which problems it
    was meant to solve, and how its legal and political role changed over time.
@@ -31,7 +31,7 @@ tax is politically described that way. Dedicated or earmarked taxes can make
 program costs visible, but they can also create false precision because money is
 fungible and legislatures still control appropriations.
 
-INCOME-TAX therefore treats program-linked taxation as a design hypothesis, not
+TAXLANE therefore treats program-linked taxation as a design hypothesis, not
 as an assumed answer.
 
 ## First questions

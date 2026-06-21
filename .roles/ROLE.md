@@ -1,6 +1,6 @@
-# INCOME-TAX Review Organization
+# TAXLANE Review Organization
 
-INCOME-TAX roles represent public-interest review lenses for tax history,
+TAXLANE roles represent public-interest review lenses for tax history,
 budget accounting, taxpayer legibility, and reform design.
 
 These roles are AI-simulated review lenses. They are not real people and do not

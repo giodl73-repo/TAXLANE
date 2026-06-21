@@ -2,7 +2,7 @@
 
 ## Goal
 
-Create the INCOME-TAX repo foundation and define the first research path for
+Create the TAXLANE repo foundation and define the first research path for
 explaining the income tax, its history, its current mechanics, and the
 program-linked tax reform hypothesis.
 
@@ -25,10 +25,11 @@ choosing a reform design.
 | 06 | Budget accounting explainer | done | Extracted OMB definitions and converted them into receipt/model rules. |
 | 07 | Public-purpose lane taxonomy | done | Defined advocacy lanes grounded in OMB functions and mandatory/discretionary labels. |
 | 08 | Project name bakeoff | done | Scored naming candidates and set TAXLANE as the leading post-crosswalk candidate. |
-| 09 | Income-tax history map | pending | Build a cited timeline of income-tax authorization, repeal, amendment, and expansion. |
-| 10 | Current-system explainer | pending | Explain taxable income, rates, withholding, deductions, credits, receipts, appropriations, and debt. |
-| 11 | Program-linked tax model | pending | Draft options for visible tax lanes by public purpose, including earmark and fungibility risks. |
-| 12 | Public reading packet | pending | Produce a plain-language reader that separates facts, tradeoffs, and reform proposals. |
+| 09 | TAXLANE public rename | in progress | Rename the repo and publish `giodl73-repo/TAXLANE`. |
+| 10 | Income-tax history map | pending | Build a cited timeline of income-tax authorization, repeal, amendment, and expansion. |
+| 11 | Current-system explainer | pending | Explain taxable income, rates, withholding, deductions, credits, receipts, appropriations, and debt. |
+| 12 | Program-linked tax model | pending | Draft options for visible tax lanes by public purpose, including earmark and fungibility risks. |
+| 13 | Public reading packet | pending | Produce a plain-language reader that separates facts, tradeoffs, and reform proposals. |
 
 ## Success criteria
 

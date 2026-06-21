@@ -1,6 +1,6 @@
 ---
-name: income-tax-pulse
-description: Execute the next INCOME-TAX wave pulse with docs, research, validation, and commit-ready updates.
+name: taxlane-pulse
+description: Execute the next TAXLANE wave pulse with docs, research, validation, and commit-ready updates.
 allowed-tools:
   - Read
   - Write
@@ -9,9 +9,9 @@ allowed-tools:
   - Bash
 ---
 
-# INCOME-TAX Pulse
+# TAXLANE Pulse
 
-Use this skill for INCOME-TAX development pulses.
+Use this skill for TAXLANE development pulses.
 
 ## Workflow
 

@@ -2,7 +2,7 @@
 
 ## Decision supported
 
-This note closes the first budget-accounting gate for INCOME-TAX foundation work:
+This note closes the first budget-accounting gate for TAXLANE foundation work:
 define the terms that control whether a taxpayer-facing "what you paid for"
 claim is accurate, modeled, or misleading.
 
@@ -10,7 +10,7 @@ claim is accurate, modeled, or misleading.
 
 What does official federal budget accounting say about receipts, outlays, budget
 authority, obligations, trust funds, federal funds, and offsetting collections,
-and what does that imply for income-tax legibility?
+and what does that imply for TAXLANE legibility?
 
 ## Sources
 
@@ -65,7 +65,7 @@ OMB distinguishes the two offset types by where the money is credited:
 **Implication**: not every public payment is an income tax or even a receipt.
 User charges, premiums, fees, rents, royalties, and intragovernmental flows may
 appear as offsets to spending. A public receipt must not collapse these into
-income-tax funding.
+TAXLANE funding.
 
 ### Budget authority
 
@@ -114,7 +114,7 @@ recorded in trust funds. The general fund is the key fund for income tax:
 > all income taxes and many excise taxes. The general fund is used for all
 > programs that are not supported by trust, special, or revolving funds.
 
-**Implication**: this is the central fact for INCOME-TAX. The ordinary income tax
+**Implication**: this is the central fact for TAXLANE. The ordinary income tax
 is mostly a general fund revenue source. A program-linked receipt for income tax
 is usually a modeled civic allocation unless law creates a dedication.
 
@@ -216,9 +216,9 @@ A serious lane needs at least:
 - compliance-burden statement,
 - public audit report.
 
-## Standard for INCOME-TAX going forward
+## Standard for TAXLANE going forward
 
-INCOME-TAX should not ask "what did income tax pay for?" as a single unqualified
+TAXLANE should not ask "what did income tax pay for?" as a single unqualified
 question. It should ask:
 
 1. Which tax or receipt source?
@@ -242,7 +242,7 @@ question. It should ask:
 ## Prototype next
 
 - A small taxpayer-receipt method note with two views:
-  1. proportional outlay allocation of income-tax payment;
+  1. proportional outlay allocation of TAXLANE payment;
   2. deficit-inclusive allocation showing the borrowed share of federal outlays.
 - A program-lane schema that includes shortfall, surplus, reserve, override,
   beneficiary, and compliance-burden fields.

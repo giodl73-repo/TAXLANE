@@ -2,7 +2,7 @@
 
 ## Goal
 
-Create the repository foundation for a docs-first income-tax research and reform
+Create the repository foundation for a docs-first TAXLANE research and reform
 design workspace.
 
 ## Changes

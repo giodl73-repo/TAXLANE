@@ -2,7 +2,7 @@
 
 ## Decision supported
 
-INCOME-TAX is a working name. This bakeoff tests names against the emerging
+INCOME-TAX was the working name. This bakeoff tests names against the emerging
 project identity: a source-backed tax legibility standard that explains what
 taxpayers pay, what the money is claimed to fund, and how a better public-purpose
 lane system should work.
@@ -66,18 +66,20 @@ Suggested tagline:
 > TAXLEDGER records tax rates, receipts, outlays, and public-purpose allocations
 > so tax debates start from reproducible evidence.
 
-## Current recommendation
+## Decision
 
-Keep `INCOME-TAX` as the working folder/repo name until the first receipt method
-and lane crosswalk exist. If the project still centers on public-purpose lanes
-after that, rename to **TAXLANE**.
+Rename to **TAXLANE** now. The public-purpose lane thesis is strong enough to
+make the narrower INCOME-TAX name misleading.
 
-## Rename trigger
+## Original rename trigger
 
-Rename only after these exist:
+The original trigger was to rename only after these exist:
 
 1. OMB function to taxpayer lane crosswalk.
 2. First taxpayer receipt method note.
 3. First role review of the receipt method.
 4. Decision that the repo is a tax legibility standard, not only an income-tax
    history/explainer.
+
+The trigger is being pulled early because the user explicitly selected TAXLANE
+and the repo has already adopted a lane taxonomy.

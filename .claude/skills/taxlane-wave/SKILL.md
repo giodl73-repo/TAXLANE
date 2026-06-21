@@ -1,6 +1,6 @@
 ---
-name: income-tax-wave
-description: Start or review INCOME-TAX development waves and pulse plans.
+name: taxlane-wave
+description: Start or review TAXLANE development waves and pulse plans.
 allowed-tools:
   - Read
   - Write
@@ -8,9 +8,9 @@ allowed-tools:
   - Grep
 ---
 
-# INCOME-TAX Wave
+# TAXLANE Wave
 
-Use this skill to create or update INCOME-TAX waves.
+Use this skill to create or update TAXLANE waves.
 
 ## Wave requirements
 

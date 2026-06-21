@@ -2,7 +2,7 @@
 
 ## Goal
 
-Create repo-local review roles that represent the major interests in income-tax
+Create repo-local review roles that represent the major interests in TAXLANE
 history, budget accounting, taxpayer legibility, program funding, and reform
 design.
 

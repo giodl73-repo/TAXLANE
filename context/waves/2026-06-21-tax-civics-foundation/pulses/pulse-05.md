@@ -2,7 +2,7 @@
 
 ## Goal
 
-Create a reproducibility ledger for official income-tax and federal-budget
+Create a reproducibility ledger for official TAXLANE and federal-budget
 sources before extracting rates, receipts, outlays, or accounting definitions.
 
 ## Changes

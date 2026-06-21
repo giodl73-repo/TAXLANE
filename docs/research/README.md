@@ -1,4 +1,4 @@
-# INCOME-TAX Research Notes
+# TAXLANE Research Notes
 
 Research notes in this directory should be cited and should distinguish:
 
@@ -8,5 +8,5 @@ Research notes in this directory should be cited and should distinguish:
 - reform hypotheses,
 - open questions.
 
-The first research pass should cover income-tax history, current revenue and
+The first research pass should cover TAXLANE history, current revenue and
 appropriation mechanics, and the tradeoffs of program-linked tax lanes.

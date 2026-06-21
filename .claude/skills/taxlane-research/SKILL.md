@@ -1,6 +1,6 @@
 ---
-name: income-tax-research
-description: Run a cited research pass for INCOME-TAX history, current law, public finance, or reform-design decisions.
+name: taxlane-research
+description: Run a cited research pass for TAXLANE history, current law, public finance, or reform-design decisions.
 allowed-tools:
   - Read
   - Write
@@ -9,7 +9,7 @@ allowed-tools:
   - Bash
 ---
 
-# INCOME-TAX Research
+# TAXLANE Research
 
 Use this skill before standardizing a tax-system explanation, making a historical
 claim, comparing reform designs, or preparing public-facing reading packets.

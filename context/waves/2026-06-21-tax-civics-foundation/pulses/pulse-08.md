@@ -10,7 +10,7 @@ explainer toward a tax legibility and public-purpose lane standard.
 - Add `docs/research/2026-06-21-project-name-bakeoff.md`.
 - Score candidate names against legibility, scope, neutrality, reform energy, and
   portfolio fit.
-- Recommend keeping `INCOME-TAX` temporarily and considering `TAXLANE` after the
+- Recommend keeping `TAXLANE` temporarily and considering `TAXLANE` after the
   first lane crosswalk and taxpayer receipt method exist.
 
 ## Validation

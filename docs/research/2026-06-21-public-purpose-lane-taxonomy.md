@@ -2,7 +2,7 @@
 
 ## Decision supported
 
-This note defines the first INCOME-TAX advocacy/design position: income-tax
+This note defines the first TAXLANE advocacy/design position: TAXLANE
 legibility should move from one opaque general-revenue label toward visible
 public-purpose lanes. The lanes are not claimed as current legal dedication.
 They are a proposed standard for taxpayer-facing explanation and future reform
@@ -66,7 +66,7 @@ commitments; some are debt service; some are dedicated trust-fund-like flows.
 
 ## Advocacy position
 
-INCOME-TAX should advocate this standard:
+TAXLANE should advocate this standard:
 
 > People should be able to see the public-purpose lanes their taxes support,
 > with each lane labeled by legal status, spending category, fiscal condition,
@@ -87,7 +87,7 @@ understand.
 |---|---|---|---|
 | Constitutional Government and Justice | What funds the constitutional machinery, courts, law enforcement, tax administration, and general government? | Administration of Justice; General Government; portions of other functions. | Mostly general fund / appropriated. |
 | National Defense and Security | What funds defense, military readiness, security obligations, and defense-related commitments? | National Defense; some International Affairs and Veterans interfaces. | Mostly discretionary/general fund. |
-| Veterans and Service Commitments | What does the country owe to veterans and prior service members? | Veterans Benefits and Services. | Mix of mandatory and discretionary; mostly not ordinary income-tax dedicated. |
+| Veterans and Service Commitments | What does the country owe to veterans and prior service members? | Veterans Benefits and Services. | Mix of mandatory and discretionary; mostly not ordinary TAXLANE dedicated. |
 | Health and Care | What funds health programs, public health, Medicare interfaces, Medicaid, and care supports? | Health; Medicare; portions of mandatory health programs. | Mix of trust-fund, mandatory, discretionary, and general fund. |
 | Retirement and Social Insurance | What funds retirement, disability, unemployment, and social-insurance commitments? | Social Security; unemployment compensation; federal retirement; social insurance receipts. | Often trust-fund or dedicated payroll/social-insurance tax, not ordinary income tax. |
 | Income Security and Family Support | What funds food, housing, family support, refundable credits, and safety-net commitments? | Income Security; parts of Human Resources. | Mostly mandatory/general fund plus program-specific rules. |
@@ -134,7 +134,7 @@ whole government when some obligations were shifted to borrowing.
 
 Payroll taxes, Medicare-related taxes, gas taxes, aviation taxes, premiums, fees,
 and other dedicated or offsetting flows should not be blended into ordinary
-income-tax allocation. The standard should show them as different financing
+TAXLANE allocation. The standard should show them as different financing
 mechanisms.
 
 ### 4. Reform lanes should be auditable
@@ -200,8 +200,8 @@ layers:
 
 ## Prototype next
 
-- Build a lane crosswalk table from OMB Table 3.1 functions to INCOME-TAX lanes.
-- Build a receipt method that allocates income-tax payment across these lanes by
+- Build a lane crosswalk table from OMB Table 3.1 functions to TAXLANE lanes.
+- Build a receipt method that allocates TAXLANE payment across these lanes by
   proportional outlay share.
 - Build a second method that adds deficit-inclusive borrowed share.
 
@@ -209,4 +209,4 @@ layers:
 
 - Rate recommendations.
 - Final lane names.
-- Any claim that these lanes are already legal income-tax destinations.
+- Any claim that these lanes are already legal TAXLANE destinations.

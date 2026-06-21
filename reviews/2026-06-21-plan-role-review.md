@@ -1,4 +1,4 @@
-# INCOME-TAX Plan Role Review
+# TAXLANE Plan Role Review
 
 ## Scope
 
@@ -79,9 +79,9 @@ or final repo naming.
 ### P3: Rename candidates should wait until the first data dictionary exists
 
 - **Roles**: Taxpayer Advocate, Source Custodian, Reform Skeptic.
-- **Evidence**: `PRODUCT_PLAN.md` already treats INCOME-TAX as a working name.
+- **Evidence**: `PRODUCT_PLAN.md` already treats TAXLANE as a working name.
 - **Risk**: Renaming too early may bias the repo toward advocacy, history, or a
-  narrow income-tax frame before the evidence spine is clear.
+  narrow TAXLANE frame before the evidence spine is clear.
 - **Decision**: Keep the working name until the rates/receipts/outlays data
   dictionary and accounting explainer are drafted.
 

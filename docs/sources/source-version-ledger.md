@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This ledger records the official source versions INCOME-TAX may use for rates,
+This ledger records the official source versions TAXLANE may use for rates,
 receipts, outlays, accounting definitions, and taxpayer-facing allocation models.
 No extracted data table should be published unless its source appears here with a
 source ID, publisher, URL, observed date, coverage, and extraction rule.
@@ -37,9 +37,9 @@ source ID, publisher, URL, observed date, coverage, and extraction rule.
 | Source ID | Publisher | URL | Observed date | Coverage | Update cadence | Status | Extraction rule |
 |---|---|---|---|---|---|---|---|
 | `SRC-ARCHIVES-16A` | National Archives | <https://www.archives.gov/milestone-documents/16th-amendment> | 2026-06-21 | Sixteenth Amendment; ratified 1913 | Historical/static | Authoritative | Use for constitutional authority text and ratification context. Quote only with citation. |
-| `SRC-GOVINFO-1913-REV-ACT` | GovInfo / U.S. Statutes at Large | <https://www.govinfo.gov/app/details/STATUTE-38/STATUTE-38-Pg114> | 2026-06-21 | Revenue Act of 1913, 38 Stat. 114 | Historical/static | Authoritative | Use for statutory starting point and original income-tax provisions. Record page/section before quoting. |
+| `SRC-GOVINFO-1913-REV-ACT` | GovInfo / U.S. Statutes at Large | <https://www.govinfo.gov/app/details/STATUTE-38/STATUTE-38-Pg114> | 2026-06-21 | Revenue Act of 1913, 38 Stat. 114 | Historical/static | Authoritative | Use for statutory starting point and original TAXLANE provisions. Record page/section before quoting. |
 
-## Income-tax rate sources
+## TAXLANE rate sources
 
 | Source ID | Publisher | URL | Observed date | Coverage | Update cadence | Status | Extraction rule |
 |---|---|---|---|---|---|---|---|

@@ -2,7 +2,7 @@
 
 ## Goal
 
-Review the current INCOME-TAX plan with the repo-local role panel and record
+Review the current TAXLANE plan with the repo-local role panel and record
 which gates must close before taxpayer-facing receipts or program-linked tax
 models are accepted.
 

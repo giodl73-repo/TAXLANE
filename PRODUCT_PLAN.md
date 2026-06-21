@@ -1,8 +1,8 @@
-# INCOME-TAX Product Plan
+# TAXLANE Product Plan
 
 ## Product thesis
 
-INCOME-TAX should become a clear, cited, public explainer and reform-design
+TAXLANE should become a clear, cited, public explainer and reform-design
 workspace for income taxation. It should help a reader understand what the
 income tax is, why it was adopted, how it functions today, and what would change
 if the system were represented as distinct taxes that fund distinct public
@@ -34,7 +34,7 @@ The repo organizes the topic around four connected records:
 
 ## Advocacy position
 
-INCOME-TAX advocates taxpayer legibility: people should see the public-purpose
+TAXLANE advocates taxpayer legibility: people should see the public-purpose
 lanes their taxes support. The first lane taxonomy is documented in
 `docs/research/2026-06-21-public-purpose-lane-taxonomy.md`. The advocacy claim is
 not that current income-tax dollars are legally tagged to those lanes; it is that
@@ -43,7 +43,7 @@ proportional allocation, deficit-inclusive allocation, and proposed reform lanes
 
 ## Required design gates
 
-Before INCOME-TAX publishes taxpayer-facing receipts or program-linked tax lane
+Before TAXLANE publishes taxpayer-facing receipts or program-linked tax lane
 models, the repo must close these gates:
 
 1. Source-version ledger for each IRS, OMB, Treasury, CBO, or USAspending source.
@@ -84,17 +84,12 @@ models, the repo must close these gates:
 | Current funding map | Explain how revenue and appropriations work today. |
 | Program-linked reform model | Prototype a legible set of tax lanes and taxpayer-facing receipts. |
 
-## Working name
-
-INCOME-TAX is a temporary literal name. Keep the final repo name open until the
-research spine shows whether the repo is mainly an income-tax history, a tax
-civics explainer, a public-finance transparency standard, or a reform-design
-workspace.
+## Name decision
 
 The first naming bakeoff is recorded in
-`docs/research/2026-06-21-project-name-bakeoff.md`. Current recommendation:
-continue under `INCOME-TAX` until the first lane crosswalk and taxpayer receipt
-method exist; if the lane thesis holds, rename to `TAXLANE`.
+`docs/research/2026-06-21-project-name-bakeoff.md`. TAXLANE is the selected
+public repo name because the project is now centered on a tax legibility
+standard and public-purpose lanes, not only an income-tax explainer.
 
 ## Non-goals
 
@@ -110,7 +105,7 @@ method exist; if the lane thesis holds, rename to `TAXLANE`.
 
 ## Dependency placement
 
-INCOME-TAX starts as a Knowledge Systems research/explainer repo. It has no
+TAXLANE starts as a Knowledge Systems research/explainer repo. It has no
 runtime dependency on portfolio systems during the foundation wave. Later waves
 should consider PROOF for markdown/source validation, CROP for corpus indexing,
 PEBBLE for portable research packets, and FLETCH for fetchable source registries

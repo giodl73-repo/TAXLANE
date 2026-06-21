@@ -2,20 +2,20 @@
 
 ## Decision supported
 
-This note supports the first design decision for INCOME-TAX: before renaming or
+This note supports the first design decision for TAXLANE: before renaming or
 locking the repo down, define the evidence architecture needed to explain income
 tax rates, receipts, uses, accounting, and a taxpayer-facing standard for knowing
 what a taxpayer is paying for.
 
 ## Research question
 
-What source-backed records and public principles should INCOME-TAX establish so
+What source-backed records and public principles should TAXLANE establish so
 it can explain the income tax from inception to today and evaluate whether the
 income tax should be presented as distinct program-linked taxes?
 
 ## Findings
 
-### INCOME-TAX-01: Treat rates as a historical schedule, not a single number
+### TAXLANE-01: Treat rates as a historical schedule, not a single number
 
 - **Sources**:
   - IRS SOI Historical Table 23:
@@ -34,7 +34,7 @@ income tax should be presented as distinct program-linked taxes?
 - **Confidence**: High for source selection; details must be verified from the
   downloaded tables and statutes before publication.
 
-### INCOME-TAX-02: Receipts require source and fund-group separation
+### TAXLANE-02: Receipts require source and fund-group separation
 
 - **Sources**:
   - OMB Historical Tables:
@@ -59,7 +59,7 @@ income tax should be presented as distinct program-linked taxes?
   the budget was in deficit or surplus.
 - **Confidence**: High for source selection; table parsing remains future work.
 
-### INCOME-TAX-03: "What it paid for" must be modeled as budget accounting, not
+### TAXLANE-03: "What it paid for" must be modeled as budget accounting, not
 literal dollar tracing
 
 - **Sources**:
@@ -78,13 +78,13 @@ literal dollar tracing
   budget authority, obligations, and cash outlays. A taxpayer-facing explanation
   should not imply that one person's dollars are physically routed to one agency
   unless law creates a dedicated fund or formula.
-- **Implication**: INCOME-TAX needs an accounting explainer before it creates a
+- **Implication**: TAXLANE needs an accounting explainer before it creates a
   taxpayer receipt. The standard should say whether an allocation is statutory,
   proportional, modeled, or illustrative.
 - **Confidence**: High for source selection; exact definitions should be quoted
   only after reviewing the PDF text.
 
-### INCOME-TAX-04: Uses should be shown by function, subfunction, agency, and
+### TAXLANE-04: Uses should be shown by function, subfunction, agency, and
 program
 
 - **Sources**:
@@ -114,7 +114,7 @@ program
 - **Confidence**: High for source selection; historical coverage differs by
   table and must be recorded.
 
-### INCOME-TAX-05: A taxpayer receipt is useful only if its allocation rule is
+### TAXLANE-05: A taxpayer receipt is useful only if its allocation rule is
 explicit
 
 - **Sources**:
@@ -128,7 +128,7 @@ explicit
   and composition of government. It can also mislead if it hides deficits,
   borrowing, trust funds, or the fact that most general revenues are appropriated
   through the budget rather than tagged to a taxpayer's own payment.
-- **Implication**: INCOME-TAX should use receipts as a design output, but every
+- **Implication**: TAXLANE should use receipts as a design output, but every
   receipt must label its method: actual legal dedication, proportional share of
   outlays, marginal-policy model, or illustrative civic education.
 - **Confidence**: Medium-high; future work should compare existing official and
@@ -168,7 +168,7 @@ explicit
    that the rest of the budget was unaffected.
 7. **Deficits belong on the receipt.** A taxpayer receipt that allocates only
    taxes while ignoring borrowing hides part of what current policy consumes.
-8. **The standard should be neutral before it is persuasive.** INCOME-TAX should
+8. **The standard should be neutral before it is persuasive.** TAXLANE should
    first make the current system legible, then compare reform designs.
 
 ## Adopt now
