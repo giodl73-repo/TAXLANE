@@ -19,7 +19,7 @@ models.
 |------:|---|---|---|
 | 01 | IRS rates source review | done | Verified IRS Table 23 checksum, row anchors, source labels, and extracted 1913-1918 values. |
 | 02 | OMB receipts source review | done | Verified Table 2.1 checksum, row anchors, source labels, and 1934-1936 extracted values. |
-| 03 | OMB outlays source review | pending | Verify Table 3.1 checksum, row anchors, labels, and 1940-1942 extracted values. |
+| 03 | OMB outlays source review | done | Verified Table 3.1 checksum, row anchors, labels, and 1940-1942 extracted values. |
 | 04 | First-slice budget review | pending | Check year basis, amount/percent semantics, and reconciliation evidence across first slices. |
 | 05 | Public learning note | pending | Summarize what the reviewed slices teach and what remains blocked. |
 
