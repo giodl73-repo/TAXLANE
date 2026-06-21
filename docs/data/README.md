@@ -9,6 +9,7 @@ custody rules for that source family are written and role-reviewed.
 | File | Purpose |
 |---|---|
 | `dictionary.md` | Canonical record families, required fields, extraction rules, and validation gates. |
+| `rates-timeline-schema.md` | Tax-year rates timeline row schema and extraction rules. |
 
 ## Data principles
 
