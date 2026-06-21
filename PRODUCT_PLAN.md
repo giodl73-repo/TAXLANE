@@ -81,6 +81,7 @@ models, the repo must close these gates:
 |---|---|
 | Tax civics foundation | Establish repo docs, wave protocol, and first research agenda. |
 | Source data dictionary | Define record families and extraction rules before raw source import. |
+| Controlled source extraction | Define data custody paths and capture the first IRS/OMB source artifacts. |
 | History and authority map | Build a cited timeline of income-tax authorization and expansion. |
 | Current funding map | Explain how revenue and appropriations work today. |
 | Program-linked reform model | Prototype a legible set of tax lanes and taxpayer-facing receipts. |
