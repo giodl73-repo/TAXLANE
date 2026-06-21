@@ -50,6 +50,9 @@ Examples:
 | `source_table` | string | Yes | OMB historical table ID and release, such as `Table 2.1 FY2027`. |
 | `source_row_ref` | string | Yes | Source row label, section, or cell anchor. |
 | `receipt_category` | string | Yes | Stable receipt category. |
+| `parent_receipt_category` | string | Yes for subcomposition rows | Parent receipt category from Table 2.1. |
+| `subcomponent_group` | string | Yes for subcomposition rows | Stable subcomponent group from a detail table. |
+| `fund_group` | string | Yes for subcomposition rows when source provides it | Fund group or inferred table-note treatment. |
 | `source_receipt_label` | string | Yes | Exact source label as written. |
 | `measure` | string | Yes | `amount`, `share_of_total`, or `subcomposition_amount`. |
 | `amount` | decimal or null | Yes | Numeric value for amount measures. |
@@ -154,6 +157,9 @@ Rules:
 5. Keep Table 2.1 amount records separate from Table 2.2 percentage records.
 6. Use Table 2.4 to split social-insurance and excise subcomponents only after
    recording the parent category.
+   - Preserve Table 2.4 fund-group labels and table-note treatment.
+   - Do not treat `..........`, `*`, or `-*` markers as ordinary numeric
+     amounts.
 7. Use Table 1.4 for fund-group context, not as proof that every receipt in a
    broad group is legally dedicated.
 8. Link to budget concept sources before labeling a receipt as legally
