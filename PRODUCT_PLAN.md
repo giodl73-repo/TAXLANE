@@ -46,6 +46,8 @@ The repo organizes the topic around four connected records:
   current spending look fully tax-funded when it is not.
 - Make program-linked tax lanes auditable before treating them as reform
   proposals.
+- Run role review before accepting taxpayer-facing receipts or program-linked
+  tax lanes.
 
 ## Initial waves
 
@@ -79,7 +81,8 @@ INCOME-TAX starts as a Knowledge Systems research/explainer repo. It has no
 runtime dependency on portfolio systems during the foundation wave. Later waves
 should consider PROOF for markdown/source validation, CROP for corpus indexing,
 PEBBLE for portable research packets, and FLETCH for fetchable source registries
-after source custody is defined.
+after source custody is defined. ROLES is required now as a repo-local artifact
+because tax allocation claims need explicit stakeholder and accounting review.
 
 ## Foundation validation
 
