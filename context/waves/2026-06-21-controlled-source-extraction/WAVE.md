@@ -20,7 +20,7 @@ records move from raw source to reviewed data.
 | 01 | Data custody scaffold | done | Created top-level data custody structure, raw/extracted/derived boundaries, and metadata requirements. |
 | 02 | IRS rates first-source capture | done | Captured IRS SOI Table 23 raw artifact, sidecar metadata, checksum, and draft extraction workspace. |
 | 03 | OMB receipts first-source capture | done | Captured OMB receipt/fund raw artifacts, metadata, checksums, and draft extraction workspaces. |
-| 04 | OMB outlays first-source capture | pending | Capture OMB outlay spreadsheet metadata and prepare outlay/lane draft extraction. |
+| 04 | OMB outlays first-source capture | done | Captured OMB outlay raw artifacts, metadata, checksums, and draft outlay/lane extraction workspaces. |
 | 05 | Dynamic query rules | pending | Define Treasury, USAspending, and other dynamic query snapshot rules before use. |
 
 ## Success criteria

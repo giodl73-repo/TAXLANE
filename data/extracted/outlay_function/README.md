@@ -1,0 +1,31 @@
+# Outlay Function Extraction
+
+This directory is reserved for draft `outlay_function` records extracted from
+OMB Historical Tables.
+
+## Initial Sources
+
+| Source ID | Raw artifact | Use |
+|---|---|---|
+| `SRC-OMB-HIST-1-1-FY2027` | `data/raw/omb/SRC-OMB-HIST-1-1-FY2027/2026-06-21/hist01z1_fy2027.xlsx` | Fiscal spine and reconciliation. |
+| `SRC-OMB-HIST-3-1-FY2027` | `data/raw/omb/SRC-OMB-HIST-3-1-FY2027/2026-06-21/hist03z1_fy2027.xlsx` | Superfunction and function records. |
+| `SRC-OMB-HIST-3-2-FY2027` | `data/raw/omb/SRC-OMB-HIST-3-2-FY2027/2026-06-21/hist03z2_fy2027.xlsx` | Function and subfunction records. |
+
+## Planned Output
+
+Use JSONL draft records named by source and observed date:
+
+```text
+outlay_function.SRC-OMB-HIST-3-1-FY2027.2026-06-21.draft.jsonl
+outlay_function.SRC-OMB-HIST-3-2-FY2027.2026-06-21.draft.jsonl
+```
+
+Rows must follow `docs/data/outlays-lanes-schema.md`.
+
+## Review Gates
+
+1. Preserve fiscal-year basis.
+2. Preserve exact OMB function and subfunction labels.
+3. Reconcile Table 3.1 total outlays to Table 1.1.
+4. Reconcile Table 3.2 subfunction totals to parent functions.
+5. Keep net interest and undistributed offsetting receipts visible.
