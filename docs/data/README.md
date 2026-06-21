@@ -12,6 +12,7 @@ custody rules for that source family are written and role-reviewed.
 | `rates-timeline-schema.md` | Tax-year rates timeline row schema and extraction rules. |
 | `receipts-funds-schema.md` | Fiscal-year receipt-source and fund-group schemas for OMB tables. |
 | `outlays-lanes-schema.md` | Fiscal-year outlay function, program, and lane crosswalk schemas for OMB tables. |
+| `extraction-custody-review.md` | Source Custodian and Budget Accountant gate before raw imports. |
 
 ## Data principles
 
