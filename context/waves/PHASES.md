@@ -4,6 +4,10 @@ Work is organized into small waves and pulses.
 
 ## Active wave
 
+- `2026-06-21-source-data-dictionary`
+
+## Completed waves
+
 - `2026-06-21-tax-civics-foundation`
 
 ## Protocol

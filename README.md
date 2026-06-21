@@ -73,6 +73,7 @@ the lane is legally dedicated, proportional, deficit-inclusive, or proposed.
 
 - `PRODUCT_PLAN.md` records the product thesis, non-goals, and wave plan.
 - `context/waves/` records implementation waves and pulses.
+- `docs/data/` defines data dictionaries before raw source extraction.
 - `docs/sources/` records source versions before data extraction.
 - `docs/research/` holds cited research notes and decision records.
 - `docs/reading/` holds public reading packets derived from the research notes.
