@@ -206,4 +206,3 @@ explicit
 3. Build the first taxpayer-receipt method note with explicit allocation rules.
 4. Compare at least two existing taxpayer-receipt designs before choosing the
    repo's public standard.
-
