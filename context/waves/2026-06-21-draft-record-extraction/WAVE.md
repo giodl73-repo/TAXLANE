@@ -20,7 +20,7 @@ labels, and caveats before they can support public explanations.
 | 02 | IRS rates table profile | done | Recorded workbook shape, Sheet1 regions, field mappings, footnote hazards, and extraction boundary. |
 | 03 | OMB receipts first draft rows | done | Extracted 1934-1936 receipt-source draft rows and reconciled total receipts to Table 1.1. |
 | 04 | OMB outlays first draft rows | done | Extracted 1940-1942 outlay-function draft rows, including net interest, undistributed offsetting receipts, and total-outlay reconciliation. |
-| 05 | Draft review checklist | pending | Define source-review and budget-review checklists for promoting draft rows. |
+| 05 | Draft review checklist | done | Defined draft status path, Source Custodian checks, Budget Accountant checks, and public-claim gates. |
 
 ## Success criteria
 

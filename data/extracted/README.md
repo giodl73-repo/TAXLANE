@@ -34,3 +34,5 @@ data/extracted/outlay_function/SRC-OMB-HIST-3-2-FY2027/
 Use JSONL as the default extracted-record format because every row can carry
 source IDs, status, notes, and optional fields without widening CSV tables.
 CSV may be added later for simple tabular exports.
+
+Draft record promotion rules are defined in `draft-review-checklist.md`.
