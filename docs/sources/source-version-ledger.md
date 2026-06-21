@@ -89,8 +89,21 @@ source ID, publisher, URL, observed date, coverage, and extraction rule.
 | Source ID | Publisher | URL | Observed date | Coverage | Update cadence | Status | Extraction rule |
 |---|---|---|---|---|---|---|---|
 | `SRC-TREASURY-AFG` | U.S. Treasury Fiscal Data | <https://fiscaldata.treasury.gov/americas-finance-guide/> | 2026-06-21 | Dynamic public finance guide | Dynamic | Contextual | Use for public-facing framing and cross-checking Treasury presentation. Do not use as sole historical data source. |
+| `SRC-TREASURY-MTS` | U.S. Treasury Fiscal Data | <https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/> | 2026-06-21 | Monthly Treasury Statement receipts, outlays, and deficit/surplus data | Monthly/dynamic | Contextual | Use for current-period receipt/outlay context after recording query date and period. Prefer OMB historical tables for annual spine. |
 | `SRC-USASPENDING` | USAspending.gov | <https://www.usaspending.gov/> | 2026-06-21 | Federal spending search and account/program detail | Dynamic | Contextual | Use for program/account exploration after OMB function-level records. Record query parameters before citing. |
 | `SRC-CBO-BUDGET-DATA` | CBO | <https://www.cbo.gov/data/budget-economic-data> | 2026-06-21; automated fetch blocked with 403 | Budget/economic data | Periodic | Candidate | Use only after manual verification or accessible source capture. Candidate cross-check, not required spine. |
+
+## Current taxpayer mechanics sources
+
+| Source ID | Publisher | URL | Observed date | Coverage | Update cadence | Status | Extraction rule |
+|---|---|---|---|---|---|---|---|
+| `SRC-IRS-RATES-BRACKETS` | IRS | <https://www.irs.gov/filing/federal-income-tax-rates-and-brackets> | 2026-06-21; page reported last reviewed/updated 2026-02-10 | Current federal income-tax rate and bracket explainer, including 2025 bracket tables | Annual/IRS-maintained | Authoritative | Use for current marginal bracket explanation and current-year bracket extraction. Record tax year and filing status. |
+| `SRC-IRS-P17` | IRS | <https://www.irs.gov/publications/p17> | 2026-06-21 | Publication 17, Your Federal Income Tax | Annual/IRS-maintained | Authoritative guidance | Use for general individual filing mechanics. Do not substitute for statute when a legal rule needs exact authority. |
+| `SRC-IRS-F1040` | IRS | <https://www.irs.gov/forms-pubs/about-form-1040> | 2026-06-21 | Form 1040, U.S. Individual Income Tax Return | Annual/IRS-maintained | Authoritative form source | Use for return-flow mapping: income, deductions, tax, credits, payments, refund or amount due. |
+| `SRC-IRS-CREDITS-DEDUCTIONS` | IRS | <https://www.irs.gov/credits-and-deductions> | 2026-06-21; page reported last reviewed/updated 2026-05-26 | Current IRS credits and deductions index | IRS-maintained | Authoritative guidance | Use for the distinction that credits reduce tax due and deductions reduce taxable income. |
+| `SRC-IRS-WITHHOLDING-ESTIMATOR` | IRS | <https://www.irs.gov/individuals/tax-withholding-estimator> | 2026-06-21; page reported last reviewed/updated 2026-03-26 | Tax withholding estimator and W-4/W-4P update guidance | IRS-maintained | Authoritative guidance | Use to explain withholding as payment timing and employer/pension-provider withholding, not spending allocation. |
+| `SRC-IRS-1040ES` | IRS | <https://www.irs.gov/forms-pubs/about-form-1040-es> | 2026-06-21; page reported last reviewed/updated 2026-04-15 | Form 1040-ES estimated tax for individuals | Annual/IRS-maintained | Authoritative guidance | Use to explain estimated tax for income not subject to withholding. |
+| `SRC-IRS-DATA-BOOK` | IRS Statistics of Income | <https://www.irs.gov/statistics/soi-tax-stats-irs-data-book> | 2026-06-21 | IRS Data Book, including returns, collections, refunds, service, and enforcement statistics | Annual/IRS-maintained | Contextual | Use for administration scale and collection/refund context. Do not use as program allocation proof. |
 
 ## Extraction status
 

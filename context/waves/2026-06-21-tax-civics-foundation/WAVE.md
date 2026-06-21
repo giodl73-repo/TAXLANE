@@ -27,7 +27,7 @@ choosing a reform design.
 | 08 | Project name bakeoff | done | Scored naming candidates and set TAXLANE as the leading post-crosswalk candidate. |
 | 09 | TAXLANE public rename | done | Renamed the repo and published `giodl73-repo/TAXLANE`. |
 | 10 | Income-tax history map | done | Built a cited timeline scaffold for authorization, repeal, amendment, mass-tax administration, and modern-code reform. |
-| 11 | Current-system explainer | pending | Explain taxable income, rates, withholding, deductions, credits, receipts, appropriations, and debt. |
+| 11 | Current-system explainer | done | Explained the current chain from income and Form 1040 mechanics through receipts, outlays, and deficit context. |
 | 12 | Program-linked tax model | pending | Draft options for visible tax lanes by public purpose, including earmark and fungibility risks. |
 | 13 | Public reading packet | pending | Produce a plain-language reader that separates facts, tradeoffs, and reform proposals. |
 
