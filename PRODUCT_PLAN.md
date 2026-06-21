@@ -41,7 +41,8 @@ models, the repo must close these gates:
    The ledger starts at `docs/sources/source-version-ledger.md`.
 2. Budget-accounting explainer with exact cited definitions for receipts,
    outlays, trust funds, federal funds, offsetting collections, borrowing,
-   deficits, and debt service.
+   deficits, and debt service. The first explainer is
+   `docs/research/2026-06-21-budget-accounting-explainer.md`.
 3. Allocation-method label on every "what you paid for" claim.
 4. Shortfall, surplus, reserve, appropriation override, and beneficiary-impact
    fields for every program-linked tax lane.

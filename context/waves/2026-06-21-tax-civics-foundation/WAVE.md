@@ -22,10 +22,11 @@ choosing a reform design.
 | 03 | Role panel foundation | done | Created stakeholder/accounting/source/fiscal/reform review lenses and acceptance rules. |
 | 04 | Plan role review | done | Reviewed current plans and recorded gates before receipt/model publication. |
 | 05 | Source-version ledger | done | Recorded official source versions, URLs, observed dates, coverage years, and extraction rules. |
-| 06 | Income-tax history map | pending | Build a cited timeline of income-tax authorization, repeal, amendment, and expansion. |
-| 07 | Current-system explainer | pending | Explain taxable income, rates, withholding, deductions, credits, receipts, appropriations, and debt. |
-| 08 | Program-linked tax model | pending | Draft options for visible tax lanes by public purpose, including earmark and fungibility risks. |
-| 09 | Public reading packet | pending | Produce a plain-language reader that separates facts, tradeoffs, and reform proposals. |
+| 06 | Budget accounting explainer | done | Extracted OMB definitions and converted them into receipt/model rules. |
+| 07 | Income-tax history map | pending | Build a cited timeline of income-tax authorization, repeal, amendment, and expansion. |
+| 08 | Current-system explainer | pending | Explain taxable income, rates, withholding, deductions, credits, receipts, appropriations, and debt. |
+| 09 | Program-linked tax model | pending | Draft options for visible tax lanes by public purpose, including earmark and fungibility risks. |
+| 10 | Public reading packet | pending | Produce a plain-language reader that separates facts, tradeoffs, and reform proposals. |
 
 ## Success criteria
 

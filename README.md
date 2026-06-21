@@ -60,6 +60,10 @@ The first design pass is source-first:
 Every public allocation claim must say whether it is legally dedicated,
 proportionally allocated, modeled, or illustrative.
 
+The current source-backed finding is that ordinary income tax is mostly a
+general fund receipt, so "what your income tax paid for" should be presented as
+an allocation model unless a legal dedication is cited.
+
 ## Repository shape
 
 - `PRODUCT_PLAN.md` records the product thesis, non-goals, and wave plan.
