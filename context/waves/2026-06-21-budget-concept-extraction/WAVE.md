@@ -1,0 +1,50 @@
+# Wave: Budget Concept Extraction
+
+## Goal
+
+Extract OMB budget-concept records for fund groups, general fund treatment,
+dedicated collections, special funds, trust funds, revolving funds, and
+appropriation guardrails.
+
+## Thesis
+
+TAXLANE should not promote fund-group rows from `unknown` interpretation to
+public claims until budget-concept sources are captured and translated into
+reviewable records. OMB Analytical Perspectives Chapter 13 is the next source
+because it defines how federal funds, trust funds, special funds, and revolving
+funds are treated.
+
+## Pulse table
+
+| Pulse | Title | Status | Outcome |
+|------:|---|---|---|
+| 01 | AP13 source capture | done | Captured OMB AP Chapter 13 PDF, checksum, and concept extraction workspace. |
+| 02 | Fund concept first draft records | pending | Extract initial fund concept records for federal funds, general fund, special funds, trust funds, and revolving funds. |
+| 03 | Concept source review | pending | Verify concept source anchors against the captured AP13 text. |
+| 04 | Fund rows budget interpretation | pending | Apply concept records to the first fund-group slice without overclaiming legal dedication. |
+| 05 | Income-tax general-fund note | pending | Summarize what concept records support about ordinary income-tax general-fund treatment. |
+
+## Success Criteria
+
+- AP13 is captured under `data/raw/` with metadata and checksum.
+- Concept records are separate from numeric fund-group rows.
+- Concept records preserve source anchors and public-use caveats.
+- Legal dedication and appropriation status are not inferred without support.
+- Validation commands pass.
+
+## Non-Goals
+
+- Do not build taxpayer receipts in this wave.
+- Do not claim a specific taxpayer payment went to a fund.
+- Do not use AP13 concept text to override statute-specific requirements.
+- Do not extract the entire AP13 chapter in one pulse.
+
+## Validation
+
+Run:
+
+```powershell
+git diff --check
+```
+
+For JSONL concept pulses, parse every record as JSON.
