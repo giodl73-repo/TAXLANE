@@ -19,7 +19,7 @@ labels, and caveats before they can support public explanations.
 | 01 | IRS rates first draft rows | done | Extracted 1913-1918 IRS Table 23 lowest/highest regular-tax summary rows as draft JSONL. |
 | 02 | IRS rates table profile | done | Recorded workbook shape, Sheet1 regions, field mappings, footnote hazards, and extraction boundary. |
 | 03 | OMB receipts first draft rows | done | Extracted 1934-1936 receipt-source draft rows and reconciled total receipts to Table 1.1. |
-| 04 | OMB outlays first draft rows | pending | Extract a narrow outlay-function slice and identify net-interest/offsetting rows. |
+| 04 | OMB outlays first draft rows | done | Extracted 1940-1942 outlay-function draft rows, including net interest, undistributed offsetting receipts, and total-outlay reconciliation. |
 | 05 | Draft review checklist | pending | Define source-review and budget-review checklists for promoting draft rows. |
 
 ## Success criteria
