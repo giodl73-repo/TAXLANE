@@ -22,7 +22,7 @@ funds are treated.
 | 02 | Fund concept first draft records | done | Extracted initial concept records for federal funds, general fund, special funds, trust funds, revolving funds, and trust-fund caveats. |
 | 03 | Concept source review | done | Verified AP13 anchors and promoted first concept records to source-reviewed. |
 | 04 | Fund rows budget interpretation | done | Applied reviewed concepts to the first fund-group slice without relabeling Federal Funds as General Fund. |
-| 05 | Income-tax general-fund note | pending | Summarize what concept records support about ordinary income-tax general-fund treatment. |
+| 05 | Income-tax general-fund note | done | Summarized what reviewed AP13 concepts support about ordinary income-tax general-fund treatment. |
 
 ## Success Criteria
 
