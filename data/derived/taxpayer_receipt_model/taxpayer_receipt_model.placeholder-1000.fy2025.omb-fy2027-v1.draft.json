@@ -1,0 +1,51 @@
+{
+  "record_id": "taxpayer-receipt:placeholder-1000:fy2025:omb-fy2027-v1",
+  "record_family": "taxpayer_receipt_model",
+  "model_id": "placeholder-ordinary-income-tax-visibility-receipt-v1",
+  "tax_year": null,
+  "fiscal_year": 2025,
+  "year_basis": "fiscal_year",
+  "source_ids": [
+    "SRC-OMB-HIST-1-1-FY2027",
+    "SRC-OMB-HIST-2-1-FY2027",
+    "SRC-OMB-HIST-3-1-FY2027",
+    "SRC-OMB-HIST-3-2-FY2027"
+  ],
+  "source_artifacts": {
+    "lane_crosswalk": "data/derived/lane_crosswalk/lane_crosswalk.omb-fy2027-v1.2026-06-22.draft.jsonl",
+    "subfunction_model": "data/derived/income_tax_outlay_subfunction_model/income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.draft.jsonl",
+    "broad_model": "data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.draft.jsonl"
+  },
+  "tax_source": "ordinary-individual-income-tax",
+  "tax_amount_basis": "placeholder_amount",
+  "placeholder_tax_amount_usd": 1000.0,
+  "allocation_method": "proportional_outlay_share",
+  "legal_allocation_status": "modeled_not_legal_dedication",
+  "deficit_treatment": "shown_separately_as_financing_context",
+  "borrowed_share_percent_of_outlays": 25.312472142,
+  "income_tax_coverage_percent_of_outlays": 37.883386428,
+  "lane_allocations": [
+    {"lane_id":"national-defense","public_label":"National Defense and Security","allocation_share_percent":13.066984,"placeholder_allocation_amount_usd":130.66984,"placeholder_allocation_amount_rounded_usd":130.67,"legal_status_today":"general-fund","spending_control":"mixed","display_treatment":"modeled_lane"},
+    {"lane_id":"international-affairs","public_label":"International Affairs and Diplomacy","allocation_share_percent":0.644278,"placeholder_allocation_amount_usd":6.44278,"placeholder_allocation_amount_rounded_usd":6.44,"legal_status_today":"general-fund","spending_control":"mixed","display_treatment":"modeled_lane"},
+    {"lane_id":"science-space-technology","public_label":"Science, Space, and Civic Capacity","allocation_share_percent":0.598565,"placeholder_allocation_amount_usd":5.98565,"placeholder_allocation_amount_rounded_usd":5.99,"legal_status_today":"general-fund","spending_control":"mixed","display_treatment":"modeled_lane"},
+    {"lane_id":"environment-energy-natural-resources","public_label":"Natural Resources, Energy, and Environment","allocation_share_percent":1.577483,"placeholder_allocation_amount_usd":15.77483,"placeholder_allocation_amount_rounded_usd":15.77,"legal_status_today":"mixed","spending_control":"mixed","display_treatment":"modeled_lane"},
+    {"lane_id":"agriculture","public_label":"Agriculture and Food Production","allocation_share_percent":0.676741,"placeholder_allocation_amount_usd":6.76741,"placeholder_allocation_amount_rounded_usd":6.77,"legal_status_today":"mixed","spending_control":"mixed","display_treatment":"modeled_lane"},
+    {"lane_id":"commerce-housing-credit","public_label":"Commerce, Housing, and Market Stability","allocation_share_percent":-0.401235,"placeholder_allocation_amount_usd":-4.01235,"placeholder_allocation_amount_rounded_usd":-4.01,"legal_status_today":"mixed","spending_control":"mixed","display_treatment":"negative_or_offset_sensitive_lane"},
+    {"lane_id":"transportation","public_label":"Transportation and Mobility Infrastructure","allocation_share_percent":2.072712,"placeholder_allocation_amount_usd":20.72712,"placeholder_allocation_amount_rounded_usd":20.73,"legal_status_today":"mixed","spending_control":"mixed","display_treatment":"modeled_lane"},
+    {"lane_id":"community-regional-development","public_label":"Community, Disaster, and Regional Development","allocation_share_percent":1.174908,"placeholder_allocation_amount_usd":11.74908,"placeholder_allocation_amount_rounded_usd":11.75,"legal_status_today":"mixed","spending_control":"mixed","display_treatment":"modeled_lane"},
+    {"lane_id":"education-training-employment-social-services","public_label":"Education, Work, and Social Services","allocation_share_percent":1.027541,"placeholder_allocation_amount_usd":10.27541,"placeholder_allocation_amount_rounded_usd":10.28,"legal_status_today":"mixed","spending_control":"mixed","display_treatment":"modeled_lane"},
+    {"lane_id":"health","public_label":"Health and Care","allocation_share_percent":13.956587,"placeholder_allocation_amount_usd":139.56587,"placeholder_allocation_amount_rounded_usd":139.57,"legal_status_today":"mixed","spending_control":"mixed","display_treatment":"modeled_lane"},
+    {"lane_id":"medicare","public_label":"Medicare","allocation_share_percent":14.216275,"placeholder_allocation_amount_usd":142.16275,"placeholder_allocation_amount_rounded_usd":142.16,"legal_status_today":"mixed","spending_control":"mandatory","display_treatment":"dedicated_financing_caveat_required"},
+    {"lane_id":"income-security","public_label":"Income Security and Family Support","allocation_share_percent":10.00711,"placeholder_allocation_amount_usd":100.0711,"placeholder_allocation_amount_rounded_usd":100.07,"legal_status_today":"mixed","spending_control":"mixed","display_treatment":"modeled_lane"},
+    {"lane_id":"social-security","public_label":"Social Security","allocation_share_percent":22.545276,"placeholder_allocation_amount_usd":225.45276,"placeholder_allocation_amount_rounded_usd":225.45,"legal_status_today":"dedicated","spending_control":"trust-fund","display_treatment":"dedicated_financing_caveat_required"},
+    {"lane_id":"veterans","public_label":"Veterans and Service Commitments","allocation_share_percent":5.379509,"placeholder_allocation_amount_usd":53.79509,"placeholder_allocation_amount_rounded_usd":53.8,"legal_status_today":"mixed","spending_control":"mixed","display_treatment":"modeled_lane"},
+    {"lane_id":"justice-general-government","public_label":"Constitutional Government and Justice","allocation_share_percent":1.76423,"placeholder_allocation_amount_usd":17.6423,"placeholder_allocation_amount_rounded_usd":17.64,"legal_status_today":"mixed","spending_control":"mixed","display_treatment":"modeled_lane"},
+    {"lane_id":"net-interest","public_label":"Debt Service and Past Commitments","allocation_share_percent":13.836121,"placeholder_allocation_amount_usd":138.36121,"placeholder_allocation_amount_rounded_usd":138.36,"legal_status_today":"non-tax-context","spending_control":"net-interest","display_treatment":"display_separately"},
+    {"lane_id":"undistributed-offsetting-receipts","public_label":"Undistributed Offsetting Receipts","allocation_share_percent":-2.143086,"placeholder_allocation_amount_usd":-21.43086,"placeholder_allocation_amount_rounded_usd":-21.43,"legal_status_today":"non-tax-context","spending_control":"offsetting","display_treatment":"display_separately"}
+  ],
+  "rounding_note": "Rounded lane dollar amounts may differ from the placeholder amount by a cent because each lane is rounded independently.",
+  "public_caveat": "This is a placeholder visibility receipt for design review. It is not tax advice, not a taxpayer liability calculation, and not a claim that ordinary income-tax dollars are legally dedicated to these lanes.",
+  "status": "draft",
+  "observed_date": "2026-06-22",
+  "notes": "Uses FY2025 actual-year OMB source data from FY2027 historical tables and TAXLANE draft lane crosswalk v1."
+}
