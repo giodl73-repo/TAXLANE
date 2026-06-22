@@ -5,6 +5,7 @@ use std::path::{Path, PathBuf};
 use std::process::{Command, ExitCode};
 
 use sha2::{Digest, Sha256};
+use std::collections::BTreeMap;
 
 const MODEL_CHECKS: &[&[&str]] = &[
     &[
@@ -17,11 +18,6 @@ const MODEL_CHECKS: &[&[&str]] = &[
         "data/derived/income_tax_outlay_model/build_decade_summary.py",
         "--check",
     ],
-    &[
-        "python",
-        "data/derived/income_tax_outlay_model/export_chart_views.py",
-        "--check",
-    ],
 ];
 
 const CHART_SPECS: &[&str] = &[
@@ -32,6 +28,67 @@ const CHART_SPECS: &[&str] = &[
 ];
 
 const MANIFEST_PATH: &str = "data/derived/income_tax_outlay_model/MANIFEST.md";
+const ANNUAL_JSONL_PATH: &str = "data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.draft.jsonl";
+const DECADE_JSONL_PATH: &str = "data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.decade-summary.jsonl";
+const ANNUAL_CSV_PATH: &str = "data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.annual-wide.csv";
+const DECADE_CSV_PATH: &str = "data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.decade-wide.csv";
+
+const ANNUAL_HEADERS: &[&str] = &[
+    "fiscal_year",
+    "coverage_note",
+    "individual_income_tax_receipts_millions",
+    "total_outlays_millions",
+    "total_receipts_millions",
+    "deficit_gap_millions",
+    "borrowed_share_percent_of_outlays",
+    "income_tax_coverage_percent_of_outlays",
+    "allocation_method",
+    "legal_allocation_status",
+    "actual_or_projection",
+    "national_defense_percent",
+    "human_resources_percent",
+    "physical_resources_percent",
+    "net_interest_percent",
+    "other_functions_percent",
+    "offsetting_receipts_percent",
+    "category_percent_sum",
+];
+
+const DECADE_HEADERS: &[&str] = &[
+    "decade",
+    "start_fiscal_year",
+    "end_fiscal_year",
+    "year_count",
+    "coverage_note",
+    "cumulative_individual_income_tax_receipts_millions",
+    "cumulative_total_outlays_millions",
+    "cumulative_total_receipts_millions",
+    "cumulative_deficit_gap_millions",
+    "borrowed_share_percent_of_outlays",
+    "income_tax_coverage_percent_of_outlays",
+    "allocation_method",
+    "legal_allocation_status",
+    "actual_or_projection",
+    "national_defense_percent",
+    "human_resources_percent",
+    "physical_resources_percent",
+    "net_interest_percent",
+    "other_functions_percent",
+    "offsetting_receipts_percent",
+    "category_percent_sum",
+];
+
+const CATEGORY_FIELDS: &[(&str, &str)] = &[
+    ("national-defense", "national_defense_percent"),
+    ("human-resources", "human_resources_percent"),
+    ("physical-resources", "physical_resources_percent"),
+    ("net-interest", "net_interest_percent"),
+    ("other-functions", "other_functions_percent"),
+    (
+        "undistributed-offsetting-receipts",
+        "offsetting_receipts_percent",
+    ),
+];
 
 #[derive(Clone, Copy)]
 struct Artifact {
@@ -178,6 +235,12 @@ fn main() -> ExitCode {
             run_income_tax_outlay_validation()
         }
         [area, command, flag]
+            if area == "income-tax-outlay" && command == "export" && flag == "--check" =>
+        {
+            run_export_check()
+        }
+        [area, command] if area == "income-tax-outlay" && command == "export" => run_export_write(),
+        [area, command, flag]
             if area == "income-tax-outlay" && command == "manifest" && flag == "--check" =>
         {
             run_manifest_check()
@@ -186,7 +249,9 @@ fn main() -> ExitCode {
             run_manifest_write()
         }
         _ => {
-            eprintln!("usage: taxlane-tools income-tax-outlay <validate|manifest [--check]>");
+            eprintln!(
+                "usage: taxlane-tools income-tax-outlay <validate|export [--check]|manifest [--check]>"
+            );
             ExitCode::from(2)
         }
     }
@@ -208,6 +273,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
         }
     }
 
+    if let Err(err) = export_chart_views(&root, true) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
     if let Err(err) = check_manifest(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
@@ -226,6 +296,40 @@ fn run_income_tax_outlay_validation() -> ExitCode {
         CHART_SPECS.len()
     );
     ExitCode::SUCCESS
+}
+
+fn run_export_check() -> ExitCode {
+    let root = match repo_root() {
+        Ok(root) => root,
+        Err(err) => {
+            eprintln!("{err}");
+            return ExitCode::from(1);
+        }
+    };
+    match export_chart_views(&root, true) {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(err) => {
+            eprintln!("{err}");
+            ExitCode::from(1)
+        }
+    }
+}
+
+fn run_export_write() -> ExitCode {
+    let root = match repo_root() {
+        Ok(root) => root,
+        Err(err) => {
+            eprintln!("{err}");
+            return ExitCode::from(1);
+        }
+    };
+    match export_chart_views(&root, false) {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(err) => {
+            eprintln!("{err}");
+            ExitCode::from(1)
+        }
+    }
 }
 
 fn run_manifest_check() -> ExitCode {
@@ -298,6 +402,354 @@ fn parse_json(path: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn export_chart_views(root: &Path, check_only: bool) -> Result<(), String> {
+    let annual = build_annual_csv_rows(root)?;
+    let decade = build_decade_csv_rows(root)?;
+    validate_csv_rows(&annual, "annual", 86)?;
+    validate_csv_rows(&decade, "decade", 9)?;
+
+    if check_only {
+        compare_csv(root, ANNUAL_CSV_PATH, ANNUAL_HEADERS, &annual)?;
+        compare_csv(root, DECADE_CSV_PATH, DECADE_HEADERS, &decade)?;
+    } else {
+        write_csv(root, ANNUAL_CSV_PATH, ANNUAL_HEADERS, &annual)?;
+        write_csv(root, DECADE_CSV_PATH, DECADE_HEADERS, &decade)?;
+    }
+
+    println!(
+        "validated {} annual rows and {} decade rows",
+        annual.len(),
+        decade.len()
+    );
+    Ok(())
+}
+
+fn build_annual_csv_rows(root: &Path) -> Result<Vec<BTreeMap<String, String>>, String> {
+    let rows = read_jsonl(root.join(ANNUAL_JSONL_PATH))?;
+    let mut grouped: BTreeMap<i64, BTreeMap<String, serde_json::Value>> = BTreeMap::new();
+    for row in rows {
+        let year = int_field(&row, "fiscal_year")?;
+        let category = string_field(&row, "category_key")?;
+        grouped.entry(year).or_default().insert(category, row);
+    }
+
+    let mut output = Vec::new();
+    for (year, categories) in grouped {
+        let anchor = categories
+            .get("national-defense")
+            .ok_or_else(|| format!("{year}: missing national-defense row"))?;
+        let mut row = BTreeMap::new();
+        row.insert("fiscal_year".to_string(), year.to_string());
+        row.insert("coverage_note".to_string(), "full_year".to_string());
+        insert_json_number(
+            &mut row,
+            "individual_income_tax_receipts_millions",
+            anchor,
+            "individual_income_tax_receipts_amount",
+        );
+        insert_json_number(
+            &mut row,
+            "total_outlays_millions",
+            anchor,
+            "total_outlays_amount",
+        );
+        insert_json_number(
+            &mut row,
+            "total_receipts_millions",
+            anchor,
+            "total_receipts_amount",
+        );
+        insert_json_number(
+            &mut row,
+            "deficit_gap_millions",
+            anchor,
+            "deficit_gap_amount",
+        );
+        insert_number(
+            &mut row,
+            "borrowed_share_percent_of_outlays",
+            number_field(anchor, "borrowed_share_percent_of_outlays")?,
+        );
+        insert_number(
+            &mut row,
+            "income_tax_coverage_percent_of_outlays",
+            number_field(anchor, "income_tax_coverage_percent_of_outlays")?,
+        );
+        row.insert(
+            "allocation_method".to_string(),
+            string_field(anchor, "allocation_method")?,
+        );
+        row.insert(
+            "legal_allocation_status".to_string(),
+            string_field(anchor, "legal_allocation_status")?,
+        );
+        row.insert(
+            "actual_or_projection".to_string(),
+            string_field(anchor, "actual_or_projection")?,
+        );
+
+        let mut percent_sum = 0.0;
+        for (category_key, field_name) in CATEGORY_FIELDS {
+            let category = categories
+                .get(*category_key)
+                .ok_or_else(|| format!("{year}: missing {category_key} row"))?;
+            let percent = number_field(category, "allocation_share_percent")?;
+            insert_number(&mut row, field_name, percent);
+            percent_sum += percent;
+        }
+        insert_number(&mut row, "category_percent_sum", round6(percent_sum));
+        output.push(row);
+    }
+    Ok(output)
+}
+
+fn build_decade_csv_rows(root: &Path) -> Result<Vec<BTreeMap<String, String>>, String> {
+    let rows = read_jsonl(root.join(DECADE_JSONL_PATH))?;
+    let mut grouped: BTreeMap<String, BTreeMap<String, serde_json::Value>> = BTreeMap::new();
+    for row in rows {
+        let decade = string_field(&row, "decade")?;
+        let category = string_field(&row, "category_key")?;
+        grouped.entry(decade).or_default().insert(category, row);
+    }
+
+    let mut output = Vec::new();
+    for (decade, categories) in grouped {
+        let anchor = categories
+            .get("national-defense")
+            .ok_or_else(|| format!("{decade}: missing national-defense row"))?;
+        let mut row = BTreeMap::new();
+        row.insert("decade".to_string(), decade);
+        row.insert(
+            "start_fiscal_year".to_string(),
+            int_field(anchor, "start_fiscal_year")?.to_string(),
+        );
+        row.insert(
+            "end_fiscal_year".to_string(),
+            int_field(anchor, "end_fiscal_year")?.to_string(),
+        );
+        row.insert(
+            "year_count".to_string(),
+            int_field(anchor, "year_count")?.to_string(),
+        );
+        row.insert(
+            "coverage_note".to_string(),
+            string_field(anchor, "coverage_note")?,
+        );
+        insert_json_number(
+            &mut row,
+            "cumulative_individual_income_tax_receipts_millions",
+            anchor,
+            "cumulative_individual_income_tax_receipts_amount",
+        );
+        insert_json_number(
+            &mut row,
+            "cumulative_total_outlays_millions",
+            anchor,
+            "cumulative_total_outlays_amount",
+        );
+        insert_json_number(
+            &mut row,
+            "cumulative_total_receipts_millions",
+            anchor,
+            "cumulative_total_receipts_amount",
+        );
+        insert_json_number(
+            &mut row,
+            "cumulative_deficit_gap_millions",
+            anchor,
+            "cumulative_deficit_gap_amount",
+        );
+        insert_number(
+            &mut row,
+            "borrowed_share_percent_of_outlays",
+            number_field(anchor, "borrowed_share_percent_of_outlays")?,
+        );
+        insert_number(
+            &mut row,
+            "income_tax_coverage_percent_of_outlays",
+            number_field(anchor, "income_tax_coverage_percent_of_outlays")?,
+        );
+        row.insert(
+            "allocation_method".to_string(),
+            string_field(anchor, "allocation_method")?,
+        );
+        row.insert(
+            "legal_allocation_status".to_string(),
+            string_field(anchor, "legal_allocation_status")?,
+        );
+        row.insert(
+            "actual_or_projection".to_string(),
+            string_field(anchor, "actual_or_projection")?,
+        );
+
+        let mut percent_sum = 0.0;
+        for (category_key, field_name) in CATEGORY_FIELDS {
+            let category = categories
+                .get(*category_key)
+                .ok_or_else(|| format!("missing {category_key} row"))?;
+            let percent = number_field(category, "category_percent_of_decade_income_tax")?;
+            insert_number(&mut row, field_name, percent);
+            percent_sum += percent;
+        }
+        insert_number(&mut row, "category_percent_sum", round6(percent_sum));
+        output.push(row);
+    }
+    Ok(output)
+}
+
+fn validate_csv_rows(
+    rows: &[BTreeMap<String, String>],
+    label: &str,
+    expected_count: usize,
+) -> Result<(), String> {
+    if rows.len() != expected_count {
+        return Err(format!(
+            "{label}: expected {expected_count} rows, found {}",
+            rows.len()
+        ));
+    }
+    for row in rows {
+        let percent_sum = row
+            .get("category_percent_sum")
+            .ok_or_else(|| format!("{label}: missing category_percent_sum"))?
+            .parse::<f64>()
+            .map_err(|err| format!("{label}: invalid category_percent_sum: {err}"))?;
+        if (percent_sum - 100.0).abs() > 0.00001 {
+            return Err(format!("{label}: percent sum {percent_sum} for {row:?}"));
+        }
+        if row.get("legal_allocation_status").map(String::as_str)
+            != Some("modeled_not_legal_dedication")
+        {
+            return Err(format!("{label}: missing modeled legal status for {row:?}"));
+        }
+        if row.get("actual_or_projection").map(String::as_str) != Some("actual") {
+            return Err(format!("{label}: unexpected projection status for {row:?}"));
+        }
+    }
+    Ok(())
+}
+
+fn write_csv(
+    root: &Path,
+    relative_path: &str,
+    headers: &[&str],
+    rows: &[BTreeMap<String, String>],
+) -> Result<(), String> {
+    let text = csv_text(headers, rows)?;
+    fs::write(root.join(relative_path), text)
+        .map_err(|err| format!("failed to write {relative_path}: {err}"))
+}
+
+fn compare_csv(
+    root: &Path,
+    relative_path: &str,
+    headers: &[&str],
+    rows: &[BTreeMap<String, String>],
+) -> Result<(), String> {
+    let expected = normalize_newlines(&csv_text(headers, rows)?);
+    let current = fs::read_to_string(root.join(relative_path))
+        .map_err(|err| format!("failed to read {relative_path}: {err}"))?;
+    if normalize_newlines(&current) != expected {
+        return Err(format!(
+            "stale CSV export: run `cargo run -p taxlane-tools -- income-tax-outlay export`"
+        ));
+    }
+    Ok(())
+}
+
+fn csv_text(headers: &[&str], rows: &[BTreeMap<String, String>]) -> Result<String, String> {
+    if rows.is_empty() {
+        return Err("no CSV rows".to_string());
+    }
+    let mut writer = csv::Writer::from_writer(Vec::new());
+    writer
+        .write_record(headers.iter().copied())
+        .map_err(|err| format!("failed to write CSV header: {err}"))?;
+    for row in rows {
+        let values: Vec<&str> = headers
+            .iter()
+            .map(|header| row.get(*header).map(String::as_str).unwrap_or(""))
+            .collect();
+        writer
+            .write_record(values)
+            .map_err(|err| format!("failed to write CSV row: {err}"))?;
+    }
+    let bytes = writer
+        .into_inner()
+        .map_err(|err| format!("failed to finish CSV: {err}"))?;
+    String::from_utf8(bytes).map_err(|err| format!("invalid UTF-8 CSV: {err}"))
+}
+
+fn read_jsonl(path: PathBuf) -> Result<Vec<serde_json::Value>, String> {
+    let content =
+        fs::read_to_string(&path).map_err(|err| format!("failed to read {:?}: {err}", path))?;
+    content
+        .lines()
+        .map(|line| {
+            serde_json::from_str::<serde_json::Value>(line)
+                .map_err(|err| format!("failed to parse JSONL {:?}: {err}", path))
+        })
+        .collect()
+}
+
+fn int_field(row: &serde_json::Value, field: &str) -> Result<i64, String> {
+    row.get(field)
+        .and_then(serde_json::Value::as_i64)
+        .ok_or_else(|| format!("missing integer field {field}"))
+}
+
+fn number_field(row: &serde_json::Value, field: &str) -> Result<f64, String> {
+    row.get(field)
+        .and_then(serde_json::Value::as_f64)
+        .ok_or_else(|| format!("missing number field {field}"))
+}
+
+fn string_field(row: &serde_json::Value, field: &str) -> Result<String, String> {
+    row.get(field)
+        .and_then(serde_json::Value::as_str)
+        .map(ToString::to_string)
+        .ok_or_else(|| format!("missing string field {field}"))
+}
+
+fn insert_number(row: &mut BTreeMap<String, String>, field: &str, value: f64) {
+    row.insert(field.to_string(), python_float(value));
+}
+
+fn insert_json_number(
+    row: &mut BTreeMap<String, String>,
+    field: &str,
+    source: &serde_json::Value,
+    source_field: &str,
+) {
+    row.insert(field.to_string(), json_number_string(source, source_field));
+}
+
+fn json_number_string(row: &serde_json::Value, field: &str) -> String {
+    let value = row
+        .get(field)
+        .unwrap_or_else(|| panic!("missing number field {field}"));
+    if let Some(number) = value.as_i64() {
+        number.to_string()
+    } else if let Some(number) = value.as_f64() {
+        python_float(number)
+    } else {
+        panic!("missing number field {field}")
+    }
+}
+
+fn round6(value: f64) -> f64 {
+    (value * 1_000_000.0).round() / 1_000_000.0
+}
+
+fn python_float(value: f64) -> String {
+    if value.is_finite() && value.fract() == 0.0 {
+        format!("{value:.1}")
+    } else {
+        let text = format!("{value:.12}");
+        text.trim_end_matches('0').trim_end_matches('.').to_string()
+    }
+}
+
 fn check_manifest(root: &Path) -> Result<(), String> {
     let expected = normalize_newlines(&build_manifest(root)?);
     let current = fs::read_to_string(root.join(MANIFEST_PATH))
@@ -362,7 +814,7 @@ fn build_manifest(root: &Path) -> Result<String, String> {
         String::new(),
         "1. `build_income_tax_outlay_model.py`".to_string(),
         "2. `build_decade_summary.py`".to_string(),
-        "3. `export_chart_views.py`".to_string(),
+        "3. `cargo run -p taxlane-tools -- income-tax-outlay export`".to_string(),
         "4. `cargo run -p taxlane-tools -- income-tax-outlay manifest`".to_string(),
         String::new(),
         "Run validation after regeneration:".to_string(),

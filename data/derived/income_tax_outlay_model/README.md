@@ -107,8 +107,12 @@ that decade. The 2020s summary is partial because the actual-year model ends in
 
 ## Chart Exports
 
-`export_chart_views.py` reads the annual and decade JSONL files and emits wide
-CSV files for charting:
+The Rust Taxlane CLI reads the annual and decade JSONL files and emits wide CSV
+files for charting:
+
+```powershell
+cargo run -p taxlane-tools -- income-tax-outlay export
+```
 
 - `income_tax_outlay_model.omb-fy2027.2026-06-21.annual-wide.csv`
 - `income_tax_outlay_model.omb-fy2027.2026-06-21.decade-wide.csv`
