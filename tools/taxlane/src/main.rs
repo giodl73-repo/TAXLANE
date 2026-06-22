@@ -263,6 +263,13 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "data/derived/income_tax_outlay_subfunction_model/reconciliation-review.md",
+        role: "Subfunction generated-row reconciliation review",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "data/derived/income_tax_outlay_model/README.md",
         role: "Model method and schema note",
         grain: "documentation",
