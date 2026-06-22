@@ -24,6 +24,14 @@ chart-spec handoff:
 | Fiscal Sustainability | Pass: net interest remains visible as financing cost rather than public-service spending. |
 | Reform Skeptic | Pass: the packet states that subfunction labels raise overclaim risk and that the model is only proportional allocation. |
 
+## Deficit Context Addendum
+
+| Check | Result |
+|---|---|
+| Financing context visible | Pass: the reader packet now requires broad-model borrowed-share and income-tax-coverage context beside public subfunction charts. |
+| Chart-only public use blocked | Pass: standalone subfunction charts are treated as analysis artifacts unless paired with financing context or linked broad-model context. |
+| Taxpayer receipt boundary | Pass: the packet continues to block "your income taxes paid this program" wording. |
+
 ## Decision
 
 The subfunction reader packet is acceptable as a drilldown companion to the
@@ -34,7 +42,5 @@ program-level tracing claim, or reform proposal.
 
 ## Follow-Up
 
-- A future reader pass should add deficit and income-tax coverage context beside
-  subfunction charts when those charts move into a public UI.
 - Any taxpayer-facing receipt must still label allocation method and legal
   status at the point of display.

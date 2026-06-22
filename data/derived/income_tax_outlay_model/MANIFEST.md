@@ -36,8 +36,9 @@ supporting views.
 | `data/derived/income_tax_outlay_model/reconciliation-review.md` | Generated-row reconciliation review | documentation | n/a | supporting | `9c1898df3c6d7498a285887c8a64665d320afb1d492e8cc4b69bb27d22b30be8` |
 | `data/derived/income_tax_outlay_model/decade-summary.md` | Human-readable decade summary | documentation | n/a | supporting | `8ee633a570b3974a77463abcd56f33642affd7944f0173562ce7913ff9a389da` |
 | `docs/reading/modeled-income-tax-outlays.md` | Reader-facing packet | documentation | n/a | supporting | `26f5c340e1ffadc4efa716bbce33772c4963df54635982bd550a3392aae0579b` |
-| `docs/reading/modeled-income-tax-subfunction-outlays.md` | Reader-facing subfunction drilldown packet | documentation | n/a | supporting | `7cce7ccc625f5252aa032a6abbd324eb7bddffe25b46b4c8577aae197519c196` |
-| `reviews/2026-06-22-subfunction-reader-role-review.md` | Subfunction reader role review | documentation | n/a | supporting | `adfa8c6bea5c11c0d150dc21f13f289357e84af86ea22415680adfd2d3b20e4e` |
+| `docs/reading/modeled-income-tax-subfunction-outlays.md` | Reader-facing subfunction drilldown packet | documentation | n/a | supporting | `e4974188b71cd0457bff753dc22b2288df11eeb0ff852a8855f04ce2a2e55a3e` |
+| `reviews/2026-06-22-subfunction-reader-role-review.md` | Subfunction reader role review | documentation | n/a | supporting | `c4f6385974706cd139e90611cb281e301b6cdc4cbd9cdd23b953bb88912a3bae` |
+| `docs/research/2026-06-22-subfunction-deficit-context-note.md` | Subfunction deficit context note | documentation | n/a | supporting | `75421ddbe7808ef4f98ba06d7414c6103a71ee065524a8e328f8e8efce4049de` |
 | `docs/charts/README.md` | Chart catalog | documentation | n/a | supporting | `0645dd234fc82145f7ee4ebdfecbd00dfb8506899b5e3929b4a757eac15bb78e` |
 | `docs/charts/income-tax-outlay-model/annual-stacked-area.vl.json` | Annual allocation chart spec | visualization spec | n/a | view | `e0f7c39a6d4f392fc3d60f5f9f6c0561f1bc7706f2dab6019158945b66ca68b6` |
 | `docs/charts/income-tax-outlay-model/decade-stacked-bar.vl.json` | Decade allocation chart spec | visualization spec | n/a | view | `e53433c4304830465e8633b4d5e6b88c8f1e54f517785916ff8191540c1bcb5b` |
@@ -48,7 +49,7 @@ supporting views.
 | `Cargo.toml` | Rust workspace manifest | tooling | n/a | supporting | `9ebc5854ae2e4979a5e9b86f65a60cb29c5a88f587877b126ed9cbd8457532cb` |
 | `Cargo.lock` | Rust dependency lockfile | tooling | n/a | supporting | `98b37b03e7430d5538eb8c663022926d896f9b31194915f43b654556fb16716f` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `44e924bb7e71d35948fa75dcc0583ef58203a0e0f52180cf03072ef64aa67c33` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `1a8cbef3749662cd5d3b4872447bc6d611d924e03ff08143f3c2c8156a620f60` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `d5d60fc25d12a2bc3d84c890d0ea03da2e2fdcbedf03bd37ea796c3f0d162b91` |
 
 ## Regeneration Order
 

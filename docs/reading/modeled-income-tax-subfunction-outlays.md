@@ -55,6 +55,19 @@ income-tax receipts are allocated by Table 3.2 subfunction outlay share:
 These are modeled shares of ordinary individual income-tax receipts. They are
 not statutory earmarks.
 
+## Financing Context
+
+The subfunction chart is not a complete picture of federal financing. It splits
+ordinary individual income-tax receipts by subfunction outlay share, but total
+federal outlays are also financed by other receipts and, in deficit years,
+borrowing. That means a subfunction label should not be read as "income taxes
+paid this program."
+
+Use subfunction charts beside the broad modeled-outlay packet, especially the
+borrowed-share and income-tax-coverage context. If a public display cannot show
+that context nearby, treat the subfunction chart as an analysis artifact rather
+than a taxpayer receipt.
+
 ## Why Subfunctions Are Useful
 
 Subfunctions are useful because broad categories can hide the shape of the

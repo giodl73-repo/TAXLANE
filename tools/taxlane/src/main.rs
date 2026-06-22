@@ -284,6 +284,13 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "docs/research/2026-06-22-subfunction-deficit-context-note.md",
+        role: "Subfunction deficit context note",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "docs/charts/README.md",
         role: "Chart catalog",
         grain: "documentation",
