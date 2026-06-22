@@ -8,6 +8,7 @@ Work is organized into small waves and pulses.
 
 ## Completed waves
 
+- `2026-06-21-income-tax-outlay-chart-specs`
 - `2026-06-21-modeled-income-tax-outlay-reader`
 - `2026-06-21-income-tax-outlay-chart-exports`
 - `2026-06-21-decade-income-tax-outlay-summary`

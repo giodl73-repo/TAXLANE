@@ -1,0 +1,112 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Modeled Allocation of Individual Income-Tax Receipts by Outlay Share, 1940-2025",
+  "data": {
+    "url": "../../../data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.annual-wide.csv",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "transform": [
+    {
+      "fold": [
+        "national_defense_percent",
+        "human_resources_percent",
+        "physical_resources_percent",
+        "net_interest_percent",
+        "other_functions_percent",
+        "offsetting_receipts_percent"
+      ],
+      "as": [
+        "category",
+        "percent"
+      ]
+    },
+    {
+      "calculate": "datum.category == 'national_defense_percent' ? 'National defense' : datum.category == 'human_resources_percent' ? 'Human resources' : datum.category == 'physical_resources_percent' ? 'Physical resources' : datum.category == 'net_interest_percent' ? 'Net interest' : datum.category == 'other_functions_percent' ? 'Other functions' : 'Offsetting receipts'",
+      "as": "category_label"
+    }
+  ],
+  "mark": {
+    "type": "area",
+    "line": true
+  },
+  "encoding": {
+    "x": {
+      "field": "fiscal_year",
+      "type": "ordinal",
+      "title": "Fiscal year",
+      "axis": {
+        "labelAngle": 0,
+        "labelExpr": "datum.value % 10 == 0 ? datum.value : ''"
+      }
+    },
+    "y": {
+      "field": "percent",
+      "type": "quantitative",
+      "title": "Modeled share of individual income-tax receipts",
+      "axis": {
+        "format": ".0f"
+      },
+      "stack": "zero"
+    },
+    "color": {
+      "field": "category_label",
+      "type": "nominal",
+      "title": "Modeled category",
+      "scale": {
+        "domain": [
+          "National defense",
+          "Human resources",
+          "Physical resources",
+          "Net interest",
+          "Other functions",
+          "Offsetting receipts"
+        ],
+        "range": [
+          "#4E79A7",
+          "#59A14F",
+          "#F28E2B",
+          "#9C755F",
+          "#B07AA1",
+          "#BAB0AC"
+        ]
+      }
+    },
+    "tooltip": [
+      {
+        "field": "fiscal_year",
+        "type": "ordinal",
+        "title": "Fiscal year"
+      },
+      {
+        "field": "category_label",
+        "type": "nominal",
+        "title": "Category"
+      },
+      {
+        "field": "percent",
+        "type": "quantitative",
+        "title": "Modeled share",
+        "format": ".1f"
+      },
+      {
+        "field": "borrowed_share_percent_of_outlays",
+        "type": "quantitative",
+        "title": "Borrowed share of outlays",
+        "format": ".1f"
+      },
+      {
+        "field": "income_tax_coverage_percent_of_outlays",
+        "type": "quantitative",
+        "title": "Income-tax coverage of outlays",
+        "format": ".1f"
+      }
+    ]
+  },
+  "config": {
+    "view": {
+      "stroke": null
+    }
+  }
+}
