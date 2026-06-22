@@ -10,6 +10,8 @@ chart-spec handoff:
 | `docs/reading/modeled-income-tax-subfunction-outlays.md` | Public drilldown packet. |
 | `docs/charts/income-tax-outlay-subfunction-model/fy2025-top-subfunctions.vl.json` | FY2025 ranked chart spec. |
 | `docs/charts/income-tax-outlay-subfunction-model/selected-subfunction-trends.vl.json` | Selected subfunction trend chart spec. |
+| `docs/charts/income-tax-outlay-subfunction-model/decade-top-subfunctions.vl.json` | Decade ranked chart spec. |
+| `data/derived/income_tax_outlay_subfunction_model/income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.decade-long.csv` | Decade subfunction rollup. |
 
 ## Findings
 
@@ -31,6 +33,14 @@ chart-spec handoff:
 | Financing context visible | Pass: the reader packet now requires broad-model borrowed-share and income-tax-coverage context beside public subfunction charts. |
 | Chart-only public use blocked | Pass: standalone subfunction charts are treated as analysis artifacts unless paired with financing context or linked broad-model context. |
 | Taxpayer receipt boundary | Pass: the packet continues to block "your income taxes paid this program" wording. |
+
+## Decade Rollup Addendum
+
+| Check | Result |
+|---|---|
+| Partial-decade caveat visible | Pass: the reader packet labels the 1960s and 2020s buckets as partial and blocks ten-year comparisons for those buckets. |
+| Rollup method visible | Pass: the packet describes decade shares as cumulative modeled allocation dollars within the decade, not annual-rank averages. |
+| Long-run wording bounded | Pass: the packet describes a shift in modeled largest subfunctions without implying legal dedication or taxpayer-dollar tracing. |
 
 ## Decision
 

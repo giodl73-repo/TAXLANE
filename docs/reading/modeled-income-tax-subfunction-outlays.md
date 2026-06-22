@@ -34,6 +34,7 @@ The model uses fiscal years, not tax years.
 | `income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.draft.jsonl` | Canonical annual model rows, fiscal years 1962-2025. |
 | `income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.annual-long.csv` | Chart-ready annual long view by fiscal year and subfunction. |
 | `income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.fy2025-top-subfunctions.csv` | Chart-ready FY2025 top-subfunction view. |
+| `income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.decade-long.csv` | Chart-ready decade rollup by subfunction. |
 
 The source spine is OMB Historical Tables 2.1 and 3.2 from the FY2027 release.
 The model covers actual fiscal years 1962-2025. It excludes TQ and FY2026-FY2031
@@ -54,6 +55,26 @@ income-tax receipts are allocated by Table 3.2 subfunction outlay share:
 
 These are modeled shares of ordinary individual income-tax receipts. They are
 not statutory earmarks.
+
+## Decade Drilldown
+
+The decade rollup sums modeled allocation dollars within each decade and then
+calculates each subfunction's share of that decade total. It is useful for
+long-run comparison, but it is not an average of annual percentages or ranks.
+
+| Decade | Coverage | Largest modeled subfunction allocation |
+|---|---|---|
+| 1960s | partial, FY1962-FY1969 | Department of Defense-Military, 44.2% |
+| 1970s | full decade | Department of Defense-Military, 27.2% |
+| 1980s | full decade | Department of Defense-Military, 25.5% |
+| 1990s | full decade | Social security, 22.0% |
+| 2000s | full decade | Social security, 21.6% |
+| 2010s | full decade | Social security, 23.2% |
+| 2020s | partial, FY2020-FY2025 | Social security, 20.1% |
+
+The 1960s and 2020s rows are partial-decade buckets because the actual-year
+model starts in FY1962 and currently ends in FY2025. Do not compare those
+buckets as if they contain ten fiscal years.
 
 ## Financing Context
 
@@ -89,6 +110,13 @@ Use:
 > Table 3.2 subfunction outlay shares, Social Security is about 22.5 percent of
 > the modeled allocation and gross interest on Treasury debt securities is about
 > 17.3 percent.
+
+For decade views, say:
+
+> In the decade rollup, cumulative modeled allocations shift from national
+> defense as the largest subfunction in the 1960s-1980s to Social Security as
+> the largest subfunction from the 1990s forward. The 1960s and 2020s are
+> partial buckets.
 
 Avoid:
 
