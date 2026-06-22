@@ -104,3 +104,14 @@ summary rows. A decade category percentage is cumulative modeled category
 allocation divided by cumulative individual income-tax receipts for the years in
 that decade. The 2020s summary is partial because the actual-year model ends in
 2025.
+
+## Chart Exports
+
+`export_chart_views.py` reads the annual and decade JSONL files and emits wide
+CSV files for charting:
+
+- `income_tax_outlay_model.omb-fy2027.2026-06-21.annual-wide.csv`
+- `income_tax_outlay_model.omb-fy2027.2026-06-21.decade-wide.csv`
+
+The JSONL files remain canonical. CSV files are convenience views for charts,
+spreadsheets, and quick inspection.
