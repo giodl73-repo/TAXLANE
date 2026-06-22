@@ -44,6 +44,12 @@ modeled_income_tax_allocation = individual_income_tax_receipts
 
 The allocation denominator uses the emitted subfunction rows so modeled rows sum back to individual income-tax receipts. Small differences from displayed total outlays are source rounding.
 
+## Decade Rollup Caveat
+
+The decade-long CSV sums modeled allocation dollars within each decade and then calculates each subfunction's share of that decade total. It is not an average of annual percentages or annual ranks.
+
+The 1960s bucket is partial because subfunction actual-year coverage starts in FY1962. The 2020s bucket is partial because the actual-year model currently ends in FY2025.
+
 ## Regeneration
 
 ```powershell
@@ -51,4 +57,10 @@ cargo run -p taxlane-tools -- income-tax-outlay subfunction-model
 cargo run -p taxlane-tools -- income-tax-outlay subfunction-model --check
 cargo run -p taxlane-tools -- income-tax-outlay subfunction-export
 cargo run -p taxlane-tools -- income-tax-outlay subfunction-export --check
+```
+
+## Validation Command
+
+```powershell
+cargo run -p taxlane-tools -- income-tax-outlay validate
 ```
