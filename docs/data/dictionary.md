@@ -18,6 +18,7 @@ contract for future data work, not a dataset.
 | `outlay_function` | Fiscal year | OMB Historical Tables 3.1, 3.2 | Show spending by public-purpose function and subfunction. |
 | `outlay_program` | Fiscal year | OMB Historical Tables 8.5, 8.7, 11.3; USAspending | Show mandatory, discretionary, beneficiary, and program detail. |
 | `lane_crosswalk` | Fiscal year or model version | OMB functions plus TAXLANE lane taxonomy | Map public-purpose labels to budget functions. |
+| `income_tax_outlay_model` | Fiscal year | Derived from OMB Historical Tables 1.1, 2.1, and 3.1 | Estimate ordinary individual income-tax receipts across broad outlay categories by year. |
 | `taxpayer_receipt_model` | Tax year plus fiscal year | Derived from rates, receipts, outlays, and lane crosswalks | Explain a taxpayer payment with method labels. |
 | `program_lane_model` | Model version | Derived from lane model and statutory design sources | Evaluate possible program-linked tax reforms. |
 
@@ -167,6 +168,40 @@ Rules:
 
 - A lane can be useful without being a current legal destination.
 - Borrowed Share / Deficit Gap is required context, not a tax lane.
+
+## `income_tax_outlay_model`
+
+Use for fiscal-year visibility models that allocate ordinary individual
+income-tax receipts across OMB outlay categories by proportional outlay share.
+
+| Field | Required | Meaning |
+|---|---|---|
+| `model_id` | Yes | Stable model identifier. |
+| `fiscal_year` | Yes | Federal fiscal year. |
+| `tax_source` | Yes | Always ordinary individual income taxes for the first model. |
+| `allocation_method` | Yes | `proportional_outlay_share` for the first model. |
+| `legal_allocation_status` | Yes | Must state that the row is modeled, not legal dedication. |
+| `category_key` | Yes | Stable broad outlay category key. |
+| `category_label` | Yes | OMB broad category label. |
+| `category_outlays_amount` | Yes | OMB Table 3.1 category outlays. |
+| `total_outlays_amount` | Yes | OMB total federal outlays. |
+| `category_total_outlays_amount` | Yes | Sum of modeled broad categories used as the allocation denominator. |
+| `individual_income_tax_receipts_amount` | Yes | OMB Table 2.1 individual income-tax receipts. |
+| `outlay_share_percent` | Yes | Category amount divided by displayed total federal outlays. |
+| `allocation_share_percent` | Yes | Category amount divided by the model allocation denominator. |
+| `modeled_income_tax_allocation_amount` | Yes | Individual income-tax receipts allocated by model share. |
+| `total_receipts_amount` | Yes | OMB total federal receipts. |
+| `surplus_or_deficit_amount` | Yes | OMB surplus or deficit; deficits are negative. |
+| `deficit_gap_amount` | Yes | Positive amount by which outlays exceed receipts. |
+| `borrowed_share_percent_of_outlays` | Yes | Deficit gap divided by total outlays. |
+| `income_tax_coverage_percent_of_outlays` | Yes | Individual income-tax receipts divided by total outlays. |
+
+Rules:
+
+- Do not describe this family as legal tracing of tax dollars.
+- Keep deficit context on every row.
+- Keep net interest and undistributed offsetting receipts visible.
+- Label estimates and projections separately; do not mix them with actual rows.
 
 ## `taxpayer_receipt_model`
 

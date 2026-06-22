@@ -12,3 +12,9 @@ Examples of future derived records:
 
 Derived records are blocked until their input records, derivation method,
 allocation labels, and review status are documented.
+
+## Current Derived Models
+
+| Directory | Model | Status |
+|---|---|---|
+| `income_tax_outlay_model/` | Yearly individual income-tax receipts allocated across broad OMB outlay categories by proportional outlay share. | Draft; method and source profile documented. |
