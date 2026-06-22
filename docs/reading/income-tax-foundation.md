@@ -204,6 +204,7 @@ whether the system should be redesigned.
 | Budget accounting | `docs/research/2026-06-21-budget-accounting-explainer.md` |
 | Income tax general-fund note | `docs/research/2026-06-21-income-tax-general-fund-note.md` |
 | Historical funding 1940 note | `docs/research/2026-06-21-historical-funding-1940-note.md` |
+| Historical funding evolution note | `docs/research/2026-06-21-historical-funding-evolution-note.md` |
 | Public-purpose lanes | `docs/research/2026-06-21-public-purpose-lane-taxonomy.md` |
 | Program-linked model | `docs/research/2026-06-21-program-linked-tax-model.md` |
 | Role review gates | `reviews/2026-06-21-plan-role-review.md` |
