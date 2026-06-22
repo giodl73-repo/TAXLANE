@@ -127,5 +127,12 @@ views.
 Run all model and chart checks with:
 
 ```powershell
+cargo run -p taxlane-tools -- income-tax-outlay validate
+```
+
+The older Python runner remains available while the generator scripts are being
+ported:
+
+```powershell
 python data/derived/income_tax_outlay_model/validate_all.py
 ```

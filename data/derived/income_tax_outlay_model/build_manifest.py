@@ -120,6 +120,34 @@ ARTIFACTS: list[dict[str, Any]] = [
         "kind": "python",
         "canonical": "supporting",
     },
+    {
+        "path": "Cargo.toml",
+        "role": "Rust workspace manifest",
+        "grain": "tooling",
+        "kind": "toml",
+        "canonical": "supporting",
+    },
+    {
+        "path": "Cargo.lock",
+        "role": "Rust dependency lockfile",
+        "grain": "tooling",
+        "kind": "toml",
+        "canonical": "supporting",
+    },
+    {
+        "path": "tools/taxlane/Cargo.toml",
+        "role": "Rust Taxlane tools crate manifest",
+        "grain": "tooling",
+        "kind": "toml",
+        "canonical": "supporting",
+    },
+    {
+        "path": "tools/taxlane/src/main.rs",
+        "role": "Rust validation command implementation",
+        "grain": "script",
+        "kind": "rust",
+        "canonical": "supporting",
+    },
 ]
 
 
