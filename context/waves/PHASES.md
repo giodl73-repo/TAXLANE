@@ -8,6 +8,7 @@ Work is organized into small waves and pulses.
 
 ## Completed waves
 
+- `2026-06-22-income-tax-subfunction-chart-specs`
 - `2026-06-22-income-tax-subfunction-chart-exports`
 - `2026-06-22-income-tax-subfunction-model`
 - `2026-06-22-table-3-2-full-outlay-function-extraction`

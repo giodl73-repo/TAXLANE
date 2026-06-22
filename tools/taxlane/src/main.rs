@@ -14,6 +14,8 @@ const CHART_SPECS: &[&str] = &[
     "docs/charts/income-tax-outlay-model/decade-stacked-bar.vl.json",
     "docs/charts/income-tax-outlay-model/annual-financing-context-lines.vl.json",
     "docs/charts/income-tax-outlay-model/decade-financing-context-lines.vl.json",
+    "docs/charts/income-tax-outlay-subfunction-model/fy2025-top-subfunctions.vl.json",
+    "docs/charts/income-tax-outlay-subfunction-model/selected-subfunction-trends.vl.json",
 ];
 
 const MANIFEST_PATH: &str = "data/derived/income_tax_outlay_model/MANIFEST.md";
@@ -298,6 +300,20 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "docs/charts/income-tax-outlay-model/decade-financing-context-lines.vl.json",
         role: "Decade financing context chart spec",
+        grain: "visualization spec",
+        kind: "json",
+        canonical: "view",
+    },
+    Artifact {
+        path: "docs/charts/income-tax-outlay-subfunction-model/fy2025-top-subfunctions.vl.json",
+        role: "FY2025 top subfunction allocation chart spec",
+        grain: "visualization spec",
+        kind: "json",
+        canonical: "view",
+    },
+    Artifact {
+        path: "docs/charts/income-tax-outlay-subfunction-model/selected-subfunction-trends.vl.json",
+        role: "Selected subfunction trend chart spec",
         grain: "visualization spec",
         kind: "json",
         canonical: "view",

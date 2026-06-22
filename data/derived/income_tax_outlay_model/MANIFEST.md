@@ -36,15 +36,17 @@ supporting views.
 | `data/derived/income_tax_outlay_model/reconciliation-review.md` | Generated-row reconciliation review | documentation | n/a | supporting | `9c1898df3c6d7498a285887c8a64665d320afb1d492e8cc4b69bb27d22b30be8` |
 | `data/derived/income_tax_outlay_model/decade-summary.md` | Human-readable decade summary | documentation | n/a | supporting | `8ee633a570b3974a77463abcd56f33642affd7944f0173562ce7913ff9a389da` |
 | `docs/reading/modeled-income-tax-outlays.md` | Reader-facing packet | documentation | n/a | supporting | `26f5c340e1ffadc4efa716bbce33772c4963df54635982bd550a3392aae0579b` |
-| `docs/charts/README.md` | Chart catalog | documentation | n/a | supporting | `ce386d3a2bf80b63977502bdf899463ca1acfbc46a3256d32446bcbae537c989` |
+| `docs/charts/README.md` | Chart catalog | documentation | n/a | supporting | `0645dd234fc82145f7ee4ebdfecbd00dfb8506899b5e3929b4a757eac15bb78e` |
 | `docs/charts/income-tax-outlay-model/annual-stacked-area.vl.json` | Annual allocation chart spec | visualization spec | n/a | view | `e0f7c39a6d4f392fc3d60f5f9f6c0561f1bc7706f2dab6019158945b66ca68b6` |
 | `docs/charts/income-tax-outlay-model/decade-stacked-bar.vl.json` | Decade allocation chart spec | visualization spec | n/a | view | `e53433c4304830465e8633b4d5e6b88c8f1e54f517785916ff8191540c1bcb5b` |
 | `docs/charts/income-tax-outlay-model/annual-financing-context-lines.vl.json` | Annual financing context chart spec | visualization spec | n/a | view | `0f73917e9e372abce44ff1d1050b0a71d6358bb4de28b5538838e4d87a590011` |
 | `docs/charts/income-tax-outlay-model/decade-financing-context-lines.vl.json` | Decade financing context chart spec | visualization spec | n/a | view | `a3b513e30738ef3070d0e2f1fcc3c2e925d3dc0dc3f0381a8827a5cdd1a781ff` |
+| `docs/charts/income-tax-outlay-subfunction-model/fy2025-top-subfunctions.vl.json` | FY2025 top subfunction allocation chart spec | visualization spec | n/a | view | `fc4cd48e5a1ed5761e05be28ddb636365f26966909b15b3bb0b6ed88e676ff6a` |
+| `docs/charts/income-tax-outlay-subfunction-model/selected-subfunction-trends.vl.json` | Selected subfunction trend chart spec | visualization spec | n/a | view | `a5b10152d4e828854b6cf8ed056846ed7e130c404f25fa8ad000a542a579154d` |
 | `Cargo.toml` | Rust workspace manifest | tooling | n/a | supporting | `9ebc5854ae2e4979a5e9b86f65a60cb29c5a88f587877b126ed9cbd8457532cb` |
 | `Cargo.lock` | Rust dependency lockfile | tooling | n/a | supporting | `98b37b03e7430d5538eb8c663022926d896f9b31194915f43b654556fb16716f` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `44e924bb7e71d35948fa75dcc0583ef58203a0e0f52180cf03072ef64aa67c33` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `e17538bf002070ea365647abaa77bbd320fa7a72aac5cb35842bc2e550729d55` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `034feee3cb675686da2cd9b0c081e5dea56d86f4a18fbc5a4090697e0dd8e208` |
 
 ## Regeneration Order
 

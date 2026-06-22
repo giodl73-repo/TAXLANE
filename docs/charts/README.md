@@ -22,6 +22,13 @@ change the underlying data or model methods.
 | `income-tax-outlay-model/annual-financing-context-lines.vl.json` | Fiscal year, 1940-2025 | Companion financing context for the annual chart. |
 | `income-tax-outlay-model/decade-financing-context-lines.vl.json` | Decade bucket | Companion financing context for the decade chart. |
 
+## Income-Tax Subfunction Model Specs
+
+| Spec | Data grain | Recommended role |
+|---|---|---|
+| `income-tax-outlay-subfunction-model/fy2025-top-subfunctions.vl.json` | FY2025 ranked subfunction | Compact drilldown into the largest modeled subfunction allocations. |
+| `income-tax-outlay-subfunction-model/selected-subfunction-trends.vl.json` | Fiscal year by selected subfunction, 1962-2025 | Trend comparison for major subfunctions after broad-model context is visible. |
+
 ## Reading Order
 
 1. Start with the allocation chart: annual stacked area or decade stacked bar.
