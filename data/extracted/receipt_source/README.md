@@ -37,8 +37,10 @@ Rows must follow `docs/data/receipts-funds-schema.md`.
 
 - `receipt_source.SRC-OMB-HIST-2-1-FY2027.2026-06-21.source-reviewed.jsonl`
 - `receipt_source.SRC-OMB-HIST-2-4-FY2027.2026-06-21.source-reviewed.jsonl`
+- `receipt_source.SRC-OMB-HIST-2-4-FY2027.2026-06-21.milestone-draft.jsonl`
 - `first-slice-reconciliation.md`
 - `allocation-review.md`
 - `table-2-4-profile.md`
 - `table-2-4-1940-reconciliation.md`
 - `table-2-4-source-review.md`
+- `table-2-4-social-insurance-milestone-reconciliation.md`
