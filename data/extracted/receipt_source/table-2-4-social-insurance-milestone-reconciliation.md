@@ -15,7 +15,7 @@ subcomponents for fiscal years 1957 and 1966:
   visible in the selected rows.
 - 1966: hospital insurance appears as a non-missing row.
 
-All records are `draft-extracted`.
+All records are `source-reviewed`.
 
 ## Reconciliation
 

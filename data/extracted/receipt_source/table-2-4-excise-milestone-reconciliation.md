@@ -15,7 +15,7 @@ The milestone draft extraction covers excise-tax subcomponents for fiscal years
 - 1983: airport and airway, black lung disability, inland waterway, and
   hazardous substance superfund trust-fund rows are non-missing.
 
-All records are `draft-extracted`.
+All records are `source-reviewed`.
 
 ## Reconciliation
 

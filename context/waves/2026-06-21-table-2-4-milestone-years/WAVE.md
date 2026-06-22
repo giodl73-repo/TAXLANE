@@ -19,7 +19,7 @@ reviewable while showing historical change.
 | 01 | Milestone year scan | done | Identified candidate years and row groups for expansion. |
 | 02 | 1957 and 1966 social-insurance rows | done | Extracted milestone rows for disability insurance and hospital insurance emergence. |
 | 03 | 1957 and 1983 excise trust rows | done | Extracted milestone rows for transportation and airport/environmental excise trust funds. |
-| 04 | Milestone source review | pending | Verify source anchors and parent totals for extracted milestone years. |
+| 04 | Milestone source review | done | Verified source anchors and parent totals for extracted milestone years. |
 | 05 | Historical funding evolution note | pending | Summarize how the source-backed historical funding picture changes across milestones. |
 
 ## Success Criteria
