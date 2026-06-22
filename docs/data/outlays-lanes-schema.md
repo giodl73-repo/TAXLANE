@@ -109,7 +109,7 @@ Examples:
 | `linked_program_keys` | string list | Yes | Program records that inform or explain the lane. |
 | `spending_control` | string | Yes | `mandatory`, `discretionary`, `trust-fund`, `net-interest`, `offsetting`, or `mixed`. |
 | `legal_status_today` | string | Yes | `general-fund`, `dedicated`, `mixed`, `modeled`, or `non-tax-context`. |
-| `allocation_method_allowed` | string list | Yes | Allowed public allocation methods. |
+| `allocation_method_allowed` | string list | Yes | Allowed public allocation or display methods. |
 | `deficit_context_required` | boolean | Yes | Whether public display must show borrowing/deficit context. |
 | `review_status` | string | Yes | `draft`, `source-reviewed`, `budget-reviewed`, `approved`, or `retired`. |
 | `notes` | string | No | Crosswalk caveat. |
@@ -180,6 +180,19 @@ Before marking records `reviewed`, check:
 9. Every public allocation using outlays shows deficit context or links to a
    record explaining why deficit context is not applicable.
 
+## Lane crosswalk method values
+
+Use these initial `allocation_method_allowed` values:
+
+| Value | Meaning |
+|---|---|
+| `proportional_outlay_share` | A visibility model may allocate ordinary individual income-tax receipts by the lane's share of outlays. |
+| `deficit_inclusive_context` | Public display must show borrowed-share or deficit-gap context beside the lane. |
+| `display_separately` | The lane is shown as context or an offset rather than allocated as a program-service lane. |
+
+These method values do not prove legal dedication. They only describe how a
+public visibility model may use the crosswalk.
+
 ## Public wording rules
 
 | Data condition | Public wording |
@@ -194,8 +207,8 @@ Before marking records `reviewed`, check:
 
 ## Open questions
 
-- Whether the first public lane model should follow OMB functions exactly or use
-  a smaller reader-facing lane set with documented rollups.
+- Whether later public receipt views should roll up the function-aligned
+  crosswalk into a smaller reader-facing lane set.
 - Whether USAspending query snapshots belong in a later `program_account`
   record family.
 - Whether deficit allocation should be a lane, a display companion, or both.

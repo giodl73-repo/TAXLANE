@@ -17,5 +17,6 @@ allocation labels, and review status are documented.
 
 | Directory | Model | Status |
 |---|---|---|
+| `lane_crosswalk/` | Draft mapping from OMB Table 3.1 functions and Table 3.2 subfunctions to TAXLANE public-purpose lane IDs. | Draft; method note documented. |
 | `income_tax_outlay_model/` | Yearly individual income-tax receipts allocated across broad OMB outlay categories by proportional outlay share, with decade summaries derived from annual rows. | Draft; method and source profile documented. |
 | `income_tax_outlay_subfunction_model/` | Yearly individual income-tax receipts allocated across OMB Table 3.2 subfunctions by proportional outlay share. | Draft; method and source profile documented. |
