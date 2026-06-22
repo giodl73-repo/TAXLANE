@@ -8,6 +8,7 @@ Work is organized into small waves and pulses.
 
 ## Completed waves
 
+- `2026-06-21-decade-income-tax-outlay-summary`
 - `2026-06-21-yearly-income-tax-outlay-model`
 - `2026-06-21-table-2-4-milestone-years`
 - `2026-06-21-table-2-4-subcomponent-extraction`

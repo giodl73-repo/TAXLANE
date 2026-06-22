@@ -96,3 +96,11 @@ The generator checks:
 Use "modeled allocation" or "if allocated by outlay share." Do not write that
 income-tax dollars paid for a category unless a separate legal-dedication source
 supports that claim.
+
+## Derived Summaries
+
+`build_decade_summary.py` reads the annual draft JSONL and emits decade-level
+summary rows. A decade category percentage is cumulative modeled category
+allocation divided by cumulative individual income-tax receipts for the years in
+that decade. The 2020s summary is partial because the actual-year model ends in
+2025.
