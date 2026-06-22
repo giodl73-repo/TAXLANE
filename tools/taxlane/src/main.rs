@@ -270,6 +270,20 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "docs/reading/modeled-income-tax-subfunction-outlays.md",
+        role: "Reader-facing subfunction drilldown packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-06-22-subfunction-reader-role-review.md",
+        role: "Subfunction reader role review",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "docs/charts/README.md",
         role: "Chart catalog",
         grain: "documentation",
