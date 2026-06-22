@@ -36,15 +36,20 @@ The proof slice keeps subfunction totals for `051`, `053`, and `054`, plus the
 parent `050 National Defense` total. It excludes lower component rows under
 `051` until the full Table 3.2 hierarchy is represented.
 
-## Planned Output
-
-Use JSONL draft records named by source and observed date:
+The current full Table 3.2 draft emits function, subfunction, and total-outlays
+records for actual fiscal years, 1962-2025:
 
 ```text
 outlay_function.SRC-OMB-HIST-3-2-FY2027.2026-06-21.draft.jsonl
+table-3-2-profile.md
 ```
 
-Rows must follow `docs/data/outlays-lanes-schema.md`.
+The full Table 3.2 draft emits three-digit coded subfunction rows, explicit
+parent `Total, ...` rows, and `Total outlays`. It excludes TQ, FY2026-FY2031
+estimates, lower component rows without OMB subfunction codes, and parenthetical
+on/off-budget splits.
+
+Rows follow `docs/data/outlays-lanes-schema.md`.
 
 ## Review Gates
 

@@ -40,6 +40,10 @@ const OUTLAY_FUNCTION_3_1_PROFILE_PATH: &str =
 const OUTLAY_FUNCTION_3_2_NATIONAL_DEFENSE_JSONL_PATH: &str = "data/extracted/outlay_function/outlay_function.SRC-OMB-HIST-3-2-FY2027.2026-06-21.national-defense.draft.jsonl";
 const OUTLAY_FUNCTION_3_2_NATIONAL_DEFENSE_PROFILE_PATH: &str =
     "data/extracted/outlay_function/table-3-2-national-defense-profile.md";
+const OUTLAY_FUNCTION_3_2_JSONL_PATH: &str =
+    "data/extracted/outlay_function/outlay_function.SRC-OMB-HIST-3-2-FY2027.2026-06-21.draft.jsonl";
+const OUTLAY_FUNCTION_3_2_PROFILE_PATH: &str =
+    "data/extracted/outlay_function/table-3-2-profile.md";
 const SOURCE_IDS: &[&str] = &[
     "SRC-OMB-HIST-1-1-FY2027",
     "SRC-OMB-HIST-2-1-FY2027",
@@ -314,9 +318,17 @@ fn main() -> ExitCode {
         [area, command] if area == "outlay-function" && command == "table-3-2-national-defense" => {
             run_table_3_2_national_defense_write()
         }
+        [area, command, flag]
+            if area == "outlay-function" && command == "table-3-2" && flag == "--check" =>
+        {
+            run_table_3_2_check()
+        }
+        [area, command] if area == "outlay-function" && command == "table-3-2" => {
+            run_table_3_2_write()
+        }
         _ => {
             eprintln!(
-                "usage: taxlane-tools income-tax-outlay <validate|model [--check]|summary [--check]|export [--check]|manifest [--check]>\n       taxlane-tools receipt-source table-2-2 [--check]\n       taxlane-tools outlay-function table-3-1 [--check]\n       taxlane-tools outlay-function table-3-2-national-defense [--check]"
+                "usage: taxlane-tools income-tax-outlay <validate|model [--check]|summary [--check]|export [--check]|manifest [--check]>\n       taxlane-tools receipt-source table-2-2 [--check]\n       taxlane-tools outlay-function table-3-1 [--check]\n       taxlane-tools outlay-function table-3-2-national-defense [--check]\n       taxlane-tools outlay-function table-3-2 [--check]"
             );
             ExitCode::from(2)
         }
@@ -611,6 +623,40 @@ fn run_table_3_2_national_defense_write() -> ExitCode {
     }
 }
 
+fn run_table_3_2_check() -> ExitCode {
+    let root = match repo_root() {
+        Ok(root) => root,
+        Err(err) => {
+            eprintln!("{err}");
+            return ExitCode::from(1);
+        }
+    };
+    match build_outlay_function_table_3_2(&root, true) {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(err) => {
+            eprintln!("{err}");
+            ExitCode::from(1)
+        }
+    }
+}
+
+fn run_table_3_2_write() -> ExitCode {
+    let root = match repo_root() {
+        Ok(root) => root,
+        Err(err) => {
+            eprintln!("{err}");
+            return ExitCode::from(1);
+        }
+    };
+    match build_outlay_function_table_3_2(&root, false) {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(err) => {
+            eprintln!("{err}");
+            ExitCode::from(1)
+        }
+    }
+}
+
 fn repo_root() -> Result<PathBuf, String> {
     env::current_dir().map_err(|err| format!("failed to get current directory: {err}"))
 }
@@ -741,6 +787,41 @@ fn build_outlay_function_table_3_2_national_defense(
 
     println!(
         "validated {} Table 3.2 National Defense rows for {}-{}",
+        rows.len(),
+        profile.first_year,
+        profile.last_year
+    );
+    Ok(())
+}
+
+fn build_outlay_function_table_3_2(root: &Path, check_only: bool) -> Result<(), String> {
+    let (rows, profile) = build_table_3_2_rows(root)?;
+    validate_table_3_2_rows(&profile)?;
+    let jsonl = table_3_2_jsonl(&rows);
+    let markdown = table_3_2_profile_markdown(&profile);
+
+    if check_only {
+        compare_text(
+            root,
+            OUTLAY_FUNCTION_3_2_JSONL_PATH,
+            &jsonl,
+            "Table 3.2 JSONL",
+        )?;
+        compare_text(
+            root,
+            OUTLAY_FUNCTION_3_2_PROFILE_PATH,
+            &markdown,
+            "Table 3.2 profile",
+        )?;
+    } else {
+        fs::write(root.join(OUTLAY_FUNCTION_3_2_JSONL_PATH), jsonl)
+            .map_err(|err| format!("failed to write {OUTLAY_FUNCTION_3_2_JSONL_PATH}: {err}"))?;
+        fs::write(root.join(OUTLAY_FUNCTION_3_2_PROFILE_PATH), markdown)
+            .map_err(|err| format!("failed to write {OUTLAY_FUNCTION_3_2_PROFILE_PATH}: {err}"))?;
+    }
+
+    println!(
+        "validated {} Table 3.2 rows for {}-{}",
         rows.len(),
         profile.first_year,
         profile.last_year
@@ -916,6 +997,69 @@ struct Table32NationalDefenseProfile {
     year_count: usize,
     record_count: usize,
     checks: Vec<Table32NationalDefenseCheck>,
+}
+
+#[derive(Clone)]
+enum Table32LineKind {
+    Subfunction,
+    FunctionTotal,
+    GrandTotal,
+}
+
+#[derive(Clone)]
+struct Table32Line {
+    source_row: i64,
+    function_code: String,
+    function_label: String,
+    subfunction_code: Option<String>,
+    subfunction_label: Option<String>,
+    source_label: String,
+    kind: Table32LineKind,
+}
+
+#[derive(Clone)]
+struct Table32Row {
+    fiscal_year: i64,
+    source_column: String,
+    source_row: i64,
+    function_code: String,
+    function_label: String,
+    subfunction_code: Option<String>,
+    subfunction_label: Option<String>,
+    source_label: String,
+    amount: f64,
+    kind: Table32LineKind,
+}
+
+struct Table32FunctionCheck {
+    year: i64,
+    function_code: String,
+    function_label: String,
+    function_total: f64,
+    subfunction_total: f64,
+    difference: f64,
+}
+
+struct Table32GrandCheck {
+    year: i64,
+    table_3_1_total_outlays: f64,
+    table_3_2_total_outlays: f64,
+    function_total_sum: f64,
+    table_3_1_difference: f64,
+    function_total_difference: f64,
+}
+
+struct Table32Profile {
+    first_year: i64,
+    last_year: i64,
+    year_count: usize,
+    record_count: usize,
+    line_count: usize,
+    subfunction_line_count: usize,
+    function_total_line_count: usize,
+    function_count: usize,
+    grand_checks: Vec<Table32GrandCheck>,
+    function_checks: Vec<Table32FunctionCheck>,
 }
 
 fn build_receipt_share_rows(root: &Path) -> Result<Vec<ReceiptShareRow>, String> {
@@ -1477,6 +1621,454 @@ fn table_3_2_national_defense_profile_markdown(profile: &Table32NationalDefenseP
         "- This is a proof slice for function `050 National Defense`, not the full Table 3.2 extraction.".to_string(),
         "- Rows 6-12 are lower component rows inside subfunction `051`; this proof emits row 13 as the subfunction total instead.".to_string(),
         "- Parent total row 16 is emitted with `subfunction_code = null` so it can reconcile to Table 3.1.".to_string(),
+        "- No public lane allocation should use these draft rows.".to_string(),
+        String::new(),
+    ]);
+    lines.join("\n")
+}
+
+fn build_table_3_2_rows(root: &Path) -> Result<(Vec<Table32Row>, Table32Profile), String> {
+    let sheet_31 = read_sheet(&root.join(TABLE_3_1_PATH))?;
+    let (_, t31) = parse_table_3_1(&sheet_31)?;
+    let sheet_32 = read_sheet(&root.join(TABLE_3_2_PATH))?;
+    let columns_by_year = table_3_2_year_columns(&sheet_32)?;
+    let lines = parse_table_3_2_lines(&sheet_32)?;
+    let years: Vec<i64> = columns_by_year
+        .keys()
+        .copied()
+        .filter(|year| (1962..=2025).contains(year))
+        .collect();
+
+    let mut rows = Vec::new();
+    let mut errors = Vec::new();
+    let mut grand_checks = Vec::new();
+    let mut function_checks = Vec::new();
+
+    for year in &years {
+        let Some(column) = columns_by_year.get(year) else {
+            errors.push(format!("{year}: missing Table 3.2 source column"));
+            continue;
+        };
+        let Some(table_3_1_total_outlays) = t31
+            .get("total-federal-outlays")
+            .and_then(|values| values.get(year))
+            .copied()
+        else {
+            errors.push(format!("{year}: missing Table 3.1 total outlays"));
+            continue;
+        };
+
+        let mut subfunction_totals: BTreeMap<String, f64> = BTreeMap::new();
+        let mut explicit_function_totals: BTreeMap<String, (String, f64)> = BTreeMap::new();
+        let mut table_3_2_total_outlays = None;
+
+        for line in &lines {
+            let Some(amount) = table_3_2_optional_number(&sheet_32, line.source_row, column) else {
+                continue;
+            };
+            match line.kind {
+                Table32LineKind::Subfunction => {
+                    *subfunction_totals
+                        .entry(line.function_code.clone())
+                        .or_insert(0.0) += amount;
+                }
+                Table32LineKind::FunctionTotal => {
+                    explicit_function_totals.insert(
+                        line.function_code.clone(),
+                        (line.function_label.clone(), amount),
+                    );
+                }
+                Table32LineKind::GrandTotal => {
+                    table_3_2_total_outlays = Some(amount);
+                }
+            }
+            rows.push(Table32Row {
+                fiscal_year: *year,
+                source_column: column.clone(),
+                source_row: line.source_row,
+                function_code: line.function_code.clone(),
+                function_label: line.function_label.clone(),
+                subfunction_code: line.subfunction_code.clone(),
+                subfunction_label: line.subfunction_label.clone(),
+                source_label: line.source_label.clone(),
+                amount: round6(amount),
+                kind: line.kind.clone(),
+            });
+        }
+
+        let Some(table_3_2_total_outlays) = table_3_2_total_outlays else {
+            errors.push(format!("{year}: missing Table 3.2 total outlays"));
+            continue;
+        };
+        let mut function_total_sum = 0.0;
+        for (function_code, subfunction_total) in &subfunction_totals {
+            if let Some((function_label, function_total)) =
+                explicit_function_totals.get(function_code)
+            {
+                let difference = subfunction_total - function_total;
+                if difference.abs() > 2.0 {
+                    errors.push(format!(
+                        "{year}: Table 3.2 function {function_code} subfunctions {subfunction_total} do not reconcile to total {function_total}"
+                    ));
+                }
+                function_total_sum += function_total;
+                function_checks.push(Table32FunctionCheck {
+                    year: *year,
+                    function_code: function_code.clone(),
+                    function_label: function_label.clone(),
+                    function_total: *function_total,
+                    subfunction_total: *subfunction_total,
+                    difference,
+                });
+            } else {
+                function_total_sum += subfunction_total;
+            }
+        }
+        let table_3_1_difference = table_3_2_total_outlays - table_3_1_total_outlays;
+        let function_total_difference = function_total_sum - table_3_2_total_outlays;
+        if table_3_1_difference.abs() > 0.5 {
+            errors.push(format!(
+                "{year}: Table 3.2 total {table_3_2_total_outlays} does not reconcile to Table 3.1 total {table_3_1_total_outlays}"
+            ));
+        }
+        if function_total_difference.abs() > 5.0 {
+            errors.push(format!(
+                "{year}: Table 3.2 function totals {function_total_sum} do not reconcile to total outlays {table_3_2_total_outlays}"
+            ));
+        }
+        grand_checks.push(Table32GrandCheck {
+            year: *year,
+            table_3_1_total_outlays,
+            table_3_2_total_outlays,
+            function_total_sum,
+            table_3_1_difference,
+            function_total_difference,
+        });
+    }
+
+    if !errors.is_empty() {
+        return Err(errors.join("\n"));
+    }
+
+    let first_year = *years
+        .first()
+        .ok_or_else(|| "no Table 3.2 years".to_string())?;
+    let last_year = *years
+        .last()
+        .ok_or_else(|| "no Table 3.2 years".to_string())?;
+    let subfunction_line_count = lines
+        .iter()
+        .filter(|line| matches!(line.kind, Table32LineKind::Subfunction))
+        .count();
+    let function_total_line_count = lines
+        .iter()
+        .filter(|line| matches!(line.kind, Table32LineKind::FunctionTotal))
+        .count();
+    let function_count = lines
+        .iter()
+        .filter(|line| !matches!(line.kind, Table32LineKind::GrandTotal))
+        .map(|line| line.function_code.clone())
+        .collect::<std::collections::BTreeSet<_>>()
+        .len();
+    let profile = Table32Profile {
+        first_year,
+        last_year,
+        year_count: years.len(),
+        record_count: rows.len(),
+        line_count: lines.len(),
+        subfunction_line_count,
+        function_total_line_count,
+        function_count,
+        grand_checks,
+        function_checks,
+    };
+    Ok((rows, profile))
+}
+
+fn parse_table_3_2_lines(
+    sheet: &BTreeMap<i64, BTreeMap<String, CellValue>>,
+) -> Result<Vec<Table32Line>, String> {
+    let mut lines = Vec::new();
+    let mut current_function: Option<(String, String)> = None;
+    for (row_num, cells) in sheet {
+        if *row_num < 4 {
+            continue;
+        }
+        let Some(label) = text_cell(cells.get("A")) else {
+            continue;
+        };
+        if let Some((code, function_label)) = parse_table_3_2_function_header(&label) {
+            if is_table_3_2_function_code(&code) {
+                current_function = Some((code, function_label));
+            }
+            continue;
+        }
+        if label.starts_with('(')
+            || label == "On-budget unless otherwise stated"
+            || label == "N/A = Not available"
+        {
+            continue;
+        }
+        if label == "Total outlays" {
+            lines.push(Table32Line {
+                source_row: *row_num,
+                function_code: "total-federal-outlays".to_string(),
+                function_label: "Total outlays".to_string(),
+                subfunction_code: None,
+                subfunction_label: None,
+                source_label: label,
+                kind: Table32LineKind::GrandTotal,
+            });
+            continue;
+        }
+        if let Some(total_label) = label.strip_prefix("Total, ") {
+            let Some((function_code, function_label)) = current_function.clone() else {
+                return Err(format!("Table 3.2 row {row_num} total without function"));
+            };
+            if total_label != function_label {
+                return Err(format!(
+                    "Table 3.2 row {row_num} total {total_label:?} does not match current function {function_label:?}"
+                ));
+            }
+            lines.push(Table32Line {
+                source_row: *row_num,
+                function_code,
+                function_label,
+                subfunction_code: None,
+                subfunction_label: None,
+                source_label: label,
+                kind: Table32LineKind::FunctionTotal,
+            });
+            continue;
+        }
+        if let Some((subfunction_code, mut subfunction_label)) = parse_table_3_2_coded_label(&label)
+        {
+            let Some((function_code, function_label)) = current_function.clone() else {
+                return Err(format!(
+                    "Table 3.2 row {row_num} subfunction without function"
+                ));
+            };
+            if let Some(subtotal_label) = subfunction_label.strip_prefix("Subtotal, ") {
+                subfunction_label = subtotal_label.to_string();
+            }
+            lines.push(Table32Line {
+                source_row: *row_num,
+                function_code,
+                function_label,
+                subfunction_code: Some(subfunction_code),
+                subfunction_label: Some(subfunction_label),
+                source_label: label,
+                kind: Table32LineKind::Subfunction,
+            });
+        }
+    }
+    Ok(lines)
+}
+
+fn parse_table_3_2_function_header(label: &str) -> Option<(String, String)> {
+    let label = label.strip_suffix(':')?;
+    parse_table_3_2_coded_label(label)
+}
+
+fn is_table_3_2_function_code(code: &str) -> bool {
+    matches!(
+        code,
+        "050"
+            | "150"
+            | "250"
+            | "270"
+            | "300"
+            | "350"
+            | "370"
+            | "400"
+            | "450"
+            | "500"
+            | "550"
+            | "570"
+            | "600"
+            | "650"
+            | "700"
+            | "750"
+            | "800"
+            | "900"
+            | "920"
+            | "950"
+    )
+}
+
+fn parse_table_3_2_coded_label(label: &str) -> Option<(String, String)> {
+    let (code, rest) = label.split_once(' ')?;
+    if code.len() == 3 && code.chars().all(|char| char.is_ascii_digit()) {
+        Some((code.to_string(), rest.trim().to_string()))
+    } else {
+        None
+    }
+}
+
+fn table_3_2_optional_number(
+    sheet: &BTreeMap<i64, BTreeMap<String, CellValue>>,
+    row_num: i64,
+    column: &str,
+) -> Option<f64> {
+    sheet
+        .get(&row_num)
+        .and_then(|row| number_cell(row.get(column)))
+}
+
+fn validate_table_3_2_rows(profile: &Table32Profile) -> Result<(), String> {
+    for check in &profile.grand_checks {
+        if check.table_3_1_difference.abs() > 0.5 {
+            return Err(format!(
+                "{}: Table 3.2/Table 3.1 total difference {}",
+                check.year, check.table_3_1_difference
+            ));
+        }
+        if check.function_total_difference.abs() > 5.0 {
+            return Err(format!(
+                "{}: Table 3.2 function total difference {}",
+                check.year, check.function_total_difference
+            ));
+        }
+    }
+    for check in &profile.function_checks {
+        if check.difference.abs() > 2.0 {
+            return Err(format!(
+                "{} {}: Table 3.2 function difference {}",
+                check.year, check.function_code, check.difference
+            ));
+        }
+    }
+    Ok(())
+}
+
+fn table_3_2_jsonl(rows: &[Table32Row]) -> String {
+    let mut lines = Vec::new();
+    for row in rows {
+        let subfunction_id = row.subfunction_code.as_deref().unwrap_or("total");
+        lines.push(format!(
+            "{{\"record_id\":{},\"record_family\":\"outlay_function\",\"fiscal_year\":{},\"year_basis\":\"fiscal_year\",\"source_ids\":[\"SRC-OMB-HIST-3-2-FY2027\"],\"source_table\":{},\"source_row_ref\":{},\"superfunction\":null,\"function_code\":{},\"function_label\":{},\"subfunction_code\":{},\"subfunction_label\":{},\"measure\":\"outlays\",\"amount\":{},\"percent\":null,\"amount_units\":\"millions_usd\",\"actual_or_projection\":\"actual\",\"offsetting_treatment\":{},\"status\":\"draft-extracted\",\"observed_date\":{},\"notes\":{}}}",
+            json_string(&format!(
+                "outlay-function:{}:{}:{}:outlays",
+                row.fiscal_year, row.function_code, subfunction_id
+            )),
+            row.fiscal_year,
+            json_string("OMB Historical Table 3.2 FY2027"),
+            json_string(&format!(
+                "Table!A{}:{}{}; {}",
+                row.source_row, row.source_column, row.source_row, row.source_label
+            )),
+            json_string(&row.function_code),
+            json_string(&row.function_label),
+            json_owned_option_string(row.subfunction_code.as_ref()),
+            json_owned_option_string(row.subfunction_label.as_ref()),
+            json_amount(row.amount),
+            json_string(table_3_2_offsetting_treatment(row)),
+            json_string(OBSERVED_DATE),
+            json_string(table_3_2_notes(row)),
+        ));
+    }
+    lines.join("\n") + "\n"
+}
+
+fn table_3_2_offsetting_treatment(row: &Table32Row) -> &'static str {
+    if row.function_code == "950" {
+        "undistributed-offsetting-receipts"
+    } else if row.subfunction_code.as_deref() == Some("809") {
+        "offsetting-receipts"
+    } else {
+        "net"
+    }
+}
+
+fn table_3_2_notes(row: &Table32Row) -> &'static str {
+    match row.kind {
+        Table32LineKind::Subfunction => {
+            "Table 3.2 subfunction row; lower component rows and parenthetical on/off-budget splits are not emitted."
+        }
+        Table32LineKind::FunctionTotal => {
+            "Table 3.2 parent function total used for subfunction reconciliation."
+        }
+        Table32LineKind::GrandTotal => {
+            "Table 3.2 total outlays reconciled to OMB Historical Table 3.1 total outlays."
+        }
+    }
+}
+
+fn table_3_2_profile_markdown(profile: &Table32Profile) -> String {
+    let sample_years = [1962, 1970, 1980, 2000, 2025];
+    let mut lines = vec![
+        "# Table 3.2 Outlay Function Profile".to_string(),
+        String::new(),
+        "## Source Coverage".to_string(),
+        String::new(),
+        "- Outlay source: `SRC-OMB-HIST-3-2-FY2027`".to_string(),
+        "- Reconciliation source: `SRC-OMB-HIST-3-1-FY2027`".to_string(),
+        format!(
+            "- Fiscal years emitted: {}-{}",
+            profile.first_year, profile.last_year
+        ),
+        format!("- Year count: {}", profile.year_count),
+        format!("- Record count: {}", profile.record_count),
+        format!("- Source lines emitted: {}", profile.line_count),
+        format!("- Function count: {}", profile.function_count),
+        format!("- Subfunction lines: {}", profile.subfunction_line_count),
+        format!(
+            "- Explicit function-total lines: {}",
+            profile.function_total_line_count
+        ),
+        "- Actual/projection treatment: actual years only; TQ and FY2026-FY2031 estimates are excluded.".to_string(),
+        String::new(),
+        "## Reconciliation Sample".to_string(),
+        String::new(),
+        "Amounts are in millions of dollars. Function total sum uses explicit parent totals when Table 3.2 provides them, otherwise the emitted subfunction total.".to_string(),
+        String::new(),
+        "| Fiscal year | Table 3.1 total outlays | Table 3.2 total outlays | Function total sum | Table 3.1 diff | Function total diff |".to_string(),
+        "|---:|---:|---:|---:|---:|---:|".to_string(),
+    ];
+    for check in profile
+        .grand_checks
+        .iter()
+        .filter(|check| sample_years.contains(&check.year))
+    {
+        lines.push(format!(
+            "| {} | {} | {} | {} | {} | {} |",
+            check.year,
+            comma_number(check.table_3_1_total_outlays, 0),
+            comma_number(check.table_3_2_total_outlays, 0),
+            comma_number(check.function_total_sum, 0),
+            comma_number(check.table_3_1_difference, 0),
+            comma_number(check.function_total_difference, 0),
+        ));
+    }
+    if let Some(check) = profile.function_checks.iter().max_by(|left, right| {
+        left.difference
+            .abs()
+            .partial_cmp(&right.difference.abs())
+            .unwrap_or(std::cmp::Ordering::Equal)
+    }) {
+        lines.extend([
+            String::new(),
+            "## Function Reconciliation Note".to_string(),
+            String::new(),
+            format!(
+                "Largest displayed-source function subtotal difference: FY{} `{}` {} has subfunction total {} versus parent total {}, difference {}.",
+                check.year,
+                check.function_code,
+                check.function_label,
+                comma_number(check.subfunction_total, 0),
+                comma_number(check.function_total, 0),
+                comma_number(check.difference, 0),
+            ),
+        ]);
+    }
+    lines.extend([
+        String::new(),
+        "## Extraction Decisions".to_string(),
+        String::new(),
+        "- Emit three-digit coded subfunction rows and explicit parent `Total, ...` rows.".to_string(),
+        "- Emit `Total outlays` as a grand-total record for annual reconciliation.".to_string(),
+        "- Skip lower component rows without OMB subfunction codes, including parenthetical on/off-budget splits.".to_string(),
+        "- Keep TQ and FY2026-FY2031 estimate columns out of this actual-year draft.".to_string(),
         "- No public lane allocation should use these draft rows.".to_string(),
         String::new(),
     ]);
@@ -2929,6 +3521,10 @@ fn json_string(value: &str) -> String {
 
 fn json_option_string(value: Option<&str>) -> String {
     value.map_or_else(|| "null".to_string(), json_string)
+}
+
+fn json_owned_option_string(value: Option<&String>) -> String {
+    value.map_or_else(|| "null".to_string(), |value| json_string(value))
 }
 
 fn check_manifest(root: &Path) -> Result<(), String> {
