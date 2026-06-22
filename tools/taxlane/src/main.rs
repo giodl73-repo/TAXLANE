@@ -29,6 +29,7 @@ const TABLE_1_1_PATH: &str = "data/raw/omb/SRC-OMB-HIST-1-1-FY2027/2026-06-21/hi
 const TABLE_2_1_PATH: &str = "data/raw/omb/SRC-OMB-HIST-2-1-FY2027/2026-06-21/hist02z1_fy2027.xlsx";
 const TABLE_2_2_PATH: &str = "data/raw/omb/SRC-OMB-HIST-2-2-FY2027/2026-06-21/hist02z2_fy2027.xlsx";
 const TABLE_3_1_PATH: &str = "data/raw/omb/SRC-OMB-HIST-3-1-FY2027/2026-06-21/hist03z1_fy2027.xlsx";
+const TABLE_3_2_PATH: &str = "data/raw/omb/SRC-OMB-HIST-3-2-FY2027/2026-06-21/hist03z2_fy2027.xlsx";
 const RECEIPT_SHARE_JSONL_PATH: &str =
     "data/extracted/receipt_source/receipt_source.SRC-OMB-HIST-2-2-FY2027.2026-06-21.draft.jsonl";
 const RECEIPT_SHARE_PROFILE_PATH: &str = "data/extracted/receipt_source/table-2-2-profile.md";
@@ -36,6 +37,9 @@ const OUTLAY_FUNCTION_3_1_JSONL_PATH: &str =
     "data/extracted/outlay_function/outlay_function.SRC-OMB-HIST-3-1-FY2027.2026-06-21.draft.jsonl";
 const OUTLAY_FUNCTION_3_1_PROFILE_PATH: &str =
     "data/extracted/outlay_function/table-3-1-profile.md";
+const OUTLAY_FUNCTION_3_2_NATIONAL_DEFENSE_JSONL_PATH: &str = "data/extracted/outlay_function/outlay_function.SRC-OMB-HIST-3-2-FY2027.2026-06-21.national-defense.draft.jsonl";
+const OUTLAY_FUNCTION_3_2_NATIONAL_DEFENSE_PROFILE_PATH: &str =
+    "data/extracted/outlay_function/table-3-2-national-defense-profile.md";
 const SOURCE_IDS: &[&str] = &[
     "SRC-OMB-HIST-1-1-FY2027",
     "SRC-OMB-HIST-2-1-FY2027",
@@ -300,9 +304,19 @@ fn main() -> ExitCode {
         [area, command] if area == "outlay-function" && command == "table-3-1" => {
             run_table_3_1_write()
         }
+        [area, command, flag]
+            if area == "outlay-function"
+                && command == "table-3-2-national-defense"
+                && flag == "--check" =>
+        {
+            run_table_3_2_national_defense_check()
+        }
+        [area, command] if area == "outlay-function" && command == "table-3-2-national-defense" => {
+            run_table_3_2_national_defense_write()
+        }
         _ => {
             eprintln!(
-                "usage: taxlane-tools income-tax-outlay <validate|model [--check]|summary [--check]|export [--check]|manifest [--check]>\n       taxlane-tools receipt-source table-2-2 [--check]\n       taxlane-tools outlay-function table-3-1 [--check]"
+                "usage: taxlane-tools income-tax-outlay <validate|model [--check]|summary [--check]|export [--check]|manifest [--check]>\n       taxlane-tools receipt-source table-2-2 [--check]\n       taxlane-tools outlay-function table-3-1 [--check]\n       taxlane-tools outlay-function table-3-2-national-defense [--check]"
             );
             ExitCode::from(2)
         }
@@ -563,6 +577,40 @@ fn run_table_3_1_write() -> ExitCode {
     }
 }
 
+fn run_table_3_2_national_defense_check() -> ExitCode {
+    let root = match repo_root() {
+        Ok(root) => root,
+        Err(err) => {
+            eprintln!("{err}");
+            return ExitCode::from(1);
+        }
+    };
+    match build_outlay_function_table_3_2_national_defense(&root, true) {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(err) => {
+            eprintln!("{err}");
+            ExitCode::from(1)
+        }
+    }
+}
+
+fn run_table_3_2_national_defense_write() -> ExitCode {
+    let root = match repo_root() {
+        Ok(root) => root,
+        Err(err) => {
+            eprintln!("{err}");
+            return ExitCode::from(1);
+        }
+    };
+    match build_outlay_function_table_3_2_national_defense(&root, false) {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(err) => {
+            eprintln!("{err}");
+            ExitCode::from(1)
+        }
+    }
+}
+
 fn repo_root() -> Result<PathBuf, String> {
     env::current_dir().map_err(|err| format!("failed to get current directory: {err}"))
 }
@@ -645,6 +693,54 @@ fn build_outlay_function_table_3_1(root: &Path, check_only: bool) -> Result<(), 
 
     println!(
         "validated {} Table 3.1 outlay function rows for {}-{}",
+        rows.len(),
+        profile.first_year,
+        profile.last_year
+    );
+    Ok(())
+}
+
+fn build_outlay_function_table_3_2_national_defense(
+    root: &Path,
+    check_only: bool,
+) -> Result<(), String> {
+    let (rows, profile) = build_table_3_2_national_defense_rows(root)?;
+    validate_table_3_2_national_defense_rows(&rows, &profile)?;
+    let jsonl = table_3_2_national_defense_jsonl(&rows);
+    let markdown = table_3_2_national_defense_profile_markdown(&profile);
+
+    if check_only {
+        compare_text(
+            root,
+            OUTLAY_FUNCTION_3_2_NATIONAL_DEFENSE_JSONL_PATH,
+            &jsonl,
+            "Table 3.2 National Defense JSONL",
+        )?;
+        compare_text(
+            root,
+            OUTLAY_FUNCTION_3_2_NATIONAL_DEFENSE_PROFILE_PATH,
+            &markdown,
+            "Table 3.2 National Defense profile",
+        )?;
+    } else {
+        fs::write(
+            root.join(OUTLAY_FUNCTION_3_2_NATIONAL_DEFENSE_JSONL_PATH),
+            jsonl,
+        )
+        .map_err(|err| {
+            format!("failed to write {OUTLAY_FUNCTION_3_2_NATIONAL_DEFENSE_JSONL_PATH}: {err}")
+        })?;
+        fs::write(
+            root.join(OUTLAY_FUNCTION_3_2_NATIONAL_DEFENSE_PROFILE_PATH),
+            markdown,
+        )
+        .map_err(|err| {
+            format!("failed to write {OUTLAY_FUNCTION_3_2_NATIONAL_DEFENSE_PROFILE_PATH}: {err}")
+        })?;
+    }
+
+    println!(
+        "validated {} Table 3.2 National Defense rows for {}-{}",
         rows.len(),
         profile.first_year,
         profile.last_year
@@ -749,6 +845,77 @@ struct OutlayFunctionProfile {
     year_count: usize,
     record_count: usize,
     checks: Vec<OutlayFunctionCheck>,
+}
+
+#[derive(Clone, Copy)]
+struct Table32NationalDefenseLine {
+    source_row: i64,
+    subfunction_code: Option<&'static str>,
+    subfunction_label: Option<&'static str>,
+    source_label: &'static str,
+    notes: &'static str,
+}
+
+const TABLE_3_2_NATIONAL_DEFENSE_LINES: &[Table32NationalDefenseLine] = &[
+    Table32NationalDefenseLine {
+        source_row: 13,
+        subfunction_code: Some("051"),
+        subfunction_label: Some("Department of Defense-Military"),
+        source_label: "051 Subtotal, Department of Defense-Military",
+        notes: "Subfunction total; lower component rows under 051 are not emitted in this proof slice.",
+    },
+    Table32NationalDefenseLine {
+        source_row: 14,
+        subfunction_code: Some("053"),
+        subfunction_label: Some("Atomic energy defense activities"),
+        source_label: "053 Atomic energy defense activities",
+        notes: "National Defense subfunction total from Table 3.2.",
+    },
+    Table32NationalDefenseLine {
+        source_row: 15,
+        subfunction_code: Some("054"),
+        subfunction_label: Some("Defense-related activities"),
+        source_label: "054 Defense-related activities",
+        notes: "National Defense subfunction total from Table 3.2.",
+    },
+    Table32NationalDefenseLine {
+        source_row: 16,
+        subfunction_code: None,
+        subfunction_label: None,
+        source_label: "Total, National Defense",
+        notes: "Parent function total reconciled to OMB Historical Table 3.1 National Defense.",
+    },
+];
+
+#[derive(Clone)]
+struct Table32OutlayFunctionRow {
+    fiscal_year: i64,
+    source_column: String,
+    source_row: i64,
+    function_code: &'static str,
+    function_label: &'static str,
+    subfunction_code: Option<&'static str>,
+    subfunction_label: Option<&'static str>,
+    source_label: &'static str,
+    amount: f64,
+    notes: &'static str,
+}
+
+struct Table32NationalDefenseCheck {
+    year: i64,
+    table_3_1_national_defense: f64,
+    table_3_2_national_defense: f64,
+    subfunction_total: f64,
+    table_3_1_difference: f64,
+    subfunction_difference: f64,
+}
+
+struct Table32NationalDefenseProfile {
+    first_year: i64,
+    last_year: i64,
+    year_count: usize,
+    record_count: usize,
+    checks: Vec<Table32NationalDefenseCheck>,
 }
 
 fn build_receipt_share_rows(root: &Path) -> Result<Vec<ReceiptShareRow>, String> {
@@ -1055,6 +1222,261 @@ fn outlay_function_3_1_profile_markdown(profile: &OutlayFunctionProfile) -> Stri
         "- Net interest is extracted as its own visible outlay function.".to_string(),
         "- Undistributed offsetting receipts are extracted as negative amounts with `offsetting_treatment = \"undistributed-offsetting-receipts\"`.".to_string(),
         "- Function codes are TAXLANE slugs because Table 3.1 uses labels, not OMB numeric function codes.".to_string(),
+        "- No public lane allocation should use these draft rows.".to_string(),
+        String::new(),
+    ]);
+    lines.join("\n")
+}
+
+fn build_table_3_2_national_defense_rows(
+    root: &Path,
+) -> Result<(Vec<Table32OutlayFunctionRow>, Table32NationalDefenseProfile), String> {
+    let sheet_31 = read_sheet(&root.join(TABLE_3_1_PATH))?;
+    let (_, t31) = parse_table_3_1(&sheet_31)?;
+    let sheet_32 = read_sheet(&root.join(TABLE_3_2_PATH))?;
+    let columns_by_year = table_3_2_year_columns(&sheet_32)?;
+    validate_table_3_2_national_defense_labels(&sheet_32)?;
+
+    let years: Vec<i64> = columns_by_year
+        .keys()
+        .copied()
+        .filter(|year| (1962..=2025).contains(year))
+        .collect();
+    let mut rows = Vec::new();
+    let mut checks = Vec::new();
+    let mut errors = Vec::new();
+
+    for year in &years {
+        let Some(column) = columns_by_year.get(year) else {
+            errors.push(format!("{year}: missing Table 3.2 source column"));
+            continue;
+        };
+        let Some(table_3_1_national_defense) = t31
+            .get("national-defense")
+            .and_then(|values| values.get(year))
+            .copied()
+        else {
+            errors.push(format!("{year}: missing Table 3.1 National Defense"));
+            continue;
+        };
+
+        let mut subfunction_total = 0.0;
+        let mut parent_total = None;
+        for line in TABLE_3_2_NATIONAL_DEFENSE_LINES {
+            let amount = table_3_2_number(&sheet_32, line.source_row, column)?;
+            if line.subfunction_code.is_some() {
+                subfunction_total += amount;
+            } else {
+                parent_total = Some(amount);
+            }
+            rows.push(Table32OutlayFunctionRow {
+                fiscal_year: *year,
+                source_column: column.clone(),
+                source_row: line.source_row,
+                function_code: "050",
+                function_label: "National Defense",
+                subfunction_code: line.subfunction_code,
+                subfunction_label: line.subfunction_label,
+                source_label: line.source_label,
+                amount: round6(amount),
+                notes: line.notes,
+            });
+        }
+
+        let Some(table_3_2_national_defense) = parent_total else {
+            errors.push(format!("{year}: missing Table 3.2 National Defense total"));
+            continue;
+        };
+        let table_3_1_difference = table_3_2_national_defense - table_3_1_national_defense;
+        let subfunction_difference = subfunction_total - table_3_2_national_defense;
+        if table_3_1_difference.abs() > 0.5 {
+            errors.push(format!(
+                "{year}: Table 3.2 National Defense {table_3_2_national_defense} does not reconcile to Table 3.1 {table_3_1_national_defense}"
+            ));
+        }
+        if subfunction_difference.abs() > 2.0 {
+            errors.push(format!(
+                "{year}: Table 3.2 National Defense subfunctions {subfunction_total} do not reconcile to total {table_3_2_national_defense}"
+            ));
+        }
+        checks.push(Table32NationalDefenseCheck {
+            year: *year,
+            table_3_1_national_defense,
+            table_3_2_national_defense,
+            subfunction_total,
+            table_3_1_difference,
+            subfunction_difference,
+        });
+    }
+
+    if !errors.is_empty() {
+        return Err(errors.join("\n"));
+    }
+
+    let first_year = *years
+        .first()
+        .ok_or_else(|| "no Table 3.2 National Defense years".to_string())?;
+    let last_year = *years
+        .last()
+        .ok_or_else(|| "no Table 3.2 National Defense years".to_string())?;
+    let profile = Table32NationalDefenseProfile {
+        first_year,
+        last_year,
+        year_count: years.len(),
+        record_count: rows.len(),
+        checks,
+    };
+    Ok((rows, profile))
+}
+
+fn validate_table_3_2_national_defense_rows(
+    rows: &[Table32OutlayFunctionRow],
+    profile: &Table32NationalDefenseProfile,
+) -> Result<(), String> {
+    let expected_rows = profile.year_count * TABLE_3_2_NATIONAL_DEFENSE_LINES.len();
+    if rows.len() != expected_rows {
+        return Err(format!(
+            "expected {expected_rows} Table 3.2 National Defense rows, found {}",
+            rows.len()
+        ));
+    }
+    for check in &profile.checks {
+        if check.table_3_1_difference.abs() > 0.5 {
+            return Err(format!(
+                "{}: Table 3.2/Table 3.1 National Defense difference {}",
+                check.year, check.table_3_1_difference
+            ));
+        }
+        if check.subfunction_difference.abs() > 2.0 {
+            return Err(format!(
+                "{}: National Defense subfunction difference {}",
+                check.year, check.subfunction_difference
+            ));
+        }
+    }
+    Ok(())
+}
+
+fn validate_table_3_2_national_defense_labels(
+    sheet: &BTreeMap<i64, BTreeMap<String, CellValue>>,
+) -> Result<(), String> {
+    for line in TABLE_3_2_NATIONAL_DEFENSE_LINES {
+        let label = sheet
+            .get(&line.source_row)
+            .and_then(|row| text_cell(row.get("A")))
+            .ok_or_else(|| format!("missing Table 3.2 row {} label", line.source_row))?;
+        if label != line.source_label {
+            return Err(format!(
+                "Unexpected Table 3.2 row {}: {label:?}",
+                line.source_row
+            ));
+        }
+    }
+    Ok(())
+}
+
+fn table_3_2_number(
+    sheet: &BTreeMap<i64, BTreeMap<String, CellValue>>,
+    row_num: i64,
+    column: &str,
+) -> Result<f64, String> {
+    sheet
+        .get(&row_num)
+        .and_then(|row| number_cell(row.get(column)))
+        .ok_or_else(|| format!("missing Table 3.2 amount at {column}{row_num}"))
+}
+
+fn table_3_2_national_defense_jsonl(rows: &[Table32OutlayFunctionRow]) -> String {
+    let mut lines = Vec::new();
+    for row in rows {
+        let subfunction_id = row.subfunction_code.unwrap_or("total");
+        lines.push(format!(
+            "{{\"record_id\":{},\"record_family\":\"outlay_function\",\"fiscal_year\":{},\"year_basis\":\"fiscal_year\",\"source_ids\":[\"SRC-OMB-HIST-3-2-FY2027\"],\"source_table\":{},\"source_row_ref\":{},\"superfunction\":null,\"function_code\":{},\"function_label\":{},\"subfunction_code\":{},\"subfunction_label\":{},\"measure\":\"outlays\",\"amount\":{},\"percent\":null,\"amount_units\":\"millions_usd\",\"actual_or_projection\":\"actual\",\"offsetting_treatment\":\"net\",\"status\":\"draft-extracted\",\"observed_date\":{},\"notes\":{}}}",
+            json_string(&format!(
+                "outlay-function:{}:{}:{}:outlays",
+                row.fiscal_year, row.function_code, subfunction_id
+            )),
+            row.fiscal_year,
+            json_string("OMB Historical Table 3.2 FY2027"),
+            json_string(&format!(
+                "Table!A{}:{}{}; {}",
+                row.source_row, row.source_column, row.source_row, row.source_label
+            )),
+            json_string(row.function_code),
+            json_string(row.function_label),
+            json_option_string(row.subfunction_code),
+            json_option_string(row.subfunction_label),
+            json_amount(row.amount),
+            json_string(OBSERVED_DATE),
+            json_string(row.notes),
+        ));
+    }
+    lines.join("\n") + "\n"
+}
+
+fn table_3_2_national_defense_profile_markdown(profile: &Table32NationalDefenseProfile) -> String {
+    let sample_years = [1962, 1970, 1980, 2000, 2025];
+    let mut lines = vec![
+        "# Table 3.2 National Defense Profile".to_string(),
+        String::new(),
+        "## Source Coverage".to_string(),
+        String::new(),
+        "- Outlay source: `SRC-OMB-HIST-3-2-FY2027`".to_string(),
+        "- Reconciliation source: `SRC-OMB-HIST-3-1-FY2027`".to_string(),
+        format!(
+            "- Fiscal years emitted: {}-{}",
+            profile.first_year, profile.last_year
+        ),
+        format!("- Year count: {}", profile.year_count),
+        format!("- Record count: {}", profile.record_count),
+        "- Actual/projection treatment: actual years only; TQ and FY2026-FY2031 estimates are excluded.".to_string(),
+        String::new(),
+        "## Extracted Rows".to_string(),
+        String::new(),
+        "| Function code | Subfunction code | Source label | Table 3.2 row |".to_string(),
+        "|---|---|---|---:|".to_string(),
+    ];
+    for line in TABLE_3_2_NATIONAL_DEFENSE_LINES {
+        lines.push(format!(
+            "| `050` | {} | {} | {} |",
+            line.subfunction_code
+                .map(|code| format!("`{code}`"))
+                .unwrap_or_else(|| "`null`".to_string()),
+            line.source_label,
+            line.source_row
+        ));
+    }
+    lines.extend([
+        String::new(),
+        "## Reconciliation Sample".to_string(),
+        String::new(),
+        "Amounts are in millions of dollars. Subfunction total is rows 13, 14, and 15.".to_string(),
+        String::new(),
+        "| Fiscal year | Table 3.1 National Defense | Table 3.2 National Defense | Subfunction total | Table 3.1 diff | Subfunction diff |".to_string(),
+        "|---:|---:|---:|---:|---:|---:|".to_string(),
+    ]);
+    for check in profile
+        .checks
+        .iter()
+        .filter(|check| sample_years.contains(&check.year))
+    {
+        lines.push(format!(
+            "| {} | {} | {} | {} | {} | {} |",
+            check.year,
+            comma_number(check.table_3_1_national_defense, 0),
+            comma_number(check.table_3_2_national_defense, 0),
+            comma_number(check.subfunction_total, 0),
+            comma_number(check.table_3_1_difference, 0),
+            comma_number(check.subfunction_difference, 0),
+        ));
+    }
+    lines.extend([
+        String::new(),
+        "## Extraction Decisions".to_string(),
+        String::new(),
+        "- This is a proof slice for function `050 National Defense`, not the full Table 3.2 extraction.".to_string(),
+        "- Rows 6-12 are lower component rows inside subfunction `051`; this proof emits row 13 as the subfunction total instead.".to_string(),
+        "- Parent total row 16 is emitted with `subfunction_code = null` so it can reconcile to Table 3.1.".to_string(),
         "- No public lane allocation should use these draft rows.".to_string(),
         String::new(),
     ]);
@@ -1675,6 +2097,38 @@ fn table_3_1_year_columns(
         }
     }
     Ok(columns)
+}
+
+fn table_3_2_year_columns(
+    rows: &BTreeMap<i64, BTreeMap<String, CellValue>>,
+) -> Result<BTreeMap<i64, String>, String> {
+    let header = rows
+        .get(&3)
+        .ok_or_else(|| "missing Table 3.2 header row 3".to_string())?;
+    let mut columns = BTreeMap::new();
+    for (column, value) in header {
+        let year = match value {
+            CellValue::Number(number) if number.fract() == 0.0 => Some(*number as i64),
+            CellValue::Text(text) => parse_table_3_2_year(text),
+            _ => None,
+        };
+        if let Some(year) = year {
+            columns.insert(year, column.clone());
+        }
+    }
+    Ok(columns)
+}
+
+fn parse_table_3_2_year(label: &str) -> Option<i64> {
+    let trimmed = label.trim();
+    if trimmed == "TQ" {
+        return None;
+    }
+    trimmed
+        .strip_suffix(" estimate")
+        .unwrap_or(trimmed)
+        .parse::<i64>()
+        .ok()
 }
 
 fn int_cell(value: Option<&CellValue>) -> Option<i64> {
@@ -2471,6 +2925,10 @@ fn sum_field(rows: &[&serde_json::Value], field: &str) -> Result<f64, String> {
 
 fn json_string(value: &str) -> String {
     serde_json::to_string(value).expect("serializing string should not fail")
+}
+
+fn json_option_string(value: Option<&str>) -> String {
+    value.map_or_else(|| "null".to_string(), json_string)
 }
 
 fn check_manifest(root: &Path) -> Result<(), String> {
