@@ -27,6 +27,7 @@ const DECADE_MD_PATH: &str = "data/derived/income_tax_outlay_model/decade-summar
 const SOURCE_PROFILE_PATH: &str = "data/derived/income_tax_outlay_model/source-profile.md";
 const SUBFUNCTION_MODEL_JSONL_PATH: &str = "data/derived/income_tax_outlay_subfunction_model/income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.draft.jsonl";
 const SUBFUNCTION_ANNUAL_CSV_PATH: &str = "data/derived/income_tax_outlay_subfunction_model/income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.annual-long.csv";
+const SUBFUNCTION_DECADE_CSV_PATH: &str = "data/derived/income_tax_outlay_subfunction_model/income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.decade-long.csv";
 const SUBFUNCTION_FY2025_TOP_CSV_PATH: &str = "data/derived/income_tax_outlay_subfunction_model/income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.fy2025-top-subfunctions.csv";
 const SUBFUNCTION_MODEL_PROFILE_PATH: &str =
     "data/derived/income_tax_outlay_subfunction_model/source-profile.md";
@@ -161,6 +162,25 @@ const SUBFUNCTION_TOP_HEADERS: &[&str] = &[
     "legal_allocation_status",
 ];
 
+const SUBFUNCTION_DECADE_HEADERS: &[&str] = &[
+    "decade",
+    "start_fiscal_year",
+    "end_fiscal_year",
+    "year_count",
+    "coverage_note",
+    "function_code",
+    "function_label",
+    "subfunction_code",
+    "subfunction_label",
+    "cumulative_individual_income_tax_receipts_millions",
+    "cumulative_subfunction_outlays_millions",
+    "cumulative_modeled_income_tax_allocation_millions",
+    "decade_allocation_share_percent",
+    "allocation_method",
+    "legal_allocation_status",
+    "actual_or_projection",
+];
+
 #[derive(Clone, Copy)]
 struct Artifact {
     path: &'static str,
@@ -210,6 +230,13 @@ const ARTIFACTS: &[Artifact] = &[
         path: "data/derived/income_tax_outlay_subfunction_model/income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.annual-long.csv",
         role: "Chart-ready annual subfunction long view",
         grain: "fiscal year by Table 3.2 subfunction",
+        kind: "csv",
+        canonical: "no",
+    },
+    Artifact {
+        path: "data/derived/income_tax_outlay_subfunction_model/income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.decade-long.csv",
+        role: "Chart-ready decade subfunction long view",
+        grain: "decade by Table 3.2 subfunction",
         kind: "csv",
         canonical: "no",
     },
@@ -2611,6 +2638,7 @@ fn subfunction_model_readme_markdown() -> String {
         "|---|---|",
         "| `income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.draft.jsonl` | Canonical annual modeled allocation rows by Table 3.2 subfunction. |",
         "| `income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.annual-long.csv` | Chart-ready long CSV view with one row per fiscal year and subfunction. |",
+        "| `income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.decade-long.csv` | Chart-ready decade rollup by subfunction. |",
         "| `income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.fy2025-top-subfunctions.csv` | Chart-ready FY2025 ranked view for the largest modeled subfunction allocations. |",
         "",
         "## Method",
@@ -3675,8 +3703,10 @@ fn export_chart_views(root: &Path, check_only: bool) -> Result<(), String> {
 
 fn export_subfunction_chart_views(root: &Path, check_only: bool) -> Result<(), String> {
     let annual = build_subfunction_annual_csv_rows(root)?;
+    let decade = build_subfunction_decade_csv_rows(root)?;
     let top = build_subfunction_fy2025_top_csv_rows(root, 25)?;
     validate_subfunction_csv_rows(&annual, "subfunction annual", 4691)?;
+    validate_subfunction_decade_csv_rows(&decade)?;
     validate_subfunction_csv_rows(&top, "subfunction FY2025 top", 25)?;
 
     if check_only {
@@ -3685,6 +3715,12 @@ fn export_subfunction_chart_views(root: &Path, check_only: bool) -> Result<(), S
             SUBFUNCTION_ANNUAL_CSV_PATH,
             SUBFUNCTION_ANNUAL_HEADERS,
             &annual,
+        )?;
+        compare_csv(
+            root,
+            SUBFUNCTION_DECADE_CSV_PATH,
+            SUBFUNCTION_DECADE_HEADERS,
+            &decade,
         )?;
         compare_csv(
             root,
@@ -3701,6 +3737,12 @@ fn export_subfunction_chart_views(root: &Path, check_only: bool) -> Result<(), S
         )?;
         write_csv(
             root,
+            SUBFUNCTION_DECADE_CSV_PATH,
+            SUBFUNCTION_DECADE_HEADERS,
+            &decade,
+        )?;
+        write_csv(
+            root,
             SUBFUNCTION_FY2025_TOP_CSV_PATH,
             SUBFUNCTION_TOP_HEADERS,
             &top,
@@ -3708,8 +3750,9 @@ fn export_subfunction_chart_views(root: &Path, check_only: bool) -> Result<(), S
     }
 
     println!(
-        "validated {} subfunction annual rows and {} FY2025 top rows",
+        "validated {} subfunction annual rows, {} decade rows, and {} FY2025 top rows",
         annual.len(),
+        decade.len(),
         top.len()
     );
     Ok(())
@@ -3893,6 +3936,120 @@ fn build_subfunction_annual_csv_rows(root: &Path) -> Result<Vec<BTreeMap<String,
     rows.iter().map(subfunction_annual_csv_row).collect()
 }
 
+fn build_subfunction_decade_csv_rows(root: &Path) -> Result<Vec<BTreeMap<String, String>>, String> {
+    let rows = read_jsonl(root.join(SUBFUNCTION_MODEL_JSONL_PATH))?;
+    let mut grouped: BTreeMap<String, BTreeMap<(String, String), SubfunctionDecadeRollup>> =
+        BTreeMap::new();
+    let mut decade_receipts: BTreeMap<String, BTreeMap<i64, f64>> = BTreeMap::new();
+
+    for row in &rows {
+        let year = int_field(row, "fiscal_year")?;
+        let decade = decade_label(year);
+        let income_tax = number_field(row, "individual_income_tax_receipts_amount")?;
+        decade_receipts
+            .entry(decade.clone())
+            .or_default()
+            .entry(year)
+            .or_insert(income_tax);
+
+        let function_code = string_field(row, "function_code")?;
+        let subfunction_code = string_field(row, "subfunction_code")?;
+        let rollup = grouped
+            .entry(decade)
+            .or_default()
+            .entry((function_code, subfunction_code))
+            .or_insert_with(|| SubfunctionDecadeRollup {
+                function_code: string_field(row, "function_code").unwrap_or_default(),
+                function_label: string_field(row, "function_label").unwrap_or_default(),
+                subfunction_code: string_field(row, "subfunction_code").unwrap_or_default(),
+                subfunction_label: string_field(row, "subfunction_label").unwrap_or_default(),
+                subfunction_outlays: 0.0,
+                modeled_allocation: 0.0,
+            });
+        rollup.subfunction_outlays += number_field(row, "subfunction_outlays_amount")?;
+        rollup.modeled_allocation += number_field(row, "modeled_income_tax_allocation_amount")?;
+    }
+
+    let mut output = Vec::new();
+    for (decade, mut subfunctions) in grouped {
+        let receipts_by_year = decade_receipts
+            .get(&decade)
+            .ok_or_else(|| format!("{decade}: missing receipt denominator"))?;
+        let start_year = *receipts_by_year
+            .keys()
+            .next()
+            .ok_or_else(|| format!("{decade}: no years"))?;
+        let end_year = *receipts_by_year
+            .keys()
+            .next_back()
+            .ok_or_else(|| format!("{decade}: no years"))?;
+        let year_count = receipts_by_year.len();
+        let income_tax: f64 = receipts_by_year.values().sum();
+        let coverage_note = if year_count == 10 {
+            "full_decade"
+        } else {
+            "partial_decade"
+        };
+
+        let mut rows: Vec<SubfunctionDecadeRollup> =
+            subfunctions.values_mut().map(|row| row.clone()).collect();
+        rows.sort_by(|left, right| {
+            right
+                .modeled_allocation
+                .partial_cmp(&left.modeled_allocation)
+                .unwrap_or(std::cmp::Ordering::Equal)
+                .then_with(|| left.subfunction_label.cmp(&right.subfunction_label))
+        });
+
+        for row in rows {
+            let mut output_row = BTreeMap::new();
+            output_row.insert("decade".to_string(), decade.clone());
+            output_row.insert("start_fiscal_year".to_string(), start_year.to_string());
+            output_row.insert("end_fiscal_year".to_string(), end_year.to_string());
+            output_row.insert("year_count".to_string(), year_count.to_string());
+            output_row.insert("coverage_note".to_string(), coverage_note.to_string());
+            output_row.insert("function_code".to_string(), row.function_code);
+            output_row.insert("function_label".to_string(), row.function_label);
+            output_row.insert("subfunction_code".to_string(), row.subfunction_code);
+            output_row.insert("subfunction_label".to_string(), row.subfunction_label);
+            insert_rounded_number(
+                &mut output_row,
+                "cumulative_individual_income_tax_receipts_millions",
+                income_tax,
+                6,
+            );
+            insert_rounded_number(
+                &mut output_row,
+                "cumulative_subfunction_outlays_millions",
+                row.subfunction_outlays,
+                6,
+            );
+            insert_rounded_number(
+                &mut output_row,
+                "cumulative_modeled_income_tax_allocation_millions",
+                row.modeled_allocation,
+                6,
+            );
+            insert_number(
+                &mut output_row,
+                "decade_allocation_share_percent",
+                round9(row.modeled_allocation / income_tax * 100.0),
+            );
+            output_row.insert(
+                "allocation_method".to_string(),
+                "proportional_outlay_share".to_string(),
+            );
+            output_row.insert(
+                "legal_allocation_status".to_string(),
+                "modeled_not_legal_dedication".to_string(),
+            );
+            output_row.insert("actual_or_projection".to_string(), "actual".to_string());
+            output.push(output_row);
+        }
+    }
+    Ok(output)
+}
+
 fn build_subfunction_fy2025_top_csv_rows(
     root: &Path,
     count: usize,
@@ -3913,6 +4070,16 @@ fn build_subfunction_fy2025_top_csv_rows(
         .enumerate()
         .map(|(index, row)| subfunction_top_csv_row(index + 1, row))
         .collect()
+}
+
+#[derive(Clone)]
+struct SubfunctionDecadeRollup {
+    function_code: String,
+    function_label: String,
+    subfunction_code: String,
+    subfunction_label: String,
+    subfunction_outlays: f64,
+    modeled_allocation: f64,
 }
 
 fn subfunction_annual_csv_row(row: &serde_json::Value) -> Result<BTreeMap<String, String>, String> {
@@ -4091,6 +4258,44 @@ fn validate_subfunction_csv_rows(
         }
         if row.get("allocation_method").map(String::as_str) != Some("proportional_outlay_share") {
             return Err(format!("{label}: unexpected allocation method for {row:?}"));
+        }
+    }
+    Ok(())
+}
+
+fn validate_subfunction_decade_csv_rows(rows: &[BTreeMap<String, String>]) -> Result<(), String> {
+    if rows.is_empty() {
+        return Err("subfunction decade: no rows".to_string());
+    }
+    let mut percent_sums: BTreeMap<String, f64> = BTreeMap::new();
+    for row in rows {
+        if row.get("legal_allocation_status").map(String::as_str)
+            != Some("modeled_not_legal_dedication")
+        {
+            return Err(format!(
+                "subfunction decade: missing modeled legal status for {row:?}"
+            ));
+        }
+        if row.get("allocation_method").map(String::as_str) != Some("proportional_outlay_share") {
+            return Err(format!(
+                "subfunction decade: unexpected allocation method for {row:?}"
+            ));
+        }
+        let decade = row
+            .get("decade")
+            .ok_or_else(|| "subfunction decade: missing decade".to_string())?;
+        let percent = row
+            .get("decade_allocation_share_percent")
+            .ok_or_else(|| "subfunction decade: missing percent".to_string())?
+            .parse::<f64>()
+            .map_err(|err| format!("subfunction decade: invalid percent: {err}"))?;
+        *percent_sums.entry(decade.to_string()).or_default() += percent;
+    }
+    for (decade, percent_sum) in percent_sums {
+        if (percent_sum - 100.0).abs() > 0.0001 {
+            return Err(format!(
+                "subfunction decade: {decade} percent sum {percent_sum}"
+            ));
         }
     }
     Ok(())

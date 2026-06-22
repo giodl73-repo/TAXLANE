@@ -1,0 +1,522 @@
+decade,start_fiscal_year,end_fiscal_year,year_count,coverage_note,function_code,function_label,subfunction_code,subfunction_label,cumulative_individual_income_tax_receipts_millions,cumulative_subfunction_outlays_millions,cumulative_modeled_income_tax_allocation_millions,decade_allocation_share_percent,allocation_method,legal_allocation_status,actual_or_projection
+1960s,1962,1969,8,partial_decade,050,National Defense,051,Department of Defense-Military,463595,490447,205071.488905,44.235051911,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,650,Social Security,651,Social security,463595,157804,66101.234871,14.258401163,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,900,Net Interest,901,Interest on Treasury debt securities (gross),463595,97593,40872.299411,8.81638055,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,700,Veterans Benefits and Services,701,Income security for veterans,463595,35046,14660.407171,3.162330735,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,250,"General Science, Space, and Technology",252,"Space flight, research, and supporting activities",463595,32777,13584.295523,2.930207514,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,400,Transportation,401,Ground transportation,463595,30797,12854.713265,2.772832594,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,350,Agriculture,351,Farm income stabilization,463595,28916,12196.579901,2.630869595,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,600,Income Security,602,Federal employee retirement and disability,463595,25748,10779.244672,2.325142565,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,150,International Affairs,151,International development and humanitarian assistance,463595,24612,10244.581217,2.209812707,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,600,Income Security,609,Other income security,463595,23114,9687.294538,2.089602894,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,600,Income Security,603,Unemployment compensation,463595,22490,9420.024555,2.031951284,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,570,Medicare,571,Medicare,463595,13156,5599.493401,1.207841629,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,050,National Defense,053,Atomic energy defense activities,463595,13105,5485.788047,1.183314757,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,150,International Affairs,152,International security assistance,463595,12845,5363.262491,1.156885318,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,550,Health,551,Health care services,463595,12316,5190.386301,1.11959497,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,300,Natural Resources and Environment,301,Water resources,463595,12369,5158.419154,1.11269948,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,500,"Education, Training, Employment, and Social Services",501,"Elementary, secondary, and vocational education",463595,11256,4693.989954,1.012519538,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,700,Veterans Benefits and Services,703,Hospital and medical care for veterans,463595,10465,4375.347006,0.943786496,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,550,Health,552,Health research and training,463595,8225,3443.946891,0.742878351,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,400,Transportation,402,Air transportation,463595,7785,3257.866564,0.702739797,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,370,Commerce and Housing Credit,371,Mortgage credit,463595,8162,3172.29113,0.684280704,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,370,Commerce and Housing Credit,372,Postal service,463595,6979,2904.432196,0.626502054,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,500,"Education, Training, Employment, and Social Services",506,Social services,463595,6759,2833.238759,0.611145236,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,500,"Education, Training, Employment, and Social Services",504,Training and employment,463595,6569,2743.293256,0.591743495,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,250,"General Science, Space, and Technology",251,General science and basic research,463595,6209,2589.174336,0.558499193,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,600,Income Security,601,General retirement and disability insurance (excluding social security),463595,6089,2552.931569,0.550681429,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,500,"Education, Training, Employment, and Social Services",502,Higher education,463595,6044,2518.133831,0.543175364,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,400,Transportation,403,Water transportation,463595,5777,2415.251457,0.520983069,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,800,General Government,803,Central fiscal operations,463595,5208,2176.029983,0.469381676,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,270,Energy,271,Energy supply,463595,5059,2116.62313,0.45656729,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,800,General Government,804,General property and records management,463595,4259,1774.798623,0.382833858,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,450,Community and Regional Development,452,Area and regional development,463595,3916,1637.807495,0.353284115,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,450,Community and Regional Development,451,Community development,463595,3713,1560.4649,0.336600891,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,350,Agriculture,352,Agricultural research and services,463595,3401,1420.679509,0.306448411,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,600,Income Security,605,Food and nutrition assistance,463595,3039,1275.312561,0.275091958,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,300,Natural Resources and Environment,302,Conservation and land management,463595,3029,1258.406304,0.271445185,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,370,Commerce and Housing Credit,376,Other advancement of commerce,463595,2962,1227.944849,0.264874481,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,750,Administration of Justice,751,Federal law enforcement activities,463595,2819,1180.418351,0.254622753,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,150,International Affairs,153,Conduct of foreign affairs,463595,2609,1090.14873,0.235151097,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,300,Natural Resources and Environment,306,Other natural resources,463595,2354,981.8028,0.211780282,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,800,General Government,806,General purpose fiscal assistance,463595,2265,951.563951,0.205257596,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,600,Income Security,604,Housing assistance,463595,1929,810.185293,0.174761439,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,700,Veterans Benefits and Services,702,"Veterans education, training, and rehabilitation",463595,1881,803.529608,0.173325771,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,150,International Affairs,154,Foreign information and exchange activities,463595,1792,747.360619,0.16120981,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,800,General Government,801,Legislative functions,463595,1634,683.67772,0.147473057,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,300,Natural Resources and Environment,303,Recreational resources,463595,1608,674.651061,0.145525957,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,050,National Defense,054,Defense-related activities,463595,1521,645.715221,0.139284337,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,700,Veterans Benefits and Services,705,Other veterans benefits and services,463595,1515,634.200578,0.136800565,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,300,Natural Resources and Environment,304,Pollution control and abatement,463595,1308,549.804734,0.118595915,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,750,Administration of Justice,752,Federal litigative and judicial activities,463595,1210,506.608942,0.109278345,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,550,Health,554,Consumer and occupational health and safety,463595,1131,473.536389,0.102144412,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,500,"Education, Training, Employment, and Social Services",503,Research and general education aids,463595,995,415.297146,0.089581886,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,700,Veterans Benefits and Services,704,Veterans housing,463595,995,406.405821,0.087663978,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,270,Energy,276,"Energy information, policy, and regulation",463595,785,327.966796,0.070744248,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,500,"Education, Training, Employment, and Social Services",505,Other labor services,463595,769,321.697774,0.069391985,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,800,General Government,808,Other general government,463595,626,256.236277,0.055271579,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,450,Community and Regional Development,453,Disaster relief and insurance,463595,607,248.710252,0.053648174,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,750,Administration of Justice,753,Federal correctional activities,463595,453,189.376621,0.040849582,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,150,International Affairs,155,International financial programs,463595,359,144.360779,0.031139417,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,800,General Government,805,Central personnel management,463595,209,87.787791,0.018936311,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,800,General Government,802,Executive direction and management,463595,139,58.264964,0.012568074,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,750,Administration of Justice,754,Criminal justice assistance,463595,44,19.621288,0.00423242,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,400,Transportation,407,Other transportation,463595,43,18.5737,0.00400645,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,800,General Government,809,Deductions for offsetting receipts,463595,-2027,-841.756445,-0.181571511,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,950,Undistributed Offsetting Receipts,953,Rents and royalties on the Outer Continental Shelf,463595,-2722,-1115.670802,-0.240656349,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,950,Undistributed Offsetting Receipts,952,"Employer share, employee retirement (off-budget)",463595,-2753,-1154.223662,-0.248972414,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,370,Commerce and Housing Credit,373,Deposit insurance,463595,-3654,-1533.440566,-0.330771593,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,900,Net Interest,903,Interest received by off-budget trust funds,463595,-6008,-2523.066235,-0.544239311,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,900,Net Interest,908,Other interest,463595,-6486,-2704.675658,-0.583413466,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,900,Net Interest,902,Interest received by on-budget trust funds,463595,-10239,-4291.433684,-0.925685929,proportional_outlay_share,modeled_not_legal_dedication,actual
+1960s,1962,1969,8,partial_decade,950,Undistributed Offsetting Receipts,951,"Employer share, employee retirement (on-budget)",463595,-47079,-19685.713886,-4.246317127,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,050,National Defense,051,Department of Defense-Military,1304021,871942,355084.576006,27.229973751,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,650,Social Security,651,Social security,1304021,632808,255241.078133,19.573387095,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,900,Net Interest,901,Interest on Treasury debt securities (gross),1304021,335821,135980.942199,10.427818432,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,570,Medicare,571,Medicare,1304021,135322,54530.893234,4.181749622,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,600,Income Security,602,Federal employee retirement and disability,1304021,128344,51685.463238,3.963545314,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,600,Income Security,603,Unemployment compensation,1304021,98903,39003.183725,2.990993529,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,550,Health,551,Health care services,1304021,93389,37575.164704,2.881484631,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,600,Income Security,609,Other income security,1304021,93048,37347.815339,2.864050145,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,700,Veterans Benefits and Services,701,Income security for veterans,1304021,77380,31363.875946,2.405166477,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,400,Transportation,401,Ground transportation,1304021,76388,30836.654789,2.364736058,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,600,Income Security,605,Food and nutrition assistance,1304021,57273,22878.586874,1.754464604,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,800,General Government,806,General purpose fiscal assistance,1304021,56776,22711.996571,1.74168948,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,500,"Education, Training, Employment, and Social Services",504,Training and employment,1304021,51486,20701.814716,1.587536912,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,350,Agriculture,351,Farm income stabilization,1304021,48617,19967.080976,1.531193207,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,500,"Education, Training, Employment, and Social Services",506,Social services,1304021,42542,17214.374001,1.320099446,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,500,"Education, Training, Employment, and Social Services",501,"Elementary, secondary, and vocational education",1304021,41554,16864.505633,1.293269482,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,700,Veterans Benefits and Services,703,Hospital and medical care for veterans,1304021,35245,14216.028666,1.090168691,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,250,"General Science, Space, and Technology",252,"Space flight, research, and supporting activities",1304021,33617,13724.874721,1.052504118,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,700,Veterans Benefits and Services,702,"Veterans education, training, and rehabilitation",1304021,30406,12070.078756,0.92560463,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,600,Income Security,601,General retirement and disability insurance (excluding social security),1304021,29036,11652.666698,0.893595019,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,270,Energy,271,Energy supply,1304021,28858,11563.335006,0.886744539,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,550,Health,552,Health research and training,1304021,27479,11092.332856,0.850625324,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,300,Natural Resources and Environment,301,Water resources,1304021,25498,10317.338745,0.791194217,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,150,International Affairs,151,International development and humanitarian assistance,1304021,25352,10288.270731,0.788965111,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,450,Community and Regional Development,451,Community development,1304021,25228,10209.462548,0.782921636,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,500,"Education, Training, Employment, and Social Services",502,Higher education,1304021,24190,9779.254521,0.749930754,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,400,Transportation,402,Air transportation,1304021,23799,9638.577761,0.739142833,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,300,Natural Resources and Environment,304,Pollution control and abatement,1304021,23548,9410.99724,0.72169062,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,370,Commerce and Housing Credit,371,Mortgage credit,1304021,23886,9369.762672,0.718528511,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,150,International Affairs,152,International security assistance,1304021,23032,9261.67364,0.710239608,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,450,Community and Regional Development,452,Area and regional development,1304021,22025,8878.495254,0.680855236,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,600,Income Security,604,Housing assistance,1304021,21427,8626.91056,0.661562242,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,370,Commerce and Housing Credit,372,Postal service,1304021,19569,7864.084473,0.603064251,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,050,National Defense,053,Atomic energy defense activities,1304021,16686,6803.471251,0.521730191,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,800,General Government,803,Central fiscal operations,1304021,14953,6040.358323,0.463210203,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,400,Transportation,403,Water transportation,1304021,14012,5673.326817,0.435064069,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,750,Administration of Justice,751,Federal law enforcement activities,1304021,13111,5275.507722,0.404556961,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,250,"General Science, Space, and Technology",251,General science and basic research,1304021,10520,4288.292201,0.328851468,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,450,Community and Regional Development,453,Disaster relief and insurance,1304021,9419,3845.758822,0.294915406,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,370,Commerce and Housing Credit,376,Other advancement of commerce,1304021,8960,3612.909507,0.277059151,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,350,Agriculture,352,Agricultural research and services,1304021,8398,3408.47095,0.2613816,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,300,Natural Resources and Environment,306,Other natural resources,1304021,7754,3133.656791,0.240307234,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,150,International Affairs,153,Conduct of foreign affairs,1304021,7146,2894.151521,0.221940561,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,300,Natural Resources and Environment,303,Recreational resources,1304021,6873,2773.861335,0.212716002,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,300,Natural Resources and Environment,302,Conservation and land management,1304021,6697,2693.820532,0.206578002,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,500,"Education, Training, Employment, and Social Services",503,Research and general education aids,1304021,6676,2690.639908,0.206334093,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,750,Administration of Justice,754,Criminal justice assistance,1304021,6132,2444.795257,0.18748128,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,800,General Government,801,Legislative functions,1304021,5958,2402.454392,0.184234333,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,750,Administration of Justice,752,Federal litigative and judicial activities,1304021,5857,2359.4914,0.180939678,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,550,Health,554,Consumer and occupational health and safety,1304021,5629,2264.417472,0.17364885,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,800,General Government,804,General property and records management,1304021,4683,1967.499202,0.150879411,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,700,Veterans Benefits and Services,705,Other veterans benefits and services,1304021,4264,1717.453868,0.131704464,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,270,Energy,276,"Energy information, policy, and regulation",1304021,4217,1689.521552,0.12956245,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,150,International Affairs,154,Foreign information and exchange activities,1304021,3369,1365.18747,0.104690605,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,800,General Government,808,Other general government,1304021,3176,1275.540856,0.097815975,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,500,"Education, Training, Employment, and Social Services",505,Other labor services,1304021,2729,1102.612076,0.084554779,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,270,Energy,274,Emergency energy preparedness,1304021,2139,877.703067,0.067307433,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,750,Administration of Justice,753,Federal correctional activities,1304021,1899,766.672006,0.058792919,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,050,National Defense,054,Defense-related activities,1304021,1345,545.814155,0.04185624,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,800,General Government,805,Central personnel management,1304021,843,339.662411,0.026047311,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,270,Energy,272,Energy conservation,1304021,718,288.239924,0.022103933,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,800,General Government,802,Executive direction and management,1304021,676,275.540459,0.021130063,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,400,Transportation,407,Other transportation,1304021,581,234.477206,0.017981091,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,700,Veterans Benefits and Services,704,Veterans housing,1304021,-722,-288.814364,-0.022147984,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,150,International Affairs,155,International financial programs,1304021,-947,-360.517985,-0.02764664,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,800,General Government,809,Deductions for offsetting receipts,1304021,-2465,-994.145663,-0.076236937,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,950,Undistributed Offsetting Receipts,952,"Employer share, employee retirement (off-budget)",1304021,-8423,-3410.392239,-0.261528935,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,370,Commerce and Housing Credit,373,Deposit insurance,1304021,-8480,-3474.445187,-0.266440892,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,900,Net Interest,903,Interest received by off-budget trust funds,1304021,-23308,-9414.783161,-0.721980947,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,950,Undistributed Offsetting Receipts,953,Rents and royalties on the Outer Continental Shelf,1304021,-25211,-10328.577375,-0.792056062,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,900,Net Interest,908,Other interest,1304021,-26470,-10736.291602,-0.823321987,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,900,Net Interest,902,Interest received by on-budget trust funds,1304021,-44582,-18023.633781,-1.382158246,proportional_outlay_share,modeled_not_legal_dedication,actual
+1970s,1970,1979,10,full_decade,950,Undistributed Offsetting Receipts,951,"Employer share, employee retirement (on-budget)",1304021,-100909,-40950.858038,-3.140352651,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,050,National Defense,051,Department of Defense-Military,3338001,2251871,849897.925782,25.461284337,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,650,Social Security,651,Social security,3338001,1809656,684602.716721,20.509362242,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,900,Net Interest,901,Interest on Treasury debt securities (gross),3338001,1589361,598998.469654,17.94482595,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,570,Medicare,571,Medicare,3338001,602882,227503.559606,6.815562955,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,600,Income Security,602,Federal employee retirement and disability,3338001,386506,146403.311088,4.385957676,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,550,Health,551,Health care services,3338001,272144,103176.202245,3.090957799,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,600,Income Security,609,Other income security,3338001,235552,89333.392548,2.676254218,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,600,Income Security,603,Unemployment compensation,3338001,194515,73866.509758,2.212896574,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,600,Income Security,605,Food and nutrition assistance,3338001,179578,68078.096978,2.039487016,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,350,Agriculture,351,Farm income stabilization,3338001,172603,64606.375775,1.935481019,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,400,Transportation,401,Ground transportation,3338001,166667,63343.394099,1.897644551,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,700,Veterans Benefits and Services,701,Income security for veterans,3338001,144586,54849.157452,1.643173787,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,600,Income Security,604,Housing assistance,3338001,122348,45835.400509,1.373139208,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,700,Veterans Benefits and Services,703,Hospital and medical care for veterans,3338001,89992,34059.717498,1.020362711,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,500,"Education, Training, Employment, and Social Services",502,Higher education,3338001,79796,30377.265106,0.910043619,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,500,"Education, Training, Employment, and Social Services",501,"Elementary, secondary, and vocational education",3338001,74251,28265.862433,0.846790113,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,250,"General Science, Space, and Technology",252,"Space flight, research, and supporting activities",3338001,66724,25270.548873,0.75705636,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,500,"Education, Training, Employment, and Social Services",506,Social services,3338001,64044,24376.701101,0.730278424,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,500,"Education, Training, Employment, and Social Services",504,Training and employment,3338001,60809,23494.768593,0.703857446,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,150,International Affairs,152,International security assistance,3338001,62774,23482.246357,0.703482304,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,050,National Defense,053,Atomic energy defense activities,3338001,59902,22525.695069,0.674825893,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,550,Health,552,Health research and training,3338001,55224,20974.250018,0.628347625,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,600,Income Security,601,General retirement and disability insurance (excluding social security),3338001,54571,20753.95496,0.621748015,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,800,General Government,806,General purpose fiscal assistance,3338001,53328,20295.440609,0.608011819,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,300,Natural Resources and Environment,304,Pollution control and abatement,3338001,47874,18303.072772,0.548324365,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,400,Transportation,402,Air transportation,3338001,47699,18084.261971,0.54176922,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,270,Energy,271,Energy supply,3338001,45978,17983.057066,0.538737318,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,150,International Affairs,151,International development and humanitarian assistance,3338001,44195,16735.065441,0.501349923,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,450,Community and Regional Development,451,Community development,3338001,42970,16388.1527,0.490957094,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,370,Commerce and Housing Credit,371,Mortgage credit,3338001,41414,15979.630486,0.478718565,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,300,Natural Resources and Environment,301,Water resources,3338001,40528,15428.403356,0.462204875,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,750,Administration of Justice,751,Federal law enforcement activities,3338001,35830,13560.449212,0.406244612,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,800,General Government,803,Central fiscal operations,3338001,35574,13488.150283,0.404078677,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,450,Community and Regional Development,452,Area and regional development,3338001,29612,11336.454557,0.33961807,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,400,Transportation,403,Water transportation,3338001,29929,11303.185384,0.33862139,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,370,Commerce and Housing Credit,373,Deposit insurance,3338001,28737,11096.333961,0.332424525,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,370,Commerce and Housing Credit,376,Other advancement of commerce,3338001,20803,7948.116567,0.238110071,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,750,Administration of Justice,752,Federal litigative and judicial activities,3338001,20664,7832.099842,0.234634437,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,150,International Affairs,153,Conduct of foreign affairs,3338001,20085,7596.371207,0.227572466,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,300,Natural Resources and Environment,302,Conservation and land management,3338001,19417,7373.985825,0.220910234,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,250,"General Science, Space, and Technology",251,General science and basic research,3338001,19447,7364.157021,0.220615782,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,350,Agriculture,352,Agricultural research and services,3338001,16561,6283.467703,0.188240438,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,300,Natural Resources and Environment,306,Other natural resources,3338001,16522,6268.250272,0.187784553,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,270,Energy,274,Emergency energy preparedness,3338001,16284,6241.314486,0.18697761,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,800,General Government,801,Legislative functions,3338001,13332,5054.268281,0.151416021,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,500,"Education, Training, Employment, and Social Services",503,Research and general education aids,3338001,12805,4870.127404,0.145899519,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,300,Natural Resources and Environment,303,Recreational resources,3338001,12437,4741.718132,0.142052628,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,700,Veterans Benefits and Services,702,"Veterans education, training, and rehabilitation",3338001,12183,4726.110072,0.141585041,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,550,Health,554,Consumer and occupational health and safety,3338001,11489,4363.462945,0.13072084,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,370,Commerce and Housing Credit,372,Postal service,3338001,11240,4268.051101,0.127862487,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,150,International Affairs,154,Foreign information and exchange activities,3338001,7801,2952.774267,0.088459358,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,800,General Government,808,Other general government,3338001,7628,2908.333623,0.087128003,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,270,Energy,276,"Energy information, policy, and regulation",3338001,7601,2903.553937,0.086984813,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,700,Veterans Benefits and Services,705,Other veterans benefits and services,3338001,7144,2711.916422,0.081243727,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,500,"Education, Training, Employment, and Social Services",505,Other labor services,3338001,6515,2473.340563,0.07409646,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,750,Administration of Justice,753,Federal correctional activities,3338001,5815,2202.742962,0.065989883,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,270,Energy,272,Energy conservation,3338001,4781,1827.440231,0.054746545,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,050,National Defense,054,Defense-related activities,3338001,4380,1649.841785,0.049426042,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,450,Community and Regional Development,453,Disaster relief and insurance,3338001,3435,1422.527661,0.042616154,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,700,Veterans Benefits and Services,704,Veterans housing,3338001,3506,1334.205854,0.039970205,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,750,Administration of Justice,754,Criminal justice assistance,3338001,3114,1219.574285,0.036536067,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,800,General Government,805,Central personnel management,3338001,1388,529.768649,0.015870836,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,400,Transportation,407,Other transportation,3338001,1092,414.391964,0.012414375,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,800,General Government,802,Executive direction and management,3338001,1071,407.221627,0.012199566,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,800,General Government,804,General property and records management,3338001,757,281.8795,0.00844456,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,950,Undistributed Offsetting Receipts,954,Sale of major assets,3338001,-1875,-733.100244,-0.021962254,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,800,General Government,809,Deductions for offsetting receipts,3338001,-4732,-1791.336853,-0.053664959,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,150,International Affairs,155,International financial programs,3338001,-7016,-2355.929878,-0.070579064,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,950,Undistributed Offsetting Receipts,952,"Employer share, employee retirement (off-budget)",3338001,-26008,-9837.370809,-0.294708444,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,900,Net Interest,903,Interest received by off-budget trust funds,3338001,-44401,-16861.350424,-0.505133175,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,950,Undistributed Offsetting Receipts,953,Rents and royalties on the Outer Continental Shelf,3338001,-58430,-22229.415635,-0.665949939,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,900,Net Interest,908,Other interest,3338001,-192352,-72228.665406,-2.163829951,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,900,Net Interest,902,Interest received by on-budget trust funds,3338001,-220479,-83296.413132,-2.495398088,proportional_outlay_share,modeled_not_legal_dedication,actual
+1980s,1980,1989,10,full_decade,950,Undistributed Offsetting Receipts,951,"Employer share, employee retirement (on-budget)",3338001,-230042,-86893.611838,-2.603163146,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,650,Social Security,651,Social security,6155603,3249391,1353441.703313,21.987150622,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,900,Net Interest,901,Interest on Treasury debt securities (gross),6155603,3180421,1319018.764426,21.427937514,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,050,National Defense,051,Department of Defense-Military,6155603,2673647,1089596.287196,17.700886285,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,570,Medicare,571,Medicare,6155603,1504279,633623.839115,10.293448735,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,550,Health,551,Health care services,6155603,926495,390248.636676,6.339730432,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,600,Income Security,602,Federal employee retirement and disability,6155603,642054,266754.841061,4.333528999,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,600,Income Security,609,Other income security,6155603,585947,247636.551567,4.022945462,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,600,Income Security,605,Food and nutrition assistance,6155603,336091,138059.846668,2.242832208,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,600,Income Security,603,Unemployment compensation,6155603,269095,108045.795074,1.75524307,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,600,Income Security,604,Housing assistance,6155603,236507,98924.327049,1.607061519,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,400,Transportation,401,Ground transportation,6155603,235835,98074.411785,1.593254337,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,700,Veterans Benefits and Services,701,Income security for veterans,6155603,188704,78242.182376,1.271072588,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,700,Veterans Benefits and Services,703,Hospital and medical care for veterans,6155603,155422,64543.144506,1.048526757,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,500,"Education, Training, Employment, and Social Services",501,"Elementary, secondary, and vocational education",6155603,140264,58494.367104,0.950262177,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,250,"General Science, Space, and Technology",252,"Space flight, research, and supporting activities",6155603,126513,51793.451957,0.841403384,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,500,"Education, Training, Employment, and Social Services",502,Higher education,6155603,118465,48430.528586,0.786771476,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,350,Agriculture,351,Farm income stabilization,6155603,113696,46629.751708,0.757517204,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,550,Health,552,Health research and training,6155603,110583,46130.114483,0.749400416,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,050,National Defense,053,Atomic energy defense activities,6155603,110650,45564.751476,0.740215889,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,500,"Education, Training, Employment, and Social Services",506,Social services,6155603,106456,44138.045871,0.71703854,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,400,Transportation,402,Air transportation,6155603,96561,39899.375425,0.648179803,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,750,Administration of Justice,751,Federal law enforcement activities,6155603,75561,31978.187673,0.51949724,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,800,General Government,803,Central fiscal operations,6155603,75197,31425.826075,0.510523926,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,500,"Education, Training, Employment, and Social Services",504,Training and employment,6155603,66389,27242.290724,0.442560879,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,150,International Affairs,152,International security assistance,6155603,65361,26036.747654,0.422976395,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,300,Natural Resources and Environment,304,Pollution control and abatement,6155603,61465,25324.634527,0.411407859,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,150,International Affairs,151,International development and humanitarian assistance,6155603,60453,24643.809588,0.400347612,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,750,Administration of Justice,752,Federal litigative and judicial activities,6155603,56396,23604.550789,0.383464476,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,300,Natural Resources and Environment,302,Conservation and land management,6155603,55409,22944.735855,0.372745543,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,600,Income Security,601,General retirement and disability insurance (excluding social security),6155603,47214,18908.85001,0.307181116,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,300,Natural Resources and Environment,301,Water resources,6155603,45016,18472.829244,0.300097801,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,450,Community and Regional Development,451,Community development,6155603,43330,18076.053747,0.293652039,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,250,"General Science, Space, and Technology",251,General science and basic research,6155603,40358,16946.175502,0.275296758,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,370,Commerce and Housing Credit,376,Other advancement of commerce,6155603,39148,16900.598182,0.274556338,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,150,International Affairs,153,Conduct of foreign affairs,6155603,38323,15669.896017,0.254563136,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,400,Transportation,403,Water transportation,6155603,34609,14202.937514,0.230731864,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,450,Community and Regional Development,453,Disaster relief and insurance,6155603,26912,11370.651117,0.184720345,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,300,Natural Resources and Environment,306,Other natural resources,6155603,26680,11085.43227,0.180086862,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,370,Commerce and Housing Credit,373,Deposit insurance,6155603,40858,10896.172674,0.177012271,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,450,Community and Regional Development,452,Area and regional development,6155603,25872,10568.563841,0.171690147,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,350,Agriculture,352,Agricultural research and services,6155603,25175,10404.250307,0.169020814,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,750,Administration of Justice,753,Federal correctional activities,6155603,24031,10094.949061,0.163996103,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,500,"Education, Training, Employment, and Social Services",503,Research and general education aids,6155603,20612,8527.054589,0.13852509,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,800,General Government,806,General purpose fiscal assistance,6155603,20612,8456.843227,0.137384481,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,800,General Government,801,Legislative functions,6155603,19856,8136.311932,0.132177334,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,300,Natural Resources and Environment,303,Recreational resources,6155603,19070,7963.55679,0.129370864,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,750,Administration of Justice,754,Criminal justice assistance,6155603,16962,7714.400519,0.12532323,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,550,Health,554,Consumer and occupational health and safety,6155603,18476,7660.956234,0.124455008,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,270,Energy,271,Energy supply,6155603,20254,7579.086668,0.123125008,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,800,General Government,808,Other general government,6155603,13089,5416.267237,0.087989223,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,150,International Affairs,154,Foreign information and exchange activities,6155603,12538,5105.012549,0.082932778,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,050,National Defense,054,Defense-related activities,6155603,10656,4398.545695,0.071455968,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,700,Veterans Benefits and Services,705,Other veterans benefits and services,6155603,9557,3919.386497,0.063671853,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,500,"Education, Training, Employment, and Social Services",505,Other labor services,6155603,9399,3888.649366,0.063172517,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,700,Veterans Benefits and Services,702,"Veterans education, training, and rehabilitation",6155603,8795,3718.83737,0.06041386,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,370,Commerce and Housing Credit,372,Postal service,6155603,7481,2863.900751,0.046525105,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,800,General Government,804,General property and records management,6155603,5748,2323.785124,0.037750731,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,270,Energy,272,Energy conservation,6155603,5396,2239.69469,0.036384651,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,700,Veterans Benefits and Services,704,Veterans housing,6155603,4603,1847.128298,0.030007268,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,270,Energy,276,"Energy information, policy, and regulation",6155603,3612,1435.366453,0.023318048,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,400,Transportation,407,Other transportation,6155603,2541,1033.739686,0.016793476,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,800,General Government,802,Executive direction and management,6155603,2328,988.481353,0.016058238,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,270,Energy,274,Emergency energy preparedness,6155603,1982,805.101634,0.013079168,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,800,General Government,805,Central personnel management,6155603,1585,636.220956,0.01033564,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,900,Net Interest,909,Other investment income,6155603,-2,-1.018207,-0.000016541,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,370,Commerce and Housing Credit,371,Mortgage credit,6155603,1941,-455.012112,-0.007391837,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,950,Undistributed Offsetting Receipts,954,Sale of major assets,6155603,-5158,-2586.357165,-0.042016309,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,800,General Government,809,Deductions for offsetting receipts,6155603,-10392,-4303.166074,-0.069906491,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,150,International Affairs,155,International financial programs,6155603,-23313,-9139.752724,-0.148478593,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,950,Undistributed Offsetting Receipts,959,Other undistributed offsetting receipts,6155603,-23387,-10420.501044,-0.169284813,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,950,Undistributed Offsetting Receipts,953,Rents and royalties on the Outer Continental Shelf,6155603,-32928,-13768.374938,-0.223672237,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,950,Undistributed Offsetting Receipts,952,"Employer share, employee retirement (off-budget)",6155603,-63927,-26411.996364,-0.429072446,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,900,Net Interest,908,Other interest,6155603,-105810,-41325.955767,-0.671355118,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,950,Undistributed Offsetting Receipts,951,"Employer share, employee retirement (on-budget)",6155603,-284695,-116163.752737,-1.887122232,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,900,Net Interest,903,Interest received by off-budget trust funds,6155603,-325566,-139381.282524,-2.264299412,proportional_outlay_share,modeled_not_legal_dedication,actual
+1990s,1990,1999,10,full_decade,900,Net Interest,902,Interest received by on-budget trust funds,6155603,-581215,-241187.017741,-3.91817045,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,650,Social Security,651,Social security,9655461,5226586,2081523.449918,21.557991378,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,050,National Defense,051,Department of Defense-Military,9655461,4459924,1744188.618301,18.064270761,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,900,Net Interest,901,Interest on Treasury debt securities (gross),9655461,3716151,1515493.486169,15.695713402,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,570,Medicare,571,Medicare,9655461,2988909,1175748.108179,12.177027158,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,550,Health,551,Health care services,9655461,2085267,818203.440725,8.47399664,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,600,Income Security,609,Other income security,9655461,1182731,468155.949826,4.84861313,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,600,Income Security,602,Federal employee retirement and disability,9655461,937418,375055.00402,3.884382155,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,600,Income Security,605,Food and nutrition assistance,9655461,492196,191935.499462,1.987843972,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,600,Income Security,603,Unemployment compensation,9655461,480802,179497.913575,1.859029968,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,400,Transportation,401,Ground transportation,9655461,424319,169089.460689,1.751231357,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,600,Income Security,604,Housing assistance,9655461,372143,147662.456351,1.529315445,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,500,"Education, Training, Employment, and Social Services",501,"Elementary, secondary, and vocational education",9655461,343680,133637.680443,1.384063179,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,700,Veterans Benefits and Services,701,Income security for veterans,9655461,328756,129582.477793,1.342064121,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,700,Veterans Benefits and Services,703,Hospital and medical care for veterans,9655461,283498,111393.389577,1.153682766,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,550,Health,552,Health research and training,9655461,253281,99924.258146,1.034898884,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,500,"Education, Training, Employment, and Social Services",502,Higher education,9655461,211735,85734.284762,0.887935695,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,350,Agriculture,351,Farm income stabilization,9655461,191964,81566.987027,0.844775687,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,370,Commerce and Housing Credit,376,Other advancement of commerce,9655461,253913,78934.704965,0.817513581,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,750,Administration of Justice,751,Federal law enforcement activities,9655461,189791,74063.608236,0.767064444,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,400,Transportation,402,Air transportation,9655461,176276,69652.810639,0.721382549,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,050,National Defense,053,Atomic energy defense activities,9655461,159693,63817.035279,0.660942396,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,500,"Education, Training, Employment, and Social Services",506,Social services,9655461,155666,62517.533084,0.647483668,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,250,"General Science, Space, and Technology",252,"Space flight, research, and supporting activities",9655461,146774,58829.963669,0.609292127,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,450,Community and Regional Development,453,Disaster relief and insurance,9655461,135011,51511.47876,0.533495798,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,150,International Affairs,151,International development and humanitarian assistance,9655461,131726,50469.404545,0.52270321,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,750,Administration of Justice,752,Federal litigative and judicial activities,9655461,105843,42033.957488,0.435338691,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,800,General Government,803,Central fiscal operations,9655461,99681,40191.368565,0.416255304,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,300,Natural Resources and Environment,302,Conservation and land management,9655461,85381,34217.328105,0.354383163,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,250,"General Science, Space, and Technology",251,General science and basic research,9655461,82945,32993.670399,0.341709944,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,300,Natural Resources and Environment,304,Pollution control and abatement,9655461,80562,32638.541342,0.338031932,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,150,International Affairs,152,International security assistance,9655461,77258,31286.308503,0.324027082,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,150,International Affairs,153,Conduct of foreign affairs,9655461,79993,31103.214598,0.322130809,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,500,"Education, Training, Employment, and Social Services",504,Training and employment,9655461,74584,30251.721489,0.313312036,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,450,Community and Regional Development,451,Community development,9655461,70761,28449.381131,0.294645498,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,600,Income Security,601,General retirement and disability insurance (excluding social security),9655461,66825,26664.997828,0.276164937,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,400,Transportation,403,Water transportation,9655461,64677,25383.991187,0.262897765,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,300,Natural Resources and Environment,301,Water resources,9655461,59950,23921.762693,0.247753708,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,750,Administration of Justice,754,Criminal justice assistance,9655461,54396,21959.073307,0.227426462,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,750,Administration of Justice,753,Federal correctional activities,9655461,48722,19456.063985,0.201503211,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,300,Natural Resources and Environment,306,Other natural resources,9655461,45432,18022.656697,0.186657651,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,370,Commerce and Housing Credit,371,Mortgage credit,9655461,79864,17034.55592,0.176424056,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,350,Agriculture,352,Agricultural research and services,9655461,41466,16560.84074,0.171517867,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,800,General Government,806,General purpose fiscal assistance,9655461,40807,15775.037208,0.163379431,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,050,National Defense,054,Defense-related activities,9655461,33930,12875.274247,0.133347069,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,800,General Government,801,Legislative functions,9655461,31181,12360.649964,0.128017191,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,500,"Education, Training, Employment, and Social Services",503,Research and general education aids,9655461,30169,12133.230468,0.125661845,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,300,Natural Resources and Environment,303,Recreational resources,9655461,29119,11644.61776,0.120601365,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,550,Health,554,Consumer and occupational health and safety,9655461,29219,11642.923588,0.120583819,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,450,Community and Regional Development,452,Area and regional development,9655461,26197,10611.925537,0.109905944,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,700,Veterans Benefits and Services,702,"Veterans education, training, and rehabilitation",9655461,23238,8971.497171,0.092916301,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,700,Veterans Benefits and Services,705,Other veterans benefits and services,9655461,22410,8494.559951,0.087976741,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,800,General Government,808,Other general government,9655461,20213,8073.513746,0.083616036,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,370,Commerce and Housing Credit,373,Deposit insurance,9655461,28306,7281.074279,0.075408873,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,500,"Education, Training, Employment, and Social Services",505,Other labor services,9655461,15064,6041.614211,0.062571991,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,150,International Affairs,154,Foreign information and exchange activities,9655461,10797,4286.763866,0.044397299,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,270,Energy,272,Energy conservation,9655461,8178,3212.664144,0.033273027,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,800,General Government,802,Executive direction and management,9655461,5402,2178.113367,0.022558357,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,270,Energy,276,"Energy information, policy, and regulation",9655461,3146,1230.603814,0.012745159,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,400,Transportation,407,Other transportation,9655461,2505,1003.313859,0.010391154,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,800,General Government,804,General property and records management,9655461,2104,705.289032,0.007304561,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,270,Energy,274,Emergency energy preparedness,9655461,1679,606.067145,0.006276936,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,800,General Government,805,Central personnel management,9655461,1157,483.404934,0.005006544,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,700,Veterans Benefits and Services,704,Veterans housing,9655461,-5270,-2068.480203,-0.021422905,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,900,Net Interest,909,Other investment income,9655461,-9905,-3908.779784,-0.040482581,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,270,Energy,271,Energy supply,9655461,-8393,-3997.277819,-0.04139914,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,370,Commerce and Housing Credit,372,Postal service,9655461,-13915,-4396.970949,-0.045538695,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,800,General Government,809,Deductions for offsetting receipts,9655461,-15782,-6679.977815,-0.069183417,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,950,Undistributed Offsetting Receipts,959,Other undistributed offsetting receipts,9655461,-33615,-11602.555118,-0.120165729,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,150,International Affairs,155,International financial programs,9655461,-36760,-14327.820796,-0.148390852,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,950,Undistributed Offsetting Receipts,953,Rents and royalties on the Outer Continental Shelf,9655461,-70702,-28659.237051,-0.296818941,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,900,Net Interest,908,Other interest,9655461,-87593,-35485.16947,-0.367513985,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,950,Undistributed Offsetting Receipts,952,"Employer share, employee retirement (off-budget)",9655461,-107594,-42496.03082,-0.440124307,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,950,Undistributed Offsetting Receipts,951,"Employer share, employee retirement (on-budget)",9655461,-432585,-170709.415107,-1.768008955,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,900,Net Interest,902,Interest received by on-budget trust funds,9655461,-715482,-293516.690888,-3.039903438,proportional_outlay_share,modeled_not_legal_dedication,actual
+2000s,2000,2009,10,full_decade,900,Net Interest,903,Interest received by off-budget trust funds,9655461,-902431,-356661.170593,-3.693880288,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,650,Social Security,651,Social security,13908593,8655820,3224553.134154,23.183891672,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,050,National Defense,051,Department of Defense-Military,13908593,6132570,2236181.081155,16.077694424,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,570,Medicare,571,Medicare,13908593,5396343,2006503.306846,14.426357194,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,900,Net Interest,901,Interest on Treasury debt securities (gross),13908593,4456066,1647283.445552,11.843638286,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,550,Health,551,Health care services,13908593,4135264,1549471.720064,11.140391556,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,600,Income Security,609,Other income security,13908593,1760466,646184.75441,4.645939057,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,600,Income Security,602,Federal employee retirement and disability,13908593,1348930,499988.665401,3.594818436,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,600,Income Security,605,Food and nutrition assistance,13908593,1016273,373900.754522,2.688271592,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,700,Veterans Benefits and Services,701,Income security for veterans,13908593,737021,277131.551111,1.992520387,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,700,Veterans Benefits and Services,703,Hospital and medical care for veterans,13908593,606189,226777.57638,1.630485387,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,400,Transportation,401,Ground transportation,13908593,612889,225369.391423,1.620360819,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,600,Income Security,603,Unemployment compensation,13908593,655223,219602.030123,1.578894645,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,600,Income Security,604,Housing assistance,13908593,503302,183557.012142,1.31973818,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,500,"Education, Training, Employment, and Social Services",501,"Elementary, secondary, and vocational education",13908593,471709,167828.612224,1.206654133,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,550,Health,552,Health research and training,13908593,340046,124661.104413,0.896288391,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,500,"Education, Training, Employment, and Social Services",502,Higher education,13908593,303320,117512.858468,0.844893933,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,750,Administration of Justice,751,Federal law enforcement activities,13908593,292115,107365.216048,0.771934415,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,150,International Affairs,151,International development and humanitarian assistance,13908593,232366,86310.331025,0.620554006,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,400,Transportation,402,Air transportation,13908593,208670,76474.293004,0.549834861,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,050,National Defense,053,Atomic energy defense activities,13908593,196261,72137.595912,0.518654877,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,500,"Education, Training, Employment, and Social Services",506,Social services,13908593,186390,68468.247364,0.492272995,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,350,Agriculture,351,Farm income stabilization,13908593,181296,67056.747955,0.482124597,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,250,"General Science, Space, and Technology",252,"Space flight, research, and supporting activities",13908593,177562,65362.889592,0.469946094,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,750,Administration of Justice,752,Federal litigative and judicial activities,13908593,153736,56590.498184,0.406874356,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,450,Community and Regional Development,453,Disaster relief and insurance,13908593,149675,56199.602781,0.404063896,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,150,International Affairs,153,Conduct of foreign affairs,13908593,130098,47755.016197,0.343349009,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,700,Veterans Benefits and Services,702,"Veterans education, training, and rehabilitation",13908593,122125,45757.0202,0.328983817,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,250,"General Science, Space, and Technology",251,General science and basic research,13908593,122476,45038.027986,0.323814407,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,800,General Government,803,Central fiscal operations,13908593,117610,43182.508673,0.310473595,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,150,International Affairs,152,International security assistance,13908593,115300,42418.46943,0.304980306,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,300,Natural Resources and Environment,302,Conservation and land management,13908593,113853,41928.074182,0.301454462,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,400,Transportation,403,Water transportation,13908593,100212,36920.755354,0.265452842,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,300,Natural Resources and Environment,304,Pollution control and abatement,13908593,91022,32863.280886,0.236280412,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,050,National Defense,054,Defense-related activities,13908593,83675,31064.038739,0.223344221,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,300,Natural Resources and Environment,301,Water resources,13908593,84441,30211.480028,0.217214495,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,450,Community and Regional Development,451,Community development,13908593,79003,28541.080892,0.205204659,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,500,"Education, Training, Employment, and Social Services",504,Training and employment,13908593,75613,27306.965787,0.196331619,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,800,General Government,806,General purpose fiscal assistance,13908593,72236,26768.08607,0.192457181,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,700,Veterans Benefits and Services,705,Other veterans benefits and services,13908593,70129,26200.30612,0.188374957,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,750,Administration of Justice,753,Federal correctional activities,13908593,68028,25103.602763,0.18048988,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,300,Natural Resources and Environment,306,Other natural resources,13908593,68059,25084.85021,0.180355053,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,600,Income Security,601,General retirement and disability insurance (excluding social security),13908593,62853,22951.418114,0.165016103,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,370,Commerce and Housing Credit,376,Other advancement of commerce,13908593,29958,22606.682847,0.162537525,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,270,Energy,271,Energy supply,13908593,51108,17991.469387,0.129355064,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,350,Agriculture,352,Agricultural research and services,13908593,48339,17783.453246,0.12785947,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,750,Administration of Justice,754,Criminal justice assistance,13908593,47763,17560.939818,0.126259643,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,550,Health,554,Consumer and occupational health and safety,13908593,43537,16086.701304,0.115660163,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,800,General Government,801,Legislative functions,13908593,39192,14374.434118,0.103349304,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,300,Natural Resources and Environment,303,Recreational resources,13908593,37633,13777.05464,0.099054266,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,500,"Education, Training, Employment, and Social Services",503,Research and general education aids,13908593,36364,13349.798413,0.095982379,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,800,General Government,808,Other general government,13908593,34854,13091.271511,0.094123622,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,450,Community and Regional Development,452,Area and regional development,13908593,31895,11571.766615,0.083198686,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,270,Energy,272,Energy conservation,13908593,24206,7929.01277,0.057008015,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,500,"Education, Training, Employment, and Social Services",505,Other labor services,13908593,18647,6865.932212,0.049364678,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,150,International Affairs,154,Foreign information and exchange activities,13908593,15583,5736.734268,0.041245971,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,270,Energy,276,"Energy information, policy, and regulation",13908593,5362,1950.497293,0.014023685,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,800,General Government,802,Executive direction and management,13908593,5075,1859.736908,0.013371136,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,400,Transportation,407,Other transportation,13908593,3966,1465.464967,0.0105364,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,700,Veterans Benefits and Services,704,Veterans housing,13908593,3281,1017.376887,0.007314736,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,800,General Government,804,General property and records management,13908593,3221,722.587179,0.005195257,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,800,General Government,805,Central personnel management,13908593,1100,364.501074,0.00262069,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,270,Energy,274,Emergency energy preparedness,13908593,-4086,-1368.454682,-0.009838915,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,370,Commerce and Housing Credit,372,Postal service,13908593,-8889,-3750.286064,-0.026963806,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,950,Undistributed Offsetting Receipts,954,Sale of major assets,13908593,-17984,-5885.433279,-0.042315087,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,900,Net Interest,909,Other investment income,13908593,-19247,-7004.837267,-0.050363378,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,800,General Government,809,Deductions for offsetting receipts,13908593,-24817,-9395.16103,-0.067549327,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,150,International Affairs,155,International financial programs,13908593,-26758,-9597.654568,-0.069005215,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,950,Undistributed Offsetting Receipts,959,Other undistributed offsetting receipts,13908593,-48784,-20056.086459,-0.144199248,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,950,Undistributed Offsetting Receipts,953,Rents and royalties on the Outer Continental Shelf,13908593,-55480,-20219.32078,-0.14537287,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,370,Commerce and Housing Credit,373,Deposit insurance,13908593,-105442,-37688.179761,-0.27097047,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,950,Undistributed Offsetting Receipts,952,"Employer share, employee retirement (off-budget)",13908593,-164223,-60762.913977,-0.43687319,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,370,Commerce and Housing Credit,371,Mortgage credit,13908593,-281771,-116695.549587,-0.839017646,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,900,Net Interest,908,Other interest,13908593,-364087,-137047.886721,-0.985346877,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,900,Net Interest,902,Interest received by on-budget trust funds,13908593,-558269,-205137.707692,-1.474899062,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,950,Undistributed Offsetting Receipts,951,"Employer share, employee retirement (on-budget)",13908593,-665418,-245222.28836,-1.763099174,proportional_outlay_share,modeled_not_legal_dedication,actual
+2010s,2010,2019,10,full_decade,900,Net Interest,903,Interest received by off-budget trust funds,13908593,-992160,-359248.05711,-2.582921631,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,650,Social Security,651,Social security,13543778,7844973,2728062.927685,20.142554963,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,900,Net Interest,901,Interest on Treasury debt securities (gross),13543778,5030451,1779625.802794,13.139803405,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,550,Health,551,Health care services,13543778,4930589,1715285.96724,12.664752532,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,570,Medicare,571,Medicare,13543778,4946172,1710730.103565,12.631114476,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,050,National Defense,051,Department of Defense-Military,13543778,4604974,1592553.720428,11.758563382,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,600,Income Security,609,Other income security,13543778,2390525,783711.866131,5.786508507,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,600,Income Security,602,Federal employee retirement and disability,13543778,1028123,356130.949783,2.629480118,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,600,Income Security,605,Food and nutrition assistance,13543778,949467,332189.214507,2.452707173,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,700,Veterans Benefits and Services,701,Income security for veterans,13543778,878873,308391.905084,2.277000591,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,370,Commerce and Housing Credit,376,Other advancement of commerce,13543778,1086580,303789.874947,2.243021666,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,500,"Education, Training, Employment, and Social Services",502,Higher education,13543778,817166,297507.247266,2.19663411,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,600,Income Security,603,Unemployment compensation,13543778,1022010,293111.931965,2.164181456,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,700,Veterans Benefits and Services,703,Hospital and medical care for veterans,13543778,714054,249620.998088,1.843067703,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,500,"Education, Training, Employment, and Social Services",501,"Elementary, secondary, and vocational education",13543778,549719,194725.25629,1.437746959,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,400,Transportation,401,Ground transportation,13543778,528384,183241.663123,1.35295826,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,800,General Government,806,General purpose fiscal assistance,13543778,551202,172736.389385,1.275392947,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,600,Income Security,604,Housing assistance,13543778,434324,150669.524521,1.11246304,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,450,Community and Regional Development,453,Disaster relief and insurance,13543778,350551,119848.974457,0.884900612,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,550,Health,552,Health research and training,13543778,271335,94090.905182,0.69471683,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,750,Administration of Justice,751,Federal law enforcement activities,13543778,246776,85159.710723,0.628773675,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,400,Transportation,402,Air transportation,13543778,232053,75817.668979,0.559797045,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,150,International Affairs,151,International development and humanitarian assistance,13543778,200757,69494.007362,0.513106515,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,050,National Defense,053,Atomic energy defense activities,13543778,182600,63637.602353,0.469865959,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,500,"Education, Training, Employment, and Social Services",506,Social services,13543778,141907,49129.35754,0.362744853,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,250,"General Science, Space, and Technology",252,"Space flight, research, and supporting activities",13543778,136548,47173.497372,0.348303829,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,150,International Affairs,152,International security assistance,13543778,114629,41061.145934,0.303173501,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,350,Agriculture,351,Farm income stabilization,13543778,121104,40869.536305,0.301758758,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,350,Agriculture,352,Agricultural research and services,13543778,120596,40644.872802,0.300099963,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,750,Administration of Justice,752,Federal litigative and judicial activities,13543778,113665,39178.7482,0.289274885,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,600,Income Security,601,General retirement and disability insurance (excluding social security),13543778,99829,35931.8007,0.265301164,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,800,General Government,803,Central fiscal operations,13543778,96651,33783.918797,0.249442355,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,250,"General Science, Space, and Technology",251,General science and basic research,13543778,95130,33070.781582,0.244176932,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,300,Natural Resources and Environment,304,Pollution control and abatement,13543778,88289,31463.03285,0.232306177,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,150,International Affairs,153,Conduct of foreign affairs,13543778,88907,30233.922846,0.223231087,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,300,Natural Resources and Environment,302,Conservation and land management,13543778,86478,29603.999007,0.218580067,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,700,Veterans Benefits and Services,702,"Veterans education, training, and rehabilitation",13543778,79342,27346.310505,0.201910505,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,400,Transportation,403,Water transportation,13543778,75261,26028.44376,0.192180083,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,300,Natural Resources and Environment,301,Water resources,13543778,70896,24829.359445,0.183326687,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,450,Community and Regional Development,451,Community development,13543778,67903,24374.655887,0.179969399,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,370,Commerce and Housing Credit,373,Deposit insurance,13543778,67549,23951.526652,0.17684524,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,700,Veterans Benefits and Services,705,Other veterans benefits and services,13543778,66827,23238.064266,0.171577416,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,050,National Defense,054,Defense-related activities,13543778,66487,23004.579989,0.169853493,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,750,Administration of Justice,754,Criminal justice assistance,13543778,52142,17947.758037,0.132516629,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,750,Administration of Justice,753,Federal correctional activities,13543778,49538,17076.241709,0.126081819,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,300,Natural Resources and Environment,306,Other natural resources,13543778,48866,16966.553985,0.125271944,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,500,"Education, Training, Employment, and Social Services",504,Training and employment,13543778,41930,14427.965882,0.10652837,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,270,Energy,271,Energy supply,13543778,38996,13572.417612,0.10021146,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,550,Health,554,Consumer and occupational health and safety,13543778,34545,12031.695935,0.088835596,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,450,Community and Regional Development,452,Area and regional development,13543778,32184,11375.441662,0.083990166,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,800,General Government,801,Legislative functions,13543778,32497,11282.620379,0.083304824,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,800,General Government,808,Other general government,13543778,32809,10502.184937,0.077542507,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,300,Natural Resources and Environment,303,Recreational resources,13543778,28708,9957.248225,0.073518986,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,500,"Education, Training, Employment, and Social Services",503,Research and general education aids,13543778,26300,9099.150421,0.067183251,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,370,Commerce and Housing Credit,372,Postal service,13543778,12560,5175.720351,0.038214746,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,500,"Education, Training, Employment, and Social Services",505,Other labor services,13543778,12666,4376.024719,0.032310222,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,270,Energy,272,Energy conservation,13543778,12117,4243.801405,0.031333956,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,150,International Affairs,154,Foreign information and exchange activities,13543778,11501,4003.890288,0.029562581,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,270,Energy,276,"Energy information, policy, and regulation",13543778,4051,1404.590141,0.010370741,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,800,General Government,802,Executive direction and management,13543778,3635,1263.612391,0.009329837,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,400,Transportation,407,Other transportation,13543778,3559,1241.36897,0.009165603,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,800,General Government,805,Central personnel management,13543778,1775,624.878549,0.004613768,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,950,Undistributed Offsetting Receipts,954,Sale of major assets,13543778,-31,-11.74385,-0.00008671,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,800,General Government,804,General property and records management,13543778,-2609,-935.44958,-0.006906858,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,700,Veterans Benefits and Services,704,Veterans housing,13543778,-7347,-1941.402647,-0.014334277,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,900,Net Interest,909,Other investment income,13543778,-14862,-4634.872738,-0.034221417,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,800,General Government,809,Deductions for offsetting receipts,13543778,-14633,-5132.009867,-0.037892011,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,270,Energy,274,Emergency energy preparedness,13543778,-17306,-6902.960639,-0.050967763,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,950,Undistributed Offsetting Receipts,953,Rents and royalties on the Outer Continental Shelf,13543778,-39425,-14308.70168,-0.105647787,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,150,International Affairs,155,International financial programs,13543778,-104499,-34181.403679,-0.25237717,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,950,Undistributed Offsetting Receipts,952,"Employer share, employee retirement (off-budget)",13543778,-129201,-44750.525493,-0.330413903,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,950,Undistributed Offsetting Receipts,959,Other undistributed offsetting receipts,13543778,-115184,-46797.869445,-0.345530394,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,370,Commerce and Housing Credit,371,Mortgage credit,13543778,-197180,-69328.85768,-0.511887139,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,900,Net Interest,908,Other interest,13543778,-324392,-113405.185328,-0.837323126,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,900,Net Interest,903,Interest received by off-budget trust funds,13543778,-423748,-144271.21811,-1.065221374,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,900,Net Interest,902,Interest received by on-budget trust funds,13543778,-585543,-208490.003987,-1.539378481,proportional_outlay_share,modeled_not_legal_dedication,actual
+2020s,2020,2025,6,partial_decade,950,Undistributed Offsetting Receipts,951,"Employer share, employee retirement (on-budget)",13543778,-610262,-212754.72717,-1.570866912,proportional_outlay_share,modeled_not_legal_dedication,actual

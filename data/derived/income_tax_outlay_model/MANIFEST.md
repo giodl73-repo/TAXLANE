@@ -28,8 +28,9 @@ supporting views.
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.decade-wide.csv` | Chart-ready decade wide view | decade | 9 | no | `5e243eb2912b7aaed26e22016fd1907bf4cee25d60b3855f1c2627e7f4b9a2aa` |
 | `data/derived/income_tax_outlay_subfunction_model/income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.draft.jsonl` | Canonical annual subfunction model rows | fiscal year by Table 3.2 subfunction | 4691 | yes | `0aaa49392b7b51fd28be99f7b236369c1f1ac7f92092fbff49bc1469e3d109c7` |
 | `data/derived/income_tax_outlay_subfunction_model/income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.annual-long.csv` | Chart-ready annual subfunction long view | fiscal year by Table 3.2 subfunction | 4691 | no | `ad131a5f5b881f7437a7d083cde3d70524c9a180b3d8752f480214d51f7be72a` |
+| `data/derived/income_tax_outlay_subfunction_model/income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.decade-long.csv` | Chart-ready decade subfunction long view | decade by Table 3.2 subfunction | 521 | no | `88682d381058e9409a2d224c2f188a740a1cf51b00647635e10dcd65d999f5ce` |
 | `data/derived/income_tax_outlay_subfunction_model/income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.fy2025-top-subfunctions.csv` | Chart-ready FY2025 top subfunction view | ranked FY2025 subfunction | 25 | no | `7490dcd469ef70169d4037c41037793339540189c711d37e95b52e308faa04ff` |
-| `data/derived/income_tax_outlay_subfunction_model/README.md` | Subfunction model method and schema note | documentation | n/a | supporting | `ac8cb4f28b8f3dfd043af9a08e0fa90612208f8ec4269be3404754c839a698ff` |
+| `data/derived/income_tax_outlay_subfunction_model/README.md` | Subfunction model method and schema note | documentation | n/a | supporting | `bf055c8fbd297e98b28c1a47318209f3a7fbdf65fd118b8231a1f42dffff0a85` |
 | `data/derived/income_tax_outlay_subfunction_model/source-profile.md` | Subfunction source coverage and reconciliation sample | documentation | n/a | supporting | `2e61e02b034f77cb3219ab3e83cb1173bd15fd2bff628ebae27e01200091541b` |
 | `data/derived/income_tax_outlay_model/README.md` | Model method and schema note | documentation | n/a | supporting | `f20e3e7ddc97da3835a604988ee54f0c7b62445739e373815a1f51707b7f3d36` |
 | `data/derived/income_tax_outlay_model/source-profile.md` | Source coverage and reconciliation sample | documentation | n/a | supporting | `7d0dff2c0c671e4e1bbc80aee6a72a6ad09890758e1d8e7c92999a6d093456a2` |
@@ -49,7 +50,7 @@ supporting views.
 | `Cargo.toml` | Rust workspace manifest | tooling | n/a | supporting | `9ebc5854ae2e4979a5e9b86f65a60cb29c5a88f587877b126ed9cbd8457532cb` |
 | `Cargo.lock` | Rust dependency lockfile | tooling | n/a | supporting | `98b37b03e7430d5538eb8c663022926d896f9b31194915f43b654556fb16716f` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `44e924bb7e71d35948fa75dcc0583ef58203a0e0f52180cf03072ef64aa67c33` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `d5d60fc25d12a2bc3d84c890d0ea03da2e2fdcbedf03bd37ea796c3f0d162b91` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `4b233feb2c0c821cc45ac18423ea9314ed863e47dce8950fdbcab881f3dc0c1a` |
 
 ## Regeneration Order
 
