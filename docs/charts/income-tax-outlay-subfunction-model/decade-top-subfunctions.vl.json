@@ -1,0 +1,116 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Top Modeled Subfunction Allocations by Decade",
+  "data": {
+    "url": "../../../data/derived/income_tax_outlay_subfunction_model/income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.decade-long.csv",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "transform": [
+    {
+      "window": [
+        {
+          "op": "rank",
+          "as": "rank"
+        }
+      ],
+      "sort": [
+        {
+          "field": "decade_allocation_share_percent",
+          "order": "descending"
+        }
+      ],
+      "groupby": [
+        "decade"
+      ]
+    },
+    {
+      "filter": "datum.rank <= 5"
+    }
+  ],
+  "mark": {
+    "type": "bar"
+  },
+  "encoding": {
+    "x": {
+      "field": "decade",
+      "type": "ordinal",
+      "title": "Decade"
+    },
+    "y": {
+      "field": "decade_allocation_share_percent",
+      "type": "quantitative",
+      "title": "Modeled share of decade income-tax receipts",
+      "axis": {
+        "format": ".0f"
+      }
+    },
+    "color": {
+      "field": "subfunction_label",
+      "type": "nominal",
+      "title": "Subfunction",
+      "scale": {
+        "range": [
+          "#4E79A7",
+          "#F28E2B",
+          "#59A14F",
+          "#E15759",
+          "#76B7B2",
+          "#B07AA1",
+          "#9C755F",
+          "#BAB0AC"
+        ]
+      }
+    },
+    "tooltip": [
+      {
+        "field": "decade",
+        "type": "ordinal",
+        "title": "Decade"
+      },
+      {
+        "field": "coverage_note",
+        "type": "nominal",
+        "title": "Coverage"
+      },
+      {
+        "field": "rank",
+        "type": "ordinal",
+        "title": "Rank in decade"
+      },
+      {
+        "field": "function_label",
+        "type": "nominal",
+        "title": "Function"
+      },
+      {
+        "field": "subfunction_label",
+        "type": "nominal",
+        "title": "Subfunction"
+      },
+      {
+        "field": "decade_allocation_share_percent",
+        "type": "quantitative",
+        "title": "Modeled share",
+        "format": ".1f"
+      },
+      {
+        "field": "cumulative_modeled_income_tax_allocation_millions",
+        "type": "quantitative",
+        "title": "Modeled allocation",
+        "format": ",.0f"
+      },
+      {
+        "field": "legal_allocation_status",
+        "type": "nominal",
+        "title": "Legal status"
+      }
+    ]
+  },
+  "config": {
+    "view": {
+      "stroke": null
+    }
+  }
+}

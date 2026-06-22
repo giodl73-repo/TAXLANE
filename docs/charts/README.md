@@ -11,7 +11,7 @@ change the underlying data or model methods.
 | Chart set | Purpose | Data artifacts |
 |---|---|---|
 | `income-tax-outlay-model/` | Visualize the modeled allocation of ordinary individual income-tax receipts by broad outlay share, plus financing context. | Annual and decade wide CSV exports from `data/derived/income_tax_outlay_model/`. |
-| `income-tax-outlay-subfunction-model/` | Prepare Table 3.2 subfunction allocation views for analysis and future UI work. | Annual long and FY2025 top-subfunction CSV exports from `data/derived/income_tax_outlay_subfunction_model/`. |
+| `income-tax-outlay-subfunction-model/` | Prepare Table 3.2 subfunction allocation views for analysis and future UI work. | Annual long, decade long, and FY2025 top-subfunction CSV exports from `data/derived/income_tax_outlay_subfunction_model/`. |
 
 ## Income-Tax Outlay Model Specs
 
@@ -28,6 +28,7 @@ change the underlying data or model methods.
 |---|---|---|
 | `income-tax-outlay-subfunction-model/fy2025-top-subfunctions.vl.json` | FY2025 ranked subfunction | Compact drilldown into the largest modeled subfunction allocations. |
 | `income-tax-outlay-subfunction-model/selected-subfunction-trends.vl.json` | Fiscal year by selected subfunction, 1962-2025 | Trend comparison for major subfunctions after broad-model context is visible. |
+| `income-tax-outlay-subfunction-model/decade-top-subfunctions.vl.json` | Decade by ranked subfunction | Compact long-run drilldown for the largest modeled subfunction allocations in each decade. |
 
 ## Reading Order
 
