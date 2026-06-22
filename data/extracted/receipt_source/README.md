@@ -44,3 +44,4 @@ Rows must follow `docs/data/receipts-funds-schema.md`.
 - `table-2-4-1940-reconciliation.md`
 - `table-2-4-source-review.md`
 - `table-2-4-social-insurance-milestone-reconciliation.md`
+- `table-2-4-excise-milestone-reconciliation.md`
