@@ -83,12 +83,17 @@ the lane is legally dedicated, proportional, deficit-inclusive, or proposed.
   public-goods, beneficiary, compliance, fiscal, and reform-skeptic interests.
 - `.claude/skills/` contains repo-local wave, pulse, and research workflows.
 
-## First reader
+## Reader packets
 
 Start with `docs/reading/income-tax-foundation.md` for the public foundation
 packet. It explains the income-tax history, current mechanics, budget accounting
 labels, and program-linked tax lane hypothesis without treating modeled
 allocations as legal dedication.
+
+Then use `docs/reading/modeled-income-tax-outlays.md` for the broad modeled
+allocation of ordinary individual income-tax receipts by outlay share. Use
+`docs/reading/modeled-income-tax-subfunction-outlays.md` only as a drilldown
+after the broad financing context is visible.
 
 ## Validation
 
