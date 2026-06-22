@@ -23,8 +23,14 @@ const ANNUAL_CSV_PATH: &str = "data/derived/income_tax_outlay_model/income_tax_o
 const DECADE_CSV_PATH: &str = "data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.decade-wide.csv";
 const DECADE_MD_PATH: &str = "data/derived/income_tax_outlay_model/decade-summary.md";
 const SOURCE_PROFILE_PATH: &str = "data/derived/income_tax_outlay_model/source-profile.md";
+const SUBFUNCTION_MODEL_JSONL_PATH: &str = "data/derived/income_tax_outlay_subfunction_model/income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.draft.jsonl";
+const SUBFUNCTION_MODEL_PROFILE_PATH: &str =
+    "data/derived/income_tax_outlay_subfunction_model/source-profile.md";
+const SUBFUNCTION_MODEL_README_PATH: &str =
+    "data/derived/income_tax_outlay_subfunction_model/README.md";
 const OBSERVED_DATE: &str = "2026-06-21";
 const MODEL_ID: &str = "individual-income-tax-proportional-outlays-v1";
+const SUBFUNCTION_MODEL_ID: &str = "individual-income-tax-proportional-subfunction-outlays-v1";
 const TABLE_1_1_PATH: &str = "data/raw/omb/SRC-OMB-HIST-1-1-FY2027/2026-06-21/hist01z1_fy2027.xlsx";
 const TABLE_2_1_PATH: &str = "data/raw/omb/SRC-OMB-HIST-2-1-FY2027/2026-06-21/hist02z1_fy2027.xlsx";
 const TABLE_2_2_PATH: &str = "data/raw/omb/SRC-OMB-HIST-2-2-FY2027/2026-06-21/hist02z2_fy2027.xlsx";
@@ -271,6 +277,16 @@ fn main() -> ExitCode {
         }
         [area, command] if area == "income-tax-outlay" && command == "model" => run_model_write(),
         [area, command, flag]
+            if area == "income-tax-outlay"
+                && command == "subfunction-model"
+                && flag == "--check" =>
+        {
+            run_subfunction_model_check()
+        }
+        [area, command] if area == "income-tax-outlay" && command == "subfunction-model" => {
+            run_subfunction_model_write()
+        }
+        [area, command, flag]
             if area == "income-tax-outlay" && command == "summary" && flag == "--check" =>
         {
             run_summary_check()
@@ -328,7 +344,7 @@ fn main() -> ExitCode {
         }
         _ => {
             eprintln!(
-                "usage: taxlane-tools income-tax-outlay <validate|model [--check]|summary [--check]|export [--check]|manifest [--check]>\n       taxlane-tools receipt-source table-2-2 [--check]\n       taxlane-tools outlay-function table-3-1 [--check]\n       taxlane-tools outlay-function table-3-2-national-defense [--check]\n       taxlane-tools outlay-function table-3-2 [--check]"
+                "usage: taxlane-tools income-tax-outlay <validate|model [--check]|subfunction-model [--check]|summary [--check]|export [--check]|manifest [--check]>\n       taxlane-tools receipt-source table-2-2 [--check]\n       taxlane-tools outlay-function table-3-1 [--check]\n       taxlane-tools outlay-function table-3-2-national-defense [--check]\n       taxlane-tools outlay-function table-3-2 [--check]"
             );
             ExitCode::from(2)
         }
@@ -405,6 +421,40 @@ fn run_model_write() -> ExitCode {
         }
     };
     match build_annual_model(&root, false) {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(err) => {
+            eprintln!("{err}");
+            ExitCode::from(1)
+        }
+    }
+}
+
+fn run_subfunction_model_check() -> ExitCode {
+    let root = match repo_root() {
+        Ok(root) => root,
+        Err(err) => {
+            eprintln!("{err}");
+            return ExitCode::from(1);
+        }
+    };
+    match build_subfunction_model(&root, true) {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(err) => {
+            eprintln!("{err}");
+            ExitCode::from(1)
+        }
+    }
+}
+
+fn run_subfunction_model_write() -> ExitCode {
+    let root = match repo_root() {
+        Ok(root) => root,
+        Err(err) => {
+            eprintln!("{err}");
+            return ExitCode::from(1);
+        }
+    };
+    match build_subfunction_model(&root, false) {
         Ok(()) => ExitCode::SUCCESS,
         Err(err) => {
             eprintln!("{err}");
@@ -1060,6 +1110,42 @@ struct Table32Profile {
     function_count: usize,
     grand_checks: Vec<Table32GrandCheck>,
     function_checks: Vec<Table32FunctionCheck>,
+}
+
+#[derive(Clone)]
+struct SubfunctionModelRow {
+    fiscal_year: i64,
+    source_column: String,
+    source_row: i64,
+    function_code: String,
+    function_label: String,
+    subfunction_code: String,
+    subfunction_label: String,
+    subfunction_outlays_amount: f64,
+    subfunction_total_outlays_amount: f64,
+    total_outlays_amount: f64,
+    individual_income_tax_receipts_amount: f64,
+    outlay_share_percent: f64,
+    allocation_share_percent: f64,
+    modeled_income_tax_allocation_amount: f64,
+}
+
+struct SubfunctionModelCheck {
+    year: i64,
+    table_3_2_total_outlays: f64,
+    subfunction_total: f64,
+    individual_income_tax: f64,
+    modeled_sum: f64,
+    subfunction_total_difference: f64,
+}
+
+struct SubfunctionModelProfile {
+    first_year: i64,
+    last_year: i64,
+    year_count: usize,
+    record_count: usize,
+    subfunction_count: usize,
+    checks: Vec<SubfunctionModelCheck>,
 }
 
 fn build_receipt_share_rows(root: &Path) -> Result<Vec<ReceiptShareRow>, String> {
@@ -2073,6 +2159,321 @@ fn table_3_2_profile_markdown(profile: &Table32Profile) -> String {
         String::new(),
     ]);
     lines.join("\n")
+}
+
+fn build_subfunction_model(root: &Path, check_only: bool) -> Result<(), String> {
+    let (records, profile) = build_subfunction_model_records(root)?;
+    validate_subfunction_model_records(&records, &profile)?;
+    let jsonl = subfunction_model_jsonl(&records);
+    let profile_markdown = subfunction_model_profile_markdown(&profile);
+    let readme = subfunction_model_readme_markdown();
+
+    if check_only {
+        compare_text(
+            root,
+            SUBFUNCTION_MODEL_JSONL_PATH,
+            &jsonl,
+            "subfunction model JSONL",
+        )?;
+        compare_text(
+            root,
+            SUBFUNCTION_MODEL_PROFILE_PATH,
+            &profile_markdown,
+            "subfunction model profile",
+        )?;
+        compare_text(
+            root,
+            SUBFUNCTION_MODEL_README_PATH,
+            &readme,
+            "subfunction model README",
+        )?;
+    } else {
+        fs::create_dir_all(root.join("data/derived/income_tax_outlay_subfunction_model"))
+            .map_err(|err| format!("failed to create subfunction model directory: {err}"))?;
+        fs::write(root.join(SUBFUNCTION_MODEL_JSONL_PATH), jsonl)
+            .map_err(|err| format!("failed to write {SUBFUNCTION_MODEL_JSONL_PATH}: {err}"))?;
+        fs::write(root.join(SUBFUNCTION_MODEL_PROFILE_PATH), profile_markdown)
+            .map_err(|err| format!("failed to write {SUBFUNCTION_MODEL_PROFILE_PATH}: {err}"))?;
+        fs::write(root.join(SUBFUNCTION_MODEL_README_PATH), readme)
+            .map_err(|err| format!("failed to write {SUBFUNCTION_MODEL_README_PATH}: {err}"))?;
+    }
+
+    println!(
+        "validated {} subfunction model rows for {}-{}",
+        records.len(),
+        profile.first_year,
+        profile.last_year
+    );
+    Ok(())
+}
+
+fn build_subfunction_model_records(
+    root: &Path,
+) -> Result<(Vec<SubfunctionModelRow>, SubfunctionModelProfile), String> {
+    let t21 = parse_table_2_1(&read_sheet(&root.join(TABLE_2_1_PATH))?);
+    let sheet_32 = read_sheet(&root.join(TABLE_3_2_PATH))?;
+    let columns_by_year = table_3_2_year_columns(&sheet_32)?;
+    let lines = parse_table_3_2_lines(&sheet_32)?;
+    let subfunction_lines: Vec<Table32Line> = lines
+        .into_iter()
+        .filter(|line| matches!(line.kind, Table32LineKind::Subfunction))
+        .collect();
+    let years: Vec<i64> = columns_by_year
+        .keys()
+        .copied()
+        .filter(|year| (1962..=2025).contains(year))
+        .collect();
+
+    let mut records = Vec::new();
+    let mut checks = Vec::new();
+    let mut errors = Vec::new();
+
+    for year in &years {
+        let Some(column) = columns_by_year.get(year) else {
+            errors.push(format!("{year}: missing Table 3.2 source column"));
+            continue;
+        };
+        let Some(table_21) = t21.get(year) else {
+            errors.push(format!("{year}: missing Table 2.1 row"));
+            continue;
+        };
+        let total_outlays = table_3_2_optional_number(&sheet_32, 140, column)
+            .ok_or_else(|| format!("{year}: missing Table 3.2 total outlays"))?;
+        let mut subfunction_total = 0.0;
+        let mut year_values = Vec::new();
+        for line in &subfunction_lines {
+            let Some(amount) = table_3_2_optional_number(&sheet_32, line.source_row, column) else {
+                continue;
+            };
+            subfunction_total += amount;
+            year_values.push((line, amount));
+        }
+        let subfunction_total_difference = subfunction_total - total_outlays;
+        if subfunction_total_difference.abs() > 10.0 {
+            errors.push(format!(
+                "{year}: Table 3.2 subfunction total {subfunction_total} does not reconcile to total outlays {total_outlays}"
+            ));
+        }
+        let income_tax = table_21.individual_income_tax;
+        let mut modeled_sum = 0.0;
+        for (line, amount) in year_values {
+            let modeled_amount = income_tax * amount / subfunction_total;
+            modeled_sum += modeled_amount;
+            records.push(SubfunctionModelRow {
+                fiscal_year: *year,
+                source_column: column.clone(),
+                source_row: line.source_row,
+                function_code: line.function_code.clone(),
+                function_label: line.function_label.clone(),
+                subfunction_code: line
+                    .subfunction_code
+                    .clone()
+                    .ok_or_else(|| "missing subfunction code".to_string())?,
+                subfunction_label: line
+                    .subfunction_label
+                    .clone()
+                    .ok_or_else(|| "missing subfunction label".to_string())?,
+                subfunction_outlays_amount: round6(amount),
+                subfunction_total_outlays_amount: round6(subfunction_total),
+                total_outlays_amount: round6(total_outlays),
+                individual_income_tax_receipts_amount: round6(income_tax),
+                outlay_share_percent: round9(amount / total_outlays * 100.0),
+                allocation_share_percent: round9(amount / subfunction_total * 100.0),
+                modeled_income_tax_allocation_amount: round6(modeled_amount),
+            });
+        }
+        if (modeled_sum - income_tax).abs() > 0.0005 {
+            errors.push(format!(
+                "{year}: subfunction modeled sum {modeled_sum} does not match individual income-tax receipts {income_tax}"
+            ));
+        }
+        checks.push(SubfunctionModelCheck {
+            year: *year,
+            table_3_2_total_outlays: total_outlays,
+            subfunction_total,
+            individual_income_tax: income_tax,
+            modeled_sum,
+            subfunction_total_difference,
+        });
+    }
+
+    if !errors.is_empty() {
+        return Err(errors.join("\n"));
+    }
+
+    let first_year = *years
+        .first()
+        .ok_or_else(|| "no subfunction model years".to_string())?;
+    let last_year = *years
+        .last()
+        .ok_or_else(|| "no subfunction model years".to_string())?;
+    let subfunction_count = subfunction_lines.len();
+    let profile = SubfunctionModelProfile {
+        first_year,
+        last_year,
+        year_count: years.len(),
+        record_count: records.len(),
+        subfunction_count,
+        checks,
+    };
+    Ok((records, profile))
+}
+
+fn validate_subfunction_model_records(
+    records: &[SubfunctionModelRow],
+    profile: &SubfunctionModelProfile,
+) -> Result<(), String> {
+    if records.is_empty() {
+        return Err("no subfunction model rows".to_string());
+    }
+    for check in &profile.checks {
+        if check.subfunction_total_difference.abs() > 10.0 {
+            return Err(format!(
+                "{}: subfunction total difference {}",
+                check.year, check.subfunction_total_difference
+            ));
+        }
+        if (check.modeled_sum - check.individual_income_tax).abs() > 0.0005 {
+            return Err(format!(
+                "{}: modeled sum {} does not equal income tax {}",
+                check.year, check.modeled_sum, check.individual_income_tax
+            ));
+        }
+    }
+    Ok(())
+}
+
+fn subfunction_model_jsonl(records: &[SubfunctionModelRow]) -> String {
+    let mut lines = Vec::new();
+    for row in records {
+        lines.push(format!(
+            "{{\"record_id\":{},\"record_family\":\"income_tax_outlay_subfunction_model\",\"model_id\":{},\"fiscal_year\":{},\"year_basis\":\"fiscal_year\",\"source_ids\":[\"SRC-OMB-HIST-2-1-FY2027\",\"SRC-OMB-HIST-3-2-FY2027\"],\"source_table_refs\":{{\"tax_receipts\":\"OMB Historical Table 2.1 FY2027\",\"outlay_subfunction\":{}}},\"tax_source\":\"individual-income-taxes\",\"allocation_method\":\"proportional_outlay_share\",\"legal_allocation_status\":\"modeled_not_legal_dedication\",\"function_code\":{},\"function_label\":{},\"subfunction_code\":{},\"subfunction_label\":{},\"subfunction_outlays_amount\":{},\"total_outlays_amount\":{},\"subfunction_total_outlays_amount\":{},\"individual_income_tax_receipts_amount\":{},\"outlay_share_percent\":{},\"allocation_share_percent\":{},\"modeled_income_tax_allocation_amount\":{},\"actual_or_projection\":\"actual\",\"status\":\"draft\",\"observed_date\":{},\"notes\":\"Modeled allocation of ordinary individual income-tax receipts by Table 3.2 subfunction outlay share; not legal dedication or program tracing.\"}}",
+            json_string(&format!(
+                "income-tax-outlay-subfunction-model:{}:{}:{}",
+                row.fiscal_year, row.function_code, row.subfunction_code
+            )),
+            json_string(SUBFUNCTION_MODEL_ID),
+            row.fiscal_year,
+            json_string(&format!(
+                "OMB Historical Table 3.2 FY2027 row {}, column {}",
+                row.source_row, row.source_column
+            )),
+            json_string(&row.function_code),
+            json_string(&row.function_label),
+            json_string(&row.subfunction_code),
+            json_string(&row.subfunction_label),
+            json_amount(row.subfunction_outlays_amount),
+            json_amount(row.total_outlays_amount),
+            json_amount(row.subfunction_total_outlays_amount),
+            json_amount(row.individual_income_tax_receipts_amount),
+            decimal_string(row.outlay_share_percent, 9),
+            decimal_string(row.allocation_share_percent, 9),
+            decimal_string(row.modeled_income_tax_allocation_amount, 6),
+            json_string(OBSERVED_DATE),
+        ));
+    }
+    lines.join("\n") + "\n"
+}
+
+fn subfunction_model_profile_markdown(profile: &SubfunctionModelProfile) -> String {
+    let sample_years = [1962, 1970, 1980, 2000, 2025];
+    let mut lines = vec![
+        "# Income-Tax Outlay Subfunction Model Source Profile".to_string(),
+        String::new(),
+        "## Source Coverage".to_string(),
+        String::new(),
+        format!("- Model ID: `{SUBFUNCTION_MODEL_ID}`"),
+        "- Tax receipt source: `SRC-OMB-HIST-2-1-FY2027`".to_string(),
+        "- Outlay source: `SRC-OMB-HIST-3-2-FY2027`".to_string(),
+        format!(
+            "- Fiscal years emitted: {}-{}",
+            profile.first_year, profile.last_year
+        ),
+        format!("- Year count: {}", profile.year_count),
+        format!("- Subfunction count: {}", profile.subfunction_count),
+        format!("- Record count: {}", profile.record_count),
+        "- Actual/projection treatment: actual years only; TQ and FY2026-FY2031 estimates are excluded.".to_string(),
+        String::new(),
+        "## Reconciliation Sample".to_string(),
+        String::new(),
+        "Amounts are in millions of dollars. `Subfunction total` is the denominator used for modeled allocation.".to_string(),
+        String::new(),
+        "| Fiscal year | Table 3.2 total outlays | Subfunction total | Income tax receipts | Modeled sum | Subfunction diff |".to_string(),
+        "|---:|---:|---:|---:|---:|---:|".to_string(),
+    ];
+    for check in profile
+        .checks
+        .iter()
+        .filter(|check| sample_years.contains(&check.year))
+    {
+        lines.push(format!(
+            "| {} | {} | {} | {} | {} | {} |",
+            check.year,
+            comma_number(check.table_3_2_total_outlays, 0),
+            comma_number(check.subfunction_total, 0),
+            comma_number(check.individual_income_tax, 0),
+            comma_number(check.modeled_sum, 3),
+            comma_number(check.subfunction_total_difference, 0),
+        ));
+    }
+    lines.extend([
+        String::new(),
+        "## Model Caveat".to_string(),
+        String::new(),
+        "This is a visibility model. It allocates ordinary individual income-tax receipts by reported Table 3.2 subfunction outlay shares. It is not a legal dedication, appropriation rule, or program-financing claim.".to_string(),
+        String::new(),
+    ]);
+    lines.join("\n")
+}
+
+fn subfunction_model_readme_markdown() -> String {
+    [
+        "# Individual Income-Tax Outlay Subfunction Model",
+        "",
+        "## Purpose",
+        "",
+        "This derived model estimates, by fiscal year and OMB Table 3.2 subfunction, how ordinary individual income-tax receipts would be allocated if allocated in proportion to that year's reported subfunction outlays.",
+        "",
+        "This is a visibility model. It is not a legal dedication, appropriation rule, or program-financing claim.",
+        "",
+        "## Model ID",
+        "",
+        "`individual-income-tax-proportional-subfunction-outlays-v1`",
+        "",
+        "## Inputs",
+        "",
+        "| Source ID | Role |",
+        "|---|---|",
+        "| `SRC-OMB-HIST-2-1-FY2027` | Individual income-tax receipt amount by fiscal year. |",
+        "| `SRC-OMB-HIST-3-2-FY2027` | Function and subfunction outlays by fiscal year. |",
+        "",
+        "## Coverage",
+        "",
+        "The first draft model covers fiscal years 1962-2025, the overlap between Table 3.2 actual-year subfunction rows and Table 2.1 individual income-tax receipt rows.",
+        "",
+        "## Method",
+        "",
+        "For each fiscal year and emitted Table 3.2 subfunction:",
+        "",
+        "```text",
+        "outlay_share_percent = subfunction_outlays / total_federal_outlays * 100",
+        "allocation_share_percent = subfunction_outlays / sum_of_subfunction_outlays * 100",
+        "modeled_income_tax_allocation = individual_income_tax_receipts",
+        "                                * subfunction_outlays",
+        "                                / sum_of_subfunction_outlays",
+        "```",
+        "",
+        "The allocation denominator uses the emitted subfunction rows so modeled rows sum back to individual income-tax receipts. Small differences from displayed total outlays are source rounding.",
+        "",
+        "## Regeneration",
+        "",
+        "```powershell",
+        "cargo run -p taxlane-tools -- income-tax-outlay subfunction-model",
+        "cargo run -p taxlane-tools -- income-tax-outlay subfunction-model --check",
+        "```",
+        "",
+    ]
+    .join("\n")
 }
 
 fn table_2_2_year_label(value: Option<&CellValue>) -> Option<String> {
