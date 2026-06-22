@@ -27,7 +27,11 @@ const OBSERVED_DATE: &str = "2026-06-21";
 const MODEL_ID: &str = "individual-income-tax-proportional-outlays-v1";
 const TABLE_1_1_PATH: &str = "data/raw/omb/SRC-OMB-HIST-1-1-FY2027/2026-06-21/hist01z1_fy2027.xlsx";
 const TABLE_2_1_PATH: &str = "data/raw/omb/SRC-OMB-HIST-2-1-FY2027/2026-06-21/hist02z1_fy2027.xlsx";
+const TABLE_2_2_PATH: &str = "data/raw/omb/SRC-OMB-HIST-2-2-FY2027/2026-06-21/hist02z2_fy2027.xlsx";
 const TABLE_3_1_PATH: &str = "data/raw/omb/SRC-OMB-HIST-3-1-FY2027/2026-06-21/hist03z1_fy2027.xlsx";
+const RECEIPT_SHARE_JSONL_PATH: &str =
+    "data/extracted/receipt_source/receipt_source.SRC-OMB-HIST-2-2-FY2027.2026-06-21.draft.jsonl";
+const RECEIPT_SHARE_PROFILE_PATH: &str = "data/extracted/receipt_source/table-2-2-profile.md";
 const SOURCE_IDS: &[&str] = &[
     "SRC-OMB-HIST-1-1-FY2027",
     "SRC-OMB-HIST-2-1-FY2027",
@@ -276,9 +280,17 @@ fn main() -> ExitCode {
         [area, command] if area == "income-tax-outlay" && command == "manifest" => {
             run_manifest_write()
         }
+        [area, command, flag]
+            if area == "receipt-source" && command == "table-2-2" && flag == "--check" =>
+        {
+            run_table_2_2_check()
+        }
+        [area, command] if area == "receipt-source" && command == "table-2-2" => {
+            run_table_2_2_write()
+        }
         _ => {
             eprintln!(
-                "usage: taxlane-tools income-tax-outlay <validate|model [--check]|summary [--check]|export [--check]|manifest [--check]>"
+                "usage: taxlane-tools income-tax-outlay <validate|model [--check]|summary [--check]|export [--check]|manifest [--check]>\n       taxlane-tools receipt-source table-2-2 [--check]"
             );
             ExitCode::from(2)
         }
@@ -471,6 +483,40 @@ fn run_manifest_write() -> ExitCode {
     }
 }
 
+fn run_table_2_2_check() -> ExitCode {
+    let root = match repo_root() {
+        Ok(root) => root,
+        Err(err) => {
+            eprintln!("{err}");
+            return ExitCode::from(1);
+        }
+    };
+    match build_receipt_share_table_2_2(&root, true) {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(err) => {
+            eprintln!("{err}");
+            ExitCode::from(1)
+        }
+    }
+}
+
+fn run_table_2_2_write() -> ExitCode {
+    let root = match repo_root() {
+        Ok(root) => root,
+        Err(err) => {
+            eprintln!("{err}");
+            return ExitCode::from(1);
+        }
+    };
+    match build_receipt_share_table_2_2(&root, false) {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(err) => {
+            eprintln!("{err}");
+            ExitCode::from(1)
+        }
+    }
+}
+
 fn repo_root() -> Result<PathBuf, String> {
     env::current_dir().map_err(|err| format!("failed to get current directory: {err}"))
 }
@@ -480,6 +526,362 @@ fn parse_json(path: &Path) -> Result<(), String> {
     serde_json::from_reader::<_, serde_json::Value>(file)
         .map_err(|err| format!("failed to parse {:?}: {err}", path))?;
     Ok(())
+}
+
+fn build_receipt_share_table_2_2(root: &Path, check_only: bool) -> Result<(), String> {
+    let rows = build_receipt_share_rows(root)?;
+    validate_receipt_share_rows(&rows)?;
+    let jsonl = receipt_share_jsonl(&rows);
+    let markdown = receipt_share_profile_markdown(&rows)?;
+
+    if check_only {
+        compare_text(
+            root,
+            RECEIPT_SHARE_JSONL_PATH,
+            &jsonl,
+            "Table 2.2 receipt share JSONL",
+        )?;
+        compare_text(
+            root,
+            RECEIPT_SHARE_PROFILE_PATH,
+            &markdown,
+            "Table 2.2 receipt share profile",
+        )?;
+    } else {
+        fs::write(root.join(RECEIPT_SHARE_JSONL_PATH), jsonl)
+            .map_err(|err| format!("failed to write {RECEIPT_SHARE_JSONL_PATH}: {err}"))?;
+        fs::write(root.join(RECEIPT_SHARE_PROFILE_PATH), markdown)
+            .map_err(|err| format!("failed to write {RECEIPT_SHARE_PROFILE_PATH}: {err}"))?;
+    }
+
+    let first_year = rows
+        .first()
+        .ok_or_else(|| "no Table 2.2 rows".to_string())?
+        .fiscal_year;
+    let last_year = rows
+        .last()
+        .ok_or_else(|| "no Table 2.2 rows".to_string())?
+        .fiscal_year;
+    println!(
+        "validated {} Table 2.2 receipt share rows for {}-{}",
+        rows.len(),
+        first_year,
+        last_year
+    );
+    Ok(())
+}
+
+#[derive(Clone, Copy)]
+struct ReceiptShareCategory {
+    column: &'static str,
+    receipt_category: &'static str,
+    source_receipt_label: &'static str,
+    allocation_status: &'static str,
+    notes: &'static str,
+}
+
+const RECEIPT_SHARE_CATEGORIES: &[ReceiptShareCategory] = &[
+    ReceiptShareCategory {
+        column: "B",
+        receipt_category: "individual-income-taxes",
+        source_receipt_label: "Individual Income Taxes",
+        allocation_status: "general_receipt",
+        notes: "Share of total receipts; AP13 general-fund concept supports ordinary individual income taxes as general receipts absent a cited legal dedication.",
+    },
+    ReceiptShareCategory {
+        column: "C",
+        receipt_category: "corporation-income-taxes",
+        source_receipt_label: "Corporation Income Taxes",
+        allocation_status: "unknown",
+        notes: "Share of total receipts; allocation label remains unknown pending source-specific review.",
+    },
+    ReceiptShareCategory {
+        column: "D",
+        receipt_category: "social-insurance-and-retirement-receipts",
+        source_receipt_label: "Social Insurance and Retirement Receipts Total",
+        allocation_status: "unknown",
+        notes: "Share of total receipts; social-insurance receipts remain separate from individual income taxes and require subcomponent review for allocation.",
+    },
+    ReceiptShareCategory {
+        column: "G",
+        receipt_category: "excise-taxes",
+        source_receipt_label: "Excise Taxes",
+        allocation_status: "unknown",
+        notes: "Share of total receipts; excise taxes can include general and dedicated treatment.",
+    },
+    ReceiptShareCategory {
+        column: "H",
+        receipt_category: "other-receipts",
+        source_receipt_label: "Other",
+        allocation_status: "unknown",
+        notes: "Share of total receipts; other receipts are heterogeneous and need source-specific review.",
+    },
+    ReceiptShareCategory {
+        column: "I",
+        receipt_category: "total-receipts",
+        source_receipt_label: "Total Receipts",
+        allocation_status: "mixed",
+        notes: "Total receipts combine categories with different budget treatment and are not a legal allocation category.",
+    },
+];
+
+#[derive(Clone)]
+struct ReceiptShareRow {
+    fiscal_year: i64,
+    source_row: i64,
+    source_column: &'static str,
+    receipt_category: &'static str,
+    source_receipt_label: &'static str,
+    percent: f64,
+    actual_or_projection: &'static str,
+    allocation_status: &'static str,
+    notes: &'static str,
+}
+
+fn build_receipt_share_rows(root: &Path) -> Result<Vec<ReceiptShareRow>, String> {
+    let sheet = read_sheet(&root.join(TABLE_2_2_PATH))?;
+    let mut rows = Vec::new();
+
+    for (row_num, cells) in &sheet {
+        let Some(year_label) = table_2_2_year_label(cells.get("A")) else {
+            continue;
+        };
+        let Some((year, actual_or_projection)) = parse_table_2_2_year(&year_label) else {
+            continue;
+        };
+
+        for category in RECEIPT_SHARE_CATEGORIES {
+            let Some(percent) = number_cell(cells.get(category.column)) else {
+                return Err(format!(
+                    "Table 2.2 row {row_num} missing percent in column {}",
+                    category.column
+                ));
+            };
+            rows.push(ReceiptShareRow {
+                fiscal_year: year,
+                source_row: *row_num,
+                source_column: category.column,
+                receipt_category: category.receipt_category,
+                source_receipt_label: category.source_receipt_label,
+                percent: round6(percent),
+                actual_or_projection,
+                allocation_status: category.allocation_status,
+                notes: category.notes,
+            });
+        }
+    }
+
+    rows.sort_by_key(|row| {
+        (
+            row.fiscal_year,
+            receipt_share_sort_key(row.receipt_category),
+        )
+    });
+    Ok(rows)
+}
+
+fn table_2_2_year_label(value: Option<&CellValue>) -> Option<String> {
+    text_cell(value).or_else(|| int_cell(value).map(|year| year.to_string()))
+}
+
+fn parse_table_2_2_year(label: &str) -> Option<(i64, &'static str)> {
+    let trimmed = label.trim();
+    if trimmed == "TQ" {
+        return None;
+    }
+    if let Some(year) = trimmed.strip_suffix(" estimate") {
+        return year.parse::<i64>().ok().map(|year| (year, "estimate"));
+    }
+    trimmed.parse::<i64>().ok().map(|year| {
+        let status = if year <= 2025 { "actual" } else { "estimate" };
+        (year, status)
+    })
+}
+
+fn receipt_share_sort_key(category: &str) -> usize {
+    RECEIPT_SHARE_CATEGORIES
+        .iter()
+        .position(|candidate| candidate.receipt_category == category)
+        .unwrap_or(usize::MAX)
+}
+
+fn validate_receipt_share_rows(rows: &[ReceiptShareRow]) -> Result<(), String> {
+    if rows.len() != 588 {
+        return Err(format!(
+            "expected 588 Table 2.2 receipt share rows, found {}",
+            rows.len()
+        ));
+    }
+
+    let mut by_year: BTreeMap<i64, Vec<&ReceiptShareRow>> = BTreeMap::new();
+    for row in rows {
+        if !(0.0..=100.0).contains(&row.percent) {
+            return Err(format!(
+                "{} {} percent out of range: {}",
+                row.fiscal_year, row.receipt_category, row.percent
+            ));
+        }
+        by_year.entry(row.fiscal_year).or_default().push(row);
+    }
+
+    for (year, year_rows) in by_year {
+        if year_rows.len() != RECEIPT_SHARE_CATEGORIES.len() {
+            return Err(format!(
+                "{year}: expected {} share rows, found {}",
+                RECEIPT_SHARE_CATEGORIES.len(),
+                year_rows.len()
+            ));
+        }
+        let category_sum: f64 = year_rows
+            .iter()
+            .filter(|row| row.receipt_category != "total-receipts")
+            .map(|row| row.percent)
+            .sum();
+        if (category_sum - 100.0).abs() > 0.25 {
+            return Err(format!(
+                "{year}: receipt-source shares sum to {category_sum}"
+            ));
+        }
+        let total = year_rows
+            .iter()
+            .find(|row| row.receipt_category == "total-receipts")
+            .map(|row| row.percent)
+            .ok_or_else(|| format!("{year}: missing total receipts share"))?;
+        if (total - 100.0).abs() > 0.000001 {
+            return Err(format!("{year}: total receipts share is {total}"));
+        }
+    }
+    Ok(())
+}
+
+fn receipt_share_jsonl(rows: &[ReceiptShareRow]) -> String {
+    let mut lines = Vec::new();
+    for row in rows {
+        let mut source_ids = vec!["SRC-OMB-HIST-2-2-FY2027"];
+        if row.receipt_category == "individual-income-taxes" {
+            source_ids.push("SRC-OMB-AP-13-FUNDS-FY2027");
+        }
+        lines.push(format!(
+            "{{\"record_id\":{},\"record_family\":\"receipt_source\",\"fiscal_year\":{},\"year_basis\":\"fiscal_year\",\"source_ids\":[{}],\"source_table\":\"OMB Historical Table 2.2 FY2027\",\"source_row_ref\":{},\"receipt_category\":{},\"source_receipt_label\":{},\"measure\":\"share_of_total\",\"amount\":null,\"percent\":{},\"amount_units\":\"percent\",\"actual_or_projection\":{},\"fund_group_link\":null,\"allocation_status\":{},\"status\":\"draft\",\"observed_date\":{},\"notes\":{}}}",
+            json_string(&format!(
+                "receipt:{}:{}:share-of-total",
+                row.fiscal_year, row.receipt_category
+            )),
+            row.fiscal_year,
+            source_ids
+                .iter()
+                .map(|source| json_string(source))
+                .collect::<Vec<_>>()
+                .join(","),
+            json_string(&format!(
+                "Table!A{}:{}{}; column {} {}",
+                row.source_row,
+                row.source_column,
+                row.source_row,
+                row.source_column,
+                row.source_receipt_label
+            )),
+            json_string(row.receipt_category),
+            json_string(row.source_receipt_label),
+            decimal_string(row.percent, 6),
+            json_string(row.actual_or_projection),
+            json_string(row.allocation_status),
+            json_string(OBSERVED_DATE),
+            json_string(row.notes),
+        ));
+    }
+    lines.join("\n") + "\n"
+}
+
+fn receipt_share_profile_markdown(rows: &[ReceiptShareRow]) -> Result<String, String> {
+    let first_year = rows
+        .first()
+        .ok_or_else(|| "no Table 2.2 rows".to_string())?
+        .fiscal_year;
+    let last_year = rows
+        .last()
+        .ok_or_else(|| "no Table 2.2 rows".to_string())?
+        .fiscal_year;
+    let year_count = rows.len() / RECEIPT_SHARE_CATEGORIES.len();
+    let estimate_count = rows
+        .iter()
+        .filter(|row| row.actual_or_projection == "estimate")
+        .map(|row| row.fiscal_year)
+        .collect::<std::collections::BTreeSet<_>>()
+        .len();
+    let sample_years = [1934, 1940, 1980, 2000, 2025, 2031];
+    let mut by_year: BTreeMap<i64, BTreeMap<&str, f64>> = BTreeMap::new();
+    for row in rows {
+        by_year
+            .entry(row.fiscal_year)
+            .or_default()
+            .insert(row.receipt_category, row.percent);
+    }
+
+    let mut lines = vec![
+        "# OMB Table 2.2 Receipt Share Profile".to_string(),
+        String::new(),
+        "## Source".to_string(),
+        String::new(),
+        "- Source ID: `SRC-OMB-HIST-2-2-FY2027`".to_string(),
+        "- Raw artifact: `data/raw/omb/SRC-OMB-HIST-2-2-FY2027/2026-06-21/hist02z2_fy2027.xlsx`"
+            .to_string(),
+        "- Table title: `Table 2.2 - PERCENTAGE COMPOSITION OF RECEIPTS BY SOURCE: 1934 - 2031`"
+            .to_string(),
+        String::new(),
+        "## Coverage".to_string(),
+        String::new(),
+        format!("- Fiscal years emitted: {first_year}-{last_year}"),
+        format!("- Year count: {year_count}"),
+        format!("- Estimate years: {estimate_count}"),
+        format!("- Record count: {}", rows.len()),
+        String::new(),
+        "## Extracted Columns".to_string(),
+        String::new(),
+        "| Column | Receipt category | Source label |".to_string(),
+        "|---|---|---|".to_string(),
+    ];
+    for category in RECEIPT_SHARE_CATEGORIES {
+        lines.push(format!(
+            "| {} | `{}` | {} |",
+            category.column, category.receipt_category, category.source_receipt_label
+        ));
+    }
+    lines.extend([
+        String::new(),
+        "## Sample Shares".to_string(),
+        String::new(),
+        "Percentages are OMB-reported shares of total receipts.".to_string(),
+        String::new(),
+        "| Fiscal year | Individual income | Corporation income | Social insurance | Excise | Other | Total receipts |".to_string(),
+        "|---:|---:|---:|---:|---:|---:|---:|".to_string(),
+    ]);
+    for year in sample_years {
+        let categories = by_year
+            .get(&year)
+            .ok_or_else(|| format!("missing sample year {year}"))?;
+        lines.push(format!(
+            "| {year} | {:.1}% | {:.1}% | {:.1}% | {:.1}% | {:.1}% | {:.1}% |",
+            categories["individual-income-taxes"],
+            categories["corporation-income-taxes"],
+            categories["social-insurance-and-retirement-receipts"],
+            categories["excise-taxes"],
+            categories["other-receipts"],
+            categories["total-receipts"],
+        ));
+    }
+    lines.extend([
+        String::new(),
+        "## Extraction Decisions".to_string(),
+        String::new(),
+        "- Keep Table 2.2 percentage rows separate from Table 2.1 amount rows.".to_string(),
+        "- Skip the transition-quarter `TQ` row because it is not a fiscal year.".to_string(),
+        "- Preserve estimate years as `actual_or_projection = \"estimate\"`.".to_string(),
+        "- Treat total receipts as `mixed` because it combines categories with different budget treatment.".to_string(),
+        "- Keep non-individual receipt allocation labels as `unknown` pending narrower review.".to_string(),
+        String::new(),
+    ]);
+    Ok(lines.join("\n"))
 }
 
 fn build_annual_model(root: &Path, check_only: bool) -> Result<(), String> {
