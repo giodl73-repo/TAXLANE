@@ -11,12 +11,24 @@ OMB Historical Tables.
 | `SRC-OMB-HIST-3-1-FY2027` | `data/raw/omb/SRC-OMB-HIST-3-1-FY2027/2026-06-21/hist03z1_fy2027.xlsx` | Superfunction and function records. |
 | `SRC-OMB-HIST-3-2-FY2027` | `data/raw/omb/SRC-OMB-HIST-3-2-FY2027/2026-06-21/hist03z2_fy2027.xlsx` | Function and subfunction records. |
 
+## Current Output
+
+The current Table 3.1 draft emits all actual fiscal years, 1940-2025:
+
+```text
+outlay_function.SRC-OMB-HIST-3-1-FY2027.2026-06-21.draft.jsonl
+table-3-1-profile.md
+```
+
+Rows follow `docs/data/outlays-lanes-schema.md`. The Table 3.1 extract keeps
+the six broad visible outlay rows plus `Total, Federal outlays`, and excludes
+FY2026-FY2031 estimates.
+
 ## Planned Output
 
 Use JSONL draft records named by source and observed date:
 
 ```text
-outlay_function.SRC-OMB-HIST-3-1-FY2027.2026-06-21.draft.jsonl
 outlay_function.SRC-OMB-HIST-3-2-FY2027.2026-06-21.draft.jsonl
 ```
 

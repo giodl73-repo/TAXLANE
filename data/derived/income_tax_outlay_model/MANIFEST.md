@@ -36,7 +36,7 @@ Markdown notes, and chart specs are derived or supporting views.
 | `Cargo.toml` | Rust workspace manifest | tooling | n/a | supporting | `b8735e92f7248a16a5d8657ff9ee6b693fbe8b47f1959152a245b54466060a12` |
 | `Cargo.lock` | Rust dependency lockfile | tooling | n/a | supporting | `ce3e305db156da23b235b0fd67ba32e2f18041c64a2b530fe9f850c38ab2ab80` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `72d0be55c8b61b0922a3140e18e5756a1643095dd389c90bd2219ba6d31c96b1` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `a73257067e36ca99aeed6c08ac35e09784e2d3697ac5a33b862abf2e3f1bd4d1` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `a2ab860ab23b6a466537e05a22bf48e774759bb38b38abaa19639ea0787acf62` |
 
 ## Regeneration Order
 

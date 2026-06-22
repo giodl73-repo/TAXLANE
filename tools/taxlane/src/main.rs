@@ -32,6 +32,10 @@ const TABLE_3_1_PATH: &str = "data/raw/omb/SRC-OMB-HIST-3-1-FY2027/2026-06-21/hi
 const RECEIPT_SHARE_JSONL_PATH: &str =
     "data/extracted/receipt_source/receipt_source.SRC-OMB-HIST-2-2-FY2027.2026-06-21.draft.jsonl";
 const RECEIPT_SHARE_PROFILE_PATH: &str = "data/extracted/receipt_source/table-2-2-profile.md";
+const OUTLAY_FUNCTION_3_1_JSONL_PATH: &str =
+    "data/extracted/outlay_function/outlay_function.SRC-OMB-HIST-3-1-FY2027.2026-06-21.draft.jsonl";
+const OUTLAY_FUNCTION_3_1_PROFILE_PATH: &str =
+    "data/extracted/outlay_function/table-3-1-profile.md";
 const SOURCE_IDS: &[&str] = &[
     "SRC-OMB-HIST-1-1-FY2027",
     "SRC-OMB-HIST-2-1-FY2027",
@@ -288,9 +292,17 @@ fn main() -> ExitCode {
         [area, command] if area == "receipt-source" && command == "table-2-2" => {
             run_table_2_2_write()
         }
+        [area, command, flag]
+            if area == "outlay-function" && command == "table-3-1" && flag == "--check" =>
+        {
+            run_table_3_1_check()
+        }
+        [area, command] if area == "outlay-function" && command == "table-3-1" => {
+            run_table_3_1_write()
+        }
         _ => {
             eprintln!(
-                "usage: taxlane-tools income-tax-outlay <validate|model [--check]|summary [--check]|export [--check]|manifest [--check]>\n       taxlane-tools receipt-source table-2-2 [--check]"
+                "usage: taxlane-tools income-tax-outlay <validate|model [--check]|summary [--check]|export [--check]|manifest [--check]>\n       taxlane-tools receipt-source table-2-2 [--check]\n       taxlane-tools outlay-function table-3-1 [--check]"
             );
             ExitCode::from(2)
         }
@@ -517,6 +529,40 @@ fn run_table_2_2_write() -> ExitCode {
     }
 }
 
+fn run_table_3_1_check() -> ExitCode {
+    let root = match repo_root() {
+        Ok(root) => root,
+        Err(err) => {
+            eprintln!("{err}");
+            return ExitCode::from(1);
+        }
+    };
+    match build_outlay_function_table_3_1(&root, true) {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(err) => {
+            eprintln!("{err}");
+            ExitCode::from(1)
+        }
+    }
+}
+
+fn run_table_3_1_write() -> ExitCode {
+    let root = match repo_root() {
+        Ok(root) => root,
+        Err(err) => {
+            eprintln!("{err}");
+            return ExitCode::from(1);
+        }
+    };
+    match build_outlay_function_table_3_1(&root, false) {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(err) => {
+            eprintln!("{err}");
+            ExitCode::from(1)
+        }
+    }
+}
+
 fn repo_root() -> Result<PathBuf, String> {
     env::current_dir().map_err(|err| format!("failed to get current directory: {err}"))
 }
@@ -567,6 +613,41 @@ fn build_receipt_share_table_2_2(root: &Path, check_only: bool) -> Result<(), St
         rows.len(),
         first_year,
         last_year
+    );
+    Ok(())
+}
+
+fn build_outlay_function_table_3_1(root: &Path, check_only: bool) -> Result<(), String> {
+    let (rows, profile) = build_outlay_function_3_1_rows(root)?;
+    validate_outlay_function_3_1_rows(&rows, &profile)?;
+    let jsonl = outlay_function_3_1_jsonl(&rows);
+    let markdown = outlay_function_3_1_profile_markdown(&profile);
+
+    if check_only {
+        compare_text(
+            root,
+            OUTLAY_FUNCTION_3_1_JSONL_PATH,
+            &jsonl,
+            "Table 3.1 outlay function JSONL",
+        )?;
+        compare_text(
+            root,
+            OUTLAY_FUNCTION_3_1_PROFILE_PATH,
+            &markdown,
+            "Table 3.1 outlay function profile",
+        )?;
+    } else {
+        fs::write(root.join(OUTLAY_FUNCTION_3_1_JSONL_PATH), jsonl)
+            .map_err(|err| format!("failed to write {OUTLAY_FUNCTION_3_1_JSONL_PATH}: {err}"))?;
+        fs::write(root.join(OUTLAY_FUNCTION_3_1_PROFILE_PATH), markdown)
+            .map_err(|err| format!("failed to write {OUTLAY_FUNCTION_3_1_PROFILE_PATH}: {err}"))?;
+    }
+
+    println!(
+        "validated {} Table 3.1 outlay function rows for {}-{}",
+        rows.len(),
+        profile.first_year,
+        profile.last_year
     );
     Ok(())
 }
@@ -638,6 +719,38 @@ struct ReceiptShareRow {
     notes: &'static str,
 }
 
+#[derive(Clone)]
+struct OutlayFunctionRow {
+    fiscal_year: i64,
+    source_column: String,
+    function_code: String,
+    function_label: String,
+    source_row: i64,
+    amount: f64,
+    actual_or_projection: &'static str,
+    offsetting_treatment: &'static str,
+    notes: &'static str,
+    include_table_1_1_source: bool,
+    table_1_1_row: Option<i64>,
+}
+
+struct OutlayFunctionCheck {
+    year: i64,
+    table_1_1_outlays: f64,
+    table_3_1_total: f64,
+    broad_category_total: f64,
+    total_difference: f64,
+    broad_category_difference: f64,
+}
+
+struct OutlayFunctionProfile {
+    first_year: i64,
+    last_year: i64,
+    year_count: usize,
+    record_count: usize,
+    checks: Vec<OutlayFunctionCheck>,
+}
+
 fn build_receipt_share_rows(root: &Path) -> Result<Vec<ReceiptShareRow>, String> {
     let sheet = read_sheet(&root.join(TABLE_2_2_PATH))?;
     let mut rows = Vec::new();
@@ -678,6 +791,274 @@ fn build_receipt_share_rows(root: &Path) -> Result<Vec<ReceiptShareRow>, String>
         )
     });
     Ok(rows)
+}
+
+fn build_outlay_function_3_1_rows(
+    root: &Path,
+) -> Result<(Vec<OutlayFunctionRow>, OutlayFunctionProfile), String> {
+    let t11 = parse_table_1_1(&read_sheet(&root.join(TABLE_1_1_PATH))?);
+    let sheet = read_sheet(&root.join(TABLE_3_1_PATH))?;
+    let (years_31, t31) = parse_table_3_1(&sheet)?;
+    let columns_by_year = table_3_1_year_columns(&sheet)?;
+    let years: Vec<i64> = years_31
+        .into_iter()
+        .filter(|year| (1940..=2025).contains(year))
+        .collect();
+
+    let mut rows = Vec::new();
+    let mut checks = Vec::new();
+    let mut errors = Vec::new();
+
+    for year in &years {
+        let Some(table_11) = t11.get(year) else {
+            errors.push(format!("{year}: missing Table 1.1 row"));
+            continue;
+        };
+        let Some(source_column) = columns_by_year.get(year) else {
+            errors.push(format!("{year}: missing Table 3.1 source column"));
+            continue;
+        };
+        let Some(total_outlays_31) = t31
+            .get("total-federal-outlays")
+            .and_then(|values| values.get(year))
+            .copied()
+        else {
+            errors.push(format!("{year}: missing Table 3.1 total outlays"));
+            continue;
+        };
+
+        let broad_category_total: f64 = BROAD_CATEGORIES
+            .iter()
+            .map(|(key, _, _)| {
+                t31.get(*key)
+                    .and_then(|values| values.get(year))
+                    .copied()
+                    .ok_or_else(|| format!("{year}: missing Table 3.1 category {key}"))
+            })
+            .collect::<Result<Vec<_>, _>>()?
+            .iter()
+            .sum();
+        let total_difference = total_outlays_31 - table_11.total_outlays;
+        let broad_category_difference = broad_category_total - total_outlays_31;
+        if total_difference.abs() > 0.5 {
+            errors.push(format!(
+                "{year}: Table 3.1 total {total_outlays_31} does not reconcile to Table 1.1 total {}",
+                table_11.total_outlays
+            ));
+        }
+        if broad_category_difference.abs() > 2.0 {
+            errors.push(format!(
+                "{year}: Table 3.1 broad category total {broad_category_total} does not reconcile to total {total_outlays_31}"
+            ));
+        }
+
+        for (key, label, source_row) in BROAD_CATEGORIES {
+            let amount = t31
+                .get(*key)
+                .and_then(|values| values.get(year))
+                .copied()
+                .ok_or_else(|| format!("{year}: missing Table 3.1 category {key}"))?;
+            rows.push(OutlayFunctionRow {
+                fiscal_year: *year,
+                source_column: source_column.clone(),
+                function_code: (*key).to_string(),
+                function_label: (*label).to_string(),
+                source_row: *source_row,
+                amount: round6(amount),
+                actual_or_projection: "actual",
+                offsetting_treatment: if *key == "undistributed-offsetting-receipts" {
+                    "undistributed-offsetting-receipts"
+                } else {
+                    "net"
+                },
+                notes: outlay_function_notes(key),
+                include_table_1_1_source: false,
+                table_1_1_row: None,
+            });
+        }
+        rows.push(OutlayFunctionRow {
+            fiscal_year: *year,
+            source_column: source_column.clone(),
+            function_code: "total-federal-outlays".to_string(),
+            function_label: "Total, Federal outlays".to_string(),
+            source_row: 35,
+            amount: round6(total_outlays_31),
+            actual_or_projection: "actual",
+            offsetting_treatment: "net",
+            notes: "Total federal outlays reconciled to OMB Historical Table 1.1 total outlays within displayed precision.",
+            include_table_1_1_source: true,
+            table_1_1_row: Some(table_11.row),
+        });
+
+        checks.push(OutlayFunctionCheck {
+            year: *year,
+            table_1_1_outlays: table_11.total_outlays,
+            table_3_1_total: total_outlays_31,
+            broad_category_total,
+            total_difference,
+            broad_category_difference,
+        });
+    }
+
+    if !errors.is_empty() {
+        return Err(errors.join("\n"));
+    }
+
+    let first_year = *years
+        .first()
+        .ok_or_else(|| "no Table 3.1 years".to_string())?;
+    let last_year = *years
+        .last()
+        .ok_or_else(|| "no Table 3.1 years".to_string())?;
+    let profile = OutlayFunctionProfile {
+        first_year,
+        last_year,
+        year_count: years.len(),
+        record_count: rows.len(),
+        checks,
+    };
+    Ok((rows, profile))
+}
+
+fn validate_outlay_function_3_1_rows(
+    rows: &[OutlayFunctionRow],
+    profile: &OutlayFunctionProfile,
+) -> Result<(), String> {
+    let expected_rows = profile.year_count * (BROAD_CATEGORIES.len() + 1);
+    if rows.len() != expected_rows {
+        return Err(format!(
+            "expected {expected_rows} Table 3.1 outlay function rows, found {}",
+            rows.len()
+        ));
+    }
+    for check in &profile.checks {
+        if check.total_difference.abs() > 0.5 {
+            return Err(format!(
+                "{}: Table 3.1/Table 1.1 total difference {}",
+                check.year, check.total_difference
+            ));
+        }
+        if check.broad_category_difference.abs() > 2.0 {
+            return Err(format!(
+                "{}: broad category total difference {}",
+                check.year, check.broad_category_difference
+            ));
+        }
+    }
+    Ok(())
+}
+
+fn outlay_function_notes(key: &str) -> &'static str {
+    match key {
+        "net-interest" => "Net interest is kept visible as its own outlay function.",
+        "undistributed-offsetting-receipts" => {
+            "Undistributed offsetting receipts are kept visible and negative as reported by OMB."
+        }
+        _ => "Broad Table 3.1 outlay function; no lane allocation applied yet.",
+    }
+}
+
+fn outlay_function_3_1_jsonl(rows: &[OutlayFunctionRow]) -> String {
+    let mut lines = Vec::new();
+    for row in rows {
+        let source_ids = if row.include_table_1_1_source {
+            "\"SRC-OMB-HIST-3-1-FY2027\",\"SRC-OMB-HIST-1-1-FY2027\""
+        } else {
+            "\"SRC-OMB-HIST-3-1-FY2027\""
+        };
+        let reconciliation = row.table_1_1_row.map_or_else(String::new, |table_1_1_row| {
+            format!("; reconciled to Table 1.1 row {table_1_1_row}")
+        });
+        lines.push(format!(
+            "{{\"record_id\":{},\"record_family\":\"outlay_function\",\"fiscal_year\":{},\"year_basis\":\"fiscal_year\",\"source_ids\":[{}],\"source_table\":{},\"source_row_ref\":{},\"superfunction\":null,\"function_code\":{},\"function_label\":{},\"subfunction_code\":null,\"subfunction_label\":null,\"measure\":\"outlays\",\"amount\":{},\"percent\":null,\"amount_units\":\"millions_usd\",\"actual_or_projection\":{},\"offsetting_treatment\":{},\"status\":\"draft-extracted\",\"observed_date\":{},\"notes\":{}}}",
+            json_string(&format!(
+                "outlay-function:{}:{}:total:outlays",
+                row.fiscal_year, row.function_code
+            )),
+            row.fiscal_year,
+            source_ids,
+            json_string("OMB Historical Table 3.1 FY2027"),
+            json_string(&format!(
+                "Table!A{}:{}{}; {}{}",
+                row.source_row,
+                row.source_column,
+                row.source_row,
+                row.function_label,
+                reconciliation
+            )),
+            json_string(&row.function_code),
+            json_string(&row.function_label),
+            json_amount(row.amount),
+            json_string(row.actual_or_projection),
+            json_string(row.offsetting_treatment),
+            json_string(OBSERVED_DATE),
+            json_string(row.notes),
+        ));
+    }
+    lines.join("\n") + "\n"
+}
+
+fn outlay_function_3_1_profile_markdown(profile: &OutlayFunctionProfile) -> String {
+    let sample_years = [1940, 1950, 1980, 2000, 2025];
+    let mut lines = vec![
+        "# Table 3.1 Outlay Function Profile".to_string(),
+        String::new(),
+        "## Source Coverage".to_string(),
+        String::new(),
+        "- Outlay source: `SRC-OMB-HIST-3-1-FY2027`".to_string(),
+        "- Reconciliation source: `SRC-OMB-HIST-1-1-FY2027`".to_string(),
+        format!(
+            "- Fiscal years emitted: {}-{}",
+            profile.first_year, profile.last_year
+        ),
+        format!("- Year count: {}", profile.year_count),
+        format!("- Record count: {}", profile.record_count),
+        "- Actual/projection treatment: actual years only; FY2026-FY2031 are excluded.".to_string(),
+        String::new(),
+        "## Extracted Rows".to_string(),
+        String::new(),
+        "| Function code | OMB label | Table 3.1 row |".to_string(),
+        "|---|---|---:|".to_string(),
+    ];
+    for (key, label, row_num) in BROAD_CATEGORIES {
+        lines.push(format!("| `{key}` | {label} | {row_num} |"));
+    }
+    lines.push("| `total-federal-outlays` | Total, Federal outlays | 35 |".to_string());
+    lines.extend([
+        String::new(),
+        "## Reconciliation Sample".to_string(),
+        String::new(),
+        "Amounts are in millions of dollars. Broad category total is the sum of the six visible Table 3.1 rows above.".to_string(),
+        String::new(),
+        "| Fiscal year | Table 1.1 outlays | Table 3.1 total | Broad category total | Table total diff | Broad category diff |".to_string(),
+        "|---:|---:|---:|---:|---:|---:|".to_string(),
+    ]);
+    for check in profile
+        .checks
+        .iter()
+        .filter(|check| sample_years.contains(&check.year))
+    {
+        lines.push(format!(
+            "| {} | {} | {} | {} | {} | {} |",
+            check.year,
+            comma_number(check.table_1_1_outlays, 0),
+            comma_number(check.table_3_1_total, 0),
+            comma_number(check.broad_category_total, 0),
+            comma_number(check.total_difference, 0),
+            comma_number(check.broad_category_difference, 0),
+        ));
+    }
+    lines.extend([
+        String::new(),
+        "## Extraction Decisions".to_string(),
+        String::new(),
+        "- Net interest is extracted as its own visible outlay function.".to_string(),
+        "- Undistributed offsetting receipts are extracted as negative amounts with `offsetting_treatment = \"undistributed-offsetting-receipts\"`.".to_string(),
+        "- Function codes are TAXLANE slugs because Table 3.1 uses labels, not OMB numeric function codes.".to_string(),
+        "- No public lane allocation should use these draft rows.".to_string(),
+        String::new(),
+    ]);
+    lines.join("\n")
 }
 
 fn table_2_2_year_label(value: Option<&CellValue>) -> Option<String> {
@@ -1279,6 +1660,21 @@ fn parse_table_3_1(
     let mut years = years_by_col.values().copied().collect::<Vec<_>>();
     years.sort_unstable();
     Ok((years, categories))
+}
+
+fn table_3_1_year_columns(
+    rows: &BTreeMap<i64, BTreeMap<String, CellValue>>,
+) -> Result<BTreeMap<i64, String>, String> {
+    let header = rows
+        .get(&2)
+        .ok_or_else(|| "missing Table 3.1 header row 2".to_string())?;
+    let mut columns = BTreeMap::new();
+    for (column, value) in header {
+        if let Some(year) = int_cell(Some(value)) {
+            columns.insert(year, column.clone());
+        }
+    }
+    Ok(columns)
 }
 
 fn int_cell(value: Option<&CellValue>) -> Option<i64> {
@@ -2019,6 +2415,16 @@ fn decimal_string(value: f64, decimals: usize) -> String {
         trimmed.to_string()
     } else {
         format!("{trimmed}.0")
+    }
+}
+
+fn json_amount(value: f64) -> String {
+    if value == 0.0 {
+        "0".to_string()
+    } else if value.is_finite() && value.fract() == 0.0 {
+        format!("{value:.0}")
+    } else {
+        decimal_string(value, 6)
     }
 }
 

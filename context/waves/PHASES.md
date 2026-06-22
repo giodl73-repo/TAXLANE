@@ -8,6 +8,7 @@ Work is organized into small waves and pulses.
 
 ## Completed waves
 
+- `2026-06-22-table-3-1-outlay-function-expansion`
 - `2026-06-22-table-2-2-receipt-share-extraction`
 - `2026-06-22-rust-income-tax-annual-model`
 - `2026-06-22-rust-income-tax-decade-summary`

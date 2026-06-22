@@ -1,5 +1,8 @@
 # OMB Outlay Function First Slice Reconciliation
 
+This note documents the initial 1940-1942 slice. The current full actual-year
+Table 3.1 extraction is documented in `table-3-1-profile.md`.
+
 ## Source
 
 - Outlay source: `SRC-OMB-HIST-3-1-FY2027`
