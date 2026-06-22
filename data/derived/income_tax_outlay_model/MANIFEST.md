@@ -23,7 +23,7 @@ Markdown notes, and chart specs are derived or supporting views.
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.decade-summary.jsonl` | Canonical decade summary rows | decade by broad category | 54 | yes | `088cb5d55cc6a37ab52dd543d8a92bf09908cda265e9c9f93324b840eb652fb3` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.annual-wide.csv` | Chart-ready annual wide view | fiscal year | 86 | no | `a385e4215a20c16f0344cc8e17982c9e4c78933caac93f274ea5b6080027d81a` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.decade-wide.csv` | Chart-ready decade wide view | decade | 9 | no | `5e243eb2912b7aaed26e22016fd1907bf4cee25d60b3855f1c2627e7f4b9a2aa` |
-| `data/derived/income_tax_outlay_model/README.md` | Model method and schema note | documentation | n/a | supporting | `cb0a4592393010989075ddeee86c4002d32eaea064baf8258854036e50d994fb` |
+| `data/derived/income_tax_outlay_model/README.md` | Model method and schema note | documentation | n/a | supporting | `c8ab61da22f2f3c68e049367af70aba970edff2d2a75b1de85f0cf5830503369` |
 | `data/derived/income_tax_outlay_model/source-profile.md` | Source coverage and reconciliation sample | documentation | n/a | supporting | `03ea7eee098ee6e1f3cc4a83cd89adec009f9cbb96d050f2e7118e06dcf2e70f` |
 | `data/derived/income_tax_outlay_model/reconciliation-review.md` | Generated-row reconciliation review | documentation | n/a | supporting | `ab200dfc8c467700964cb23d51875411603a73f9d1ea62e1beea9073449a9c8d` |
 | `data/derived/income_tax_outlay_model/decade-summary.md` | Human-readable decade summary | documentation | n/a | supporting | `47d02425c28cd8f8fd0c236b46e0c997d54a0824ddca1cb125ca0a39bcfd915f` |
@@ -34,13 +34,13 @@ Markdown notes, and chart specs are derived or supporting views.
 | `docs/charts/income-tax-outlay-model/annual-financing-context-lines.vl.json` | Annual financing context chart spec | visualization spec | n/a | view | `509c0061b6fc1208ed2cb43f13493662647590d2a72cb8b3fe4b12ed3589a722` |
 | `docs/charts/income-tax-outlay-model/decade-financing-context-lines.vl.json` | Decade financing context chart spec | visualization spec | n/a | view | `d211045006ad27f05554b1db88c858d1a4ace725d721a34f91565c5d34fbe450` |
 | `Cargo.toml` | Rust workspace manifest | tooling | n/a | supporting | `b8735e92f7248a16a5d8657ff9ee6b693fbe8b47f1959152a245b54466060a12` |
-| `Cargo.lock` | Rust dependency lockfile | tooling | n/a | supporting | `0f07ae499ffdcbad872159c22f94cf6c6813846e8559f0991f8ab27093dbf800` |
-| `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `c0e554cc6980590d82aaafe1c0daa2c7e4a1de337bf66b78dc22ca09264df42b` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `8e97bd03ce4c21b1f74c17a244b99234f9e0da06608513899cf963aa9276639c` |
+| `Cargo.lock` | Rust dependency lockfile | tooling | n/a | supporting | `ce3e305db156da23b235b0fd67ba32e2f18041c64a2b530fe9f850c38ab2ab80` |
+| `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `72d0be55c8b61b0922a3140e18e5756a1643095dd389c90bd2219ba6d31c96b1` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `ac5caf2881cae72e9d9dc382c36b56d9296a4c144b4e2a8881fbeaa58494a6d8` |
 
 ## Regeneration Order
 
-1. `build_income_tax_outlay_model.py`
+1. `cargo run -p taxlane-tools -- income-tax-outlay model`
 2. `cargo run -p taxlane-tools -- income-tax-outlay summary`
 3. `cargo run -p taxlane-tools -- income-tax-outlay export`
 4. `cargo run -p taxlane-tools -- income-tax-outlay manifest`

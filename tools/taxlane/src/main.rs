@@ -2,16 +2,12 @@ use std::env;
 use std::fs::{self, File};
 use std::io::Read;
 use std::path::{Path, PathBuf};
-use std::process::{Command, ExitCode};
+use std::process::ExitCode;
 
+use roxmltree::Document;
 use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
-
-const MODEL_CHECKS: &[&[&str]] = &[&[
-    "python",
-    "data/derived/income_tax_outlay_model/build_income_tax_outlay_model.py",
-    "--check",
-]];
+use zip::ZipArchive;
 
 const CHART_SPECS: &[&str] = &[
     "docs/charts/income-tax-outlay-model/annual-stacked-area.vl.json",
@@ -26,6 +22,30 @@ const DECADE_JSONL_PATH: &str = "data/derived/income_tax_outlay_model/income_tax
 const ANNUAL_CSV_PATH: &str = "data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.annual-wide.csv";
 const DECADE_CSV_PATH: &str = "data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.decade-wide.csv";
 const DECADE_MD_PATH: &str = "data/derived/income_tax_outlay_model/decade-summary.md";
+const SOURCE_PROFILE_PATH: &str = "data/derived/income_tax_outlay_model/source-profile.md";
+const OBSERVED_DATE: &str = "2026-06-21";
+const MODEL_ID: &str = "individual-income-tax-proportional-outlays-v1";
+const TABLE_1_1_PATH: &str = "data/raw/omb/SRC-OMB-HIST-1-1-FY2027/2026-06-21/hist01z1_fy2027.xlsx";
+const TABLE_2_1_PATH: &str = "data/raw/omb/SRC-OMB-HIST-2-1-FY2027/2026-06-21/hist02z1_fy2027.xlsx";
+const TABLE_3_1_PATH: &str = "data/raw/omb/SRC-OMB-HIST-3-1-FY2027/2026-06-21/hist03z1_fy2027.xlsx";
+const SOURCE_IDS: &[&str] = &[
+    "SRC-OMB-HIST-1-1-FY2027",
+    "SRC-OMB-HIST-2-1-FY2027",
+    "SRC-OMB-HIST-3-1-FY2027",
+];
+
+const BROAD_CATEGORIES: &[(&str, &str, i64)] = &[
+    ("national-defense", "National Defense", 4),
+    ("human-resources", "Human resources", 5),
+    ("physical-resources", "Physical resources", 14),
+    ("net-interest", "Net interest", 22),
+    ("other-functions", "Other functions", 25),
+    (
+        "undistributed-offsetting-receipts",
+        "Undistributed offsetting receipts",
+        32,
+    ),
+];
 
 const ANNUAL_HEADERS: &[&str] = &[
     "fiscal_year",
@@ -229,6 +249,12 @@ fn main() -> ExitCode {
             run_income_tax_outlay_validation()
         }
         [area, command, flag]
+            if area == "income-tax-outlay" && command == "model" && flag == "--check" =>
+        {
+            run_model_check()
+        }
+        [area, command] if area == "income-tax-outlay" && command == "model" => run_model_write(),
+        [area, command, flag]
             if area == "income-tax-outlay" && command == "summary" && flag == "--check" =>
         {
             run_summary_check()
@@ -252,7 +278,7 @@ fn main() -> ExitCode {
         }
         _ => {
             eprintln!(
-                "usage: taxlane-tools income-tax-outlay <validate|summary [--check]|export [--check]|manifest [--check]>"
+                "usage: taxlane-tools income-tax-outlay <validate|model [--check]|summary [--check]|export [--check]|manifest [--check]>"
             );
             ExitCode::from(2)
         }
@@ -268,11 +294,9 @@ fn run_income_tax_outlay_validation() -> ExitCode {
         }
     };
 
-    for check in MODEL_CHECKS {
-        if let Err(err) = run_check(&root, check) {
-            eprintln!("{err}");
-            return ExitCode::from(1);
-        }
+    if let Err(err) = build_annual_model(&root, true) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
     }
 
     if let Err(err) = build_decade_summary(&root, true) {
@@ -303,6 +327,40 @@ fn run_income_tax_outlay_validation() -> ExitCode {
         CHART_SPECS.len()
     );
     ExitCode::SUCCESS
+}
+
+fn run_model_check() -> ExitCode {
+    let root = match repo_root() {
+        Ok(root) => root,
+        Err(err) => {
+            eprintln!("{err}");
+            return ExitCode::from(1);
+        }
+    };
+    match build_annual_model(&root, true) {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(err) => {
+            eprintln!("{err}");
+            ExitCode::from(1)
+        }
+    }
+}
+
+fn run_model_write() -> ExitCode {
+    let root = match repo_root() {
+        Ok(root) => root,
+        Err(err) => {
+            eprintln!("{err}");
+            return ExitCode::from(1);
+        }
+    };
+    match build_annual_model(&root, false) {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(err) => {
+            eprintln!("{err}");
+            ExitCode::from(1)
+        }
+    }
 }
 
 fn run_summary_check() -> ExitCode {
@@ -417,30 +475,536 @@ fn repo_root() -> Result<PathBuf, String> {
     env::current_dir().map_err(|err| format!("failed to get current directory: {err}"))
 }
 
-fn run_check(root: &Path, check: &[&str]) -> Result<(), String> {
-    let Some((program, args)) = check.split_first() else {
-        return Err("empty validation command".to_string());
-    };
-    println!("+ {} {}", program, args.join(" "));
-    let status = Command::new(program)
-        .args(args)
-        .current_dir(root)
-        .status()
-        .map_err(|err| format!("failed to run {program}: {err}"))?;
-    if status.success() {
-        Ok(())
-    } else {
-        Err(format!(
-            "validation command failed with status {status}: {program}"
-        ))
-    }
-}
-
 fn parse_json(path: &Path) -> Result<(), String> {
     let file = File::open(path).map_err(|err| format!("failed to open {:?}: {err}", path))?;
     serde_json::from_reader::<_, serde_json::Value>(file)
         .map_err(|err| format!("failed to parse {:?}: {err}", path))?;
     Ok(())
+}
+
+fn build_annual_model(root: &Path, check_only: bool) -> Result<(), String> {
+    let (records, profile) = build_annual_records(root)?;
+    let jsonl = annual_model_jsonl(&records);
+    let markdown = source_profile_markdown(&profile);
+
+    if check_only {
+        compare_text(root, ANNUAL_JSONL_PATH, &jsonl, "annual model JSONL")?;
+        compare_text(root, SOURCE_PROFILE_PATH, &markdown, "source profile")?;
+    } else {
+        fs::write(root.join(ANNUAL_JSONL_PATH), jsonl)
+            .map_err(|err| format!("failed to write {ANNUAL_JSONL_PATH}: {err}"))?;
+        fs::write(root.join(SOURCE_PROFILE_PATH), markdown)
+            .map_err(|err| format!("failed to write {SOURCE_PROFILE_PATH}: {err}"))?;
+    }
+
+    println!(
+        "validated {} rows for {}-{}",
+        profile.record_count, profile.first_year, profile.last_year
+    );
+    Ok(())
+}
+
+#[derive(Clone)]
+enum CellValue {
+    Number(f64),
+    Text(String),
+}
+
+#[derive(Clone)]
+struct Table11Row {
+    row: i64,
+    total_receipts: f64,
+    total_outlays: f64,
+    surplus_or_deficit: f64,
+}
+
+#[derive(Clone)]
+struct Table21Row {
+    row: i64,
+    individual_income_tax: f64,
+}
+
+#[derive(Clone)]
+struct AnnualRecord {
+    fiscal_year: i64,
+    category_key: &'static str,
+    category_label: &'static str,
+    table_11_row: i64,
+    table_21_row: i64,
+    table_31_row: i64,
+    category_outlays_amount: f64,
+    total_outlays_amount: f64,
+    category_total_outlays_amount: f64,
+    individual_income_tax_receipts_amount: f64,
+    outlay_share_percent: f64,
+    allocation_share_percent: f64,
+    modeled_income_tax_allocation_amount: f64,
+    total_receipts_amount: f64,
+    surplus_or_deficit_amount: f64,
+    deficit_gap_amount: f64,
+    borrowed_share_percent_of_outlays: f64,
+    income_tax_coverage_percent_of_outlays: f64,
+    category_total_reconciliation_difference_amount: f64,
+}
+
+struct AnnualCheck {
+    year: i64,
+    table_1_1_outlays: f64,
+    table_3_1_outlays: f64,
+    category_total: f64,
+    income_tax: f64,
+    modeled_sum: f64,
+    deficit_gap: f64,
+}
+
+struct AnnualProfile {
+    year_count: usize,
+    first_year: i64,
+    last_year: i64,
+    record_count: usize,
+    annual_checks: Vec<AnnualCheck>,
+}
+
+fn build_annual_records(root: &Path) -> Result<(Vec<AnnualRecord>, AnnualProfile), String> {
+    let t11 = parse_table_1_1(&read_sheet(&root.join(TABLE_1_1_PATH))?);
+    let t21 = parse_table_2_1(&read_sheet(&root.join(TABLE_2_1_PATH))?);
+    let (years_31, t31) = parse_table_3_1(&read_sheet(&root.join(TABLE_3_1_PATH))?)?;
+    let years: Vec<i64> = years_31
+        .into_iter()
+        .filter(|year| (1940..=2025).contains(year))
+        .collect();
+
+    let mut records = Vec::new();
+    let mut errors = Vec::new();
+    let mut annual_checks = Vec::new();
+
+    for year in &years {
+        let Some(table_11) = t11.get(year) else {
+            errors.push(format!("{year}: missing Table 1.1 row"));
+            continue;
+        };
+        let Some(table_21) = t21.get(year) else {
+            errors.push(format!("{year}: missing Table 2.1 row"));
+            continue;
+        };
+        let Some(total_outlays_31) = t31
+            .get("total-federal-outlays")
+            .and_then(|values| values.get(year))
+            .copied()
+        else {
+            errors.push(format!("{year}: missing Table 3.1 total outlays"));
+            continue;
+        };
+
+        if (table_11.total_outlays - total_outlays_31).abs() > 0.5 {
+            errors.push(format!(
+                "{year}: Table 3.1 total {total_outlays_31} does not reconcile to Table 1.1 total {}",
+                table_11.total_outlays
+            ));
+        }
+
+        let category_total: f64 = BROAD_CATEGORIES
+            .iter()
+            .map(|(key, _, _)| {
+                t31.get(*key)
+                    .and_then(|values| values.get(year))
+                    .copied()
+                    .ok_or_else(|| format!("{year}: missing Table 3.1 category {key}"))
+            })
+            .collect::<Result<Vec<_>, _>>()?
+            .iter()
+            .sum();
+        let category_total_difference = category_total - total_outlays_31;
+        if (category_total - total_outlays_31).abs() > 2.0 {
+            errors.push(format!(
+                "{year}: category total {category_total} does not reconcile to Table 3.1 total {total_outlays_31}"
+            ));
+        }
+
+        let income_tax = table_21.individual_income_tax;
+        let total_receipts = table_11.total_receipts;
+        let surplus_or_deficit = table_11.surplus_or_deficit;
+        let deficit_gap = (total_outlays_31 - total_receipts).max(0.0);
+        let borrowed_share = deficit_gap / total_outlays_31 * 100.0;
+        let income_tax_coverage = income_tax / total_outlays_31 * 100.0;
+        let mut modeled_sum = 0.0;
+
+        for (key, label, table_row) in BROAD_CATEGORIES {
+            let category_outlays = t31
+                .get(*key)
+                .and_then(|values| values.get(year))
+                .copied()
+                .ok_or_else(|| format!("{year}: missing Table 3.1 category {key}"))?;
+            let outlay_share = category_outlays / total_outlays_31 * 100.0;
+            let allocation_share = category_outlays / category_total * 100.0;
+            let modeled_amount = income_tax * category_outlays / category_total;
+            modeled_sum += modeled_amount;
+            records.push(AnnualRecord {
+                fiscal_year: *year,
+                category_key: key,
+                category_label: label,
+                table_11_row: table_11.row,
+                table_21_row: table_21.row,
+                table_31_row: *table_row,
+                category_outlays_amount: round6(category_outlays),
+                total_outlays_amount: round6(total_outlays_31),
+                category_total_outlays_amount: round6(category_total),
+                individual_income_tax_receipts_amount: round6(income_tax),
+                outlay_share_percent: round9(outlay_share),
+                allocation_share_percent: round9(allocation_share),
+                modeled_income_tax_allocation_amount: round6(modeled_amount),
+                total_receipts_amount: round6(total_receipts),
+                surplus_or_deficit_amount: round6(surplus_or_deficit),
+                deficit_gap_amount: round6(deficit_gap),
+                borrowed_share_percent_of_outlays: round9(borrowed_share),
+                income_tax_coverage_percent_of_outlays: round9(income_tax_coverage),
+                category_total_reconciliation_difference_amount: round6(category_total_difference),
+            });
+        }
+
+        if (modeled_sum - income_tax).abs() > 0.0005 {
+            errors.push(format!(
+                "{year}: modeled allocation sum {modeled_sum} does not match individual income-tax receipts {income_tax}"
+            ));
+        }
+        annual_checks.push(AnnualCheck {
+            year: *year,
+            table_1_1_outlays: table_11.total_outlays,
+            table_3_1_outlays: total_outlays_31,
+            category_total,
+            income_tax,
+            modeled_sum,
+            deficit_gap,
+        });
+    }
+
+    if !errors.is_empty() {
+        return Err(errors.join("\n"));
+    }
+
+    let first_year = *years.first().ok_or_else(|| "no annual years".to_string())?;
+    let last_year = *years.last().ok_or_else(|| "no annual years".to_string())?;
+    let profile = AnnualProfile {
+        year_count: years.len(),
+        first_year,
+        last_year,
+        record_count: records.len(),
+        annual_checks,
+    };
+    Ok((records, profile))
+}
+
+fn read_sheet(path: &Path) -> Result<BTreeMap<i64, BTreeMap<String, CellValue>>, String> {
+    let file = File::open(path).map_err(|err| format!("failed to open {:?}: {err}", path))?;
+    let mut archive =
+        ZipArchive::new(file).map_err(|err| format!("failed to read XLSX {:?}: {err}", path))?;
+    let shared = read_shared_strings(&mut archive)?;
+    let mut sheet_xml = String::new();
+    archive
+        .by_name("xl/worksheets/sheet1.xml")
+        .map_err(|err| format!("failed to read sheet1.xml from {:?}: {err}", path))?
+        .read_to_string(&mut sheet_xml)
+        .map_err(|err| format!("failed to decode sheet1.xml from {:?}: {err}", path))?;
+    let doc = Document::parse(&sheet_xml)
+        .map_err(|err| format!("failed to parse sheet1.xml from {:?}: {err}", path))?;
+    let mut rows = BTreeMap::new();
+    for row in doc.descendants().filter(|node| node.has_tag_name("row")) {
+        let row_num = row
+            .attribute("r")
+            .and_then(|value| value.parse::<i64>().ok())
+            .ok_or_else(|| format!("sheet row without numeric r in {:?}", path))?;
+        let mut cells = BTreeMap::new();
+        for cell in row.children().filter(|node| node.has_tag_name("c")) {
+            let Some(reference) = cell.attribute("r") else {
+                continue;
+            };
+            let column = cell_column(reference);
+            if column.is_empty() {
+                continue;
+            }
+            let cell_type = cell.attribute("t");
+            let raw = cell
+                .children()
+                .find(|node| node.has_tag_name("v"))
+                .and_then(|node| node.text());
+            let value = match (cell_type, raw) {
+                (Some("s"), Some(raw)) => shared
+                    .get(raw.parse::<usize>().map_err(|err| {
+                        format!("invalid shared string index {raw:?} in {:?}: {err}", path)
+                    })?)
+                    .cloned(),
+                (Some("inlineStr"), _) => Some(
+                    cell.descendants()
+                        .filter(|node| node.has_tag_name("t"))
+                        .filter_map(|node| node.text())
+                        .collect::<String>(),
+                ),
+                (_, Some(raw)) => Some(raw.to_string()),
+                _ => None,
+            };
+            if let Some(value) = value.and_then(|value| cell_value(&value)) {
+                cells.insert(column, value);
+            }
+        }
+        rows.insert(row_num, cells);
+    }
+    Ok(rows)
+}
+
+fn read_shared_strings<R: Read + std::io::Seek>(
+    archive: &mut ZipArchive<R>,
+) -> Result<Vec<String>, String> {
+    let Ok(mut file) = archive.by_name("xl/sharedStrings.xml") else {
+        return Ok(Vec::new());
+    };
+    let mut xml = String::new();
+    file.read_to_string(&mut xml)
+        .map_err(|err| format!("failed to decode sharedStrings.xml: {err}"))?;
+    let doc =
+        Document::parse(&xml).map_err(|err| format!("failed to parse sharedStrings.xml: {err}"))?;
+    let strings = doc
+        .descendants()
+        .filter(|node| node.has_tag_name("si"))
+        .map(|si| {
+            si.descendants()
+                .filter(|node| node.has_tag_name("t"))
+                .filter_map(|node| node.text())
+                .collect::<String>()
+        })
+        .collect();
+    Ok(strings)
+}
+
+fn cell_column(reference: &str) -> String {
+    reference
+        .chars()
+        .take_while(|char| char.is_ascii_alphabetic())
+        .collect()
+}
+
+fn cell_value(raw: &str) -> Option<CellValue> {
+    let value = raw.trim();
+    if value.is_empty() || value == ".........." {
+        return None;
+    }
+    if value == "-*" {
+        return Some(CellValue::Number(0.0));
+    }
+    match value.parse::<f64>() {
+        Ok(number) => Some(CellValue::Number(number)),
+        Err(_) => Some(CellValue::Text(value.to_string())),
+    }
+}
+
+fn parse_table_1_1(rows: &BTreeMap<i64, BTreeMap<String, CellValue>>) -> BTreeMap<i64, Table11Row> {
+    let mut output = BTreeMap::new();
+    for (row_num, cells) in rows {
+        let Some(year) = int_cell(cells.get("A")) else {
+            continue;
+        };
+        let (Some(receipts), Some(outlays), Some(surplus_or_deficit)) = (
+            number_cell(cells.get("B")),
+            number_cell(cells.get("C")),
+            number_cell(cells.get("D")),
+        ) else {
+            continue;
+        };
+        output.insert(
+            year,
+            Table11Row {
+                row: *row_num,
+                total_receipts: receipts,
+                total_outlays: outlays,
+                surplus_or_deficit,
+            },
+        );
+    }
+    output
+}
+
+fn parse_table_2_1(rows: &BTreeMap<i64, BTreeMap<String, CellValue>>) -> BTreeMap<i64, Table21Row> {
+    let mut output = BTreeMap::new();
+    for (row_num, cells) in rows {
+        let (Some(year), Some(amount)) = (int_cell(cells.get("A")), number_cell(cells.get("B")))
+        else {
+            continue;
+        };
+        output.insert(
+            year,
+            Table21Row {
+                row: *row_num,
+                individual_income_tax: amount,
+            },
+        );
+    }
+    output
+}
+
+fn parse_table_3_1(
+    rows: &BTreeMap<i64, BTreeMap<String, CellValue>>,
+) -> Result<(Vec<i64>, BTreeMap<String, BTreeMap<i64, f64>>), String> {
+    let header = rows
+        .get(&2)
+        .ok_or_else(|| "missing Table 3.1 header row 2".to_string())?;
+    let mut years_by_col = BTreeMap::new();
+    for (column, value) in header {
+        if let Some(year) = int_cell(Some(value)) {
+            years_by_col.insert(column.clone(), year);
+        }
+    }
+
+    let mut categories = BTreeMap::new();
+    let mut table_rows: Vec<(&str, &str, i64)> = BROAD_CATEGORIES.to_vec();
+    table_rows.push(("total-federal-outlays", "Total, Federal outlays", 35));
+    for (key, label, row_num) in table_rows {
+        let cells = rows
+            .get(&row_num)
+            .ok_or_else(|| format!("missing Table 3.1 row {row_num}"))?;
+        if text_cell(cells.get("A")).as_deref() != Some(label) {
+            return Err(format!(
+                "Unexpected Table 3.1 row {row_num}: {:?}",
+                text_cell(cells.get("A"))
+            ));
+        }
+        let mut values = BTreeMap::new();
+        for (column, year) in &years_by_col {
+            if let Some(value) = number_cell(cells.get(column)) {
+                values.insert(*year, value);
+            }
+        }
+        categories.insert(key.to_string(), values);
+    }
+    let mut years = years_by_col.values().copied().collect::<Vec<_>>();
+    years.sort_unstable();
+    Ok((years, categories))
+}
+
+fn int_cell(value: Option<&CellValue>) -> Option<i64> {
+    match value {
+        Some(CellValue::Number(number)) if number.fract() == 0.0 => Some(*number as i64),
+        _ => None,
+    }
+}
+
+fn number_cell(value: Option<&CellValue>) -> Option<f64> {
+    match value {
+        Some(CellValue::Number(number)) => Some(*number),
+        _ => None,
+    }
+}
+
+fn text_cell(value: Option<&CellValue>) -> Option<String> {
+    match value {
+        Some(CellValue::Text(text)) => Some(text.clone()),
+        _ => None,
+    }
+}
+
+fn annual_model_jsonl(records: &[AnnualRecord]) -> String {
+    let mut lines = Vec::new();
+    for record in records {
+        lines.push(format!(
+            "{{\"record_id\":{},\"record_family\":\"income_tax_outlay_model\",\"model_id\":{},\"fiscal_year\":{},\"year_basis\":\"fiscal_year\",\"source_ids\":[{}],\"source_table_refs\":{{\"fiscal_spine\":{},\"tax_receipts\":{},\"outlay_category\":{},\"outlay_total\":\"OMB Historical Table 3.1 FY2027 row 35\"}},\"tax_source\":\"individual-income-taxes\",\"allocation_method\":\"proportional_outlay_share\",\"legal_allocation_status\":\"modeled_not_legal_dedication\",\"category_key\":{},\"category_label\":{},\"category_outlays_amount\":{},\"total_outlays_amount\":{},\"category_total_outlays_amount\":{},\"individual_income_tax_receipts_amount\":{},\"outlay_share_percent\":{},\"allocation_share_percent\":{},\"modeled_income_tax_allocation_amount\":{},\"total_receipts_amount\":{},\"surplus_or_deficit_amount\":{},\"deficit_gap_amount\":{},\"borrowed_share_percent_of_outlays\":{},\"income_tax_coverage_percent_of_outlays\":{},\"category_total_reconciliation_difference_amount\":{},\"actual_or_projection\":\"actual\",\"status\":\"draft\",\"observed_date\":{},\"notes\":\"Modeled allocation of ordinary individual income-tax receipts by broad Table 3.1 outlay share, normalized over displayed broad-category rows to handle source rounding; not legal dedication or program tracing.\"}}",
+            json_string(&format!("income-tax-outlay-model:{}:{}", record.fiscal_year, record.category_key)),
+            json_string(MODEL_ID),
+            record.fiscal_year,
+            SOURCE_IDS.iter().map(|source| json_string(source)).collect::<Vec<_>>().join(","),
+            json_string(&format!("OMB Historical Table 1.1 FY2027 row {}", record.table_11_row)),
+            json_string(&format!("OMB Historical Table 2.1 FY2027 row {}, column B", record.table_21_row)),
+            json_string(&format!("OMB Historical Table 3.1 FY2027 row {}", record.table_31_row)),
+            json_string(record.category_key),
+            json_string(record.category_label),
+            decimal_string(record.category_outlays_amount, 6),
+            decimal_string(record.total_outlays_amount, 6),
+            decimal_string(record.category_total_outlays_amount, 6),
+            decimal_string(record.individual_income_tax_receipts_amount, 6),
+            decimal_string(record.outlay_share_percent, 9),
+            decimal_string(record.allocation_share_percent, 9),
+            decimal_string(record.modeled_income_tax_allocation_amount, 6),
+            decimal_string(record.total_receipts_amount, 6),
+            decimal_string(record.surplus_or_deficit_amount, 6),
+            annual_deficit_gap_string(record.deficit_gap_amount),
+            decimal_string(record.borrowed_share_percent_of_outlays, 9),
+            decimal_string(record.income_tax_coverage_percent_of_outlays, 9),
+            decimal_string(record.category_total_reconciliation_difference_amount, 6),
+            json_string(OBSERVED_DATE),
+        ));
+    }
+    lines.join("\n") + "\n"
+}
+
+fn source_profile_markdown(profile: &AnnualProfile) -> String {
+    let sample_years = [1940, 1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020, 2025];
+    let mut lines = vec![
+        "# Income-Tax Outlay Model Source Profile".to_string(),
+        String::new(),
+        "## Source Coverage".to_string(),
+        String::new(),
+        format!("- Model ID: `{MODEL_ID}`"),
+        format!(
+            "- Fiscal years emitted: {}-{}",
+            profile.first_year, profile.last_year
+        ),
+        format!("- Year count: {}", profile.year_count),
+        format!("- Record count: {}", profile.record_count),
+        "- Actual/projection treatment: actual years only; FY2026-FY2031 are excluded.".to_string(),
+        String::new(),
+        "## Source Roles".to_string(),
+        String::new(),
+        "| Source ID | Use |".to_string(),
+        "|---|---|".to_string(),
+        "| `SRC-OMB-HIST-1-1-FY2027` | Total receipts, total outlays, and surplus/deficit. |"
+            .to_string(),
+        "| `SRC-OMB-HIST-2-1-FY2027` | Individual income-tax receipts. |".to_string(),
+        "| `SRC-OMB-HIST-3-1-FY2027` | Broad outlay categories and total federal outlays. |"
+            .to_string(),
+        String::new(),
+        "## Broad Categories".to_string(),
+        String::new(),
+        "| Category key | OMB label | Table 3.1 row |".to_string(),
+        "|---|---|---:|".to_string(),
+    ];
+    for (key, label, row_num) in BROAD_CATEGORIES {
+        lines.push(format!("| `{key}` | {label} | {row_num} |"));
+    }
+    lines.extend([
+        String::new(),
+        "## Reconciliation Sample".to_string(),
+        String::new(),
+        "All amounts are in millions of dollars. `Modeled sum` is the sum of".to_string(),
+        "the six category allocation rows for the fiscal year.".to_string(),
+        String::new(),
+        "| Fiscal year | Table 1.1 outlays | Table 3.1 outlays | Category total | Income tax receipts | Modeled sum | Deficit gap |".to_string(),
+        "|---:|---:|---:|---:|---:|---:|---:|".to_string(),
+    ]);
+    for row in profile
+        .annual_checks
+        .iter()
+        .filter(|row| sample_years.contains(&row.year))
+    {
+        lines.push(format!(
+            "| {} | {} | {} | {} | {} | {} | {} |",
+            row.year,
+            comma_number(row.table_1_1_outlays, 0),
+            comma_number(row.table_3_1_outlays, 0),
+            comma_number(row.category_total, 0),
+            comma_number(row.income_tax, 0),
+            comma_number(row.modeled_sum, 3),
+            comma_number(row.deficit_gap, 0),
+        ));
+    }
+    lines.extend([
+        String::new(),
+        "## Model Caveat".to_string(),
+        String::new(),
+        "These rows allocate individual income-tax receipts by reported outlay".to_string(),
+        "share, normalized over the displayed broad-category rows when source".to_string(),
+        "rounding creates a small difference from the displayed total. They do".to_string(),
+        "not claim that income-tax dollars were legally dedicated to the listed".to_string(),
+        "outlay categories.".to_string(),
+        String::new(),
+    ]);
+    lines.join("\n")
 }
 
 fn build_decade_summary(root: &Path, check_only: bool) -> Result<(), String> {
@@ -942,9 +1506,7 @@ fn compare_text(
     let current = fs::read_to_string(root.join(relative_path))
         .map_err(|err| format!("failed to read {relative_path}: {err}"))?;
     if normalize_newlines(&current) != normalize_newlines(expected) {
-        return Err(format!(
-            "stale {label}: run `cargo run -p taxlane-tools -- income-tax-outlay summary`"
-        ));
+        return Err(format!("stale {label}"));
     }
     Ok(())
 }
@@ -1058,6 +1620,38 @@ fn decimal_string(value: f64, decimals: usize) -> String {
     }
 }
 
+fn comma_number(value: f64, decimals: usize) -> String {
+    let text = format!("{value:.decimals$}");
+    let (sign, unsigned) = text
+        .strip_prefix('-')
+        .map_or(("", text.as_str()), |rest| ("-", rest));
+    let (integer, fraction) = unsigned
+        .split_once('.')
+        .map_or((unsigned, None), |(integer, fraction)| {
+            (integer, Some(fraction))
+        });
+    let mut grouped = String::new();
+    for (index, char) in integer.chars().rev().enumerate() {
+        if index > 0 && index % 3 == 0 {
+            grouped.push(',');
+        }
+        grouped.push(char);
+    }
+    let integer = grouped.chars().rev().collect::<String>();
+    match fraction {
+        Some(fraction) => format!("{sign}{integer}.{fraction}"),
+        None => format!("{sign}{integer}"),
+    }
+}
+
+fn annual_deficit_gap_string(value: f64) -> String {
+    if value == 0.0 {
+        "0".to_string()
+    } else {
+        decimal_string(value, 6)
+    }
+}
+
 fn decade_label(year: i64) -> String {
     let start = year - year % 10;
     format!("{start}s")
@@ -1133,7 +1727,7 @@ fn build_manifest(root: &Path) -> Result<String, String> {
         String::new(),
         "## Regeneration Order".to_string(),
         String::new(),
-        "1. `build_income_tax_outlay_model.py`".to_string(),
+        "1. `cargo run -p taxlane-tools -- income-tax-outlay model`".to_string(),
         "2. `cargo run -p taxlane-tools -- income-tax-outlay summary`".to_string(),
         "3. `cargo run -p taxlane-tools -- income-tax-outlay export`".to_string(),
         "4. `cargo run -p taxlane-tools -- income-tax-outlay manifest`".to_string(),

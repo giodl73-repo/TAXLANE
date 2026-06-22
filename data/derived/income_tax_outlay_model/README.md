@@ -99,8 +99,14 @@ supports that claim.
 
 ## Derived Summaries
 
-The Rust Taxlane CLI reads the annual draft JSONL and emits decade-level summary
-rows:
+The Rust Taxlane CLI reads the OMB historical-table XLSX inputs and emits the
+annual draft JSONL plus source profile:
+
+```powershell
+cargo run -p taxlane-tools -- income-tax-outlay model
+```
+
+It then reads the annual draft JSONL and emits decade-level summary rows:
 
 ```powershell
 cargo run -p taxlane-tools -- income-tax-outlay summary
