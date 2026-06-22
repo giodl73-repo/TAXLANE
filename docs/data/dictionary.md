@@ -238,6 +238,19 @@ Rules:
   not turn subfunctions into standalone program-financing claims.
 - Label partial decade buckets when this family is rolled up across decades.
 
+Derived views:
+
+- Annual long CSV views may rename amount fields with `_millions` suffixes for
+  chart compatibility, but they should preserve fiscal year, function,
+  subfunction, allocation method, and legal status.
+- Decade long CSV views should include `decade`, `start_fiscal_year`,
+  `end_fiscal_year`, `year_count`, `coverage_note`, cumulative receipt and
+  allocation amounts, and `decade_allocation_share_percent`.
+- Ranked current-year CSV views should include `rank` and the fiscal year being
+  ranked, and should not be treated as canonical model rows.
+- Derived views inherit the same modeled-not-legal and drilldown-only rules as
+  the canonical annual rows.
+
 ## `taxpayer_receipt_model`
 
 Use for future public receipt prototypes.

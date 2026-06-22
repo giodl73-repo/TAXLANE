@@ -8,6 +8,7 @@ Work is organized into small waves and pulses.
 
 ## Completed waves
 
+- `2026-06-22-subfunction-derived-view-dictionary`
 - `2026-06-22-subfunction-dictionary-family`
 - `2026-06-22-subfunction-reconciliation-review`
 - `2026-06-22-subfunction-readme-validation-caveat`
