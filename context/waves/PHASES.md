@@ -8,6 +8,7 @@ Work is organized into small waves and pulses.
 
 ## Completed waves
 
+- `2026-06-22-subfunction-chart-set-readme`
 - `2026-06-22-reading-index-guardrails`
 - `2026-06-22-subfunction-chart-catalog-guardrails`
 - `2026-06-22-subfunction-decade-reader`

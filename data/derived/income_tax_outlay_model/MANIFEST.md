@@ -40,7 +40,8 @@ supporting views.
 | `docs/reading/modeled-income-tax-subfunction-outlays.md` | Reader-facing subfunction drilldown packet | documentation | n/a | supporting | `2d9688ba0ac6522979b9a2eb0cac6c969ed7813f06ec89f23b9d0358ad284390` |
 | `reviews/2026-06-22-subfunction-reader-role-review.md` | Subfunction reader role review | documentation | n/a | supporting | `50bb3107dc11b9bd68e7315333e38882d015eeb57a83126d601d5b752ec474e0` |
 | `docs/research/2026-06-22-subfunction-deficit-context-note.md` | Subfunction deficit context note | documentation | n/a | supporting | `75421ddbe7808ef4f98ba06d7414c6103a71ee065524a8e328f8e8efce4049de` |
-| `docs/charts/README.md` | Chart catalog | documentation | n/a | supporting | `381105067cec576a4387d4b57638289282b2c40a76a6d3420ab1ae510890bd03` |
+| `docs/charts/README.md` | Chart catalog | documentation | n/a | supporting | `7881226fd2fa642093b60b92b4b40604efd5c9f17fb054a834f94a4c4489911a` |
+| `docs/charts/income-tax-outlay-subfunction-model/README.md` | Subfunction chart set handoff note | documentation | n/a | supporting | `e18e0744f33d7b0117fee2e7c9195be0477d529d23744f9d893068dcaf93950b` |
 | `docs/charts/income-tax-outlay-model/annual-stacked-area.vl.json` | Annual allocation chart spec | visualization spec | n/a | view | `e0f7c39a6d4f392fc3d60f5f9f6c0561f1bc7706f2dab6019158945b66ca68b6` |
 | `docs/charts/income-tax-outlay-model/decade-stacked-bar.vl.json` | Decade allocation chart spec | visualization spec | n/a | view | `e53433c4304830465e8633b4d5e6b88c8f1e54f517785916ff8191540c1bcb5b` |
 | `docs/charts/income-tax-outlay-model/annual-financing-context-lines.vl.json` | Annual financing context chart spec | visualization spec | n/a | view | `0f73917e9e372abce44ff1d1050b0a71d6358bb4de28b5538838e4d87a590011` |
@@ -51,7 +52,7 @@ supporting views.
 | `Cargo.toml` | Rust workspace manifest | tooling | n/a | supporting | `9ebc5854ae2e4979a5e9b86f65a60cb29c5a88f587877b126ed9cbd8457532cb` |
 | `Cargo.lock` | Rust dependency lockfile | tooling | n/a | supporting | `98b37b03e7430d5538eb8c663022926d896f9b31194915f43b654556fb16716f` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `44e924bb7e71d35948fa75dcc0583ef58203a0e0f52180cf03072ef64aa67c33` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `0dfeafd8a731534f5d2cbd07d650f22e38d4dfa225070cd1af428b76ec2cfff6` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `2c385f614f59b14ee66e3d8c41859409a18ee6bb58501263485810bd61a9ceb9` |
 
 ## Regeneration Order
 

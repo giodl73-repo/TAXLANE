@@ -11,7 +11,7 @@ change the underlying data or model methods.
 | Chart set | Purpose | Data artifacts |
 |---|---|---|
 | `income-tax-outlay-model/` | Visualize the modeled allocation of ordinary individual income-tax receipts by broad outlay share, plus financing context. | Annual and decade wide CSV exports from `data/derived/income_tax_outlay_model/`. |
-| `income-tax-outlay-subfunction-model/` | Prepare Table 3.2 subfunction allocation views for analysis and future UI work. | Annual long, decade long, and FY2025 top-subfunction CSV exports from `data/derived/income_tax_outlay_subfunction_model/`. |
+| `income-tax-outlay-subfunction-model/` | Prepare Table 3.2 subfunction allocation views for analysis and future UI work. See the chart-set README for local handoff rules. | Annual long, decade long, and FY2025 top-subfunction CSV exports from `data/derived/income_tax_outlay_subfunction_model/`. |
 
 ## Income-Tax Outlay Model Specs
 
