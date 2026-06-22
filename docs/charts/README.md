@@ -37,8 +37,10 @@ change the underlying data or model methods.
    explain how much of total outlays was not covered by income-tax receipts.
 3. Use the subfunction exports only for drilldown or ranked detail after the
    broad model context is visible.
-4. Use the reader packet for public wording:
+4. Use the broad reader packet for public wording:
    `docs/reading/modeled-income-tax-outlays.md`.
+5. Use the subfunction reader packet for any Table 3.2 drilldown wording:
+   `docs/reading/modeled-income-tax-subfunction-outlays.md`.
 
 ## Wording Rule
 
@@ -46,7 +48,21 @@ Use "modeled allocation" or "if allocated by broad outlay share." Do not use
 "where income taxes went" or "what income taxes funded" because those phrases
 imply legal tracing that the model does not support.
 
+For subfunction charts, use "if allocated by OMB Table 3.2 subfunction outlay
+shares." Do not describe a subfunction label as a program receipt or a legal
+funding destination.
+
 ## Deficit Context Rule
 
 Borrowed share is financing context. It should appear beside the allocation
 chart, not as a stacked income-tax allocation category.
+
+Subfunction charts inherit this rule. A public display of a subfunction chart
+needs nearby broad-model financing context or a direct link back to the broad
+modeled-outlay packet.
+
+## Partial-Decade Rule
+
+The subfunction decade chart includes partial buckets for the 1960s
+(FY1962-FY1969) and 2020s (FY2020-FY2025). Label those buckets as partial and
+do not compare them as if each contains ten fiscal years.

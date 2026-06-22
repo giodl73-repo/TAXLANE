@@ -40,7 +40,7 @@ supporting views.
 | `docs/reading/modeled-income-tax-subfunction-outlays.md` | Reader-facing subfunction drilldown packet | documentation | n/a | supporting | `2d9688ba0ac6522979b9a2eb0cac6c969ed7813f06ec89f23b9d0358ad284390` |
 | `reviews/2026-06-22-subfunction-reader-role-review.md` | Subfunction reader role review | documentation | n/a | supporting | `50bb3107dc11b9bd68e7315333e38882d015eeb57a83126d601d5b752ec474e0` |
 | `docs/research/2026-06-22-subfunction-deficit-context-note.md` | Subfunction deficit context note | documentation | n/a | supporting | `75421ddbe7808ef4f98ba06d7414c6103a71ee065524a8e328f8e8efce4049de` |
-| `docs/charts/README.md` | Chart catalog | documentation | n/a | supporting | `c3db00efbac691e8d7581f73b6dd3559e5e4f599e9334d687f52f46639b31ac7` |
+| `docs/charts/README.md` | Chart catalog | documentation | n/a | supporting | `381105067cec576a4387d4b57638289282b2c40a76a6d3420ab1ae510890bd03` |
 | `docs/charts/income-tax-outlay-model/annual-stacked-area.vl.json` | Annual allocation chart spec | visualization spec | n/a | view | `e0f7c39a6d4f392fc3d60f5f9f6c0561f1bc7706f2dab6019158945b66ca68b6` |
 | `docs/charts/income-tax-outlay-model/decade-stacked-bar.vl.json` | Decade allocation chart spec | visualization spec | n/a | view | `e53433c4304830465e8633b4d5e6b88c8f1e54f517785916ff8191540c1bcb5b` |
 | `docs/charts/income-tax-outlay-model/annual-financing-context-lines.vl.json` | Annual financing context chart spec | visualization spec | n/a | view | `0f73917e9e372abce44ff1d1050b0a71d6358bb4de28b5538838e4d87a590011` |
