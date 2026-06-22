@@ -19,6 +19,7 @@ contract for future data work, not a dataset.
 | `outlay_program` | Fiscal year | OMB Historical Tables 8.5, 8.7, 11.3; USAspending | Show mandatory, discretionary, beneficiary, and program detail. |
 | `lane_crosswalk` | Fiscal year or model version | OMB functions plus TAXLANE lane taxonomy | Map public-purpose labels to budget functions. |
 | `income_tax_outlay_model` | Fiscal year | Derived from OMB Historical Tables 1.1, 2.1, and 3.1 | Estimate ordinary individual income-tax receipts across broad outlay categories by year. |
+| `income_tax_outlay_subfunction_model` | Fiscal year | Derived from OMB Historical Tables 2.1 and 3.2 | Estimate ordinary individual income-tax receipts across OMB subfunctions by year. |
 | `taxpayer_receipt_model` | Tax year plus fiscal year | Derived from rates, receipts, outlays, and lane crosswalks | Explain a taxpayer payment with method labels. |
 | `program_lane_model` | Model version | Derived from lane model and statutory design sources | Evaluate possible program-linked tax reforms. |
 
@@ -202,6 +203,40 @@ Rules:
 - Keep deficit context on every row.
 - Keep net interest and undistributed offsetting receipts visible.
 - Label estimates and projections separately; do not mix them with actual rows.
+
+## `income_tax_outlay_subfunction_model`
+
+Use for fiscal-year visibility models that allocate ordinary individual
+income-tax receipts across OMB Table 3.2 subfunctions by proportional outlay
+share.
+
+| Field | Required | Meaning |
+|---|---|---|
+| `model_id` | Yes | Stable model identifier. |
+| `fiscal_year` | Yes | Federal fiscal year. |
+| `tax_source` | Yes | Always ordinary individual income taxes for the first subfunction model. |
+| `allocation_method` | Yes | `proportional_outlay_share` for the first subfunction model. |
+| `legal_allocation_status` | Yes | Must state that the row is modeled, not legal dedication. |
+| `function_code` | Yes | OMB Table 3.2 parent function code. |
+| `function_label` | Yes | OMB Table 3.2 parent function label. |
+| `subfunction_code` | Yes | OMB Table 3.2 subfunction code. |
+| `subfunction_label` | Yes | OMB Table 3.2 subfunction label. |
+| `subfunction_outlays_amount` | Yes | OMB Table 3.2 subfunction outlays. |
+| `total_outlays_amount` | Yes | OMB total federal outlays from Table 3.2. |
+| `subfunction_total_outlays_amount` | Yes | Sum of emitted subfunction rows used as the allocation denominator. |
+| `individual_income_tax_receipts_amount` | Yes | OMB Table 2.1 individual income-tax receipts. |
+| `outlay_share_percent` | Yes | Subfunction amount divided by displayed total federal outlays. |
+| `allocation_share_percent` | Yes | Subfunction amount divided by the model allocation denominator. |
+| `modeled_income_tax_allocation_amount` | Yes | Individual income-tax receipts allocated by subfunction share. |
+
+Rules:
+
+- Do not describe this family as legal tracing of tax dollars.
+- Use it as a drilldown after the broad `income_tax_outlay_model` context is
+  visible.
+- Keep parent function labels with subfunction labels so reader-facing views do
+  not turn subfunctions into standalone program-financing claims.
+- Label partial decade buckets when this family is rolled up across decades.
 
 ## `taxpayer_receipt_model`
 
