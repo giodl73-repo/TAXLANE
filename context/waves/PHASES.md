@@ -8,6 +8,7 @@ Work is organized into small waves and pulses.
 
 ## Completed waves
 
+- `2026-06-22-lane-crosswalk-role-review`
 - `2026-06-22-public-purpose-lane-crosswalk`
 - `2026-06-22-subfunction-derived-view-dictionary`
 - `2026-06-22-subfunction-dictionary-family`

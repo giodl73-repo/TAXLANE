@@ -38,6 +38,9 @@ A public receipt prototype may use these records only with:
    legal tracing,
 4. role review before taxpayer-facing publication.
 
+The draft crosswalk role review is recorded at
+`reviews/2026-06-22-lane-crosswalk-role-review.md`.
+
 ## Validation
 
 Run:
