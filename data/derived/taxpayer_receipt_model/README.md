@@ -39,6 +39,9 @@ receipt is published, it needs role review for:
 4. deficit and borrowed-share display,
 5. plain-language presentation.
 
+The draft receipt role review is recorded at
+`reviews/2026-06-22-placeholder-receipt-role-review.md`.
+
 ## Validation
 
 Run:
