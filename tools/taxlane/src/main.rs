@@ -1566,7 +1566,7 @@ fn string_field(row: &serde_json::Value, field: &str) -> Result<String, String> 
 }
 
 fn insert_number(row: &mut BTreeMap<String, String>, field: &str, value: f64) {
-    row.insert(field.to_string(), python_float(value));
+    row.insert(field.to_string(), compact_decimal(value));
 }
 
 fn insert_json_number(
@@ -1585,7 +1585,7 @@ fn json_number_string(row: &serde_json::Value, field: &str) -> String {
     if let Some(number) = value.as_i64() {
         number.to_string()
     } else if let Some(number) = value.as_f64() {
-        python_float(number)
+        compact_decimal(number)
     } else {
         panic!("missing number field {field}")
     }
@@ -1599,7 +1599,7 @@ fn round9(value: f64) -> f64 {
     (value * 1_000_000_000.0).round() / 1_000_000_000.0
 }
 
-fn python_float(value: f64) -> String {
+fn compact_decimal(value: f64) -> String {
     if value.is_finite() && value.fract() == 0.0 {
         format!("{value:.1}")
     } else {
