@@ -8,6 +8,7 @@ Work is organized into small waves and pulses.
 
 ## Completed waves
 
+- `2026-06-22-broad-model-readme-validation-heading`
 - `2026-06-22-broad-chart-set-manifest`
 - `2026-06-22-subfunction-chart-set-readme`
 - `2026-06-22-reading-index-guardrails`

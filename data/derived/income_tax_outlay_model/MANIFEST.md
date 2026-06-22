@@ -32,7 +32,7 @@ supporting views.
 | `data/derived/income_tax_outlay_subfunction_model/income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.fy2025-top-subfunctions.csv` | Chart-ready FY2025 top subfunction view | ranked FY2025 subfunction | 25 | no | `7490dcd469ef70169d4037c41037793339540189c711d37e95b52e308faa04ff` |
 | `data/derived/income_tax_outlay_subfunction_model/README.md` | Subfunction model method and schema note | documentation | n/a | supporting | `bf055c8fbd297e98b28c1a47318209f3a7fbdf65fd118b8231a1f42dffff0a85` |
 | `data/derived/income_tax_outlay_subfunction_model/source-profile.md` | Subfunction source coverage and reconciliation sample | documentation | n/a | supporting | `2e61e02b034f77cb3219ab3e83cb1173bd15fd2bff628ebae27e01200091541b` |
-| `data/derived/income_tax_outlay_model/README.md` | Model method and schema note | documentation | n/a | supporting | `f20e3e7ddc97da3835a604988ee54f0c7b62445739e373815a1f51707b7f3d36` |
+| `data/derived/income_tax_outlay_model/README.md` | Model method and schema note | documentation | n/a | supporting | `b96bda607dc1bfa450fd4b35bc20291ff13d5382edb82ca6938ca69156963e86` |
 | `data/derived/income_tax_outlay_model/source-profile.md` | Source coverage and reconciliation sample | documentation | n/a | supporting | `7d0dff2c0c671e4e1bbc80aee6a72a6ad09890758e1d8e7c92999a6d093456a2` |
 | `data/derived/income_tax_outlay_model/reconciliation-review.md` | Generated-row reconciliation review | documentation | n/a | supporting | `9c1898df3c6d7498a285887c8a64665d320afb1d492e8cc4b69bb27d22b30be8` |
 | `data/derived/income_tax_outlay_model/decade-summary.md` | Human-readable decade summary | documentation | n/a | supporting | `8ee633a570b3974a77463abcd56f33642affd7944f0173562ce7913ff9a389da` |

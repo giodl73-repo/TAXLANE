@@ -141,7 +141,7 @@ views:
 cargo run -p taxlane-tools -- income-tax-outlay manifest
 ```
 
-## Validation
+## Validation Command
 
 ```powershell
 cargo run -p taxlane-tools -- income-tax-outlay validate
