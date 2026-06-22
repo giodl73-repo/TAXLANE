@@ -14,3 +14,4 @@ explainers. They should keep three labels visible:
 | Packet | Purpose |
 |---|---|
 | `income-tax-foundation.md` | First public packet explaining income-tax history, current mechanics, budget accounting, and program-linked tax lanes. |
+| `modeled-income-tax-outlays.md` | Reader-facing explanation of the annual and decade modeled allocation of individual income-tax receipts by broad outlay share. |
