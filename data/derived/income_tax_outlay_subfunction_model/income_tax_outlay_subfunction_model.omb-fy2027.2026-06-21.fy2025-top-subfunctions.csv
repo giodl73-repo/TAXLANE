@@ -1,0 +1,26 @@
+rank,fiscal_year,function_code,function_label,subfunction_code,subfunction_label,modeled_income_tax_allocation_millions,allocation_share_percent,subfunction_outlays_millions,allocation_method,legal_allocation_status
+1,2025,650,Social Security,651,Social security,598812.460748,22.545276387,1580673,proportional_outlay_share,modeled_not_legal_dedication
+2,2025,900,Net Interest,901,Interest on Treasury debt securities (gross),460514.612587,17.33836535,1215611,proportional_outlay_share,modeled_not_legal_dedication
+3,2025,570,Medicare,571,Medicare,377590.531534,14.216275466,996718,proportional_outlay_share,modeled_not_legal_dedication
+4,2025,550,Health,551,Health care services,349534.47438,13.159965512,922659,proportional_outlay_share,modeled_not_legal_dedication
+5,2025,050,National Defense,051,Department of Defense-Military,328989.177418,12.386435519,868426,proportional_outlay_share,modeled_not_legal_dedication
+6,2025,600,Income Security,609,Other income security,89147.563775,3.356403876,235321,proportional_outlay_share,modeled_not_legal_dedication
+7,2025,700,Veterans Benefits and Services,701,Income security for veterans,76005.817024,2.861617391,200631,proportional_outlay_share,modeled_not_legal_dedication
+8,2025,600,Income Security,602,Federal employee retirement and disability,72067.081337,2.713324077,190234,proportional_outlay_share,modeled_not_legal_dedication
+9,2025,600,Income Security,605,Food and nutrition assistance,56685.289946,2.134199958,149631,proportional_outlay_share,modeled_not_legal_dedication
+10,2025,700,Veterans Benefits and Services,703,Hospital and medical care for veterans,56383.73819,2.122846541,148835,proportional_outlay_share,modeled_not_legal_dedication
+11,2025,400,Transportation,401,Ground transportation,38196.682033,1.438104265,100827,proportional_outlay_share,modeled_not_legal_dedication
+12,2025,600,Income Security,604,Housing assistance,29544.874241,1.112363886,77989,proportional_outlay_share,modeled_not_legal_dedication
+13,2025,500,"Education, Training, Employment, and Social Services",501,"Elementary, secondary, and vocational education",25898.598297,0.975081674,68364,proportional_outlay_share,modeled_not_legal_dedication
+14,2025,450,Community and Regional Development,453,Disaster relief and insurance,23778.643993,0.89526544,62768,proportional_outlay_share,modeled_not_legal_dedication
+15,2025,550,Health,552,Health research and training,19018.975322,0.716064016,50204,proportional_outlay_share,modeled_not_legal_dedication
+16,2025,750,Administration of Justice,751,Federal law enforcement activities,16616.410955,0.625607518,43862,proportional_outlay_share,modeled_not_legal_dedication
+17,2025,600,Income Security,603,Unemployment compensation,15824.269345,0.595783404,41771,proportional_outlay_share,modeled_not_legal_dedication
+18,2025,370,Commerce and Housing Credit,376,Other advancement of commerce,14990.834843,0.564404612,39571,proportional_outlay_share,modeled_not_legal_dedication
+19,2025,050,National Defense,053,Atomic energy defense activities,13846.756573,0.52133009,36551,proportional_outlay_share,modeled_not_legal_dedication
+20,2025,300,Natural Resources and Environment,304,Pollution control and abatement,13725.90857,0.516780165,36232,proportional_outlay_share,modeled_not_legal_dedication
+21,2025,150,International Affairs,151,International development and humanitarian assistance,11370.319602,0.428092291,30014,proportional_outlay_share,modeled_not_legal_dedication
+22,2025,400,Transportation,402,Air transportation,11267.655625,0.424226994,29743,proportional_outlay_share,modeled_not_legal_dedication
+23,2025,500,"Education, Training, Employment, and Social Services",506,Social services,9967.497803,0.37527608,26311,proportional_outlay_share,modeled_not_legal_dedication
+24,2025,350,Agriculture,352,Agricultural research and services,9948.934944,0.374577189,26262,proportional_outlay_share,modeled_not_legal_dedication
+25,2025,250,"General Science, Space, and Technology",252,"Space flight, research, and supporting activities",8941.994532,0.336665904,23604,proportional_outlay_share,modeled_not_legal_dedication

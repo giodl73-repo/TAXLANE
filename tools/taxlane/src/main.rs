@@ -24,6 +24,8 @@ const DECADE_CSV_PATH: &str = "data/derived/income_tax_outlay_model/income_tax_o
 const DECADE_MD_PATH: &str = "data/derived/income_tax_outlay_model/decade-summary.md";
 const SOURCE_PROFILE_PATH: &str = "data/derived/income_tax_outlay_model/source-profile.md";
 const SUBFUNCTION_MODEL_JSONL_PATH: &str = "data/derived/income_tax_outlay_subfunction_model/income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.draft.jsonl";
+const SUBFUNCTION_ANNUAL_CSV_PATH: &str = "data/derived/income_tax_outlay_subfunction_model/income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.annual-long.csv";
+const SUBFUNCTION_FY2025_TOP_CSV_PATH: &str = "data/derived/income_tax_outlay_subfunction_model/income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.fy2025-top-subfunctions.csv";
 const SUBFUNCTION_MODEL_PROFILE_PATH: &str =
     "data/derived/income_tax_outlay_subfunction_model/source-profile.md";
 const SUBFUNCTION_MODEL_README_PATH: &str =
@@ -126,6 +128,37 @@ const CATEGORY_FIELDS: &[(&str, &str)] = &[
     ),
 ];
 
+const SUBFUNCTION_ANNUAL_HEADERS: &[&str] = &[
+    "fiscal_year",
+    "function_code",
+    "function_label",
+    "subfunction_code",
+    "subfunction_label",
+    "individual_income_tax_receipts_millions",
+    "total_outlays_millions",
+    "subfunction_outlays_millions",
+    "modeled_income_tax_allocation_millions",
+    "allocation_share_percent",
+    "outlay_share_percent",
+    "allocation_method",
+    "legal_allocation_status",
+    "actual_or_projection",
+];
+
+const SUBFUNCTION_TOP_HEADERS: &[&str] = &[
+    "rank",
+    "fiscal_year",
+    "function_code",
+    "function_label",
+    "subfunction_code",
+    "subfunction_label",
+    "modeled_income_tax_allocation_millions",
+    "allocation_share_percent",
+    "subfunction_outlays_millions",
+    "allocation_method",
+    "legal_allocation_status",
+];
+
 #[derive(Clone, Copy)]
 struct Artifact {
     path: &'static str,
@@ -163,6 +196,41 @@ const ARTIFACTS: &[Artifact] = &[
         grain: "decade",
         kind: "csv",
         canonical: "no",
+    },
+    Artifact {
+        path: "data/derived/income_tax_outlay_subfunction_model/income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.draft.jsonl",
+        role: "Canonical annual subfunction model rows",
+        grain: "fiscal year by Table 3.2 subfunction",
+        kind: "jsonl",
+        canonical: "yes",
+    },
+    Artifact {
+        path: "data/derived/income_tax_outlay_subfunction_model/income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.annual-long.csv",
+        role: "Chart-ready annual subfunction long view",
+        grain: "fiscal year by Table 3.2 subfunction",
+        kind: "csv",
+        canonical: "no",
+    },
+    Artifact {
+        path: "data/derived/income_tax_outlay_subfunction_model/income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.fy2025-top-subfunctions.csv",
+        role: "Chart-ready FY2025 top subfunction view",
+        grain: "ranked FY2025 subfunction",
+        kind: "csv",
+        canonical: "no",
+    },
+    Artifact {
+        path: "data/derived/income_tax_outlay_subfunction_model/README.md",
+        role: "Subfunction model method and schema note",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/income_tax_outlay_subfunction_model/source-profile.md",
+        role: "Subfunction source coverage and reconciliation sample",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
     },
     Artifact {
         path: "data/derived/income_tax_outlay_model/README.md",
@@ -287,6 +355,16 @@ fn main() -> ExitCode {
             run_subfunction_model_write()
         }
         [area, command, flag]
+            if area == "income-tax-outlay"
+                && command == "subfunction-export"
+                && flag == "--check" =>
+        {
+            run_subfunction_export_check()
+        }
+        [area, command] if area == "income-tax-outlay" && command == "subfunction-export" => {
+            run_subfunction_export_write()
+        }
+        [area, command, flag]
             if area == "income-tax-outlay" && command == "summary" && flag == "--check" =>
         {
             run_summary_check()
@@ -344,7 +422,7 @@ fn main() -> ExitCode {
         }
         _ => {
             eprintln!(
-                "usage: taxlane-tools income-tax-outlay <validate|model [--check]|subfunction-model [--check]|summary [--check]|export [--check]|manifest [--check]>\n       taxlane-tools receipt-source table-2-2 [--check]\n       taxlane-tools outlay-function table-3-1 [--check]\n       taxlane-tools outlay-function table-3-2-national-defense [--check]\n       taxlane-tools outlay-function table-3-2 [--check]"
+                "usage: taxlane-tools income-tax-outlay <validate|model [--check]|subfunction-model [--check]|subfunction-export [--check]|summary [--check]|export [--check]|manifest [--check]>\n       taxlane-tools receipt-source table-2-2 [--check]\n       taxlane-tools outlay-function table-3-1 [--check]\n       taxlane-tools outlay-function table-3-2-national-defense [--check]\n       taxlane-tools outlay-function table-3-2 [--check]"
             );
             ExitCode::from(2)
         }
@@ -371,6 +449,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = export_chart_views(&root, true) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = export_subfunction_chart_views(&root, true) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -455,6 +538,40 @@ fn run_subfunction_model_write() -> ExitCode {
         }
     };
     match build_subfunction_model(&root, false) {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(err) => {
+            eprintln!("{err}");
+            ExitCode::from(1)
+        }
+    }
+}
+
+fn run_subfunction_export_check() -> ExitCode {
+    let root = match repo_root() {
+        Ok(root) => root,
+        Err(err) => {
+            eprintln!("{err}");
+            return ExitCode::from(1);
+        }
+    };
+    match export_subfunction_chart_views(&root, true) {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(err) => {
+            eprintln!("{err}");
+            ExitCode::from(1)
+        }
+    }
+}
+
+fn run_subfunction_export_write() -> ExitCode {
+    let root = match repo_root() {
+        Ok(root) => root,
+        Err(err) => {
+            eprintln!("{err}");
+            return ExitCode::from(1);
+        }
+    };
+    match export_subfunction_chart_views(&root, false) {
         Ok(()) => ExitCode::SUCCESS,
         Err(err) => {
             eprintln!("{err}");
@@ -2451,6 +2568,14 @@ fn subfunction_model_readme_markdown() -> String {
         "",
         "The first draft model covers fiscal years 1962-2025, the overlap between Table 3.2 actual-year subfunction rows and Table 2.1 individual income-tax receipt rows.",
         "",
+        "## Artifacts",
+        "",
+        "| Artifact | Role |",
+        "|---|---|",
+        "| `income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.draft.jsonl` | Canonical annual modeled allocation rows by Table 3.2 subfunction. |",
+        "| `income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.annual-long.csv` | Chart-ready long CSV view with one row per fiscal year and subfunction. |",
+        "| `income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.fy2025-top-subfunctions.csv` | Chart-ready FY2025 ranked view for the largest modeled subfunction allocations. |",
+        "",
         "## Method",
         "",
         "For each fiscal year and emitted Table 3.2 subfunction:",
@@ -2470,6 +2595,8 @@ fn subfunction_model_readme_markdown() -> String {
         "```powershell",
         "cargo run -p taxlane-tools -- income-tax-outlay subfunction-model",
         "cargo run -p taxlane-tools -- income-tax-outlay subfunction-model --check",
+        "cargo run -p taxlane-tools -- income-tax-outlay subfunction-export",
+        "cargo run -p taxlane-tools -- income-tax-outlay subfunction-export --check",
         "```",
         "",
     ]
@@ -3509,6 +3636,48 @@ fn export_chart_views(root: &Path, check_only: bool) -> Result<(), String> {
     Ok(())
 }
 
+fn export_subfunction_chart_views(root: &Path, check_only: bool) -> Result<(), String> {
+    let annual = build_subfunction_annual_csv_rows(root)?;
+    let top = build_subfunction_fy2025_top_csv_rows(root, 25)?;
+    validate_subfunction_csv_rows(&annual, "subfunction annual", 4691)?;
+    validate_subfunction_csv_rows(&top, "subfunction FY2025 top", 25)?;
+
+    if check_only {
+        compare_csv(
+            root,
+            SUBFUNCTION_ANNUAL_CSV_PATH,
+            SUBFUNCTION_ANNUAL_HEADERS,
+            &annual,
+        )?;
+        compare_csv(
+            root,
+            SUBFUNCTION_FY2025_TOP_CSV_PATH,
+            SUBFUNCTION_TOP_HEADERS,
+            &top,
+        )?;
+    } else {
+        write_csv(
+            root,
+            SUBFUNCTION_ANNUAL_CSV_PATH,
+            SUBFUNCTION_ANNUAL_HEADERS,
+            &annual,
+        )?;
+        write_csv(
+            root,
+            SUBFUNCTION_FY2025_TOP_CSV_PATH,
+            SUBFUNCTION_TOP_HEADERS,
+            &top,
+        )?;
+    }
+
+    println!(
+        "validated {} subfunction annual rows and {} FY2025 top rows",
+        annual.len(),
+        top.len()
+    );
+    Ok(())
+}
+
 fn build_annual_csv_rows(root: &Path) -> Result<Vec<BTreeMap<String, String>>, String> {
     let rows = read_jsonl(root.join(ANNUAL_JSONL_PATH))?;
     let mut grouped: BTreeMap<i64, BTreeMap<String, serde_json::Value>> = BTreeMap::new();
@@ -3682,6 +3851,158 @@ fn build_decade_csv_rows(root: &Path) -> Result<Vec<BTreeMap<String, String>>, S
     Ok(output)
 }
 
+fn build_subfunction_annual_csv_rows(root: &Path) -> Result<Vec<BTreeMap<String, String>>, String> {
+    let rows = read_jsonl(root.join(SUBFUNCTION_MODEL_JSONL_PATH))?;
+    rows.iter().map(subfunction_annual_csv_row).collect()
+}
+
+fn build_subfunction_fy2025_top_csv_rows(
+    root: &Path,
+    count: usize,
+) -> Result<Vec<BTreeMap<String, String>>, String> {
+    let mut rows: Vec<serde_json::Value> = read_jsonl(root.join(SUBFUNCTION_MODEL_JSONL_PATH))?
+        .into_iter()
+        .filter(|row| int_field(row, "fiscal_year") == Ok(2025))
+        .collect();
+    rows.sort_by(|left, right| {
+        number_field(right, "modeled_income_tax_allocation_amount")
+            .unwrap_or(0.0)
+            .partial_cmp(&number_field(left, "modeled_income_tax_allocation_amount").unwrap_or(0.0))
+            .unwrap_or(std::cmp::Ordering::Equal)
+    });
+
+    rows.iter()
+        .take(count)
+        .enumerate()
+        .map(|(index, row)| subfunction_top_csv_row(index + 1, row))
+        .collect()
+}
+
+fn subfunction_annual_csv_row(row: &serde_json::Value) -> Result<BTreeMap<String, String>, String> {
+    let mut output = BTreeMap::new();
+    output.insert(
+        "fiscal_year".to_string(),
+        int_field(row, "fiscal_year")?.to_string(),
+    );
+    output.insert(
+        "function_code".to_string(),
+        string_field(row, "function_code")?,
+    );
+    output.insert(
+        "function_label".to_string(),
+        string_field(row, "function_label")?,
+    );
+    output.insert(
+        "subfunction_code".to_string(),
+        string_field(row, "subfunction_code")?,
+    );
+    output.insert(
+        "subfunction_label".to_string(),
+        string_field(row, "subfunction_label")?,
+    );
+    insert_json_number(
+        &mut output,
+        "individual_income_tax_receipts_millions",
+        row,
+        "individual_income_tax_receipts_amount",
+    );
+    insert_json_number(
+        &mut output,
+        "total_outlays_millions",
+        row,
+        "total_outlays_amount",
+    );
+    insert_json_number(
+        &mut output,
+        "subfunction_outlays_millions",
+        row,
+        "subfunction_outlays_amount",
+    );
+    insert_rounded_number(
+        &mut output,
+        "modeled_income_tax_allocation_millions",
+        number_field(row, "modeled_income_tax_allocation_amount")?,
+        6,
+    );
+    insert_number(
+        &mut output,
+        "allocation_share_percent",
+        number_field(row, "allocation_share_percent")?,
+    );
+    insert_number(
+        &mut output,
+        "outlay_share_percent",
+        number_field(row, "outlay_share_percent")?,
+    );
+    output.insert(
+        "allocation_method".to_string(),
+        string_field(row, "allocation_method")?,
+    );
+    output.insert(
+        "legal_allocation_status".to_string(),
+        string_field(row, "legal_allocation_status")?,
+    );
+    output.insert(
+        "actual_or_projection".to_string(),
+        string_field(row, "actual_or_projection")?,
+    );
+    Ok(output)
+}
+
+fn subfunction_top_csv_row(
+    rank: usize,
+    row: &serde_json::Value,
+) -> Result<BTreeMap<String, String>, String> {
+    let mut output = BTreeMap::new();
+    output.insert("rank".to_string(), rank.to_string());
+    output.insert(
+        "fiscal_year".to_string(),
+        int_field(row, "fiscal_year")?.to_string(),
+    );
+    output.insert(
+        "function_code".to_string(),
+        string_field(row, "function_code")?,
+    );
+    output.insert(
+        "function_label".to_string(),
+        string_field(row, "function_label")?,
+    );
+    output.insert(
+        "subfunction_code".to_string(),
+        string_field(row, "subfunction_code")?,
+    );
+    output.insert(
+        "subfunction_label".to_string(),
+        string_field(row, "subfunction_label")?,
+    );
+    insert_rounded_number(
+        &mut output,
+        "modeled_income_tax_allocation_millions",
+        number_field(row, "modeled_income_tax_allocation_amount")?,
+        6,
+    );
+    insert_number(
+        &mut output,
+        "allocation_share_percent",
+        number_field(row, "allocation_share_percent")?,
+    );
+    insert_json_number(
+        &mut output,
+        "subfunction_outlays_millions",
+        row,
+        "subfunction_outlays_amount",
+    );
+    output.insert(
+        "allocation_method".to_string(),
+        string_field(row, "allocation_method")?,
+    );
+    output.insert(
+        "legal_allocation_status".to_string(),
+        string_field(row, "legal_allocation_status")?,
+    );
+    Ok(output)
+}
+
 fn validate_csv_rows(
     rows: &[BTreeMap<String, String>],
     label: &str,
@@ -3709,6 +4030,30 @@ fn validate_csv_rows(
         }
         if row.get("actual_or_projection").map(String::as_str) != Some("actual") {
             return Err(format!("{label}: unexpected projection status for {row:?}"));
+        }
+    }
+    Ok(())
+}
+
+fn validate_subfunction_csv_rows(
+    rows: &[BTreeMap<String, String>],
+    label: &str,
+    expected_count: usize,
+) -> Result<(), String> {
+    if rows.len() != expected_count {
+        return Err(format!(
+            "{label}: expected {expected_count} rows, found {}",
+            rows.len()
+        ));
+    }
+    for row in rows {
+        if row.get("legal_allocation_status").map(String::as_str)
+            != Some("modeled_not_legal_dedication")
+        {
+            return Err(format!("{label}: missing modeled legal status for {row:?}"));
+        }
+        if row.get("allocation_method").map(String::as_str) != Some("proportional_outlay_share") {
+            return Err(format!("{label}: unexpected allocation method for {row:?}"));
         }
     }
     Ok(())
@@ -3814,6 +4159,15 @@ fn insert_number(row: &mut BTreeMap<String, String>, field: &str, value: f64) {
     row.insert(field.to_string(), compact_decimal(value));
 }
 
+fn insert_rounded_number(
+    row: &mut BTreeMap<String, String>,
+    field: &str,
+    value: f64,
+    decimals: usize,
+) {
+    row.insert(field.to_string(), rounded_decimal(value, decimals));
+}
+
 fn insert_json_number(
     row: &mut BTreeMap<String, String>,
     field: &str,
@@ -3851,6 +4205,29 @@ fn compact_decimal(value: f64) -> String {
         let text = format!("{value:.12}");
         text.trim_end_matches('0').trim_end_matches('.').to_string()
     }
+}
+
+fn rounded_decimal(value: f64, decimals: usize) -> String {
+    if !value.is_finite() {
+        return value.to_string();
+    }
+
+    let factor = 10_i128.pow(decimals as u32);
+    let scaled = (value * factor as f64).round() as i128;
+    let sign = if scaled < 0 { "-" } else { "" };
+    let absolute = scaled.abs();
+    let integer = absolute / factor;
+    let fraction = absolute % factor;
+
+    if decimals == 0 || fraction == 0 {
+        return format!("{sign}{integer}");
+    }
+
+    let mut fraction_text = format!("{fraction:0decimals$}");
+    while fraction_text.ends_with('0') {
+        fraction_text.pop();
+    }
+    format!("{sign}{integer}.{fraction_text}")
 }
 
 fn decimal_string(value: f64, decimals: usize) -> String {
@@ -3960,16 +4337,20 @@ fn build_manifest(root: &Path) -> Result<String, String> {
         String::new(),
         "## Purpose".to_string(),
         String::new(),
-        "This manifest records the artifact chain for the modeled allocation of".to_string(),
-        "ordinary individual income-tax receipts by broad OMB outlay share.".to_string(),
+        "This manifest records the artifact chain for modeled allocations of".to_string(),
+        "ordinary individual income-tax receipts by OMB outlay share.".to_string(),
         String::new(),
-        "The annual and decade JSONL files are canonical model outputs. CSV files,".to_string(),
-        "Markdown notes, and chart specs are derived or supporting views.".to_string(),
+        "The annual, decade, and subfunction JSONL files are canonical model".to_string(),
+        "outputs. CSV files, Markdown notes, and chart specs are derived or".to_string(),
+        "supporting views.".to_string(),
         String::new(),
         "## Model".to_string(),
         String::new(),
-        "- Model ID: `individual-income-tax-proportional-outlays-v1`".to_string(),
-        "- Coverage: fiscal years 1940-2025 for annual actual-year rows".to_string(),
+        "- Broad model ID: `individual-income-tax-proportional-outlays-v1`".to_string(),
+        "- Subfunction model ID: `individual-income-tax-proportional-subfunction-outlays-v1`"
+            .to_string(),
+        "- Broad coverage: fiscal years 1940-2025 for annual actual-year rows".to_string(),
+        "- Subfunction coverage: fiscal years 1962-2025 for Table 3.2 actual-year rows".to_string(),
         "- Projection treatment: FY2026-FY2031 excluded".to_string(),
         "- Legal status: modeled allocation, not legal dedication".to_string(),
         String::new(),
@@ -3993,7 +4374,9 @@ fn build_manifest(root: &Path) -> Result<String, String> {
         "1. `cargo run -p taxlane-tools -- income-tax-outlay model`".to_string(),
         "2. `cargo run -p taxlane-tools -- income-tax-outlay summary`".to_string(),
         "3. `cargo run -p taxlane-tools -- income-tax-outlay export`".to_string(),
-        "4. `cargo run -p taxlane-tools -- income-tax-outlay manifest`".to_string(),
+        "4. `cargo run -p taxlane-tools -- income-tax-outlay subfunction-model`".to_string(),
+        "5. `cargo run -p taxlane-tools -- income-tax-outlay subfunction-export`".to_string(),
+        "6. `cargo run -p taxlane-tools -- income-tax-outlay manifest`".to_string(),
         String::new(),
         "Run validation after regeneration:".to_string(),
         String::new(),

@@ -11,6 +11,7 @@ change the underlying data or model methods.
 | Chart set | Purpose | Data artifacts |
 |---|---|---|
 | `income-tax-outlay-model/` | Visualize the modeled allocation of ordinary individual income-tax receipts by broad outlay share, plus financing context. | Annual and decade wide CSV exports from `data/derived/income_tax_outlay_model/`. |
+| `income-tax-outlay-subfunction-model/` | Prepare Table 3.2 subfunction allocation views for analysis and future UI work. | Annual long and FY2025 top-subfunction CSV exports from `data/derived/income_tax_outlay_subfunction_model/`. |
 
 ## Income-Tax Outlay Model Specs
 
@@ -26,7 +27,9 @@ change the underlying data or model methods.
 1. Start with the allocation chart: annual stacked area or decade stacked bar.
 2. Read the financing context chart next: borrowed share and income-tax coverage
    explain how much of total outlays was not covered by income-tax receipts.
-3. Use the reader packet for public wording:
+3. Use the subfunction exports only for drilldown or ranked detail after the
+   broad model context is visible.
+4. Use the reader packet for public wording:
    `docs/reading/modeled-income-tax-outlays.md`.
 
 ## Wording Rule

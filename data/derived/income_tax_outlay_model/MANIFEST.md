@@ -2,16 +2,19 @@
 
 ## Purpose
 
-This manifest records the artifact chain for the modeled allocation of
-ordinary individual income-tax receipts by broad OMB outlay share.
+This manifest records the artifact chain for modeled allocations of
+ordinary individual income-tax receipts by OMB outlay share.
 
-The annual and decade JSONL files are canonical model outputs. CSV files,
-Markdown notes, and chart specs are derived or supporting views.
+The annual, decade, and subfunction JSONL files are canonical model
+outputs. CSV files, Markdown notes, and chart specs are derived or
+supporting views.
 
 ## Model
 
-- Model ID: `individual-income-tax-proportional-outlays-v1`
-- Coverage: fiscal years 1940-2025 for annual actual-year rows
+- Broad model ID: `individual-income-tax-proportional-outlays-v1`
+- Subfunction model ID: `individual-income-tax-proportional-subfunction-outlays-v1`
+- Broad coverage: fiscal years 1940-2025 for annual actual-year rows
+- Subfunction coverage: fiscal years 1962-2025 for Table 3.2 actual-year rows
 - Projection treatment: FY2026-FY2031 excluded
 - Legal status: modeled allocation, not legal dedication
 
@@ -23,12 +26,17 @@ Markdown notes, and chart specs are derived or supporting views.
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.decade-summary.jsonl` | Canonical decade summary rows | decade by broad category | 54 | yes | `36a28934e3bcac104e84b5389b3a47fe97657f066a8359707c00ee6521ef0d60` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.annual-wide.csv` | Chart-ready annual wide view | fiscal year | 86 | no | `a385e4215a20c16f0344cc8e17982c9e4c78933caac93f274ea5b6080027d81a` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.decade-wide.csv` | Chart-ready decade wide view | decade | 9 | no | `5e243eb2912b7aaed26e22016fd1907bf4cee25d60b3855f1c2627e7f4b9a2aa` |
+| `data/derived/income_tax_outlay_subfunction_model/income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.draft.jsonl` | Canonical annual subfunction model rows | fiscal year by Table 3.2 subfunction | 4691 | yes | `0aaa49392b7b51fd28be99f7b236369c1f1ac7f92092fbff49bc1469e3d109c7` |
+| `data/derived/income_tax_outlay_subfunction_model/income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.annual-long.csv` | Chart-ready annual subfunction long view | fiscal year by Table 3.2 subfunction | 4691 | no | `ad131a5f5b881f7437a7d083cde3d70524c9a180b3d8752f480214d51f7be72a` |
+| `data/derived/income_tax_outlay_subfunction_model/income_tax_outlay_subfunction_model.omb-fy2027.2026-06-21.fy2025-top-subfunctions.csv` | Chart-ready FY2025 top subfunction view | ranked FY2025 subfunction | 25 | no | `7490dcd469ef70169d4037c41037793339540189c711d37e95b52e308faa04ff` |
+| `data/derived/income_tax_outlay_subfunction_model/README.md` | Subfunction model method and schema note | documentation | n/a | supporting | `ac8cb4f28b8f3dfd043af9a08e0fa90612208f8ec4269be3404754c839a698ff` |
+| `data/derived/income_tax_outlay_subfunction_model/source-profile.md` | Subfunction source coverage and reconciliation sample | documentation | n/a | supporting | `2e61e02b034f77cb3219ab3e83cb1173bd15fd2bff628ebae27e01200091541b` |
 | `data/derived/income_tax_outlay_model/README.md` | Model method and schema note | documentation | n/a | supporting | `f20e3e7ddc97da3835a604988ee54f0c7b62445739e373815a1f51707b7f3d36` |
 | `data/derived/income_tax_outlay_model/source-profile.md` | Source coverage and reconciliation sample | documentation | n/a | supporting | `7d0dff2c0c671e4e1bbc80aee6a72a6ad09890758e1d8e7c92999a6d093456a2` |
 | `data/derived/income_tax_outlay_model/reconciliation-review.md` | Generated-row reconciliation review | documentation | n/a | supporting | `9c1898df3c6d7498a285887c8a64665d320afb1d492e8cc4b69bb27d22b30be8` |
 | `data/derived/income_tax_outlay_model/decade-summary.md` | Human-readable decade summary | documentation | n/a | supporting | `8ee633a570b3974a77463abcd56f33642affd7944f0173562ce7913ff9a389da` |
 | `docs/reading/modeled-income-tax-outlays.md` | Reader-facing packet | documentation | n/a | supporting | `26f5c340e1ffadc4efa716bbce33772c4963df54635982bd550a3392aae0579b` |
-| `docs/charts/README.md` | Chart catalog | documentation | n/a | supporting | `50ca7d9d36660ef5d98061766e647c84bd7ce3731bb6f6df97a48af578926eda` |
+| `docs/charts/README.md` | Chart catalog | documentation | n/a | supporting | `ce386d3a2bf80b63977502bdf899463ca1acfbc46a3256d32446bcbae537c989` |
 | `docs/charts/income-tax-outlay-model/annual-stacked-area.vl.json` | Annual allocation chart spec | visualization spec | n/a | view | `e0f7c39a6d4f392fc3d60f5f9f6c0561f1bc7706f2dab6019158945b66ca68b6` |
 | `docs/charts/income-tax-outlay-model/decade-stacked-bar.vl.json` | Decade allocation chart spec | visualization spec | n/a | view | `e53433c4304830465e8633b4d5e6b88c8f1e54f517785916ff8191540c1bcb5b` |
 | `docs/charts/income-tax-outlay-model/annual-financing-context-lines.vl.json` | Annual financing context chart spec | visualization spec | n/a | view | `0f73917e9e372abce44ff1d1050b0a71d6358bb4de28b5538838e4d87a590011` |
@@ -36,14 +44,16 @@ Markdown notes, and chart specs are derived or supporting views.
 | `Cargo.toml` | Rust workspace manifest | tooling | n/a | supporting | `9ebc5854ae2e4979a5e9b86f65a60cb29c5a88f587877b126ed9cbd8457532cb` |
 | `Cargo.lock` | Rust dependency lockfile | tooling | n/a | supporting | `98b37b03e7430d5538eb8c663022926d896f9b31194915f43b654556fb16716f` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `44e924bb7e71d35948fa75dcc0583ef58203a0e0f52180cf03072ef64aa67c33` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `c72dc121a2984a257360d234b9ba210412cafcf6153f3ad18bf9c2897d2e2cc6` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `e17538bf002070ea365647abaa77bbd320fa7a72aac5cb35842bc2e550729d55` |
 
 ## Regeneration Order
 
 1. `cargo run -p taxlane-tools -- income-tax-outlay model`
 2. `cargo run -p taxlane-tools -- income-tax-outlay summary`
 3. `cargo run -p taxlane-tools -- income-tax-outlay export`
-4. `cargo run -p taxlane-tools -- income-tax-outlay manifest`
+4. `cargo run -p taxlane-tools -- income-tax-outlay subfunction-model`
+5. `cargo run -p taxlane-tools -- income-tax-outlay subfunction-export`
+6. `cargo run -p taxlane-tools -- income-tax-outlay manifest`
 
 Run validation after regeneration:
 
