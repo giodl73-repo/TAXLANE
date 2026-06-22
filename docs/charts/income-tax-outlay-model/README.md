@@ -14,12 +14,14 @@ rows, or claim legal dedication of income-tax receipts.
 |---|---|---|
 | `annual-stacked-area.vl.json` | Annual wide CSV, fiscal 1940-2025 | Show year-by-year change in modeled category shares. |
 | `decade-stacked-bar.vl.json` | Decade wide CSV | Show long-run category mix by decade. |
+| `annual-financing-context-lines.vl.json` | Annual wide CSV, fiscal 1940-2025 | Show borrowed share of outlays and income-tax coverage of outlays by year. |
+| `decade-financing-context-lines.vl.json` | Decade wide CSV | Show borrowed share and income-tax coverage by decade. |
 
 ## Companion Context
 
-The specs include borrowed-share and income-tax coverage values in tooltips.
-Those values should also be shown as separate companion charts or annotations in
-any final UI. They should not be stacked into the tax allocation categories.
+The allocation specs include borrowed-share and income-tax coverage values in
+tooltips. The companion line specs show those values directly. They should not
+be stacked into the tax allocation categories.
 
 ## Title Rule
 

@@ -1,0 +1,88 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Financing Context for the Decade Modeled Income-Tax Allocation",
+  "data": {
+    "url": "../../../data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.decade-wide.csv",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "transform": [
+    {
+      "fold": [
+        "borrowed_share_percent_of_outlays",
+        "income_tax_coverage_percent_of_outlays"
+      ],
+      "as": [
+        "measure",
+        "percent"
+      ]
+    },
+    {
+      "calculate": "datum.measure == 'borrowed_share_percent_of_outlays' ? 'Borrowed share of outlays' : 'Income-tax coverage of outlays'",
+      "as": "measure_label"
+    }
+  ],
+  "mark": {
+    "type": "line",
+    "point": true
+  },
+  "encoding": {
+    "x": {
+      "field": "decade",
+      "type": "ordinal",
+      "title": "Decade"
+    },
+    "y": {
+      "field": "percent",
+      "type": "quantitative",
+      "title": "Percent of total outlays",
+      "axis": {
+        "format": ".0f"
+      }
+    },
+    "color": {
+      "field": "measure_label",
+      "type": "nominal",
+      "title": "Measure",
+      "scale": {
+        "domain": [
+          "Borrowed share of outlays",
+          "Income-tax coverage of outlays"
+        ],
+        "range": [
+          "#E15759",
+          "#4E79A7"
+        ]
+      }
+    },
+    "tooltip": [
+      {
+        "field": "decade",
+        "type": "ordinal",
+        "title": "Decade"
+      },
+      {
+        "field": "coverage_note",
+        "type": "nominal",
+        "title": "Coverage"
+      },
+      {
+        "field": "measure_label",
+        "type": "nominal",
+        "title": "Measure"
+      },
+      {
+        "field": "percent",
+        "type": "quantitative",
+        "title": "Percent of outlays",
+        "format": ".1f"
+      }
+    ]
+  },
+  "config": {
+    "view": {
+      "stroke": null
+    }
+  }
+}
