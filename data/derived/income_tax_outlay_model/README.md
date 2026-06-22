@@ -118,21 +118,16 @@ spreadsheets, and quick inspection.
 
 ## Manifest
 
-`build_manifest.py` writes `MANIFEST.md`, which records artifact roles, row
+The Rust Taxlane CLI writes `MANIFEST.md`, which records artifact roles, row
 counts, checksums, and regeneration order for the model outputs and supporting
-views.
+views:
 
-## Validation Runner
+```powershell
+cargo run -p taxlane-tools -- income-tax-outlay manifest
+```
 
-Run all model and chart checks with:
+## Validation
 
 ```powershell
 cargo run -p taxlane-tools -- income-tax-outlay validate
-```
-
-The older Python runner remains available while the generator scripts are being
-ported:
-
-```powershell
-python data/derived/income_tax_outlay_model/validate_all.py
 ```

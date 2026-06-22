@@ -8,6 +8,7 @@ Work is organized into small waves and pulses.
 
 ## Completed waves
 
+- `2026-06-22-rust-income-tax-manifest`
 - `2026-06-21-rust-taxlane-tooling`
 - `2026-06-21-income-tax-outlay-validation-runner`
 - `2026-06-21-income-tax-outlay-artifact-manifest`
