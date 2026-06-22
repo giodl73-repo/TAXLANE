@@ -113,6 +113,13 @@ ARTIFACTS: list[dict[str, Any]] = [
         "kind": "json",
         "canonical": "view",
     },
+    {
+        "path": "data/derived/income_tax_outlay_model/validate_all.py",
+        "role": "One-command validation runner",
+        "grain": "script",
+        "kind": "python",
+        "canonical": "supporting",
+    },
 ]
 
 
@@ -193,6 +200,12 @@ def build_manifest() -> tuple[str, list[str]]:
             "Run validation after regeneration:",
             "",
             "```powershell",
+            "python data/derived/income_tax_outlay_model/validate_all.py",
+            "```",
+            "",
+            "The validation runner expands to:",
+            "",
+            "```powershell",
             "python data/derived/income_tax_outlay_model/build_income_tax_outlay_model.py --check",
             "python data/derived/income_tax_outlay_model/build_decade_summary.py --check",
             "python data/derived/income_tax_outlay_model/export_chart_views.py --check",
@@ -215,6 +228,12 @@ def main() -> int:
         for error in errors:
             print(error)
         return 1
+    if args.check and MANIFEST_PATH.exists():
+        current = MANIFEST_PATH.read_text(encoding="utf-8").replace("\r\n", "\n")
+        expected = text.replace("\r\n", "\n")
+        if current != expected:
+            print(f"stale manifest: regenerate {MANIFEST_PATH.relative_to(ROOT)}")
+            return 1
     if not args.check:
         MANIFEST_PATH.write_text(text, encoding="utf-8", newline="\n")
     print("validated income-tax outlay artifact manifest")

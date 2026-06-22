@@ -121,3 +121,11 @@ spreadsheets, and quick inspection.
 `build_manifest.py` writes `MANIFEST.md`, which records artifact roles, row
 counts, checksums, and regeneration order for the model outputs and supporting
 views.
+
+## Validation Runner
+
+Run all model and chart checks with:
+
+```powershell
+python data/derived/income_tax_outlay_model/validate_all.py
+```
