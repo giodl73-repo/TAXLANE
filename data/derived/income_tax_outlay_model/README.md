@@ -115,3 +115,9 @@ CSV files for charting:
 
 The JSONL files remain canonical. CSV files are convenience views for charts,
 spreadsheets, and quick inspection.
+
+## Manifest
+
+`build_manifest.py` writes `MANIFEST.md`, which records artifact roles, row
+counts, checksums, and regeneration order for the model outputs and supporting
+views.
