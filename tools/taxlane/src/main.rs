@@ -7,18 +7,11 @@ use std::process::{Command, ExitCode};
 use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
 
-const MODEL_CHECKS: &[&[&str]] = &[
-    &[
-        "python",
-        "data/derived/income_tax_outlay_model/build_income_tax_outlay_model.py",
-        "--check",
-    ],
-    &[
-        "python",
-        "data/derived/income_tax_outlay_model/build_decade_summary.py",
-        "--check",
-    ],
-];
+const MODEL_CHECKS: &[&[&str]] = &[&[
+    "python",
+    "data/derived/income_tax_outlay_model/build_income_tax_outlay_model.py",
+    "--check",
+]];
 
 const CHART_SPECS: &[&str] = &[
     "docs/charts/income-tax-outlay-model/annual-stacked-area.vl.json",
@@ -32,6 +25,7 @@ const ANNUAL_JSONL_PATH: &str = "data/derived/income_tax_outlay_model/income_tax
 const DECADE_JSONL_PATH: &str = "data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.decade-summary.jsonl";
 const ANNUAL_CSV_PATH: &str = "data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.annual-wide.csv";
 const DECADE_CSV_PATH: &str = "data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.decade-wide.csv";
+const DECADE_MD_PATH: &str = "data/derived/income_tax_outlay_model/decade-summary.md";
 
 const ANNUAL_HEADERS: &[&str] = &[
     "fiscal_year",
@@ -235,6 +229,14 @@ fn main() -> ExitCode {
             run_income_tax_outlay_validation()
         }
         [area, command, flag]
+            if area == "income-tax-outlay" && command == "summary" && flag == "--check" =>
+        {
+            run_summary_check()
+        }
+        [area, command] if area == "income-tax-outlay" && command == "summary" => {
+            run_summary_write()
+        }
+        [area, command, flag]
             if area == "income-tax-outlay" && command == "export" && flag == "--check" =>
         {
             run_export_check()
@@ -250,7 +252,7 @@ fn main() -> ExitCode {
         }
         _ => {
             eprintln!(
-                "usage: taxlane-tools income-tax-outlay <validate|export [--check]|manifest [--check]>"
+                "usage: taxlane-tools income-tax-outlay <validate|summary [--check]|export [--check]|manifest [--check]>"
             );
             ExitCode::from(2)
         }
@@ -271,6 +273,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
             eprintln!("{err}");
             return ExitCode::from(1);
         }
+    }
+
+    if let Err(err) = build_decade_summary(&root, true) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
     }
 
     if let Err(err) = export_chart_views(&root, true) {
@@ -296,6 +303,40 @@ fn run_income_tax_outlay_validation() -> ExitCode {
         CHART_SPECS.len()
     );
     ExitCode::SUCCESS
+}
+
+fn run_summary_check() -> ExitCode {
+    let root = match repo_root() {
+        Ok(root) => root,
+        Err(err) => {
+            eprintln!("{err}");
+            return ExitCode::from(1);
+        }
+    };
+    match build_decade_summary(&root, true) {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(err) => {
+            eprintln!("{err}");
+            ExitCode::from(1)
+        }
+    }
+}
+
+fn run_summary_write() -> ExitCode {
+    let root = match repo_root() {
+        Ok(root) => root,
+        Err(err) => {
+            eprintln!("{err}");
+            return ExitCode::from(1);
+        }
+    };
+    match build_decade_summary(&root, false) {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(err) => {
+            eprintln!("{err}");
+            ExitCode::from(1)
+        }
+    }
 }
 
 fn run_export_check() -> ExitCode {
@@ -400,6 +441,241 @@ fn parse_json(path: &Path) -> Result<(), String> {
     serde_json::from_reader::<_, serde_json::Value>(file)
         .map_err(|err| format!("failed to parse {:?}: {err}", path))?;
     Ok(())
+}
+
+fn build_decade_summary(root: &Path, check_only: bool) -> Result<(), String> {
+    let rows = build_decade_summary_rows(root)?;
+    validate_decade_summary_rows(&rows)?;
+    let jsonl = decade_summary_jsonl(&rows);
+    let markdown = decade_summary_markdown(&rows)?;
+
+    if check_only {
+        compare_text(root, DECADE_JSONL_PATH, &jsonl, "decade JSONL")?;
+        compare_text(root, DECADE_MD_PATH, &markdown, "decade Markdown")?;
+    } else {
+        fs::write(root.join(DECADE_JSONL_PATH), jsonl)
+            .map_err(|err| format!("failed to write {DECADE_JSONL_PATH}: {err}"))?;
+        fs::write(root.join(DECADE_MD_PATH), markdown)
+            .map_err(|err| format!("failed to write {DECADE_MD_PATH}: {err}"))?;
+    }
+    println!("validated {} decade summary rows", rows.len());
+    Ok(())
+}
+
+#[derive(Clone)]
+struct DecadeSummaryRow {
+    decade: String,
+    start_fiscal_year: i64,
+    end_fiscal_year: i64,
+    year_count: usize,
+    coverage_note: &'static str,
+    category_key: String,
+    category_label: String,
+    cumulative_modeled_income_tax_allocation_amount: f64,
+    cumulative_individual_income_tax_receipts_amount: f64,
+    category_percent_of_decade_income_tax: f64,
+    cumulative_total_outlays_amount: f64,
+    cumulative_total_receipts_amount: f64,
+    cumulative_deficit_gap_amount: f64,
+    borrowed_share_percent_of_outlays: f64,
+    income_tax_coverage_percent_of_outlays: f64,
+}
+
+fn build_decade_summary_rows(root: &Path) -> Result<Vec<DecadeSummaryRow>, String> {
+    let annual_rows = read_jsonl(root.join(ANNUAL_JSONL_PATH))?;
+    let mut by_decade: BTreeMap<String, Vec<serde_json::Value>> = BTreeMap::new();
+    for row in annual_rows {
+        let year = int_field(&row, "fiscal_year")?;
+        by_decade.entry(decade_label(year)).or_default().push(row);
+    }
+
+    let mut output = Vec::new();
+    for (decade, decade_rows) in by_decade {
+        let mut years: Vec<i64> = decade_rows
+            .iter()
+            .map(|row| int_field(row, "fiscal_year"))
+            .collect::<Result<Vec<_>, _>>()?;
+        years.sort_unstable();
+        years.dedup();
+
+        for year in &years {
+            let count = decade_rows
+                .iter()
+                .filter(|row| int_field(row, "fiscal_year").ok() == Some(*year))
+                .count();
+            if count != CATEGORY_FIELDS.len() {
+                return Err(format!(
+                    "{decade}: expected six category rows for fiscal year {year}, found {count}"
+                ));
+            }
+        }
+
+        let anchors: Vec<&serde_json::Value> = decade_rows
+            .iter()
+            .filter(|row| {
+                string_field(row, "category_key").ok().as_deref() == Some("national-defense")
+            })
+            .collect();
+        let income_tax_total = sum_field(&anchors, "individual_income_tax_receipts_amount")?;
+        let total_outlays = sum_field(&anchors, "total_outlays_amount")?;
+        let total_receipts = sum_field(&anchors, "total_receipts_amount")?;
+        let deficit_gap = sum_field(&anchors, "deficit_gap_amount")?;
+        let borrowed_share = if total_outlays == 0.0 {
+            0.0
+        } else {
+            deficit_gap / total_outlays * 100.0
+        };
+        let income_tax_coverage = if total_outlays == 0.0 {
+            0.0
+        } else {
+            income_tax_total / total_outlays * 100.0
+        };
+
+        let mut percent_sum = 0.0;
+        for (category_key, _) in CATEGORY_FIELDS {
+            let category_rows: Vec<&serde_json::Value> = decade_rows
+                .iter()
+                .filter(|row| {
+                    string_field(row, "category_key").ok().as_deref() == Some(*category_key)
+                })
+                .collect();
+            if category_rows.len() != years.len() {
+                return Err(format!("{decade}: missing {category_key} rows"));
+            }
+            let modeled_total = sum_field(&category_rows, "modeled_income_tax_allocation_amount")?;
+            let category_percent = modeled_total / income_tax_total * 100.0;
+            percent_sum += category_percent;
+            output.push(DecadeSummaryRow {
+                decade: decade.clone(),
+                start_fiscal_year: *years.first().ok_or_else(|| format!("{decade}: no years"))?,
+                end_fiscal_year: *years.last().ok_or_else(|| format!("{decade}: no years"))?,
+                year_count: years.len(),
+                coverage_note: if years.len() < 10 {
+                    "partial_decade"
+                } else {
+                    "full_decade"
+                },
+                category_key: (*category_key).to_string(),
+                category_label: string_field(category_rows[0], "category_label")?,
+                cumulative_modeled_income_tax_allocation_amount: round6(modeled_total),
+                cumulative_individual_income_tax_receipts_amount: round6(income_tax_total),
+                category_percent_of_decade_income_tax: round9(category_percent),
+                cumulative_total_outlays_amount: round6(total_outlays),
+                cumulative_total_receipts_amount: round6(total_receipts),
+                cumulative_deficit_gap_amount: round6(deficit_gap),
+                borrowed_share_percent_of_outlays: round9(borrowed_share),
+                income_tax_coverage_percent_of_outlays: round9(income_tax_coverage),
+            });
+        }
+        if (percent_sum - 100.0).abs() > 0.00001 {
+            return Err(format!(
+                "{decade}: category percentages sum to {percent_sum}"
+            ));
+        }
+    }
+    Ok(output)
+}
+
+fn validate_decade_summary_rows(rows: &[DecadeSummaryRow]) -> Result<(), String> {
+    if rows.len() != 54 {
+        return Err(format!(
+            "expected 54 decade summary rows, found {}",
+            rows.len()
+        ));
+    }
+    let mut by_decade: BTreeMap<&str, usize> = BTreeMap::new();
+    for row in rows {
+        *by_decade.entry(&row.decade).or_default() += 1;
+    }
+    for (decade, count) in by_decade {
+        if count != CATEGORY_FIELDS.len() {
+            return Err(format!(
+                "{decade}: expected six category rows, found {count}"
+            ));
+        }
+    }
+    Ok(())
+}
+
+fn decade_summary_jsonl(rows: &[DecadeSummaryRow]) -> String {
+    let mut lines = Vec::new();
+    for row in rows {
+        lines.push(format!(
+            "{{\"record_id\":{},\"record_family\":\"income_tax_outlay_model_decade_summary\",\"source_record_family\":\"income_tax_outlay_model\",\"model_id\":\"individual-income-tax-proportional-outlays-v1\",\"decade\":{},\"start_fiscal_year\":{},\"end_fiscal_year\":{},\"year_count\":{},\"coverage_note\":{},\"category_key\":{},\"category_label\":{},\"cumulative_modeled_income_tax_allocation_amount\":{},\"cumulative_individual_income_tax_receipts_amount\":{},\"category_percent_of_decade_income_tax\":{},\"cumulative_total_outlays_amount\":{},\"cumulative_total_receipts_amount\":{},\"cumulative_deficit_gap_amount\":{},\"borrowed_share_percent_of_outlays\":{},\"income_tax_coverage_percent_of_outlays\":{},\"allocation_method\":\"proportional_outlay_share\",\"legal_allocation_status\":\"modeled_not_legal_dedication\",\"actual_or_projection\":\"actual\",\"status\":\"draft\",\"notes\":\"Decade summary derived from annual modeled allocation rows; not legal dedication or program tracing.\"}}",
+            json_string(&format!("income-tax-outlay-model:{}:{}:decade-summary", row.decade, row.category_key)),
+            json_string(&row.decade),
+            row.start_fiscal_year,
+            row.end_fiscal_year,
+            row.year_count,
+            json_string(row.coverage_note),
+            json_string(&row.category_key),
+            json_string(&row.category_label),
+            decimal_string(row.cumulative_modeled_income_tax_allocation_amount, 6),
+            decimal_string(row.cumulative_individual_income_tax_receipts_amount, 6),
+            decimal_string(row.category_percent_of_decade_income_tax, 9),
+            decimal_string(row.cumulative_total_outlays_amount, 6),
+            decimal_string(row.cumulative_total_receipts_amount, 6),
+            decimal_string(row.cumulative_deficit_gap_amount, 6),
+            decimal_string(row.borrowed_share_percent_of_outlays, 9),
+            decimal_string(row.income_tax_coverage_percent_of_outlays, 9),
+        ));
+    }
+    lines.join("\n") + "\n"
+}
+
+fn decade_summary_markdown(rows: &[DecadeSummaryRow]) -> Result<String, String> {
+    let mut by_decade: BTreeMap<&str, BTreeMap<&str, &DecadeSummaryRow>> = BTreeMap::new();
+    for row in rows {
+        by_decade
+            .entry(&row.decade)
+            .or_default()
+            .insert(&row.category_key, row);
+    }
+
+    let mut lines = vec![
+        "# Decade Summary: Modeled Income-Tax Outlay Allocation".to_string(),
+        String::new(),
+        "This table summarizes the annual draft model by decade. Category".to_string(),
+        "percentages equal cumulative modeled category allocations divided by".to_string(),
+        "cumulative individual income-tax receipts for the years in that decade.".to_string(),
+        "The 2020s are partial because the current actual-year model ends in 2025.".to_string(),
+        String::new(),
+        "These are modeled allocations, not legal destinations for income-tax".to_string(),
+        "receipts.".to_string(),
+        String::new(),
+        "| Decade | Years | National defense | Human resources | Physical resources | Net interest | Other functions | Offsetting receipts | Borrowed share of outlays | Income-tax coverage of outlays |".to_string(),
+        "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|".to_string(),
+    ];
+
+    for (decade, categories) in by_decade {
+        let first = categories
+            .get("national-defense")
+            .ok_or_else(|| format!("{decade}: missing national-defense row"))?;
+        let values: Vec<f64> = CATEGORY_FIELDS
+            .iter()
+            .map(|(category, _)| {
+                categories
+                    .get(category)
+                    .map(|row| row.category_percent_of_decade_income_tax)
+                    .ok_or_else(|| format!("{decade}: missing {category} row"))
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+        lines.push(format!(
+            "| {} | {}-{} | {:.1}% | {:.1}% | {:.1}% | {:.1}% | {:.1}% | {:.1}% | {:.1}% | {:.1}% |",
+            decade,
+            first.start_fiscal_year,
+            first.end_fiscal_year,
+            values[0],
+            values[1],
+            values[2],
+            values[3],
+            values[4],
+            values[5],
+            first.borrowed_share_percent_of_outlays,
+            first.income_tax_coverage_percent_of_outlays
+        ));
+    }
+    Ok(lines.join("\n") + "\n")
 }
 
 fn export_chart_views(root: &Path, check_only: bool) -> Result<(), String> {
@@ -657,6 +933,22 @@ fn compare_csv(
     Ok(())
 }
 
+fn compare_text(
+    root: &Path,
+    relative_path: &str,
+    expected: &str,
+    label: &str,
+) -> Result<(), String> {
+    let current = fs::read_to_string(root.join(relative_path))
+        .map_err(|err| format!("failed to read {relative_path}: {err}"))?;
+    if normalize_newlines(&current) != normalize_newlines(expected) {
+        return Err(format!(
+            "stale {label}: run `cargo run -p taxlane-tools -- income-tax-outlay summary`"
+        ));
+    }
+    Ok(())
+}
+
 fn csv_text(headers: &[&str], rows: &[BTreeMap<String, String>]) -> Result<String, String> {
     if rows.is_empty() {
         return Err("no CSV rows".to_string());
@@ -741,6 +1033,10 @@ fn round6(value: f64) -> f64 {
     (value * 1_000_000.0).round() / 1_000_000.0
 }
 
+fn round9(value: f64) -> f64 {
+    (value * 1_000_000_000.0).round() / 1_000_000_000.0
+}
+
 fn python_float(value: f64) -> String {
     if value.is_finite() && value.fract() == 0.0 {
         format!("{value:.1}")
@@ -748,6 +1044,31 @@ fn python_float(value: f64) -> String {
         let text = format!("{value:.12}");
         text.trim_end_matches('0').trim_end_matches('.').to_string()
     }
+}
+
+fn decimal_string(value: f64, decimals: usize) -> String {
+    let text = format!("{value:.decimals$}");
+    let trimmed = text.trim_end_matches('0').trim_end_matches('.');
+    if trimmed == "-0" {
+        "0.0".to_string()
+    } else if trimmed.contains('.') {
+        trimmed.to_string()
+    } else {
+        format!("{trimmed}.0")
+    }
+}
+
+fn decade_label(year: i64) -> String {
+    let start = year - year % 10;
+    format!("{start}s")
+}
+
+fn sum_field(rows: &[&serde_json::Value], field: &str) -> Result<f64, String> {
+    rows.iter().map(|row| number_field(row, field)).sum()
+}
+
+fn json_string(value: &str) -> String {
+    serde_json::to_string(value).expect("serializing string should not fail")
 }
 
 fn check_manifest(root: &Path) -> Result<(), String> {
@@ -813,7 +1134,7 @@ fn build_manifest(root: &Path) -> Result<String, String> {
         "## Regeneration Order".to_string(),
         String::new(),
         "1. `build_income_tax_outlay_model.py`".to_string(),
-        "2. `build_decade_summary.py`".to_string(),
+        "2. `cargo run -p taxlane-tools -- income-tax-outlay summary`".to_string(),
         "3. `cargo run -p taxlane-tools -- income-tax-outlay export`".to_string(),
         "4. `cargo run -p taxlane-tools -- income-tax-outlay manifest`".to_string(),
         String::new(),

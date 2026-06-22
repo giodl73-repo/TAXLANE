@@ -4,10 +4,11 @@ Work is organized into small waves and pulses.
 
 ## Active wave
 
-- None.
+- None
 
 ## Completed waves
 
+- `2026-06-22-rust-income-tax-decade-summary`
 - `2026-06-22-rust-income-tax-chart-export`
 - `2026-06-22-rust-income-tax-manifest`
 - `2026-06-21-rust-taxlane-tooling`

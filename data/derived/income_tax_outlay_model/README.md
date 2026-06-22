@@ -99,11 +99,16 @@ supports that claim.
 
 ## Derived Summaries
 
-`build_decade_summary.py` reads the annual draft JSONL and emits decade-level
-summary rows. A decade category percentage is cumulative modeled category
-allocation divided by cumulative individual income-tax receipts for the years in
-that decade. The 2020s summary is partial because the actual-year model ends in
-2025.
+The Rust Taxlane CLI reads the annual draft JSONL and emits decade-level summary
+rows:
+
+```powershell
+cargo run -p taxlane-tools -- income-tax-outlay summary
+```
+
+A decade category percentage is cumulative modeled category allocation divided
+by cumulative individual income-tax receipts for the years in that decade. The
+2020s summary is partial because the actual-year model ends in 2025.
 
 ## Chart Exports
 
