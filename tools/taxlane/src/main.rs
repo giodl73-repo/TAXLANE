@@ -333,6 +333,13 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "docs/charts/income-tax-outlay-model/README.md",
+        role: "Broad chart set handoff note",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "docs/charts/income-tax-outlay-model/annual-stacked-area.vl.json",
         role: "Annual allocation chart spec",
         grain: "visualization spec",
