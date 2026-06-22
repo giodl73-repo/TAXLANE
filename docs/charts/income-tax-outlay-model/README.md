@@ -1,5 +1,7 @@
 # Income-Tax Outlay Model Charts
 
+Parent catalog: `docs/charts/README.md`
+
 ## Purpose
 
 These chart specs visualize the modeled allocation of ordinary individual
