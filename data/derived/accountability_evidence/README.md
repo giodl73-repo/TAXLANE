@@ -17,6 +17,7 @@ claims.
 | `accountability-work-items.jsonl` | generated machine-readable work items | One JSON row per evidence record for future UI/API handoff. |
 | `claim-guard-report.md` | one generated claim-readiness summary | Counts allowed and blocked public claims without scoring records. |
 | `public-questions.md` | one generated public-safe question packet | Strips records down to evidence-request questions and blockers. |
+| `performance-demand-checklist.md` | one generated public evidence checklist | Turns blockers into concrete evidence requests before accepting claims. |
 | `artifact-map.md` | one generated accountability artifact map | Routes each artifact to its audience, use, and public-use boundary. |
 
 ## Public-Use Rule
@@ -56,6 +57,9 @@ counts readiness and blockers; it does not publish findings.
 
 The public questions packet is the narrowest outward-facing handoff. It exposes
 questions and blockers only, not the full evidence records.
+
+The performance-demand checklist turns those blockers into evidence requests a
+citizen can make before accepting performance or misconduct claims.
 
 The artifact map explains which artifact to use for evidence review, workflow
 handoff, or public reader questions.

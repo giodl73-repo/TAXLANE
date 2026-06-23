@@ -55,6 +55,8 @@ const ACCOUNTABILITY_CLAIM_GUARD_REPORT_PATH: &str =
     "data/derived/accountability_evidence/claim-guard-report.md";
 const ACCOUNTABILITY_PUBLIC_QUESTIONS_PATH: &str =
     "data/derived/accountability_evidence/public-questions.md";
+const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_PATH: &str =
+    "data/derived/accountability_evidence/performance-demand-checklist.md";
 const ACCOUNTABILITY_ARTIFACT_MAP_PATH: &str =
     "data/derived/accountability_evidence/artifact-map.md";
 const ACCOUNTABILITY_PUBLIC_BRIEF_PATH: &str = "docs/reading/accountability-public-brief.md";
@@ -540,6 +542,13 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "data/derived/accountability_evidence/performance-demand-checklist.md",
+        role: "Accountability performance demand checklist",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "data/derived/accountability_evidence/artifact-map.md",
         role: "Accountability artifact map",
         grain: "documentation",
@@ -724,6 +733,13 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "reviews/2026-06-23-accountability-artifact-map-review.md",
         role: "Accountability artifact map review",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-06-23-accountability-performance-demand-checklist-review.md",
+        role: "Accountability performance demand checklist review",
         grain: "documentation",
         kind: "markdown",
         canonical: "supporting",
@@ -1040,6 +1056,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_accountability_artifact_map(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_accountability_performance_demand_checklist(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -5205,6 +5226,30 @@ fn check_accountability_artifact_map(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn check_accountability_performance_demand_checklist(root: &Path) -> Result<(), String> {
+    let expected = build_accountability_performance_demand_checklist(root)?;
+    compare_text(
+        root,
+        ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_PATH,
+        &expected,
+        "accountability performance demand checklist",
+    )?;
+
+    let index = fs::read_to_string(root.join("data/derived/accountability_evidence/README.md"))
+        .map_err(|err| {
+            format!("failed to read data/derived/accountability_evidence/README.md: {err}")
+        })?;
+    if !index.contains("performance-demand-checklist.md") {
+        return Err(
+            "data/derived/accountability_evidence/README.md must link performance-demand-checklist.md"
+                .to_string(),
+        );
+    }
+
+    println!("validated accountability performance demand checklist");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -5612,6 +5657,57 @@ fn build_accountability_artifact_map() -> String {
     ]);
 
     lines.join("\n") + "\n"
+}
+
+fn build_accountability_performance_demand_checklist(root: &Path) -> Result<String, String> {
+    let mut records = read_accountability_evidence_records(root)?;
+    records.sort_by(|left, right| left.record_id.cmp(&right.record_id));
+
+    let mut lines = vec![
+        "# Performance Demand Checklist".to_string(),
+        String::new(),
+        "## Purpose".to_string(),
+        String::new(),
+        "This generated checklist turns TAXLANE accountability blockers into evidence requests a citizen can make before accepting performance or misconduct claims.".to_string(),
+        "It is not a finding of fraud, waste, abuse, or poor performance.".to_string(),
+        String::new(),
+        "## Before Accepting A Claim".to_string(),
+        String::new(),
+        "- Ask for the source record and source version.".to_string(),
+        "- Ask for the reviewed performance target, outcome measure, audit source, or official finding.".to_string(),
+        "- Ask whether role review approved the exact public wording.".to_string(),
+        "- Ask whether the record is public-claim eligible.".to_string(),
+        String::new(),
+        "## Record Checklist".to_string(),
+        String::new(),
+        "| Lane | Demand This Evidence | Do Not Accept Yet | Claim Gate |".to_string(),
+        "|---|---|---|---|".to_string(),
+    ];
+
+    for record in records {
+        let work_item = record.accountability_work_item();
+        let claim_gate = if work_item.public_claim_allowed {
+            "Public claim allowed."
+        } else {
+            "Public claim blocked."
+        };
+        lines.push(format!(
+            "| {} | {} | {} | {} |",
+            work_item.lane_id.unwrap_or("n/a"),
+            work_item.demand_question.replace('|', "\\|"),
+            work_item.public_use_blocker.replace('|', "\\|"),
+            claim_gate
+        ));
+    }
+
+    lines.extend([
+        String::new(),
+        "## Use Rule".to_string(),
+        String::new(),
+        "Use this checklist to demand performance evidence and reviewed wording. Do not use it to claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, or poor performance.".to_string(),
+    ]);
+
+    Ok(lines.join("\n") + "\n")
 }
 
 fn read_accountability_evidence_records(
