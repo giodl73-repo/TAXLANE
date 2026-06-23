@@ -109,6 +109,7 @@ const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_DELTA_APPLIED_EXAMPLE_PATH: &st
     "data/derived/accountability_evidence/performance-demand-response-delta.applied-example.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_DELTA_APPLIED_EXAMPLE_JSONL_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-delta.applied-example.jsonl";
+const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_DELTA_APPLIED_EXAMPLE_SCHEMA_PATH: &str = "data/derived/accountability_evidence/performance-demand-response-delta.applied-example.schema.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_SCHEMA_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-checklist.schema.md";
 const ACCOUNTABILITY_ARTIFACT_MAP_PATH: &str =
@@ -761,6 +762,13 @@ const ARTIFACTS: &[Artifact] = &[
         role: "Accountability performance demand response applied delta rows",
         grain: "response delta row",
         kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/accountability_evidence/performance-demand-response-delta.applied-example.schema.md",
+        role: "Accountability performance demand response applied delta schema",
+        grain: "documentation",
+        kind: "markdown",
         canonical: "supporting",
     },
     Artifact {
@@ -1450,6 +1458,13 @@ fn run_income_tax_outlay_validation() -> ExitCode {
 
     if let Err(err) =
         check_accountability_performance_demand_response_delta_applied_example_jsonl(&root)
+    {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) =
+        check_accountability_performance_demand_response_delta_applied_example_schema(&root)
     {
         eprintln!("{err}");
         return ExitCode::from(1);
@@ -5635,6 +5650,7 @@ fn check_accountability_artifact_map(root: &Path) -> Result<(), String> {
         "performance-demand-response-applied-example.schema.md",
         "performance-demand-response-delta.applied-example.md",
         "performance-demand-response-delta.applied-example.jsonl",
+        "performance-demand-response-delta.applied-example.schema.md",
     ] {
         if !artifact_map.contains(required) {
             return Err(format!(
@@ -6507,6 +6523,32 @@ fn check_accountability_performance_demand_response_delta_applied_example_jsonl(
     Ok(())
 }
 
+fn check_accountability_performance_demand_response_delta_applied_example_schema(
+    root: &Path,
+) -> Result<(), String> {
+    let expected = build_accountability_performance_demand_response_delta_applied_example_schema();
+    compare_text(
+        root,
+        ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_DELTA_APPLIED_EXAMPLE_SCHEMA_PATH,
+        &expected,
+        "accountability performance demand response delta applied example schema",
+    )?;
+
+    let index = fs::read_to_string(root.join("data/derived/accountability_evidence/README.md"))
+        .map_err(|err| {
+            format!("failed to read data/derived/accountability_evidence/README.md: {err}")
+        })?;
+    if !index.contains("performance-demand-response-delta.applied-example.schema.md") {
+        return Err(
+            "data/derived/accountability_evidence/README.md must link performance-demand-response-delta.applied-example.schema.md"
+                .to_string(),
+        );
+    }
+
+    println!("validated accountability performance demand response delta applied example schema");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -7003,6 +7045,12 @@ fn build_accountability_artifact_map() -> String {
             "Product implementers",
             "Feed exact applied response delta rows into future UI/API surfaces.",
             "Do not treat applied delta rows as findings or canonical status.",
+        ),
+        (
+            "performance-demand-response-delta.applied-example.schema.md",
+            "Product implementers",
+            "Inspect the applied response delta row contract.",
+            "Do not add UI/API fields that weaken fixture or claim-gate guardrails.",
         ),
         (
             "performance-demand-checklist.jsonl",
@@ -8026,10 +8074,48 @@ fn build_accountability_performance_demand_response_applied_example_schema() -> 
         "| `performance-demand-response-handoff.applied-example.md` | Task routing for importer fixture consumers. | Must not describe applied examples as canonical status or public-claim eligibility. |".to_string(),
         "| `performance-demand-response-delta.applied-example.md` | Row-level comparison between canonical response-log rows and applied example rows. | Must show changed fields while preserving blocked public-claim gates. |".to_string(),
         "| `performance-demand-response-delta.applied-example.jsonl` | Machine-readable delta rows serialized from `PerformanceDemandResponseDeltaRow`. | Must validate as core delta rows and preserve blocked public-claim gates. |".to_string(),
+        "| `performance-demand-response-delta.applied-example.schema.md` | Field contract for machine-readable applied delta rows. | Must preserve fixture-only and blocked-claim guardrails. |".to_string(),
         String::new(),
         "## Importer Rule".to_string(),
         String::new(),
         "Importers may use these artifacts to test response intake handling. They must not treat example rows as real agency replies, public fraud/waste/abuse findings, legal dedication of income taxes, poor-performance findings, or reform benefits.".to_string(),
+    ];
+
+    lines.join("\n") + "\n"
+}
+
+fn build_accountability_performance_demand_response_delta_applied_example_schema() -> String {
+    let lines = vec![
+        "# Performance Demand Response Delta Applied Example JSONL Schema".to_string(),
+        String::new(),
+        "## Purpose".to_string(),
+        String::new(),
+        "This schema documents `performance-demand-response-delta.applied-example.jsonl` rows.".to_string(),
+        "Rows are generated from `PerformanceDemandResponseDeltaRow` to show importer fixture changes without creating findings.".to_string(),
+        String::new(),
+        "## Row Fields".to_string(),
+        String::new(),
+        "| Field | Type | Required | Meaning |".to_string(),
+        "|---|---|---|---|".to_string(),
+        "| `record_id` | string | yes | Accountability evidence record ID for the changed response row. |".to_string(),
+        "| `before_response_class` | string | yes | Response-log class before applying the intake fixture. |".to_string(),
+        "| `after_response_class` | string | yes | Response-log class after applying the intake fixture. |".to_string(),
+        "| `before_evidence_received_count` | integer | yes | Count of evidence items before applying intake. |".to_string(),
+        "| `after_evidence_received_count` | integer | yes | Count of evidence items after applying intake. |".to_string(),
+        "| `missing_evidence_changed` | boolean | yes | Whether the missing-evidence text changed. |".to_string(),
+        "| `next_action_changed` | boolean | yes | Whether the next-action text changed. |".to_string(),
+        "| `before_claim_gate` | string | yes | Claim-gate label before applying intake. Must remain `Public claim blocked.`. |".to_string(),
+        "| `after_claim_gate` | string | yes | Claim-gate label after applying intake. Must remain `Public claim blocked.`. |".to_string(),
+        String::new(),
+        "## Gate Rules".to_string(),
+        String::new(),
+        "- Rows must validate through `PerformanceDemandResponseDeltaRow`.".to_string(),
+        "- Both claim-gate fields must remain `Public claim blocked.`.".to_string(),
+        "- Rows describe fixture deltas only; they are not canonical response status.".to_string(),
+        String::new(),
+        "## Public-Use Rule".to_string(),
+        String::new(),
+        "Rows may support importer and UI/API testing. They must not be used as findings of fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits.".to_string(),
     ];
 
     lines.join("\n") + "\n"
