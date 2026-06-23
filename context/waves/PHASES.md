@@ -8,6 +8,7 @@ Work is organized into small waves and pulses.
 
 ## Completed waves
 
+- `2026-06-23-accountability-response-intake-evidence-rules`
 - `2026-06-23-accountability-public-claim-gate-label-core`
 - `2026-06-23-accountability-performance-demand-response-log-schema-class-rendering`
 - `2026-06-23-accountability-performance-demand-response-intake-class-rendering`

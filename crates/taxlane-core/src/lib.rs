@@ -656,6 +656,17 @@ impl PerformanceDemandResponseClass {
             }
         }
     }
+
+    pub fn requires_evidence_received(&self) -> bool {
+        matches!(
+            self,
+            Self::CompleteEvidenceResponse | Self::PartialEvidenceResponse
+        )
+    }
+
+    pub fn forbids_evidence_received(&self) -> bool {
+        matches!(self, Self::ProcessOnlyResponse | Self::NoEvidenceResponse)
+    }
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
@@ -703,17 +714,13 @@ impl PerformanceDemandResponseIntakeRecord {
                     .to_string(),
             );
         }
-        if self.response_class == PerformanceDemandResponseClass::CompleteEvidenceResponse
-            && self.evidence_received.is_empty()
-        {
-            return Err("complete evidence response intake requires evidence_received".to_string());
+        if self.response_class.requires_evidence_received() && self.evidence_received.is_empty() {
+            return Err(
+                "complete and partial evidence response intake records require evidence_received"
+                    .to_string(),
+            );
         }
-        if matches!(
-            self.response_class,
-            PerformanceDemandResponseClass::ProcessOnlyResponse
-                | PerformanceDemandResponseClass::NoEvidenceResponse
-        ) && !self.evidence_received.is_empty()
-        {
+        if self.response_class.forbids_evidence_received() && !self.evidence_received.is_empty() {
             return Err(
                 "process-only and no-evidence response intake records must not list evidence_received"
                     .to_string(),
@@ -1247,6 +1254,24 @@ mod tests {
             missing_evidence: "Role review is still pending.".to_string(),
             role_review_needed: true,
             public_claim_allowed: true,
+            use_rule: PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE.to_string(),
+        };
+
+        assert!(record.validate().is_err());
+    }
+
+    #[test]
+    fn blocks_partial_response_intake_without_evidence() {
+        let record = PerformanceDemandResponseIntakeRecord {
+            record_id: "accountability-evidence:test".to_string(),
+            reply_source_id: "SRC-REPLY-TEST".to_string(),
+            reply_received_date: "2026-06-23".to_string(),
+            sender_or_office: "Example Office".to_string(),
+            response_class: PerformanceDemandResponseClass::PartialEvidenceResponse,
+            evidence_received: Vec::new(),
+            missing_evidence: "Role-approved public wording remains missing.".to_string(),
+            role_review_needed: true,
+            public_claim_allowed: false,
             use_rule: PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE.to_string(),
         };
 

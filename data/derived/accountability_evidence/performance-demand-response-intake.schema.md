@@ -31,7 +31,8 @@ It defines an intake contract only; it does not authorize public claims or respo
 
 - `role_review_needed` must be `true` for unreviewed replies.
 - `public_claim_allowed` must be `false` until the response log, role review, and claim gates are revalidated.
-- Empty `evidence_received` is allowed only when `response_class` is `process-only-response` or `no-evidence-response`.
+- `evidence_received` must be non-empty when `response_class` is `complete-evidence-response` or `partial-evidence-response`.
+- `evidence_received` must be empty when `response_class` is `process-only-response` or `no-evidence-response`.
 
 ## Public-Use Rule
 
