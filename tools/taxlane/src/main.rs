@@ -6948,25 +6948,41 @@ fn build_accountability_performance_demand_response_log(root: &Path) -> Result<S
         String::new(),
         "## Response Classes".to_string(),
         String::new(),
-        "- `not-yet-received`: no reply has been logged in TAXLANE.".to_string(),
-        "- `complete-evidence-response`: all required evidence and public-claim basis were provided and still need role review before public use.".to_string(),
-        "- `partial-evidence-response`: at least one requested evidence item remains missing or unclear.".to_string(),
-        "- `process-only-response`: the reply explains process but does not provide requested evidence.".to_string(),
-        "- `no-evidence-response`: the reply declines, ignores, or cannot identify requested evidence.".to_string(),
+    ];
+
+    for response_class in PerformanceDemandResponseLogClass::all_classes() {
+        lines.push(format!(
+            "- `{}`: {}",
+            response_class.wire_value(),
+            response_class.rubric_meaning()
+        ));
+    }
+
+    lines.extend([
         String::new(),
         "## Current Log".to_string(),
         String::new(),
-        "| Lane | Response Class | Evidence Received | Missing Evidence | Claim Gate | Next Action |".to_string(),
+        "| Lane | Response Class | Evidence Received | Missing Evidence | Claim Gate | Next Action |"
+            .to_string(),
         "|---|---|---|---|---|---|".to_string(),
-    ];
+    ]);
 
     for record in records {
-        let row = record.performance_demand_checklist_record();
+        let row = record.performance_demand_response_log_record();
+        row.validate()?;
         let label = row.lane_id.as_deref().unwrap_or("n/a");
+        let evidence_received = if row.evidence_received.is_empty() {
+            "none logged".to_string()
+        } else {
+            row.evidence_received.join("; ")
+        };
         lines.push(format!(
-            "| {label} | `not-yet-received` | none logged | {} | {} | Send or resend public-safe evidence request; keep claim gate blocked. |",
-            row.do_not_accept_yet.replace('|', "\\|"),
-            row.claim_gate.replace('|', "\\|")
+            "| {label} | `{}` | {} | {} | {} | {} |",
+            row.response_class.wire_value(),
+            evidence_received.replace('|', "\\|"),
+            row.missing_evidence.replace('|', "\\|"),
+            row.claim_gate.replace('|', "\\|"),
+            row.next_action.replace('|', "\\|")
         ));
     }
 

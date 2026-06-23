@@ -7,11 +7,11 @@ It is not a finding of fraud, waste, abuse, legal dedication, poor performance, 
 
 ## Response Classes
 
-- `not-yet-received`: no reply has been logged in TAXLANE.
-- `complete-evidence-response`: all required evidence and public-claim basis were provided and still need role review before public use.
-- `partial-evidence-response`: at least one requested evidence item remains missing or unclear.
-- `process-only-response`: the reply explains process but does not provide requested evidence.
-- `no-evidence-response`: the reply declines, ignores, or cannot identify requested evidence.
+- `not-yet-received`: No reply has been logged in TAXLANE.
+- `complete-evidence-response`: Provides source record/version, reviewed performance evidence or official finding, role-approved wording, and public-claim basis.
+- `partial-evidence-response`: Provides some requested evidence but leaves at least one required item missing or unclear.
+- `process-only-response`: Explains process, office ownership, or future work but does not provide the requested evidence.
+- `no-evidence-response`: Declines, ignores, or cannot identify the requested evidence.
 
 ## Current Log
 

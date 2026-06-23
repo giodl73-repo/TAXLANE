@@ -396,6 +396,16 @@ pub enum PerformanceDemandResponseLogClass {
 }
 
 impl PerformanceDemandResponseLogClass {
+    pub fn all_classes() -> &'static [Self] {
+        &[
+            Self::NotYetReceived,
+            Self::CompleteEvidenceResponse,
+            Self::PartialEvidenceResponse,
+            Self::ProcessOnlyResponse,
+            Self::NoEvidenceResponse,
+        ]
+    }
+
     pub fn rubric_classes() -> &'static [Self] {
         &[
             Self::CompleteEvidenceResponse,
@@ -403,6 +413,16 @@ impl PerformanceDemandResponseLogClass {
             Self::ProcessOnlyResponse,
             Self::NoEvidenceResponse,
         ]
+    }
+
+    pub fn wire_value(&self) -> &'static str {
+        match self {
+            Self::NotYetReceived => "not-yet-received",
+            Self::CompleteEvidenceResponse => "complete-evidence-response",
+            Self::PartialEvidenceResponse => "partial-evidence-response",
+            Self::ProcessOnlyResponse => "process-only-response",
+            Self::NoEvidenceResponse => "no-evidence-response",
+        }
     }
 
     pub fn label(&self) -> &'static str {
@@ -1061,6 +1081,20 @@ mod tests {
 
     #[test]
     fn exposes_response_rubric_classes() {
+        assert_eq!(
+            PerformanceDemandResponseLogClass::all_classes()
+                .iter()
+                .map(PerformanceDemandResponseLogClass::wire_value)
+                .collect::<Vec<_>>(),
+            vec![
+                "not-yet-received",
+                "complete-evidence-response",
+                "partial-evidence-response",
+                "process-only-response",
+                "no-evidence-response",
+            ]
+        );
+
         let classes = PerformanceDemandResponseLogClass::rubric_classes();
 
         assert_eq!(

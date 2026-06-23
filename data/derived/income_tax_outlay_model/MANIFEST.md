@@ -74,7 +74,7 @@ supporting views.
 | `data/derived/accountability_evidence/performance-demand-letter.md` | Accountability performance demand letter template | documentation | n/a | supporting | `bd0745870af31388b12eb48dc72351f866ce8c2ef0b96d514b2c52ee3864ae10` |
 | `data/derived/accountability_evidence/performance-demand-response-rubric.md` | Accountability performance demand response rubric | documentation | n/a | supporting | `bc628d1a209ea0ac2aab20f1730f5e80fadda4d296c302e0ea2ad1772c19602a` |
 | `data/derived/accountability_evidence/performance-demand-followup.md` | Accountability performance demand follow-up template | documentation | n/a | supporting | `fe52a87f0aaaf5107248734bed8a4331623095532355d2237a8278f47fb85898` |
-| `data/derived/accountability_evidence/performance-demand-response-log.md` | Accountability performance demand response log | documentation | n/a | supporting | `196d0ab3c24a30d132ecbcbc7dc665662f7ec156b18db97381af3056c2d4f620` |
+| `data/derived/accountability_evidence/performance-demand-response-log.md` | Accountability performance demand response log | documentation | n/a | supporting | `44d7d18c158b0847787e9b8a26c2daa4adcfabc41e2e91bd89c8737529d590ce` |
 | `data/derived/accountability_evidence/performance-demand-response-log.jsonl` | Accountability performance demand response log rows | response log row | 2 | supporting | `a9dc003107c6ef8e83a8f30cea4bab9b8603a7c446cf3952a4a3b244d6c520c1` |
 | `data/derived/accountability_evidence/performance-demand-response-log.schema.md` | Accountability performance demand response log schema | documentation | n/a | supporting | `4f2a94f6d4de2cd718927248fcb66fa355d24dd8c223aeb3c7045e35eb7d6cc9` |
 | `data/derived/accountability_evidence/performance-demand-response-status.json` | Accountability performance demand response status | response status summary | n/a | supporting | `a9da5fce495e962d48c28bfb64dca15efc74dcd82cad1b8a616c8d905f48e75e` |
@@ -121,11 +121,11 @@ supporting views.
 | `docs/vtrace/MISSION.md` | VTRACE mission | documentation | n/a | supporting | `751833c38bcc467ffe7e2c926195397ce396106830452c0d1f9b3039d6c211a6` |
 | `docs/vtrace/REQUIREMENTS.md` | VTRACE requirements | documentation | n/a | supporting | `1a22419ccf0b3a10644391d410774e6ab290960913cf1e745431c68e28868913` |
 | `docs/vtrace/SPECIFICATION_BASELINE.md` | VTRACE specification baseline | documentation | n/a | supporting | `dfb7c1462974eeac27fffe451e989211dfe4497b145bb56df15f6a671f010678` |
-| `docs/vtrace/TRACE.md` | VTRACE trace matrix | documentation | n/a | supporting | `9c3250144b4e326be448969afc65a92b17976f2aacdd289f4081927b70552457` |
-| `docs/vtrace/WORK_PACKAGES.md` | VTRACE work packages | documentation | n/a | supporting | `9b15c259b690cc53ac0ba36685907e78269b4be18a91e07fc314e6861b6ffc88` |
-| `docs/vtrace/VERIFICATION.md` | VTRACE verification plan | documentation | n/a | supporting | `300791c479319946ba2109a926fdd622a0ad8f53ce5ab934ac337d1cad5af0c8` |
-| `docs/vtrace/VALIDATION.md` | VTRACE validation scenarios | documentation | n/a | supporting | `fbcc60b088673947a534016aa1f2ce47703f8358a69b3e28797d813c196d04c4` |
-| `docs/vtrace/EVIDENCE.md` | VTRACE evidence ledger | documentation | n/a | supporting | `b58cc03d151c721548595a3ec7e5888527760a674841e93c6f70fff4d5cbf982` |
+| `docs/vtrace/TRACE.md` | VTRACE trace matrix | documentation | n/a | supporting | `0785602e3ae55098c614f702716c13f3c7f505f45e61b595fdeb37363b6ad422` |
+| `docs/vtrace/WORK_PACKAGES.md` | VTRACE work packages | documentation | n/a | supporting | `19bb108e9b5db34319fb256ed7c6a2bedbc0d41063510055554eb8e1a233d36b` |
+| `docs/vtrace/VERIFICATION.md` | VTRACE verification plan | documentation | n/a | supporting | `ba692b7c3ebc859f3fbe5a2bda310af04258564989d32466eec3dca51c2aa3e3` |
+| `docs/vtrace/VALIDATION.md` | VTRACE validation scenarios | documentation | n/a | supporting | `5c94c4dbb65556d5054b502bf47b02a8fab8e0c52f0ae7fb1f0aafdf035d9e52` |
+| `docs/vtrace/EVIDENCE.md` | VTRACE evidence ledger | documentation | n/a | supporting | `0f58bba24a9bdcb350921d491ed84a25b28f73d55eae9c6d60961739072c3ba4` |
 | `docs/vtrace/REVIEW.md` | VTRACE adoption review | documentation | n/a | supporting | `52ed83ae325229c3da170b7842dbf07d33f76be84c7e56d0a48aacb8595dd7ff` |
 | `docs/charts/taxpayer-receipt-model/README.md` | Taxpayer receipt chart set handoff note | documentation | n/a | supporting | `29b98ce16cccf88869779c079dc652d7da15583777e015a1d2b8481e9c63250d` |
 | `docs/charts/taxpayer-receipt-model/placeholder-lane-bars.vl.json` | Placeholder receipt lane bar chart spec | visualization spec | n/a | view | `f4233308571464bf6a58fb417803453a32c054fe43a2869d9ae93ffb616f3ccf` |
@@ -133,9 +133,9 @@ supporting views.
 | `Cargo.toml` | Rust workspace manifest | tooling | n/a | supporting | `405a2bba4b4deec2a77d51621f397528c0b5a86a3137df32af6633f32ffbfad0` |
 | `Cargo.lock` | Rust dependency lockfile | tooling | n/a | supporting | `44b2fcc6662f4fa3cecadbd650c7991b66e42af15dbf4efbf8ff16b832717d96` |
 | `crates/taxlane-core/Cargo.toml` | Rust Taxlane core crate manifest | tooling | n/a | supporting | `6469c9f3c3d01bc0c51783255082c93ed608c6c64c0d4f32f5cd2c08f2426fb9` |
-| `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `ac20fa99bdd3e5990cb2b8a19a7e5a088147430d19a6a6f876610ad3512393c8` |
+| `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `77f5251ed6e3dc0006e820d7e7b96978e1866d67d5905d3b93465f57d0256893` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `b910e56a20f40547ac1e4f696e84772dde163738b03915ddbcc0d0a39427719a` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `c91805b698bb62fd50a05e2d0396829110fbbd2579b52695f62df88aa26dce34` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `1c10741a3f8a97fb66e78f5bf809afc2b646a1987f859f0c8944421b5c1c95ff` |
 
 ## Regeneration Order
 

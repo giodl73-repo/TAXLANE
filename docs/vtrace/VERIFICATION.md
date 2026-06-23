@@ -92,3 +92,5 @@
 | REQ-TAX-006 | command + review | `cargo test`; `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect response status generation | CLI generates response status JSON through the core aggregation type. | current | EVID-TAX-042 |
 | REQ-TAX-006 | command + review | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect response dashboard/handoff builders | CLI validates generated status as a typed core status before rendering Markdown. | current | EVID-TAX-043 |
 | REQ-TAX-006 | command + review | `cargo test`; inspect response rubric generation | CLI renders response rubric score meanings from core response-log class metadata. | current | EVID-TAX-044 |
+| REQ-TAX-004 | command + inspection | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect response log rendering review | Response log Markdown renders typed rows without creating findings. | current | EVID-TAX-045 |
+| REQ-TAX-006 | command + review | `cargo test`; inspect response log Markdown builder | CLI renders response log Markdown from core class metadata and core-derived records. | current | EVID-TAX-045 |
