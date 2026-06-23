@@ -10,54 +10,72 @@
       "artifact": "data/derived/accountability_evidence/performance-demand-response-intake.example.jsonl",
       "role": "Source-custodied intake fixture row.",
       "kind": "jsonl",
+      "row_count": "1",
+      "sha256": "36d9494d624bc7224a2ad576186bf5f499dfbc85827a075a1ee599007417da5d",
       "consumer_use": "Exercise importer parsing and record-id matching."
     },
     {
       "artifact": "data/derived/accountability_evidence/performance-demand-response-log.applied-example.jsonl",
       "role": "Response-log rows after applying example intake.",
       "kind": "jsonl",
+      "row_count": "2",
+      "sha256": "67d11410cb361739fda0b00d21fb866741613f6f38c59fe07f9098d033b27d03",
       "consumer_use": "Inspect typed applied rows without changing canonical response status."
     },
     {
       "artifact": "data/derived/accountability_evidence/performance-demand-response-status.applied-example.json",
       "role": "Compact applied response counts.",
       "kind": "json",
+      "row_count": "n/a",
+      "sha256": "aabe839dfc53c336a60cc7b6f88eb771673a6203fbec38ff4bc5f4e4d6e86a48",
       "consumer_use": "Feed fixture counts into UI/API tests without recomputing rows."
     },
     {
       "artifact": "data/derived/accountability_evidence/performance-demand-response-dashboard.applied-example.md",
       "role": "Human-readable applied response counts.",
       "kind": "markdown",
+      "row_count": "n/a",
+      "sha256": "9ca74e706aedd51c06de7562bfcea338db6f4fb8509e080672064aa8cb9c685f",
       "consumer_use": "Scan importer behavior without opening JSON."
     },
     {
       "artifact": "data/derived/accountability_evidence/performance-demand-response-handoff.applied-example.md",
       "role": "Task routing for the applied fixture set.",
       "kind": "markdown",
+      "row_count": "n/a",
+      "sha256": "696b41cefd275c1512a875c671479f1f2fb1f3c6945e7df19597026d28b2a3b7",
       "consumer_use": "Choose the right applied artifact by implementation task."
     },
     {
       "artifact": "data/derived/accountability_evidence/performance-demand-response-applied-example.schema.md",
       "role": "Fixture artifact contract.",
       "kind": "markdown",
+      "row_count": "n/a",
+      "sha256": "2870d2b2037704ec7bd8d3a51784012b9a21e3fa12a18d36b32e843c7784a284",
       "consumer_use": "Confirm roles and guardrails for applied importer artifacts."
     },
     {
       "artifact": "data/derived/accountability_evidence/performance-demand-response-delta.applied-example.md",
       "role": "Human-readable changed fields.",
       "kind": "markdown",
+      "row_count": "n/a",
+      "sha256": "08d877c68bb150858d0d29bf618d77110c606e29af5f207824c795f0334e1f84",
       "consumer_use": "Inspect row-level changes after applying example intake."
     },
     {
       "artifact": "data/derived/accountability_evidence/performance-demand-response-delta.applied-example.jsonl",
       "role": "Machine-readable changed fields.",
       "kind": "jsonl",
+      "row_count": "1",
+      "sha256": "96df8a2cc23da04a94f0d78dc6721b3948c2b05ec911704c169e60c4850c06c3",
       "consumer_use": "Feed delta rows into UI/API diff consumers."
     },
     {
       "artifact": "data/derived/accountability_evidence/performance-demand-response-delta.applied-example.schema.md",
       "role": "Delta row field contract.",
       "kind": "markdown",
+      "row_count": "n/a",
+      "sha256": "8512218d2614b3e08368545ad00e3e062ed78d5a9648a8307b33dd151d0e5838",
       "consumer_use": "Confirm field meanings and blocked-claim guardrails."
     }
   ],

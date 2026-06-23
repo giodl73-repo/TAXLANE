@@ -672,6 +672,8 @@ pub struct PerformanceDemandResponseBundleArtifact {
     pub artifact: String,
     pub role: String,
     pub kind: String,
+    pub row_count: String,
+    pub sha256: String,
     pub consumer_use: String,
 }
 
@@ -680,6 +682,8 @@ impl PerformanceDemandResponseBundleArtifact {
         validate_required("bundle artifact", &self.artifact)?;
         validate_required("bundle artifact role", &self.role)?;
         validate_required("bundle artifact kind", &self.kind)?;
+        validate_required("bundle artifact row_count", &self.row_count)?;
+        validate_required("bundle artifact sha256", &self.sha256)?;
         validate_required("bundle artifact consumer_use", &self.consumer_use)?;
         if self.artifact.contains('\\')
             || self.artifact.starts_with('/')
@@ -694,6 +698,25 @@ impl PerformanceDemandResponseBundleArtifact {
             return Err(format!(
                 "bundle artifact {} has unsupported kind {}",
                 self.artifact, self.kind
+            ));
+        }
+        if self.sha256.len() != 64 || !self.sha256.chars().all(|ch| ch.is_ascii_hexdigit()) {
+            return Err(format!(
+                "bundle artifact {} has invalid sha256 {}",
+                self.artifact, self.sha256
+            ));
+        }
+        if self.kind == "jsonl" {
+            self.row_count.parse::<usize>().map_err(|_| {
+                format!(
+                    "bundle artifact {} JSONL row_count must be a number",
+                    self.artifact
+                )
+            })?;
+        } else if self.row_count != "n/a" {
+            return Err(format!(
+                "bundle artifact {} non-JSONL row_count must be n/a",
+                self.artifact
             ));
         }
         Ok(())
@@ -1591,64 +1614,78 @@ mod tests {
                 "data/derived/accountability_evidence/performance-demand-response-intake.example.jsonl",
                 "Source-custodied intake fixture row.",
                 "jsonl",
+                "1",
                 "Exercise importer parsing and record-id matching.",
             ),
             (
                 "data/derived/accountability_evidence/performance-demand-response-log.applied-example.jsonl",
                 "Response-log rows after applying example intake.",
                 "jsonl",
+                "2",
                 "Inspect typed applied rows without changing canonical response status.",
             ),
             (
                 "data/derived/accountability_evidence/performance-demand-response-status.applied-example.json",
                 "Compact applied response counts.",
                 "json",
+                "n/a",
                 "Feed fixture counts into UI/API tests without recomputing rows.",
             ),
             (
                 "data/derived/accountability_evidence/performance-demand-response-dashboard.applied-example.md",
                 "Human-readable applied response counts.",
                 "markdown",
+                "n/a",
                 "Scan importer behavior without opening JSON.",
             ),
             (
                 "data/derived/accountability_evidence/performance-demand-response-handoff.applied-example.md",
                 "Task routing for the applied fixture set.",
                 "markdown",
+                "n/a",
                 "Choose the right applied artifact by implementation task.",
             ),
             (
                 "data/derived/accountability_evidence/performance-demand-response-applied-example.schema.md",
                 "Fixture artifact contract.",
                 "markdown",
+                "n/a",
                 "Confirm roles and guardrails for applied importer artifacts.",
             ),
             (
                 "data/derived/accountability_evidence/performance-demand-response-delta.applied-example.md",
                 "Human-readable changed fields.",
                 "markdown",
+                "n/a",
                 "Inspect row-level changes after applying example intake.",
             ),
             (
                 "data/derived/accountability_evidence/performance-demand-response-delta.applied-example.jsonl",
                 "Machine-readable changed fields.",
                 "jsonl",
+                "1",
                 "Feed delta rows into UI/API diff consumers.",
             ),
             (
                 "data/derived/accountability_evidence/performance-demand-response-delta.applied-example.schema.md",
                 "Delta row field contract.",
                 "markdown",
+                "n/a",
                 "Confirm field meanings and blocked-claim guardrails.",
             ),
         ]
         .into_iter()
         .map(
-            |(artifact, role, kind, consumer_use)| PerformanceDemandResponseBundleArtifact {
+            |(artifact, role, kind, row_count, consumer_use)| {
+                PerformanceDemandResponseBundleArtifact {
                 artifact: artifact.to_string(),
                 role: role.to_string(),
                 kind: kind.to_string(),
+                row_count: row_count.to_string(),
+                sha256: "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+                    .to_string(),
                 consumer_use: consumer_use.to_string(),
+                }
             },
         )
         .collect()

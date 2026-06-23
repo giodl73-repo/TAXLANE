@@ -26,6 +26,8 @@ The JSON is serialized from `PerformanceDemandResponseBundleManifest` and lists 
 | `artifact` | string | yes | Repo-relative artifact path using forward slashes. |
 | `role` | string | yes | Artifact role in the applied fixture bundle. |
 | `kind` | string | yes | One of `jsonl`, `json`, or `markdown`. |
+| `row_count` | string | yes | JSONL row count as a string, or `n/a` for non-JSONL artifacts. |
+| `sha256` | string | yes | SHA-256 digest of the generated artifact bytes. |
 | `consumer_use` | string | yes | Intended importer or UI/API use. |
 
 ## Validation Rules
@@ -33,6 +35,7 @@ The JSON is serialized from `PerformanceDemandResponseBundleManifest` and lists 
 - JSON must deserialize as `PerformanceDemandResponseBundleManifest`.
 - Every artifact entry must validate as `PerformanceDemandResponseBundleArtifact`.
 - The manifest must include all required applied fixture artifacts.
+- Every artifact entry must include row-count and SHA-256 integrity metadata.
 - Public claims must remain blocked for this fixture manifest.
 
 ## Public-Use Rule

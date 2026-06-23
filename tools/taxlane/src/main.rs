@@ -6776,6 +6776,8 @@ fn check_accountability_performance_demand_response_bundle_applied_example_schem
         "`artifacts`",
         "`boundary`",
         "`use_rule`",
+        "`row_count`",
+        "`sha256`",
     ] {
         if !schema.contains(required) {
             return Err(format!(
@@ -8360,7 +8362,7 @@ fn build_accountability_performance_demand_response_bundle_applied_example(
         "| `performance-demand-response-delta.applied-example.md` | Human-readable changed fields. | Inspect row-level changes after applying example intake. |".to_string(),
         "| `performance-demand-response-delta.applied-example.jsonl` | Machine-readable changed fields. | Feed delta rows into UI/API diff consumers. |".to_string(),
         "| `performance-demand-response-delta.applied-example.schema.md` | Delta row field contract. | Confirm field meanings and blocked-claim guardrails. |".to_string(),
-        "| `performance-demand-response-bundle.applied-example.json` | Machine-readable bundle manifest. | Load fixture artifact roles and boundaries without scraping Markdown. |".to_string(),
+        "| `performance-demand-response-bundle.applied-example.json` | Machine-readable bundle manifest. | Load fixture artifact roles, row counts, hashes, and boundaries without scraping Markdown. |".to_string(),
         "| `performance-demand-response-bundle.applied-example.schema.md` | Bundle manifest field contract. | Inspect manifest and artifact field meanings. |".to_string(),
         String::new(),
         "## Boundary".to_string(),
@@ -8375,8 +8377,10 @@ fn build_accountability_performance_demand_response_bundle_applied_example(
     Ok(lines.join("\n") + "\n")
 }
 
-fn performance_demand_response_bundle_artifacts() -> Vec<PerformanceDemandResponseBundleArtifact> {
-    [
+fn performance_demand_response_bundle_artifacts(
+    root: &Path,
+) -> Result<Vec<PerformanceDemandResponseBundleArtifact>, String> {
+    let rows = [
         (
             ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_INTAKE_EXAMPLE_JSONL_PATH,
             "Source-custodied intake fixture row.",
@@ -8431,17 +8435,21 @@ fn performance_demand_response_bundle_artifacts() -> Vec<PerformanceDemandRespon
             "markdown",
             "Confirm field meanings and blocked-claim guardrails.",
         ),
-    ]
-    .into_iter()
-    .map(
-        |(artifact, role, kind, consumer_use)| PerformanceDemandResponseBundleArtifact {
-            artifact: artifact.to_string(),
-            role: role.to_string(),
-            kind: kind.to_string(),
-            consumer_use: consumer_use.to_string(),
-        },
-    )
-    .collect()
+    ];
+
+    rows.into_iter()
+        .map(|(artifact, role, kind, consumer_use)| {
+            let path = root.join(artifact);
+            Ok(PerformanceDemandResponseBundleArtifact {
+                artifact: artifact.to_string(),
+                role: role.to_string(),
+                kind: kind.to_string(),
+                row_count: count_rows(&path, kind)?,
+                sha256: sha256_file(&path)?,
+                consumer_use: consumer_use.to_string(),
+            })
+        })
+        .collect()
 }
 
 fn build_accountability_performance_demand_response_bundle_applied_example_json(
@@ -8454,7 +8462,7 @@ fn build_accountability_performance_demand_response_bundle_applied_example_json(
     let manifest = PerformanceDemandResponseBundleManifest::from_status(
         ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_BUNDLE_APPLIED_EXAMPLE_JSON_PATH,
         &status,
-        performance_demand_response_bundle_artifacts(),
+        performance_demand_response_bundle_artifacts(root)?,
     )?;
     serde_json::to_string_pretty(&manifest)
         .map(|text| text + "\n")
@@ -8491,6 +8499,8 @@ fn build_accountability_performance_demand_response_bundle_applied_example_schem
         "| `artifact` | string | yes | Repo-relative artifact path using forward slashes. |".to_string(),
         "| `role` | string | yes | Artifact role in the applied fixture bundle. |".to_string(),
         "| `kind` | string | yes | One of `jsonl`, `json`, or `markdown`. |".to_string(),
+        "| `row_count` | string | yes | JSONL row count as a string, or `n/a` for non-JSONL artifacts. |".to_string(),
+        "| `sha256` | string | yes | SHA-256 digest of the generated artifact bytes. |".to_string(),
         "| `consumer_use` | string | yes | Intended importer or UI/API use. |".to_string(),
         String::new(),
         "## Validation Rules".to_string(),
@@ -8498,6 +8508,7 @@ fn build_accountability_performance_demand_response_bundle_applied_example_schem
         "- JSON must deserialize as `PerformanceDemandResponseBundleManifest`.".to_string(),
         "- Every artifact entry must validate as `PerformanceDemandResponseBundleArtifact`.".to_string(),
         "- The manifest must include all required applied fixture artifacts.".to_string(),
+        "- Every artifact entry must include row-count and SHA-256 integrity metadata.".to_string(),
         "- Public claims must remain blocked for this fixture manifest.".to_string(),
         String::new(),
         "## Public-Use Rule".to_string(),

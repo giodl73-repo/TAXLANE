@@ -26,7 +26,7 @@ It is not a finding of fraud, waste, abuse, legal dedication, poor performance, 
 | `performance-demand-response-delta.applied-example.md` | Human-readable changed fields. | Inspect row-level changes after applying example intake. |
 | `performance-demand-response-delta.applied-example.jsonl` | Machine-readable changed fields. | Feed delta rows into UI/API diff consumers. |
 | `performance-demand-response-delta.applied-example.schema.md` | Delta row field contract. | Confirm field meanings and blocked-claim guardrails. |
-| `performance-demand-response-bundle.applied-example.json` | Machine-readable bundle manifest. | Load fixture artifact roles and boundaries without scraping Markdown. |
+| `performance-demand-response-bundle.applied-example.json` | Machine-readable bundle manifest. | Load fixture artifact roles, row counts, hashes, and boundaries without scraping Markdown. |
 | `performance-demand-response-bundle.applied-example.schema.md` | Bundle manifest field contract. | Inspect manifest and artifact field meanings. |
 
 ## Boundary
