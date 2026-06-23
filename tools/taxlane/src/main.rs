@@ -7,7 +7,7 @@ use std::process::ExitCode;
 use roxmltree::Document;
 use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
-use taxlane_core::ArtifactMetadata;
+use taxlane_core::{AccountabilityEvidenceRecord, ArtifactMetadata};
 use zip::ZipArchive;
 
 const CHART_SPECS: &[&str] = &[
@@ -42,6 +42,8 @@ const PLACEHOLDER_RECEIPT_LANE_BARS_SPEC_PATH: &str =
     "docs/charts/taxpayer-receipt-model/placeholder-lane-bars.vl.json";
 const PLACEHOLDER_RECEIPT_FINANCING_CONTEXT_SPEC_PATH: &str =
     "docs/charts/taxpayer-receipt-model/placeholder-financing-context.vl.json";
+const ACCOUNTABILITY_EVIDENCE_JSONL_PATH: &str = "data/derived/accountability_evidence/accountability_evidence.omb-fy2027-v1.2026-06-23.draft.jsonl";
+const SOURCE_VERSION_LEDGER_PATH: &str = "docs/sources/source-version-ledger.md";
 const OBSERVED_DATE: &str = "2026-06-21";
 const MODEL_ID: &str = "individual-income-tax-proportional-outlays-v1";
 const SUBFUNCTION_MODEL_ID: &str = "individual-income-tax-proportional-subfunction-outlays-v1";
@@ -304,6 +306,13 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "data/derived/README.md",
+        role: "Derived data index",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "data/derived/income_tax_outlay_model/reconciliation-review.md",
         role: "Generated-row reconciliation review",
         grain: "documentation",
@@ -451,6 +460,20 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "yes",
     },
     Artifact {
+        path: "data/derived/accountability_evidence/accountability_evidence.omb-fy2027-v1.2026-06-23.draft.jsonl",
+        role: "Draft accountability evidence records",
+        grain: "evidence record",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/accountability_evidence/README.md",
+        role: "Accountability evidence dataset method note",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "docs/reading/placeholder-visibility-receipt.md",
         role: "Placeholder receipt reader packet",
         grain: "documentation",
@@ -509,6 +532,13 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "reviews/2026-06-23-accountability-evidence-role-review.md",
         role: "Accountability evidence role review",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-06-23-accountability-evidence-source-custody-review.md",
+        role: "Accountability evidence source-custody review",
         grain: "documentation",
         kind: "markdown",
         canonical: "supporting",
@@ -775,6 +805,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_manifest(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = validate_accountability_evidence_records(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -4783,6 +4818,35 @@ fn read_jsonl(path: PathBuf) -> Result<Vec<serde_json::Value>, String> {
                 .map_err(|err| format!("failed to parse JSONL {:?}: {err}", path))
         })
         .collect()
+}
+
+fn validate_accountability_evidence_records(root: &Path) -> Result<(), String> {
+    let source_ledger = fs::read_to_string(root.join(SOURCE_VERSION_LEDGER_PATH))
+        .map_err(|err| format!("failed to read {SOURCE_VERSION_LEDGER_PATH}: {err}"))?;
+    let records = read_jsonl(root.join(ACCOUNTABILITY_EVIDENCE_JSONL_PATH))?;
+    if records.is_empty() {
+        return Err("accountability evidence: no records".to_string());
+    }
+
+    for row in records {
+        let record: AccountabilityEvidenceRecord = serde_json::from_value(row)
+            .map_err(|err| format!("accountability evidence: invalid record shape: {err}"))?;
+        record
+            .validate()
+            .map_err(|err| format!("{}: {err}", record.record_id))?;
+        for source_id in &record.source_ids {
+            let ledger_token = format!("`{source_id}`");
+            if !source_ledger.contains(&ledger_token) {
+                return Err(format!(
+                    "{}: source_id {source_id} is missing from {SOURCE_VERSION_LEDGER_PATH}",
+                    record.record_id
+                ));
+            }
+        }
+    }
+
+    println!("validated accountability evidence records");
+    Ok(())
 }
 
 fn int_field(row: &serde_json::Value, field: &str) -> Result<i64, String> {
