@@ -18,6 +18,7 @@ claims.
 | `claim-guard-report.md` | one generated claim-readiness summary | Counts allowed and blocked public claims without scoring records. |
 | `public-questions.md` | one generated public-safe question packet | Strips records down to evidence-request questions and blockers. |
 | `performance-demand-checklist.md` | one generated public evidence checklist | Turns blockers into concrete evidence requests before accepting claims. |
+| `performance-demand-checklist.jsonl` | generated machine-readable demand checklist | One JSON row per evidence demand for future UI/API handoff. |
 | `artifact-map.md` | one generated accountability artifact map | Routes each artifact to its audience, use, and public-use boundary. |
 
 ## Public-Use Rule
@@ -60,6 +61,9 @@ questions and blockers only, not the full evidence records.
 
 The performance-demand checklist turns those blockers into evidence requests a
 citizen can make before accepting performance or misconduct claims.
+
+The performance-demand checklist JSONL carries the same demand rows in a
+machine-readable form and keeps `public_claim_allowed` explicit.
 
 The artifact map explains which artifact to use for evidence review, workflow
 handoff, or public reader questions.

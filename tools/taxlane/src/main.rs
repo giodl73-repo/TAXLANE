@@ -57,6 +57,8 @@ const ACCOUNTABILITY_PUBLIC_QUESTIONS_PATH: &str =
     "data/derived/accountability_evidence/public-questions.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-checklist.md";
+const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_JSONL_PATH: &str =
+    "data/derived/accountability_evidence/performance-demand-checklist.jsonl";
 const ACCOUNTABILITY_ARTIFACT_MAP_PATH: &str =
     "data/derived/accountability_evidence/artifact-map.md";
 const ACCOUNTABILITY_PUBLIC_BRIEF_PATH: &str = "docs/reading/accountability-public-brief.md";
@@ -549,6 +551,13 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "data/derived/accountability_evidence/performance-demand-checklist.jsonl",
+        role: "Accountability performance demand checklist rows",
+        grain: "demand checklist row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "data/derived/accountability_evidence/artifact-map.md",
         role: "Accountability artifact map",
         grain: "documentation",
@@ -740,6 +749,13 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "reviews/2026-06-23-accountability-performance-demand-checklist-review.md",
         role: "Accountability performance demand checklist review",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-06-23-accountability-performance-demand-checklist-jsonl-review.md",
+        role: "Accountability performance demand checklist JSONL review",
         grain: "documentation",
         kind: "markdown",
         canonical: "supporting",
@@ -1061,6 +1077,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_accountability_performance_demand_checklist(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_accountability_performance_demand_checklist_jsonl(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -5250,6 +5271,47 @@ fn check_accountability_performance_demand_checklist(root: &Path) -> Result<(), 
     Ok(())
 }
 
+fn check_accountability_performance_demand_checklist_jsonl(root: &Path) -> Result<(), String> {
+    let expected = build_accountability_performance_demand_checklist_jsonl(root)?;
+    compare_text(
+        root,
+        ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_JSONL_PATH,
+        &expected,
+        "accountability performance demand checklist JSONL",
+    )?;
+
+    let rows = read_jsonl(root.join(ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_JSONL_PATH))?;
+    if rows.is_empty() {
+        return Err("accountability performance demand checklist JSONL has no rows".to_string());
+    }
+    for row in rows {
+        if row
+            .get("public_claim_allowed")
+            .and_then(serde_json::Value::as_bool)
+            .unwrap_or(true)
+        {
+            return Err(
+                "accountability performance demand checklist JSONL unexpectedly allows a public claim"
+                    .to_string(),
+            );
+        }
+    }
+
+    let index = fs::read_to_string(root.join("data/derived/accountability_evidence/README.md"))
+        .map_err(|err| {
+            format!("failed to read data/derived/accountability_evidence/README.md: {err}")
+        })?;
+    if !index.contains("performance-demand-checklist.jsonl") {
+        return Err(
+            "data/derived/accountability_evidence/README.md must link performance-demand-checklist.jsonl"
+                .to_string(),
+        );
+    }
+
+    println!("validated accountability performance demand checklist JSONL");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -5706,6 +5768,42 @@ fn build_accountability_performance_demand_checklist(root: &Path) -> Result<Stri
         String::new(),
         "Use this checklist to demand performance evidence and reviewed wording. Do not use it to claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, or poor performance.".to_string(),
     ]);
+
+    Ok(lines.join("\n") + "\n")
+}
+
+fn build_accountability_performance_demand_checklist_jsonl(root: &Path) -> Result<String, String> {
+    let mut records = read_accountability_evidence_records(root)?;
+    records.sort_by(|left, right| left.record_id.cmp(&right.record_id));
+
+    let mut lines = Vec::new();
+    for record in records {
+        let work_item = record.accountability_work_item();
+        let row = serde_json::json!({
+            "record_id": work_item.record_id,
+            "lane_id": work_item.lane_id,
+            "program_or_account_id": work_item.program_or_account_id,
+            "demand_question": work_item.demand_question,
+            "demand_evidence": [
+                "source record and source version",
+                "reviewed performance target, outcome measure, audit source, or official finding",
+                "role-approved exact public wording",
+                "public-claim eligibility"
+            ],
+            "do_not_accept_yet": work_item.public_use_blocker,
+            "public_claim_allowed": work_item.public_claim_allowed,
+            "claim_gate": if work_item.public_claim_allowed {
+                "Public claim allowed."
+            } else {
+                "Public claim blocked."
+            },
+            "use_rule": "Demand evidence and reviewed wording; do not claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, or poor performance."
+        });
+        lines.push(
+            serde_json::to_string(&row)
+                .map_err(|err| format!("failed to serialize demand checklist row: {err}"))?,
+        );
+    }
 
     Ok(lines.join("\n") + "\n")
 }
