@@ -17,6 +17,8 @@ const CHART_SPECS: &[&str] = &[
     "docs/charts/income-tax-outlay-subfunction-model/fy2025-top-subfunctions.vl.json",
     "docs/charts/income-tax-outlay-subfunction-model/selected-subfunction-trends.vl.json",
     "docs/charts/income-tax-outlay-subfunction-model/decade-top-subfunctions.vl.json",
+    "docs/charts/taxpayer-receipt-model/placeholder-lane-bars.vl.json",
+    "docs/charts/taxpayer-receipt-model/placeholder-financing-context.vl.json",
 ];
 
 const MANIFEST_PATH: &str = "data/derived/income_tax_outlay_model/MANIFEST.md";
@@ -391,6 +393,41 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "docs/charts/income-tax-outlay-subfunction-model/decade-top-subfunctions.vl.json",
         role: "Decade top subfunction allocation chart spec",
+        grain: "visualization spec",
+        kind: "json",
+        canonical: "view",
+    },
+    Artifact {
+        path: "data/derived/taxpayer_receipt_model/taxpayer_receipt_model.placeholder-1000.fy2025.omb-fy2027-v1.draft.json",
+        role: "Placeholder visibility receipt scenario",
+        grain: "scenario",
+        kind: "json",
+        canonical: "yes",
+    },
+    Artifact {
+        path: "docs/reading/placeholder-visibility-receipt.md",
+        role: "Placeholder receipt reader packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/charts/taxpayer-receipt-model/README.md",
+        role: "Taxpayer receipt chart set handoff note",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/charts/taxpayer-receipt-model/placeholder-lane-bars.vl.json",
+        role: "Placeholder receipt lane bar chart spec",
+        grain: "visualization spec",
+        kind: "json",
+        canonical: "view",
+    },
+    Artifact {
+        path: "docs/charts/taxpayer-receipt-model/placeholder-financing-context.vl.json",
+        role: "Placeholder receipt financing context chart spec",
         grain: "visualization spec",
         kind: "json",
         canonical: "view",

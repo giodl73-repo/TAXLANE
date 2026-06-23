@@ -1,0 +1,62 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "FY2025 Financing Context for the Placeholder Visibility Receipt",
+  "data": {
+    "values": [
+      {"measure": "Borrowed share of outlays", "percent": 25.312472142},
+      {"measure": "Individual income-tax coverage of outlays", "percent": 37.883386428}
+    ]
+  },
+  "mark": {
+    "type": "bar"
+  },
+  "encoding": {
+    "y": {
+      "field": "measure",
+      "type": "nominal",
+      "title": "Context",
+      "sort": null
+    },
+    "x": {
+      "field": "percent",
+      "type": "quantitative",
+      "title": "Percent of total outlays",
+      "axis": {
+        "format": ".0f"
+      }
+    },
+    "color": {
+      "field": "measure",
+      "type": "nominal",
+      "legend": null,
+      "scale": {
+        "domain": [
+          "Borrowed share of outlays",
+          "Individual income-tax coverage of outlays"
+        ],
+        "range": [
+          "#E15759",
+          "#4E79A7"
+        ]
+      }
+    },
+    "tooltip": [
+      {
+        "field": "measure",
+        "type": "nominal",
+        "title": "Measure"
+      },
+      {
+        "field": "percent",
+        "type": "quantitative",
+        "title": "Percent of outlays",
+        "format": ".2f"
+      }
+    ]
+  },
+  "config": {
+    "view": {
+      "stroke": null
+    }
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Placeholder FY2025 Visibility Receipt by TAXLANE Lane",
+  "data": {
+    "values": [
+      {"lane": "Social Security", "amount": 225.45, "share": 22.545276, "treatment": "Dedicated-financing caveat"},
+      {"lane": "Medicare", "amount": 142.16, "share": 14.216275, "treatment": "Dedicated-financing caveat"},
+      {"lane": "Health and Care", "amount": 139.57, "share": 13.956587, "treatment": "Modeled lane"},
+      {"lane": "Debt Service and Past Commitments", "amount": 138.36, "share": 13.836121, "treatment": "Financing cost"},
+      {"lane": "National Defense and Security", "amount": 130.67, "share": 13.066984, "treatment": "Modeled lane"},
+      {"lane": "Income Security and Family Support", "amount": 100.07, "share": 10.00711, "treatment": "Modeled lane"},
+      {"lane": "Veterans and Service Commitments", "amount": 53.8, "share": 5.379509, "treatment": "Modeled lane"},
+      {"lane": "Transportation and Mobility Infrastructure", "amount": 20.73, "share": 2.072712, "treatment": "Modeled lane"},
+      {"lane": "Constitutional Government and Justice", "amount": 17.64, "share": 1.76423, "treatment": "Modeled lane"},
+      {"lane": "Natural Resources, Energy, and Environment", "amount": 15.77, "share": 1.577483, "treatment": "Modeled lane"},
+      {"lane": "Community, Disaster, and Regional Development", "amount": 11.75, "share": 1.174908, "treatment": "Modeled lane"},
+      {"lane": "Education, Work, and Social Services", "amount": 10.28, "share": 1.027541, "treatment": "Modeled lane"},
+      {"lane": "Agriculture and Food Production", "amount": 6.77, "share": 0.676741, "treatment": "Modeled lane"},
+      {"lane": "International Affairs and Diplomacy", "amount": 6.44, "share": 0.644278, "treatment": "Modeled lane"},
+      {"lane": "Science, Space, and Civic Capacity", "amount": 5.99, "share": 0.598565, "treatment": "Modeled lane"},
+      {"lane": "Commerce, Housing, and Market Stability", "amount": -4.01, "share": -0.401235, "treatment": "Offset-sensitive adjustment"},
+      {"lane": "Undistributed Offsetting Receipts", "amount": -21.43, "share": -2.143086, "treatment": "Offset"}
+    ]
+  },
+  "mark": {
+    "type": "bar"
+  },
+  "encoding": {
+    "y": {
+      "field": "lane",
+      "type": "nominal",
+      "title": "Lane",
+      "sort": "-x"
+    },
+    "x": {
+      "field": "amount",
+      "type": "quantitative",
+      "title": "Placeholder modeled amount, dollars",
+      "axis": {
+        "format": "$,.0f"
+      }
+    },
+    "color": {
+      "field": "treatment",
+      "type": "nominal",
+      "title": "Display treatment",
+      "scale": {
+        "domain": [
+          "Modeled lane",
+          "Dedicated-financing caveat",
+          "Financing cost",
+          "Offset-sensitive adjustment",
+          "Offset"
+        ],
+        "range": [
+          "#4E79A7",
+          "#59A14F",
+          "#F28E2B",
+          "#B07AA1",
+          "#E15759"
+        ]
+      }
+    },
+    "tooltip": [
+      {
+        "field": "lane",
+        "type": "nominal",
+        "title": "Lane"
+      },
+      {
+        "field": "amount",
+        "type": "quantitative",
+        "title": "Placeholder amount",
+        "format": "$,.2f"
+      },
+      {
+        "field": "share",
+        "type": "quantitative",
+        "title": "Modeled share",
+        "format": ".2f"
+      },
+      {
+        "field": "treatment",
+        "type": "nominal",
+        "title": "Display treatment"
+      }
+    ]
+  },
+  "config": {
+    "view": {
+      "stroke": null
+    }
+  }
+}

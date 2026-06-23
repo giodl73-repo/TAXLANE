@@ -41,7 +41,7 @@ supporting views.
 | `docs/reading/modeled-income-tax-subfunction-outlays.md` | Reader-facing subfunction drilldown packet | documentation | n/a | supporting | `64b910a3b8e6665165a15a149f2fa54e160fcc21bf97608fcc7860e966f72197` |
 | `reviews/2026-06-22-subfunction-reader-role-review.md` | Subfunction reader role review | documentation | n/a | supporting | `0ed026995fa850ed077b7d705a682edda687c1c9c803f4a8fa91e6b9b145e5b7` |
 | `docs/research/2026-06-22-subfunction-deficit-context-note.md` | Subfunction deficit context note | documentation | n/a | supporting | `6c85eca0ba06a2e5ca0a81821b1e4b572598006a43991210063c5f6c68b86067` |
-| `docs/charts/README.md` | Chart catalog | documentation | n/a | supporting | `e7f870d703d997b6e3aaa12c5fc48f14e8cf4b36c39118a31bf89af2871c7ede` |
+| `docs/charts/README.md` | Chart catalog | documentation | n/a | supporting | `ac5ffe549f82a6f6a2f7309e505645bc6a43012201051803809e078303ff1e55` |
 | `docs/charts/income-tax-outlay-subfunction-model/README.md` | Subfunction chart set handoff note | documentation | n/a | supporting | `3acb16eb58bf954fff8cac9fd44b840be58ca1ae21430d4f84fb756a0fe12635` |
 | `docs/charts/income-tax-outlay-model/README.md` | Broad chart set handoff note | documentation | n/a | supporting | `0f20babf158a3e416382b32cecc1403115986391b6a02f0ab7d59372b0b7b1df` |
 | `docs/charts/income-tax-outlay-model/annual-stacked-area.vl.json` | Annual allocation chart spec | visualization spec | n/a | view | `dab4f7d15be91c7357c8595d14e8d58336048747bc7a3825cee756072dc05b54` |
@@ -51,10 +51,15 @@ supporting views.
 | `docs/charts/income-tax-outlay-subfunction-model/fy2025-top-subfunctions.vl.json` | FY2025 top subfunction allocation chart spec | visualization spec | n/a | view | `0d077c437b4a4d0b2614855fca21fe0a719acffc6a0ed8640001190d595d35d3` |
 | `docs/charts/income-tax-outlay-subfunction-model/selected-subfunction-trends.vl.json` | Selected subfunction trend chart spec | visualization spec | n/a | view | `e8c317b28eb77ec75223926e407063a9cbb183160068a1db63b01b36537493c6` |
 | `docs/charts/income-tax-outlay-subfunction-model/decade-top-subfunctions.vl.json` | Decade top subfunction allocation chart spec | visualization spec | n/a | view | `e6dc76202c97a5003b9933e8c264d10167e803a2e6140f3b37f6d33791cc868e` |
+| `data/derived/taxpayer_receipt_model/taxpayer_receipt_model.placeholder-1000.fy2025.omb-fy2027-v1.draft.json` | Placeholder visibility receipt scenario | scenario | n/a | yes | `9f44475ed9b71239215dae060237216b5a760737db085c59ba4bc3dcb5906bbf` |
+| `docs/reading/placeholder-visibility-receipt.md` | Placeholder receipt reader packet | documentation | n/a | supporting | `4be976503aabb6c21ec77a553f185918190ebcb00e3300930d37e3a7a12f962e` |
+| `docs/charts/taxpayer-receipt-model/README.md` | Taxpayer receipt chart set handoff note | documentation | n/a | supporting | `c7cf432c442cd2863845cfc270d35d07a92919516e0c9055b9dc50dee9be35c8` |
+| `docs/charts/taxpayer-receipt-model/placeholder-lane-bars.vl.json` | Placeholder receipt lane bar chart spec | visualization spec | n/a | view | `f4233308571464bf6a58fb417803453a32c054fe43a2869d9ae93ffb616f3ccf` |
+| `docs/charts/taxpayer-receipt-model/placeholder-financing-context.vl.json` | Placeholder receipt financing context chart spec | visualization spec | n/a | view | `064cb863095eea673ac4f907f6f9e18b798ec4208c31851f3bc16a80121c395b` |
 | `Cargo.toml` | Rust workspace manifest | tooling | n/a | supporting | `b8735e92f7248a16a5d8657ff9ee6b693fbe8b47f1959152a245b54466060a12` |
 | `Cargo.lock` | Rust dependency lockfile | tooling | n/a | supporting | `ce3e305db156da23b235b0fd67ba32e2f18041c64a2b530fe9f850c38ab2ab80` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `72d0be55c8b61b0922a3140e18e5756a1643095dd389c90bd2219ba6d31c96b1` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `1c647f554a80805ee07afc029c628910a51b70ba0d433fed02330ccabf08e796` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `58d1729058ba6e881bb7e3a7891cf09ef1ebf096ddc96da30347a5351d7de026` |
 
 ## Regeneration Order
 

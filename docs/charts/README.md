@@ -12,6 +12,7 @@ change the underlying data or model methods.
 |---|---|---|
 | `income-tax-outlay-model/` | Visualize the modeled allocation of ordinary individual income-tax receipts by broad outlay share, plus financing context. See the chart-set README for local handoff rules. | Annual and decade wide CSV exports from `data/derived/income_tax_outlay_model/`. |
 | `income-tax-outlay-subfunction-model/` | Prepare Table 3.2 subfunction allocation views for analysis and future UI work. See the chart-set README for local handoff rules. | Annual long, decade long, and FY2025 top-subfunction CSV exports from `data/derived/income_tax_outlay_subfunction_model/`. |
+| `taxpayer-receipt-model/` | Prepare a static placeholder visibility receipt display for review. See the chart-set README for local handoff rules. | Inline values from `data/derived/taxpayer_receipt_model/`. |
 
 ## Income-Tax Outlay Model Specs
 
@@ -30,6 +31,13 @@ change the underlying data or model methods.
 | `income-tax-outlay-subfunction-model/selected-subfunction-trends.vl.json` | Fiscal year by selected subfunction, 1962-2025 | Trend comparison for major subfunctions after broad-model context is visible. |
 | `income-tax-outlay-subfunction-model/decade-top-subfunctions.vl.json` | Decade by ranked subfunction | Compact long-run drilldown for the largest modeled subfunction allocations in each decade. |
 
+## Taxpayer Receipt Model Specs
+
+| Spec | Data grain | Recommended role |
+|---|---|---|
+| `taxpayer-receipt-model/placeholder-lane-bars.vl.json` | FY2025 placeholder receipt lane | Static display handoff for modeled lane amounts, offsets, financing cost, and caveat-sensitive lanes. |
+| `taxpayer-receipt-model/placeholder-financing-context.vl.json` | FY2025 financing context | Companion context for borrowed share and income-tax coverage. |
+
 ## Reading Order
 
 1. Start with the allocation chart: annual stacked area or decade stacked bar.
@@ -41,6 +49,8 @@ change the underlying data or model methods.
    `docs/reading/modeled-income-tax-outlays.md`.
 5. Use the subfunction reader packet for any Table 3.2 drilldown wording:
    `docs/reading/modeled-income-tax-subfunction-outlays.md`.
+6. Use the placeholder receipt packet only for design review:
+   `docs/reading/placeholder-visibility-receipt.md`.
 
 ## Wording Rule
 
