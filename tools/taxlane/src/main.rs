@@ -36,6 +36,11 @@ const SUBFUNCTION_MODEL_PROFILE_PATH: &str =
     "data/derived/income_tax_outlay_subfunction_model/source-profile.md";
 const SUBFUNCTION_MODEL_README_PATH: &str =
     "data/derived/income_tax_outlay_subfunction_model/README.md";
+const PLACEHOLDER_RECEIPT_JSON_PATH: &str = "data/derived/taxpayer_receipt_model/taxpayer_receipt_model.placeholder-1000.fy2025.omb-fy2027-v1.draft.json";
+const PLACEHOLDER_RECEIPT_LANE_BARS_SPEC_PATH: &str =
+    "docs/charts/taxpayer-receipt-model/placeholder-lane-bars.vl.json";
+const PLACEHOLDER_RECEIPT_FINANCING_CONTEXT_SPEC_PATH: &str =
+    "docs/charts/taxpayer-receipt-model/placeholder-financing-context.vl.json";
 const OBSERVED_DATE: &str = "2026-06-21";
 const MODEL_ID: &str = "individual-income-tax-proportional-outlays-v1";
 const SUBFUNCTION_MODEL_ID: &str = "individual-income-tax-proportional-subfunction-outlays-v1";
@@ -601,6 +606,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
         println!("validated JSON spec: {spec}");
     }
 
+    if let Err(err) = validate_placeholder_receipt_chart_sync(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
     println!(
         "validated income-tax outlay model checks and {} chart specs",
         CHART_SPECS.len()
@@ -962,6 +972,144 @@ fn parse_json(path: &Path) -> Result<(), String> {
     let file = File::open(path).map_err(|err| format!("failed to open {:?}: {err}", path))?;
     serde_json::from_reader::<_, serde_json::Value>(file)
         .map_err(|err| format!("failed to parse {:?}: {err}", path))?;
+    Ok(())
+}
+
+fn read_json(path: &Path) -> Result<serde_json::Value, String> {
+    let file = File::open(path).map_err(|err| format!("failed to open {:?}: {err}", path))?;
+    serde_json::from_reader::<_, serde_json::Value>(file)
+        .map_err(|err| format!("failed to parse {:?}: {err}", path))
+}
+
+fn validate_placeholder_receipt_chart_sync(root: &Path) -> Result<(), String> {
+    let receipt = read_json(&root.join(PLACEHOLDER_RECEIPT_JSON_PATH))?;
+    let lane_spec = read_json(&root.join(PLACEHOLDER_RECEIPT_LANE_BARS_SPEC_PATH))?;
+    let context_spec = read_json(&root.join(PLACEHOLDER_RECEIPT_FINANCING_CONTEXT_SPEC_PATH))?;
+
+    let receipt_lanes = receipt
+        .get("lane_allocations")
+        .and_then(serde_json::Value::as_array)
+        .ok_or_else(|| "placeholder receipt missing lane_allocations".to_string())?;
+    let chart_lanes = lane_spec
+        .pointer("/data/values")
+        .and_then(serde_json::Value::as_array)
+        .ok_or_else(|| "placeholder lane chart missing data.values".to_string())?;
+
+    if receipt_lanes.len() != chart_lanes.len() {
+        return Err(format!(
+            "placeholder lane chart has {} rows but receipt has {} rows",
+            chart_lanes.len(),
+            receipt_lanes.len()
+        ));
+    }
+
+    let mut chart_by_label = BTreeMap::new();
+    for row in chart_lanes {
+        let lane = row
+            .get("lane")
+            .and_then(serde_json::Value::as_str)
+            .ok_or_else(|| "placeholder lane chart row missing lane".to_string())?;
+        chart_by_label.insert(lane.to_string(), row);
+    }
+
+    for lane in receipt_lanes {
+        let label = lane
+            .get("public_label")
+            .and_then(serde_json::Value::as_str)
+            .ok_or_else(|| "placeholder receipt lane missing public_label".to_string())?;
+        let chart = chart_by_label
+            .get(label)
+            .ok_or_else(|| format!("placeholder lane chart missing lane {label}"))?;
+        assert_number_close(
+            chart,
+            "amount",
+            number_field(lane, "placeholder_allocation_amount_rounded_usd")?,
+            0.000001,
+            &format!("placeholder lane chart amount for {label}"),
+        )?;
+        assert_number_close(
+            chart,
+            "share",
+            number_field(lane, "allocation_share_percent")?,
+            0.000001,
+            &format!("placeholder lane chart share for {label}"),
+        )?;
+        let expected_treatment = chart_treatment_for_lane(lane)?;
+        let actual_treatment = chart
+            .get("treatment")
+            .and_then(serde_json::Value::as_str)
+            .ok_or_else(|| format!("placeholder lane chart missing treatment for {label}"))?;
+        if actual_treatment != expected_treatment {
+            return Err(format!(
+                "placeholder lane chart treatment for {label}: expected {expected_treatment:?}, found {actual_treatment:?}"
+            ));
+        }
+    }
+
+    let context_rows = context_spec
+        .pointer("/data/values")
+        .and_then(serde_json::Value::as_array)
+        .ok_or_else(|| "placeholder financing context chart missing data.values".to_string())?;
+    let mut context_by_measure = BTreeMap::new();
+    for row in context_rows {
+        let measure = row
+            .get("measure")
+            .and_then(serde_json::Value::as_str)
+            .ok_or_else(|| "placeholder financing context row missing measure".to_string())?;
+        context_by_measure.insert(measure.to_string(), row);
+    }
+    let borrowed = context_by_measure
+        .get("Borrowed share of outlays")
+        .ok_or_else(|| "placeholder financing context missing borrowed share".to_string())?;
+    assert_number_close(
+        borrowed,
+        "percent",
+        number_field(&receipt, "borrowed_share_percent_of_outlays")?,
+        0.000001,
+        "placeholder financing context borrowed share",
+    )?;
+    let coverage = context_by_measure
+        .get("Individual income-tax coverage of outlays")
+        .ok_or_else(|| "placeholder financing context missing income-tax coverage".to_string())?;
+    assert_number_close(
+        coverage,
+        "percent",
+        number_field(&receipt, "income_tax_coverage_percent_of_outlays")?,
+        0.000001,
+        "placeholder financing context income-tax coverage",
+    )?;
+
+    println!("validated placeholder receipt chart sync");
+    Ok(())
+}
+
+fn chart_treatment_for_lane(lane: &serde_json::Value) -> Result<&'static str, String> {
+    match string_field(lane, "display_treatment")?.as_str() {
+        "modeled_lane" => Ok("Modeled lane"),
+        "dedicated_financing_caveat_required" => Ok("Dedicated-financing caveat"),
+        "display_separately" => match string_field(lane, "spending_control")?.as_str() {
+            "net-interest" => Ok("Financing cost"),
+            "offsetting" => Ok("Offset"),
+            other => Err(format!(
+                "unknown display_separately spending_control {other:?}"
+            )),
+        },
+        "negative_or_offset_sensitive_lane" => Ok("Offset-sensitive adjustment"),
+        other => Err(format!("unknown display_treatment {other:?}")),
+    }
+}
+
+fn assert_number_close(
+    row: &serde_json::Value,
+    field: &str,
+    expected: f64,
+    tolerance: f64,
+    label: &str,
+) -> Result<(), String> {
+    let actual = number_field(row, field)?;
+    if (actual - expected).abs() > tolerance {
+        return Err(format!("{label}: expected {expected}, found {actual}"));
+    }
     Ok(())
 }
 
