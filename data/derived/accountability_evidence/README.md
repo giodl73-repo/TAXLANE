@@ -36,6 +36,7 @@ claims.
 | `performance-demand-response-intake.example.jsonl` | generated response intake example rows | Exercises the typed intake-to-log importer handoff. |
 | `performance-demand-response-log.applied-example.jsonl` | generated applied response log example rows | Shows response-log rows after applying the intake example. |
 | `performance-demand-response-status.applied-example.json` | generated applied response status | Counts response-log rows after applying the intake example. |
+| `performance-demand-response-dashboard.applied-example.md` | generated applied response dashboard | Summarizes applied response-log counts for importer review. |
 | `performance-demand-checklist.schema.md` | demand checklist row schema | Documents the `PerformanceDemandChecklistRecord` row contract. |
 | `artifact-map.md` | one generated accountability artifact map | Routes each artifact to its audience, use, and public-use boundary. |
 
@@ -138,6 +139,10 @@ claims.
 The performance-demand response status applied example JSON summarizes the
 applied example rows without recomputing them downstream. It remains an importer
 fixture and keeps allowed public claims at zero.
+
+The performance-demand response dashboard applied example Markdown renders the
+same applied counts for quick inspection. It remains an importer fixture and is
+not the canonical response dashboard.
 
 The performance-demand checklist schema documents the JSONL row fields for
 future UI/API consumers.

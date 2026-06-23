@@ -8,6 +8,7 @@ Work is organized into small waves and pulses.
 
 ## Completed waves
 
+- `2026-06-23-accountability-response-dashboard-applied-example`
 - `2026-06-23-accountability-response-status-applied-example`
 - `2026-06-23-accountability-response-log-applied-example`
 - `2026-06-23-accountability-response-intake-importer-fixture`

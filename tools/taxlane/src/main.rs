@@ -99,6 +99,8 @@ const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_LOG_APPLIED_EXAMPLE_JSONL_PATH:
     "data/derived/accountability_evidence/performance-demand-response-log.applied-example.jsonl";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_STATUS_APPLIED_EXAMPLE_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-status.applied-example.json";
+const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_DASHBOARD_APPLIED_EXAMPLE_PATH: &str =
+    "data/derived/accountability_evidence/performance-demand-response-dashboard.applied-example.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_SCHEMA_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-checklist.schema.md";
 const ACCOUNTABILITY_ARTIFACT_MAP_PATH: &str =
@@ -716,6 +718,13 @@ const ARTIFACTS: &[Artifact] = &[
         role: "Accountability performance demand response applied status",
         grain: "response status summary",
         kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/accountability_evidence/performance-demand-response-dashboard.applied-example.md",
+        role: "Accountability performance demand response applied dashboard",
+        grain: "documentation",
+        kind: "markdown",
         canonical: "supporting",
     },
     Artifact {
@@ -1372,6 +1381,13 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_accountability_performance_demand_response_status_applied_example(&root)
+    {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) =
+        check_accountability_performance_demand_response_dashboard_applied_example(&root)
     {
         eprintln!("{err}");
         return ExitCode::from(1);
@@ -5552,6 +5568,7 @@ fn check_accountability_artifact_map(root: &Path) -> Result<(), String> {
         "performance-demand-response-intake.example.jsonl",
         "performance-demand-response-log.applied-example.jsonl",
         "performance-demand-response-status.applied-example.json",
+        "performance-demand-response-dashboard.applied-example.md",
     ] {
         if !artifact_map.contains(required) {
             return Err(format!(
@@ -6251,6 +6268,33 @@ fn check_accountability_performance_demand_response_status_applied_example(
     Ok(())
 }
 
+fn check_accountability_performance_demand_response_dashboard_applied_example(
+    root: &Path,
+) -> Result<(), String> {
+    let expected =
+        build_accountability_performance_demand_response_dashboard_applied_example(root)?;
+    compare_text(
+        root,
+        ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_DASHBOARD_APPLIED_EXAMPLE_PATH,
+        &expected,
+        "accountability performance demand response dashboard applied example",
+    )?;
+
+    let index = fs::read_to_string(root.join("data/derived/accountability_evidence/README.md"))
+        .map_err(|err| {
+            format!("failed to read data/derived/accountability_evidence/README.md: {err}")
+        })?;
+    if !index.contains("performance-demand-response-dashboard.applied-example.md") {
+        return Err(
+            "data/derived/accountability_evidence/README.md must link performance-demand-response-dashboard.applied-example.md"
+                .to_string(),
+        );
+    }
+
+    println!("validated accountability performance demand response dashboard applied example");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -6717,6 +6761,12 @@ fn build_accountability_artifact_map() -> String {
             "Product implementers",
             "Display applied response-log counts without recomputing rows.",
             "Do not treat applied status counts as findings.",
+        ),
+        (
+            "performance-demand-response-dashboard.applied-example.md",
+            "Product implementers",
+            "Scan applied response-log counts without opening JSON.",
+            "Do not treat applied dashboard counts as findings.",
         ),
         (
             "performance-demand-checklist.jsonl",
@@ -7623,6 +7673,50 @@ fn build_accountability_performance_demand_response_status_applied_example(
     serde_json::to_string_pretty(&status)
         .map(|text| format!("{text}\n"))
         .map_err(|err| format!("failed to serialize applied response status: {err}"))
+}
+
+fn build_accountability_performance_demand_response_dashboard_applied_example(
+    root: &Path,
+) -> Result<String, String> {
+    let status_text =
+        build_accountability_performance_demand_response_status_applied_example(root)?;
+    let status: PerformanceDemandResponseStatus = serde_json::from_str(&status_text)
+        .map_err(|err| format!("failed to parse applied response status: {err}"))?;
+    status.validate()?;
+    let updated_rows = status.total_rows.saturating_sub(status.not_yet_received);
+
+    let lines = vec![
+        "# Performance Demand Response Applied Example Dashboard".to_string(),
+        String::new(),
+        "## Purpose".to_string(),
+        String::new(),
+        "This generated dashboard summarizes the importer fixture after applying example intake rows.".to_string(),
+        "It is not a finding of fraud, waste, abuse, legal dedication, poor performance, or reform success.".to_string(),
+        String::new(),
+        "## Applied Response Status Summary".to_string(),
+        String::new(),
+        format!("- Response rows: {}", status.total_rows),
+        format!("- Updated rows: {updated_rows}"),
+        format!("- Not-yet-received rows: {}", status.not_yet_received),
+        format!(
+            "- Public claims currently allowed: {}",
+            status.public_claim_allowed
+        ),
+        format!(
+            "- Public claims currently blocked: {}",
+            status.public_claim_blocked
+        ),
+        String::new(),
+        "## Fixture Boundary".to_string(),
+        String::new(),
+        "Use this dashboard to inspect importer behavior only. Do not treat applied example rows as canonical response status or public-claim eligibility.".to_string(),
+        String::new(),
+        "## Use Rule".to_string(),
+        String::new(),
+        status.use_rule,
+    ];
+
+    Ok(lines.join("\n") + "\n")
 }
 
 fn read_accountability_evidence_records(
