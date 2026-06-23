@@ -12,6 +12,7 @@ claims.
 |---|---|---|
 | `accountability_evidence.omb-fy2027-v1.2026-06-23.draft.jsonl` | reviewed and draft evidence records | Draft; source-custody and baseline-gap bootstrap only. |
 | `readiness-report.md` | one generated readiness and next-action summary | Generated from draft evidence records. |
+| `action-queue.md` | one generated reviewer action queue | Groups draft records by the next evidence or review task. |
 
 ## Public-Use Rule
 
@@ -32,5 +33,9 @@ The readiness report is generated from the JSONL records and checked by:
 ```powershell
 cargo run -p taxlane-tools -- income-tax-outlay validate
 ```
+
+The action queue is also generated from the same JSONL records and checked by
+the same validation command. Queue entries are internal review tasks, not public
+claims.
 
 The report's next-action column is operational guidance, not a public claim.

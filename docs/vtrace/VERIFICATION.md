@@ -12,6 +12,7 @@
 | REQ-TAX-004 | command + inspection | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect readiness report review | Readiness report is generated from records and preserves non-allegation guardrails. | current | EVID-TAX-007 |
 | REQ-TAX-004 | command + inspection | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect evidence-only record review | Evidence-only records can identify missing performance baselines without implying misconduct. | current | EVID-TAX-008 |
 | REQ-TAX-004 | command + inspection | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect next-action report review | Readiness report includes operational next steps without public claim wording. | current | EVID-TAX-009 |
+| REQ-TAX-004 | command + inspection | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect action queue review | Action queue groups records into internal reviewer tasks and public-use blockers. | current | EVID-TAX-010 |
 | REQ-TAX-005 | command | `cargo run -p taxlane-tools -- income-tax-outlay validate` | Validation passes. | current | EVID-TAX-001 |
 | REQ-TAX-006 | command + architecture review | `cargo test`; inspect `crates/taxlane-core`, `tools/taxlane`, and `reviews/2026-06-23-rust-core-crate-architecture-review.md` | Domain crate exists and CLI orchestration owns file IO/report generation. | current | EVID-TAX-003 |
 | REQ-TAX-006 | command + review | `cargo test`; inspect accountability validator tests | Accountability claim rules live in the core crate with unit tests. | current | EVID-TAX-005 |
@@ -19,3 +20,4 @@
 | REQ-TAX-006 | command + review | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect report generation code | CLI checks generated readiness report staleness. | current | EVID-TAX-007 |
 | REQ-TAX-006 | command + review | `cargo run -p taxlane-tools -- income-tax-outlay validate` | Report generation handles multiple readiness rows. | current | EVID-TAX-008 |
 | REQ-TAX-006 | command + review | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect next-action generation | CLI generates deterministic next actions from validated records. | current | EVID-TAX-009 |
+| REQ-TAX-006 | command + review | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect action queue generation | CLI checks generated action queue staleness. | current | EVID-TAX-010 |

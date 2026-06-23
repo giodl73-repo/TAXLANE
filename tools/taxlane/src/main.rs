@@ -45,6 +45,8 @@ const PLACEHOLDER_RECEIPT_FINANCING_CONTEXT_SPEC_PATH: &str =
 const ACCOUNTABILITY_EVIDENCE_JSONL_PATH: &str = "data/derived/accountability_evidence/accountability_evidence.omb-fy2027-v1.2026-06-23.draft.jsonl";
 const ACCOUNTABILITY_READINESS_REPORT_PATH: &str =
     "data/derived/accountability_evidence/readiness-report.md";
+const ACCOUNTABILITY_ACTION_QUEUE_PATH: &str =
+    "data/derived/accountability_evidence/action-queue.md";
 const SOURCE_VERSION_LEDGER_PATH: &str = "docs/sources/source-version-ledger.md";
 const OBSERVED_DATE: &str = "2026-06-21";
 const MODEL_ID: &str = "individual-income-tax-proportional-outlays-v1";
@@ -483,6 +485,13 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "data/derived/accountability_evidence/action-queue.md",
+        role: "Accountability evidence action queue",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "docs/reading/placeholder-visibility-receipt.md",
         role: "Placeholder receipt reader packet",
         grain: "documentation",
@@ -583,6 +592,13 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "reviews/2026-06-23-accountability-next-action-report-review.md",
         role: "Accountability next-action report review",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-06-23-accountability-action-queue-review.md",
+        role: "Accountability action queue review",
         grain: "documentation",
         kind: "markdown",
         canonical: "supporting",
@@ -859,6 +875,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_accountability_readiness_report(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_accountability_action_queue(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -4908,6 +4929,18 @@ fn check_accountability_readiness_report(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn check_accountability_action_queue(root: &Path) -> Result<(), String> {
+    let expected = build_accountability_action_queue(root)?;
+    compare_text(
+        root,
+        ACCOUNTABILITY_ACTION_QUEUE_PATH,
+        &expected,
+        "accountability action queue",
+    )?;
+    println!("validated accountability action queue");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -4958,6 +4991,57 @@ fn build_accountability_readiness_report(root: &Path) -> Result<String, String> 
     Ok(lines.join("\n") + "\n")
 }
 
+fn build_accountability_action_queue(root: &Path) -> Result<String, String> {
+    let records = read_accountability_evidence_records(root)?;
+    let mut queue: BTreeMap<&'static str, Vec<AccountabilityEvidenceRecord>> = BTreeMap::new();
+    for record in records {
+        queue
+            .entry(accountability_next_action(&record))
+            .or_default()
+            .push(record);
+    }
+
+    let mut lines = vec![
+        "# Accountability Evidence Action Queue".to_string(),
+        String::new(),
+        "## Purpose".to_string(),
+        String::new(),
+        "This generated queue turns draft accountability evidence records into reviewer work."
+            .to_string(),
+        "It is not a public fraud, waste, abuse, or performance scorecard.".to_string(),
+        String::new(),
+        "## Queue".to_string(),
+    ];
+
+    for (action, mut records) in queue {
+        records.sort_by(|left, right| left.record_id.cmp(&right.record_id));
+        lines.push(String::new());
+        lines.push(format!("### {action}"));
+        lines.push(String::new());
+        lines.push("| Record ID | Lane | Readiness | Public-Use Blocker |".to_string());
+        lines.push("|---|---|---|---|".to_string());
+        for record in records {
+            lines.push(format!(
+                "| `{}` | {} | `{}` | {} |",
+                record.record_id,
+                record.lane_id.as_deref().unwrap_or("n/a"),
+                record.public_claim_readiness().as_str(),
+                accountability_public_use_blocker(&record).replace('|', "\\|")
+            ));
+        }
+    }
+
+    lines.push(String::new());
+    lines.push("## Guardrail".to_string());
+    lines.push(String::new());
+    lines.push(
+        "Queue entries are tasks for evidence review. They are not publishable claims by themselves."
+            .to_string(),
+    );
+
+    Ok(lines.join("\n") + "\n")
+}
+
 fn accountability_next_action(record: &AccountabilityEvidenceRecord) -> &'static str {
     let readiness = record.public_claim_readiness();
     if readiness.as_str() == "PublicClaimEligible" {
@@ -4973,6 +5057,23 @@ fn accountability_next_action(record: &AccountabilityEvidenceRecord) -> &'static
         return "Complete role review before any public claim wording.";
     }
     "Continue source custody and evidence review before public use."
+}
+
+fn accountability_public_use_blocker(record: &AccountabilityEvidenceRecord) -> &'static str {
+    let readiness = record.public_claim_readiness();
+    if readiness.as_str() == "PublicClaimEligible" {
+        return "No blocker in readiness state; exact public wording still needs source citations.";
+    }
+    if matches!(
+        record.anomaly_class,
+        taxlane_core::AnomalyClass::MissingEvidence
+    ) {
+        return "Reviewed performance target or outcome evidence is missing.";
+    }
+    if readiness.as_str() == "NeedsRoleReview" {
+        return "Role review has not approved exact public wording.";
+    }
+    "Record remains internal evidence only."
 }
 
 fn read_accountability_evidence_records(
