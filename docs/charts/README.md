@@ -49,8 +49,10 @@ change the underlying data or model methods.
    `docs/reading/modeled-income-tax-outlays.md`.
 5. Use the subfunction reader packet for any Table 3.2 drilldown wording:
    `docs/reading/modeled-income-tax-subfunction-outlays.md`.
-6. Use the placeholder receipt packet only for design review:
+6. Use the placeholder receipt prototype only for design review:
    `docs/reading/placeholder-visibility-receipt.md`.
+7. Use the static display handoff for chart-pair copy requirements:
+   `docs/reading/placeholder-receipt-display-packet.md`.
 
 ## Wording Rule
 

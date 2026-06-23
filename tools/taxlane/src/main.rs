@@ -417,6 +417,13 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "docs/reading/placeholder-receipt-display-packet.md",
+        role: "Placeholder receipt static display packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "docs/charts/taxpayer-receipt-model/README.md",
         role: "Taxpayer receipt chart set handoff note",
         grain: "documentation",
