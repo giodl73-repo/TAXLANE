@@ -59,7 +59,7 @@ supporting views.
 | `docs/charts/income-tax-outlay-subfunction-model/decade-top-subfunctions.vl.json` | Decade top subfunction allocation chart spec | visualization spec | n/a | view | `e6dc76202c97a5003b9933e8c264d10167e803a2e6140f3b37f6d33791cc868e` |
 | `data/derived/taxpayer_receipt_model/taxpayer_receipt_model.placeholder-1000.fy2025.omb-fy2027-v1.draft.json` | Placeholder visibility receipt scenario | scenario | n/a | yes | `9f44475ed9b71239215dae060237216b5a760737db085c59ba4bc3dcb5906bbf` |
 | `data/derived/accountability_evidence/accountability_evidence.omb-fy2027-v1.2026-06-23.draft.jsonl` | Draft accountability evidence records | evidence record | 2 | supporting | `0f52d824722f291f862ff5a456ecc94db5f93cb357b121fb5a899dd4e5aff654` |
-| `data/derived/accountability_evidence/README.md` | Accountability evidence dataset method note | documentation | n/a | supporting | `f5cddf4d6be2a99a6ebfc5f0145862fa53d8232190bf3e6a2766d5dc7289e365` |
+| `data/derived/accountability_evidence/README.md` | Accountability evidence dataset method note | documentation | n/a | supporting | `c666b48fe33a748d88ab138f9bf2b3bfac5deaf8c4d9ba19a08ac4738928a0b2` |
 | `data/derived/accountability_evidence/readiness-report.md` | Accountability evidence readiness report | documentation | n/a | supporting | `ab04c4abd9d4589d37f6fd05c0fc35d1f56eeaa851ea8beab0ed02f90b50d430` |
 | `data/derived/accountability_evidence/action-queue.md` | Accountability evidence action queue | documentation | n/a | supporting | `84829f631ab7845be69f188745d2ec0262a9e5965e02f215f750e7c9ba61858f` |
 | `data/derived/accountability_evidence/performance-demand-packet.md` | Accountability performance demand packet | documentation | n/a | supporting | `17dd78408f331e94d5b673bdb1ba0361c119c2cfa276fb9ff310df61e1871702` |
@@ -69,6 +69,7 @@ supporting views.
 | `data/derived/accountability_evidence/performance-demand-checklist.md` | Accountability performance demand checklist | documentation | n/a | supporting | `e7e666ac5bf20b0b22bb366b7175fc3b9eba09106bebf984bef615d32d5eab2d` |
 | `data/derived/accountability_evidence/performance-demand-checklist.jsonl` | Accountability performance demand checklist rows | demand checklist row | 2 | supporting | `c76749f5a493429666e875ca39382b2771301a278e24a7ab45b4b8f5df0919d0` |
 | `data/derived/accountability_evidence/performance-demand-claim-gates.json` | Accountability performance demand claim gates | claim gate summary | n/a | supporting | `26855bdb653a39b216c2336c9ed3bf002331bfc64ac07ad343d757219ec4caa6` |
+| `data/derived/accountability_evidence/performance-demand-dashboard.md` | Accountability performance demand dashboard | documentation | n/a | supporting | `940d5b9373fa1190a83662bf92ed91d5f48b6efa68873928b46ac192a0d1bf85` |
 | `data/derived/accountability_evidence/performance-demand-checklist.schema.md` | Accountability performance demand checklist schema | documentation | n/a | supporting | `afdcb11bb20a75709acabb690655fd03ba8d3a56df522c7b09e8d4b4ffeff6d1` |
 | `data/derived/accountability_evidence/artifact-map.md` | Accountability artifact map | documentation | n/a | supporting | `de928c08b0b9fc4e85ac36d9fe373ff8601a023593f31d86097005c90003e5ec` |
 | `docs/reading/accountability-public-brief.md` | Reader-facing accountability brief | documentation | n/a | supporting | `cc225ff43f81fa0316f85a8f8ede225f5d1a51470f81d2a296e32820e7434c35` |
@@ -103,15 +104,16 @@ supporting views.
 | `reviews/2026-06-23-accountability-demand-checklist-jsonl-read-validation-review.md` | Accountability demand checklist JSONL read validation review | documentation | n/a | supporting | `07abda1924927288ecba5f488afa11a87585cf6f9430b4bcc8b65cef8bf0da3c` |
 | `reviews/2026-06-23-accountability-demand-checklist-schema-review.md` | Accountability demand checklist schema review | documentation | n/a | supporting | `301d99afa92a417e537ae822efe7fe8be8b35148458ab17159724ff99d7e915e` |
 | `reviews/2026-06-23-accountability-performance-demand-claim-gates-review.md` | Accountability performance demand claim gates review | documentation | n/a | supporting | `0941807744c50e4b8a0a765a60ef2710f8299a71e9c5aa7476d48236bf152c54` |
+| `reviews/2026-06-23-accountability-performance-demand-dashboard-review.md` | Accountability performance demand dashboard review | documentation | n/a | supporting | `3627a2017625e607d60ea1d7708291620e6cf076dd93ceaa0b7afb9770cc01c9` |
 | `reviews/2026-06-23-rust-core-crate-architecture-review.md` | Rust core crate architecture review | documentation | n/a | supporting | `04203820d1dd05d067146fa2ca1b7f2fbe5f95346e6c0b3ccbc95d09fc8808ba` |
 | `docs/vtrace/MISSION.md` | VTRACE mission | documentation | n/a | supporting | `751833c38bcc467ffe7e2c926195397ce396106830452c0d1f9b3039d6c211a6` |
 | `docs/vtrace/REQUIREMENTS.md` | VTRACE requirements | documentation | n/a | supporting | `1a22419ccf0b3a10644391d410774e6ab290960913cf1e745431c68e28868913` |
 | `docs/vtrace/SPECIFICATION_BASELINE.md` | VTRACE specification baseline | documentation | n/a | supporting | `dfb7c1462974eeac27fffe451e989211dfe4497b145bb56df15f6a671f010678` |
-| `docs/vtrace/TRACE.md` | VTRACE trace matrix | documentation | n/a | supporting | `361dd1157aeb34daefba3ba48864adf0a263a55571df494129837e50f76d4ed8` |
-| `docs/vtrace/WORK_PACKAGES.md` | VTRACE work packages | documentation | n/a | supporting | `43b1b63b76ef78bd11af04282736d4f059bece6ba4721e9b5a08ded91e314f89` |
-| `docs/vtrace/VERIFICATION.md` | VTRACE verification plan | documentation | n/a | supporting | `0fa94827508552755bab9b68926a9238d8f1334ce8700225a1587179760a3ed0` |
-| `docs/vtrace/VALIDATION.md` | VTRACE validation scenarios | documentation | n/a | supporting | `238cac3b0e22f9c5740f7682823743b8948ba84c9f5d52779359dcc832c64bdc` |
-| `docs/vtrace/EVIDENCE.md` | VTRACE evidence ledger | documentation | n/a | supporting | `bbf71fc714c7b66b46b1fe0ad0139a4d3328e996badf6a076412fd26442aad6b` |
+| `docs/vtrace/TRACE.md` | VTRACE trace matrix | documentation | n/a | supporting | `2aeea7056d1add4d1d9188989bfab77b9192278409298588a3c9393901524265` |
+| `docs/vtrace/WORK_PACKAGES.md` | VTRACE work packages | documentation | n/a | supporting | `96cee9d339026fca8478cd61bf833345f28a84736d14c6cd7b3bb512ef75fcb9` |
+| `docs/vtrace/VERIFICATION.md` | VTRACE verification plan | documentation | n/a | supporting | `6abc8aa53c63f10bfd52e9a5c2454a5be716325c551994605c2530c7aa573849` |
+| `docs/vtrace/VALIDATION.md` | VTRACE validation scenarios | documentation | n/a | supporting | `6277fc89d31dda9d1db9b2fbb89532e8453cf582279eb279542a46535ae7203e` |
+| `docs/vtrace/EVIDENCE.md` | VTRACE evidence ledger | documentation | n/a | supporting | `db1df9b1a87fe0993bf2086c3a4f4603ab32ccad94c7da9d2a80fb6787593fa7` |
 | `docs/vtrace/REVIEW.md` | VTRACE adoption review | documentation | n/a | supporting | `52ed83ae325229c3da170b7842dbf07d33f76be84c7e56d0a48aacb8595dd7ff` |
 | `docs/charts/taxpayer-receipt-model/README.md` | Taxpayer receipt chart set handoff note | documentation | n/a | supporting | `29b98ce16cccf88869779c079dc652d7da15583777e015a1d2b8481e9c63250d` |
 | `docs/charts/taxpayer-receipt-model/placeholder-lane-bars.vl.json` | Placeholder receipt lane bar chart spec | visualization spec | n/a | view | `f4233308571464bf6a58fb417803453a32c054fe43a2869d9ae93ffb616f3ccf` |
@@ -121,7 +123,7 @@ supporting views.
 | `crates/taxlane-core/Cargo.toml` | Rust Taxlane core crate manifest | tooling | n/a | supporting | `6469c9f3c3d01bc0c51783255082c93ed608c6c64c0d4f32f5cd2c08f2426fb9` |
 | `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `7ef49219716484772216af8655620ae85a457834a01b68fbb545916f34f0c90d` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `b910e56a20f40547ac1e4f696e84772dde163738b03915ddbcc0d0a39427719a` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `8f7caf4cd3801457683fb0ab1bb3f791aeff9b789f345160b5ee132d70e650d6` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `9276184d0a11fec1c8d0c21fd63772ed60be494e91f2156dadc0091b4a06bb4f` |
 
 ## Regeneration Order
 

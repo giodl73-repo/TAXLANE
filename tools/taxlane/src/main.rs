@@ -63,6 +63,8 @@ const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_JSONL_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-checklist.jsonl";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_CLAIM_GATES_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-claim-gates.json";
+const ACCOUNTABILITY_PERFORMANCE_DEMAND_DASHBOARD_PATH: &str =
+    "data/derived/accountability_evidence/performance-demand-dashboard.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_SCHEMA_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-checklist.schema.md";
 const ACCOUNTABILITY_ARTIFACT_MAP_PATH: &str =
@@ -571,6 +573,13 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "data/derived/accountability_evidence/performance-demand-dashboard.md",
+        role: "Accountability performance demand dashboard",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "data/derived/accountability_evidence/performance-demand-checklist.schema.md",
         role: "Accountability performance demand checklist schema",
         grain: "documentation",
@@ -804,6 +813,13 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "reviews/2026-06-23-accountability-performance-demand-claim-gates-review.md",
         role: "Accountability performance demand claim gates review",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-06-23-accountability-performance-demand-dashboard-review.md",
+        role: "Accountability performance demand dashboard review",
         grain: "documentation",
         kind: "markdown",
         canonical: "supporting",
@@ -1135,6 +1151,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_accountability_performance_demand_claim_gates(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_accountability_performance_demand_dashboard(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -5445,6 +5466,30 @@ fn check_accountability_performance_demand_claim_gates(root: &Path) -> Result<()
     Ok(())
 }
 
+fn check_accountability_performance_demand_dashboard(root: &Path) -> Result<(), String> {
+    let expected = build_accountability_performance_demand_dashboard(root)?;
+    compare_text(
+        root,
+        ACCOUNTABILITY_PERFORMANCE_DEMAND_DASHBOARD_PATH,
+        &expected,
+        "accountability performance demand dashboard",
+    )?;
+
+    let index = fs::read_to_string(root.join("data/derived/accountability_evidence/README.md"))
+        .map_err(|err| {
+            format!("failed to read data/derived/accountability_evidence/README.md: {err}")
+        })?;
+    if !index.contains("performance-demand-dashboard.md") {
+        return Err(
+            "data/derived/accountability_evidence/README.md must link performance-demand-dashboard.md"
+                .to_string(),
+        );
+    }
+
+    println!("validated accountability performance demand dashboard");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -5967,6 +6012,75 @@ fn build_accountability_performance_demand_claim_gates(root: &Path) -> Result<St
             "Demand evidence and reviewed wording; do not claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, or poor performance."
         )
     ))
+}
+
+fn build_accountability_performance_demand_dashboard(root: &Path) -> Result<String, String> {
+    let claim_gates_text = build_accountability_performance_demand_claim_gates(root)?;
+    let claim_gates: serde_json::Value =
+        serde_json::from_str(&claim_gates_text).map_err(|err| {
+            format!("failed to parse generated performance demand claim gates: {err}")
+        })?;
+    let total_rows = claim_gates
+        .get("total_rows")
+        .and_then(serde_json::Value::as_u64)
+        .ok_or_else(|| "generated claim gates missing total_rows".to_string())?;
+    let allowed_rows = claim_gates
+        .get("public_claim_allowed")
+        .and_then(serde_json::Value::as_u64)
+        .ok_or_else(|| "generated claim gates missing public_claim_allowed".to_string())?;
+    let blocked_rows = claim_gates
+        .get("public_claim_blocked")
+        .and_then(serde_json::Value::as_u64)
+        .ok_or_else(|| "generated claim gates missing public_claim_blocked".to_string())?;
+    let use_rule = claim_gates
+        .get("use_rule")
+        .and_then(serde_json::Value::as_str)
+        .ok_or_else(|| "generated claim gates missing use_rule".to_string())?;
+
+    let mut lines = vec![
+        "# Performance Demand Dashboard".to_string(),
+        String::new(),
+        "## Purpose".to_string(),
+        String::new(),
+        "This generated dashboard summarizes whether performance demand checklist rows can support public claims.".to_string(),
+        "It is not a finding of fraud, waste, abuse, legal dedication, or poor performance.".to_string(),
+        String::new(),
+        "## Claim Gate Summary".to_string(),
+        String::new(),
+        format!("- Demand rows: {total_rows}"),
+        format!("- Public claims currently allowed: {allowed_rows}"),
+        format!("- Public claims currently blocked: {blocked_rows}"),
+        String::new(),
+        "## Claim Gates".to_string(),
+        String::new(),
+        "| Claim Gate | Rows |".to_string(),
+        "|---|---:|".to_string(),
+    ];
+
+    let gate_rows = claim_gates
+        .get("claim_gates")
+        .and_then(serde_json::Value::as_array)
+        .ok_or_else(|| "generated claim gates missing claim_gates".to_string())?;
+    for gate in gate_rows {
+        let claim_gate = gate
+            .get("claim_gate")
+            .and_then(serde_json::Value::as_str)
+            .ok_or_else(|| "generated claim gate row missing claim_gate".to_string())?;
+        let rows = gate
+            .get("rows")
+            .and_then(serde_json::Value::as_u64)
+            .ok_or_else(|| "generated claim gate row missing rows".to_string())?;
+        lines.push(format!("| {} | {rows} |", claim_gate.replace('|', "\\|")));
+    }
+
+    lines.extend([
+        String::new(),
+        "## Use Rule".to_string(),
+        String::new(),
+        use_rule.to_string(),
+    ]);
+
+    Ok(lines.join("\n") + "\n")
 }
 
 fn read_accountability_evidence_records(
