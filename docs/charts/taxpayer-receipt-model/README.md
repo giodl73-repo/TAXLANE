@@ -25,3 +25,5 @@ of ordinary income-tax receipts.
 - Borrowed share must appear beside the lane chart.
 - Do not place these specs in a taxpayer-calculator flow.
 
+The chart-set role review is recorded at
+`reviews/2026-06-22-placeholder-display-spec-role-review.md`.
