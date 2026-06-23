@@ -51,6 +51,8 @@ const ACCOUNTABILITY_PERFORMANCE_DEMAND_PACKET_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-packet.md";
 const ACCOUNTABILITY_WORK_ITEMS_JSONL_PATH: &str =
     "data/derived/accountability_evidence/accountability-work-items.jsonl";
+const ACCOUNTABILITY_CLAIM_GUARD_REPORT_PATH: &str =
+    "data/derived/accountability_evidence/claim-guard-report.md";
 const SOURCE_VERSION_LEDGER_PATH: &str = "docs/sources/source-version-ledger.md";
 const OBSERVED_DATE: &str = "2026-06-21";
 const MODEL_ID: &str = "individual-income-tax-proportional-outlays-v1";
@@ -510,6 +512,13 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "data/derived/accountability_evidence/claim-guard-report.md",
+        role: "Accountability claim guard report",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "docs/reading/placeholder-visibility-receipt.md",
         role: "Placeholder receipt reader packet",
         grain: "documentation",
@@ -638,6 +647,13 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "reviews/2026-06-23-accountability-work-items-review.md",
         role: "Accountability work items review",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-06-23-accountability-claim-guard-report-review.md",
+        role: "Accountability claim guard report review",
         grain: "documentation",
         kind: "markdown",
         canonical: "supporting",
@@ -929,6 +945,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_accountability_work_items(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_accountability_claim_guard_report(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -5014,6 +5035,18 @@ fn check_accountability_work_items(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn check_accountability_claim_guard_report(root: &Path) -> Result<(), String> {
+    let expected = build_accountability_claim_guard_report(root)?;
+    compare_text(
+        root,
+        ACCOUNTABILITY_CLAIM_GUARD_REPORT_PATH,
+        &expected,
+        "accountability claim guard report",
+    )?;
+    println!("validated accountability claim guard report");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -5168,6 +5201,74 @@ fn build_accountability_work_items_jsonl(root: &Path) -> Result<String, String> 
                 .map_err(|err| format!("failed to serialize accountability work item: {err}"))?,
         );
     }
+    Ok(lines.join("\n") + "\n")
+}
+
+fn build_accountability_claim_guard_report(root: &Path) -> Result<String, String> {
+    let records = read_accountability_evidence_records(root)?;
+    let mut readiness_counts: BTreeMap<&'static str, usize> = BTreeMap::new();
+    let mut blocker_counts: BTreeMap<&'static str, usize> = BTreeMap::new();
+    let mut public_claim_allowed = 0usize;
+
+    for record in &records {
+        let work_item = record.accountability_work_item();
+        *readiness_counts.entry(work_item.readiness).or_default() += 1;
+        *blocker_counts
+            .entry(work_item.public_use_blocker)
+            .or_default() += 1;
+        if work_item.public_claim_allowed {
+            public_claim_allowed += 1;
+        }
+    }
+
+    let mut lines = vec![
+        "# Accountability Claim Guard Report".to_string(),
+        String::new(),
+        "## Purpose".to_string(),
+        String::new(),
+        "This generated report summarizes whether accountability evidence records can support public claims.".to_string(),
+        "It is a guardrail report, not a fraud, waste, abuse, or performance scorecard.".to_string(),
+        String::new(),
+        "## Claim Guard Summary".to_string(),
+        String::new(),
+        format!("- Total records: {}", records.len()),
+        format!("- Public claims currently allowed: {public_claim_allowed}"),
+        format!(
+            "- Public claims currently blocked: {}",
+            records.len().saturating_sub(public_claim_allowed)
+        ),
+        String::new(),
+        "## Readiness Counts".to_string(),
+        String::new(),
+        "| Readiness | Records |".to_string(),
+        "|---|---:|".to_string(),
+    ];
+
+    for (readiness, count) in readiness_counts {
+        lines.push(format!("| `{readiness}` | {count} |"));
+    }
+
+    lines.extend([
+        String::new(),
+        "## Public-Use Blockers".to_string(),
+        String::new(),
+        "| Blocker | Records |".to_string(),
+        "|---|---:|".to_string(),
+    ]);
+
+    for (blocker, count) in blocker_counts {
+        let escaped_blocker = blocker.replace('|', "\\|");
+        lines.push(format!("| {escaped_blocker} | {count} |"));
+    }
+
+    lines.extend([
+        String::new(),
+        "## Allowed Public Use".to_string(),
+        String::new(),
+        "Current safe use: ask the demand questions and request the missing reviewed evidence or role-approved wording.".to_string(),
+        "Current unsafe use: present these draft records as fraud, waste, abuse, or performance findings.".to_string(),
+    ]);
+
     Ok(lines.join("\n") + "\n")
 }
 

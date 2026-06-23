@@ -16,6 +16,7 @@
 | REQ-TAX-004 | command + inspection | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect performance-demand packet review | Packet converts blockers into questions without making allegations or scores. | current | EVID-TAX-011 |
 | REQ-TAX-004 | command + inspection | `cargo test`; inspect core workflow review | Accountability workflow helpers preserve claim boundaries in reusable Rust code. | current | EVID-TAX-012 |
 | REQ-TAX-004 | command + inspection | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect work-items review | Machine-readable work items carry explicit public-claim allowance and blockers. | current | EVID-TAX-013 |
+| REQ-TAX-004 | command + inspection | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect claim guard report review | Claim guard report summarizes allowed and blocked public claims without findings. | current | EVID-TAX-014 |
 | REQ-TAX-005 | command | `cargo run -p taxlane-tools -- income-tax-outlay validate` | Validation passes. | current | EVID-TAX-001 |
 | REQ-TAX-006 | command + architecture review | `cargo test`; inspect `crates/taxlane-core`, `tools/taxlane`, and `reviews/2026-06-23-rust-core-crate-architecture-review.md` | Domain crate exists and CLI orchestration owns file IO/report generation. | current | EVID-TAX-003 |
 | REQ-TAX-006 | command + review | `cargo test`; inspect accountability validator tests | Accountability claim rules live in the core crate with unit tests. | current | EVID-TAX-005 |
@@ -27,3 +28,4 @@
 | REQ-TAX-006 | command + review | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect performance-demand packet generation | CLI checks generated demand packet staleness. | current | EVID-TAX-011 |
 | REQ-TAX-006 | command + review | `cargo test`; inspect `taxlane-core` workflow helper tests | Core crate exposes reusable accountability workflow wording. | current | EVID-TAX-012 |
 | REQ-TAX-006 | command + review | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect work-item JSONL generation | CLI checks generated work items for staleness. | current | EVID-TAX-013 |
+| REQ-TAX-006 | command + review | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect claim guard generation | CLI checks generated claim guard report for staleness. | current | EVID-TAX-014 |

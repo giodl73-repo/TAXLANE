@@ -15,6 +15,7 @@ claims.
 | `action-queue.md` | one generated reviewer action queue | Groups draft records by the next evidence or review task. |
 | `performance-demand-packet.md` | one generated accountability question packet | Turns blockers into evidence-request questions without making claims. |
 | `accountability-work-items.jsonl` | generated machine-readable work items | One JSON row per evidence record for future UI/API handoff. |
+| `claim-guard-report.md` | one generated claim-readiness summary | Counts allowed and blocked public claims without scoring records. |
 
 ## Public-Use Rule
 
@@ -47,5 +48,8 @@ question packet, not an accusation packet.
 The work-items JSONL is generated from `taxlane-core` workflow helpers. It is
 the machine-readable handoff for future UI or API code and carries
 `public_claim_allowed` as an explicit boolean.
+
+The claim-guard report summarizes the same work items for review leads. It
+counts readiness and blockers; it does not publish findings.
 
 The report's next-action column is operational guidance, not a public claim.
