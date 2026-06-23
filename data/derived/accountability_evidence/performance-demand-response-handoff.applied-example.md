@@ -11,6 +11,8 @@ It is not a finding of fraud, waste, abuse, legal dedication, poor performance, 
 2. Use `performance-demand-response-log.applied-example.jsonl` to inspect typed response-log rows after intake application.
 3. Use `performance-demand-response-status.applied-example.json` when a UI/API needs compact applied counts.
 4. Use `performance-demand-response-dashboard.applied-example.md` for quick human inspection of importer behavior.
+5. Use `performance-demand-response-delta.applied-example.md` to inspect row-level changes without opening JSONL.
+6. Use `performance-demand-response-delta.applied-example.jsonl` and `performance-demand-response-delta.applied-example.schema.md` for UI/API delta consumers.
 
 ## Applied Fixture Status
 

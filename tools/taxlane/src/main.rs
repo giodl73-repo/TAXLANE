@@ -8027,6 +8027,8 @@ fn build_accountability_performance_demand_response_handoff_applied_example(
         "2. Use `performance-demand-response-log.applied-example.jsonl` to inspect typed response-log rows after intake application.".to_string(),
         "3. Use `performance-demand-response-status.applied-example.json` when a UI/API needs compact applied counts.".to_string(),
         "4. Use `performance-demand-response-dashboard.applied-example.md` for quick human inspection of importer behavior.".to_string(),
+        "5. Use `performance-demand-response-delta.applied-example.md` to inspect row-level changes without opening JSONL.".to_string(),
+        "6. Use `performance-demand-response-delta.applied-example.jsonl` and `performance-demand-response-delta.applied-example.schema.md` for UI/API delta consumers.".to_string(),
         String::new(),
         "## Applied Fixture Status".to_string(),
         String::new(),

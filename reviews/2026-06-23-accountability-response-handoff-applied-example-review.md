@@ -7,8 +7,8 @@ from typed applied response status.
 
 ## Findings
 
-- The handoff routes intake fixture, applied log, applied status, and applied
-  dashboard artifacts in a deterministic order.
+- The handoff routes intake fixture, applied log, applied status, applied
+  dashboard, and applied delta artifacts in a deterministic order.
 - It renders applied fixture counts from `PerformanceDemandResponseStatus`.
 - It keeps allowed public claims at zero and describes applied artifacts as
   importer fixtures, not canonical response status.
