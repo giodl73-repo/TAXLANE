@@ -79,6 +79,8 @@ const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_LOG_JSONL_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-log.jsonl";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_LOG_SCHEMA_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-log.schema.md";
+const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_STATUS_PATH: &str =
+    "data/derived/accountability_evidence/performance-demand-response-status.json";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_SCHEMA_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-checklist.schema.md";
 const ACCOUNTABILITY_ARTIFACT_MAP_PATH: &str =
@@ -640,6 +642,13 @@ const ARTIFACTS: &[Artifact] = &[
         role: "Accountability performance demand response log schema",
         grain: "documentation",
         kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/accountability_evidence/performance-demand-response-status.json",
+        role: "Accountability performance demand response status",
+        grain: "response status summary",
+        kind: "json",
         canonical: "supporting",
     },
     Artifact {
@@ -1254,6 +1263,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_accountability_performance_demand_response_log_schema(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_accountability_performance_demand_response_status(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -5799,6 +5813,70 @@ fn check_accountability_performance_demand_response_log_schema(root: &Path) -> R
     Ok(())
 }
 
+fn check_accountability_performance_demand_response_status(root: &Path) -> Result<(), String> {
+    let expected = build_accountability_performance_demand_response_status(root)?;
+    compare_text(
+        root,
+        ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_STATUS_PATH,
+        &expected,
+        "accountability performance demand response status",
+    )?;
+
+    let parsed_text =
+        fs::read_to_string(root.join(ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_STATUS_PATH))
+            .map_err(|err| {
+                format!(
+                    "failed to read {ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_STATUS_PATH}: {err}"
+                )
+            })?;
+    let parsed: serde_json::Value = serde_json::from_str(&parsed_text).map_err(|err| {
+        format!("failed to parse {ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_STATUS_PATH}: {err}")
+    })?;
+    let total_rows = parsed
+        .get("total_rows")
+        .and_then(serde_json::Value::as_u64)
+        .ok_or_else(|| "performance demand response status missing total_rows".to_string())?;
+    let not_yet_received = parsed
+        .get("not_yet_received")
+        .and_then(serde_json::Value::as_u64)
+        .ok_or_else(|| "performance demand response status missing not_yet_received".to_string())?;
+    let allowed_rows = parsed
+        .get("public_claim_allowed")
+        .and_then(serde_json::Value::as_u64)
+        .ok_or_else(|| {
+            "performance demand response status missing public_claim_allowed".to_string()
+        })?;
+    let blocked_rows = parsed
+        .get("public_claim_blocked")
+        .and_then(serde_json::Value::as_u64)
+        .ok_or_else(|| {
+            "performance demand response status missing public_claim_blocked".to_string()
+        })?;
+    if total_rows != not_yet_received {
+        return Err("all generated response status rows must be not-yet-received".to_string());
+    }
+    if total_rows != blocked_rows + allowed_rows {
+        return Err("response status total does not match allowed plus blocked".to_string());
+    }
+    if allowed_rows != 0 {
+        return Err("response status unexpectedly allows a public claim".to_string());
+    }
+
+    let index = fs::read_to_string(root.join("data/derived/accountability_evidence/README.md"))
+        .map_err(|err| {
+            format!("failed to read data/derived/accountability_evidence/README.md: {err}")
+        })?;
+    if !index.contains("performance-demand-response-status.json") {
+        return Err(
+            "data/derived/accountability_evidence/README.md must link performance-demand-response-status.json"
+                .to_string(),
+        );
+    }
+
+    println!("validated accountability performance demand response status");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -6217,6 +6295,12 @@ fn build_accountability_artifact_map() -> String {
             "Product implementers",
             "Inspect the response log row contract.",
             "Do not add UI/API fields that weaken the use rule.",
+        ),
+        (
+            "performance-demand-response-status.json",
+            "Product implementers",
+            "Display response-log counts without recomputing rows.",
+            "Do not treat status counts as findings.",
         ),
         (
             "performance-demand-checklist.jsonl",
@@ -6798,6 +6882,57 @@ fn build_accountability_performance_demand_response_log_schema() -> String {
     ];
 
     lines.join("\n") + "\n"
+}
+
+fn build_accountability_performance_demand_response_status(root: &Path) -> Result<String, String> {
+    let response_log = build_accountability_performance_demand_response_log_jsonl(root)?;
+    let rows: Vec<serde_json::Value> = response_log
+        .lines()
+        .filter(|line| !line.trim().is_empty())
+        .map(|line| {
+            serde_json::from_str(line)
+                .map_err(|err| format!("failed to parse generated response log row: {err}"))
+        })
+        .collect::<Result<_, _>>()?;
+    let total_rows = rows.len();
+    let not_yet_received = rows
+        .iter()
+        .filter(|row| {
+            row.get("response_class")
+                .and_then(serde_json::Value::as_str)
+                == Some("not-yet-received")
+        })
+        .count();
+    let public_claim_allowed = rows
+        .iter()
+        .filter(|row| {
+            row.get("public_claim_allowed")
+                .and_then(serde_json::Value::as_bool)
+                == Some(true)
+        })
+        .count();
+    let public_claim_blocked = total_rows.saturating_sub(public_claim_allowed);
+
+    Ok(format!(
+        concat!(
+            "{{\n",
+            "  \"artifact\": {},\n",
+            "  \"total_rows\": {},\n",
+            "  \"not_yet_received\": {},\n",
+            "  \"public_claim_allowed\": {},\n",
+            "  \"public_claim_blocked\": {},\n",
+            "  \"use_rule\": {}\n",
+            "}}\n"
+        ),
+        json_string(ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_LOG_JSONL_PATH),
+        total_rows,
+        not_yet_received,
+        public_claim_allowed,
+        public_claim_blocked,
+        json_string(
+            "Track response status and remaining evidence gaps; do not claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits."
+        )
+    ))
 }
 
 fn read_accountability_evidence_records(
