@@ -7060,6 +7060,12 @@ fn build_accountability_performance_demand_response_log_schema() -> String {
 
     lines.extend([
         String::new(),
+        "## Gate Rules".to_string(),
+        String::new(),
+        "- `evidence_received` must be non-empty when `response_class` is `complete-evidence-response` or `partial-evidence-response`.".to_string(),
+        "- `evidence_received` must be empty when `response_class` is `not-yet-received`, `process-only-response`, or `no-evidence-response`.".to_string(),
+        "- `public_claim_allowed` must remain `false` unless a separate reviewed evidence record and public-claim gate allow a public statement.".to_string(),
+        String::new(),
         "## Public-Use Rule".to_string(),
         String::new(),
         "Rows may support response tracking. They must not be used as findings of fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits.".to_string(),

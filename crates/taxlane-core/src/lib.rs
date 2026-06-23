@@ -466,6 +466,20 @@ impl PerformanceDemandResponseLogClass {
             }
         }
     }
+
+    pub fn requires_evidence_received(&self) -> bool {
+        matches!(
+            self,
+            Self::CompleteEvidenceResponse | Self::PartialEvidenceResponse
+        )
+    }
+
+    pub fn forbids_evidence_received(&self) -> bool {
+        matches!(
+            self,
+            Self::NotYetReceived | Self::ProcessOnlyResponse | Self::NoEvidenceResponse
+        )
+    }
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
@@ -517,21 +531,15 @@ impl PerformanceDemandResponseLogRecord {
                     .to_string(),
             );
         }
-        if self.response_class == PerformanceDemandResponseLogClass::NotYetReceived
-            && !self.evidence_received.is_empty()
-        {
+        if self.response_class.requires_evidence_received() && self.evidence_received.is_empty() {
             return Err(
-                "not-yet-received response log records must not list evidence_received".to_string(),
+                "complete and partial evidence response log records require evidence_received"
+                    .to_string(),
             );
         }
-        if matches!(
-            self.response_class,
-            PerformanceDemandResponseLogClass::ProcessOnlyResponse
-                | PerformanceDemandResponseLogClass::NoEvidenceResponse
-        ) && !self.evidence_received.is_empty()
-        {
+        if self.response_class.forbids_evidence_received() && !self.evidence_received.is_empty() {
             return Err(
-                "process-only and no-evidence response log records must not list evidence_received"
+                "not-yet-received, process-only, and no-evidence response log records must not list evidence_received"
                     .to_string(),
             );
         }
@@ -1116,6 +1124,24 @@ mod tests {
             response_class: PerformanceDemandResponseLogClass::NotYetReceived,
             evidence_received: vec!["audit memo URL".to_string()],
             missing_evidence: "Requested evidence remains missing.".to_string(),
+            claim_gate: "Public claim blocked.".to_string(),
+            public_claim_allowed: false,
+            next_action: PERFORMANCE_DEMAND_RESPONSE_LOG_NEXT_ACTION.to_string(),
+            use_rule: PERFORMANCE_DEMAND_RESPONSE_LOG_USE_RULE.to_string(),
+        };
+
+        assert!(record.validate().is_err());
+    }
+
+    #[test]
+    fn blocks_partial_response_log_without_evidence() {
+        let record = PerformanceDemandResponseLogRecord {
+            record_id: "accountability-evidence:test".to_string(),
+            lane_id: Some("health".to_string()),
+            program_or_account_id: Some("omb-function-550".to_string()),
+            response_class: PerformanceDemandResponseLogClass::PartialEvidenceResponse,
+            evidence_received: Vec::new(),
+            missing_evidence: "Role review remains missing.".to_string(),
             claim_gate: "Public claim blocked.".to_string(),
             public_claim_allowed: false,
             next_action: PERFORMANCE_DEMAND_RESPONSE_LOG_NEXT_ACTION.to_string(),

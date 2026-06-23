@@ -30,6 +30,12 @@ At least one of `lane_id` or `program_or_account_id` must be present.
 - `process-only-response`: Explains process, office ownership, or future work but does not provide the requested evidence.
 - `no-evidence-response`: Declines, ignores, or cannot identify the requested evidence.
 
+## Gate Rules
+
+- `evidence_received` must be non-empty when `response_class` is `complete-evidence-response` or `partial-evidence-response`.
+- `evidence_received` must be empty when `response_class` is `not-yet-received`, `process-only-response`, or `no-evidence-response`.
+- `public_claim_allowed` must remain `false` unless a separate reviewed evidence record and public-claim gate allow a public statement.
+
 ## Public-Use Rule
 
 Rows may support response tracking. They must not be used as findings of fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits.
