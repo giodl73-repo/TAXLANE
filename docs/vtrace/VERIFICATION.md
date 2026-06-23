@@ -96,3 +96,5 @@
 | REQ-TAX-006 | command + review | `cargo test`; inspect response log Markdown builder | CLI renders response log Markdown from core class metadata and core-derived records. | current | EVID-TAX-045 |
 | REQ-TAX-004 | command + inspection | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect response intake class rendering review | Intake template and schema class lists stay aligned without creating findings. | current | EVID-TAX-046 |
 | REQ-TAX-006 | command + review | `cargo test`; inspect response intake class metadata | CLI renders response intake classes from core enum metadata instead of hardcoded lists. | current | EVID-TAX-046 |
+| REQ-TAX-004 | command + inspection | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect response log schema class rendering review | Response-log schema class meanings remain aligned without creating findings. | current | EVID-TAX-047 |
+| REQ-TAX-006 | command + review | `cargo test`; inspect response log schema builder | CLI renders response-log schema classes from core enum metadata instead of hardcoded lists. | current | EVID-TAX-047 |
