@@ -16,4 +16,5 @@
 | VAL-TAX-013 | Product implementer | Feed accountability workflow into a future UI or API. | Generated JSONL exposes readiness, action, question, blocker, and public-claim allowance per evidence record. | EVID-TAX-013 | current |
 | VAL-TAX-014 | Review lead | See whether any accountability records can support public claims yet. | Claim guard report counts public-claim allowance and blockers without making findings. | EVID-TAX-014 | current |
 | VAL-TAX-015 | Citizen reader | Ask public accountability questions without repeating unsupported claims. | Public questions packet lists only questions and blockers, not draft evidence as findings. | EVID-TAX-015 | current |
+| VAL-TAX-016 | Citizen reader | Understand what TAXLANE can safely say about taxes and accountability now. | Public brief combines modeled income-tax boundary, claim guard status, safe questions, and use/avoid wording. | EVID-TAX-016 | current |
 | VAL-TAX-003 | Maintainer | Extend Rust checks without turning `taxlane-tools` into a monolithic CLI. | Domain crate owns reusable models and CLI owns orchestration. | EVID-TAX-003 | current |

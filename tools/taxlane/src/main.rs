@@ -55,6 +55,7 @@ const ACCOUNTABILITY_CLAIM_GUARD_REPORT_PATH: &str =
     "data/derived/accountability_evidence/claim-guard-report.md";
 const ACCOUNTABILITY_PUBLIC_QUESTIONS_PATH: &str =
     "data/derived/accountability_evidence/public-questions.md";
+const ACCOUNTABILITY_PUBLIC_BRIEF_PATH: &str = "docs/reading/accountability-public-brief.md";
 const SOURCE_VERSION_LEDGER_PATH: &str = "docs/sources/source-version-ledger.md";
 const OBSERVED_DATE: &str = "2026-06-21";
 const MODEL_ID: &str = "individual-income-tax-proportional-outlays-v1";
@@ -528,6 +529,13 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "docs/reading/accountability-public-brief.md",
+        role: "Reader-facing accountability brief",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "docs/reading/placeholder-visibility-receipt.md",
         role: "Placeholder receipt reader packet",
         grain: "documentation",
@@ -670,6 +678,13 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "reviews/2026-06-23-accountability-public-questions-review.md",
         role: "Accountability public questions review",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-06-23-accountability-public-brief-review.md",
+        role: "Accountability public brief review",
         grain: "documentation",
         kind: "markdown",
         canonical: "supporting",
@@ -971,6 +986,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_accountability_public_questions(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_accountability_public_brief(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -5080,6 +5100,18 @@ fn check_accountability_public_questions(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn check_accountability_public_brief(root: &Path) -> Result<(), String> {
+    let expected = build_accountability_public_brief(root)?;
+    compare_text(
+        root,
+        ACCOUNTABILITY_PUBLIC_BRIEF_PATH,
+        &expected,
+        "accountability public brief",
+    )?;
+    println!("validated accountability public brief");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -5338,6 +5370,64 @@ fn build_accountability_public_questions(root: &Path) -> Result<String, String> 
         "## Use Rule".to_string(),
         String::new(),
         "Use these questions to ask for evidence. Do not present the underlying draft records as public claims.".to_string(),
+    ]);
+
+    Ok(lines.join("\n") + "\n")
+}
+
+fn build_accountability_public_brief(root: &Path) -> Result<String, String> {
+    let mut records = read_accountability_evidence_records(root)?;
+    records.sort_by(|left, right| left.record_id.cmp(&right.record_id));
+    let total_records = records.len();
+    let public_claim_allowed = records
+        .iter()
+        .filter(|record| record.accountability_work_item().public_claim_allowed)
+        .count();
+
+    let mut lines = vec![
+        "# Accountability Public Brief".to_string(),
+        String::new(),
+        "## What TAXLANE Can Say Now".to_string(),
+        String::new(),
+        "TAXLANE can model how ordinary individual income-tax receipts compare with broad federal outlay categories.".to_string(),
+        "That model is a visibility tool, not a legal claim that a taxpayer's dollars are dedicated to a specific program.".to_string(),
+        String::new(),
+        "TAXLANE can also ask accountability questions about whether spending has reviewed performance evidence.".to_string(),
+        "Current accountability records are not public findings of fraud, waste, abuse, or poor performance.".to_string(),
+        String::new(),
+        "## Current Claim Guard".to_string(),
+        String::new(),
+        format!("- Accountability records reviewed for public use: {total_records}"),
+        format!("- Records currently public-claim eligible: {public_claim_allowed}"),
+        format!(
+            "- Records still blocked from public claims: {}",
+            total_records.saturating_sub(public_claim_allowed)
+        ),
+        String::new(),
+        "## Safe Public Questions".to_string(),
+        String::new(),
+        "| Lane | Question To Ask | Why It Matters |".to_string(),
+        "|---|---|---|".to_string(),
+    ];
+
+    for record in records {
+        let work_item = record.accountability_work_item();
+        lines.push(format!(
+            "| {} | {} | {} |",
+            work_item.lane_id.unwrap_or("n/a"),
+            work_item.demand_question.replace('|', "\\|"),
+            work_item.public_use_blocker.replace('|', "\\|")
+        ));
+    }
+
+    lines.extend([
+        String::new(),
+        "## Use / Avoid".to_string(),
+        String::new(),
+        "| Use | Avoid |".to_string(),
+        "|---|---|".to_string(),
+        "| Ask for reviewed performance targets, outcome measures, audit sources, or role-approved wording. | Do not say TAXLANE found fraud, waste, abuse, or poor performance from these draft records. |".to_string(),
+        "| Use modeled allocation language when explaining income-tax visibility. | Do not say ordinary income-tax dollars are legally dedicated to the displayed lanes. |".to_string(),
     ]);
 
     Ok(lines.join("\n") + "\n")
