@@ -1,0 +1,66 @@
+{
+  "artifact": "data/derived/accountability_evidence/performance-demand-response-bundle.applied-example.json",
+  "bundle_kind": "applied-response-importer-fixture",
+  "total_rows": 2,
+  "updated_rows": 1,
+  "public_claim_allowed": 0,
+  "public_claim_blocked": 2,
+  "artifacts": [
+    {
+      "artifact": "data/derived/accountability_evidence/performance-demand-response-intake.example.jsonl",
+      "role": "Source-custodied intake fixture row.",
+      "kind": "jsonl",
+      "consumer_use": "Exercise importer parsing and record-id matching."
+    },
+    {
+      "artifact": "data/derived/accountability_evidence/performance-demand-response-log.applied-example.jsonl",
+      "role": "Response-log rows after applying example intake.",
+      "kind": "jsonl",
+      "consumer_use": "Inspect typed applied rows without changing canonical response status."
+    },
+    {
+      "artifact": "data/derived/accountability_evidence/performance-demand-response-status.applied-example.json",
+      "role": "Compact applied response counts.",
+      "kind": "json",
+      "consumer_use": "Feed fixture counts into UI/API tests without recomputing rows."
+    },
+    {
+      "artifact": "data/derived/accountability_evidence/performance-demand-response-dashboard.applied-example.md",
+      "role": "Human-readable applied response counts.",
+      "kind": "markdown",
+      "consumer_use": "Scan importer behavior without opening JSON."
+    },
+    {
+      "artifact": "data/derived/accountability_evidence/performance-demand-response-handoff.applied-example.md",
+      "role": "Task routing for the applied fixture set.",
+      "kind": "markdown",
+      "consumer_use": "Choose the right applied artifact by implementation task."
+    },
+    {
+      "artifact": "data/derived/accountability_evidence/performance-demand-response-applied-example.schema.md",
+      "role": "Fixture artifact contract.",
+      "kind": "markdown",
+      "consumer_use": "Confirm roles and guardrails for applied importer artifacts."
+    },
+    {
+      "artifact": "data/derived/accountability_evidence/performance-demand-response-delta.applied-example.md",
+      "role": "Human-readable changed fields.",
+      "kind": "markdown",
+      "consumer_use": "Inspect row-level changes after applying example intake."
+    },
+    {
+      "artifact": "data/derived/accountability_evidence/performance-demand-response-delta.applied-example.jsonl",
+      "role": "Machine-readable changed fields.",
+      "kind": "jsonl",
+      "consumer_use": "Feed delta rows into UI/API diff consumers."
+    },
+    {
+      "artifact": "data/derived/accountability_evidence/performance-demand-response-delta.applied-example.schema.md",
+      "role": "Delta row field contract.",
+      "kind": "markdown",
+      "consumer_use": "Confirm field meanings and blocked-claim guardrails."
+    }
+  ],
+  "boundary": "Importer fixture only; not canonical response status, public-claim eligibility, misconduct finding, performance finding, or proof of reform benefits.",
+  "use_rule": "Track response status and remaining evidence gaps; do not claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits."
+}

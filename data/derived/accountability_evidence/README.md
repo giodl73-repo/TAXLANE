@@ -43,6 +43,7 @@ claims.
 | `performance-demand-response-delta.applied-example.jsonl` | generated applied response delta rows | Machine-readable row changes after applying the intake example. |
 | `performance-demand-response-delta.applied-example.schema.md` | applied response delta row schema | Documents the applied delta JSONL row contract. |
 | `performance-demand-response-bundle.applied-example.md` | generated applied response bundle index | Lists the complete applied importer fixture bundle for UI/API consumers. |
+| `performance-demand-response-bundle.applied-example.json` | generated applied response bundle manifest | Machine-readable applied fixture bundle for UI/API consumers. |
 | `performance-demand-checklist.schema.md` | demand checklist row schema | Documents the `PerformanceDemandChecklistRecord` row contract. |
 | `artifact-map.md` | one generated accountability artifact map | Routes each artifact to its audience, use, and public-use boundary. |
 
@@ -171,6 +172,10 @@ JSONL row fields and the blocked-claim guardrails for importer consumers.
 The performance-demand response bundle applied example gives importer and
 UI/API consumers one generated index for the complete applied fixture set.
 It remains fixture guidance, not canonical response status or a public finding.
+
+The performance-demand response bundle applied example JSON carries the same
+fixture bundle membership, roles, counts, boundary, and use rule in a
+machine-readable form for UI/API consumers.
 
 The performance-demand checklist schema documents the JSONL row fields for
 future UI/API consumers.

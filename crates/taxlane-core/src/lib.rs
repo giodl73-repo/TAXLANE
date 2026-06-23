@@ -668,6 +668,142 @@ impl PerformanceDemandResponseStatus {
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+pub struct PerformanceDemandResponseBundleArtifact {
+    pub artifact: String,
+    pub role: String,
+    pub kind: String,
+    pub consumer_use: String,
+}
+
+impl PerformanceDemandResponseBundleArtifact {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("bundle artifact", &self.artifact)?;
+        validate_required("bundle artifact role", &self.role)?;
+        validate_required("bundle artifact kind", &self.kind)?;
+        validate_required("bundle artifact consumer_use", &self.consumer_use)?;
+        if self.artifact.contains('\\')
+            || self.artifact.starts_with('/')
+            || self.artifact.contains("..")
+        {
+            return Err(format!(
+                "bundle artifact must be repo-relative with forward slashes: {}",
+                self.artifact
+            ));
+        }
+        if !matches!(self.kind.as_str(), "jsonl" | "json" | "markdown") {
+            return Err(format!(
+                "bundle artifact {} has unsupported kind {}",
+                self.artifact, self.kind
+            ));
+        }
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+pub struct PerformanceDemandResponseBundleManifest {
+    pub artifact: String,
+    pub bundle_kind: String,
+    pub total_rows: usize,
+    pub updated_rows: usize,
+    pub public_claim_allowed: usize,
+    pub public_claim_blocked: usize,
+    pub artifacts: Vec<PerformanceDemandResponseBundleArtifact>,
+    pub boundary: String,
+    pub use_rule: String,
+}
+
+impl PerformanceDemandResponseBundleManifest {
+    pub fn from_status(
+        artifact: &str,
+        status: &PerformanceDemandResponseStatus,
+        artifacts: Vec<PerformanceDemandResponseBundleArtifact>,
+    ) -> Result<Self, String> {
+        status.validate()?;
+        let manifest = Self {
+            artifact: artifact.to_string(),
+            bundle_kind: "applied-response-importer-fixture".to_string(),
+            total_rows: status.total_rows,
+            updated_rows: status.total_rows.saturating_sub(status.not_yet_received),
+            public_claim_allowed: status.public_claim_allowed,
+            public_claim_blocked: status.public_claim_blocked,
+            artifacts,
+            boundary: "Importer fixture only; not canonical response status, public-claim eligibility, misconduct finding, performance finding, or proof of reform benefits.".to_string(),
+            use_rule: status.use_rule.clone(),
+        };
+        manifest.validate()?;
+        Ok(manifest)
+    }
+
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("bundle manifest artifact", &self.artifact)?;
+        validate_required("bundle manifest kind", &self.bundle_kind)?;
+        validate_required("bundle manifest boundary", &self.boundary)?;
+        validate_required("bundle manifest use_rule", &self.use_rule)?;
+        if self.bundle_kind != "applied-response-importer-fixture" {
+            return Err(
+                "performance demand response bundle manifest has unexpected bundle_kind"
+                    .to_string(),
+            );
+        }
+        if self.use_rule != PERFORMANCE_DEMAND_RESPONSE_LOG_USE_RULE {
+            return Err(
+                "performance demand response bundle manifest has unexpected use_rule".to_string(),
+            );
+        }
+        if self.total_rows == 0 {
+            return Err(
+                "performance demand response bundle manifest needs response rows".to_string(),
+            );
+        }
+        if self.updated_rows > self.total_rows {
+            return Err(
+                "performance demand response bundle manifest updated_rows exceeds total_rows"
+                    .to_string(),
+            );
+        }
+        if self.public_claim_allowed != 0 {
+            return Err("applied fixture bundle must not allow public claims".to_string());
+        }
+        if self.public_claim_allowed + self.public_claim_blocked != self.total_rows {
+            return Err(
+                "performance demand response bundle manifest claim counts do not sum to total_rows"
+                    .to_string(),
+            );
+        }
+        if self.artifacts.is_empty() {
+            return Err("performance demand response bundle manifest needs artifacts".to_string());
+        }
+        for artifact in &self.artifacts {
+            artifact.validate()?;
+        }
+        for required in [
+            "data/derived/accountability_evidence/performance-demand-response-intake.example.jsonl",
+            "data/derived/accountability_evidence/performance-demand-response-log.applied-example.jsonl",
+            "data/derived/accountability_evidence/performance-demand-response-status.applied-example.json",
+            "data/derived/accountability_evidence/performance-demand-response-dashboard.applied-example.md",
+            "data/derived/accountability_evidence/performance-demand-response-handoff.applied-example.md",
+            "data/derived/accountability_evidence/performance-demand-response-applied-example.schema.md",
+            "data/derived/accountability_evidence/performance-demand-response-delta.applied-example.md",
+            "data/derived/accountability_evidence/performance-demand-response-delta.applied-example.jsonl",
+            "data/derived/accountability_evidence/performance-demand-response-delta.applied-example.schema.md",
+        ] {
+            if !self
+                .artifacts
+                .iter()
+                .any(|artifact| artifact.artifact == required)
+            {
+                return Err(format!(
+                    "performance demand response bundle manifest missing {required}"
+                ));
+            }
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 pub struct PerformanceDemandResponseDeltaRow {
     pub record_id: String,
     pub before_response_class: PerformanceDemandResponseLogClass,
@@ -1447,6 +1583,136 @@ mod tests {
         };
 
         assert!(status.validate().is_err());
+    }
+
+    fn bundle_manifest_fixture_artifacts() -> Vec<PerformanceDemandResponseBundleArtifact> {
+        [
+            (
+                "data/derived/accountability_evidence/performance-demand-response-intake.example.jsonl",
+                "Source-custodied intake fixture row.",
+                "jsonl",
+                "Exercise importer parsing and record-id matching.",
+            ),
+            (
+                "data/derived/accountability_evidence/performance-demand-response-log.applied-example.jsonl",
+                "Response-log rows after applying example intake.",
+                "jsonl",
+                "Inspect typed applied rows without changing canonical response status.",
+            ),
+            (
+                "data/derived/accountability_evidence/performance-demand-response-status.applied-example.json",
+                "Compact applied response counts.",
+                "json",
+                "Feed fixture counts into UI/API tests without recomputing rows.",
+            ),
+            (
+                "data/derived/accountability_evidence/performance-demand-response-dashboard.applied-example.md",
+                "Human-readable applied response counts.",
+                "markdown",
+                "Scan importer behavior without opening JSON.",
+            ),
+            (
+                "data/derived/accountability_evidence/performance-demand-response-handoff.applied-example.md",
+                "Task routing for the applied fixture set.",
+                "markdown",
+                "Choose the right applied artifact by implementation task.",
+            ),
+            (
+                "data/derived/accountability_evidence/performance-demand-response-applied-example.schema.md",
+                "Fixture artifact contract.",
+                "markdown",
+                "Confirm roles and guardrails for applied importer artifacts.",
+            ),
+            (
+                "data/derived/accountability_evidence/performance-demand-response-delta.applied-example.md",
+                "Human-readable changed fields.",
+                "markdown",
+                "Inspect row-level changes after applying example intake.",
+            ),
+            (
+                "data/derived/accountability_evidence/performance-demand-response-delta.applied-example.jsonl",
+                "Machine-readable changed fields.",
+                "jsonl",
+                "Feed delta rows into UI/API diff consumers.",
+            ),
+            (
+                "data/derived/accountability_evidence/performance-demand-response-delta.applied-example.schema.md",
+                "Delta row field contract.",
+                "markdown",
+                "Confirm field meanings and blocked-claim guardrails.",
+            ),
+        ]
+        .into_iter()
+        .map(
+            |(artifact, role, kind, consumer_use)| PerformanceDemandResponseBundleArtifact {
+                artifact: artifact.to_string(),
+                role: role.to_string(),
+                kind: kind.to_string(),
+                consumer_use: consumer_use.to_string(),
+            },
+        )
+        .collect()
+    }
+
+    #[test]
+    fn validates_response_bundle_manifest() {
+        let status = PerformanceDemandResponseStatus {
+            artifact: "data/derived/accountability_evidence/performance-demand-response-log.applied-example.jsonl".to_string(),
+            total_rows: 2,
+            not_yet_received: 1,
+            public_claim_allowed: 0,
+            public_claim_blocked: 2,
+            use_rule: PERFORMANCE_DEMAND_RESPONSE_LOG_USE_RULE.to_string(),
+        };
+
+        let manifest = PerformanceDemandResponseBundleManifest::from_status(
+            "data/derived/accountability_evidence/performance-demand-response-bundle.applied-example.json",
+            &status,
+            bundle_manifest_fixture_artifacts(),
+        )
+        .expect("valid bundle manifest");
+
+        assert_eq!(manifest.updated_rows, 1);
+        assert_eq!(manifest.validate(), Ok(()));
+    }
+
+    #[test]
+    fn blocks_response_bundle_manifest_public_claim_bypass() {
+        let mut manifest = PerformanceDemandResponseBundleManifest {
+            artifact: "data/derived/accountability_evidence/performance-demand-response-bundle.applied-example.json".to_string(),
+            bundle_kind: "applied-response-importer-fixture".to_string(),
+            total_rows: 2,
+            updated_rows: 1,
+            public_claim_allowed: 1,
+            public_claim_blocked: 1,
+            artifacts: bundle_manifest_fixture_artifacts(),
+            boundary: "Importer fixture only; not canonical response status, public-claim eligibility, misconduct finding, performance finding, or proof of reform benefits.".to_string(),
+            use_rule: PERFORMANCE_DEMAND_RESPONSE_LOG_USE_RULE.to_string(),
+        };
+
+        assert!(manifest.validate().is_err());
+        manifest.public_claim_allowed = 0;
+        manifest.public_claim_blocked = 2;
+        assert_eq!(manifest.validate(), Ok(()));
+    }
+
+    #[test]
+    fn blocks_response_bundle_manifest_missing_artifact() {
+        let mut artifacts = bundle_manifest_fixture_artifacts();
+        artifacts.pop();
+        let manifest = PerformanceDemandResponseBundleManifest {
+            artifact: "data/derived/accountability_evidence/performance-demand-response-bundle.applied-example.json".to_string(),
+            bundle_kind: "applied-response-importer-fixture".to_string(),
+            total_rows: 2,
+            updated_rows: 1,
+            public_claim_allowed: 0,
+            public_claim_blocked: 2,
+            artifacts,
+            boundary: "Importer fixture only; not canonical response status, public-claim eligibility, misconduct finding, performance finding, or proof of reform benefits.".to_string(),
+            use_rule: PERFORMANCE_DEMAND_RESPONSE_LOG_USE_RULE.to_string(),
+        };
+
+        assert!(manifest.validate().is_err());
     }
 
     #[test]

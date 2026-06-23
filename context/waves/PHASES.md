@@ -8,6 +8,7 @@ Work is organized into small waves and pulses.
 
 ## Completed waves
 
+- `2026-06-23-accountability-response-applied-bundle-json`
 - `2026-06-23-accountability-response-applied-bundle-index`
 - `2026-06-23-accountability-response-applied-schema-delta-role-validation`
 - `2026-06-23-accountability-response-handoff-delta-route-validation`
