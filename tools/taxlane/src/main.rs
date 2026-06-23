@@ -47,6 +47,8 @@ const ACCOUNTABILITY_READINESS_REPORT_PATH: &str =
     "data/derived/accountability_evidence/readiness-report.md";
 const ACCOUNTABILITY_ACTION_QUEUE_PATH: &str =
     "data/derived/accountability_evidence/action-queue.md";
+const ACCOUNTABILITY_PERFORMANCE_DEMAND_PACKET_PATH: &str =
+    "data/derived/accountability_evidence/performance-demand-packet.md";
 const SOURCE_VERSION_LEDGER_PATH: &str = "docs/sources/source-version-ledger.md";
 const OBSERVED_DATE: &str = "2026-06-21";
 const MODEL_ID: &str = "individual-income-tax-proportional-outlays-v1";
@@ -492,6 +494,13 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "data/derived/accountability_evidence/performance-demand-packet.md",
+        role: "Accountability performance demand packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "docs/reading/placeholder-visibility-receipt.md",
         role: "Placeholder receipt reader packet",
         grain: "documentation",
@@ -599,6 +608,13 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "reviews/2026-06-23-accountability-action-queue-review.md",
         role: "Accountability action queue review",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-06-23-accountability-performance-demand-packet-review.md",
+        role: "Accountability performance demand packet review",
         grain: "documentation",
         kind: "markdown",
         canonical: "supporting",
@@ -880,6 +896,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_accountability_action_queue(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_accountability_performance_demand_packet(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -4941,6 +4962,18 @@ fn check_accountability_action_queue(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn check_accountability_performance_demand_packet(root: &Path) -> Result<(), String> {
+    let expected = build_accountability_performance_demand_packet(root)?;
+    compare_text(
+        root,
+        ACCOUNTABILITY_PERFORMANCE_DEMAND_PACKET_PATH,
+        &expected,
+        "accountability performance demand packet",
+    )?;
+    println!("validated accountability performance demand packet");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -5042,6 +5075,45 @@ fn build_accountability_action_queue(root: &Path) -> Result<String, String> {
     Ok(lines.join("\n") + "\n")
 }
 
+fn build_accountability_performance_demand_packet(root: &Path) -> Result<String, String> {
+    let mut records = read_accountability_evidence_records(root)?;
+    records.sort_by(|left, right| left.record_id.cmp(&right.record_id));
+
+    let mut lines = vec![
+        "# Accountability Performance Demand Packet".to_string(),
+        String::new(),
+        "## Purpose".to_string(),
+        String::new(),
+        "This generated packet turns accountability evidence blockers into questions people can ask before demanding performance on public money.".to_string(),
+        "It explains what TAXLANE can say now, what evidence is still missing, and what claim boundary remains in force.".to_string(),
+        String::new(),
+        "## Demand Questions".to_string(),
+        String::new(),
+        "| Record ID | Lane | What TAXLANE Can Say Now | Demand Question | Claim Boundary |".to_string(),
+        "|---|---|---|---|---|".to_string(),
+    ];
+
+    for record in records {
+        lines.push(format!(
+            "| `{}` | {} | {} | {} | {} |",
+            record.record_id,
+            record.lane_id.as_deref().unwrap_or("n/a"),
+            record.public_summary.replace('|', "\\|"),
+            accountability_demand_question(&record).replace('|', "\\|"),
+            accountability_public_use_blocker(&record).replace('|', "\\|")
+        ));
+    }
+
+    lines.push(String::new());
+    lines.push("## Public-Use Rule".to_string());
+    lines.push(String::new());
+    lines.push(
+        "Use these rows to request evidence, reviewed wording, or official findings. Do not present them as fraud, waste, abuse, or performance findings.".to_string(),
+    );
+
+    Ok(lines.join("\n") + "\n")
+}
+
 fn accountability_next_action(record: &AccountabilityEvidenceRecord) -> &'static str {
     let readiness = record.public_claim_readiness();
     if readiness.as_str() == "PublicClaimEligible" {
@@ -5057,6 +5129,22 @@ fn accountability_next_action(record: &AccountabilityEvidenceRecord) -> &'static
         return "Complete role review before any public claim wording.";
     }
     "Continue source custody and evidence review before public use."
+}
+
+fn accountability_demand_question(record: &AccountabilityEvidenceRecord) -> &'static str {
+    if record.public_claim_readiness().as_str() == "PublicClaimEligible" {
+        return "What exact public wording and source citations should be used for this reviewed finding?";
+    }
+    if matches!(
+        record.anomaly_class,
+        taxlane_core::AnomalyClass::MissingEvidence
+    ) {
+        return "What reviewed performance target, outcome measure, or audit source should be attached before comparing spending to performance?";
+    }
+    if record.public_claim_readiness().as_str() == "NeedsRoleReview" {
+        return "What exact public wording, if any, can role review approve from the cited source record?";
+    }
+    "What source, comparison basis, or review step is needed before this record can support a public accountability claim?"
 }
 
 fn accountability_public_use_blocker(record: &AccountabilityEvidenceRecord) -> &'static str {
