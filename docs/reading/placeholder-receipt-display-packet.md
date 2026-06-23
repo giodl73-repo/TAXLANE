@@ -74,3 +74,4 @@ Use this copy beside the financing-context chart:
 | `docs/reading/placeholder-visibility-receipt.md` | Reader packet explaining the model. |
 | `reviews/2026-06-22-placeholder-display-spec-role-review.md` | Role review for the display specs. |
 | `reviews/2026-06-23-placeholder-display-packet-role-review.md` | Role review for this static display packet. |
+| `docs/design/placeholder-receipt-placement-spec.md` | Static placement rules for keeping chart context and caveats together. |

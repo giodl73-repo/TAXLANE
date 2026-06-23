@@ -78,6 +78,7 @@ claim, statutory tax lane, or final visual design.
 
 ## Follow-Up
 
-- A future static mockup may be useful, but only if it keeps the display
-  non-interactive and preserves all required caveats.
+- A future static mockup may be useful, but only if it follows
+  `docs/design/placeholder-receipt-placement-spec.md`, stays non-interactive,
+  and preserves all required caveats.
 - Do not add taxpayer-specific inputs until the calculator boundary is reviewed.

@@ -27,3 +27,6 @@ of ordinary income-tax receipts.
 
 The chart-set role review is recorded at
 `reviews/2026-06-22-placeholder-display-spec-role-review.md`.
+
+The static placement rules for pairing these charts with required copy are
+recorded at `docs/design/placeholder-receipt-placement-spec.md`.
