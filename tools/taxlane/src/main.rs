@@ -43,6 +43,8 @@ const PLACEHOLDER_RECEIPT_LANE_BARS_SPEC_PATH: &str =
 const PLACEHOLDER_RECEIPT_FINANCING_CONTEXT_SPEC_PATH: &str =
     "docs/charts/taxpayer-receipt-model/placeholder-financing-context.vl.json";
 const ACCOUNTABILITY_EVIDENCE_JSONL_PATH: &str = "data/derived/accountability_evidence/accountability_evidence.omb-fy2027-v1.2026-06-23.draft.jsonl";
+const ACCOUNTABILITY_READINESS_REPORT_PATH: &str =
+    "data/derived/accountability_evidence/readiness-report.md";
 const SOURCE_VERSION_LEDGER_PATH: &str = "docs/sources/source-version-ledger.md";
 const OBSERVED_DATE: &str = "2026-06-21";
 const MODEL_ID: &str = "individual-income-tax-proportional-outlays-v1";
@@ -474,6 +476,13 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "data/derived/accountability_evidence/readiness-report.md",
+        role: "Accountability evidence readiness report",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "docs/reading/placeholder-visibility-receipt.md",
         role: "Placeholder receipt reader packet",
         grain: "documentation",
@@ -553,6 +562,13 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "reviews/2026-06-23-accountability-readiness-classification-review.md",
         role: "Accountability readiness classification review",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-06-23-accountability-readiness-report-review.md",
+        role: "Accountability readiness report review",
         grain: "documentation",
         kind: "markdown",
         canonical: "supporting",
@@ -824,6 +840,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = validate_accountability_evidence_records(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_accountability_readiness_report(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -4837,14 +4858,12 @@ fn read_jsonl(path: PathBuf) -> Result<Vec<serde_json::Value>, String> {
 fn validate_accountability_evidence_records(root: &Path) -> Result<(), String> {
     let source_ledger = fs::read_to_string(root.join(SOURCE_VERSION_LEDGER_PATH))
         .map_err(|err| format!("failed to read {SOURCE_VERSION_LEDGER_PATH}: {err}"))?;
-    let records = read_jsonl(root.join(ACCOUNTABILITY_EVIDENCE_JSONL_PATH))?;
+    let records = read_accountability_evidence_records(root)?;
     if records.is_empty() {
         return Err("accountability evidence: no records".to_string());
     }
 
-    for row in records {
-        let record: AccountabilityEvidenceRecord = serde_json::from_value(row)
-            .map_err(|err| format!("accountability evidence: invalid record shape: {err}"))?;
+    for record in records {
         record
             .validate()
             .map_err(|err| format!("{}: {err}", record.record_id))?;
@@ -4861,6 +4880,79 @@ fn validate_accountability_evidence_records(root: &Path) -> Result<(), String> {
 
     println!("validated accountability evidence records");
     Ok(())
+}
+
+fn check_accountability_readiness_report(root: &Path) -> Result<(), String> {
+    let expected = build_accountability_readiness_report(root)?;
+    compare_text(
+        root,
+        ACCOUNTABILITY_READINESS_REPORT_PATH,
+        &expected,
+        "accountability readiness report",
+    )?;
+    println!("validated accountability readiness report");
+    Ok(())
+}
+
+fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
+    let records = read_accountability_evidence_records(root)?;
+    let mut lines = vec![
+        "# Accountability Evidence Readiness Report".to_string(),
+        String::new(),
+        "## Purpose".to_string(),
+        String::new(),
+        "This report classifies draft accountability evidence records by public-claim readiness.".to_string(),
+        "It is not a list of fraud, waste, abuse, or performance findings.".to_string(),
+        String::new(),
+        "## Readiness States".to_string(),
+        String::new(),
+        "| State | Meaning |".to_string(),
+        "|---|---|".to_string(),
+        "| `EvidenceOnly` | Internal evidence review only; not ready for public claims. |".to_string(),
+        "| `NeedsRoleReview` | Source/accountability reviewed and waiting for public wording review. |".to_string(),
+        "| `PublicClaimEligible` | Role reviewed with official finding or adjudicated status. |".to_string(),
+        String::new(),
+        "## Records".to_string(),
+        String::new(),
+        "| Record ID | Lane | Evidence Kind | Anomaly Class | Allegation Status | Review Status | Readiness | Public Summary |".to_string(),
+        "|---|---|---|---|---|---|---|---|".to_string(),
+    ];
+
+    for record in records {
+        let readiness = record.public_claim_readiness();
+        lines.push(format!(
+            "| `{}` | {} | {:?} | {:?} | {:?} | {:?} | `{}` | {} |",
+            record.record_id,
+            record.lane_id.as_deref().unwrap_or("n/a"),
+            record.evidence_kind,
+            record.anomaly_class,
+            record.allegation_status,
+            record.review_status,
+            readiness.as_str(),
+            record.public_summary.replace('|', "\\|")
+        ));
+    }
+
+    lines.push(String::new());
+    lines.push("## Guardrail".to_string());
+    lines.push(String::new());
+    lines.push(
+        "Records marked `EvidenceOnly` or `NeedsRoleReview` must not be presented as public fraud, waste, abuse, or performance findings.".to_string(),
+    );
+
+    Ok(lines.join("\n") + "\n")
+}
+
+fn read_accountability_evidence_records(
+    root: &Path,
+) -> Result<Vec<AccountabilityEvidenceRecord>, String> {
+    read_jsonl(root.join(ACCOUNTABILITY_EVIDENCE_JSONL_PATH))?
+        .into_iter()
+        .map(|row| {
+            serde_json::from_value(row)
+                .map_err(|err| format!("accountability evidence: invalid record shape: {err}"))
+        })
+        .collect()
 }
 
 fn int_field(row: &serde_json::Value, field: &str) -> Result<i64, String> {

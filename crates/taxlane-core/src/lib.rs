@@ -186,6 +186,16 @@ pub enum PublicClaimReadiness {
     PublicClaimEligible,
 }
 
+impl PublicClaimReadiness {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            PublicClaimReadiness::EvidenceOnly => "EvidenceOnly",
+            PublicClaimReadiness::NeedsRoleReview => "NeedsRoleReview",
+            PublicClaimReadiness::PublicClaimEligible => "PublicClaimEligible",
+        }
+    }
+}
+
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum EvidenceKind {
