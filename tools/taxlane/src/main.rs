@@ -69,6 +69,8 @@ const ACCOUNTABILITY_PERFORMANCE_DEMAND_BRIEF_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-brief.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_LETTER_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-letter.md";
+const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_RUBRIC_PATH: &str =
+    "data/derived/accountability_evidence/performance-demand-response-rubric.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_SCHEMA_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-checklist.schema.md";
 const ACCOUNTABILITY_ARTIFACT_MAP_PATH: &str =
@@ -593,6 +595,13 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "data/derived/accountability_evidence/performance-demand-letter.md",
         role: "Accountability performance demand letter template",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/accountability_evidence/performance-demand-response-rubric.md",
+        role: "Accountability performance demand response rubric",
         grain: "documentation",
         kind: "markdown",
         canonical: "supporting",
@@ -1184,6 +1193,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_accountability_performance_demand_letter(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_accountability_performance_demand_response_rubric(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -5581,6 +5595,30 @@ fn check_accountability_performance_demand_letter(root: &Path) -> Result<(), Str
     Ok(())
 }
 
+fn check_accountability_performance_demand_response_rubric(root: &Path) -> Result<(), String> {
+    let expected = build_accountability_performance_demand_response_rubric(root)?;
+    compare_text(
+        root,
+        ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_RUBRIC_PATH,
+        &expected,
+        "accountability performance demand response rubric",
+    )?;
+
+    let index = fs::read_to_string(root.join("data/derived/accountability_evidence/README.md"))
+        .map_err(|err| {
+            format!("failed to read data/derived/accountability_evidence/README.md: {err}")
+        })?;
+    if !index.contains("performance-demand-response-rubric.md") {
+        return Err(
+            "data/derived/accountability_evidence/README.md must link performance-demand-response-rubric.md"
+                .to_string(),
+        );
+    }
+
+    println!("validated accountability performance demand response rubric");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -5971,6 +6009,12 @@ fn build_accountability_artifact_map() -> String {
             "Do not send it as an accusation or legal conclusion.",
         ),
         (
+            "performance-demand-response-rubric.md",
+            "Citizen readers",
+            "Classify replies to evidence requests.",
+            "Do not turn incomplete replies into findings.",
+        ),
+        (
             "performance-demand-checklist.jsonl",
             "Product implementers",
             "Feed demand rows into future UI/API surfaces.",
@@ -6318,6 +6362,53 @@ fn build_accountability_performance_demand_letter(root: &Path) -> Result<String,
         "## Use Rule".to_string(),
         String::new(),
         "Customize names, dates, and addressee details before use. Keep the modeled-not-legal tax boundary and no-finding language intact unless reviewed evidence and public-claim eligibility support a stronger statement.".to_string(),
+    ]);
+
+    Ok(lines.join("\n") + "\n")
+}
+
+fn build_accountability_performance_demand_response_rubric(root: &Path) -> Result<String, String> {
+    let mut records = read_accountability_evidence_records(root)?;
+    records.sort_by(|left, right| left.record_id.cmp(&right.record_id));
+
+    let mut lines = vec![
+        "# Performance Demand Response Rubric".to_string(),
+        String::new(),
+        "## Purpose".to_string(),
+        String::new(),
+        "This generated rubric helps classify replies to performance evidence requests.".to_string(),
+        "It is not a finding of fraud, waste, abuse, legal dedication, poor performance, or reform success.".to_string(),
+        String::new(),
+        "## Score Meanings".to_string(),
+        String::new(),
+        "| Response Class | Meaning | Next Action |".to_string(),
+        "|---|---|---|".to_string(),
+        "| Complete evidence response | Provides source record/version, reviewed performance evidence or official finding, role-approved wording, and public-claim basis. | Route to role review before any public claim. |".to_string(),
+        "| Partial evidence response | Provides some requested evidence but leaves at least one required item missing or unclear. | Ask a narrower follow-up for the missing item. |".to_string(),
+        "| Process-only response | Explains process, office ownership, or future work but does not provide the requested evidence. | Keep claim gate blocked and request the evidence source. |".to_string(),
+        "| No evidence response | Declines, ignores, or cannot identify the requested evidence. | Keep claim gate blocked; do not infer misconduct or poor performance. |".to_string(),
+        String::new(),
+        "## Row-Specific Checks".to_string(),
+        String::new(),
+        "| Lane | Original Ask | Current Blocker | Response Must Provide |".to_string(),
+        "|---|---|---|---|".to_string(),
+    ];
+
+    for record in records {
+        let row = record.performance_demand_checklist_record();
+        let label = row.lane_id.as_deref().unwrap_or("n/a");
+        lines.push(format!(
+            "| {label} | {} | {} | source version; reviewed performance evidence or official finding; role-approved wording; public-claim basis |",
+            row.demand_question.replace('|', "\\|"),
+            row.do_not_accept_yet.replace('|', "\\|")
+        ));
+    }
+
+    lines.extend([
+        String::new(),
+        "## Use Rule".to_string(),
+        String::new(),
+        "Use this rubric to decide what evidence is still missing after a reply. Do not use an incomplete, process-only, or no-evidence response to claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits.".to_string(),
     ]);
 
     Ok(lines.join("\n") + "\n")
