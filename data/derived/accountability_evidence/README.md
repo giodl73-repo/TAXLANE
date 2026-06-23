@@ -19,6 +19,7 @@ claims.
 | `public-questions.md` | one generated public-safe question packet | Strips records down to evidence-request questions and blockers. |
 | `performance-demand-checklist.md` | one generated public evidence checklist | Turns blockers into concrete evidence requests before accepting claims. |
 | `performance-demand-checklist.jsonl` | generated machine-readable demand checklist | One JSON row per evidence demand for future UI/API handoff. |
+| `performance-demand-checklist.schema.md` | demand checklist row schema | Documents the `PerformanceDemandChecklistRecord` row contract. |
 | `artifact-map.md` | one generated accountability artifact map | Routes each artifact to its audience, use, and public-use boundary. |
 
 ## Public-Use Rule
@@ -64,6 +65,9 @@ citizen can make before accepting performance or misconduct claims.
 
 The performance-demand checklist JSONL carries the same demand rows in a
 machine-readable form and keeps `public_claim_allowed` explicit.
+
+The performance-demand checklist schema documents the JSONL row fields for
+future UI/API consumers.
 
 The artifact map explains which artifact to use for evidence review, workflow
 handoff, or public reader questions.

@@ -61,6 +61,8 @@ const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-checklist.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_JSONL_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-checklist.jsonl";
+const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_SCHEMA_PATH: &str =
+    "data/derived/accountability_evidence/performance-demand-checklist.schema.md";
 const ACCOUNTABILITY_ARTIFACT_MAP_PATH: &str =
     "data/derived/accountability_evidence/artifact-map.md";
 const ACCOUNTABILITY_PUBLIC_BRIEF_PATH: &str = "docs/reading/accountability-public-brief.md";
@@ -560,6 +562,13 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "data/derived/accountability_evidence/performance-demand-checklist.schema.md",
+        role: "Accountability performance demand checklist schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "data/derived/accountability_evidence/artifact-map.md",
         role: "Accountability artifact map",
         grain: "documentation",
@@ -772,6 +781,13 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "reviews/2026-06-23-accountability-demand-checklist-jsonl-read-validation-review.md",
         role: "Accountability demand checklist JSONL read validation review",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-06-23-accountability-demand-checklist-schema-review.md",
+        role: "Accountability demand checklist schema review",
         grain: "documentation",
         kind: "markdown",
         canonical: "supporting",
@@ -5339,6 +5355,15 @@ fn check_accountability_performance_demand_checklist_jsonl(root: &Path) -> Resul
             "data/derived/accountability_evidence/README.md must link performance-demand-checklist.jsonl"
                 .to_string(),
         );
+    }
+    let schema_filename = ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_SCHEMA_PATH
+        .rsplit('/')
+        .next()
+        .unwrap_or(ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_SCHEMA_PATH);
+    if !index.contains(schema_filename) {
+        return Err(format!(
+            "data/derived/accountability_evidence/README.md must link {schema_filename}"
+        ));
     }
 
     println!("validated accountability performance demand checklist JSONL");
