@@ -66,6 +66,8 @@ public release.
 
 ## Follow-Up
 
-- A future mockup should remain static and scenario-based.
+- A future mockup should remain static and scenario-based, and should be
+  reviewed against
+  `docs/design/placeholder-receipt-mockup-review-checklist.md`.
 - Do not add taxpayer-specific inputs until the calculator and tax-advice
   boundary is reviewed.

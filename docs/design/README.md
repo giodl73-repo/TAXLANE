@@ -7,6 +7,7 @@ approvals.
 | Spec | Purpose |
 |---|---|
 | `placeholder-receipt-placement-spec.md` | Placement rules for keeping the placeholder receipt charts, financing context, and required caveats together. |
+| `placeholder-receipt-mockup-review-checklist.md` | Review checklist for any future static placeholder receipt mockup. |
 
 ## Reviews
 

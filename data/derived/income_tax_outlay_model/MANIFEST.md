@@ -56,15 +56,16 @@ supporting views.
 | `docs/reading/placeholder-receipt-display-packet.md` | Placeholder receipt static display packet | documentation | n/a | supporting | `aa2f3fd899fa1dd763b9482c4d4aae81fcde3e77aeb8ce01b1626d10155f35f2` |
 | `reviews/2026-06-23-placeholder-display-packet-role-review.md` | Placeholder receipt display packet role review | documentation | n/a | supporting | `1a0825afa9a4db902ea1d17a0a69443e0caeb2a6ae7c805f3718282c8806fd68` |
 | `docs/design/placeholder-receipt-placement-spec.md` | Placeholder receipt static placement spec | documentation | n/a | supporting | `31202dd33c7a82f87e7a32aab4a3a726021cc02abb4814f9ebe1b740f6c6a201` |
-| `docs/design/README.md` | Design handoff index | documentation | n/a | supporting | `06eefe0056e1ccf1d4cb4b1c0bb0ce4d9248403a5f4d87dfaf24c903e20d25ee` |
-| `reviews/2026-06-23-placeholder-placement-spec-role-review.md` | Placeholder receipt placement spec role review | documentation | n/a | supporting | `3be45db9152474706db89dc9739debb36621d864adf8b40846a9d70e26db0cc8` |
+| `docs/design/README.md` | Design handoff index | documentation | n/a | supporting | `e5d379e3ae2a7ed7e0a52dbb6f575ebf3d1f5609abe6d186ca58ebc2fae2a4ed` |
+| `reviews/2026-06-23-placeholder-placement-spec-role-review.md` | Placeholder receipt placement spec role review | documentation | n/a | supporting | `6c793e8988db21628e8fb332f06de5a4d24d64fdaa73460e7e1cac99cea6104f` |
+| `docs/design/placeholder-receipt-mockup-review-checklist.md` | Placeholder receipt mockup review checklist | documentation | n/a | supporting | `d40a25310f7f67dd64aad03b5c80e7df853187587774c0ee4812695217c86daa` |
 | `docs/charts/taxpayer-receipt-model/README.md` | Taxpayer receipt chart set handoff note | documentation | n/a | supporting | `29b98ce16cccf88869779c079dc652d7da15583777e015a1d2b8481e9c63250d` |
 | `docs/charts/taxpayer-receipt-model/placeholder-lane-bars.vl.json` | Placeholder receipt lane bar chart spec | visualization spec | n/a | view | `f4233308571464bf6a58fb417803453a32c054fe43a2869d9ae93ffb616f3ccf` |
 | `docs/charts/taxpayer-receipt-model/placeholder-financing-context.vl.json` | Placeholder receipt financing context chart spec | visualization spec | n/a | view | `064cb863095eea673ac4f907f6f9e18b798ec4208c31851f3bc16a80121c395b` |
 | `Cargo.toml` | Rust workspace manifest | tooling | n/a | supporting | `b8735e92f7248a16a5d8657ff9ee6b693fbe8b47f1959152a245b54466060a12` |
 | `Cargo.lock` | Rust dependency lockfile | tooling | n/a | supporting | `ce3e305db156da23b235b0fd67ba32e2f18041c64a2b530fe9f850c38ab2ab80` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `72d0be55c8b61b0922a3140e18e5756a1643095dd389c90bd2219ba6d31c96b1` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `5ecc0ca65f67956569f28344579970bfa80d2c66b9a4de505b0a2aa59f0df22f` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `e63514ab0fc2108195c0af440c3f1acc3c1cd3ec31e496af393d71650a59d5a7` |
 
 ## Regeneration Order
 
