@@ -81,6 +81,8 @@ const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_LOG_SCHEMA_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-log.schema.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_STATUS_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-status.json";
+const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_DASHBOARD_PATH: &str =
+    "data/derived/accountability_evidence/performance-demand-response-dashboard.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_SCHEMA_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-checklist.schema.md";
 const ACCOUNTABILITY_ARTIFACT_MAP_PATH: &str =
@@ -649,6 +651,13 @@ const ARTIFACTS: &[Artifact] = &[
         role: "Accountability performance demand response status",
         grain: "response status summary",
         kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/accountability_evidence/performance-demand-response-dashboard.md",
+        role: "Accountability performance demand response dashboard",
+        grain: "documentation",
+        kind: "markdown",
         canonical: "supporting",
     },
     Artifact {
@@ -1268,6 +1277,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_accountability_performance_demand_response_status(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_accountability_performance_demand_response_dashboard(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -5877,6 +5891,30 @@ fn check_accountability_performance_demand_response_status(root: &Path) -> Resul
     Ok(())
 }
 
+fn check_accountability_performance_demand_response_dashboard(root: &Path) -> Result<(), String> {
+    let expected = build_accountability_performance_demand_response_dashboard(root)?;
+    compare_text(
+        root,
+        ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_DASHBOARD_PATH,
+        &expected,
+        "accountability performance demand response dashboard",
+    )?;
+
+    let index = fs::read_to_string(root.join("data/derived/accountability_evidence/README.md"))
+        .map_err(|err| {
+            format!("failed to read data/derived/accountability_evidence/README.md: {err}")
+        })?;
+    if !index.contains("performance-demand-response-dashboard.md") {
+        return Err(
+            "data/derived/accountability_evidence/README.md must link performance-demand-response-dashboard.md"
+                .to_string(),
+        );
+    }
+
+    println!("validated accountability performance demand response dashboard");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -6301,6 +6339,12 @@ fn build_accountability_artifact_map() -> String {
             "Product implementers",
             "Display response-log counts without recomputing rows.",
             "Do not treat status counts as findings.",
+        ),
+        (
+            "performance-demand-response-dashboard.md",
+            "Citizen readers",
+            "Scan response-log counts without opening JSON.",
+            "Do not treat dashboard counts as findings.",
         ),
         (
             "performance-demand-checklist.jsonl",
@@ -6933,6 +6977,57 @@ fn build_accountability_performance_demand_response_status(root: &Path) -> Resul
             "Track response status and remaining evidence gaps; do not claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits."
         )
     ))
+}
+
+fn build_accountability_performance_demand_response_dashboard(
+    root: &Path,
+) -> Result<String, String> {
+    let status_text = build_accountability_performance_demand_response_status(root)?;
+    let status: serde_json::Value = serde_json::from_str(&status_text)
+        .map_err(|err| format!("failed to parse generated response status: {err}"))?;
+    let total_rows = status
+        .get("total_rows")
+        .and_then(serde_json::Value::as_u64)
+        .ok_or_else(|| "generated response status missing total_rows".to_string())?;
+    let not_yet_received = status
+        .get("not_yet_received")
+        .and_then(serde_json::Value::as_u64)
+        .ok_or_else(|| "generated response status missing not_yet_received".to_string())?;
+    let allowed_rows = status
+        .get("public_claim_allowed")
+        .and_then(serde_json::Value::as_u64)
+        .ok_or_else(|| "generated response status missing public_claim_allowed".to_string())?;
+    let blocked_rows = status
+        .get("public_claim_blocked")
+        .and_then(serde_json::Value::as_u64)
+        .ok_or_else(|| "generated response status missing public_claim_blocked".to_string())?;
+    let use_rule = status
+        .get("use_rule")
+        .and_then(serde_json::Value::as_str)
+        .ok_or_else(|| "generated response status missing use_rule".to_string())?;
+
+    let lines = vec![
+        "# Performance Demand Response Dashboard".to_string(),
+        String::new(),
+        "## Purpose".to_string(),
+        String::new(),
+        "This generated dashboard summarizes response-log status for performance demand rows."
+            .to_string(),
+        "It is not a finding of fraud, waste, abuse, legal dedication, poor performance, or reform success.".to_string(),
+        String::new(),
+        "## Response Status Summary".to_string(),
+        String::new(),
+        format!("- Response rows: {total_rows}"),
+        format!("- Not-yet-received rows: {not_yet_received}"),
+        format!("- Public claims currently allowed: {allowed_rows}"),
+        format!("- Public claims currently blocked: {blocked_rows}"),
+        String::new(),
+        "## Use Rule".to_string(),
+        String::new(),
+        use_rule.to_string(),
+    ];
+
+    Ok(lines.join("\n") + "\n")
 }
 
 fn read_accountability_evidence_records(

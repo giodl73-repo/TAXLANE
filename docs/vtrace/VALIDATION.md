@@ -35,4 +35,5 @@
 | VAL-TAX-032 | Product implementer | Feed response tracking into future UI/API surfaces without weakening claim gates. | JSONL rows keep response class, missing evidence, claim gate, and `public_claim_allowed:false` explicit. | EVID-TAX-032 | current |
 | VAL-TAX-033 | Product implementer | Inspect the response log JSONL row contract before building consumers. | Schema note documents fields, response classes, and no-finding boundary. | EVID-TAX-033 | current |
 | VAL-TAX-034 | Product implementer | Display response-log counts without recomputing JSONL rows. | Status JSON reports total, not-yet-received, allowed, and blocked counts while keeping allowed count zero. | EVID-TAX-034 | current |
+| VAL-TAX-035 | Citizen reader | Scan response-log status without reading JSON. | Dashboard renders response rows, not-yet-received rows, allowed rows, and blocked rows while preserving no-finding wording. | EVID-TAX-035 | current |
 | VAL-TAX-003 | Maintainer | Extend Rust checks without turning `taxlane-tools` into a monolithic CLI. | Domain crate owns reusable models and CLI owns orchestration. | EVID-TAX-003 | current |

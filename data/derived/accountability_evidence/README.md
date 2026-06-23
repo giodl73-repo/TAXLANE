@@ -29,6 +29,7 @@ claims.
 | `performance-demand-response-log.jsonl` | generated demand response log rows | Machine-readable response status rows for future UI/API handoff. |
 | `performance-demand-response-log.schema.md` | response log row schema | Documents the response log JSONL row contract. |
 | `performance-demand-response-status.json` | generated response status summary | Counts response-log and claim-gate status for UI/API display. |
+| `performance-demand-response-dashboard.md` | generated response dashboard | Human-readable response-log and claim-gate counts. |
 | `performance-demand-checklist.schema.md` | demand checklist row schema | Documents the `PerformanceDemandChecklistRecord` row contract. |
 | `artifact-map.md` | one generated accountability artifact map | Routes each artifact to its audience, use, and public-use boundary. |
 
@@ -105,6 +106,9 @@ response classes for future UI/API consumers.
 
 The performance-demand response status JSON summarizes response-log counts and
 blocked public-claim counts without recomputing JSONL rows.
+
+The performance-demand response dashboard renders those response-log counts as
+a compact human-readable summary.
 
 The performance-demand checklist schema documents the JSONL row fields for
 future UI/API consumers.
