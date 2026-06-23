@@ -18,4 +18,5 @@
 | VAL-TAX-015 | Citizen reader | Ask public accountability questions without repeating unsupported claims. | Public questions packet lists only questions and blockers, not draft evidence as findings. | EVID-TAX-015 | current |
 | VAL-TAX-016 | Citizen reader | Understand what TAXLANE can safely say about taxes and accountability now. | Public brief combines modeled income-tax boundary, claim guard status, safe questions, and use/avoid wording. | EVID-TAX-016 | current |
 | VAL-TAX-017 | Citizen reader | Find the public accountability brief from repo entry points. | README and reading index link the public brief and validation checks those links. | EVID-TAX-017 | current |
+| VAL-TAX-018 | Accountability researcher | Choose the right accountability artifact for review, workflow, or public questions. | Artifact map names the intended audience, use, and avoid rule for each accountability artifact. | EVID-TAX-018 | current |
 | VAL-TAX-003 | Maintainer | Extend Rust checks without turning `taxlane-tools` into a monolithic CLI. | Domain crate owns reusable models and CLI owns orchestration. | EVID-TAX-003 | current |

@@ -55,6 +55,8 @@ const ACCOUNTABILITY_CLAIM_GUARD_REPORT_PATH: &str =
     "data/derived/accountability_evidence/claim-guard-report.md";
 const ACCOUNTABILITY_PUBLIC_QUESTIONS_PATH: &str =
     "data/derived/accountability_evidence/public-questions.md";
+const ACCOUNTABILITY_ARTIFACT_MAP_PATH: &str =
+    "data/derived/accountability_evidence/artifact-map.md";
 const ACCOUNTABILITY_PUBLIC_BRIEF_PATH: &str = "docs/reading/accountability-public-brief.md";
 const README_PATH: &str = "README.md";
 const READING_INDEX_PATH: &str = "docs/reading/README.md";
@@ -538,6 +540,13 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "data/derived/accountability_evidence/artifact-map.md",
+        role: "Accountability artifact map",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "docs/reading/accountability-public-brief.md",
         role: "Reader-facing accountability brief",
         grain: "documentation",
@@ -708,6 +717,13 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "reviews/2026-06-23-accountability-brief-discovery-review.md",
         role: "Accountability brief discovery review",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-06-23-accountability-artifact-map-review.md",
+        role: "Accountability artifact map review",
         grain: "documentation",
         kind: "markdown",
         canonical: "supporting",
@@ -1019,6 +1035,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_accountability_public_brief_discovery(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_accountability_artifact_map(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -5161,6 +5182,29 @@ fn check_accountability_public_brief_discovery(root: &Path) -> Result<(), String
     Ok(())
 }
 
+fn check_accountability_artifact_map(root: &Path) -> Result<(), String> {
+    let expected = build_accountability_artifact_map();
+    compare_text(
+        root,
+        ACCOUNTABILITY_ARTIFACT_MAP_PATH,
+        &expected,
+        "accountability artifact map",
+    )?;
+
+    let index = fs::read_to_string(root.join("data/derived/accountability_evidence/README.md"))
+        .map_err(|err| {
+            format!("failed to read data/derived/accountability_evidence/README.md: {err}")
+        })?;
+    if !index.contains("artifact-map.md") {
+        return Err(
+            "data/derived/accountability_evidence/README.md must link artifact-map.md".to_string(),
+        );
+    }
+
+    println!("validated accountability artifact map");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -5480,6 +5524,94 @@ fn build_accountability_public_brief(root: &Path) -> Result<String, String> {
     ]);
 
     Ok(lines.join("\n") + "\n")
+}
+
+fn build_accountability_artifact_map() -> String {
+    let rows = [
+        (
+            "accountability_evidence.omb-fy2027-v1.2026-06-23.draft.jsonl",
+            "Internal evidence reviewers",
+            "Validate source-custodied evidence shape.",
+            "Do not publish as findings.",
+        ),
+        (
+            "readiness-report.md",
+            "Accountability researchers",
+            "See readiness and next action per record.",
+            "Do not treat readiness as a performance score.",
+        ),
+        (
+            "action-queue.md",
+            "Review leads",
+            "Work records by next task.",
+            "Do not publish queue rows as claims.",
+        ),
+        (
+            "performance-demand-packet.md",
+            "Accountability researchers",
+            "Ask what evidence, reviewed wording, or official finding is missing.",
+            "Do not allege misconduct.",
+        ),
+        (
+            "accountability-work-items.jsonl",
+            "Product implementers",
+            "Feed future UI/API workflow from structured fields.",
+            "Do not infer public eligibility except from `public_claim_allowed`.",
+        ),
+        (
+            "claim-guard-report.md",
+            "Review leads",
+            "Check allowed versus blocked public claims.",
+            "Do not publish findings from blocked records.",
+        ),
+        (
+            "public-questions.md",
+            "Citizen readers",
+            "Ask safe public questions about performance evidence.",
+            "Do not expose raw draft evidence as claims.",
+        ),
+        (
+            "docs/reading/accountability-public-brief.md",
+            "Citizen readers",
+            "Read the current public handoff.",
+            "Do not describe modeled allocation as legal dedication.",
+        ),
+    ];
+
+    let mut lines = vec![
+        "# Accountability Artifact Map".to_string(),
+        String::new(),
+        "## Purpose".to_string(),
+        String::new(),
+        "This map shows which accountability artifact to use for evidence review, performance-demand questions, and public-safe reader handoff.".to_string(),
+        "It is not a list of fraud, waste, abuse, or performance findings.".to_string(),
+        String::new(),
+        "## Use Order".to_string(),
+        String::new(),
+        "1. Start with the draft JSONL records for source custody.".to_string(),
+        "2. Use readiness, queue, demand, work-item, and claim-guard artifacts for internal review workflow.".to_string(),
+        "3. Use public questions and the public brief only for outward-facing questions and handoff wording.".to_string(),
+        String::new(),
+        "## Artifacts".to_string(),
+        String::new(),
+        "| Artifact | Audience | Use | Avoid |".to_string(),
+        "|---|---|---|---|".to_string(),
+    ];
+
+    for (artifact, audience, use_case, avoid) in rows {
+        lines.push(format!(
+            "| `{artifact}` | {audience} | {use_case} | {avoid} |"
+        ));
+    }
+
+    lines.extend([
+        String::new(),
+        "## Public-Use Rule".to_string(),
+        String::new(),
+        "Public artifacts may ask for performance evidence and official findings. They must not claim fraud, waste, abuse, legal dedication of income taxes, or program performance without reviewed evidence and claim eligibility.".to_string(),
+    ]);
+
+    lines.join("\n") + "\n"
 }
 
 fn read_accountability_evidence_records(
