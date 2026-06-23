@@ -1,0 +1,10 @@
+{
+  "artifact": "data/derived/accountability_evidence/performance-demand-checklist.jsonl",
+  "total_rows": 2,
+  "public_claim_allowed": 0,
+  "public_claim_blocked": 2,
+  "claim_gates": [
+    {"claim_gate":"Public claim blocked.","rows":2}
+  ],
+  "use_rule": "Demand evidence and reviewed wording; do not claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, or poor performance."
+}

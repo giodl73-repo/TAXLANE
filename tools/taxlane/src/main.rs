@@ -61,6 +61,8 @@ const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-checklist.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_JSONL_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-checklist.jsonl";
+const ACCOUNTABILITY_PERFORMANCE_DEMAND_CLAIM_GATES_PATH: &str =
+    "data/derived/accountability_evidence/performance-demand-claim-gates.json";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_SCHEMA_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-checklist.schema.md";
 const ACCOUNTABILITY_ARTIFACT_MAP_PATH: &str =
@@ -562,6 +564,13 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "data/derived/accountability_evidence/performance-demand-claim-gates.json",
+        role: "Accountability performance demand claim gates",
+        grain: "claim gate summary",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "data/derived/accountability_evidence/performance-demand-checklist.schema.md",
         role: "Accountability performance demand checklist schema",
         grain: "documentation",
@@ -788,6 +797,13 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "reviews/2026-06-23-accountability-demand-checklist-schema-review.md",
         role: "Accountability demand checklist schema review",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-06-23-accountability-performance-demand-claim-gates-review.md",
+        role: "Accountability performance demand claim gates review",
         grain: "documentation",
         kind: "markdown",
         canonical: "supporting",
@@ -1114,6 +1130,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_accountability_performance_demand_checklist_jsonl(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_accountability_performance_demand_claim_gates(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -5370,6 +5391,60 @@ fn check_accountability_performance_demand_checklist_jsonl(root: &Path) -> Resul
     Ok(())
 }
 
+fn check_accountability_performance_demand_claim_gates(root: &Path) -> Result<(), String> {
+    let expected = build_accountability_performance_demand_claim_gates(root)?;
+    compare_text(
+        root,
+        ACCOUNTABILITY_PERFORMANCE_DEMAND_CLAIM_GATES_PATH,
+        &expected,
+        "accountability performance demand claim gates",
+    )?;
+
+    let parsed_text = fs::read_to_string(
+        root.join(ACCOUNTABILITY_PERFORMANCE_DEMAND_CLAIM_GATES_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {ACCOUNTABILITY_PERFORMANCE_DEMAND_CLAIM_GATES_PATH}: {err}")
+    })?;
+    let parsed: serde_json::Value = serde_json::from_str(&parsed_text).map_err(|err| {
+        format!("failed to parse {ACCOUNTABILITY_PERFORMANCE_DEMAND_CLAIM_GATES_PATH}: {err}")
+    })?;
+    let total_rows = parsed
+        .get("total_rows")
+        .and_then(serde_json::Value::as_u64)
+        .ok_or_else(|| "performance demand claim gates missing total_rows".to_string())?;
+    let blocked_rows = parsed
+        .get("public_claim_blocked")
+        .and_then(serde_json::Value::as_u64)
+        .ok_or_else(|| "performance demand claim gates missing public_claim_blocked".to_string())?;
+    let allowed_rows = parsed
+        .get("public_claim_allowed")
+        .and_then(serde_json::Value::as_u64)
+        .ok_or_else(|| "performance demand claim gates missing public_claim_allowed".to_string())?;
+    if total_rows != blocked_rows + allowed_rows {
+        return Err(
+            "performance demand claim gates total does not match allowed plus blocked".to_string(),
+        );
+    }
+    if allowed_rows != 0 {
+        return Err("performance demand claim gates unexpectedly allow a public claim".to_string());
+    }
+
+    let index = fs::read_to_string(root.join("data/derived/accountability_evidence/README.md"))
+        .map_err(|err| {
+            format!("failed to read data/derived/accountability_evidence/README.md: {err}")
+        })?;
+    if !index.contains("performance-demand-claim-gates.json") {
+        return Err(
+            "data/derived/accountability_evidence/README.md must link performance-demand-claim-gates.json"
+                .to_string(),
+        );
+    }
+
+    println!("validated accountability performance demand claim gates");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -5844,6 +5919,54 @@ fn build_accountability_performance_demand_checklist_jsonl(root: &Path) -> Resul
     }
 
     Ok(lines.join("\n") + "\n")
+}
+
+fn build_accountability_performance_demand_claim_gates(root: &Path) -> Result<String, String> {
+    let mut records = read_accountability_evidence_records(root)?;
+    records.sort_by(|left, right| left.record_id.cmp(&right.record_id));
+    let rows: Vec<PerformanceDemandChecklistRecord> = records
+        .iter()
+        .map(AccountabilityEvidenceRecord::performance_demand_checklist_record)
+        .collect();
+    let total_rows = rows.len();
+    let public_claim_allowed = rows.iter().filter(|row| row.public_claim_allowed).count();
+    let public_claim_blocked = total_rows.saturating_sub(public_claim_allowed);
+    let mut gate_counts: BTreeMap<&str, usize> = BTreeMap::new();
+    for row in &rows {
+        *gate_counts.entry(&row.claim_gate).or_default() += 1;
+    }
+    let claim_gates: Vec<String> = gate_counts
+        .into_iter()
+        .map(|(claim_gate, rows)| {
+            format!(
+                "    {{\"claim_gate\":{},\"rows\":{rows}}}",
+                json_string(claim_gate)
+            )
+        })
+        .collect();
+
+    Ok(format!(
+        concat!(
+            "{{\n",
+            "  \"artifact\": {},\n",
+            "  \"total_rows\": {},\n",
+            "  \"public_claim_allowed\": {},\n",
+            "  \"public_claim_blocked\": {},\n",
+            "  \"claim_gates\": [\n",
+            "{}\n",
+            "  ],\n",
+            "  \"use_rule\": {}\n",
+            "}}\n"
+        ),
+        json_string(ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_JSONL_PATH),
+        total_rows,
+        public_claim_allowed,
+        public_claim_blocked,
+        claim_gates.join(",\n"),
+        json_string(
+            "Demand evidence and reviewed wording; do not claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, or poor performance."
+        )
+    ))
 }
 
 fn read_accountability_evidence_records(
