@@ -29,6 +29,7 @@ It is not a list of fraud, waste, abuse, or performance findings.
 | `performance-demand-response-rubric.md` | Citizen readers | Classify replies to evidence requests. | Do not turn incomplete replies into findings. |
 | `performance-demand-followup.md` | Citizen readers | Send a narrower follow-up for missing evidence. | Do not escalate missing evidence into accusations. |
 | `performance-demand-response-log.md` | Citizen readers | Track replies and remaining missing evidence. | Do not treat log status as a finding. |
+| `performance-demand-response-log.jsonl` | Product implementers | Feed neutral response log rows into future UI/API surfaces. | Do not infer public eligibility except from `public_claim_allowed`. |
 | `performance-demand-checklist.jsonl` | Product implementers | Feed demand rows into future UI/API surfaces. | Do not infer public eligibility except from `public_claim_allowed`. |
 | `performance-demand-claim-gates.json` | Product implementers | Display allowed versus blocked demand-row counts. | Do not recompute or override claim gates downstream. |
 | `performance-demand-checklist.schema.md` | Product implementers | Inspect the demand checklist row contract. | Do not add UI/API fields that weaken the use rule. |

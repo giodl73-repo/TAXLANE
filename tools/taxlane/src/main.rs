@@ -75,6 +75,8 @@ const ACCOUNTABILITY_PERFORMANCE_DEMAND_FOLLOWUP_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-followup.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_LOG_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-log.md";
+const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_LOG_JSONL_PATH: &str =
+    "data/derived/accountability_evidence/performance-demand-response-log.jsonl";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_SCHEMA_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-checklist.schema.md";
 const ACCOUNTABILITY_ARTIFACT_MAP_PATH: &str =
@@ -622,6 +624,13 @@ const ARTIFACTS: &[Artifact] = &[
         role: "Accountability performance demand response log",
         grain: "documentation",
         kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/accountability_evidence/performance-demand-response-log.jsonl",
+        role: "Accountability performance demand response log rows",
+        grain: "response log row",
+        kind: "jsonl",
         canonical: "supporting",
     },
     Artifact {
@@ -1226,6 +1235,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_accountability_performance_demand_response_log(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_accountability_performance_demand_response_log_jsonl(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -5695,6 +5709,58 @@ fn check_accountability_performance_demand_response_log(root: &Path) -> Result<(
     Ok(())
 }
 
+fn check_accountability_performance_demand_response_log_jsonl(root: &Path) -> Result<(), String> {
+    let expected = build_accountability_performance_demand_response_log_jsonl(root)?;
+    compare_text(
+        root,
+        ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_LOG_JSONL_PATH,
+        &expected,
+        "accountability performance demand response log JSONL",
+    )?;
+
+    let rows = read_jsonl(root.join(ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_LOG_JSONL_PATH))?;
+    if rows.is_empty() {
+        return Err("performance demand response log JSONL has no rows".to_string());
+    }
+    for row in rows {
+        let response_class = row
+            .get("response_class")
+            .and_then(serde_json::Value::as_str)
+            .ok_or_else(|| "response log row missing response_class".to_string())?;
+        if response_class != "not-yet-received" {
+            return Err("response log rows must start as not-yet-received".to_string());
+        }
+        let public_claim_allowed = row
+            .get("public_claim_allowed")
+            .and_then(serde_json::Value::as_bool)
+            .ok_or_else(|| "response log row missing public_claim_allowed".to_string())?;
+        if public_claim_allowed {
+            return Err("response log row unexpectedly allows a public claim".to_string());
+        }
+        let claim_gate = row
+            .get("claim_gate")
+            .and_then(serde_json::Value::as_str)
+            .ok_or_else(|| "response log row missing claim_gate".to_string())?;
+        if claim_gate != "Public claim blocked." {
+            return Err("response log row must preserve blocked claim gate".to_string());
+        }
+    }
+
+    let index = fs::read_to_string(root.join("data/derived/accountability_evidence/README.md"))
+        .map_err(|err| {
+            format!("failed to read data/derived/accountability_evidence/README.md: {err}")
+        })?;
+    if !index.contains("performance-demand-response-log.jsonl") {
+        return Err(
+            "data/derived/accountability_evidence/README.md must link performance-demand-response-log.jsonl"
+                .to_string(),
+        );
+    }
+
+    println!("validated accountability performance demand response log JSONL");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -6101,6 +6167,12 @@ fn build_accountability_artifact_map() -> String {
             "Citizen readers",
             "Track replies and remaining missing evidence.",
             "Do not treat log status as a finding.",
+        ),
+        (
+            "performance-demand-response-log.jsonl",
+            "Product implementers",
+            "Feed neutral response log rows into future UI/API surfaces.",
+            "Do not infer public eligibility except from `public_claim_allowed`.",
         ),
         (
             "performance-demand-checklist.jsonl",
@@ -6603,6 +6675,41 @@ fn build_accountability_performance_demand_response_log(root: &Path) -> Result<S
         String::new(),
         "Use this log to track response status and remaining evidence gaps. Do not use an empty, partial, process-only, or no-evidence log row to claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits.".to_string(),
     ]);
+
+    Ok(lines.join("\n") + "\n")
+}
+
+fn build_accountability_performance_demand_response_log_jsonl(
+    root: &Path,
+) -> Result<String, String> {
+    let mut records = read_accountability_evidence_records(root)?;
+    records.sort_by(|left, right| left.record_id.cmp(&right.record_id));
+
+    let mut lines = Vec::new();
+    for record in records {
+        let row = record.performance_demand_checklist_record();
+        lines.push(format!(
+            concat!(
+                "{{",
+                "\"record_id\":{},",
+                "\"lane_id\":{},",
+                "\"program_or_account_id\":{},",
+                "\"response_class\":\"not-yet-received\",",
+                "\"evidence_received\":[],",
+                "\"missing_evidence\":{},",
+                "\"claim_gate\":{},",
+                "\"public_claim_allowed\":false,",
+                "\"next_action\":\"Send or resend public-safe evidence request; keep claim gate blocked.\",",
+                "\"use_rule\":\"Track response status and remaining evidence gaps; do not claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits.\"",
+                "}}"
+            ),
+            json_string(&row.record_id),
+            json_option_string(row.lane_id.as_deref()),
+            json_option_string(row.program_or_account_id.as_deref()),
+            json_string(&row.do_not_accept_yet),
+            json_string(&row.claim_gate)
+        ));
+    }
 
     Ok(lines.join("\n") + "\n")
 }

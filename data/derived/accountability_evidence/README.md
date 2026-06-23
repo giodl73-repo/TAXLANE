@@ -26,6 +26,7 @@ claims.
 | `performance-demand-response-rubric.md` | generated response rubric | Classifies replies without turning gaps into findings. |
 | `performance-demand-followup.md` | generated demand follow-up template | Public-safe follow-up for partial or unclear replies. |
 | `performance-demand-response-log.md` | generated demand response log | Tracks reply status and remaining evidence gaps. |
+| `performance-demand-response-log.jsonl` | generated demand response log rows | Machine-readable response status rows for future UI/API handoff. |
 | `performance-demand-checklist.schema.md` | demand checklist row schema | Documents the `PerformanceDemandChecklistRecord` row contract. |
 | `artifact-map.md` | one generated accountability artifact map | Routes each artifact to its audience, use, and public-use boundary. |
 
@@ -93,6 +94,9 @@ partial, process-only, or no-evidence response.
 
 The performance-demand response log tracks reply status and remaining evidence
 gaps without changing claim gates.
+
+The performance-demand response log JSONL carries the same response status rows
+in a machine-readable form and keeps `public_claim_allowed` explicit.
 
 The performance-demand checklist schema documents the JSONL row fields for
 future UI/API consumers.

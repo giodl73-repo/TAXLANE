@@ -32,4 +32,5 @@
 | VAL-TAX-029 | Citizen reader | Classify a reply to a performance evidence request without overclaiming. | Response rubric separates complete, partial, process-only, and no-evidence replies and keeps incomplete replies from becoming findings. | EVID-TAX-029 | current |
 | VAL-TAX-030 | Citizen reader | Follow up on a partial, process-only, or no-evidence reply without overclaiming. | Follow-up template requests missing evidence while keeping unresolved rows blocked. | EVID-TAX-030 | current |
 | VAL-TAX-031 | Citizen reader | Track evidence replies without changing claim gates. | Response log keeps each current row in not-yet-received status with blocker, claim gate, and safe next action. | EVID-TAX-031 | current |
+| VAL-TAX-032 | Product implementer | Feed response tracking into future UI/API surfaces without weakening claim gates. | JSONL rows keep response class, missing evidence, claim gate, and `public_claim_allowed:false` explicit. | EVID-TAX-032 | current |
 | VAL-TAX-003 | Maintainer | Extend Rust checks without turning `taxlane-tools` into a monolithic CLI. | Domain crate owns reusable models and CLI owns orchestration. | EVID-TAX-003 | current |
