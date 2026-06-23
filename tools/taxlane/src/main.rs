@@ -97,6 +97,8 @@ const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_INTAKE_EXAMPLE_JSONL_PATH: &str
     "data/derived/accountability_evidence/performance-demand-response-intake.example.jsonl";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_LOG_APPLIED_EXAMPLE_JSONL_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-log.applied-example.jsonl";
+const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_STATUS_APPLIED_EXAMPLE_PATH: &str =
+    "data/derived/accountability_evidence/performance-demand-response-status.applied-example.json";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_SCHEMA_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-checklist.schema.md";
 const ACCOUNTABILITY_ARTIFACT_MAP_PATH: &str =
@@ -707,6 +709,13 @@ const ARTIFACTS: &[Artifact] = &[
         role: "Accountability performance demand response log applied example rows",
         grain: "response log row",
         kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/accountability_evidence/performance-demand-response-status.applied-example.json",
+        role: "Accountability performance demand response applied status",
+        grain: "response status summary",
+        kind: "json",
         canonical: "supporting",
     },
     Artifact {
@@ -1357,6 +1366,12 @@ fn run_income_tax_outlay_validation() -> ExitCode {
 
     if let Err(err) =
         check_accountability_performance_demand_response_log_applied_example_jsonl(&root)
+    {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_accountability_performance_demand_response_status_applied_example(&root)
     {
         eprintln!("{err}");
         return ExitCode::from(1);
@@ -5536,6 +5551,7 @@ fn check_accountability_artifact_map(root: &Path) -> Result<(), String> {
         "performance-demand-response-intake.schema.md",
         "performance-demand-response-intake.example.jsonl",
         "performance-demand-response-log.applied-example.jsonl",
+        "performance-demand-response-status.applied-example.json",
     ] {
         if !artifact_map.contains(required) {
             return Err(format!(
@@ -6183,6 +6199,58 @@ fn check_accountability_performance_demand_response_log_applied_example_jsonl(
     Ok(())
 }
 
+fn check_accountability_performance_demand_response_status_applied_example(
+    root: &Path,
+) -> Result<(), String> {
+    let expected = build_accountability_performance_demand_response_status_applied_example(root)?;
+    compare_text(
+        root,
+        ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_STATUS_APPLIED_EXAMPLE_PATH,
+        &expected,
+        "accountability performance demand response status applied example",
+    )?;
+
+    let parsed_text = fs::read_to_string(
+        root.join(ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_STATUS_APPLIED_EXAMPLE_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_STATUS_APPLIED_EXAMPLE_PATH}: {err}"
+        )
+    })?;
+    let status: PerformanceDemandResponseStatus =
+        serde_json::from_str(&parsed_text).map_err(|err| {
+            format!(
+                "failed to parse {ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_STATUS_APPLIED_EXAMPLE_PATH}: {err}"
+            )
+        })?;
+    status.validate()?;
+    if status.total_rows == status.not_yet_received {
+        return Err(
+            "response status applied example must include at least one updated row".to_string(),
+        );
+    }
+    if status.public_claim_allowed != 0 {
+        return Err(
+            "response status applied example unexpectedly allows a public claim".to_string(),
+        );
+    }
+
+    let index = fs::read_to_string(root.join("data/derived/accountability_evidence/README.md"))
+        .map_err(|err| {
+            format!("failed to read data/derived/accountability_evidence/README.md: {err}")
+        })?;
+    if !index.contains("performance-demand-response-status.applied-example.json") {
+        return Err(
+            "data/derived/accountability_evidence/README.md must link performance-demand-response-status.applied-example.json"
+                .to_string(),
+        );
+    }
+
+    println!("validated accountability performance demand response status applied example");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -6643,6 +6711,12 @@ fn build_accountability_artifact_map() -> String {
             "Product implementers",
             "Inspect response-log rows after applying example intake.",
             "Do not treat applied example rows as findings or claim eligibility.",
+        ),
+        (
+            "performance-demand-response-status.applied-example.json",
+            "Product implementers",
+            "Display applied response-log counts without recomputing rows.",
+            "Do not treat applied status counts as findings.",
         ),
         (
             "performance-demand-checklist.jsonl",
@@ -7526,6 +7600,29 @@ fn build_accountability_performance_demand_response_log_applied_example_jsonl(
     }
 
     Ok(lines.join("\n") + "\n")
+}
+
+fn build_accountability_performance_demand_response_status_applied_example(
+    root: &Path,
+) -> Result<String, String> {
+    let applied_log =
+        build_accountability_performance_demand_response_log_applied_example_jsonl(root)?;
+    let rows: Vec<PerformanceDemandResponseLogRecord> = applied_log
+        .lines()
+        .map(|line| {
+            serde_json::from_str(line)
+                .map_err(|err| format!("failed to parse applied response log row: {err}"))
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+    let status = PerformanceDemandResponseStatus::from_response_log_records(
+        ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_LOG_APPLIED_EXAMPLE_JSONL_PATH,
+        &rows,
+    )?;
+    status.validate()?;
+
+    serde_json::to_string_pretty(&status)
+        .map(|text| format!("{text}\n"))
+        .map_err(|err| format!("failed to serialize applied response status: {err}"))
 }
 
 fn read_accountability_evidence_records(

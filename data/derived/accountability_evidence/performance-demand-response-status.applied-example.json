@@ -1,0 +1,8 @@
+{
+  "artifact": "data/derived/accountability_evidence/performance-demand-response-log.applied-example.jsonl",
+  "total_rows": 2,
+  "not_yet_received": 1,
+  "public_claim_allowed": 0,
+  "public_claim_blocked": 2,
+  "use_rule": "Track response status and remaining evidence gaps; do not claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits."
+}
