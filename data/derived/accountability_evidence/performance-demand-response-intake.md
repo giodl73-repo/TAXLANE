@@ -22,10 +22,10 @@ It is not a finding of fraud, waste, abuse, legal dedication, poor performance, 
 
 ## Response Classes
 
-- `complete-evidence-response`: all requested evidence and claim basis were provided, pending role review.
-- `partial-evidence-response`: at least one requested evidence item remains missing or unclear.
-- `process-only-response`: the reply explains process but does not provide requested evidence.
-- `no-evidence-response`: the reply declines, ignores, or cannot identify requested evidence.
+- `complete-evidence-response`: All requested evidence and claim basis were provided, pending role review.
+- `partial-evidence-response`: At least one requested evidence item remains missing or unclear.
+- `process-only-response`: The reply explains process but does not provide requested evidence.
+- `no-evidence-response`: The reply declines, ignores, or cannot identify requested evidence.
 
 ## Update Rule
 

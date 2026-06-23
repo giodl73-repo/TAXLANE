@@ -619,6 +619,43 @@ pub enum PerformanceDemandResponseClass {
     NoEvidenceResponse,
 }
 
+impl PerformanceDemandResponseClass {
+    pub fn all_classes() -> &'static [Self] {
+        &[
+            Self::CompleteEvidenceResponse,
+            Self::PartialEvidenceResponse,
+            Self::ProcessOnlyResponse,
+            Self::NoEvidenceResponse,
+        ]
+    }
+
+    pub fn wire_value(&self) -> &'static str {
+        match self {
+            Self::CompleteEvidenceResponse => "complete-evidence-response",
+            Self::PartialEvidenceResponse => "partial-evidence-response",
+            Self::ProcessOnlyResponse => "process-only-response",
+            Self::NoEvidenceResponse => "no-evidence-response",
+        }
+    }
+
+    pub fn intake_meaning(&self) -> &'static str {
+        match self {
+            Self::CompleteEvidenceResponse => {
+                "All requested evidence and claim basis were provided, pending role review."
+            }
+            Self::PartialEvidenceResponse => {
+                "At least one requested evidence item remains missing or unclear."
+            }
+            Self::ProcessOnlyResponse => {
+                "The reply explains process but does not provide requested evidence."
+            }
+            Self::NoEvidenceResponse => {
+                "The reply declines, ignores, or cannot identify requested evidence."
+            }
+        }
+    }
+}
+
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 pub struct PerformanceDemandResponseIntakeRecord {
     pub record_id: String,
@@ -1167,6 +1204,19 @@ mod tests {
 
     #[test]
     fn validates_response_intake_record_guardrails() {
+        assert_eq!(
+            PerformanceDemandResponseClass::all_classes()
+                .iter()
+                .map(PerformanceDemandResponseClass::wire_value)
+                .collect::<Vec<_>>(),
+            vec![
+                "complete-evidence-response",
+                "partial-evidence-response",
+                "process-only-response",
+                "no-evidence-response",
+            ]
+        );
+
         let record = PerformanceDemandResponseIntakeRecord {
             record_id: "accountability-evidence:test".to_string(),
             reply_source_id: "SRC-REPLY-TEST".to_string(),

@@ -9,8 +9,9 @@ use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
 use taxlane_core::{
     AccountabilityEvidenceRecord, ArtifactMetadata, PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE,
-    PerformanceDemandChecklistRecord, PerformanceDemandResponseLogClass,
-    PerformanceDemandResponseLogRecord, PerformanceDemandResponseStatus,
+    PerformanceDemandChecklistRecord, PerformanceDemandResponseClass,
+    PerformanceDemandResponseLogClass, PerformanceDemandResponseLogRecord,
+    PerformanceDemandResponseStatus,
 };
 use zip::ZipArchive;
 
@@ -7166,7 +7167,7 @@ fn build_accountability_performance_demand_response_handoff(root: &Path) -> Resu
 }
 
 fn build_accountability_performance_demand_response_intake() -> String {
-    let lines = vec![
+    let mut lines = vec![
         "# Performance Demand Response Intake".to_string(),
         String::new(),
         "## Purpose".to_string(),
@@ -7194,22 +7195,29 @@ fn build_accountability_performance_demand_response_intake() -> String {
         String::new(),
         "## Response Classes".to_string(),
         String::new(),
-        "- `complete-evidence-response`: all requested evidence and claim basis were provided, pending role review.".to_string(),
-        "- `partial-evidence-response`: at least one requested evidence item remains missing or unclear.".to_string(),
-        "- `process-only-response`: the reply explains process but does not provide requested evidence.".to_string(),
-        "- `no-evidence-response`: the reply declines, ignores, or cannot identify requested evidence.".to_string(),
+    ];
+
+    for response_class in PerformanceDemandResponseClass::all_classes() {
+        lines.push(format!(
+            "- `{}`: {}",
+            response_class.wire_value(),
+            response_class.intake_meaning()
+        ));
+    }
+
+    lines.extend([
         String::new(),
         "## Update Rule".to_string(),
         String::new(),
         "After intake, update `performance-demand-response-log.jsonl` only with source-custodied reply evidence and rerun validation.".to_string(),
         "Do not convert a reply into a fraud, waste, abuse, legal dedication, poor performance, or reform-benefit claim without reviewed evidence and an explicit public-claim gate.".to_string(),
-    ];
+    ]);
 
     lines.join("\n") + "\n"
 }
 
 fn build_accountability_performance_demand_response_intake_schema() -> String {
-    let lines = vec![
+    let mut lines = vec![
         "# Performance Demand Response Intake Schema".to_string(),
         String::new(),
         "## Purpose".to_string(),
@@ -7234,10 +7242,13 @@ fn build_accountability_performance_demand_response_intake_schema() -> String {
         String::new(),
         "## Allowed Response Classes".to_string(),
         String::new(),
-        "- `complete-evidence-response`".to_string(),
-        "- `partial-evidence-response`".to_string(),
-        "- `process-only-response`".to_string(),
-        "- `no-evidence-response`".to_string(),
+    ];
+
+    for response_class in PerformanceDemandResponseClass::all_classes() {
+        lines.push(format!("- `{}`", response_class.wire_value()));
+    }
+
+    lines.extend([
         String::new(),
         "## Gate Rules".to_string(),
         String::new(),
@@ -7248,7 +7259,7 @@ fn build_accountability_performance_demand_response_intake_schema() -> String {
         "## Public-Use Rule".to_string(),
         String::new(),
         PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE.to_string(),
-    ];
+    ]);
 
     lines.join("\n") + "\n"
 }
