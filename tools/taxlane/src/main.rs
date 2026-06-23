@@ -73,6 +73,8 @@ const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_RUBRIC_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-rubric.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_FOLLOWUP_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-followup.md";
+const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_LOG_PATH: &str =
+    "data/derived/accountability_evidence/performance-demand-response-log.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_SCHEMA_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-checklist.schema.md";
 const ACCOUNTABILITY_ARTIFACT_MAP_PATH: &str =
@@ -611,6 +613,13 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "data/derived/accountability_evidence/performance-demand-followup.md",
         role: "Accountability performance demand follow-up template",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/accountability_evidence/performance-demand-response-log.md",
+        role: "Accountability performance demand response log",
         grain: "documentation",
         kind: "markdown",
         canonical: "supporting",
@@ -1212,6 +1221,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_accountability_performance_demand_followup(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_accountability_performance_demand_response_log(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -5657,6 +5671,30 @@ fn check_accountability_performance_demand_followup(root: &Path) -> Result<(), S
     Ok(())
 }
 
+fn check_accountability_performance_demand_response_log(root: &Path) -> Result<(), String> {
+    let expected = build_accountability_performance_demand_response_log(root)?;
+    compare_text(
+        root,
+        ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_LOG_PATH,
+        &expected,
+        "accountability performance demand response log",
+    )?;
+
+    let index = fs::read_to_string(root.join("data/derived/accountability_evidence/README.md"))
+        .map_err(|err| {
+            format!("failed to read data/derived/accountability_evidence/README.md: {err}")
+        })?;
+    if !index.contains("performance-demand-response-log.md") {
+        return Err(
+            "data/derived/accountability_evidence/README.md must link performance-demand-response-log.md"
+                .to_string(),
+        );
+    }
+
+    println!("validated accountability performance demand response log");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -6057,6 +6095,12 @@ fn build_accountability_artifact_map() -> String {
             "Citizen readers",
             "Send a narrower follow-up for missing evidence.",
             "Do not escalate missing evidence into accusations.",
+        ),
+        (
+            "performance-demand-response-log.md",
+            "Citizen readers",
+            "Track replies and remaining missing evidence.",
+            "Do not treat log status as a finding.",
         ),
         (
             "performance-demand-checklist.jsonl",
@@ -6512,6 +6556,52 @@ fn build_accountability_performance_demand_followup(root: &Path) -> Result<Strin
         "## Use Rule".to_string(),
         String::new(),
         "Use this follow-up only after a reply leaves requested evidence missing or unclear. Do not use a missing or incomplete reply to claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits.".to_string(),
+    ]);
+
+    Ok(lines.join("\n") + "\n")
+}
+
+fn build_accountability_performance_demand_response_log(root: &Path) -> Result<String, String> {
+    let mut records = read_accountability_evidence_records(root)?;
+    records.sort_by(|left, right| left.record_id.cmp(&right.record_id));
+
+    let mut lines = vec![
+        "# Performance Demand Response Log".to_string(),
+        String::new(),
+        "## Purpose".to_string(),
+        String::new(),
+        "This generated log gives each current performance demand row a neutral place to track replies and remaining evidence gaps.".to_string(),
+        "It is not a finding of fraud, waste, abuse, legal dedication, poor performance, or reform success.".to_string(),
+        String::new(),
+        "## Response Classes".to_string(),
+        String::new(),
+        "- `not-yet-received`: no reply has been logged in TAXLANE.".to_string(),
+        "- `complete-evidence-response`: all required evidence and public-claim basis were provided and still need role review before public use.".to_string(),
+        "- `partial-evidence-response`: at least one requested evidence item remains missing or unclear.".to_string(),
+        "- `process-only-response`: the reply explains process but does not provide requested evidence.".to_string(),
+        "- `no-evidence-response`: the reply declines, ignores, or cannot identify requested evidence.".to_string(),
+        String::new(),
+        "## Current Log".to_string(),
+        String::new(),
+        "| Lane | Response Class | Evidence Received | Missing Evidence | Claim Gate | Next Action |".to_string(),
+        "|---|---|---|---|---|---|".to_string(),
+    ];
+
+    for record in records {
+        let row = record.performance_demand_checklist_record();
+        let label = row.lane_id.as_deref().unwrap_or("n/a");
+        lines.push(format!(
+            "| {label} | `not-yet-received` | none logged | {} | {} | Send or resend public-safe evidence request; keep claim gate blocked. |",
+            row.do_not_accept_yet.replace('|', "\\|"),
+            row.claim_gate.replace('|', "\\|")
+        ));
+    }
+
+    lines.extend([
+        String::new(),
+        "## Use Rule".to_string(),
+        String::new(),
+        "Use this log to track response status and remaining evidence gaps. Do not use an empty, partial, process-only, or no-evidence log row to claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits.".to_string(),
     ]);
 
     Ok(lines.join("\n") + "\n")
