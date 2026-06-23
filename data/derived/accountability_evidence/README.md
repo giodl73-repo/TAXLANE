@@ -21,6 +21,7 @@ claims.
 | `performance-demand-checklist.jsonl` | generated machine-readable demand checklist | One JSON row per evidence demand for future UI/API handoff. |
 | `performance-demand-claim-gates.json` | generated demand claim-gate summary | Counts allowed and blocked demand rows for UI/API display. |
 | `performance-demand-dashboard.md` | generated demand dashboard | Human-readable claim-gate summary for demand rows. |
+| `performance-demand-brief.md` | generated demand ask packet | Compact citizen-facing ask packet for blocked demand rows. |
 | `performance-demand-checklist.schema.md` | demand checklist row schema | Documents the `PerformanceDemandChecklistRecord` row contract. |
 | `artifact-map.md` | one generated accountability artifact map | Routes each artifact to its audience, use, and public-use boundary. |
 
@@ -73,6 +74,9 @@ allowed or blocked before any public claim display.
 
 The performance-demand dashboard renders those claim gates as a compact
 human-readable summary.
+
+The performance-demand brief turns blocked demand rows into a compact ask packet
+without changing public-claim eligibility.
 
 The performance-demand checklist schema documents the JSONL row fields for
 future UI/API consumers.
