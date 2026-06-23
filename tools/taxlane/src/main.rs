@@ -67,6 +67,8 @@ const ACCOUNTABILITY_PERFORMANCE_DEMAND_DASHBOARD_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-dashboard.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_BRIEF_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-brief.md";
+const ACCOUNTABILITY_PERFORMANCE_DEMAND_LETTER_PATH: &str =
+    "data/derived/accountability_evidence/performance-demand-letter.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_SCHEMA_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-checklist.schema.md";
 const ACCOUNTABILITY_ARTIFACT_MAP_PATH: &str =
@@ -584,6 +586,13 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "data/derived/accountability_evidence/performance-demand-brief.md",
         role: "Accountability performance demand brief",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/accountability_evidence/performance-demand-letter.md",
+        role: "Accountability performance demand letter template",
         grain: "documentation",
         kind: "markdown",
         canonical: "supporting",
@@ -1170,6 +1179,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_accountability_performance_demand_brief(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_accountability_performance_demand_letter(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -5543,6 +5557,30 @@ fn check_accountability_performance_demand_brief(root: &Path) -> Result<(), Stri
     Ok(())
 }
 
+fn check_accountability_performance_demand_letter(root: &Path) -> Result<(), String> {
+    let expected = build_accountability_performance_demand_letter(root)?;
+    compare_text(
+        root,
+        ACCOUNTABILITY_PERFORMANCE_DEMAND_LETTER_PATH,
+        &expected,
+        "accountability performance demand letter",
+    )?;
+
+    let index = fs::read_to_string(root.join("data/derived/accountability_evidence/README.md"))
+        .map_err(|err| {
+            format!("failed to read data/derived/accountability_evidence/README.md: {err}")
+        })?;
+    if !index.contains("performance-demand-letter.md") {
+        return Err(
+            "data/derived/accountability_evidence/README.md must link performance-demand-letter.md"
+                .to_string(),
+        );
+    }
+
+    println!("validated accountability performance demand letter");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -5927,6 +5965,12 @@ fn build_accountability_artifact_map() -> String {
             "Do not present the brief as a finding or scorecard.",
         ),
         (
+            "performance-demand-letter.md",
+            "Citizen readers",
+            "Adapt a public-safe evidence request template.",
+            "Do not send it as an accusation or legal conclusion.",
+        ),
+        (
             "performance-demand-checklist.jsonl",
             "Product implementers",
             "Feed demand rows into future UI/API surfaces.",
@@ -6215,6 +6259,65 @@ fn build_accountability_performance_demand_brief(root: &Path) -> Result<String, 
         "## Use Rule".to_string(),
         String::new(),
         "Use this brief to demand source records, reviewed performance evidence, official findings, role-approved wording, and public-claim eligibility. Do not use it to claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits.".to_string(),
+    ]);
+
+    Ok(lines.join("\n") + "\n")
+}
+
+fn build_accountability_performance_demand_letter(root: &Path) -> Result<String, String> {
+    let mut records = read_accountability_evidence_records(root)?;
+    records.sort_by(|left, right| left.record_id.cmp(&right.record_id));
+
+    let mut lines = vec![
+        "# Performance Demand Letter Template".to_string(),
+        String::new(),
+        "## Purpose".to_string(),
+        String::new(),
+        "This generated template helps a citizen ask for performance evidence behind public-money claims.".to_string(),
+        "It is not an accusation, legal demand, fraud finding, waste finding, abuse finding, or performance scorecard.".to_string(),
+        String::new(),
+        "## Template".to_string(),
+        String::new(),
+        "Subject: Request for reviewed performance evidence and public-claim basis".to_string(),
+        String::new(),
+        "To [office or program contact],".to_string(),
+        String::new(),
+        "I am reviewing public-money claims with TAXLANE's modeled income-tax visibility materials. I understand those materials do not show legal dedication of income-tax dollars and do not, by themselves, prove fraud, waste, abuse, or poor performance.".to_string(),
+        String::new(),
+        "Before I accept or repeat a public claim, please provide the evidence listed below or identify where it is already published.".to_string(),
+        String::new(),
+        "Requested evidence:".to_string(),
+        String::new(),
+        "- Source record and source version.".to_string(),
+        "- Reviewed performance target, outcome measure, audit source, or official finding.".to_string(),
+        "- Exact public wording approved by role review, if any.".to_string(),
+        "- Public-claim eligibility basis for any performance or misconduct statement.".to_string(),
+        String::new(),
+        "Current TAXLANE demand rows to resolve:".to_string(),
+    ];
+
+    for record in records {
+        let row = record.performance_demand_checklist_record();
+        let label = row.lane_id.as_deref().unwrap_or("n/a");
+        lines.extend([
+            String::new(),
+            format!("- {label}: {}", row.demand_question),
+            format!("  Blocker: {}", row.do_not_accept_yet),
+            format!("  Claim gate: {}", row.claim_gate),
+        ]);
+    }
+
+    lines.extend([
+        String::new(),
+        "Please treat this as a request for evidence and reviewed wording, not as an allegation that misconduct or poor performance occurred.".to_string(),
+        String::new(),
+        "Sincerely,".to_string(),
+        String::new(),
+        "[name]".to_string(),
+        String::new(),
+        "## Use Rule".to_string(),
+        String::new(),
+        "Customize names, dates, and addressee details before use. Keep the modeled-not-legal tax boundary and no-finding language intact unless reviewed evidence and public-claim eligibility support a stronger statement.".to_string(),
     ]);
 
     Ok(lines.join("\n") + "\n")

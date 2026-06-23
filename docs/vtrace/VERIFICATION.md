@@ -5,6 +5,7 @@
 | REQ-TAX-001 | inspection | Inspect `docs/reading/` and `reviews/` | Allocation claims carry modeled/current/reform boundaries. | current | EVID-TAX-001 |
 | REQ-TAX-001 | command + inspection | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect public brief review | Reader-facing accountability brief preserves modeled-not-legal tax visibility boundary. | current | EVID-TAX-016 |
 | REQ-TAX-001 | command + inspection | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect brief discovery review | README and reading index link the public accountability brief. | current | EVID-TAX-017 |
+| REQ-TAX-001 | command + inspection | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect performance demand letter review | Letter template preserves modeled-not-legal tax visibility language. | current | EVID-TAX-028 |
 | REQ-TAX-002 | command + inspection | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect `docs/design/` | Chart sync passes and display handoffs keep financing context visible. | current | EVID-TAX-001 |
 | REQ-TAX-003 | inspection | Inspect mockup checklist and role reviews | Calculator-shaped controls remain blocked. | current | EVID-TAX-001 |
 | REQ-TAX-004 | inspection | Inspect `docs/data/accountability-evidence-schema.md`, accountability boundary note, and role review | Fraud/waste indicators are evidence records, not allegations. | current | EVID-TAX-002 |
@@ -32,6 +33,7 @@
 | REQ-TAX-004 | command + inspection | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect performance demand dashboard review | Dashboard renders blocked claim gates without creating public findings. | current | EVID-TAX-025 |
 | REQ-TAX-004 | command + inspection | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect artifact map demand handoff review | Artifact map routes demand artifacts without weakening no-finding boundaries. | current | EVID-TAX-026 |
 | REQ-TAX-004 | command + inspection | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect performance demand brief review | Brief turns blocked demand rows into evidence asks without creating findings. | current | EVID-TAX-027 |
+| REQ-TAX-004 | command + inspection | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect performance demand letter review | Letter template requests evidence without alleging fraud, waste, abuse, or poor performance. | current | EVID-TAX-028 |
 | REQ-TAX-005 | command | `cargo run -p taxlane-tools -- income-tax-outlay validate` | Validation passes. | current | EVID-TAX-001 |
 | REQ-TAX-006 | command + architecture review | `cargo test`; inspect `crates/taxlane-core`, `tools/taxlane`, and `reviews/2026-06-23-rust-core-crate-architecture-review.md` | Domain crate exists and CLI orchestration owns file IO/report generation. | current | EVID-TAX-003 |
 | REQ-TAX-006 | command + review | `cargo test`; inspect accountability validator tests | Accountability claim rules live in the core crate with unit tests. | current | EVID-TAX-005 |
@@ -57,3 +59,4 @@
 | REQ-TAX-006 | command + review | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect performance demand dashboard review | CLI checks generated dashboard text and README discoverability. | current | EVID-TAX-025 |
 | REQ-TAX-006 | command + review | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect artifact map demand handoff review | CLI requires artifact-map routes for dashboard, claim gates, JSONL, and schema demand artifacts. | current | EVID-TAX-026 |
 | REQ-TAX-006 | command + review | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect performance demand brief generation | CLI checks generated demand brief staleness and README discoverability. | current | EVID-TAX-027 |
+| REQ-TAX-006 | command + review | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect performance demand letter generation | CLI checks generated demand letter staleness and README discoverability. | current | EVID-TAX-028 |
