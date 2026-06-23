@@ -8,6 +8,7 @@ Work is organized into small waves and pulses.
 
 ## Completed waves
 
+- `2026-06-23-accountability-demand-checklist-jsonl-read-validation`
 - `2026-06-23-accountability-demand-checklist-core-contract`
 - `2026-06-23-accountability-performance-demand-checklist-jsonl`
 - `2026-06-23-accountability-performance-demand-checklist`

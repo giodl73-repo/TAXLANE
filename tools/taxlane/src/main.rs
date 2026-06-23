@@ -7,7 +7,9 @@ use std::process::ExitCode;
 use roxmltree::Document;
 use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
-use taxlane_core::{AccountabilityEvidenceRecord, ArtifactMetadata};
+use taxlane_core::{
+    AccountabilityEvidenceRecord, ArtifactMetadata, PerformanceDemandChecklistRecord,
+};
 use zip::ZipArchive;
 
 const CHART_SPECS: &[&str] = &[
@@ -756,6 +758,20 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "reviews/2026-06-23-accountability-performance-demand-checklist-jsonl-review.md",
         role: "Accountability performance demand checklist JSONL review",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-06-23-accountability-demand-checklist-core-contract-review.md",
+        role: "Accountability demand checklist core contract review",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-06-23-accountability-demand-checklist-jsonl-read-validation-review.md",
+        role: "Accountability demand checklist JSONL read validation review",
         grain: "documentation",
         kind: "markdown",
         canonical: "supporting",
@@ -5280,16 +5296,33 @@ fn check_accountability_performance_demand_checklist_jsonl(root: &Path) -> Resul
         "accountability performance demand checklist JSONL",
     )?;
 
-    let rows = read_jsonl(root.join(ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_JSONL_PATH))?;
+    let rows: Vec<PerformanceDemandChecklistRecord> =
+        read_jsonl(root.join(ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+                    format!("accountability performance demand checklist JSONL: {err}")
+                })
+            })
+            .collect::<Result<_, _>>()?;
     if rows.is_empty() {
         return Err("accountability performance demand checklist JSONL has no rows".to_string());
     }
+    let mut expected_rows = read_accountability_evidence_records(root)?;
+    expected_rows.sort_by(|left, right| left.record_id.cmp(&right.record_id));
+    let expected_rows: Vec<PerformanceDemandChecklistRecord> = expected_rows
+        .iter()
+        .map(AccountabilityEvidenceRecord::performance_demand_checklist_record)
+        .collect();
+    if rows != expected_rows {
+        return Err(
+            "accountability performance demand checklist JSONL does not match core records"
+                .to_string(),
+        );
+    }
     for row in rows {
-        if row
-            .get("public_claim_allowed")
-            .and_then(serde_json::Value::as_bool)
-            .unwrap_or(true)
-        {
+        row.validate()?;
+        if row.public_claim_allowed {
             return Err(
                 "accountability performance demand checklist JSONL unexpectedly allows a public claim"
                     .to_string(),

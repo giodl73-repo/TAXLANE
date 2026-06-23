@@ -97,15 +97,17 @@ supporting views.
 | `reviews/2026-06-23-accountability-artifact-map-review.md` | Accountability artifact map review | documentation | n/a | supporting | `fe6da34f643d730daa20a793b28a808c5c89e6b501fb1cbb776c3e03a9b75eed` |
 | `reviews/2026-06-23-accountability-performance-demand-checklist-review.md` | Accountability performance demand checklist review | documentation | n/a | supporting | `02c95371cf8bff321aefe107a2d025c1d3a6a7f9248841d77904d4dafa390941` |
 | `reviews/2026-06-23-accountability-performance-demand-checklist-jsonl-review.md` | Accountability performance demand checklist JSONL review | documentation | n/a | supporting | `f205c8dd12f84a1884737ca1f096733b141a345b97c43dfae91e4a5208f77098` |
+| `reviews/2026-06-23-accountability-demand-checklist-core-contract-review.md` | Accountability demand checklist core contract review | documentation | n/a | supporting | `e0049ed8005544c484996cedd82627318ee0b656da40de153d474f980aee101a` |
+| `reviews/2026-06-23-accountability-demand-checklist-jsonl-read-validation-review.md` | Accountability demand checklist JSONL read validation review | documentation | n/a | supporting | `07abda1924927288ecba5f488afa11a87585cf6f9430b4bcc8b65cef8bf0da3c` |
 | `reviews/2026-06-23-rust-core-crate-architecture-review.md` | Rust core crate architecture review | documentation | n/a | supporting | `04203820d1dd05d067146fa2ca1b7f2fbe5f95346e6c0b3ccbc95d09fc8808ba` |
 | `docs/vtrace/MISSION.md` | VTRACE mission | documentation | n/a | supporting | `751833c38bcc467ffe7e2c926195397ce396106830452c0d1f9b3039d6c211a6` |
 | `docs/vtrace/REQUIREMENTS.md` | VTRACE requirements | documentation | n/a | supporting | `1a22419ccf0b3a10644391d410774e6ab290960913cf1e745431c68e28868913` |
 | `docs/vtrace/SPECIFICATION_BASELINE.md` | VTRACE specification baseline | documentation | n/a | supporting | `dfb7c1462974eeac27fffe451e989211dfe4497b145bb56df15f6a671f010678` |
-| `docs/vtrace/TRACE.md` | VTRACE trace matrix | documentation | n/a | supporting | `9fa823f1af24a93199bea075a318bce6b3b9537e0a30eeab52964869f02b7254` |
-| `docs/vtrace/WORK_PACKAGES.md` | VTRACE work packages | documentation | n/a | supporting | `317c6379ad597297044f54181b371c10acf109958a41d16d8de1228e999766c0` |
-| `docs/vtrace/VERIFICATION.md` | VTRACE verification plan | documentation | n/a | supporting | `0a04f5192e0788d65c320e6806d6599b9050d0f91b667555ca91b9f1f2c1a784` |
-| `docs/vtrace/VALIDATION.md` | VTRACE validation scenarios | documentation | n/a | supporting | `6a7b632517ec8c8b967d0364bcc9f164bfb51e7e60cbc8e2effc0dfc75ddd840` |
-| `docs/vtrace/EVIDENCE.md` | VTRACE evidence ledger | documentation | n/a | supporting | `acbf7a4dba494d659507bdcaa0664de9b337c0127f9f61844e0f90708ee563a3` |
+| `docs/vtrace/TRACE.md` | VTRACE trace matrix | documentation | n/a | supporting | `b2de236b420299bc6507baec1f55be3797152381c0bb38f9b2eb8721fea5dd0d` |
+| `docs/vtrace/WORK_PACKAGES.md` | VTRACE work packages | documentation | n/a | supporting | `3a4b2b36c9f7a54d4ae804ac26c6814e0f91a87e60b02cf2801352346570a42c` |
+| `docs/vtrace/VERIFICATION.md` | VTRACE verification plan | documentation | n/a | supporting | `669471a86c68389073175164e7c680e414ab2eae7d8d203c4785bb6d1ecccd05` |
+| `docs/vtrace/VALIDATION.md` | VTRACE validation scenarios | documentation | n/a | supporting | `6d5d2a75561794cb53d0b6ab3d2d19688859dccb8a0468147476792b1b6a33a0` |
+| `docs/vtrace/EVIDENCE.md` | VTRACE evidence ledger | documentation | n/a | supporting | `f5308054fae6e0c43cda849941be9b7b8e3fe11767dc3d3988ee97192594b466` |
 | `docs/vtrace/REVIEW.md` | VTRACE adoption review | documentation | n/a | supporting | `52ed83ae325229c3da170b7842dbf07d33f76be84c7e56d0a48aacb8595dd7ff` |
 | `docs/charts/taxpayer-receipt-model/README.md` | Taxpayer receipt chart set handoff note | documentation | n/a | supporting | `29b98ce16cccf88869779c079dc652d7da15583777e015a1d2b8481e9c63250d` |
 | `docs/charts/taxpayer-receipt-model/placeholder-lane-bars.vl.json` | Placeholder receipt lane bar chart spec | visualization spec | n/a | view | `f4233308571464bf6a58fb417803453a32c054fe43a2869d9ae93ffb616f3ccf` |
@@ -113,9 +115,9 @@ supporting views.
 | `Cargo.toml` | Rust workspace manifest | tooling | n/a | supporting | `405a2bba4b4deec2a77d51621f397528c0b5a86a3137df32af6633f32ffbfad0` |
 | `Cargo.lock` | Rust dependency lockfile | tooling | n/a | supporting | `44b2fcc6662f4fa3cecadbd650c7991b66e42af15dbf4efbf8ff16b832717d96` |
 | `crates/taxlane-core/Cargo.toml` | Rust Taxlane core crate manifest | tooling | n/a | supporting | `6469c9f3c3d01bc0c51783255082c93ed608c6c64c0d4f32f5cd2c08f2426fb9` |
-| `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `b7a89d91bfd1d430111e31c05c9ff42fa417784033031f1004a1287038513a8e` |
+| `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `7ef49219716484772216af8655620ae85a457834a01b68fbb545916f34f0c90d` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `b910e56a20f40547ac1e4f696e84772dde163738b03915ddbcc0d0a39427719a` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `99a0fa54994170fe67055641939f1d6c2742613423116309c420b079ed1efd44` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `55c49c78b40daa6ba38dfad218eaddc5633f1a8ff1c931a04ef20460bd3c6b00` |
 
 ## Regeneration Order
 

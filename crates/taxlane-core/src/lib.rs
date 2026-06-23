@@ -253,6 +253,25 @@ impl AccountabilityEvidenceRecord {
             use_rule: PERFORMANCE_DEMAND_USE_RULE,
         }
     }
+
+    pub fn performance_demand_checklist_record(&self) -> PerformanceDemandChecklistRecord {
+        let row = self.performance_demand_checklist_row();
+        PerformanceDemandChecklistRecord {
+            record_id: row.record_id.to_string(),
+            lane_id: row.lane_id.map(ToString::to_string),
+            program_or_account_id: row.program_or_account_id.map(ToString::to_string),
+            demand_question: row.demand_question.to_string(),
+            demand_evidence: row
+                .demand_evidence
+                .iter()
+                .map(|item| (*item).to_string())
+                .collect(),
+            do_not_accept_yet: row.do_not_accept_yet.to_string(),
+            public_claim_allowed: row.public_claim_allowed,
+            claim_gate: row.claim_gate.to_string(),
+            use_rule: row.use_rule.to_string(),
+        }
+    }
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize)]
@@ -288,6 +307,62 @@ pub struct PerformanceDemandChecklistRow<'a> {
     pub public_claim_allowed: bool,
     pub claim_gate: &'static str,
     pub use_rule: &'static str,
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+pub struct PerformanceDemandChecklistRecord {
+    pub record_id: String,
+    pub lane_id: Option<String>,
+    pub program_or_account_id: Option<String>,
+    pub demand_question: String,
+    pub demand_evidence: Vec<String>,
+    pub do_not_accept_yet: String,
+    pub public_claim_allowed: bool,
+    pub claim_gate: String,
+    pub use_rule: String,
+}
+
+impl PerformanceDemandChecklistRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        if self.lane_id.is_none() && self.program_or_account_id.is_none() {
+            return Err(
+                "performance demand checklist record needs lane_id or program_or_account_id"
+                    .to_string(),
+            );
+        }
+        validate_required("demand_question", &self.demand_question)?;
+        validate_required("do_not_accept_yet", &self.do_not_accept_yet)?;
+        validate_required("claim_gate", &self.claim_gate)?;
+        validate_required("use_rule", &self.use_rule)?;
+
+        let expected_evidence: Vec<String> = PERFORMANCE_DEMAND_EVIDENCE
+            .iter()
+            .map(|item| (*item).to_string())
+            .collect();
+        if self.demand_evidence != expected_evidence {
+            return Err(
+                "performance demand checklist record has unexpected demand_evidence".to_string(),
+            );
+        }
+        if self.use_rule != PERFORMANCE_DEMAND_USE_RULE {
+            return Err("performance demand checklist record has unexpected use_rule".to_string());
+        }
+        if self.public_claim_allowed && self.claim_gate != "Public claim allowed." {
+            return Err(
+                "performance demand checklist record allowed claim has wrong claim_gate"
+                    .to_string(),
+            );
+        }
+        if !self.public_claim_allowed && self.claim_gate != "Public claim blocked." {
+            return Err(
+                "performance demand checklist record blocked claim has wrong claim_gate"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -591,6 +666,25 @@ mod tests {
                 public_claim_allowed: false,
                 claim_gate: "Public claim blocked.",
                 use_rule: PERFORMANCE_DEMAND_USE_RULE,
+            }
+        );
+        let checklist_record = record.performance_demand_checklist_record();
+        checklist_record.validate().unwrap();
+        assert_eq!(
+            checklist_record,
+            PerformanceDemandChecklistRecord {
+                record_id: "accountability-evidence:test".to_string(),
+                lane_id: Some("health".to_string()),
+                program_or_account_id: Some("omb-function-550".to_string()),
+                demand_question: "What reviewed performance target, outcome measure, or audit source should be attached before comparing spending to performance?".to_string(),
+                demand_evidence: PERFORMANCE_DEMAND_EVIDENCE
+                    .iter()
+                    .map(|item| (*item).to_string())
+                    .collect(),
+                do_not_accept_yet: "Reviewed performance target or outcome evidence is missing.".to_string(),
+                public_claim_allowed: false,
+                claim_gate: "Public claim blocked.".to_string(),
+                use_rule: PERFORMANCE_DEMAND_USE_RULE.to_string(),
             }
         );
     }
