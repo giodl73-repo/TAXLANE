@@ -544,6 +544,13 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "reviews/2026-06-23-accountability-validator-hardening-review.md",
+        role: "Accountability validator hardening review",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "reviews/2026-06-23-rust-core-crate-architecture-review.md",
         role: "Rust core crate architecture review",
         grain: "documentation",

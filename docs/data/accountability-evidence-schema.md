@@ -73,3 +73,11 @@ Before publishing an accountability record:
 3. The allegation status must be visible.
 4. The due-process caveat must be present.
 5. Source Custodian and Reform Skeptic review must approve the wording.
+
+Rust validation additionally blocks:
+
+- `possible_fraud`, `possible_waste`, and `possible_abuse` records that remain
+  in `draft` review status.
+- Public accusation wording such as committed fraud, wasted money, abused
+  funds, stole, or stolen unless `allegation_status` is `official_finding` or
+  `adjudicated`.

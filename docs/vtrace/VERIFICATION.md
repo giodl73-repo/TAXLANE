@@ -7,5 +7,7 @@
 | REQ-TAX-003 | inspection | Inspect mockup checklist and role reviews | Calculator-shaped controls remain blocked. | current | EVID-TAX-001 |
 | REQ-TAX-004 | inspection | Inspect `docs/data/accountability-evidence-schema.md`, accountability boundary note, and role review | Fraud/waste indicators are evidence records, not allegations. | current | EVID-TAX-002 |
 | REQ-TAX-004 | command + inspection | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect `data/derived/accountability_evidence/` | Draft evidence records validate shape, source IDs, review status, and allegation boundary. | current | EVID-TAX-004 |
+| REQ-TAX-004 | command + inspection | `cargo test`; inspect `crates/taxlane-core/src/lib.rs` and validator hardening review | Draft possible-misconduct signals and unsupported public accusation wording are blocked. | current | EVID-TAX-005 |
 | REQ-TAX-005 | command | `cargo run -p taxlane-tools -- income-tax-outlay validate` | Validation passes. | current | EVID-TAX-001 |
 | REQ-TAX-006 | command + architecture review | `cargo test`; inspect `crates/taxlane-core`, `tools/taxlane`, and `reviews/2026-06-23-rust-core-crate-architecture-review.md` | Domain crate exists and CLI orchestration owns file IO/report generation. | current | EVID-TAX-003 |
+| REQ-TAX-006 | command + review | `cargo test`; inspect accountability validator tests | Accountability claim rules live in the core crate with unit tests. | current | EVID-TAX-005 |

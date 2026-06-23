@@ -108,21 +108,60 @@ impl AccountabilityEvidenceRecord {
             return Err("indicator_units is required when indicator_value exists".to_string());
         }
 
-        if self
-            .public_summary
-            .to_ascii_lowercase()
-            .contains("committed fraud")
-            && !matches!(
-                self.allegation_status,
-                AllegationStatus::OfficialFinding | AllegationStatus::Adjudicated
-            )
-        {
+        if self.has_possible_misconduct_signal() && !self.has_reviewed_signal_status() {
             return Err(
-                "public fraud wording requires official_finding or adjudicated status".to_string(),
+                "possible fraud, waste, or abuse signals require source/accountability/role review"
+                    .to_string(),
+            );
+        }
+
+        if self.has_public_accusation_wording() && !self.has_official_allegation_status() {
+            return Err(
+                "public accusation wording requires official_finding or adjudicated status"
+                    .to_string(),
             );
         }
 
         Ok(())
+    }
+
+    fn has_possible_misconduct_signal(&self) -> bool {
+        matches!(
+            self.anomaly_class,
+            AnomalyClass::PossibleWaste | AnomalyClass::PossibleFraud | AnomalyClass::PossibleAbuse
+        )
+    }
+
+    fn has_reviewed_signal_status(&self) -> bool {
+        matches!(
+            self.review_status,
+            ReviewStatus::SourceReviewed
+                | ReviewStatus::AccountabilityReviewed
+                | ReviewStatus::RoleReviewed
+        )
+    }
+
+    fn has_official_allegation_status(&self) -> bool {
+        matches!(
+            self.allegation_status,
+            AllegationStatus::OfficialFinding | AllegationStatus::Adjudicated
+        )
+    }
+
+    fn has_public_accusation_wording(&self) -> bool {
+        let summary = self.public_summary.to_ascii_lowercase();
+        [
+            "committed fraud",
+            "is fraud",
+            "was fraud",
+            "wasted money",
+            "waste occurred",
+            "abused funds",
+            "stole",
+            "stolen",
+        ]
+        .iter()
+        .any(|phrase| summary.contains(phrase))
     }
 }
 
@@ -227,11 +266,60 @@ mod tests {
             comparison_basis: "audit rule".to_string(),
             anomaly_class: AnomalyClass::PossibleFraud,
             allegation_status: AllegationStatus::NotAnAllegation,
-            review_status: ReviewStatus::Draft,
+            review_status: ReviewStatus::SourceReviewed,
             due_process_caveat: "Evidence signal only; not an allegation.".to_string(),
             public_summary: "This vendor committed fraud.".to_string(),
         };
 
         assert!(record.validate().is_err());
+    }
+
+    #[test]
+    fn blocks_possible_misconduct_signal_without_review() {
+        let record = AccountabilityEvidenceRecord {
+            record_id: "accountability-evidence:test".to_string(),
+            record_family: ACCOUNTABILITY_RECORD_FAMILY.to_string(),
+            lane_id: Some("public-goods".to_string()),
+            program_or_account_id: None,
+            source_ids: vec!["SRC-TEST".to_string()],
+            observed_date: "2026-06-23".to_string(),
+            coverage_period: "FY2025".to_string(),
+            evidence_kind: EvidenceKind::SpendingVariance,
+            indicator_value: None,
+            indicator_units: None,
+            comparison_basis: "audit rule".to_string(),
+            anomaly_class: AnomalyClass::PossibleWaste,
+            allegation_status: AllegationStatus::NotAnAllegation,
+            review_status: ReviewStatus::Draft,
+            due_process_caveat: "Evidence signal only; not an allegation.".to_string(),
+            public_summary: "This record has a source pending review.".to_string(),
+        };
+
+        assert!(record.validate().is_err());
+    }
+
+    #[test]
+    fn allows_possible_misconduct_signal_with_reviewed_non_accusatory_wording() {
+        let record = AccountabilityEvidenceRecord {
+            record_id: "accountability-evidence:test".to_string(),
+            record_family: ACCOUNTABILITY_RECORD_FAMILY.to_string(),
+            lane_id: Some("public-goods".to_string()),
+            program_or_account_id: None,
+            source_ids: vec!["SRC-TEST".to_string()],
+            observed_date: "2026-06-23".to_string(),
+            coverage_period: "FY2025".to_string(),
+            evidence_kind: EvidenceKind::SpendingVariance,
+            indicator_value: None,
+            indicator_units: None,
+            comparison_basis: "audit rule".to_string(),
+            anomaly_class: AnomalyClass::PossibleWaste,
+            allegation_status: AllegationStatus::NotAnAllegation,
+            review_status: ReviewStatus::SourceReviewed,
+            due_process_caveat: "Evidence signal only; not an allegation.".to_string(),
+            public_summary: "This record has an evidence signal that requires audit review."
+                .to_string(),
+        };
+
+        assert_eq!(record.validate(), Ok(()));
     }
 }
