@@ -53,14 +53,15 @@ supporting views.
 | `docs/charts/income-tax-outlay-subfunction-model/decade-top-subfunctions.vl.json` | Decade top subfunction allocation chart spec | visualization spec | n/a | view | `e6dc76202c97a5003b9933e8c264d10167e803a2e6140f3b37f6d33791cc868e` |
 | `data/derived/taxpayer_receipt_model/taxpayer_receipt_model.placeholder-1000.fy2025.omb-fy2027-v1.draft.json` | Placeholder visibility receipt scenario | scenario | n/a | yes | `9f44475ed9b71239215dae060237216b5a760737db085c59ba4bc3dcb5906bbf` |
 | `docs/reading/placeholder-visibility-receipt.md` | Placeholder receipt reader packet | documentation | n/a | supporting | `4be976503aabb6c21ec77a553f185918190ebcb00e3300930d37e3a7a12f962e` |
-| `docs/reading/placeholder-receipt-display-packet.md` | Placeholder receipt static display packet | documentation | n/a | supporting | `4abe9c0c2ee377688bc880f558f8ca3d49e7688cc0ab1156a481a17b0beb897a` |
+| `docs/reading/placeholder-receipt-display-packet.md` | Placeholder receipt static display packet | documentation | n/a | supporting | `315f59d63b9d53eb85a56f1209cfcb94156a8c89d4b4221a993385345b8a6ae9` |
+| `reviews/2026-06-23-placeholder-display-packet-role-review.md` | Placeholder receipt display packet role review | documentation | n/a | supporting | `9e9fc12217dd799ab4266ff228f044870421e0c09742373cc75f8ec0df85888d` |
 | `docs/charts/taxpayer-receipt-model/README.md` | Taxpayer receipt chart set handoff note | documentation | n/a | supporting | `67242c74b8644cdb27c5221671d9021295c41bf7f19dbe8f5de96337ea0280f6` |
 | `docs/charts/taxpayer-receipt-model/placeholder-lane-bars.vl.json` | Placeholder receipt lane bar chart spec | visualization spec | n/a | view | `f4233308571464bf6a58fb417803453a32c054fe43a2869d9ae93ffb616f3ccf` |
 | `docs/charts/taxpayer-receipt-model/placeholder-financing-context.vl.json` | Placeholder receipt financing context chart spec | visualization spec | n/a | view | `064cb863095eea673ac4f907f6f9e18b798ec4208c31851f3bc16a80121c395b` |
 | `Cargo.toml` | Rust workspace manifest | tooling | n/a | supporting | `b8735e92f7248a16a5d8657ff9ee6b693fbe8b47f1959152a245b54466060a12` |
 | `Cargo.lock` | Rust dependency lockfile | tooling | n/a | supporting | `ce3e305db156da23b235b0fd67ba32e2f18041c64a2b530fe9f850c38ab2ab80` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `72d0be55c8b61b0922a3140e18e5756a1643095dd389c90bd2219ba6d31c96b1` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `9df852510cadee59190cd56de88063136bcf2205e3aecf78128894e84d550162` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `e7c4d90c003226e5915a3a262bcd11b00d83c6f59d6724dfb3e5e849ac17c1cf` |
 
 ## Regeneration Order
 

@@ -73,3 +73,4 @@ Use this copy beside the financing-context chart:
 | `data/derived/taxpayer_receipt_model/taxpayer_receipt_model.placeholder-1000.fy2025.omb-fy2027-v1.draft.json` | Canonical placeholder receipt scenario. |
 | `docs/reading/placeholder-visibility-receipt.md` | Reader packet explaining the model. |
 | `reviews/2026-06-22-placeholder-display-spec-role-review.md` | Role review for the display specs. |
+| `reviews/2026-06-23-placeholder-display-packet-role-review.md` | Role review for this static display packet. |

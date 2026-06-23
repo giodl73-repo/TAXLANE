@@ -8,6 +8,7 @@ Work is organized into small waves and pulses.
 
 ## Completed waves
 
+- `2026-06-23-placeholder-display-packet-review`
 - `2026-06-23-placeholder-display-packet-manifest`
 - `2026-06-22-placeholder-display-packet`
 - `2026-06-22-placeholder-chart-sync-validation`
