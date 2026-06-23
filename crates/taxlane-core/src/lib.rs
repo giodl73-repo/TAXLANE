@@ -272,6 +272,22 @@ impl AccountabilityEvidenceRecord {
             use_rule: row.use_rule.to_string(),
         }
     }
+
+    pub fn performance_demand_response_log_record(&self) -> PerformanceDemandResponseLogRecord {
+        let checklist = self.performance_demand_checklist_record();
+        PerformanceDemandResponseLogRecord {
+            record_id: checklist.record_id,
+            lane_id: checklist.lane_id,
+            program_or_account_id: checklist.program_or_account_id,
+            response_class: PerformanceDemandResponseLogClass::NotYetReceived,
+            evidence_received: Vec::new(),
+            missing_evidence: checklist.do_not_accept_yet,
+            claim_gate: checklist.claim_gate,
+            public_claim_allowed: false,
+            next_action: PERFORMANCE_DEMAND_RESPONSE_LOG_NEXT_ACTION.to_string(),
+            use_rule: PERFORMANCE_DEMAND_RESPONSE_LOG_USE_RULE.to_string(),
+        }
+    }
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize)]
@@ -295,6 +311,9 @@ pub const PERFORMANCE_DEMAND_EVIDENCE: &[&str] = &[
 ];
 
 pub const PERFORMANCE_DEMAND_USE_RULE: &str = "Demand evidence and reviewed wording; do not claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, or poor performance.";
+pub const PERFORMANCE_DEMAND_RESPONSE_LOG_NEXT_ACTION: &str =
+    "Send or resend public-safe evidence request; keep claim gate blocked.";
+pub const PERFORMANCE_DEMAND_RESPONSE_LOG_USE_RULE: &str = "Track response status and remaining evidence gaps; do not claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits.";
 pub const PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE: &str = "Capture reply custody and classification; do not claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits.";
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize)]
@@ -358,6 +377,88 @@ impl PerformanceDemandChecklistRecord {
         if !self.public_claim_allowed && self.claim_gate != "Public claim blocked." {
             return Err(
                 "performance demand checklist record blocked claim has wrong claim_gate"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum PerformanceDemandResponseLogClass {
+    NotYetReceived,
+    CompleteEvidenceResponse,
+    PartialEvidenceResponse,
+    ProcessOnlyResponse,
+    NoEvidenceResponse,
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+pub struct PerformanceDemandResponseLogRecord {
+    pub record_id: String,
+    pub lane_id: Option<String>,
+    pub program_or_account_id: Option<String>,
+    pub response_class: PerformanceDemandResponseLogClass,
+    pub evidence_received: Vec<String>,
+    pub missing_evidence: String,
+    pub claim_gate: String,
+    pub public_claim_allowed: bool,
+    pub next_action: String,
+    pub use_rule: String,
+}
+
+impl PerformanceDemandResponseLogRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        if self.lane_id.is_none() && self.program_or_account_id.is_none() {
+            return Err(
+                "performance demand response log record needs lane_id or program_or_account_id"
+                    .to_string(),
+            );
+        }
+        validate_required("missing_evidence", &self.missing_evidence)?;
+        validate_required("claim_gate", &self.claim_gate)?;
+        validate_required("next_action", &self.next_action)?;
+        validate_required("use_rule", &self.use_rule)?;
+
+        for evidence in &self.evidence_received {
+            validate_required("evidence_received item", evidence)?;
+        }
+
+        if self.use_rule != PERFORMANCE_DEMAND_RESPONSE_LOG_USE_RULE {
+            return Err(
+                "performance demand response log record has unexpected use_rule".to_string(),
+            );
+        }
+        if self.public_claim_allowed {
+            return Err(
+                "performance demand response log record must keep public_claim_allowed false"
+                    .to_string(),
+            );
+        }
+        if self.claim_gate != "Public claim blocked." {
+            return Err(
+                "performance demand response log record must preserve blocked claim_gate"
+                    .to_string(),
+            );
+        }
+        if self.response_class == PerformanceDemandResponseLogClass::NotYetReceived
+            && !self.evidence_received.is_empty()
+        {
+            return Err(
+                "not-yet-received response log records must not list evidence_received".to_string(),
+            );
+        }
+        if matches!(
+            self.response_class,
+            PerformanceDemandResponseLogClass::ProcessOnlyResponse
+                | PerformanceDemandResponseLogClass::NoEvidenceResponse
+        ) && !self.evidence_received.is_empty()
+        {
+            return Err(
+                "process-only and no-evidence response log records must not list evidence_received"
                     .to_string(),
             );
         }
@@ -779,6 +880,60 @@ mod tests {
                 use_rule: PERFORMANCE_DEMAND_USE_RULE.to_string(),
             }
         );
+        let response_log_record = record.performance_demand_response_log_record();
+        response_log_record.validate().unwrap();
+        assert_eq!(
+            response_log_record,
+            PerformanceDemandResponseLogRecord {
+                record_id: "accountability-evidence:test".to_string(),
+                lane_id: Some("health".to_string()),
+                program_or_account_id: Some("omb-function-550".to_string()),
+                response_class: PerformanceDemandResponseLogClass::NotYetReceived,
+                evidence_received: Vec::new(),
+                missing_evidence: "Reviewed performance target or outcome evidence is missing."
+                    .to_string(),
+                claim_gate: "Public claim blocked.".to_string(),
+                public_claim_allowed: false,
+                next_action: PERFORMANCE_DEMAND_RESPONSE_LOG_NEXT_ACTION.to_string(),
+                use_rule: PERFORMANCE_DEMAND_RESPONSE_LOG_USE_RULE.to_string(),
+            }
+        );
+    }
+
+    #[test]
+    fn blocks_response_log_public_claim_bypass() {
+        let record = PerformanceDemandResponseLogRecord {
+            record_id: "accountability-evidence:test".to_string(),
+            lane_id: Some("health".to_string()),
+            program_or_account_id: Some("omb-function-550".to_string()),
+            response_class: PerformanceDemandResponseLogClass::PartialEvidenceResponse,
+            evidence_received: vec!["audit memo URL".to_string()],
+            missing_evidence: "Role review remains missing.".to_string(),
+            claim_gate: "Public claim blocked.".to_string(),
+            public_claim_allowed: true,
+            next_action: PERFORMANCE_DEMAND_RESPONSE_LOG_NEXT_ACTION.to_string(),
+            use_rule: PERFORMANCE_DEMAND_RESPONSE_LOG_USE_RULE.to_string(),
+        };
+
+        assert!(record.validate().is_err());
+    }
+
+    #[test]
+    fn blocks_not_yet_received_response_log_with_evidence() {
+        let record = PerformanceDemandResponseLogRecord {
+            record_id: "accountability-evidence:test".to_string(),
+            lane_id: Some("health".to_string()),
+            program_or_account_id: Some("omb-function-550".to_string()),
+            response_class: PerformanceDemandResponseLogClass::NotYetReceived,
+            evidence_received: vec!["audit memo URL".to_string()],
+            missing_evidence: "Requested evidence remains missing.".to_string(),
+            claim_gate: "Public claim blocked.".to_string(),
+            public_claim_allowed: false,
+            next_action: PERFORMANCE_DEMAND_RESPONSE_LOG_NEXT_ACTION.to_string(),
+            use_rule: PERFORMANCE_DEMAND_RESPONSE_LOG_USE_RULE.to_string(),
+        };
+
+        assert!(record.validate().is_err());
     }
 
     #[test]

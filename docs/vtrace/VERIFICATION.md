@@ -46,6 +46,7 @@
 | REQ-TAX-004 | command + inspection | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect performance demand response intake review | Intake captures reply evidence and remaining gaps without creating findings. | current | EVID-TAX-038 |
 | REQ-TAX-004 | command + inspection | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect performance demand response intake schema review | Schema documents intake fields and gates without authorizing public claims. | current | EVID-TAX-039 |
 | REQ-TAX-004 | command + inspection | `cargo test`; inspect performance demand response intake core contract review | Core validation blocks public-claim bypasses and invalid evidence/class combinations. | current | EVID-TAX-040 |
+| REQ-TAX-004 | command + inspection | `cargo test`; inspect performance demand response log core contract review | Core validation keeps response-log rows blocked and class/evidence consistent. | current | EVID-TAX-041 |
 | REQ-TAX-005 | command | `cargo run -p taxlane-tools -- income-tax-outlay validate` | Validation passes. | current | EVID-TAX-001 |
 | REQ-TAX-006 | command + architecture review | `cargo test`; inspect `crates/taxlane-core`, `tools/taxlane`, and `reviews/2026-06-23-rust-core-crate-architecture-review.md` | Domain crate exists and CLI orchestration owns file IO/report generation. | current | EVID-TAX-003 |
 | REQ-TAX-006 | command + review | `cargo test`; inspect accountability validator tests | Accountability claim rules live in the core crate with unit tests. | current | EVID-TAX-005 |
@@ -84,3 +85,4 @@
 | REQ-TAX-006 | command + review | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect performance demand response intake generation | CLI checks generated intake staleness and README discoverability. | current | EVID-TAX-038 |
 | REQ-TAX-006 | command + review | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect performance demand response intake schema generation | CLI checks generated intake schema staleness and README discoverability. | current | EVID-TAX-039 |
 | REQ-TAX-006 | command + review | `cargo test`; inspect `taxlane-core` response intake record tests | Core crate exposes reusable typed response intake validation instead of CLI-only Markdown rules. | current | EVID-TAX-040 |
+| REQ-TAX-006 | command + review | `cargo test`; `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect response log JSONL generation | CLI generates and validates response-log JSONL through core-derived typed records. | current | EVID-TAX-041 |

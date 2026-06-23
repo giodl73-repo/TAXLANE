@@ -9,7 +9,7 @@ use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
 use taxlane_core::{
     AccountabilityEvidenceRecord, ArtifactMetadata, PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE,
-    PerformanceDemandChecklistRecord,
+    PerformanceDemandChecklistRecord, PerformanceDemandResponseLogRecord,
 };
 use zip::ZipArchive;
 
@@ -5811,32 +5811,28 @@ fn check_accountability_performance_demand_response_log_jsonl(root: &Path) -> Re
         "accountability performance demand response log JSONL",
     )?;
 
-    let rows = read_jsonl(root.join(ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_LOG_JSONL_PATH))?;
+    let rows: Vec<PerformanceDemandResponseLogRecord> =
+        read_jsonl(root.join(ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_LOG_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row)
+                    .map_err(|err| format!("response log JSONL: invalid row shape: {err}"))
+            })
+            .collect::<Result<Vec<_>, _>>()?;
     if rows.is_empty() {
         return Err("performance demand response log JSONL has no rows".to_string());
     }
+    let mut expected_records: Vec<PerformanceDemandResponseLogRecord> =
+        read_accountability_evidence_records(root)?
+            .into_iter()
+            .map(|record| record.performance_demand_response_log_record())
+            .collect();
+    expected_records.sort_by(|left, right| left.record_id.cmp(&right.record_id));
+    if rows != expected_records {
+        return Err("response log JSONL rows do not match core-derived records".to_string());
+    }
     for row in rows {
-        let response_class = row
-            .get("response_class")
-            .and_then(serde_json::Value::as_str)
-            .ok_or_else(|| "response log row missing response_class".to_string())?;
-        if response_class != "not-yet-received" {
-            return Err("response log rows must start as not-yet-received".to_string());
-        }
-        let public_claim_allowed = row
-            .get("public_claim_allowed")
-            .and_then(serde_json::Value::as_bool)
-            .ok_or_else(|| "response log row missing public_claim_allowed".to_string())?;
-        if public_claim_allowed {
-            return Err("response log row unexpectedly allows a public claim".to_string());
-        }
-        let claim_gate = row
-            .get("claim_gate")
-            .and_then(serde_json::Value::as_str)
-            .ok_or_else(|| "response log row missing claim_gate".to_string())?;
-        if claim_gate != "Public claim blocked." {
-            return Err("response log row must preserve blocked claim gate".to_string());
-        }
+        row.validate()?;
     }
 
     let index = fs::read_to_string(root.join("data/derived/accountability_evidence/README.md"))
@@ -7002,28 +6998,12 @@ fn build_accountability_performance_demand_response_log_jsonl(
 
     let mut lines = Vec::new();
     for record in records {
-        let row = record.performance_demand_checklist_record();
-        lines.push(format!(
-            concat!(
-                "{{",
-                "\"record_id\":{},",
-                "\"lane_id\":{},",
-                "\"program_or_account_id\":{},",
-                "\"response_class\":\"not-yet-received\",",
-                "\"evidence_received\":[],",
-                "\"missing_evidence\":{},",
-                "\"claim_gate\":{},",
-                "\"public_claim_allowed\":false,",
-                "\"next_action\":\"Send or resend public-safe evidence request; keep claim gate blocked.\",",
-                "\"use_rule\":\"Track response status and remaining evidence gaps; do not claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits.\"",
-                "}}"
-            ),
-            json_string(&row.record_id),
-            json_option_string(row.lane_id.as_deref()),
-            json_option_string(row.program_or_account_id.as_deref()),
-            json_string(&row.do_not_accept_yet),
-            json_string(&row.claim_gate)
-        ));
+        let row = record.performance_demand_response_log_record();
+        row.validate()?;
+        lines.push(
+            serde_json::to_string(&row)
+                .map_err(|err| format!("failed to serialize response log row: {err}"))?,
+        );
     }
 
     Ok(lines.join("\n") + "\n")

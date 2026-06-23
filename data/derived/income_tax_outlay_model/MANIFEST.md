@@ -121,11 +121,11 @@ supporting views.
 | `docs/vtrace/MISSION.md` | VTRACE mission | documentation | n/a | supporting | `751833c38bcc467ffe7e2c926195397ce396106830452c0d1f9b3039d6c211a6` |
 | `docs/vtrace/REQUIREMENTS.md` | VTRACE requirements | documentation | n/a | supporting | `1a22419ccf0b3a10644391d410774e6ab290960913cf1e745431c68e28868913` |
 | `docs/vtrace/SPECIFICATION_BASELINE.md` | VTRACE specification baseline | documentation | n/a | supporting | `dfb7c1462974eeac27fffe451e989211dfe4497b145bb56df15f6a671f010678` |
-| `docs/vtrace/TRACE.md` | VTRACE trace matrix | documentation | n/a | supporting | `6c557b84d4c83dc8d189c97111f2ef0afa22a78c1e731da9a1ba1a2f2b95bb49` |
-| `docs/vtrace/WORK_PACKAGES.md` | VTRACE work packages | documentation | n/a | supporting | `84ccf17f0cc010493bdd6e859b4cfadba2c31cb168f04ce2f7fbdcd0244f7056` |
-| `docs/vtrace/VERIFICATION.md` | VTRACE verification plan | documentation | n/a | supporting | `fa6b1e74e31636df8f0917b6bdbd8641a4c6d7e7623e4ef20305e5e143ffc224` |
-| `docs/vtrace/VALIDATION.md` | VTRACE validation scenarios | documentation | n/a | supporting | `89ed9efb84a240514f439384879bf882bede566b632790e89432ea9e072cccf2` |
-| `docs/vtrace/EVIDENCE.md` | VTRACE evidence ledger | documentation | n/a | supporting | `51870345ed03ec861b9f52c13a56e9344d9c3c324c00cb9600096c5370e8a122` |
+| `docs/vtrace/TRACE.md` | VTRACE trace matrix | documentation | n/a | supporting | `138741f3c0650e6d8f4df7af2e024419f415e856939c1227333249f43cfa93df` |
+| `docs/vtrace/WORK_PACKAGES.md` | VTRACE work packages | documentation | n/a | supporting | `2a6d283f86dbe563beb86032cadd8e4de75fd10e70b67158a60d26f4689af0dc` |
+| `docs/vtrace/VERIFICATION.md` | VTRACE verification plan | documentation | n/a | supporting | `6acb2fdc95b71990289b4de738914a9315aaa95bc41417b3511e91359ded8575` |
+| `docs/vtrace/VALIDATION.md` | VTRACE validation scenarios | documentation | n/a | supporting | `78d23737fe5aa935d841b9aafb74eec99d3c6a255e7e1886b192809e94c931d0` |
+| `docs/vtrace/EVIDENCE.md` | VTRACE evidence ledger | documentation | n/a | supporting | `3e18ce6b23072aa9a92bc5b2a5fe1e973b65dda07e3078ccebf228c07937dd59` |
 | `docs/vtrace/REVIEW.md` | VTRACE adoption review | documentation | n/a | supporting | `52ed83ae325229c3da170b7842dbf07d33f76be84c7e56d0a48aacb8595dd7ff` |
 | `docs/charts/taxpayer-receipt-model/README.md` | Taxpayer receipt chart set handoff note | documentation | n/a | supporting | `29b98ce16cccf88869779c079dc652d7da15583777e015a1d2b8481e9c63250d` |
 | `docs/charts/taxpayer-receipt-model/placeholder-lane-bars.vl.json` | Placeholder receipt lane bar chart spec | visualization spec | n/a | view | `f4233308571464bf6a58fb417803453a32c054fe43a2869d9ae93ffb616f3ccf` |
@@ -133,9 +133,9 @@ supporting views.
 | `Cargo.toml` | Rust workspace manifest | tooling | n/a | supporting | `405a2bba4b4deec2a77d51621f397528c0b5a86a3137df32af6633f32ffbfad0` |
 | `Cargo.lock` | Rust dependency lockfile | tooling | n/a | supporting | `44b2fcc6662f4fa3cecadbd650c7991b66e42af15dbf4efbf8ff16b832717d96` |
 | `crates/taxlane-core/Cargo.toml` | Rust Taxlane core crate manifest | tooling | n/a | supporting | `6469c9f3c3d01bc0c51783255082c93ed608c6c64c0d4f32f5cd2c08f2426fb9` |
-| `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `3f5fdcbbfd5905867efcad8e22789b49bf3b42bf5f7163c79a23728c2336d21c` |
+| `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `fb3432f44ec97275f8f7f9ee1ff1fe2f28918bd9a51ea1dcd42dc6554ae39346` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `b910e56a20f40547ac1e4f696e84772dde163738b03915ddbcc0d0a39427719a` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `c8622dab78bfa439ce0fb0b20f6a9383bbb52e34d3c5d2485f811cc6987018be` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `858a010de95dac0a8505c3e3e5e70f174368ce00b1e3626fc544035157b529cc` |
 
 ## Regeneration Order
 
