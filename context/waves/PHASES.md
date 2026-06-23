@@ -8,6 +8,7 @@ Work is organized into small waves and pulses.
 
 ## Completed waves
 
+- `2026-06-23-accountability-evidence-model`
 - `2026-06-23-vtrace-rust-adoption`
 - `2026-06-23-placeholder-mockup-checklist-review`
 - `2026-06-23-placeholder-mockup-review-checklist`

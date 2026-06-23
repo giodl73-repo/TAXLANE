@@ -333,6 +333,34 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "docs/data/README.md",
+        role: "Data documentation index",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/data/dictionary.md",
+        role: "Data dictionary",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/data/accountability-evidence-schema.md",
+        role: "Accountability evidence schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/research/2026-06-23-accountability-evidence-boundary.md",
+        role: "Accountability evidence boundary note",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "docs/charts/README.md",
         role: "Chart catalog",
         grain: "documentation",
@@ -461,6 +489,13 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "reviews/2026-06-23-placeholder-mockup-checklist-role-review.md",
         role: "Placeholder receipt mockup checklist role review",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-06-23-accountability-evidence-role-review.md",
+        role: "Accountability evidence role review",
         grain: "documentation",
         kind: "markdown",
         canonical: "supporting",

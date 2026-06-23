@@ -21,6 +21,7 @@ contract for future data work, not a dataset.
 | `income_tax_outlay_model` | Fiscal year | Derived from OMB Historical Tables 1.1, 2.1, and 3.1 | Estimate ordinary individual income-tax receipts across broad outlay categories by year. |
 | `income_tax_outlay_subfunction_model` | Fiscal year | Derived from OMB Historical Tables 2.1 and 3.2 | Estimate ordinary individual income-tax receipts across OMB subfunctions by year. |
 | `taxpayer_receipt_model` | Tax year plus fiscal year | Derived from rates, receipts, outlays, and lane crosswalks | Explain a taxpayer payment with method labels. |
+| `accountability_evidence` | Fiscal year, award period, or review period | Derived from audited sources, USAspending, agency reports, inspectors general, GAO, CBO, and lane models | Support performance, waste, fraud, and abuse inquiry without making unsupported allegations. |
 | `program_lane_model` | Model version | Derived from lane model and statutory design sources | Evaluate possible program-linked tax reforms. |
 
 ## Common fields
@@ -304,6 +305,44 @@ Rules:
   burden fields.
 - No proposal may claim fiscal discipline without evidence.
 - Role review is required before public advocacy.
+
+## `accountability_evidence`
+
+Use for evidence-backed accountability, performance, waste, fraud, and abuse
+inquiry records.
+
+This family is not an allegation record. It records reviewed evidence,
+indicators, anomalies, and open questions that may justify deeper audit or
+oversight work.
+
+| Field | Required | Meaning |
+|---|---|---|
+| `record_id` | Yes | Stable repo-local accountability evidence ID. |
+| `lane_id` | Yes when applicable | TAXLANE public-purpose lane under review. |
+| `program_or_account_id` | Yes when available | Program, budget account, award, contract, grant, or agency identifier. |
+| `source_ids` | Yes | Source IDs from the source-version ledger. |
+| `evidence_kind` | Yes | `performance`, `spending_variance`, `duplicate_award`, `vendor_concentration`, `eligibility_mismatch`, `audit_finding`, `ig_finding`, `gao_finding`, `data_quality`, or `other`. |
+| `indicator_value` | Optional | Numeric value used by the indicator. |
+| `indicator_units` | Required when `indicator_value` is present | Dollars, percent, count, rate, score, or other units. |
+| `comparison_basis` | Yes | Baseline, target, prior year, peer program, statutory rule, award terms, or source-defined control. |
+| `anomaly_class` | Yes | `none`, `variance`, `outlier`, `missing_evidence`, `source_conflict`, `control_failure`, `possible_waste`, `possible_fraud`, or `possible_abuse`. |
+| `allegation_status` | Yes | `not_an_allegation`, `referred_for_review`, `official_finding`, or `adjudicated`. |
+| `review_status` | Yes | `draft`, `source-reviewed`, `accountability-reviewed`, `role-reviewed`, `superseded`, or `retired`. |
+| `due_process_caveat` | Yes | Plain-language caveat explaining what the record does and does not claim. |
+| `public_summary` | Yes | Reader-facing evidence summary that avoids unsupported accusation wording. |
+
+Rules:
+
+- Do not call a record fraud unless an official finding or adjudication source
+  supports that status.
+- Use `possible_fraud`, `possible_waste`, or `possible_abuse` only for
+  indicators that have source-reviewed evidence and a named comparison basis.
+- Preserve the difference between poor performance, data-quality gaps,
+  noncompliance, waste, abuse, and fraud.
+- Every public accountability claim needs source IDs, a comparison basis,
+  review status, and a due-process caveat.
+- Role review is required before publishing named vendor, recipient, award, or
+  person-level concerns.
 
 ## Extraction validation gates
 
