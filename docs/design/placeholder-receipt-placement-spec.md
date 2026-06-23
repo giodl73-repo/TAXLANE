@@ -68,3 +68,6 @@ embed without the financing context and required caveats.
 
 This spec is a static design handoff. A future visual mockup or UI still needs
 separate role review before public release.
+
+Role review for this spec is recorded at
+`reviews/2026-06-23-placeholder-placement-spec-role-review.md`.

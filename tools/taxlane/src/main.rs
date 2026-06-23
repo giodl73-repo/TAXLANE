@@ -445,6 +445,13 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "reviews/2026-06-23-placeholder-placement-spec-role-review.md",
+        role: "Placeholder receipt placement spec role review",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "docs/charts/taxpayer-receipt-model/README.md",
         role: "Taxpayer receipt chart set handoff note",
         grain: "documentation",
