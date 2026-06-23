@@ -163,6 +163,27 @@ impl AccountabilityEvidenceRecord {
         .iter()
         .any(|phrase| summary.contains(phrase))
     }
+
+    pub fn public_claim_readiness(&self) -> PublicClaimReadiness {
+        if self.has_official_allegation_status() && self.review_status == ReviewStatus::RoleReviewed
+        {
+            PublicClaimReadiness::PublicClaimEligible
+        } else if matches!(
+            self.review_status,
+            ReviewStatus::SourceReviewed | ReviewStatus::AccountabilityReviewed
+        ) {
+            PublicClaimReadiness::NeedsRoleReview
+        } else {
+            PublicClaimReadiness::EvidenceOnly
+        }
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum PublicClaimReadiness {
+    EvidenceOnly,
+    NeedsRoleReview,
+    PublicClaimEligible,
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
@@ -321,5 +342,60 @@ mod tests {
         };
 
         assert_eq!(record.validate(), Ok(()));
+    }
+
+    #[test]
+    fn classifies_source_reviewed_record_as_needing_role_review() {
+        let record = AccountabilityEvidenceRecord {
+            record_id: "accountability-evidence:test".to_string(),
+            record_family: ACCOUNTABILITY_RECORD_FAMILY.to_string(),
+            lane_id: Some("transportation".to_string()),
+            program_or_account_id: Some("omb-function-400".to_string()),
+            source_ids: vec!["SRC-TEST".to_string()],
+            observed_date: "2026-06-23".to_string(),
+            coverage_period: "FY2025".to_string(),
+            evidence_kind: EvidenceKind::Performance,
+            indicator_value: None,
+            indicator_units: None,
+            comparison_basis: "source custody".to_string(),
+            anomaly_class: AnomalyClass::None,
+            allegation_status: AllegationStatus::NotAnAllegation,
+            review_status: ReviewStatus::SourceReviewed,
+            due_process_caveat: "Evidence signal only; not an allegation.".to_string(),
+            public_summary: "Source-backed record for later review.".to_string(),
+        };
+
+        assert_eq!(
+            record.public_claim_readiness(),
+            PublicClaimReadiness::NeedsRoleReview
+        );
+    }
+
+    #[test]
+    fn classifies_role_reviewed_official_finding_as_public_claim_eligible() {
+        let record = AccountabilityEvidenceRecord {
+            record_id: "accountability-evidence:test".to_string(),
+            record_family: ACCOUNTABILITY_RECORD_FAMILY.to_string(),
+            lane_id: Some("transportation".to_string()),
+            program_or_account_id: Some("omb-function-400".to_string()),
+            source_ids: vec!["SRC-TEST".to_string()],
+            observed_date: "2026-06-23".to_string(),
+            coverage_period: "FY2025".to_string(),
+            evidence_kind: EvidenceKind::AuditFinding,
+            indicator_value: None,
+            indicator_units: None,
+            comparison_basis: "official audit finding".to_string(),
+            anomaly_class: AnomalyClass::ControlFailure,
+            allegation_status: AllegationStatus::OfficialFinding,
+            review_status: ReviewStatus::RoleReviewed,
+            due_process_caveat: "Official finding; public wording still requires source context."
+                .to_string(),
+            public_summary: "Official finding is available for reviewed public use.".to_string(),
+        };
+
+        assert_eq!(
+            record.public_claim_readiness(),
+            PublicClaimReadiness::PublicClaimEligible
+        );
     }
 }

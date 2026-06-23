@@ -551,6 +551,13 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "reviews/2026-06-23-accountability-readiness-classification-review.md",
+        role: "Accountability readiness classification review",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "reviews/2026-06-23-rust-core-crate-architecture-review.md",
         role: "Rust core crate architecture review",
         grain: "documentation",

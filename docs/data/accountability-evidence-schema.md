@@ -81,3 +81,11 @@ Rust validation additionally blocks:
 - Public accusation wording such as committed fraud, wasted money, abused
   funds, stole, or stolen unless `allegation_status` is `official_finding` or
   `adjudicated`.
+
+Rust validation also classifies public-claim readiness:
+
+| Readiness | Meaning |
+|---|---|
+| `EvidenceOnly` | Record may support internal evidence review but is not ready for public claims. |
+| `NeedsRoleReview` | Record has source or accountability review and needs role review before public use. |
+| `PublicClaimEligible` | Record has role review plus `official_finding` or `adjudicated` allegation status. |

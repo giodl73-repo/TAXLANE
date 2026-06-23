@@ -17,3 +17,11 @@ claims.
 These records are not fraud findings, waste findings, abuse findings, or
 performance scores. Public wording must preserve `allegation_status`,
 `review_status`, source IDs, comparison basis, and due-process caveat.
+
+Rust readiness classification uses:
+
+- `EvidenceOnly` for internal evidence records.
+- `NeedsRoleReview` for reviewed records that still require public wording
+  review.
+- `PublicClaimEligible` only when role review and official/adjudicated status
+  both exist.
