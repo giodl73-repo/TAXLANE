@@ -27,6 +27,7 @@ claims.
 | `performance-demand-followup.md` | generated demand follow-up template | Public-safe follow-up for partial or unclear replies. |
 | `performance-demand-response-log.md` | generated demand response log | Tracks reply status and remaining evidence gaps. |
 | `performance-demand-response-log.jsonl` | generated demand response log rows | Machine-readable response status rows for future UI/API handoff. |
+| `performance-demand-response-log.schema.md` | response log row schema | Documents the response log JSONL row contract. |
 | `performance-demand-checklist.schema.md` | demand checklist row schema | Documents the `PerformanceDemandChecklistRecord` row contract. |
 | `artifact-map.md` | one generated accountability artifact map | Routes each artifact to its audience, use, and public-use boundary. |
 
@@ -97,6 +98,9 @@ gaps without changing claim gates.
 
 The performance-demand response log JSONL carries the same response status rows
 in a machine-readable form and keeps `public_claim_allowed` explicit.
+
+The performance-demand response log schema documents the JSONL row fields and
+response classes for future UI/API consumers.
 
 The performance-demand checklist schema documents the JSONL row fields for
 future UI/API consumers.

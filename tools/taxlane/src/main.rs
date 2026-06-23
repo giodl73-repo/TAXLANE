@@ -77,6 +77,8 @@ const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_LOG_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-log.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_LOG_JSONL_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-log.jsonl";
+const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_LOG_SCHEMA_PATH: &str =
+    "data/derived/accountability_evidence/performance-demand-response-log.schema.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_SCHEMA_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-checklist.schema.md";
 const ACCOUNTABILITY_ARTIFACT_MAP_PATH: &str =
@@ -631,6 +633,13 @@ const ARTIFACTS: &[Artifact] = &[
         role: "Accountability performance demand response log rows",
         grain: "response log row",
         kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/accountability_evidence/performance-demand-response-log.schema.md",
+        role: "Accountability performance demand response log schema",
+        grain: "documentation",
+        kind: "markdown",
         canonical: "supporting",
     },
     Artifact {
@@ -1240,6 +1249,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_accountability_performance_demand_response_log_jsonl(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_accountability_performance_demand_response_log_schema(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -5761,6 +5775,30 @@ fn check_accountability_performance_demand_response_log_jsonl(root: &Path) -> Re
     Ok(())
 }
 
+fn check_accountability_performance_demand_response_log_schema(root: &Path) -> Result<(), String> {
+    let expected = build_accountability_performance_demand_response_log_schema();
+    compare_text(
+        root,
+        ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_LOG_SCHEMA_PATH,
+        &expected,
+        "accountability performance demand response log schema",
+    )?;
+
+    let index = fs::read_to_string(root.join("data/derived/accountability_evidence/README.md"))
+        .map_err(|err| {
+            format!("failed to read data/derived/accountability_evidence/README.md: {err}")
+        })?;
+    if !index.contains("performance-demand-response-log.schema.md") {
+        return Err(
+            "data/derived/accountability_evidence/README.md must link performance-demand-response-log.schema.md"
+                .to_string(),
+        );
+    }
+
+    println!("validated accountability performance demand response log schema");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -6173,6 +6211,12 @@ fn build_accountability_artifact_map() -> String {
             "Product implementers",
             "Feed neutral response log rows into future UI/API surfaces.",
             "Do not infer public eligibility except from `public_claim_allowed`.",
+        ),
+        (
+            "performance-demand-response-log.schema.md",
+            "Product implementers",
+            "Inspect the response log row contract.",
+            "Do not add UI/API fields that weaken the use rule.",
         ),
         (
             "performance-demand-checklist.jsonl",
@@ -6712,6 +6756,48 @@ fn build_accountability_performance_demand_response_log_jsonl(
     }
 
     Ok(lines.join("\n") + "\n")
+}
+
+fn build_accountability_performance_demand_response_log_schema() -> String {
+    let lines = [
+        "# Performance Demand Response Log JSONL Schema",
+        "",
+        "## Purpose",
+        "",
+        "This schema documents the generated `performance-demand-response-log.jsonl` rows.",
+        "Rows track replies to evidence requests without changing claim gates or creating findings.",
+        "",
+        "## Row Fields",
+        "",
+        "| Field | Type | Required | Meaning |",
+        "|---|---|---|---|",
+        "| `record_id` | string | yes | Accountability evidence record ID. |",
+        "| `lane_id` | string or null | conditional | Public-purpose lane when available. |",
+        "| `program_or_account_id` | string or null | conditional | Program, account, or OMB function identifier when available. |",
+        "| `response_class` | string | yes | Current response status. Initial generated value is `not-yet-received`. |",
+        "| `evidence_received` | array of strings | yes | Evidence items logged from a reply. Initial generated value is empty. |",
+        "| `missing_evidence` | string | yes | Current blocker or missing evidence item. |",
+        "| `claim_gate` | string | yes | Human-readable claim-gate label. Initial generated value is `Public claim blocked.` |",
+        "| `public_claim_allowed` | boolean | yes | Explicit claim gate for public use. Initial generated value is `false`. |",
+        "| `next_action` | string | yes | Safe next workflow action. |",
+        "| `use_rule` | string | yes | Boundary rule for using the row. |",
+        "",
+        "At least one of `lane_id` or `program_or_account_id` must be present.",
+        "",
+        "## Response Classes",
+        "",
+        "- `not-yet-received`: no reply has been logged in TAXLANE.",
+        "- `complete-evidence-response`: all required evidence and public-claim basis were provided and still need role review before public use.",
+        "- `partial-evidence-response`: at least one requested evidence item remains missing or unclear.",
+        "- `process-only-response`: the reply explains process but does not provide requested evidence.",
+        "- `no-evidence-response`: the reply declines, ignores, or cannot identify requested evidence.",
+        "",
+        "## Public-Use Rule",
+        "",
+        "Rows may support response tracking. They must not be used as findings of fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits.",
+    ];
+
+    lines.join("\n") + "\n"
 }
 
 fn read_accountability_evidence_records(
