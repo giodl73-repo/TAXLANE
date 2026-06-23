@@ -71,6 +71,8 @@ const ACCOUNTABILITY_PERFORMANCE_DEMAND_LETTER_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-letter.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_RUBRIC_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-rubric.md";
+const ACCOUNTABILITY_PERFORMANCE_DEMAND_FOLLOWUP_PATH: &str =
+    "data/derived/accountability_evidence/performance-demand-followup.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_SCHEMA_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-checklist.schema.md";
 const ACCOUNTABILITY_ARTIFACT_MAP_PATH: &str =
@@ -602,6 +604,13 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "data/derived/accountability_evidence/performance-demand-response-rubric.md",
         role: "Accountability performance demand response rubric",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/accountability_evidence/performance-demand-followup.md",
+        role: "Accountability performance demand follow-up template",
         grain: "documentation",
         kind: "markdown",
         canonical: "supporting",
@@ -1198,6 +1207,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_accountability_performance_demand_response_rubric(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_accountability_performance_demand_followup(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -5619,6 +5633,30 @@ fn check_accountability_performance_demand_response_rubric(root: &Path) -> Resul
     Ok(())
 }
 
+fn check_accountability_performance_demand_followup(root: &Path) -> Result<(), String> {
+    let expected = build_accountability_performance_demand_followup(root)?;
+    compare_text(
+        root,
+        ACCOUNTABILITY_PERFORMANCE_DEMAND_FOLLOWUP_PATH,
+        &expected,
+        "accountability performance demand follow-up",
+    )?;
+
+    let index = fs::read_to_string(root.join("data/derived/accountability_evidence/README.md"))
+        .map_err(|err| {
+            format!("failed to read data/derived/accountability_evidence/README.md: {err}")
+        })?;
+    if !index.contains("performance-demand-followup.md") {
+        return Err(
+            "data/derived/accountability_evidence/README.md must link performance-demand-followup.md"
+                .to_string(),
+        );
+    }
+
+    println!("validated accountability performance demand follow-up");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -6015,6 +6053,12 @@ fn build_accountability_artifact_map() -> String {
             "Do not turn incomplete replies into findings.",
         ),
         (
+            "performance-demand-followup.md",
+            "Citizen readers",
+            "Send a narrower follow-up for missing evidence.",
+            "Do not escalate missing evidence into accusations.",
+        ),
+        (
             "performance-demand-checklist.jsonl",
             "Product implementers",
             "Feed demand rows into future UI/API surfaces.",
@@ -6409,6 +6453,65 @@ fn build_accountability_performance_demand_response_rubric(root: &Path) -> Resul
         "## Use Rule".to_string(),
         String::new(),
         "Use this rubric to decide what evidence is still missing after a reply. Do not use an incomplete, process-only, or no-evidence response to claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits.".to_string(),
+    ]);
+
+    Ok(lines.join("\n") + "\n")
+}
+
+fn build_accountability_performance_demand_followup(root: &Path) -> Result<String, String> {
+    let mut records = read_accountability_evidence_records(root)?;
+    records.sort_by(|left, right| left.record_id.cmp(&right.record_id));
+
+    let mut lines = vec![
+        "# Performance Demand Follow-Up Template".to_string(),
+        String::new(),
+        "## Purpose".to_string(),
+        String::new(),
+        "This generated template helps a citizen follow up when a reply is partial, process-only, or provides no evidence.".to_string(),
+        "It is not an accusation, legal demand, fraud finding, waste finding, abuse finding, or performance scorecard.".to_string(),
+        String::new(),
+        "## Template".to_string(),
+        String::new(),
+        "Subject: Follow-up request for missing performance evidence".to_string(),
+        String::new(),
+        "To [office or program contact],".to_string(),
+        String::new(),
+        "Thank you for the response. I am treating it as an evidence response, not as proof of misconduct or poor performance.".to_string(),
+        String::new(),
+        "The reply appears to leave at least one requested item missing or unclear. Please provide the missing item, identify where it is published, or state that the office does not have it.".to_string(),
+        String::new(),
+        "Missing evidence to clarify:".to_string(),
+        String::new(),
+        "- Source record and source version, if not already provided.".to_string(),
+        "- Reviewed performance target, outcome measure, audit source, or official finding, if not already provided.".to_string(),
+        "- Exact role-approved public wording, if any.".to_string(),
+        "- Public-claim eligibility basis for any performance or misconduct statement.".to_string(),
+        String::new(),
+        "Current unresolved TAXLANE demand rows:".to_string(),
+    ];
+
+    for record in records {
+        let row = record.performance_demand_checklist_record();
+        let label = row.lane_id.as_deref().unwrap_or("n/a");
+        lines.extend([
+            String::new(),
+            format!("- {label}: {}", row.do_not_accept_yet),
+            format!("  Follow-up ask: {}", row.demand_question),
+            format!("  Claim gate remains: {}", row.claim_gate),
+        ]);
+    }
+
+    lines.extend([
+        String::new(),
+        "Please keep this as an evidence clarification request. If the evidence does not exist or is not yet reviewed, a clear statement of that status is useful.".to_string(),
+        String::new(),
+        "Sincerely,".to_string(),
+        String::new(),
+        "[name]".to_string(),
+        String::new(),
+        "## Use Rule".to_string(),
+        String::new(),
+        "Use this follow-up only after a reply leaves requested evidence missing or unclear. Do not use a missing or incomplete reply to claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits.".to_string(),
     ]);
 
     Ok(lines.join("\n") + "\n")

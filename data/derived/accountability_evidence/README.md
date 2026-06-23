@@ -24,6 +24,7 @@ claims.
 | `performance-demand-brief.md` | generated demand ask packet | Compact citizen-facing ask packet for blocked demand rows. |
 | `performance-demand-letter.md` | generated demand letter template | Public-safe request template for evidence and reviewed wording. |
 | `performance-demand-response-rubric.md` | generated response rubric | Classifies replies without turning gaps into findings. |
+| `performance-demand-followup.md` | generated demand follow-up template | Public-safe follow-up for partial or unclear replies. |
 | `performance-demand-checklist.schema.md` | demand checklist row schema | Documents the `PerformanceDemandChecklistRecord` row contract. |
 | `artifact-map.md` | one generated accountability artifact map | Routes each artifact to its audience, use, and public-use boundary. |
 
@@ -85,6 +86,9 @@ public-safe request for evidence and reviewed wording.
 
 The performance-demand response rubric classifies replies to evidence requests
 without converting missing evidence into findings.
+
+The performance-demand follow-up template asks for missing evidence after a
+partial, process-only, or no-evidence response.
 
 The performance-demand checklist schema documents the JSONL row fields for
 future UI/API consumers.

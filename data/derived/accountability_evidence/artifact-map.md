@@ -27,6 +27,7 @@ It is not a list of fraud, waste, abuse, or performance findings.
 | `performance-demand-brief.md` | Citizen readers | Use a compact ask packet for current blocked demand rows. | Do not present the brief as a finding or scorecard. |
 | `performance-demand-letter.md` | Citizen readers | Adapt a public-safe evidence request template. | Do not send it as an accusation or legal conclusion. |
 | `performance-demand-response-rubric.md` | Citizen readers | Classify replies to evidence requests. | Do not turn incomplete replies into findings. |
+| `performance-demand-followup.md` | Citizen readers | Send a narrower follow-up for missing evidence. | Do not escalate missing evidence into accusations. |
 | `performance-demand-checklist.jsonl` | Product implementers | Feed demand rows into future UI/API surfaces. | Do not infer public eligibility except from `public_claim_allowed`. |
 | `performance-demand-claim-gates.json` | Product implementers | Display allowed versus blocked demand-row counts. | Do not recompute or override claim gates downstream. |
 | `performance-demand-checklist.schema.md` | Product implementers | Inspect the demand checklist row contract. | Do not add UI/API fields that weaken the use rule. |
