@@ -9,6 +9,9 @@ review gate without creating a UI, app, or calculator.
 This checklist does not approve public release. It is a pre-implementation
 review aid.
 
+Role review for this checklist is recorded at
+`reviews/2026-06-23-placeholder-mockup-checklist-role-review.md`.
+
 ## Required Inputs
 
 | Input | Required artifact |

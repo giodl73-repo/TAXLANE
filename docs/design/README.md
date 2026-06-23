@@ -14,3 +14,4 @@ approvals.
 | Review | Scope |
 |---|---|
 | `../reviews/2026-06-23-placeholder-placement-spec-role-review.md` | Role review for the placeholder receipt placement spec. |
+| `../reviews/2026-06-23-placeholder-mockup-checklist-role-review.md` | Role review for the placeholder receipt mockup checklist. |
