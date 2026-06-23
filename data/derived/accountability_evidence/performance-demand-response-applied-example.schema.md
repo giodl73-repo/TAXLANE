@@ -19,6 +19,7 @@ It does not authorize public claims, findings, or canonical response-log updates
 | `performance-demand-response-delta.applied-example.schema.md` | Field contract for machine-readable applied delta rows. | Must preserve fixture-only and blocked-claim guardrails. |
 | `performance-demand-response-bundle.applied-example.md` | Human-readable index for the complete applied fixture bundle. | Must preserve fixture-only and blocked-claim guardrails. |
 | `performance-demand-response-bundle.applied-example.json` | Machine-readable bundle manifest serialized from `PerformanceDemandResponseBundleManifest`. | Must validate through core and keep public claims blocked. |
+| `performance-demand-response-bundle.applied-example.schema.md` | Field contract for the machine-readable bundle manifest. | Must document manifest fields and blocked-claim guardrails. |
 
 ## Importer Rule
 

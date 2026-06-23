@@ -115,6 +115,7 @@ const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_BUNDLE_APPLIED_EXAMPLE_PATH: &s
     "data/derived/accountability_evidence/performance-demand-response-bundle.applied-example.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_BUNDLE_APPLIED_EXAMPLE_JSON_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-bundle.applied-example.json";
+const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_BUNDLE_APPLIED_EXAMPLE_SCHEMA_PATH: &str = "data/derived/accountability_evidence/performance-demand-response-bundle.applied-example.schema.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_SCHEMA_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-checklist.schema.md";
 const ACCOUNTABILITY_ARTIFACT_MAP_PATH: &str =
@@ -788,6 +789,13 @@ const ARTIFACTS: &[Artifact] = &[
         role: "Accountability performance demand response applied bundle manifest",
         grain: "bundle manifest",
         kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/accountability_evidence/performance-demand-response-bundle.applied-example.schema.md",
+        role: "Accountability performance demand response applied bundle manifest schema",
+        grain: "documentation",
+        kind: "markdown",
         canonical: "supporting",
     },
     Artifact {
@@ -1497,6 +1505,13 @@ fn run_income_tax_outlay_validation() -> ExitCode {
 
     if let Err(err) =
         check_accountability_performance_demand_response_bundle_applied_example_json(&root)
+    {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) =
+        check_accountability_performance_demand_response_bundle_applied_example_schema(&root)
     {
         eprintln!("{err}");
         return ExitCode::from(1);
@@ -5685,6 +5700,7 @@ fn check_accountability_artifact_map(root: &Path) -> Result<(), String> {
         "performance-demand-response-delta.applied-example.schema.md",
         "performance-demand-response-bundle.applied-example.md",
         "performance-demand-response-bundle.applied-example.json",
+        "performance-demand-response-bundle.applied-example.schema.md",
     ] {
         if !artifact_map.contains(required) {
             return Err(format!(
@@ -6715,6 +6731,60 @@ fn check_accountability_performance_demand_response_bundle_applied_example_json(
     Ok(())
 }
 
+fn check_accountability_performance_demand_response_bundle_applied_example_schema(
+    root: &Path,
+) -> Result<(), String> {
+    let expected = build_accountability_performance_demand_response_bundle_applied_example_schema();
+    compare_text(
+        root,
+        ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_BUNDLE_APPLIED_EXAMPLE_SCHEMA_PATH,
+        &expected,
+        "accountability performance demand response bundle applied example schema",
+    )?;
+
+    let index = fs::read_to_string(root.join("data/derived/accountability_evidence/README.md"))
+        .map_err(|err| {
+            format!("failed to read data/derived/accountability_evidence/README.md: {err}")
+        })?;
+    if !index.contains("performance-demand-response-bundle.applied-example.schema.md") {
+        return Err(
+            "data/derived/accountability_evidence/README.md must link performance-demand-response-bundle.applied-example.schema.md"
+                .to_string(),
+        );
+    }
+
+    let schema = fs::read_to_string(
+        root.join(ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_BUNDLE_APPLIED_EXAMPLE_SCHEMA_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_BUNDLE_APPLIED_EXAMPLE_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    for required in [
+        "PerformanceDemandResponseBundleManifest",
+        "PerformanceDemandResponseBundleArtifact",
+        "`artifact`",
+        "`bundle_kind`",
+        "`total_rows`",
+        "`updated_rows`",
+        "`public_claim_allowed`",
+        "`public_claim_blocked`",
+        "`artifacts`",
+        "`boundary`",
+        "`use_rule`",
+    ] {
+        if !schema.contains(required) {
+            return Err(format!(
+                "{ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_BUNDLE_APPLIED_EXAMPLE_SCHEMA_PATH} must document {required}"
+            ));
+        }
+    }
+
+    println!("validated accountability performance demand response bundle applied example schema");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -7229,6 +7299,12 @@ fn build_accountability_artifact_map() -> String {
             "Product implementers",
             "Load the applied response importer fixture bundle without scraping Markdown.",
             "Do not treat manifest rows as canonical response status or findings.",
+        ),
+        (
+            "performance-demand-response-bundle.applied-example.schema.md",
+            "Product implementers",
+            "Inspect the applied response bundle JSON contract.",
+            "Do not add fields that weaken fixture-only or blocked-claim boundaries.",
         ),
         (
             "performance-demand-checklist.jsonl",
@@ -8280,6 +8356,7 @@ fn build_accountability_performance_demand_response_bundle_applied_example(
         "| `performance-demand-response-delta.applied-example.jsonl` | Machine-readable changed fields. | Feed delta rows into UI/API diff consumers. |".to_string(),
         "| `performance-demand-response-delta.applied-example.schema.md` | Delta row field contract. | Confirm field meanings and blocked-claim guardrails. |".to_string(),
         "| `performance-demand-response-bundle.applied-example.json` | Machine-readable bundle manifest. | Load fixture artifact roles and boundaries without scraping Markdown. |".to_string(),
+        "| `performance-demand-response-bundle.applied-example.schema.md` | Bundle manifest field contract. | Inspect manifest and artifact field meanings. |".to_string(),
         String::new(),
         "## Boundary".to_string(),
         String::new(),
@@ -8379,6 +8456,53 @@ fn build_accountability_performance_demand_response_bundle_applied_example_json(
         .map_err(|err| format!("failed to serialize applied response bundle manifest: {err}"))
 }
 
+fn build_accountability_performance_demand_response_bundle_applied_example_schema() -> String {
+    let lines = vec![
+        "# Performance Demand Response Bundle Applied Example JSON Schema".to_string(),
+        String::new(),
+        "## Purpose".to_string(),
+        String::new(),
+        "This schema documents `performance-demand-response-bundle.applied-example.json` fields.".to_string(),
+        "The JSON is serialized from `PerformanceDemandResponseBundleManifest` and lists `PerformanceDemandResponseBundleArtifact` rows for importer and UI/API consumers.".to_string(),
+        String::new(),
+        "## Manifest Fields".to_string(),
+        String::new(),
+        "| Field | Type | Required | Meaning |".to_string(),
+        "|---|---|---|---|".to_string(),
+        "| `artifact` | string | yes | Repo-relative path for this bundle manifest JSON. |".to_string(),
+        "| `bundle_kind` | string | yes | Fixed value `applied-response-importer-fixture`. |".to_string(),
+        "| `total_rows` | integer | yes | Applied response-log row count from the fixture status. |".to_string(),
+        "| `updated_rows` | integer | yes | Rows changed by applying example intake. Must not exceed `total_rows`. |".to_string(),
+        "| `public_claim_allowed` | integer | yes | Must remain `0` for the applied fixture bundle. |".to_string(),
+        "| `public_claim_blocked` | integer | yes | Blocked public-claim row count. With allowed count, must sum to `total_rows`. |".to_string(),
+        "| `artifacts` | array | yes | Ordered applied fixture artifact entries. Must include intake, applied log, applied status, dashboard, handoff, applied schema, delta Markdown, delta JSONL, and delta schema artifacts. |".to_string(),
+        "| `boundary` | string | yes | Fixture-only boundary statement. |".to_string(),
+        "| `use_rule` | string | yes | Response tracking use rule; must match the core response-log use rule. |".to_string(),
+        String::new(),
+        "## Artifact Fields".to_string(),
+        String::new(),
+        "| Field | Type | Required | Meaning |".to_string(),
+        "|---|---|---|---|".to_string(),
+        "| `artifact` | string | yes | Repo-relative artifact path using forward slashes. |".to_string(),
+        "| `role` | string | yes | Artifact role in the applied fixture bundle. |".to_string(),
+        "| `kind` | string | yes | One of `jsonl`, `json`, or `markdown`. |".to_string(),
+        "| `consumer_use` | string | yes | Intended importer or UI/API use. |".to_string(),
+        String::new(),
+        "## Validation Rules".to_string(),
+        String::new(),
+        "- JSON must deserialize as `PerformanceDemandResponseBundleManifest`.".to_string(),
+        "- Every artifact entry must validate as `PerformanceDemandResponseBundleArtifact`.".to_string(),
+        "- The manifest must include all required applied fixture artifacts.".to_string(),
+        "- Public claims must remain blocked for this fixture manifest.".to_string(),
+        String::new(),
+        "## Public-Use Rule".to_string(),
+        String::new(),
+        "The manifest is fixture metadata only. It must not be used as canonical response status, public-claim eligibility, a finding of fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits.".to_string(),
+    ];
+
+    lines.join("\n") + "\n"
+}
+
 fn build_accountability_performance_demand_response_applied_example_schema() -> String {
     let lines = vec![
         "# Performance Demand Response Applied Example Schema".to_string(),
@@ -8402,6 +8526,7 @@ fn build_accountability_performance_demand_response_applied_example_schema() -> 
         "| `performance-demand-response-delta.applied-example.schema.md` | Field contract for machine-readable applied delta rows. | Must preserve fixture-only and blocked-claim guardrails. |".to_string(),
         "| `performance-demand-response-bundle.applied-example.md` | Human-readable index for the complete applied fixture bundle. | Must preserve fixture-only and blocked-claim guardrails. |".to_string(),
         "| `performance-demand-response-bundle.applied-example.json` | Machine-readable bundle manifest serialized from `PerformanceDemandResponseBundleManifest`. | Must validate through core and keep public claims blocked. |".to_string(),
+        "| `performance-demand-response-bundle.applied-example.schema.md` | Field contract for the machine-readable bundle manifest. | Must document manifest fields and blocked-claim guardrails. |".to_string(),
         String::new(),
         "## Importer Rule".to_string(),
         String::new(),
