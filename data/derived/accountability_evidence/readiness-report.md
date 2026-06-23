@@ -15,10 +15,10 @@ It is not a list of fraud, waste, abuse, or performance findings.
 
 ## Records
 
-| Record ID | Lane | Evidence Kind | Anomaly Class | Allegation Status | Review Status | Readiness | Public Summary |
-|---|---|---|---|---|---|---|---|
-| `accountability-evidence:transportation:omb-fy2027-v1:source-custody` | transportation | Performance | None | NotAnAllegation | SourceReviewed | `NeedsRoleReview` | Transportation has source-backed OMB function and subfunction records available for later performance comparison. This record makes no allegation. |
-| `accountability-evidence:health:omb-fy2027-v1:performance-baseline-needed` | health | DataQuality | MissingEvidence | NotAnAllegation | Draft | `EvidenceOnly` | Health has source-backed OMB spending records, but TAXLANE has not yet attached reviewed performance targets or outcome evidence. This record makes no allegation. |
+| Record ID | Lane | Evidence Kind | Anomaly Class | Allegation Status | Review Status | Readiness | Next Action | Public Summary |
+|---|---|---|---|---|---|---|---|---|
+| `accountability-evidence:transportation:omb-fy2027-v1:source-custody` | transportation | Performance | None | NotAnAllegation | SourceReviewed | `NeedsRoleReview` | Complete role review before any public claim wording. | Transportation has source-backed OMB function and subfunction records available for later performance comparison. This record makes no allegation. |
+| `accountability-evidence:health:omb-fy2027-v1:performance-baseline-needed` | health | DataQuality | MissingEvidence | NotAnAllegation | Draft | `EvidenceOnly` | Attach reviewed performance targets or outcome evidence before making a performance claim. | Health has source-backed OMB spending records, but TAXLANE has not yet attached reviewed performance targets or outcome evidence. This record makes no allegation. |
 
 ## Guardrail
 

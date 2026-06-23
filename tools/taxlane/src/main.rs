@@ -581,6 +581,13 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "reviews/2026-06-23-accountability-next-action-report-review.md",
+        role: "Accountability next-action report review",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "reviews/2026-06-23-rust-core-crate-architecture-review.md",
         role: "Rust core crate architecture review",
         grain: "documentation",
@@ -4921,14 +4928,14 @@ fn build_accountability_readiness_report(root: &Path) -> Result<String, String> 
         String::new(),
         "## Records".to_string(),
         String::new(),
-        "| Record ID | Lane | Evidence Kind | Anomaly Class | Allegation Status | Review Status | Readiness | Public Summary |".to_string(),
-        "|---|---|---|---|---|---|---|---|".to_string(),
+        "| Record ID | Lane | Evidence Kind | Anomaly Class | Allegation Status | Review Status | Readiness | Next Action | Public Summary |".to_string(),
+        "|---|---|---|---|---|---|---|---|---|".to_string(),
     ];
 
     for record in records {
         let readiness = record.public_claim_readiness();
         lines.push(format!(
-            "| `{}` | {} | {:?} | {:?} | {:?} | {:?} | `{}` | {} |",
+            "| `{}` | {} | {:?} | {:?} | {:?} | {:?} | `{}` | {} | {} |",
             record.record_id,
             record.lane_id.as_deref().unwrap_or("n/a"),
             record.evidence_kind,
@@ -4936,6 +4943,7 @@ fn build_accountability_readiness_report(root: &Path) -> Result<String, String> 
             record.allegation_status,
             record.review_status,
             readiness.as_str(),
+            accountability_next_action(&record).replace('|', "\\|"),
             record.public_summary.replace('|', "\\|")
         ));
     }
@@ -4948,6 +4956,23 @@ fn build_accountability_readiness_report(root: &Path) -> Result<String, String> 
     );
 
     Ok(lines.join("\n") + "\n")
+}
+
+fn accountability_next_action(record: &AccountabilityEvidenceRecord) -> &'static str {
+    let readiness = record.public_claim_readiness();
+    if readiness.as_str() == "PublicClaimEligible" {
+        return "Prepare exact public wording with source citations.";
+    }
+    if matches!(
+        record.anomaly_class,
+        taxlane_core::AnomalyClass::MissingEvidence
+    ) {
+        return "Attach reviewed performance targets or outcome evidence before making a performance claim.";
+    }
+    if readiness.as_str() == "NeedsRoleReview" {
+        return "Complete role review before any public claim wording.";
+    }
+    "Continue source custody and evidence review before public use."
 }
 
 fn read_accountability_evidence_records(
