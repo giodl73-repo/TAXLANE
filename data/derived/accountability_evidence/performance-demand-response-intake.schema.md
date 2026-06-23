@@ -35,4 +35,4 @@ It defines an intake contract only; it does not authorize public claims or respo
 
 ## Public-Use Rule
 
-Intake rows may support response custody and classification. They must not be used as findings of fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits.
+Capture reply custody and classification; do not claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits.

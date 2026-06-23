@@ -8,7 +8,8 @@ use roxmltree::Document;
 use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
 use taxlane_core::{
-    AccountabilityEvidenceRecord, ArtifactMetadata, PerformanceDemandChecklistRecord,
+    AccountabilityEvidenceRecord, ArtifactMetadata, PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE,
+    PerformanceDemandChecklistRecord,
 };
 use zip::ZipArchive;
 
@@ -7309,7 +7310,7 @@ fn build_accountability_performance_demand_response_intake_schema() -> String {
         String::new(),
         "## Public-Use Rule".to_string(),
         String::new(),
-        "Intake rows may support response custody and classification. They must not be used as findings of fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits.".to_string(),
+        PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE.to_string(),
     ];
 
     lines.join("\n") + "\n"

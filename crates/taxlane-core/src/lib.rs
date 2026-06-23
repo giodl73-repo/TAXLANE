@@ -295,6 +295,7 @@ pub const PERFORMANCE_DEMAND_EVIDENCE: &[&str] = &[
 ];
 
 pub const PERFORMANCE_DEMAND_USE_RULE: &str = "Demand evidence and reviewed wording; do not claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, or poor performance.";
+pub const PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE: &str = "Capture reply custody and classification; do not claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits.";
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize)]
 pub struct PerformanceDemandChecklistRow<'a> {
@@ -357,6 +358,81 @@ impl PerformanceDemandChecklistRecord {
         if !self.public_claim_allowed && self.claim_gate != "Public claim blocked." {
             return Err(
                 "performance demand checklist record blocked claim has wrong claim_gate"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum PerformanceDemandResponseClass {
+    CompleteEvidenceResponse,
+    PartialEvidenceResponse,
+    ProcessOnlyResponse,
+    NoEvidenceResponse,
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+pub struct PerformanceDemandResponseIntakeRecord {
+    pub record_id: String,
+    pub reply_source_id: String,
+    pub reply_received_date: String,
+    pub sender_or_office: String,
+    pub response_class: PerformanceDemandResponseClass,
+    pub evidence_received: Vec<String>,
+    pub missing_evidence: String,
+    pub role_review_needed: bool,
+    pub public_claim_allowed: bool,
+    pub use_rule: String,
+}
+
+impl PerformanceDemandResponseIntakeRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("reply_source_id", &self.reply_source_id)?;
+        validate_required("reply_received_date", &self.reply_received_date)?;
+        validate_iso_date("reply_received_date", &self.reply_received_date)?;
+        validate_required("sender_or_office", &self.sender_or_office)?;
+        validate_required("missing_evidence", &self.missing_evidence)?;
+        validate_required("use_rule", &self.use_rule)?;
+
+        for evidence in &self.evidence_received {
+            validate_required("evidence_received item", evidence)?;
+        }
+
+        if self.use_rule != PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE {
+            return Err(
+                "performance demand response intake record has unexpected use_rule".to_string(),
+            );
+        }
+        if !self.role_review_needed {
+            return Err(
+                "performance demand response intake record must keep role_review_needed true"
+                    .to_string(),
+            );
+        }
+        if self.public_claim_allowed {
+            return Err(
+                "performance demand response intake record must keep public_claim_allowed false"
+                    .to_string(),
+            );
+        }
+        if self.response_class == PerformanceDemandResponseClass::CompleteEvidenceResponse
+            && self.evidence_received.is_empty()
+        {
+            return Err("complete evidence response intake requires evidence_received".to_string());
+        }
+        if matches!(
+            self.response_class,
+            PerformanceDemandResponseClass::ProcessOnlyResponse
+                | PerformanceDemandResponseClass::NoEvidenceResponse
+        ) && !self.evidence_received.is_empty()
+        {
+            return Err(
+                "process-only and no-evidence response intake records must not list evidence_received"
                     .to_string(),
             );
         }
@@ -436,6 +512,22 @@ fn validate_required(label: &str, value: &str) -> Result<(), String> {
         Err(format!("{label} is required"))
     } else {
         Ok(())
+    }
+}
+
+fn validate_iso_date(label: &str, value: &str) -> Result<(), String> {
+    let bytes = value.as_bytes();
+    if bytes.len() == 10
+        && bytes[4] == b'-'
+        && bytes[7] == b'-'
+        && bytes
+            .iter()
+            .enumerate()
+            .all(|(index, byte)| index == 4 || index == 7 || byte.is_ascii_digit())
+    {
+        Ok(())
+    } else {
+        Err(format!("{label} must use YYYY-MM-DD"))
     }
 }
 
@@ -687,5 +779,59 @@ mod tests {
                 use_rule: PERFORMANCE_DEMAND_USE_RULE.to_string(),
             }
         );
+    }
+
+    #[test]
+    fn validates_response_intake_record_guardrails() {
+        let record = PerformanceDemandResponseIntakeRecord {
+            record_id: "accountability-evidence:test".to_string(),
+            reply_source_id: "SRC-REPLY-TEST".to_string(),
+            reply_received_date: "2026-06-23".to_string(),
+            sender_or_office: "Example Office".to_string(),
+            response_class: PerformanceDemandResponseClass::PartialEvidenceResponse,
+            evidence_received: vec!["audit memo URL".to_string()],
+            missing_evidence: "Role-approved public wording remains missing.".to_string(),
+            role_review_needed: true,
+            public_claim_allowed: false,
+            use_rule: PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE.to_string(),
+        };
+
+        assert_eq!(record.validate(), Ok(()));
+    }
+
+    #[test]
+    fn blocks_response_intake_public_claim_bypass() {
+        let record = PerformanceDemandResponseIntakeRecord {
+            record_id: "accountability-evidence:test".to_string(),
+            reply_source_id: "SRC-REPLY-TEST".to_string(),
+            reply_received_date: "2026-06-23".to_string(),
+            sender_or_office: "Example Office".to_string(),
+            response_class: PerformanceDemandResponseClass::CompleteEvidenceResponse,
+            evidence_received: vec!["official finding URL".to_string()],
+            missing_evidence: "Role review is still pending.".to_string(),
+            role_review_needed: true,
+            public_claim_allowed: true,
+            use_rule: PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE.to_string(),
+        };
+
+        assert!(record.validate().is_err());
+    }
+
+    #[test]
+    fn blocks_process_only_response_intake_with_evidence() {
+        let record = PerformanceDemandResponseIntakeRecord {
+            record_id: "accountability-evidence:test".to_string(),
+            reply_source_id: "SRC-REPLY-TEST".to_string(),
+            reply_received_date: "2026-06-23".to_string(),
+            sender_or_office: "Example Office".to_string(),
+            response_class: PerformanceDemandResponseClass::ProcessOnlyResponse,
+            evidence_received: vec!["process note".to_string()],
+            missing_evidence: "Requested performance evidence remains missing.".to_string(),
+            role_review_needed: true,
+            public_claim_allowed: false,
+            use_rule: PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE.to_string(),
+        };
+
+        assert!(record.validate().is_err());
     }
 }
