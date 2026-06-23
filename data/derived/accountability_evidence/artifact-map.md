@@ -37,6 +37,7 @@ It is not a list of fraud, waste, abuse, or performance findings.
 | `performance-demand-response-intake.md` | Citizen readers / product implementers | Capture reply evidence before updating response status. | Do not treat unreviewed replies as findings or claim eligibility. |
 | `performance-demand-response-intake.schema.md` | Product implementers | Inspect the reply intake field contract. | Do not add importer fields that bypass role review or claim gates. |
 | `performance-demand-response-intake.example.jsonl` | Product implementers | Exercise the typed intake-to-log importer handoff. | Do not treat example replies as findings or claim eligibility. |
+| `performance-demand-response-log.applied-example.jsonl` | Product implementers | Inspect response-log rows after applying example intake. | Do not treat applied example rows as findings or claim eligibility. |
 | `performance-demand-checklist.jsonl` | Product implementers | Feed demand rows into future UI/API surfaces. | Do not infer public eligibility except from `public_claim_allowed`. |
 | `performance-demand-claim-gates.json` | Product implementers | Display allowed versus blocked demand-row counts. | Do not recompute or override claim gates downstream. |
 | `performance-demand-checklist.schema.md` | Product implementers | Inspect the demand checklist row contract. | Do not add UI/API fields that weaken the use rule. |

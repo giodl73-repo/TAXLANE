@@ -8,6 +8,7 @@ Work is organized into small waves and pulses.
 
 ## Completed waves
 
+- `2026-06-23-accountability-response-log-applied-example`
 - `2026-06-23-accountability-response-intake-importer-fixture`
 - `2026-06-23-accountability-response-intake-to-log-core-handoff`
 - `2026-06-23-accountability-response-log-evidence-rules`

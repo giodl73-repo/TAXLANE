@@ -34,6 +34,7 @@ claims.
 | `performance-demand-response-intake.md` | generated response intake template | Captures reply evidence before response-log updates. |
 | `performance-demand-response-intake.schema.md` | response intake row schema | Documents the response intake field contract. |
 | `performance-demand-response-intake.example.jsonl` | generated response intake example rows | Exercises the typed intake-to-log importer handoff. |
+| `performance-demand-response-log.applied-example.jsonl` | generated applied response log example rows | Shows response-log rows after applying the intake example. |
 | `performance-demand-checklist.schema.md` | demand checklist row schema | Documents the `PerformanceDemandChecklistRecord` row contract. |
 | `artifact-map.md` | one generated accountability artifact map | Routes each artifact to its audience, use, and public-use boundary. |
 
@@ -127,6 +128,11 @@ The performance-demand response intake example JSONL is a generated importer
 fixture. Validation parses it as typed intake rows, applies each row to the
 matching response-log row through `taxlane-core`, and checks that the updated
 log row remains blocked for public claims.
+
+The performance-demand response log applied example JSONL shows the typed
+response-log rows after applying the example intake rows. It is an importer
+fixture only; it is not the canonical response log and does not authorize public
+claims.
 
 The performance-demand checklist schema documents the JSONL row fields for
 future UI/API consumers.
