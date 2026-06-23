@@ -482,6 +482,21 @@ impl PerformanceDemandResponseLogClass {
     }
 }
 
+impl From<&PerformanceDemandResponseClass> for PerformanceDemandResponseLogClass {
+    fn from(response_class: &PerformanceDemandResponseClass) -> Self {
+        match response_class {
+            PerformanceDemandResponseClass::CompleteEvidenceResponse => {
+                Self::CompleteEvidenceResponse
+            }
+            PerformanceDemandResponseClass::PartialEvidenceResponse => {
+                Self::PartialEvidenceResponse
+            }
+            PerformanceDemandResponseClass::ProcessOnlyResponse => Self::ProcessOnlyResponse,
+            PerformanceDemandResponseClass::NoEvidenceResponse => Self::NoEvidenceResponse,
+        }
+    }
+}
+
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 pub struct PerformanceDemandResponseLogRecord {
     pub record_id: String,
@@ -497,6 +512,36 @@ pub struct PerformanceDemandResponseLogRecord {
 }
 
 impl PerformanceDemandResponseLogRecord {
+    pub fn apply_intake(
+        &self,
+        intake: &PerformanceDemandResponseIntakeRecord,
+    ) -> Result<Self, String> {
+        self.validate()?;
+        intake.validate()?;
+
+        if self.record_id != intake.record_id {
+            return Err("response intake record_id does not match response log record".to_string());
+        }
+
+        let response_class = PerformanceDemandResponseLogClass::from(&intake.response_class);
+        let updated = Self {
+            record_id: self.record_id.clone(),
+            lane_id: self.lane_id.clone(),
+            program_or_account_id: self.program_or_account_id.clone(),
+            response_class,
+            evidence_received: intake.evidence_received.clone(),
+            missing_evidence: intake.missing_evidence.clone(),
+            claim_gate: PUBLIC_CLAIM_BLOCKED_LABEL.to_string(),
+            public_claim_allowed: false,
+            next_action: PerformanceDemandResponseLogClass::from(&intake.response_class)
+                .rubric_next_action()
+                .to_string(),
+            use_rule: PERFORMANCE_DEMAND_RESPONSE_LOG_USE_RULE.to_string(),
+        };
+        updated.validate()?;
+        Ok(updated)
+    }
+
     pub fn validate(&self) -> Result<(), String> {
         validate_required("record_id", &self.record_id)?;
         if self.lane_id.is_none() && self.program_or_account_id.is_none() {
@@ -1149,6 +1194,78 @@ mod tests {
         };
 
         assert!(record.validate().is_err());
+    }
+
+    #[test]
+    fn applies_valid_response_intake_to_response_log() {
+        let log_record = PerformanceDemandResponseLogRecord {
+            record_id: "accountability-evidence:test".to_string(),
+            lane_id: Some("health".to_string()),
+            program_or_account_id: Some("omb-function-550".to_string()),
+            response_class: PerformanceDemandResponseLogClass::NotYetReceived,
+            evidence_received: Vec::new(),
+            missing_evidence: "Requested evidence remains missing.".to_string(),
+            claim_gate: PUBLIC_CLAIM_BLOCKED_LABEL.to_string(),
+            public_claim_allowed: false,
+            next_action: PERFORMANCE_DEMAND_RESPONSE_LOG_NEXT_ACTION.to_string(),
+            use_rule: PERFORMANCE_DEMAND_RESPONSE_LOG_USE_RULE.to_string(),
+        };
+        let intake = PerformanceDemandResponseIntakeRecord {
+            record_id: "accountability-evidence:test".to_string(),
+            reply_source_id: "SRC-REPLY-TEST".to_string(),
+            reply_received_date: "2026-06-23".to_string(),
+            sender_or_office: "Example Office".to_string(),
+            response_class: PerformanceDemandResponseClass::PartialEvidenceResponse,
+            evidence_received: vec!["audit memo URL".to_string()],
+            missing_evidence: "Role-approved public wording remains missing.".to_string(),
+            role_review_needed: true,
+            public_claim_allowed: false,
+            use_rule: PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE.to_string(),
+        };
+
+        let updated = log_record.apply_intake(&intake).unwrap();
+
+        assert_eq!(
+            updated.response_class,
+            PerformanceDemandResponseLogClass::PartialEvidenceResponse
+        );
+        assert_eq!(updated.evidence_received, vec!["audit memo URL"]);
+        assert_eq!(
+            updated.next_action,
+            "Ask a narrower follow-up for the missing item."
+        );
+        assert_eq!(updated.public_claim_allowed, false);
+        assert_eq!(updated.validate(), Ok(()));
+    }
+
+    #[test]
+    fn blocks_response_intake_record_id_mismatch() {
+        let log_record = PerformanceDemandResponseLogRecord {
+            record_id: "accountability-evidence:test".to_string(),
+            lane_id: Some("health".to_string()),
+            program_or_account_id: Some("omb-function-550".to_string()),
+            response_class: PerformanceDemandResponseLogClass::NotYetReceived,
+            evidence_received: Vec::new(),
+            missing_evidence: "Requested evidence remains missing.".to_string(),
+            claim_gate: PUBLIC_CLAIM_BLOCKED_LABEL.to_string(),
+            public_claim_allowed: false,
+            next_action: PERFORMANCE_DEMAND_RESPONSE_LOG_NEXT_ACTION.to_string(),
+            use_rule: PERFORMANCE_DEMAND_RESPONSE_LOG_USE_RULE.to_string(),
+        };
+        let intake = PerformanceDemandResponseIntakeRecord {
+            record_id: "accountability-evidence:other".to_string(),
+            reply_source_id: "SRC-REPLY-TEST".to_string(),
+            reply_received_date: "2026-06-23".to_string(),
+            sender_or_office: "Example Office".to_string(),
+            response_class: PerformanceDemandResponseClass::PartialEvidenceResponse,
+            evidence_received: vec!["audit memo URL".to_string()],
+            missing_evidence: "Role-approved public wording remains missing.".to_string(),
+            role_review_needed: true,
+            public_claim_allowed: false,
+            use_rule: PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE.to_string(),
+        };
+
+        assert!(log_record.apply_intake(&intake).is_err());
     }
 
     #[test]

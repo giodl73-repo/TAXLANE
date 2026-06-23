@@ -104,3 +104,5 @@
 | REQ-TAX-006 | command + review | `cargo test`; inspect response intake evidence-rule tests | Core validates evidence-required and evidence-forbidden intake classes before importers can update response logs. | current | EVID-TAX-049 |
 | REQ-TAX-004 | command + inspection | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect response log evidence rules review | Response-log evidence/class rules prevent empty partial evidence rows from being treated as evidence responses. | current | EVID-TAX-050 |
 | REQ-TAX-006 | command + review | `cargo test`; inspect response log evidence-rule tests | Core validates evidence-required and evidence-forbidden response-log classes before downstream surfaces consume rows. | current | EVID-TAX-050 |
+| REQ-TAX-004 | command + inspection | `cargo test`; inspect response intake-to-log handoff review | Intake rows can update response logs without creating public findings. | current | EVID-TAX-051 |
+| REQ-TAX-006 | command + review | `cargo test`; inspect `apply_intake` tests | Core blocks mismatched intake/log record IDs and preserves response-log guardrails. | current | EVID-TAX-051 |
