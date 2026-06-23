@@ -13,6 +13,8 @@ It is not a finding of fraud, waste, abuse, legal dedication, poor performance, 
 4. Use `performance-demand-response-dashboard.applied-example.md` for quick human inspection of importer behavior.
 5. Use `performance-demand-response-delta.applied-example.md` to inspect row-level changes without opening JSONL.
 6. Use `performance-demand-response-delta.applied-example.jsonl` and `performance-demand-response-delta.applied-example.schema.md` for UI/API delta consumers.
+7. Use `performance-demand-response-bundle.applied-example.md` to inspect the complete applied fixture bundle.
+8. Use `performance-demand-response-bundle.applied-example.json` and `performance-demand-response-bundle.applied-example.schema.md` for UI/API bundle consumers.
 
 ## Applied Fixture Status
 

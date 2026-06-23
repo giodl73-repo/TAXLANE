@@ -6450,6 +6450,9 @@ fn check_accountability_performance_demand_response_handoff_applied_example(
         "performance-demand-response-delta.applied-example.md",
         "performance-demand-response-delta.applied-example.jsonl",
         "performance-demand-response-delta.applied-example.schema.md",
+        "performance-demand-response-bundle.applied-example.md",
+        "performance-demand-response-bundle.applied-example.json",
+        "performance-demand-response-bundle.applied-example.schema.md",
     ] {
         if !handoff_text.contains(required) {
             return Err(format!(
@@ -8283,6 +8286,8 @@ fn build_accountability_performance_demand_response_handoff_applied_example(
         "4. Use `performance-demand-response-dashboard.applied-example.md` for quick human inspection of importer behavior.".to_string(),
         "5. Use `performance-demand-response-delta.applied-example.md` to inspect row-level changes without opening JSONL.".to_string(),
         "6. Use `performance-demand-response-delta.applied-example.jsonl` and `performance-demand-response-delta.applied-example.schema.md` for UI/API delta consumers.".to_string(),
+        "7. Use `performance-demand-response-bundle.applied-example.md` to inspect the complete applied fixture bundle.".to_string(),
+        "8. Use `performance-demand-response-bundle.applied-example.json` and `performance-demand-response-bundle.applied-example.schema.md` for UI/API bundle consumers.".to_string(),
         String::new(),
         "## Applied Fixture Status".to_string(),
         String::new(),
