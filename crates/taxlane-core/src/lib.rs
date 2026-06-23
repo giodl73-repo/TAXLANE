@@ -177,6 +177,48 @@ impl AccountabilityEvidenceRecord {
             PublicClaimReadiness::EvidenceOnly
         }
     }
+
+    pub fn accountability_next_action(&self) -> &'static str {
+        let readiness = self.public_claim_readiness();
+        if readiness == PublicClaimReadiness::PublicClaimEligible {
+            return "Prepare exact public wording with source citations.";
+        }
+        if self.anomaly_class == AnomalyClass::MissingEvidence {
+            return "Attach reviewed performance targets or outcome evidence before making a performance claim.";
+        }
+        if readiness == PublicClaimReadiness::NeedsRoleReview {
+            return "Complete role review before any public claim wording.";
+        }
+        "Continue source custody and evidence review before public use."
+    }
+
+    pub fn accountability_demand_question(&self) -> &'static str {
+        let readiness = self.public_claim_readiness();
+        if readiness == PublicClaimReadiness::PublicClaimEligible {
+            return "What exact public wording and source citations should be used for this reviewed finding?";
+        }
+        if self.anomaly_class == AnomalyClass::MissingEvidence {
+            return "What reviewed performance target, outcome measure, or audit source should be attached before comparing spending to performance?";
+        }
+        if readiness == PublicClaimReadiness::NeedsRoleReview {
+            return "What exact public wording, if any, can role review approve from the cited source record?";
+        }
+        "What source, comparison basis, or review step is needed before this record can support a public accountability claim?"
+    }
+
+    pub fn accountability_public_use_blocker(&self) -> &'static str {
+        let readiness = self.public_claim_readiness();
+        if readiness == PublicClaimReadiness::PublicClaimEligible {
+            return "No blocker in readiness state; exact public wording still needs source citations.";
+        }
+        if self.anomaly_class == AnomalyClass::MissingEvidence {
+            return "Reviewed performance target or outcome evidence is missing.";
+        }
+        if readiness == PublicClaimReadiness::NeedsRoleReview {
+            return "Role review has not approved exact public wording.";
+        }
+        "Record remains internal evidence only."
+    }
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -379,6 +421,14 @@ mod tests {
             record.public_claim_readiness(),
             PublicClaimReadiness::NeedsRoleReview
         );
+        assert_eq!(
+            record.accountability_next_action(),
+            "Complete role review before any public claim wording."
+        );
+        assert_eq!(
+            record.accountability_public_use_blocker(),
+            "Role review has not approved exact public wording."
+        );
     }
 
     #[test]
@@ -406,6 +456,45 @@ mod tests {
         assert_eq!(
             record.public_claim_readiness(),
             PublicClaimReadiness::PublicClaimEligible
+        );
+        assert_eq!(
+            record.accountability_demand_question(),
+            "What exact public wording and source citations should be used for this reviewed finding?"
+        );
+    }
+
+    #[test]
+    fn maps_missing_evidence_to_performance_demand_question() {
+        let record = AccountabilityEvidenceRecord {
+            record_id: "accountability-evidence:test".to_string(),
+            record_family: ACCOUNTABILITY_RECORD_FAMILY.to_string(),
+            lane_id: Some("health".to_string()),
+            program_or_account_id: Some("omb-function-550".to_string()),
+            source_ids: vec!["SRC-TEST".to_string()],
+            observed_date: "2026-06-23".to_string(),
+            coverage_period: "FY2025".to_string(),
+            evidence_kind: EvidenceKind::DataQuality,
+            indicator_value: None,
+            indicator_units: None,
+            comparison_basis: "source custody".to_string(),
+            anomaly_class: AnomalyClass::MissingEvidence,
+            allegation_status: AllegationStatus::NotAnAllegation,
+            review_status: ReviewStatus::Draft,
+            due_process_caveat: "Evidence gap only; not an allegation.".to_string(),
+            public_summary: "Performance baseline is not attached.".to_string(),
+        };
+
+        assert_eq!(
+            record.accountability_next_action(),
+            "Attach reviewed performance targets or outcome evidence before making a performance claim."
+        );
+        assert_eq!(
+            record.accountability_demand_question(),
+            "What reviewed performance target, outcome measure, or audit source should be attached before comparing spending to performance?"
+        );
+        assert_eq!(
+            record.accountability_public_use_blocker(),
+            "Reviewed performance target or outcome evidence is missing."
         );
     }
 }

@@ -620,6 +620,13 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "reviews/2026-06-23-accountability-core-workflow-review.md",
+        role: "Accountability core workflow review",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "reviews/2026-06-23-rust-core-crate-architecture-review.md",
         role: "Rust core crate architecture review",
         grain: "documentation",
@@ -5009,7 +5016,7 @@ fn build_accountability_readiness_report(root: &Path) -> Result<String, String> 
             record.allegation_status,
             record.review_status,
             readiness.as_str(),
-            accountability_next_action(&record).replace('|', "\\|"),
+            record.accountability_next_action().replace('|', "\\|"),
             record.public_summary.replace('|', "\\|")
         ));
     }
@@ -5029,7 +5036,7 @@ fn build_accountability_action_queue(root: &Path) -> Result<String, String> {
     let mut queue: BTreeMap<&'static str, Vec<AccountabilityEvidenceRecord>> = BTreeMap::new();
     for record in records {
         queue
-            .entry(accountability_next_action(&record))
+            .entry(record.accountability_next_action())
             .or_default()
             .push(record);
     }
@@ -5059,7 +5066,9 @@ fn build_accountability_action_queue(root: &Path) -> Result<String, String> {
                 record.record_id,
                 record.lane_id.as_deref().unwrap_or("n/a"),
                 record.public_claim_readiness().as_str(),
-                accountability_public_use_blocker(&record).replace('|', "\\|")
+                record
+                    .accountability_public_use_blocker()
+                    .replace('|', "\\|")
             ));
         }
     }
@@ -5099,8 +5108,10 @@ fn build_accountability_performance_demand_packet(root: &Path) -> Result<String,
             record.record_id,
             record.lane_id.as_deref().unwrap_or("n/a"),
             record.public_summary.replace('|', "\\|"),
-            accountability_demand_question(&record).replace('|', "\\|"),
-            accountability_public_use_blocker(&record).replace('|', "\\|")
+            record.accountability_demand_question().replace('|', "\\|"),
+            record
+                .accountability_public_use_blocker()
+                .replace('|', "\\|")
         ));
     }
 
@@ -5112,56 +5123,6 @@ fn build_accountability_performance_demand_packet(root: &Path) -> Result<String,
     );
 
     Ok(lines.join("\n") + "\n")
-}
-
-fn accountability_next_action(record: &AccountabilityEvidenceRecord) -> &'static str {
-    let readiness = record.public_claim_readiness();
-    if readiness.as_str() == "PublicClaimEligible" {
-        return "Prepare exact public wording with source citations.";
-    }
-    if matches!(
-        record.anomaly_class,
-        taxlane_core::AnomalyClass::MissingEvidence
-    ) {
-        return "Attach reviewed performance targets or outcome evidence before making a performance claim.";
-    }
-    if readiness.as_str() == "NeedsRoleReview" {
-        return "Complete role review before any public claim wording.";
-    }
-    "Continue source custody and evidence review before public use."
-}
-
-fn accountability_demand_question(record: &AccountabilityEvidenceRecord) -> &'static str {
-    if record.public_claim_readiness().as_str() == "PublicClaimEligible" {
-        return "What exact public wording and source citations should be used for this reviewed finding?";
-    }
-    if matches!(
-        record.anomaly_class,
-        taxlane_core::AnomalyClass::MissingEvidence
-    ) {
-        return "What reviewed performance target, outcome measure, or audit source should be attached before comparing spending to performance?";
-    }
-    if record.public_claim_readiness().as_str() == "NeedsRoleReview" {
-        return "What exact public wording, if any, can role review approve from the cited source record?";
-    }
-    "What source, comparison basis, or review step is needed before this record can support a public accountability claim?"
-}
-
-fn accountability_public_use_blocker(record: &AccountabilityEvidenceRecord) -> &'static str {
-    let readiness = record.public_claim_readiness();
-    if readiness.as_str() == "PublicClaimEligible" {
-        return "No blocker in readiness state; exact public wording still needs source citations.";
-    }
-    if matches!(
-        record.anomaly_class,
-        taxlane_core::AnomalyClass::MissingEvidence
-    ) {
-        return "Reviewed performance target or outcome evidence is missing.";
-    }
-    if readiness.as_str() == "NeedsRoleReview" {
-        return "Role review has not approved exact public wording.";
-    }
-    "Record remains internal evidence only."
 }
 
 fn read_accountability_evidence_records(

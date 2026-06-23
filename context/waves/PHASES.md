@@ -8,6 +8,7 @@ Work is organized into small waves and pulses.
 
 ## Completed waves
 
+- `2026-06-23-accountability-core-workflow`
 - `2026-06-23-accountability-performance-demand-packet`
 - `2026-06-23-accountability-action-queue`
 - `2026-06-23-accountability-next-actions`
