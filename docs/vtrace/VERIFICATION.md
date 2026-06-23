@@ -106,3 +106,5 @@
 | REQ-TAX-006 | command + review | `cargo test`; inspect response log evidence-rule tests | Core validates evidence-required and evidence-forbidden response-log classes before downstream surfaces consume rows. | current | EVID-TAX-050 |
 | REQ-TAX-004 | command + inspection | `cargo test`; inspect response intake-to-log handoff review | Intake rows can update response logs without creating public findings. | current | EVID-TAX-051 |
 | REQ-TAX-006 | command + review | `cargo test`; inspect `apply_intake` tests | Core blocks mismatched intake/log record IDs and preserves response-log guardrails. | current | EVID-TAX-051 |
+| REQ-TAX-004 | command + inspection | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect response intake importer fixture review | Generated intake fixture updates response-log status without creating public findings. | current | EVID-TAX-052 |
+| REQ-TAX-006 | command + review | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect response intake example JSONL validation | CLI exercises typed intake-to-log application before downstream UI/API importers use the handoff. | current | EVID-TAX-052 |

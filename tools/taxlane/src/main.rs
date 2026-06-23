@@ -10,8 +10,9 @@ use std::collections::BTreeMap;
 use taxlane_core::{
     AccountabilityEvidenceRecord, ArtifactMetadata, PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE,
     PUBLIC_CLAIM_ALLOWED_LABEL, PUBLIC_CLAIM_BLOCKED_LABEL, PerformanceDemandChecklistRecord,
-    PerformanceDemandResponseClass, PerformanceDemandResponseLogClass,
-    PerformanceDemandResponseLogRecord, PerformanceDemandResponseStatus,
+    PerformanceDemandResponseClass, PerformanceDemandResponseIntakeRecord,
+    PerformanceDemandResponseLogClass, PerformanceDemandResponseLogRecord,
+    PerformanceDemandResponseStatus,
 };
 use zip::ZipArchive;
 
@@ -92,6 +93,8 @@ const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_INTAKE_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-intake.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_INTAKE_SCHEMA_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-intake.schema.md";
+const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_INTAKE_EXAMPLE_JSONL_PATH: &str =
+    "data/derived/accountability_evidence/performance-demand-response-intake.example.jsonl";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_SCHEMA_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-checklist.schema.md";
 const ACCOUNTABILITY_ARTIFACT_MAP_PATH: &str =
@@ -688,6 +691,13 @@ const ARTIFACTS: &[Artifact] = &[
         role: "Accountability performance demand response intake schema",
         grain: "documentation",
         kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/accountability_evidence/performance-demand-response-intake.example.jsonl",
+        role: "Accountability performance demand response intake example rows",
+        grain: "response intake row",
+        kind: "jsonl",
         canonical: "supporting",
     },
     Artifact {
@@ -1327,6 +1337,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_accountability_performance_demand_response_intake_schema(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_accountability_performance_demand_response_intake_example_jsonl(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -5503,6 +5518,7 @@ fn check_accountability_artifact_map(root: &Path) -> Result<(), String> {
         "performance-demand-response-handoff.md",
         "performance-demand-response-intake.md",
         "performance-demand-response-intake.schema.md",
+        "performance-demand-response-intake.example.jsonl",
     ] {
         if !artifact_map.contains(required) {
             return Err(format!(
@@ -6019,6 +6035,73 @@ fn check_accountability_performance_demand_response_intake_schema(
     Ok(())
 }
 
+fn check_accountability_performance_demand_response_intake_example_jsonl(
+    root: &Path,
+) -> Result<(), String> {
+    let expected = build_accountability_performance_demand_response_intake_example_jsonl(root)?;
+    compare_text(
+        root,
+        ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_INTAKE_EXAMPLE_JSONL_PATH,
+        &expected,
+        "accountability performance demand response intake example JSONL",
+    )?;
+
+    let intake_rows: Vec<PerformanceDemandResponseIntakeRecord> = read_jsonl(
+        root.join(ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_INTAKE_EXAMPLE_JSONL_PATH),
+    )?
+    .into_iter()
+    .map(|row| {
+        serde_json::from_value(row)
+            .map_err(|err| format!("response intake example JSONL: invalid row shape: {err}"))
+    })
+    .collect::<Result<Vec<_>, _>>()?;
+    if intake_rows.is_empty() {
+        return Err("performance demand response intake example JSONL has no rows".to_string());
+    }
+
+    let mut log_rows: BTreeMap<String, PerformanceDemandResponseLogRecord> =
+        read_jsonl(root.join(ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_LOG_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                let record: PerformanceDemandResponseLogRecord = serde_json::from_value(row)
+                    .map_err(|err| format!("response log JSONL: invalid row shape: {err}"))?;
+                Ok((record.record_id.clone(), record))
+            })
+            .collect::<Result<BTreeMap<_, _>, String>>()?;
+
+    for intake in intake_rows {
+        intake.validate()?;
+        let log_record = log_rows.remove(&intake.record_id).ok_or_else(|| {
+            format!(
+                "response intake example row has no matching response log row: {}",
+                intake.record_id
+            )
+        })?;
+        let updated = log_record.apply_intake(&intake)?;
+        updated.validate()?;
+        if updated.public_claim_allowed {
+            return Err("response intake example unexpectedly allowed a public claim".to_string());
+        }
+        if updated.claim_gate != PUBLIC_CLAIM_BLOCKED_LABEL {
+            return Err("response intake example changed the blocked claim gate".to_string());
+        }
+    }
+
+    let index = fs::read_to_string(root.join("data/derived/accountability_evidence/README.md"))
+        .map_err(|err| {
+            format!("failed to read data/derived/accountability_evidence/README.md: {err}")
+        })?;
+    if !index.contains("performance-demand-response-intake.example.jsonl") {
+        return Err(
+            "data/derived/accountability_evidence/README.md must link performance-demand-response-intake.example.jsonl"
+                .to_string(),
+        );
+    }
+
+    println!("validated accountability performance demand response intake example JSONL");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -6467,6 +6550,12 @@ fn build_accountability_artifact_map() -> String {
             "Product implementers",
             "Inspect the reply intake field contract.",
             "Do not add importer fields that bypass role review or claim gates.",
+        ),
+        (
+            "performance-demand-response-intake.example.jsonl",
+            "Product implementers",
+            "Exercise the typed intake-to-log importer handoff.",
+            "Do not treat example replies as findings or claim eligibility.",
         ),
         (
             "performance-demand-checklist.jsonl",
@@ -7279,6 +7368,38 @@ fn build_accountability_performance_demand_response_intake_schema() -> String {
     ]);
 
     lines.join("\n") + "\n"
+}
+
+fn build_accountability_performance_demand_response_intake_example_jsonl(
+    root: &Path,
+) -> Result<String, String> {
+    let mut records = read_accountability_evidence_records(root)?;
+    records.sort_by(|left, right| left.record_id.cmp(&right.record_id));
+    let record = records.first().ok_or_else(|| {
+        "cannot build performance demand response intake example without accountability records"
+            .to_string()
+    })?;
+
+    let intake = PerformanceDemandResponseIntakeRecord {
+        record_id: record.record_id.clone(),
+        reply_source_id: "SRC-REPLY-EXAMPLE".to_string(),
+        reply_received_date: "2026-06-23".to_string(),
+        sender_or_office: "Example program office".to_string(),
+        response_class: PerformanceDemandResponseClass::PartialEvidenceResponse,
+        evidence_received: vec![
+            "Example reply cites a source record and a performance target.".to_string(),
+        ],
+        missing_evidence: "Role-approved public wording and public-claim basis remain missing."
+            .to_string(),
+        role_review_needed: true,
+        public_claim_allowed: false,
+        use_rule: PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE.to_string(),
+    };
+    intake.validate()?;
+
+    serde_json::to_string(&intake)
+        .map(|line| format!("{line}\n"))
+        .map_err(|err| format!("failed to serialize response intake example row: {err}"))
 }
 
 fn read_accountability_evidence_records(
