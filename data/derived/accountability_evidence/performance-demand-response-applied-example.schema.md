@@ -14,6 +14,7 @@ It does not authorize public claims, findings, or canonical response-log updates
 | `performance-demand-response-status.applied-example.json` | Compact counts aggregated from applied response-log rows through `PerformanceDemandResponseStatus`. | Must report zero allowed public claims and at least one updated row. |
 | `performance-demand-response-dashboard.applied-example.md` | Human-readable applied status summary. | Must state fixture-only and no-finding boundaries. |
 | `performance-demand-response-handoff.applied-example.md` | Task routing for importer fixture consumers. | Must not describe applied examples as canonical status or public-claim eligibility. |
+| `performance-demand-response-delta.applied-example.md` | Row-level comparison between canonical response-log rows and applied example rows. | Must show changed fields while preserving blocked public-claim gates. |
 
 ## Importer Rule
 

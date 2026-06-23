@@ -105,6 +105,8 @@ const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_HANDOFF_APPLIED_EXAMPLE_PATH: &
     "data/derived/accountability_evidence/performance-demand-response-handoff.applied-example.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_APPLIED_EXAMPLE_SCHEMA_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-applied-example.schema.md";
+const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_DELTA_APPLIED_EXAMPLE_PATH: &str =
+    "data/derived/accountability_evidence/performance-demand-response-delta.applied-example.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_SCHEMA_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-checklist.schema.md";
 const ACCOUNTABILITY_ARTIFACT_MAP_PATH: &str =
@@ -741,6 +743,13 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "data/derived/accountability_evidence/performance-demand-response-applied-example.schema.md",
         role: "Accountability performance demand response applied example schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/accountability_evidence/performance-demand-response-delta.applied-example.md",
+        role: "Accountability performance demand response applied delta",
         grain: "documentation",
         kind: "markdown",
         canonical: "supporting",
@@ -1419,6 +1428,12 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_accountability_performance_demand_response_applied_example_schema(&root)
+    {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_accountability_performance_demand_response_delta_applied_example(&root)
     {
         eprintln!("{err}");
         return ExitCode::from(1);
@@ -5602,6 +5617,7 @@ fn check_accountability_artifact_map(root: &Path) -> Result<(), String> {
         "performance-demand-response-dashboard.applied-example.md",
         "performance-demand-response-handoff.applied-example.md",
         "performance-demand-response-applied-example.schema.md",
+        "performance-demand-response-delta.applied-example.md",
     ] {
         if !artifact_map.contains(required) {
             return Err(format!(
@@ -6380,6 +6396,49 @@ fn check_accountability_performance_demand_response_applied_example_schema(
     Ok(())
 }
 
+fn check_accountability_performance_demand_response_delta_applied_example(
+    root: &Path,
+) -> Result<(), String> {
+    let expected = build_accountability_performance_demand_response_delta_applied_example(root)?;
+    compare_text(
+        root,
+        ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_DELTA_APPLIED_EXAMPLE_PATH,
+        &expected,
+        "accountability performance demand response delta applied example",
+    )?;
+
+    let delta_text = fs::read_to_string(
+        root.join(ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_DELTA_APPLIED_EXAMPLE_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_DELTA_APPLIED_EXAMPLE_PATH}: {err}"
+        )
+    })?;
+    if !delta_text.contains("- Updated rows: 1") {
+        return Err("response delta applied example must report one updated row".to_string());
+    }
+    if !delta_text.contains(PUBLIC_CLAIM_BLOCKED_LABEL) {
+        return Err(
+            "response delta applied example must preserve blocked public-claim gates".to_string(),
+        );
+    }
+
+    let index = fs::read_to_string(root.join("data/derived/accountability_evidence/README.md"))
+        .map_err(|err| {
+            format!("failed to read data/derived/accountability_evidence/README.md: {err}")
+        })?;
+    if !index.contains("performance-demand-response-delta.applied-example.md") {
+        return Err(
+            "data/derived/accountability_evidence/README.md must link performance-demand-response-delta.applied-example.md"
+                .to_string(),
+        );
+    }
+
+    println!("validated accountability performance demand response delta applied example");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -6864,6 +6923,12 @@ fn build_accountability_artifact_map() -> String {
             "Product implementers",
             "Inspect the applied importer fixture artifact contract.",
             "Do not weaken intake, log, status, or claim-gate guardrails.",
+        ),
+        (
+            "performance-demand-response-delta.applied-example.md",
+            "Product implementers",
+            "Inspect exact row-level changes after applying example intake.",
+            "Do not treat applied deltas as findings or canonical status.",
         ),
         (
             "performance-demand-checklist.jsonl",
@@ -7885,6 +7950,7 @@ fn build_accountability_performance_demand_response_applied_example_schema() -> 
         "| `performance-demand-response-status.applied-example.json` | Compact counts aggregated from applied response-log rows through `PerformanceDemandResponseStatus`. | Must report zero allowed public claims and at least one updated row. |".to_string(),
         "| `performance-demand-response-dashboard.applied-example.md` | Human-readable applied status summary. | Must state fixture-only and no-finding boundaries. |".to_string(),
         "| `performance-demand-response-handoff.applied-example.md` | Task routing for importer fixture consumers. | Must not describe applied examples as canonical status or public-claim eligibility. |".to_string(),
+        "| `performance-demand-response-delta.applied-example.md` | Row-level comparison between canonical response-log rows and applied example rows. | Must show changed fields while preserving blocked public-claim gates. |".to_string(),
         String::new(),
         "## Importer Rule".to_string(),
         String::new(),
@@ -7892,6 +7958,106 @@ fn build_accountability_performance_demand_response_applied_example_schema() -> 
     ];
 
     lines.join("\n") + "\n"
+}
+
+fn build_accountability_performance_demand_response_delta_applied_example(
+    root: &Path,
+) -> Result<String, String> {
+    let canonical_log = build_accountability_performance_demand_response_log_jsonl(root)?;
+    let applied_log =
+        build_accountability_performance_demand_response_log_applied_example_jsonl(root)?;
+    let canonical_rows = parse_response_log_jsonl(&canonical_log, "canonical response log")?;
+    let applied_rows = parse_response_log_jsonl(&applied_log, "applied response log")?;
+    let mut changed_rows = Vec::new();
+
+    for (record_id, applied) in &applied_rows {
+        let before = canonical_rows
+            .get(record_id)
+            .ok_or_else(|| format!("applied response log row has no canonical row: {record_id}"))?;
+        if before != applied {
+            changed_rows.push((before, applied));
+        }
+    }
+
+    let mut lines = vec![
+        "# Performance Demand Response Applied Example Delta".to_string(),
+        String::new(),
+        "## Purpose".to_string(),
+        String::new(),
+        "This generated delta compares canonical response-log rows with the importer fixture after applying example intake rows.".to_string(),
+        "It is not a finding of fraud, waste, abuse, legal dedication, poor performance, or reform success.".to_string(),
+        String::new(),
+        "## Summary".to_string(),
+        String::new(),
+        format!("- Canonical rows: {}", canonical_rows.len()),
+        format!("- Applied rows: {}", applied_rows.len()),
+        format!("- Updated rows: {}", changed_rows.len()),
+        String::new(),
+        "## Row Changes".to_string(),
+        String::new(),
+        "| Record ID | Before response class | After response class | Evidence received change | Missing evidence change | Next action change | Claim gate |".to_string(),
+        "|---|---|---|---|---|---|---|".to_string(),
+    ];
+
+    for (before, after) in changed_rows {
+        if after.public_claim_allowed {
+            return Err("applied response delta unexpectedly allowed a public claim".to_string());
+        }
+        if after.claim_gate != PUBLIC_CLAIM_BLOCKED_LABEL {
+            return Err("applied response delta changed the blocked claim gate".to_string());
+        }
+        lines.push(format!(
+            "| `{}` | `{}` | `{}` | {} -> {} item(s) | {} | {} | {} -> {} |",
+            escape_table_cell(&after.record_id),
+            before.response_class.wire_value(),
+            after.response_class.wire_value(),
+            before.evidence_received.len(),
+            after.evidence_received.len(),
+            changed_marker(&before.missing_evidence, &after.missing_evidence),
+            changed_marker(&before.next_action, &after.next_action),
+            escape_table_cell(&before.claim_gate),
+            escape_table_cell(&after.claim_gate),
+        ));
+    }
+
+    lines.extend([
+        String::new(),
+        "## Fixture Boundary".to_string(),
+        String::new(),
+        "Use this delta to inspect importer behavior only. Do not treat changed fixture rows as canonical response status, public-claim eligibility, misconduct findings, performance findings, or reform benefits.".to_string(),
+        String::new(),
+        "## Use Rule".to_string(),
+        String::new(),
+        "Applied response deltas are implementation fixtures. Public wording must keep source custody, role review, public-claim gates, and no-finding boundaries intact.".to_string(),
+    ]);
+
+    Ok(lines.join("\n") + "\n")
+}
+
+fn parse_response_log_jsonl(
+    text: &str,
+    label: &str,
+) -> Result<BTreeMap<String, PerformanceDemandResponseLogRecord>, String> {
+    text.lines()
+        .map(|line| {
+            let record: PerformanceDemandResponseLogRecord = serde_json::from_str(line)
+                .map_err(|err| format!("failed to parse {label} row: {err}"))?;
+            record.validate()?;
+            Ok((record.record_id.clone(), record))
+        })
+        .collect::<Result<BTreeMap<_, _>, String>>()
+}
+
+fn changed_marker(before: &str, after: &str) -> &'static str {
+    if before == after {
+        "unchanged"
+    } else {
+        "changed"
+    }
+}
+
+fn escape_table_cell(value: &str) -> String {
+    value.replace('|', "\\|")
 }
 
 fn read_accountability_evidence_records(
