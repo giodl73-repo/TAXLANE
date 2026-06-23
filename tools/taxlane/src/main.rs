@@ -87,6 +87,8 @@ const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_HANDOFF_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-handoff.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_INTAKE_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-intake.md";
+const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_INTAKE_SCHEMA_PATH: &str =
+    "data/derived/accountability_evidence/performance-demand-response-intake.schema.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_SCHEMA_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-checklist.schema.md";
 const ACCOUNTABILITY_ARTIFACT_MAP_PATH: &str =
@@ -674,6 +676,13 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "data/derived/accountability_evidence/performance-demand-response-intake.md",
         role: "Accountability performance demand response intake template",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/accountability_evidence/performance-demand-response-intake.schema.md",
+        role: "Accountability performance demand response intake schema",
         grain: "documentation",
         kind: "markdown",
         canonical: "supporting",
@@ -1310,6 +1319,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_accountability_performance_demand_response_intake(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_accountability_performance_demand_response_intake_schema(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -5485,6 +5499,7 @@ fn check_accountability_artifact_map(root: &Path) -> Result<(), String> {
         "performance-demand-response-dashboard.md",
         "performance-demand-response-handoff.md",
         "performance-demand-response-intake.md",
+        "performance-demand-response-intake.schema.md",
     ] {
         if !artifact_map.contains(required) {
             return Err(format!(
@@ -5998,6 +6013,32 @@ fn check_accountability_performance_demand_response_intake(root: &Path) -> Resul
     Ok(())
 }
 
+fn check_accountability_performance_demand_response_intake_schema(
+    root: &Path,
+) -> Result<(), String> {
+    let expected = build_accountability_performance_demand_response_intake_schema();
+    compare_text(
+        root,
+        ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_INTAKE_SCHEMA_PATH,
+        &expected,
+        "accountability performance demand response intake schema",
+    )?;
+
+    let index = fs::read_to_string(root.join("data/derived/accountability_evidence/README.md"))
+        .map_err(|err| {
+            format!("failed to read data/derived/accountability_evidence/README.md: {err}")
+        })?;
+    if !index.contains("performance-demand-response-intake.schema.md") {
+        return Err(
+            "data/derived/accountability_evidence/README.md must link performance-demand-response-intake.schema.md"
+                .to_string(),
+        );
+    }
+
+    println!("validated accountability performance demand response intake schema");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -6440,6 +6481,12 @@ fn build_accountability_artifact_map() -> String {
             "Citizen readers / product implementers",
             "Capture reply evidence before updating response status.",
             "Do not treat unreviewed replies as findings or claim eligibility.",
+        ),
+        (
+            "performance-demand-response-intake.schema.md",
+            "Product implementers",
+            "Inspect the reply intake field contract.",
+            "Do not add importer fields that bypass role review or claim gates.",
         ),
         (
             "performance-demand-checklist.jsonl",
@@ -7218,6 +7265,51 @@ fn build_accountability_performance_demand_response_intake() -> String {
         String::new(),
         "After intake, update `performance-demand-response-log.jsonl` only with source-custodied reply evidence and rerun validation.".to_string(),
         "Do not convert a reply into a fraud, waste, abuse, legal dedication, poor performance, or reform-benefit claim without reviewed evidence and an explicit public-claim gate.".to_string(),
+    ];
+
+    lines.join("\n") + "\n"
+}
+
+fn build_accountability_performance_demand_response_intake_schema() -> String {
+    let lines = vec![
+        "# Performance Demand Response Intake Schema".to_string(),
+        String::new(),
+        "## Purpose".to_string(),
+        String::new(),
+        "This schema documents the fields a future UI/API importer should capture from `performance-demand-response-intake.md`.".to_string(),
+        "It defines an intake contract only; it does not authorize public claims or response-log updates without validation.".to_string(),
+        String::new(),
+        "## Row Fields".to_string(),
+        String::new(),
+        "| Field | Type | Required | Meaning |".to_string(),
+        "|---|---|---|---|".to_string(),
+        "| `record_id` | string | yes | Accountability evidence record ID copied from the response log row. |".to_string(),
+        "| `reply_source_id` | string | yes | Source-ledger identifier or custody pointer for the received reply artifact. |".to_string(),
+        "| `reply_received_date` | string | yes | ISO date (`YYYY-MM-DD`) when the reply was received. |".to_string(),
+        "| `sender_or_office` | string | yes | Responding office or official exactly as written in the reply. |".to_string(),
+        "| `response_class` | string | yes | One allowed response class from this schema. |".to_string(),
+        "| `evidence_received` | array of strings | yes | Concrete documents, datasets, citations, or official findings supplied by the reply. |".to_string(),
+        "| `missing_evidence` | string | yes | Remaining source, performance, wording, or claim-basis evidence gap. |".to_string(),
+        "| `role_review_needed` | boolean | yes | Must remain `true` until exact public wording receives role review. |".to_string(),
+        "| `public_claim_allowed` | boolean | yes | Must remain `false` unless claim gates are explicitly revalidated. |".to_string(),
+        "| `use_rule` | string | yes | Boundary rule for using the intake row. |".to_string(),
+        String::new(),
+        "## Allowed Response Classes".to_string(),
+        String::new(),
+        "- `complete-evidence-response`".to_string(),
+        "- `partial-evidence-response`".to_string(),
+        "- `process-only-response`".to_string(),
+        "- `no-evidence-response`".to_string(),
+        String::new(),
+        "## Gate Rules".to_string(),
+        String::new(),
+        "- `role_review_needed` must be `true` for unreviewed replies.".to_string(),
+        "- `public_claim_allowed` must be `false` until the response log, role review, and claim gates are revalidated.".to_string(),
+        "- Empty `evidence_received` is allowed only when `response_class` is `process-only-response` or `no-evidence-response`.".to_string(),
+        String::new(),
+        "## Public-Use Rule".to_string(),
+        String::new(),
+        "Intake rows may support response custody and classification. They must not be used as findings of fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits.".to_string(),
     ];
 
     lines.join("\n") + "\n"
