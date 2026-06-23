@@ -38,6 +38,7 @@ claims.
 | `performance-demand-response-status.applied-example.json` | generated applied response status | Counts response-log rows after applying the intake example. |
 | `performance-demand-response-dashboard.applied-example.md` | generated applied response dashboard | Summarizes applied response-log counts for importer review. |
 | `performance-demand-response-handoff.applied-example.md` | generated applied response handoff | Routes applied response importer fixture artifacts by task. |
+| `performance-demand-response-applied-example.schema.md` | applied response fixture schema | Documents the applied importer fixture artifact contract. |
 | `performance-demand-checklist.schema.md` | demand checklist row schema | Documents the `PerformanceDemandChecklistRecord` row contract. |
 | `artifact-map.md` | one generated accountability artifact map | Routes each artifact to its audience, use, and public-use boundary. |
 
@@ -148,6 +149,9 @@ not the canonical response dashboard.
 The performance-demand response handoff applied example Markdown routes the
 applied importer fixture artifacts by task. It remains implementation guidance
 for fixtures, not public accountability wording.
+
+The performance-demand response applied example schema documents the fixture
+artifact contract for importer consumers. It does not add claim authority.
 
 The performance-demand checklist schema documents the JSONL row fields for
 future UI/API consumers.

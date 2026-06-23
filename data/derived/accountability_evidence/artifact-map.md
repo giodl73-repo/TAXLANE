@@ -41,6 +41,7 @@ It is not a list of fraud, waste, abuse, or performance findings.
 | `performance-demand-response-status.applied-example.json` | Product implementers | Display applied response-log counts without recomputing rows. | Do not treat applied status counts as findings. |
 | `performance-demand-response-dashboard.applied-example.md` | Product implementers | Scan applied response-log counts without opening JSON. | Do not treat applied dashboard counts as findings. |
 | `performance-demand-response-handoff.applied-example.md` | Product implementers | Route the response importer fixture artifacts by task. | Do not treat applied handoff guidance as findings. |
+| `performance-demand-response-applied-example.schema.md` | Product implementers | Inspect the applied importer fixture artifact contract. | Do not weaken intake, log, status, or claim-gate guardrails. |
 | `performance-demand-checklist.jsonl` | Product implementers | Feed demand rows into future UI/API surfaces. | Do not infer public eligibility except from `public_claim_allowed`. |
 | `performance-demand-claim-gates.json` | Product implementers | Display allowed versus blocked demand-row counts. | Do not recompute or override claim gates downstream. |
 | `performance-demand-checklist.schema.md` | Product implementers | Inspect the demand checklist row contract. | Do not add UI/API fields that weaken the use rule. |

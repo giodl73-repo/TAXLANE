@@ -103,6 +103,8 @@ const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_DASHBOARD_APPLIED_EXAMPLE_PATH:
     "data/derived/accountability_evidence/performance-demand-response-dashboard.applied-example.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_HANDOFF_APPLIED_EXAMPLE_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-handoff.applied-example.md";
+const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_APPLIED_EXAMPLE_SCHEMA_PATH: &str =
+    "data/derived/accountability_evidence/performance-demand-response-applied-example.schema.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_SCHEMA_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-checklist.schema.md";
 const ACCOUNTABILITY_ARTIFACT_MAP_PATH: &str =
@@ -732,6 +734,13 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "data/derived/accountability_evidence/performance-demand-response-handoff.applied-example.md",
         role: "Accountability performance demand response applied handoff",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/accountability_evidence/performance-demand-response-applied-example.schema.md",
+        role: "Accountability performance demand response applied example schema",
         grain: "documentation",
         kind: "markdown",
         canonical: "supporting",
@@ -1404,6 +1413,12 @@ fn run_income_tax_outlay_validation() -> ExitCode {
 
     if let Err(err) =
         check_accountability_performance_demand_response_handoff_applied_example(&root)
+    {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_accountability_performance_demand_response_applied_example_schema(&root)
     {
         eprintln!("{err}");
         return ExitCode::from(1);
@@ -5586,6 +5601,7 @@ fn check_accountability_artifact_map(root: &Path) -> Result<(), String> {
         "performance-demand-response-status.applied-example.json",
         "performance-demand-response-dashboard.applied-example.md",
         "performance-demand-response-handoff.applied-example.md",
+        "performance-demand-response-applied-example.schema.md",
     ] {
         if !artifact_map.contains(required) {
             return Err(format!(
@@ -6338,6 +6354,32 @@ fn check_accountability_performance_demand_response_handoff_applied_example(
     Ok(())
 }
 
+fn check_accountability_performance_demand_response_applied_example_schema(
+    root: &Path,
+) -> Result<(), String> {
+    let expected = build_accountability_performance_demand_response_applied_example_schema();
+    compare_text(
+        root,
+        ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_APPLIED_EXAMPLE_SCHEMA_PATH,
+        &expected,
+        "accountability performance demand response applied example schema",
+    )?;
+
+    let index = fs::read_to_string(root.join("data/derived/accountability_evidence/README.md"))
+        .map_err(|err| {
+            format!("failed to read data/derived/accountability_evidence/README.md: {err}")
+        })?;
+    if !index.contains("performance-demand-response-applied-example.schema.md") {
+        return Err(
+            "data/derived/accountability_evidence/README.md must link performance-demand-response-applied-example.schema.md"
+                .to_string(),
+        );
+    }
+
+    println!("validated accountability performance demand response applied example schema");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -6816,6 +6858,12 @@ fn build_accountability_artifact_map() -> String {
             "Product implementers",
             "Route the response importer fixture artifacts by task.",
             "Do not treat applied handoff guidance as findings.",
+        ),
+        (
+            "performance-demand-response-applied-example.schema.md",
+            "Product implementers",
+            "Inspect the applied importer fixture artifact contract.",
+            "Do not weaken intake, log, status, or claim-gate guardrails.",
         ),
         (
             "performance-demand-checklist.jsonl",
@@ -7817,6 +7865,33 @@ fn build_accountability_performance_demand_response_handoff_applied_example(
     ];
 
     Ok(lines.join("\n") + "\n")
+}
+
+fn build_accountability_performance_demand_response_applied_example_schema() -> String {
+    let lines = vec![
+        "# Performance Demand Response Applied Example Schema".to_string(),
+        String::new(),
+        "## Purpose".to_string(),
+        String::new(),
+        "This schema note documents the generated response importer fixture artifacts.".to_string(),
+        "It does not authorize public claims, findings, or canonical response-log updates.".to_string(),
+        String::new(),
+        "## Artifact Roles".to_string(),
+        String::new(),
+        "| Artifact | Role | Guardrail |".to_string(),
+        "|---|---|---|".to_string(),
+        "| `performance-demand-response-intake.example.jsonl` | Source-custodied intake fixture row parsed as `PerformanceDemandResponseIntakeRecord`. | Must keep `role_review_needed: true`, `public_claim_allowed: false`, and the intake use rule. |".to_string(),
+        "| `performance-demand-response-log.applied-example.jsonl` | Response-log rows after applying intake fixture rows through `PerformanceDemandResponseLogRecord::apply_intake`. | Must validate as response-log records and keep `Public claim blocked.`. |".to_string(),
+        "| `performance-demand-response-status.applied-example.json` | Compact counts aggregated from applied response-log rows through `PerformanceDemandResponseStatus`. | Must report zero allowed public claims and at least one updated row. |".to_string(),
+        "| `performance-demand-response-dashboard.applied-example.md` | Human-readable applied status summary. | Must state fixture-only and no-finding boundaries. |".to_string(),
+        "| `performance-demand-response-handoff.applied-example.md` | Task routing for importer fixture consumers. | Must not describe applied examples as canonical status or public-claim eligibility. |".to_string(),
+        String::new(),
+        "## Importer Rule".to_string(),
+        String::new(),
+        "Importers may use these artifacts to test response intake handling. They must not treat example rows as real agency replies, public fraud/waste/abuse findings, legal dedication of income taxes, poor-performance findings, or reform benefits.".to_string(),
+    ];
+
+    lines.join("\n") + "\n"
 }
 
 fn read_accountability_evidence_records(
