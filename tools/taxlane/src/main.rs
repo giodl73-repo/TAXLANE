@@ -7053,32 +7053,20 @@ fn build_accountability_performance_demand_response_status(root: &Path) -> Resul
         .map_err(|err| format!("failed to serialize response status: {err}"))
 }
 
+fn generated_accountability_performance_demand_response_status(
+    root: &Path,
+) -> Result<PerformanceDemandResponseStatus, String> {
+    let status_text = build_accountability_performance_demand_response_status(root)?;
+    let status: PerformanceDemandResponseStatus = serde_json::from_str(&status_text)
+        .map_err(|err| format!("failed to parse generated response status: {err}"))?;
+    status.validate()?;
+    Ok(status)
+}
+
 fn build_accountability_performance_demand_response_dashboard(
     root: &Path,
 ) -> Result<String, String> {
-    let status_text = build_accountability_performance_demand_response_status(root)?;
-    let status: serde_json::Value = serde_json::from_str(&status_text)
-        .map_err(|err| format!("failed to parse generated response status: {err}"))?;
-    let total_rows = status
-        .get("total_rows")
-        .and_then(serde_json::Value::as_u64)
-        .ok_or_else(|| "generated response status missing total_rows".to_string())?;
-    let not_yet_received = status
-        .get("not_yet_received")
-        .and_then(serde_json::Value::as_u64)
-        .ok_or_else(|| "generated response status missing not_yet_received".to_string())?;
-    let allowed_rows = status
-        .get("public_claim_allowed")
-        .and_then(serde_json::Value::as_u64)
-        .ok_or_else(|| "generated response status missing public_claim_allowed".to_string())?;
-    let blocked_rows = status
-        .get("public_claim_blocked")
-        .and_then(serde_json::Value::as_u64)
-        .ok_or_else(|| "generated response status missing public_claim_blocked".to_string())?;
-    let use_rule = status
-        .get("use_rule")
-        .and_then(serde_json::Value::as_str)
-        .ok_or_else(|| "generated response status missing use_rule".to_string())?;
+    let status = generated_accountability_performance_demand_response_status(root)?;
 
     let lines = vec![
         "# Performance Demand Response Dashboard".to_string(),
@@ -7091,39 +7079,27 @@ fn build_accountability_performance_demand_response_dashboard(
         String::new(),
         "## Response Status Summary".to_string(),
         String::new(),
-        format!("- Response rows: {total_rows}"),
-        format!("- Not-yet-received rows: {not_yet_received}"),
-        format!("- Public claims currently allowed: {allowed_rows}"),
-        format!("- Public claims currently blocked: {blocked_rows}"),
+        format!("- Response rows: {}", status.total_rows),
+        format!("- Not-yet-received rows: {}", status.not_yet_received),
+        format!(
+            "- Public claims currently allowed: {}",
+            status.public_claim_allowed
+        ),
+        format!(
+            "- Public claims currently blocked: {}",
+            status.public_claim_blocked
+        ),
         String::new(),
         "## Use Rule".to_string(),
         String::new(),
-        use_rule.to_string(),
+        status.use_rule,
     ];
 
     Ok(lines.join("\n") + "\n")
 }
 
 fn build_accountability_performance_demand_response_handoff(root: &Path) -> Result<String, String> {
-    let status_text = build_accountability_performance_demand_response_status(root)?;
-    let status: serde_json::Value = serde_json::from_str(&status_text)
-        .map_err(|err| format!("failed to parse generated response status: {err}"))?;
-    let total_rows = status
-        .get("total_rows")
-        .and_then(serde_json::Value::as_u64)
-        .ok_or_else(|| "generated response status missing total_rows".to_string())?;
-    let not_yet_received = status
-        .get("not_yet_received")
-        .and_then(serde_json::Value::as_u64)
-        .ok_or_else(|| "generated response status missing not_yet_received".to_string())?;
-    let allowed_rows = status
-        .get("public_claim_allowed")
-        .and_then(serde_json::Value::as_u64)
-        .ok_or_else(|| "generated response status missing public_claim_allowed".to_string())?;
-    let blocked_rows = status
-        .get("public_claim_blocked")
-        .and_then(serde_json::Value::as_u64)
-        .ok_or_else(|| "generated response status missing public_claim_blocked".to_string())?;
+    let status = generated_accountability_performance_demand_response_status(root)?;
 
     let lines = vec![
         "# Performance Demand Response Handoff".to_string(),
@@ -7146,10 +7122,16 @@ fn build_accountability_performance_demand_response_handoff(root: &Path) -> Resu
         String::new(),
         "## Current Status".to_string(),
         String::new(),
-        format!("- Response rows: {total_rows}"),
-        format!("- Not-yet-received rows: {not_yet_received}"),
-        format!("- Public claims currently allowed: {allowed_rows}"),
-        format!("- Public claims currently blocked: {blocked_rows}"),
+        format!("- Response rows: {}", status.total_rows),
+        format!("- Not-yet-received rows: {}", status.not_yet_received),
+        format!(
+            "- Public claims currently allowed: {}",
+            status.public_claim_allowed
+        ),
+        format!(
+            "- Public claims currently blocked: {}",
+            status.public_claim_blocked
+        ),
         String::new(),
         "## Use Rule".to_string(),
         String::new(),

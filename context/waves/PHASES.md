@@ -8,6 +8,7 @@ Work is organized into small waves and pulses.
 
 ## Completed waves
 
+- `2026-06-23-accountability-performance-demand-response-status-rendering`
 - `2026-06-23-accountability-performance-demand-response-status-core-contract`
 - `2026-06-23-accountability-performance-demand-response-log-core-contract`
 - `2026-06-23-accountability-performance-demand-response-intake-core-contract`
