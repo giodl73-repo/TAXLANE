@@ -246,9 +246,9 @@ impl AccountabilityEvidenceRecord {
             do_not_accept_yet: work_item.public_use_blocker,
             public_claim_allowed: work_item.public_claim_allowed,
             claim_gate: if work_item.public_claim_allowed {
-                "Public claim allowed."
+                PUBLIC_CLAIM_ALLOWED_LABEL
             } else {
-                "Public claim blocked."
+                PUBLIC_CLAIM_BLOCKED_LABEL
             },
             use_rule: PERFORMANCE_DEMAND_USE_RULE,
         }
@@ -315,6 +315,8 @@ pub const PERFORMANCE_DEMAND_RESPONSE_LOG_NEXT_ACTION: &str =
     "Send or resend public-safe evidence request; keep claim gate blocked.";
 pub const PERFORMANCE_DEMAND_RESPONSE_LOG_USE_RULE: &str = "Track response status and remaining evidence gaps; do not claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits.";
 pub const PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE: &str = "Capture reply custody and classification; do not claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits.";
+pub const PUBLIC_CLAIM_ALLOWED_LABEL: &str = "Public claim allowed.";
+pub const PUBLIC_CLAIM_BLOCKED_LABEL: &str = "Public claim blocked.";
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize)]
 pub struct PerformanceDemandChecklistRow<'a> {
@@ -368,13 +370,13 @@ impl PerformanceDemandChecklistRecord {
         if self.use_rule != PERFORMANCE_DEMAND_USE_RULE {
             return Err("performance demand checklist record has unexpected use_rule".to_string());
         }
-        if self.public_claim_allowed && self.claim_gate != "Public claim allowed." {
+        if self.public_claim_allowed && self.claim_gate != PUBLIC_CLAIM_ALLOWED_LABEL {
             return Err(
                 "performance demand checklist record allowed claim has wrong claim_gate"
                     .to_string(),
             );
         }
-        if !self.public_claim_allowed && self.claim_gate != "Public claim blocked." {
+        if !self.public_claim_allowed && self.claim_gate != PUBLIC_CLAIM_BLOCKED_LABEL {
             return Err(
                 "performance demand checklist record blocked claim has wrong claim_gate"
                     .to_string(),
@@ -509,7 +511,7 @@ impl PerformanceDemandResponseLogRecord {
                     .to_string(),
             );
         }
-        if self.claim_gate != "Public claim blocked." {
+        if self.claim_gate != PUBLIC_CLAIM_BLOCKED_LABEL {
             return Err(
                 "performance demand response log record must preserve blocked claim_gate"
                     .to_string(),

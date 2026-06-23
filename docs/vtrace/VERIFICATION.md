@@ -98,3 +98,5 @@
 | REQ-TAX-006 | command + review | `cargo test`; inspect response intake class metadata | CLI renders response intake classes from core enum metadata instead of hardcoded lists. | current | EVID-TAX-046 |
 | REQ-TAX-004 | command + inspection | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect response log schema class rendering review | Response-log schema class meanings remain aligned without creating findings. | current | EVID-TAX-047 |
 | REQ-TAX-006 | command + review | `cargo test`; inspect response log schema builder | CLI renders response-log schema classes from core enum metadata instead of hardcoded lists. | current | EVID-TAX-047 |
+| REQ-TAX-004 | command + inspection | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect public-claim gate label core review | Claim-gate wording remains aligned across generated demand and response artifacts. | current | EVID-TAX-048 |
+| REQ-TAX-006 | command + review | `cargo test`; inspect core public-claim gate labels | CLI and core validation use shared claim-gate labels instead of duplicated strings. | current | EVID-TAX-048 |

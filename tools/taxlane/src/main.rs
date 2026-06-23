@@ -9,9 +9,9 @@ use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
 use taxlane_core::{
     AccountabilityEvidenceRecord, ArtifactMetadata, PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE,
-    PerformanceDemandChecklistRecord, PerformanceDemandResponseClass,
-    PerformanceDemandResponseLogClass, PerformanceDemandResponseLogRecord,
-    PerformanceDemandResponseStatus,
+    PUBLIC_CLAIM_ALLOWED_LABEL, PUBLIC_CLAIM_BLOCKED_LABEL, PerformanceDemandChecklistRecord,
+    PerformanceDemandResponseClass, PerformanceDemandResponseLogClass,
+    PerformanceDemandResponseLogRecord, PerformanceDemandResponseStatus,
 };
 use zip::ZipArchive;
 
@@ -6558,9 +6558,9 @@ fn build_accountability_performance_demand_checklist(root: &Path) -> Result<Stri
     for record in records {
         let work_item = record.accountability_work_item();
         let claim_gate = if work_item.public_claim_allowed {
-            "Public claim allowed."
+            PUBLIC_CLAIM_ALLOWED_LABEL
         } else {
-            "Public claim blocked."
+            PUBLIC_CLAIM_BLOCKED_LABEL
         };
         lines.push(format!(
             "| {} | {} | {} | {} |",
