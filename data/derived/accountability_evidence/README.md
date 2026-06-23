@@ -10,7 +10,7 @@ claims.
 
 | Artifact | Grain | Status |
 |---|---|---|
-| `accountability_evidence.omb-fy2027-v1.2026-06-23.draft.jsonl` | one reviewed evidence record | Draft; source-custody bootstrap only. |
+| `accountability_evidence.omb-fy2027-v1.2026-06-23.draft.jsonl` | reviewed and draft evidence records | Draft; source-custody and baseline-gap bootstrap only. |
 | `readiness-report.md` | one generated readiness summary | Generated from draft evidence records. |
 
 ## Public-Use Rule
