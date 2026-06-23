@@ -1,3 +1,5 @@
+use std::collections::BTreeMap;
+
 use serde::{Deserialize, Serialize};
 
 pub const ACCOUNTABILITY_RECORD_FAMILY: &str = "accountability_evidence";
@@ -663,6 +665,99 @@ impl PerformanceDemandResponseStatus {
 
         Ok(())
     }
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+pub struct PerformanceDemandResponseDeltaRow {
+    pub record_id: String,
+    pub before_response_class: PerformanceDemandResponseLogClass,
+    pub after_response_class: PerformanceDemandResponseLogClass,
+    pub before_evidence_received_count: usize,
+    pub after_evidence_received_count: usize,
+    pub missing_evidence_changed: bool,
+    pub next_action_changed: bool,
+    pub before_claim_gate: String,
+    pub after_claim_gate: String,
+}
+
+impl PerformanceDemandResponseDeltaRow {
+    pub fn from_response_log_records(
+        before_rows: &[PerformanceDemandResponseLogRecord],
+        after_rows: &[PerformanceDemandResponseLogRecord],
+    ) -> Result<Vec<Self>, String> {
+        if before_rows.is_empty() || after_rows.is_empty() {
+            return Err("performance demand response delta needs response rows".to_string());
+        }
+
+        let before_by_id = response_log_records_by_id(before_rows, "before")?;
+        let after_by_id = response_log_records_by_id(after_rows, "after")?;
+        if before_by_id.len() != after_by_id.len() {
+            return Err("performance demand response delta row counts do not match".to_string());
+        }
+
+        let mut rows = Vec::new();
+        for (record_id, after) in &after_by_id {
+            let before = before_by_id.get(record_id).ok_or_else(|| {
+                format!("performance demand response delta missing before row: {record_id}")
+            })?;
+            if before == after {
+                continue;
+            }
+
+            let delta = Self {
+                record_id: record_id.to_string(),
+                before_response_class: before.response_class.clone(),
+                after_response_class: after.response_class.clone(),
+                before_evidence_received_count: before.evidence_received.len(),
+                after_evidence_received_count: after.evidence_received.len(),
+                missing_evidence_changed: before.missing_evidence != after.missing_evidence,
+                next_action_changed: before.next_action != after.next_action,
+                before_claim_gate: before.claim_gate.clone(),
+                after_claim_gate: after.claim_gate.clone(),
+            };
+            delta.validate()?;
+            rows.push(delta);
+        }
+
+        Ok(rows)
+    }
+
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("before_claim_gate", &self.before_claim_gate)?;
+        validate_required("after_claim_gate", &self.after_claim_gate)?;
+        if self.before_claim_gate != PUBLIC_CLAIM_BLOCKED_LABEL {
+            return Err(
+                "performance demand response delta before row must keep blocked claim_gate"
+                    .to_string(),
+            );
+        }
+        if self.after_claim_gate != PUBLIC_CLAIM_BLOCKED_LABEL {
+            return Err(
+                "performance demand response delta after row must keep blocked claim_gate"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+fn response_log_records_by_id<'a>(
+    records: &'a [PerformanceDemandResponseLogRecord],
+    label: &str,
+) -> Result<BTreeMap<&'a str, &'a PerformanceDemandResponseLogRecord>, String> {
+    let mut by_id = BTreeMap::new();
+    for record in records {
+        record.validate()?;
+        if by_id.insert(record.record_id.as_str(), record).is_some() {
+            return Err(format!(
+                "performance demand response delta has duplicate {label} row: {}",
+                record.record_id
+            ));
+        }
+    }
+    Ok(by_id)
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
@@ -1352,6 +1447,86 @@ mod tests {
         };
 
         assert!(status.validate().is_err());
+    }
+
+    #[test]
+    fn builds_response_delta_rows_from_log_records() {
+        let before = PerformanceDemandResponseLogRecord {
+            record_id: "accountability-evidence:test".to_string(),
+            lane_id: Some("health".to_string()),
+            program_or_account_id: Some("omb-function-550".to_string()),
+            response_class: PerformanceDemandResponseLogClass::NotYetReceived,
+            evidence_received: Vec::new(),
+            missing_evidence: "Requested evidence remains missing.".to_string(),
+            claim_gate: PUBLIC_CLAIM_BLOCKED_LABEL.to_string(),
+            public_claim_allowed: false,
+            next_action: PERFORMANCE_DEMAND_RESPONSE_LOG_NEXT_ACTION.to_string(),
+            use_rule: PERFORMANCE_DEMAND_RESPONSE_LOG_USE_RULE.to_string(),
+        };
+        let after = PerformanceDemandResponseLogRecord {
+            record_id: "accountability-evidence:test".to_string(),
+            lane_id: Some("health".to_string()),
+            program_or_account_id: Some("omb-function-550".to_string()),
+            response_class: PerformanceDemandResponseLogClass::PartialEvidenceResponse,
+            evidence_received: vec!["audit memo URL".to_string()],
+            missing_evidence: "Role-approved public wording remains missing.".to_string(),
+            claim_gate: PUBLIC_CLAIM_BLOCKED_LABEL.to_string(),
+            public_claim_allowed: false,
+            next_action: "Ask a narrower follow-up for the missing item.".to_string(),
+            use_rule: PERFORMANCE_DEMAND_RESPONSE_LOG_USE_RULE.to_string(),
+        };
+
+        let delta =
+            PerformanceDemandResponseDeltaRow::from_response_log_records(&[before], &[after])
+                .unwrap();
+
+        assert_eq!(
+            delta,
+            vec![PerformanceDemandResponseDeltaRow {
+                record_id: "accountability-evidence:test".to_string(),
+                before_response_class: PerformanceDemandResponseLogClass::NotYetReceived,
+                after_response_class: PerformanceDemandResponseLogClass::PartialEvidenceResponse,
+                before_evidence_received_count: 0,
+                after_evidence_received_count: 1,
+                missing_evidence_changed: true,
+                next_action_changed: true,
+                before_claim_gate: PUBLIC_CLAIM_BLOCKED_LABEL.to_string(),
+                after_claim_gate: PUBLIC_CLAIM_BLOCKED_LABEL.to_string(),
+            }]
+        );
+    }
+
+    #[test]
+    fn blocks_response_delta_mismatched_rows() {
+        let before = PerformanceDemandResponseLogRecord {
+            record_id: "accountability-evidence:test".to_string(),
+            lane_id: Some("health".to_string()),
+            program_or_account_id: Some("omb-function-550".to_string()),
+            response_class: PerformanceDemandResponseLogClass::NotYetReceived,
+            evidence_received: Vec::new(),
+            missing_evidence: "Requested evidence remains missing.".to_string(),
+            claim_gate: PUBLIC_CLAIM_BLOCKED_LABEL.to_string(),
+            public_claim_allowed: false,
+            next_action: PERFORMANCE_DEMAND_RESPONSE_LOG_NEXT_ACTION.to_string(),
+            use_rule: PERFORMANCE_DEMAND_RESPONSE_LOG_USE_RULE.to_string(),
+        };
+        let after = PerformanceDemandResponseLogRecord {
+            record_id: "accountability-evidence:other".to_string(),
+            lane_id: Some("health".to_string()),
+            program_or_account_id: Some("omb-function-550".to_string()),
+            response_class: PerformanceDemandResponseLogClass::PartialEvidenceResponse,
+            evidence_received: vec!["audit memo URL".to_string()],
+            missing_evidence: "Role-approved public wording remains missing.".to_string(),
+            claim_gate: PUBLIC_CLAIM_BLOCKED_LABEL.to_string(),
+            public_claim_allowed: false,
+            next_action: "Ask a narrower follow-up for the missing item.".to_string(),
+            use_rule: PERFORMANCE_DEMAND_RESPONSE_LOG_USE_RULE.to_string(),
+        };
+
+        assert!(
+            PerformanceDemandResponseDeltaRow::from_response_log_records(&[before], &[after])
+                .is_err()
+        );
     }
 
     #[test]

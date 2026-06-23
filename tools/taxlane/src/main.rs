@@ -10,9 +10,9 @@ use std::collections::BTreeMap;
 use taxlane_core::{
     AccountabilityEvidenceRecord, ArtifactMetadata, PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE,
     PUBLIC_CLAIM_ALLOWED_LABEL, PUBLIC_CLAIM_BLOCKED_LABEL, PerformanceDemandChecklistRecord,
-    PerformanceDemandResponseClass, PerformanceDemandResponseIntakeRecord,
-    PerformanceDemandResponseLogClass, PerformanceDemandResponseLogRecord,
-    PerformanceDemandResponseStatus,
+    PerformanceDemandResponseClass, PerformanceDemandResponseDeltaRow,
+    PerformanceDemandResponseIntakeRecord, PerformanceDemandResponseLogClass,
+    PerformanceDemandResponseLogRecord, PerformanceDemandResponseStatus,
 };
 use zip::ZipArchive;
 
@@ -7968,16 +7968,10 @@ fn build_accountability_performance_demand_response_delta_applied_example(
         build_accountability_performance_demand_response_log_applied_example_jsonl(root)?;
     let canonical_rows = parse_response_log_jsonl(&canonical_log, "canonical response log")?;
     let applied_rows = parse_response_log_jsonl(&applied_log, "applied response log")?;
-    let mut changed_rows = Vec::new();
-
-    for (record_id, applied) in &applied_rows {
-        let before = canonical_rows
-            .get(record_id)
-            .ok_or_else(|| format!("applied response log row has no canonical row: {record_id}"))?;
-        if before != applied {
-            changed_rows.push((before, applied));
-        }
-    }
+    let changed_rows = PerformanceDemandResponseDeltaRow::from_response_log_records(
+        &canonical_rows,
+        &applied_rows,
+    )?;
 
     let mut lines = vec![
         "# Performance Demand Response Applied Example Delta".to_string(),
@@ -7999,24 +7993,19 @@ fn build_accountability_performance_demand_response_delta_applied_example(
         "|---|---|---|---|---|---|---|".to_string(),
     ];
 
-    for (before, after) in changed_rows {
-        if after.public_claim_allowed {
-            return Err("applied response delta unexpectedly allowed a public claim".to_string());
-        }
-        if after.claim_gate != PUBLIC_CLAIM_BLOCKED_LABEL {
-            return Err("applied response delta changed the blocked claim gate".to_string());
-        }
+    for row in changed_rows {
+        row.validate()?;
         lines.push(format!(
             "| `{}` | `{}` | `{}` | {} -> {} item(s) | {} | {} | {} -> {} |",
-            escape_table_cell(&after.record_id),
-            before.response_class.wire_value(),
-            after.response_class.wire_value(),
-            before.evidence_received.len(),
-            after.evidence_received.len(),
-            changed_marker(&before.missing_evidence, &after.missing_evidence),
-            changed_marker(&before.next_action, &after.next_action),
-            escape_table_cell(&before.claim_gate),
-            escape_table_cell(&after.claim_gate),
+            escape_table_cell(&row.record_id),
+            row.before_response_class.wire_value(),
+            row.after_response_class.wire_value(),
+            row.before_evidence_received_count,
+            row.after_evidence_received_count,
+            bool_marker(row.missing_evidence_changed),
+            bool_marker(row.next_action_changed),
+            escape_table_cell(&row.before_claim_gate),
+            escape_table_cell(&row.after_claim_gate),
         ));
     }
 
@@ -8037,23 +8026,19 @@ fn build_accountability_performance_demand_response_delta_applied_example(
 fn parse_response_log_jsonl(
     text: &str,
     label: &str,
-) -> Result<BTreeMap<String, PerformanceDemandResponseLogRecord>, String> {
+) -> Result<Vec<PerformanceDemandResponseLogRecord>, String> {
     text.lines()
         .map(|line| {
             let record: PerformanceDemandResponseLogRecord = serde_json::from_str(line)
                 .map_err(|err| format!("failed to parse {label} row: {err}"))?;
             record.validate()?;
-            Ok((record.record_id.clone(), record))
+            Ok(record)
         })
-        .collect::<Result<BTreeMap<_, _>, String>>()
+        .collect::<Result<Vec<_>, String>>()
 }
 
-fn changed_marker(before: &str, after: &str) -> &'static str {
-    if before == after {
-        "unchanged"
-    } else {
-        "changed"
-    }
+fn bool_marker(changed: bool) -> &'static str {
+    if changed { "changed" } else { "unchanged" }
 }
 
 fn escape_table_cell(value: &str) -> String {
