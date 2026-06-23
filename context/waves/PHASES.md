@@ -8,6 +8,7 @@ Work is organized into small waves and pulses.
 
 ## Completed waves
 
+- `2026-06-23-accountability-public-questions`
 - `2026-06-23-accountability-claim-guard`
 - `2026-06-23-accountability-work-items`
 - `2026-06-23-accountability-core-workflow`

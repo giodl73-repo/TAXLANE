@@ -53,6 +53,8 @@ const ACCOUNTABILITY_WORK_ITEMS_JSONL_PATH: &str =
     "data/derived/accountability_evidence/accountability-work-items.jsonl";
 const ACCOUNTABILITY_CLAIM_GUARD_REPORT_PATH: &str =
     "data/derived/accountability_evidence/claim-guard-report.md";
+const ACCOUNTABILITY_PUBLIC_QUESTIONS_PATH: &str =
+    "data/derived/accountability_evidence/public-questions.md";
 const SOURCE_VERSION_LEDGER_PATH: &str = "docs/sources/source-version-ledger.md";
 const OBSERVED_DATE: &str = "2026-06-21";
 const MODEL_ID: &str = "individual-income-tax-proportional-outlays-v1";
@@ -519,6 +521,13 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "data/derived/accountability_evidence/public-questions.md",
+        role: "Accountability public-safe questions",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "docs/reading/placeholder-visibility-receipt.md",
         role: "Placeholder receipt reader packet",
         grain: "documentation",
@@ -654,6 +663,13 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "reviews/2026-06-23-accountability-claim-guard-report-review.md",
         role: "Accountability claim guard report review",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-06-23-accountability-public-questions-review.md",
+        role: "Accountability public questions review",
         grain: "documentation",
         kind: "markdown",
         canonical: "supporting",
@@ -950,6 +966,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_accountability_claim_guard_report(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_accountability_public_questions(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -5047,6 +5068,18 @@ fn check_accountability_claim_guard_report(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn check_accountability_public_questions(root: &Path) -> Result<(), String> {
+    let expected = build_accountability_public_questions(root)?;
+    compare_text(
+        root,
+        ACCOUNTABILITY_PUBLIC_QUESTIONS_PATH,
+        &expected,
+        "accountability public questions",
+    )?;
+    println!("validated accountability public questions");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -5267,6 +5300,44 @@ fn build_accountability_claim_guard_report(root: &Path) -> Result<String, String
         String::new(),
         "Current safe use: ask the demand questions and request the missing reviewed evidence or role-approved wording.".to_string(),
         "Current unsafe use: present these draft records as fraud, waste, abuse, or performance findings.".to_string(),
+    ]);
+
+    Ok(lines.join("\n") + "\n")
+}
+
+fn build_accountability_public_questions(root: &Path) -> Result<String, String> {
+    let mut records = read_accountability_evidence_records(root)?;
+    records.sort_by(|left, right| left.record_id.cmp(&right.record_id));
+
+    let mut lines = vec![
+        "# Public Accountability Questions".to_string(),
+        String::new(),
+        "## Purpose".to_string(),
+        String::new(),
+        "These generated questions are safe to ask publicly because they request reviewed evidence or role-approved wording.".to_string(),
+        "They are not findings of fraud, waste, abuse, or poor performance.".to_string(),
+        String::new(),
+        "## Questions".to_string(),
+        String::new(),
+        "| Lane | Public-Safe Question | Why This Is Still Blocked |".to_string(),
+        "|---|---|---|".to_string(),
+    ];
+
+    for record in records {
+        let work_item = record.accountability_work_item();
+        lines.push(format!(
+            "| {} | {} | {} |",
+            work_item.lane_id.unwrap_or("n/a"),
+            work_item.demand_question.replace('|', "\\|"),
+            work_item.public_use_blocker.replace('|', "\\|")
+        ));
+    }
+
+    lines.extend([
+        String::new(),
+        "## Use Rule".to_string(),
+        String::new(),
+        "Use these questions to ask for evidence. Do not present the underlying draft records as public claims.".to_string(),
     ]);
 
     Ok(lines.join("\n") + "\n")
