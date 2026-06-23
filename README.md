@@ -95,6 +95,11 @@ allocation of ordinary individual income-tax receipts by outlay share. Use
 `docs/reading/modeled-income-tax-subfunction-outlays.md` only as a drilldown
 after the broad financing context is visible.
 
+Use `docs/reading/accountability-public-brief.md` for the current
+accountability handoff. It explains which public questions are safe to ask now
+and why current draft accountability records are not fraud, waste, abuse, or
+performance findings.
+
 ## Validation
 
 This is a docs-first repo. The foundation validation command is:

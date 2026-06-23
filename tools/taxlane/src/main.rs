@@ -56,6 +56,8 @@ const ACCOUNTABILITY_CLAIM_GUARD_REPORT_PATH: &str =
 const ACCOUNTABILITY_PUBLIC_QUESTIONS_PATH: &str =
     "data/derived/accountability_evidence/public-questions.md";
 const ACCOUNTABILITY_PUBLIC_BRIEF_PATH: &str = "docs/reading/accountability-public-brief.md";
+const README_PATH: &str = "README.md";
+const READING_INDEX_PATH: &str = "docs/reading/README.md";
 const SOURCE_VERSION_LEDGER_PATH: &str = "docs/sources/source-version-ledger.md";
 const OBSERVED_DATE: &str = "2026-06-21";
 const MODEL_ID: &str = "individual-income-tax-proportional-outlays-v1";
@@ -227,6 +229,13 @@ impl Artifact {
 }
 
 const ARTIFACTS: &[Artifact] = &[
+    Artifact {
+        path: "README.md",
+        role: "Repository overview",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
     Artifact {
         path: "data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.draft.jsonl",
         role: "Canonical annual model rows",
@@ -536,6 +545,13 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "docs/reading/README.md",
+        role: "Reading packet index",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "docs/reading/placeholder-visibility-receipt.md",
         role: "Placeholder receipt reader packet",
         grain: "documentation",
@@ -685,6 +701,13 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "reviews/2026-06-23-accountability-public-brief-review.md",
         role: "Accountability public brief review",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-06-23-accountability-brief-discovery-review.md",
+        role: "Accountability brief discovery review",
         grain: "documentation",
         kind: "markdown",
         canonical: "supporting",
@@ -991,6 +1014,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_accountability_public_brief(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_accountability_public_brief_discovery(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -5109,6 +5137,27 @@ fn check_accountability_public_brief(root: &Path) -> Result<(), String> {
         "accountability public brief",
     )?;
     println!("validated accountability public brief");
+    Ok(())
+}
+
+fn check_accountability_public_brief_discovery(root: &Path) -> Result<(), String> {
+    let root_readme = fs::read_to_string(root.join(README_PATH))
+        .map_err(|err| format!("failed to read {README_PATH}: {err}"))?;
+    if !root_readme.contains(ACCOUNTABILITY_PUBLIC_BRIEF_PATH) {
+        return Err(format!(
+            "{README_PATH} must link {ACCOUNTABILITY_PUBLIC_BRIEF_PATH}"
+        ));
+    }
+
+    let reading_index = fs::read_to_string(root.join(READING_INDEX_PATH))
+        .map_err(|err| format!("failed to read {READING_INDEX_PATH}: {err}"))?;
+    if !reading_index.contains("accountability-public-brief.md") {
+        return Err(format!(
+            "{READING_INDEX_PATH} must link accountability-public-brief.md"
+        ));
+    }
+
+    println!("validated accountability public brief discovery");
     Ok(())
 }
 

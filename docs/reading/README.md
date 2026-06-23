@@ -16,6 +16,7 @@ explainers. They should keep three labels visible:
 | `income-tax-foundation.md` | First public packet explaining income-tax history, current mechanics, budget accounting, and program-linked tax lanes. |
 | `modeled-income-tax-outlays.md` | Reader-facing explanation of the annual and decade modeled allocation of individual income-tax receipts by broad outlay share. |
 | `modeled-income-tax-subfunction-outlays.md` | Reader-facing drilldown packet for modeled Table 3.2 subfunction allocation views. |
+| `accountability-public-brief.md` | Reader-facing bridge from modeled income-tax visibility to safe public accountability questions. |
 | `placeholder-visibility-receipt.md` | Design prototype for a placeholder FY2025 visibility receipt with lane labels and financing context. |
 | `placeholder-receipt-display-packet.md` | Static display handoff that pairs the placeholder receipt charts with required explanatory copy and role-review gate. |
 
@@ -27,9 +28,12 @@ explainers. They should keep three labels visible:
    financing context.
 3. Use `modeled-income-tax-subfunction-outlays.md` only as a drilldown after
    the broad packet is visible.
-4. Use `placeholder-visibility-receipt.md` only as a design prototype after the
+4. Read `accountability-public-brief.md` to see what TAXLANE can safely say
+   about accountability now and which performance-evidence questions are safe
+   to ask publicly.
+5. Use `placeholder-visibility-receipt.md` only as a design prototype after the
    crosswalk and modeled packets are visible.
-5. Use `placeholder-receipt-display-packet.md` only as a static display handoff,
+6. Use `placeholder-receipt-display-packet.md` only as a static display handoff,
    not as an app or calculator.
 
 ## Public-Use Guardrail
@@ -38,3 +42,7 @@ Allocation packets are educational models. Public wording should say "modeled
 allocation" and should identify the denominator, such as broad outlay share or
 OMB Table 3.2 subfunction outlay share. Do not describe these packets as legal
 dedication, program financing, or taxpayer-dollar tracing.
+
+Accountability packets are question surfaces until records become public-claim
+eligible. Do not describe draft accountability records as fraud, waste, abuse,
+or performance findings.
