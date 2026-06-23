@@ -6434,6 +6434,26 @@ fn check_accountability_performance_demand_response_applied_example_schema(
         "accountability performance demand response applied example schema",
     )?;
 
+    let schema_text = fs::read_to_string(
+        root.join(ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_APPLIED_EXAMPLE_SCHEMA_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_APPLIED_EXAMPLE_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    for required in [
+        "performance-demand-response-delta.applied-example.md",
+        "performance-demand-response-delta.applied-example.jsonl",
+        "performance-demand-response-delta.applied-example.schema.md",
+    ] {
+        if !schema_text.contains(required) {
+            return Err(format!(
+                "{ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_APPLIED_EXAMPLE_SCHEMA_PATH} must document {required}"
+            ));
+        }
+    }
+
     let index = fs::read_to_string(root.join("data/derived/accountability_evidence/README.md"))
         .map_err(|err| {
             format!("failed to read data/derived/accountability_evidence/README.md: {err}")
