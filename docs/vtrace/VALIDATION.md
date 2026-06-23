@@ -13,4 +13,5 @@
 | VAL-TAX-010 | Accountability researcher | Work a queue of accountability evidence records by review task. | Action queue groups records by next task and names the public-use blocker without publishing allegations. | EVID-TAX-010 | current |
 | VAL-TAX-011 | Citizen reader | Ask for performance evidence before accepting a claim about public money. | Performance demand packet turns each blocker into a question and repeats the claim boundary. | EVID-TAX-011 | current |
 | VAL-TAX-012 | Maintainer | Reuse accountability workflow logic from Rust crate surfaces. | Core crate owns next-action, demand-question, and blocker helpers with tests; CLI reports call those helpers. | EVID-TAX-012 | current |
+| VAL-TAX-013 | Product implementer | Feed accountability workflow into a future UI or API. | Generated JSONL exposes readiness, action, question, blocker, and public-claim allowance per evidence record. | EVID-TAX-013 | current |
 | VAL-TAX-003 | Maintainer | Extend Rust checks without turning `taxlane-tools` into a monolithic CLI. | Domain crate owns reusable models and CLI owns orchestration. | EVID-TAX-003 | current |

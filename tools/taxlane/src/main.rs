@@ -49,6 +49,8 @@ const ACCOUNTABILITY_ACTION_QUEUE_PATH: &str =
     "data/derived/accountability_evidence/action-queue.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_PACKET_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-packet.md";
+const ACCOUNTABILITY_WORK_ITEMS_JSONL_PATH: &str =
+    "data/derived/accountability_evidence/accountability-work-items.jsonl";
 const SOURCE_VERSION_LEDGER_PATH: &str = "docs/sources/source-version-ledger.md";
 const OBSERVED_DATE: &str = "2026-06-21";
 const MODEL_ID: &str = "individual-income-tax-proportional-outlays-v1";
@@ -501,6 +503,13 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "data/derived/accountability_evidence/accountability-work-items.jsonl",
+        role: "Accountability machine-readable work items",
+        grain: "work item",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "docs/reading/placeholder-visibility-receipt.md",
         role: "Placeholder receipt reader packet",
         grain: "documentation",
@@ -622,6 +631,13 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "reviews/2026-06-23-accountability-core-workflow-review.md",
         role: "Accountability core workflow review",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-06-23-accountability-work-items-review.md",
+        role: "Accountability work items review",
         grain: "documentation",
         kind: "markdown",
         canonical: "supporting",
@@ -908,6 +924,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_accountability_performance_demand_packet(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_accountability_work_items(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -4981,6 +5002,18 @@ fn check_accountability_performance_demand_packet(root: &Path) -> Result<(), Str
     Ok(())
 }
 
+fn check_accountability_work_items(root: &Path) -> Result<(), String> {
+    let expected = build_accountability_work_items_jsonl(root)?;
+    compare_text(
+        root,
+        ACCOUNTABILITY_WORK_ITEMS_JSONL_PATH,
+        &expected,
+        "accountability work items",
+    )?;
+    println!("validated accountability work items");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -5122,6 +5155,19 @@ fn build_accountability_performance_demand_packet(root: &Path) -> Result<String,
         "Use these rows to request evidence, reviewed wording, or official findings. Do not present them as fraud, waste, abuse, or performance findings.".to_string(),
     );
 
+    Ok(lines.join("\n") + "\n")
+}
+
+fn build_accountability_work_items_jsonl(root: &Path) -> Result<String, String> {
+    let mut records = read_accountability_evidence_records(root)?;
+    records.sort_by(|left, right| left.record_id.cmp(&right.record_id));
+    let mut lines = Vec::new();
+    for record in records {
+        lines.push(
+            serde_json::to_string(&record.accountability_work_item())
+                .map_err(|err| format!("failed to serialize accountability work item: {err}"))?,
+        );
+    }
     Ok(lines.join("\n") + "\n")
 }
 

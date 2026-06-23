@@ -14,6 +14,7 @@ claims.
 | `readiness-report.md` | one generated readiness and next-action summary | Generated from draft evidence records. |
 | `action-queue.md` | one generated reviewer action queue | Groups draft records by the next evidence or review task. |
 | `performance-demand-packet.md` | one generated accountability question packet | Turns blockers into evidence-request questions without making claims. |
+| `accountability-work-items.jsonl` | generated machine-readable work items | One JSON row per evidence record for future UI/API handoff. |
 
 ## Public-Use Rule
 
@@ -42,5 +43,9 @@ claims.
 The performance-demand packet uses the same validated records to ask what
 evidence, reviewed wording, or official finding is still needed. It is a
 question packet, not an accusation packet.
+
+The work-items JSONL is generated from `taxlane-core` workflow helpers. It is
+the machine-readable handoff for future UI or API code and carries
+`public_claim_allowed` as an explicit boolean.
 
 The report's next-action column is operational guidance, not a public claim.

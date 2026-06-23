@@ -58,10 +58,11 @@ supporting views.
 | `docs/charts/income-tax-outlay-subfunction-model/decade-top-subfunctions.vl.json` | Decade top subfunction allocation chart spec | visualization spec | n/a | view | `e6dc76202c97a5003b9933e8c264d10167e803a2e6140f3b37f6d33791cc868e` |
 | `data/derived/taxpayer_receipt_model/taxpayer_receipt_model.placeholder-1000.fy2025.omb-fy2027-v1.draft.json` | Placeholder visibility receipt scenario | scenario | n/a | yes | `9f44475ed9b71239215dae060237216b5a760737db085c59ba4bc3dcb5906bbf` |
 | `data/derived/accountability_evidence/accountability_evidence.omb-fy2027-v1.2026-06-23.draft.jsonl` | Draft accountability evidence records | evidence record | 2 | supporting | `0f52d824722f291f862ff5a456ecc94db5f93cb357b121fb5a899dd4e5aff654` |
-| `data/derived/accountability_evidence/README.md` | Accountability evidence dataset method note | documentation | n/a | supporting | `df042b8bfc24aaf59f81573991e12184198760780a458cf7311b399c3e382fcc` |
+| `data/derived/accountability_evidence/README.md` | Accountability evidence dataset method note | documentation | n/a | supporting | `c62c5828428789cadeb3604dedeb832da8d45a321342d81d10453b0aa1837571` |
 | `data/derived/accountability_evidence/readiness-report.md` | Accountability evidence readiness report | documentation | n/a | supporting | `ab04c4abd9d4589d37f6fd05c0fc35d1f56eeaa851ea8beab0ed02f90b50d430` |
 | `data/derived/accountability_evidence/action-queue.md` | Accountability evidence action queue | documentation | n/a | supporting | `84829f631ab7845be69f188745d2ec0262a9e5965e02f215f750e7c9ba61858f` |
 | `data/derived/accountability_evidence/performance-demand-packet.md` | Accountability performance demand packet | documentation | n/a | supporting | `17dd78408f331e94d5b673bdb1ba0361c119c2cfa276fb9ff310df61e1871702` |
+| `data/derived/accountability_evidence/accountability-work-items.jsonl` | Accountability machine-readable work items | work item | 2 | supporting | `a069a5fb8ec7a2d17484ffc0654d00648f0f37acf9f0254c1c6caa500bf823bc` |
 | `docs/reading/placeholder-visibility-receipt.md` | Placeholder receipt reader packet | documentation | n/a | supporting | `4be976503aabb6c21ec77a553f185918190ebcb00e3300930d37e3a7a12f962e` |
 | `docs/reading/placeholder-receipt-display-packet.md` | Placeholder receipt static display packet | documentation | n/a | supporting | `aa2f3fd899fa1dd763b9482c4d4aae81fcde3e77aeb8ce01b1626d10155f35f2` |
 | `reviews/2026-06-23-placeholder-display-packet-role-review.md` | Placeholder receipt display packet role review | documentation | n/a | supporting | `1a0825afa9a4db902ea1d17a0a69443e0caeb2a6ae7c805f3718282c8806fd68` |
@@ -80,15 +81,16 @@ supporting views.
 | `reviews/2026-06-23-accountability-action-queue-review.md` | Accountability action queue review | documentation | n/a | supporting | `0854ea1918e9c3dfd912f24b36c82b22e4138b3887b0329be824e4a9ec5d07eb` |
 | `reviews/2026-06-23-accountability-performance-demand-packet-review.md` | Accountability performance demand packet review | documentation | n/a | supporting | `8b20ddf872efdfd952488a7155d5944eded5f81e115dc748157afebdc5ca8cb2` |
 | `reviews/2026-06-23-accountability-core-workflow-review.md` | Accountability core workflow review | documentation | n/a | supporting | `00c423e6cc811e00164a628fa450eee7a83e64b54711a0d2d195fae1a9c82cfb` |
+| `reviews/2026-06-23-accountability-work-items-review.md` | Accountability work items review | documentation | n/a | supporting | `ac11be43bb84c82e2e7dd51122c2b241d23fffb853d85a552b29c5ff164b9d49` |
 | `reviews/2026-06-23-rust-core-crate-architecture-review.md` | Rust core crate architecture review | documentation | n/a | supporting | `04203820d1dd05d067146fa2ca1b7f2fbe5f95346e6c0b3ccbc95d09fc8808ba` |
 | `docs/vtrace/MISSION.md` | VTRACE mission | documentation | n/a | supporting | `751833c38bcc467ffe7e2c926195397ce396106830452c0d1f9b3039d6c211a6` |
 | `docs/vtrace/REQUIREMENTS.md` | VTRACE requirements | documentation | n/a | supporting | `1a22419ccf0b3a10644391d410774e6ab290960913cf1e745431c68e28868913` |
 | `docs/vtrace/SPECIFICATION_BASELINE.md` | VTRACE specification baseline | documentation | n/a | supporting | `dfb7c1462974eeac27fffe451e989211dfe4497b145bb56df15f6a671f010678` |
-| `docs/vtrace/TRACE.md` | VTRACE trace matrix | documentation | n/a | supporting | `894bc9a4d06261ec4165aa2aa84b734c19ce7a31463bc9a032bfd54952661c18` |
-| `docs/vtrace/WORK_PACKAGES.md` | VTRACE work packages | documentation | n/a | supporting | `b32faa2e2d3d96fe759d85eac1f4706d9e1c05fd0bdd47e847b800b02f695c36` |
-| `docs/vtrace/VERIFICATION.md` | VTRACE verification plan | documentation | n/a | supporting | `54547b42989b36e66acadece0b4a54677cdffe04d529f04e572a44377985e641` |
-| `docs/vtrace/VALIDATION.md` | VTRACE validation scenarios | documentation | n/a | supporting | `3aa4d98f7f3ff55711a177c3a53f99495012cae27aa6624340a37b75d71d9603` |
-| `docs/vtrace/EVIDENCE.md` | VTRACE evidence ledger | documentation | n/a | supporting | `45db4b06947627428a66bebc31774dce5952de917284df40a14fadedaaf8ec94` |
+| `docs/vtrace/TRACE.md` | VTRACE trace matrix | documentation | n/a | supporting | `da7e40eb82a9b14f0da5c3266c4712827f730f39682597c62a1e6bffd5b845ee` |
+| `docs/vtrace/WORK_PACKAGES.md` | VTRACE work packages | documentation | n/a | supporting | `655332ead47aca97812777b109e62fc045ec30d0e8fc4a86756e592770d9f8e8` |
+| `docs/vtrace/VERIFICATION.md` | VTRACE verification plan | documentation | n/a | supporting | `68ea0b750c0de5c004c7497fed6334e17c8c4a1bc3f9604b6d47259ec4a489a3` |
+| `docs/vtrace/VALIDATION.md` | VTRACE validation scenarios | documentation | n/a | supporting | `fffb3ebd378b1f17165d00f9e40c019a3aed0d5d5f226f9a433d7b0c63c22e13` |
+| `docs/vtrace/EVIDENCE.md` | VTRACE evidence ledger | documentation | n/a | supporting | `f0ffb1126fa793bfcc46c5bc199993bb5dc2790d1c8ae08cd3ccb0e7f583e884` |
 | `docs/vtrace/REVIEW.md` | VTRACE adoption review | documentation | n/a | supporting | `52ed83ae325229c3da170b7842dbf07d33f76be84c7e56d0a48aacb8595dd7ff` |
 | `docs/charts/taxpayer-receipt-model/README.md` | Taxpayer receipt chart set handoff note | documentation | n/a | supporting | `29b98ce16cccf88869779c079dc652d7da15583777e015a1d2b8481e9c63250d` |
 | `docs/charts/taxpayer-receipt-model/placeholder-lane-bars.vl.json` | Placeholder receipt lane bar chart spec | visualization spec | n/a | view | `f4233308571464bf6a58fb417803453a32c054fe43a2869d9ae93ffb616f3ccf` |
@@ -96,9 +98,9 @@ supporting views.
 | `Cargo.toml` | Rust workspace manifest | tooling | n/a | supporting | `405a2bba4b4deec2a77d51621f397528c0b5a86a3137df32af6633f32ffbfad0` |
 | `Cargo.lock` | Rust dependency lockfile | tooling | n/a | supporting | `44b2fcc6662f4fa3cecadbd650c7991b66e42af15dbf4efbf8ff16b832717d96` |
 | `crates/taxlane-core/Cargo.toml` | Rust Taxlane core crate manifest | tooling | n/a | supporting | `6469c9f3c3d01bc0c51783255082c93ed608c6c64c0d4f32f5cd2c08f2426fb9` |
-| `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `21e055b246b10c6c4a472f014142b4c1e92dfb4a7b0fd79baa7c2ee8115c41e9` |
+| `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `762605f81e2218ff9cc341801f9c4f98608749756a7ed224943823cf59d06272` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `b910e56a20f40547ac1e4f696e84772dde163738b03915ddbcc0d0a39427719a` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `a7845266443aa6df55ba39c3de88dc1f6cbe4ff4d86446f9a23525aa954ef8d8` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `2dbf9dc6e1d8b633d26f6240cd56c91c4565b2a87fa945691164397d8328b827` |
 
 ## Regeneration Order
 

@@ -219,6 +219,34 @@ impl AccountabilityEvidenceRecord {
         }
         "Record remains internal evidence only."
     }
+
+    pub fn accountability_work_item(&self) -> AccountabilityWorkItem<'_> {
+        let readiness = self.public_claim_readiness();
+        AccountabilityWorkItem {
+            record_id: &self.record_id,
+            lane_id: self.lane_id.as_deref(),
+            program_or_account_id: self.program_or_account_id.as_deref(),
+            readiness: readiness.as_str(),
+            next_action: self.accountability_next_action(),
+            demand_question: self.accountability_demand_question(),
+            public_use_blocker: self.accountability_public_use_blocker(),
+            public_claim_allowed: readiness == PublicClaimReadiness::PublicClaimEligible,
+            public_summary: &self.public_summary,
+        }
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize)]
+pub struct AccountabilityWorkItem<'a> {
+    pub record_id: &'a str,
+    pub lane_id: Option<&'a str>,
+    pub program_or_account_id: Option<&'a str>,
+    pub readiness: &'static str,
+    pub next_action: &'static str,
+    pub demand_question: &'static str,
+    pub public_use_blocker: &'static str,
+    pub public_claim_allowed: bool,
+    pub public_summary: &'a str,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -495,6 +523,20 @@ mod tests {
         assert_eq!(
             record.accountability_public_use_blocker(),
             "Reviewed performance target or outcome evidence is missing."
+        );
+        assert_eq!(
+            record.accountability_work_item(),
+            AccountabilityWorkItem {
+                record_id: "accountability-evidence:test",
+                lane_id: Some("health"),
+                program_or_account_id: Some("omb-function-550"),
+                readiness: "EvidenceOnly",
+                next_action: "Attach reviewed performance targets or outcome evidence before making a performance claim.",
+                demand_question: "What reviewed performance target, outcome measure, or audit source should be attached before comparing spending to performance?",
+                public_use_blocker: "Reviewed performance target or outcome evidence is missing.",
+                public_claim_allowed: false,
+                public_summary: "Performance baseline is not attached.",
+            }
         );
     }
 }
