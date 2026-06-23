@@ -17,6 +17,7 @@ explainers. They should keep three labels visible:
 | `modeled-income-tax-outlays.md` | Reader-facing explanation of the annual and decade modeled allocation of individual income-tax receipts by broad outlay share. |
 | `modeled-income-tax-subfunction-outlays.md` | Reader-facing drilldown packet for modeled Table 3.2 subfunction allocation views. |
 | `placeholder-visibility-receipt.md` | Design prototype for a placeholder FY2025 visibility receipt with lane labels and financing context. |
+| `placeholder-receipt-display-packet.md` | Static display handoff that pairs the placeholder receipt charts with required explanatory copy. |
 
 ## Reading Order
 
@@ -28,6 +29,8 @@ explainers. They should keep three labels visible:
    the broad packet is visible.
 4. Use `placeholder-visibility-receipt.md` only as a design prototype after the
    crosswalk and modeled packets are visible.
+5. Use `placeholder-receipt-display-packet.md` only as a static display handoff,
+   not as an app or calculator.
 
 ## Public-Use Guardrail
 
