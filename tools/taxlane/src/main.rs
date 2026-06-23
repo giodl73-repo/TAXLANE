@@ -107,6 +107,8 @@ const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_APPLIED_EXAMPLE_SCHEMA_PATH: &s
     "data/derived/accountability_evidence/performance-demand-response-applied-example.schema.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_DELTA_APPLIED_EXAMPLE_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-delta.applied-example.md";
+const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_DELTA_APPLIED_EXAMPLE_JSONL_PATH: &str =
+    "data/derived/accountability_evidence/performance-demand-response-delta.applied-example.jsonl";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_SCHEMA_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-checklist.schema.md";
 const ACCOUNTABILITY_ARTIFACT_MAP_PATH: &str =
@@ -752,6 +754,13 @@ const ARTIFACTS: &[Artifact] = &[
         role: "Accountability performance demand response applied delta",
         grain: "documentation",
         kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/accountability_evidence/performance-demand-response-delta.applied-example.jsonl",
+        role: "Accountability performance demand response applied delta rows",
+        grain: "response delta row",
+        kind: "jsonl",
         canonical: "supporting",
     },
     Artifact {
@@ -1434,6 +1443,13 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_accountability_performance_demand_response_delta_applied_example(&root)
+    {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) =
+        check_accountability_performance_demand_response_delta_applied_example_jsonl(&root)
     {
         eprintln!("{err}");
         return ExitCode::from(1);
@@ -5618,6 +5634,7 @@ fn check_accountability_artifact_map(root: &Path) -> Result<(), String> {
         "performance-demand-response-handoff.applied-example.md",
         "performance-demand-response-applied-example.schema.md",
         "performance-demand-response-delta.applied-example.md",
+        "performance-demand-response-delta.applied-example.jsonl",
     ] {
         if !artifact_map.contains(required) {
             return Err(format!(
@@ -6439,6 +6456,57 @@ fn check_accountability_performance_demand_response_delta_applied_example(
     Ok(())
 }
 
+fn check_accountability_performance_demand_response_delta_applied_example_jsonl(
+    root: &Path,
+) -> Result<(), String> {
+    let expected =
+        build_accountability_performance_demand_response_delta_applied_example_jsonl(root)?;
+    compare_text(
+        root,
+        ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_DELTA_APPLIED_EXAMPLE_JSONL_PATH,
+        &expected,
+        "accountability performance demand response delta applied example JSONL",
+    )?;
+
+    let rows: Vec<PerformanceDemandResponseDeltaRow> = read_jsonl(
+        root.join(ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_DELTA_APPLIED_EXAMPLE_JSONL_PATH),
+    )?
+    .into_iter()
+    .map(|row| {
+        serde_json::from_value(row).map_err(|err| {
+            format!("response delta applied example JSONL: invalid row shape: {err}")
+        })
+    })
+    .collect::<Result<Vec<_>, _>>()?;
+    if rows.is_empty() {
+        return Err(
+            "performance demand response delta applied example JSONL has no rows".to_string(),
+        );
+    }
+    for row in rows {
+        row.validate()?;
+        if row.after_claim_gate != PUBLIC_CLAIM_BLOCKED_LABEL {
+            return Err(
+                "response delta applied example JSONL changed the blocked claim gate".to_string(),
+            );
+        }
+    }
+
+    let index = fs::read_to_string(root.join("data/derived/accountability_evidence/README.md"))
+        .map_err(|err| {
+            format!("failed to read data/derived/accountability_evidence/README.md: {err}")
+        })?;
+    if !index.contains("performance-demand-response-delta.applied-example.jsonl") {
+        return Err(
+            "data/derived/accountability_evidence/README.md must link performance-demand-response-delta.applied-example.jsonl"
+                .to_string(),
+        );
+    }
+
+    println!("validated accountability performance demand response delta applied example JSONL");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -6929,6 +6997,12 @@ fn build_accountability_artifact_map() -> String {
             "Product implementers",
             "Inspect exact row-level changes after applying example intake.",
             "Do not treat applied deltas as findings or canonical status.",
+        ),
+        (
+            "performance-demand-response-delta.applied-example.jsonl",
+            "Product implementers",
+            "Feed exact applied response delta rows into future UI/API surfaces.",
+            "Do not treat applied delta rows as findings or canonical status.",
         ),
         (
             "performance-demand-checklist.jsonl",
@@ -7951,6 +8025,7 @@ fn build_accountability_performance_demand_response_applied_example_schema() -> 
         "| `performance-demand-response-dashboard.applied-example.md` | Human-readable applied status summary. | Must state fixture-only and no-finding boundaries. |".to_string(),
         "| `performance-demand-response-handoff.applied-example.md` | Task routing for importer fixture consumers. | Must not describe applied examples as canonical status or public-claim eligibility. |".to_string(),
         "| `performance-demand-response-delta.applied-example.md` | Row-level comparison between canonical response-log rows and applied example rows. | Must show changed fields while preserving blocked public-claim gates. |".to_string(),
+        "| `performance-demand-response-delta.applied-example.jsonl` | Machine-readable delta rows serialized from `PerformanceDemandResponseDeltaRow`. | Must validate as core delta rows and preserve blocked public-claim gates. |".to_string(),
         String::new(),
         "## Importer Rule".to_string(),
         String::new(),
@@ -7960,17 +8035,33 @@ fn build_accountability_performance_demand_response_applied_example_schema() -> 
     lines.join("\n") + "\n"
 }
 
+fn build_accountability_performance_demand_response_delta_applied_example_jsonl(
+    root: &Path,
+) -> Result<String, String> {
+    let rows = build_accountability_performance_demand_response_delta_rows(root)?;
+    let mut lines = Vec::new();
+    for row in rows {
+        row.validate()?;
+        lines.push(
+            serde_json::to_string(&row)
+                .map_err(|err| format!("failed to serialize applied response delta row: {err}"))?,
+        );
+    }
+
+    Ok(lines.join("\n") + "\n")
+}
+
 fn build_accountability_performance_demand_response_delta_applied_example(
     root: &Path,
 ) -> Result<String, String> {
-    let canonical_log = build_accountability_performance_demand_response_log_jsonl(root)?;
-    let applied_log =
-        build_accountability_performance_demand_response_log_applied_example_jsonl(root)?;
-    let canonical_rows = parse_response_log_jsonl(&canonical_log, "canonical response log")?;
-    let applied_rows = parse_response_log_jsonl(&applied_log, "applied response log")?;
-    let changed_rows = PerformanceDemandResponseDeltaRow::from_response_log_records(
-        &canonical_rows,
-        &applied_rows,
+    let changed_rows = build_accountability_performance_demand_response_delta_rows(root)?;
+    let canonical_rows = parse_response_log_jsonl(
+        &build_accountability_performance_demand_response_log_jsonl(root)?,
+        "canonical response log",
+    )?;
+    let applied_rows = parse_response_log_jsonl(
+        &build_accountability_performance_demand_response_log_applied_example_jsonl(root)?,
+        "applied response log",
     )?;
 
     let mut lines = vec![
@@ -8021,6 +8112,17 @@ fn build_accountability_performance_demand_response_delta_applied_example(
     ]);
 
     Ok(lines.join("\n") + "\n")
+}
+
+fn build_accountability_performance_demand_response_delta_rows(
+    root: &Path,
+) -> Result<Vec<PerformanceDemandResponseDeltaRow>, String> {
+    let canonical_log = build_accountability_performance_demand_response_log_jsonl(root)?;
+    let applied_log =
+        build_accountability_performance_demand_response_log_applied_example_jsonl(root)?;
+    let canonical_rows = parse_response_log_jsonl(&canonical_log, "canonical response log")?;
+    let applied_rows = parse_response_log_jsonl(&applied_log, "applied response log")?;
+    PerformanceDemandResponseDeltaRow::from_response_log_records(&canonical_rows, &applied_rows)
 }
 
 fn parse_response_log_jsonl(

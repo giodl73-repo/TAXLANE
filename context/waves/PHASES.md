@@ -8,6 +8,7 @@ Work is organized into small waves and pulses.
 
 ## Completed waves
 
+- `2026-06-23-accountability-response-delta-jsonl`
 - `2026-06-23-accountability-response-delta-core-contract`
 - `2026-06-23-accountability-response-delta-applied-example`
 - `2026-06-23-accountability-response-applied-example-schema`

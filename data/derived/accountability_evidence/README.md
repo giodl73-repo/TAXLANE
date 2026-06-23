@@ -40,6 +40,7 @@ claims.
 | `performance-demand-response-handoff.applied-example.md` | generated applied response handoff | Routes applied response importer fixture artifacts by task. |
 | `performance-demand-response-applied-example.schema.md` | applied response fixture schema | Documents the applied importer fixture artifact contract. |
 | `performance-demand-response-delta.applied-example.md` | generated applied response delta | Shows exact row-level changes after applying the intake example. |
+| `performance-demand-response-delta.applied-example.jsonl` | generated applied response delta rows | Machine-readable row changes after applying the intake example. |
 | `performance-demand-checklist.schema.md` | demand checklist row schema | Documents the `PerformanceDemandChecklistRecord` row contract. |
 | `artifact-map.md` | one generated accountability artifact map | Routes each artifact to its audience, use, and public-use boundary. |
 
@@ -157,6 +158,10 @@ artifact contract for importer consumers. It does not add claim authority.
 The performance-demand response delta applied example compares canonical
 response-log rows to applied fixture rows. It shows changed fields only and
 keeps the blocked public-claim gate visible.
+
+The performance-demand response delta applied example JSONL carries the same
+changed fields as typed `PerformanceDemandResponseDeltaRow` records for future
+UI/API consumers.
 
 The performance-demand checklist schema documents the JSONL row fields for
 future UI/API consumers.
