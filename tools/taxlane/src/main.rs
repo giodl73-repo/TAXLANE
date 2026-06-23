@@ -110,6 +110,8 @@ const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_DELTA_APPLIED_EXAMPLE_PATH: &st
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_DELTA_APPLIED_EXAMPLE_JSONL_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-delta.applied-example.jsonl";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_DELTA_APPLIED_EXAMPLE_SCHEMA_PATH: &str = "data/derived/accountability_evidence/performance-demand-response-delta.applied-example.schema.md";
+const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_BUNDLE_APPLIED_EXAMPLE_PATH: &str =
+    "data/derived/accountability_evidence/performance-demand-response-bundle.applied-example.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_SCHEMA_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-checklist.schema.md";
 const ACCOUNTABILITY_ARTIFACT_MAP_PATH: &str =
@@ -767,6 +769,13 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "data/derived/accountability_evidence/performance-demand-response-delta.applied-example.schema.md",
         role: "Accountability performance demand response applied delta schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/accountability_evidence/performance-demand-response-bundle.applied-example.md",
+        role: "Accountability performance demand response applied bundle index",
         grain: "documentation",
         kind: "markdown",
         canonical: "supporting",
@@ -1465,6 +1474,12 @@ fn run_income_tax_outlay_validation() -> ExitCode {
 
     if let Err(err) =
         check_accountability_performance_demand_response_delta_applied_example_schema(&root)
+    {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_accountability_performance_demand_response_bundle_applied_example(&root)
     {
         eprintln!("{err}");
         return ExitCode::from(1);
@@ -5651,6 +5666,7 @@ fn check_accountability_artifact_map(root: &Path) -> Result<(), String> {
         "performance-demand-response-delta.applied-example.md",
         "performance-demand-response-delta.applied-example.jsonl",
         "performance-demand-response-delta.applied-example.schema.md",
+        "performance-demand-response-bundle.applied-example.md",
     ] {
         if !artifact_map.contains(required) {
             return Err(format!(
@@ -6589,6 +6605,58 @@ fn check_accountability_performance_demand_response_delta_applied_example_schema
     Ok(())
 }
 
+fn check_accountability_performance_demand_response_bundle_applied_example(
+    root: &Path,
+) -> Result<(), String> {
+    let expected = build_accountability_performance_demand_response_bundle_applied_example(root)?;
+    compare_text(
+        root,
+        ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_BUNDLE_APPLIED_EXAMPLE_PATH,
+        &expected,
+        "accountability performance demand response bundle applied example",
+    )?;
+
+    let index = fs::read_to_string(root.join("data/derived/accountability_evidence/README.md"))
+        .map_err(|err| {
+            format!("failed to read data/derived/accountability_evidence/README.md: {err}")
+        })?;
+    if !index.contains("performance-demand-response-bundle.applied-example.md") {
+        return Err(
+            "data/derived/accountability_evidence/README.md must link performance-demand-response-bundle.applied-example.md"
+                .to_string(),
+        );
+    }
+
+    let bundle = fs::read_to_string(
+        root.join(ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_BUNDLE_APPLIED_EXAMPLE_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_BUNDLE_APPLIED_EXAMPLE_PATH}: {err}"
+        )
+    })?;
+    for required in [
+        "performance-demand-response-intake.example.jsonl",
+        "performance-demand-response-log.applied-example.jsonl",
+        "performance-demand-response-status.applied-example.json",
+        "performance-demand-response-dashboard.applied-example.md",
+        "performance-demand-response-handoff.applied-example.md",
+        "performance-demand-response-applied-example.schema.md",
+        "performance-demand-response-delta.applied-example.md",
+        "performance-demand-response-delta.applied-example.jsonl",
+        "performance-demand-response-delta.applied-example.schema.md",
+    ] {
+        if !bundle.contains(required) {
+            return Err(format!(
+                "{ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_BUNDLE_APPLIED_EXAMPLE_PATH} must include {required}"
+            ));
+        }
+    }
+
+    println!("validated accountability performance demand response bundle applied example");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -7091,6 +7159,12 @@ fn build_accountability_artifact_map() -> String {
             "Product implementers",
             "Inspect the applied response delta row contract.",
             "Do not add UI/API fields that weaken fixture or claim-gate guardrails.",
+        ),
+        (
+            "performance-demand-response-bundle.applied-example.md",
+            "Product implementers",
+            "Open one index for every applied response importer fixture artifact.",
+            "Do not treat bundle membership as canonical response status or findings.",
         ),
         (
             "performance-demand-checklist.jsonl",
@@ -8087,6 +8161,64 @@ fn build_accountability_performance_demand_response_handoff_applied_example(
         "## Boundary".to_string(),
         String::new(),
         "Applied example artifacts are importer fixtures, not canonical response status. Do not use them as public-claim eligibility, misconduct findings, or performance findings.".to_string(),
+        String::new(),
+        "## Use Rule".to_string(),
+        String::new(),
+        status.use_rule,
+    ];
+
+    Ok(lines.join("\n") + "\n")
+}
+
+fn build_accountability_performance_demand_response_bundle_applied_example(
+    root: &Path,
+) -> Result<String, String> {
+    let status_text =
+        build_accountability_performance_demand_response_status_applied_example(root)?;
+    let status: PerformanceDemandResponseStatus = serde_json::from_str(&status_text)
+        .map_err(|err| format!("failed to parse applied response status: {err}"))?;
+    status.validate()?;
+    let updated_rows = status.total_rows.saturating_sub(status.not_yet_received);
+
+    let lines = vec![
+        "# Performance Demand Response Applied Example Bundle".to_string(),
+        String::new(),
+        "## Purpose".to_string(),
+        String::new(),
+        "This generated bundle index gives importer and UI/API consumers one place to find every applied response fixture artifact.".to_string(),
+        "It is not a finding of fraud, waste, abuse, legal dedication, poor performance, or reform success.".to_string(),
+        String::new(),
+        "## Applied Fixture Summary".to_string(),
+        String::new(),
+        format!("- Response rows: {}", status.total_rows),
+        format!("- Updated rows: {updated_rows}"),
+        format!("- Not-yet-received rows: {}", status.not_yet_received),
+        format!(
+            "- Public claims currently allowed: {}",
+            status.public_claim_allowed
+        ),
+        format!(
+            "- Public claims currently blocked: {}",
+            status.public_claim_blocked
+        ),
+        String::new(),
+        "## Bundle Artifacts".to_string(),
+        String::new(),
+        "| Artifact | Role | Consumer Use |".to_string(),
+        "|---|---|---|".to_string(),
+        "| `performance-demand-response-intake.example.jsonl` | Source-custodied intake fixture row. | Exercise importer parsing and record-id matching. |".to_string(),
+        "| `performance-demand-response-log.applied-example.jsonl` | Response-log rows after applying example intake. | Inspect typed applied rows without changing canonical response status. |".to_string(),
+        "| `performance-demand-response-status.applied-example.json` | Compact applied response counts. | Feed fixture counts into UI/API tests without recomputing rows. |".to_string(),
+        "| `performance-demand-response-dashboard.applied-example.md` | Human-readable applied response counts. | Scan importer behavior without opening JSON. |".to_string(),
+        "| `performance-demand-response-handoff.applied-example.md` | Task routing for the applied fixture set. | Choose the right applied artifact by implementation task. |".to_string(),
+        "| `performance-demand-response-applied-example.schema.md` | Fixture artifact contract. | Confirm roles and guardrails for applied importer artifacts. |".to_string(),
+        "| `performance-demand-response-delta.applied-example.md` | Human-readable changed fields. | Inspect row-level changes after applying example intake. |".to_string(),
+        "| `performance-demand-response-delta.applied-example.jsonl` | Machine-readable changed fields. | Feed delta rows into UI/API diff consumers. |".to_string(),
+        "| `performance-demand-response-delta.applied-example.schema.md` | Delta row field contract. | Confirm field meanings and blocked-claim guardrails. |".to_string(),
+        String::new(),
+        "## Boundary".to_string(),
+        String::new(),
+        "Bundle artifacts are importer fixtures, not canonical response status. Do not use them as public-claim eligibility, misconduct findings, performance findings, or proof of reform benefits.".to_string(),
         String::new(),
         "## Use Rule".to_string(),
         String::new(),

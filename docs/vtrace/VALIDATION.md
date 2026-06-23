@@ -65,4 +65,5 @@
 | VAL-TAX-062 | Product implementer | Navigate applied response delta artifacts from the handoff. | Applied handoff routes delta Markdown, JSONL, and schema artifacts in its use order without changing fixture or public-claim boundaries. | EVID-TAX-062 | current |
 | VAL-TAX-063 | Maintainer | Keep applied handoff delta routes from regressing. | Validation fails if the applied handoff omits delta Markdown, JSONL, or schema artifact routes. | EVID-TAX-063 | current |
 | VAL-TAX-064 | Maintainer | Keep applied schema delta roles from regressing. | Validation fails if the applied fixture schema omits delta Markdown, JSONL, or schema artifact roles. | EVID-TAX-064 | current |
+| VAL-TAX-065 | Product implementer | Discover every applied response importer fixture artifact from one index. | Applied bundle index validation requires README discovery and all applied fixture artifacts without changing fixture or public-claim boundaries. | EVID-TAX-065 | current |
 | VAL-TAX-003 | Maintainer | Extend Rust checks without turning `taxlane-tools` into a monolithic CLI. | Domain crate owns reusable models and CLI owns orchestration. | EVID-TAX-003 | current |
