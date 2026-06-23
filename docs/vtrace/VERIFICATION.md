@@ -25,6 +25,7 @@
 | REQ-TAX-004 | command + inspection | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect artifact map review | Accountability artifacts are routed by audience, use, and avoid boundaries without creating findings. | current | EVID-TAX-018 |
 | REQ-TAX-004 | command + inspection | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect performance demand checklist review | Citizen-facing checklist demands evidence while preserving blocked public-claim status. | current | EVID-TAX-019 |
 | REQ-TAX-004 | command + inspection | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect performance demand checklist JSONL review | Machine-readable checklist rows keep blockers and public-claim allowance explicit. | current | EVID-TAX-020 |
+| REQ-TAX-004 | command + inspection | `cargo test`; inspect demand checklist core contract review | Core checklist row contract preserves blocker and public-claim allowance fields. | current | EVID-TAX-021 |
 | REQ-TAX-005 | command | `cargo run -p taxlane-tools -- income-tax-outlay validate` | Validation passes. | current | EVID-TAX-001 |
 | REQ-TAX-006 | command + architecture review | `cargo test`; inspect `crates/taxlane-core`, `tools/taxlane`, and `reviews/2026-06-23-rust-core-crate-architecture-review.md` | Domain crate exists and CLI orchestration owns file IO/report generation. | current | EVID-TAX-003 |
 | REQ-TAX-006 | command + review | `cargo test`; inspect accountability validator tests | Accountability claim rules live in the core crate with unit tests. | current | EVID-TAX-005 |
@@ -43,3 +44,4 @@
 | REQ-TAX-006 | command + review | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect artifact map generation | CLI checks generated artifact map text and README discoverability. | current | EVID-TAX-018 |
 | REQ-TAX-006 | command + review | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect performance demand checklist generation | CLI checks generated checklist text and README discoverability. | current | EVID-TAX-019 |
 | REQ-TAX-006 | command + review | `cargo run -p taxlane-tools -- income-tax-outlay validate`; inspect performance demand checklist JSONL generation | CLI checks generated JSONL text, parseability, blocked claim state, and README discoverability. | current | EVID-TAX-020 |
+| REQ-TAX-006 | command + review | `cargo test`; inspect demand checklist core contract review | CLI JSONL output uses a reusable core method instead of ad hoc row construction. | current | EVID-TAX-021 |

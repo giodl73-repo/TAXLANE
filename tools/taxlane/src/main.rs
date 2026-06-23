@@ -5778,27 +5778,7 @@ fn build_accountability_performance_demand_checklist_jsonl(root: &Path) -> Resul
 
     let mut lines = Vec::new();
     for record in records {
-        let work_item = record.accountability_work_item();
-        let row = serde_json::json!({
-            "record_id": work_item.record_id,
-            "lane_id": work_item.lane_id,
-            "program_or_account_id": work_item.program_or_account_id,
-            "demand_question": work_item.demand_question,
-            "demand_evidence": [
-                "source record and source version",
-                "reviewed performance target, outcome measure, audit source, or official finding",
-                "role-approved exact public wording",
-                "public-claim eligibility"
-            ],
-            "do_not_accept_yet": work_item.public_use_blocker,
-            "public_claim_allowed": work_item.public_claim_allowed,
-            "claim_gate": if work_item.public_claim_allowed {
-                "Public claim allowed."
-            } else {
-                "Public claim blocked."
-            },
-            "use_rule": "Demand evidence and reviewed wording; do not claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, or poor performance."
-        });
+        let row = record.performance_demand_checklist_row();
         lines.push(
             serde_json::to_string(&row)
                 .map_err(|err| format!("failed to serialize demand checklist row: {err}"))?,

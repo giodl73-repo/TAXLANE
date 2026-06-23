@@ -234,6 +234,25 @@ impl AccountabilityEvidenceRecord {
             public_summary: &self.public_summary,
         }
     }
+
+    pub fn performance_demand_checklist_row(&self) -> PerformanceDemandChecklistRow<'_> {
+        let work_item = self.accountability_work_item();
+        PerformanceDemandChecklistRow {
+            record_id: work_item.record_id,
+            lane_id: work_item.lane_id,
+            program_or_account_id: work_item.program_or_account_id,
+            demand_question: work_item.demand_question,
+            demand_evidence: PERFORMANCE_DEMAND_EVIDENCE,
+            do_not_accept_yet: work_item.public_use_blocker,
+            public_claim_allowed: work_item.public_claim_allowed,
+            claim_gate: if work_item.public_claim_allowed {
+                "Public claim allowed."
+            } else {
+                "Public claim blocked."
+            },
+            use_rule: PERFORMANCE_DEMAND_USE_RULE,
+        }
+    }
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize)]
@@ -247,6 +266,28 @@ pub struct AccountabilityWorkItem<'a> {
     pub public_use_blocker: &'static str,
     pub public_claim_allowed: bool,
     pub public_summary: &'a str,
+}
+
+pub const PERFORMANCE_DEMAND_EVIDENCE: &[&str] = &[
+    "source record and source version",
+    "reviewed performance target, outcome measure, audit source, or official finding",
+    "role-approved exact public wording",
+    "public-claim eligibility",
+];
+
+pub const PERFORMANCE_DEMAND_USE_RULE: &str = "Demand evidence and reviewed wording; do not claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, or poor performance.";
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize)]
+pub struct PerformanceDemandChecklistRow<'a> {
+    pub record_id: &'a str,
+    pub lane_id: Option<&'a str>,
+    pub program_or_account_id: Option<&'a str>,
+    pub demand_question: &'static str,
+    pub demand_evidence: &'static [&'static str],
+    pub do_not_accept_yet: &'static str,
+    pub public_claim_allowed: bool,
+    pub claim_gate: &'static str,
+    pub use_rule: &'static str,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -536,6 +577,20 @@ mod tests {
                 public_use_blocker: "Reviewed performance target or outcome evidence is missing.",
                 public_claim_allowed: false,
                 public_summary: "Performance baseline is not attached.",
+            }
+        );
+        assert_eq!(
+            record.performance_demand_checklist_row(),
+            PerformanceDemandChecklistRow {
+                record_id: "accountability-evidence:test",
+                lane_id: Some("health"),
+                program_or_account_id: Some("omb-function-550"),
+                demand_question: "What reviewed performance target, outcome measure, or audit source should be attached before comparing spending to performance?",
+                demand_evidence: PERFORMANCE_DEMAND_EVIDENCE,
+                do_not_accept_yet: "Reviewed performance target or outcome evidence is missing.",
+                public_claim_allowed: false,
+                claim_gate: "Public claim blocked.",
+                use_rule: PERFORMANCE_DEMAND_USE_RULE,
             }
         );
     }
