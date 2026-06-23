@@ -85,6 +85,8 @@ const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_DASHBOARD_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-dashboard.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_HANDOFF_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-handoff.md";
+const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_INTAKE_PATH: &str =
+    "data/derived/accountability_evidence/performance-demand-response-intake.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_SCHEMA_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-checklist.schema.md";
 const ACCOUNTABILITY_ARTIFACT_MAP_PATH: &str =
@@ -665,6 +667,13 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "data/derived/accountability_evidence/performance-demand-response-handoff.md",
         role: "Accountability performance demand response handoff",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/accountability_evidence/performance-demand-response-intake.md",
+        role: "Accountability performance demand response intake template",
         grain: "documentation",
         kind: "markdown",
         canonical: "supporting",
@@ -1296,6 +1305,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_accountability_performance_demand_response_handoff(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_accountability_performance_demand_response_intake(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -5470,6 +5484,7 @@ fn check_accountability_artifact_map(root: &Path) -> Result<(), String> {
         "performance-demand-response-status.json",
         "performance-demand-response-dashboard.md",
         "performance-demand-response-handoff.md",
+        "performance-demand-response-intake.md",
     ] {
         if !artifact_map.contains(required) {
             return Err(format!(
@@ -5959,6 +5974,30 @@ fn check_accountability_performance_demand_response_handoff(root: &Path) -> Resu
     Ok(())
 }
 
+fn check_accountability_performance_demand_response_intake(root: &Path) -> Result<(), String> {
+    let expected = build_accountability_performance_demand_response_intake();
+    compare_text(
+        root,
+        ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_INTAKE_PATH,
+        &expected,
+        "accountability performance demand response intake",
+    )?;
+
+    let index = fs::read_to_string(root.join("data/derived/accountability_evidence/README.md"))
+        .map_err(|err| {
+            format!("failed to read data/derived/accountability_evidence/README.md: {err}")
+        })?;
+    if !index.contains("performance-demand-response-intake.md") {
+        return Err(
+            "data/derived/accountability_evidence/README.md must link performance-demand-response-intake.md"
+                .to_string(),
+        );
+    }
+
+    println!("validated accountability performance demand response intake");
+    Ok(())
+}
+
 fn build_accountability_readiness_report(root: &Path) -> Result<String, String> {
     let records = read_accountability_evidence_records(root)?;
     let mut lines = vec![
@@ -6395,6 +6434,12 @@ fn build_accountability_artifact_map() -> String {
             "Citizen readers / product implementers",
             "Choose the response tracking artifact for each task.",
             "Do not treat navigation guidance as findings.",
+        ),
+        (
+            "performance-demand-response-intake.md",
+            "Citizen readers / product implementers",
+            "Capture reply evidence before updating response status.",
+            "Do not treat unreviewed replies as findings or claim eligibility.",
         ),
         (
             "performance-demand-checklist.jsonl",
@@ -7117,7 +7162,8 @@ fn build_accountability_performance_demand_response_handoff(root: &Path) -> Resu
         "2. Use `performance-demand-response-log.md` to track current reply status and missing evidence.".to_string(),
         "3. Use `performance-demand-response-rubric.md` to classify replies as complete, partial, process-only, or no-evidence.".to_string(),
         "4. Use `performance-demand-followup.md` when a reply leaves requested evidence missing or unclear.".to_string(),
-        "5. Use `performance-demand-response-log.jsonl`, `performance-demand-response-log.schema.md`, and `performance-demand-response-status.json` for UI/API consumers.".to_string(),
+        "5. Use `performance-demand-response-intake.md` when a real reply arrives and source custody must be captured before updating the log.".to_string(),
+        "6. Use `performance-demand-response-log.jsonl`, `performance-demand-response-log.schema.md`, and `performance-demand-response-status.json` for UI/API consumers.".to_string(),
         String::new(),
         "## Current Status".to_string(),
         String::new(),
@@ -7132,6 +7178,49 @@ fn build_accountability_performance_demand_response_handoff(root: &Path) -> Resu
     ];
 
     Ok(lines.join("\n") + "\n")
+}
+
+fn build_accountability_performance_demand_response_intake() -> String {
+    let lines = vec![
+        "# Performance Demand Response Intake".to_string(),
+        String::new(),
+        "## Purpose".to_string(),
+        String::new(),
+        "Use this generated intake template when a reply arrives for a performance demand."
+            .to_string(),
+        "It records source custody and classification inputs before any response-log row is updated."
+            .to_string(),
+        "It is not a finding of fraud, waste, abuse, legal dedication, poor performance, or reform success.".to_string(),
+        String::new(),
+        "## Required Capture".to_string(),
+        String::new(),
+        "| Field | Capture Rule |".to_string(),
+        "|---|---|".to_string(),
+        "| `record_id` | Copy from `performance-demand-response-log.jsonl`. |".to_string(),
+        "| `reply_source_id` | Assign or cite a source-ledger ID for the reply artifact. |".to_string(),
+        "| `reply_received_date` | Record the received date as `YYYY-MM-DD`. |".to_string(),
+        "| `sender_or_office` | Name the responding office or official exactly as written. |"
+            .to_string(),
+        "| `response_class` | Choose one class from the response log schema. |".to_string(),
+        "| `evidence_received` | List concrete documents, datasets, citations, or official findings supplied by the reply. |".to_string(),
+        "| `missing_evidence` | State the remaining missing source, performance, wording, or claim-basis evidence. |".to_string(),
+        "| `role_review_needed` | Keep `true` until role review approves exact public wording. |".to_string(),
+        "| `public_claim_allowed` | Keep `false` unless the claim gate is explicitly revalidated. |".to_string(),
+        String::new(),
+        "## Response Classes".to_string(),
+        String::new(),
+        "- `complete-evidence-response`: all requested evidence and claim basis were provided, pending role review.".to_string(),
+        "- `partial-evidence-response`: at least one requested evidence item remains missing or unclear.".to_string(),
+        "- `process-only-response`: the reply explains process but does not provide requested evidence.".to_string(),
+        "- `no-evidence-response`: the reply declines, ignores, or cannot identify requested evidence.".to_string(),
+        String::new(),
+        "## Update Rule".to_string(),
+        String::new(),
+        "After intake, update `performance-demand-response-log.jsonl` only with source-custodied reply evidence and rerun validation.".to_string(),
+        "Do not convert a reply into a fraud, waste, abuse, legal dedication, poor performance, or reform-benefit claim without reviewed evidence and an explicit public-claim gate.".to_string(),
+    ];
+
+    lines.join("\n") + "\n"
 }
 
 fn read_accountability_evidence_records(

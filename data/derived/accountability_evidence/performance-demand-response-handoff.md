@@ -11,7 +11,8 @@ It is not a finding of fraud, waste, abuse, legal dedication, poor performance, 
 2. Use `performance-demand-response-log.md` to track current reply status and missing evidence.
 3. Use `performance-demand-response-rubric.md` to classify replies as complete, partial, process-only, or no-evidence.
 4. Use `performance-demand-followup.md` when a reply leaves requested evidence missing or unclear.
-5. Use `performance-demand-response-log.jsonl`, `performance-demand-response-log.schema.md`, and `performance-demand-response-status.json` for UI/API consumers.
+5. Use `performance-demand-response-intake.md` when a real reply arrives and source custody must be captured before updating the log.
+6. Use `performance-demand-response-log.jsonl`, `performance-demand-response-log.schema.md`, and `performance-demand-response-status.json` for UI/API consumers.
 
 ## Current Status
 
