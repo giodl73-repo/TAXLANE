@@ -6388,6 +6388,26 @@ fn check_accountability_performance_demand_response_handoff_applied_example(
         "accountability performance demand response handoff applied example",
     )?;
 
+    let handoff_text = fs::read_to_string(
+        root.join(ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_HANDOFF_APPLIED_EXAMPLE_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_HANDOFF_APPLIED_EXAMPLE_PATH}: {err}"
+        )
+    })?;
+    for required in [
+        "performance-demand-response-delta.applied-example.md",
+        "performance-demand-response-delta.applied-example.jsonl",
+        "performance-demand-response-delta.applied-example.schema.md",
+    ] {
+        if !handoff_text.contains(required) {
+            return Err(format!(
+                "{ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_HANDOFF_APPLIED_EXAMPLE_PATH} must route {required}"
+            ));
+        }
+    }
+
     let index = fs::read_to_string(root.join("data/derived/accountability_evidence/README.md"))
         .map_err(|err| {
             format!("failed to read data/derived/accountability_evidence/README.md: {err}")
