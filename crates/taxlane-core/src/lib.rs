@@ -395,6 +395,57 @@ pub enum PerformanceDemandResponseLogClass {
     NoEvidenceResponse,
 }
 
+impl PerformanceDemandResponseLogClass {
+    pub fn rubric_classes() -> &'static [Self] {
+        &[
+            Self::CompleteEvidenceResponse,
+            Self::PartialEvidenceResponse,
+            Self::ProcessOnlyResponse,
+            Self::NoEvidenceResponse,
+        ]
+    }
+
+    pub fn label(&self) -> &'static str {
+        match self {
+            Self::NotYetReceived => "Not yet received",
+            Self::CompleteEvidenceResponse => "Complete evidence response",
+            Self::PartialEvidenceResponse => "Partial evidence response",
+            Self::ProcessOnlyResponse => "Process-only response",
+            Self::NoEvidenceResponse => "No evidence response",
+        }
+    }
+
+    pub fn rubric_meaning(&self) -> &'static str {
+        match self {
+            Self::NotYetReceived => "No reply has been logged in TAXLANE.",
+            Self::CompleteEvidenceResponse => {
+                "Provides source record/version, reviewed performance evidence or official finding, role-approved wording, and public-claim basis."
+            }
+            Self::PartialEvidenceResponse => {
+                "Provides some requested evidence but leaves at least one required item missing or unclear."
+            }
+            Self::ProcessOnlyResponse => {
+                "Explains process, office ownership, or future work but does not provide the requested evidence."
+            }
+            Self::NoEvidenceResponse => {
+                "Declines, ignores, or cannot identify the requested evidence."
+            }
+        }
+    }
+
+    pub fn rubric_next_action(&self) -> &'static str {
+        match self {
+            Self::NotYetReceived => PERFORMANCE_DEMAND_RESPONSE_LOG_NEXT_ACTION,
+            Self::CompleteEvidenceResponse => "Route to role review before any public claim.",
+            Self::PartialEvidenceResponse => "Ask a narrower follow-up for the missing item.",
+            Self::ProcessOnlyResponse => "Keep claim gate blocked and request the evidence source.",
+            Self::NoEvidenceResponse => {
+                "Keep claim gate blocked; do not infer misconduct or poor performance."
+            }
+        }
+    }
+}
+
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 pub struct PerformanceDemandResponseLogRecord {
     pub record_id: String,
@@ -1006,6 +1057,26 @@ mod tests {
         };
 
         assert!(record.validate().is_err());
+    }
+
+    #[test]
+    fn exposes_response_rubric_classes() {
+        let classes = PerformanceDemandResponseLogClass::rubric_classes();
+
+        assert_eq!(
+            classes,
+            &[
+                PerformanceDemandResponseLogClass::CompleteEvidenceResponse,
+                PerformanceDemandResponseLogClass::PartialEvidenceResponse,
+                PerformanceDemandResponseLogClass::ProcessOnlyResponse,
+                PerformanceDemandResponseLogClass::NoEvidenceResponse,
+            ]
+        );
+        assert_eq!(classes[0].label(), "Complete evidence response");
+        assert_eq!(
+            classes[0].rubric_next_action(),
+            "Route to role review before any public claim."
+        );
     }
 
     #[test]

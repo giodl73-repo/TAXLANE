@@ -9,8 +9,8 @@ use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
 use taxlane_core::{
     AccountabilityEvidenceRecord, ArtifactMetadata, PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE,
-    PerformanceDemandChecklistRecord, PerformanceDemandResponseLogRecord,
-    PerformanceDemandResponseStatus,
+    PerformanceDemandChecklistRecord, PerformanceDemandResponseLogClass,
+    PerformanceDemandResponseLogRecord, PerformanceDemandResponseStatus,
 };
 use zip::ZipArchive;
 
@@ -6836,16 +6836,24 @@ fn build_accountability_performance_demand_response_rubric(root: &Path) -> Resul
         String::new(),
         "| Response Class | Meaning | Next Action |".to_string(),
         "|---|---|---|".to_string(),
-        "| Complete evidence response | Provides source record/version, reviewed performance evidence or official finding, role-approved wording, and public-claim basis. | Route to role review before any public claim. |".to_string(),
-        "| Partial evidence response | Provides some requested evidence but leaves at least one required item missing or unclear. | Ask a narrower follow-up for the missing item. |".to_string(),
-        "| Process-only response | Explains process, office ownership, or future work but does not provide the requested evidence. | Keep claim gate blocked and request the evidence source. |".to_string(),
-        "| No evidence response | Declines, ignores, or cannot identify the requested evidence. | Keep claim gate blocked; do not infer misconduct or poor performance. |".to_string(),
+    ];
+
+    for response_class in PerformanceDemandResponseLogClass::rubric_classes() {
+        lines.push(format!(
+            "| {} | {} | {} |",
+            response_class.label(),
+            response_class.rubric_meaning(),
+            response_class.rubric_next_action()
+        ));
+    }
+
+    lines.extend([
         String::new(),
         "## Row-Specific Checks".to_string(),
         String::new(),
         "| Lane | Original Ask | Current Blocker | Response Must Provide |".to_string(),
         "|---|---|---|---|".to_string(),
-    ];
+    ]);
 
     for record in records {
         let row = record.performance_demand_checklist_record();
