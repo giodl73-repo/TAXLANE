@@ -9,4 +9,5 @@ serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 sha2 = "0.10"
 roxmltree = "0.20"
+taxlane-core = { path = "../../crates/taxlane-core" }
 zip = { version = "2", default-features = false, features = ["deflate"] }

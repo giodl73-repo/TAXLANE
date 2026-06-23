@@ -303,6 +303,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "taxlane-core"
+version = "0.1.0"
+dependencies = [
+ "serde",
+]
+
+[[package]]
 name = "taxlane-tools"
 version = "0.1.0"
 dependencies = [
@@ -311,6 +318,7 @@ dependencies = [
  "serde",
  "serde_json",
  "sha2",
+ "taxlane-core",
  "zip",
 ]
 

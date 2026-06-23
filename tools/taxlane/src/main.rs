@@ -7,6 +7,7 @@ use std::process::ExitCode;
 use roxmltree::Document;
 use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
+use taxlane_core::ArtifactMetadata;
 use zip::ZipArchive;
 
 const CHART_SPECS: &[&str] = &[
@@ -196,6 +197,18 @@ struct Artifact {
     grain: &'static str,
     kind: &'static str,
     canonical: &'static str,
+}
+
+impl Artifact {
+    fn metadata(&self) -> ArtifactMetadata<'_> {
+        ArtifactMetadata {
+            path: self.path,
+            role: self.role,
+            grain: self.grain,
+            kind: self.kind,
+            canonical: self.canonical,
+        }
+    }
 }
 
 const ARTIFACTS: &[Artifact] = &[
@@ -501,6 +514,13 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "reviews/2026-06-23-rust-core-crate-architecture-review.md",
+        role: "Rust core crate architecture review",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "docs/vtrace/MISSION.md",
         role: "VTRACE mission",
         grain: "documentation",
@@ -596,6 +616,20 @@ const ARTIFACTS: &[Artifact] = &[
         role: "Rust dependency lockfile",
         grain: "tooling",
         kind: "toml",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "crates/taxlane-core/Cargo.toml",
+        role: "Rust Taxlane core crate manifest",
+        grain: "tooling",
+        kind: "toml",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "crates/taxlane-core/src/lib.rs",
+        role: "Rust Taxlane core domain library",
+        grain: "library",
+        kind: "rust",
         canonical: "supporting",
     },
     Artifact {
@@ -4934,6 +4968,9 @@ fn check_manifest(root: &Path) -> Result<(), String> {
 }
 
 fn build_manifest(root: &Path) -> Result<String, String> {
+    let metadata: Vec<ArtifactMetadata<'_>> = ARTIFACTS.iter().map(Artifact::metadata).collect();
+    taxlane_core::validate_artifact_metadata(&metadata)?;
+
     let mut rows = Vec::new();
     for artifact in ARTIFACTS {
         let path = root.join(artifact.path);
