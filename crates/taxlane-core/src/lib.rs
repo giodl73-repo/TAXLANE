@@ -468,6 +468,78 @@ impl PerformanceDemandResponseLogRecord {
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+pub struct PerformanceDemandResponseStatus {
+    pub artifact: String,
+    pub total_rows: usize,
+    pub not_yet_received: usize,
+    pub public_claim_allowed: usize,
+    pub public_claim_blocked: usize,
+    pub use_rule: String,
+}
+
+impl PerformanceDemandResponseStatus {
+    pub fn from_response_log_records(
+        artifact: &str,
+        records: &[PerformanceDemandResponseLogRecord],
+    ) -> Result<Self, String> {
+        validate_required("artifact", artifact)?;
+        if records.is_empty() {
+            return Err("performance demand response status needs response rows".to_string());
+        }
+        for record in records {
+            record.validate()?;
+        }
+
+        let total_rows = records.len();
+        let not_yet_received = records
+            .iter()
+            .filter(|record| {
+                record.response_class == PerformanceDemandResponseLogClass::NotYetReceived
+            })
+            .count();
+        let public_claim_allowed = records
+            .iter()
+            .filter(|record| record.public_claim_allowed)
+            .count();
+        let public_claim_blocked = total_rows.saturating_sub(public_claim_allowed);
+
+        Ok(Self {
+            artifact: artifact.to_string(),
+            total_rows,
+            not_yet_received,
+            public_claim_allowed,
+            public_claim_blocked,
+            use_rule: PERFORMANCE_DEMAND_RESPONSE_LOG_USE_RULE.to_string(),
+        })
+    }
+
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("artifact", &self.artifact)?;
+        validate_required("use_rule", &self.use_rule)?;
+        if self.use_rule != PERFORMANCE_DEMAND_RESPONSE_LOG_USE_RULE {
+            return Err("performance demand response status has unexpected use_rule".to_string());
+        }
+        if self.total_rows == 0 {
+            return Err("performance demand response status needs response rows".to_string());
+        }
+        if self.public_claim_allowed + self.public_claim_blocked != self.total_rows {
+            return Err(
+                "performance demand response status claim counts do not sum to total_rows"
+                    .to_string(),
+            );
+        }
+        if self.not_yet_received > self.total_rows {
+            return Err(
+                "performance demand response status not_yet_received exceeds total_rows"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum PerformanceDemandResponseClass {
     CompleteEvidenceResponse,
@@ -934,6 +1006,58 @@ mod tests {
         };
 
         assert!(record.validate().is_err());
+    }
+
+    #[test]
+    fn builds_response_status_from_log_records() {
+        let records = vec![PerformanceDemandResponseLogRecord {
+            record_id: "accountability-evidence:test".to_string(),
+            lane_id: Some("health".to_string()),
+            program_or_account_id: Some("omb-function-550".to_string()),
+            response_class: PerformanceDemandResponseLogClass::NotYetReceived,
+            evidence_received: Vec::new(),
+            missing_evidence: "Requested evidence remains missing.".to_string(),
+            claim_gate: "Public claim blocked.".to_string(),
+            public_claim_allowed: false,
+            next_action: PERFORMANCE_DEMAND_RESPONSE_LOG_NEXT_ACTION.to_string(),
+            use_rule: PERFORMANCE_DEMAND_RESPONSE_LOG_USE_RULE.to_string(),
+        }];
+
+        let status = PerformanceDemandResponseStatus::from_response_log_records(
+            "data/derived/accountability_evidence/performance-demand-response-log.jsonl",
+            &records,
+        )
+        .unwrap();
+
+        assert_eq!(
+            status,
+            PerformanceDemandResponseStatus {
+                artifact:
+                    "data/derived/accountability_evidence/performance-demand-response-log.jsonl"
+                        .to_string(),
+                total_rows: 1,
+                not_yet_received: 1,
+                public_claim_allowed: 0,
+                public_claim_blocked: 1,
+                use_rule: PERFORMANCE_DEMAND_RESPONSE_LOG_USE_RULE.to_string(),
+            }
+        );
+        status.validate().unwrap();
+    }
+
+    #[test]
+    fn blocks_response_status_count_mismatch() {
+        let status = PerformanceDemandResponseStatus {
+            artifact: "data/derived/accountability_evidence/performance-demand-response-log.jsonl"
+                .to_string(),
+            total_rows: 2,
+            not_yet_received: 1,
+            public_claim_allowed: 1,
+            public_claim_blocked: 0,
+            use_rule: PERFORMANCE_DEMAND_RESPONSE_LOG_USE_RULE.to_string(),
+        };
+
+        assert!(status.validate().is_err());
     }
 
     #[test]
