@@ -5450,6 +5450,11 @@ fn check_accountability_artifact_map(root: &Path) -> Result<(), String> {
         "performance-demand-claim-gates.json",
         "performance-demand-checklist.jsonl",
         "performance-demand-checklist.schema.md",
+        "performance-demand-response-log.md",
+        "performance-demand-response-log.jsonl",
+        "performance-demand-response-log.schema.md",
+        "performance-demand-response-status.json",
+        "performance-demand-response-dashboard.md",
     ] {
         if !artifact_map.contains(required) {
             return Err(format!(
