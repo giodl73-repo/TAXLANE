@@ -47,6 +47,33 @@ model.
 Rounded lane dollars may differ from exactly `$1,000` by a cent because each
 lane is rounded independently.
 
+## Offset Rows
+
+Negative rows are not "negative public services" and should not be described as
+a taxpayer paying a negative amount. They are budget netting or offset
+treatments in the OMB outlay data.
+
+For this prototype:
+
+- Commerce, Housing, and Market Stability is negative because FY2025 OMB credit
+  and netting activity produces a negative outlay share in that lane.
+- Undistributed Offsetting Receipts is a separate offset row and should stay
+  outside the public-service lane total.
+
+Any public visual receipt should display these rows as adjustments or offsets,
+not as ordinary spending lanes.
+
+## Dedicated-Financing Caveats
+
+Social Security and Medicare require special care. They have distinct financing
+structures involving payroll/social-insurance taxes, trust funds, premiums,
+general financing, or other rules. This prototype uses only a placeholder
+ordinary individual income-tax payment.
+
+That means the Social Security and Medicare rows are modeled visibility rows.
+They are not claims that ordinary income-tax dollars are legally dedicated to
+those programs.
+
 ## Financing Context
 
 For FY2025, the broad model reports:
