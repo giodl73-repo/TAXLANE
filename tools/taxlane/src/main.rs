@@ -5317,6 +5317,21 @@ fn check_accountability_artifact_map(root: &Path) -> Result<(), String> {
         );
     }
 
+    let artifact_map = fs::read_to_string(root.join(ACCOUNTABILITY_ARTIFACT_MAP_PATH))
+        .map_err(|err| format!("failed to read {ACCOUNTABILITY_ARTIFACT_MAP_PATH}: {err}"))?;
+    for required in [
+        "performance-demand-dashboard.md",
+        "performance-demand-claim-gates.json",
+        "performance-demand-checklist.jsonl",
+        "performance-demand-checklist.schema.md",
+    ] {
+        if !artifact_map.contains(required) {
+            return Err(format!(
+                "{ACCOUNTABILITY_ARTIFACT_MAP_PATH} must route {required}"
+            ));
+        }
+    }
+
     println!("validated accountability artifact map");
     Ok(())
 }
@@ -5854,6 +5869,36 @@ fn build_accountability_artifact_map() -> String {
             "Citizen readers",
             "Ask safe public questions about performance evidence.",
             "Do not expose raw draft evidence as claims.",
+        ),
+        (
+            "performance-demand-checklist.md",
+            "Citizen readers",
+            "Demand source, performance, official-finding, wording, and claim-gate evidence.",
+            "Do not treat demand rows as findings.",
+        ),
+        (
+            "performance-demand-dashboard.md",
+            "Citizen readers",
+            "Scan demand-row claim gates before public use.",
+            "Do not publish blocked rows as claims.",
+        ),
+        (
+            "performance-demand-checklist.jsonl",
+            "Product implementers",
+            "Feed demand rows into future UI/API surfaces.",
+            "Do not infer public eligibility except from `public_claim_allowed`.",
+        ),
+        (
+            "performance-demand-claim-gates.json",
+            "Product implementers",
+            "Display allowed versus blocked demand-row counts.",
+            "Do not recompute or override claim gates downstream.",
+        ),
+        (
+            "performance-demand-checklist.schema.md",
+            "Product implementers",
+            "Inspect the demand checklist row contract.",
+            "Do not add UI/API fields that weaken the use rule.",
         ),
         (
             "docs/reading/accountability-public-brief.md",

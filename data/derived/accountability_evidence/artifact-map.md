@@ -22,6 +22,11 @@ It is not a list of fraud, waste, abuse, or performance findings.
 | `accountability-work-items.jsonl` | Product implementers | Feed future UI/API workflow from structured fields. | Do not infer public eligibility except from `public_claim_allowed`. |
 | `claim-guard-report.md` | Review leads | Check allowed versus blocked public claims. | Do not publish findings from blocked records. |
 | `public-questions.md` | Citizen readers | Ask safe public questions about performance evidence. | Do not expose raw draft evidence as claims. |
+| `performance-demand-checklist.md` | Citizen readers | Demand source, performance, official-finding, wording, and claim-gate evidence. | Do not treat demand rows as findings. |
+| `performance-demand-dashboard.md` | Citizen readers | Scan demand-row claim gates before public use. | Do not publish blocked rows as claims. |
+| `performance-demand-checklist.jsonl` | Product implementers | Feed demand rows into future UI/API surfaces. | Do not infer public eligibility except from `public_claim_allowed`. |
+| `performance-demand-claim-gates.json` | Product implementers | Display allowed versus blocked demand-row counts. | Do not recompute or override claim gates downstream. |
+| `performance-demand-checklist.schema.md` | Product implementers | Inspect the demand checklist row contract. | Do not add UI/API fields that weaken the use rule. |
 | `docs/reading/accountability-public-brief.md` | Citizen readers | Read the current public handoff. | Do not describe modeled allocation as legal dedication. |
 
 ## Public-Use Rule
