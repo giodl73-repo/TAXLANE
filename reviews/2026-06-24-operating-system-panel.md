@@ -38,6 +38,17 @@ returned severity-tagged findings.
 **Framing (overclaim):**
 10. Demote "core finding" — the gap is *arithmetically closable*; closing it is a political choice. Relabel section 4 as modeled attribution. Surface obligation type (public good / transfer / financing) and make the corporate→cluster rationale an argued choice naming dedication's cost (rigidity).
 
+## Verification outcome (Pulse 03)
+
+Adversarial verifiers re-read the revised artifacts. **10 of 12 checks confirmed
+closed**: scope labels, path caveat, reserve-before-sequester, net-interest
+seniority, SS horizon rule, overclaim demotion, E11 + estimator hardening,
+coverage-floor rule, distributional field. Two open items were then fixed (the
+rounding footnote on the 100¢ table; the Example-1 ¢-vs-%GDP denominator labeling),
+along with residuals (coverage floor extended to shortfall cuts + blocking field;
+SS current-year-gap flag). One **P3 deferred**: inline per-figure source IDs in the
+public packets (sources are carried in the ledger and research notes for now).
+
 ## What the panel affirmed
 
 - The borrowed-share line is recomputed on every change and never hidden.

@@ -15,8 +15,8 @@ Data: `data/derived/program_lane_rate_model/lane_rate_change.worked-examples.jso
 | | |
 |---|---|
 | **Lane** | National Defense |
-| **Old → New** | 13.1¢ (3.0% of GDP) → **15.1¢ (3.5% of GDP)** |
-| **Change** | **+$146,149M** |
+| **Old → New** | 13.1¢ → **15.1¢** as a share of the tax dollar; the same lane is 3.0% → **3.5% of GDP** (a different denominator — the tax dollar is $7.01T, GDP is ~$30.4T) |
+| **Change** | **+$146,149M** (computed on the %-of-GDP basis) |
 | **Trigger** | New commitment |
 | **Reason** | The 2025 NATO Hague Summit set a 3.5%-of-GDP core-defence target. The lane rises to the commitment — at the top of its 2.0-3.5% policy band. |
 | **Decided by** | Ordinary legislation within the band; **supermajority** if it breaches the balance rule |
@@ -42,7 +42,7 @@ Data: `data/derived/program_lane_rate_model/lane_rate_change.worked-examples.jso
 |---|---|
 | **Lane** | Social Security |
 | **Old → New** | 12.4% on wages capped at $184,500 → **12.4% on a raised/removed cap** |
-| **Change** | Close the **$296,937M** FY2025 trust-fund gap |
+| **Change** | Close the **$296,937M** FY2025 trust-fund gap (the *current-year* gap; the shortfall grows over time — see caveats) |
 | **Trigger** | Shortfall (cost > dedicated receipts) |
 | **Reason** | OASDI cost ($1.58T) exceeds its receipts ($1.28T) by ~$297B, covered by trust-fund drawdown. Peers tax at higher rates, often with **no cap**. Lift the cap, not the rate. |
 | **Decided by** | Ordinary legislation (the cap is a statutory parameter) |

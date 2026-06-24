@@ -78,6 +78,7 @@ record family: `lane_rate_change`.
 | `effective_date` | When it takes effect. |
 | `review_due` | When the lane is next scheduled for review. |
 | `distributional_impact` | Who bears a rate increase or benefit trim, by income — not just who is "affected." |
+| `coverage_floor` | The coverage/enrollment/eligibility floor the change may not breach, and the verification that outcomes held constant — a blocking field for any down/shortfall move. |
 | `compliance_impact` | Whether the change requires re-withholding, a new form/line, or preparer changes. |
 | `contestation` | How contested/hard-to-enact the change is, so the record shows the fight, not only the cost. |
 | `allocation_method` | `proposed_reform` until enacted. |
@@ -113,11 +114,16 @@ These are now binding:
    on receipts; it is never subject to the `shortfall_rule` or the sequester. A
    debt-service-growth trigger is added so a rising interest lane is visible, not
    static.
-3. **Coverage floor on efficiency moves.** A "down on efficiency" change (e.g.,
-   health) requires a **coverage/enrollment floor** and **independent verification
-   that outcomes and served population held constant** before the saving is booked.
-   "Coverage protected" is a rule with a check, not an adjective; a cut that can't be
-   distinguished from reduced service does not qualify as efficiency.
+3. **Coverage floor on efficiency moves — and on shortfall cuts.** A "down on
+   efficiency" change (e.g., health) requires a **coverage/enrollment floor** and
+   **independent verification that outcomes and served population held constant**
+   before the saving is booked. "Coverage protected" is a rule with a check, not an
+   adjective; a cut that can't be distinguished from reduced service does not qualify
+   as efficiency. The **same floor applies to a shortfall-driven benefit cut**: the
+   `shortfall_rule` may force a *visible* benefit reduction, but never below the
+   coverage/eligibility floor without its own published distributional record. The
+   floor is recorded in the `coverage_floor` field below; a change that breaches it
+   cannot be booked.
 4. **Receipt firewall.** A lane is a **line on the receipt** — it never acquires its
    own filing, base, or withholding. Any rate change that affects payroll
    withholding takes effect only at a **tax-year boundary** with fixed minimum

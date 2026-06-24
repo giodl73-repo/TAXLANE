@@ -63,8 +63,9 @@ Each lane carries a rate (its share of the dollar) and a named funder. See the
 chart `docs/charts/program-lane-rate-model/lane-rate-bar.vl.json` and the full
 argument for each rate in `program-lane-rate-cards.md`.
 
-Shares are cents per dollar of **FY2025 outlays ($7.01T)**; they net to 100¢ once
-the offset lanes are subtracted. "Type" marks whether the lane is a public good
+Shares are cents per dollar of **FY2025 outlays ($7.01T)**; unrounded they net to
+100¢ once the offset lanes are subtracted (the rounded rows below sum to ~100¢,
+off by ~0.2¢ from rounding each lane to the tenth). "Type" marks whether the lane is a public good
 (G), a transfer to people (T), or a financing cost (F) — about a third of the
 dollar is transfers, which is a different thing from buying a public good.
 
