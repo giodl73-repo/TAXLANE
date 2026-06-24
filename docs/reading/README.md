@@ -19,6 +19,8 @@ explainers. They should keep three labels visible:
 | `accountability-public-brief.md` | Reader-facing bridge from modeled income-tax visibility to safe public accountability questions. |
 | `placeholder-visibility-receipt.md` | Design prototype for a placeholder FY2025 visibility receipt with lane labels and financing context. |
 | `placeholder-receipt-display-packet.md` | Static display handoff that pairs the placeholder receipt charts with required explanatory copy and role-review gate. |
+| `program-lane-rate-cards.md` | Per-lane rate cards: the rate, who funds it, the four-anchor argument for the level, and how it moves up or down (reform proposal). |
+| `rate-change-worked-examples.md` | Three end-to-end examples of the rate-adjustment operating model (defense up, health down, Social Security cap lift). |
 
 ## Reading Order
 

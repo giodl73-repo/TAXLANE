@@ -4,7 +4,7 @@ Work is organized into small waves and pulses.
 
 ## Active wave
 
-- None
+- `2026-06-24-program-lane-operating-system` (pulses 01-03 done; pulse 04 planned)
 
 ## Completed waves
 
