@@ -77,4 +77,3 @@ These show the *record format*, not that the changes are easy or automatic:
   year.
 - **Defense up is the honest one** — it names the $146B and says it must be raised
   or offset, not borrowed.
-
