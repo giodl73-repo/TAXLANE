@@ -1,0 +1,16 @@
+lane,cents_per_dollar,cost_musd,funded_by
+Social Security,22.55,1580673,Dedicated payroll
+Medicare,14.22,996718,Payroll + general
+Health (non-Medicare),13.96,978511,Income tax
+Debt Service (interest),13.84,970065,Income tax
+National Defense,13.07,916140,Income tax
+Income Security & Family,10.01,701609,Income + payroll
+Veterans,5.38,377163,Income tax
+Transportation,2.07,145320,Excise trust + general
+Constitutional Govt & Justice,1.76,123692,Corporate (proposed)
+Nat. Resources/Energy/Env.,1.58,110599,Mixed
+Community/Disaster/Regional,1.17,82374,Income tax
+"Education, Work & Services",1.03,72042,Corporate (proposed)
+Agriculture & Food,0.68,47447,Mixed
+International Affairs,0.64,45171,Corporate (proposed)
+"Science, Space & Capacity",0.6,41966,Corporate (proposed)

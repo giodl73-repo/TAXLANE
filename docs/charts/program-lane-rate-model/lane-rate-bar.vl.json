@@ -1,0 +1,37 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Where Each Federal Dollar Goes, and Who Pays For It",
+    "subtitle": "FY2025 modeled lane shares (cents per dollar of outlays). About 25c of every dollar is borrowed, not collected. Reform model, not legal dedication."
+  },
+  "data": {
+    "url": "lane-shares.csv",
+    "format": { "type": "csv" }
+  },
+  "mark": { "type": "bar" },
+  "encoding": {
+    "y": {
+      "field": "lane",
+      "type": "nominal",
+      "title": null,
+      "sort": "-x"
+    },
+    "x": {
+      "field": "cents_per_dollar",
+      "type": "quantitative",
+      "title": "Cents per dollar of federal outlays"
+    },
+    "color": {
+      "field": "funded_by",
+      "type": "nominal",
+      "title": "Funded by",
+      "scale": { "scheme": "tableau10" }
+    },
+    "tooltip": [
+      { "field": "lane", "title": "Lane" },
+      { "field": "cents_per_dollar", "title": "Cents/dollar" },
+      { "field": "funded_by", "title": "Funded by" },
+      { "field": "cost_musd", "title": "FY2025 cost ($M)", "format": "," }
+    ]
+  }
+}

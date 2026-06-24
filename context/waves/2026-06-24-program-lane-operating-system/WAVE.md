@@ -17,7 +17,13 @@ rates, benchmarks, panel, guardrails, full allocation).
 | 01 | Per-lane rate-rationale cards | done | A "rate card" per lane: the rate, who funds it, and the four-anchor argument (cost, solvency, history, peers) plus the panel direction. |
 | 02 | Rate-adjustment operating model | done | How a lane rate moves up or down: triggers, decision authority, the rate lifecycle, and a mandatory public-explanation template. |
 | 03 | Worked rate-change examples | done | Three end-to-end `lane_rate_change` records: defense up +$146B (Hague), health down -$395B (efficiency), Social Security cap lift on a $297B shortfall. |
-| 04 | Public presentation packet + chart | planned | Assemble the cards + operating model into a citizen-facing reading packet with a chart spec. |
+| 04 | Public presentation packet + chart | done | Assembled `program-lane-system.md` (balanced-budget-first explainer) + lane cents-per-dollar Vega-Lite chart; indexed in the reading README. |
+
+## Status
+
+Complete. All four pulses done. The fair-rate system is now functional: a rate and
+argument per lane, an operating model for moving rates with mandatory explanation,
+worked examples, and a citizen-facing presentation with a chart.
 
 ## Design rules
 
