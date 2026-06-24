@@ -56,6 +56,7 @@ source ID, publisher, URL, observed date, coverage, and extraction rule.
 | Source ID | Publisher | URL | Observed date | Coverage | Update cadence | Status | Extraction rule |
 |---|---|---|---|---|---|---|---|
 | `SRC-IRS-SOI-HT23` | IRS Statistics of Income | <https://www.irs.gov/statistics/soi-tax-stats-historical-table-23> | 2026-06-21; page reported last reviewed/updated 2026-03-17 | Individual income tax rates and brackets from 1913 through the table's current endpoint | Periodic/IRS-maintained | Authoritative | Use as rates spine. Extract tax year, filing status when available, rate, bracket threshold, exemption/standard deduction context, and table version. |
+| `SRC-IRS-SOI-1304` | IRS Statistics of Income | <https://www.irs.gov/statistics/soi-tax-stats-individual-income-tax-returns-complete-report-publication-1304-basic-tables-part-1> | 2026-06-23 | Aggregate AGI, taxable income, income tax after credits, returns counts; complete report Tax Year 2022 | Annual/IRS-maintained | Authoritative | Use as the aggregate income base for statutory rate-on-base framing. Tax-year basis; do not equate with fiscal-year receipts. Record tax year. |
 
 ## Receipts and outlays sources
 

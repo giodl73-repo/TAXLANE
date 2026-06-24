@@ -4,7 +4,7 @@ Work is organized into small waves and pulses.
 
 ## Active wave
 
-- `2026-06-23-program-lane-fair-rate-design` (pulses 01, 04, 05, 05c, 06, 07 done; pulses 02, 03, 05b planned)
+- `2026-06-23-program-lane-fair-rate-design` (pulses 01, 02, 03, 04, 05, 05c, 06, 07 done; pulse 05b planned)
 
 ## Completed waves
 

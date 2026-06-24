@@ -45,14 +45,13 @@ crosswalk (sums exactly to total outlays).
 |------:|---|---|---|
 | 01 | Fair-rate methodology + FY2025 lane-cost baseline | done | Methodology note, sourced per-lane cost table, target-rate model schema, declared data gaps. |
 | 04 | International + historical benchmark research | done | Cited benchmark note (OECD/SIPRI/NATO/World Bank/IMF/CBO); 12 comparator sources added to ledger; per-lane direction table; headline revenue-gap + health-efficiency finding. |
-| 02 | Full FY2025 receipts-by-source extraction | planned | Extract corporate, social-insurance, excise, customs, and other receipts so all-receipts scope has a real revenue base. |
+| 02 | Full FY2025 receipts-by-source extraction | done | Parsed OMB Table 2.1 FY2025: individual 2,656,044; payroll 1,748,294; corporate 452,089; other 274,057; excise 105,937 (reconciles to 5,236,421). Identified the ~$1.94T general-fund gap. |
 | 05 | Quantified target-rate model (receipt-share) | done | Emitted `program_lane_rate_model` (17 lanes, shares sum 100%), first-cut rate note, solvency math, and per-lane dedicate/keep-general/efficiency recommendation. Statutory framing deferred. |
 | 05c | Income-tax-as-budget allocation | done | Treated current income tax ($2.66T) as a fixed envelope; allocated across general-fund lanes (ex-Social Security); shows income tax covers 48.9% of them and the rest must be cut or collected, not borrowed. |
 | 06 | Eight-role panel on the right rate | done | Ran all 8 `.roles` lenses; panel review with convergences (two-sided gap, low-tax country, health outlier, ring-fence payroll, protect social floor), divisions (cut/collect mix, pace), and two design corrections (receipt-side lanes; balance-rule guardrails). |
-| 03 | Aggregate tax-base + GDP extraction | planned | Extract aggregate AGI/taxable income (IRS SOI) and GDP (OMB Table 1.2/BEA) so a statutory rate-on-base can be computed and compared as % GDP. |
+| 03 | Aggregate income base + illustrative statutory rates | done | Added IRS SOI TY2022 base (AGI 14.83T); income tax ≈14.2% of AGI; per-lane illustrative %-of-AGI rates; finding that income-tax-alone funding needs 36.6% of AGI (2.6x). |
 | 05b | Quantify Health/Medicare efficiency target | planned | Cost the international-norm efficiency target for the health lanes. |
 | 07 | Balance-rule guardrail spec | done | Specified the rule (accrual, per-fund, interest-senior, over-cycle reserve), six statutory lane fields, the E1-E10 evasion-to-guardrail map, and institutional triggers (independent estimator, actual-receipts sequester, override transparency). |
-| 06 | Eight-role review + validation | planned | Run the full `.roles` review on the proposed rates; close fungibility, burden, beneficiary, and sustainability challenges. |
 
 ## Affected artifacts
 
