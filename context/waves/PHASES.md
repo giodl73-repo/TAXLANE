@@ -4,10 +4,11 @@ Work is organized into small waves and pulses.
 
 ## Active wave
 
-- `2026-06-23-program-lane-fair-rate-design` (pulses 01-08 + 05c done; pulse 05b planned)
+- None
 
 ## Completed waves
 
+- `2026-06-23-program-lane-fair-rate-design`
 - `2026-06-23-accountability-response-applied-bundle-integrity`
 - `2026-06-23-accountability-response-handoff-bundle-routes`
 - `2026-06-23-accountability-response-applied-bundle-json-schema`

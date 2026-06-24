@@ -50,7 +50,7 @@ crosswalk (sums exactly to total outlays).
 | 05c | Income-tax-as-budget allocation | done | Treated current income tax ($2.66T) as a fixed envelope; allocated across general-fund lanes (ex-Social Security); shows income tax covers 48.9% of them and the rest must be cut or collected, not borrowed. |
 | 06 | Eight-role panel on the right rate | done | Ran all 8 `.roles` lenses; panel review with convergences (two-sided gap, low-tax country, health outlier, ring-fence payroll, protect social floor), divisions (cut/collect mix, pace), and two design corrections (receipt-side lanes; balance-rule guardrails). |
 | 03 | Aggregate income base + illustrative statutory rates | done | Added IRS SOI TY2022 base (AGI 14.83T); income tax ≈14.2% of AGI; per-lane illustrative %-of-AGI rates; finding that income-tax-alone funding needs 36.6% of AGI (2.6x). |
-| 05b | Quantify Health/Medicare efficiency target | planned | Cost the international-norm efficiency target for the health lanes. |
+| 05b | Quantify Health/Medicare efficiency target | done | Federal health lanes $1.98T; 10/20/30% efficiency frees $198B/$395B/$593B; two balanced paths (revenue-led and panel-center) both land US below OECD average; revised core rates. |
 | 07 | Balance-rule guardrail spec | done | Specified the rule (accrual, per-fund, interest-senior, over-cycle reserve), six statutory lane fields, the E1-E10 evasion-to-guardrail map, and institutional triggers (independent estimator, actual-receipts sequester, override transparency). |
 | 08 | Full receipts-to-lane allocation | done | Parsed Table 2.4; mapped payroll to its legal lanes (SS/Medicare/Income Security), trust excise to Transportation/environment/health; proposed corporate -> commerce-capacity cluster (111% coverage); located the $1.77T gap on the income-tax-funded core. |
 
@@ -90,3 +90,7 @@ cargo run -p taxlane-tools -- income-tax-outlay validate
 cargo test
 cargo run --manifest-path ..\..\standards-protocols\vtrace\Cargo.toml -- validate .
 ```
+
+## Status
+
+Complete. All nine pulses (01-08 + 05c) done. Remaining follow-ups (matched-year statutory rate; GDP data record; quantified health delivery mechanism) are noted in their pulse docs for future waves.
