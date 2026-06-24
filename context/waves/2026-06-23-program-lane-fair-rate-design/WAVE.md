@@ -51,7 +51,7 @@ crosswalk (sums exactly to total outlays).
 | 06 | Eight-role panel on the right rate | done | Ran all 8 `.roles` lenses; panel review with convergences (two-sided gap, low-tax country, health outlier, ring-fence payroll, protect social floor), divisions (cut/collect mix, pace), and two design corrections (receipt-side lanes; balance-rule guardrails). |
 | 03 | Aggregate tax-base + GDP extraction | planned | Extract aggregate AGI/taxable income (IRS SOI) and GDP (OMB Table 1.2/BEA) so a statutory rate-on-base can be computed and compared as % GDP. |
 | 05b | Quantify Health/Medicare efficiency target | planned | Cost the international-norm efficiency target for the health lanes. |
-| 07 | Balance-rule guardrail spec | planned | Specify appropriation/shortfall/surplus/override rules + actual-receipts triggers and the 10 evasion guardrails the Reform Skeptic named. |
+| 07 | Balance-rule guardrail spec | done | Specified the rule (accrual, per-fund, interest-senior, over-cycle reserve), six statutory lane fields, the E1-E10 evasion-to-guardrail map, and institutional triggers (independent estimator, actual-receipts sequester, override transparency). |
 | 06 | Eight-role review + validation | planned | Run the full `.roles` review on the proposed rates; close fungibility, burden, beneficiary, and sustainability challenges. |
 
 ## Affected artifacts
