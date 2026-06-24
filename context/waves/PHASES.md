@@ -8,6 +8,7 @@ Work is organized into small waves and pulses.
 
 ## Completed waves
 
+- `2026-06-24-operating-system-hardening`
 - `2026-06-24-program-lane-operating-system`
 - `2026-06-23-program-lane-fair-rate-design`
 - `2026-06-23-accountability-response-applied-bundle-integrity`

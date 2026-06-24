@@ -61,3 +61,20 @@ Data: `data/derived/program_lane_rate_model/lane_rate_change.worked-examples.jso
 - The hard cases (defense up, health down, Social Security shortfall) are exactly
   where today's system hides the cost in borrowing; here each cost is named and
   attributed.
+
+## Honesty caveats on these examples
+
+These show the *record format*, not that the changes are easy or automatic:
+
+- **The triggers do not fire on their own.** "Efficiency gain" is a one-word label
+  for the most contested, most-failed maneuver in US health policy. A 20% cost cut
+  with coverage intact is a decade-long fight, and the operating model now requires
+  a coverage floor plus independent verification before the $395B is booked — it is
+  not realized cash until the outcome holds.
+- **Social Security is a path, not a one-year hole.** The $297B is the FY2025 gap;
+  the trust-fund shortfall grows over time, and lifting the cap also raises future
+  benefit accruals. A real fix shows a multi-year solvency horizon, not a single
+  year.
+- **Defense up is the honest one** — it names the $146B and says it must be raised
+  or offset, not borrowed.
+

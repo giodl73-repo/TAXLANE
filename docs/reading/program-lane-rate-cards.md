@@ -13,8 +13,10 @@ Data: `data/derived/program_lane_rate_model/lane_rate_cards.v1.draft.jsonl`.
 ## How to read a card
 
 - **Rate** = share of a fully-funded federal tax dollar (Social Security 22.6¢,
-  Defense 13.1¢, and so on). For income-tax-funded lanes this also maps to a
-  percent of income (~14.2% of AGI is the whole income tax today).
+  Defense 13.1¢, and so on), i.e. cents per dollar of FY2025 outlays. For
+  income-tax-funded lanes this also maps to a percent of income (the whole income
+  tax is ~14.2% of AGI on a TY2022 base — a cross-year illustration, not a
+  filing-year rate).
 - **Funded by** = which tax actually pays. Payroll and trust-fund excise are
   *already* legally dedicated; income and corporate are general revenue.
 - **Why this rate** = the argument from four anchors — what it costs, what
@@ -61,10 +63,11 @@ by running surpluses and paying down debt.
 
 ### National Defense — 13.1¢
 **Funded by:** general revenue (income tax).
-**Why this rate:** A textbook public good. But the US already spends **3.2-3.4% of
-GDP** — above NATO-Europe (~2%) and the 2% floor — so the rate is a **policy choice
-within a defensible 2.0-3.5% band**, now pulled upward by the 2025 Hague commitment
-toward 5% by 2035. **Moves up** on new commitments or conflict; **moves down** with
+**Why this rate:** A textbook public good. The US spends **~3.0% of GDP** on the
+OMB budget-function basis (3.2-3.4% on the broader SIPRI/NATO measure) — above
+NATO-Europe (~2%) and the 2% floor — so the rate is a **policy choice within a
+defensible 2.0-3.5% band**, now pulled upward by the **2025 Hague 3.5% core-defence
+target** (5% total including a 1.5% broader-security component). **Moves up** on new commitments or conflict; **moves down** with
 allied burden-sharing or drawdown.
 
 ### Income Security & Family — 10.0¢

@@ -77,6 +77,9 @@ record family: `lane_rate_change`.
 | `beneficiary_impact` | Who is affected and how (continuity, eligibility). |
 | `effective_date` | When it takes effect. |
 | `review_due` | When the lane is next scheduled for review. |
+| `distributional_impact` | Who bears a rate increase or benefit trim, by income — not just who is "affected." |
+| `compliance_impact` | Whether the change requires re-withholding, a new form/line, or preparer changes. |
+| `contestation` | How contested/hard-to-enact the change is, so the record shows the fight, not only the cost. |
 | `allocation_method` | `proposed_reform` until enacted. |
 
 This record is the citizen-facing "why did my Defense lane go up?" answer — a single
@@ -94,6 +97,38 @@ legible artifact per change.
 
 In both directions the borrowed-share line is recomputed and shown, so a change can
 never make the budget *look* balanced when it is not.
+
+## Hardening rules (from the pressure-test review)
+
+The pressure-test (`reviews/2026-06-24-operating-system-panel.md`) found the
+operating model had dropped principles the guardrail spec already established.
+These are now binding:
+
+1. **Over-the-cycle reserve, not annual austerity.** A shortfall from a *cyclical*
+   revenue dip draws the pre-funded reserve **before** any rate rise or benefit
+   sequester fires. The `surplus_rule` routes surpluses to the reserve (then debt)
+   so the rule is measured over the cycle, not the year — no pro-cyclical cuts into
+   a recession.
+2. **Net interest is senior and sequester-exempt.** Debt service is the first claim
+   on receipts; it is never subject to the `shortfall_rule` or the sequester. A
+   debt-service-growth trigger is added so a rising interest lane is visible, not
+   static.
+3. **Coverage floor on efficiency moves.** A "down on efficiency" change (e.g.,
+   health) requires a **coverage/enrollment floor** and **independent verification
+   that outcomes and served population held constant** before the saving is booked.
+   "Coverage protected" is a rule with a check, not an adjective; a cut that can't be
+   distinguished from reduced service does not qualify as efficiency.
+4. **Receipt firewall.** A lane is a **line on the receipt** — it never acquires its
+   own filing, base, or withholding. Any rate change that affects payroll
+   withholding takes effect only at a **tax-year boundary** with fixed minimum
+   notice, to avoid mid-cycle employer churn.
+5. **Harden the two load-bearing nodes.** The independent estimator needs
+   protected appointment and funding (anti-capture), or it cannot bind the
+   triggers. The emergency suspend/payback path must **cap deferrals** and make each
+   re-waiver cost more — closing the rolling-payback evasion (E11) the review named.
+6. **Long-term drivers show a horizon.** A change to a structural driver (Social
+   Security, Medicare) must show a **multi-year solvency path**, not a single-year
+   gap number — a one-year cap lift that leaves the trajectory open is not a fix.
 
 ## Worked-example slots (Pulse 03)
 
