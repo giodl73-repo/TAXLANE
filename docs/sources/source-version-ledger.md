@@ -110,6 +110,33 @@ source ID, publisher, URL, observed date, coverage, and extraction rule.
 | `SRC-IRS-1040ES` | IRS | <https://www.irs.gov/forms-pubs/about-form-1040-es> | 2026-06-21; page reported last reviewed/updated 2026-04-15 | Form 1040-ES estimated tax for individuals | Annual/IRS-maintained | Authoritative guidance | Use to explain estimated tax for income not subject to withholding. |
 | `SRC-IRS-DATA-BOOK` | IRS Statistics of Income | <https://www.irs.gov/statistics/soi-tax-stats-irs-data-book> | 2026-06-21 | IRS Data Book, including returns, collections, refunds, service, and enforcement statistics | Annual/IRS-maintained | Contextual | Use for administration scale and collection/refund context. Do not use as program allocation proof. |
 
+## International and comparative benchmark sources
+
+These sources back the international and historical benchmark note
+(`docs/research/2026-06-23-international-historical-benchmark.md`). They are
+comparators for fair-rate design, not TAXLANE fiscal-spine data. Observe the
+government-level and "compulsory vs general" scope caveats recorded in that note.
+
+| Source ID | Publisher | URL | Observed date | Coverage | Update cadence | Status | Extraction rule |
+|---|---|---|---|---|---|---|---|
+| `SRC-OECD-REVSTATS-2025` | OECD | <https://www.oecd.org/en/publications/revenue-statistics-2025_3708be73-en.html> | 2026-06-23 | Total tax-to-GDP, all government, 38 members, through 2024 (provisional) | Annual | Authoritative comparator | Use for cross-country total tax burden. Always label as all-government basis, not US federal-only. |
+| `SRC-OECD-PENSIONS-2025` | OECD | <https://www.oecd.org/en/publications/pensions-at-a-glance-2025_76510fe4-en.html> | 2026-06-23 | Public pension expenditure % GDP; latest harmonized 2021 | Biennial | Authoritative comparator | Use for public pension spend by country. Public-only; excludes private/occupational. |
+| `SRC-OECD-HEALTH-2025` | OECD | <https://www.oecd.org/en/publications/health-at-a-glance-2025_a894f72e-en.html> | 2026-06-23 | Government/compulsory and total health spend % GDP, 2024 | Biennial | Authoritative comparator | Use for health spend. "Government/compulsory" includes US compulsory private insurance; label it. |
+| `SRC-OECD-SOCX` | OECD | <https://www.oecd.org/en/data/datasets/social-expenditure-database-socx.html> | 2026-06-23 | Public social expenditure % GDP; family benefits; latest full year 2022 | Annual | Authoritative comparator | Use for total public social and family-benefit spend. Public basis; US net-total (incl. private) differs. |
+| `SRC-OECD-GOV-GLANCE-2025` | OECD | <https://www.oecd.org/en/publications/government-at-a-glance-2025_0efd0bcd-en.html> | 2026-06-23 | General government expenditure % GDP, OECD basis, 2023 | Biennial | Authoritative comparator | Use for OECD-average general-government spending benchmark. |
+| `SRC-IMF-FISCAL-MONITOR` | International Monetary Fund | <https://www.imf.org/external/datamapper/exp@FPP> | 2026-06-23 | General government total expenditure % GDP by country, 2024 est. | Periodic | Authoritative comparator | Use for single-vintage cross-country general-government spending. Estimates flagged. |
+| `SRC-SIPRI-MILEX-2024` | Stockholm International Peace Research Institute | <https://www.sipri.org/sites/default/files/2025-04/2504_fs_milex_2024.pdf> | 2026-06-23 | Military expenditure % GDP by country, 2024 | Annual | Authoritative comparator | Use for defense burden. SIPRI definition is broader than NATO; do not merge series without a note. |
+| `SRC-NATO-DEFEXP-2025` | NATO | <https://www.nato.int/content/dam/nato/webready/documents/finance/def-exp-2025-en.pdf> | 2026-06-23 | Defence expenditure % GDP, NATO definition, 2014-2025 (2024-25 est.) | Annual | Authoritative comparator | Use for NATO-definition defense burden and the 2%/Hague-5% guidelines. |
+| `SRC-WB-EDU-GDP` | World Bank / UNESCO Institute for Statistics | <https://data.worldbank.org/indicator/SE.XPD.TOTL.GD.ZS> | 2026-06-23 | Government education expenditure % GDP by country, 2021-2022 | Annual | Authoritative comparator | Use for public education spend. Scope differs slightly from OECD EAG. |
+| `SRC-SSA-OACT` | Social Security Administration, Office of the Chief Actuary | <https://www.ssa.gov/oact/cola/cbb.html> | 2026-06-23 | OASDI rate, taxable maximum, OASDI cost % GDP | Annual/projection | Authoritative | Use for US OASDI rate, wage-base cap, and cost-as-%-GDP projection. Trustees figures are projections. |
+
+## US fiscal-ratio and projection sources
+
+| Source ID | Publisher | URL | Observed date | Coverage | Update cadence | Status | Extraction rule |
+|---|---|---|---|---|---|---|---|
+| `SRC-OMB-HIST-1-2-FY2027` | OMB | <https://www.whitehouse.gov/omb/information-resources/budget/historical-tables/> | 2026-06-23 | Receipts, outlays, and surpluses/deficits as % of GDP, with GDP series, 1930-2031 | Annual | Authoritative | Use for federal receipts/outlays as % GDP and the GDP denominator. Federal/central scope only. |
+| `SRC-CBO-BUDGET-OUTLOOK` | Congressional Budget Office | <https://www.cbo.gov/publication/61307> | 2026-06-23 | Federal receipts/outlays % GDP, historical averages and projections | Periodic | Authoritative | Use for 50-year averages and forward projections. Label projections explicitly. |
+
 ## Extraction status
 
 | Source family | Status | Next action |
@@ -119,4 +146,6 @@ source ID, publisher, URL, observed date, coverage, and extraction rule.
 | OMB receipts/outlays | Recorded | Download spreadsheets and define fiscal-year data dictionary. |
 | OMB budget concepts | Recorded | Extract exact definitions for accounting explainer. |
 | Treasury/USAspending context | Recorded | Use after OMB spine exists; record queries and dynamic dates. |
-| CBO | Candidate | Verify manually before using as a cited cross-check. |
+| CBO | Recorded | Use as cited fiscal-ratio and projection cross-check; label projections. |
+| International/comparative benchmarks | Recorded | Use as fair-rate comparators with government-level and compulsory/general scope labels. |
+| US fiscal ratios and GDP (Table 1.2) | Recorded | Extract federal %-GDP and GDP denominator for the rate model (Pulse 03). |
