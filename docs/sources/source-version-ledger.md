@@ -150,6 +150,18 @@ comparators; label scope per source.
 | `SRC-JAMA-PAPANICOLAS-2018` | Papanicolas, Woskie, Jha — JAMA 2018;319(10):1024-1039 | <https://jamanetwork.com/journals/jama/fullarticle/2674671> | 2026-06-24 | Cross-country evidence that higher US health spending is driven by prices and administration, not utilization | Static (peer-reviewed) | Authoritative (literature) | Use to support "price, not volume." Cite as published study; figures are 2013-era. |
 | `SRC-CBO-LTBO` | Congressional Budget Office | <https://www.cbo.gov/publication/61270> | 2026-06-24 | Long-Term Budget Outlook: Medicare 3.1%→5.2% of GDP, major health programs 5.8%→8.1% by 2055; 65+ entitlements 40%→>50% of noninterest spending | Annual | Authoritative | Use for the long-run federal health trajectory and the aging driver. Projections — label as such. |
 
+## Revenue-option and debt-trajectory sources
+
+Back the revenue/solvency track. Scored federal options and the long-run debt path;
+all are projections — label as such.
+
+| Source ID | Publisher | URL | Observed date | Coverage | Update cadence | Status | Extraction rule |
+|---|---|---|---|---|---|---|---|
+| `SRC-CBO-TAX-EXP-2025` | Congressional Budget Office | <https://www.cbo.gov/publication/61172> | 2026-06-24 | Federal tax expenditures ~$2.3T / 7.6% of GDP, FY2025 (compiles JCT/Treasury) | Annual | Authoritative | Use for the tax-expenditure total. Includes payroll-tax effects; larger than Treasury income-tax-only totals. |
+| `SRC-TREASURY-OTA-TE` | U.S. Treasury, Office of Tax Analysis | <https://home.treasury.gov/policy-issues/tax-policy/tax-expenditures> | 2026-06-24 | Annual tax-expenditure estimates by provision | Annual | Authoritative | Use for per-provision tax-expenditure detail; income-tax basis. |
+| `SRC-CBO-BUDGET-OPTIONS` | Congressional Budget Office | <https://www.cbo.gov/budget-options/60961> | 2026-06-24 | Options for Reducing the Deficit 2025-2034: 5% VAT (~$3.4-3.5T broad / $2.2-2.3T narrow, 10yr); SS taxable-max options (#60955: ~$0.8T at 90% earnings, ~$1.6T on earnings >$250k) | Periodic | Authoritative | Use for scored revenue-option yields. 10-year projections, net of income/payroll offsets; label as projections. |
+| `SRC-CBO-LTBO` | Congressional Budget Office | <https://www.cbo.gov/publication/61270> | 2026-06-24 | Long-Term Budget Outlook 2025-2055: debt held by public ~100%→156% of GDP; deficit 6.2%→7.3%; net interest 3.2%→5.4% of GDP | Annual | Authoritative | Use for the long-run debt/deficit/interest trajectory and the r>g point. Projections. (Also registered in the health-outcomes section.) |
+
 ## Derived TAXLANE records (internal provenance)
 
 These derived records are produced by `taxlane-tools` / repo scripts from the

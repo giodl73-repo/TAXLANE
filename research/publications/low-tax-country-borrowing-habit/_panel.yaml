@@ -2,8 +2,8 @@ paper: low-tax-country-borrowing-habit
 title: "A Low-Tax Country with a Borrowing Habit: The Revenue Case for Balancing the US Budget"
 track: T5
 venue: "TAXLANE Research (panel-reviewed)"
-stage: panel
-round: 1
+stage: accepted-minor-revisions
+round: 2
 content_mode: full
 writing_completed: true
 reviewers: [PF-1, PF-2, PF-3, PF-4, PF-5, PF-6, PF-7]
@@ -15,8 +15,8 @@ reviews:
   PF-5: {score: 2.0, file: reviews/REVIEW-PF-5.md}
   PF-6: {score: 3.0, file: reviews/REVIEW-PF-6.md, gate: pass}
   PF-7: {score: 4.0, file: reviews/REVIEW-PF-7.md, gate: pass}
-avg_score: 2.71
-gate_cleared: false
+avg_score: 3.57
+gate_cleared: true
 history:
   - stage: draft
     date: "2026-06-24"
@@ -24,3 +24,6 @@ history:
   - stage: panel
     date: "2026-06-24"
     note: "Round 1: 7 reviews, avg 2.71/4, major revisions. All three gates clear on first pass (PF-2, PF-6, PF-7). Three substantive P1s remain: scored revenue table, forward trajectory, distribution weighting. See SYNTHESIS.md + REVISION-PLAN.md."
+  - stage: accepted-minor-revisions
+    date: "2026-06-24"
+    note: "Round 2: avg 3.57/4. All three P1s closed (scored revenue table, forward CBO trajectory, distribution weighting); gate cleared. Added SRC-CBO-TAX-EXP-2025, SRC-CBO-BUDGET-OPTIONS, SRC-CBO-LTBO."

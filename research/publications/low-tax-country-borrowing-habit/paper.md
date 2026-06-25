@@ -15,15 +15,23 @@ federal government alone collects **~17.3% of GDP, exactly its 50-year average**
 spending **~23.1%, above its own 50-year norm of ~21.2%** [`SRC-OMB-HIST-1-2-FY2027`,
 `SRC-CBO-BUDGET-OUTLOOK`]. In FY2025 it spent **$7,011,105M** against **$5,236,421M**
 collected — a **$1,774,684M gap, 25.3% of spending, borrowed** [`SRC-OMB-HIST-1-1-FY2027`].
-We argue the deficit is **as much a revenue gap as a spending excess**, and that the
-US's low-tax position is **structural** — it lacks the broad consumption-tax base
-(VAT) and the higher social-contribution rates that fund peer governments. The fair
-direction is to raise revenue toward solvency, *blended* with spending discipline:
+We argue the deficit is **two-sided — a spending excess and an unmet revenue gap**
+(outlays run above their historical norm while receipts merely held at theirs), and
+that the US's low-tax position is **structural** — it lacks the broad consumption-tax
+base (VAT) and the higher social-contribution rates that fund peer governments. The
+fair direction is to raise revenue toward solvency, *blended* with spending discipline:
 even closing the entire gap on the revenue side would leave the US near **31% of GDP —
 still below the OECD average**. Closing it on spending alone is arithmetically brutal
-(zeroing every small lane covers ~38% of the gap). Modernizing the revenue *base* —
-broadening what is taxed, not only raising rates — is the structural lever, and it
-carries real distributional choices that this paper makes explicit.
+(zeroing every small lane covers ~38% of the gap). The revenue side is **instrument-
+scored**, not asserted: curbing the ~$2.3T/yr tax-expenditure base, a 5% broad VAT
+(~$3.4T over ten years), and lifting the Social-Security wage cap (~$1.6T) reach the
+~$1.2T/yr the revenue-led path needs [`SRC-CBO-TAX-EXP-2025`, `SRC-CBO-BUDGET-OPTIONS`].
+We set this against CBO's long-run path — **debt rising from ~100% to 156% of GDP by
+2055**, driven by interest (r > g) and aging, not revenue alone [`SRC-CBO-LTBO`] — so
+revenue is necessary but not sufficient. Modernizing the revenue *base* — broadening
+what is taxed, not only raising rates — is the structural lever, and the recommended
+blend (progressive base-broadening + cap lift before any offset-paired VAT) is **net
+progressive-to-neutral**.
 
 ## 1. Introduction
 
@@ -45,7 +53,7 @@ recommendation requires.
 | Total receipts | 5,236,421 | ~17.3 |
 | Deficit (borrowed) | 1,774,684 | ~5.8 |
 
-Sources: `SRC-OMB-HIST-1-1-FY2027` (dollars); `SRC-OMB-HIST-1-2-FY2027`,
+Sources: `SRC-OMB-HIST-1-1-FY2027` (dollars; FY2025 actuals); `SRC-OMB-HIST-1-2-FY2027`,
 `SRC-CBO-BUDGET-OUTLOOK` (% GDP; GDP ~$30.4T derived from the outlay ratio, approximate).
 Receipts are at their 50-year average share of GDP; outlays run ~2 points above
 theirs. So the gap is not a story of receipts collapsing below norm — it is outlays
@@ -86,15 +94,26 @@ narrowness visible: **individual income tax 50.7%, payroll 33.4%, corporate 8.6%
 other 5.2%, excise 2.0%** [`SRC-OMB-HIST-2-1-FY2027`]. The US leans on income and
 payroll and raises little from consumption — the structural reason it is low-tax.
 
-## 5. History: the solvent-era borrowed share
+## 5. The time dimension: a solvent past and an unsustainable forward path
 
 Solvent post-war budgets borrowed little. In the modeled allocation, the **borrowed
 share of outlays was ~4.5% in the 1950s and ~4.6% in the 1960s**, versus **~25.3% in
 FY2025** (derived `income_tax_outlay_model` decade summary, ledger-registered); income
 tax covered ~42% of outlays then versus ~34% now. The historical anchor is not a
 spending mix (defense-heavy then, human-resources-heavy now) but the **solvency
-ratio**: a budget that borrows ~5% rather than ~25% of what it spends. Returning to
-that borrowed share is the target.
+ratio**: a budget that borrows ~5% rather than ~25% of what it spends.
+
+The forward path is worse, and it is not mainly a revenue story. Under CBO's current-law
+baseline, **federal debt held by the public rises from ~100% of GDP (2025) to 156% by
+2055**, the deficit widens from **6.2% to 7.3% of GDP**, and **net interest climbs from
+3.2% to 5.4% of GDP** [`SRC-CBO-LTBO`]. CBO identifies rising interest costs as the
+primary driver — the **r > g** snowball, in which debt service compounds faster than the
+economy grows — alongside **population aging and health-cost growth** (the Social-Security
+and health tracks). So the deficit is **structural, not cyclical**, and revenue toward
+solvency is necessary but not sufficient: without bending the long-run spending-growth
+path (aging, health unit cost), a revenue increase stabilizes but does not by itself
+reverse the debt trajectory. This paper argues the revenue half of a two-sided fix; the
+spending half is the other tracks.
 
 ## 6. All factors → the recommended direction
 
@@ -113,11 +132,40 @@ illustrative balanced paths (no borrowing), from the operating-system work:
 | Revenue-side | ~69% | ~49% |
 | All-government tax-to-GDP | 25.6% → ~29.6% | 25.6% → ~28.5% |
 
+The spending-side share assumes a *verified, coverage-protected* health-efficiency gain
+that is a one-time level shift, not a bend in the growth rate (per the health track), so
+it erodes against the aging trajectory of §5 unless the growth path is also bent.
+
 **Either path leaves the US below the OECD average (34.1%), below the UK and Canada.**
-And the spending-only alternative is arithmetically brutal: zeroing every small lane
-(transport, justice, education, science, agriculture, international) covers only ~38%
-of the gap. So *some* revenue increase is not optional under "spend what we collect."
-Whether and how to do it is a political choice, not a fact.
+(Scope note: the gap closed is a *federal* deficit, while tax-to-GDP is *all-government*;
+because GDP is the common denominator, a federal revenue increment of ~4 points of GDP
+moves the all-government ratio by ~4 points, so 25.6% → ~29.6% is approximately portable
+— but the increment lands federally. Tax-to-GDP comparators are 2024; the US spine is
+FY2025.) And the spending-only alternative is arithmetically brutal: zeroing every small
+lane (transport, justice, education, science, agriculture, international) covers only
+~38% of the gap. So *some* revenue increase is not optional under "spend what we
+collect." Whether and how to do it is a political choice, not a fact.
+
+### Scored instruments behind the revenue side
+
+The revenue-led path needs roughly **$1.2T/yr (~4 points of GDP)**. That is not
+hand-waved: scored CBO options reach it without exotic measures (all 10-year
+projections, net of income/payroll offsets) [`SRC-CBO-TAX-EXP-2025`,
+`SRC-CBO-BUDGET-OPTIONS`]:
+
+| Instrument | Scored yield | ≈ % of GDP/yr |
+|---|---|---:|
+| Curb the tax-expenditure base (total ~$2.3T/yr, 7.6% of GDP) — even a quarter | ~$0.6T/yr | ~1.9 |
+| 5% broad-based VAT | ~$3.4T / 10yr (~$0.34T/yr) | ~1.1 |
+| Apply OASDI tax to earnings over $250,000 | ~$1.6T / 10yr (~$0.16T/yr) | ~0.5 |
+
+Summed at these levels the three reach **~$1.1T/yr (~3.5 points of GDP)** — close to,
+but short of, the ~$1.2T the revenue-led path needs. Reaching the full ~4 points
+requires curbing roughly a **third** of the tax-expenditure base (≈$0.77T/yr) rather
+than a quarter, alongside the VAT and the cap lift. The point is that the target is
+reachable by **stacking known, CBO-scored instruments** — not by any single measure —
+and that behavioral response would discount realized yields below these static headline
+figures (the estimates are CBO-scored but not re-estimated here).
 
 ## 7. Distribution: who would pay
 
@@ -132,10 +180,19 @@ A revenue recommendation must say who bears it. The instruments differ sharply:
   rebates/credits to be distributionally acceptable.
 - **Corporate** (8.6%) incidence is contested (split between capital and labor).
 
-The distributional lesson: *how* the US raises revenue toward peer levels matters as
-much as *how much*. Base-broadening on the progressive income tax and lifting the
-payroll cap are the least-regressive levers; a VAT would need explicit offsets. A full
-decile-incidence estimate is deferred pending microdata.
+**Net direction (magnitude-weighted).** The recommended blend is not distributionally
+neutral, and the sign of its net effect depends on the mix. Weighting by where the
+instruments fall: tax-expenditure curtailment is **progressive** (the largest
+preferences — capital-gains treatment, the mortgage and SALT deductions, employer-health
+exclusion — accrue disproportionately to high earners), and lifting the OASDI cap is
+**progressive** (it taxes only earnings above $250,000). A VAT is **regressive** in
+isolation. So a revenue path led by **base-broadening + the cap lift is net progressive**;
+the more it leans on a VAT, the more it needs rebates/credits to avoid raising the burden
+on lower deciles. The least-regressive route therefore exhausts the progressive levers
+(income base-broadening, cap lift) before adding a consumption base, and pairs any VAT
+with an offset. The distributional lesson: *how* the US raises revenue matters as much as
+*how much*. A full decile-incidence estimate is deferred pending microdata, but the net
+direction of the recommended blend is **progressive-to-neutral**, not regressive.
 
 ## 8. The needs, the problem, and the modernization case
 
@@ -188,6 +245,7 @@ country; choosing to is the politics.
 
 `SRC-OECD-REVSTATS-2025`, `SRC-OMB-HIST-1-1-FY2027`, `SRC-OMB-HIST-1-2-FY2027`,
 `SRC-CBO-BUDGET-OUTLOOK`, `SRC-OMB-HIST-2-1-FY2027`, `SRC-OMB-HIST-2-4-FY2027`,
-`SRC-IMF-FISCAL-MONITOR`, plus the ledger-registered derived `income_tax_outlay_model`
-decade summary and `program_lane_rate_model`. All in
+`SRC-IMF-FISCAL-MONITOR`, `SRC-CBO-TAX-EXP-2025`, `SRC-CBO-BUDGET-OPTIONS`,
+`SRC-CBO-LTBO`, plus the ledger-registered derived `income_tax_outlay_model` decade
+summary and `program_lane_rate_model`. All in
 `docs/sources/source-version-ledger.md`.
