@@ -15,7 +15,8 @@ track per budget area, each paper arguing the fair rate (cut or increase) from p
 | 03 | Revise paper 1 to clear the gate | done | Round 2: avg 3.64/4 (was 2.43), all 5 P1s closed, gate cleared. Registered sources/derived records; added outcomes, CBO trajectory, distributional incidence. |
 | 04 | Author + review paper 2 (T5 Revenue) | done | Round 1: avg 2.71/4, all three gates clear first pass; 3 P1s remain (revenue table, trajectory, distribution). |
 | 05 | Revise paper 2 (T5) to acceptance | done | Round 2: avg 3.57/4, all 3 P1s closed, gate cleared. Scored revenue table, CBO trajectory, distribution weighting. |
-| 06+ | Tracks T2-T4, T0 | planned | Author Social Security, Defense, Income Security, synthesis. |
+| 06 | Author + review paper 3 (T2 Social Security) | done | Round 1: avg 2.57/4, gate failed (PF-2 rate column); P1s: rate sourcing, horizon framing, lifetime incidence. |
+| 07+ | Tracks T3-T4, T0 + revisions | planned | Revise T2 to round 2; author Defense, Income Security, synthesis. |
 
 ## Validation
 
