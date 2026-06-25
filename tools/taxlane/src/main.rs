@@ -146,8 +146,7 @@ const OUTLAY_FUNCTION_3_2_JSONL_PATH: &str =
     "data/extracted/outlay_function/outlay_function.SRC-OMB-HIST-3-2-FY2027.2026-06-21.draft.jsonl";
 const OUTLAY_FUNCTION_3_2_PROFILE_PATH: &str =
     "data/extracted/outlay_function/table-3-2-profile.md";
-const TABLE_6_1_PATH: &str =
-    "data/raw/omb/SRC-OMB-HIST-6-1-FY2027/2026-06-24/hist06z1_fy2027.xlsx";
+const TABLE_6_1_PATH: &str = "data/raw/omb/SRC-OMB-HIST-6-1-FY2027/2026-06-24/hist06z1_fy2027.xlsx";
 const OUTLAY_COMPOSITION_6_1_NATIONAL_DEFENSE_JSONL_PATH: &str = "data/extracted/outlay_composition/outlay_composition.SRC-OMB-HIST-6-1-FY2027.2026-06-24.national-defense-gdp.draft.jsonl";
 const OUTLAY_COMPOSITION_6_1_NATIONAL_DEFENSE_PROFILE_PATH: &str =
     "data/extracted/outlay_composition/table-6-1-national-defense-gdp-profile.md";
@@ -1271,7 +1270,9 @@ fn main() -> ExitCode {
         {
             run_table_6_1_national_defense_check()
         }
-        [area, command] if area == "outlay-composition" && command == "table-6-1-national-defense" => {
+        [area, command]
+            if area == "outlay-composition" && command == "table-6-1-national-defense" =>
+        {
             run_table_6_1_national_defense_write()
         }
         [area, command, flag]
@@ -3107,10 +3108,8 @@ fn table_6_1_year_columns(
                 CellValue::Text(text) => text.trim().parse::<i64>().ok(),
                 _ => None,
             };
-            if let Some(year) = year {
-                if (1940..=2031).contains(&year) {
-                    columns.insert(year, column.clone());
-                }
+            if let Some(year) = year.filter(|year| (1940..=2031).contains(year)) {
+                columns.insert(year, column.clone());
             }
         }
         if columns.contains_key(&1940) && columns.contains_key(&2025) {
@@ -3147,7 +3146,13 @@ fn table_6_1_label_row_between(
 
 fn build_table_6_1_national_defense_rows(
     root: &Path,
-) -> Result<(Vec<Table61NationalDefenseRow>, Table61NationalDefenseProfile), String> {
+) -> Result<
+    (
+        Vec<Table61NationalDefenseRow>,
+        Table61NationalDefenseProfile,
+    ),
+    String,
+> {
     let sheet = read_sheet(&root.join(TABLE_6_1_PATH))?;
     let columns_by_year = table_6_1_year_columns(&sheet)?;
     let gdp_section = table_6_1_section_row(&sheet, "As percentages of GDP:")?;
@@ -3183,7 +3188,9 @@ fn build_table_6_1_national_defense_rows(
             continue;
         };
         if !(0.0..=50.0).contains(&percent) {
-            errors.push(format!("{year}: implausible national-defense %GDP {percent}"));
+            errors.push(format!(
+                "{year}: implausible national-defense %GDP {percent}"
+            ));
         }
         rows.push(Table61NationalDefenseRow {
             fiscal_year: *year,
@@ -3192,8 +3199,8 @@ fn build_table_6_1_national_defense_rows(
             percent_of_gdp: round6(percent),
         });
         if sample_years.contains(year) {
-            let total = number_cell(sheet.get(&total_row).and_then(|row| row.get(column)))
-                .unwrap_or(0.0);
+            let total =
+                number_cell(sheet.get(&total_row).and_then(|row| row.get(column))).unwrap_or(0.0);
             samples.push((*year, round6(percent), round6(total)));
         }
     }
@@ -3216,7 +3223,9 @@ fn build_table_6_1_national_defense_rows(
     let first_year = *years
         .first()
         .ok_or_else(|| "no Table 6.1 years".to_string())?;
-    let last_year = *years.last().ok_or_else(|| "no Table 6.1 years".to_string())?;
+    let last_year = *years
+        .last()
+        .ok_or_else(|| "no Table 6.1 years".to_string())?;
     let profile = Table61NationalDefenseProfile {
         first_year,
         last_year,
