@@ -2,25 +2,28 @@ paper: health-funding-premium
 title: "The American Health Funding Premium: Why the US Pays Double for Less, and the Case for an Efficiency-First Health Lane"
 track: T1
 venue: "TAXLANE Research (panel-reviewed)"
-stage: panel
-round: 1
+stage: accepted-minor-revisions
+round: 2
 content_mode: full
 writing_completed: true
 reviewers: [PF-1, PF-2, PF-3, PF-4, PF-5, PF-6, PF-7]
 reviews:
-  PF-1: {score: 2.0, file: reviews/REVIEW-PF-1.md}
-  PF-2: {score: 4.0, file: reviews/REVIEW-PF-2.md, gate: pass}
-  PF-3: {score: 2.0, file: reviews/REVIEW-PF-3.md}
-  PF-4: {score: 2.0, file: reviews/REVIEW-PF-4.md}
-  PF-5: {score: 2.0, file: reviews/REVIEW-PF-5.md}
-  PF-6: {score: 3.0, file: reviews/REVIEW-PF-6.md, gate: pass}
-  PF-7: {score: 2.0, file: reviews/REVIEW-PF-7.md, gate: fail}
-avg_score: 2.43
-gate_cleared: false
+  PF-1: {r1: 2.0, r2: 3.5, file: reviews/ROUND2-REVIEW-PF-1.md}
+  PF-2: {r1: 4.0, r2: 4.0, file: reviews/REVIEW-PF-2.md, gate: pass}
+  PF-3: {r1: 2.0, r2: 3.5, file: reviews/ROUND2-REVIEW-PF-3.md}
+  PF-4: {r1: 2.0, r2: 3.5, file: reviews/ROUND2-REVIEW-PF-4.md}
+  PF-5: {r1: 2.0, r2: 3.5, file: reviews/ROUND2-REVIEW-PF-5.md}
+  PF-6: {r1: 3.0, r2: 3.5, file: reviews/REVIEW-PF-6.md, gate: pass}
+  PF-7: {r1: 2.0, r2: 4.0, file: reviews/ROUND2-REVIEW-PF-7.md, gate: pass}
+avg_score: 3.64
+gate_cleared: true
 history:
   - stage: draft
     date: "2026-06-24"
-    note: "Paper drafted from the international benchmark and health-efficiency waves; all figures ledger-sourced."
+    note: "Paper drafted from the international benchmark and health-efficiency waves."
   - stage: panel
     date: "2026-06-24"
-    note: "Round 1: 7 reviews, avg 2.43/4, major revisions. Gate not cleared (PF-7 sourcing fail). Common P1: mechanical savings presented as bankable; derived records not in ledger; missing outcomes, trajectory, and incidence. See SYNTHESIS.md + REVISION-PLAN.md."
+    note: "Round 1: 7 reviews, avg 2.43/4, major revisions. Gate failed (PF-7 sourcing)."
+  - stage: accepted-minor-revisions
+    date: "2026-06-24"
+    note: "Round 2: avg 3.64/4. All five P1s closed; gate cleared (PF-2, PF-6, PF-7 pass). Reframed savings as conditional ceilings; registered derived records; added outcomes, CBO aging trajectory, and distributional incidence. P3 polish + PDF promotion remain optional."

@@ -138,6 +138,30 @@ government-level and "compulsory vs general" scope caveats recorded in that note
 | `SRC-OMB-HIST-1-2-FY2027` | OMB | <https://www.whitehouse.gov/omb/information-resources/budget/historical-tables/> | 2026-06-23 | Receipts, outlays, and surpluses/deficits as % of GDP, with GDP series, 1930-2031 | Annual | Authoritative | Use for federal receipts/outlays as % GDP and the GDP denominator. Federal/central scope only. |
 | `SRC-CBO-BUDGET-OUTLOOK` | Congressional Budget Office | <https://www.cbo.gov/publication/61307> | 2026-06-23 | Federal receipts/outlays % GDP, historical averages and projections | Periodic | Authoritative | Use for 50-year averages and forward projections. Label projections explicitly. |
 
+## Health outcomes and cost-driver sources
+
+Back the research-program papers (health track). Outcome and price-driver
+comparators; label scope per source.
+
+| Source ID | Publisher | URL | Observed date | Coverage | Update cadence | Status | Extraction rule |
+|---|---|---|---|---|---|---|---|
+| `SRC-CENSUS-P60-288` | U.S. Census Bureau | <https://www.census.gov/library/publications/2025/demo/p60-288.html> | 2026-06-24 | Health insurance coverage: 8.0% uninsured (~27.1M), 2024 | Annual | Authoritative | Use for US uninsured rate/count. Calendar-year, not fiscal-year. |
+| `SRC-COMMONWEALTH-USHC` | Commonwealth Fund | <https://www.commonwealthfund.org/publications/issue-briefs/2026/may/us-health-care-global-perspective-2026> | 2026-06-24 | US is the only high-income country without universal coverage; cross-country health comparison | Periodic | Contextual | Use for the universal-coverage point and peer context, not as primary spending data. |
+| `SRC-JAMA-PAPANICOLAS-2018` | Papanicolas, Woskie, Jha — JAMA 2018;319(10):1024-1039 | <https://jamanetwork.com/journals/jama/fullarticle/2674671> | 2026-06-24 | Cross-country evidence that higher US health spending is driven by prices and administration, not utilization | Static (peer-reviewed) | Authoritative (literature) | Use to support "price, not volume." Cite as published study; figures are 2013-era. |
+| `SRC-CBO-LTBO` | Congressional Budget Office | <https://www.cbo.gov/publication/61270> | 2026-06-24 | Long-Term Budget Outlook: Medicare 3.1%→5.2% of GDP, major health programs 5.8%→8.1% by 2055; 65+ entitlements 40%→>50% of noninterest spending | Annual | Authoritative | Use for the long-run federal health trajectory and the aging driver. Projections — label as such. |
+
+## Derived TAXLANE records (internal provenance)
+
+These derived records are produced by `taxlane-tools` / repo scripts from the
+sourced inputs above; registered here so papers and packets can cite them.
+
+| Record | Path | Derived from | Observed date |
+|---|---|---|---|
+| Income-tax outlay model (decade summary) | `data/derived/income_tax_outlay_model/decade-summary.md` | `SRC-OMB-HIST-1-1-FY2027`, `SRC-OMB-HIST-2-1-FY2027`, `SRC-OMB-HIST-3-1-FY2027` | 2026-06-21 |
+| Program-lane rate model | `data/derived/program_lane_rate_model/` | `SRC-OMB-HIST-1-1-FY2027`, `SRC-OMB-HIST-3-2-FY2027`, `SRC-OECD-REVSTATS-2025` | 2026-06-23 |
+| Health-efficiency scenarios | `data/derived/program_lane_rate_model/health_efficiency_scenarios.fy2025.draft.jsonl` | `SRC-OMB-HIST-3-2-FY2027`, `SRC-OECD-HEALTH-2025` (GDP derived) | 2026-06-23 |
+| Receipts-to-lane allocation | `data/derived/program_lane_rate_model/receipts_to_lane_allocation.fy2025.draft.jsonl` | `SRC-OMB-HIST-2-1-FY2027`, `SRC-OMB-HIST-2-4-FY2027`, `SRC-OMB-HIST-3-2-FY2027` | 2026-06-23 |
+
 ## Extraction status
 
 | Source family | Status | Next action |

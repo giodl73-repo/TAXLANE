@@ -4,7 +4,7 @@ Work is organized into small waves and pulses.
 
 ## Active wave
 
-- `2026-06-24-budget-area-research-program` (pulses 01-02 done; paper 1 through round 1)
+- `2026-06-24-budget-area-research-program` (pulses 01-03 done; paper 1 accepted after round 2; T2-T5,T0 remain)
 
 ## Completed waves
 
