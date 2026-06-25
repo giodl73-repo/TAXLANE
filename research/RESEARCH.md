@@ -10,7 +10,7 @@ the completed design and operating-system waves for sourced figures.
 |--:|---|---|---|---|
 | T1 | Health & Medicare | `health-funding-premium` | The US pays ~2x peers in government health for narrower coverage; the lever is price-per-outcome, not the rate. | Bend cost (efficiency-first) |
 | T2 | Social Security / pensions | `old-age-tax-and-the-cap` | US public pension spend is peer-normal but the OASDI base is uniquely capped; fix the cap, not the rate. | Raise the base, hold the rate |
-| T3 | National Defense | `defense-tax-in-allied-perspective` | US defense at ~3% GDP exceeds the European norm; the Hague 3.5% commitment is the live policy driver. | Policy band 2.0–3.5% |
+| T3 | National Defense | `defense-tax-in-allied-perspective` | US defense at ~3% GDP exceeds the European norm; the Hague 3.5% commitment is the live policy driver. | Policy band 2.0–3.5% (accepted) |
 | T4 | Income Security & Family | `the-thin-safety-net` | US family/income-security funding is below the OECD norm; the modernization case is to strengthen, not cut. | Increase / modernize |
 | T5 | Revenue & Solvency (cross-cutting) | `low-tax-country-borrowing-habit` | The US is ~8.5 points of GDP below the OECD tax average; the deficit is as much a revenue gap as a spending one. | Raise revenue toward solvency |
 | T0 | Synthesis (meta) | `legible-federal-funding` | Tie the tracks together: a legible, balanced, program-lane funding system. | n/a |
@@ -21,7 +21,7 @@ the completed design and operating-system waves for sourced figures.
 |--:|---|---|---|---|---|---|
 | 1 | The American Health Funding Premium | T1 | accepted (minor rev.) | 2 | 3.64 | (markdown) |
 | 2 | The Old-Age Tax and the Cap | T2 | accepted (minor rev.) | 2 | 3.64 | (markdown) |
-| 3 | The Defense Tax in Allied Perspective | T3 | planned | — | — | — |
+| 3 | The Defense Tax in Allied Perspective | T3 | accepted (minor rev.) | 2 | 3.71 | (markdown) |
 | 4 | The Thin Safety Net | T4 | planned | — | — | — |
 | 5 | A Low-Tax Country with a Borrowing Habit | T5 | accepted (minor rev.) | 2 | 3.57 | (markdown) |
 | 0 | Legible Federal Funding (synthesis) | T0 | planned | — | — | — |

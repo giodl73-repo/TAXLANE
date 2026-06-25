@@ -1,20 +1,20 @@
 # Research Program — Handoff / Pickup Notes
 
-_Last updated 2026-06-24. Everything below is committed and pushed to
-`giodl73-repo/TAXLANE` (and the TRACKER submodule pointer is current)._
+_Last updated 2026-06-24 (T3 Defense accepted). Everything below is committed and pushed
+to `giodl73-repo/TAXLANE` (and the TRACKER submodule pointer is current)._
 
 ## Where things stand
 
 A panel-reviewed research program (`research/`) with one **track per budget area**.
-Three of six papers are **accepted** (panel avg ≥ ~3.5/4, all gates cleared):
+Four of six papers are **accepted** (panel avg ≥ ~3.5/4, all gates cleared):
 
 | # | Paper (dir `research/publications/<slug>/`) | Track | Stage | Score |
 |--:|---|---|---|---:|
 | 1 | `health-funding-premium` | T1 Health | accepted | 3.64 |
 | 5 | `low-tax-country-borrowing-habit` | T5 Revenue/Solvency | accepted | 3.57 |
 | 2 | `old-age-tax-and-the-cap` | T2 Social Security | accepted | 3.64 |
-| 3 | `defense-tax-in-allied-perspective` | T3 Defense | **NOT STARTED (next)** | — |
-| 4 | `the-thin-safety-net` | T4 Income Security | not started | — |
+| 3 | `defense-tax-in-allied-perspective` | T3 Defense | accepted | 3.71 |
+| 4 | `the-thin-safety-net` | T4 Income Security | **NOT STARTED (next)** | — |
 | 0 | `legible-federal-funding` | T0 Synthesis | not started | — |
 
 Inventory + tracks: `research/RESEARCH.md`. Reviewer panel: `research/REVIEWERS.md`
@@ -42,32 +42,37 @@ show a forward/aging trajectory; include a *distributional* incidence subsection
 `docs/sources/source-version-ledger.md`; frame normative claims ("the fair lever is X")
 as value judgments, not findings.
 
-## Next: T3 Defense — data already gathered (don't re-fetch)
+## Done since last handoff: T3 Defense (accepted 3.71)
 
-Slug `defense-tax-in-allied-perspective`. Thesis: US defense (~3% of GDP) exceeds the
-European norm (~2%) and the 2% floor; the 2025 Hague 5%-by-2035 commitment is the live
-driver; the "fair rate" is a **policy band (2.0–3.5% of GDP)** set by strategic/threat
-judgment, not a fiscal finding — be honest that the factors *bound* but don't *determine*
-the level.
+Slug `defense-tax-in-allied-perspective`. Thesis landed: US defense ~3.0% GDP (OMB
+function-050) / ~3.2–3.4% (SIPRI/NATO) is above the European NATO norm (~2.0%) and far
+below US Cold-War levels; the Hague 5%-by-2035 (3.5% core + 1.5% broader) is the live
+driver; the "fair rate" is a **policy band (2.0–3.5% of GDP, NATO/SIPRI basis)** set by
+strategic judgment, not a fiscal finding. Round 1 failed PF-2's gate on basis-mixing;
+round 2 fixed it (single-basis peer tables + band), quantified the borrowed share
+(~26% of outlays / ~$235B, generational incidence), and cleared at 3.71.
+Both new sources are registered: `SRC-NATO-HAGUE-2025`, `SRC-OMB-HIST-6-1-FY2027`.
+**Lesson for the remaining papers:** when a figure exists on more than one definitional
+basis (function vs SIPRI/NATO; %outlays vs %GDP; federal vs all-government), never rank
+or band across bases — give one table/interval per basis and label the gap definitional.
 
-Figures (sourced; SRC IDs already in the ledger unless marked NEW):
-- US defense FY2025 cost **$916,140M = 13.1% of outlays** (`SRC-OMB-HIST-3-2-FY2027`, function 050).
-- US **~3.0% of GDP** (OMB function basis) / **3.2–3.4%** (SIPRI/NATO basis) — flag the
-  definitional difference (`SRC-SIPRI-MILEX-2024`, `SRC-NATO-DEFEXP-2025`).
-- NATO-Europe aggregate **~2.0%**; Germany 2.0, France 2.05, UK 2.25–2.40, Poland 3.79–4.48,
-  Japan 1.4, China ~1.7, Russia ~7.1 (SIPRI 2024 / NATO 2025).
-- NATO **2% guideline** (2006; 2014 Wales; 2023 Vilnius "at least 2%"); **Hague 25 Jun 2025:
-  5% by 2035 = 3.5% core + 1.5% broader security**.
-- Cold-War peak **~14.2% of GDP (1953)**; Reagan ~6.7% (FY1983–85); post-Cold-War low ~3% (2000).
+## Next: T4 Income Security & Family — "the thin safety net"
 
-**Still to source (the rejected research agent was going to fetch these):**
-- Add a ledger source `SRC-NATO-HAGUE-2025` for the Hague Summit Declaration text.
-- Source the historical US defense-%-GDP series properly (OMB Historical Table 6.1 or CBO)
-  → add e.g. `SRC-OMB-HIST-6-1` before publishing the Cold-War-peak table.
+Slug `the-thin-safety-net`. Thesis: US family/income-security funding is **below** the
+OECD norm; the modernization case is to **strengthen, not cut** (direction: increase).
+Primary comparator already in the ledger: `SRC-OECD-SOCX` (public social + family-benefit
+spend % GDP; US net-total incl. private differs — label scope). Likely also useful:
+`SRC-OMB-HIST-3-2-FY2027` (function 600 income security outlays), `SRC-OMB-HIST-1-2-FY2027`
+(GDP denominator), `SRC-CENSUS-P60-288` (poverty/coverage context, already in ledger).
+Bake in the same lessons: scope labels (public vs net-total; federal vs all-government),
+conditional framing, a distributional/incidence subsection, a forward trajectory, and
+every figure SRC-cited. Then the **T0 synthesis** (`legible-federal-funding`), then
+optional **LaTeX/PDF promotion** of the accepted papers (MiKTeX works here; mirror
+BISECT's `docs/papers/`).
 
-Then T4 (US family/income-security funding **below** OECD norm — `SRC-OECD-SOCX`; modernization =
-strengthen, not cut), then the T0 synthesis, then optional **LaTeX/PDF promotion** of the
-accepted papers (MiKTeX works here; mirror BISECT's `docs/papers/`).
+**Still to source for T4** (the only likely gap): a clean OECD family-benefit-%-GDP
+figure and a US income-security %-GDP figure on matched scope; check whether `SRC-OECD-SOCX`
+already carries the family-benefit breakout or whether a sub-source is needed.
 
 ## Permissions (the friction)
 Settings load at session start, so the `bypassPermissions` default set in

@@ -1,0 +1,29 @@
+paper: defense-tax-in-allied-perspective
+title: "The Defense Tax in Allied Perspective: Benchmarking US National-Defense Funding Against Peers, History, and the Hague Commitment"
+track: T3
+venue: "TAXLANE Research (panel-reviewed)"
+stage: accepted-minor-revisions
+round: 2
+content_mode: full
+writing_completed: true
+reviewers: [PF-1, PF-2, PF-3, PF-4, PF-5, PF-6, PF-7]
+reviews:
+  PF-1: {r1: 3.0, r2: 3.5, file: reviews/REVIEW-PF-1.md}
+  PF-2: {r1: 2.0, r2: 4.0, file: reviews/ROUND2-REVIEW-PF-2.md, gate: pass}
+  PF-3: {r1: 3.0, r2: 3.5, file: reviews/REVIEW-PF-3.md}
+  PF-4: {r1: 3.0, r2: 3.5, file: reviews/REVIEW-PF-4.md}
+  PF-5: {r1: 2.0, r2: 4.0, file: reviews/ROUND2-REVIEW-PF-5.md}
+  PF-6: {r1: 3.0, r2: 4.0, file: reviews/ROUND2-REVIEW-PF-6.md, gate: pass}
+  PF-7: {r1: 3.0, r2: 3.5, file: reviews/REVIEW-PF-7.md, gate: pass}
+avg_score: 3.71
+gate_cleared: true
+history:
+  - stage: draft
+    date: "2026-06-24"
+    note: "Drafted with the three accepted papers' lessons baked in: dual-basis scope labels (%outlays vs %GDP; OMB-function 050 vs SIPRI/NATO definition), band-not-point recommendation, factors-bound-not-determine framing, general-revenue/borrowing incidence, Hague forward trajectory, explicit normative labels. Sources added: SRC-NATO-HAGUE-2025, SRC-OMB-HIST-6-1-FY2027."
+  - stage: panel
+    date: "2026-06-24"
+    note: "Round 1: 7 reviews, avg 2.71/4, major revisions. Gate FAILED (PF-2: §3 peer table mixes SIPRI/NATO bases in one ranking; the 2.0-3.5% band also mixes bases). P1s: single-basis peer table (gate), single-basis band, quantify the deficit-financed share. See SYNTHESIS + REVISION-PLAN."
+  - stage: accepted-minor-revisions
+    date: "2026-06-24"
+    note: "Round 2: avg 3.71/4. Gate cleared (PF-2 now passes). All three P1s closed: split §3 into single-basis NATO-2025 + SIPRI-2024 tables (no cross-basis ranking); restated the 2.0-3.5% band on one NATO/SIPRI basis with OMB footnote and core-3.5-not-5 caveat; quantified the borrowed share (~26% of outlays / ~$235B) plus generational incidence. Added net-interest contrast (SRC-CBO-LTBO), DoD-audit execution flag, approximate-label on the history table."
