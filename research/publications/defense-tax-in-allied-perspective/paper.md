@@ -74,7 +74,11 @@ national-defense as % of GDP, function-050 basis)** [`SRC-OMB-HIST-6-1-FY2027`]:
 | Post-9/11 / Iraq–Afghanistan peak (2010) | 4.7% |
 | **Today (FY2025)** | **3.0%** |
 
-Source: `SRC-OMB-HIST-6-1-FY2027`, national-defense as % of GDP, by fiscal year.
+Source: `SRC-OMB-HIST-6-1-FY2027`, national-defense as % of GDP, by fiscal year; extracted
+into the repo's data layer as
+`data/extracted/outlay_composition/table-6-1-national-defense-gdp-profile.md` (full
+1940–2025 series in the adjacent `.jsonl`, regenerated and validated by
+`taxlane-tools outlay-composition table-6-1-national-defense`).
 The long trend is **secular decline**: today's 3.0% is near the lowest sustained share
 since before WWII, despite absolute dollars being at record highs. The "is defense
 high?" question therefore has opposite answers depending on the comparator — **high

@@ -146,6 +146,12 @@ const OUTLAY_FUNCTION_3_2_JSONL_PATH: &str =
     "data/extracted/outlay_function/outlay_function.SRC-OMB-HIST-3-2-FY2027.2026-06-21.draft.jsonl";
 const OUTLAY_FUNCTION_3_2_PROFILE_PATH: &str =
     "data/extracted/outlay_function/table-3-2-profile.md";
+const TABLE_6_1_PATH: &str =
+    "data/raw/omb/SRC-OMB-HIST-6-1-FY2027/2026-06-24/hist06z1_fy2027.xlsx";
+const OUTLAY_COMPOSITION_6_1_NATIONAL_DEFENSE_JSONL_PATH: &str = "data/extracted/outlay_composition/outlay_composition.SRC-OMB-HIST-6-1-FY2027.2026-06-24.national-defense-gdp.draft.jsonl";
+const OUTLAY_COMPOSITION_6_1_NATIONAL_DEFENSE_PROFILE_PATH: &str =
+    "data/extracted/outlay_composition/table-6-1-national-defense-gdp-profile.md";
+const OBSERVED_DATE_6_1: &str = "2026-06-24";
 const SOURCE_IDS: &[&str] = &[
     "SRC-OMB-HIST-1-1-FY2027",
     "SRC-OMB-HIST-2-1-FY2027",
@@ -1259,6 +1265,16 @@ fn main() -> ExitCode {
             run_table_3_2_national_defense_write()
         }
         [area, command, flag]
+            if area == "outlay-composition"
+                && command == "table-6-1-national-defense"
+                && flag == "--check" =>
+        {
+            run_table_6_1_national_defense_check()
+        }
+        [area, command] if area == "outlay-composition" && command == "table-6-1-national-defense" => {
+            run_table_6_1_national_defense_write()
+        }
+        [area, command, flag]
             if area == "outlay-function" && command == "table-3-2" && flag == "--check" =>
         {
             run_table_3_2_check()
@@ -1268,7 +1284,7 @@ fn main() -> ExitCode {
         }
         _ => {
             eprintln!(
-                "usage: taxlane-tools income-tax-outlay <validate|model [--check]|subfunction-model [--check]|subfunction-export [--check]|summary [--check]|export [--check]|manifest [--check]>\n       taxlane-tools receipt-source table-2-2 [--check]\n       taxlane-tools outlay-function table-3-1 [--check]\n       taxlane-tools outlay-function table-3-2-national-defense [--check]\n       taxlane-tools outlay-function table-3-2 [--check]"
+                "usage: taxlane-tools income-tax-outlay <validate|model [--check]|subfunction-model [--check]|subfunction-export [--check]|summary [--check]|export [--check]|manifest [--check]>\n       taxlane-tools receipt-source table-2-2 [--check]\n       taxlane-tools outlay-function table-3-1 [--check]\n       taxlane-tools outlay-function table-3-2-national-defense [--check]\n       taxlane-tools outlay-function table-3-2 [--check]\n       taxlane-tools outlay-composition table-6-1-national-defense [--check]"
             );
             ExitCode::from(2)
         }
@@ -1846,6 +1862,40 @@ fn run_table_3_2_national_defense_write() -> ExitCode {
         }
     };
     match build_outlay_function_table_3_2_national_defense(&root, false) {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(err) => {
+            eprintln!("{err}");
+            ExitCode::from(1)
+        }
+    }
+}
+
+fn run_table_6_1_national_defense_check() -> ExitCode {
+    let root = match repo_root() {
+        Ok(root) => root,
+        Err(err) => {
+            eprintln!("{err}");
+            return ExitCode::from(1);
+        }
+    };
+    match build_outlay_composition_table_6_1_national_defense(&root, true) {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(err) => {
+            eprintln!("{err}");
+            ExitCode::from(1)
+        }
+    }
+}
+
+fn run_table_6_1_national_defense_write() -> ExitCode {
+    let root = match repo_root() {
+        Ok(root) => root,
+        Err(err) => {
+            eprintln!("{err}");
+            return ExitCode::from(1);
+        }
+    };
+    match build_outlay_composition_table_6_1_national_defense(&root, false) {
         Ok(()) => ExitCode::SUCCESS,
         Err(err) => {
             eprintln!("{err}");
@@ -3030,6 +3080,286 @@ fn table_3_2_national_defense_profile_markdown(profile: &Table32NationalDefenseP
         String::new(),
     ]);
     lines.join("\n")
+}
+
+struct Table61NationalDefenseRow {
+    fiscal_year: i64,
+    source_column: String,
+    source_row: i64,
+    percent_of_gdp: f64,
+}
+
+struct Table61NationalDefenseProfile {
+    first_year: i64,
+    last_year: i64,
+    year_count: usize,
+    samples: Vec<(i64, f64, f64)>,
+}
+
+fn table_6_1_year_columns(
+    rows: &BTreeMap<i64, BTreeMap<String, CellValue>>,
+) -> Result<BTreeMap<i64, String>, String> {
+    for cells in rows.values() {
+        let mut columns = BTreeMap::new();
+        for (column, value) in cells {
+            let year = match value {
+                CellValue::Number(number) if number.fract() == 0.0 => Some(*number as i64),
+                CellValue::Text(text) => text.trim().parse::<i64>().ok(),
+                _ => None,
+            };
+            if let Some(year) = year {
+                if (1940..=2031).contains(&year) {
+                    columns.insert(year, column.clone());
+                }
+            }
+        }
+        if columns.contains_key(&1940) && columns.contains_key(&2025) {
+            return Ok(columns);
+        }
+    }
+    Err("missing Table 6.1 year header row (1940..2025)".to_string())
+}
+
+fn table_6_1_section_row(
+    rows: &BTreeMap<i64, BTreeMap<String, CellValue>>,
+    label: &str,
+) -> Result<i64, String> {
+    rows.iter()
+        .find(|(_, cells)| text_cell(cells.get("A")).as_deref() == Some(label))
+        .map(|(row_num, _)| *row_num)
+        .ok_or_else(|| format!("missing Table 6.1 section {label:?}"))
+}
+
+fn table_6_1_label_row_between(
+    rows: &BTreeMap<i64, BTreeMap<String, CellValue>>,
+    label: &str,
+    after_row: i64,
+    before_row: i64,
+) -> Result<i64, String> {
+    rows.iter()
+        .filter(|(row_num, _)| **row_num > after_row && **row_num < before_row)
+        .find(|(_, cells)| text_cell(cells.get("A")).as_deref() == Some(label))
+        .map(|(row_num, _)| *row_num)
+        .ok_or_else(|| {
+            format!("missing Table 6.1 row {label:?} between rows {after_row} and {before_row}")
+        })
+}
+
+fn build_table_6_1_national_defense_rows(
+    root: &Path,
+) -> Result<(Vec<Table61NationalDefenseRow>, Table61NationalDefenseProfile), String> {
+    let sheet = read_sheet(&root.join(TABLE_6_1_PATH))?;
+    let columns_by_year = table_6_1_year_columns(&sheet)?;
+    let gdp_section = table_6_1_section_row(&sheet, "As percentages of GDP:")?;
+    let outlays_section = table_6_1_section_row(&sheet, "As percentages of outlays:")?;
+    if outlays_section <= gdp_section {
+        return Err("Table 6.1 section order unexpected".to_string());
+    }
+    let defense_row =
+        table_6_1_label_row_between(&sheet, "National defense (1)", gdp_section, outlays_section)?;
+    let total_row =
+        table_6_1_label_row_between(&sheet, "Total outlays", gdp_section, outlays_section)?;
+
+    let years: Vec<i64> = columns_by_year
+        .keys()
+        .copied()
+        .filter(|year| (1940..=2025).contains(year))
+        .collect();
+    let sample_years = [1944, 1953, 1968, 1979, 1986, 2000, 2010, 2025];
+    let mut rows = Vec::new();
+    let mut samples = Vec::new();
+    let mut errors = Vec::new();
+
+    for year in &years {
+        let Some(column) = columns_by_year.get(year) else {
+            errors.push(format!("{year}: missing Table 6.1 source column"));
+            continue;
+        };
+        let Some(percent) = number_cell(sheet.get(&defense_row).and_then(|row| row.get(column)))
+        else {
+            errors.push(format!(
+                "{year}: missing national-defense %GDP at {column}{defense_row}"
+            ));
+            continue;
+        };
+        if !(0.0..=50.0).contains(&percent) {
+            errors.push(format!("{year}: implausible national-defense %GDP {percent}"));
+        }
+        rows.push(Table61NationalDefenseRow {
+            fiscal_year: *year,
+            source_column: column.clone(),
+            source_row: defense_row,
+            percent_of_gdp: round6(percent),
+        });
+        if sample_years.contains(year) {
+            let total = number_cell(sheet.get(&total_row).and_then(|row| row.get(column)))
+                .unwrap_or(0.0);
+            samples.push((*year, round6(percent), round6(total)));
+        }
+    }
+
+    for (year, low, high) in [(1953_i64, 13.0_f64, 14.5_f64), (2025, 2.5, 3.5)] {
+        match rows.iter().find(|row| row.fiscal_year == year) {
+            Some(row) if (low..=high).contains(&row.percent_of_gdp) => {}
+            Some(row) => errors.push(format!(
+                "{year}: national-defense %GDP {} outside expected [{low}, {high}]",
+                row.percent_of_gdp
+            )),
+            None => errors.push(format!("missing anchor year {year}")),
+        }
+    }
+
+    if !errors.is_empty() {
+        return Err(errors.join("\n"));
+    }
+
+    let first_year = *years
+        .first()
+        .ok_or_else(|| "no Table 6.1 years".to_string())?;
+    let last_year = *years.last().ok_or_else(|| "no Table 6.1 years".to_string())?;
+    let profile = Table61NationalDefenseProfile {
+        first_year,
+        last_year,
+        year_count: years.len(),
+        samples,
+    };
+    Ok((rows, profile))
+}
+
+fn validate_table_6_1_national_defense_rows(
+    rows: &[Table61NationalDefenseRow],
+    profile: &Table61NationalDefenseProfile,
+) -> Result<(), String> {
+    if rows.len() != profile.year_count {
+        return Err(format!(
+            "expected {} Table 6.1 National Defense rows, found {}",
+            profile.year_count,
+            rows.len()
+        ));
+    }
+    for row in rows {
+        if !(0.0..=50.0).contains(&row.percent_of_gdp) {
+            return Err(format!(
+                "{}: implausible national-defense %GDP {}",
+                row.fiscal_year, row.percent_of_gdp
+            ));
+        }
+    }
+    Ok(())
+}
+
+fn table_6_1_national_defense_jsonl(rows: &[Table61NationalDefenseRow]) -> String {
+    let mut lines = Vec::new();
+    for row in rows {
+        lines.push(format!(
+            "{{\"record_id\":{},\"record_family\":\"outlay_composition\",\"fiscal_year\":{},\"year_basis\":\"fiscal_year\",\"source_ids\":[\"SRC-OMB-HIST-6-1-FY2027\"],\"source_table\":{},\"source_row_ref\":{},\"function_code\":\"050\",\"function_label\":\"National Defense\",\"measure\":\"percent_of_gdp\",\"percent\":{},\"amount\":null,\"amount_units\":\"percent_of_gdp\",\"actual_or_projection\":\"actual\",\"status\":\"draft-extracted\",\"observed_date\":{},\"notes\":{}}}",
+            json_string(&format!(
+                "outlay-composition:{}:050:percent-of-gdp",
+                row.fiscal_year
+            )),
+            row.fiscal_year,
+            json_string("OMB Historical Table 6.1 FY2027"),
+            json_string(&format!(
+                "Table!{}{}; National defense (1) (As percentages of GDP)",
+                row.source_column, row.source_row
+            )),
+            json_amount(row.percent_of_gdp),
+            json_string(OBSERVED_DATE_6_1),
+            json_string(
+                "National defense outlays as a percentage of GDP (OMB budget-function 050 basis); actual years only."
+            ),
+        ));
+    }
+    lines.join("\n") + "\n"
+}
+
+fn table_6_1_national_defense_profile_markdown(profile: &Table61NationalDefenseProfile) -> String {
+    let mut lines = vec![
+        "# Table 6.1 National Defense (% of GDP) Profile".to_string(),
+        String::new(),
+        "## Source Coverage".to_string(),
+        String::new(),
+        "- Source: `SRC-OMB-HIST-6-1-FY2027` (Composition of Outlays).".to_string(),
+        "- Series: national-defense outlays as a percentage of GDP (OMB budget-function 050 basis).".to_string(),
+        format!(
+            "- Fiscal years emitted: {}-{}",
+            profile.first_year, profile.last_year
+        ),
+        format!("- Year count: {}", profile.year_count),
+        "- Actual/projection treatment: actual years only; FY2026-FY2031 estimates are excluded.".to_string(),
+        String::new(),
+        "## Sample Years".to_string(),
+        String::new(),
+        "| Fiscal year | National defense, % of GDP | Total outlays, % of GDP |".to_string(),
+        "|---:|---:|---:|".to_string(),
+    ];
+    for (year, defense, total) in &profile.samples {
+        lines.push(format!(
+            "| {} | {} | {} |",
+            year,
+            comma_number(*defense, 1),
+            comma_number(*total, 1)
+        ));
+    }
+    lines.extend([
+        String::new(),
+        "## Extraction Decisions".to_string(),
+        String::new(),
+        "- This is the national-defense (function 050) row of OMB Table 6.1's \"As percentages of GDP\" section.".to_string(),
+        "- It is the OMB budget-function basis, not the SIPRI/NATO definition; the two series are not merged.".to_string(),
+        "- Values are OMB-reported to one decimal place.".to_string(),
+        "- No public lane allocation should use these draft rows.".to_string(),
+        String::new(),
+    ]);
+    lines.join("\n")
+}
+
+fn build_outlay_composition_table_6_1_national_defense(
+    root: &Path,
+    check_only: bool,
+) -> Result<(), String> {
+    let (rows, profile) = build_table_6_1_national_defense_rows(root)?;
+    validate_table_6_1_national_defense_rows(&rows, &profile)?;
+    let jsonl = table_6_1_national_defense_jsonl(&rows);
+    let markdown = table_6_1_national_defense_profile_markdown(&profile);
+
+    if check_only {
+        compare_text(
+            root,
+            OUTLAY_COMPOSITION_6_1_NATIONAL_DEFENSE_JSONL_PATH,
+            &jsonl,
+            "Table 6.1 National Defense %GDP JSONL",
+        )?;
+        compare_text(
+            root,
+            OUTLAY_COMPOSITION_6_1_NATIONAL_DEFENSE_PROFILE_PATH,
+            &markdown,
+            "Table 6.1 National Defense %GDP profile",
+        )?;
+    } else {
+        fs::write(
+            root.join(OUTLAY_COMPOSITION_6_1_NATIONAL_DEFENSE_JSONL_PATH),
+            jsonl,
+        )
+        .map_err(|err| {
+            format!("failed to write {OUTLAY_COMPOSITION_6_1_NATIONAL_DEFENSE_JSONL_PATH}: {err}")
+        })?;
+        fs::write(
+            root.join(OUTLAY_COMPOSITION_6_1_NATIONAL_DEFENSE_PROFILE_PATH),
+            markdown,
+        )
+        .map_err(|err| {
+            format!("failed to write {OUTLAY_COMPOSITION_6_1_NATIONAL_DEFENSE_PROFILE_PATH}: {err}")
+        })?;
+    }
+
+    println!(
+        "validated {} Table 6.1 National Defense %GDP rows for {}-{}",
+        rows.len(),
+        profile.first_year,
+        profile.last_year
+    );
+    Ok(())
 }
 
 fn build_table_3_2_rows(root: &Path) -> Result<(Vec<Table32Row>, Table32Profile), String> {
