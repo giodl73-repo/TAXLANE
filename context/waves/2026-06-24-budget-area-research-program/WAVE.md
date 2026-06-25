@@ -19,7 +19,9 @@ track per budget area, each paper arguing the fair rate (cut or increase) from p
 | 07 | Revise paper 3 (T2) to acceptance | done | Round 2: avg 3.64/4, gate cleared, all 3 P1s closed; corrected the 'uniquely caps' thesis; SSA actuarial scoring; differential-mortality incidence. |
 | 08 | Author + review paper 4 (T3 Defense) | done | Round 1: avg 2.71/4, gate failed (PF-2: peer table + band mix SIPRI/NATO/OMB bases); P1s: single-basis peer table, single-basis band, quantify the borrowed share. |
 | 09 | Revise paper 4 (T3) to acceptance | done | Round 2: avg 3.71/4, gate cleared, all 3 P1s closed; split §3 into single-basis NATO/SIPRI tables, restated the 2.0–3.5% band on one basis, quantified the deficit-financed share (~$235B) + generational incidence. |
-| 10+ | Tracks T4, T0 | planned | Author Income Security, synthesis. |
+| 10 | Author + review paper 5 (T4 Income Security) | done | Round 1: avg 2.71/4, gate failed twice (PF-2: family-benefit gap overstates by undercounting US tax-code delivery; PF-6: 2021 CTC causality overclaim); P1s: net the tax-code delivery, de-overclaim the CTC, pin OECD figures. |
+| 11 | Revise paper 5 (T4) to acceptance | done | Round 2: avg 3.64/4, both gates cleared; netted EITC+refundable-CTC (~0.5% GDP → gap ~2× not ~4×), de-overclaimed the CTC episode (confounders named), costed the increase. |
+| 12 | Track T0 synthesis | planned | Author the legible-federal-funding synthesis tying the five tracks together. |
 
 ## Validation
 
@@ -29,5 +31,6 @@ git diff --check
 
 ## Status
 
-Active — four of six papers accepted (T1 Health 3.64, T5 Revenue 3.57, T2 Social
-Security 3.64, T3 Defense 3.71). Tracks T4 (Income Security) + T0 (synthesis) remain.
+Active — five of six papers accepted (T1 Health 3.64, T5 Revenue 3.57, T2 Social
+Security 3.64, T3 Defense 3.71, T4 Income Security 3.64). Only the T0 synthesis
+(`legible-federal-funding`) remains.

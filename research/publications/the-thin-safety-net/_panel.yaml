@@ -1,0 +1,36 @@
+paper: the-thin-safety-net
+title: "The Thin Safety Net: Benchmarking US Income-Security and Family Funding Against the OECD, and the Case for Durability"
+track: T4
+venue: "TAXLANE Research (panel-reviewed)"
+stage: accepted-minor-revisions
+round: 2
+content_mode: full
+writing_completed: true
+reviewers: [PF-1, PF-2, PF-3, PF-4, PF-5, PF-6, PF-7]
+reviews:
+  PF-1: {r1: 3.0, r2: 3.5, file: reviews/REVIEW-PF-1.md}
+  PF-2: {r1: 2.0, r2: 4.0, file: reviews/ROUND2-REVIEW-PF-2.md, gate: pass}
+  PF-3: {r1: 3.0, r2: 3.5, file: reviews/REVIEW-PF-3.md}
+  PF-4: {r1: 3.0, r2: 3.5, file: reviews/REVIEW-PF-4.md}
+  PF-5: {r1: 3.0, r2: 3.5, file: reviews/REVIEW-PF-5.md}
+  PF-6: {r1: 2.0, r2: 4.0, file: reviews/ROUND2-REVIEW-PF-6.md, gate: pass}
+  PF-7: {r1: 3.0, r2: 3.5, file: reviews/REVIEW-PF-7.md, gate: pass}
+avg_score: 3.64
+gate_cleared: true
+history:
+  - stage: draft
+    date: "2026-06-25"
+    note: "Drafted with the four accepted papers' lessons baked in: scope labels (family-benefit category, not total social spend; public vs net-total; federal function 600 vs all-government SOCX never compared directly), explicit normative/value label on the strengthen-not-cut direction, progressive-incidence subsection quantified by the 2021->2022 SPM swing, durability/delivery as the modernization case, every figure SRC-cited. New source: SRC-CENSUS-P60-280."
+  - stage: panel
+    date: "2026-06-25"
+    note: "Round 1: 7 reviews, avg 2.71/4, major revisions. Gate FAILED twice (PF-2: family-benefit gap overstated because OECD SOCX undercounts US tax-code delivery; PF-6: 2021 CTC swing overclaims causality vs the stimulus/UI/inflation confounders). P1s: net the tax-code delivery into the gap, de-overclaim the CTC story, pin the OECD figures. See SYNTHESIS + REVISION-PLAN."
+  - stage: accepted-minor-revisions
+    date: "2026-06-25"
+    note: "Round 2: avg 3.64/4. Gate cleared (PF-2 + PF-6 now pass). Both gate P1s closed: netted the US tax-code family support (EITC ~$62B + refundable CTC ~$65B ~= ~0.5% GDP) so the peer gap is restated ~2x not ~4x and persists (~1.1% vs ~2.4%); de-overclaimed the 2021 CTC episode (stimulus/UI/inflation confounders named, CTC a major-not-sole driver, ~2M+ children credited specifically). Pinned OECD figures, costed the increase (~$100-125B/yr), added child-count + private-progressivity notes."
+history:
+  - stage: draft
+    date: "2026-06-25"
+    note: "Drafted with the four accepted papers' lessons baked in: scope labels (family-benefit category, not total social spend; public vs net-total; federal function 600 vs all-government SOCX never compared directly), explicit normative/value label on the strengthen-not-cut direction, progressive-incidence subsection quantified by the 2021->2022 SPM swing, durability/delivery as the modernization case, every figure SRC-cited. New source: SRC-CENSUS-P60-280."
+  - stage: panel
+    date: "2026-06-25"
+    note: "Round 1: 7 reviews, avg 2.71/4, major revisions. Gate FAILED twice (PF-2: family-benefit gap overstated because OECD SOCX undercounts US tax-code delivery; PF-6: 2021 CTC swing overclaims causality vs the stimulus/UI/inflation confounders). P1s: net the tax-code delivery into the gap, de-overclaim the CTC story, pin the OECD figures. See SYNTHESIS + REVISION-PLAN."
