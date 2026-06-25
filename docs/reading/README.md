@@ -22,6 +22,7 @@ explainers. They should keep three labels visible:
 | `program-lane-system.md` | Assembled citizen explainer: the balanced-budget story, where each dollar goes and who pays, how rates move, and why it holds (reform proposal). |
 | `program-lane-rate-cards.md` | Per-lane rate cards: the rate, who funds it, the four-anchor argument for the level, and how it moves up or down (reform proposal). |
 | `rate-change-worked-examples.md` | Three end-to-end examples of the rate-adjustment operating model (defense up, health down, Social Security cap lift). |
+| `budget-area-funding-explainer.md` | Lay distillation of the six panel-reviewed research papers: where the US over-funds (health), under-funds (family), funds by strategy (defense), runs a broken base (Social Security), and under-collects overall (revenue). Points to `docs/papers/`. |
 
 ## Reading Order
 
@@ -38,6 +39,9 @@ explainers. They should keep three labels visible:
    crosswalk and modeled packets are visible.
 6. Use `placeholder-receipt-display-packet.md` only as a static display handoff,
    not as an app or calculator.
+7. Read `budget-area-funding-explainer.md` for the plain-language distillation of the
+   six research papers (the comparative "over/under-funded, under-collected" picture);
+   the full papers and their PDFs are in `research/` and `docs/papers/`.
 
 ## Public-Use Guardrail
 
