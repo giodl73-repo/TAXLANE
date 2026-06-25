@@ -87,13 +87,8 @@ gap definitional, and net in tax-code delivery before stating a cross-country ga
 single dramatic policy episodes (the 2021 CTC) as "clearest single evidence, not a
 controlled experiment" — name confounders, attribute a share not the whole.
 
-## Permissions (the friction)
-Settings load at session start, so the `bypassPermissions` default set in
-`C:\src\TRACKER\.claude\settings.local.json` only applies after a **restart** of Claude
-in this folder — or press **Shift+Tab** to toggle "bypass permissions" live. Also keep
-subagent fan-out small (1–2 per task): each subagent's web/shell calls were the main
-source of prompts.
-
-## Auth reminder
-Before GitHub ops: `Remove-Item Env:GH_TOKEN; gh auth switch -h github.com -u giodl73-repo`
-(or `unset GH_TOKEN` in bash). Push child repo, then update the TRACKER pointer.
+## Snapshot discipline (carried)
+Commit and push the **child repo first**, then update the **submodule pointer** in the
+portfolio coordinator. Keep each child-repo implementation change separate from the
+pointer update. (Cross-repo auth and account specifics live in the coordinator's
+operating-context doc, not here.)

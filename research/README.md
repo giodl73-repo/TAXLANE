@@ -1,8 +1,8 @@
 # TAXLANE Research Program
 
 Panel-reviewed research papers, one **track per budget area**, applying the panel
-methodology used across the portfolio (see `c:\src\panel`, and BISECT's
-`research/publications/`): each paper is drafted, reviewed by a standing panel of
+review methodology used across the portfolio (the PANEL plugin, and the BISECT
+research program): each paper is drafted, reviewed by a standing panel of
 simulated public-finance expert reviewers across scored rounds, synthesized, and
 revised toward publication quality.
 
