@@ -23,7 +23,7 @@ the completed design and operating-system waves for sourced figures.
 | 2 | The Old-Age Tax and the Cap | T2 | planned | — | — | — |
 | 3 | The Defense Tax in Allied Perspective | T3 | planned | — | — | — |
 | 4 | The Thin Safety Net | T4 | planned | — | — | — |
-| 5 | A Low-Tax Country with a Borrowing Habit | T5 | planned | — | — | — |
+| 5 | A Low-Tax Country with a Borrowing Habit | T5 | panel | 1 | 2.71 | (markdown) |
 | 0 | Legible Federal Funding (synthesis) | T0 | planned | — | — | — |
 
 ## Process
