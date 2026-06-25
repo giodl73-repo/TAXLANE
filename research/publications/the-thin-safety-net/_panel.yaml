@@ -30,10 +30,6 @@ history:
   - stage: accepted-minor-revisions
     date: "2026-06-25"
     note: "Post-acceptance exact-extraction backfill (no re-grade). Pinned the OECD SOCX aggregates and removed the 'extraction pending' label: US public family benefits 0.6%, OECD ~2.1-2.3% (tightened from the prior ~2.4% round figure); US total public social 19.8% vs OECD 21.2%. Updated all running mentions to the ~2.2% norm. The tax-adjusted gap (~1.1% vs ~2.2%, still ~2x and persisting) and the thesis are unchanged. Light re-review (reviews/BACKFILL-REREVIEW.md) confirms PF-2 + PF-7 gate still passes."
-history:
-  - stage: draft
+  - stage: accepted-minor-revisions
     date: "2026-06-25"
-    note: "Drafted with the four accepted papers' lessons baked in: scope labels (family-benefit category, not total social spend; public vs net-total; federal function 600 vs all-government SOCX never compared directly), explicit normative/value label on the strengthen-not-cut direction, progressive-incidence subsection quantified by the 2021->2022 SPM swing, durability/delivery as the modernization case, every figure SRC-cited. New source: SRC-CENSUS-P60-280."
-  - stage: panel
-    date: "2026-06-25"
-    note: "Round 1: 7 reviews, avg 2.71/4, major revisions. Gate FAILED twice (PF-2: family-benefit gap overstated because OECD SOCX undercounts US tax-code delivery; PF-6: 2021 CTC swing overclaims causality vs the stimulus/UI/inflation confounders). P1s: net the tax-code delivery into the gap, de-overclaim the CTC story, pin the OECD figures. See SYNTHESIS + REVISION-PLAN."
+    note: "Fixed a duplicate history key in this file (no content/grade change)."

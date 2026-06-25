@@ -62,7 +62,15 @@ measurement basis) — it is a column of *separate* facts, never a sum.
 | Net interest | 900 | $970,065M | **13.8%** |
 | Income Security | 600 | $701,609M | **10.0%** |
 
-Source: `SRC-OMB-HIST-3-2-FY2027` (function outlays; total FY2025 outlays $7,011,105M).
+Source: `SRC-OMB-HIST-3-2-FY2027` (function outlays; total FY2025 outlays $7,011,105M),
+extracted into the repo's data layer at
+`data/extracted/outlay_function/outlay_function.SRC-OMB-HIST-3-2-FY2027.2026-06-21.draft.jsonl`
+(regenerated/validated by `taxlane-tools outlay-function table-3-2`). Per that record, the
+FY2025 lane values are Health 550 total $978,511M + Medicare subfunction 571 $996,718M =
+$1,975,229M; Social Security subfunction 651 $1,580,673M; National Defense 050 $916,140M;
+Net interest 900 $970,065M; Income Security 600 $701,609M (Medicare and Social Security are
+single-subfunction functions, so their value sits on subfunctions 571/651 rather than a
+function-total row).
 These rows are all on the same basis (function outlays ÷ total outlays) and **do** sum:
 the four program lanes plus net interest are **~87.6% of all federal outlays** — the bulk
 of the budget is five lines. Two facts jump out once interest is on the same basis as the
