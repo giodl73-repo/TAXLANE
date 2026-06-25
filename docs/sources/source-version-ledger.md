@@ -163,6 +163,18 @@ all are projections — label as such.
 | `SRC-CBO-LTBO` | Congressional Budget Office | <https://www.cbo.gov/publication/61270> | 2026-06-24 | Long-Term Budget Outlook 2025-2055: debt held by public ~100%→156% of GDP; deficit 6.2%→7.3%; net interest 3.2%→5.4% of GDP | Annual | Authoritative | Use for the long-run debt/deficit/interest trajectory and the r>g point. Projections. (Also registered in the health-outcomes section.) |
 | `SRC-SSA-TRUSTEES-2026` | Social Security Trustees / SSA Office of the Chief Actuary | <https://www.ssa.gov/oact/TR/2026/II_A_highlights.html> | 2026-06-24 | 2026 OASDI Trustees Report: OASI depletion Q4 2032 (~78% payable), combined OASDI 2034 (83%→65% by 2100); 75-yr actuarial deficit 4.42% of taxable payroll (~1.5% of GDP); OASDI cost 5.3%→~6.9% of GDP; ~17-18% of covered earnings above the cap | Annual | Authoritative | Use for trust-fund depletion, the 75-year deficit, and the share of earnings above the cap. Intermediate-assumption projections — label as such. |
 
+## Pension-rate, mortality, and solvency-scoring sources
+
+Back the Social-Security track. Peer contribution rates carry pillar/cap labels;
+mortality and actuarial-scoring figures support the distribution and lever analysis.
+
+| Source ID | Publisher | URL | Observed date | Coverage | Update cadence | Status | Extraction rule |
+|---|---|---|---|---|---|---|---|
+| `SRC-PENSION-CONTRIB-RATES` | National social-security agencies (Deutsche Rentenversicherung, Nenkin, CRA, gov.uk, INPS, Pensionsmyndigheten, Sécurité sociale) | <https://www.deutsche-rentenversicherung.de/> | 2026-06-24 | Combined public old-age pension contribution rates 2025-26: Germany 18.6% (single, capped €96,600); Japan 18.3% (multi, capped); Canada 11.9%+CPP2 (single, capped); UK NI not pension-earmarked; Italy 33% (single, mostly uncapped); Sweden 18.5% (multi, capped); France 15.45% capped + 2.42% uncapped + AGIRC-ARRCO (multi) | Annual | Authoritative (national agencies) | Cite per-country with pillar (single/multi) and cap status; do not aggregate into one comparable number. SSPTW edition is dated; use current national figures. |
+| `SRC-CHETTY-2016` | Chetty et al., JAMA 2016;315(16):1750-1766 | <https://doi.org/10.1001/jama.2016.4226> | 2026-06-24 | US life-expectancy gap top-1% vs bottom-1% income: 14.6 yrs (men), 10.1 yrs (women) | Static (peer-reviewed) | Authoritative (literature) | Use for differential mortality by income. |
+| `SRC-NAS-2015` | National Academies of Sciences, Engineering, and Medicine, 2015 | <https://doi.org/10.17226/19015> | 2026-06-24 | Differential mortality erodes/reverses Social Security lifetime progressivity (1930→1960 cohorts) | Static | Authoritative | Use for the lifetime-progressivity offset. Cohort-projection figures are model estimates. |
+| `SRC-SSA-SOLVENCY` | SSA Office of the Chief Actuary, solvency provisions | <https://www.ssa.gov/oact/solvency/provisions/> | 2026-06-24 | Actuarial-balance improvement (% of taxable payroll; % of 75-yr shortfall) for cap provisions: eliminate cap no-credit +2.55% (67%); with-credit +1.85% (48%); >$250k +2.50% (65%); to 90% earnings +1.07% (28%) | Annual | Authoritative | Use for the actuarial scoring of cap reform (2025 TR assumptions; 75-yr deficit −3.82% of payroll on that basis). Projections. |
+
 ## Derived TAXLANE records (internal provenance)
 
 These derived records are produced by `taxlane-tools` / repo scripts from the

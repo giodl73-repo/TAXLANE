@@ -20,7 +20,7 @@ the completed design and operating-system waves for sourced figures.
 | # | Paper | Track | Stage | Round | Avg score | PDF |
 |--:|---|---|---|---|---|---|
 | 1 | The American Health Funding Premium | T1 | accepted (minor rev.) | 2 | 3.64 | (markdown) |
-| 2 | The Old-Age Tax and the Cap | T2 | panel | 1 | 2.57 | (markdown) |
+| 2 | The Old-Age Tax and the Cap | T2 | accepted (minor rev.) | 2 | 3.64 | (markdown) |
 | 3 | The Defense Tax in Allied Perspective | T3 | planned | — | — | — |
 | 4 | The Thin Safety Net | T4 | planned | — | — | — |
 | 5 | A Low-Tax Country with a Borrowing Habit | T5 | accepted (minor rev.) | 2 | 3.57 | (markdown) |
