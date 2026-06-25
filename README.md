@@ -100,6 +100,30 @@ accountability handoff. It explains which public questions are safe to ask now
 and why current draft accountability records are not fraud, waste, abuse, or
 performance findings.
 
+For the comparative budget-area findings, read
+`docs/reading/budget-area-funding-explainer.md` — the plain-language distillation
+of the research program below.
+
+## Research papers
+
+`research/` holds a panel-reviewed research program with one paper per budget
+area, reviewed by a standing panel of AI-simulated public-finance lenses (see
+`research/REVIEWERS.md`; not real people, no endorsement implied). All six papers
+are accepted and rendered to PDF in `docs/papers/` (build: `pwsh docs/papers/build.ps1`):
+
+| Track | Paper | Finding (direction) |
+|---|---|---|
+| T0 | Legible Federal Funding (synthesis) | No single "too high/low"; lane-specific + under-collected |
+| T1 | The American Health Funding Premium | ~2x peer cost for worse outcomes (fix price, not rate) |
+| T2 | The Old-Age Tax and the Cap | Peer-normal spend, below-peer rate on a capped base (fix the cap) |
+| T3 | The Defense Tax in Allied Perspective | Above the European norm; a strategic band (2.0–3.5% of GDP) |
+| T4 | The Thin Safety Net | Family support below the OECD norm (strengthen + stabilize) |
+| T5 | A Low-Tax Country with a Borrowing Habit | ~8.5 pts of GDP below the OECD tax average (raise revenue) |
+
+Inventory and status: `research/RESEARCH.md`. Every figure is sourced in
+`docs/sources/source-version-ledger.md`; reform directions are proposals and
+value judgments, labeled as such.
+
 ## Validation
 
 This is a docs-first repo. The foundation validation command is:
