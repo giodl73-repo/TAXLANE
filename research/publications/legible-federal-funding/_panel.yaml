@@ -1,0 +1,36 @@
+paper: legible-federal-funding
+title: "Legible Federal Funding: Synthesizing Five Budget-Area Tracks into a Program-Lane Standard"
+track: T0
+venue: "TAXLANE Research (panel-reviewed)"
+stage: accepted-minor-revisions
+round: 2
+content_mode: full
+writing_completed: true
+reviewers: [PF-1, PF-2, PF-3, PF-4, PF-5, PF-6, PF-7]
+reviews:
+  PF-1: {r1: 3.0, r2: 3.5, file: reviews/REVIEW-PF-1.md}
+  PF-2: {r1: 2.0, r2: 4.0, file: reviews/ROUND2-REVIEW-PF-2.md, gate: pass}
+  PF-3: {r1: 3.0, r2: 3.5, file: reviews/REVIEW-PF-3.md}
+  PF-4: {r1: 3.0, r2: 3.5, file: reviews/REVIEW-PF-4.md}
+  PF-5: {r1: 3.0, r2: 3.5, file: reviews/REVIEW-PF-5.md}
+  PF-6: {r1: 3.0, r2: 4.0, file: reviews/ROUND2-REVIEW-PF-6.md, gate: pass}
+  PF-7: {r1: 3.0, r2: 3.5, file: reviews/REVIEW-PF-7.md, gate: pass}
+avg_score: 3.64
+gate_cleared: true
+history:
+  - stage: draft
+    date: "2026-06-25"
+    note: "Synthesis of the five accepted tracks (T1-T5). Reuses only ledger figures already cited by the source papers; no new sources. Built around the non-additivity discipline (internal OMB budget shares are additive; international %-GDP comparisons are per-basis and not additive/summable) and the keep-normative-directions-separate rule. Lessons from the prior four papers baked in: per-basis labels, normative directions as explicit value judgments, fungibility caveat, every restated figure carries its origin SRC ID."
+  - stage: panel
+    date: "2026-06-25"
+    note: "Round 1: 7 reviews, avg 2.86/4, major revisions. Gate FAILED (PF-2: Table A, certified additive, drops a %-of-GDP net-interest cell into the %-of-outlays column). P1s: make Table A additive (net interest = $970,065M = 13.8% of outlays); de-load 'internally inconsistent' framing and keep the paper diagnostic; carry origin figures into the synthesis. See SYNTHESIS + REVISION-PLAN."
+  - stage: accepted-minor-revisions
+    date: "2026-06-25"
+    note: "Round 2: avg 3.64/4. Gate cleared (PF-2 + PF-6 pass). Table A made additive (net interest $970,065M = 13.8% of outlays > defense 13.1%; %-GDP footnoted to SRC-CBO-LTBO); 'internally inconsistent' reframed as 'uneven against peer/outcome benchmarks' and the prescriptive closer marked as one reading (diagnostic load-bearing); origin figures carried into the synthesis (health conditional ceilings; Chetty differential mortality; family SPM swing; borrowed-share generational incidence); aging through-line and vintage note added. Completes the 6/6-track program."
+history:
+  - stage: draft
+    date: "2026-06-25"
+    note: "Synthesis of the five accepted tracks (T1-T5). Reuses only ledger figures already cited by the source papers; no new sources. Built around the non-additivity discipline (internal OMB budget shares are additive; international %-GDP comparisons are per-basis and not additive/summable) and the keep-normative-directions-separate rule. Lessons from the prior four papers baked in: per-basis labels, normative directions as explicit value judgments, fungibility caveat, every restated figure carries its origin SRC ID."
+  - stage: panel
+    date: "2026-06-25"
+    note: "Round 1: 7 reviews, avg 2.86/4, major revisions. Gate FAILED (PF-2: Table A, certified additive, drops a %-of-GDP net-interest cell into the %-of-outlays column). P1s: make Table A additive (net interest = $970,065M = 13.8% of outlays); de-load 'internally inconsistent' framing and keep the paper diagnostic; carry origin figures into the synthesis. See SYNTHESIS + REVISION-PLAN."

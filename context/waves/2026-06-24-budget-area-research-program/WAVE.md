@@ -21,7 +21,8 @@ track per budget area, each paper arguing the fair rate (cut or increase) from p
 | 09 | Revise paper 4 (T3) to acceptance | done | Round 2: avg 3.71/4, gate cleared, all 3 P1s closed; split §3 into single-basis NATO/SIPRI tables, restated the 2.0–3.5% band on one basis, quantified the deficit-financed share (~$235B) + generational incidence. |
 | 10 | Author + review paper 5 (T4 Income Security) | done | Round 1: avg 2.71/4, gate failed twice (PF-2: family-benefit gap overstates by undercounting US tax-code delivery; PF-6: 2021 CTC causality overclaim); P1s: net the tax-code delivery, de-overclaim the CTC, pin OECD figures. |
 | 11 | Revise paper 5 (T4) to acceptance | done | Round 2: avg 3.64/4, both gates cleared; netted EITC+refundable-CTC (~0.5% GDP → gap ~2× not ~4×), de-overclaimed the CTC episode (confounders named), costed the increase. |
-| 12 | Track T0 synthesis | planned | Author the legible-federal-funding synthesis tying the five tracks together. |
+| 12 | Author + review paper 6 (T0 synthesis) | done | Round 1: avg 2.86/4, gate failed (PF-2: Table A mixed a %-GDP net-interest cell into the additive %-outlays column); P1s: make Table A additive, de-load 'inconsistent' framing, carry origin figures. |
+| 13 | Revise paper 6 (T0) to acceptance | done | Round 2: avg 3.64/4, gates cleared; Table A additive (net interest $970,065M = 13.8% of outlays > defense); reframed 'uneven not inconsistent', kept the paper diagnostic. **Program complete: 6/6 tracks accepted.** |
 
 ## Validation
 
@@ -31,6 +32,6 @@ git diff --check
 
 ## Status
 
-Active — five of six papers accepted (T1 Health 3.64, T5 Revenue 3.57, T2 Social
-Security 3.64, T3 Defense 3.71, T4 Income Security 3.64). Only the T0 synthesis
-(`legible-federal-funding`) remains.
+**Complete.** All six papers accepted (T1 Health 3.64, T5 Revenue 3.57, T2 Social
+Security 3.64, T3 Defense 3.71, T4 Income Security 3.64, T0 Synthesis 3.64). Optional
+follow-on: LaTeX/PDF promotion of the accepted set.

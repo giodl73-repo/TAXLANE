@@ -13,7 +13,7 @@ the completed design and operating-system waves for sourced figures.
 | T3 | National Defense | `defense-tax-in-allied-perspective` | US defense at ~3% GDP exceeds the European norm; the Hague 3.5% commitment is the live policy driver. | Policy band 2.0–3.5% (accepted) |
 | T4 | Income Security & Family | `the-thin-safety-net` | US family/income-security funding is below the OECD norm; the modernization case is to strengthen, not cut. | Increase / modernize (accepted) |
 | T5 | Revenue & Solvency (cross-cutting) | `low-tax-country-borrowing-habit` | The US is ~8.5 points of GDP below the OECD tax average; the deficit is as much a revenue gap as a spending one. | Raise revenue toward solvency |
-| T0 | Synthesis (meta) | `legible-federal-funding` | Tie the tracks together: a legible, balanced, program-lane funding system. | n/a |
+| T0 | Synthesis (meta) | `legible-federal-funding` | Tie the tracks together: a legible, balanced, program-lane funding system. | n/a (accepted) |
 
 ## Paper inventory
 
@@ -24,7 +24,10 @@ the completed design and operating-system waves for sourced figures.
 | 3 | The Defense Tax in Allied Perspective | T3 | accepted (minor rev.) | 2 | 3.71 | (markdown) |
 | 4 | The Thin Safety Net | T4 | accepted (minor rev.) | 2 | 3.64 | (markdown) |
 | 5 | A Low-Tax Country with a Borrowing Habit | T5 | accepted (minor rev.) | 2 | 3.57 | (markdown) |
-| 0 | Legible Federal Funding (synthesis) | T0 | planned | — | — | — |
+| 0 | Legible Federal Funding (synthesis) | T0 | accepted (minor rev.) | 2 | 3.64 | (markdown) |
+
+**Program complete: all six tracks accepted (avg ≥ ~3.5/4, gates cleared).** Optional next
+step is LaTeX/PDF promotion of the accepted set (mirror BISECT's `docs/papers/`).
 
 ## Process
 
