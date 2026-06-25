@@ -63,9 +63,10 @@ T5 3.57, T2 3.64, T3 3.71, T4 3.64, T0 3.64).
 
 ## Optional next steps (program is otherwise done)
 
-- **LaTeX/PDF promotion** of the six accepted papers into a formal publication set
-  (MiKTeX works here; mirror BISECT's `docs/papers/`). Each paper's `_panel.yaml` carries
-  the stage/round/score history; the markdown tier is publication-ready content.
+- **LaTeX/PDF promotion — DONE.** All six accepted papers are rendered to PDF in
+  `docs/papers/` (`0+legible-federal-funding.pdf` … `5+low-tax-country-borrowing-habit.pdf`)
+  via `docs/papers/build.ps1` (pandoc + MiKTeX xelatex; Cambria mainfont for the Unicode
+  symbols). Re-run the script after editing any `paper.md`.
 - **Public reading packet** under `docs/reading/` distilling the six papers for a lay
   audience (the repo's existing reading packets are the model).
 - **Exact-extraction backfill**: a few figures are labeled "approximate / OECD-reported,

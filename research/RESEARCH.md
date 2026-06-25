@@ -19,15 +19,15 @@ the completed design and operating-system waves for sourced figures.
 
 | # | Paper | Track | Stage | Round | Avg score | PDF |
 |--:|---|---|---|---|---|---|
-| 1 | The American Health Funding Premium | T1 | accepted (minor rev.) | 2 | 3.64 | (markdown) |
-| 2 | The Old-Age Tax and the Cap | T2 | accepted (minor rev.) | 2 | 3.64 | (markdown) |
-| 3 | The Defense Tax in Allied Perspective | T3 | accepted (minor rev.) | 2 | 3.71 | (markdown) |
-| 4 | The Thin Safety Net | T4 | accepted (minor rev.) | 2 | 3.64 | (markdown) |
-| 5 | A Low-Tax Country with a Borrowing Habit | T5 | accepted (minor rev.) | 2 | 3.57 | (markdown) |
-| 0 | Legible Federal Funding (synthesis) | T0 | accepted (minor rev.) | 2 | 3.64 | (markdown) |
+| 1 | The American Health Funding Premium | T1 | accepted (minor rev.) | 2 | 3.64 | `docs/papers/1+health-funding-premium.pdf` |
+| 2 | The Old-Age Tax and the Cap | T2 | accepted (minor rev.) | 2 | 3.64 | `docs/papers/2+old-age-tax-and-the-cap.pdf` |
+| 3 | The Defense Tax in Allied Perspective | T3 | accepted (minor rev.) | 2 | 3.71 | `docs/papers/3+defense-tax-in-allied-perspective.pdf` |
+| 4 | The Thin Safety Net | T4 | accepted (minor rev.) | 2 | 3.64 | `docs/papers/4+the-thin-safety-net.pdf` |
+| 5 | A Low-Tax Country with a Borrowing Habit | T5 | accepted (minor rev.) | 2 | 3.57 | `docs/papers/5+low-tax-country-borrowing-habit.pdf` |
+| 0 | Legible Federal Funding (synthesis) | T0 | accepted (minor rev.) | 2 | 3.64 | `docs/papers/0+legible-federal-funding.pdf` |
 
-**Program complete: all six tracks accepted (avg ≥ ~3.5/4, gates cleared).** Optional next
-step is LaTeX/PDF promotion of the accepted set (mirror BISECT's `docs/papers/`).
+**Program complete: all six tracks accepted (avg ≥ ~3.5/4, gates cleared), and promoted
+to PDF** in `docs/papers/` (build: `pwsh docs/papers/build.ps1`).
 
 ## Process
 
