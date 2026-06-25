@@ -131,3 +131,7 @@ This is a docs-first repo. The foundation validation command is:
 ```powershell
 git diff --check
 ```
+
+## License
+
+[MIT](LICENSE) — © 2026 Gio Della-Libera.
