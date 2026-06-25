@@ -102,6 +102,15 @@ new cohorts and care needs; **moves down** slowly as caseloads decline.
 
 ---
 
+## Sources
+
+Per-lane costs and rates: `SRC-OMB-HIST-1-1-FY2027`, `SRC-OMB-HIST-3-2-FY2027`.
+Funding sources: `SRC-OMB-HIST-2-1-FY2027`, `SRC-OMB-HIST-2-4-FY2027`. International
+anchors: `SRC-OECD-REVSTATS-2025`, `SRC-OECD-HEALTH-2025`, `SRC-OECD-PENSIONS-2025`,
+`SRC-SIPRI-MILEX-2024`, `SRC-NATO-DEFEXP-2025`, `SRC-WB-EDU-GDP`. Income base:
+`SRC-IRS-SOI-1304`. OASDI rate/cap: `SRC-SSA-OACT`. All recorded in
+`docs/sources/source-version-ledger.md`; derivations in the `docs/research/` notes.
+
 ## Public-use guardrail
 
 These cards are an educational reform model. They use **modeled allocation** and

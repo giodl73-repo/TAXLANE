@@ -1314,6 +1314,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
         return ExitCode::from(1);
     }
 
+    if let Err(err) = validate_program_lane_records(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
     if let Err(err) = check_accountability_readiness_report(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
@@ -5516,11 +5521,119 @@ fn read_jsonl(path: PathBuf) -> Result<Vec<serde_json::Value>, String> {
         fs::read_to_string(&path).map_err(|err| format!("failed to read {:?}: {err}", path))?;
     content
         .lines()
+        .filter(|line| !line.trim().is_empty())
         .map(|line| {
             serde_json::from_str::<serde_json::Value>(line)
                 .map_err(|err| format!("failed to parse JSONL {:?}: {err}", path))
         })
         .collect()
+}
+
+const PROGRAM_LANE_RATE_MODEL_DIR: &str = "data/derived/program_lane_rate_model";
+
+/// Validate the program-lane reform record families: every record must keep the
+/// `proposed_reform` allocation gate, carry id/family/status, cite only
+/// ledger-backed sources, and (for the share models) reconcile to 100%.
+fn validate_program_lane_records(root: &Path) -> Result<(), String> {
+    let source_ledger = fs::read_to_string(root.join(SOURCE_VERSION_LEDGER_PATH))
+        .map_err(|err| format!("failed to read {SOURCE_VERSION_LEDGER_PATH}: {err}"))?;
+    let dir = root.join(PROGRAM_LANE_RATE_MODEL_DIR);
+    let mut files: Vec<PathBuf> = fs::read_dir(&dir)
+        .map_err(|err| format!("failed to read {:?}: {err}", dir))?
+        .filter_map(|entry| entry.ok().map(|entry| entry.path()))
+        .filter(|path| path.extension().map(|ext| ext == "jsonl").unwrap_or(false))
+        .collect();
+    files.sort();
+    if files.is_empty() {
+        return Err("program-lane: no JSONL records found".to_string());
+    }
+
+    let mut total_records = 0usize;
+    for path in files {
+        let file_name = path
+            .file_name()
+            .and_then(|name| name.to_str())
+            .unwrap_or("")
+            .to_string();
+        let records = read_jsonl(path.clone())?;
+        if records.is_empty() {
+            return Err(format!("program-lane: {file_name} has no records"));
+        }
+
+        let share_field: Option<&str> = if file_name.starts_with("program_lane_rate_model.") {
+            Some("recommended_receipt_share_percent")
+        } else if file_name.starts_with("income_tax_budget_allocation.") {
+            Some("pct_of_income_tax_budget")
+        } else {
+            None
+        };
+        let mut share_sum = 0f64;
+
+        for record in &records {
+            let id = record
+                .get("record_id")
+                .and_then(|value| value.as_str())
+                .unwrap_or("");
+            if id.is_empty() {
+                return Err(format!(
+                    "program-lane: {file_name} record missing record_id"
+                ));
+            }
+            if record
+                .get("record_family")
+                .and_then(|value| value.as_str())
+                .unwrap_or("")
+                .is_empty()
+            {
+                return Err(format!("program-lane: {id} missing record_family"));
+            }
+            let method = record
+                .get("allocation_method")
+                .and_then(|value| value.as_str())
+                .unwrap_or("");
+            if !method.contains("proposed_reform") {
+                return Err(format!(
+                    "program-lane: {id} allocation_method must contain proposed_reform (got {method:?})"
+                ));
+            }
+            if record
+                .get("status")
+                .and_then(|value| value.as_str())
+                .unwrap_or("")
+                .is_empty()
+            {
+                return Err(format!("program-lane: {id} missing status"));
+            }
+            if let Some(source_ids) = record.get("source_ids").and_then(|value| value.as_array()) {
+                for source_id in source_ids {
+                    if let Some(source_id) = source_id.as_str() {
+                        if !source_ledger.contains(&format!("`{source_id}`")) {
+                            return Err(format!(
+                                "program-lane: {id} source_id {source_id} is missing from {SOURCE_VERSION_LEDGER_PATH}"
+                            ));
+                        }
+                    }
+                }
+            }
+            if let Some(field) = share_field {
+                if let Some(value) = record.get(field).and_then(|value| value.as_f64()) {
+                    share_sum += value;
+                }
+            }
+        }
+
+        if let Some(field) = share_field {
+            if (share_sum - 100.0).abs() > 0.1 {
+                return Err(format!(
+                    "program-lane: {file_name} {field} sums to {share_sum:.4}, expected 100"
+                ));
+            }
+        }
+        total_records += records.len();
+    }
+
+    println!("validated {total_records} program-lane records");
+    Ok(())
 }
 
 fn validate_accountability_evidence_records(root: &Path) -> Result<(), String> {

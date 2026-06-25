@@ -141,3 +141,20 @@ because an eight-perspective review insisted on it.
 Every number is sourced; the borrowed share is always shown; nothing here is tax
 advice or a fraud finding. It is a model for making compulsory funding legible
 enough to argue about — and balance.
+
+## Sources
+
+All figures are FY2025 unless noted; full derivations are in the linked research
+notes, and each source ID is recorded in `docs/sources/source-version-ledger.md`.
+
+| Figures | Source IDs |
+|---|---|
+| Outlays $7.01T, receipts $5.24T, deficit $1.77T | `SRC-OMB-HIST-1-1-FY2027` |
+| Per-lane costs (by function) | `SRC-OMB-HIST-3-2-FY2027` |
+| Receipts by source (income/payroll/corporate/excise/other) | `SRC-OMB-HIST-2-1-FY2027`, `SRC-OMB-HIST-2-4-FY2027` |
+| Total tax-to-GDP (US 25.6%, OECD 34.1%) | `SRC-OECD-REVSTATS-2025` |
+| Federal receipts/outlays % GDP (17.3% / 23.1%) | `SRC-OMB-HIST-1-2-FY2027`, `SRC-CBO-BUDGET-OUTLOOK` |
+| Government/compulsory health 14.3% vs OECD 7.1% | `SRC-OECD-HEALTH-2025` |
+| Defense % GDP and NATO/Hague targets | `SRC-SIPRI-MILEX-2024`, `SRC-NATO-DEFEXP-2025` |
+| Public pension 7.3% vs OECD 8.1%; OASDI rate/cap | `SRC-OECD-PENSIONS-2025`, `SRC-SSA-OACT` |
+| Income base (AGI, taxable income, TY2022) | `SRC-IRS-SOI-1304` |

@@ -77,3 +77,10 @@ These show the *record format*, not that the changes are easy or automatic:
   year.
 - **Defense up is the honest one** — it names the $146B and says it must be raised
   or offset, not borrowed.
+
+## Sources
+
+Each example's `evidence_source_ids` are in the data record. Defense: `SRC-NATO-DEFEXP-2025`,
+`SRC-OMB-HIST-3-2-FY2027`. Health: `SRC-OECD-HEALTH-2025`, `SRC-OMB-HIST-3-2-FY2027`.
+Social Security: `SRC-OMB-HIST-2-4-FY2027`, `SRC-OECD-PENSIONS-2025`, `SRC-SSA-OACT`.
+All in `docs/sources/source-version-ledger.md`.
