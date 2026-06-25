@@ -27,6 +27,9 @@ history:
   - stage: accepted-minor-revisions
     date: "2026-06-25"
     note: "Round 2: avg 3.64/4. Gate cleared (PF-2 + PF-6 now pass). Both gate P1s closed: netted the US tax-code family support (EITC ~$62B + refundable CTC ~$65B ~= ~0.5% GDP) so the peer gap is restated ~2x not ~4x and persists (~1.1% vs ~2.4%); de-overclaimed the 2021 CTC episode (stimulus/UI/inflation confounders named, CTC a major-not-sole driver, ~2M+ children credited specifically). Pinned OECD figures, costed the increase (~$100-125B/yr), added child-count + private-progressivity notes."
+  - stage: accepted-minor-revisions
+    date: "2026-06-25"
+    note: "Post-acceptance exact-extraction backfill (no re-grade). Pinned the OECD SOCX aggregates and removed the 'extraction pending' label: US public family benefits 0.6%, OECD ~2.1-2.3% (tightened from the prior ~2.4% round figure); US total public social 19.8% vs OECD 21.2%. Updated all running mentions to the ~2.2% norm. The tax-adjusted gap (~1.1% vs ~2.2%, still ~2x and persisting) and the thesis are unchanged. Light re-review (reviews/BACKFILL-REREVIEW.md) confirms PF-2 + PF-7 gate still passes."
 history:
   - stage: draft
     date: "2026-06-25"

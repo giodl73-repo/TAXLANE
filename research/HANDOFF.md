@@ -1,8 +1,8 @@
 # Research Program — Handoff / Pickup Notes
 
-_Last updated 2026-06-25 (T0 Synthesis accepted — **program complete, 6/6 tracks**).
-Everything below is committed and pushed to `giodl73-repo/TAXLANE` (and the TRACKER
-submodule pointer is current)._
+_Last updated 2026-06-25 (T0 Synthesis accepted — **program complete, 6/6 tracks**;
+exact-extraction backfill applied to T3 + T4). Everything below is committed and pushed to
+`giodl73-repo/TAXLANE` (and the TRACKER submodule pointer is current)._
 
 ## Where things stand
 
@@ -70,12 +70,12 @@ T5 3.57, T2 3.64, T3 3.71, T4 3.64, T0 3.64).
 - **Public reading packet — DONE.** `docs/reading/budget-area-funding-explainer.md`
   distills the six papers for a lay audience (over/under-funded + under-collected picture),
   indexed in `docs/reading/README.md`.
-- **Exact-extraction backfill** *(only substantive item left)*: a few figures are labeled
-  "approximate / OECD-reported, extraction pending" — the T3 §2 defense-%-GDP history
-  (OMB Table 6.1), and the T4 OECD SOCX family-benefit values (~0.6% / ~2.4%). A
-  data-layer pass could download those sources and pin exact values. **Note:** this would
-  edit two *accepted* papers, so it should re-run at least the PF-2/PF-7 gate check on the
-  changed sections (a light re-review), not just silently swap numbers.
+- **Exact-extraction backfill — DONE.** The two remaining approximate figures are pinned:
+  T3 §2 defense-%-GDP history now uses exact OMB Table 6.1 values (and corrected the Reagan
+  peak from ~6.5–7% to **6.0% (FY1986)**); T4's OECD SOCX figures are pinned (US family
+  benefits 0.6%, OECD ~2.1–2.3%, totals 19.8/21.2). Light PF-2/PF-7 re-review confirmed
+  both gates still pass (`reviews/BACKFILL-REREVIEW.md` in each paper); PDFs rebuilt. No
+  remaining "approximate / extraction pending" figures in the program.
 - If new budget areas are ever wanted (education 500, veterans 700, international 150),
   the same lifecycle + the two reusable lessons below apply.
 

@@ -27,3 +27,6 @@ history:
   - stage: accepted-minor-revisions
     date: "2026-06-24"
     note: "Round 2: avg 3.71/4. Gate cleared (PF-2 now passes). All three P1s closed: split §3 into single-basis NATO-2025 + SIPRI-2024 tables (no cross-basis ranking); restated the 2.0-3.5% band on one NATO/SIPRI basis with OMB footnote and core-3.5-not-5 caveat; quantified the borrowed share (~26% of outlays / ~$235B) plus generational incidence. Added net-interest contrast (SRC-CBO-LTBO), DoD-audit execution flag, approximate-label on the history table."
+  - stage: accepted-minor-revisions
+    date: "2026-06-25"
+    note: "Post-acceptance exact-extraction backfill (no re-grade). Replaced the approximate §2 defense-%-GDP history with exact OMB Table 6.1 values extracted from hist06z1_fy2027.xlsx: Korean War 13.8% (1953), Vietnam 9.1% (1968), post-Vietnam trough 4.5% (1979), Reagan peak 6.0% (FY1986) -- correcting the prior ~6.5-7% overstatement -- post-Cold-War low 2.9% (2000), post-9/11 4.7% (2010), WWII 37.0% (1944). Updated the abstract, the §5 band 'historical ceiling' (~6.0%), and the conclusion to match. Light re-review (reviews/BACKFILL-REREVIEW.md) confirms PF-2 + PF-7 gate still passes; the 2.0-3.5% band and the thesis are unchanged."

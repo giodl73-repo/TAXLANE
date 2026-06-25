@@ -23,7 +23,7 @@ but the **12.4% rate sits on a low, eroding capped base**, and the fund depletes
 rate**. **Defense (T3):** **~3.0% of GDP (OMB) / ~3.2–3.4% (NATO)**, above the European
 norm (~2.0%) but a **strategic judgment** expressed as a **band (2.0–3.5% of GDP)**, not a
 fiscal finding [`SRC-NATO-DEFEXP-2025`, `SRC-NATO-HAGUE-2025`]. **Income Security (T4):**
-direct family support is **~1.1% of GDP against an OECD norm of ~2.4%** — **under-funded**;
+direct family support is **~1.1% of GDP against an OECD norm of ~2.2%** — **under-funded**;
 the direction is **strengthen and stabilize** [`SRC-OECD-SOCX`, `SRC-CENSUS-P60-280`].
 **Revenue (T5):** the US **under-collects overall — 25.6% of GDP (all government) vs the
 OECD's 34.1%** — and **borrows ~25% of what it spends** ($1.77T in FY2025)
@@ -77,7 +77,7 @@ the clearest single price of the under-collection documented in §4.
 | Health | ~14.3% of GDP | OECD 7.1% | government + compulsory (incl. compulsory private) |
 | Social Security | ~7.3% of GDP | OECD 8.1% | OECD public pension expenditure |
 | Defense | ~3.0–3.4% of GDP | Europe ~2.0% | OMB function 050 / NATO–SIPRI |
-| Family benefits | ~1.1% of GDP | OECD ~2.4% | SOCX public + tax-breaks-for-social-purposes |
+| Family benefits | ~1.1% of GDP | OECD ~2.1–2.3% | SOCX public + tax-breaks-for-social-purposes |
 | Total taxes | 25.6% of GDP | OECD 34.1% | all-government tax-to-GDP |
 
 Sources by row: `SRC-OECD-HEALTH-2025`; `SRC-OECD-PENSIONS-2025`; `SRC-NATO-DEFEXP-2025` /
@@ -103,7 +103,7 @@ number.
   driver [`SRC-NATO-HAGUE-2025`]. The defensible range is a **band (2.0–3.5% of GDP)** set
   by strategy; the accounts cannot pick the point.
 - **Income Security — under-funded family support.** ~1.1% of GDP (tax-code delivery netted
-  in) vs an OECD norm ~2.4%; the 2021 Child Tax Credit episode shows design and durability
+  in) vs an OECD norm ~2.2%; the 2021 Child Tax Credit episode shows design and durability
   move child poverty fast [`SRC-CENSUS-P60-280`]. Direction: **strengthen and stabilize.**
 - **Revenue — under-collected overall.** 25.6% of GDP all-government vs OECD 34.1%; the US
   lacks a VAT base and peer-level social contributions; FY2025 borrowed **$1.77T, ~25% of

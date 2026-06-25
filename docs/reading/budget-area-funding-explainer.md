@@ -88,7 +88,7 @@ progressive fix is better — stated openly. Full paper: "The Old-Age Tax and th
 economy**.
 
 **Comparison.** That is **above the European norm** (~2% of GDP) but **far below US
-history** (about 14% during the Korean War, 6–7% under Reagan). NATO's 2025 "Hague"
+history** (about 14% during the Korean War, about 6% under Reagan). NATO's 2025 "Hague"
 commitment aims for **3.5%** of GDP on core defense by 2035.
 
 **Reform proposal.** Honestly, the accounts **can't pick the right number** — the level is
@@ -105,7 +105,7 @@ SSI — is **10% of spending** ($702 billion).
 **Comparison.** Overall US social spending is only **a little below** the rich-country
 average (and **above** it once private spending like employer health is counted). But
 **direct support for families and children** is the exception: about **1.1% of the economy
-even after counting tax-credit help, against a norm near 2.4%** — roughly half. And much
+even after counting tax-credit help, against a norm near 2.2%** — roughly half. And much
 US family help runs through the **tax code** (the Child Tax Credit, the EITC), which makes
 it **unstable**: in 2021 an expanded, fully-refundable Child Tax Credit helped push child
 poverty to a **record-low 5.2%**; when it lapsed (along with other pandemic aid), child

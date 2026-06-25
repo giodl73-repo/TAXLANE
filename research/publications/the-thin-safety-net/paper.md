@@ -16,7 +16,8 @@ thin overall** — and the distinction is the whole argument. US income security
 budget **function 600**) cost **$701,609M in FY2025, 10.0% of federal outlays** and about
 **2.3% of GDP** [`SRC-OMB-HIST-3-2-FY2027`, `SRC-OMB-HIST-1-2-FY2027`]. On the cleanest
 like-for-like international measure the US is a clear outlier: **public family benefits
-of ~0.6% of GDP against an OECD average near ~2.4%** [`SRC-OECD-SOCX`, OECD-reported 2022].
+of ~0.6% of GDP against an OECD average near ~2.2% (OECD-reported SOCX range 2.1–2.3%)**
+[`SRC-OECD-SOCX`, OECD-reported 2022].
 That raw gap is **overstated**, though, because OECD's "public family benefits" line
 **undercounts support the US delivers through the tax code** (the refundable EITC and
 Child Tax Credit, ~0.5% of GDP combined [`SRC-CBO-TAX-EXP-2025`]); counting those, US
@@ -71,19 +72,20 @@ share of GDP** [`SRC-OECD-SOCX`].
 
 | Measure (OECD SOCX, 2022; public basis, OECD-reported) | United States | OECD average |
 |---|---:|---:|
-| **Public family benefits, % of GDP** | **~0.6%** | **~2.4%** |
-| Total public social expenditure, % of GDP | ~19.8% | ~21.2% |
+| **Public family benefits, % of GDP** | **0.6%** | **2.1–2.3%** |
+| Total public social expenditure, % of GDP | 19.8% | 21.2% |
 
-Source: `SRC-OECD-SOCX` (OECD-reported 2022 values; exact SOCX table extraction pending).
+Source: `SRC-OECD-SOCX` (OECD-reported SOCX 2022 aggregates: US family benefits 0.6% vs
+the OECD ~2.1–2.3%; US total public social 19.8% vs the OECD 21.2%).
 **The honest reading, with its scope and the tax-delivery correction:**
 
 - On **family benefits** — the like-for-like category — the US reports ~0.6% of GDP vs
-  the OECD's ~2.4%. **But this raw figure overstates the gap**, because OECD SOCX
+  the OECD's ~2.2%. **But this raw figure overstates the gap**, because OECD SOCX
   classifies support delivered through the **tax system** as **"tax breaks for social
   purposes" (TBSPs)**, *not* as "public family benefits" — and the US delivers an unusually
   large share of family support exactly there. Adding the refundable **EITC (~$62B) and
   Child Tax Credit (~$65B), ~0.5% of GDP combined** [`SRC-CBO-TAX-EXP-2025`], lifts US
-  family support to roughly **~1.1% of GDP**. So the gap to the ~2.4% norm **narrows from
+  family support to roughly **~1.1% of GDP**. So the gap to the ~2.2% norm **narrows from
   ~4× to ~2× — and persists**: even counting the tax-code channel, the US funds direct
   family support at **under half the OECD average**.
 - On **total** public social spending the US is only **modestly below** the average
@@ -94,7 +96,7 @@ Source: `SRC-OECD-SOCX` (OECD-reported 2022 values; exact SOCX table extraction 
 
 So the accurate claim is narrow and strong: even after netting in the US's tax-code
 delivery, the US is an outlier **specifically in direct public support for families and
-children** (~1.1% vs ~2.4% of GDP), not in social spending overall.
+children** (~1.1% vs ~2.2% of GDP), not in social spending overall.
 
 ## 4. Delivery: the tax-code safety net
 
@@ -145,7 +147,7 @@ the judgment that **reducing child and family poverty is a public purpose worth 
 That is a value premise, not a derived result; the analysis below is what it rests on.
 
 - **International.** Even after netting in the US's tax-code delivery (§3), US family
-  support (~1.1% of GDP) is **about half the OECD norm (~2.4%)** — still the largest peer
+  support (~1.1% of GDP) is **about half the OECD norm (~2.2%)** — still the largest peer
   gap of any track in this program, and in the **opposite** direction from defense
   (above-peer) or health (above-peer cost).
 - **Outcomes.** The 2021→2022 SPM swing shows the gap is not benign: the expanded CTC
@@ -224,7 +226,7 @@ operating rules in the lane model:
 ## 10. Discussion and limitations
 
 - **Scope is everything.** The "below the norm" claim is specific to **public family
-  benefits** (~0.6% vs ~2.4% of GDP). It is **not** true of total social spending
+  benefits** (~0.6% vs ~2.1–2.3% of GDP). It is **not** true of total social spending
   (≈19.8% vs ≈21.2%) and is **reversed** on a net-total basis (US near the top). Stated
   carelessly, the claim would be wrong; stated with scope, it is strong.
 - **SPM, not the official measure, and not a controlled experiment.** The 5.2%→12.4%
@@ -234,7 +236,7 @@ operating rules in the lane model:
   lapsed alongside stimulus payments and expanded UI amid high inflation, so the expanded
   CTC is a **major, not sole,** driver (§5) [`SRC-CENSUS-P60-280`].
 - **The family-benefit gap is tax-delivery-adjusted.** The peer gap is stated **after**
-  netting in the US's refundable EITC/CTC (~0.5% of GDP), giving ~1.1% vs ~2.4% — a ~2×
+  netting in the US's refundable EITC/CTC (~0.5% of GDP), giving ~1.1% vs ~2.2% — a ~2×
   gap, not the raw ~4×; the raw SOCX "public family benefits" line alone would overstate
   it [`SRC-OECD-SOCX`, `SRC-CBO-TAX-EXP-2025`].
 - **Cyclicality.** Function 600's total moves with the business cycle; the paper argues
@@ -253,7 +255,7 @@ operating rules in the lane model:
 The US safety net is **thin where it counts most — for children and working-age families
 — and ordinary everywhere else.** Direct public family support is **~1.1% of GDP once the
 US's tax-code delivery (refundable EITC/CTC) is netted in — about half the OECD norm near
-~2.4%** (the raw "public family benefits" line, ~0.6%, overstates the gap), even though US
+~2.2%** (the raw "public family benefits" line, ~0.6%, overstates the gap), even though US
 **total** social spending is near the average (and above it net of private spending).
 Income security is **$701,609M, 10.0% of FY2025 outlays**, much of it delivered through an
 **earnings-conditioned, volatile tax code** — and in 2021 a stable, fully-refundable Child

@@ -21,8 +21,8 @@ the accounts produce. We make that limit explicit. US national defense cost
 **3.0% of GDP on the OMB budget-function basis**, or **~3.2–3.4% on the broader
 SIPRI/NATO definition** [`SRC-SIPRI-MILEX-2024`, `SRC-NATO-DEFEXP-2025`]. That is **above
 the European NATO norm (~2.0%)** and the long-standing 2% floor, but **far below US
-Cold-War levels** — ~14% of GDP at the 1953 Korean-War peak, ~6.5–7% in the Reagan
-buildup, ~3% at the post-Cold-War low around 2000 [`SRC-OMB-HIST-6-1-FY2027`]. The live
+Cold-War levels** — 13.8% of GDP at the 1953 Korean-War peak, ~6.0% in the Reagan
+buildup (FY1986), 2.9% at the post-Cold-War low in 2000 [`SRC-OMB-HIST-6-1-FY2027`]. The live
 policy driver is the **25 June 2025 Hague Summit commitment: 5% of GDP by 2035 = 3.5%
 core defence (NATO definition) + 1.5% broader security** [`SRC-NATO-HAGUE-2025`]. Our
 conclusion is deliberately non-fiscal: the defensible range is a **band of roughly
@@ -60,23 +60,22 @@ larger lines overall.
 ## 2. History: the defense share since 1940
 
 The defense share of GDP has fallen across the postwar era, with war-driven spikes. The
-figures below are **approximate / illustrative** — round magnitudes consistent with OMB
-"Composition of Outlays" (function-050 basis), **not exact values extracted year-by-year
-from the cited table** [`SRC-OMB-HIST-6-1-FY2027`]; a precise per-year extraction is
-deferred to the data layer:
+figures below are **exact values extracted from OMB "Composition of Outlays" (Table 6.1,
+national-defense as % of GDP, function-050 basis)** [`SRC-OMB-HIST-6-1-FY2027`]:
 
-| Era | National defense, % of GDP (approx., not extracted) |
+| Year (peak/trough) | National defense, % of GDP |
 |---|---:|
-| WWII peak (1944–45) | ~37% |
-| **Korean War peak (1953)** | **~14%** |
-| Vietnam peak (late 1960s) | ~9–10% |
-| Post-Vietnam trough (late 1970s) | ~4.5–5% |
-| **Reagan buildup (FY1983–85)** | **~6.5–7%** |
-| Post-Cold-War low (~2000) | **~3.0%** |
-| Post-9/11 / Iraq–Afghanistan peak (~2010) | ~4.5–4.7% |
-| **Today (FY2025)** | **~3.0%** |
+| WWII peak (1944) | 37.0% |
+| **Korean War peak (1953)** | **13.8%** |
+| Vietnam peak (1968) | 9.1% |
+| Post-Vietnam trough (1979) | 4.5% |
+| **Reagan buildup peak (FY1986)** | **6.0%** |
+| Post-Cold-War low (2000) | 2.9% |
+| Post-9/11 / Iraq–Afghanistan peak (2010) | 4.7% |
+| **Today (FY2025)** | **3.0%** |
 
-The long trend is **secular decline**: today's ~3.0% is near the lowest sustained share
+Source: `SRC-OMB-HIST-6-1-FY2027`, national-defense as % of GDP, by fiscal year.
+The long trend is **secular decline**: today's 3.0% is near the lowest sustained share
 since before WWII, despite absolute dollars being at record highs. The "is defense
 high?" question therefore has opposite answers depending on the comparator — **high
 versus European allies, low versus the US's own history.** Both are true; neither alone
@@ -157,8 +156,8 @@ precision. The factors **bound** a defensible range without determining a point:
   ~3.2% of GDP and is projected to rise toward ~5.4% by 2055** [`SRC-CBO-LTBO`] — i.e.,
   interest on the debt alone now **rivals the entire defense function** and will exceed
   it. A defense cut is not where the arithmetic of solvency is decided.
-- **History.** The US has sustained anywhere from ~3% (post-Cold-War) to ~6.5–7%
-  (Reagan) in peacetime-ish conditions [`SRC-OMB-HIST-6-1-FY2027`, approximate]; ~3% is a
+- **History.** The US has sustained anywhere from ~3% (post-Cold-War) to ~6.0%
+  (Reagan, FY1986) in peacetime-ish conditions [`SRC-OMB-HIST-6-1-FY2027`]; ~3% is a
   floor that has been held, not a uniquely low aberration.
 - **International.** The European NATO norm (~2%) sets a *lower* anchor; Poland (NATO)
   and the Hague 3.5% core set a *higher* one; the US's global role argues against simply
@@ -172,7 +171,7 @@ NATO/SIPRI basis** so its endpoints are comparable:
 | Lower anchor | ~2.0% of GDP | the European NATO norm / old 2% floor — defensible only for a narrower posture |
 | **US current** | **~3.2–3.4%** | status-quo global posture |
 | Upper anchor | ~3.5% of GDP | the Hague **core-defence** commitment (core 3.5 ≠ headline 5; the extra 1.5% is loosely-defined "broader security") |
-| (Historical ceiling) | ~6.5–7% | Reagan-era; a wartime/strategic-shock level, not a baseline |
+| (Historical ceiling) | ~6.0% | Reagan-era peak (FY1986); a strategic-buildup level, not a baseline |
 
 On the **OMB function-050** basis the same band runs ~2.0–3.5% with the US current at
 **~3.0%**; the two bases are shown separately and never netted. **The level inside this
@@ -272,7 +271,7 @@ compares on each basis) **without** pretending the accounts can name the correct
 ## 10. Conclusion
 
 US national defense is **high against its European allies (~3.0–3.4% vs ~2.0%) and low
-against its own history (~3% today vs ~14% in 1953, ~6.5–7% under Reagan)** — both true,
+against its own history (~3% today vs 13.8% in 1953, ~6.0% under Reagan)** — both true,
 on labeled bases that must not be merged. It is **$916,140M, 13.1% of FY2025 outlays**,
 funded from general revenue and borrowing with **no dedicated defense tax**. The live
 driver is the **Hague 5%-by-2035 commitment (3.5% core + 1.5% broader)**, a political

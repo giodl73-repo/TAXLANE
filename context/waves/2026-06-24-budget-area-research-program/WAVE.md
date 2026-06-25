@@ -23,6 +23,7 @@ track per budget area, each paper arguing the fair rate (cut or increase) from p
 | 11 | Revise paper 5 (T4) to acceptance | done | Round 2: avg 3.64/4, both gates cleared; netted EITC+refundable-CTC (~0.5% GDP → gap ~2× not ~4×), de-overclaimed the CTC episode (confounders named), costed the increase. |
 | 12 | Author + review paper 6 (T0 synthesis) | done | Round 1: avg 2.86/4, gate failed (PF-2: Table A mixed a %-GDP net-interest cell into the additive %-outlays column); P1s: make Table A additive, de-load 'inconsistent' framing, carry origin figures. |
 | 13 | Revise paper 6 (T0) to acceptance | done | Round 2: avg 3.64/4, gates cleared; Table A additive (net interest $970,065M = 13.8% of outlays > defense); reframed 'uneven not inconsistent', kept the paper diagnostic. **Program complete: 6/6 tracks accepted.** |
+| 14 | Exact-extraction backfill (T3 + T4) | done | Maintenance: pinned T3 §2 defense-%-GDP to OMB Table 6.1 (corrected Reagan ~6.5–7% → 6.0% FY1986) and T4's OECD SOCX figures (family 0.6% / OECD ~2.1–2.3%). Light PF-2/PF-7 re-review; gates hold; PDFs rebuilt. |
 
 ## Validation
 
