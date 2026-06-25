@@ -67,11 +67,15 @@ T5 3.57, T2 3.64, T3 3.71, T4 3.64, T0 3.64).
   `docs/papers/` (`0+legible-federal-funding.pdf` … `5+low-tax-country-borrowing-habit.pdf`)
   via `docs/papers/build.ps1` (pandoc + MiKTeX xelatex; Cambria mainfont for the Unicode
   symbols). Re-run the script after editing any `paper.md`.
-- **Public reading packet** under `docs/reading/` distilling the six papers for a lay
-  audience (the repo's existing reading packets are the model).
-- **Exact-extraction backfill**: a few figures are labeled "approximate / OECD-reported,
-  extraction pending" (the T3 §2 defense-%-GDP history from Table 6.1; the T4 OECD SOCX
-  family-benefit values). A data-layer pass could pin them to extracted values.
+- **Public reading packet — DONE.** `docs/reading/budget-area-funding-explainer.md`
+  distills the six papers for a lay audience (over/under-funded + under-collected picture),
+  indexed in `docs/reading/README.md`.
+- **Exact-extraction backfill** *(only substantive item left)*: a few figures are labeled
+  "approximate / OECD-reported, extraction pending" — the T3 §2 defense-%-GDP history
+  (OMB Table 6.1), and the T4 OECD SOCX family-benefit values (~0.6% / ~2.4%). A
+  data-layer pass could download those sources and pin exact values. **Note:** this would
+  edit two *accepted* papers, so it should re-run at least the PF-2/PF-7 gate check on the
+  changed sections (a light re-review), not just silently swap numbers.
 - If new budget areas are ever wanted (education 500, veterans 700, international 150),
   the same lifecycle + the two reusable lessons below apply.
 
