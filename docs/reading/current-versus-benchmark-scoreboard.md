@@ -37,7 +37,7 @@ Machine rows:
 
 The next standardized cards should cover:
 
-- justice, courts, corrections, and public safety;
+- justice is now a Tier 2 federal card; its all-government and outcome comparison remains open;
 - science, space, energy, environment, and natural resources;
 - agriculture; and
 - international affairs.

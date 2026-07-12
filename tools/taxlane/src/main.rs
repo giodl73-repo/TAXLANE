@@ -199,6 +199,9 @@ const EDUCATION_DEPTH_CARD_READER_PATH: &str = "docs/reading/education-depth-car
 const DISASTER_DEPTH_CARD_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/disaster_depth_card.fy2025.v1.draft.json";
 const DISASTER_DEPTH_CARD_READER_PATH: &str = "docs/reading/disaster-depth-card.md";
+const JUSTICE_DEPTH_CARD_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/justice_depth_card.fy2025.v1.draft.json";
+const JUSTICE_DEPTH_CARD_READER_PATH: &str = "docs/reading/justice-depth-card.md";
 const HEADLINE_BASIS_JSONL_PATH: &str =
     "data/derived/headline_basis_crosswalk/headline_basis_crosswalk.v1.draft.jsonl";
 const HEADLINE_BASIS_README_PATH: &str = "data/derived/headline_basis_crosswalk/README.md";
@@ -893,6 +896,20 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "docs/reading/disaster-depth-card.md",
         role: "Public disaster-resilience depth card",
+        grain: "public fiscal depth card",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/justice_depth_card.fy2025.v1.draft.json",
+        role: "Justice FY2025 function depth card",
+        grain: "federal function and subfunction components",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/justice-depth-card.md",
+        role: "Public justice breadth/depth card",
         grain: "public fiscal depth card",
         kind: "markdown",
         canonical: "supporting",
@@ -8142,6 +8159,7 @@ fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
 
     validate_education_depth_card(root)?;
     validate_disaster_depth_card(root)?;
+    validate_justice_depth_card(root)?;
     println!(
         "validated {} breadth benchmark rows across full comparisons, toplines, and coverage gaps",
         rows.len()
@@ -8207,6 +8225,37 @@ fn validate_disaster_depth_card(root: &Path) -> Result<(), String> {
         || !reader.contains("not realized savings")
     {
         return Err("disaster depth reader boundary failed".to_string());
+    }
+    Ok(())
+}
+
+fn validate_justice_depth_card(root: &Path) -> Result<(), String> {
+    let text =
+        fs::read_to_string(root.join(JUSTICE_DEPTH_CARD_JSON_PATH)).map_err(|e| e.to_string())?;
+    let card: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+    let parts = card
+        .get("components")
+        .and_then(|v| v.as_array())
+        .ok_or("justice components")?;
+    let sum: f64 = parts
+        .iter()
+        .map(|v| number_field(v, "outlays_millions"))
+        .collect::<Result<Vec<_>, _>>()?
+        .iter()
+        .sum();
+    if parts.len() != 4
+        || sum != 83_146.0
+        || number_field(&card, "total_outlays_millions")? != 83_146.0
+    {
+        return Err("justice depth reconciliation failed".to_string());
+    }
+    let reader =
+        fs::read_to_string(root.join(JUSTICE_DEPTH_CARD_READER_PATH)).map_err(|e| e.to_string())?;
+    if !reader.contains(JUSTICE_DEPTH_CARD_JSON_PATH)
+        || !reader.contains("not the cost of the US justice system")
+        || !reader.contains("due-process")
+    {
+        return Err("justice depth boundary failed".to_string());
     }
     Ok(())
 }

@@ -37,10 +37,10 @@ supporting views.
 | `data/derived/spend_category_map/spend_category_map.schema.md` | Spend category map row schema | documentation | n/a | supporting | `46752cb0d2fae1ec20f8320fe3601d055b22c6ea2ebaa1fdd59f6da5b38dbede` |
 | `data/derived/spend_category_map/accountability-question-handoff.md` | Spend category accountability question handoff | documentation | n/a | supporting | `b1e02dade19541634d70b11544e7fbcbdd81bbdd545a31a13ca424752a24f4f1` |
 | `data/derived/spend_category_map/spend-category-dashboard.md` | Spend category dashboard | documentation | n/a | supporting | `a25d2773d9d29d6fe724f44b8071fd84c4d710c4dad74aeca97bf49d184477cd` |
-| `data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.v1.draft.jsonl` | Breadth, depth, and current-versus-benchmark matrix | fiscal lane metric or explicit coverage gap | 17 | supporting | `1a47969808205ca1149a12edbee857f7e8442df850b732d7414b2a9b0dd0a9d5` |
+| `data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.v1.draft.jsonl` | Breadth, depth, and current-versus-benchmark matrix | fiscal lane metric or explicit coverage gap | 17 | supporting | `2dfa02b54c540438af4408668fb5d877cf0271ba5bba05f8008cc6ef1d9ccbcd` |
 | `data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.schema.md` | Breadth benchmark matrix schema | documentation | n/a | supporting | `a11dfb5de738571d25992be592096ac8d4309ac2f01984760729c82b1dc7cf25` |
 | `data/derived/breadth_benchmark_matrix/README.md` | Breadth benchmark matrix method note | documentation | n/a | supporting | `173d67e2fa61ed652a03810f53c1e74d12ee50e91cbcef192a3110cb440b7adf` |
-| `docs/reading/current-versus-benchmark-scoreboard.md` | Current-versus-benchmark public scoreboard | public comparison packet | n/a | supporting | `4fdd8db4eb4b047ce1f31ab9f89b262e085d67db06e8b57b2937ddd84874c8cc` |
+| `docs/reading/current-versus-benchmark-scoreboard.md` | Current-versus-benchmark public scoreboard | public comparison packet | n/a | supporting | `afe8967be06ad43d6ace435ce8ea271bb4fb515cdff68eb9be0c1524ac971dad` |
 | `data/derived/breadth_benchmark_matrix/veterans_depth_card.fy2025.v1.draft.json` | Veterans FY2025 component depth card | federal function and subfunction components | n/a | supporting | `74796f8579f458c339785daa440a592c46c12729b76fc5f49690681a176083f8` |
 | `docs/reading/veterans-depth-card.md` | Public veterans breadth/depth card | public fiscal depth card | n/a | supporting | `fb01e578ab77afa484b0cd97711209e7a7ce1d335cde4ed11265627ce833af16` |
 | `data/derived/breadth_benchmark_matrix/transportation_depth_card.fy2025.v1.draft.json` | Transportation FY2025 component depth card | federal function and subfunction components | n/a | supporting | `b0f371fd57d0ce94d3150495d9afdda0e9d633aab8f25acb798c94a319b61cc7` |
@@ -49,6 +49,8 @@ supporting views.
 | `docs/reading/education-depth-card.md` | Public education-work-social-services depth card | public fiscal depth card | n/a | supporting | `7e75aeb496e009fdd4b1eab19b9ddc779b0ed9b18f3af5fa1d98b3369fbb50bd` |
 | `data/derived/breadth_benchmark_matrix/disaster_depth_card.fy2025.v1.draft.json` | Disaster FY2025 subfunction depth card | federal disaster subfunction and evidence boundaries | n/a | supporting | `7d7e8738e630a2bd730d2de14f779fd357f7cbe952dba5abe225dd4fd9b1afcd` |
 | `docs/reading/disaster-depth-card.md` | Public disaster-resilience depth card | public fiscal depth card | n/a | supporting | `29981ff150802dcffafe6287cce176d74bff05f1763edd0a059f85d43685c009` |
+| `data/derived/breadth_benchmark_matrix/justice_depth_card.fy2025.v1.draft.json` | Justice FY2025 function depth card | federal function and subfunction components | n/a | supporting | `fbe8fc23b1b97b76c400f2b14946d5df34f9237c943a996761ef25c3088feeef` |
+| `docs/reading/justice-depth-card.md` | Public justice breadth/depth card | public fiscal depth card | n/a | supporting | `d84fc82c89a9d2333a21d908c9aa901f709772fce75c3e4bdba9370764c7cb82` |
 | `data/derived/headline_basis_crosswalk/headline_basis_crosswalk.v1.draft.jsonl` | Headline measure basis and incompatibility crosswalk | headline measure definition | 9 | supporting | `ce8fbc5ae873dc71a0c0f7c2f53a14257ab6266c07801f54480daadf9f778e1b` |
 | `data/derived/headline_basis_crosswalk/headline_basis_crosswalk.schema.md` | Headline basis crosswalk schema | documentation | n/a | supporting | `f4e59792da98abfe3d6bb708d937cef4a6b305d5cce07ed54e5710559ce9bfae` |
 | `data/derived/headline_basis_crosswalk/README.md` | Headline basis crosswalk method note | documentation | n/a | supporting | `b544beb3928c46742cbf70a1c9e00bf31511e443a5c396654b7425dc43092e33` |
@@ -306,7 +308,7 @@ supporting views.
 | `data/derived/accountability_evidence/performance-demand-checklist.schema.md` | Accountability performance demand checklist schema | documentation | n/a | supporting | `afdcb11bb20a75709acabb690655fd03ba8d3a56df522c7b09e8d4b4ffeff6d1` |
 | `data/derived/accountability_evidence/artifact-map.md` | Accountability artifact map | documentation | n/a | supporting | `f7b17b6046644a00ef117962cf60b089747c2fec1a7f91f0e13ecf9b9dd33a7b` |
 | `docs/reading/accountability-public-brief.md` | Reader-facing accountability brief | documentation | n/a | supporting | `cc225ff43f81fa0316f85a8f8ede225f5d1a51470f81d2a296e32820e7434c35` |
-| `docs/reading/README.md` | Reading packet index | documentation | n/a | supporting | `e626e4e2dae2e6d2659c2080f702620d0bb88464a5120fb064d07c12011cf18b` |
+| `docs/reading/README.md` | Reading packet index | documentation | n/a | supporting | `bf984447bc1ba40e26b8843fabda99900467dfee3f457dbda45f24222fd643a4` |
 | `docs/reading/placeholder-visibility-receipt.md` | Placeholder receipt reader packet | documentation | n/a | supporting | `4be976503aabb6c21ec77a553f185918190ebcb00e3300930d37e3a7a12f962e` |
 | `docs/reading/placeholder-receipt-display-packet.md` | Placeholder receipt static display packet | documentation | n/a | supporting | `aa2f3fd899fa1dd763b9482c4d4aae81fcde3e77aeb8ce01b1626d10155f35f2` |
 | `reviews/2026-06-23-placeholder-display-packet-role-review.md` | Placeholder receipt display packet role review | documentation | n/a | supporting | `1a0825afa9a4db902ea1d17a0a69443e0caeb2a6ae7c805f3718282c8806fd68` |
@@ -356,7 +358,7 @@ supporting views.
 | `crates/taxlane-core/Cargo.toml` | Rust Taxlane core crate manifest | tooling | n/a | supporting | `6469c9f3c3d01bc0c51783255082c93ed608c6c64c0d4f32f5cd2c08f2426fb9` |
 | `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `1a121eb2c2b30b9612895e3580135bfe56441f9f12d344a85fe316741b1473be` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `b910e56a20f40547ac1e4f696e84772dde163738b03915ddbcc0d0a39427719a` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `ad81704f0e243504acad03622a5ba80981cf95ded5ae505eaebfacdcac5b913b` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `8fd44754d87300fbd38278535eaeccd00f67cb3c6ce7dd3e3b5460fcf11d3684` |
 
 ## Regeneration Order
 
