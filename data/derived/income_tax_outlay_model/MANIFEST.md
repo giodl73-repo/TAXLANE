@@ -45,8 +45,8 @@ supporting views.
 | `docs/reading/health-cost-decomposition.md` | Public health cost decomposition card | public diagnostic depth card | n/a | supporting | `8fe05576200fe2ae03cff7ac47a96c07f586e49a0512bdfb2c52e72a2e69bed5` |
 | `data/derived/breadth_benchmark_matrix/health_service_price_volume_bridge.cy2024.v1.draft.json` | Health service price-volume bridge | CY2024 service-category spending, price, and residual non-price growth | n/a | supporting | `3b74fb6cfc7a51f003d46fc09ed593551bcad1599ea236b60d20dc9c10367c8b` |
 | `docs/reading/health-service-price-volume-bridge.md` | Public health service price-volume bridge | public service-category diagnostic card | n/a | supporting | `a9b9376fce808f55575b1302b779a320cd56349e0c7ffbcc3f05fdfb14bc8485` |
-| `data/derived/breadth_benchmark_matrix/health_category_benchmark_ladder.v1.draft.json` | Health category benchmark ladder | hospital, physician, and retail-drug benchmark readiness | n/a | supporting | `89b3a6ff9b7b2031d609a6159382c30b22fb21efbc4f333100bd4ca8cf290280` |
-| `docs/reading/health-category-benchmark-ladder.md` | Public health category benchmark ladder | public category benchmark-readiness card | n/a | supporting | `0a4395b08beb88ee67f0cb5631151c6c38b5cef82b24ec058a0c3c863bcc2d4f` |
+| `data/derived/breadth_benchmark_matrix/health_category_benchmark_ladder.v1.draft.json` | Health category benchmark ladder | hospital, physician, and retail-drug benchmark readiness | n/a | supporting | `2f7505eddacf42971414b2ef6ed39e20bff9ce971ef80a0af1386818bd464dc7` |
+| `docs/reading/health-category-benchmark-ladder.md` | Public health category benchmark ladder | public category benchmark-readiness card | n/a | supporting | `a4d0a2ec5c8e4452bdd1c4d5212d3831fe686e613f1084c3ac5030fd2a0e0281` |
 | `data/derived/breadth_benchmark_matrix/veterans_depth_card.fy2025.v1.draft.json` | Veterans FY2025 component depth card | federal function and subfunction components | n/a | supporting | `74796f8579f458c339785daa440a592c46c12729b76fc5f49690681a176083f8` |
 | `docs/reading/veterans-depth-card.md` | Public veterans breadth/depth card | public fiscal depth card | n/a | supporting | `fb01e578ab77afa484b0cd97711209e7a7ce1d335cde4ed11265627ce833af16` |
 | `data/derived/breadth_benchmark_matrix/transportation_depth_card.fy2025.v1.draft.json` | Transportation FY2025 component depth card | federal function and subfunction components | n/a | supporting | `b0f371fd57d0ce94d3150495d9afdda0e9d633aab8f25acb798c94a319b61cc7` |
@@ -370,7 +370,7 @@ supporting views.
 | `crates/taxlane-core/Cargo.toml` | Rust Taxlane core crate manifest | tooling | n/a | supporting | `6469c9f3c3d01bc0c51783255082c93ed608c6c64c0d4f32f5cd2c08f2426fb9` |
 | `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `1a121eb2c2b30b9612895e3580135bfe56441f9f12d344a85fe316741b1473be` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `b910e56a20f40547ac1e4f696e84772dde163738b03915ddbcc0d0a39427719a` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `d0d95f0f623bed122c8f94a0730b7c04474b3fe23e001242600a258b4bc68d9f` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `c330aabc27724b3c975c58fab25cfd5da1c2174d382e9bc8c4370d9041e25ae2` |
 
 ## Regeneration Order
 

@@ -8298,6 +8298,23 @@ fn validate_health_category_benchmark_ladder(root: &Path) -> Result<(), String> 
     {
         return Err("hospital reference must be 253 percent with target blocked".to_string());
     }
+    let professional = rows
+        .iter()
+        .find(|v| {
+            string_field(v, "category").ok().as_deref() == Some("physician and clinical services")
+        })
+        .ok_or("professional benchmark row")?;
+    if number_field(professional, "current_value")? != 139.0
+        || number_field(professional, "state_average_low")? != 117.0
+        || number_field(professional, "state_average_high")? != 243.0
+        || string_field(professional, "comparison_grade")? != "B"
+        || !string_field(professional, "scoring_status")?.contains("blocked")
+    {
+        return Err(
+            "professional reference must preserve estimate, range, grade, and target block"
+                .to_string(),
+        );
+    }
     let drugs = rows
         .iter()
         .find(|v| string_field(v, "category").ok().as_deref() == Some("retail prescription drugs"))
