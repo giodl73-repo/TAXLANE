@@ -5,6 +5,22 @@ today, how it came to exist, what taxes are supposed to fund, and whether the
 single income-tax label should be replaced or explained as a set of distinct,
 program-linked taxes.
 
+## The Case In One Page
+
+A taxpayer receipt should not merely turn one income-tax payment into a tidy
+list of programs. It should disclose what goes in, who benefits, how each lane
+is financed, which denominator is used, and whether the displayed amount is
+legally dedicated, modeled, or illustrative.
+
+The flagship [honest federal tax receipt](docs/reading/honest-federal-tax-receipt.md)
+shows the difference. It splits Medicare Part A from Parts B and D, treats
+defense as a collective public good, identifies interest as the cost of past
+borrowing, and keeps redistribution distinct from personal pay-in/pay-out.
+
+The immediate proposal is truthful labeling on public tax receipts. Formal
+program-linked income taxes remain a separate design hypothesis, not a result
+the repo assumes.
+
 ## Thesis
 
 The income tax is usually presented as one tax on income, but public trust and
@@ -85,6 +101,11 @@ the lane is legally dedicated, proportional, deficit-inclusive, or proposed.
 
 ## Reader packets
 
+Start with `docs/reading/honest-federal-tax-receipt.md` for the one-page public
+case and prototype. It is the shortest route to TAXLANE's central contribution:
+every displayed amount must carry its payer base, beneficiary base, financing
+relationship, denominator, and allocation status.
+
 Start with `docs/reading/income-tax-foundation.md` for the public foundation
 packet. It explains the income-tax history, current mechanics, budget accounting
 labels, and program-linked tax lane hypothesis without treating modeled
@@ -103,6 +124,14 @@ performance findings.
 For the comparative budget-area findings, read
 `docs/reading/budget-area-funding-explainer.md` — the plain-language distillation
 of the research program below.
+
+For the spending-side view, read
+`docs/reading/where-federal-money-goes.md`. It shows the largest FY2025 outlay
+subfunctions, the borrowed-share and income-tax coverage context, and safe
+accountability questions without treating spend size as a fraud or waste finding.
+Then use `docs/reading/cost-down-backlog.md` for the evidence-first work queue:
+which levers could drive costs down over time, what proof is missing, and which
+outcome floors must be preserved before any savings claim is allowed.
 
 ## Research papers
 

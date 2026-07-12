@@ -4,10 +4,13 @@ Work is organized into small waves and pulses.
 
 ## Active wave
 
-- `2026-06-24-budget-area-research-program` (pulses 01-03 done; paper 1 accepted after round 2; T2-T5,T0 remain)
+- `2026-06-24-budget-area-research-program` (six papers accepted and rendered; wave record needs final status reconciliation)
+- `2026-06-28-efficiency-pressure-system` (pulses 01-04 done; attach reviewed evidence one lever at a time)
+- `2026-06-28-contribution-benefit-alignment` (pulses 01-12 done; source remaining lane-specific denominators before adding amounts)
 
 ## Completed waves
 
+- `2026-06-28-spending-side-map`
 - `2026-06-24-operating-system-sourcing-validation`
 - `2026-06-24-operating-system-hardening`
 - `2026-06-24-program-lane-operating-system`
