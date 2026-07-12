@@ -2,11 +2,14 @@
 
 ## Headline
 
-TAXLANE has full comparisons for the dominant health, retirement, defense,
-family-support, and revenue questions. It has federal toplines but not matched
-benchmarks for borrowing, interest, veterans, transportation, education, and
-disaster exposure. Justice, science/energy/environment, agriculture, and
-international affairs remain explicit breadth gaps.
+TAXLANE now has a sourced current-state top line for every question in the
+breadth matrix: **17 questions across 13 policy lanes, with zero open breadth
+gaps**. Five questions (29.4%) have a matched benchmark; 12 (70.6%) have a
+federal top line but still need a scope- and outcome-matched expected value.
+
+This closes breadth, not the argument. The next phase is depth: explain the
+largest observed differences, test plausible causes, attach outcomes, and only
+then estimate any addressable opportunity.
 
 Machine rows:
 `data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.v1.draft.jsonl`.
@@ -32,19 +35,43 @@ Machine rows:
 | Complete federal Transportation function | 2.07% of federal outlays | Federal-only spending omits major state/local capital and maintenance; 1.44% is ground transportation alone. |
 | Complete federal Education, Training, Employment, and Social Services | 1.03% of federal outlays | Includes a −$35.005B higher-education net entry and excludes most state/local education spending; 0.98% is the school subfunction alone. |
 | Disaster relief and insurance subfunction | 0.90% of federal outlays | Event incidence, exposure, mitigation, and supplemental funding vary sharply; do not relabel the broader parent function as disaster spending. |
+| Justice Administration | 1.19% of federal outlays | State/local spending and matched safety, access, timeliness, corrections, and due-process outcomes are not yet attached. |
+| Science, energy, environment, and natural resources | 2.18% of federal outlays | This is a disclosed composition of three OMB functions, not one official function or one benchmarkable outcome. |
+| Agriculture | 0.68% of federal outlays | Program accounts and farm, acre, risk, productivity, and conservation denominators still need reconciliation. |
+| International Affairs | 0.64% of federal outlays | The negative international-financial-program entry is net financing/accounting and must be bridged before component comparisons. |
 
-## Breadth Gaps
+## Breadth Closure And Depth Queue
 
-The next standardized cards should cover:
+All 17 matrix questions now meet at least Tier 2: a sourced current value with
+its scope, period, unit, and interpretation boundary. No question remains a
+Tier 3 breadth gap. The 12 Tier 2 questions are not “expected-value ready.”
 
-- justice is now a Tier 2 federal card; its all-government and outcome comparison remains open;
-- science, space, energy, environment, and natural resources;
-- agriculture; and
-- international affairs.
+The prioritized depth queue is:
 
-These are not necessarily the largest lanes. They are required to demonstrate
-that the framework reconciles the whole government rather than only selected
-policy arguments.
+1. **Health cost decomposition:** quantify price, utilization, administration,
+   coverage, case mix, and outcomes behind the 17.2% versus 9.3% GDP comparison.
+2. **Fiscal-path scenarios:** connect borrowing, primary balance, net interest,
+   debt stock, rates, and revenue bases under explicit current-policy and
+   stabilization assumptions.
+3. **Payment-integrity bridge:** separate reported improper payments into
+   overpayments, underpayments, unknowns, documentation errors, confirmed
+   fraud, recoveries, and preventable future loss by program.
+4. **Benefit-and-outcome denominators:** deepen Social Security, family support,
+   veterans, education, and justice with eligible population, service use,
+   timeliness, accuracy, access, and outcome measures.
+5. **Federalism and investment outcomes:** reconcile federal, state, and local
+   scope for transportation, education, justice, disaster, agriculture, and
+   environmental investment before peer ranking.
+6. **Accounting bridges:** explain negative or net entries in higher education
+   and international financial programs, and keep gross and net interest
+   separate.
+
+Do not add the displayed federal percentages into a “share of government
+covered.” Some rows use complete OMB functions, others use subfunctions or
+composed orientations, and total positive functions can exceed net federal
+outlays because undistributed offsetting receipts reconcile the budget. The
+defensible closure statistic is question coverage (17 of 17), not a summed
+outlay percentage.
 
 ## Fraud And Savings Firewall
 

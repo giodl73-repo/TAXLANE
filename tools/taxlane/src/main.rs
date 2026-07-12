@@ -8216,7 +8216,7 @@ fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
     validate_agriculture_depth_card(root)?;
     validate_international_depth_card(root)?;
     println!(
-        "validated {} breadth benchmark rows across full comparisons, toplines, and coverage gaps",
+        "validated {} breadth benchmark rows across full comparisons and toplines with no open coverage gaps",
         rows.len()
     );
     Ok(())
