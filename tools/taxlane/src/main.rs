@@ -220,6 +220,10 @@ const FISCAL_DEBT_DYNAMICS_READER_PATH: &str = "docs/reading/fiscal-debt-dynamic
 const FISCAL_POLICY_BASKETS_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/fiscal_policy_scale_baskets.v1.draft.json";
 const FISCAL_POLICY_BASKETS_READER_PATH: &str = "docs/reading/fiscal-policy-scale-baskets.md";
+const FISCAL_POLICY_DISTRIBUTION_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/fiscal_policy_distribution_screen.v1.draft.json";
+const FISCAL_POLICY_DISTRIBUTION_READER_PATH: &str =
+    "docs/reading/fiscal-policy-distribution-screen.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -1034,6 +1038,20 @@ const ARTIFACTS: &[Artifact] = &[
         path: "docs/reading/fiscal-policy-scale-baskets.md",
         role: "Public fiscal policy scale card",
         grain: "policy magnitude, arithmetic baskets, and non-additivity boundary",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/fiscal_policy_distribution_screen.v1.draft.json",
+        role: "Fiscal policy distribution screen",
+        grain: "incidence channels, exposed groups, and protection gates",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/fiscal-policy-distribution-screen.md",
+        role: "Public fiscal policy distribution card",
+        grain: "burden channels and joint distribution-score boundary",
         kind: "markdown",
         canonical: "supporting",
     },
@@ -8485,6 +8503,7 @@ fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
     validate_fiscal_path_scenarios(root)?;
     validate_fiscal_debt_dynamics(root)?;
     validate_fiscal_policy_baskets(root)?;
+    validate_fiscal_policy_distribution(root)?;
     validate_budget_ballot_experiment(root)?;
     println!(
         "validated {} breadth benchmark rows across full comparisons and toplines with no open coverage gaps",
@@ -8576,6 +8595,46 @@ fn validate_fiscal_policy_baskets(root: &Path) -> Result<(), String> {
     ] {
         if !reader.contains(required) {
             return Err(format!("fiscal policy basket reader missing {required}"));
+        }
+    }
+    Ok(())
+}
+
+fn validate_fiscal_policy_distribution(root: &Path) -> Result<(), String> {
+    let text = fs::read_to_string(root.join(FISCAL_POLICY_DISTRIBUTION_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let card: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+    if string_field(&card, "screen_status")?
+        != "qualitative_incidence_screen_not_distribution_score"
+        || string_field(&card, "package_distribution_status")?
+            != "blocked_requires_joint_microsimulation"
+    {
+        return Err("fiscal policy distribution boundary invalid".to_string());
+    }
+    let rows = card
+        .get("rows")
+        .and_then(|v| v.as_array())
+        .ok_or("fiscal policy distribution rows")?;
+    if rows.len() != 8
+        || rows
+            .iter()
+            .any(|row| row.as_array().map(Vec::len) != Some(6))
+    {
+        return Err(
+            "fiscal policy distribution screen must contain eight complete rows".to_string(),
+        );
+    }
+    let reader = fs::read_to_string(root.join(FISCAL_POLICY_DISTRIBUTION_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        FISCAL_POLICY_DISTRIBUTION_JSON_PATH,
+        "who ultimately bears the economic burden",
+        "not a distributional score",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!(
+                "fiscal policy distribution reader missing {required}"
+            ));
         }
     }
     Ok(())

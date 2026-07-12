@@ -53,6 +53,10 @@ hard boundary between transparent scenario arithmetic and a policy score.
 CBO-scored policy-option magnitudes. Its arithmetic baskets demonstrate scale;
 they are not additive package scores or recommendations.
 
+`fiscal_policy_distribution_screen.v1.draft.json` maps statutory channels to
+likely burden bearers and protection gates without inventing quantified
+incidence. A joint microsimulation remains required before package claims.
+
 The matrix deliberately includes coverage-gap rows. An explicit missing value
 is more useful than a false benchmark.
 

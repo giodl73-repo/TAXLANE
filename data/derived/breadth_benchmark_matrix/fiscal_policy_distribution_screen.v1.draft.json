@@ -1,0 +1,27 @@
+{
+  "record_id": "depth-card:fiscal-policy-distribution-screen:v1",
+  "record_family": "fiscal_policy_distribution_screen",
+  "lane_id": "revenue-solvency",
+  "source_ids": ["SRC-CBO-BUDGET-OPTIONS-2025-2034"],
+  "screen_status": "qualitative_incidence_screen_not_distribution_score",
+  "columns": ["option_id", "statutory_or_direct_channel", "households_or_groups_exposed", "principal_equity_risk", "candidate_protection", "quantified_distribution_status"],
+  "rows": [
+    ["vat_5","Businesses remit tax on value added; final prices, wages, and returns transmit the burden","Consumers broadly; essentials exclusions narrow direct exposure","Consumption taxes can absorb a larger income share for households that consume most current income","Refundable per-person credit or cash payment; preserve a broad base where possible rather than proliferating opaque exclusions","blocked_requires_household_incidence_model"],
+    ["agi_surtax","Individual filers pay on AGI above the specified threshold","Broad alternative reaches moderate-income filers; higher-threshold alternative concentrates on higher-income filers","Threshold choice changes both revenue and vertical equity; filing-unit and family-size effects matter","Index thresholds; test household-size adjustment and interaction with existing credits","blocked_requires_tax_unit_microsimulation"],
+    ["employment_health_tax_subsidy","Income and payroll tax exclusion is limited; employers and workers adjust compensation and plan design","Workers and families with higher-premium employer plans, including some high-cost markets and older workforces","Premium level is an imperfect proxy for plan generosity and can reflect geography or health risk","Risk- and geography-adjusted cap, long phase-in, and protection for collectively bargained or high-risk plans","blocked_requires_employer_household_model"],
+    ["emissions_tax","Upstream emitters or fuel suppliers remit tax; energy and goods prices transmit it","Energy users, workers, owners, and regions with carbon-intensive production","Energy burden and employment transition can be geographically concentrated","Return some revenue per capita; targeted transition and energy-affordability support without erasing the price signal","blocked_requires_energy_household_regional_model"],
+    ["defense_annual_budget","Federal appropriations and resulting outlays decline","Military personnel, contractors, communities, suppliers, and capabilities selected in implementation","Across-the-board reductions can ignore readiness, security, workforce, and regional concentration","Capability-led portfolio review, multiyear transition, workforce conversion, and explicit readiness floors","blocked_unspecified_program_mix"],
+    ["medicare_advantage_benchmarks","Federal payments to Medicare Advantage plans decline","Plans, providers, taxpayers, and enrollees through premiums, supplemental benefits, networks, or market exits","Average savings can conceal county, plan, access, and medically vulnerable enrollee effects","Phase-in, risk adjustment, access and quality floors, county monitoring, and enrollee transition protections","blocked_requires_plan_county_enrollee_model"],
+    ["foreign_corporate_income","U.S. corporations with foreign income face higher federal tax","Shareholders, workers, consumers, and affected multinational activity through uncertain incidence channels","Legal payer is not the same as economic bearer; investment and profit-location responses matter","Coordinate anti-avoidance rules and test shareholder, wage, price, investment, and international responses","blocked_requires_corporate_incidence_model"],
+    ["financial_transactions_tax","Financial intermediaries or traders remit tax on covered transactions","Investors, retirement savers, intermediaries, issuers, and high-turnover strategies","Burden and market-quality effects depend on pass-through, avoidance, volume, spreads, and asset coverage","Low rate, broad coordinated base, retirement-account incidence test, and liquidity/avoidance monitoring","blocked_requires_market_and_household_incidence_model"]
+  ],
+  "package_tests": [
+    "Report burden by income, wealth, age, family type, race and ethnicity where data support it, geography, industry, and health status where relevant.",
+    "Separate statutory remittance from economic incidence.",
+    "Show gross burden, offsets or rebates, net burden, service effects, and transition effects.",
+    "Test cumulative interactions across all package components rather than adding isolated incidence tables.",
+    "Publish uncertainty and identify groups not represented adequately in the underlying data."
+  ],
+  "headline": "A fiscally large package is not distributionally neutral: the design question is not only how much each lever raises or saves, but who ultimately bears it and what protections preserve access and basic living standards.",
+  "package_distribution_status": "blocked_requires_joint_microsimulation"
+}

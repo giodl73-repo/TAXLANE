@@ -39,7 +39,7 @@ supporting views.
 | `data/derived/spend_category_map/spend-category-dashboard.md` | Spend category dashboard | documentation | n/a | supporting | `a25d2773d9d29d6fe724f44b8071fd84c4d710c4dad74aeca97bf49d184477cd` |
 | `data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.v1.draft.jsonl` | Breadth, depth, and current-versus-benchmark matrix | fiscal lane metric or explicit coverage gap | 17 | supporting | `4e9d30f1676ac335e14377fb22beaa7c4ca36f8a8d572a4d2549d4a41eaacbee` |
 | `data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.schema.md` | Breadth benchmark matrix schema | documentation | n/a | supporting | `a11dfb5de738571d25992be592096ac8d4309ac2f01984760729c82b1dc7cf25` |
-| `data/derived/breadth_benchmark_matrix/README.md` | Breadth benchmark matrix method note | documentation | n/a | supporting | `6772cb3af7666075c16ac327755a8c987f4726f8113d2d4b42743aa4e1f1bf55` |
+| `data/derived/breadth_benchmark_matrix/README.md` | Breadth benchmark matrix method note | documentation | n/a | supporting | `324146d2631f84c2783cdfca9b56adde431626a5fcadbe10af4e476cdba04a83` |
 | `docs/reading/current-versus-benchmark-scoreboard.md` | Current-versus-benchmark public scoreboard | public comparison packet | n/a | supporting | `7f88e6a71c75aa870090e840e36cbc32f471419942f07be910e6f13111a2350d` |
 | `data/derived/breadth_benchmark_matrix/health_cost_decomposition.v1.draft.json` | Health cost diagnostic decomposition | cross-country price, volume, administration, context, and outcome signals | n/a | supporting | `5470e94aa82b19f82b2d67bedcf773082c47c410a6e8780f95c4e96ef48df5f3` |
 | `docs/reading/health-cost-decomposition.md` | Public health cost decomposition card | public diagnostic depth card | n/a | supporting | `8fe05576200fe2ae03cff7ac47a96c07f586e49a0512bdfb2c52e72a2e69bed5` |
@@ -61,6 +61,8 @@ supporting views.
 | `docs/reading/fiscal-debt-dynamics.md` | Public fiscal debt dynamics card | annual baseline, scenario results, and scoring boundary | n/a | supporting | `7fcce165ba730b2b621cbc1b2821f284e7b438a850d1e17ac89711e8c97d1120` |
 | `data/derived/breadth_benchmark_matrix/fiscal_policy_scale_baskets.v1.draft.json` | Fiscal policy scale baskets | CBO option magnitudes compared with TAXLANE adjustment paths | n/a | supporting | `48a1ab7af000e0b66a641f9a49a306f633b7d52931070881025bb6c507f4158c` |
 | `docs/reading/fiscal-policy-scale-baskets.md` | Public fiscal policy scale card | policy magnitude, arithmetic baskets, and non-additivity boundary | n/a | supporting | `221bb370656fb158c7a8a32eb2b53cb3390bcca2c86d4e73cf3024b2988f6039` |
+| `data/derived/breadth_benchmark_matrix/fiscal_policy_distribution_screen.v1.draft.json` | Fiscal policy distribution screen | incidence channels, exposed groups, and protection gates | n/a | supporting | `9389054550fc306cf03833d9f24fe9c4c6fd8745437b788e014cf353926a3ae0` |
+| `docs/reading/fiscal-policy-distribution-screen.md` | Public fiscal policy distribution card | burden channels and joint distribution-score boundary | n/a | supporting | `54ba65b1c8121ca99a5ac35158ab67828a63b8c59a3cc6c9f26b4c4b11e84a2e` |
 | `experiments/README.md` | Experiment family index | documentation | n/a | supporting | `d79510988076102cf2684afdb7f64d2e8ce83e9a174a233f028318f3e455e57e` |
 | `experiments/annual-budget-ballot/README.md` | Annual budget ballot experiment method | documentation | n/a | supporting | `434c1f6b43b68a4f1284f269c24fb218bd2844f4bec603bfce24d61c6c33b193` |
 | `experiments/annual-budget-ballot/ballot.schema.md` | Annual budget ballot contract | documentation | n/a | supporting | `f3b497d59931507bec33aa46d3da919146e7e9010874ea6161c1b266a76e26c2` |
@@ -395,7 +397,7 @@ supporting views.
 | `crates/taxlane-core/Cargo.toml` | Rust Taxlane core crate manifest | tooling | n/a | supporting | `6469c9f3c3d01bc0c51783255082c93ed608c6c64c0d4f32f5cd2c08f2426fb9` |
 | `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `1a121eb2c2b30b9612895e3580135bfe56441f9f12d344a85fe316741b1473be` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `b910e56a20f40547ac1e4f696e84772dde163738b03915ddbcc0d0a39427719a` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `20c0e5b942d10ddfda1f6816996d0a49069e6c1d36a2ddd0e3f15e0a868b3617` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `cef6040714107e5e54bc363029e369aa51bafc9406dce24661bf9a04fb46a169` |
 
 ## Regeneration Order
 
