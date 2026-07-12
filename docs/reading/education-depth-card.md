@@ -19,9 +19,18 @@ or 0.98%.
 ## Negative Higher-Education Entry
 
 The −$35.005B value is a net federal budget entry. It does not mean government
-provided negative education or recovered $35B of fraud or waste. Account-level
-loan-subsidy, receipt, modification, and reestimate sources are required before
-explaining the sign or treating it as recurring.
+provided negative education or recovered $35B of fraud or waste.
+
+The sign is now explainable. The Department of Education's FY2025 Agency
+Financial Report records a **$26.4B downward Direct Loan subsidy re-estimate**
+and approximately **$147B of net downward loan modifications**. Federal credit
+accounting updates the present-value cost of existing loan cohorts when
+assumptions or legislation change; those adjustments can produce negative net
+budget entries without negative service delivery or equivalent cash recovery.
+
+What remains blocked is the exact bridge from ED credit accounts to the OMB
+function-500 −$35.005B subfunction total. Do not equate the much larger gross
+modification and re-estimate figures with the OMB row or add them to savings.
 
 ## Comparison Boundary
 
@@ -30,4 +39,3 @@ most state/local education spending. It cannot be compared directly with an
 all-government OECD education percentage. Build the all-government financing
 bridge and attach enrollment, completion, learning, employment, earnings, and
 access outcomes before assigning an expected level.
-
