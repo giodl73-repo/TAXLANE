@@ -21,6 +21,10 @@ different years or denominators as additive savings.
 CY2024 growth for hospital, physician/clinical, and retail-drug spending while
 keeping unmatched category peer benchmarks blocked.
 
+`health_category_benchmark_ladder.v1.draft.json` records which hospital,
+physician, and retail-drug comparisons are matched spending measures, domestic
+price references, or mechanism evidence—and why none is yet a savings target.
+
 The matrix deliberately includes coverage-gap rows. An explicit missing value
 is more useful than a false benchmark.
 

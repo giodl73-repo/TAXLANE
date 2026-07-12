@@ -1,0 +1,14 @@
+{
+  "record_id":"depth-card:health-category-benchmark-ladder:v1",
+  "record_family":"health_category_benchmark_ladder",
+  "lane_id":"health-medicare",
+  "source_ids":["SRC-OECD-HEALTH-2025","SRC-RAND-HOSPITAL-PRICES-R5-1","SRC-CBO-COMMERCIAL-PROVIDER-PRICES"],
+  "categories":[
+    {"category":"hospital care","benchmark_type":"domestic_same_service_price_reference","period":"2022","current_value":253,"benchmark_value":100,"unit":"commercial_price_percent_of_simulated_medicare_price","comparison_grade":"B","reading":"Case-mix-adjusted commercial hospital prices averaged 253 percent of simulated Medicare prices, with wide state and provider variation.","why_not_expected_value":"Medicare is an administratively set reference and may not equal an adequate competitive payment for every hospital, service, or market.","scoring_status":"reference_ready_target_blocked"},
+    {"category":"physician and clinical services","benchmark_type":"mechanism_evidence_only","period":"principally 2013-2018 evidence reviewed by CBO","current_value":null,"benchmark_value":null,"unit":"not_scored","comparison_grade":"not_scored","reading":"CBO finds commercial hospital and physician prices higher and more variable than Medicare prices; provider market power and consolidation consistently raise commercial prices.","why_not_expected_value":"No current national same-service physician ratio with an attached access, input-cost, and quality floor is locked in this artifact.","scoring_status":"benchmark_blocked"},
+    {"category":"retail prescription drugs","benchmark_type":"international_per_capita_spending_comparison","period":"2023","current_value":1713,"benchmark_value":766,"unit":"usd_ppp_per_capita","current_to_benchmark_ratio":2.236,"comparison_grade":"A","reading":"US retail pharmaceutical spending per person was the OECD's highest and more than twice its average.","why_not_expected_value":"Spending combines net prices, prescribing, therapeutic mix, quantities, margins, tax treatment, and retail-versus-hospital dispensing; it is not a drug-price index.","scoring_status":"spending_comparison_ready_price_target_blocked"}
+  ],
+  "fraud_status":"not_measured_not_inferred",
+  "savings_status":"blocked_not_scored",
+  "next_gate":"For hospitals and physicians, construct same-service commercial price distributions with Medicare adequacy and access floors. For drugs, separate net price, therapeutic mix, quantity, and retail-versus-hospital scope before scoring."
+}

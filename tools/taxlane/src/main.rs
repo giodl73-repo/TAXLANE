@@ -194,6 +194,10 @@ const HEALTH_SERVICE_BRIDGE_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/health_service_price_volume_bridge.cy2024.v1.draft.json";
 const HEALTH_SERVICE_BRIDGE_READER_PATH: &str =
     "docs/reading/health-service-price-volume-bridge.md";
+const HEALTH_CATEGORY_BENCHMARK_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/health_category_benchmark_ladder.v1.draft.json";
+const HEALTH_CATEGORY_BENCHMARK_READER_PATH: &str =
+    "docs/reading/health-category-benchmark-ladder.md";
 const VETERANS_DEPTH_CARD_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/veterans_depth_card.fy2025.v1.draft.json";
 const VETERANS_DEPTH_CARD_READER_PATH: &str = "docs/reading/veterans-depth-card.md";
@@ -886,6 +890,20 @@ const ARTIFACTS: &[Artifact] = &[
         path: "docs/reading/health-service-price-volume-bridge.md",
         role: "Public health service price-volume bridge",
         grain: "public service-category diagnostic card",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/health_category_benchmark_ladder.v1.draft.json",
+        role: "Health category benchmark ladder",
+        grain: "hospital, physician, and retail-drug benchmark readiness",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/health-category-benchmark-ladder.md",
+        role: "Public health category benchmark ladder",
+        grain: "public category benchmark-readiness card",
         kind: "markdown",
         canonical: "supporting",
     },
@@ -8252,10 +8270,58 @@ fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
     validate_international_depth_card(root)?;
     validate_health_cost_decomposition(root)?;
     validate_health_service_bridge(root)?;
+    validate_health_category_benchmark_ladder(root)?;
     println!(
         "validated {} breadth benchmark rows across full comparisons and toplines with no open coverage gaps",
         rows.len()
     );
+    Ok(())
+}
+
+fn validate_health_category_benchmark_ladder(root: &Path) -> Result<(), String> {
+    let text = fs::read_to_string(root.join(HEALTH_CATEGORY_BENCHMARK_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let card: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+    let rows = card
+        .get("categories")
+        .and_then(|v| v.as_array())
+        .ok_or("health category benchmark rows")?;
+    if rows.len() != 3 {
+        return Err("health category benchmark ladder must contain three rows".to_string());
+    }
+    let hospital = rows
+        .iter()
+        .find(|v| string_field(v, "category").ok().as_deref() == Some("hospital care"))
+        .ok_or("hospital benchmark row")?;
+    if number_field(hospital, "current_value")? != 253.0
+        || !string_field(hospital, "scoring_status")?.contains("blocked")
+    {
+        return Err("hospital reference must be 253 percent with target blocked".to_string());
+    }
+    let drugs = rows
+        .iter()
+        .find(|v| string_field(v, "category").ok().as_deref() == Some("retail prescription drugs"))
+        .ok_or("drug benchmark row")?;
+    let ratio = number_field(drugs, "current_value")? / number_field(drugs, "benchmark_value")?;
+    if (ratio - number_field(drugs, "current_to_benchmark_ratio")?).abs() > 0.001
+        || !string_field(drugs, "scoring_status")?.contains("blocked")
+    {
+        return Err(
+            "drug spending comparison must reconcile with price target blocked".to_string(),
+        );
+    }
+    let reader = fs::read_to_string(root.join(HEALTH_CATEGORY_BENCHMARK_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        HEALTH_CATEGORY_BENCHMARK_JSON_PATH,
+        "reference price != expected price != addressable excess != savings",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!(
+                "health category benchmark reader missing {required}"
+            ));
+        }
+    }
     Ok(())
 }
 
