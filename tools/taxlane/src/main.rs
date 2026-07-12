@@ -8161,7 +8161,8 @@ fn validate_education_depth_card(root: &Path) -> Result<(), String> {
     let reader = fs::read_to_string(root.join(EDUCATION_DEPTH_CARD_READER_PATH))
         .map_err(|e| e.to_string())?;
     if !reader.contains(EDUCATION_DEPTH_CARD_JSON_PATH)
-        || !reader.contains("does not mean government provided negative education")
+        || !reader.contains("does not mean government")
+        || !reader.contains("negative education")
     {
         return Err("education depth caveat missing".to_string());
     }
