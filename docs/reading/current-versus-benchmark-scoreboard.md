@@ -55,6 +55,8 @@ The prioritized depth queue is:
 2. **Fiscal-path scenarios:** connect borrowing, primary balance, net interest,
    debt stock, rates, and revenue bases under explicit current-policy and
    stabilization assumptions.
+   The first adjustment paths are now available in
+   `docs/reading/fiscal-path-scenarios.md`; dynamic debt scoring remains open.
 3. **Payment-integrity bridge:** separate reported improper payments into
    overpayments, underpayments, unknowns, documentation errors, confirmed
    fraud, recoveries, and preventable future loss by program.

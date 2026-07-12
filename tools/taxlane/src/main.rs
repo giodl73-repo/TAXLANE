@@ -211,6 +211,9 @@ const HEALTH_SAMPLE_SENSITIVITY_READER_PATH: &str =
 const HEALTH_NATIONAL_PHI_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/health_national_phi_sensitivity.v1.draft.json";
 const HEALTH_NATIONAL_PHI_READER_PATH: &str = "docs/reading/health-national-phi-sensitivity.md";
+const FISCAL_PATH_SCENARIOS_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/fiscal_path_scenarios.v1.draft.json";
+const FISCAL_PATH_SCENARIOS_READER_PATH: &str = "docs/reading/fiscal-path-scenarios.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -983,6 +986,20 @@ const ARTIFACTS: &[Artifact] = &[
         path: "docs/reading/health-national-phi-sensitivity.md",
         role: "Public health national private-insurance sensitivity card",
         grain: "public national payer sensitivity and boundary card",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/fiscal_path_scenarios.v1.draft.json",
+        role: "Fiscal primary-balance path scenarios",
+        grain: "CBO 2036 baseline and adjustment equivalents",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/fiscal-path-scenarios.md",
+        role: "Public fiscal path scenario card",
+        grain: "public primary-balance and debt-boundary card",
         kind: "markdown",
         canonical: "supporting",
     },
@@ -8431,11 +8448,57 @@ fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
     validate_health_scenarios(root)?;
     validate_health_sample_sensitivity(root)?;
     validate_health_national_phi_sensitivity(root)?;
+    validate_fiscal_path_scenarios(root)?;
     validate_budget_ballot_experiment(root)?;
     println!(
         "validated {} breadth benchmark rows across full comparisons and toplines with no open coverage gaps",
         rows.len()
     );
+    Ok(())
+}
+
+fn validate_fiscal_path_scenarios(root: &Path) -> Result<(), String> {
+    let text = fs::read_to_string(root.join(FISCAL_PATH_SCENARIOS_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let card: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+    let baseline = card.get("baseline").ok_or("fiscal path baseline")?;
+    let deficit = number_field(baseline, "nominal_deficit_usd_trillions_2036")?;
+    let deficit_share = number_field(baseline, "total_deficit_percent_gdp_2036")? / 100.0;
+    let gdp = number_field(baseline, "implied_nominal_gdp_usd_trillions_2036")?;
+    if (deficit / deficit_share - gdp).abs() > 0.000001
+        || number_field(baseline, "debt_held_by_public_percent_gdp_end")? != 120.0
+    {
+        return Err("fiscal path baseline does not reconcile".to_string());
+    }
+    let scenarios = card
+        .get("scenarios")
+        .and_then(|v| v.as_array())
+        .ok_or("fiscal path scenarios")?;
+    if scenarios.len() != 4 {
+        return Err("fiscal path must contain four scenarios".to_string());
+    }
+    for scenario in scenarios {
+        let adjustment = number_field(scenario, "adjustment_from_baseline_percent_gdp")?;
+        let amount = number_field(scenario, "annual_adjustment_equivalent_usd_billions_2036")?;
+        if (amount - adjustment / 100.0 * gdp * 1000.0).abs() > 0.001 {
+            return Err("fiscal path adjustment amount does not reconcile".to_string());
+        }
+    }
+    if !string_field(&card, "debt_stabilization_status")?.contains("blocked")
+        || !string_field(&card, "net_budget_score_status")?.contains("blocked")
+    {
+        return Err("fiscal path must block dynamic debt and budget scoring".to_string());
+    }
+    let reader = fs::read_to_string(root.join(FISCAL_PATH_SCENARIOS_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        FISCAL_PATH_SCENARIOS_JSON_PATH,
+        "annual adjustment equivalent != ten-year score != debt stabilization",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("fiscal path reader missing {required}"));
+        }
+    }
     Ok(())
 }
 

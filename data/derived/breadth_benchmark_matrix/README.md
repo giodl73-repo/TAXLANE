@@ -41,6 +41,10 @@ blocking national and net-savings claims.
 CY2024 private-insurance hospital and physician/clinical payments, labels the
 cross-source result Grade C, and blocks savings and federal-budget claims.
 
+`fiscal_path_scenarios.v1.draft.json` translates CBO's 2036 primary-deficit
+baseline into partial-closure, balance, and surplus adjustment equivalents
+without claiming that primary balance automatically stabilizes debt.
+
 The matrix deliberately includes coverage-gap rows. An explicit missing value
 is more useful than a false benchmark.
 
