@@ -190,6 +190,10 @@ const BREADTH_BENCHMARK_SCOREBOARD_PATH: &str =
 const HEALTH_COST_DECOMPOSITION_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/health_cost_decomposition.v1.draft.json";
 const HEALTH_COST_DECOMPOSITION_READER_PATH: &str = "docs/reading/health-cost-decomposition.md";
+const HEALTH_SERVICE_BRIDGE_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/health_service_price_volume_bridge.cy2024.v1.draft.json";
+const HEALTH_SERVICE_BRIDGE_READER_PATH: &str =
+    "docs/reading/health-service-price-volume-bridge.md";
 const VETERANS_DEPTH_CARD_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/veterans_depth_card.fy2025.v1.draft.json";
 const VETERANS_DEPTH_CARD_READER_PATH: &str = "docs/reading/veterans-depth-card.md";
@@ -868,6 +872,20 @@ const ARTIFACTS: &[Artifact] = &[
         path: "docs/reading/health-cost-decomposition.md",
         role: "Public health cost decomposition card",
         grain: "public diagnostic depth card",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/health_service_price_volume_bridge.cy2024.v1.draft.json",
+        role: "Health service price-volume bridge",
+        grain: "CY2024 service-category spending, price, and residual non-price growth",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/health-service-price-volume-bridge.md",
+        role: "Public health service price-volume bridge",
+        grain: "public service-category diagnostic card",
         kind: "markdown",
         canonical: "supporting",
     },
@@ -8233,10 +8251,56 @@ fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
     validate_agriculture_depth_card(root)?;
     validate_international_depth_card(root)?;
     validate_health_cost_decomposition(root)?;
+    validate_health_service_bridge(root)?;
     println!(
         "validated {} breadth benchmark rows across full comparisons and toplines with no open coverage gaps",
         rows.len()
     );
+    Ok(())
+}
+
+fn validate_health_service_bridge(root: &Path) -> Result<(), String> {
+    let text = fs::read_to_string(root.join(HEALTH_SERVICE_BRIDGE_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let card: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+    let categories = card
+        .get("categories")
+        .and_then(|v| v.as_array())
+        .ok_or("health service bridge categories")?;
+    if categories.len() != 3 {
+        return Err("health service bridge must contain three categories".to_string());
+    }
+    let mut spending = 0.0;
+    let mut share = 0.0;
+    for category in categories {
+        spending += number_field(category, "spending_usd_billions")?;
+        share += number_field(category, "share_total_nhe_percent")?;
+        let total = number_field(category, "expenditure_growth_percent")? / 100.0;
+        let price = number_field(category, "price_growth_percent")? / 100.0;
+        let residual = number_field(category, "implied_non_price_growth_percent")?;
+        let expected = ((1.0 + total) / (1.0 + price) - 1.0) * 100.0;
+        if (expected - residual).abs() > 0.001 {
+            return Err("health service bridge residual does not reconcile".to_string());
+        }
+        if !string_field(category, "peer_price_benchmark_status")?.contains("blocked") {
+            return Err("health service category peer benchmark must remain blocked".to_string());
+        }
+    }
+    if (spending - number_field(&card, "covered_spending_usd_billions")?).abs() > 0.001
+        || (share - number_field(&card, "covered_share_total_nhe_percent")?).abs() > 0.001
+    {
+        return Err("health service bridge totals do not reconcile".to_string());
+    }
+    let reader = fs::read_to_string(root.join(HEALTH_SERVICE_BRIDGE_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        HEALTH_SERVICE_BRIDGE_JSON_PATH,
+        "growth decomposition != peer efficiency finding != fraud != savings",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("health service bridge reader missing {required}"));
+        }
+    }
     Ok(())
 }
 

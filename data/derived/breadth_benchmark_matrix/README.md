@@ -17,6 +17,10 @@ The health depth phase begins with
 intensity, administration, coverage and case mix, and outcomes without treating
 different years or denominators as additive savings.
 
+`health_service_price_volume_bridge.cy2024.v1.draft.json` then decomposes
+CY2024 growth for hospital, physician/clinical, and retail-drug spending while
+keeping unmatched category peer benchmarks blocked.
+
 The matrix deliberately includes coverage-gap rows. An explicit missing value
 is more useful than a false benchmark.
 

@@ -1,0 +1,19 @@
+{
+  "record_id":"depth-card:health-service-price-volume:cy2024",
+  "record_family":"health_service_price_volume_bridge",
+  "lane_id":"health-medicare",
+  "period":"CY2024",
+  "source_ids":["SRC-CMS-NHE-2024","SRC-OECD-HEALTH-2025"],
+  "identity":"(1 + expenditure growth) = (1 + price growth) × (1 + residual non-price growth)",
+  "categories":[
+    {"category":"hospital care","spending_usd_billions":1634.7,"share_total_nhe_percent":31,"expenditure_growth_percent":8.9,"price_growth_percent":3.4,"implied_non_price_growth_percent":5.319,"cms_interpretation":"rebound in use and intensity plus hospital price growth","peer_price_benchmark_status":"blocked_no_matched_category_peer","outcome_floor":"occupancy, avoidable admission, readmission, mortality, wait/access, and case-mix measures required","scoring_status":"diagnostic_only"},
+    {"category":"physician and clinical services","spending_usd_billions":1109.7,"share_total_nhe_percent":21,"expenditure_growth_percent":8.1,"price_growth_percent":1.8,"implied_non_price_growth_percent":6.189,"cms_interpretation":"strong utilization and intensity growth plus physician/clinical price growth","peer_price_benchmark_status":"blocked_no_matched_category_peer","outcome_floor":"access, visit/procedure mix, avoidable admission, quality, and case-mix measures required","scoring_status":"diagnostic_only"},
+    {"category":"retail prescription drugs","spending_usd_billions":467.0,"share_total_nhe_percent":9,"expenditure_growth_percent":7.9,"price_growth_percent":1.4,"implied_non_price_growth_percent":6.410,"cms_interpretation":"price growth plus residual use, mix, and intensity; diabetes and weight-loss demand partly offset broader slowing","peer_price_benchmark_status":"blocked_no_matched_category_peer","outcome_floor":"net price after rebates, therapeutic mix, adherence, access, and clinical outcomes required","scoring_status":"diagnostic_only"}
+  ],
+  "covered_spending_usd_billions":3211.4,
+  "covered_share_total_nhe_percent":61,
+  "system_peer_context":{"period":"2023","us_health_price_index":152,"us_health_volume_index":152,"oecd_average_index":100,"scope":"whole-system indexes; not substitutes for category benchmarks"},
+  "fraud_status":"not_measured_not_inferred",
+  "savings_status":"blocked_not_scored",
+  "next_gate":"Attach same-definition category peer prices and utilization/intensity denominators, then risk-adjust and apply category-specific quality and access floors."
+}

@@ -16,8 +16,8 @@ That is a large and credible cost-pressure signal. It is not a savings score.
 
 | Factor | Best current signal | What it establishes |
 |---|---|---|
-| Prices | US health prices were about 27% above the OECD average on the available 2017 comparison. | Prices are a material driver; the estimate is dated and not a current service-level savings rate. |
-| Volume and intensity | OECD estimated US care volume at about 1.6× the other-G7 average while spending was about 2.2×. | Use and intensity also matter, but do not explain the full spending difference. |
+| Prices | The standardized US healthcare basket cost 52% more than the OECD average in 2023. | Prices are a material driver; the system index is not a service-level savings rate. |
+| Volume and intensity | Estimated US healthcare volume per person was 52% above the OECD average in 2023 after removing the price component. | Quantity, mix, and intensity also matter; this is broader than visit counts. |
 | Administration | About 8% of US health spending in 2019 and over $800 per person—more than five times the other-G7 per-person average. | Administrative complexity is a material investigation lane, not an automatically removable amount. |
 | Coverage and case mix | Core-service coverage was 93%; obesity was higher, smoking lower, and older peers often had older populations. | Need, coverage, and risk must be controlled; age structure does not explain away the US spending level. |
 | Outcomes | Life expectancy was 2.7 years below the OECD average and preventable and treatable mortality were higher, while acute heart-attack and stroke mortality was better. | Higher spending does not buy uniformly better outcomes; outcome floors must remain measure-specific. |
@@ -42,10 +42,12 @@ applying the 7.9-point GDP gap as a recoverable-savings percentage.
 
 ## Next Scoring Gate
 
-The next artifact must compare hospital, physician/clinical, and drug categories
-on a common year using `expenditure = price × volume`, then adjust for case mix
-and service intensity and attach quality, access, and coverage floors. Until
-that bridge exists:
+The CY2024 service bridge is recorded in
+`data/derived/breadth_benchmark_matrix/health_service_price_volume_bridge.cy2024.v1.draft.json`.
+It compares hospital, physician/clinical, and retail-drug growth using
+`expenditure = price × non-price factors`. Matched category-level peer prices,
+case mix, and quality/access floors are still required before scoring. Until
+those gates close:
 
 ```text
 observed spending gap != inefficiency != fraud != recoverable savings
