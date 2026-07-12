@@ -211,6 +211,11 @@ const HEALTH_SAMPLE_SENSITIVITY_READER_PATH: &str =
 const HEALTH_NATIONAL_PHI_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/health_national_phi_sensitivity.v1.draft.json";
 const HEALTH_NATIONAL_PHI_READER_PATH: &str = "docs/reading/health-national-phi-sensitivity.md";
+const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
+const BUDGET_BALLOT_OUTPUT_PATH: &str =
+    "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
+const BUDGET_BALLOT_READER_PATH: &str =
+    "experiments/annual-budget-ballot/outputs/synthetic-run.v1.md";
 const VETERANS_DEPTH_CARD_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/veterans_depth_card.fy2025.v1.draft.json";
 const VETERANS_DEPTH_CARD_READER_PATH: &str = "docs/reading/veterans-depth-card.md";
@@ -973,6 +978,55 @@ const ARTIFACTS: &[Artifact] = &[
         path: "docs/reading/health-national-phi-sensitivity.md",
         role: "Public health national private-insurance sensitivity card",
         grain: "public national payer sensitivity and boundary card",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "experiments/README.md",
+        role: "Experiment family index",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "experiments/annual-budget-ballot/README.md",
+        role: "Annual budget ballot experiment method",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "experiments/annual-budget-ballot/ballot.schema.md",
+        role: "Annual budget ballot contract",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "experiments/annual-budget-ballot/config.v1.json",
+        role: "Annual budget ballot synthetic configuration",
+        grain: "experiment configuration",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "experiments/annual-budget-ballot/simulate.py",
+        role: "Annual budget ballot simulation runner",
+        grain: "reproducible experiment script",
+        kind: "text",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json",
+        role: "Annual budget ballot synthetic output",
+        grain: "state and national allocation vectors",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "experiments/annual-budget-ballot/outputs/synthetic-run.v1.md",
+        role: "Annual budget ballot synthetic reader",
+        grain: "public synthetic experiment summary",
         kind: "markdown",
         canonical: "supporting",
     },
@@ -8344,10 +8398,94 @@ fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
     validate_health_scenarios(root)?;
     validate_health_sample_sensitivity(root)?;
     validate_health_national_phi_sensitivity(root)?;
+    validate_budget_ballot_experiment(root)?;
     println!(
         "validated {} breadth benchmark rows across full comparisons and toplines with no open coverage gaps",
         rows.len()
     );
+    Ok(())
+}
+
+fn validate_budget_ballot_experiment(root: &Path) -> Result<(), String> {
+    let config_text =
+        fs::read_to_string(root.join(BUDGET_BALLOT_CONFIG_PATH)).map_err(|e| e.to_string())?;
+    let config: serde_json::Value =
+        serde_json::from_str(&config_text).map_err(|e| e.to_string())?;
+    let states = config
+        .get("states")
+        .and_then(|v| v.as_array())
+        .ok_or("budget ballot states")?;
+    if states.len() != 51 {
+        return Err("budget ballot config must contain 50 states and DC".to_string());
+    }
+    let electoral_total: f64 = states
+        .iter()
+        .map(|row| {
+            row.as_array()
+                .and_then(|v| v.get(1))
+                .and_then(|v| v.as_f64())
+                .unwrap_or(-1000.0)
+        })
+        .sum();
+    if electoral_total != 538.0 {
+        return Err("budget ballot Electoral College weights must total 538".to_string());
+    }
+    let output_text =
+        fs::read_to_string(root.join(BUDGET_BALLOT_OUTPUT_PATH)).map_err(|e| e.to_string())?;
+    let output: serde_json::Value =
+        serde_json::from_str(&output_text).map_err(|e| e.to_string())?;
+    if string_field(&output, "simulation_status")? != "synthetic_not_public_opinion_forecast"
+        || number_field(&output, "simulated_ballots")? != 102_000.0
+    {
+        return Err("budget ballot output must preserve synthetic status and run size".to_string());
+    }
+    let lanes = output
+        .get("lanes")
+        .and_then(|v| v.as_array())
+        .ok_or("budget ballot lanes")?;
+    let state_results = output
+        .get("state_results")
+        .and_then(|v| v.as_array())
+        .ok_or("budget ballot state results")?;
+    if lanes.len() != 15 || state_results.len() != 51 {
+        return Err("budget ballot output must contain 15 lanes and 51 state/DC rows".to_string());
+    }
+    for state in state_results {
+        let allocation = state
+            .get("allocation")
+            .and_then(|v| v.as_object())
+            .ok_or("state allocation")?;
+        let total: f64 = allocation
+            .values()
+            .map(|v| v.as_f64().unwrap_or(-1000.0))
+            .sum();
+        if allocation.len() != 15 || (total - 100.0).abs() > 0.000001 {
+            return Err("every budget ballot state mean must sum to 100".to_string());
+        }
+    }
+    let national = output
+        .get("national_results")
+        .and_then(|v| v.as_object())
+        .ok_or("national budget results")?;
+    for (name, result) in national {
+        let allocation = result.as_object().ok_or("national allocation")?;
+        let total: f64 = allocation
+            .values()
+            .map(|v| v.as_f64().unwrap_or(-1000.0))
+            .sum();
+        if allocation.len() != 15 || (total - 100.0).abs() > 0.000001 {
+            return Err(format!(
+                "budget ballot national result {name} must sum to 100"
+            ));
+        }
+    }
+    let reader =
+        fs::read_to_string(root.join(BUDGET_BALLOT_READER_PATH)).map_err(|e| e.to_string())?;
+    for required in ["synthetic institutional simulation", "sums to exactly 100%"] {
+        if !reader.contains(required) {
+            return Err(format!("budget ballot reader missing {required}"));
+        }
+    }
     Ok(())
 }
 

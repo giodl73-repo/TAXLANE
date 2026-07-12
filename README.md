@@ -30,6 +30,11 @@ Use the [headline-number selection guide](docs/reading/headline-number-selection
 when choosing among gross/net interest, defense function/subfunction, or
 federal/system-wide health measures.
 
+Alternative fiscal institutions live under [experiments](experiments/README.md).
+The first experiment simulates an annual computer ballot on which every voter
+must allocate exactly 100 budget points, followed by state averaging and an
+Electoral College-weighted national aggregation.
+
 ## Thesis
 
 The income tax is usually presented as one tax on income, but public trust and

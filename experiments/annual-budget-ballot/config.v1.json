@@ -1,0 +1,20 @@
+{
+  "experiment_id":"annual-budget-ballot-v1",
+  "source_ids":["SRC-NARA-ELECTORAL-ALLOCATION-2024","SRC-OMB-HIST-3-2-FY2027"],
+  "seed":20260712,
+  "voters_per_state":2000,
+  "information_treatment":"All voters see current FY2025 shares, TAXLANE benchmark cards, comparison grades, and claim boundaries.",
+  "baseline_path":"data/derived/program_lane_rate_model/program_lane_rate_model.fy2025.omb-fy2027-v1.draft.jsonl",
+  "excluded_from_ballot":["commerce-housing-credit","undistributed-offsetting-receipts"],
+  "archetype_weights":{"status_quo":0.30,"social_investment":0.25,"fiscal_restraint":0.20,"security_continuity":0.15,"future_investment":0.10},
+  "state_profile_adjustments":{
+    "balanced":{"status_quo":1.15},
+    "social":{"social_investment":1.45,"future_investment":1.20,"security_continuity":0.75},
+    "restraint":{"fiscal_restraint":1.50,"security_continuity":1.15,"social_investment":0.70},
+    "security":{"security_continuity":1.55,"fiscal_restraint":1.15,"social_investment":0.75},
+    "investment":{"future_investment":1.55,"social_investment":1.15,"fiscal_restraint":0.80}
+  },
+  "states":[
+    ["AL",9,"security"],["AK",3,"restraint"],["AZ",11,"balanced"],["AR",6,"restraint"],["CA",54,"social"],["CO",10,"investment"],["CT",7,"social"],["DE",3,"social"],["DC",3,"social"],["FL",30,"security"],["GA",16,"balanced"],["HI",4,"social"],["ID",4,"restraint"],["IL",19,"social"],["IN",11,"restraint"],["IA",6,"balanced"],["KS",6,"restraint"],["KY",8,"security"],["LA",8,"security"],["ME",4,"balanced"],["MD",10,"social"],["MA",11,"social"],["MI",15,"balanced"],["MN",10,"investment"],["MS",6,"security"],["MO",10,"restraint"],["MT",4,"restraint"],["NE",5,"restraint"],["NV",6,"balanced"],["NH",4,"investment"],["NJ",14,"social"],["NM",5,"social"],["NY",28,"social"],["NC",16,"balanced"],["ND",3,"restraint"],["OH",17,"balanced"],["OK",7,"security"],["OR",8,"investment"],["PA",19,"balanced"],["RI",4,"social"],["SC",9,"security"],["SD",3,"restraint"],["TN",11,"security"],["TX",40,"security"],["UT",6,"investment"],["VT",3,"social"],["VA",13,"balanced"],["WA",12,"investment"],["WV",4,"security"],["WI",10,"balanced"],["WY",3,"restraint"]
+  ]
+}
