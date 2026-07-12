@@ -1,0 +1,22 @@
+{
+  "record_id": "depth-card:transportation:fy2025",
+  "record_family": "fiscal_depth_card",
+  "lane_id": "transportation-infrastructure",
+  "fiscal_year": 2025,
+  "source_id": "SRC-OMB-HIST-3-2-FY2027",
+  "function_code": "400",
+  "function_label": "Transportation",
+  "total_outlays_millions": 145320,
+  "share_of_total_outlays_percent": 2.07271179,
+  "components": [
+    {"subfunction_code":"401","label":"Ground transportation","outlays_millions":100827,"share_of_total_outlays_percent":1.438104265},
+    {"subfunction_code":"402","label":"Air transportation","outlays_millions":29743,"share_of_total_outlays_percent":0.424226994},
+    {"subfunction_code":"403","label":"Water transportation","outlays_millions":13852,"share_of_total_outlays_percent":0.19757228},
+    {"subfunction_code":"407","label":"Other transportation","outlays_millions":898,"share_of_total_outlays_percent":0.012808252}
+  ],
+  "benchmark_status": "not_benchmarked",
+  "benchmark_reason": "Federal function spending excludes major state, local, private, and user-financed infrastructure and cannot be compared directly with all-government peer investment.",
+  "fraud_status": "not_measured_not_inferred",
+  "savings_status": "blocked_not_scored",
+  "next_depth_need": ["Highway and Airport Trust Fund flows","state and local capital and maintenance spending","asset condition and maintenance backlog","project cost and schedule performance","mobility, safety, reliability, emissions, and access outcomes"]
+}

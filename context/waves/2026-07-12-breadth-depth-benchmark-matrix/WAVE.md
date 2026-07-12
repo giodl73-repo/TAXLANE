@@ -17,6 +17,9 @@ and outlay/GDP measures cannot be silently substituted.
 The third slice deepens veterans coverage from a two-component 4.98% subtotal
 to the complete $377.163B / 5.38% function, with five components, service probes,
 and explicit beneficiary/outcome gates before benchmarking.
+The fourth slice deepens transportation from the 1.44% ground-only subtotal to
+the complete $145.320B / 2.07% federal function and records the state/local,
+trust-fund, asset-condition, project-delivery, and outcome gates for comparison.
 
 ## Design rules
 

@@ -20,3 +20,7 @@ The first Tier 2 depth artifact is
 Veterans Benefits and Services function and keeps service probes separate from
 performance, fraud, and savings claims.
 
+`transportation_depth_card.fy2025.v1.draft.json` reconciles all four federal
+transportation subfunctions and blocks peer comparisons until state/local,
+trust-fund, asset, delivery, and outcome scopes are matched.
+

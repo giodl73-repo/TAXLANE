@@ -190,6 +190,9 @@ const BREADTH_BENCHMARK_SCOREBOARD_PATH: &str =
 const VETERANS_DEPTH_CARD_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/veterans_depth_card.fy2025.v1.draft.json";
 const VETERANS_DEPTH_CARD_READER_PATH: &str = "docs/reading/veterans-depth-card.md";
+const TRANSPORTATION_DEPTH_CARD_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/transportation_depth_card.fy2025.v1.draft.json";
+const TRANSPORTATION_DEPTH_CARD_READER_PATH: &str = "docs/reading/transportation-depth-card.md";
 const HEADLINE_BASIS_JSONL_PATH: &str =
     "data/derived/headline_basis_crosswalk/headline_basis_crosswalk.v1.draft.jsonl";
 const HEADLINE_BASIS_README_PATH: &str = "data/derived/headline_basis_crosswalk/README.md";
@@ -842,6 +845,20 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "docs/reading/veterans-depth-card.md",
         role: "Public veterans breadth/depth card",
+        grain: "public fiscal depth card",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/transportation_depth_card.fy2025.v1.draft.json",
+        role: "Transportation FY2025 component depth card",
+        grain: "federal function and subfunction components",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/transportation-depth-card.md",
+        role: "Public transportation breadth/depth card",
         grain: "public fiscal depth card",
         kind: "markdown",
         canonical: "supporting",
@@ -8054,6 +8071,39 @@ fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
         .map_err(|err| format!("failed to read {VETERANS_DEPTH_CARD_READER_PATH}: {err}"))?;
     if !veterans_reader.contains(VETERANS_DEPTH_CARD_JSON_PATH) {
         return Err("veterans depth reader must cite its machine record".to_string());
+    }
+    let transportation_text = fs::read_to_string(root.join(TRANSPORTATION_DEPTH_CARD_JSON_PATH))
+        .map_err(|err| format!("failed to read {TRANSPORTATION_DEPTH_CARD_JSON_PATH}: {err}"))?;
+    let transportation: serde_json::Value = serde_json::from_str(&transportation_text)
+        .map_err(|err| format!("failed to parse {TRANSPORTATION_DEPTH_CARD_JSON_PATH}: {err}"))?;
+    let transportation_total = number_field(&transportation, "total_outlays_millions")?;
+    let transportation_components = transportation
+        .get("components")
+        .and_then(|value| value.as_array())
+        .ok_or_else(|| "transportation depth card needs components".to_string())?;
+    let transportation_sum: f64 = transportation_components
+        .iter()
+        .map(|component| number_field(component, "outlays_millions"))
+        .collect::<Result<Vec<_>, _>>()?
+        .into_iter()
+        .sum();
+    if transportation_components.len() != 4
+        || (transportation_sum - transportation_total).abs() > 0.001
+        || transportation_total != 145_320.0
+    {
+        return Err("transportation depth card does not reconcile to function 400".to_string());
+    }
+    let transportation_reader =
+        fs::read_to_string(root.join(TRANSPORTATION_DEPTH_CARD_READER_PATH)).map_err(|err| {
+            format!("failed to read {TRANSPORTATION_DEPTH_CARD_READER_PATH}: {err}")
+        })?;
+    if !transportation_reader.contains(TRANSPORTATION_DEPTH_CARD_JSON_PATH)
+        || !transportation_reader.contains("not an under-spending, waste, fraud, or savings")
+    {
+        return Err(
+            "transportation depth reader must cite the card and preserve claim boundaries"
+                .to_string(),
+        );
     }
 
     println!(
