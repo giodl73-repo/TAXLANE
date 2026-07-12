@@ -22,7 +22,7 @@ supporting views.
 
 | Path | Role | Grain | Rows | Canonical | SHA-256 |
 |---|---|---|---:|---|---|
-| `README.md` | Repository overview | documentation | n/a | supporting | `e2a93098a7275e52a6a58ffc5eb68426e4e194db90a43abdaca7659ced9b519c` |
+| `README.md` | Repository overview | documentation | n/a | supporting | `cfe606350b9ed15ec633db65c919645c800e6c83fd9b0a33e8b49b1b31f42abc` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.draft.jsonl` | Canonical annual model rows | fiscal year by broad category | 516 | yes | `01c0fec63836f3652fdd83b03a608159ad58f7614fc214ae6691421990f3a85e` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.decade-summary.jsonl` | Canonical decade summary rows | decade by broad category | 54 | yes | `088cb5d55cc6a37ab52dd543d8a92bf09908cda265e9c9f93324b840eb652fb3` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.annual-wide.csv` | Chart-ready annual wide view | fiscal year | 86 | no | `a385e4215a20c16f0344cc8e17982c9e4c78933caac93f274ea5b6080027d81a` |
@@ -37,10 +37,14 @@ supporting views.
 | `data/derived/spend_category_map/spend_category_map.schema.md` | Spend category map row schema | documentation | n/a | supporting | `46752cb0d2fae1ec20f8320fe3601d055b22c6ea2ebaa1fdd59f6da5b38dbede` |
 | `data/derived/spend_category_map/accountability-question-handoff.md` | Spend category accountability question handoff | documentation | n/a | supporting | `b1e02dade19541634d70b11544e7fbcbdd81bbdd545a31a13ca424752a24f4f1` |
 | `data/derived/spend_category_map/spend-category-dashboard.md` | Spend category dashboard | documentation | n/a | supporting | `a25d2773d9d29d6fe724f44b8071fd84c4d710c4dad74aeca97bf49d184477cd` |
-| `data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.v1.draft.jsonl` | Breadth, depth, and current-versus-benchmark matrix | fiscal lane metric or explicit coverage gap | 17 | supporting | `4e9d81ef20bad2618e49b4d2c70e889037577edbc20e003c096918c362bbdc55` |
-| `data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.schema.md` | Breadth benchmark matrix schema | documentation | n/a | supporting | `43e37030c1cc92a5a104b4b6cb3615260b82ff9dff3a23539cbe929e7805fe64` |
-| `data/derived/breadth_benchmark_matrix/README.md` | Breadth benchmark matrix method note | documentation | n/a | supporting | `d90e725874510c94794815e7f8b85d9f18b4819df9d41a33f873b7b95584577b` |
-| `docs/reading/current-versus-benchmark-scoreboard.md` | Current-versus-benchmark public scoreboard | public comparison packet | n/a | supporting | `d07a13822b94ccbda05078b73126b378361af000103c2929c24e14c9b5c7847b` |
+| `data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.v1.draft.jsonl` | Breadth, depth, and current-versus-benchmark matrix | fiscal lane metric or explicit coverage gap | 17 | supporting | `ed4eb880bb428037473838d2e1ff7491f1862b819591fb1d83ac28800aa977ac` |
+| `data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.schema.md` | Breadth benchmark matrix schema | documentation | n/a | supporting | `a11dfb5de738571d25992be592096ac8d4309ac2f01984760729c82b1dc7cf25` |
+| `data/derived/breadth_benchmark_matrix/README.md` | Breadth benchmark matrix method note | documentation | n/a | supporting | `a93da7abe5114e8af038a25895f6cc8c50e4c6eac31a76269dd43b5352a6702b` |
+| `docs/reading/current-versus-benchmark-scoreboard.md` | Current-versus-benchmark public scoreboard | public comparison packet | n/a | supporting | `5749cc3881c5e012d21cb727108ade2e6febc75eb9e483850c3164dbe5656e5d` |
+| `data/derived/headline_basis_crosswalk/headline_basis_crosswalk.v1.draft.jsonl` | Headline measure basis and incompatibility crosswalk | headline measure definition | 9 | supporting | `ca6d771d3b4261b27d0d72bb7ba98a1d2e5b044f9ec8220b674d7153b6eb7d49` |
+| `data/derived/headline_basis_crosswalk/headline_basis_crosswalk.schema.md` | Headline basis crosswalk schema | documentation | n/a | supporting | `85db274964212dde316ed81220438c00aaed0d4ccc08e7742e40e3ec73f4b958` |
+| `data/derived/headline_basis_crosswalk/README.md` | Headline basis crosswalk method note | documentation | n/a | supporting | `0f22716cf3897cef861c0c88b759f7f1f631f34687f986a74eeca71a76a5b8c4` |
+| `docs/reading/headline-number-selection-guide.md` | Public headline-number selection guide | public comparison guide | n/a | supporting | `0dcc69850f1ccbbbec6ca766c79e6070190c7ab90c8ff336024250cc7ecd1aff` |
 | `data/derived/efficiency_pressure/efficiency_pressure.fy2025.v1.draft.jsonl` | Efficiency pressure question-routing rows | FY2025 pressure surface | 5 | supporting | `0bd7e24dca400d1135091831db45150c73fbecd40d79c48dd16d6ccd356e7a00` |
 | `data/derived/efficiency_pressure/README.md` | Efficiency pressure method note | documentation | n/a | supporting | `da8ed261f2622eeec70d676c4062b009ccc691302dde59e27cd482ee477a2df3` |
 | `data/derived/efficiency_pressure/efficiency_pressure.schema.md` | Efficiency pressure row schema | documentation | n/a | supporting | `49f83d36dbf3dd7daf9208c52a0ad65d6b3a87ece3d9062c599ddc46293b0b2b` |
@@ -233,7 +237,7 @@ supporting views.
 | `data/derived/income_tax_outlay_subfunction_model/reconciliation-review.md` | Subfunction generated-row reconciliation review | documentation | n/a | supporting | `39cb25bdc54db649b32fe4edf8a7c89731858b62b37daadff4d5215555e66d24` |
 | `data/derived/income_tax_outlay_model/README.md` | Model method and schema note | documentation | n/a | supporting | `38ffa2bf317e8d0659ed0a75f761f4da17cc4062750e09774a94f87532fd0e06` |
 | `data/derived/income_tax_outlay_model/source-profile.md` | Source coverage and reconciliation sample | documentation | n/a | supporting | `03ea7eee098ee6e1f3cc4a83cd89adec009f9cbb96d050f2e7118e06dcf2e70f` |
-| `data/derived/README.md` | Derived data index | documentation | n/a | supporting | `4db50de2eccff67aabc03c1a1b064b801c88daeffc3e607ecd4b26b0617779d7` |
+| `data/derived/README.md` | Derived data index | documentation | n/a | supporting | `9edbf429438977d0704ea9452c4f204c84dfc2896b331326f8bc87bcdc1222b1` |
 | `data/derived/income_tax_outlay_model/reconciliation-review.md` | Generated-row reconciliation review | documentation | n/a | supporting | `ab200dfc8c467700964cb23d51875411603a73f9d1ea62e1beea9073449a9c8d` |
 | `data/derived/income_tax_outlay_model/decade-summary.md` | Human-readable decade summary | documentation | n/a | supporting | `47d02425c28cd8f8fd0c236b46e0c997d54a0824ddca1cb125ca0a39bcfd915f` |
 | `docs/reading/modeled-income-tax-outlays.md` | Reader-facing packet | documentation | n/a | supporting | `b7cdffb161572ff8e7c862747ad4172ef7a59deaa780373c6331f474d68515f7` |
@@ -294,7 +298,7 @@ supporting views.
 | `data/derived/accountability_evidence/performance-demand-checklist.schema.md` | Accountability performance demand checklist schema | documentation | n/a | supporting | `afdcb11bb20a75709acabb690655fd03ba8d3a56df522c7b09e8d4b4ffeff6d1` |
 | `data/derived/accountability_evidence/artifact-map.md` | Accountability artifact map | documentation | n/a | supporting | `f7b17b6046644a00ef117962cf60b089747c2fec1a7f91f0e13ecf9b9dd33a7b` |
 | `docs/reading/accountability-public-brief.md` | Reader-facing accountability brief | documentation | n/a | supporting | `cc225ff43f81fa0316f85a8f8ede225f5d1a51470f81d2a296e32820e7434c35` |
-| `docs/reading/README.md` | Reading packet index | documentation | n/a | supporting | `55667a9092c0650f36d9a91821f2184fe4b9d42e15c88f8624d0f921ec6d555a` |
+| `docs/reading/README.md` | Reading packet index | documentation | n/a | supporting | `d871384cad1035f37271047d3f6f728852be2df884aa67991a18c2211022b004` |
 | `docs/reading/placeholder-visibility-receipt.md` | Placeholder receipt reader packet | documentation | n/a | supporting | `4be976503aabb6c21ec77a553f185918190ebcb00e3300930d37e3a7a12f962e` |
 | `docs/reading/placeholder-receipt-display-packet.md` | Placeholder receipt static display packet | documentation | n/a | supporting | `aa2f3fd899fa1dd763b9482c4d4aae81fcde3e77aeb8ce01b1626d10155f35f2` |
 | `reviews/2026-06-23-placeholder-display-packet-role-review.md` | Placeholder receipt display packet role review | documentation | n/a | supporting | `1a0825afa9a4db902ea1d17a0a69443e0caeb2a6ae7c805f3718282c8806fd68` |
@@ -342,9 +346,9 @@ supporting views.
 | `Cargo.toml` | Rust workspace manifest | tooling | n/a | supporting | `405a2bba4b4deec2a77d51621f397528c0b5a86a3137df32af6633f32ffbfad0` |
 | `Cargo.lock` | Rust dependency lockfile | tooling | n/a | supporting | `44b2fcc6662f4fa3cecadbd650c7991b66e42af15dbf4efbf8ff16b832717d96` |
 | `crates/taxlane-core/Cargo.toml` | Rust Taxlane core crate manifest | tooling | n/a | supporting | `6469c9f3c3d01bc0c51783255082c93ed608c6c64c0d4f32f5cd2c08f2426fb9` |
-| `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `3e9ec35e36c0ac80dee5202593d98d8e6cbc5a5914efff5675486ff351d5ea24` |
+| `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `b52b53b1c925cce1abc568d8c44ac4ccb16bb4f1c3712372f6505fdf274036a0` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `b910e56a20f40547ac1e4f696e84772dde163738b03915ddbcc0d0a39427719a` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `595933cde9454d938360dd7aac5ab32c9cb93b037b009bdd13282798a68b47e1` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `8435c30f74b1ab730d5f299c8765844137bc500eb7fd6177423758d36d578e5e` |
 
 ## Regeneration Order
 

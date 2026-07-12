@@ -11,7 +11,9 @@ recoverable savings as distinct evidence classes.
 
 Active. The first slice defines the typed matrix, initial dominant-lane
 comparisons, Tier 2 toplines, explicit breadth gaps, public scoreboard, and Rust
-claim-safety validation.
+claim-safety validation. The second slice adds a headline-basis crosswalk for
+interest, defense, and health so gross/net, function/subfunction, federal/system,
+and outlay/GDP measures cannot be silently substituted.
 
 ## Design rules
 

@@ -26,6 +26,9 @@ For the portfolio-wide evidence check, use the
 It shows which major lanes have matched comparisons, which only have federal
 toplines, which remain breadth gaps, and why international efficiency gaps,
 improper payments, fraud, and recoverable savings are different quantities.
+Use the [headline-number selection guide](docs/reading/headline-number-selection-guide.md)
+when choosing among gross/net interest, defense function/subfunction, or
+federal/system-wide health measures.
 
 ## Thesis
 
