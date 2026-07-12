@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 
 pub const ACCOUNTABILITY_RECORD_FAMILY: &str = "accountability_evidence";
 pub const SPEND_CATEGORY_MAP_MODEL_ID: &str = "spend-category-map-v1";
+pub const BREADTH_BENCHMARK_RECORD_FAMILY: &str = "breadth_benchmark_matrix";
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct ArtifactMetadata<'a> {
@@ -160,6 +161,162 @@ impl SpendCategoryMapRecord {
             || self.funding_caveat.to_ascii_lowercase().contains("waste")
         {
             return Err("spend category funding caveat must not imply fraud or waste".to_string());
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct BreadthBenchmarkRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub lane_id: String,
+    pub metric_label: String,
+    pub depth_tier: String,
+    pub coverage_status: String,
+    pub current_value: Option<f64>,
+    pub current_unit: String,
+    pub current_period: String,
+    pub current_basis: String,
+    pub benchmark_low: Option<f64>,
+    pub benchmark_high: Option<f64>,
+    pub benchmark_unit: String,
+    pub benchmark_period: String,
+    pub benchmark_type: String,
+    pub gap_direction: String,
+    pub comparability_grade: String,
+    pub source_ids: Vec<String>,
+    pub efficiency_gap_status: String,
+    pub improper_payment_amount_millions: Option<f64>,
+    pub improper_payment_rate_percent: Option<f64>,
+    pub improper_payment_scope: String,
+    pub fraud_amount_millions: Option<f64>,
+    pub fraud_status: String,
+    pub recoverable_savings_millions: Option<f64>,
+    pub savings_status: String,
+    pub next_depth_need: String,
+}
+
+impl BreadthBenchmarkRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        for (label, value) in [
+            ("record_id", self.record_id.as_str()),
+            ("record_family", self.record_family.as_str()),
+            ("lane_id", self.lane_id.as_str()),
+            ("metric_label", self.metric_label.as_str()),
+            ("depth_tier", self.depth_tier.as_str()),
+            ("coverage_status", self.coverage_status.as_str()),
+            ("current_unit", self.current_unit.as_str()),
+            ("current_period", self.current_period.as_str()),
+            ("current_basis", self.current_basis.as_str()),
+            ("benchmark_unit", self.benchmark_unit.as_str()),
+            ("benchmark_period", self.benchmark_period.as_str()),
+            ("benchmark_type", self.benchmark_type.as_str()),
+            ("gap_direction", self.gap_direction.as_str()),
+            ("comparability_grade", self.comparability_grade.as_str()),
+            ("efficiency_gap_status", self.efficiency_gap_status.as_str()),
+            (
+                "improper_payment_scope",
+                self.improper_payment_scope.as_str(),
+            ),
+            ("fraud_status", self.fraud_status.as_str()),
+            ("savings_status", self.savings_status.as_str()),
+            ("next_depth_need", self.next_depth_need.as_str()),
+        ] {
+            validate_required(label, value)?;
+        }
+        validate_required_vec("source_ids", &self.source_ids)?;
+
+        if self.record_family != BREADTH_BENCHMARK_RECORD_FAMILY {
+            return Err(format!(
+                "breadth benchmark record_family must be {BREADTH_BENCHMARK_RECORD_FAMILY}, got {}",
+                self.record_family
+            ));
+        }
+        if !matches!(
+            self.depth_tier.as_str(),
+            "tier_1_full" | "tier_2_card" | "tier_3_gap"
+        ) {
+            return Err(format!("unsupported depth_tier {}", self.depth_tier));
+        }
+        if !matches!(
+            self.coverage_status.as_str(),
+            "full_comparison" | "topline_only" | "coverage_gap"
+        ) {
+            return Err(format!(
+                "unsupported coverage_status {}",
+                self.coverage_status
+            ));
+        }
+        if !matches!(
+            self.comparability_grade.as_str(),
+            "A" | "B" | "C" | "not_scored"
+        ) {
+            return Err(format!(
+                "unsupported comparability_grade {}",
+                self.comparability_grade
+            ));
+        }
+        if self.coverage_status == "coverage_gap" && self.current_value.is_some() {
+            return Err(
+                "coverage-gap rows must not publish an unsupported current value".to_string(),
+            );
+        }
+        if self.current_value.is_some_and(|value| value < 0.0) {
+            return Err("current_value must be nonnegative".to_string());
+        }
+        match (self.benchmark_low, self.benchmark_high) {
+            (Some(low), Some(high)) if low >= 0.0 && high >= low => {
+                if self.current_value.is_none() {
+                    return Err("benchmarked rows need a current value".to_string());
+                }
+                if self.current_unit != self.benchmark_unit {
+                    return Err(
+                        "current and benchmark units must match before computing a gap".to_string(),
+                    );
+                }
+            }
+            (None, None) => {
+                if self.gap_direction != "not_benchmarked" {
+                    return Err(
+                        "rows without a benchmark must use gap_direction=not_benchmarked"
+                            .to_string(),
+                    );
+                }
+            }
+            _ => {
+                return Err("benchmark_low and benchmark_high must be supplied together".to_string());
+            }
+        }
+        if !matches!(
+            self.efficiency_gap_status.as_str(),
+            "observed_comparison_not_causal" | "not_benchmarked" | "coverage_gap"
+        ) {
+            return Err(format!(
+                "unsupported efficiency_gap_status {}",
+                self.efficiency_gap_status
+            ));
+        }
+        if self.fraud_amount_millions.is_some() || self.fraud_status != "not_measured_not_inferred"
+        {
+            return Err("benchmark rows must not infer or publish a fraud amount".to_string());
+        }
+        if self.recoverable_savings_millions.is_some()
+            || self.savings_status != "blocked_not_scored"
+        {
+            return Err("benchmark rows must not convert gaps or improper payments into recoverable savings".to_string());
+        }
+        if self.improper_payment_amount_millions.is_some()
+            || self.improper_payment_rate_percent.is_some()
+        {
+            if self.improper_payment_scope == "none_attached" {
+                return Err("improper-payment values need a named program scope".to_string());
+            }
+        } else if self.improper_payment_scope != "none_attached" {
+            return Err(
+                "improper-payment scope must be none_attached when no value is present".to_string(),
+            );
         }
 
         Ok(())
@@ -7646,6 +7803,58 @@ fn validate_iso_date(label: &str, value: &str) -> Result<(), String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn breadth_benchmark_fixture() -> BreadthBenchmarkRecord {
+        BreadthBenchmarkRecord {
+            record_id: "breadth:test".to_string(),
+            record_family: BREADTH_BENCHMARK_RECORD_FAMILY.to_string(),
+            lane_id: "health".to_string(),
+            metric_label: "Health spending share".to_string(),
+            depth_tier: "tier_1_full".to_string(),
+            coverage_status: "full_comparison".to_string(),
+            current_value: Some(17.2),
+            current_unit: "percent_gdp".to_string(),
+            current_period: "CY2024".to_string(),
+            current_basis: "matched OECD basis".to_string(),
+            benchmark_low: Some(9.3),
+            benchmark_high: Some(9.3),
+            benchmark_unit: "percent_gdp".to_string(),
+            benchmark_period: "CY2024".to_string(),
+            benchmark_type: "oecd_average".to_string(),
+            gap_direction: "above_benchmark".to_string(),
+            comparability_grade: "A".to_string(),
+            source_ids: vec!["SRC-OECD-HEALTH-2025".to_string()],
+            efficiency_gap_status: "observed_comparison_not_causal".to_string(),
+            improper_payment_amount_millions: None,
+            improper_payment_rate_percent: None,
+            improper_payment_scope: "none_attached".to_string(),
+            fraud_amount_millions: None,
+            fraud_status: "not_measured_not_inferred".to_string(),
+            recoverable_savings_millions: None,
+            savings_status: "blocked_not_scored".to_string(),
+            next_depth_need: "Separate price and utilization effects.".to_string(),
+        }
+    }
+
+    #[test]
+    fn validates_breadth_benchmark_boundary() {
+        assert_eq!(breadth_benchmark_fixture().validate(), Ok(()));
+    }
+
+    #[test]
+    fn blocks_world_comparison_fraud_assumption() {
+        let mut row = breadth_benchmark_fixture();
+        row.fraud_amount_millions = Some(100.0);
+        row.fraud_status = "inferred_from_peer_gap".to_string();
+        assert!(row.validate().is_err());
+    }
+
+    #[test]
+    fn blocks_benchmark_unit_mismatch() {
+        let mut row = breadth_benchmark_fixture();
+        row.benchmark_unit = "percent_federal_outlays".to_string();
+        assert!(row.validate().is_err());
+    }
 
     #[test]
     fn validates_accountability_record_boundary() {
