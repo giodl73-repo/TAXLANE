@@ -37,6 +37,10 @@ allowed-spending base and behavioral/access model exist.
 to Milliman's cited analytical data volumes, exposing basis sensitivity while
 blocking national and net-savings claims.
 
+`health_national_phi_sensitivity.v1.draft.json` bridges the scenarios to CMS
+CY2024 private-insurance hospital and physician/clinical payments, labels the
+cross-source result Grade C, and blocks savings and federal-budget claims.
+
 The matrix deliberately includes coverage-gap rows. An explicit missing value
 is more useful than a false benchmark.
 

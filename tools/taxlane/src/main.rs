@@ -208,6 +208,9 @@ const HEALTH_SAMPLE_SENSITIVITY_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/health_commercial_sample_sensitivity.v1.draft.json";
 const HEALTH_SAMPLE_SENSITIVITY_READER_PATH: &str =
     "docs/reading/health-commercial-sample-sensitivity.md";
+const HEALTH_NATIONAL_PHI_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/health_national_phi_sensitivity.v1.draft.json";
+const HEALTH_NATIONAL_PHI_READER_PATH: &str = "docs/reading/health-national-phi-sensitivity.md";
 const VETERANS_DEPTH_CARD_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/veterans_depth_card.fy2025.v1.draft.json";
 const VETERANS_DEPTH_CARD_READER_PATH: &str = "docs/reading/veterans-depth-card.md";
@@ -956,6 +959,20 @@ const ARTIFACTS: &[Artifact] = &[
         path: "docs/reading/health-commercial-sample-sensitivity.md",
         role: "Public health commercial sample sensitivity card",
         grain: "public matched-sample arithmetic and boundary card",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/health_national_phi_sensitivity.v1.draft.json",
+        role: "Health national private-insurance payer sensitivity",
+        grain: "CY2024 national payer-payment scenario sensitivity",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/health-national-phi-sensitivity.md",
+        role: "Public health national private-insurance sensitivity card",
+        grain: "public national payer sensitivity and boundary card",
         kind: "markdown",
         canonical: "supporting",
     },
@@ -8326,10 +8343,84 @@ fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
     validate_health_target_admissibility(root)?;
     validate_health_scenarios(root)?;
     validate_health_sample_sensitivity(root)?;
+    validate_health_national_phi_sensitivity(root)?;
     println!(
         "validated {} breadth benchmark rows across full comparisons and toplines with no open coverage gaps",
         rows.len()
     );
+    Ok(())
+}
+
+fn validate_health_national_phi_sensitivity(root: &Path) -> Result<(), String> {
+    let text =
+        fs::read_to_string(root.join(HEALTH_NATIONAL_PHI_JSON_PATH)).map_err(|e| e.to_string())?;
+    let card: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+    let categories = card
+        .get("categories")
+        .and_then(|v| v.as_array())
+        .ok_or("health national PHI categories")?;
+    if categories.len() != 2 {
+        return Err("health national PHI sensitivity needs two categories".to_string());
+    }
+    let mut covered = 0.0;
+    let mut scenario_totals = BTreeMap::<String, f64>::new();
+    for category in categories {
+        let base = number_field(category, "phi_payments_usd_billions")?;
+        let reference = number_field(category, "reference_percent_medicare")?;
+        covered += base;
+        for scenario in category
+            .get("scenarios")
+            .and_then(|v| v.as_array())
+            .ok_or("PHI scenarios")?
+        {
+            let target = number_field(scenario, "target_percent_medicare")?;
+            let change = number_field(scenario, "mechanical_phi_payment_change_usd_billions")?;
+            let expected = base * (target / reference - 1.0);
+            if (change - expected).abs() > 0.001 {
+                return Err(
+                    "health national PHI category sensitivity does not reconcile".to_string(),
+                );
+            }
+            *scenario_totals
+                .entry(string_field(scenario, "scenario")?)
+                .or_default() += change;
+        }
+    }
+    if (covered - number_field(&card, "covered_phi_payments_usd_billions")?).abs() > 0.001 {
+        return Err("health national PHI covered payments do not reconcile".to_string());
+    }
+    for row in card
+        .get("combined_scenarios")
+        .and_then(|v| v.as_array())
+        .ok_or("combined PHI scenarios")?
+    {
+        let name = string_field(row, "scenario")?;
+        if (number_field(row, "mechanical_phi_payment_change_usd_billions")?
+            - scenario_totals[&name])
+            .abs()
+            > 0.001
+        {
+            return Err("health national PHI combined scenario does not reconcile".to_string());
+        }
+    }
+    if !string_field(&card, "comparison_grade")?.starts_with("C_")
+        || !string_field(&card, "net_savings_status")?.contains("blocked")
+        || !string_field(&card, "federal_budget_effect_status")?.contains("blocked")
+    {
+        return Err(
+            "health national PHI sensitivity must remain Grade C with savings blocked".to_string(),
+        );
+    }
+    let reader = fs::read_to_string(root.join(HEALTH_NATIONAL_PHI_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        HEALTH_NATIONAL_PHI_JSON_PATH,
+        "national payer sensitivity != gross savings != net savings != federal savings",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("health national PHI reader missing {required}"));
+        }
+    }
     Ok(())
 }
 
