@@ -3,5 +3,6 @@ Thumbs.db
 target/
 dist/
 build/
+__pycache__/
 .claude/settings.local.json
 .claude/scheduled_tasks.lock

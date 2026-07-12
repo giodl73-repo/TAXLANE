@@ -56,12 +56,16 @@ supporting views.
 | `data/derived/breadth_benchmark_matrix/health_national_phi_sensitivity.v1.draft.json` | Health national private-insurance payer sensitivity | CY2024 national payer-payment scenario sensitivity | n/a | supporting | `df498a03d17252f1f3d01a85b2acf35c7fc9e1a2967e936ddbf628d341867f52` |
 | `docs/reading/health-national-phi-sensitivity.md` | Public health national private-insurance sensitivity card | public national payer sensitivity and boundary card | n/a | supporting | `2b765baf1b76ccc863f11a26cf0e788370c00e4ccdd7bee555a31417cfa241c0` |
 | `experiments/README.md` | Experiment family index | documentation | n/a | supporting | `d79510988076102cf2684afdb7f64d2e8ce83e9a174a233f028318f3e455e57e` |
-| `experiments/annual-budget-ballot/README.md` | Annual budget ballot experiment method | documentation | n/a | supporting | `34290ae67fac733d5e401aaa383f5ff2143eac91cfe8552991d914f5bdb405ab` |
+| `experiments/annual-budget-ballot/README.md` | Annual budget ballot experiment method | documentation | n/a | supporting | `434c1f6b43b68a4f1284f269c24fb218bd2844f4bec603bfce24d61c6c33b193` |
 | `experiments/annual-budget-ballot/ballot.schema.md` | Annual budget ballot contract | documentation | n/a | supporting | `f3b497d59931507bec33aa46d3da919146e7e9010874ea6161c1b266a76e26c2` |
 | `experiments/annual-budget-ballot/config.v1.json` | Annual budget ballot synthetic configuration | experiment configuration | n/a | supporting | `bc5950ae413f3292e2a88fac707860348007362861657eaf803f97cac11e159e` |
 | `experiments/annual-budget-ballot/simulate.py` | Annual budget ballot simulation runner | reproducible experiment script | n/a | supporting | `b27f6abe6f5090704ba367e9f32d204e7aabd06373debcfc5a6430a893e58364` |
 | `experiments/annual-budget-ballot/outputs/synthetic-run.v1.json` | Annual budget ballot synthetic output | state and national allocation vectors | n/a | supporting | `76e2138de069db2dd04f556d5f2bf8b36fff293c81b15c6b06123f233010126e` |
 | `experiments/annual-budget-ballot/outputs/synthetic-run.v1.md` | Annual budget ballot synthetic reader | public synthetic experiment summary | n/a | supporting | `e5cd1b793f8c6452d3d0471593dcf7b66e0dd1deef55b72e30f1c46267120e2a` |
+| `experiments/annual-budget-ballot/config.v2.json` | Diverse annual budget ballot configuration | personality, noise, polarization, and uncertainty assumptions | n/a | supporting | `00d3720297c970a774abb534ff8274f454862eee26aa7ca56cf13d791bb645f8` |
+| `experiments/annual-budget-ballot/simulate_v2.py` | Diverse annual budget ballot runner | reproducible diversity stress-test script | n/a | supporting | `7ce90c96a4c8f78f7e4bc67a47f005f47f99b476a61a070eb14fd0292735806b` |
+| `experiments/annual-budget-ballot/outputs/diverse-run.v2.json` | Diverse annual budget ballot output | state, national, and uncertainty allocation vectors | n/a | supporting | `3b2c11464fa5571297df7d586704e09e80b13f9ba0109643d034b155e86376aa` |
+| `experiments/annual-budget-ballot/outputs/diverse-run.v2.md` | Diverse annual budget ballot reader | public diversity stress-test summary | n/a | supporting | `c2e5f3086d2c581875d05e159367ae09754b685e354b7d1cfb579bb492fef136` |
 | `data/derived/breadth_benchmark_matrix/veterans_depth_card.fy2025.v1.draft.json` | Veterans FY2025 component depth card | federal function and subfunction components | n/a | supporting | `74796f8579f458c339785daa440a592c46c12729b76fc5f49690681a176083f8` |
 | `docs/reading/veterans-depth-card.md` | Public veterans breadth/depth card | public fiscal depth card | n/a | supporting | `fb01e578ab77afa484b0cd97711209e7a7ce1d335cde4ed11265627ce833af16` |
 | `data/derived/breadth_benchmark_matrix/transportation_depth_card.fy2025.v1.draft.json` | Transportation FY2025 component depth card | federal function and subfunction components | n/a | supporting | `b0f371fd57d0ce94d3150495d9afdda0e9d633aab8f25acb798c94a319b61cc7` |
@@ -385,7 +389,7 @@ supporting views.
 | `crates/taxlane-core/Cargo.toml` | Rust Taxlane core crate manifest | tooling | n/a | supporting | `6469c9f3c3d01bc0c51783255082c93ed608c6c64c0d4f32f5cd2c08f2426fb9` |
 | `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `1a121eb2c2b30b9612895e3580135bfe56441f9f12d344a85fe316741b1473be` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `b910e56a20f40547ac1e4f696e84772dde163738b03915ddbcc0d0a39427719a` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `20d2eb5eb7c234f3a216162f6ce66154245f06f7ebd07eecb869962115be6fa0` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `555eb4ebb1d742b9ba86b728e44beb35c9ce6333cd02c673cce6b17ae2315c7c` |
 
 ## Regeneration Order
 

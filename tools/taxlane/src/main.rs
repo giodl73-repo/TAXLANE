@@ -216,6 +216,11 @@ const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
 const BUDGET_BALLOT_READER_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.md";
+const BUDGET_BALLOT_V2_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v2.json";
+const BUDGET_BALLOT_V2_OUTPUT_PATH: &str =
+    "experiments/annual-budget-ballot/outputs/diverse-run.v2.json";
+const BUDGET_BALLOT_V2_READER_PATH: &str =
+    "experiments/annual-budget-ballot/outputs/diverse-run.v2.md";
 const VETERANS_DEPTH_CARD_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/veterans_depth_card.fy2025.v1.draft.json";
 const VETERANS_DEPTH_CARD_READER_PATH: &str = "docs/reading/veterans-depth-card.md";
@@ -1027,6 +1032,34 @@ const ARTIFACTS: &[Artifact] = &[
         path: "experiments/annual-budget-ballot/outputs/synthetic-run.v1.md",
         role: "Annual budget ballot synthetic reader",
         grain: "public synthetic experiment summary",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "experiments/annual-budget-ballot/config.v2.json",
+        role: "Diverse annual budget ballot configuration",
+        grain: "personality, noise, polarization, and uncertainty assumptions",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "experiments/annual-budget-ballot/simulate_v2.py",
+        role: "Diverse annual budget ballot runner",
+        grain: "reproducible diversity stress-test script",
+        kind: "text",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "experiments/annual-budget-ballot/outputs/diverse-run.v2.json",
+        role: "Diverse annual budget ballot output",
+        grain: "state, national, and uncertainty allocation vectors",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "experiments/annual-budget-ballot/outputs/diverse-run.v2.md",
+        role: "Diverse annual budget ballot reader",
+        grain: "public diversity stress-test summary",
         kind: "markdown",
         canonical: "supporting",
     },
@@ -8484,6 +8517,61 @@ fn validate_budget_ballot_experiment(root: &Path) -> Result<(), String> {
     for required in ["synthetic institutional simulation", "sums to exactly 100%"] {
         if !reader.contains(required) {
             return Err(format!("budget ballot reader missing {required}"));
+        }
+    }
+    let v2_config_text =
+        fs::read_to_string(root.join(BUDGET_BALLOT_V2_CONFIG_PATH)).map_err(|e| e.to_string())?;
+    let v2_config: serde_json::Value =
+        serde_json::from_str(&v2_config_text).map_err(|e| e.to_string())?;
+    let personalities = v2_config
+        .get("archetype_weights")
+        .and_then(|v| v.as_object())
+        .ok_or("V2 budget personalities")?;
+    if personalities.len() != 13
+        || number_field(&v2_config, "individual_log_noise_sigma")? < 0.5
+        || number_field(&v2_config, "uncertainty_runs")? != 30.0
+    {
+        return Err("V2 budget ballot must preserve diverse stress-test assumptions".to_string());
+    }
+    let v2_output_text =
+        fs::read_to_string(root.join(BUDGET_BALLOT_V2_OUTPUT_PATH)).map_err(|e| e.to_string())?;
+    let v2: serde_json::Value = serde_json::from_str(&v2_output_text).map_err(|e| e.to_string())?;
+    if string_field(&v2, "simulation_status")?
+        != "synthetic_diversity_stress_test_not_public_opinion_forecast"
+        || number_field(&v2, "personality_count")? != 13.0
+        || number_field(&v2, "main_run_ballots")? != 102_000.0
+        || number_field(&v2, "uncertainty_ballots")? != 382_500.0
+    {
+        return Err("V2 budget ballot output metadata does not reconcile".to_string());
+    }
+    let v2_national = v2
+        .get("national_results")
+        .and_then(|v| v.as_object())
+        .ok_or("V2 national results")?;
+    for (name, result) in v2_national {
+        let allocation = result.as_object().ok_or("V2 national allocation")?;
+        let total: f64 = allocation
+            .values()
+            .map(|v| v.as_f64().unwrap_or(-1000.0))
+            .sum();
+        if allocation.len() != 15 || (total - 100.0).abs() > 0.000001 {
+            return Err(format!(
+                "V2 budget ballot national result {name} must sum to 100"
+            ));
+        }
+    }
+    let intervals = v2
+        .get("uncertainty_intervals")
+        .and_then(|v| v.as_object())
+        .ok_or("V2 uncertainty intervals")?;
+    if intervals.len() != 15 {
+        return Err("V2 budget ballot must contain uncertainty for every lane".to_string());
+    }
+    let v2_reader =
+        fs::read_to_string(root.join(BUDGET_BALLOT_V2_READER_PATH)).map_err(|e| e.to_string())?;
+    for required in ["Synthetic diversity stress test", "Total allocation moved"] {
+        if !v2_reader.contains(required) {
+            return Err(format!("V2 budget ballot reader missing {required}"));
         }
     }
     Ok(())

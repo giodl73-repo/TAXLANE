@@ -26,6 +26,11 @@ Inputs: `config.v1.json` and the canonical FY2025 program-lane model.
 
 Outputs: `outputs/synthetic-run.v1.json` and `outputs/synthetic-run.v1.md`.
 
+The V2 diversity stress test uses 13 personalities, contrarian and single-issue
+ballots, weaker current-budget anchoring, wider personal variation, and 30
+uncertainty runs. Run `python experiments/annual-budget-ballot/simulate_v2.py`;
+outputs are `outputs/diverse-run.v2.json` and `outputs/diverse-run.v2.md`.
+
 The Electoral College allocations are the National Archives' 2024/2028
 allocations based on the 2020 Census. The state opinion profiles and archetype
 weights are synthetic assumptions, not survey estimates or partisan labels.

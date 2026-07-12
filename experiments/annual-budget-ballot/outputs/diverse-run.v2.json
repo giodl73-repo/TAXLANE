@@ -1,0 +1,1363 @@
+{
+  "experiment_id": "annual-budget-ballot-v2-diverse",
+  "seed": 20260713,
+  "simulation_status": "synthetic_diversity_stress_test_not_public_opinion_forecast",
+  "personality_count": 13,
+  "main_run_ballots": 102000,
+  "uncertainty_runs": 30,
+  "uncertainty_ballots": 382500,
+  "lanes": [
+    {
+      "lane_id": "social-security",
+      "label": "Social Security",
+      "baseline": 21.985912430042433
+    },
+    {
+      "lane_id": "medicare",
+      "label": "Medicare",
+      "baseline": 13.863569208624956
+    },
+    {
+      "lane_id": "health",
+      "label": "Health (non-Medicare)",
+      "baseline": 13.610312811146011
+    },
+    {
+      "lane_id": "net-interest",
+      "label": "Debt Service and Past Commitments",
+      "baseline": 13.492802622866408
+    },
+    {
+      "lane_id": "national-defense",
+      "label": "National Defense",
+      "baseline": 12.74278531327436
+    },
+    {
+      "lane_id": "income-security",
+      "label": "Income Security and Family Support",
+      "baseline": 9.75880668160005
+    },
+    {
+      "lane_id": "veterans",
+      "label": "Veterans and Service Commitments",
+      "baseline": 5.246025376349539
+    },
+    {
+      "lane_id": "transportation",
+      "label": "Transportation and Mobility Infrastructure",
+      "baseline": 2.0212727572376035
+    },
+    {
+      "lane_id": "justice-general-government",
+      "label": "Constitutional Government and Justice",
+      "baseline": 1.7204271714761326
+    },
+    {
+      "lane_id": "environment-energy-natural-resources",
+      "label": "Natural Resources, Energy, and Environment",
+      "baseline": 1.5383595187640853
+    },
+    {
+      "lane_id": "community-regional-development",
+      "label": "Community, Disaster, and Regional Development",
+      "baseline": 1.1457487154332322
+    },
+    {
+      "lane_id": "education-training-employment-social-services",
+      "label": "Education, Work, and Social Services",
+      "baseline": 1.0020059623011714
+    },
+    {
+      "lane_id": "agriculture",
+      "label": "Agriculture and Food Production",
+      "baseline": 0.6599099121062799
+    },
+    {
+      "lane_id": "international-affairs",
+      "label": "International Affairs and Diplomacy",
+      "baseline": 0.6283138116891918
+    },
+    {
+      "lane_id": "science-space-technology",
+      "label": "Science, Space, and Civic Capacity",
+      "baseline": 0.5837477070885461
+    }
+  ],
+  "baseline": {
+    "social-security": 21.985912430042433,
+    "medicare": 13.863569208624956,
+    "health": 13.610312811146011,
+    "net-interest": 13.492802622866408,
+    "national-defense": 12.74278531327436,
+    "income-security": 9.75880668160005,
+    "veterans": 5.246025376349539,
+    "transportation": 2.0212727572376035,
+    "justice-general-government": 1.7204271714761326,
+    "environment-energy-natural-resources": 1.5383595187640853,
+    "community-regional-development": 1.1457487154332322,
+    "education-training-employment-social-services": 1.0020059623011714,
+    "agriculture": 0.6599099121062799,
+    "international-affairs": 0.6283138116891918,
+    "science-space-technology": 0.5837477070885461
+  },
+  "national_results": {
+    "electoral_college_weighted": {
+      "social-security": 17.00908719442361,
+      "medicare": 12.897883154709742,
+      "health": 12.52494075449055,
+      "net-interest": 11.149326406139082,
+      "national-defense": 11.04690829455491,
+      "income-security": 9.700617316696064,
+      "veterans": 6.29820153933924,
+      "transportation": 3.886733787264038,
+      "justice-general-government": 2.9406040135641747,
+      "environment-energy-natural-resources": 2.9616606512180605,
+      "community-regional-development": 2.4900018857711266,
+      "education-training-employment-social-services": 2.433579309702547,
+      "agriculture": 1.62095000476348,
+      "international-affairs": 1.3993521830096811,
+      "science-space-technology": 1.6401535043536917
+    },
+    "house_apportionment_weighted_proxy": {
+      "social-security": 17.00121501233435,
+      "medicare": 12.90088028162134,
+      "health": 12.541020337876478,
+      "net-interest": 11.138075149567891,
+      "national-defense": 11.043686780675923,
+      "income-security": 9.713710482644512,
+      "veterans": 6.301096846323789,
+      "transportation": 3.8855240903724524,
+      "justice-general-government": 2.937884259324146,
+      "environment-energy-natural-resources": 2.9599386492994664,
+      "community-regional-development": 2.4884542821099385,
+      "education-training-employment-social-services": 2.4330402392599275,
+      "agriculture": 1.617940195690427,
+      "international-affairs": 1.399192634512333,
+      "science-space-technology": 1.6383407583870218
+    },
+    "equal_state_weighted": {
+      "social-security": 17.042736913942417,
+      "medicare": 12.885071906342512,
+      "health": 12.456208417664433,
+      "net-interest": 11.197420012659068,
+      "national-defense": 11.060678687214109,
+      "income-security": 9.644650450485052,
+      "veterans": 6.285825521248421,
+      "transportation": 3.8919046484868955,
+      "justice-general-government": 2.952229629727434,
+      "environment-energy-natural-resources": 2.9690213653014617,
+      "community-regional-development": 2.4966171327934585,
+      "education-training-employment-social-services": 2.435883571594527,
+      "agriculture": 1.6338154631541781,
+      "international-affairs": 1.400034174625796,
+      "science-space-technology": 1.6479021047602407
+    }
+  },
+  "uncertainty_intervals": {
+    "social-security": {
+      "p10": 16.972326443458446,
+      "median": 17.089336570490886,
+      "p90": 17.2350339673696
+    },
+    "medicare": {
+      "p10": 12.755177774776243,
+      "median": 12.845327399632176,
+      "p90": 12.968071272133537
+    },
+    "health": {
+      "p10": 12.410940419090364,
+      "median": 12.508252442090072,
+      "p90": 12.667579224447366
+    },
+    "net-interest": {
+      "p10": 11.077602253237906,
+      "median": 11.207675637393084,
+      "p90": 11.272658734344516
+    },
+    "national-defense": {
+      "p10": 10.912385815864932,
+      "median": 10.999117070365246,
+      "p90": 11.174041622180289
+    },
+    "income-security": {
+      "p10": 9.576752109714363,
+      "median": 9.658358502860068,
+      "p90": 9.780997139327061
+    },
+    "veterans": {
+      "p10": 6.192129234347694,
+      "median": 6.256073630110043,
+      "p90": 6.314784270832982
+    },
+    "transportation": {
+      "p10": 3.8361314902955312,
+      "median": 3.889564594454915,
+      "p90": 3.928405349556694
+    },
+    "justice-general-government": {
+      "p10": 2.9065941144445278,
+      "median": 2.9321897676052893,
+      "p90": 2.9562309682988293
+    },
+    "environment-energy-natural-resources": {
+      "p10": 2.947707131562967,
+      "median": 2.984673007625926,
+      "p90": 3.0085434759819023
+    },
+    "community-regional-development": {
+      "p10": 2.4594630956176773,
+      "median": 2.484045659218352,
+      "p90": 2.5252049997341928
+    },
+    "education-training-employment-social-services": {
+      "p10": 2.412973761473865,
+      "median": 2.446576898553798,
+      "p90": 2.474174649524069
+    },
+    "agriculture": {
+      "p10": 1.6029881182775705,
+      "median": 1.6305542647810993,
+      "p90": 1.65039497927342
+    },
+    "international-affairs": {
+      "p10": 1.371048226463671,
+      "median": 1.3885335652144208,
+      "p90": 1.4116095448490862
+    },
+    "science-space-technology": {
+      "p10": 1.6203259257084044,
+      "median": 1.6500307280595816,
+      "p90": 1.6762574304579003
+    }
+  },
+  "state_results": [
+    {
+      "state": "AL",
+      "profile": "security",
+      "electoral_votes": 9,
+      "allocation": {
+        "social-security": 17.084492248730186,
+        "medicare": 12.751350861608561,
+        "health": 12.154684268350621,
+        "net-interest": 11.48643516063247,
+        "national-defense": 11.852265097558845,
+        "income-security": 9.377372888253115,
+        "veterans": 6.21421637911742,
+        "transportation": 3.81995973079846,
+        "justice-general-government": 2.9014799136008733,
+        "environment-energy-natural-resources": 2.9679505385478215,
+        "community-regional-development": 2.500739046033085,
+        "education-training-employment-social-services": 2.3254931164322694,
+        "agriculture": 1.588849142728979,
+        "international-affairs": 1.3618363395872712,
+        "science-space-technology": 1.6128752680199572
+      }
+    },
+    {
+      "state": "AK",
+      "profile": "restraint",
+      "electoral_votes": 3,
+      "allocation": {
+        "social-security": 17.4871170909698,
+        "medicare": 12.585866735256781,
+        "health": 12.172219325238629,
+        "net-interest": 11.79964351832015,
+        "national-defense": 11.060916381807397,
+        "income-security": 9.140572652428505,
+        "veterans": 6.344054387587679,
+        "transportation": 3.928973532156311,
+        "justice-general-government": 3.0697952663094963,
+        "environment-energy-natural-resources": 2.928056921257028,
+        "community-regional-development": 2.443889737467615,
+        "education-training-employment-social-services": 2.344234691837782,
+        "agriculture": 1.6842747680121257,
+        "international-affairs": 1.3737226217523755,
+        "science-space-technology": 1.636662369598365
+      }
+    },
+    {
+      "state": "AZ",
+      "profile": "balanced",
+      "electoral_votes": 11,
+      "allocation": {
+        "social-security": 17.19881644246476,
+        "medicare": 12.913350981894613,
+        "health": 12.299358526206694,
+        "net-interest": 11.240986747316171,
+        "national-defense": 10.954781520411558,
+        "income-security": 9.714872932852368,
+        "veterans": 6.4874244543275825,
+        "transportation": 3.9039679631329434,
+        "justice-general-government": 2.8647770224717886,
+        "environment-energy-natural-resources": 2.8015857776758364,
+        "community-regional-development": 2.4617204353900126,
+        "education-training-employment-social-services": 2.4340644274030834,
+        "agriculture": 1.658890148012231,
+        "international-affairs": 1.4268951372541143,
+        "science-space-technology": 1.6385074831861866
+      }
+    },
+    {
+      "state": "AR",
+      "profile": "restraint",
+      "electoral_votes": 6,
+      "allocation": {
+        "social-security": 17.124997074480184,
+        "medicare": 12.84557838002799,
+        "health": 12.28095244852559,
+        "net-interest": 11.593854439816523,
+        "national-defense": 11.369966031070051,
+        "income-security": 9.226311194883046,
+        "veterans": 6.101859227501067,
+        "transportation": 3.803777130531369,
+        "justice-general-government": 3.0827684050882724,
+        "environment-energy-natural-resources": 3.02351723315319,
+        "community-regional-development": 2.4263839102345766,
+        "education-training-employment-social-services": 2.388102999389129,
+        "agriculture": 1.6729399615698115,
+        "international-affairs": 1.3796714665795136,
+        "science-space-technology": 1.6793200971497102
+      }
+    },
+    {
+      "state": "CA",
+      "profile": "social",
+      "electoral_votes": 54,
+      "allocation": {
+        "social-security": 16.770926106019736,
+        "medicare": 12.912721565016684,
+        "health": 13.19459901304805,
+        "net-interest": 11.110268180948694,
+        "national-defense": 10.621652827027981,
+        "income-security": 9.947391416596766,
+        "veterans": 6.227306453457328,
+        "transportation": 3.80171885744209,
+        "justice-general-government": 2.900323271522633,
+        "environment-energy-natural-resources": 2.973835659317112,
+        "community-regional-development": 2.437281466719459,
+        "education-training-employment-social-services": 2.5029633560101265,
+        "agriculture": 1.5487931217840825,
+        "international-affairs": 1.4207592402763807,
+        "science-space-technology": 1.6294594648128227
+      }
+    },
+    {
+      "state": "CO",
+      "profile": "investment",
+      "electoral_votes": 10,
+      "allocation": {
+        "social-security": 16.893344559216906,
+        "medicare": 12.610760135673239,
+        "health": 12.640444785497337,
+        "net-interest": 11.285318359690994,
+        "national-defense": 10.572922218599736,
+        "income-security": 9.674505910089625,
+        "veterans": 6.282955939279324,
+        "transportation": 4.0711495609909285,
+        "justice-general-government": 2.763626371310482,
+        "environment-energy-natural-resources": 3.0082864191979546,
+        "community-regional-development": 2.548233559806584,
+        "education-training-employment-social-services": 2.742813905798038,
+        "agriculture": 1.6468637098066048,
+        "international-affairs": 1.4812199554280323,
+        "science-space-technology": 1.7775546096142958
+      }
+    },
+    {
+      "state": "CT",
+      "profile": "social",
+      "electoral_votes": 7,
+      "allocation": {
+        "social-security": 17.043963909413982,
+        "medicare": 12.907377660898733,
+        "health": 12.659723777997122,
+        "net-interest": 11.27343664207201,
+        "national-defense": 10.371000120077673,
+        "income-security": 10.075095748405865,
+        "veterans": 5.990225927641822,
+        "transportation": 4.041701968872165,
+        "justice-general-government": 2.8893188077488605,
+        "environment-energy-natural-resources": 3.0291593322622403,
+        "community-regional-development": 2.5005384574431644,
+        "education-training-employment-social-services": 2.531507308726403,
+        "agriculture": 1.6121823114005325,
+        "international-affairs": 1.3986936262514422,
+        "science-space-technology": 1.6760744007880115
+      }
+    },
+    {
+      "state": "DE",
+      "profile": "social",
+      "electoral_votes": 3,
+      "allocation": {
+        "social-security": 17.092304828833356,
+        "medicare": 12.872192171357414,
+        "health": 12.741607773252362,
+        "net-interest": 11.083718003822122,
+        "national-defense": 10.922450371183924,
+        "income-security": 9.68703799768597,
+        "veterans": 6.180071510567522,
+        "transportation": 3.86161380245981,
+        "justice-general-government": 2.9063310628916508,
+        "environment-energy-natural-resources": 3.037289713755672,
+        "community-regional-development": 2.5004083508464867,
+        "education-training-employment-social-services": 2.4926895132927167,
+        "agriculture": 1.5601737988199131,
+        "international-affairs": 1.3907982782190214,
+        "science-space-technology": 1.6713128230120788
+      }
+    },
+    {
+      "state": "DC",
+      "profile": "social",
+      "electoral_votes": 3,
+      "allocation": {
+        "social-security": 17.325293777254966,
+        "medicare": 12.595587590633345,
+        "health": 13.055162534525477,
+        "net-interest": 10.931419353329096,
+        "national-defense": 9.904870151111941,
+        "income-security": 10.230038673725144,
+        "veterans": 6.116848212075583,
+        "transportation": 4.043604704472613,
+        "justice-general-government": 2.8754642403627426,
+        "environment-energy-natural-resources": 3.1834186559874578,
+        "community-regional-development": 2.5026735153653834,
+        "education-training-employment-social-services": 2.5219106216882765,
+        "agriculture": 1.6185173770930343,
+        "international-affairs": 1.3979265708743127,
+        "science-space-technology": 1.69726402150057
+      }
+    },
+    {
+      "state": "FL",
+      "profile": "security",
+      "electoral_votes": 30,
+      "allocation": {
+        "social-security": 17.179807536775105,
+        "medicare": 12.72614033241917,
+        "health": 12.469899978678324,
+        "net-interest": 11.150448748541317,
+        "national-defense": 11.49412442361856,
+        "income-security": 9.65412628568273,
+        "veterans": 6.474109744489704,
+        "transportation": 3.874408910085074,
+        "justice-general-government": 2.905798049531163,
+        "environment-energy-natural-resources": 2.8062219761837093,
+        "community-regional-development": 2.3441346759972523,
+        "education-training-employment-social-services": 2.2992971817891434,
+        "agriculture": 1.6687127348644113,
+        "international-affairs": 1.3536434048098984,
+        "science-space-technology": 1.5991260165344614
+      }
+    },
+    {
+      "state": "GA",
+      "profile": "balanced",
+      "electoral_votes": 16,
+      "allocation": {
+        "social-security": 17.327452997254152,
+        "medicare": 12.85774426655642,
+        "health": 12.294548301986072,
+        "net-interest": 11.168421520273784,
+        "national-defense": 11.246866176302456,
+        "income-security": 9.88556972837778,
+        "veterans": 6.129917427794549,
+        "transportation": 3.760268951085674,
+        "justice-general-government": 2.902655043684316,
+        "environment-energy-natural-resources": 2.9639401585534833,
+        "community-regional-development": 2.472711050495856,
+        "education-training-employment-social-services": 2.3320747874769068,
+        "agriculture": 1.5885435020060672,
+        "international-affairs": 1.4569031314620233,
+        "science-space-technology": 1.6123829566904944
+      }
+    },
+    {
+      "state": "HI",
+      "profile": "social",
+      "electoral_votes": 4,
+      "allocation": {
+        "social-security": 16.765900638915447,
+        "medicare": 13.140437636857284,
+        "health": 13.13979379012562,
+        "net-interest": 11.134859789088134,
+        "national-defense": 10.12032152927263,
+        "income-security": 10.174314130588435,
+        "veterans": 5.999513401057143,
+        "transportation": 3.7779913408843226,
+        "justice-general-government": 2.9035439777775855,
+        "environment-energy-natural-resources": 3.0348261001439334,
+        "community-regional-development": 2.473909600396069,
+        "education-training-employment-social-services": 2.5727711098648043,
+        "agriculture": 1.601754364565617,
+        "international-affairs": 1.4186632459646333,
+        "science-space-technology": 1.7413993444982594
+      }
+    },
+    {
+      "state": "ID",
+      "profile": "restraint",
+      "electoral_votes": 4,
+      "allocation": {
+        "social-security": 16.450711055502836,
+        "medicare": 12.785380832422314,
+        "health": 12.294554721519761,
+        "net-interest": 11.443052807836612,
+        "national-defense": 11.58220743220215,
+        "income-security": 9.17548843583595,
+        "veterans": 6.412511631667737,
+        "transportation": 3.9713939247441292,
+        "justice-general-government": 3.056440938009119,
+        "environment-energy-natural-resources": 3.0421409440976,
+        "community-regional-development": 2.5372942019684794,
+        "education-training-employment-social-services": 2.3695899633250437,
+        "agriculture": 1.7146859196877664,
+        "international-affairs": 1.5081327042353856,
+        "science-space-technology": 1.656414486945163
+      }
+    },
+    {
+      "state": "IL",
+      "profile": "social",
+      "electoral_votes": 19,
+      "allocation": {
+        "social-security": 16.732187441298386,
+        "medicare": 13.155583943736307,
+        "health": 12.667168175118453,
+        "net-interest": 10.964024007789485,
+        "national-defense": 10.384278147430015,
+        "income-security": 10.175723657082271,
+        "veterans": 6.42287256305333,
+        "transportation": 3.973205333198471,
+        "justice-general-government": 2.9385193655114397,
+        "environment-energy-natural-resources": 2.988384131285886,
+        "community-regional-development": 2.4873965399998643,
+        "education-training-employment-social-services": 2.415624230896031,
+        "agriculture": 1.6644989202569234,
+        "international-affairs": 1.3845215488785287,
+        "science-space-technology": 1.6460119944645542
+      }
+    },
+    {
+      "state": "IN",
+      "profile": "restraint",
+      "electoral_votes": 11,
+      "allocation": {
+        "social-security": 16.86866762260932,
+        "medicare": 12.692873561534265,
+        "health": 12.557003906534725,
+        "net-interest": 11.320361098132077,
+        "national-defense": 11.383555724239391,
+        "income-security": 9.492555433493443,
+        "veterans": 6.314104014176287,
+        "transportation": 3.8862746812767957,
+        "justice-general-government": 2.9411305353625257,
+        "environment-energy-natural-resources": 2.884770113038508,
+        "community-regional-development": 2.541856904253375,
+        "education-training-employment-social-services": 2.4372248379140027,
+        "agriculture": 1.6601790497370756,
+        "international-affairs": 1.3912321395453515,
+        "science-space-technology": 1.6282103781528996
+      }
+    },
+    {
+      "state": "IA",
+      "profile": "balanced",
+      "electoral_votes": 6,
+      "allocation": {
+        "social-security": 17.059358867913126,
+        "medicare": 13.098890420804002,
+        "health": 12.145804861635696,
+        "net-interest": 11.10166863168829,
+        "national-defense": 11.309174330187098,
+        "income-security": 9.569176482453056,
+        "veterans": 6.376062073423881,
+        "transportation": 3.8480151608583264,
+        "justice-general-government": 3.0404554836748696,
+        "environment-energy-natural-resources": 2.830191386753136,
+        "community-regional-development": 2.494784494619819,
+        "education-training-employment-social-services": 2.397405499112632,
+        "agriculture": 1.703346038016686,
+        "international-affairs": 1.4033573688136378,
+        "science-space-technology": 1.6223089000457454
+      }
+    },
+    {
+      "state": "KS",
+      "profile": "restraint",
+      "electoral_votes": 6,
+      "allocation": {
+        "social-security": 17.173929314450856,
+        "medicare": 12.729822422101059,
+        "health": 11.863096288128009,
+        "net-interest": 11.413377639641475,
+        "national-defense": 11.902755503291607,
+        "income-security": 8.916115104951853,
+        "veterans": 6.507279672152153,
+        "transportation": 3.874416183150452,
+        "justice-general-government": 3.0323880394066856,
+        "environment-energy-natural-resources": 2.8972570431652573,
+        "community-regional-development": 2.438216220758979,
+        "education-training-employment-social-services": 2.443036283971129,
+        "agriculture": 1.7551596484935723,
+        "international-affairs": 1.3679132411888288,
+        "science-space-technology": 1.6852373951480657
+      }
+    },
+    {
+      "state": "KY",
+      "profile": "security",
+      "electoral_votes": 8,
+      "allocation": {
+        "social-security": 17.09882865843476,
+        "medicare": 12.919796199908093,
+        "health": 12.242876801727377,
+        "net-interest": 11.408728603522388,
+        "national-defense": 11.313975980769598,
+        "income-security": 9.491535923588422,
+        "veterans": 6.517966822397889,
+        "transportation": 3.8147435815589326,
+        "justice-general-government": 3.011034109169397,
+        "environment-energy-natural-resources": 2.851692081322824,
+        "community-regional-development": 2.408528756494526,
+        "education-training-employment-social-services": 2.4087945532272172,
+        "agriculture": 1.6211313230400821,
+        "international-affairs": 1.3560008901221172,
+        "science-space-technology": 1.5343657147163718
+      }
+    },
+    {
+      "state": "LA",
+      "profile": "security",
+      "electoral_votes": 8,
+      "allocation": {
+        "social-security": 17.33044399937299,
+        "medicare": 13.119346029008605,
+        "health": 12.03921143702772,
+        "net-interest": 11.242948980037639,
+        "national-defense": 11.372012641813741,
+        "income-security": 9.424016949553627,
+        "veterans": 6.318209709665547,
+        "transportation": 3.8111587633000497,
+        "justice-general-government": 2.968510477107597,
+        "environment-energy-natural-resources": 2.942859171874681,
+        "community-regional-development": 2.510788837979189,
+        "education-training-employment-social-services": 2.3848369451593756,
+        "agriculture": 1.6512267185846285,
+        "international-affairs": 1.2822686610597536,
+        "science-space-technology": 1.6021606784548417
+      }
+    },
+    {
+      "state": "ME",
+      "profile": "balanced",
+      "electoral_votes": 4,
+      "allocation": {
+        "social-security": 17.022028094601563,
+        "medicare": 13.061480251435404,
+        "health": 12.488200725463711,
+        "net-interest": 11.380624912419401,
+        "national-defense": 10.873562849096244,
+        "income-security": 10.213807458254555,
+        "veterans": 6.005174732719218,
+        "transportation": 3.762413739457487,
+        "justice-general-government": 2.8676936774509145,
+        "environment-energy-natural-resources": 2.839061114995164,
+        "community-regional-development": 2.443001234386993,
+        "education-training-employment-social-services": 2.405063292201292,
+        "agriculture": 1.5475004453800576,
+        "international-affairs": 1.4435771780676288,
+        "science-space-technology": 1.6468102940703673
+      }
+    },
+    {
+      "state": "MD",
+      "profile": "social",
+      "electoral_votes": 10,
+      "allocation": {
+        "social-security": 16.893557348824636,
+        "medicare": 13.022908295652265,
+        "health": 12.6266707737072,
+        "net-interest": 11.054446053406753,
+        "national-defense": 10.492229105174387,
+        "income-security": 9.820083252222505,
+        "veterans": 6.2722975385355015,
+        "transportation": 3.949354663934318,
+        "justice-general-government": 2.9591499161197397,
+        "environment-energy-natural-resources": 3.2045155662969638,
+        "community-regional-development": 2.5169657933028904,
+        "education-training-employment-social-services": 2.4711768226703943,
+        "agriculture": 1.6006979438681723,
+        "international-affairs": 1.4083883352292776,
+        "science-space-technology": 1.7075585910550155
+      }
+    },
+    {
+      "state": "MA",
+      "profile": "social",
+      "electoral_votes": 11,
+      "allocation": {
+        "social-security": 17.486124545647556,
+        "medicare": 12.885995789950568,
+        "health": 12.834534398304063,
+        "net-interest": 10.958575396899125,
+        "national-defense": 10.062335189340752,
+        "income-security": 9.875765400366811,
+        "veterans": 6.091830414284979,
+        "transportation": 3.9433168136701666,
+        "justice-general-government": 2.9431408726943764,
+        "environment-energy-natural-resources": 3.1010460693622957,
+        "community-regional-development": 2.491833517069949,
+        "education-training-employment-social-services": 2.5446168741968127,
+        "agriculture": 1.6674744007817663,
+        "international-affairs": 1.3926873376330746,
+        "science-space-technology": 1.7207229797978179
+      }
+    },
+    {
+      "state": "MI",
+      "profile": "balanced",
+      "electoral_votes": 15,
+      "allocation": {
+        "social-security": 16.792383757706705,
+        "medicare": 12.969514749367672,
+        "health": 12.264280422095235,
+        "net-interest": 11.00941307904722,
+        "national-defense": 11.546913965805146,
+        "income-security": 9.842037990506112,
+        "veterans": 6.412966208801584,
+        "transportation": 3.7394264425132864,
+        "justice-general-government": 2.956254237130278,
+        "environment-energy-natural-resources": 2.958482716708452,
+        "community-regional-development": 2.4822375002900516,
+        "education-training-employment-social-services": 2.328562096248011,
+        "agriculture": 1.647432784810097,
+        "international-affairs": 1.3965999396851485,
+        "science-space-technology": 1.6534941092849915
+      }
+    },
+    {
+      "state": "MN",
+      "profile": "investment",
+      "electoral_votes": 10,
+      "allocation": {
+        "social-security": 16.67910282065668,
+        "medicare": 13.030587777861614,
+        "health": 12.160072090318888,
+        "net-interest": 10.989999335802334,
+        "national-defense": 10.983352062512525,
+        "income-security": 9.645714193595552,
+        "veterans": 6.295226382349604,
+        "transportation": 4.239592808256865,
+        "justice-general-government": 2.8644499116497144,
+        "environment-energy-natural-resources": 3.0639069328159216,
+        "community-regional-development": 2.5911295392171807,
+        "education-training-employment-social-services": 2.625307244565385,
+        "agriculture": 1.623374638651551,
+        "international-affairs": 1.4615324360273965,
+        "science-space-technology": 1.7466518257187462
+      }
+    },
+    {
+      "state": "MS",
+      "profile": "security",
+      "electoral_votes": 6,
+      "allocation": {
+        "social-security": 17.64232859698422,
+        "medicare": 12.45129427706687,
+        "health": 12.193036100733156,
+        "net-interest": 11.194943272107096,
+        "national-defense": 11.569275091563993,
+        "income-security": 9.39851457504177,
+        "veterans": 6.412122582640216,
+        "transportation": 3.7926419864369527,
+        "justice-general-government": 3.0233793464148175,
+        "environment-energy-natural-resources": 2.9413921816024056,
+        "community-regional-development": 2.4844795143162677,
+        "education-training-employment-social-services": 2.3313904399544025,
+        "agriculture": 1.635669983385544,
+        "international-affairs": 1.345274170068529,
+        "science-space-technology": 1.5842578816837058
+      }
+    },
+    {
+      "state": "MO",
+      "profile": "restraint",
+      "electoral_votes": 10,
+      "allocation": {
+        "social-security": 16.997735528111853,
+        "medicare": 12.821387812216468,
+        "health": 12.065109377961038,
+        "net-interest": 11.438449715179674,
+        "national-defense": 11.707029644462866,
+        "income-security": 8.837642964177187,
+        "veterans": 6.258629952156073,
+        "transportation": 3.9823748919239375,
+        "justice-general-government": 3.173425449170213,
+        "environment-energy-natural-resources": 3.142521324717958,
+        "community-regional-development": 2.5183625118641455,
+        "education-training-employment-social-services": 2.3656901853845453,
+        "agriculture": 1.6276563999752245,
+        "international-affairs": 1.3319340669177553,
+        "science-space-technology": 1.7320501757810502
+      }
+    },
+    {
+      "state": "MT",
+      "profile": "restraint",
+      "electoral_votes": 4,
+      "allocation": {
+        "social-security": 17.003684125969542,
+        "medicare": 12.762823531747356,
+        "health": 12.346249782504168,
+        "net-interest": 11.437628774448527,
+        "national-defense": 11.588108398618656,
+        "income-security": 9.10925232392924,
+        "veterans": 6.424566865177569,
+        "transportation": 3.8710889929198227,
+        "justice-general-government": 2.9806760333560716,
+        "environment-energy-natural-resources": 2.9406202537698545,
+        "community-regional-development": 2.4629978366033,
+        "education-training-employment-social-services": 2.378424818970507,
+        "agriculture": 1.657159360406657,
+        "international-affairs": 1.451128549422715,
+        "science-space-technology": 1.5855903521559733
+      }
+    },
+    {
+      "state": "NE",
+      "profile": "restraint",
+      "electoral_votes": 5,
+      "allocation": {
+        "social-security": 17.06968449887521,
+        "medicare": 12.661389703487924,
+        "health": 12.49875343836316,
+        "net-interest": 11.472445634943755,
+        "national-defense": 11.11638734058531,
+        "income-security": 9.316708905785578,
+        "veterans": 6.440586784357635,
+        "transportation": 3.8431068632551666,
+        "justice-general-government": 3.0321327395372433,
+        "environment-energy-natural-resources": 2.9256610327726023,
+        "community-regional-development": 2.482134181575281,
+        "education-training-employment-social-services": 2.4518604480004154,
+        "agriculture": 1.7055121697724265,
+        "international-affairs": 1.3593508181922287,
+        "science-space-technology": 1.624285440496112
+      }
+    },
+    {
+      "state": "NV",
+      "profile": "balanced",
+      "electoral_votes": 6,
+      "allocation": {
+        "social-security": 16.670302176803176,
+        "medicare": 13.02511046068859,
+        "health": 12.326713358631402,
+        "net-interest": 11.331378114158987,
+        "national-defense": 11.066199995501021,
+        "income-security": 9.697102791628328,
+        "veterans": 6.489769628799183,
+        "transportation": 3.8149577355782007,
+        "justice-general-government": 2.9691090024413946,
+        "environment-energy-natural-resources": 3.015881687927303,
+        "community-regional-development": 2.536497547402287,
+        "education-training-employment-social-services": 2.36652218078561,
+        "agriculture": 1.6798410543844542,
+        "international-affairs": 1.414216297733474,
+        "science-space-technology": 1.5963979675366988
+      }
+    },
+    {
+      "state": "NH",
+      "profile": "investment",
+      "electoral_votes": 4,
+      "allocation": {
+        "social-security": 16.982741821718573,
+        "medicare": 12.736988072877693,
+        "health": 12.500872270948895,
+        "net-interest": 11.011800288556518,
+        "national-defense": 10.907530372440004,
+        "income-security": 9.621161299792197,
+        "veterans": 6.143820914978834,
+        "transportation": 4.060433435506149,
+        "justice-general-government": 2.9556321448495835,
+        "environment-energy-natural-resources": 2.9646169554425943,
+        "community-regional-development": 2.5731337385208466,
+        "education-training-employment-social-services": 2.6201314015391546,
+        "agriculture": 1.6010121003603974,
+        "international-affairs": 1.4650993528836929,
+        "science-space-technology": 1.8550258295848936
+      }
+    },
+    {
+      "state": "NJ",
+      "profile": "social",
+      "electoral_votes": 14,
+      "allocation": {
+        "social-security": 16.8726749884774,
+        "medicare": 13.375390631655485,
+        "health": 12.93768299216884,
+        "net-interest": 10.787411740638403,
+        "national-defense": 10.43309701381698,
+        "income-security": 10.123134613411704,
+        "veterans": 6.072767341053536,
+        "transportation": 3.889024683040513,
+        "justice-general-government": 2.918044616178465,
+        "environment-energy-natural-resources": 2.9155344756217914,
+        "community-regional-development": 2.542361186782557,
+        "education-training-employment-social-services": 2.4739805075706354,
+        "agriculture": 1.6064211382191624,
+        "international-affairs": 1.4259808500527562,
+        "science-space-technology": 1.6264932213117056
+      }
+    },
+    {
+      "state": "NM",
+      "profile": "social",
+      "electoral_votes": 5,
+      "allocation": {
+        "social-security": 16.941968409723255,
+        "medicare": 13.193599425853014,
+        "health": 12.852379665243564,
+        "net-interest": 11.149937233875665,
+        "national-defense": 10.64616260051106,
+        "income-security": 9.722984004433735,
+        "veterans": 6.140743289260664,
+        "transportation": 3.8246956991520125,
+        "justice-general-government": 2.856763222435366,
+        "environment-energy-natural-resources": 3.0500383124601806,
+        "community-regional-development": 2.4818228873945305,
+        "education-training-employment-social-services": 2.466394253055282,
+        "agriculture": 1.6414781947320485,
+        "international-affairs": 1.4060922504755937,
+        "science-space-technology": 1.6249405513941144
+      }
+    },
+    {
+      "state": "NY",
+      "profile": "social",
+      "electoral_votes": 28,
+      "allocation": {
+        "social-security": 16.659940772104367,
+        "medicare": 12.857869885091525,
+        "health": 12.893217239453417,
+        "net-interest": 10.95087997399468,
+        "national-defense": 10.580382632110082,
+        "income-security": 9.930153497749892,
+        "veterans": 6.384450031304695,
+        "transportation": 3.8030595728957763,
+        "justice-general-government": 2.9298298271545167,
+        "environment-energy-natural-resources": 3.051577639360796,
+        "community-regional-development": 2.5946586441397663,
+        "education-training-employment-social-services": 2.5530460129983386,
+        "agriculture": 1.6019490471523607,
+        "international-affairs": 1.498211337444538,
+        "science-space-technology": 1.7107738870453075
+      }
+    },
+    {
+      "state": "NC",
+      "profile": "balanced",
+      "electoral_votes": 16,
+      "allocation": {
+        "social-security": 16.969379572294365,
+        "medicare": 12.953241320406985,
+        "health": 12.534309618945882,
+        "net-interest": 11.078665715890079,
+        "national-defense": 11.220053111951072,
+        "income-security": 9.732625519014245,
+        "veterans": 6.286409295002914,
+        "transportation": 3.8648716070739844,
+        "justice-general-government": 2.90202583883535,
+        "environment-energy-natural-resources": 2.911515247396274,
+        "community-regional-development": 2.5094571889506785,
+        "education-training-employment-social-services": 2.432717820398013,
+        "agriculture": 1.5654636991701003,
+        "international-affairs": 1.42970401153177,
+        "science-space-technology": 1.609560433138333
+      }
+    },
+    {
+      "state": "ND",
+      "profile": "restraint",
+      "electoral_votes": 3,
+      "allocation": {
+        "social-security": 16.927443018581,
+        "medicare": 12.794970824255834,
+        "health": 12.243251403069047,
+        "net-interest": 11.491623294955827,
+        "national-defense": 11.412642336224971,
+        "income-security": 9.372975126705322,
+        "veterans": 6.271838608547602,
+        "transportation": 3.827206895117511,
+        "justice-general-government": 3.050342632723882,
+        "environment-energy-natural-resources": 2.9437377158248603,
+        "community-regional-development": 2.50821864168742,
+        "education-training-employment-social-services": 2.419109205139339,
+        "agriculture": 1.7016896103148773,
+        "international-affairs": 1.4232348503354142,
+        "science-space-technology": 1.611715836517038
+      }
+    },
+    {
+      "state": "OH",
+      "profile": "balanced",
+      "electoral_votes": 17,
+      "allocation": {
+        "social-security": 17.145218782656627,
+        "medicare": 12.779910703626372,
+        "health": 12.923228006416721,
+        "net-interest": 11.14054398819715,
+        "national-defense": 10.924533500145083,
+        "income-security": 9.69597642163907,
+        "veterans": 6.314940350906539,
+        "transportation": 3.7941662850677527,
+        "justice-general-government": 2.9442363043626387,
+        "environment-energy-natural-resources": 2.8820943843672686,
+        "community-regional-development": 2.4192076987648434,
+        "education-training-employment-social-services": 2.358869404954853,
+        "agriculture": 1.6059286818299645,
+        "international-affairs": 1.4675886045685822,
+        "science-space-technology": 1.6035568824965383
+      }
+    },
+    {
+      "state": "OK",
+      "profile": "security",
+      "electoral_votes": 7,
+      "allocation": {
+        "social-security": 16.88836380273299,
+        "medicare": 12.694600527813092,
+        "health": 12.103671026317032,
+        "net-interest": 11.163985964223793,
+        "national-defense": 11.898519259862804,
+        "income-security": 9.72196363511484,
+        "veterans": 6.3175134496004235,
+        "transportation": 3.8424211919119413,
+        "justice-general-government": 2.923166527307773,
+        "environment-energy-natural-resources": 3.01588233220943,
+        "community-regional-development": 2.484998486030189,
+        "education-training-employment-social-services": 2.3523951538791903,
+        "agriculture": 1.6684820618440395,
+        "international-affairs": 1.3344363864115183,
+        "science-space-technology": 1.5896001947409963
+      }
+    },
+    {
+      "state": "OR",
+      "profile": "investment",
+      "electoral_votes": 8,
+      "allocation": {
+        "social-security": 16.651678084706166,
+        "medicare": 12.524390312612827,
+        "health": 12.663570101426151,
+        "net-interest": 11.133327291954172,
+        "national-defense": 10.724038388838927,
+        "income-security": 9.817808347960378,
+        "veterans": 6.349064470832909,
+        "transportation": 4.041852083784257,
+        "justice-general-government": 2.8761544307127878,
+        "environment-energy-natural-resources": 3.1335989494832455,
+        "community-regional-development": 2.6869231198987804,
+        "education-training-employment-social-services": 2.5573461136839994,
+        "agriculture": 1.6838785448052849,
+        "international-affairs": 1.3982559862058317,
+        "science-space-technology": 1.7581137730942793
+      }
+    },
+    {
+      "state": "PA",
+      "profile": "balanced",
+      "electoral_votes": 19,
+      "allocation": {
+        "social-security": 17.009613385181552,
+        "medicare": 12.963911202822949,
+        "health": 12.498232244707186,
+        "net-interest": 11.09738043175525,
+        "national-defense": 11.158984253922,
+        "income-security": 9.612740753980715,
+        "veterans": 6.20739850374238,
+        "transportation": 3.8942927623723813,
+        "justice-general-government": 2.95338340241013,
+        "environment-energy-natural-resources": 2.9650395117720056,
+        "community-regional-development": 2.508691005250044,
+        "education-training-employment-social-services": 2.3865065236125784,
+        "agriculture": 1.6474461566981562,
+        "international-affairs": 1.413254255727082,
+        "science-space-technology": 1.6831256060455766
+      }
+    },
+    {
+      "state": "RI",
+      "profile": "social",
+      "electoral_votes": 4,
+      "allocation": {
+        "social-security": 16.79762065784615,
+        "medicare": 13.063288047423363,
+        "health": 12.88908576356507,
+        "net-interest": 11.12324439969079,
+        "national-defense": 10.5017169429923,
+        "income-security": 10.116811605651334,
+        "veterans": 6.055591104736361,
+        "transportation": 3.9457596746550094,
+        "justice-general-government": 2.9342670405548112,
+        "environment-energy-natural-resources": 2.90663376760582,
+        "community-regional-development": 2.4643208437464432,
+        "education-training-employment-social-services": 2.60294644099471,
+        "agriculture": 1.5340884154643992,
+        "international-affairs": 1.3929993412146806,
+        "science-space-technology": 1.6716259538587612
+      }
+    },
+    {
+      "state": "SC",
+      "profile": "security",
+      "electoral_votes": 9,
+      "allocation": {
+        "social-security": 17.07834881879218,
+        "medicare": 13.088846340309589,
+        "health": 12.323553146606416,
+        "net-interest": 10.86248980240843,
+        "national-defense": 11.676154786920922,
+        "income-security": 9.626092030129602,
+        "veterans": 6.449949098650206,
+        "transportation": 3.7660804248406317,
+        "justice-general-government": 2.928157634599798,
+        "environment-energy-natural-resources": 2.8903945046709865,
+        "community-regional-development": 2.4118000826364514,
+        "education-training-employment-social-services": 2.375485683842085,
+        "agriculture": 1.6575846301499948,
+        "international-affairs": 1.3173488577400063,
+        "science-space-technology": 1.5477141577026823
+      }
+    },
+    {
+      "state": "SD",
+      "profile": "restraint",
+      "electoral_votes": 3,
+      "allocation": {
+        "social-security": 17.253100047181377,
+        "medicare": 13.135569016228992,
+        "health": 11.95002311329273,
+        "net-interest": 11.329586204201128,
+        "national-defense": 11.770670598146038,
+        "income-security": 9.184789846492555,
+        "veterans": 6.299469198307079,
+        "transportation": 3.753593675597936,
+        "justice-general-government": 3.0515644289970925,
+        "environment-energy-natural-resources": 2.864212127620665,
+        "community-regional-development": 2.475322710397937,
+        "education-training-employment-social-services": 2.258439566252781,
+        "agriculture": 1.6359125349268473,
+        "international-affairs": 1.4666553257950576,
+        "science-space-technology": 1.571091606561732
+      }
+    },
+    {
+      "state": "TN",
+      "profile": "security",
+      "electoral_votes": 11,
+      "allocation": {
+        "social-security": 17.24074603253221,
+        "medicare": 13.059624261627333,
+        "health": 12.027675746517234,
+        "net-interest": 11.258397075227078,
+        "national-defense": 11.586070161961215,
+        "income-security": 9.3084116708321,
+        "veterans": 6.510495892807204,
+        "transportation": 3.846488331791115,
+        "justice-general-government": 3.043976732411315,
+        "environment-energy-natural-resources": 2.872990520166221,
+        "community-regional-development": 2.4496261890330655,
+        "education-training-employment-social-services": 2.2797085327251745,
+        "agriculture": 1.6607104927803915,
+        "international-affairs": 1.306344458529586,
+        "science-space-technology": 1.5487339010587164
+      }
+    },
+    {
+      "state": "TX",
+      "profile": "security",
+      "electoral_votes": 40,
+      "allocation": {
+        "social-security": 17.124135592152072,
+        "medicare": 12.944371399809315,
+        "health": 12.104082221769845,
+        "net-interest": 11.189067977954014,
+        "national-defense": 11.69697659845978,
+        "income-security": 9.416824012686813,
+        "veterans": 6.321836085510511,
+        "transportation": 3.983370236646294,
+        "justice-general-government": 2.993839113428035,
+        "environment-energy-natural-resources": 2.8996609258781794,
+        "community-regional-development": 2.4864640772511732,
+        "education-training-employment-social-services": 2.376504400691636,
+        "agriculture": 1.5646473836251942,
+        "international-affairs": 1.323871844114044,
+        "science-space-technology": 1.5743481300230546
+      }
+    },
+    {
+      "state": "UT",
+      "profile": "investment",
+      "electoral_votes": 6,
+      "allocation": {
+        "social-security": 17.176096758133536,
+        "medicare": 12.916706160940434,
+        "health": 12.530767142026026,
+        "net-interest": 11.030423687798953,
+        "national-defense": 10.457596217770265,
+        "income-security": 9.641038884853971,
+        "veterans": 6.159994166195833,
+        "transportation": 4.1863301350180935,
+        "justice-general-government": 2.8544267264679077,
+        "environment-energy-natural-resources": 3.053228970552134,
+        "community-regional-development": 2.6194874769552765,
+        "education-training-employment-social-services": 2.601781240612707,
+        "agriculture": 1.616235812625694,
+        "international-affairs": 1.4179773967589542,
+        "science-space-technology": 1.737909223290229
+      }
+    },
+    {
+      "state": "VT",
+      "profile": "social",
+      "electoral_votes": 3,
+      "allocation": {
+        "social-security": 17.389306334329007,
+        "medicare": 13.091651119343528,
+        "health": 12.989446290377547,
+        "net-interest": 10.865654323734125,
+        "national-defense": 10.259604916813005,
+        "income-security": 9.914020172261575,
+        "veterans": 6.131452715611666,
+        "transportation": 3.7648905089528566,
+        "justice-general-government": 2.898437509005353,
+        "environment-energy-natural-resources": 3.08155191094201,
+        "community-regional-development": 2.5242123304665665,
+        "education-training-employment-social-services": 2.509112633095554,
+        "agriculture": 1.5307973103277954,
+        "international-affairs": 1.4076758827110674,
+        "science-space-technology": 1.6421860420284118
+      }
+    },
+    {
+      "state": "VA",
+      "profile": "balanced",
+      "electoral_votes": 13,
+      "allocation": {
+        "social-security": 17.261877025522338,
+        "medicare": 12.857473928479987,
+        "health": 12.463834817529966,
+        "net-interest": 11.173865818147203,
+        "national-defense": 10.873344687003838,
+        "income-security": 9.764398663604178,
+        "veterans": 6.232380146651086,
+        "transportation": 3.8842319122983753,
+        "justice-general-government": 2.8934547448844397,
+        "environment-energy-natural-resources": 3.0127619141302895,
+        "community-regional-development": 2.503866577129972,
+        "education-training-employment-social-services": 2.4908896563471514,
+        "agriculture": 1.6016929715346373,
+        "international-affairs": 1.3513153619973715,
+        "science-space-technology": 1.6346117747391131
+      }
+    },
+    {
+      "state": "WA",
+      "profile": "investment",
+      "electoral_votes": 12,
+      "allocation": {
+        "social-security": 17.334917118322515,
+        "medicare": 12.752073749372505,
+        "health": 12.517455831372832,
+        "net-interest": 11.017399484521473,
+        "national-defense": 10.248960658628393,
+        "income-security": 9.912069447818585,
+        "veterans": 6.167387990899181,
+        "transportation": 4.094003664384287,
+        "justice-general-government": 2.877754275123166,
+        "environment-energy-natural-resources": 3.169014773656368,
+        "community-regional-development": 2.690230332123781,
+        "education-training-employment-social-services": 2.548910053097927,
+        "agriculture": 1.6144455178444845,
+        "international-affairs": 1.3875104641282525,
+        "science-space-technology": 1.667866638706351
+      }
+    },
+    {
+      "state": "WV",
+      "profile": "security",
+      "electoral_votes": 4,
+      "allocation": {
+        "social-security": 16.83771253525593,
+        "medicare": 12.814045277800954,
+        "health": 12.14297069823962,
+        "net-interest": 11.212800448369054,
+        "national-defense": 11.616955117603865,
+        "income-security": 9.627696839070312,
+        "veterans": 6.558801722350651,
+        "transportation": 3.89440755083839,
+        "justice-general-government": 3.0797200706634515,
+        "environment-energy-natural-resources": 2.8128899281585817,
+        "community-regional-development": 2.471181812273615,
+        "education-training-employment-social-services": 2.365904001336008,
+        "agriculture": 1.6078532216975205,
+        "international-affairs": 1.3354374349920342,
+        "science-space-technology": 1.6216233413500283
+      }
+    },
+    {
+      "state": "WI",
+      "profile": "balanced",
+      "electoral_votes": 10,
+      "allocation": {
+        "social-security": 17.06399496576949,
+        "medicare": 12.894863456857586,
+        "health": 12.332253648062954,
+        "net-interest": 11.212720019089778,
+        "national-defense": 11.197273736485224,
+        "income-security": 9.945959526191336,
+        "veterans": 6.322228909531343,
+        "transportation": 3.838415707680588,
+        "justice-general-government": 2.9808779923909263,
+        "environment-energy-natural-resources": 2.8472682312420017,
+        "community-regional-development": 2.430983508752918,
+        "education-training-employment-social-services": 2.2925809951524694,
+        "agriculture": 1.6359636968030766,
+        "international-affairs": 1.4683027772361557,
+        "science-space-technology": 1.536312828754201
+      }
+    },
+    {
+      "state": "WY",
+      "profile": "restraint",
+      "electoral_votes": 3,
+      "allocation": {
+        "social-security": 17.30722842295816,
+        "medicare": 12.731987181069215,
+        "health": 12.128735129623387,
+        "net-interest": 11.36633895951659,
+        "national-defense": 11.557854904674446,
+        "income-security": 9.279085653307627,
+        "veterans": 6.357887655932758,
+        "transportation": 3.880922015260708,
+        "justice-general-government": 2.993884334096106,
+        "environment-energy-natural-resources": 2.8473742932705903,
+        "community-regional-development": 2.449376295981402,
+        "education-training-employment-social-services": 2.2942528140497966,
+        "agriculture": 1.7278656580605558,
+        "international-affairs": 1.405597173781763,
+        "science-space-technology": 1.6716095084168776
+      }
+    }
+  ],
+  "invariants": {
+    "ballots_sum_to_100": true,
+    "state_means_sum_to_100": true,
+    "national_results_sum_to_100": true,
+    "electoral_votes_total": 538
+  }
+}

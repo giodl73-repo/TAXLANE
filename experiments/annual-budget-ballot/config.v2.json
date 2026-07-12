@@ -1,0 +1,37 @@
+{
+  "experiment_id":"annual-budget-ballot-v2-diverse",
+  "seed":20260713,
+  "voters_per_state":2000,
+  "uncertainty_runs":30,
+  "uncertainty_voters_per_state":250,
+  "baseline_anchor_exponent":0.72,
+  "individual_log_noise_sigma":0.58,
+  "single_issue_probability":0.10,
+  "single_issue_multiplier":7.0,
+  "contrarian_probability":0.12,
+  "source_ids":["SRC-NARA-ELECTORAL-ALLOCATION-2024","SRC-OMB-HIST-3-2-FY2027"],
+  "information_treatment":"All voters see current shares, benchmarks, targets, uncertainty, and the exact 100-point tradeoff; personalities remain synthetic.",
+  "archetype_weights":{"incrementalist":0.13,"retirement_security":0.09,"health_first":0.10,"family_economic_security":0.09,"defense_hawk":0.08,"libertarian_core":0.07,"education_innovation":0.09,"green_transition":0.07,"infrastructure_builder":0.07,"rural_producer":0.06,"global_engagement":0.05,"local_resilience":0.05,"eclectic":0.05},
+  "state_profile_adjustments":{
+    "balanced":{"incrementalist":1.35,"eclectic":1.20},
+    "social":{"health_first":1.25,"family_economic_security":1.25,"green_transition":1.30,"education_innovation":1.20,"defense_hawk":0.65},
+    "restraint":{"libertarian_core":1.65,"rural_producer":1.25,"defense_hawk":1.15,"family_economic_security":0.70},
+    "security":{"defense_hawk":1.60,"retirement_security":1.15,"libertarian_core":1.15,"global_engagement":0.65},
+    "investment":{"education_innovation":1.50,"green_transition":1.35,"infrastructure_builder":1.30,"libertarian_core":0.70}
+  },
+  "archetype_multipliers":{
+    "incrementalist":{},
+    "retirement_security":{"social-security":2.4,"medicare":1.7,"veterans":1.2,"national-defense":0.7,"international-affairs":0.5,"science-space-technology":0.7},
+    "health_first":{"medicare":2.2,"health":2.8,"income-security":1.25,"national-defense":0.45,"net-interest":0.75},
+    "family_economic_security":{"income-security":2.8,"education-training-employment-social-services":2.4,"health":1.35,"social-security":1.15,"national-defense":0.45},
+    "defense_hawk":{"national-defense":3.2,"veterans":1.8,"justice-general-government":1.35,"international-affairs":1.15,"health":0.65,"income-security":0.55},
+    "libertarian_core":{"justice-general-government":1.6,"national-defense":1.15,"net-interest":1.35,"health":0.45,"income-security":0.35,"international-affairs":0.35,"community-regional-development":0.45},
+    "education_innovation":{"education-training-employment-social-services":4.0,"science-space-technology":4.2,"transportation":1.25,"national-defense":0.55,"net-interest":0.75},
+    "green_transition":{"environment-energy-natural-resources":4.2,"transportation":2.0,"science-space-technology":1.8,"community-regional-development":1.5,"national-defense":0.50},
+    "infrastructure_builder":{"transportation":4.0,"community-regional-development":2.8,"environment-energy-natural-resources":1.4,"science-space-technology":1.25,"international-affairs":0.55},
+    "rural_producer":{"agriculture":5.5,"transportation":1.8,"community-regional-development":1.8,"veterans":1.25,"environment-energy-natural-resources":0.65},
+    "global_engagement":{"international-affairs":5.0,"national-defense":1.25,"science-space-technology":1.4,"health":1.05,"agriculture":0.65},
+    "local_resilience":{"community-regional-development":4.2,"justice-general-government":2.0,"transportation":1.7,"health":1.25,"international-affairs":0.45},
+    "eclectic":{}
+  }
+}
