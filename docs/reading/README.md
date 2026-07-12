@@ -13,6 +13,7 @@ explainers. They should keep three labels visible:
 
 | Packet | Purpose |
 |---|---|
+| `honest-federal-tax-receipt.md` | Flagship one-page before/after case and financing-lane receipt prototype. |
 | `income-tax-foundation.md` | First public packet explaining income-tax history, current mechanics, budget accounting, and program-linked tax lanes. |
 | `modeled-income-tax-outlays.md` | Reader-facing explanation of the annual and decade modeled allocation of individual income-tax receipts by broad outlay share. |
 | `modeled-income-tax-subfunction-outlays.md` | Reader-facing drilldown packet for modeled Table 3.2 subfunction allocation views. |
@@ -23,6 +24,84 @@ explainers. They should keep three labels visible:
 | `program-lane-rate-cards.md` | Per-lane rate cards: the rate, who funds it, the four-anchor argument for the level, and how it moves up or down (reform proposal). |
 | `rate-change-worked-examples.md` | Three end-to-end examples of the rate-adjustment operating model (defense up, health down, Social Security cap lift). |
 | `budget-area-funding-explainer.md` | Lay distillation of the six panel-reviewed research papers: where the US over-funds (health), under-funds (family), funds by strategy (defense), runs a broken base (Social Security), and under-collects overall (revenue). Points to `docs/papers/`. |
+| `where-federal-money-goes.md` | Spending-side packet showing the largest FY2025 outlay categories, financing context, and safe accountability questions. |
+| `cost-down-backlog.md` | Pressure-linked levers for lowering cost over time without publishing unsupported savings claims. |
+| `cost-down-evidence-queue.md` | First-pass extraction queue for the cost-down source packets. |
+| `cost-down-first-pass-rollup.md` | Evidence-readiness rollup for all cost-down queue rows. |
+| `cost-down-scoring-readiness.md` | Priority order for the next score-readiness extracts, without savings or waste claims. |
+| `health-price-discipline-source-packet.md` | First source packet for the health/Medicare price-discipline backlog item. |
+| `health-price-discipline-extract.md` | First health/Medicare price-discipline benchmark and per-enrollee anchor probe. |
+| `health-administrative-simplification-source-packet.md` | Source packet for the health/Medicare administrative-simplification backlog item. |
+| `health-administrative-simplification-extract.md` | First health/Medicare administrative-simplification workflow probe. |
+| `debt-primary-balance-source-packet.md` | Source packet for the debt-interest primary-balance backlog item. |
+| `debt-maturity-risk-source-packet.md` | Source packet for the debt-interest maturity/rate-risk backlog item. |
+| `defense-procurement-control-source-packet.md` | Source packet for the defense procurement-control backlog item. |
+| `defense-procurement-control-extract.md` | First GAO weapon-systems procurement-control probe for the defense procurement evidence queue. |
+| `defense-audit-control-source-packet.md` | Source packet for the defense audit-control backlog item. |
+| `defense-audit-control-extract.md` | First DoD OIG audit-control probe for the defense audit-control evidence queue. |
+| `disaster-mitigation-source-packet.md` | Source packet for the disaster-exposure mitigation backlog item. |
+| `disaster-supplemental-tracking-source-packet.md` | Source packet for the disaster-exposure supplemental-tracking backlog item. |
+| `payment-integrity-eligibility-source-packet.md` | Source packet for the payment-integrity eligibility-accuracy backlog item. |
+| `payment-integrity-claims-timeliness-source-packet.md` | Source packet for the payment-integrity claims-timeliness backlog item. |
+| `payment-integrity-first-pass-extract.md` | First PaymentAccuracy.gov portal probe for the payment-integrity evidence queue. |
+| `payment-integrity-scorecard-extract.md` | Q4 2025 PaymentAccuracy scorecard probe for selected program-level evidence. |
+| `payment-integrity-program-review-gates.md` | Review gates for scorecard programs before any savings score or waste claim. |
+| `payment-integrity-program-review-tasks.md` | Concrete extraction queue for methodology, access-floor, corrective-action, and uncertainty evidence. |
+| `payment-integrity-program-review-status.md` | Program-level status view over the selected PaymentAccuracy review tasks. |
+| `payment-integrity-methodology-plans.md` | Field-level methodology extraction plan for the next PaymentAccuracy evidence pull. |
+| `payment-integrity-methodology-fields.md` | Field-level checklist for closing selected PaymentAccuracy methodology blockers. |
+| `payment-integrity-methodology-source-targets.md` | Source-discovery queue for selected PaymentAccuracy methodology plans. |
+| `payment-integrity-methodology-queries.md` | Query plan for selected PaymentAccuracy methodology source targets. |
+| `payment-integrity-methodology-query-runs.md` | Pending execution scaffold for selected PaymentAccuracy methodology queries. |
+| `payment-integrity-methodology-results.md` | Captured methodology-source results requiring review before field closure. |
+| `payment-integrity-methodology-result-review-readiness.md` | Readiness marker for captured methodology results entering field review. |
+| `payment-integrity-methodology-field-reviews.md` | Field-level review of captured methodology-source results. |
+| `payment-integrity-methodology-gap-followups.md` | Source-work follow-up queue for reviewed methodology gaps. |
+| `payment-integrity-methodology-gap-source-captures.md` | Official-source captures from methodology gap follow-ups. |
+| `payment-integrity-methodology-source-capture-rollup.md` | Reviewer rollup for methodology source captures. |
+| `payment-integrity-methodology-closure-readiness.md` | Closure-readiness triage over methodology source-capture rollups. |
+| `payment-integrity-methodology-closure-decisions.md` | Internal closure decisions for methodology fields. |
+| `payment-integrity-methodology-residual-source-gaps.md` | Narrow residual source gaps after closure-readiness review. |
+| `payment-integrity-methodology-closure-coverage.md` | Closure coverage report for Part D and Medicaid methodology fields. |
+| `payment-integrity-methodology-scoring-gate.md` | Scoring gate over Part D and Medicaid methodology closure coverage. |
+| `payment-integrity-methodology-program-rollup.md` | Cross-program status rollup over blocked payment-integrity methodology gates. |
+| `payment-integrity-methodology-open-program-status.md` | Four-program open methodology status, including branches without closure decisions. |
+| `payment-integrity-methodology-residual-gap-priority.md` | Source-work priority queue for the next unresolved methodology gap per program. |
+| `payment-integrity-methodology-priority-source-work.md` | Official-source result pass over the residual-gap priority queue. |
+| `payment-integrity-methodology-priority-reviewer-actions.md` | Reviewer actions over priority source-work results. |
+| `payment-integrity-methodology-field-updates.md` | Internal methodology-field repairs approved by reviewer actions. |
+| `payment-integrity-methodology-followup-source-queries.md` | Narrow follow-up source queries for unresolved recoverability boundaries. |
+| `payment-integrity-methodology-followup-source-query-runs.md` | Pending run scaffolds for follow-up source queries. |
+| `payment-integrity-methodology-followup-source-captures.md` | Official-source captures from follow-up recoverability searches. |
+| `payment-integrity-methodology-followup-source-capture-rollup.md` | Reviewer rollup over follow-up recoverability source captures. |
+| `payment-integrity-methodology-followup-boundary-decisions.md` | Internal boundary decisions over follow-up recoverability rollups. |
+| `payment-integrity-methodology-followup-boundary-readiness.md` | Boundary-readiness triage after follow-up boundary decisions. |
+| `payment-integrity-methodology-narrow-closure-candidates.md` | Narrow internal closure candidates that remain blocked from scoring. |
+| `payment-integrity-methodology-narrow-closure-decisions.md` | Narrow internal component decisions that remain blocked from scoring. |
+| `payment-integrity-methodology-open-program-component-progress.md` | Open-program component progress after narrow decisions, with field counts unchanged. |
+| `payment-integrity-methodology-component-gate-requirements.md` | Positive-evidence requirements before component progress can become field closure or scoring. |
+| `payment-integrity-methodology-component-gate-source-targets.md` | Source-target queue for component gate recoverability evidence. |
+| `payment-integrity-methodology-component-gate-source-queries.md` | Official-source search queries for component gate source targets. |
+| `payment-integrity-methodology-component-gate-source-query-runs.md` | Pending source-query runs for component gate recoverability evidence. |
+| `payment-integrity-methodology-component-gate-source-captures.md` | Official-source captures for component gate recoverability evidence. |
+| `payment-integrity-methodology-component-gate-source-capture-rollups.md` | Reviewer rollups over component gate source captures. |
+| `payment-integrity-methodology-component-gate-boundary-decisions.md` | Internal boundary decisions over component gate capture rollups. |
+| `payment-integrity-methodology-component-gate-boundary-readiness.md` | Readiness triage after component gate boundary decisions. |
+| `payment-integrity-methodology-component-gate-narrow-candidates.md` | Narrow internal component candidates from component gate readiness. |
+| `payment-integrity-methodology-component-gate-narrow-decisions.md` | Narrow internal component decisions from component gate candidates. |
+| `payment-integrity-methodology-component-gate-progress.md` | Open-program component progress from component gate narrow decisions. |
+| `payment-integrity-methodology-component-gate-progress-requirements.md` | Positive-evidence requirements after component gate progress. |
+| `payment-integrity-methodology-component-gate-progress-source-targets.md` | Source-target queue after component gate progress requirements. |
+| `payment-integrity-methodology-component-gate-progress-source-queries.md` | Official-source search queries after component gate progress source targets. |
+| `payment-integrity-methodology-component-gate-progress-source-query-runs.md` | Pending source-query runs after component gate progress source queries. |
+| `payment-integrity-next-program-selection.md` | Payment-integrity branch selections for Medicaid/PERM and VA PLTSS methodology planning. |
+| `payment-integrity-claims-timeliness-extract.md` | First SSA/VA claims-timeliness probe for the payment-integrity evidence queue. |
+| `debt-maturity-risk-extract.md` | First Treasury debt-stock and average-rate probe for the debt maturity-risk evidence queue. |
+| `debt-primary-balance-extract.md` | First FY2025 fiscal-balance and primary-deficit proxy for the debt primary-balance evidence queue. |
+| `disaster-supplemental-tracking-extract.md` | First FEMA declaration-area probe for the disaster supplemental-tracking evidence queue. |
+| `disaster-mitigation-extract.md` | First FEMA HMA project probe for the disaster mitigation evidence queue. |
+| `aligned-contribution-receipt.md` | Contribution/benefit alignment packet: what goes in, who benefits, Medicare split, and denominator rules before per-person displays. |
+| `per-unit-receipt-cards.md` | Public-facing per-unit card copy with source-basis, civic-illustration, and blocked-card labels. |
 
 ## Reading Order
 
@@ -42,6 +121,166 @@ explainers. They should keep three labels visible:
 7. Read `budget-area-funding-explainer.md` for the plain-language distillation of the
    six research papers (the comparative "over/under-funded, under-collected" picture);
    the full papers and their PDFs are in `research/` and `docs/papers/`.
+8. Read `where-federal-money-goes.md` for the spending-side view: the largest
+   FY2025 outlay subfunctions, financing context, and safe accountability
+   questions.
+9. Read `cost-down-backlog.md` after the spending-side packet to see the
+   evidence-first work queue for lowering costs over time.
+10. Read `cost-down-evidence-queue.md` to see the first source extracts needed
+   before any cost-down row can move toward a score.
+11. Read `cost-down-first-pass-rollup.md` to see which first-pass probes are
+   context-ready, program-ready, or still blocked before scoring.
+12. Read `cost-down-scoring-readiness.md` to see which next extracts should
+   move first toward scoreable review, without treating the ranks as savings or
+   waste findings.
+13. Read the two health source packets for the first attached evidence:
+   `health-price-discipline-source-packet.md` and
+   `health-administrative-simplification-source-packet.md`. They still block
+   savings estimates.
+14. Read `health-price-discipline-extract.md` for the first benchmark and
+   Medicare per-enrollee anchors. It is not a service-price finding or savings
+   estimate.
+15. Read `health-administrative-simplification-extract.md` for the first
+   workflow/source-readiness probe. It is not an administrative savings finding.
+16. Read the two debt-interest source packets for fiscal-balance and
+   maturity/rate-risk evidence. They are fiscal-risk packets, not program cuts
+   or savings estimates.
+17. Read the two defense source packets for procurement and audit-control
+   evidence. They are not readiness judgments or savings estimates.
+18. Read `defense-procurement-control-extract.md` for the first GAO
+   weapon-systems procurement-control probe. It is not a readiness, waste, or
+   savings finding.
+19. Read `defense-audit-control-extract.md` for the first DoD OIG
+   audit-control probe. It is not a readiness, waste, or savings finding.
+20. Read the two disaster source packets for mitigation and supplemental-budget
+   tracking evidence. They are exposure and transparency packets, not savings
+   estimates.
+21. Read the two payment-integrity source packets for eligibility accuracy and
+   claims timeliness. They are control and service-floor packets, not fraud,
+   waste, or savings findings.
+22. Read `payment-integrity-first-pass-extract.md` as the first committed
+   extract from the queue. It is a portal probe only, not a program-level
+   finding.
+23. Read `payment-integrity-scorecard-extract.md` as the first selected
+   program-level scorecard probe. It still is not a savings or waste finding.
+24. Read `payment-integrity-program-review-gates.md` after the scorecard probe
+   to see the methodology, access-floor, corrective-action, and confidence
+   evidence required before any savings score.
+25. Read `payment-integrity-program-review-tasks.md` to see the concrete
+   extraction queue for those required gate fields.
+26. Read `payment-integrity-program-review-status.md` for the per-program
+   blocked/open summary before any savings score.
+27. Read `payment-integrity-methodology-plans.md` for the exact fields needed
+   to close the methodology blocker.
+28. Read `payment-integrity-methodology-fields.md` for the open field-level
+   checklist under those methodology plans.
+29. Read `payment-integrity-methodology-source-targets.md` for the next source
+   targets to inspect.
+30. Read `payment-integrity-methodology-queries.md` for the exact query and
+   capture rules before running methodology source extraction.
+31. Read `payment-integrity-methodology-query-runs.md` before executing those
+   queries and attaching source captures.
+32. Read `payment-integrity-methodology-results.md` for captured source-result
+   rows that still need field-closure review.
+33. Read `payment-integrity-methodology-result-review-readiness.md` for
+   captured result sets ready to enter field review.
+34. Read `payment-integrity-methodology-field-reviews.md` for field-level
+   support and gap notes before any field closure.
+35. Read `payment-integrity-methodology-gap-followups.md` for the next
+   source-work queue before closing any methodology field.
+36. Read `payment-integrity-methodology-gap-source-captures.md` for official
+   source captures generated from the methodology gap queue.
+37. Read `payment-integrity-methodology-source-capture-rollup.md` for reviewer
+   actions over the captured methodology sources.
+38. Read `payment-integrity-methodology-closure-readiness.md` for closure
+   review candidates and remaining source gaps.
+39. Read `payment-integrity-methodology-closure-decisions.md` for internal
+   field closures. These are not public claims.
+40. Read `payment-integrity-methodology-residual-source-gaps.md` for the
+   narrower source queue left after internal closure decisions.
+41. Read `payment-integrity-methodology-closure-coverage.md` for the closed
+   versus open methodology field count.
+42. Read `payment-integrity-methodology-scoring-gate.md` before any savings or
+   waste-reduction scoring attempt.
+43. Read `payment-integrity-methodology-program-rollup.md` for the current
+   Part D and Medicaid gate summary before adding another program branch.
+44. Read `payment-integrity-methodology-open-program-status.md` for the
+   four-program open/closed methodology status, including VA PLTSS and USDA
+   Federal Crop Insurance branches that do not yet have closure decisions.
+45. Read `payment-integrity-methodology-residual-gap-priority.md` for the next
+   source-work blocker per open methodology program.
+46. Read `payment-integrity-methodology-priority-source-work.md` for official
+   source-work results against the residual-gap priority queue.
+47. Read `payment-integrity-methodology-priority-reviewer-actions.md` for the
+   current reviewer action over each priority source-work result.
+48. Read `payment-integrity-methodology-field-updates.md` for approved internal
+   methodology-field repairs.
+49. Read `payment-integrity-methodology-followup-source-queries.md` for the next
+   narrow official-source searches on recoverability boundaries.
+50. Read `payment-integrity-methodology-followup-source-query-runs.md` for
+   required capture fields before executing follow-up source searches.
+51. Read `payment-integrity-methodology-followup-source-captures.md` for
+   official-source results from recoverability-boundary searches.
+52. Read `payment-integrity-methodology-followup-source-capture-rollup.md` for
+   reviewer actions over follow-up recoverability captures.
+53. Read `payment-integrity-methodology-followup-boundary-decisions.md` for
+   internal boundary decisions before any closure-readiness or scoring step.
+54. Read `payment-integrity-methodology-followup-boundary-readiness.md` for
+   readiness triage after follow-up boundary decisions.
+55. Read `payment-integrity-methodology-narrow-closure-candidates.md` for the
+   narrow internal candidates that remain blocked from scoring.
+56. Read `payment-integrity-methodology-narrow-closure-decisions.md` for the
+   narrow component decisions that remain blocked from scoring.
+57. Read `payment-integrity-methodology-open-program-component-progress.md` for
+   component progress that leaves full field counts unchanged.
+58. Read `payment-integrity-methodology-component-gate-requirements.md` for
+   positive evidence still required before field closure or scoring.
+59. Read `payment-integrity-methodology-component-gate-source-targets.md` for
+   source targets tied to component gate requirements.
+60. Read `payment-integrity-methodology-component-gate-source-queries.md` for
+   official-source search queries tied to component gate source targets.
+61. Read `payment-integrity-methodology-component-gate-source-query-runs.md`
+   for pending component gate source-query runs.
+62. Read `payment-integrity-methodology-component-gate-source-captures.md` for
+   official-source captures and remaining component-gate limits.
+63. Read `payment-integrity-methodology-component-gate-source-capture-rollups.md`
+   for reviewer rollups over component gate source captures.
+64. Read `payment-integrity-methodology-component-gate-boundary-decisions.md`
+   for internal component gate boundary decisions.
+65. Read `payment-integrity-methodology-component-gate-boundary-readiness.md`
+   for readiness triage after component gate boundary decisions.
+66. Read `payment-integrity-methodology-component-gate-narrow-candidates.md`
+   for narrow internal component candidates from component gate readiness.
+67. Read `payment-integrity-methodology-component-gate-narrow-decisions.md`
+   for narrow internal component decisions from component gate candidates.
+68. Read `payment-integrity-methodology-component-gate-progress.md` for
+   open-program component progress from component gate narrow decisions.
+69. Read `payment-integrity-methodology-component-gate-progress-requirements.md`
+   for positive-evidence requirements after component gate progress.
+70. Read `payment-integrity-methodology-component-gate-progress-source-targets.md`
+   for source-target queues after component gate progress requirements.
+71. Read `payment-integrity-methodology-component-gate-progress-source-queries.md`
+   for official-source search queries after component gate progress source
+   targets.
+72. Read `payment-integrity-methodology-component-gate-progress-source-query-runs.md`
+   for pending source-query runs after component gate progress source queries.
+73. Read `payment-integrity-next-program-selection.md` before continuing the
+   VA PLTSS methodology branch.
+74. Read `payment-integrity-claims-timeliness-extract.md` as the first
+   claims-service floor probe. It is not a performance finding.
+75. Read `debt-maturity-risk-extract.md` for the first Treasury Fiscal Data
+   debt-stock and rate-risk probe. It is not a savings estimate or debt
+   management recommendation.
+76. Read `debt-primary-balance-extract.md` for FY2025 fiscal-balance context.
+   It is a proxy row, not a policy score or savings estimate.
+77. Read `disaster-supplemental-tracking-extract.md` for the first FEMA
+   declaration probe. It is not an outlay or waste finding.
+78. Read `disaster-mitigation-extract.md` for the first FEMA HMA project
+   probe. It is not a savings estimate or avoided-loss finding.
+79. Read `aligned-contribution-receipt.md` before building per-person receipt
+   displays or treating Medicare as one payroll-funded lane.
+80. Use `per-unit-receipt-cards.md` only after the alignment packet; it is the
+    public copy boundary for readiness-approved per-unit displays.
 
 ## Public-Use Guardrail
 

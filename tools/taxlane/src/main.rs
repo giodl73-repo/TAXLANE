@@ -6,14 +6,67 @@ use std::process::ExitCode;
 
 use roxmltree::Document;
 use sha2::{Digest, Sha256};
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 use taxlane_core::{
-    AccountabilityEvidenceRecord, ArtifactMetadata, PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE,
-    PUBLIC_CLAIM_ALLOWED_LABEL, PUBLIC_CLAIM_BLOCKED_LABEL, PerformanceDemandChecklistRecord,
-    PerformanceDemandResponseBundleArtifact, PerformanceDemandResponseBundleManifest,
-    PerformanceDemandResponseClass, PerformanceDemandResponseDeltaRow,
-    PerformanceDemandResponseIntakeRecord, PerformanceDemandResponseLogClass,
-    PerformanceDemandResponseLogRecord, PerformanceDemandResponseStatus,
+    AccountabilityEvidenceRecord, ArtifactMetadata, CostDownBacklogRecord,
+    CostDownEvidenceQueueRecord, CostDownFirstPassRollupRecord, CostDownScoringReadinessRecord,
+    CostDownSourcePacketRecord, DebtMaturityRiskTreasuryProbeRecord,
+    DebtPrimaryBalanceFiscalProbeRecord, DefenseAuditControlProbeRecord,
+    DefenseProcurementControlProbeRecord, DisasterDeclarationProbeRecord,
+    DisasterMitigationProjectProbeRecord, EfficiencyPressureRecord,
+    HealthAdminSimplificationProbeRecord, HealthPriceDisciplineProbeRecord,
+    PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE, PUBLIC_CLAIM_ALLOWED_LABEL,
+    PUBLIC_CLAIM_BLOCKED_LABEL, PaymentIntegrityClaimsTimelinessProbeRecord,
+    PaymentIntegrityMethodologyClosureCoverageRecord,
+    PaymentIntegrityMethodologyClosureDecisionRecord,
+    PaymentIntegrityMethodologyClosureReadinessRecord,
+    PaymentIntegrityMethodologyComponentGateBoundaryDecisionRecord,
+    PaymentIntegrityMethodologyComponentGateBoundaryReadinessRecord,
+    PaymentIntegrityMethodologyComponentGateNarrowCandidateRecord,
+    PaymentIntegrityMethodologyComponentGateNarrowDecisionRecord,
+    PaymentIntegrityMethodologyComponentGateProgressRecord,
+    PaymentIntegrityMethodologyComponentGateProgressRequirementRecord,
+    PaymentIntegrityMethodologyComponentGateProgressSourceQueryRecord,
+    PaymentIntegrityMethodologyComponentGateProgressSourceQueryRunRecord,
+    PaymentIntegrityMethodologyComponentGateProgressSourceTargetRecord,
+    PaymentIntegrityMethodologyComponentGateRequirementRecord,
+    PaymentIntegrityMethodologyComponentGateSourceCaptureRecord,
+    PaymentIntegrityMethodologyComponentGateSourceCaptureRollupRecord,
+    PaymentIntegrityMethodologyComponentGateSourceQueryRecord,
+    PaymentIntegrityMethodologyComponentGateSourceQueryRunRecord,
+    PaymentIntegrityMethodologyComponentGateSourceTargetRecord,
+    PaymentIntegrityMethodologyFieldRecord, PaymentIntegrityMethodologyFieldReviewRecord,
+    PaymentIntegrityMethodologyFieldUpdateRecord,
+    PaymentIntegrityMethodologyFollowupBoundaryDecisionRecord,
+    PaymentIntegrityMethodologyFollowupBoundaryReadinessRecord,
+    PaymentIntegrityMethodologyFollowupSourceCaptureRecord,
+    PaymentIntegrityMethodologyFollowupSourceCaptureRollupRecord,
+    PaymentIntegrityMethodologyFollowupSourceQueryRecord,
+    PaymentIntegrityMethodologyFollowupSourceQueryRunRecord,
+    PaymentIntegrityMethodologyGapFollowupRecord,
+    PaymentIntegrityMethodologyGapSourceCaptureRecord,
+    PaymentIntegrityMethodologyNarrowClosureCandidateRecord,
+    PaymentIntegrityMethodologyNarrowClosureDecisionRecord,
+    PaymentIntegrityMethodologyOpenProgramComponentProgressRecord,
+    PaymentIntegrityMethodologyOpenProgramStatusRecord, PaymentIntegrityMethodologyPlanRecord,
+    PaymentIntegrityMethodologyPriorityReviewerActionRecord,
+    PaymentIntegrityMethodologyPrioritySourceWorkRecord,
+    PaymentIntegrityMethodologyProgramRollupRecord, PaymentIntegrityMethodologyQueryRecord,
+    PaymentIntegrityMethodologyQueryRunRecord,
+    PaymentIntegrityMethodologyResidualGapPriorityRecord,
+    PaymentIntegrityMethodologyResidualSourceGapRecord, PaymentIntegrityMethodologyResultRecord,
+    PaymentIntegrityMethodologyResultReviewReadinessRecord,
+    PaymentIntegrityMethodologyScoringGateRecord,
+    PaymentIntegrityMethodologySourceCaptureRollupRecord,
+    PaymentIntegrityMethodologySourceTargetRecord, PaymentIntegrityNextProgramSelectionRecord,
+    PaymentIntegrityPortalProbeRecord, PaymentIntegrityProgramReviewGateRecord,
+    PaymentIntegrityProgramReviewStatusRecord, PaymentIntegrityProgramReviewTaskRecord,
+    PaymentIntegrityScorecardProbeRecord, PerUnitDisplayReadinessRecord, PerUnitReceiptCardRecord,
+    PerformanceDemandChecklistRecord, PerformanceDemandResponseBundleArtifact,
+    PerformanceDemandResponseBundleManifest, PerformanceDemandResponseClass,
+    PerformanceDemandResponseDeltaRow, PerformanceDemandResponseIntakeRecord,
+    PerformanceDemandResponseLogClass, PerformanceDemandResponseLogRecord,
+    PerformanceDemandResponseStatus, SpendCategoryMapRecord,
 };
 use zip::ZipArchive;
 
@@ -118,6 +171,337 @@ const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_BUNDLE_APPLIED_EXAMPLE_JSON_PAT
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_BUNDLE_APPLIED_EXAMPLE_SCHEMA_PATH: &str = "data/derived/accountability_evidence/performance-demand-response-bundle.applied-example.schema.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_CHECKLIST_SCHEMA_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-checklist.schema.md";
+const SPEND_CATEGORY_MAP_JSONL_PATH: &str =
+    "data/derived/spend_category_map/spend_category_map.fy2025.omb-fy2027-v1.draft.jsonl";
+const SPEND_CATEGORY_MAP_README_PATH: &str = "data/derived/spend_category_map/README.md";
+const SPEND_CATEGORY_MAP_SCHEMA_PATH: &str =
+    "data/derived/spend_category_map/spend_category_map.schema.md";
+const SPEND_CATEGORY_MAP_HANDOFF_PATH: &str =
+    "data/derived/spend_category_map/accountability-question-handoff.md";
+const SPEND_CATEGORY_MAP_DASHBOARD_PATH: &str =
+    "data/derived/spend_category_map/spend-category-dashboard.md";
+const EFFICIENCY_PRESSURE_JSONL_PATH: &str =
+    "data/derived/efficiency_pressure/efficiency_pressure.fy2025.v1.draft.jsonl";
+const EFFICIENCY_PRESSURE_README_PATH: &str = "data/derived/efficiency_pressure/README.md";
+const EFFICIENCY_PRESSURE_SCHEMA_PATH: &str =
+    "data/derived/efficiency_pressure/efficiency_pressure.schema.md";
+const COST_DOWN_BACKLOG_JSONL_PATH: &str =
+    "data/derived/efficiency_pressure/cost_down_backlog.fy2025.v1.draft.jsonl";
+const COST_DOWN_BACKLOG_SCHEMA_PATH: &str =
+    "data/derived/efficiency_pressure/cost_down_backlog.schema.md";
+const COST_DOWN_BACKLOG_READER_PATH: &str = "docs/reading/cost-down-backlog.md";
+const COST_DOWN_SOURCE_PACKETS_JSONL_PATH: &str =
+    "data/derived/efficiency_pressure/cost_down_source_packets.fy2025.v1.draft.jsonl";
+const COST_DOWN_SOURCE_PACKETS_SCHEMA_PATH: &str =
+    "data/derived/efficiency_pressure/cost_down_source_packets.schema.md";
+const COST_DOWN_EVIDENCE_QUEUE_JSONL_PATH: &str =
+    "data/derived/efficiency_pressure/cost_down_evidence_queue.fy2025.v1.draft.jsonl";
+const COST_DOWN_EVIDENCE_QUEUE_SCHEMA_PATH: &str =
+    "data/derived/efficiency_pressure/cost_down_evidence_queue.schema.md";
+const COST_DOWN_EVIDENCE_QUEUE_READER_PATH: &str = "docs/reading/cost-down-evidence-queue.md";
+const COST_DOWN_FIRST_PASS_ROLLUP_JSONL_PATH: &str =
+    "data/derived/efficiency_pressure/cost_down_first_pass_rollup.v1.draft.jsonl";
+const COST_DOWN_FIRST_PASS_ROLLUP_SCHEMA_PATH: &str =
+    "data/derived/efficiency_pressure/cost_down_first_pass_rollup.schema.md";
+const COST_DOWN_FIRST_PASS_ROLLUP_READER_PATH: &str = "docs/reading/cost-down-first-pass-rollup.md";
+const COST_DOWN_SCORING_READINESS_JSONL_PATH: &str =
+    "data/derived/efficiency_pressure/cost_down_scoring_readiness.v1.draft.jsonl";
+const COST_DOWN_SCORING_READINESS_SCHEMA_PATH: &str =
+    "data/derived/efficiency_pressure/cost_down_scoring_readiness.schema.md";
+const COST_DOWN_SCORING_READINESS_READER_PATH: &str = "docs/reading/cost-down-scoring-readiness.md";
+const PAYMENT_INTEGRITY_ELIGIBILITY_FIRST_PASS_JSONL_PATH: &str =
+    "data/derived/efficiency_pressure/extracts/payment_integrity_eligibility_first_pass.jsonl";
+const PAYMENT_INTEGRITY_ELIGIBILITY_FIRST_PASS_SCHEMA_PATH: &str =
+    "data/derived/efficiency_pressure/extracts/payment_integrity_eligibility_first_pass.schema.md";
+const PAYMENT_INTEGRITY_FIRST_PASS_READER_PATH: &str =
+    "docs/reading/payment-integrity-first-pass-extract.md";
+const PAYMENT_INTEGRITY_SCORECARDS_Q4_2025_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_scorecards_q4_2025_first_pass.jsonl";
+const PAYMENT_INTEGRITY_SCORECARDS_Q4_2025_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_scorecards_q4_2025_first_pass.schema.md";
+const PAYMENT_INTEGRITY_SCORECARD_READER_PATH: &str =
+    "docs/reading/payment-integrity-scorecard-extract.md";
+const PAYMENT_INTEGRITY_PROGRAM_REVIEW_GATE_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_program_review_gates_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_PROGRAM_REVIEW_GATE_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_program_review_gates_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_PROGRAM_REVIEW_GATE_READER_PATH: &str =
+    "docs/reading/payment-integrity-program-review-gates.md";
+const PAYMENT_INTEGRITY_PROGRAM_REVIEW_TASKS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_program_review_tasks_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_PROGRAM_REVIEW_TASKS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_program_review_tasks_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_PROGRAM_REVIEW_TASKS_READER_PATH: &str =
+    "docs/reading/payment-integrity-program-review-tasks.md";
+const PAYMENT_INTEGRITY_PROGRAM_REVIEW_STATUS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_program_review_status_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_PROGRAM_REVIEW_STATUS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_program_review_status_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_PROGRAM_REVIEW_STATUS_READER_PATH: &str =
+    "docs/reading/payment-integrity-program-review-status.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_PLANS_JSONL_PATH: &str =
+    "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_plans_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_PLANS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_plans_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_PLANS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-plans.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_FIELDS_JSONL_PATH: &str =
+    "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_fields_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_FIELDS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_fields_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_FIELDS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-fields.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_SOURCE_TARGETS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_source_targets_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_SOURCE_TARGETS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_source_targets_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_SOURCE_TARGETS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-source-targets.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_QUERIES_JSONL_PATH: &str =
+    "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_queries_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_QUERIES_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_queries_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_QUERIES_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-queries.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_QUERY_RUNS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_query_runs_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_QUERY_RUNS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_query_runs_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_QUERY_RUNS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-query-runs.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_RESULTS_JSONL_PATH: &str =
+    "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_results_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_RESULTS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_results_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_RESULTS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-results.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_RESULT_REVIEW_READINESS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_result_review_readiness_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_RESULT_REVIEW_READINESS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_result_review_readiness_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_RESULT_REVIEW_READINESS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-result-review-readiness.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_FIELD_REVIEWS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_field_reviews_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_FIELD_REVIEWS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_field_reviews_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_FIELD_REVIEWS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-field-reviews.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_GAP_FOLLOWUPS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_gap_followups_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_GAP_FOLLOWUPS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_gap_followups_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_GAP_FOLLOWUPS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-gap-followups.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_GAP_SOURCE_CAPTURES_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_gap_source_captures_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_GAP_SOURCE_CAPTURES_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_gap_source_captures_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_GAP_SOURCE_CAPTURES_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-gap-source-captures.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_SOURCE_CAPTURE_ROLLUP_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_source_capture_rollup_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_SOURCE_CAPTURE_ROLLUP_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_source_capture_rollup_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_SOURCE_CAPTURE_ROLLUP_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-source-capture-rollup.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_READINESS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_closure_readiness_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_READINESS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_closure_readiness_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_READINESS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-closure-readiness.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_DECISIONS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_closure_decisions_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_DECISIONS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_closure_decisions_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_DECISIONS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-closure-decisions.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_RESIDUAL_SOURCE_GAPS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_residual_source_gaps_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_RESIDUAL_SOURCE_GAPS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_residual_source_gaps_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_RESIDUAL_SOURCE_GAPS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-residual-source-gaps.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_COVERAGE_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_closure_coverage_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_COVERAGE_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_closure_coverage_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_COVERAGE_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-closure-coverage.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_SCORING_GATE_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_scoring_gate_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_SCORING_GATE_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_scoring_gate_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_SCORING_GATE_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-scoring-gate.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_PROGRAM_ROLLUP_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_program_rollup_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_PROGRAM_ROLLUP_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_program_rollup_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_PROGRAM_ROLLUP_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-program-rollup.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_STATUS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_open_program_status_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_STATUS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_open_program_status_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_STATUS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-open-program-status.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_RESIDUAL_GAP_PRIORITY_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_residual_gap_priority_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_RESIDUAL_GAP_PRIORITY_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_residual_gap_priority_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_RESIDUAL_GAP_PRIORITY_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-residual-gap-priority.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_PRIORITY_SOURCE_WORK_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_priority_source_work_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_PRIORITY_SOURCE_WORK_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_priority_source_work_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_PRIORITY_SOURCE_WORK_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-priority-source-work.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_PRIORITY_REVIEWER_ACTIONS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_priority_reviewer_actions_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_PRIORITY_REVIEWER_ACTIONS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_priority_reviewer_actions_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_PRIORITY_REVIEWER_ACTIONS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-priority-reviewer-actions.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_FIELD_UPDATES_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_field_updates_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_FIELD_UPDATES_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_field_updates_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_FIELD_UPDATES_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-field-updates.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_QUERIES_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_followup_source_queries_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_QUERIES_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_followup_source_queries_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_QUERIES_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-followup-source-queries.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_QUERY_RUNS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_followup_source_query_runs_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_QUERY_RUNS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_followup_source_query_runs_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_QUERY_RUNS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-followup-source-query-runs.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_CAPTURES_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_followup_source_captures_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_CAPTURES_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_followup_source_captures_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_CAPTURES_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-followup-source-captures.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_CAPTURE_ROLLUP_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_followup_source_capture_rollup_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_CAPTURE_ROLLUP_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_followup_source_capture_rollup_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_CAPTURE_ROLLUP_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-followup-source-capture-rollup.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_BOUNDARY_DECISIONS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_followup_boundary_decisions_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_BOUNDARY_DECISIONS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_followup_boundary_decisions_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_BOUNDARY_DECISIONS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-followup-boundary-decisions.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_BOUNDARY_READINESS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_followup_boundary_readiness_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_BOUNDARY_READINESS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_followup_boundary_readiness_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_BOUNDARY_READINESS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-followup-boundary-readiness.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_NARROW_CLOSURE_CANDIDATES_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_narrow_closure_candidates_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_NARROW_CLOSURE_CANDIDATES_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_narrow_closure_candidates_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_NARROW_CLOSURE_CANDIDATES_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-narrow-closure-candidates.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_NARROW_CLOSURE_DECISIONS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_narrow_closure_decisions_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_NARROW_CLOSURE_DECISIONS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_narrow_closure_decisions_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_NARROW_CLOSURE_DECISIONS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-narrow-closure-decisions.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_COMPONENT_PROGRESS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_open_program_component_progress_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_COMPONENT_PROGRESS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_open_program_component_progress_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_COMPONENT_PROGRESS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-open-program-component-progress.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_REQUIREMENTS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_requirements_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_REQUIREMENTS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_requirements_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_REQUIREMENTS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-component-gate-requirements.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_TARGETS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_source_targets_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_TARGETS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_source_targets_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_TARGETS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-component-gate-source-targets.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_QUERIES_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_source_queries_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_QUERIES_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_source_queries_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_QUERIES_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-component-gate-source-queries.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_QUERY_RUNS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_source_query_runs_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_QUERY_RUNS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_source_query_runs_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_QUERY_RUNS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-component-gate-source-query-runs.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_CAPTURES_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_source_captures_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_CAPTURES_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_source_captures_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_CAPTURES_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-component-gate-source-captures.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_CAPTURE_ROLLUPS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_source_capture_rollups_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_CAPTURE_ROLLUPS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_source_capture_rollups_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_CAPTURE_ROLLUPS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-component-gate-source-capture-rollups.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_BOUNDARY_DECISIONS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_boundary_decisions_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_BOUNDARY_DECISIONS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_boundary_decisions_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_BOUNDARY_DECISIONS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-component-gate-boundary-decisions.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_BOUNDARY_READINESS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_boundary_readiness_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_BOUNDARY_READINESS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_boundary_readiness_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_BOUNDARY_READINESS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-component-gate-boundary-readiness.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_NARROW_CANDIDATES_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_narrow_candidates_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_NARROW_CANDIDATES_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_narrow_candidates_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_NARROW_CANDIDATES_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-component-gate-narrow-candidates.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_NARROW_DECISIONS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_narrow_decisions_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_NARROW_DECISIONS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_narrow_decisions_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_NARROW_DECISIONS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-component-gate-narrow-decisions.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_progress_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_progress_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-component-gate-progress.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_REQUIREMENTS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_progress_requirements_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_REQUIREMENTS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_progress_requirements_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_REQUIREMENTS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-component-gate-progress-requirements.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_TARGETS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_progress_source_targets_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_TARGETS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_progress_source_targets_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_TARGETS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-component-gate-progress-source-targets.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_QUERIES_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_progress_source_queries_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_QUERIES_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_progress_source_queries_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_QUERIES_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-component-gate-progress-source-queries.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_QUERY_RUNS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_progress_source_query_runs_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_QUERY_RUNS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_progress_source_query_runs_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_QUERY_RUNS_READER_PATH: &str =
+    "docs/reading/payment-integrity-methodology-component-gate-progress-source-query-runs.md";
+const PAYMENT_INTEGRITY_NEXT_PROGRAM_SELECTION_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_next_program_selection_q4_2025.jsonl";
+const PAYMENT_INTEGRITY_NEXT_PROGRAM_SELECTION_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_next_program_selection_q4_2025.schema.md";
+const PAYMENT_INTEGRITY_NEXT_PROGRAM_SELECTION_READER_PATH: &str =
+    "docs/reading/payment-integrity-next-program-selection.md";
+const PAYMENT_INTEGRITY_CLAIMS_TIMELINESS_JSONL_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_claims_timeliness_first_pass.jsonl";
+const PAYMENT_INTEGRITY_CLAIMS_TIMELINESS_SCHEMA_PATH: &str = "data/derived/efficiency_pressure/extracts/payment_integrity_claims_timeliness_first_pass.schema.md";
+const PAYMENT_INTEGRITY_CLAIMS_TIMELINESS_READER_PATH: &str =
+    "docs/reading/payment-integrity-claims-timeliness-extract.md";
+const DEBT_MATURITY_RISK_FIRST_PASS_JSONL_PATH: &str =
+    "data/derived/efficiency_pressure/extracts/debt_maturity_risk_first_pass.jsonl";
+const DEBT_MATURITY_RISK_FIRST_PASS_SCHEMA_PATH: &str =
+    "data/derived/efficiency_pressure/extracts/debt_maturity_risk_first_pass.schema.md";
+const DEBT_MATURITY_RISK_EXTRACT_READER_PATH: &str = "docs/reading/debt-maturity-risk-extract.md";
+const DEBT_PRIMARY_BALANCE_FIRST_PASS_JSONL_PATH: &str =
+    "data/derived/efficiency_pressure/extracts/debt_primary_balance_first_pass.jsonl";
+const DEBT_PRIMARY_BALANCE_FIRST_PASS_SCHEMA_PATH: &str =
+    "data/derived/efficiency_pressure/extracts/debt_primary_balance_first_pass.schema.md";
+const DEBT_PRIMARY_BALANCE_EXTRACT_READER_PATH: &str =
+    "docs/reading/debt-primary-balance-extract.md";
+const DISASTER_SUPPLEMENTAL_TRACKING_FIRST_PASS_JSONL_PATH: &str =
+    "data/derived/efficiency_pressure/extracts/disaster_supplemental_tracking_first_pass.jsonl";
+const DISASTER_SUPPLEMENTAL_TRACKING_FIRST_PASS_SCHEMA_PATH: &str =
+    "data/derived/efficiency_pressure/extracts/disaster_supplemental_tracking_first_pass.schema.md";
+const DISASTER_SUPPLEMENTAL_TRACKING_EXTRACT_READER_PATH: &str =
+    "docs/reading/disaster-supplemental-tracking-extract.md";
+const DISASTER_MITIGATION_FIRST_PASS_JSONL_PATH: &str =
+    "data/derived/efficiency_pressure/extracts/disaster_mitigation_first_pass.jsonl";
+const DISASTER_MITIGATION_FIRST_PASS_SCHEMA_PATH: &str =
+    "data/derived/efficiency_pressure/extracts/disaster_mitigation_first_pass.schema.md";
+const DISASTER_MITIGATION_EXTRACT_READER_PATH: &str = "docs/reading/disaster-mitigation-extract.md";
+const DEFENSE_AUDIT_CONTROL_FIRST_PASS_JSONL_PATH: &str =
+    "data/derived/efficiency_pressure/extracts/defense_audit_control_first_pass.jsonl";
+const DEFENSE_AUDIT_CONTROL_FIRST_PASS_SCHEMA_PATH: &str =
+    "data/derived/efficiency_pressure/extracts/defense_audit_control_first_pass.schema.md";
+const DEFENSE_AUDIT_CONTROL_EXTRACT_READER_PATH: &str =
+    "docs/reading/defense-audit-control-extract.md";
+const DEFENSE_PROCUREMENT_CONTROL_FIRST_PASS_JSONL_PATH: &str =
+    "data/derived/efficiency_pressure/extracts/defense_procurement_control_first_pass.jsonl";
+const DEFENSE_PROCUREMENT_CONTROL_FIRST_PASS_SCHEMA_PATH: &str =
+    "data/derived/efficiency_pressure/extracts/defense_procurement_control_first_pass.schema.md";
+const DEFENSE_PROCUREMENT_CONTROL_EXTRACT_READER_PATH: &str =
+    "docs/reading/defense-procurement-control-extract.md";
+const HEALTH_PRICE_DISCIPLINE_FIRST_PASS_JSONL_PATH: &str =
+    "data/derived/efficiency_pressure/extracts/health_price_discipline_first_pass.jsonl";
+const HEALTH_PRICE_DISCIPLINE_FIRST_PASS_SCHEMA_PATH: &str =
+    "data/derived/efficiency_pressure/extracts/health_price_discipline_first_pass.schema.md";
+const HEALTH_PRICE_DISCIPLINE_EXTRACT_READER_PATH: &str =
+    "docs/reading/health-price-discipline-extract.md";
+const HEALTH_ADMIN_SIMPLIFICATION_FIRST_PASS_JSONL_PATH: &str =
+    "data/derived/efficiency_pressure/extracts/health_admin_simplification_first_pass.jsonl";
+const HEALTH_ADMIN_SIMPLIFICATION_FIRST_PASS_SCHEMA_PATH: &str =
+    "data/derived/efficiency_pressure/extracts/health_admin_simplification_first_pass.schema.md";
+const HEALTH_ADMIN_SIMPLIFICATION_EXTRACT_READER_PATH: &str =
+    "docs/reading/health-administrative-simplification-extract.md";
+const HEALTH_PRICE_DISCIPLINE_SOURCE_PACKET_READER_PATH: &str =
+    "docs/reading/health-price-discipline-source-packet.md";
+const HEALTH_ADMIN_SIMPLIFICATION_SOURCE_PACKET_READER_PATH: &str =
+    "docs/reading/health-administrative-simplification-source-packet.md";
+const DEBT_PRIMARY_BALANCE_SOURCE_PACKET_READER_PATH: &str =
+    "docs/reading/debt-primary-balance-source-packet.md";
+const DEBT_MATURITY_RISK_SOURCE_PACKET_READER_PATH: &str =
+    "docs/reading/debt-maturity-risk-source-packet.md";
+const DEFENSE_PROCUREMENT_CONTROL_SOURCE_PACKET_READER_PATH: &str =
+    "docs/reading/defense-procurement-control-source-packet.md";
+const DEFENSE_AUDIT_CONTROL_SOURCE_PACKET_READER_PATH: &str =
+    "docs/reading/defense-audit-control-source-packet.md";
+const DISASTER_MITIGATION_SOURCE_PACKET_READER_PATH: &str =
+    "docs/reading/disaster-mitigation-source-packet.md";
+const DISASTER_SUPPLEMENTAL_TRACKING_SOURCE_PACKET_READER_PATH: &str =
+    "docs/reading/disaster-supplemental-tracking-source-packet.md";
+const PAYMENT_INTEGRITY_ELIGIBILITY_SOURCE_PACKET_READER_PATH: &str =
+    "docs/reading/payment-integrity-eligibility-source-packet.md";
+const PAYMENT_INTEGRITY_CLAIMS_TIMELINESS_SOURCE_PACKET_READER_PATH: &str =
+    "docs/reading/payment-integrity-claims-timeliness-source-packet.md";
+const EFFICIENCY_PRESSURE_RESEARCH_PATH: &str =
+    "docs/research/2026-06-28-efficiency-pressure-framework.md";
+const PER_UNIT_DISPLAY_READINESS_JSONL_PATH: &str =
+    "data/derived/denominator_requirements/per_unit_display_readiness.v1.draft.jsonl";
+const PER_UNIT_RECEIPT_CARDS_JSONL_PATH: &str =
+    "data/derived/denominator_requirements/per_unit_receipt_cards.v1.draft.jsonl";
+const PER_UNIT_DISPLAY_READINESS_DASHBOARD_PATH: &str =
+    "data/derived/denominator_requirements/per-unit-display-readiness.md";
+const PER_UNIT_RECEIPT_CARDS_READER_PATH: &str = "docs/reading/per-unit-receipt-cards.md";
 const ACCOUNTABILITY_ARTIFACT_MAP_PATH: &str =
     "data/derived/accountability_evidence/artifact-map.md";
 const ACCOUNTABILITY_PUBLIC_BRIEF_PATH: &str = "docs/reading/accountability-public-brief.md";
@@ -365,6 +749,1357 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "data/derived/income_tax_outlay_subfunction_model/README.md",
         role: "Subfunction model method and schema note",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/spend_category_map/spend_category_map.fy2025.omb-fy2027-v1.draft.jsonl",
+        role: "Top FY2025 spend category question-routing rows",
+        grain: "ranked FY2025 OMB subfunction",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/spend_category_map/README.md",
+        role: "Spend category map method note",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/spend_category_map/spend_category_map.schema.md",
+        role: "Spend category map row schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/spend_category_map/accountability-question-handoff.md",
+        role: "Spend category accountability question handoff",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/spend_category_map/spend-category-dashboard.md",
+        role: "Spend category dashboard",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/efficiency_pressure.fy2025.v1.draft.jsonl",
+        role: "Efficiency pressure question-routing rows",
+        grain: "FY2025 pressure surface",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/README.md",
+        role: "Efficiency pressure method note",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/efficiency_pressure.schema.md",
+        role: "Efficiency pressure row schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/cost_down_backlog.fy2025.v1.draft.jsonl",
+        role: "Cost-down backlog work-item rows",
+        grain: "FY2025 cost-down lever",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/cost_down_backlog.schema.md",
+        role: "Cost-down backlog row schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/cost_down_source_packets.fy2025.v1.draft.jsonl",
+        role: "Cost-down source packet rows",
+        grain: "cost-down source packet",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/cost_down_source_packets.schema.md",
+        role: "Cost-down source packet schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/cost_down_evidence_queue.fy2025.v1.draft.jsonl",
+        role: "Cost-down evidence queue rows",
+        grain: "cost-down extraction queue",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/cost_down_evidence_queue.schema.md",
+        role: "Cost-down evidence queue schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/cost_down_first_pass_rollup.v1.draft.jsonl",
+        role: "Cost-down first-pass rollup",
+        grain: "cost-down queue row by evidence status",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/cost_down_first_pass_rollup.schema.md",
+        role: "Cost-down first-pass rollup schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/cost_down_scoring_readiness.v1.draft.jsonl",
+        role: "Cost-down scoring readiness",
+        grain: "ranked cost-down lever by scoring readiness",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/cost_down_scoring_readiness.schema.md",
+        role: "Cost-down scoring readiness schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_eligibility_first_pass.jsonl",
+        role: "Payment integrity eligibility first-pass extract",
+        grain: "PaymentAccuracy homepage agency trend row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_eligibility_first_pass.schema.md",
+        role: "Payment integrity eligibility first-pass extract schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_scorecards_q4_2025_first_pass.jsonl",
+        role: "Payment integrity scorecard first-pass extract",
+        grain: "PaymentAccuracy Q4 2025 scorecard row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_scorecards_q4_2025_first_pass.schema.md",
+        role: "Payment integrity scorecard first-pass extract schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_program_review_gates_q4_2025.jsonl",
+        role: "Payment integrity program review gates",
+        grain: "PaymentAccuracy scorecard program review gate",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_program_review_gates_q4_2025.schema.md",
+        role: "Payment integrity program review gates schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_program_review_tasks_q4_2025.jsonl",
+        role: "Payment integrity program review tasks",
+        grain: "PaymentAccuracy scorecard program review task",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_program_review_tasks_q4_2025.schema.md",
+        role: "Payment integrity program review tasks schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_program_review_status_q4_2025.jsonl",
+        role: "Payment integrity program review status",
+        grain: "PaymentAccuracy scorecard program review status",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_program_review_status_q4_2025.schema.md",
+        role: "Payment integrity program review status schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_plans_q4_2025.jsonl",
+        role: "Payment integrity methodology plans",
+        grain: "PaymentAccuracy program methodology plan",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_plans_q4_2025.schema.md",
+        role: "Payment integrity methodology plans schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_fields_q4_2025.jsonl",
+        role: "Payment integrity methodology field checklist",
+        grain: "PaymentAccuracy program methodology field",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_fields_q4_2025.schema.md",
+        role: "Payment integrity methodology field checklist schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_source_targets_q4_2025.jsonl",
+        role: "Payment integrity methodology source targets",
+        grain: "PaymentAccuracy methodology source target",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_source_targets_q4_2025.schema.md",
+        role: "Payment integrity methodology source targets schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_queries_q4_2025.jsonl",
+        role: "Payment integrity methodology queries",
+        grain: "PaymentAccuracy methodology query row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_queries_q4_2025.schema.md",
+        role: "Payment integrity methodology queries schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_query_runs_q4_2025.jsonl",
+        role: "Payment integrity methodology query runs",
+        grain: "PaymentAccuracy methodology query run row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_query_runs_q4_2025.schema.md",
+        role: "Payment integrity methodology query runs schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_results_q4_2025.jsonl",
+        role: "Payment integrity methodology results",
+        grain: "PaymentAccuracy methodology result row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_results_q4_2025.schema.md",
+        role: "Payment integrity methodology results schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_result_review_readiness_q4_2025.jsonl",
+        role: "Payment integrity methodology result review readiness",
+        grain: "PaymentAccuracy methodology result-review-readiness row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_result_review_readiness_q4_2025.schema.md",
+        role: "Payment integrity methodology result review readiness schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_field_reviews_q4_2025.jsonl",
+        role: "Payment integrity methodology field reviews",
+        grain: "PaymentAccuracy methodology field-review row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_field_reviews_q4_2025.schema.md",
+        role: "Payment integrity methodology field reviews schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_gap_followups_q4_2025.jsonl",
+        role: "Payment integrity methodology gap followups",
+        grain: "PaymentAccuracy methodology gap-followup row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_gap_followups_q4_2025.schema.md",
+        role: "Payment integrity methodology gap followups schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_gap_source_captures_q4_2025.jsonl",
+        role: "Payment integrity methodology gap source captures",
+        grain: "PaymentAccuracy methodology gap source-capture row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_gap_source_captures_q4_2025.schema.md",
+        role: "Payment integrity methodology gap source captures schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_source_capture_rollup_q4_2025.jsonl",
+        role: "Payment integrity methodology source capture rollup",
+        grain: "PaymentAccuracy methodology source-capture rollup row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_source_capture_rollup_q4_2025.schema.md",
+        role: "Payment integrity methodology source capture rollup schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_closure_readiness_q4_2025.jsonl",
+        role: "Payment integrity methodology closure readiness",
+        grain: "PaymentAccuracy methodology closure-readiness row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_closure_readiness_q4_2025.schema.md",
+        role: "Payment integrity methodology closure readiness schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_closure_decisions_q4_2025.jsonl",
+        role: "Payment integrity methodology closure decisions",
+        grain: "PaymentAccuracy methodology closure-decision row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_closure_decisions_q4_2025.schema.md",
+        role: "Payment integrity methodology closure decisions schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_residual_source_gaps_q4_2025.jsonl",
+        role: "Payment integrity methodology residual source gaps",
+        grain: "PaymentAccuracy methodology residual source-gap row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_residual_source_gaps_q4_2025.schema.md",
+        role: "Payment integrity methodology residual source gaps schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_closure_coverage_q4_2025.jsonl",
+        role: "Payment integrity methodology closure coverage",
+        grain: "PaymentAccuracy methodology closure-coverage row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_closure_coverage_q4_2025.schema.md",
+        role: "Payment integrity methodology closure coverage schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_scoring_gate_q4_2025.jsonl",
+        role: "Payment integrity methodology scoring gate",
+        grain: "PaymentAccuracy methodology scoring-gate row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_scoring_gate_q4_2025.schema.md",
+        role: "Payment integrity methodology scoring gate schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_program_rollup_q4_2025.jsonl",
+        role: "Payment integrity methodology program rollup",
+        grain: "PaymentAccuracy methodology program-rollup row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_program_rollup_q4_2025.schema.md",
+        role: "Payment integrity methodology program rollup schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_open_program_status_q4_2025.jsonl",
+        role: "Payment integrity methodology open program status",
+        grain: "PaymentAccuracy methodology open-program status row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_open_program_status_q4_2025.schema.md",
+        role: "Payment integrity methodology open program status schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_residual_gap_priority_q4_2025.jsonl",
+        role: "Payment integrity methodology residual gap priority",
+        grain: "PaymentAccuracy methodology residual-gap priority row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_residual_gap_priority_q4_2025.schema.md",
+        role: "Payment integrity methodology residual gap priority schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_priority_source_work_q4_2025.jsonl",
+        role: "Payment integrity methodology priority source work",
+        grain: "PaymentAccuracy methodology priority source-work row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_priority_source_work_q4_2025.schema.md",
+        role: "Payment integrity methodology priority source work schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_priority_reviewer_actions_q4_2025.jsonl",
+        role: "Payment integrity methodology priority reviewer actions",
+        grain: "PaymentAccuracy methodology priority reviewer-action row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_priority_reviewer_actions_q4_2025.schema.md",
+        role: "Payment integrity methodology priority reviewer actions schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_field_updates_q4_2025.jsonl",
+        role: "Payment integrity methodology field updates",
+        grain: "PaymentAccuracy methodology field-update row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_field_updates_q4_2025.schema.md",
+        role: "Payment integrity methodology field updates schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_followup_source_queries_q4_2025.jsonl",
+        role: "Payment integrity methodology follow-up source queries",
+        grain: "PaymentAccuracy methodology follow-up source-query row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_followup_source_queries_q4_2025.schema.md",
+        role: "Payment integrity methodology follow-up source queries schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_followup_source_query_runs_q4_2025.jsonl",
+        role: "Payment integrity methodology follow-up source query runs",
+        grain: "PaymentAccuracy methodology follow-up source-query-run row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_followup_source_query_runs_q4_2025.schema.md",
+        role: "Payment integrity methodology follow-up source query runs schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_followup_source_captures_q4_2025.jsonl",
+        role: "Payment integrity methodology follow-up source captures",
+        grain: "PaymentAccuracy methodology follow-up source-capture row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_followup_source_captures_q4_2025.schema.md",
+        role: "Payment integrity methodology follow-up source captures schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_followup_source_capture_rollup_q4_2025.jsonl",
+        role: "Payment integrity methodology follow-up source capture rollup",
+        grain: "PaymentAccuracy methodology follow-up source-capture rollup row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_followup_source_capture_rollup_q4_2025.schema.md",
+        role: "Payment integrity methodology follow-up source capture rollup schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_followup_boundary_decisions_q4_2025.jsonl",
+        role: "Payment integrity methodology follow-up boundary decisions",
+        grain: "PaymentAccuracy methodology follow-up boundary-decision row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_followup_boundary_decisions_q4_2025.schema.md",
+        role: "Payment integrity methodology follow-up boundary decisions schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_followup_boundary_readiness_q4_2025.jsonl",
+        role: "Payment integrity methodology follow-up boundary readiness",
+        grain: "PaymentAccuracy methodology follow-up boundary-readiness row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_followup_boundary_readiness_q4_2025.schema.md",
+        role: "Payment integrity methodology follow-up boundary readiness schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_narrow_closure_candidates_q4_2025.jsonl",
+        role: "Payment integrity methodology narrow closure candidates",
+        grain: "PaymentAccuracy methodology narrow closure-candidate row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_narrow_closure_candidates_q4_2025.schema.md",
+        role: "Payment integrity methodology narrow closure candidates schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_narrow_closure_decisions_q4_2025.jsonl",
+        role: "Payment integrity methodology narrow closure decisions",
+        grain: "PaymentAccuracy methodology narrow closure-decision row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_narrow_closure_decisions_q4_2025.schema.md",
+        role: "Payment integrity methodology narrow closure decisions schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_open_program_component_progress_q4_2025.jsonl",
+        role: "Payment integrity methodology open-program component progress",
+        grain: "PaymentAccuracy methodology open-program component-progress row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_open_program_component_progress_q4_2025.schema.md",
+        role: "Payment integrity methodology open-program component progress schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_requirements_q4_2025.jsonl",
+        role: "Payment integrity methodology component gate requirements",
+        grain: "PaymentAccuracy methodology component gate-requirement row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_requirements_q4_2025.schema.md",
+        role: "Payment integrity methodology component gate requirements schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_source_targets_q4_2025.jsonl",
+        role: "Payment integrity methodology component gate source targets",
+        grain: "PaymentAccuracy methodology component gate source-target row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_source_targets_q4_2025.schema.md",
+        role: "Payment integrity methodology component gate source targets schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_source_queries_q4_2025.jsonl",
+        role: "Payment integrity methodology component gate source queries",
+        grain: "PaymentAccuracy methodology component gate source-query row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_source_queries_q4_2025.schema.md",
+        role: "Payment integrity methodology component gate source queries schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_source_query_runs_q4_2025.jsonl",
+        role: "Payment integrity methodology component gate source query runs",
+        grain: "PaymentAccuracy methodology component gate source-query-run row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_source_query_runs_q4_2025.schema.md",
+        role: "Payment integrity methodology component gate source query runs schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_source_captures_q4_2025.jsonl",
+        role: "Payment integrity methodology component gate source captures",
+        grain: "PaymentAccuracy methodology component gate source-capture row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_source_captures_q4_2025.schema.md",
+        role: "Payment integrity methodology component gate source captures schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_source_capture_rollups_q4_2025.jsonl",
+        role: "Payment integrity methodology component gate source capture rollups",
+        grain: "PaymentAccuracy methodology component gate source-capture rollup row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_source_capture_rollups_q4_2025.schema.md",
+        role: "Payment integrity methodology component gate source capture rollups schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_boundary_decisions_q4_2025.jsonl",
+        role: "Payment integrity methodology component gate boundary decisions",
+        grain: "PaymentAccuracy methodology component gate boundary-decision row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_boundary_decisions_q4_2025.schema.md",
+        role: "Payment integrity methodology component gate boundary decisions schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_boundary_readiness_q4_2025.jsonl",
+        role: "Payment integrity methodology component gate boundary readiness",
+        grain: "PaymentAccuracy methodology component gate boundary-readiness row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_boundary_readiness_q4_2025.schema.md",
+        role: "Payment integrity methodology component gate boundary readiness schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_narrow_candidates_q4_2025.jsonl",
+        role: "Payment integrity methodology component gate narrow candidates",
+        grain: "PaymentAccuracy methodology component gate narrow-candidate row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_narrow_candidates_q4_2025.schema.md",
+        role: "Payment integrity methodology component gate narrow candidates schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_narrow_decisions_q4_2025.jsonl",
+        role: "Payment integrity methodology component gate narrow decisions",
+        grain: "PaymentAccuracy methodology component gate narrow-decision row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_narrow_decisions_q4_2025.schema.md",
+        role: "Payment integrity methodology component gate narrow decisions schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_progress_q4_2025.jsonl",
+        role: "Payment integrity methodology component gate progress",
+        grain: "PaymentAccuracy methodology component gate progress row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_progress_q4_2025.schema.md",
+        role: "Payment integrity methodology component gate progress schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_progress_requirements_q4_2025.jsonl",
+        role: "Payment integrity methodology component gate progress requirements",
+        grain: "PaymentAccuracy methodology component gate progress requirement row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_progress_requirements_q4_2025.schema.md",
+        role: "Payment integrity methodology component gate progress requirements schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_progress_source_targets_q4_2025.jsonl",
+        role: "Payment integrity methodology component gate progress source targets",
+        grain: "PaymentAccuracy methodology component gate progress source-target row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_progress_source_targets_q4_2025.schema.md",
+        role: "Payment integrity methodology component gate progress source targets schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_progress_source_queries_q4_2025.jsonl",
+        role: "Payment integrity methodology component gate progress source queries",
+        grain: "PaymentAccuracy methodology component gate progress source-query row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_progress_source_queries_q4_2025.schema.md",
+        role: "Payment integrity methodology component gate progress source queries schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_progress_source_query_runs_q4_2025.jsonl",
+        role: "Payment integrity methodology component gate progress source query runs",
+        grain: "PaymentAccuracy methodology component gate progress source-query-run row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_component_gate_progress_source_query_runs_q4_2025.schema.md",
+        role: "Payment integrity methodology component gate progress source query runs schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_next_program_selection_q4_2025.jsonl",
+        role: "Payment integrity next program selection",
+        grain: "PaymentAccuracy next program selection row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_next_program_selection_q4_2025.schema.md",
+        role: "Payment integrity next program selection schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_claims_timeliness_first_pass.jsonl",
+        role: "Payment integrity claims timeliness first-pass extract",
+        grain: "claims timeliness probe row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/payment_integrity_claims_timeliness_first_pass.schema.md",
+        role: "Payment integrity claims timeliness first-pass extract schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/debt_maturity_risk_first_pass.jsonl",
+        role: "Debt maturity risk first-pass extract",
+        grain: "Treasury Fiscal Data probe row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/debt_maturity_risk_first_pass.schema.md",
+        role: "Debt maturity risk first-pass extract schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/debt_primary_balance_first_pass.jsonl",
+        role: "Debt primary balance first-pass extract",
+        grain: "FY2025 fiscal-balance probe row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/debt_primary_balance_first_pass.schema.md",
+        role: "Debt primary balance first-pass extract schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/disaster_supplemental_tracking_first_pass.jsonl",
+        role: "Disaster supplemental tracking first-pass extract",
+        grain: "FEMA declaration-area probe row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/disaster_supplemental_tracking_first_pass.schema.md",
+        role: "Disaster supplemental tracking first-pass extract schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/disaster_mitigation_first_pass.jsonl",
+        role: "Disaster mitigation first-pass extract",
+        grain: "FEMA HMA project probe row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/disaster_mitigation_first_pass.schema.md",
+        role: "Disaster mitigation first-pass extract schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/defense_audit_control_first_pass.jsonl",
+        role: "Defense audit control first-pass extract",
+        grain: "DoD OIG audit-control probe row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/defense_audit_control_first_pass.schema.md",
+        role: "Defense audit control first-pass extract schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/defense_procurement_control_first_pass.jsonl",
+        role: "Defense procurement control first-pass extract",
+        grain: "GAO weapon-systems procurement-control probe row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/defense_procurement_control_first_pass.schema.md",
+        role: "Defense procurement control first-pass extract schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/health_price_discipline_first_pass.jsonl",
+        role: "Health price discipline first-pass extract",
+        grain: "health price-discipline probe row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/health_price_discipline_first_pass.schema.md",
+        role: "Health price discipline first-pass extract schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/health_admin_simplification_first_pass.jsonl",
+        role: "Health administrative simplification first-pass extract",
+        grain: "health administrative workflow probe row",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/efficiency_pressure/extracts/health_admin_simplification_first_pass.schema.md",
+        role: "Health administrative simplification first-pass extract schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/research/2026-06-28-efficiency-pressure-framework.md",
+        role: "Efficiency pressure framework note",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/cost-down-backlog.md",
+        role: "Cost-down backlog reader packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/cost-down-evidence-queue.md",
+        role: "Cost-down evidence queue reader packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/payment-integrity-first-pass-extract.md",
+        role: "Payment integrity first-pass extract reader packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/payment-integrity-scorecard-extract.md",
+        role: "Payment integrity scorecard extract reader packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/payment-integrity-program-review-gates.md",
+        role: "Payment integrity program review gate reader packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/payment-integrity-program-review-tasks.md",
+        role: "Payment integrity program review task reader packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/payment-integrity-program-review-status.md",
+        role: "Payment integrity program review status reader packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/payment-integrity-methodology-plans.md",
+        role: "Payment integrity methodology plan reader packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/payment-integrity-methodology-fields.md",
+        role: "Payment integrity methodology field checklist reader packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/payment-integrity-methodology-source-targets.md",
+        role: "Payment integrity methodology source target reader packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/payment-integrity-methodology-queries.md",
+        role: "Payment integrity methodology query reader packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/payment-integrity-methodology-query-runs.md",
+        role: "Payment integrity methodology query run reader packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/payment-integrity-methodology-results.md",
+        role: "Payment integrity methodology result reader packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/payment-integrity-claims-timeliness-extract.md",
+        role: "Payment integrity claims timeliness extract reader packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/debt-maturity-risk-extract.md",
+        role: "Debt maturity risk extract reader packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/debt-primary-balance-extract.md",
+        role: "Debt primary balance extract reader packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/disaster-supplemental-tracking-extract.md",
+        role: "Disaster supplemental tracking extract reader packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/health-price-discipline-source-packet.md",
+        role: "Health price discipline source packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/health-administrative-simplification-source-packet.md",
+        role: "Health administrative simplification source packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/debt-primary-balance-source-packet.md",
+        role: "Debt primary balance source packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/debt-maturity-risk-source-packet.md",
+        role: "Debt maturity risk source packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/defense-procurement-control-source-packet.md",
+        role: "Defense procurement control source packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/defense-audit-control-source-packet.md",
+        role: "Defense audit control source packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/disaster-mitigation-source-packet.md",
+        role: "Disaster mitigation source packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/disaster-supplemental-tracking-source-packet.md",
+        role: "Disaster supplemental tracking source packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/payment-integrity-eligibility-source-packet.md",
+        role: "Payment integrity eligibility source packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/payment-integrity-claims-timeliness-source-packet.md",
+        role: "Payment integrity claims timeliness source packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/contribution_alignment/contribution_alignment.fy2025.v1.draft.jsonl",
+        role: "Contribution-benefit alignment rows",
+        grain: "FY2025 lane alignment surface",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/contribution_alignment/medicare_source_boundary.fy2025.draft.jsonl",
+        role: "Medicare OMB source-boundary check",
+        grain: "FY2025 Medicare source boundary",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/contribution_alignment/medicare_part_financing.cy2025.cms-trustees-2026.draft.jsonl",
+        role: "Medicare Trustees part-financing split",
+        grain: "CY2025 Medicare part financing",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/contribution_alignment/README.md",
+        role: "Contribution alignment method note",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/contribution_alignment/contribution_alignment.schema.md",
+        role: "Contribution alignment row schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/research/2026-06-28-contribution-benefit-alignment.md",
+        role: "Contribution-benefit alignment framework note",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/research/2026-06-28-medicare-source-boundary.md",
+        role: "Medicare source-boundary note",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/research/2026-06-29-medicare-part-financing.md",
+        role: "Medicare part-financing note",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/denominator_requirements/denominator_requirements.v1.draft.jsonl",
+        role: "Per-person display denominator requirements",
+        grain: "denominator display basis",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/denominator_requirements/denominator_values.ty2022.irs-soi-1304.draft.jsonl",
+        role: "Sourced tax-return denominator values",
+        grain: "tax-year denominator value",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/denominator_requirements/denominator_values.cy2025.cms-medicare-trustees-2026.draft.jsonl",
+        role: "Sourced Medicare enrollment denominator values",
+        grain: "calendar-year Medicare denominator value",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/denominator_requirements/denominator_values.cy2025.census.draft.jsonl",
+        role: "Sourced Census civic denominator values",
+        grain: "calendar-year civic denominator value",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/denominator_requirements/denominator_values.cy2025.ssa-trustees-2026.draft.jsonl",
+        role: "Sourced Social Security denominator values",
+        grain: "calendar-year Social Security denominator value",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/denominator_requirements/per_unit_display_readiness.v1.draft.jsonl",
+        role: "Per-unit display readiness rows",
+        grain: "per-unit display claim",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/denominator_requirements/per_unit_receipt_cards.v1.draft.jsonl",
+        role: "Per-unit receipt card rows",
+        grain: "per-unit public card",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/denominator_requirements/README.md",
+        role: "Denominator requirements method note",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/denominator_requirements/denominator_requirements.schema.md",
+        role: "Denominator requirements schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/research/2026-06-28-denominator-source-ladder.md",
+        role: "Denominator source ladder",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/research/2026-06-29-medicare-denominators.md",
+        role: "Medicare denominator values note",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/research/2026-06-29-civic-denominators.md",
+        role: "Civic denominator values note",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/research/2026-06-29-social-security-denominators.md",
+        role: "Social Security denominator values note",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/denominator_requirements/per-unit-display-readiness.md",
+        role: "Per-unit display readiness dashboard",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/per-unit-receipt-cards.md",
+        role: "Per-unit receipt card reader packet",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/honest-federal-tax-receipt.md",
+        role: "Flagship honest federal tax receipt",
+        grain: "public receipt prototype",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/aligned-contribution-receipt.md",
+        role: "Aligned contribution receipt reader packet",
         grain: "documentation",
         kind: "markdown",
         canonical: "supporting",
@@ -1332,6 +3067,21 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = validate_program_lane_records(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = validate_spend_category_map(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = validate_efficiency_pressure_records(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = validate_per_unit_display_records(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -6002,6 +7752,6468 @@ fn validate_accountability_evidence_records(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_spend_category_map(root: &Path) -> Result<(), String> {
+    let rows: Vec<SpendCategoryMapRecord> = read_jsonl(root.join(SPEND_CATEGORY_MAP_JSONL_PATH))?
+        .into_iter()
+        .map(|row| {
+            serde_json::from_value(row).map_err(|err| {
+                format!("{SPEND_CATEGORY_MAP_JSONL_PATH} row failed to parse: {err}")
+            })
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+
+    if rows.len() != 15 {
+        return Err(format!(
+            "spend category map must contain 15 top FY2025 rows, got {}",
+            rows.len()
+        ));
+    }
+
+    for (index, row) in rows.iter().enumerate() {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        let expected_rank = (index + 1) as u16;
+        if row.rank != expected_rank {
+            return Err(format!(
+                "spend category rows must be sorted by rank; expected {expected_rank}, got {}",
+                row.rank
+            ));
+        }
+        if row.record_id != format!("spendcat-fy2025-{expected_rank:03}") {
+            return Err(format!(
+                "spend category row {} has unexpected record_id {}",
+                row.rank, row.record_id
+            ));
+        }
+    }
+
+    let total_share: f64 = rows
+        .iter()
+        .map(|row| row.share_of_total_outlays_percent)
+        .sum();
+    if total_share < 90.0 {
+        return Err(format!(
+            "top spend category rows should cover most FY2025 outlays; got {total_share:.2}%"
+        ));
+    }
+
+    let index = fs::read_to_string(root.join("data/derived/README.md"))
+        .map_err(|err| format!("failed to read data/derived/README.md: {err}"))?;
+    if !index.contains("spend_category_map/") {
+        return Err("data/derived/README.md must link spend_category_map/".to_string());
+    }
+
+    let reader = fs::read_to_string(root.join("docs/reading/where-federal-money-goes.md"))
+        .map_err(|err| format!("failed to read docs/reading/where-federal-money-goes.md: {err}"))?;
+    if !reader.contains(SPEND_CATEGORY_MAP_JSONL_PATH) {
+        return Err("where-federal-money-goes.md must cite the spend category JSONL".to_string());
+    }
+
+    for path in [
+        SPEND_CATEGORY_MAP_README_PATH,
+        SPEND_CATEGORY_MAP_SCHEMA_PATH,
+        SPEND_CATEGORY_MAP_HANDOFF_PATH,
+        SPEND_CATEGORY_MAP_DASHBOARD_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing spend category support artifact: {path}"));
+        }
+    }
+
+    let expected_dashboard = build_spend_category_dashboard(&rows)?;
+    compare_text(
+        root,
+        SPEND_CATEGORY_MAP_DASHBOARD_PATH,
+        &expected_dashboard,
+        "spend category dashboard",
+    )?;
+
+    println!("validated {} spend category map rows", rows.len());
+    Ok(())
+}
+
+fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
+    let source_ledger = fs::read_to_string(root.join(SOURCE_VERSION_LEDGER_PATH))
+        .map_err(|err| format!("failed to read {SOURCE_VERSION_LEDGER_PATH}: {err}"))?;
+    let spend_rows: Vec<SpendCategoryMapRecord> =
+        read_jsonl(root.join(SPEND_CATEGORY_MAP_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+                    format!("{SPEND_CATEGORY_MAP_JSONL_PATH} row failed to parse: {err}")
+                })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    let spend_ids: BTreeSet<String> = spend_rows.iter().map(|row| row.record_id.clone()).collect();
+    let rows: Vec<EfficiencyPressureRecord> =
+        read_jsonl(root.join(EFFICIENCY_PRESSURE_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+                    format!("{EFFICIENCY_PRESSURE_JSONL_PATH} row failed to parse: {err}")
+                })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+
+    if rows.len() != 5 {
+        return Err(format!(
+            "efficiency pressure must contain 5 FY2025 rows, got {}",
+            rows.len()
+        ));
+    }
+
+    let mut ids = BTreeSet::new();
+    let mut level_counts = BTreeMap::new();
+    for row in &rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate efficiency pressure row {}",
+                row.record_id
+            ));
+        }
+        *level_counts
+            .entry(row.pressure_level.as_str())
+            .or_insert(0usize) += 1;
+        for related in &row.related_spend_categories {
+            if related.starts_with("spendcat-") && !spend_ids.contains(related) {
+                return Err(format!(
+                    "{} references missing spend category {}",
+                    row.record_id, related
+                ));
+            }
+        }
+    }
+
+    for required_level in ["highest", "high", "watch"] {
+        if !level_counts.contains_key(required_level) {
+            return Err(format!(
+                "efficiency pressure rows must include pressure_level {required_level}"
+            ));
+        }
+    }
+
+    let backlog_rows: Vec<CostDownBacklogRecord> =
+        read_jsonl(root.join(COST_DOWN_BACKLOG_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+                    format!("{COST_DOWN_BACKLOG_JSONL_PATH} row failed to parse: {err}")
+                })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if backlog_rows.len() != 10 {
+        return Err(format!(
+            "cost-down backlog must contain 10 FY2025 rows, got {}",
+            backlog_rows.len()
+        ));
+    }
+    let mut backlog_ids = BTreeSet::new();
+    let mut backlog_count_by_pressure = BTreeMap::new();
+    for row in &backlog_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !backlog_ids.insert(row.record_id.clone()) {
+            return Err(format!("duplicate cost-down backlog row {}", row.record_id));
+        }
+        if !ids.contains(&row.source_pressure_record_id) {
+            return Err(format!(
+                "{} references missing efficiency pressure row {}",
+                row.record_id, row.source_pressure_record_id
+            ));
+        }
+        *backlog_count_by_pressure
+            .entry(row.source_pressure_record_id.as_str())
+            .or_insert(0usize) += 1;
+    }
+    for pressure_id in &ids {
+        let count = backlog_count_by_pressure
+            .get(pressure_id.as_str())
+            .copied()
+            .unwrap_or(0);
+        if count != 2 {
+            return Err(format!(
+                "{pressure_id} must have exactly 2 cost-down backlog rows, got {count}"
+            ));
+        }
+    }
+
+    let source_packet_rows: Vec<CostDownSourcePacketRecord> =
+        read_jsonl(root.join(COST_DOWN_SOURCE_PACKETS_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+                    format!("{COST_DOWN_SOURCE_PACKETS_JSONL_PATH} row failed to parse: {err}")
+                })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if source_packet_rows.len() != 10 {
+        return Err(format!(
+            "cost-down source packets must contain 10 current source packet rows, got {}",
+            source_packet_rows.len()
+        ));
+    }
+    let mut source_packet_ids = BTreeSet::new();
+    let mut source_packet_by_id = BTreeMap::new();
+    for row in &source_packet_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !source_packet_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate cost-down source packet row {}",
+                row.record_id
+            ));
+        }
+        source_packet_by_id.insert(row.record_id.clone(), row);
+        if !backlog_ids.contains(&row.source_backlog_record_id) {
+            return Err(format!(
+                "{} references missing cost-down backlog row {}",
+                row.record_id, row.source_backlog_record_id
+            ));
+        }
+        if !ids.contains(&row.source_pressure_record_id) {
+            return Err(format!(
+                "{} references missing efficiency pressure row {}",
+                row.record_id, row.source_pressure_record_id
+            ));
+        }
+        for source_id in &row.source_ids {
+            if !source_ledger.contains(&format!("`{source_id}`")) {
+                return Err(format!(
+                    "{}: source_id {source_id} is missing from {SOURCE_VERSION_LEDGER_PATH}",
+                    row.record_id
+                ));
+            }
+        }
+    }
+
+    let evidence_queue_rows: Vec<CostDownEvidenceQueueRecord> =
+        read_jsonl(root.join(COST_DOWN_EVIDENCE_QUEUE_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+                    format!("{COST_DOWN_EVIDENCE_QUEUE_JSONL_PATH} row failed to parse: {err}")
+                })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if evidence_queue_rows.len() != source_packet_rows.len() {
+        return Err(format!(
+            "cost-down evidence queue must cover every source packet row; got {} queue rows for {} packets",
+            evidence_queue_rows.len(),
+            source_packet_rows.len()
+        ));
+    }
+    let mut evidence_queue_ids = BTreeSet::new();
+    let mut queued_packet_ids = BTreeSet::new();
+    for row in &evidence_queue_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !evidence_queue_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate cost-down evidence queue row {}",
+                row.record_id
+            ));
+        }
+        if !queued_packet_ids.insert(row.source_packet_record_id.clone()) {
+            return Err(format!(
+                "multiple evidence queue rows point to {}",
+                row.source_packet_record_id
+            ));
+        }
+        let packet = source_packet_by_id
+            .get(&row.source_packet_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing source packet {}",
+                    row.record_id, row.source_packet_record_id
+                )
+            })?;
+        if row.source_backlog_record_id != packet.source_backlog_record_id {
+            return Err(format!(
+                "{} backlog {} does not match packet {} backlog {}",
+                row.record_id,
+                row.source_backlog_record_id,
+                packet.record_id,
+                packet.source_backlog_record_id
+            ));
+        }
+        if row.source_pressure_record_id != packet.source_pressure_record_id {
+            return Err(format!(
+                "{} pressure {} does not match packet {} pressure {}",
+                row.record_id,
+                row.source_pressure_record_id,
+                packet.record_id,
+                packet.source_pressure_record_id
+            ));
+        }
+        if row.lane_id != packet.lane_id {
+            return Err(format!(
+                "{} lane {} does not match packet {} lane {}",
+                row.record_id, row.lane_id, packet.record_id, packet.lane_id
+            ));
+        }
+        for source_id in &row.primary_source_ids {
+            if !source_ledger.contains(&format!("`{source_id}`")) {
+                return Err(format!(
+                    "{}: primary_source_id {source_id} is missing from {SOURCE_VERSION_LEDGER_PATH}",
+                    row.record_id
+                ));
+            }
+        }
+    }
+    if queued_packet_ids != source_packet_ids {
+        return Err(
+            "cost-down evidence queue must cover every source packet exactly once".to_string(),
+        );
+    }
+
+    let payment_integrity_probe_rows: Vec<PaymentIntegrityPortalProbeRecord> =
+        read_jsonl(root.join(PAYMENT_INTEGRITY_ELIGIBILITY_FIRST_PASS_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{PAYMENT_INTEGRITY_ELIGIBILITY_FIRST_PASS_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if payment_integrity_probe_rows.len() != 6 {
+        return Err(format!(
+            "payment integrity first-pass extract must contain 6 homepage agency rows, got {}",
+            payment_integrity_probe_rows.len()
+        ));
+    }
+    let mut payment_integrity_probe_ids = BTreeSet::new();
+    let mut highest_count = 0usize;
+    let mut lowest_count = 0usize;
+    for row in &payment_integrity_probe_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !payment_integrity_probe_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity first-pass extract row {}",
+                row.record_id
+            ));
+        }
+        if !evidence_queue_ids.contains(&row.source_evidence_queue_record_id) {
+            return Err(format!(
+                "{} references missing evidence queue row {}",
+                row.record_id, row.source_evidence_queue_record_id
+            ));
+        }
+        if row.source_evidence_queue_record_id
+            != "cost-down-evidence-queue:payment-integrity:eligibility-accuracy:v1"
+        {
+            return Err(format!(
+                "{} must point to the payment-integrity eligibility evidence queue row",
+                row.record_id
+            ));
+        }
+        if !source_ledger.contains(&format!("`{}`", row.source_id)) {
+            return Err(format!(
+                "{}: source_id {} is missing from {SOURCE_VERSION_LEDGER_PATH}",
+                row.record_id, row.source_id
+            ));
+        }
+        match row.row_kind.as_str() {
+            "homepage_highest_performing_agency" => highest_count += 1,
+            "homepage_lowest_performing_agency" => lowest_count += 1,
+            _ => {}
+        }
+    }
+    if highest_count != 3 || lowest_count != 3 {
+        return Err(format!(
+            "payment integrity first-pass extract must contain 3 highest and 3 lowest homepage agency rows, got {highest_count} and {lowest_count}"
+        ));
+    }
+
+    let payment_integrity_scorecard_rows: Vec<PaymentIntegrityScorecardProbeRecord> =
+        read_jsonl(root.join(PAYMENT_INTEGRITY_SCORECARDS_Q4_2025_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+            format!("{PAYMENT_INTEGRITY_SCORECARDS_Q4_2025_JSONL_PATH} row failed to parse: {err}")
+        })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if payment_integrity_scorecard_rows.len() != 4 {
+        return Err(format!(
+            "payment integrity scorecard extract must contain 4 Q4 2025 scorecard rows, got {}",
+            payment_integrity_scorecard_rows.len()
+        ));
+    }
+    let mut payment_integrity_scorecard_ids = BTreeSet::new();
+    for row in &payment_integrity_scorecard_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !payment_integrity_scorecard_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity scorecard extract row {}",
+                row.record_id
+            ));
+        }
+        if !evidence_queue_ids.contains(&row.source_evidence_queue_record_id) {
+            return Err(format!(
+                "{} references missing evidence queue row {}",
+                row.record_id, row.source_evidence_queue_record_id
+            ));
+        }
+        if row.source_evidence_queue_record_id
+            != "cost-down-evidence-queue:payment-integrity:eligibility-accuracy:v1"
+        {
+            return Err(format!(
+                "{} must point to the payment-integrity eligibility evidence queue row",
+                row.record_id
+            ));
+        }
+        if !source_ledger.contains(&format!("`{}`", row.source_id)) {
+            return Err(format!(
+                "{}: source_id {} is missing from {SOURCE_VERSION_LEDGER_PATH}",
+                row.record_id, row.source_id
+            ));
+        }
+    }
+
+    let payment_integrity_program_gate_rows: Vec<PaymentIntegrityProgramReviewGateRecord> =
+        read_jsonl(root.join(PAYMENT_INTEGRITY_PROGRAM_REVIEW_GATE_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+                    format!(
+                        "{PAYMENT_INTEGRITY_PROGRAM_REVIEW_GATE_JSONL_PATH} row failed to parse: {err}"
+                    )
+                })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if payment_integrity_program_gate_rows.len() != 4 {
+        return Err(format!(
+            "payment integrity program review gates must contain 4 rows, got {}",
+            payment_integrity_program_gate_rows.len()
+        ));
+    }
+    let mut payment_integrity_program_gate_ids = BTreeSet::new();
+    let mut payment_integrity_program_gate_scorecard_ids = BTreeSet::new();
+    for row in &payment_integrity_program_gate_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !payment_integrity_program_gate_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity program review gate row {}",
+                row.record_id
+            ));
+        }
+        if !payment_integrity_scorecard_ids.contains(&row.source_scorecard_record_id) {
+            return Err(format!(
+                "{} references missing scorecard row {}",
+                row.record_id, row.source_scorecard_record_id
+            ));
+        }
+        if !payment_integrity_program_gate_scorecard_ids
+            .insert(row.source_scorecard_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity program review gate scorecard reference {}",
+                row.source_scorecard_record_id
+            ));
+        }
+        if row.source_readiness_record_id
+            != "cost-down-scoring-readiness:payment-integrity:eligibility-accuracy:v1"
+        {
+            return Err(format!(
+                "{} must point to the payment-integrity eligibility scoring-readiness row",
+                row.record_id
+            ));
+        }
+    }
+    for scorecard_id in &payment_integrity_scorecard_ids {
+        if !payment_integrity_program_gate_scorecard_ids.contains(scorecard_id) {
+            return Err(format!(
+                "payment integrity program review gates are missing scorecard row {scorecard_id}"
+            ));
+        }
+    }
+
+    let payment_integrity_program_task_rows: Vec<PaymentIntegrityProgramReviewTaskRecord> =
+        read_jsonl(root.join(PAYMENT_INTEGRITY_PROGRAM_REVIEW_TASKS_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+                    format!(
+                        "{PAYMENT_INTEGRITY_PROGRAM_REVIEW_TASKS_JSONL_PATH} row failed to parse: {err}"
+                    )
+                })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if payment_integrity_program_task_rows.len() != 16 {
+        return Err(format!(
+            "payment integrity program review tasks must contain 16 rows, got {}",
+            payment_integrity_program_task_rows.len()
+        ));
+    }
+    let mut payment_integrity_program_task_ids = BTreeSet::new();
+    let mut task_families_by_gate: BTreeMap<String, BTreeSet<String>> = BTreeMap::new();
+    for row in &payment_integrity_program_task_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !payment_integrity_program_task_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity program review task row {}",
+                row.record_id
+            ));
+        }
+        if !payment_integrity_program_gate_ids.contains(&row.source_program_gate_record_id) {
+            return Err(format!(
+                "{} references missing program gate row {}",
+                row.record_id, row.source_program_gate_record_id
+            ));
+        }
+        if !payment_integrity_scorecard_ids.contains(&row.source_scorecard_record_id) {
+            return Err(format!(
+                "{} references missing scorecard row {}",
+                row.record_id, row.source_scorecard_record_id
+            ));
+        }
+        let families = task_families_by_gate
+            .entry(row.source_program_gate_record_id.clone())
+            .or_default();
+        if !families.insert(row.evidence_family.clone()) {
+            return Err(format!(
+                "duplicate payment integrity program review task family {} for {}",
+                row.evidence_family, row.source_program_gate_record_id
+            ));
+        }
+    }
+    let required_task_families = BTreeSet::from([
+        "methodology".to_string(),
+        "access_floor".to_string(),
+        "corrective_action".to_string(),
+        "confidence_limits".to_string(),
+    ]);
+    for gate_id in &payment_integrity_program_gate_ids {
+        if task_families_by_gate.get(gate_id) != Some(&required_task_families) {
+            return Err(format!(
+                "payment integrity program review tasks must include all four evidence families for {gate_id}"
+            ));
+        }
+    }
+
+    let payment_integrity_program_status_rows: Vec<PaymentIntegrityProgramReviewStatusRecord> =
+        read_jsonl(root.join(PAYMENT_INTEGRITY_PROGRAM_REVIEW_STATUS_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+                    format!(
+                        "{PAYMENT_INTEGRITY_PROGRAM_REVIEW_STATUS_JSONL_PATH} row failed to parse: {err}"
+                    )
+                })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if payment_integrity_program_status_rows.len() != 4 {
+        return Err(format!(
+            "payment integrity program review status must contain 4 rows, got {}",
+            payment_integrity_program_status_rows.len()
+        ));
+    }
+    let mut payment_integrity_program_status_ids = BTreeSet::new();
+    let mut payment_integrity_program_status_gate_ids = BTreeSet::new();
+    for row in &payment_integrity_program_status_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !payment_integrity_program_status_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity program review status row {}",
+                row.record_id
+            ));
+        }
+        if !payment_integrity_program_gate_ids.contains(&row.source_program_gate_record_id) {
+            return Err(format!(
+                "{} references missing program gate row {}",
+                row.record_id, row.source_program_gate_record_id
+            ));
+        }
+        if !payment_integrity_program_status_gate_ids
+            .insert(row.source_program_gate_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity program review status gate reference {}",
+                row.source_program_gate_record_id
+            ));
+        }
+        let family_count = task_families_by_gate
+            .get(&row.source_program_gate_record_id)
+            .map(BTreeSet::len)
+            .unwrap_or(0);
+        if usize::from(row.total_required_task_count) != family_count {
+            return Err(format!(
+                "{} total_required_task_count does not match task families for {}",
+                row.record_id, row.source_program_gate_record_id
+            ));
+        }
+    }
+    for gate_id in &payment_integrity_program_gate_ids {
+        if !payment_integrity_program_status_gate_ids.contains(gate_id) {
+            return Err(format!(
+                "payment integrity program review status is missing gate row {gate_id}"
+            ));
+        }
+    }
+
+    let methodology_plan_rows: Vec<PaymentIntegrityMethodologyPlanRecord> =
+        read_jsonl(root.join(PAYMENT_INTEGRITY_METHODOLOGY_PLANS_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+            format!("{PAYMENT_INTEGRITY_METHODOLOGY_PLANS_JSONL_PATH} row failed to parse: {err}")
+        })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if methodology_plan_rows.len() != 4 {
+        return Err(format!(
+            "payment integrity methodology plans must contain 4 rows, got {}",
+            methodology_plan_rows.len()
+        ));
+    }
+    let mut methodology_plan_ids = BTreeSet::new();
+    let mut methodology_plan_status_ids = BTreeSet::new();
+    let mut methodology_plan_priorities = BTreeSet::new();
+    let methodology_task_ids: BTreeSet<_> = payment_integrity_program_task_rows
+        .iter()
+        .filter(|row| row.evidence_family == "methodology")
+        .map(|row| row.record_id.clone())
+        .collect();
+    for row in &methodology_plan_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_plan_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology plan row {}",
+                row.record_id
+            ));
+        }
+        if !payment_integrity_program_status_ids.contains(&row.source_program_status_record_id) {
+            return Err(format!(
+                "{} references missing program status row {}",
+                row.record_id, row.source_program_status_record_id
+            ));
+        }
+        if !methodology_task_ids.contains(&row.source_methodology_task_record_id) {
+            return Err(format!(
+                "{} references missing methodology task row {}",
+                row.record_id, row.source_methodology_task_record_id
+            ));
+        }
+        if !methodology_plan_status_ids.insert(row.source_program_status_record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology plan status reference {}",
+                row.source_program_status_record_id
+            ));
+        }
+        if !methodology_plan_priorities.insert(row.extraction_priority) {
+            return Err(format!(
+                "duplicate payment integrity methodology plan extraction priority {}",
+                row.extraction_priority
+            ));
+        }
+    }
+    for status_id in &payment_integrity_program_status_ids {
+        if !methodology_plan_status_ids.contains(status_id) {
+            return Err(format!(
+                "payment integrity methodology plans are missing status row {status_id}"
+            ));
+        }
+    }
+
+    let methodology_field_rows: Vec<PaymentIntegrityMethodologyFieldRecord> =
+        read_jsonl(root.join(PAYMENT_INTEGRITY_METHODOLOGY_FIELDS_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+            format!("{PAYMENT_INTEGRITY_METHODOLOGY_FIELDS_JSONL_PATH} row failed to parse: {err}")
+        })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if methodology_field_rows.len() != 32 {
+        return Err(format!(
+            "payment integrity methodology fields must contain 32 rows, got {}",
+            methodology_field_rows.len()
+        ));
+    }
+    let methodology_plan_fields: BTreeMap<_, BTreeSet<_>> = methodology_plan_rows
+        .iter()
+        .map(|row| {
+            (
+                row.record_id.clone(),
+                row.required_methodology_fields
+                    .iter()
+                    .cloned()
+                    .collect::<BTreeSet<_>>(),
+            )
+        })
+        .collect();
+    let mut methodology_field_ids = BTreeSet::new();
+    let mut methodology_field_by_id = BTreeMap::new();
+    let mut methodology_fields_by_plan: BTreeMap<String, BTreeSet<String>> = BTreeMap::new();
+    for row in &methodology_field_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_field_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology field row {}",
+                row.record_id
+            ));
+        }
+        let Some(required_fields) =
+            methodology_plan_fields.get(&row.source_methodology_plan_record_id)
+        else {
+            return Err(format!(
+                "{} references missing methodology plan row {}",
+                row.record_id, row.source_methodology_plan_record_id
+            ));
+        };
+        if !required_fields.contains(&row.methodology_field) {
+            return Err(format!(
+                "{} field '{}' is not required by {}",
+                row.record_id, row.methodology_field, row.source_methodology_plan_record_id
+            ));
+        }
+        let fields = methodology_fields_by_plan
+            .entry(row.source_methodology_plan_record_id.clone())
+            .or_default();
+        if !fields.insert(row.methodology_field.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology field '{}' for {}",
+                row.methodology_field, row.source_methodology_plan_record_id
+            ));
+        }
+        methodology_field_by_id.insert(row.record_id.clone(), row);
+    }
+    for (plan_id, required_fields) in &methodology_plan_fields {
+        if methodology_fields_by_plan.get(plan_id) != Some(required_fields) {
+            return Err(format!(
+                "payment integrity methodology fields do not match required fields for {plan_id}"
+            ));
+        }
+    }
+
+    let methodology_source_target_rows: Vec<PaymentIntegrityMethodologySourceTargetRecord> =
+        read_jsonl(root.join(PAYMENT_INTEGRITY_METHODOLOGY_SOURCE_TARGETS_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+                    format!(
+                        "{PAYMENT_INTEGRITY_METHODOLOGY_SOURCE_TARGETS_JSONL_PATH} row failed to parse: {err}"
+                    )
+                })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if methodology_source_target_rows.len() != 12 {
+        return Err(format!(
+            "payment integrity methodology source targets must contain 12 rows, got {}",
+            methodology_source_target_rows.len()
+        ));
+    }
+    let methodology_plan_targets: BTreeMap<_, BTreeSet<_>> = methodology_plan_rows
+        .iter()
+        .map(|row| {
+            (
+                row.record_id.clone(),
+                row.source_discovery_targets
+                    .iter()
+                    .cloned()
+                    .collect::<BTreeSet<_>>(),
+            )
+        })
+        .collect();
+    let mut methodology_source_target_ids = BTreeSet::new();
+    let mut methodology_source_targets_by_plan: BTreeMap<String, BTreeSet<String>> =
+        BTreeMap::new();
+    let mut methodology_source_priorities_by_plan: BTreeMap<String, BTreeSet<u8>> = BTreeMap::new();
+    for row in &methodology_source_target_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_source_target_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology source target row {}",
+                row.record_id
+            ));
+        }
+        let Some(required_targets) =
+            methodology_plan_targets.get(&row.source_methodology_plan_record_id)
+        else {
+            return Err(format!(
+                "{} references missing methodology plan row {}",
+                row.record_id, row.source_methodology_plan_record_id
+            ));
+        };
+        if !required_targets.contains(&row.source_target) {
+            return Err(format!(
+                "{} source target '{}' is not required by {}",
+                row.record_id, row.source_target, row.source_methodology_plan_record_id
+            ));
+        }
+        let targets = methodology_source_targets_by_plan
+            .entry(row.source_methodology_plan_record_id.clone())
+            .or_default();
+        if !targets.insert(row.source_target.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology source target '{}' for {}",
+                row.source_target, row.source_methodology_plan_record_id
+            ));
+        }
+        let priorities = methodology_source_priorities_by_plan
+            .entry(row.source_methodology_plan_record_id.clone())
+            .or_default();
+        if !priorities.insert(row.target_priority) {
+            return Err(format!(
+                "duplicate payment integrity methodology source target priority {} for {}",
+                row.target_priority, row.source_methodology_plan_record_id
+            ));
+        }
+    }
+    for (plan_id, required_targets) in &methodology_plan_targets {
+        if methodology_source_targets_by_plan.get(plan_id) != Some(required_targets) {
+            return Err(format!(
+                "payment integrity methodology source targets do not match required targets for {plan_id}"
+            ));
+        }
+    }
+
+    let methodology_query_rows: Vec<PaymentIntegrityMethodologyQueryRecord> =
+        read_jsonl(root.join(PAYMENT_INTEGRITY_METHODOLOGY_QUERIES_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+            format!("{PAYMENT_INTEGRITY_METHODOLOGY_QUERIES_JSONL_PATH} row failed to parse: {err}")
+        })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if methodology_query_rows.len() != 12 {
+        return Err(format!(
+            "payment integrity methodology queries must contain 12 rows, got {}",
+            methodology_query_rows.len()
+        ));
+    }
+    let mut methodology_query_ids = BTreeSet::new();
+    let mut methodology_query_target_ids = BTreeSet::new();
+    for row in &methodology_query_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_query_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology query row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_source_target_ids.contains(&row.source_methodology_target_record_id) {
+            return Err(format!(
+                "{} references missing methodology source target row {}",
+                row.record_id, row.source_methodology_target_record_id
+            ));
+        }
+        if !methodology_query_target_ids.insert(row.source_methodology_target_record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology query target reference {}",
+                row.source_methodology_target_record_id
+            ));
+        }
+    }
+    for target_id in &methodology_source_target_ids {
+        if !methodology_query_target_ids.contains(target_id) {
+            return Err(format!(
+                "payment integrity methodology queries are missing source target row {target_id}"
+            ));
+        }
+    }
+
+    let methodology_query_run_rows: Vec<PaymentIntegrityMethodologyQueryRunRecord> =
+        read_jsonl(root.join(PAYMENT_INTEGRITY_METHODOLOGY_QUERY_RUNS_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{PAYMENT_INTEGRITY_METHODOLOGY_QUERY_RUNS_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if methodology_query_run_rows.len() != 12 {
+        return Err(format!(
+            "payment integrity methodology query runs must contain 12 rows, got {}",
+            methodology_query_run_rows.len()
+        ));
+    }
+    let mut methodology_query_run_ids = BTreeSet::new();
+    let mut methodology_query_run_query_ids = BTreeSet::new();
+    for row in &methodology_query_run_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_query_run_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology query run row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_query_ids.contains(&row.source_methodology_query_record_id) {
+            return Err(format!(
+                "{} references missing methodology query row {}",
+                row.record_id, row.source_methodology_query_record_id
+            ));
+        }
+        if !methodology_query_run_query_ids.insert(row.source_methodology_query_record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology query run query reference {}",
+                row.source_methodology_query_record_id
+            ));
+        }
+    }
+    for query_id in &methodology_query_ids {
+        if !methodology_query_run_query_ids.contains(query_id) {
+            return Err(format!(
+                "payment integrity methodology query runs are missing query row {query_id}"
+            ));
+        }
+    }
+
+    let methodology_result_rows: Vec<PaymentIntegrityMethodologyResultRecord> =
+        read_jsonl(root.join(PAYMENT_INTEGRITY_METHODOLOGY_RESULTS_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+            format!("{PAYMENT_INTEGRITY_METHODOLOGY_RESULTS_JSONL_PATH} row failed to parse: {err}")
+        })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if methodology_result_rows.len() != 10 {
+        return Err(format!(
+            "payment integrity methodology results must contain 10 captured result rows, got {}",
+            methodology_result_rows.len()
+        ));
+    }
+    let mut methodology_result_ids = BTreeSet::new();
+    let mut va_pltss_methodology_result_ids = BTreeSet::new();
+    let mut usda_crop_methodology_result_ids = BTreeSet::new();
+    for row in &methodology_result_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_result_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology result row {}",
+                row.record_id
+            ));
+        }
+        if row.program_or_activity == "Purchased Long Term Services and Supports (PLTSS)" {
+            va_pltss_methodology_result_ids.insert(row.record_id.clone());
+        }
+        if row.program_or_activity == "Federal Crop Insurance Program" {
+            usda_crop_methodology_result_ids.insert(row.record_id.clone());
+        }
+        if !methodology_query_run_ids.contains(&row.source_methodology_query_run_record_id) {
+            return Err(format!(
+                "{} references missing methodology query-run row {}",
+                row.record_id, row.source_methodology_query_run_record_id
+            ));
+        }
+    }
+    if va_pltss_methodology_result_ids.len() != 3 {
+        return Err(format!(
+            "expected 3 VA PLTSS methodology result rows, got {}",
+            va_pltss_methodology_result_ids.len()
+        ));
+    }
+    if usda_crop_methodology_result_ids.len() != 3 {
+        return Err(format!(
+            "expected 3 USDA Federal Crop Insurance methodology result rows, got {}",
+            usda_crop_methodology_result_ids.len()
+        ));
+    }
+
+    let methodology_result_review_readiness_rows:
+        Vec<PaymentIntegrityMethodologyResultReviewReadinessRecord> = read_jsonl(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_RESULT_REVIEW_READINESS_JSONL_PATH,
+    ))?
+    .into_iter()
+    .map(|row| {
+        serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{PAYMENT_INTEGRITY_METHODOLOGY_RESULT_REVIEW_READINESS_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+    })
+    .collect::<Result<Vec<_>, _>>()?;
+    if methodology_result_review_readiness_rows.len() != 2 {
+        return Err(format!(
+            "payment integrity methodology result review readiness must contain 2 rows, got {}",
+            methodology_result_review_readiness_rows.len()
+        ));
+    }
+    let va_pltss_plan_id = "payment-integrity-methodology-plan:va-pltss:q4-2025";
+    let usda_crop_plan_id =
+        "payment-integrity-methodology-plan:usda-federal-crop-insurance:q4-2025";
+    let va_pltss_methodology_fields: BTreeSet<String> = methodology_field_rows
+        .iter()
+        .filter(|row| row.source_methodology_plan_record_id == va_pltss_plan_id)
+        .map(|row| row.methodology_field.clone())
+        .collect();
+    if va_pltss_methodology_fields.len() != 8 {
+        return Err(format!(
+            "expected 8 VA PLTSS methodology fields for {va_pltss_plan_id}, got {}",
+            va_pltss_methodology_fields.len()
+        ));
+    }
+    let usda_crop_methodology_fields: BTreeSet<String> = methodology_field_rows
+        .iter()
+        .filter(|row| row.source_methodology_plan_record_id == usda_crop_plan_id)
+        .map(|row| row.methodology_field.clone())
+        .collect();
+    if usda_crop_methodology_fields.len() != 8 {
+        return Err(format!(
+            "expected 8 USDA Federal Crop Insurance methodology fields for {usda_crop_plan_id}, got {}",
+            usda_crop_methodology_fields.len()
+        ));
+    }
+    let mut methodology_result_review_readiness_ids = BTreeSet::new();
+    let mut methodology_result_review_readiness_programs = BTreeSet::new();
+    for row in &methodology_result_review_readiness_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_result_review_readiness_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology result review readiness row {}",
+                row.record_id
+            ));
+        }
+        methodology_result_review_readiness_programs.insert(row.program_or_activity.clone());
+        let source_ids: BTreeSet<String> = row
+            .source_methodology_result_record_ids
+            .iter()
+            .cloned()
+            .collect();
+        let next_fields: BTreeSet<String> = row.next_methodology_fields.iter().cloned().collect();
+        match (row.agency_code.as_str(), row.program_or_activity.as_str()) {
+            ("VA", "Purchased Long Term Services and Supports (PLTSS)") => {
+                if source_ids != va_pltss_methodology_result_ids {
+                    return Err(format!(
+                        "{} must exactly cover VA PLTSS methodology result rows",
+                        row.record_id
+                    ));
+                }
+                if next_fields != va_pltss_methodology_fields {
+                    return Err(format!(
+                        "{} must queue exactly the VA PLTSS methodology fields",
+                        row.record_id
+                    ));
+                }
+            }
+            ("USDA", "Federal Crop Insurance Program") => {
+                if source_ids != usda_crop_methodology_result_ids {
+                    return Err(format!(
+                        "{} must exactly cover USDA Federal Crop Insurance methodology result rows",
+                        row.record_id
+                    ));
+                }
+                if next_fields != usda_crop_methodology_fields {
+                    return Err(format!(
+                        "{} must queue exactly the USDA Federal Crop Insurance methodology fields",
+                        row.record_id
+                    ));
+                }
+            }
+            _ => {
+                return Err(format!(
+                    "{} must be a supported result-review-readiness row, got {} / {}",
+                    row.record_id, row.agency_code, row.program_or_activity
+                ));
+            }
+        }
+    }
+    let expected_methodology_result_review_readiness_programs = BTreeSet::from([
+        "Federal Crop Insurance Program".to_string(),
+        "Purchased Long Term Services and Supports (PLTSS)".to_string(),
+    ]);
+    if methodology_result_review_readiness_programs
+        != expected_methodology_result_review_readiness_programs
+    {
+        return Err(
+            "payment integrity methodology result review readiness must cover VA PLTSS and USDA Federal Crop Insurance"
+                .to_string(),
+        );
+    }
+
+    let methodology_field_review_rows: Vec<PaymentIntegrityMethodologyFieldReviewRecord> =
+        read_jsonl(root.join(
+            PAYMENT_INTEGRITY_METHODOLOGY_FIELD_REVIEWS_JSONL_PATH,
+        ))?
+        .into_iter()
+        .map(|row| {
+            serde_json::from_value(row).map_err(|err| {
+                format!(
+                    "{PAYMENT_INTEGRITY_METHODOLOGY_FIELD_REVIEWS_JSONL_PATH} row failed to parse: {err}"
+                )
+            })
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+    if methodology_field_review_rows.len() != 32 {
+        return Err(format!(
+            "payment integrity methodology field reviews must contain 32 Part D, Medicaid, VA PLTSS, and USDA Federal Crop Insurance rows, got {}",
+            methodology_field_review_rows.len()
+        ));
+    }
+    let cms_part_d_plan_id = "payment-integrity-methodology-plan:cms-part-d:q4-2025";
+    let cms_medicaid_plan_id = "payment-integrity-methodology-plan:cms-medicaid:q4-2025";
+    let cms_part_d_methodology_field_ids: BTreeSet<String> = methodology_field_rows
+        .iter()
+        .filter(|row| row.source_methodology_plan_record_id == cms_part_d_plan_id)
+        .map(|row| row.record_id.clone())
+        .collect();
+    if cms_part_d_methodology_field_ids.len() != 8 {
+        return Err(format!(
+            "expected 8 CMS Part D methodology fields for {cms_part_d_plan_id}, got {}",
+            cms_part_d_methodology_field_ids.len()
+        ));
+    }
+    let cms_medicaid_methodology_field_ids: BTreeSet<String> = methodology_field_rows
+        .iter()
+        .filter(|row| row.source_methodology_plan_record_id == cms_medicaid_plan_id)
+        .map(|row| row.record_id.clone())
+        .collect();
+    if cms_medicaid_methodology_field_ids.len() != 8 {
+        return Err(format!(
+            "expected 8 CMS Medicaid methodology fields for {cms_medicaid_plan_id}, got {}",
+            cms_medicaid_methodology_field_ids.len()
+        ));
+    }
+    let va_pltss_methodology_field_ids: BTreeSet<String> = methodology_field_rows
+        .iter()
+        .filter(|row| row.source_methodology_plan_record_id == va_pltss_plan_id)
+        .map(|row| row.record_id.clone())
+        .collect();
+    if va_pltss_methodology_field_ids.len() != 8 {
+        return Err(format!(
+            "expected 8 VA PLTSS methodology fields for {va_pltss_plan_id}, got {}",
+            va_pltss_methodology_field_ids.len()
+        ));
+    }
+    let usda_crop_methodology_field_ids: BTreeSet<String> = methodology_field_rows
+        .iter()
+        .filter(|row| row.source_methodology_plan_record_id == usda_crop_plan_id)
+        .map(|row| row.record_id.clone())
+        .collect();
+    if usda_crop_methodology_field_ids.len() != 8 {
+        return Err(format!(
+            "expected 8 USDA Federal Crop Insurance methodology fields for {usda_crop_plan_id}, got {}",
+            usda_crop_methodology_field_ids.len()
+        ));
+    }
+    let expected_reviewed_methodology_field_ids: BTreeSet<String> =
+        cms_part_d_methodology_field_ids
+            .union(&cms_medicaid_methodology_field_ids)
+            .cloned()
+            .collect::<BTreeSet<_>>()
+            .union(&va_pltss_methodology_field_ids)
+            .cloned()
+            .collect::<BTreeSet<_>>()
+            .union(&usda_crop_methodology_field_ids)
+            .cloned()
+            .collect();
+    let mut methodology_field_review_ids = BTreeSet::new();
+    let mut reviewed_methodology_field_ids = BTreeSet::new();
+    let mut part_d_methodology_field_review_ids = BTreeSet::new();
+    for row in &methodology_field_review_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_field_review_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology field review row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_result_ids.contains(&row.source_methodology_result_record_id) {
+            return Err(format!(
+                "{} references missing methodology result row {}",
+                row.record_id, row.source_methodology_result_record_id
+            ));
+        }
+        if !methodology_field_ids.contains(&row.source_methodology_field_record_id) {
+            return Err(format!(
+                "{} references missing methodology field row {}",
+                row.record_id, row.source_methodology_field_record_id
+            ));
+        }
+        reviewed_methodology_field_ids.insert(row.source_methodology_field_record_id.clone());
+        if cms_part_d_methodology_field_ids.contains(&row.source_methodology_field_record_id) {
+            part_d_methodology_field_review_ids.insert(row.record_id.clone());
+        }
+    }
+    if reviewed_methodology_field_ids != expected_reviewed_methodology_field_ids {
+        return Err(
+            "payment integrity methodology field reviews must exactly cover CMS Part D, Medicaid, VA PLTSS, and USDA Federal Crop Insurance methodology fields"
+                .to_string(),
+        );
+    }
+
+    let methodology_gap_followup_rows: Vec<PaymentIntegrityMethodologyGapFollowupRecord> =
+        read_jsonl(root.join(
+            PAYMENT_INTEGRITY_METHODOLOGY_GAP_FOLLOWUPS_JSONL_PATH,
+        ))?
+        .into_iter()
+        .map(|row| {
+            serde_json::from_value(row).map_err(|err| {
+                format!(
+                    "{PAYMENT_INTEGRITY_METHODOLOGY_GAP_FOLLOWUPS_JSONL_PATH} row failed to parse: {err}"
+                )
+            })
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+    if methodology_gap_followup_rows.len() != methodology_field_review_ids.len() {
+        return Err(format!(
+            "payment integrity methodology gap followups must match field-review count; got {} followups for {} reviews",
+            methodology_gap_followup_rows.len(),
+            methodology_field_review_ids.len()
+        ));
+    }
+    let mut methodology_gap_followup_ids = BTreeSet::new();
+    let mut methodology_gap_followup_review_ids = BTreeSet::new();
+    let mut methodology_gap_followup_priorities_by_program: BTreeMap<String, BTreeSet<u8>> =
+        BTreeMap::new();
+    let mut part_d_methodology_gap_followup_ids = BTreeSet::new();
+    for row in &methodology_gap_followup_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_gap_followup_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology gap followup row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_field_review_ids.contains(&row.source_methodology_field_review_record_id) {
+            return Err(format!(
+                "{} references missing methodology field-review row {}",
+                row.record_id, row.source_methodology_field_review_record_id
+            ));
+        }
+        if !methodology_gap_followup_review_ids
+            .insert(row.source_methodology_field_review_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity methodology gap followup for review {}",
+                row.source_methodology_field_review_record_id
+            ));
+        }
+        if part_d_methodology_field_review_ids
+            .contains(&row.source_methodology_field_review_record_id)
+        {
+            part_d_methodology_gap_followup_ids.insert(row.record_id.clone());
+        }
+        let priorities = methodology_gap_followup_priorities_by_program
+            .entry(row.program_or_activity.clone())
+            .or_default();
+        if !priorities.insert(row.followup_priority) {
+            return Err(format!(
+                "duplicate payment integrity methodology gap followup priority {} for {}",
+                row.followup_priority, row.program_or_activity
+            ));
+        }
+    }
+    if methodology_gap_followup_review_ids != methodology_field_review_ids {
+        return Err(
+            "payment integrity methodology gap followups must exactly cover field-review rows"
+                .to_string(),
+        );
+    }
+    let expected_gap_followup_priorities = (1..=8).collect::<BTreeSet<_>>();
+    for (program, priorities) in &methodology_gap_followup_priorities_by_program {
+        if priorities != &expected_gap_followup_priorities {
+            return Err(format!(
+                "payment integrity methodology gap followups must use priorities 1 through 8 for {program}"
+            ));
+        }
+    }
+
+    let methodology_gap_source_capture_rows:
+        Vec<PaymentIntegrityMethodologyGapSourceCaptureRecord> = read_jsonl(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_GAP_SOURCE_CAPTURES_JSONL_PATH,
+    ))?
+    .into_iter()
+    .map(|row| {
+        serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{PAYMENT_INTEGRITY_METHODOLOGY_GAP_SOURCE_CAPTURES_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+    })
+    .collect::<Result<Vec<_>, _>>()?;
+    if methodology_gap_source_capture_rows.len() != 32 {
+        return Err(format!(
+            "payment integrity methodology gap source captures must contain 32 Part D, Medicaid, VA PLTSS, and USDA Federal Crop Insurance rows, got {}",
+            methodology_gap_source_capture_rows.len()
+        ));
+    }
+    let mut methodology_gap_source_capture_ids = BTreeSet::new();
+    let mut methodology_gap_source_capture_followup_ids = BTreeSet::new();
+    let mut part_d_methodology_gap_source_capture_ids = BTreeSet::new();
+    for row in &methodology_gap_source_capture_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_gap_source_capture_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology gap source capture row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_gap_followup_ids.contains(&row.source_methodology_gap_followup_record_id) {
+            return Err(format!(
+                "{} references missing methodology gap-followup row {}",
+                row.record_id, row.source_methodology_gap_followup_record_id
+            ));
+        }
+        if part_d_methodology_gap_followup_ids
+            .contains(&row.source_methodology_gap_followup_record_id)
+        {
+            part_d_methodology_gap_source_capture_ids.insert(row.record_id.clone());
+        }
+        if !methodology_gap_source_capture_followup_ids
+            .insert(row.source_methodology_gap_followup_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity methodology gap source capture for followup {}",
+                row.source_methodology_gap_followup_record_id
+            ));
+        }
+    }
+    if methodology_gap_source_capture_followup_ids != methodology_gap_followup_ids {
+        return Err(
+            "payment integrity methodology gap source captures must exactly cover gap-followup rows"
+                .to_string(),
+        );
+    }
+
+    let methodology_source_capture_rollup_rows:
+        Vec<PaymentIntegrityMethodologySourceCaptureRollupRecord> = read_jsonl(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_SOURCE_CAPTURE_ROLLUP_JSONL_PATH,
+    ))?
+    .into_iter()
+    .map(|row| {
+        serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{PAYMENT_INTEGRITY_METHODOLOGY_SOURCE_CAPTURE_ROLLUP_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+    })
+    .collect::<Result<Vec<_>, _>>()?;
+    if methodology_source_capture_rollup_rows.len() != methodology_gap_source_capture_ids.len() {
+        return Err(format!(
+            "payment integrity methodology source capture rollups must match source-capture count; got {} rollups for {} captures",
+            methodology_source_capture_rollup_rows.len(),
+            methodology_gap_source_capture_ids.len()
+        ));
+    }
+    let mut methodology_source_capture_rollup_ids = BTreeSet::new();
+    let mut methodology_source_capture_rollup_capture_ids = BTreeSet::new();
+    let mut methodology_source_capture_rollup_followup_ids = BTreeSet::new();
+    let mut part_d_methodology_source_capture_rollup_ids = BTreeSet::new();
+    for row in &methodology_source_capture_rollup_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_source_capture_rollup_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology source capture rollup row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_gap_followup_ids.contains(&row.source_methodology_gap_followup_record_id) {
+            return Err(format!(
+                "{} references missing methodology gap-followup row {}",
+                row.record_id, row.source_methodology_gap_followup_record_id
+            ));
+        }
+        if !methodology_gap_source_capture_ids
+            .contains(&row.source_methodology_gap_source_capture_record_id)
+        {
+            return Err(format!(
+                "{} references missing methodology gap source-capture row {}",
+                row.record_id, row.source_methodology_gap_source_capture_record_id
+            ));
+        }
+        if part_d_methodology_gap_source_capture_ids
+            .contains(&row.source_methodology_gap_source_capture_record_id)
+        {
+            part_d_methodology_source_capture_rollup_ids.insert(row.record_id.clone());
+        }
+        methodology_source_capture_rollup_followup_ids
+            .insert(row.source_methodology_gap_followup_record_id.clone());
+        if !methodology_source_capture_rollup_capture_ids
+            .insert(row.source_methodology_gap_source_capture_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity methodology source capture rollup for capture {}",
+                row.source_methodology_gap_source_capture_record_id
+            ));
+        }
+    }
+    if methodology_source_capture_rollup_followup_ids != methodology_gap_followup_ids
+        || methodology_source_capture_rollup_capture_ids != methodology_gap_source_capture_ids
+    {
+        return Err(
+            "payment integrity methodology source capture rollups must exactly cover gap-followup and source-capture rows"
+                .to_string(),
+        );
+    }
+
+    let methodology_closure_readiness_rows:
+        Vec<PaymentIntegrityMethodologyClosureReadinessRecord> = read_jsonl(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_READINESS_JSONL_PATH,
+    ))?
+    .into_iter()
+    .map(|row| {
+        serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_READINESS_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+    })
+    .collect::<Result<Vec<_>, _>>()?;
+    if methodology_closure_readiness_rows.len() != methodology_source_capture_rollup_ids.len() {
+        return Err(format!(
+            "payment integrity methodology closure readiness rows must match source-capture rollup count; got {} readiness rows for {} rollups",
+            methodology_closure_readiness_rows.len(),
+            methodology_source_capture_rollup_ids.len()
+        ));
+    }
+    let mut methodology_closure_readiness_ids = BTreeSet::new();
+    let mut methodology_closure_readiness_rollup_ids = BTreeSet::new();
+    let mut part_d_additional_source_readiness_ids = BTreeSet::new();
+    let mut closure_review_candidate_count = 0;
+    for row in &methodology_closure_readiness_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_closure_readiness_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology closure readiness row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_source_capture_rollup_ids
+            .contains(&row.source_methodology_source_capture_rollup_record_id)
+        {
+            return Err(format!(
+                "{} references missing methodology source-capture rollup row {}",
+                row.record_id, row.source_methodology_source_capture_rollup_record_id
+            ));
+        }
+        if !methodology_closure_readiness_rollup_ids.insert(
+            row.source_methodology_source_capture_rollup_record_id
+                .clone(),
+        ) {
+            return Err(format!(
+                "duplicate payment integrity methodology closure readiness row for rollup {}",
+                row.source_methodology_source_capture_rollup_record_id
+            ));
+        }
+        if row.closure_readiness_status == "closure_review_candidate" {
+            closure_review_candidate_count += 1;
+        }
+        if part_d_methodology_source_capture_rollup_ids
+            .contains(&row.source_methodology_source_capture_rollup_record_id)
+            && row.closure_readiness_status == "additional_source_needed"
+        {
+            part_d_additional_source_readiness_ids.insert(row.record_id.clone());
+        }
+    }
+    if methodology_closure_readiness_rollup_ids != methodology_source_capture_rollup_ids {
+        return Err(
+            "payment integrity methodology closure readiness rows must exactly cover source-capture rollup rows"
+                .to_string(),
+        );
+    }
+    if closure_review_candidate_count == 0 {
+        return Err(
+            "payment integrity methodology closure readiness must contain at least one closure-review candidate"
+                .to_string(),
+        );
+    }
+
+    let closure_review_candidate_ids = methodology_closure_readiness_rows
+        .iter()
+        .filter(|row| row.closure_readiness_status == "closure_review_candidate")
+        .map(|row| row.record_id.clone())
+        .collect::<BTreeSet<_>>();
+    let methodology_closure_decision_rows:
+        Vec<PaymentIntegrityMethodologyClosureDecisionRecord> = read_jsonl(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_DECISIONS_JSONL_PATH,
+    ))?
+    .into_iter()
+    .map(|row| {
+        serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_DECISIONS_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+    })
+    .collect::<Result<Vec<_>, _>>()?;
+    if methodology_closure_decision_rows.len() != 2 {
+        return Err(format!(
+            "payment integrity methodology closure decisions must contain 2 internal closure rows, got {}",
+            methodology_closure_decision_rows.len()
+        ));
+    }
+    let mut methodology_closure_decision_ids = BTreeSet::new();
+    let mut methodology_closure_decision_readiness_ids = BTreeSet::new();
+    let mut part_d_methodology_closure_decision_ids = BTreeSet::new();
+    let mut medicaid_methodology_closure_decision_ids = BTreeSet::new();
+    for row in &methodology_closure_decision_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_closure_decision_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology closure decision row {}",
+                row.record_id
+            ));
+        }
+        if !closure_review_candidate_ids
+            .contains(&row.source_methodology_closure_readiness_record_id)
+        {
+            return Err(format!(
+                "{} must reference a closure-review candidate readiness row, got {}",
+                row.record_id, row.source_methodology_closure_readiness_record_id
+            ));
+        }
+        if row.methodology_field != "sample period" {
+            return Err(format!(
+                "{} closure decision must currently be scoped to sample period, got {}",
+                row.record_id, row.methodology_field
+            ));
+        }
+        if row.program_or_activity == "Medicare Prescription Drug Benefit (Part D)" {
+            part_d_methodology_closure_decision_ids.insert(row.record_id.clone());
+        } else if row.program_or_activity == "Medicaid" {
+            medicaid_methodology_closure_decision_ids.insert(row.record_id.clone());
+        }
+        if !methodology_closure_decision_readiness_ids
+            .insert(row.source_methodology_closure_readiness_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity methodology closure decision for readiness row {}",
+                row.source_methodology_closure_readiness_record_id
+            ));
+        }
+    }
+
+    let methodology_residual_source_gap_rows:
+        Vec<PaymentIntegrityMethodologyResidualSourceGapRecord> = read_jsonl(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_RESIDUAL_SOURCE_GAPS_JSONL_PATH,
+    ))?
+    .into_iter()
+    .map(|row| {
+        serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{PAYMENT_INTEGRITY_METHODOLOGY_RESIDUAL_SOURCE_GAPS_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+    })
+    .collect::<Result<Vec<_>, _>>()?;
+    let all_additional_source_readiness_ids = methodology_closure_readiness_rows
+        .iter()
+        .filter(|row| row.closure_readiness_status == "additional_source_needed")
+        .map(|row| row.record_id.clone())
+        .collect::<BTreeSet<_>>();
+    if methodology_residual_source_gap_rows.len() != all_additional_source_readiness_ids.len() {
+        return Err(format!(
+            "payment integrity methodology residual source gaps must match additional-source readiness count; got {} gaps for {} readiness rows",
+            methodology_residual_source_gap_rows.len(),
+            all_additional_source_readiness_ids.len()
+        ));
+    }
+    let mut methodology_residual_source_gap_ids = BTreeSet::new();
+    let mut methodology_residual_source_gap_readiness_ids = BTreeSet::new();
+    let mut part_d_methodology_residual_source_gap_ids = BTreeSet::new();
+    let mut medicaid_methodology_residual_source_gap_ids = BTreeSet::new();
+    for row in &methodology_residual_source_gap_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_residual_source_gap_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology residual source gap row {}",
+                row.record_id
+            ));
+        }
+        if !all_additional_source_readiness_ids
+            .contains(&row.source_methodology_closure_readiness_record_id)
+        {
+            return Err(format!(
+                "{} must reference an additional-source-needed readiness row, got {}",
+                row.record_id, row.source_methodology_closure_readiness_record_id
+            ));
+        }
+        if part_d_additional_source_readiness_ids
+            .contains(&row.source_methodology_closure_readiness_record_id)
+        {
+            part_d_methodology_residual_source_gap_ids.insert(row.record_id.clone());
+        } else if row.program_or_activity == "Medicaid" {
+            medicaid_methodology_residual_source_gap_ids.insert(row.record_id.clone());
+        }
+        if !methodology_residual_source_gap_readiness_ids
+            .insert(row.source_methodology_closure_readiness_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity methodology residual source gap for readiness row {}",
+                row.source_methodology_closure_readiness_record_id
+            ));
+        }
+    }
+    if methodology_residual_source_gap_readiness_ids != all_additional_source_readiness_ids {
+        return Err(
+            "payment integrity methodology residual source gaps must exactly cover additional-source readiness rows"
+                .to_string(),
+        );
+    }
+
+    let methodology_closure_coverage_rows: Vec<PaymentIntegrityMethodologyClosureCoverageRecord> =
+        read_jsonl(root.join(
+            PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_COVERAGE_JSONL_PATH,
+        ))?
+        .into_iter()
+        .map(|row| {
+            serde_json::from_value(row).map_err(|err| {
+                format!(
+                    "{PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_COVERAGE_JSONL_PATH} row failed to parse: {err}"
+                )
+            })
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+    if methodology_closure_coverage_rows.len() != 2 {
+        return Err(format!(
+            "payment integrity methodology closure coverage must contain 2 rows, got {}",
+            methodology_closure_coverage_rows.len()
+        ));
+    }
+    let mut methodology_closure_coverage_ids = BTreeSet::new();
+    let mut methodology_closure_coverage_programs = BTreeSet::new();
+    let mut methodology_closure_coverage_by_id = BTreeMap::new();
+    for row in &methodology_closure_coverage_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_closure_coverage_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology closure coverage row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_closure_coverage_programs.insert(row.program_or_activity.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology closure coverage program {}",
+                row.program_or_activity
+            ));
+        }
+        if !methodology_closure_decision_ids
+            .contains(&row.source_methodology_closure_decision_record_id)
+        {
+            return Err(format!(
+                "{} references missing methodology closure-decision row {}",
+                row.record_id, row.source_methodology_closure_decision_record_id
+            ));
+        }
+        match row.program_or_activity.as_str() {
+            "Medicare Prescription Drug Benefit (Part D)" => {
+                if !part_d_methodology_closure_decision_ids
+                    .contains(&row.source_methodology_closure_decision_record_id)
+                    || row.closed_field_count as usize
+                        != part_d_methodology_closure_decision_ids.len()
+                    || row.open_field_count as usize
+                        != part_d_methodology_residual_source_gap_ids.len()
+                {
+                    return Err(format!(
+                        "{} closure coverage counts must match Part D closure decisions and residual gaps",
+                        row.record_id
+                    ));
+                }
+            }
+            "Medicaid" => {
+                if !medicaid_methodology_closure_decision_ids
+                    .contains(&row.source_methodology_closure_decision_record_id)
+                    || row.closed_field_count as usize
+                        != medicaid_methodology_closure_decision_ids.len()
+                    || row.open_field_count as usize
+                        != medicaid_methodology_residual_source_gap_ids.len()
+                {
+                    return Err(format!(
+                        "{} closure coverage counts must match Medicaid closure decisions and residual gaps",
+                        row.record_id
+                    ));
+                }
+            }
+            _ => {
+                return Err(format!(
+                    "{} closure coverage program is not supported: {}",
+                    row.record_id, row.program_or_activity
+                ));
+            }
+        }
+        methodology_closure_coverage_by_id.insert(row.record_id.clone(), row);
+    }
+
+    let methodology_scoring_gate_rows: Vec<PaymentIntegrityMethodologyScoringGateRecord> =
+        read_jsonl(root.join(PAYMENT_INTEGRITY_METHODOLOGY_SCORING_GATE_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+                    format!(
+                        "{PAYMENT_INTEGRITY_METHODOLOGY_SCORING_GATE_JSONL_PATH} row failed to parse: {err}"
+                    )
+                })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if methodology_scoring_gate_rows.len() != 2 {
+        return Err(format!(
+            "payment integrity methodology scoring gate must contain 2 rows, got {}",
+            methodology_scoring_gate_rows.len()
+        ));
+    }
+    let mut methodology_scoring_gate_ids = BTreeSet::new();
+    let mut methodology_scoring_gate_coverage_ids = BTreeSet::new();
+    let mut methodology_scoring_gate_by_id = BTreeMap::new();
+    for row in &methodology_scoring_gate_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_scoring_gate_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology scoring gate row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_closure_coverage_ids
+            .contains(&row.source_methodology_closure_coverage_record_id)
+        {
+            return Err(format!(
+                "{} references missing methodology closure-coverage row {}",
+                row.record_id, row.source_methodology_closure_coverage_record_id
+            ));
+        }
+        if !methodology_scoring_gate_coverage_ids
+            .insert(row.source_methodology_closure_coverage_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity methodology scoring gate for closure coverage {}",
+                row.source_methodology_closure_coverage_record_id
+            ));
+        }
+        methodology_scoring_gate_by_id.insert(row.record_id.clone(), row);
+    }
+    if methodology_scoring_gate_coverage_ids != methodology_closure_coverage_ids {
+        return Err(
+            "payment integrity methodology scoring gates must exactly cover closure coverage rows"
+                .to_string(),
+        );
+    }
+
+    let methodology_program_rollup_rows: Vec<PaymentIntegrityMethodologyProgramRollupRecord> =
+        read_jsonl(root.join(
+            PAYMENT_INTEGRITY_METHODOLOGY_PROGRAM_ROLLUP_JSONL_PATH,
+        ))?
+        .into_iter()
+        .map(|row| {
+            serde_json::from_value(row).map_err(|err| {
+                format!(
+                    "{PAYMENT_INTEGRITY_METHODOLOGY_PROGRAM_ROLLUP_JSONL_PATH} row failed to parse: {err}"
+                )
+            })
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+    if methodology_program_rollup_rows.len() != 2 {
+        return Err(format!(
+            "payment integrity methodology program rollup must contain 2 rows, got {}",
+            methodology_program_rollup_rows.len()
+        ));
+    }
+    let mut methodology_program_rollup_ids = BTreeSet::new();
+    let mut methodology_program_rollup_scoring_gate_ids = BTreeSet::new();
+    let mut methodology_program_rollup_coverage_ids = BTreeSet::new();
+    for row in &methodology_program_rollup_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_program_rollup_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology program rollup row {}",
+                row.record_id
+            ));
+        }
+        let scoring_gate = methodology_scoring_gate_by_id
+            .get(&row.source_methodology_scoring_gate_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing methodology scoring-gate row {}",
+                    row.record_id, row.source_methodology_scoring_gate_record_id
+                )
+            })?;
+        let closure_coverage = methodology_closure_coverage_by_id
+            .get(&row.source_methodology_closure_coverage_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing methodology closure-coverage row {}",
+                    row.record_id, row.source_methodology_closure_coverage_record_id
+                )
+            })?;
+        if scoring_gate.source_methodology_closure_coverage_record_id
+            != row.source_methodology_closure_coverage_record_id
+        {
+            return Err(format!(
+                "{} scoring gate and closure coverage references do not match",
+                row.record_id
+            ));
+        }
+        if row.agency_code != closure_coverage.agency_code
+            || row.program_or_activity != closure_coverage.program_or_activity
+            || row.agency_code != scoring_gate.agency_code
+            || row.program_or_activity != scoring_gate.program_or_activity
+        {
+            return Err(format!(
+                "{} program identity must match linked scoring-gate and closure-coverage rows",
+                row.record_id
+            ));
+        }
+        if row.total_methodology_fields != closure_coverage.total_methodology_fields
+            || row.closed_field_count != closure_coverage.closed_field_count
+            || row.open_field_count != closure_coverage.open_field_count
+            || row.next_open_methodology_fields != closure_coverage.open_fields
+            || row.scoring_gate_status != scoring_gate.gate_status
+        {
+            return Err(format!(
+                "{} must mirror linked methodology closure coverage and scoring gate status",
+                row.record_id
+            ));
+        }
+        if !methodology_program_rollup_scoring_gate_ids
+            .insert(row.source_methodology_scoring_gate_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity methodology program rollup for scoring gate {}",
+                row.source_methodology_scoring_gate_record_id
+            ));
+        }
+        if !methodology_program_rollup_coverage_ids
+            .insert(row.source_methodology_closure_coverage_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity methodology program rollup for closure coverage {}",
+                row.source_methodology_closure_coverage_record_id
+            ));
+        }
+    }
+    if methodology_program_rollup_scoring_gate_ids != methodology_scoring_gate_ids
+        || methodology_program_rollup_coverage_ids != methodology_closure_coverage_ids
+    {
+        return Err(
+            "payment integrity methodology program rollups must exactly cover scoring-gate and closure-coverage rows"
+                .to_string(),
+        );
+    }
+
+    let methodology_open_program_status_rows:
+        Vec<PaymentIntegrityMethodologyOpenProgramStatusRecord> = read_jsonl(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_STATUS_JSONL_PATH,
+    ))?
+    .into_iter()
+    .map(|row| {
+        serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_STATUS_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+    })
+    .collect::<Result<Vec<_>, _>>()?;
+    if methodology_open_program_status_rows.len() != 4 {
+        return Err(format!(
+            "payment integrity methodology open program status must contain 4 rows, got {}",
+            methodology_open_program_status_rows.len()
+        ));
+    }
+    let mut closure_decision_count_by_program: BTreeMap<String, u8> = BTreeMap::new();
+    for row in &methodology_closure_decision_rows {
+        *closure_decision_count_by_program
+            .entry(row.program_or_activity.clone())
+            .or_default() += 1;
+    }
+    let mut residual_gap_count_by_program: BTreeMap<String, u8> = BTreeMap::new();
+    for row in &methodology_residual_source_gap_rows {
+        *residual_gap_count_by_program
+            .entry(row.program_or_activity.clone())
+            .or_default() += 1;
+    }
+    let mut field_count_by_program: BTreeMap<String, u8> = BTreeMap::new();
+    for row in &methodology_field_rows {
+        *field_count_by_program
+            .entry(row.program_or_activity.clone())
+            .or_default() += 1;
+    }
+    let expected_open_program_status_programs = BTreeSet::from([
+        "Federal Crop Insurance Program".to_string(),
+        "Medicaid".to_string(),
+        "Medicare Prescription Drug Benefit (Part D)".to_string(),
+        "Purchased Long Term Services and Supports (PLTSS)".to_string(),
+    ]);
+    let mut methodology_open_program_status_ids = BTreeSet::new();
+    let mut methodology_open_program_status_programs = BTreeSet::new();
+    let mut methodology_open_program_status_by_id = BTreeMap::new();
+    for row in &methodology_open_program_status_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_open_program_status_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology open program status row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_open_program_status_programs.insert(row.program_or_activity.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology open program status program {}",
+                row.program_or_activity
+            ));
+        }
+        if !methodology_plan_ids.contains(&row.source_methodology_plan_record_id) {
+            return Err(format!(
+                "{} references missing methodology plan row {}",
+                row.record_id, row.source_methodology_plan_record_id
+            ));
+        }
+        let field_count = field_count_by_program
+            .get(&row.program_or_activity)
+            .copied()
+            .unwrap_or_default();
+        let closure_decision_count = closure_decision_count_by_program
+            .get(&row.program_or_activity)
+            .copied()
+            .unwrap_or_default();
+        let residual_gap_count = residual_gap_count_by_program
+            .get(&row.program_or_activity)
+            .copied()
+            .unwrap_or_default();
+        if row.total_methodology_fields != field_count
+            || row.closure_decision_count != closure_decision_count
+            || row.closed_field_count != closure_decision_count
+            || row.residual_source_gap_count != residual_gap_count
+            || row.open_field_count != residual_gap_count
+        {
+            return Err(format!(
+                "{} counts must match methodology fields, closure decisions, and residual gaps",
+                row.record_id
+            ));
+        }
+        methodology_open_program_status_by_id.insert(row.record_id.clone(), row);
+    }
+    if methodology_open_program_status_programs != expected_open_program_status_programs {
+        return Err(
+            "payment integrity methodology open program status must cover Part D, Medicaid, VA PLTSS, and USDA Federal Crop Insurance"
+                .to_string(),
+        );
+    }
+
+    let methodology_residual_gap_priority_rows:
+        Vec<PaymentIntegrityMethodologyResidualGapPriorityRecord> = read_jsonl(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_RESIDUAL_GAP_PRIORITY_JSONL_PATH,
+    ))?
+    .into_iter()
+    .map(|row| {
+        serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{PAYMENT_INTEGRITY_METHODOLOGY_RESIDUAL_GAP_PRIORITY_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+    })
+    .collect::<Result<Vec<_>, _>>()?;
+    if methodology_residual_gap_priority_rows.len() != 4 {
+        return Err(format!(
+            "payment integrity methodology residual gap priority must contain 4 rows, got {}",
+            methodology_residual_gap_priority_rows.len()
+        ));
+    }
+    let methodology_residual_source_gap_by_id: BTreeMap<_, _> =
+        methodology_residual_source_gap_rows
+            .iter()
+            .map(|row| (row.record_id.clone(), row))
+            .collect();
+    let expected_methodology_residual_gap_priorities = BTreeSet::from([1, 2, 3, 4]);
+    let mut methodology_residual_gap_priority_ids = BTreeSet::new();
+    let mut methodology_residual_gap_priority_programs = BTreeSet::new();
+    let mut methodology_residual_gap_priority_ranks = BTreeSet::new();
+    let mut methodology_residual_gap_priority_by_id = BTreeMap::new();
+    for row in &methodology_residual_gap_priority_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_residual_gap_priority_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology residual gap priority row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_residual_gap_priority_programs.insert(row.program_or_activity.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology residual gap priority program {}",
+                row.program_or_activity
+            ));
+        }
+        methodology_residual_gap_priority_ranks.insert(row.priority_rank);
+        let open_status = methodology_open_program_status_by_id
+            .get(&row.source_open_program_status_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing methodology open-program status row {}",
+                    row.record_id, row.source_open_program_status_record_id
+                )
+            })?;
+        let residual_gap = methodology_residual_source_gap_by_id
+            .get(&row.source_residual_source_gap_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing methodology residual source-gap row {}",
+                    row.record_id, row.source_residual_source_gap_record_id
+                )
+            })?;
+        if row.agency_code != open_status.agency_code
+            || row.agency_code != residual_gap.agency_code
+            || row.program_or_activity != open_status.program_or_activity
+            || row.program_or_activity != residual_gap.program_or_activity
+        {
+            return Err(format!(
+                "{} agency/program must match open-program status and residual source-gap rows",
+                row.record_id
+            ));
+        }
+        if row.selected_methodology_field != residual_gap.methodology_field {
+            return Err(format!(
+                "{} selected methodology field must match residual source-gap methodology_field",
+                row.record_id
+            ));
+        }
+        if row.next_query_text != residual_gap.next_query_text {
+            return Err(format!(
+                "{} next_query_text must match residual source-gap next_query_text",
+                row.record_id
+            ));
+        }
+        methodology_residual_gap_priority_by_id.insert(row.record_id.clone(), row);
+    }
+    if methodology_residual_gap_priority_programs != expected_open_program_status_programs {
+        return Err(
+            "payment integrity methodology residual gap priority must cover the same four programs as open-program status"
+                .to_string(),
+        );
+    }
+    if methodology_residual_gap_priority_ranks != expected_methodology_residual_gap_priorities {
+        return Err(
+            "payment integrity methodology residual gap priority ranks must exactly cover 1 through 4"
+                .to_string(),
+        );
+    }
+
+    let methodology_priority_source_work_rows:
+        Vec<PaymentIntegrityMethodologyPrioritySourceWorkRecord> = read_jsonl(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_PRIORITY_SOURCE_WORK_JSONL_PATH,
+    ))?
+    .into_iter()
+    .map(|row| {
+        serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{PAYMENT_INTEGRITY_METHODOLOGY_PRIORITY_SOURCE_WORK_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+    })
+    .collect::<Result<Vec<_>, _>>()?;
+    if methodology_priority_source_work_rows.len() != 4 {
+        return Err(format!(
+            "payment integrity methodology priority source work must contain 4 rows, got {}",
+            methodology_priority_source_work_rows.len()
+        ));
+    }
+    let mut methodology_priority_source_work_ids = BTreeSet::new();
+    let mut methodology_priority_source_work_priority_ids = BTreeSet::new();
+    let mut methodology_priority_source_work_by_id = BTreeMap::new();
+    for row in &methodology_priority_source_work_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_priority_source_work_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology priority source work row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_priority_source_work_priority_ids
+            .insert(row.source_residual_gap_priority_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity methodology priority source work priority reference {}",
+                row.source_residual_gap_priority_record_id
+            ));
+        }
+        let priority = methodology_residual_gap_priority_by_id
+            .get(&row.source_residual_gap_priority_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing methodology residual-gap priority row {}",
+                    row.record_id, row.source_residual_gap_priority_record_id
+                )
+            })?;
+        if row.agency_code != priority.agency_code
+            || row.program_or_activity != priority.program_or_activity
+            || row.priority_rank != priority.priority_rank
+            || row.selected_methodology_field != priority.selected_methodology_field
+        {
+            return Err(format!(
+                "{} must match agency, program, rank, and selected field from its residual-gap priority row",
+                row.record_id
+            ));
+        }
+        methodology_priority_source_work_by_id.insert(row.record_id.clone(), row);
+    }
+    if methodology_priority_source_work_priority_ids != methodology_residual_gap_priority_ids {
+        return Err(
+            "payment integrity methodology priority source work must exactly cover residual-gap priority rows"
+                .to_string(),
+        );
+    }
+
+    let methodology_priority_reviewer_action_rows:
+        Vec<PaymentIntegrityMethodologyPriorityReviewerActionRecord> = read_jsonl(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_PRIORITY_REVIEWER_ACTIONS_JSONL_PATH,
+    ))?
+    .into_iter()
+    .map(|row| {
+        serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{PAYMENT_INTEGRITY_METHODOLOGY_PRIORITY_REVIEWER_ACTIONS_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+    })
+    .collect::<Result<Vec<_>, _>>()?;
+    if methodology_priority_reviewer_action_rows.len() != 4 {
+        return Err(format!(
+            "payment integrity methodology priority reviewer actions must contain 4 rows, got {}",
+            methodology_priority_reviewer_action_rows.len()
+        ));
+    }
+    let mut methodology_priority_reviewer_action_ids = BTreeSet::new();
+    let mut methodology_priority_reviewer_action_source_work_ids = BTreeSet::new();
+    let mut methodology_priority_reviewer_action_reframing_programs = BTreeSet::new();
+    let mut methodology_priority_reviewer_action_by_id = BTreeMap::new();
+    for row in &methodology_priority_reviewer_action_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_priority_reviewer_action_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology priority reviewer action row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_priority_reviewer_action_source_work_ids
+            .insert(row.source_priority_source_work_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity methodology priority reviewer action source-work reference {}",
+                row.source_priority_source_work_record_id
+            ));
+        }
+        let source_work = methodology_priority_source_work_by_id
+            .get(&row.source_priority_source_work_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing methodology priority source-work row {}",
+                    row.record_id, row.source_priority_source_work_record_id
+                )
+            })?;
+        if row.agency_code != source_work.agency_code
+            || row.program_or_activity != source_work.program_or_activity
+            || row.priority_rank != source_work.priority_rank
+            || row.selected_methodology_field != source_work.selected_methodology_field
+        {
+            return Err(format!(
+                "{} must match agency, program, rank, and selected field from its priority source-work row",
+                row.record_id
+            ));
+        }
+        if row.field_reframing_allowed {
+            methodology_priority_reviewer_action_reframing_programs
+                .insert(row.program_or_activity.clone());
+        }
+        methodology_priority_reviewer_action_by_id.insert(row.record_id.clone(), row);
+    }
+    if methodology_priority_reviewer_action_source_work_ids != methodology_priority_source_work_ids
+    {
+        return Err(
+            "payment integrity methodology priority reviewer actions must exactly cover priority source-work rows"
+                .to_string(),
+        );
+    }
+    if methodology_priority_reviewer_action_reframing_programs
+        != BTreeSet::from(["Federal Crop Insurance Program".to_string()])
+    {
+        return Err(
+            "payment integrity methodology priority reviewer actions may only allow current field reframing for USDA Federal Crop Insurance"
+                .to_string(),
+        );
+    }
+
+    let methodology_field_update_rows: Vec<PaymentIntegrityMethodologyFieldUpdateRecord> =
+        read_jsonl(root.join(PAYMENT_INTEGRITY_METHODOLOGY_FIELD_UPDATES_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+                    format!(
+                        "{PAYMENT_INTEGRITY_METHODOLOGY_FIELD_UPDATES_JSONL_PATH} row failed to parse: {err}"
+                    )
+                })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if methodology_field_update_rows.len() != 1 {
+        return Err(format!(
+            "payment integrity methodology field updates must contain 1 row, got {}",
+            methodology_field_update_rows.len()
+        ));
+    }
+    let mut methodology_field_update_ids = BTreeSet::new();
+    let mut methodology_field_update_by_id = BTreeMap::new();
+    for row in &methodology_field_update_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_field_update_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology field update row {}",
+                row.record_id
+            ));
+        }
+        let reviewer_action = methodology_priority_reviewer_action_by_id
+            .get(&row.source_priority_reviewer_action_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing methodology priority reviewer-action row {}",
+                    row.record_id, row.source_priority_reviewer_action_record_id
+                )
+            })?;
+        let methodology_field = methodology_field_by_id
+            .get(&row.source_methodology_field_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing methodology field row {}",
+                    row.record_id, row.source_methodology_field_record_id
+                )
+            })?;
+        if !reviewer_action.field_reframing_allowed
+            || row.agency_code != reviewer_action.agency_code
+            || row.program_or_activity != reviewer_action.program_or_activity
+            || row.old_methodology_field != reviewer_action.selected_methodology_field
+        {
+            return Err(format!(
+                "{} must match a field-reframing reviewer action",
+                row.record_id
+            ));
+        }
+        if row.agency_code != methodology_field.agency_code
+            || row.program_or_activity != methodology_field.program_or_activity
+            || row.old_methodology_field != methodology_field.methodology_field
+            || row.old_required_source_target != methodology_field.required_source_target
+            || row.old_completion_rule != methodology_field.completion_rule
+        {
+            return Err(format!(
+                "{} old field values must match the source methodology-field row",
+                row.record_id
+            ));
+        }
+        if row.program_or_activity != "Federal Crop Insurance Program"
+            || row.revised_methodology_field
+                != "data-access outside-agency-control root-cause definition"
+        {
+            return Err(
+                "payment integrity methodology field update currently supports only USDA FCIC root-cause reframing"
+                    .to_string(),
+            );
+        }
+        methodology_field_update_by_id.insert(row.record_id.clone(), row);
+    }
+
+    let methodology_followup_source_query_rows:
+        Vec<PaymentIntegrityMethodologyFollowupSourceQueryRecord> = read_jsonl(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_QUERIES_JSONL_PATH,
+    ))?
+    .into_iter()
+    .map(|row| {
+        serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_QUERIES_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+    })
+    .collect::<Result<Vec<_>, _>>()?;
+    if methodology_followup_source_query_rows.len() != 4 {
+        return Err(format!(
+            "payment integrity methodology follow-up source queries must contain 4 rows, got {}",
+            methodology_followup_source_query_rows.len()
+        ));
+    }
+    let mut methodology_followup_source_query_ids = BTreeSet::new();
+    let mut methodology_followup_source_query_action_ids = BTreeSet::new();
+    for row in &methodology_followup_source_query_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_followup_source_query_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology follow-up source query row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_followup_source_query_action_ids
+            .insert(row.source_priority_reviewer_action_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity methodology follow-up source query reviewer-action reference {}",
+                row.source_priority_reviewer_action_record_id
+            ));
+        }
+        let reviewer_action = methodology_priority_reviewer_action_by_id
+            .get(&row.source_priority_reviewer_action_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing methodology priority reviewer-action row {}",
+                    row.record_id, row.source_priority_reviewer_action_record_id
+                )
+            })?;
+        if row.agency_code != reviewer_action.agency_code
+            || row.program_or_activity != reviewer_action.program_or_activity
+            || row.priority_rank != reviewer_action.priority_rank
+        {
+            return Err(format!(
+                "{} must match agency, program, and rank from its reviewer-action row",
+                row.record_id
+            ));
+        }
+        match &row.source_field_update_record_id {
+            Some(field_update_id) => {
+                let field_update = methodology_field_update_by_id
+                    .get(field_update_id)
+                    .ok_or_else(|| {
+                        format!(
+                            "{} references missing methodology field-update row {}",
+                            row.record_id, field_update_id
+                        )
+                    })?;
+                if row.program_or_activity != field_update.program_or_activity
+                    || row
+                        .query_objective
+                        .to_ascii_lowercase()
+                        .contains("agency-process-error")
+                {
+                    return Err(format!(
+                        "{} field-update follow-up must use revised field framing",
+                        row.record_id
+                    ));
+                }
+            }
+            None => {
+                if reviewer_action.field_reframing_allowed {
+                    return Err(format!(
+                        "{} must reference the field-update row for a reframed field",
+                        row.record_id
+                    ));
+                }
+            }
+        }
+    }
+    if methodology_followup_source_query_action_ids != methodology_priority_reviewer_action_ids {
+        return Err(
+            "payment integrity methodology follow-up source queries must exactly cover priority reviewer-action rows"
+                .to_string(),
+        );
+    }
+
+    let methodology_followup_source_query_by_id: BTreeMap<_, _> =
+        methodology_followup_source_query_rows
+            .iter()
+            .map(|row| (row.record_id.clone(), row))
+            .collect();
+    let methodology_followup_source_query_run_rows:
+        Vec<PaymentIntegrityMethodologyFollowupSourceQueryRunRecord> = read_jsonl(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_QUERY_RUNS_JSONL_PATH,
+    ))?
+    .into_iter()
+    .map(|row| {
+        serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_QUERY_RUNS_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+    })
+    .collect::<Result<Vec<_>, _>>()?;
+    if methodology_followup_source_query_run_rows.len() != 4 {
+        return Err(format!(
+            "payment integrity methodology follow-up source query runs must contain 4 rows, got {}",
+            methodology_followup_source_query_run_rows.len()
+        ));
+    }
+    let mut methodology_followup_source_query_run_ids = BTreeSet::new();
+    let mut methodology_followup_source_query_run_query_ids = BTreeSet::new();
+    for row in &methodology_followup_source_query_run_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_followup_source_query_run_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology follow-up source query run row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_followup_source_query_run_query_ids
+            .insert(row.source_followup_source_query_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity methodology follow-up source query run query reference {}",
+                row.source_followup_source_query_record_id
+            ));
+        }
+        let query = methodology_followup_source_query_by_id
+            .get(&row.source_followup_source_query_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing methodology follow-up source-query row {}",
+                    row.record_id, row.source_followup_source_query_record_id
+                )
+            })?;
+        if row.agency_code != query.agency_code
+            || row.program_or_activity != query.program_or_activity
+            || row.priority_rank != query.priority_rank
+            || row.planned_query_text != query.query_text
+        {
+            return Err(format!(
+                "{} must match agency, program, rank, and query text from its follow-up source-query row",
+                row.record_id
+            ));
+        }
+    }
+    if methodology_followup_source_query_run_query_ids != methodology_followup_source_query_ids {
+        return Err(
+            "payment integrity methodology follow-up source query runs must exactly cover follow-up source queries"
+                .to_string(),
+        );
+    }
+
+    let methodology_followup_source_capture_rows:
+        Vec<PaymentIntegrityMethodologyFollowupSourceCaptureRecord> = read_jsonl(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_CAPTURES_JSONL_PATH,
+    ))?
+    .into_iter()
+    .map(|row| {
+        serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_CAPTURES_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+    })
+    .collect::<Result<Vec<_>, _>>()?;
+    if methodology_followup_source_capture_rows.len() != 4 {
+        return Err(format!(
+            "payment integrity methodology follow-up source captures must contain 4 rows, got {}",
+            methodology_followup_source_capture_rows.len()
+        ));
+    }
+    let methodology_followup_source_query_run_by_id: BTreeMap<_, _> =
+        methodology_followup_source_query_run_rows
+            .iter()
+            .map(|row| (row.record_id.clone(), row))
+            .collect();
+    let mut methodology_followup_source_capture_ids = BTreeSet::new();
+    let mut methodology_followup_source_capture_run_ids = BTreeSet::new();
+    for row in &methodology_followup_source_capture_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_followup_source_capture_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology follow-up source capture row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_followup_source_capture_run_ids
+            .insert(row.source_followup_source_query_run_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity methodology follow-up source capture query-run reference {}",
+                row.source_followup_source_query_run_record_id
+            ));
+        }
+        let query_run = methodology_followup_source_query_run_by_id
+            .get(&row.source_followup_source_query_run_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing methodology follow-up source-query-run row {}",
+                    row.record_id, row.source_followup_source_query_run_record_id
+                )
+            })?;
+        if row.agency_code != query_run.agency_code
+            || row.program_or_activity != query_run.program_or_activity
+            || row.priority_rank != query_run.priority_rank
+        {
+            return Err(format!(
+                "{} must match agency, program, and rank from its follow-up source-query-run row",
+                row.record_id
+            ));
+        }
+    }
+    if methodology_followup_source_capture_run_ids != methodology_followup_source_query_run_ids {
+        return Err(
+            "payment integrity methodology follow-up source captures must exactly cover follow-up source query runs"
+                .to_string(),
+        );
+    }
+
+    let methodology_followup_source_capture_by_id: BTreeMap<_, _> =
+        methodology_followup_source_capture_rows
+            .iter()
+            .map(|row| (row.record_id.clone(), row))
+            .collect();
+    let methodology_followup_source_capture_rollup_rows:
+        Vec<PaymentIntegrityMethodologyFollowupSourceCaptureRollupRecord> = read_jsonl(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_CAPTURE_ROLLUP_JSONL_PATH,
+    ))?
+    .into_iter()
+    .map(|row| {
+        serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_CAPTURE_ROLLUP_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+    })
+    .collect::<Result<Vec<_>, _>>()?;
+    if methodology_followup_source_capture_rollup_rows.len() != 4 {
+        return Err(format!(
+            "payment integrity methodology follow-up source capture rollup must contain 4 rows, got {}",
+            methodology_followup_source_capture_rollup_rows.len()
+        ));
+    }
+    let mut methodology_followup_source_capture_rollup_ids = BTreeSet::new();
+    let mut methodology_followup_source_capture_rollup_capture_ids = BTreeSet::new();
+    for row in &methodology_followup_source_capture_rollup_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_followup_source_capture_rollup_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology follow-up source capture rollup row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_followup_source_capture_rollup_capture_ids
+            .insert(row.source_followup_source_capture_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity methodology follow-up source capture rollup capture reference {}",
+                row.source_followup_source_capture_record_id
+            ));
+        }
+        let capture = methodology_followup_source_capture_by_id
+            .get(&row.source_followup_source_capture_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing methodology follow-up source-capture row {}",
+                    row.record_id, row.source_followup_source_capture_record_id
+                )
+            })?;
+        if row.agency_code != capture.agency_code
+            || row.program_or_activity != capture.program_or_activity
+            || row.priority_rank != capture.priority_rank
+        {
+            return Err(format!(
+                "{} must match agency, program, and rank from its follow-up source-capture row",
+                row.record_id
+            ));
+        }
+    }
+    if methodology_followup_source_capture_rollup_capture_ids
+        != methodology_followup_source_capture_ids
+    {
+        return Err(
+            "payment integrity methodology follow-up source capture rollup must exactly cover follow-up source captures"
+                .to_string(),
+        );
+    }
+
+    let methodology_followup_source_capture_rollup_by_id: BTreeMap<_, _> =
+        methodology_followup_source_capture_rollup_rows
+            .iter()
+            .map(|row| (row.record_id.clone(), row))
+            .collect();
+    let methodology_followup_boundary_decision_rows:
+        Vec<PaymentIntegrityMethodologyFollowupBoundaryDecisionRecord> = read_jsonl(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_BOUNDARY_DECISIONS_JSONL_PATH,
+    ))?
+    .into_iter()
+    .map(|row| {
+        serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_BOUNDARY_DECISIONS_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+    })
+    .collect::<Result<Vec<_>, _>>()?;
+    if methodology_followup_boundary_decision_rows.len() != 4 {
+        return Err(format!(
+            "payment integrity methodology follow-up boundary decisions must contain 4 rows, got {}",
+            methodology_followup_boundary_decision_rows.len()
+        ));
+    }
+    let mut methodology_followup_boundary_decision_ids = BTreeSet::new();
+    let mut methodology_followup_boundary_decision_rollup_ids = BTreeSet::new();
+    for row in &methodology_followup_boundary_decision_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_followup_boundary_decision_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology follow-up boundary decision row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_followup_boundary_decision_rollup_ids
+            .insert(row.source_followup_source_capture_rollup_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity methodology follow-up boundary decision rollup reference {}",
+                row.source_followup_source_capture_rollup_record_id
+            ));
+        }
+        let rollup = methodology_followup_source_capture_rollup_by_id
+            .get(&row.source_followup_source_capture_rollup_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing methodology follow-up source-capture rollup row {}",
+                    row.record_id, row.source_followup_source_capture_rollup_record_id
+                )
+            })?;
+        if row.agency_code != rollup.agency_code
+            || row.program_or_activity != rollup.program_or_activity
+            || row.priority_rank != rollup.priority_rank
+        {
+            return Err(format!(
+                "{} must match agency, program, and rank from its follow-up source-capture rollup row",
+                row.record_id
+            ));
+        }
+    }
+    if methodology_followup_boundary_decision_rollup_ids
+        != methodology_followup_source_capture_rollup_ids
+    {
+        return Err(
+            "payment integrity methodology follow-up boundary decisions must exactly cover follow-up source capture rollups"
+                .to_string(),
+        );
+    }
+
+    let methodology_followup_boundary_decision_by_id: BTreeMap<_, _> =
+        methodology_followup_boundary_decision_rows
+            .iter()
+            .map(|row| (row.record_id.clone(), row))
+            .collect();
+    let methodology_followup_boundary_readiness_rows:
+        Vec<PaymentIntegrityMethodologyFollowupBoundaryReadinessRecord> = read_jsonl(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_BOUNDARY_READINESS_JSONL_PATH,
+    ))?
+    .into_iter()
+    .map(|row| {
+        serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_BOUNDARY_READINESS_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+    })
+    .collect::<Result<Vec<_>, _>>()?;
+    if methodology_followup_boundary_readiness_rows.len() != 4 {
+        return Err(format!(
+            "payment integrity methodology follow-up boundary readiness must contain 4 rows, got {}",
+            methodology_followup_boundary_readiness_rows.len()
+        ));
+    }
+    let mut methodology_followup_boundary_readiness_ids = BTreeSet::new();
+    let mut methodology_followup_boundary_readiness_decision_ids = BTreeSet::new();
+    for row in &methodology_followup_boundary_readiness_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_followup_boundary_readiness_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology follow-up boundary readiness row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_followup_boundary_readiness_decision_ids
+            .insert(row.source_followup_boundary_decision_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity methodology follow-up boundary readiness decision reference {}",
+                row.source_followup_boundary_decision_record_id
+            ));
+        }
+        let decision = methodology_followup_boundary_decision_by_id
+            .get(&row.source_followup_boundary_decision_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing methodology follow-up boundary-decision row {}",
+                    row.record_id, row.source_followup_boundary_decision_record_id
+                )
+            })?;
+        if row.agency_code != decision.agency_code
+            || row.program_or_activity != decision.program_or_activity
+            || row.priority_rank != decision.priority_rank
+        {
+            return Err(format!(
+                "{} must match agency, program, and rank from its follow-up boundary-decision row",
+                row.record_id
+            ));
+        }
+    }
+    if methodology_followup_boundary_readiness_decision_ids
+        != methodology_followup_boundary_decision_ids
+    {
+        return Err(
+            "payment integrity methodology follow-up boundary readiness must exactly cover follow-up boundary decisions"
+                .to_string(),
+        );
+    }
+
+    let narrow_ready_followup_boundary_readiness_ids: BTreeSet<_> =
+        methodology_followup_boundary_readiness_rows
+            .iter()
+            .filter(|row| row.boundary_readiness_status == "narrow_internal_readiness_candidate")
+            .map(|row| row.record_id.clone())
+            .collect();
+    let methodology_followup_boundary_readiness_by_id: BTreeMap<_, _> =
+        methodology_followup_boundary_readiness_rows
+            .iter()
+            .map(|row| (row.record_id.clone(), row))
+            .collect();
+    let methodology_narrow_closure_candidate_rows:
+        Vec<PaymentIntegrityMethodologyNarrowClosureCandidateRecord> = read_jsonl(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_NARROW_CLOSURE_CANDIDATES_JSONL_PATH,
+    ))?
+    .into_iter()
+    .map(|row| {
+        serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{PAYMENT_INTEGRITY_METHODOLOGY_NARROW_CLOSURE_CANDIDATES_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+    })
+    .collect::<Result<Vec<_>, _>>()?;
+    if methodology_narrow_closure_candidate_rows.len() != 2 {
+        return Err(format!(
+            "payment integrity methodology narrow closure candidates must contain 2 rows, got {}",
+            methodology_narrow_closure_candidate_rows.len()
+        ));
+    }
+    let mut methodology_narrow_closure_candidate_ids = BTreeSet::new();
+    let mut methodology_narrow_closure_candidate_readiness_ids = BTreeSet::new();
+    for row in &methodology_narrow_closure_candidate_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_narrow_closure_candidate_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology narrow closure candidate row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_narrow_closure_candidate_readiness_ids
+            .insert(row.source_followup_boundary_readiness_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity methodology narrow closure candidate readiness reference {}",
+                row.source_followup_boundary_readiness_record_id
+            ));
+        }
+        let readiness = methodology_followup_boundary_readiness_by_id
+            .get(&row.source_followup_boundary_readiness_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing methodology follow-up boundary-readiness row {}",
+                    row.record_id, row.source_followup_boundary_readiness_record_id
+                )
+            })?;
+        if readiness.boundary_readiness_status != "narrow_internal_readiness_candidate"
+            || row.agency_code != readiness.agency_code
+            || row.program_or_activity != readiness.program_or_activity
+            || row.priority_rank != readiness.priority_rank
+        {
+            return Err(format!(
+                "{} must match a narrow internal boundary-readiness row",
+                row.record_id
+            ));
+        }
+    }
+    if methodology_narrow_closure_candidate_readiness_ids
+        != narrow_ready_followup_boundary_readiness_ids
+    {
+        return Err(
+            "payment integrity methodology narrow closure candidates must exactly cover narrow-ready boundary-readiness rows"
+                .to_string(),
+        );
+    }
+
+    let methodology_narrow_closure_candidate_by_id: BTreeMap<_, _> =
+        methodology_narrow_closure_candidate_rows
+            .iter()
+            .map(|row| (row.record_id.clone(), row))
+            .collect();
+    let methodology_narrow_closure_decision_rows:
+        Vec<PaymentIntegrityMethodologyNarrowClosureDecisionRecord> = read_jsonl(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_NARROW_CLOSURE_DECISIONS_JSONL_PATH,
+    ))?
+    .into_iter()
+    .map(|row| {
+        serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{PAYMENT_INTEGRITY_METHODOLOGY_NARROW_CLOSURE_DECISIONS_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+    })
+    .collect::<Result<Vec<_>, _>>()?;
+    if methodology_narrow_closure_decision_rows.len() != 2 {
+        return Err(format!(
+            "payment integrity methodology narrow closure decisions must contain 2 rows, got {}",
+            methodology_narrow_closure_decision_rows.len()
+        ));
+    }
+    let mut methodology_narrow_closure_decision_ids = BTreeSet::new();
+    let mut methodology_narrow_closure_decision_candidate_ids = BTreeSet::new();
+    for row in &methodology_narrow_closure_decision_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_narrow_closure_decision_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology narrow closure decision row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_narrow_closure_decision_candidate_ids
+            .insert(row.source_narrow_closure_candidate_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity methodology narrow closure decision candidate reference {}",
+                row.source_narrow_closure_candidate_record_id
+            ));
+        }
+        let candidate = methodology_narrow_closure_candidate_by_id
+            .get(&row.source_narrow_closure_candidate_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing methodology narrow closure-candidate row {}",
+                    row.record_id, row.source_narrow_closure_candidate_record_id
+                )
+            })?;
+        if row.agency_code != candidate.agency_code
+            || row.program_or_activity != candidate.program_or_activity
+            || row.priority_rank != candidate.priority_rank
+        {
+            return Err(format!(
+                "{} must match agency, program, and rank from its narrow closure-candidate row",
+                row.record_id
+            ));
+        }
+    }
+    if methodology_narrow_closure_decision_candidate_ids != methodology_narrow_closure_candidate_ids
+    {
+        return Err(
+            "payment integrity methodology narrow closure decisions must exactly cover narrow closure candidates"
+                .to_string(),
+        );
+    }
+
+    let methodology_narrow_closure_decision_by_id: BTreeMap<_, _> =
+        methodology_narrow_closure_decision_rows
+            .iter()
+            .map(|row| (row.record_id.clone(), row))
+            .collect();
+    let methodology_open_program_component_progress_rows:
+        Vec<PaymentIntegrityMethodologyOpenProgramComponentProgressRecord> = read_jsonl(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_COMPONENT_PROGRESS_JSONL_PATH),
+    )?
+    .into_iter()
+    .map(|row| {
+        serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_COMPONENT_PROGRESS_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+    })
+    .collect::<Result<Vec<_>, _>>()?;
+    if methodology_open_program_component_progress_rows.len() != 2 {
+        return Err(format!(
+            "payment integrity methodology open-program component progress must contain 2 rows, got {}",
+            methodology_open_program_component_progress_rows.len()
+        ));
+    }
+    let mut methodology_open_program_component_progress_ids = BTreeSet::new();
+    let mut methodology_open_program_component_progress_decision_ids = BTreeSet::new();
+    for row in &methodology_open_program_component_progress_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_open_program_component_progress_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology open-program component progress row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_open_program_component_progress_decision_ids
+            .insert(row.source_narrow_closure_decision_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity methodology open-program component progress decision reference {}",
+                row.source_narrow_closure_decision_record_id
+            ));
+        }
+        let open_status = methodology_open_program_status_by_id
+            .get(&row.source_open_program_status_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing open-program status row {}",
+                    row.record_id, row.source_open_program_status_record_id
+                )
+            })?;
+        let narrow_decision = methodology_narrow_closure_decision_by_id
+            .get(&row.source_narrow_closure_decision_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing narrow closure-decision row {}",
+                    row.record_id, row.source_narrow_closure_decision_record_id
+                )
+            })?;
+        if row.agency_code != open_status.agency_code
+            || row.program_or_activity != open_status.program_or_activity
+            || row.agency_code != narrow_decision.agency_code
+            || row.program_or_activity != narrow_decision.program_or_activity
+        {
+            return Err(format!(
+                "{} must match agency and program from both source rows",
+                row.record_id
+            ));
+        }
+        if row.closed_field_count_after_component_decision != open_status.closed_field_count
+            || row.open_field_count_after_component_decision != open_status.open_field_count
+            || row.total_methodology_fields != open_status.total_methodology_fields
+        {
+            return Err(format!(
+                "{} must keep field counts unchanged from the open-program status row",
+                row.record_id
+            ));
+        }
+    }
+    if methodology_open_program_component_progress_decision_ids
+        != methodology_narrow_closure_decision_ids
+    {
+        return Err(
+            "payment integrity methodology open-program component progress must exactly cover narrow closure decisions"
+                .to_string(),
+        );
+    }
+
+    let methodology_open_program_component_progress_by_id: BTreeMap<_, _> =
+        methodology_open_program_component_progress_rows
+            .iter()
+            .map(|row| (row.record_id.clone(), row))
+            .collect();
+    let methodology_open_program_component_progress_ids: BTreeSet<_> =
+        methodology_open_program_component_progress_rows
+            .iter()
+            .map(|row| row.record_id.clone())
+            .collect();
+    let methodology_component_gate_requirement_rows:
+        Vec<PaymentIntegrityMethodologyComponentGateRequirementRecord> = read_jsonl(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_REQUIREMENTS_JSONL_PATH,
+    ))?
+    .into_iter()
+    .map(|row| {
+        serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_REQUIREMENTS_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+    })
+    .collect::<Result<Vec<_>, _>>()?;
+    if methodology_component_gate_requirement_rows.len() != 2 {
+        return Err(format!(
+            "payment integrity methodology component gate requirements must contain 2 rows, got {}",
+            methodology_component_gate_requirement_rows.len()
+        ));
+    }
+    let mut methodology_component_gate_requirement_ids = BTreeSet::new();
+    let mut methodology_component_gate_requirement_progress_ids = BTreeSet::new();
+    for row in &methodology_component_gate_requirement_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_component_gate_requirement_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate requirement row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_component_gate_requirement_progress_ids
+            .insert(row.source_component_progress_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate requirement progress reference {}",
+                row.source_component_progress_record_id
+            ));
+        }
+        let progress = methodology_open_program_component_progress_by_id
+            .get(&row.source_component_progress_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing component-progress row {}",
+                    row.record_id, row.source_component_progress_record_id
+                )
+            })?;
+        if row.agency_code != progress.agency_code
+            || row.program_or_activity != progress.program_or_activity
+        {
+            return Err(format!(
+                "{} must match agency and program from its component-progress row",
+                row.record_id
+            ));
+        }
+    }
+    if methodology_component_gate_requirement_progress_ids
+        != methodology_open_program_component_progress_ids
+    {
+        return Err(
+            "payment integrity methodology component gate requirements must exactly cover component-progress rows"
+                .to_string(),
+        );
+    }
+
+    let methodology_component_gate_requirement_by_id: BTreeMap<_, _> =
+        methodology_component_gate_requirement_rows
+            .iter()
+            .map(|row| (row.record_id.clone(), row))
+            .collect();
+    let methodology_component_gate_requirement_ids: BTreeSet<_> =
+        methodology_component_gate_requirement_rows
+            .iter()
+            .map(|row| row.record_id.clone())
+            .collect();
+    let methodology_component_gate_source_target_rows:
+        Vec<PaymentIntegrityMethodologyComponentGateSourceTargetRecord> = read_jsonl(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_TARGETS_JSONL_PATH,
+    ))?
+    .into_iter()
+    .map(|row| {
+        serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_TARGETS_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+    })
+    .collect::<Result<Vec<_>, _>>()?;
+    if methodology_component_gate_source_target_rows.len() != 4 {
+        return Err(format!(
+            "payment integrity methodology component gate source targets must contain 4 rows, got {}",
+            methodology_component_gate_source_target_rows.len()
+        ));
+    }
+    let mut methodology_component_gate_source_target_ids = BTreeSet::new();
+    let mut methodology_component_gate_source_target_requirement_ids = BTreeSet::new();
+    let mut methodology_component_gate_source_target_priorities_by_requirement: BTreeMap<
+        String,
+        BTreeSet<u8>,
+    > = BTreeMap::new();
+    for row in &methodology_component_gate_source_target_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_component_gate_source_target_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate source target row {}",
+                row.record_id
+            ));
+        }
+        methodology_component_gate_source_target_requirement_ids
+            .insert(row.source_component_gate_requirement_record_id.clone());
+        let requirement = methodology_component_gate_requirement_by_id
+            .get(&row.source_component_gate_requirement_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing component gate requirement row {}",
+                    row.record_id, row.source_component_gate_requirement_record_id
+                )
+            })?;
+        if row.agency_code != requirement.agency_code
+            || row.program_or_activity != requirement.program_or_activity
+        {
+            return Err(format!(
+                "{} must match agency and program from its component gate requirement row",
+                row.record_id
+            ));
+        }
+        let priorities = methodology_component_gate_source_target_priorities_by_requirement
+            .entry(row.source_component_gate_requirement_record_id.clone())
+            .or_default();
+        if !priorities.insert(row.source_target_priority) {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate source target priority {} for {}",
+                row.source_target_priority, row.source_component_gate_requirement_record_id
+            ));
+        }
+    }
+    if methodology_component_gate_source_target_requirement_ids
+        != methodology_component_gate_requirement_ids
+    {
+        return Err(
+            "payment integrity methodology component gate source targets must cover every component gate requirement"
+                .to_string(),
+        );
+    }
+    let required_component_source_target_priorities = BTreeSet::from([1_u8, 2_u8]);
+    for requirement_id in &methodology_component_gate_requirement_ids {
+        if methodology_component_gate_source_target_priorities_by_requirement.get(requirement_id)
+            != Some(&required_component_source_target_priorities)
+        {
+            return Err(format!(
+                "payment integrity methodology component gate source targets must have priorities 1 and 2 for {requirement_id}"
+            ));
+        }
+    }
+
+    let methodology_component_gate_source_target_by_id: BTreeMap<_, _> =
+        methodology_component_gate_source_target_rows
+            .iter()
+            .map(|row| (row.record_id.clone(), row))
+            .collect();
+    let methodology_component_gate_source_target_ids: BTreeSet<_> =
+        methodology_component_gate_source_target_rows
+            .iter()
+            .map(|row| row.record_id.clone())
+            .collect();
+    let methodology_component_gate_source_query_rows:
+        Vec<PaymentIntegrityMethodologyComponentGateSourceQueryRecord> = read_jsonl(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_QUERIES_JSONL_PATH,
+    ))?
+    .into_iter()
+    .map(|row| {
+        serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_QUERIES_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+    })
+    .collect::<Result<Vec<_>, _>>()?;
+    if methodology_component_gate_source_query_rows.len() != 4 {
+        return Err(format!(
+            "payment integrity methodology component gate source queries must contain 4 rows, got {}",
+            methodology_component_gate_source_query_rows.len()
+        ));
+    }
+    let mut methodology_component_gate_source_query_ids = BTreeSet::new();
+    let mut methodology_component_gate_source_query_target_ids = BTreeSet::new();
+    for row in &methodology_component_gate_source_query_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_component_gate_source_query_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate source query row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_component_gate_source_query_target_ids
+            .insert(row.source_component_gate_source_target_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate source query target reference {}",
+                row.source_component_gate_source_target_record_id
+            ));
+        }
+        let target = methodology_component_gate_source_target_by_id
+            .get(&row.source_component_gate_source_target_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing component gate source-target row {}",
+                    row.record_id, row.source_component_gate_source_target_record_id
+                )
+            })?;
+        if row.agency_code != target.agency_code
+            || row.program_or_activity != target.program_or_activity
+            || row.source_target_priority != target.source_target_priority
+        {
+            return Err(format!(
+                "{} must match agency, program, and priority from its component gate source-target row",
+                row.record_id
+            ));
+        }
+    }
+    if methodology_component_gate_source_query_target_ids
+        != methodology_component_gate_source_target_ids
+    {
+        return Err(
+            "payment integrity methodology component gate source queries must exactly cover component gate source targets"
+                .to_string(),
+        );
+    }
+
+    let methodology_component_gate_source_query_by_id: BTreeMap<_, _> =
+        methodology_component_gate_source_query_rows
+            .iter()
+            .map(|row| (row.record_id.clone(), row))
+            .collect();
+    let methodology_component_gate_source_query_ids: BTreeSet<_> =
+        methodology_component_gate_source_query_rows
+            .iter()
+            .map(|row| row.record_id.clone())
+            .collect();
+    let methodology_component_gate_source_query_run_rows:
+        Vec<PaymentIntegrityMethodologyComponentGateSourceQueryRunRecord> = read_jsonl(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_QUERY_RUNS_JSONL_PATH,
+    ))?
+    .into_iter()
+    .map(|row| {
+        serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_QUERY_RUNS_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+    })
+    .collect::<Result<Vec<_>, _>>()?;
+    if methodology_component_gate_source_query_run_rows.len() != 4 {
+        return Err(format!(
+            "payment integrity methodology component gate source query runs must contain 4 rows, got {}",
+            methodology_component_gate_source_query_run_rows.len()
+        ));
+    }
+    let mut methodology_component_gate_source_query_run_ids = BTreeSet::new();
+    let mut methodology_component_gate_source_query_run_query_ids = BTreeSet::new();
+    for row in &methodology_component_gate_source_query_run_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_component_gate_source_query_run_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate source query run row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_component_gate_source_query_run_query_ids
+            .insert(row.source_component_gate_source_query_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate source query run query reference {}",
+                row.source_component_gate_source_query_record_id
+            ));
+        }
+        let query = methodology_component_gate_source_query_by_id
+            .get(&row.source_component_gate_source_query_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing component gate source-query row {}",
+                    row.record_id, row.source_component_gate_source_query_record_id
+                )
+            })?;
+        if row.agency_code != query.agency_code
+            || row.program_or_activity != query.program_or_activity
+            || row.source_target_priority != query.source_target_priority
+            || row.planned_query_text != query.query_text
+            || row.required_capture_fields != query.expected_evidence
+        {
+            return Err(format!(
+                "{} must match agency, program, priority, query text, and expected evidence from its component gate source-query row",
+                row.record_id
+            ));
+        }
+    }
+    if methodology_component_gate_source_query_run_query_ids
+        != methodology_component_gate_source_query_ids
+    {
+        return Err(
+            "payment integrity methodology component gate source query runs must exactly cover component gate source queries"
+                .to_string(),
+        );
+    }
+
+    let methodology_component_gate_source_query_run_by_id: BTreeMap<_, _> =
+        methodology_component_gate_source_query_run_rows
+            .iter()
+            .map(|row| (row.record_id.clone(), row))
+            .collect();
+    let methodology_component_gate_source_query_run_ids: BTreeSet<_> =
+        methodology_component_gate_source_query_run_rows
+            .iter()
+            .map(|row| row.record_id.clone())
+            .collect();
+    let methodology_component_gate_source_capture_rows:
+        Vec<PaymentIntegrityMethodologyComponentGateSourceCaptureRecord> = read_jsonl(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_CAPTURES_JSONL_PATH,
+    ))?
+    .into_iter()
+    .map(|row| {
+        serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_CAPTURES_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+    })
+    .collect::<Result<Vec<_>, _>>()?;
+    if methodology_component_gate_source_capture_rows.len() != 4 {
+        return Err(format!(
+            "payment integrity methodology component gate source captures must contain 4 rows, got {}",
+            methodology_component_gate_source_capture_rows.len()
+        ));
+    }
+    let mut methodology_component_gate_source_capture_ids = BTreeSet::new();
+    let mut methodology_component_gate_source_capture_run_ids = BTreeSet::new();
+    for row in &methodology_component_gate_source_capture_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_component_gate_source_capture_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate source capture row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_component_gate_source_capture_run_ids
+            .insert(row.source_component_gate_source_query_run_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate source capture query-run reference {}",
+                row.source_component_gate_source_query_run_record_id
+            ));
+        }
+        let query_run = methodology_component_gate_source_query_run_by_id
+            .get(&row.source_component_gate_source_query_run_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing component gate source-query-run row {}",
+                    row.record_id, row.source_component_gate_source_query_run_record_id
+                )
+            })?;
+        if row.agency_code != query_run.agency_code
+            || row.program_or_activity != query_run.program_or_activity
+            || row.source_target_priority != query_run.source_target_priority
+        {
+            return Err(format!(
+                "{} must match agency, program, and priority from its component gate source-query-run row",
+                row.record_id
+            ));
+        }
+    }
+    if methodology_component_gate_source_capture_run_ids
+        != methodology_component_gate_source_query_run_ids
+    {
+        return Err(
+            "payment integrity methodology component gate source captures must exactly cover component gate source query runs"
+                .to_string(),
+        );
+    }
+
+    let methodology_component_gate_source_capture_by_id: BTreeMap<_, _> =
+        methodology_component_gate_source_capture_rows
+            .iter()
+            .map(|row| (row.record_id.clone(), row))
+            .collect();
+    let methodology_component_gate_source_capture_ids: BTreeSet<_> =
+        methodology_component_gate_source_capture_rows
+            .iter()
+            .map(|row| row.record_id.clone())
+            .collect();
+    let methodology_component_gate_source_capture_rollup_rows:
+        Vec<PaymentIntegrityMethodologyComponentGateSourceCaptureRollupRecord> =
+        read_jsonl(root.join(
+            PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_CAPTURE_ROLLUPS_JSONL_PATH,
+        ))?
+        .into_iter()
+        .map(|row| {
+            serde_json::from_value(row).map_err(|err| {
+                format!(
+                    "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_CAPTURE_ROLLUPS_JSONL_PATH} row failed to parse: {err}"
+                )
+            })
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+    if methodology_component_gate_source_capture_rollup_rows.len() != 4 {
+        return Err(format!(
+            "payment integrity methodology component gate source capture rollups must contain 4 rows, got {}",
+            methodology_component_gate_source_capture_rollup_rows.len()
+        ));
+    }
+    let mut methodology_component_gate_source_capture_rollup_ids = BTreeSet::new();
+    let mut methodology_component_gate_source_capture_rollup_capture_ids = BTreeSet::new();
+    for row in &methodology_component_gate_source_capture_rollup_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_component_gate_source_capture_rollup_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate source capture rollup row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_component_gate_source_capture_rollup_capture_ids
+            .insert(row.source_component_gate_source_capture_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate source capture rollup capture reference {}",
+                row.source_component_gate_source_capture_record_id
+            ));
+        }
+        let capture = methodology_component_gate_source_capture_by_id
+            .get(&row.source_component_gate_source_capture_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing component gate source-capture row {}",
+                    row.record_id, row.source_component_gate_source_capture_record_id
+                )
+            })?;
+        if row.agency_code != capture.agency_code
+            || row.program_or_activity != capture.program_or_activity
+            || row.source_target_priority != capture.source_target_priority
+        {
+            return Err(format!(
+                "{} must match agency, program, and priority from its component gate source-capture row",
+                row.record_id
+            ));
+        }
+    }
+    if methodology_component_gate_source_capture_rollup_capture_ids
+        != methodology_component_gate_source_capture_ids
+    {
+        return Err(
+            "payment integrity methodology component gate source capture rollups must exactly cover component gate source captures"
+                .to_string(),
+        );
+    }
+
+    let methodology_component_gate_source_capture_rollup_by_id: BTreeMap<_, _> =
+        methodology_component_gate_source_capture_rollup_rows
+            .iter()
+            .map(|row| (row.record_id.clone(), row))
+            .collect();
+    let methodology_component_gate_source_capture_rollup_ids: BTreeSet<_> =
+        methodology_component_gate_source_capture_rollup_rows
+            .iter()
+            .map(|row| row.record_id.clone())
+            .collect();
+    let methodology_component_gate_boundary_decision_rows:
+        Vec<PaymentIntegrityMethodologyComponentGateBoundaryDecisionRecord> =
+        read_jsonl(root.join(
+            PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_BOUNDARY_DECISIONS_JSONL_PATH,
+        ))?
+        .into_iter()
+        .map(|row| {
+            serde_json::from_value(row).map_err(|err| {
+                format!(
+                    "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_BOUNDARY_DECISIONS_JSONL_PATH} row failed to parse: {err}"
+                )
+            })
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+    if methodology_component_gate_boundary_decision_rows.len() != 4 {
+        return Err(format!(
+            "payment integrity methodology component gate boundary decisions must contain 4 rows, got {}",
+            methodology_component_gate_boundary_decision_rows.len()
+        ));
+    }
+    let mut methodology_component_gate_boundary_decision_ids = BTreeSet::new();
+    let mut methodology_component_gate_boundary_decision_rollup_ids = BTreeSet::new();
+    for row in &methodology_component_gate_boundary_decision_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_component_gate_boundary_decision_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate boundary decision row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_component_gate_boundary_decision_rollup_ids.insert(
+            row.source_component_gate_source_capture_rollup_record_id
+                .clone(),
+        ) {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate boundary decision rollup reference {}",
+                row.source_component_gate_source_capture_rollup_record_id
+            ));
+        }
+        let rollup = methodology_component_gate_source_capture_rollup_by_id
+            .get(&row.source_component_gate_source_capture_rollup_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing component gate source-capture-rollup row {}",
+                    row.record_id, row.source_component_gate_source_capture_rollup_record_id
+                )
+            })?;
+        if row.agency_code != rollup.agency_code
+            || row.program_or_activity != rollup.program_or_activity
+            || row.source_target_priority != rollup.source_target_priority
+        {
+            return Err(format!(
+                "{} must match agency, program, and priority from its component gate source-capture-rollup row",
+                row.record_id
+            ));
+        }
+    }
+    if methodology_component_gate_boundary_decision_rollup_ids
+        != methodology_component_gate_source_capture_rollup_ids
+    {
+        return Err(
+            "payment integrity methodology component gate boundary decisions must exactly cover component gate source capture rollups"
+                .to_string(),
+        );
+    }
+
+    let methodology_component_gate_boundary_decision_by_id: BTreeMap<_, _> =
+        methodology_component_gate_boundary_decision_rows
+            .iter()
+            .map(|row| (row.record_id.clone(), row))
+            .collect();
+    let methodology_component_gate_boundary_decision_ids: BTreeSet<_> =
+        methodology_component_gate_boundary_decision_rows
+            .iter()
+            .map(|row| row.record_id.clone())
+            .collect();
+    let methodology_component_gate_boundary_readiness_rows:
+        Vec<PaymentIntegrityMethodologyComponentGateBoundaryReadinessRecord> =
+        read_jsonl(root.join(
+            PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_BOUNDARY_READINESS_JSONL_PATH,
+        ))?
+        .into_iter()
+        .map(|row| {
+            serde_json::from_value(row).map_err(|err| {
+                format!(
+                    "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_BOUNDARY_READINESS_JSONL_PATH} row failed to parse: {err}"
+                )
+            })
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+    if methodology_component_gate_boundary_readiness_rows.len() != 4 {
+        return Err(format!(
+            "payment integrity methodology component gate boundary readiness must contain 4 rows, got {}",
+            methodology_component_gate_boundary_readiness_rows.len()
+        ));
+    }
+    let mut methodology_component_gate_boundary_readiness_ids = BTreeSet::new();
+    let mut methodology_component_gate_boundary_readiness_decision_ids = BTreeSet::new();
+    for row in &methodology_component_gate_boundary_readiness_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_component_gate_boundary_readiness_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate boundary readiness row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_component_gate_boundary_readiness_decision_ids.insert(
+            row.source_component_gate_boundary_decision_record_id
+                .clone(),
+        ) {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate boundary readiness decision reference {}",
+                row.source_component_gate_boundary_decision_record_id
+            ));
+        }
+        let decision = methodology_component_gate_boundary_decision_by_id
+            .get(&row.source_component_gate_boundary_decision_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing component gate boundary-decision row {}",
+                    row.record_id, row.source_component_gate_boundary_decision_record_id
+                )
+            })?;
+        if row.agency_code != decision.agency_code
+            || row.program_or_activity != decision.program_or_activity
+            || row.source_target_priority != decision.source_target_priority
+        {
+            return Err(format!(
+                "{} must match agency, program, and priority from its component gate boundary-decision row",
+                row.record_id
+            ));
+        }
+    }
+    if methodology_component_gate_boundary_readiness_decision_ids
+        != methodology_component_gate_boundary_decision_ids
+    {
+        return Err(
+            "payment integrity methodology component gate boundary readiness must exactly cover component gate boundary decisions"
+                .to_string(),
+        );
+    }
+
+    let methodology_component_gate_boundary_readiness_by_id: BTreeMap<_, _> =
+        methodology_component_gate_boundary_readiness_rows
+            .iter()
+            .map(|row| (row.record_id.clone(), row))
+            .collect();
+    let narrow_ready_component_gate_boundary_readiness_ids: BTreeSet<_> =
+        methodology_component_gate_boundary_readiness_rows
+            .iter()
+            .filter(|row| row.boundary_readiness_status == "narrow_internal_readiness_candidate")
+            .map(|row| row.record_id.clone())
+            .collect();
+    let methodology_component_gate_narrow_candidate_rows:
+        Vec<PaymentIntegrityMethodologyComponentGateNarrowCandidateRecord> =
+        read_jsonl(root.join(
+            PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_NARROW_CANDIDATES_JSONL_PATH,
+        ))?
+        .into_iter()
+        .map(|row| {
+            serde_json::from_value(row).map_err(|err| {
+                format!(
+                    "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_NARROW_CANDIDATES_JSONL_PATH} row failed to parse: {err}"
+                )
+            })
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+    if methodology_component_gate_narrow_candidate_rows.len() != 1 {
+        return Err(format!(
+            "payment integrity methodology component gate narrow candidates must contain 1 row, got {}",
+            methodology_component_gate_narrow_candidate_rows.len()
+        ));
+    }
+    let mut methodology_component_gate_narrow_candidate_ids = BTreeSet::new();
+    let mut methodology_component_gate_narrow_candidate_readiness_ids = BTreeSet::new();
+    for row in &methodology_component_gate_narrow_candidate_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_component_gate_narrow_candidate_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate narrow candidate row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_component_gate_narrow_candidate_readiness_ids.insert(
+            row.source_component_gate_boundary_readiness_record_id
+                .clone(),
+        ) {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate narrow candidate readiness reference {}",
+                row.source_component_gate_boundary_readiness_record_id
+            ));
+        }
+        let readiness = methodology_component_gate_boundary_readiness_by_id
+            .get(&row.source_component_gate_boundary_readiness_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing component gate boundary-readiness row {}",
+                    row.record_id, row.source_component_gate_boundary_readiness_record_id
+                )
+            })?;
+        if readiness.boundary_readiness_status != "narrow_internal_readiness_candidate" {
+            return Err(format!(
+                "{} must reference a narrow_internal_readiness_candidate readiness row",
+                row.record_id
+            ));
+        }
+        if row.agency_code != readiness.agency_code
+            || row.program_or_activity != readiness.program_or_activity
+            || row.source_target_priority != readiness.source_target_priority
+        {
+            return Err(format!(
+                "{} must match agency, program, and priority from its component gate boundary-readiness row",
+                row.record_id
+            ));
+        }
+    }
+    if methodology_component_gate_narrow_candidate_readiness_ids
+        != narrow_ready_component_gate_boundary_readiness_ids
+    {
+        return Err(
+            "payment integrity methodology component gate narrow candidates must exactly cover narrow-ready boundary-readiness rows"
+                .to_string(),
+        );
+    }
+
+    let methodology_component_gate_narrow_candidate_by_id: BTreeMap<_, _> =
+        methodology_component_gate_narrow_candidate_rows
+            .iter()
+            .map(|row| (row.record_id.clone(), row))
+            .collect();
+    let methodology_component_gate_narrow_decision_rows:
+        Vec<PaymentIntegrityMethodologyComponentGateNarrowDecisionRecord> =
+        read_jsonl(root.join(
+            PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_NARROW_DECISIONS_JSONL_PATH,
+        ))?
+        .into_iter()
+        .map(|row| {
+            serde_json::from_value(row).map_err(|err| {
+                format!(
+                    "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_NARROW_DECISIONS_JSONL_PATH} row failed to parse: {err}"
+                )
+            })
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+    if methodology_component_gate_narrow_decision_rows.len() != 1 {
+        return Err(format!(
+            "payment integrity methodology component gate narrow decisions must contain 1 row, got {}",
+            methodology_component_gate_narrow_decision_rows.len()
+        ));
+    }
+    let mut methodology_component_gate_narrow_decision_ids = BTreeSet::new();
+    let mut methodology_component_gate_narrow_decision_candidate_ids = BTreeSet::new();
+    for row in &methodology_component_gate_narrow_decision_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_component_gate_narrow_decision_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate narrow decision row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_component_gate_narrow_decision_candidate_ids
+            .insert(row.source_component_gate_narrow_candidate_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate narrow decision candidate reference {}",
+                row.source_component_gate_narrow_candidate_record_id
+            ));
+        }
+        let candidate = methodology_component_gate_narrow_candidate_by_id
+            .get(&row.source_component_gate_narrow_candidate_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing component gate narrow-candidate row {}",
+                    row.record_id, row.source_component_gate_narrow_candidate_record_id
+                )
+            })?;
+        if row.agency_code != candidate.agency_code
+            || row.program_or_activity != candidate.program_or_activity
+            || row.source_target_priority != candidate.source_target_priority
+        {
+            return Err(format!(
+                "{} must match agency, program, and priority from its component gate narrow-candidate row",
+                row.record_id
+            ));
+        }
+    }
+    if methodology_component_gate_narrow_decision_candidate_ids
+        != methodology_component_gate_narrow_candidate_ids
+    {
+        return Err(
+            "payment integrity methodology component gate narrow decisions must exactly cover component gate narrow candidates"
+                .to_string(),
+        );
+    }
+
+    let methodology_component_gate_narrow_decision_by_id: BTreeMap<_, _> =
+        methodology_component_gate_narrow_decision_rows
+            .iter()
+            .map(|row| (row.record_id.clone(), row))
+            .collect();
+    let methodology_component_gate_progress_rows:
+        Vec<PaymentIntegrityMethodologyComponentGateProgressRecord> = read_jsonl(root.join(
+            PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_JSONL_PATH,
+        ))?
+        .into_iter()
+        .map(|row| {
+            serde_json::from_value(row).map_err(|err| {
+                format!(
+                    "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_JSONL_PATH} row failed to parse: {err}"
+                )
+            })
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+    if methodology_component_gate_progress_rows.len() != 1 {
+        return Err(format!(
+            "payment integrity methodology component gate progress must contain 1 row, got {}",
+            methodology_component_gate_progress_rows.len()
+        ));
+    }
+    let mut methodology_component_gate_progress_ids = BTreeSet::new();
+    let mut methodology_component_gate_progress_decision_ids = BTreeSet::new();
+    for row in &methodology_component_gate_progress_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_component_gate_progress_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate progress row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_component_gate_progress_decision_ids
+            .insert(row.source_component_gate_narrow_decision_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate progress decision reference {}",
+                row.source_component_gate_narrow_decision_record_id
+            ));
+        }
+        let open_status = methodology_open_program_status_by_id
+            .get(&row.source_open_program_status_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing open-program status row {}",
+                    row.record_id, row.source_open_program_status_record_id
+                )
+            })?;
+        let decision = methodology_component_gate_narrow_decision_by_id
+            .get(&row.source_component_gate_narrow_decision_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing component gate narrow-decision row {}",
+                    row.record_id, row.source_component_gate_narrow_decision_record_id
+                )
+            })?;
+        if row.agency_code != open_status.agency_code
+            || row.program_or_activity != open_status.program_or_activity
+            || row.agency_code != decision.agency_code
+            || row.program_or_activity != decision.program_or_activity
+        {
+            return Err(format!(
+                "{} must match agency and program from both source rows",
+                row.record_id
+            ));
+        }
+        if row.closed_field_count_after_component_decision != open_status.closed_field_count
+            || row.open_field_count_after_component_decision != open_status.open_field_count
+            || row.total_methodology_fields != open_status.total_methodology_fields
+        {
+            return Err(format!(
+                "{} must keep field counts unchanged from the open-program status row",
+                row.record_id
+            ));
+        }
+    }
+    if methodology_component_gate_progress_decision_ids
+        != methodology_component_gate_narrow_decision_ids
+    {
+        return Err(
+            "payment integrity methodology component gate progress must exactly cover component gate narrow decisions"
+                .to_string(),
+        );
+    }
+
+    let methodology_component_gate_progress_by_id: BTreeMap<_, _> =
+        methodology_component_gate_progress_rows
+            .iter()
+            .map(|row| (row.record_id.clone(), row))
+            .collect();
+    let methodology_component_gate_progress_ids: BTreeSet<_> =
+        methodology_component_gate_progress_rows
+            .iter()
+            .map(|row| row.record_id.clone())
+            .collect();
+    let methodology_component_gate_progress_requirement_rows:
+        Vec<PaymentIntegrityMethodologyComponentGateProgressRequirementRecord> =
+        read_jsonl(root.join(
+            PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_REQUIREMENTS_JSONL_PATH,
+        ))?
+        .into_iter()
+        .map(|row| {
+            serde_json::from_value(row).map_err(|err| {
+                format!(
+                    "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_REQUIREMENTS_JSONL_PATH} row failed to parse: {err}"
+                )
+            })
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+    if methodology_component_gate_progress_requirement_rows.len() != 1 {
+        return Err(format!(
+            "payment integrity methodology component gate progress requirements must contain 1 row, got {}",
+            methodology_component_gate_progress_requirement_rows.len()
+        ));
+    }
+    let mut methodology_component_gate_progress_requirement_ids = BTreeSet::new();
+    let mut methodology_component_gate_progress_requirement_progress_ids = BTreeSet::new();
+    for row in &methodology_component_gate_progress_requirement_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_component_gate_progress_requirement_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate progress requirement row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_component_gate_progress_requirement_progress_ids
+            .insert(row.source_component_gate_progress_record_id.clone())
+        {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate progress requirement progress reference {}",
+                row.source_component_gate_progress_record_id
+            ));
+        }
+        let progress = methodology_component_gate_progress_by_id
+            .get(&row.source_component_gate_progress_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing component gate progress row {}",
+                    row.record_id, row.source_component_gate_progress_record_id
+                )
+            })?;
+        if row.agency_code != progress.agency_code
+            || row.program_or_activity != progress.program_or_activity
+        {
+            return Err(format!(
+                "{} must match agency and program from its component gate progress row",
+                row.record_id
+            ));
+        }
+    }
+    if methodology_component_gate_progress_requirement_progress_ids
+        != methodology_component_gate_progress_ids
+    {
+        return Err(
+            "payment integrity methodology component gate progress requirements must exactly cover component gate progress rows"
+                .to_string(),
+        );
+    }
+
+    let methodology_component_gate_progress_requirement_by_id: BTreeMap<_, _> =
+        methodology_component_gate_progress_requirement_rows
+            .iter()
+            .map(|row| (row.record_id.clone(), row))
+            .collect();
+    let methodology_component_gate_progress_requirement_ids: BTreeSet<_> =
+        methodology_component_gate_progress_requirement_rows
+            .iter()
+            .map(|row| row.record_id.clone())
+            .collect();
+    let methodology_component_gate_progress_source_target_rows:
+        Vec<PaymentIntegrityMethodologyComponentGateProgressSourceTargetRecord> =
+        read_jsonl(root.join(
+            PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_TARGETS_JSONL_PATH,
+        ))?
+        .into_iter()
+        .map(|row| {
+            serde_json::from_value(row).map_err(|err| {
+                format!(
+                    "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_TARGETS_JSONL_PATH} row failed to parse: {err}"
+                )
+            })
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+    if methodology_component_gate_progress_source_target_rows.len() != 2 {
+        return Err(format!(
+            "payment integrity methodology component gate progress source targets must contain 2 rows, got {}",
+            methodology_component_gate_progress_source_target_rows.len()
+        ));
+    }
+    let mut methodology_component_gate_progress_source_target_ids = BTreeSet::new();
+    let mut methodology_component_gate_progress_source_target_requirement_ids = BTreeSet::new();
+    let mut methodology_component_gate_progress_source_target_priorities_by_requirement: BTreeMap<
+        String,
+        BTreeSet<u8>,
+    > = BTreeMap::new();
+    for row in &methodology_component_gate_progress_source_target_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_component_gate_progress_source_target_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate progress source target row {}",
+                row.record_id
+            ));
+        }
+        methodology_component_gate_progress_source_target_requirement_ids.insert(
+            row.source_component_gate_progress_requirement_record_id
+                .clone(),
+        );
+        let priorities =
+            methodology_component_gate_progress_source_target_priorities_by_requirement
+                .entry(
+                    row.source_component_gate_progress_requirement_record_id
+                        .clone(),
+                )
+                .or_default();
+        if !priorities.insert(row.source_target_priority) {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate progress source target priority {} for {}",
+                row.source_target_priority,
+                row.source_component_gate_progress_requirement_record_id
+            ));
+        }
+        let requirement = methodology_component_gate_progress_requirement_by_id
+            .get(&row.source_component_gate_progress_requirement_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing component gate progress requirement row {}",
+                    row.record_id, row.source_component_gate_progress_requirement_record_id
+                )
+            })?;
+        if row.agency_code != requirement.agency_code
+            || row.program_or_activity != requirement.program_or_activity
+        {
+            return Err(format!(
+                "{} must match agency and program from its component gate progress requirement row",
+                row.record_id
+            ));
+        }
+    }
+    if methodology_component_gate_progress_source_target_requirement_ids
+        != methodology_component_gate_progress_requirement_ids
+    {
+        return Err(
+            "payment integrity methodology component gate progress source targets must cover every component gate progress requirement"
+                .to_string(),
+        );
+    }
+    for (requirement_id, priorities) in
+        &methodology_component_gate_progress_source_target_priorities_by_requirement
+    {
+        if priorities != &BTreeSet::from([1, 2]) {
+            return Err(format!(
+                "payment integrity methodology component gate progress source targets for {requirement_id} must use priorities 1 and 2"
+            ));
+        }
+    }
+
+    let methodology_component_gate_progress_source_target_by_id: BTreeMap<_, _> =
+        methodology_component_gate_progress_source_target_rows
+            .iter()
+            .map(|row| (row.record_id.clone(), row))
+            .collect();
+    let methodology_component_gate_progress_source_target_ids: BTreeSet<_> =
+        methodology_component_gate_progress_source_target_rows
+            .iter()
+            .map(|row| row.record_id.clone())
+            .collect();
+    let methodology_component_gate_progress_source_query_rows:
+        Vec<PaymentIntegrityMethodologyComponentGateProgressSourceQueryRecord> =
+        read_jsonl(root.join(
+            PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_QUERIES_JSONL_PATH,
+        ))?
+        .into_iter()
+        .map(|row| {
+            serde_json::from_value(row).map_err(|err| {
+                format!(
+                    "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_QUERIES_JSONL_PATH} row failed to parse: {err}"
+                )
+            })
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+    if methodology_component_gate_progress_source_query_rows.len() != 2 {
+        return Err(format!(
+            "payment integrity methodology component gate progress source queries must contain 2 rows, got {}",
+            methodology_component_gate_progress_source_query_rows.len()
+        ));
+    }
+    let mut methodology_component_gate_progress_source_query_ids = BTreeSet::new();
+    let mut methodology_component_gate_progress_source_query_target_ids = BTreeSet::new();
+    for row in &methodology_component_gate_progress_source_query_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_component_gate_progress_source_query_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate progress source query row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_component_gate_progress_source_query_target_ids.insert(
+            row.source_component_gate_progress_source_target_record_id
+                .clone(),
+        ) {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate progress source query target reference {}",
+                row.source_component_gate_progress_source_target_record_id
+            ));
+        }
+        let target = methodology_component_gate_progress_source_target_by_id
+            .get(&row.source_component_gate_progress_source_target_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing component gate progress source-target row {}",
+                    row.record_id, row.source_component_gate_progress_source_target_record_id
+                )
+            })?;
+        if row.agency_code != target.agency_code
+            || row.program_or_activity != target.program_or_activity
+            || row.source_target_priority != target.source_target_priority
+        {
+            return Err(format!(
+                "{} must match agency, program, and priority from its component gate progress source-target row",
+                row.record_id
+            ));
+        }
+    }
+    if methodology_component_gate_progress_source_query_target_ids
+        != methodology_component_gate_progress_source_target_ids
+    {
+        return Err(
+            "payment integrity methodology component gate progress source queries must exactly cover component gate progress source targets"
+                .to_string(),
+        );
+    }
+
+    let methodology_component_gate_progress_source_query_by_id: BTreeMap<_, _> =
+        methodology_component_gate_progress_source_query_rows
+            .iter()
+            .map(|row| (row.record_id.clone(), row))
+            .collect();
+    let methodology_component_gate_progress_source_query_ids: BTreeSet<_> =
+        methodology_component_gate_progress_source_query_rows
+            .iter()
+            .map(|row| row.record_id.clone())
+            .collect();
+    let methodology_component_gate_progress_source_query_run_rows:
+        Vec<PaymentIntegrityMethodologyComponentGateProgressSourceQueryRunRecord> =
+        read_jsonl(root.join(
+            PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_QUERY_RUNS_JSONL_PATH,
+        ))?
+        .into_iter()
+        .map(|row| {
+            serde_json::from_value(row).map_err(|err| {
+                format!(
+                    "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_QUERY_RUNS_JSONL_PATH} row failed to parse: {err}"
+                )
+            })
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+    if methodology_component_gate_progress_source_query_run_rows.len() != 2 {
+        return Err(format!(
+            "payment integrity methodology component gate progress source query runs must contain 2 rows, got {}",
+            methodology_component_gate_progress_source_query_run_rows.len()
+        ));
+    }
+    let mut methodology_component_gate_progress_source_query_run_ids = BTreeSet::new();
+    let mut methodology_component_gate_progress_source_query_run_query_ids = BTreeSet::new();
+    for row in &methodology_component_gate_progress_source_query_run_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !methodology_component_gate_progress_source_query_run_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate progress source query run row {}",
+                row.record_id
+            ));
+        }
+        if !methodology_component_gate_progress_source_query_run_query_ids.insert(
+            row.source_component_gate_progress_source_query_record_id
+                .clone(),
+        ) {
+            return Err(format!(
+                "duplicate payment integrity methodology component gate progress source query run query reference {}",
+                row.source_component_gate_progress_source_query_record_id
+            ));
+        }
+        let query = methodology_component_gate_progress_source_query_by_id
+            .get(&row.source_component_gate_progress_source_query_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} references missing component gate progress source-query row {}",
+                    row.record_id, row.source_component_gate_progress_source_query_record_id
+                )
+            })?;
+        if row.agency_code != query.agency_code
+            || row.program_or_activity != query.program_or_activity
+            || row.source_target_priority != query.source_target_priority
+            || row.planned_query_text != query.query_text
+            || row.required_capture_fields != query.expected_evidence
+        {
+            return Err(format!(
+                "{} must match agency, program, priority, query text, and expected evidence from its component gate progress source-query row",
+                row.record_id
+            ));
+        }
+    }
+    if methodology_component_gate_progress_source_query_run_query_ids
+        != methodology_component_gate_progress_source_query_ids
+    {
+        return Err(
+            "payment integrity methodology component gate progress source query runs must exactly cover component gate progress source queries"
+                .to_string(),
+        );
+    }
+
+    let next_program_selection_rows: Vec<PaymentIntegrityNextProgramSelectionRecord> =
+        read_jsonl(root.join(PAYMENT_INTEGRITY_NEXT_PROGRAM_SELECTION_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{PAYMENT_INTEGRITY_NEXT_PROGRAM_SELECTION_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if next_program_selection_rows.len() != 3 {
+        return Err(format!(
+            "payment integrity next program selection must contain 3 rows, got {}",
+            next_program_selection_rows.len()
+        ));
+    }
+    let mut next_program_selection_ids = BTreeSet::new();
+    let mut next_program_selection_keys = BTreeSet::new();
+    for row in &next_program_selection_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !next_program_selection_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity next program selection row {}",
+                row.record_id
+            ));
+        }
+        next_program_selection_keys.insert(row.selected_program_key.clone());
+        if !methodology_plan_rows
+            .iter()
+            .any(|plan| plan.program_or_activity == row.program_or_activity)
+        {
+            return Err(format!(
+                "{} selects {}, but no methodology plan exists for that selected program",
+                row.record_id, row.program_or_activity
+            ));
+        }
+        if !row
+            .official_source_urls
+            .iter()
+            .any(|url| url.contains("paymentaccuracy.gov"))
+        {
+            return Err(format!(
+                "{} must include a PaymentAccuracy source URL",
+                row.record_id
+            ));
+        }
+        match row.agency_code.as_str() {
+            "HHS" => {
+                if !row
+                    .official_source_urls
+                    .iter()
+                    .any(|url| url.contains("cms.gov"))
+                {
+                    return Err(format!("{} must include a CMS source URL", row.record_id));
+                }
+            }
+            "VA" => {
+                if !row
+                    .official_source_urls
+                    .iter()
+                    .any(|url| url.contains("department.va.gov") || url.contains("www.va.gov"))
+                {
+                    return Err(format!("{} must include a VA source URL", row.record_id));
+                }
+            }
+            "USDA" => {
+                if !row
+                    .official_source_urls
+                    .iter()
+                    .any(|url| url.contains("rma.usda.gov") || url.contains("usda.gov"))
+                {
+                    return Err(format!(
+                        "{} must include a USDA/RMA source URL",
+                        row.record_id
+                    ));
+                }
+            }
+            _ => {
+                return Err(format!(
+                    "{} next-program selection agency is not supported: {}",
+                    row.record_id, row.agency_code
+                ));
+            }
+        }
+        if row.starting_methodology_fields.len() < 6 {
+            return Err(format!(
+                "{} must list at least six starting methodology fields",
+                row.record_id
+            ));
+        }
+    }
+    let expected_next_program_selection_keys = BTreeSet::from([
+        "cms-medicaid".to_string(),
+        "usda-federal-crop-insurance".to_string(),
+        "va-pltss".to_string(),
+    ]);
+    if next_program_selection_keys != expected_next_program_selection_keys {
+        return Err(
+            "payment integrity next program selection rows must cover cms-medicaid, va-pltss, and usda-federal-crop-insurance"
+                .to_string(),
+        );
+    }
+
+    let payment_integrity_claims_rows: Vec<PaymentIntegrityClaimsTimelinessProbeRecord> =
+        read_jsonl(root.join(PAYMENT_INTEGRITY_CLAIMS_TIMELINESS_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+                    format!(
+                        "{PAYMENT_INTEGRITY_CLAIMS_TIMELINESS_JSONL_PATH} row failed to parse: {err}"
+                    )
+                })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if payment_integrity_claims_rows.len() != 4 {
+        return Err(format!(
+            "payment integrity claims-timeliness extract must contain 4 probe rows, got {}",
+            payment_integrity_claims_rows.len()
+        ));
+    }
+    let mut payment_integrity_claims_ids = BTreeSet::new();
+    let mut claims_source_ids = BTreeSet::new();
+    for row in &payment_integrity_claims_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !payment_integrity_claims_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate payment integrity claims-timeliness extract row {}",
+                row.record_id
+            ));
+        }
+        if !evidence_queue_ids.contains(&row.source_evidence_queue_record_id) {
+            return Err(format!(
+                "{} references missing evidence queue row {}",
+                row.record_id, row.source_evidence_queue_record_id
+            ));
+        }
+        if !source_ledger.contains(&format!("`{}`", row.source_id)) {
+            return Err(format!(
+                "{}: source_id {} is missing from {SOURCE_VERSION_LEDGER_PATH}",
+                row.record_id, row.source_id
+            ));
+        }
+        claims_source_ids.insert(row.source_id.clone());
+    }
+    for required_source in ["SRC-SSA-PERFORMANCE", "SRC-VA-CLAIMS-DATA"] {
+        if !claims_source_ids.contains(required_source) {
+            return Err(format!(
+                "payment integrity claims-timeliness extract must include {required_source}"
+            ));
+        }
+    }
+
+    let debt_maturity_rows: Vec<DebtMaturityRiskTreasuryProbeRecord> =
+        read_jsonl(root.join(DEBT_MATURITY_RISK_FIRST_PASS_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+                    format!("{DEBT_MATURITY_RISK_FIRST_PASS_JSONL_PATH} row failed to parse: {err}")
+                })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if debt_maturity_rows.len() != 9 {
+        return Err(format!(
+            "debt maturity risk first-pass extract must contain 9 Treasury probe rows, got {}",
+            debt_maturity_rows.len()
+        ));
+    }
+    let mut debt_maturity_ids = BTreeSet::new();
+    let mut debt_source_ids = BTreeSet::new();
+    let mut debt_stock_count = 0usize;
+    let mut avg_rate_count = 0usize;
+    for row in &debt_maturity_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !debt_maturity_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate debt maturity risk extract row {}",
+                row.record_id
+            ));
+        }
+        if !evidence_queue_ids.contains(&row.source_evidence_queue_record_id) {
+            return Err(format!(
+                "{} references missing evidence queue row {}",
+                row.record_id, row.source_evidence_queue_record_id
+            ));
+        }
+        if !source_ledger.contains(&format!("`{}`", row.source_id)) {
+            return Err(format!(
+                "{}: source_id {} is missing from {SOURCE_VERSION_LEDGER_PATH}",
+                row.record_id, row.source_id
+            ));
+        }
+        debt_source_ids.insert(row.source_id.clone());
+        match row.row_kind.as_str() {
+            "debt_stock" => debt_stock_count += 1,
+            "average_interest_rate" => avg_rate_count += 1,
+            _ => {}
+        }
+    }
+    for required_source in ["SRC-TREASURY-DEBT-PENNY", "SRC-TREASURY-AVG-INTEREST"] {
+        if !debt_source_ids.contains(required_source) {
+            return Err(format!(
+                "debt maturity risk first-pass extract must include {required_source}"
+            ));
+        }
+    }
+    if debt_stock_count != 1 || avg_rate_count != 8 {
+        return Err(format!(
+            "debt maturity risk first-pass extract must include 1 debt-stock row and 8 average-rate rows, got {debt_stock_count} and {avg_rate_count}"
+        ));
+    }
+
+    let debt_primary_balance_rows: Vec<DebtPrimaryBalanceFiscalProbeRecord> =
+        read_jsonl(root.join(DEBT_PRIMARY_BALANCE_FIRST_PASS_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+                    format!(
+                        "{DEBT_PRIMARY_BALANCE_FIRST_PASS_JSONL_PATH} row failed to parse: {err}"
+                    )
+                })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if debt_primary_balance_rows.len() != 1 {
+        return Err(format!(
+            "debt primary balance first-pass extract must contain 1 fiscal-balance row, got {}",
+            debt_primary_balance_rows.len()
+        ));
+    }
+    let mut debt_primary_balance_ids = BTreeSet::new();
+    for row in &debt_primary_balance_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !debt_primary_balance_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate debt primary balance extract row {}",
+                row.record_id
+            ));
+        }
+        if !evidence_queue_ids.contains(&row.source_evidence_queue_record_id) {
+            return Err(format!(
+                "{} references missing evidence queue row {}",
+                row.record_id, row.source_evidence_queue_record_id
+            ));
+        }
+        for source_id in &row.source_ids {
+            if source_id.starts_with("SRC-") && !source_ledger.contains(&format!("`{source_id}`")) {
+                return Err(format!(
+                    "{}: source_id {source_id} is missing from {SOURCE_VERSION_LEDGER_PATH}",
+                    row.record_id
+                ));
+            }
+        }
+    }
+
+    let disaster_declaration_rows: Vec<DisasterDeclarationProbeRecord> =
+        read_jsonl(root.join(DISASTER_SUPPLEMENTAL_TRACKING_FIRST_PASS_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{DISASTER_SUPPLEMENTAL_TRACKING_FIRST_PASS_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if disaster_declaration_rows.len() != 8 {
+        return Err(format!(
+            "disaster supplemental tracking first-pass extract must contain 8 FEMA declaration rows, got {}",
+            disaster_declaration_rows.len()
+        ));
+    }
+    let mut disaster_declaration_ids = BTreeSet::new();
+    for row in &disaster_declaration_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !disaster_declaration_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate disaster supplemental tracking extract row {}",
+                row.record_id
+            ));
+        }
+        if !evidence_queue_ids.contains(&row.source_evidence_queue_record_id) {
+            return Err(format!(
+                "{} references missing evidence queue row {}",
+                row.record_id, row.source_evidence_queue_record_id
+            ));
+        }
+        if !source_ledger.contains(&format!("`{}`", row.source_id)) {
+            return Err(format!(
+                "{}: source_id {} is missing from {SOURCE_VERSION_LEDGER_PATH}",
+                row.record_id, row.source_id
+            ));
+        }
+    }
+
+    let disaster_mitigation_rows: Vec<DisasterMitigationProjectProbeRecord> =
+        read_jsonl(root.join(DISASTER_MITIGATION_FIRST_PASS_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+                    format!(
+                        "{DISASTER_MITIGATION_FIRST_PASS_JSONL_PATH} row failed to parse: {err}"
+                    )
+                })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if disaster_mitigation_rows.len() != 5 {
+        return Err(format!(
+            "disaster mitigation first-pass extract must contain 5 FEMA HMA project rows, got {}",
+            disaster_mitigation_rows.len()
+        ));
+    }
+    let mut disaster_mitigation_ids = BTreeSet::new();
+    for row in &disaster_mitigation_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !disaster_mitigation_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate disaster mitigation extract row {}",
+                row.record_id
+            ));
+        }
+        if !evidence_queue_ids.contains(&row.source_evidence_queue_record_id) {
+            return Err(format!(
+                "{} references missing evidence queue row {}",
+                row.record_id, row.source_evidence_queue_record_id
+            ));
+        }
+        if !source_ledger.contains(&format!("`{}`", row.source_id)) {
+            return Err(format!(
+                "{}: source_id {} is missing from {SOURCE_VERSION_LEDGER_PATH}",
+                row.record_id, row.source_id
+            ));
+        }
+    }
+
+    let defense_audit_control_rows: Vec<DefenseAuditControlProbeRecord> =
+        read_jsonl(root.join(DEFENSE_AUDIT_CONTROL_FIRST_PASS_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+                    format!(
+                        "{DEFENSE_AUDIT_CONTROL_FIRST_PASS_JSONL_PATH} row failed to parse: {err}"
+                    )
+                })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if defense_audit_control_rows.len() != 6 {
+        return Err(format!(
+            "defense audit-control first-pass extract must contain 6 DoD OIG rows, got {}",
+            defense_audit_control_rows.len()
+        ));
+    }
+    let mut defense_audit_control_ids = BTreeSet::new();
+    for row in &defense_audit_control_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !defense_audit_control_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate defense audit-control extract row {}",
+                row.record_id
+            ));
+        }
+        if !evidence_queue_ids.contains(&row.source_evidence_queue_record_id) {
+            return Err(format!(
+                "{} references missing evidence queue row {}",
+                row.record_id, row.source_evidence_queue_record_id
+            ));
+        }
+        if !source_ledger.contains(&format!("`{}`", row.source_id)) {
+            return Err(format!(
+                "{}: source_id {} is missing from {SOURCE_VERSION_LEDGER_PATH}",
+                row.record_id, row.source_id
+            ));
+        }
+    }
+
+    let defense_procurement_control_rows: Vec<DefenseProcurementControlProbeRecord> =
+        read_jsonl(root.join(DEFENSE_PROCUREMENT_CONTROL_FIRST_PASS_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{DEFENSE_PROCUREMENT_CONTROL_FIRST_PASS_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if defense_procurement_control_rows.len() != 6 {
+        return Err(format!(
+            "defense procurement-control first-pass extract must contain 6 GAO weapon-systems rows, got {}",
+            defense_procurement_control_rows.len()
+        ));
+    }
+    let mut defense_procurement_control_ids = BTreeSet::new();
+    for row in &defense_procurement_control_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !defense_procurement_control_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate defense procurement-control extract row {}",
+                row.record_id
+            ));
+        }
+        if !evidence_queue_ids.contains(&row.source_evidence_queue_record_id) {
+            return Err(format!(
+                "{} references missing evidence queue row {}",
+                row.record_id, row.source_evidence_queue_record_id
+            ));
+        }
+        if !source_ledger.contains(&format!("`{}`", row.source_id)) {
+            return Err(format!(
+                "{}: source_id {} is missing from {SOURCE_VERSION_LEDGER_PATH}",
+                row.record_id, row.source_id
+            ));
+        }
+    }
+
+    let health_price_rows: Vec<HealthPriceDisciplineProbeRecord> =
+        read_jsonl(root.join(HEALTH_PRICE_DISCIPLINE_FIRST_PASS_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+                    format!(
+                        "{HEALTH_PRICE_DISCIPLINE_FIRST_PASS_JSONL_PATH} row failed to parse: {err}"
+                    )
+                })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if health_price_rows.len() != 6 {
+        return Err(format!(
+            "health price-discipline first-pass extract must contain 6 rows, got {}",
+            health_price_rows.len()
+        ));
+    }
+    let mut health_price_ids = BTreeSet::new();
+    for row in &health_price_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !health_price_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate health price-discipline extract row {}",
+                row.record_id
+            ));
+        }
+        if !evidence_queue_ids.contains(&row.source_evidence_queue_record_id) {
+            return Err(format!(
+                "{} references missing evidence queue row {}",
+                row.record_id, row.source_evidence_queue_record_id
+            ));
+        }
+        for source_id in &row.source_ids {
+            if source_id.starts_with("SRC-") && !source_ledger.contains(&format!("`{source_id}`")) {
+                return Err(format!(
+                    "{}: source_id {source_id} is missing from {SOURCE_VERSION_LEDGER_PATH}",
+                    row.record_id
+                ));
+            }
+        }
+    }
+
+    let health_admin_rows: Vec<HealthAdminSimplificationProbeRecord> =
+        read_jsonl(root.join(HEALTH_ADMIN_SIMPLIFICATION_FIRST_PASS_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+            format!(
+                "{HEALTH_ADMIN_SIMPLIFICATION_FIRST_PASS_JSONL_PATH} row failed to parse: {err}"
+            )
+        })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if health_admin_rows.len() != 6 {
+        return Err(format!(
+            "health administrative-simplification first-pass extract must contain 6 rows, got {}",
+            health_admin_rows.len()
+        ));
+    }
+    let mut health_admin_ids = BTreeSet::new();
+    for row in &health_admin_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !health_admin_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate health administrative-simplification extract row {}",
+                row.record_id
+            ));
+        }
+        if !evidence_queue_ids.contains(&row.source_evidence_queue_record_id) {
+            return Err(format!(
+                "{} references missing evidence queue row {}",
+                row.record_id, row.source_evidence_queue_record_id
+            ));
+        }
+        for source_id in &row.source_ids {
+            if source_id.starts_with("SRC-") && !source_ledger.contains(&format!("`{source_id}`")) {
+                return Err(format!(
+                    "{}: source_id {source_id} is missing from {SOURCE_VERSION_LEDGER_PATH}",
+                    row.record_id
+                ));
+            }
+        }
+    }
+
+    let first_pass_rollup_rows: Vec<CostDownFirstPassRollupRecord> =
+        read_jsonl(root.join(COST_DOWN_FIRST_PASS_ROLLUP_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+                    format!("{COST_DOWN_FIRST_PASS_ROLLUP_JSONL_PATH} row failed to parse: {err}")
+                })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if first_pass_rollup_rows.len() != 10 {
+        return Err(format!(
+            "cost-down first-pass rollup must contain 10 rows, got {}",
+            first_pass_rollup_rows.len()
+        ));
+    }
+    let mut first_pass_rollup_ids = BTreeSet::new();
+    let mut first_pass_rollup_queue_ids = BTreeSet::new();
+    for row in &first_pass_rollup_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !first_pass_rollup_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate cost-down first-pass rollup row {}",
+                row.record_id
+            ));
+        }
+        if !first_pass_rollup_queue_ids.insert(row.source_evidence_queue_record_id.clone()) {
+            return Err(format!(
+                "duplicate cost-down first-pass rollup queue reference {}",
+                row.source_evidence_queue_record_id
+            ));
+        }
+        if !evidence_queue_ids.contains(&row.source_evidence_queue_record_id) {
+            return Err(format!(
+                "{} references missing evidence queue row {}",
+                row.record_id, row.source_evidence_queue_record_id
+            ));
+        }
+        for artifact in &row.first_pass_artifacts {
+            if !root.join(artifact).exists() {
+                return Err(format!(
+                    "{} references missing first-pass artifact {}",
+                    row.record_id, artifact
+                ));
+            }
+        }
+    }
+    for evidence_queue_id in &evidence_queue_ids {
+        if !first_pass_rollup_queue_ids.contains(evidence_queue_id) {
+            return Err(format!(
+                "cost-down first-pass rollup is missing evidence queue row {evidence_queue_id}"
+            ));
+        }
+    }
+
+    let scoring_readiness_rows: Vec<CostDownScoringReadinessRecord> =
+        read_jsonl(root.join(COST_DOWN_SCORING_READINESS_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+                    format!("{COST_DOWN_SCORING_READINESS_JSONL_PATH} row failed to parse: {err}")
+                })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if scoring_readiness_rows.len() != 10 {
+        return Err(format!(
+            "cost-down scoring readiness must contain 10 rows, got {}",
+            scoring_readiness_rows.len()
+        ));
+    }
+    let rollup_ids: BTreeSet<_> = first_pass_rollup_rows
+        .iter()
+        .map(|row| row.record_id.clone())
+        .collect();
+    let mut readiness_ids = BTreeSet::new();
+    let mut readiness_rollup_ids = BTreeSet::new();
+    let mut readiness_ranks = BTreeSet::new();
+    for row in &scoring_readiness_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !readiness_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate cost-down scoring readiness row {}",
+                row.record_id
+            ));
+        }
+        if !readiness_ranks.insert(row.prioritization_rank) {
+            return Err(format!(
+                "duplicate cost-down scoring readiness rank {}",
+                row.prioritization_rank
+            ));
+        }
+        if !rollup_ids.contains(&row.source_rollup_record_id) {
+            return Err(format!(
+                "{} references missing rollup row {}",
+                row.record_id, row.source_rollup_record_id
+            ));
+        }
+        if !readiness_rollup_ids.insert(row.source_rollup_record_id.clone()) {
+            return Err(format!(
+                "duplicate cost-down scoring readiness rollup reference {}",
+                row.source_rollup_record_id
+            ));
+        }
+        if !evidence_queue_ids.contains(&row.source_evidence_queue_record_id) {
+            return Err(format!(
+                "{} references missing evidence queue row {}",
+                row.record_id, row.source_evidence_queue_record_id
+            ));
+        }
+    }
+    for rollup_id in &rollup_ids {
+        if !readiness_rollup_ids.contains(rollup_id) {
+            return Err(format!(
+                "cost-down scoring readiness is missing rollup row {rollup_id}"
+            ));
+        }
+    }
+
+    for path in [
+        EFFICIENCY_PRESSURE_README_PATH,
+        EFFICIENCY_PRESSURE_SCHEMA_PATH,
+        COST_DOWN_BACKLOG_SCHEMA_PATH,
+        COST_DOWN_SOURCE_PACKETS_SCHEMA_PATH,
+        COST_DOWN_EVIDENCE_QUEUE_SCHEMA_PATH,
+        COST_DOWN_FIRST_PASS_ROLLUP_SCHEMA_PATH,
+        COST_DOWN_SCORING_READINESS_SCHEMA_PATH,
+        PAYMENT_INTEGRITY_ELIGIBILITY_FIRST_PASS_SCHEMA_PATH,
+        PAYMENT_INTEGRITY_SCORECARDS_Q4_2025_SCHEMA_PATH,
+        PAYMENT_INTEGRITY_PROGRAM_REVIEW_GATE_SCHEMA_PATH,
+        PAYMENT_INTEGRITY_PROGRAM_REVIEW_TASKS_SCHEMA_PATH,
+        PAYMENT_INTEGRITY_PROGRAM_REVIEW_STATUS_SCHEMA_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_PLANS_SCHEMA_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_FIELDS_SCHEMA_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_SOURCE_TARGETS_SCHEMA_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_QUERIES_SCHEMA_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_QUERY_RUNS_SCHEMA_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_RESULTS_SCHEMA_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_RESULT_REVIEW_READINESS_SCHEMA_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_FIELD_REVIEWS_SCHEMA_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_GAP_FOLLOWUPS_SCHEMA_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_GAP_SOURCE_CAPTURES_SCHEMA_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_SOURCE_CAPTURE_ROLLUP_SCHEMA_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_READINESS_SCHEMA_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_DECISIONS_SCHEMA_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_RESIDUAL_SOURCE_GAPS_SCHEMA_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_COVERAGE_SCHEMA_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_SCORING_GATE_SCHEMA_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_PROGRAM_ROLLUP_SCHEMA_PATH,
+        PAYMENT_INTEGRITY_NEXT_PROGRAM_SELECTION_SCHEMA_PATH,
+        PAYMENT_INTEGRITY_CLAIMS_TIMELINESS_SCHEMA_PATH,
+        DEBT_MATURITY_RISK_FIRST_PASS_SCHEMA_PATH,
+        DEBT_PRIMARY_BALANCE_FIRST_PASS_SCHEMA_PATH,
+        DISASTER_SUPPLEMENTAL_TRACKING_FIRST_PASS_SCHEMA_PATH,
+        DISASTER_MITIGATION_FIRST_PASS_SCHEMA_PATH,
+        DEFENSE_AUDIT_CONTROL_FIRST_PASS_SCHEMA_PATH,
+        DEFENSE_PROCUREMENT_CONTROL_FIRST_PASS_SCHEMA_PATH,
+        HEALTH_PRICE_DISCIPLINE_FIRST_PASS_SCHEMA_PATH,
+        HEALTH_ADMIN_SIMPLIFICATION_FIRST_PASS_SCHEMA_PATH,
+        EFFICIENCY_PRESSURE_RESEARCH_PATH,
+        COST_DOWN_BACKLOG_READER_PATH,
+        COST_DOWN_EVIDENCE_QUEUE_READER_PATH,
+        COST_DOWN_FIRST_PASS_ROLLUP_READER_PATH,
+        COST_DOWN_SCORING_READINESS_READER_PATH,
+        PAYMENT_INTEGRITY_FIRST_PASS_READER_PATH,
+        PAYMENT_INTEGRITY_SCORECARD_READER_PATH,
+        PAYMENT_INTEGRITY_PROGRAM_REVIEW_GATE_READER_PATH,
+        PAYMENT_INTEGRITY_PROGRAM_REVIEW_TASKS_READER_PATH,
+        PAYMENT_INTEGRITY_PROGRAM_REVIEW_STATUS_READER_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_PLANS_READER_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_FIELDS_READER_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_SOURCE_TARGETS_READER_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_QUERIES_READER_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_QUERY_RUNS_READER_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_RESULTS_READER_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_RESULT_REVIEW_READINESS_READER_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_FIELD_REVIEWS_READER_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_GAP_FOLLOWUPS_READER_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_GAP_SOURCE_CAPTURES_READER_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_SOURCE_CAPTURE_ROLLUP_READER_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_READINESS_READER_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_DECISIONS_READER_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_RESIDUAL_SOURCE_GAPS_READER_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_COVERAGE_READER_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_SCORING_GATE_READER_PATH,
+        PAYMENT_INTEGRITY_METHODOLOGY_PROGRAM_ROLLUP_READER_PATH,
+        PAYMENT_INTEGRITY_NEXT_PROGRAM_SELECTION_READER_PATH,
+        PAYMENT_INTEGRITY_CLAIMS_TIMELINESS_READER_PATH,
+        DEBT_MATURITY_RISK_EXTRACT_READER_PATH,
+        DEBT_PRIMARY_BALANCE_EXTRACT_READER_PATH,
+        DISASTER_SUPPLEMENTAL_TRACKING_EXTRACT_READER_PATH,
+        DISASTER_MITIGATION_EXTRACT_READER_PATH,
+        DEFENSE_AUDIT_CONTROL_EXTRACT_READER_PATH,
+        DEFENSE_PROCUREMENT_CONTROL_EXTRACT_READER_PATH,
+        HEALTH_PRICE_DISCIPLINE_EXTRACT_READER_PATH,
+        HEALTH_ADMIN_SIMPLIFICATION_EXTRACT_READER_PATH,
+        HEALTH_PRICE_DISCIPLINE_SOURCE_PACKET_READER_PATH,
+        HEALTH_ADMIN_SIMPLIFICATION_SOURCE_PACKET_READER_PATH,
+        DEBT_PRIMARY_BALANCE_SOURCE_PACKET_READER_PATH,
+        DEBT_MATURITY_RISK_SOURCE_PACKET_READER_PATH,
+        DEFENSE_PROCUREMENT_CONTROL_SOURCE_PACKET_READER_PATH,
+        DEFENSE_AUDIT_CONTROL_SOURCE_PACKET_READER_PATH,
+        DISASTER_MITIGATION_SOURCE_PACKET_READER_PATH,
+        DISASTER_SUPPLEMENTAL_TRACKING_SOURCE_PACKET_READER_PATH,
+        PAYMENT_INTEGRITY_ELIGIBILITY_SOURCE_PACKET_READER_PATH,
+        PAYMENT_INTEGRITY_CLAIMS_TIMELINESS_SOURCE_PACKET_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing efficiency pressure support artifact: {path}"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join("docs/reading/where-federal-money-goes.md"))
+        .map_err(|err| format!("failed to read docs/reading/where-federal-money-goes.md: {err}"))?;
+    if !reader.contains(EFFICIENCY_PRESSURE_JSONL_PATH) {
+        return Err(format!(
+            "where-federal-money-goes.md must cite {EFFICIENCY_PRESSURE_JSONL_PATH}"
+        ));
+    }
+    let schema = fs::read_to_string(root.join(EFFICIENCY_PRESSURE_SCHEMA_PATH))
+        .map_err(|err| format!("failed to read {EFFICIENCY_PRESSURE_SCHEMA_PATH}: {err}"))?;
+    if !schema.contains("They do not prove waste") {
+        return Err("efficiency pressure schema must retain public-use boundary".to_string());
+    }
+    let backlog_reader = fs::read_to_string(root.join(COST_DOWN_BACKLOG_READER_PATH))
+        .map_err(|err| format!("failed to read {COST_DOWN_BACKLOG_READER_PATH}: {err}"))?;
+    if !backlog_reader.contains(COST_DOWN_BACKLOG_JSONL_PATH) {
+        return Err(format!(
+            "{COST_DOWN_BACKLOG_READER_PATH} must cite {COST_DOWN_BACKLOG_JSONL_PATH}"
+        ));
+    }
+    let evidence_queue_reader = fs::read_to_string(root.join(COST_DOWN_EVIDENCE_QUEUE_READER_PATH))
+        .map_err(|err| format!("failed to read {COST_DOWN_EVIDENCE_QUEUE_READER_PATH}: {err}"))?;
+    if !evidence_queue_reader.contains(COST_DOWN_EVIDENCE_QUEUE_JSONL_PATH) {
+        return Err(format!(
+            "{COST_DOWN_EVIDENCE_QUEUE_READER_PATH} must cite {COST_DOWN_EVIDENCE_QUEUE_JSONL_PATH}"
+        ));
+    }
+    let first_pass_rollup_reader =
+        fs::read_to_string(root.join(COST_DOWN_FIRST_PASS_ROLLUP_READER_PATH)).map_err(|err| {
+            format!("failed to read {COST_DOWN_FIRST_PASS_ROLLUP_READER_PATH}: {err}")
+        })?;
+    if !first_pass_rollup_reader.contains(COST_DOWN_FIRST_PASS_ROLLUP_JSONL_PATH) {
+        return Err(format!(
+            "{COST_DOWN_FIRST_PASS_ROLLUP_READER_PATH} must cite {COST_DOWN_FIRST_PASS_ROLLUP_JSONL_PATH}"
+        ));
+    }
+    let scoring_readiness_reader =
+        fs::read_to_string(root.join(COST_DOWN_SCORING_READINESS_READER_PATH)).map_err(|err| {
+            format!("failed to read {COST_DOWN_SCORING_READINESS_READER_PATH}: {err}")
+        })?;
+    if !scoring_readiness_reader.contains(COST_DOWN_SCORING_READINESS_JSONL_PATH) {
+        return Err(format!(
+            "{COST_DOWN_SCORING_READINESS_READER_PATH} must cite {COST_DOWN_SCORING_READINESS_JSONL_PATH}"
+        ));
+    }
+    let payment_integrity_first_pass_reader =
+        fs::read_to_string(root.join(PAYMENT_INTEGRITY_FIRST_PASS_READER_PATH)).map_err(|err| {
+            format!("failed to read {PAYMENT_INTEGRITY_FIRST_PASS_READER_PATH}: {err}")
+        })?;
+    if !payment_integrity_first_pass_reader
+        .contains(PAYMENT_INTEGRITY_ELIGIBILITY_FIRST_PASS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_FIRST_PASS_READER_PATH} must cite {PAYMENT_INTEGRITY_ELIGIBILITY_FIRST_PASS_JSONL_PATH}"
+        ));
+    }
+    let payment_integrity_scorecard_reader =
+        fs::read_to_string(root.join(PAYMENT_INTEGRITY_SCORECARD_READER_PATH)).map_err(|err| {
+            format!("failed to read {PAYMENT_INTEGRITY_SCORECARD_READER_PATH}: {err}")
+        })?;
+    if !payment_integrity_scorecard_reader.contains(PAYMENT_INTEGRITY_SCORECARDS_Q4_2025_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_SCORECARD_READER_PATH} must cite {PAYMENT_INTEGRITY_SCORECARDS_Q4_2025_JSONL_PATH}"
+        ));
+    }
+    let payment_integrity_program_gate_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_PROGRAM_REVIEW_GATE_READER_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {PAYMENT_INTEGRITY_PROGRAM_REVIEW_GATE_READER_PATH}: {err}")
+    })?;
+    if !payment_integrity_program_gate_reader
+        .contains(PAYMENT_INTEGRITY_PROGRAM_REVIEW_GATE_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_PROGRAM_REVIEW_GATE_READER_PATH} must cite {PAYMENT_INTEGRITY_PROGRAM_REVIEW_GATE_JSONL_PATH}"
+        ));
+    }
+    let payment_integrity_program_task_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_PROGRAM_REVIEW_TASKS_READER_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {PAYMENT_INTEGRITY_PROGRAM_REVIEW_TASKS_READER_PATH}: {err}")
+    })?;
+    if !payment_integrity_program_task_reader
+        .contains(PAYMENT_INTEGRITY_PROGRAM_REVIEW_TASKS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_PROGRAM_REVIEW_TASKS_READER_PATH} must cite {PAYMENT_INTEGRITY_PROGRAM_REVIEW_TASKS_JSONL_PATH}"
+        ));
+    }
+    let payment_integrity_program_status_reader =
+        fs::read_to_string(root.join(PAYMENT_INTEGRITY_PROGRAM_REVIEW_STATUS_READER_PATH))
+            .map_err(|err| {
+                format!(
+                    "failed to read {PAYMENT_INTEGRITY_PROGRAM_REVIEW_STATUS_READER_PATH}: {err}"
+                )
+            })?;
+    if !payment_integrity_program_status_reader
+        .contains(PAYMENT_INTEGRITY_PROGRAM_REVIEW_STATUS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_PROGRAM_REVIEW_STATUS_READER_PATH} must cite {PAYMENT_INTEGRITY_PROGRAM_REVIEW_STATUS_JSONL_PATH}"
+        ));
+    }
+    let methodology_plan_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_PLANS_READER_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {PAYMENT_INTEGRITY_METHODOLOGY_PLANS_READER_PATH}: {err}")
+    })?;
+    if !methodology_plan_reader.contains(PAYMENT_INTEGRITY_METHODOLOGY_PLANS_JSONL_PATH) {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_PLANS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_PLANS_JSONL_PATH}"
+        ));
+    }
+    let methodology_field_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_FIELDS_READER_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {PAYMENT_INTEGRITY_METHODOLOGY_FIELDS_READER_PATH}: {err}")
+    })?;
+    if !methodology_field_reader.contains(PAYMENT_INTEGRITY_METHODOLOGY_FIELDS_JSONL_PATH) {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_FIELDS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_FIELDS_JSONL_PATH}"
+        ));
+    }
+    let methodology_source_target_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_SOURCE_TARGETS_READER_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {PAYMENT_INTEGRITY_METHODOLOGY_SOURCE_TARGETS_READER_PATH}: {err}")
+    })?;
+    if !methodology_source_target_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_SOURCE_TARGETS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_SOURCE_TARGETS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_SOURCE_TARGETS_JSONL_PATH}"
+        ));
+    }
+    let methodology_query_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_QUERIES_READER_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {PAYMENT_INTEGRITY_METHODOLOGY_QUERIES_READER_PATH}: {err}")
+    })?;
+    if !methodology_query_reader.contains(PAYMENT_INTEGRITY_METHODOLOGY_QUERIES_JSONL_PATH) {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_QUERIES_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_QUERIES_JSONL_PATH}"
+        ));
+    }
+    let methodology_query_run_reader =
+        fs::read_to_string(root.join(PAYMENT_INTEGRITY_METHODOLOGY_QUERY_RUNS_READER_PATH))
+            .map_err(|err| {
+                format!(
+                    "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_QUERY_RUNS_READER_PATH}: {err}"
+                )
+            })?;
+    if !methodology_query_run_reader.contains(PAYMENT_INTEGRITY_METHODOLOGY_QUERY_RUNS_JSONL_PATH) {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_QUERY_RUNS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_QUERY_RUNS_JSONL_PATH}"
+        ));
+    }
+    let methodology_result_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_RESULTS_READER_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {PAYMENT_INTEGRITY_METHODOLOGY_RESULTS_READER_PATH}: {err}")
+    })?;
+    if !methodology_result_reader.contains(PAYMENT_INTEGRITY_METHODOLOGY_RESULTS_JSONL_PATH) {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_RESULTS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_RESULTS_JSONL_PATH}"
+        ));
+    }
+    let methodology_result_review_readiness_reader = fs::read_to_string(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_RESULT_REVIEW_READINESS_READER_PATH,
+    ))
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_RESULT_REVIEW_READINESS_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_result_review_readiness_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_RESULT_REVIEW_READINESS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_RESULT_REVIEW_READINESS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_RESULT_REVIEW_READINESS_JSONL_PATH}"
+        ));
+    }
+    let methodology_field_review_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_FIELD_REVIEWS_READER_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {PAYMENT_INTEGRITY_METHODOLOGY_FIELD_REVIEWS_READER_PATH}: {err}")
+    })?;
+    if !methodology_field_review_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_FIELD_REVIEWS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_FIELD_REVIEWS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_FIELD_REVIEWS_JSONL_PATH}"
+        ));
+    }
+    let methodology_gap_followup_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_GAP_FOLLOWUPS_READER_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {PAYMENT_INTEGRITY_METHODOLOGY_GAP_FOLLOWUPS_READER_PATH}: {err}")
+    })?;
+    if !methodology_gap_followup_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_GAP_FOLLOWUPS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_GAP_FOLLOWUPS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_GAP_FOLLOWUPS_JSONL_PATH}"
+        ));
+    }
+    let methodology_gap_source_capture_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_GAP_SOURCE_CAPTURES_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_GAP_SOURCE_CAPTURES_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_gap_source_capture_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_GAP_SOURCE_CAPTURES_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_GAP_SOURCE_CAPTURES_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_GAP_SOURCE_CAPTURES_JSONL_PATH}"
+        ));
+    }
+    let methodology_source_capture_rollup_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_SOURCE_CAPTURE_ROLLUP_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_SOURCE_CAPTURE_ROLLUP_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_source_capture_rollup_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_SOURCE_CAPTURE_ROLLUP_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_SOURCE_CAPTURE_ROLLUP_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_SOURCE_CAPTURE_ROLLUP_JSONL_PATH}"
+        ));
+    }
+    let methodology_closure_readiness_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_READINESS_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_READINESS_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_closure_readiness_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_READINESS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_READINESS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_READINESS_JSONL_PATH}"
+        ));
+    }
+    let methodology_closure_decision_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_DECISIONS_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_DECISIONS_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_closure_decision_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_DECISIONS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_DECISIONS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_DECISIONS_JSONL_PATH}"
+        ));
+    }
+    let methodology_residual_source_gap_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_RESIDUAL_SOURCE_GAPS_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_RESIDUAL_SOURCE_GAPS_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_residual_source_gap_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_RESIDUAL_SOURCE_GAPS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_RESIDUAL_SOURCE_GAPS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_RESIDUAL_SOURCE_GAPS_JSONL_PATH}"
+        ));
+    }
+    let methodology_closure_coverage_reader =
+        fs::read_to_string(root.join(PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_COVERAGE_READER_PATH))
+            .map_err(|err| {
+            format!(
+                "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_COVERAGE_READER_PATH}: {err}"
+            )
+        })?;
+    if !methodology_closure_coverage_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_COVERAGE_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_COVERAGE_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_COVERAGE_JSONL_PATH}"
+        ));
+    }
+    let methodology_scoring_gate_reader =
+        fs::read_to_string(root.join(PAYMENT_INTEGRITY_METHODOLOGY_SCORING_GATE_READER_PATH))
+            .map_err(|err| {
+                format!(
+                    "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_SCORING_GATE_READER_PATH}: {err}"
+                )
+            })?;
+    if !methodology_scoring_gate_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_SCORING_GATE_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_SCORING_GATE_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_SCORING_GATE_JSONL_PATH}"
+        ));
+    }
+    let methodology_program_rollup_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_PROGRAM_ROLLUP_READER_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {PAYMENT_INTEGRITY_METHODOLOGY_PROGRAM_ROLLUP_READER_PATH}: {err}")
+    })?;
+    if !methodology_program_rollup_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_PROGRAM_ROLLUP_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_PROGRAM_ROLLUP_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_PROGRAM_ROLLUP_JSONL_PATH}"
+        ));
+    }
+    let methodology_open_program_status_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_STATUS_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_STATUS_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_open_program_status_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_STATUS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_STATUS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_STATUS_JSONL_PATH}"
+        ));
+    }
+    let methodology_open_program_status_schema = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_STATUS_SCHEMA_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_STATUS_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    if !methodology_open_program_status_schema
+        .contains("payment_integrity_methodology_open_program_status")
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_STATUS_SCHEMA_PATH} must describe payment_integrity_methodology_open_program_status"
+        ));
+    }
+    let methodology_residual_gap_priority_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_RESIDUAL_GAP_PRIORITY_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_RESIDUAL_GAP_PRIORITY_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_residual_gap_priority_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_RESIDUAL_GAP_PRIORITY_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_RESIDUAL_GAP_PRIORITY_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_RESIDUAL_GAP_PRIORITY_JSONL_PATH}"
+        ));
+    }
+    let methodology_residual_gap_priority_schema = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_RESIDUAL_GAP_PRIORITY_SCHEMA_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_RESIDUAL_GAP_PRIORITY_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    if !methodology_residual_gap_priority_schema
+        .contains("payment_integrity_methodology_residual_gap_priority")
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_RESIDUAL_GAP_PRIORITY_SCHEMA_PATH} must describe payment_integrity_methodology_residual_gap_priority"
+        ));
+    }
+    let methodology_priority_source_work_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_PRIORITY_SOURCE_WORK_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_PRIORITY_SOURCE_WORK_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_priority_source_work_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_PRIORITY_SOURCE_WORK_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_PRIORITY_SOURCE_WORK_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_PRIORITY_SOURCE_WORK_JSONL_PATH}"
+        ));
+    }
+    let methodology_priority_source_work_schema = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_PRIORITY_SOURCE_WORK_SCHEMA_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_PRIORITY_SOURCE_WORK_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    if !methodology_priority_source_work_schema
+        .contains("payment_integrity_methodology_priority_source_work")
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_PRIORITY_SOURCE_WORK_SCHEMA_PATH} must describe payment_integrity_methodology_priority_source_work"
+        ));
+    }
+    let methodology_priority_reviewer_actions_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_PRIORITY_REVIEWER_ACTIONS_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_PRIORITY_REVIEWER_ACTIONS_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_priority_reviewer_actions_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_PRIORITY_REVIEWER_ACTIONS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_PRIORITY_REVIEWER_ACTIONS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_PRIORITY_REVIEWER_ACTIONS_JSONL_PATH}"
+        ));
+    }
+    let methodology_priority_reviewer_actions_schema = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_PRIORITY_REVIEWER_ACTIONS_SCHEMA_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_PRIORITY_REVIEWER_ACTIONS_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    if !methodology_priority_reviewer_actions_schema
+        .contains("payment_integrity_methodology_priority_reviewer_action")
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_PRIORITY_REVIEWER_ACTIONS_SCHEMA_PATH} must describe payment_integrity_methodology_priority_reviewer_action"
+        ));
+    }
+    let methodology_field_updates_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_FIELD_UPDATES_READER_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {PAYMENT_INTEGRITY_METHODOLOGY_FIELD_UPDATES_READER_PATH}: {err}")
+    })?;
+    if !methodology_field_updates_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_FIELD_UPDATES_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_FIELD_UPDATES_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_FIELD_UPDATES_JSONL_PATH}"
+        ));
+    }
+    let methodology_field_updates_schema = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_FIELD_UPDATES_SCHEMA_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {PAYMENT_INTEGRITY_METHODOLOGY_FIELD_UPDATES_SCHEMA_PATH}: {err}")
+    })?;
+    if !methodology_field_updates_schema.contains("payment_integrity_methodology_field_update") {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_FIELD_UPDATES_SCHEMA_PATH} must describe payment_integrity_methodology_field_update"
+        ));
+    }
+    let methodology_followup_source_queries_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_QUERIES_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_QUERIES_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_followup_source_queries_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_QUERIES_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_QUERIES_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_QUERIES_JSONL_PATH}"
+        ));
+    }
+    let methodology_followup_source_queries_schema = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_QUERIES_SCHEMA_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_QUERIES_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    if !methodology_followup_source_queries_schema
+        .contains("payment_integrity_methodology_followup_source_query")
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_QUERIES_SCHEMA_PATH} must describe payment_integrity_methodology_followup_source_query"
+        ));
+    }
+    let methodology_followup_source_query_runs_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_QUERY_RUNS_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_QUERY_RUNS_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_followup_source_query_runs_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_QUERY_RUNS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_QUERY_RUNS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_QUERY_RUNS_JSONL_PATH}"
+        ));
+    }
+    let methodology_followup_source_query_runs_schema = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_QUERY_RUNS_SCHEMA_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_QUERY_RUNS_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    if !methodology_followup_source_query_runs_schema
+        .contains("payment_integrity_methodology_followup_source_query_run")
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_QUERY_RUNS_SCHEMA_PATH} must describe payment_integrity_methodology_followup_source_query_run"
+        ));
+    }
+    let methodology_followup_source_captures_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_CAPTURES_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_CAPTURES_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_followup_source_captures_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_CAPTURES_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_CAPTURES_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_CAPTURES_JSONL_PATH}"
+        ));
+    }
+    let methodology_followup_source_captures_schema = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_CAPTURES_SCHEMA_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_CAPTURES_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    if !methodology_followup_source_captures_schema
+        .contains("payment_integrity_methodology_followup_source_capture")
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_CAPTURES_SCHEMA_PATH} must describe payment_integrity_methodology_followup_source_capture"
+        ));
+    }
+    let methodology_followup_source_capture_rollup_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_CAPTURE_ROLLUP_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_CAPTURE_ROLLUP_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_followup_source_capture_rollup_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_CAPTURE_ROLLUP_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_CAPTURE_ROLLUP_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_CAPTURE_ROLLUP_JSONL_PATH}"
+        ));
+    }
+    let methodology_followup_source_capture_rollup_schema = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_CAPTURE_ROLLUP_SCHEMA_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_CAPTURE_ROLLUP_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    if !methodology_followup_source_capture_rollup_schema
+        .contains("payment_integrity_methodology_followup_source_capture_rollup")
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_SOURCE_CAPTURE_ROLLUP_SCHEMA_PATH} must describe payment_integrity_methodology_followup_source_capture_rollup"
+        ));
+    }
+    let methodology_followup_boundary_decisions_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_BOUNDARY_DECISIONS_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_BOUNDARY_DECISIONS_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_followup_boundary_decisions_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_BOUNDARY_DECISIONS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_BOUNDARY_DECISIONS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_BOUNDARY_DECISIONS_JSONL_PATH}"
+        ));
+    }
+    let methodology_followup_boundary_decisions_schema = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_BOUNDARY_DECISIONS_SCHEMA_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_BOUNDARY_DECISIONS_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    if !methodology_followup_boundary_decisions_schema
+        .contains("payment_integrity_methodology_followup_boundary_decision")
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_BOUNDARY_DECISIONS_SCHEMA_PATH} must describe payment_integrity_methodology_followup_boundary_decision"
+        ));
+    }
+    let methodology_followup_boundary_readiness_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_BOUNDARY_READINESS_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_BOUNDARY_READINESS_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_followup_boundary_readiness_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_BOUNDARY_READINESS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_BOUNDARY_READINESS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_BOUNDARY_READINESS_JSONL_PATH}"
+        ));
+    }
+    let methodology_followup_boundary_readiness_schema = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_BOUNDARY_READINESS_SCHEMA_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_BOUNDARY_READINESS_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    if !methodology_followup_boundary_readiness_schema
+        .contains("payment_integrity_methodology_followup_boundary_readiness")
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_FOLLOWUP_BOUNDARY_READINESS_SCHEMA_PATH} must describe payment_integrity_methodology_followup_boundary_readiness"
+        ));
+    }
+    let methodology_narrow_closure_candidates_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_NARROW_CLOSURE_CANDIDATES_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_NARROW_CLOSURE_CANDIDATES_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_narrow_closure_candidates_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_NARROW_CLOSURE_CANDIDATES_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_NARROW_CLOSURE_CANDIDATES_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_NARROW_CLOSURE_CANDIDATES_JSONL_PATH}"
+        ));
+    }
+    let methodology_narrow_closure_candidates_schema = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_NARROW_CLOSURE_CANDIDATES_SCHEMA_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_NARROW_CLOSURE_CANDIDATES_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    if !methodology_narrow_closure_candidates_schema
+        .contains("payment_integrity_methodology_narrow_closure_candidate")
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_NARROW_CLOSURE_CANDIDATES_SCHEMA_PATH} must describe payment_integrity_methodology_narrow_closure_candidate"
+        ));
+    }
+    let methodology_narrow_closure_decisions_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_NARROW_CLOSURE_DECISIONS_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_NARROW_CLOSURE_DECISIONS_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_narrow_closure_decisions_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_NARROW_CLOSURE_DECISIONS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_NARROW_CLOSURE_DECISIONS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_NARROW_CLOSURE_DECISIONS_JSONL_PATH}"
+        ));
+    }
+    let methodology_narrow_closure_decisions_schema = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_NARROW_CLOSURE_DECISIONS_SCHEMA_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_NARROW_CLOSURE_DECISIONS_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    if !methodology_narrow_closure_decisions_schema
+        .contains("payment_integrity_methodology_narrow_closure_decision")
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_NARROW_CLOSURE_DECISIONS_SCHEMA_PATH} must describe payment_integrity_methodology_narrow_closure_decision"
+        ));
+    }
+    let methodology_open_program_component_progress_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_COMPONENT_PROGRESS_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_COMPONENT_PROGRESS_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_open_program_component_progress_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_COMPONENT_PROGRESS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_COMPONENT_PROGRESS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_COMPONENT_PROGRESS_JSONL_PATH}"
+        ));
+    }
+    let methodology_open_program_component_progress_schema = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_COMPONENT_PROGRESS_SCHEMA_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_COMPONENT_PROGRESS_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    if !methodology_open_program_component_progress_schema
+        .contains("payment_integrity_methodology_open_program_component_progress")
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_COMPONENT_PROGRESS_SCHEMA_PATH} must describe payment_integrity_methodology_open_program_component_progress"
+        ));
+    }
+    let methodology_component_gate_requirements_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_REQUIREMENTS_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_REQUIREMENTS_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_requirements_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_REQUIREMENTS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_REQUIREMENTS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_REQUIREMENTS_JSONL_PATH}"
+        ));
+    }
+    let methodology_component_gate_requirements_schema = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_REQUIREMENTS_SCHEMA_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_REQUIREMENTS_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_requirements_schema
+        .contains("payment_integrity_methodology_component_gate_requirement")
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_REQUIREMENTS_SCHEMA_PATH} must describe payment_integrity_methodology_component_gate_requirement"
+        ));
+    }
+    let methodology_component_gate_source_targets_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_TARGETS_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_TARGETS_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_source_targets_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_TARGETS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_TARGETS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_TARGETS_JSONL_PATH}"
+        ));
+    }
+    let methodology_component_gate_source_targets_schema = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_TARGETS_SCHEMA_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_TARGETS_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_source_targets_schema
+        .contains("payment_integrity_methodology_component_gate_source_target")
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_TARGETS_SCHEMA_PATH} must describe payment_integrity_methodology_component_gate_source_target"
+        ));
+    }
+    let methodology_component_gate_source_queries_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_QUERIES_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_QUERIES_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_source_queries_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_QUERIES_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_QUERIES_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_QUERIES_JSONL_PATH}"
+        ));
+    }
+    let methodology_component_gate_source_queries_schema = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_QUERIES_SCHEMA_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_QUERIES_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_source_queries_schema
+        .contains("payment_integrity_methodology_component_gate_source_query")
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_QUERIES_SCHEMA_PATH} must describe payment_integrity_methodology_component_gate_source_query"
+        ));
+    }
+    let methodology_component_gate_source_query_runs_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_QUERY_RUNS_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_QUERY_RUNS_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_source_query_runs_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_QUERY_RUNS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_QUERY_RUNS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_QUERY_RUNS_JSONL_PATH}"
+        ));
+    }
+    let methodology_component_gate_source_query_runs_schema = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_QUERY_RUNS_SCHEMA_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_QUERY_RUNS_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_source_query_runs_schema
+        .contains("payment_integrity_methodology_component_gate_source_query_run")
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_QUERY_RUNS_SCHEMA_PATH} must describe payment_integrity_methodology_component_gate_source_query_run"
+        ));
+    }
+    let methodology_component_gate_source_captures_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_CAPTURES_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_CAPTURES_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_source_captures_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_CAPTURES_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_CAPTURES_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_CAPTURES_JSONL_PATH}"
+        ));
+    }
+    let methodology_component_gate_source_captures_schema = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_CAPTURES_SCHEMA_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_CAPTURES_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_source_captures_schema
+        .contains("payment_integrity_methodology_component_gate_source_capture")
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_CAPTURES_SCHEMA_PATH} must describe payment_integrity_methodology_component_gate_source_capture"
+        ));
+    }
+    let methodology_component_gate_source_capture_rollups_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_CAPTURE_ROLLUPS_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_CAPTURE_ROLLUPS_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_source_capture_rollups_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_CAPTURE_ROLLUPS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_CAPTURE_ROLLUPS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_CAPTURE_ROLLUPS_JSONL_PATH}"
+        ));
+    }
+    let methodology_component_gate_source_capture_rollups_schema = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_CAPTURE_ROLLUPS_SCHEMA_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_CAPTURE_ROLLUPS_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_source_capture_rollups_schema
+        .contains("payment_integrity_methodology_component_gate_source_capture_rollup")
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_SOURCE_CAPTURE_ROLLUPS_SCHEMA_PATH} must describe payment_integrity_methodology_component_gate_source_capture_rollup"
+        ));
+    }
+    let methodology_component_gate_boundary_decisions_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_BOUNDARY_DECISIONS_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_BOUNDARY_DECISIONS_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_boundary_decisions_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_BOUNDARY_DECISIONS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_BOUNDARY_DECISIONS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_BOUNDARY_DECISIONS_JSONL_PATH}"
+        ));
+    }
+    let methodology_component_gate_boundary_decisions_schema = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_BOUNDARY_DECISIONS_SCHEMA_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_BOUNDARY_DECISIONS_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_boundary_decisions_schema
+        .contains("payment_integrity_methodology_component_gate_boundary_decision")
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_BOUNDARY_DECISIONS_SCHEMA_PATH} must describe payment_integrity_methodology_component_gate_boundary_decision"
+        ));
+    }
+    let methodology_component_gate_boundary_readiness_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_BOUNDARY_READINESS_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_BOUNDARY_READINESS_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_boundary_readiness_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_BOUNDARY_READINESS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_BOUNDARY_READINESS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_BOUNDARY_READINESS_JSONL_PATH}"
+        ));
+    }
+    let methodology_component_gate_boundary_readiness_schema = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_BOUNDARY_READINESS_SCHEMA_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_BOUNDARY_READINESS_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_boundary_readiness_schema
+        .contains("payment_integrity_methodology_component_gate_boundary_readiness")
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_BOUNDARY_READINESS_SCHEMA_PATH} must describe payment_integrity_methodology_component_gate_boundary_readiness"
+        ));
+    }
+    let methodology_component_gate_narrow_candidates_reader = fs::read_to_string(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_NARROW_CANDIDATES_READER_PATH,
+    ))
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_NARROW_CANDIDATES_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_narrow_candidates_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_NARROW_CANDIDATES_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_NARROW_CANDIDATES_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_NARROW_CANDIDATES_JSONL_PATH}"
+        ));
+    }
+    let methodology_component_gate_narrow_candidates_schema = fs::read_to_string(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_NARROW_CANDIDATES_SCHEMA_PATH,
+    ))
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_NARROW_CANDIDATES_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_narrow_candidates_schema
+        .contains("payment_integrity_methodology_component_gate_narrow_candidate")
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_NARROW_CANDIDATES_SCHEMA_PATH} must describe payment_integrity_methodology_component_gate_narrow_candidate"
+        ));
+    }
+    let methodology_component_gate_narrow_decisions_reader = fs::read_to_string(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_NARROW_DECISIONS_READER_PATH,
+    ))
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_NARROW_DECISIONS_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_narrow_decisions_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_NARROW_DECISIONS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_NARROW_DECISIONS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_NARROW_DECISIONS_JSONL_PATH}"
+        ));
+    }
+    let methodology_component_gate_narrow_decisions_schema = fs::read_to_string(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_NARROW_DECISIONS_SCHEMA_PATH,
+    ))
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_NARROW_DECISIONS_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_narrow_decisions_schema
+        .contains("payment_integrity_methodology_component_gate_narrow_decision")
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_NARROW_DECISIONS_SCHEMA_PATH} must describe payment_integrity_methodology_component_gate_narrow_decision"
+        ));
+    }
+    let methodology_component_gate_progress_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_progress_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_JSONL_PATH}"
+        ));
+    }
+    let methodology_component_gate_progress_schema = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SCHEMA_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_progress_schema
+        .contains("payment_integrity_methodology_component_gate_progress")
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SCHEMA_PATH} must describe payment_integrity_methodology_component_gate_progress"
+        ));
+    }
+    let methodology_component_gate_progress_requirements_reader = fs::read_to_string(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_REQUIREMENTS_READER_PATH,
+    ))
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_REQUIREMENTS_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_progress_requirements_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_REQUIREMENTS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_REQUIREMENTS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_REQUIREMENTS_JSONL_PATH}"
+        ));
+    }
+    let methodology_component_gate_progress_requirements_schema = fs::read_to_string(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_REQUIREMENTS_SCHEMA_PATH,
+    ))
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_REQUIREMENTS_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_progress_requirements_schema
+        .contains("payment_integrity_methodology_component_gate_progress_requirement")
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_REQUIREMENTS_SCHEMA_PATH} must describe payment_integrity_methodology_component_gate_progress_requirement"
+        ));
+    }
+    let methodology_component_gate_progress_source_targets_reader = fs::read_to_string(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_TARGETS_READER_PATH,
+    ))
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_TARGETS_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_progress_source_targets_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_TARGETS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_TARGETS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_TARGETS_JSONL_PATH}"
+        ));
+    }
+    let methodology_component_gate_progress_source_targets_schema = fs::read_to_string(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_TARGETS_SCHEMA_PATH,
+    ))
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_TARGETS_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_progress_source_targets_schema
+        .contains("payment_integrity_methodology_component_gate_progress_source_target")
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_TARGETS_SCHEMA_PATH} must describe payment_integrity_methodology_component_gate_progress_source_target"
+        ));
+    }
+    let methodology_component_gate_progress_source_queries_reader = fs::read_to_string(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_QUERIES_READER_PATH,
+    ))
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_QUERIES_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_progress_source_queries_reader
+        .contains(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_QUERIES_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_QUERIES_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_QUERIES_JSONL_PATH}"
+        ));
+    }
+    let methodology_component_gate_progress_source_queries_schema = fs::read_to_string(root.join(
+        PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_QUERIES_SCHEMA_PATH,
+    ))
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_QUERIES_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_progress_source_queries_schema
+        .contains("payment_integrity_methodology_component_gate_progress_source_query")
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_QUERIES_SCHEMA_PATH} must describe payment_integrity_methodology_component_gate_progress_source_query"
+        ));
+    }
+    let methodology_component_gate_progress_source_query_runs_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_QUERY_RUNS_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_QUERY_RUNS_READER_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_progress_source_query_runs_reader.contains(
+        PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_QUERY_RUNS_JSONL_PATH,
+    ) {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_QUERY_RUNS_READER_PATH} must cite {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_QUERY_RUNS_JSONL_PATH}"
+        ));
+    }
+    let methodology_component_gate_progress_source_query_runs_schema = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_QUERY_RUNS_SCHEMA_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_QUERY_RUNS_SCHEMA_PATH}: {err}"
+        )
+    })?;
+    if !methodology_component_gate_progress_source_query_runs_schema
+        .contains("payment_integrity_methodology_component_gate_progress_source_query_run")
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_PROGRESS_SOURCE_QUERY_RUNS_SCHEMA_PATH} must describe payment_integrity_methodology_component_gate_progress_source_query_run"
+        ));
+    }
+    let next_program_selection_reader =
+        fs::read_to_string(root.join(PAYMENT_INTEGRITY_NEXT_PROGRAM_SELECTION_READER_PATH))
+            .map_err(|err| {
+                format!(
+                    "failed to read {PAYMENT_INTEGRITY_NEXT_PROGRAM_SELECTION_READER_PATH}: {err}"
+                )
+            })?;
+    if !next_program_selection_reader.contains(PAYMENT_INTEGRITY_NEXT_PROGRAM_SELECTION_JSONL_PATH)
+    {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_NEXT_PROGRAM_SELECTION_READER_PATH} must cite {PAYMENT_INTEGRITY_NEXT_PROGRAM_SELECTION_JSONL_PATH}"
+        ));
+    }
+    let payment_integrity_claims_reader = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_CLAIMS_TIMELINESS_READER_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {PAYMENT_INTEGRITY_CLAIMS_TIMELINESS_READER_PATH}: {err}")
+    })?;
+    if !payment_integrity_claims_reader.contains(PAYMENT_INTEGRITY_CLAIMS_TIMELINESS_JSONL_PATH) {
+        return Err(format!(
+            "{PAYMENT_INTEGRITY_CLAIMS_TIMELINESS_READER_PATH} must cite {PAYMENT_INTEGRITY_CLAIMS_TIMELINESS_JSONL_PATH}"
+        ));
+    }
+    let debt_maturity_reader =
+        fs::read_to_string(root.join(DEBT_MATURITY_RISK_EXTRACT_READER_PATH)).map_err(|err| {
+            format!("failed to read {DEBT_MATURITY_RISK_EXTRACT_READER_PATH}: {err}")
+        })?;
+    if !debt_maturity_reader.contains(DEBT_MATURITY_RISK_FIRST_PASS_JSONL_PATH) {
+        return Err(format!(
+            "{DEBT_MATURITY_RISK_EXTRACT_READER_PATH} must cite {DEBT_MATURITY_RISK_FIRST_PASS_JSONL_PATH}"
+        ));
+    }
+    let debt_primary_balance_reader =
+        fs::read_to_string(root.join(DEBT_PRIMARY_BALANCE_EXTRACT_READER_PATH)).map_err(|err| {
+            format!("failed to read {DEBT_PRIMARY_BALANCE_EXTRACT_READER_PATH}: {err}")
+        })?;
+    if !debt_primary_balance_reader.contains(DEBT_PRIMARY_BALANCE_FIRST_PASS_JSONL_PATH) {
+        return Err(format!(
+            "{DEBT_PRIMARY_BALANCE_EXTRACT_READER_PATH} must cite {DEBT_PRIMARY_BALANCE_FIRST_PASS_JSONL_PATH}"
+        ));
+    }
+    let disaster_supplemental_reader = fs::read_to_string(
+        root.join(DISASTER_SUPPLEMENTAL_TRACKING_EXTRACT_READER_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {DISASTER_SUPPLEMENTAL_TRACKING_EXTRACT_READER_PATH}: {err}")
+    })?;
+    if !disaster_supplemental_reader.contains(DISASTER_SUPPLEMENTAL_TRACKING_FIRST_PASS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{DISASTER_SUPPLEMENTAL_TRACKING_EXTRACT_READER_PATH} must cite {DISASTER_SUPPLEMENTAL_TRACKING_FIRST_PASS_JSONL_PATH}"
+        ));
+    }
+    let disaster_mitigation_reader =
+        fs::read_to_string(root.join(DISASTER_MITIGATION_EXTRACT_READER_PATH)).map_err(|err| {
+            format!("failed to read {DISASTER_MITIGATION_EXTRACT_READER_PATH}: {err}")
+        })?;
+    if !disaster_mitigation_reader.contains(DISASTER_MITIGATION_FIRST_PASS_JSONL_PATH) {
+        return Err(format!(
+            "{DISASTER_MITIGATION_EXTRACT_READER_PATH} must cite {DISASTER_MITIGATION_FIRST_PASS_JSONL_PATH}"
+        ));
+    }
+    let defense_audit_control_reader = fs::read_to_string(
+        root.join(DEFENSE_AUDIT_CONTROL_EXTRACT_READER_PATH),
+    )
+    .map_err(|err| format!("failed to read {DEFENSE_AUDIT_CONTROL_EXTRACT_READER_PATH}: {err}"))?;
+    if !defense_audit_control_reader.contains(DEFENSE_AUDIT_CONTROL_FIRST_PASS_JSONL_PATH) {
+        return Err(format!(
+            "{DEFENSE_AUDIT_CONTROL_EXTRACT_READER_PATH} must cite {DEFENSE_AUDIT_CONTROL_FIRST_PASS_JSONL_PATH}"
+        ));
+    }
+    let defense_procurement_control_reader = fs::read_to_string(
+        root.join(DEFENSE_PROCUREMENT_CONTROL_EXTRACT_READER_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {DEFENSE_PROCUREMENT_CONTROL_EXTRACT_READER_PATH}: {err}")
+    })?;
+    if !defense_procurement_control_reader
+        .contains(DEFENSE_PROCUREMENT_CONTROL_FIRST_PASS_JSONL_PATH)
+    {
+        return Err(format!(
+            "{DEFENSE_PROCUREMENT_CONTROL_EXTRACT_READER_PATH} must cite {DEFENSE_PROCUREMENT_CONTROL_FIRST_PASS_JSONL_PATH}"
+        ));
+    }
+    let health_price_reader =
+        fs::read_to_string(root.join(HEALTH_PRICE_DISCIPLINE_EXTRACT_READER_PATH)).map_err(
+            |err| format!("failed to read {HEALTH_PRICE_DISCIPLINE_EXTRACT_READER_PATH}: {err}"),
+        )?;
+    if !health_price_reader.contains(HEALTH_PRICE_DISCIPLINE_FIRST_PASS_JSONL_PATH) {
+        return Err(format!(
+            "{HEALTH_PRICE_DISCIPLINE_EXTRACT_READER_PATH} must cite {HEALTH_PRICE_DISCIPLINE_FIRST_PASS_JSONL_PATH}"
+        ));
+    }
+    let health_admin_reader = fs::read_to_string(
+        root.join(HEALTH_ADMIN_SIMPLIFICATION_EXTRACT_READER_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {HEALTH_ADMIN_SIMPLIFICATION_EXTRACT_READER_PATH}: {err}")
+    })?;
+    if !health_admin_reader.contains(HEALTH_ADMIN_SIMPLIFICATION_FIRST_PASS_JSONL_PATH) {
+        return Err(format!(
+            "{HEALTH_ADMIN_SIMPLIFICATION_EXTRACT_READER_PATH} must cite {HEALTH_ADMIN_SIMPLIFICATION_FIRST_PASS_JSONL_PATH}"
+        ));
+    }
+    for source_packet_reader_path in [
+        HEALTH_PRICE_DISCIPLINE_SOURCE_PACKET_READER_PATH,
+        HEALTH_ADMIN_SIMPLIFICATION_SOURCE_PACKET_READER_PATH,
+        DEBT_PRIMARY_BALANCE_SOURCE_PACKET_READER_PATH,
+        DEBT_MATURITY_RISK_SOURCE_PACKET_READER_PATH,
+        DEFENSE_PROCUREMENT_CONTROL_SOURCE_PACKET_READER_PATH,
+        DEFENSE_AUDIT_CONTROL_SOURCE_PACKET_READER_PATH,
+        DISASTER_MITIGATION_SOURCE_PACKET_READER_PATH,
+        DISASTER_SUPPLEMENTAL_TRACKING_SOURCE_PACKET_READER_PATH,
+        PAYMENT_INTEGRITY_ELIGIBILITY_SOURCE_PACKET_READER_PATH,
+        PAYMENT_INTEGRITY_CLAIMS_TIMELINESS_SOURCE_PACKET_READER_PATH,
+    ] {
+        let source_packet_reader = fs::read_to_string(root.join(source_packet_reader_path))
+            .map_err(|err| format!("failed to read {source_packet_reader_path}: {err}"))?;
+        if !source_packet_reader.contains(COST_DOWN_SOURCE_PACKETS_JSONL_PATH) {
+            return Err(format!(
+                "{source_packet_reader_path} must cite {COST_DOWN_SOURCE_PACKETS_JSONL_PATH}"
+            ));
+        }
+    }
+
+    println!(
+        "validated {} efficiency pressure rows, {} cost-down backlog rows, {} source packet rows, {} evidence queue rows, {} first-pass rollup rows, {} scoring-readiness rows, {} payment-integrity probe rows, {} payment-integrity scorecard rows, {} payment-integrity program-gate rows, {} payment-integrity program-task rows, {} payment-integrity program-status rows, {} payment-integrity methodology-plan rows, {} payment-integrity methodology-field rows, {} payment-integrity methodology-source rows, {} payment-integrity methodology-query rows, {} payment-integrity methodology-query-run rows, {} payment-integrity methodology-result rows, {} payment-integrity methodology-result-review-readiness rows, {} payment-integrity methodology-field-review rows, {} payment-integrity methodology-gap-followup rows, {} payment-integrity methodology-gap-source-capture rows, {} payment-integrity methodology-source-capture-rollup rows, {} payment-integrity methodology-closure-readiness rows, {} payment-integrity methodology-closure-decision rows, {} payment-integrity methodology-residual-source-gap rows, {} payment-integrity methodology-closure-coverage rows, {} payment-integrity methodology-scoring-gate rows, {} payment-integrity methodology-program-rollup rows, {} payment-integrity methodology-open-program-status rows, {} payment-integrity methodology-residual-gap-priority rows, {} payment-integrity methodology-priority-source-work rows, {} payment-integrity methodology-priority-reviewer-action rows, {} payment-integrity methodology-field-update rows, {} payment-integrity methodology-followup-source-query rows, {} payment-integrity methodology-followup-source-query-run rows, {} payment-integrity methodology-followup-source-capture rows, {} payment-integrity methodology-followup-source-capture-rollup rows, {} payment-integrity methodology-followup-boundary-decision rows, {} payment-integrity methodology-followup-boundary-readiness rows, {} payment-integrity methodology-narrow-closure-candidate rows, {} payment-integrity methodology-narrow-closure-decision rows, {} payment-integrity methodology-open-program-component-progress rows, {} payment-integrity methodology-component-gate-requirement rows, {} payment-integrity methodology-component-gate-source-target rows, {} payment-integrity methodology-component-gate-source-query rows, {} payment-integrity methodology-component-gate-source-query-run rows, {} payment-integrity methodology-component-gate-source-capture rows, {} payment-integrity methodology-component-gate-source-capture-rollup rows, {} payment-integrity methodology-component-gate-boundary-decision rows, {} payment-integrity methodology-component-gate-boundary-readiness rows, {} payment-integrity methodology-component-gate-narrow-candidate rows, {} payment-integrity methodology-component-gate-narrow-decision rows, {} payment-integrity methodology-component-gate-progress rows, {} payment-integrity methodology-component-gate-progress-requirement rows, {} payment-integrity methodology-component-gate-progress-source-target rows, {} payment-integrity methodology-component-gate-progress-source-query rows, {} payment-integrity methodology-component-gate-progress-source-query-run rows, {} payment-integrity next-program-selection rows, {} claims-timeliness rows, {} debt maturity-risk rows, {} debt primary-balance rows, {} disaster declaration rows, {} disaster mitigation rows, {} defense audit-control rows, {} defense procurement-control rows, {} health price-discipline rows, and {} health administrative-simplification rows",
+        rows.len(),
+        backlog_rows.len(),
+        source_packet_rows.len(),
+        evidence_queue_rows.len(),
+        first_pass_rollup_rows.len(),
+        scoring_readiness_rows.len(),
+        payment_integrity_probe_rows.len(),
+        payment_integrity_scorecard_rows.len(),
+        payment_integrity_program_gate_rows.len(),
+        payment_integrity_program_task_rows.len(),
+        payment_integrity_program_status_rows.len(),
+        methodology_plan_rows.len(),
+        methodology_field_rows.len(),
+        methodology_source_target_rows.len(),
+        methodology_query_rows.len(),
+        methodology_query_run_rows.len(),
+        methodology_result_rows.len(),
+        methodology_result_review_readiness_rows.len(),
+        methodology_field_review_rows.len(),
+        methodology_gap_followup_rows.len(),
+        methodology_gap_source_capture_rows.len(),
+        methodology_source_capture_rollup_rows.len(),
+        methodology_closure_readiness_rows.len(),
+        methodology_closure_decision_rows.len(),
+        methodology_residual_source_gap_rows.len(),
+        methodology_closure_coverage_rows.len(),
+        methodology_scoring_gate_rows.len(),
+        methodology_program_rollup_rows.len(),
+        methodology_open_program_status_rows.len(),
+        methodology_residual_gap_priority_rows.len(),
+        methodology_priority_source_work_rows.len(),
+        methodology_priority_reviewer_action_rows.len(),
+        methodology_field_update_rows.len(),
+        methodology_followup_source_query_rows.len(),
+        methodology_followup_source_query_run_rows.len(),
+        methodology_followup_source_capture_rows.len(),
+        methodology_followup_source_capture_rollup_rows.len(),
+        methodology_followup_boundary_decision_rows.len(),
+        methodology_followup_boundary_readiness_rows.len(),
+        methodology_narrow_closure_candidate_rows.len(),
+        methodology_narrow_closure_decision_rows.len(),
+        methodology_open_program_component_progress_rows.len(),
+        methodology_component_gate_requirement_rows.len(),
+        methodology_component_gate_source_target_rows.len(),
+        methodology_component_gate_source_query_rows.len(),
+        methodology_component_gate_source_query_run_rows.len(),
+        methodology_component_gate_source_capture_rows.len(),
+        methodology_component_gate_source_capture_rollup_rows.len(),
+        methodology_component_gate_boundary_decision_rows.len(),
+        methodology_component_gate_boundary_readiness_rows.len(),
+        methodology_component_gate_narrow_candidate_rows.len(),
+        methodology_component_gate_narrow_decision_rows.len(),
+        methodology_component_gate_progress_rows.len(),
+        methodology_component_gate_progress_requirement_rows.len(),
+        methodology_component_gate_progress_source_target_rows.len(),
+        methodology_component_gate_progress_source_query_rows.len(),
+        methodology_component_gate_progress_source_query_run_rows.len(),
+        next_program_selection_rows.len(),
+        payment_integrity_claims_rows.len(),
+        debt_maturity_rows.len(),
+        debt_primary_balance_rows.len(),
+        disaster_declaration_rows.len(),
+        disaster_mitigation_rows.len(),
+        defense_audit_control_rows.len(),
+        defense_procurement_control_rows.len(),
+        health_price_rows.len(),
+        health_admin_rows.len()
+    );
+    Ok(())
+}
+
+fn validate_per_unit_display_records(root: &Path) -> Result<(), String> {
+    let source_ledger = fs::read_to_string(root.join(SOURCE_VERSION_LEDGER_PATH))
+        .map_err(|err| format!("failed to read {SOURCE_VERSION_LEDGER_PATH}: {err}"))?;
+    let readiness_rows: Vec<PerUnitDisplayReadinessRecord> =
+        read_jsonl(root.join(PER_UNIT_DISPLAY_READINESS_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+                    format!("{PER_UNIT_DISPLAY_READINESS_JSONL_PATH} row failed to parse: {err}")
+                })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    let card_rows: Vec<PerUnitReceiptCardRecord> =
+        read_jsonl(root.join(PER_UNIT_RECEIPT_CARDS_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row).map_err(|err| {
+                    format!("{PER_UNIT_RECEIPT_CARDS_JSONL_PATH} row failed to parse: {err}")
+                })
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+
+    if readiness_rows.len() != 6 {
+        return Err(format!(
+            "per-unit display readiness must contain 6 rows, got {}",
+            readiness_rows.len()
+        ));
+    }
+    if card_rows.len() != readiness_rows.len() {
+        return Err(format!(
+            "per-unit receipt cards must match readiness row count; got {} cards for {} readiness rows",
+            card_rows.len(),
+            readiness_rows.len()
+        ));
+    }
+
+    let mut readiness_ids = BTreeSet::new();
+    let mut readiness_status_by_id = BTreeMap::new();
+    for row in &readiness_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !readiness_ids.insert(row.record_id.clone()) {
+            return Err(format!(
+                "duplicate per-unit readiness row {}",
+                row.record_id
+            ));
+        }
+        for source_id in &row.source_ids {
+            if !source_ledger.contains(&format!("`{source_id}`")) {
+                return Err(format!(
+                    "{}: source_id {source_id} is missing from {SOURCE_VERSION_LEDGER_PATH}",
+                    row.record_id
+                ));
+            }
+        }
+        readiness_status_by_id.insert(row.record_id.clone(), row.display_status.clone());
+    }
+
+    let mut card_ids = BTreeSet::new();
+    let mut card_readiness_ids = BTreeSet::new();
+    for row in &card_rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !card_ids.insert(row.record_id.clone()) {
+            return Err(format!("duplicate per-unit receipt card {}", row.record_id));
+        }
+        if !readiness_ids.contains(&row.source_readiness_record_id) {
+            return Err(format!(
+                "{} points to missing readiness row {}",
+                row.record_id, row.source_readiness_record_id
+            ));
+        }
+        if !card_readiness_ids.insert(row.source_readiness_record_id.clone()) {
+            return Err(format!(
+                "multiple per-unit cards point to {}",
+                row.source_readiness_record_id
+            ));
+        }
+
+        let readiness_status = readiness_status_by_id
+            .get(&row.source_readiness_record_id)
+            .ok_or_else(|| {
+                format!(
+                    "{} points to missing readiness row {}",
+                    row.record_id, row.source_readiness_record_id
+                )
+            })?;
+        let expected_card_status = match readiness_status.as_str() {
+            "ready_same_source_year_basis" => "source_basis_context",
+            "illustrative_cross_basis" => "illustrative_cross_basis",
+            "blocked_missing_denominator" => "blocked_missing_denominator",
+            _ => unreachable!(),
+        };
+        if row.card_status != expected_card_status {
+            return Err(format!(
+                "{} card_status {} does not match readiness status {}",
+                row.record_id, row.card_status, readiness_status
+            ));
+        }
+    }
+    if card_readiness_ids != readiness_ids {
+        return Err(
+            "per-unit receipt cards must cover every readiness row exactly once".to_string(),
+        );
+    }
+
+    let dashboard = fs::read_to_string(root.join(PER_UNIT_DISPLAY_READINESS_DASHBOARD_PATH))
+        .map_err(|err| {
+            format!("failed to read {PER_UNIT_DISPLAY_READINESS_DASHBOARD_PATH}: {err}")
+        })?;
+    if !dashboard.contains(PER_UNIT_DISPLAY_READINESS_JSONL_PATH) {
+        return Err(format!(
+            "{PER_UNIT_DISPLAY_READINESS_DASHBOARD_PATH} must cite {PER_UNIT_DISPLAY_READINESS_JSONL_PATH}"
+        ));
+    }
+    let reader = fs::read_to_string(root.join(PER_UNIT_RECEIPT_CARDS_READER_PATH))
+        .map_err(|err| format!("failed to read {PER_UNIT_RECEIPT_CARDS_READER_PATH}: {err}"))?;
+    if !reader.contains(PER_UNIT_RECEIPT_CARDS_JSONL_PATH) {
+        return Err(format!(
+            "{PER_UNIT_RECEIPT_CARDS_READER_PATH} must cite {PER_UNIT_RECEIPT_CARDS_JSONL_PATH}"
+        ));
+    }
+
+    println!(
+        "validated {} per-unit readiness rows and {} per-unit receipt cards",
+        readiness_rows.len(),
+        card_rows.len()
+    );
+    Ok(())
+}
+
+fn build_spend_category_dashboard(rows: &[SpendCategoryMapRecord]) -> Result<String, String> {
+    let total_outlays: f64 = rows
+        .iter()
+        .map(|row| row.subfunction_outlays_millions)
+        .sum();
+    let total_share: f64 = rows
+        .iter()
+        .map(|row| row.share_of_total_outlays_percent)
+        .sum();
+    let total_modeled_income_tax: f64 = rows
+        .iter()
+        .map(|row| row.modeled_income_tax_allocation_millions)
+        .sum();
+    let top_five_share: f64 = rows
+        .iter()
+        .take(5)
+        .map(|row| row.share_of_total_outlays_percent)
+        .sum();
+
+    let mut lines = vec![
+        "# Spend Category Dashboard".to_string(),
+        String::new(),
+        "## Purpose".to_string(),
+        String::new(),
+        "This generated dashboard summarizes the draft FY2025 spend-category map. It is a question-routing view, not taxpayer-dollar tracing, legal dedication, recipient-level spending, or a performance finding.".to_string(),
+        String::new(),
+        "## Summary".to_string(),
+        String::new(),
+        format!("- Rows: {}", rows.len()),
+        format!(
+            "- Top 15 outlays: {}",
+            format_millions_as_billions_or_trillions(total_outlays)
+        ),
+        format!("- Share represented: {:.2}%", total_share),
+        format!(
+            "- Modeled income-tax allocation represented: {}",
+            format_millions_as_billions_or_trillions(total_modeled_income_tax)
+        ),
+        format!("- Top five share: {:.2}%", top_five_share),
+        String::new(),
+        "## Rows".to_string(),
+        String::new(),
+        "| Rank | Category | OMB function | Outlays | Share | Modeled income-tax allocation | Next source need |".to_string(),
+        "|---:|---|---|---:|---:|---:|---|".to_string(),
+    ];
+
+    for row in rows {
+        lines.push(format!(
+            "| {} | {} | {} | {} | {:.2}% | {} | {} |",
+            row.rank,
+            escape_table_cell(&row.subfunction_label),
+            escape_table_cell(&row.function_label),
+            format_millions_as_billions_or_trillions(row.subfunction_outlays_millions),
+            row.share_of_total_outlays_percent,
+            format_millions_as_billions_or_trillions(row.modeled_income_tax_allocation_millions),
+            escape_table_cell(&row.next_source_need),
+        ));
+    }
+
+    lines.extend([
+        String::new(),
+        "## Boundary".to_string(),
+        String::new(),
+        "Every row remains `question_surface_only`. Use this dashboard to choose the next source to inspect; do not use it to claim fraud, waste, abuse, poor performance, legal dedication of income-tax dollars, or recipient-level outlays.".to_string(),
+    ]);
+
+    Ok(lines.join("\n") + "\n")
+}
+
 fn check_accountability_readiness_report(root: &Path) -> Result<(), String> {
     let expected = build_accountability_readiness_report(root)?;
     compare_text(
@@ -9257,6 +17469,14 @@ fn rounded_decimal(value: f64, decimals: usize) -> String {
         fraction_text.pop();
     }
     format!("{sign}{integer}.{fraction_text}")
+}
+
+fn format_millions_as_billions_or_trillions(value_millions: f64) -> String {
+    if value_millions.abs() >= 1_000_000.0 {
+        format!("${:.3}T", value_millions / 1_000_000.0)
+    } else {
+        format!("${:.3}B", value_millions / 1_000.0)
+    }
 }
 
 fn decimal_string(value: f64, decimals: usize) -> String {

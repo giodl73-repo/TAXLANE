@@ -3,6 +3,7 @@ use std::collections::BTreeMap;
 use serde::{Deserialize, Serialize};
 
 pub const ACCOUNTABILITY_RECORD_FAMILY: &str = "accountability_evidence";
+pub const SPEND_CATEGORY_MAP_MODEL_ID: &str = "spend-category-map-v1";
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct ArtifactMetadata<'a> {
@@ -58,6 +59,6490 @@ pub fn validate_artifact_metadata(artifacts: &[ArtifactMetadata<'_>]) -> Result<
     }
 
     Ok(())
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct SpendCategoryMapRecord {
+    pub model_id: String,
+    pub record_id: String,
+    pub fiscal_year: u16,
+    pub rank: u16,
+    pub source_level: String,
+    pub source_id: String,
+    pub function_code: String,
+    pub function_label: String,
+    pub subfunction_code: String,
+    pub subfunction_label: String,
+    pub subfunction_outlays_millions: f64,
+    pub share_of_total_outlays_percent: f64,
+    pub modeled_income_tax_allocation_millions: f64,
+    pub allocation_method: String,
+    pub legal_allocation_status: String,
+    pub funding_caveat: String,
+    pub next_source_need: String,
+    pub accountability_status: String,
+}
+
+impl SpendCategoryMapRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("model_id", &self.model_id)?;
+        validate_required("record_id", &self.record_id)?;
+        validate_required("source_level", &self.source_level)?;
+        validate_required("source_id", &self.source_id)?;
+        validate_required("function_code", &self.function_code)?;
+        validate_required("function_label", &self.function_label)?;
+        validate_required("subfunction_code", &self.subfunction_code)?;
+        validate_required("subfunction_label", &self.subfunction_label)?;
+        validate_required("allocation_method", &self.allocation_method)?;
+        validate_required("legal_allocation_status", &self.legal_allocation_status)?;
+        validate_required("funding_caveat", &self.funding_caveat)?;
+        validate_required("next_source_need", &self.next_source_need)?;
+        validate_required("accountability_status", &self.accountability_status)?;
+
+        if self.model_id != SPEND_CATEGORY_MAP_MODEL_ID {
+            return Err(format!(
+                "spend category model_id must be {SPEND_CATEGORY_MAP_MODEL_ID}, got {}",
+                self.model_id
+            ));
+        }
+        if self.fiscal_year != 2025 {
+            return Err(format!(
+                "spend category map v1 only covers FY2025, got {}",
+                self.fiscal_year
+            ));
+        }
+        if self.rank == 0 {
+            return Err("spend category rank must be positive".to_string());
+        }
+        if self.source_level != "omb_subfunction" {
+            return Err(format!(
+                "spend category source_level must be omb_subfunction, got {}",
+                self.source_level
+            ));
+        }
+        if self.source_id != "SRC-OMB-HIST-3-2-FY2027" {
+            return Err(format!(
+                "spend category source_id must be SRC-OMB-HIST-3-2-FY2027, got {}",
+                self.source_id
+            ));
+        }
+        if self.allocation_method != "proportional_outlay_share" {
+            return Err(format!(
+                "spend category allocation_method must be proportional_outlay_share, got {}",
+                self.allocation_method
+            ));
+        }
+        if self.legal_allocation_status != "modeled_not_legal_dedication" {
+            return Err(format!(
+                "spend category legal_allocation_status must be modeled_not_legal_dedication, got {}",
+                self.legal_allocation_status
+            ));
+        }
+        if self.accountability_status != "question_surface_only" {
+            return Err(format!(
+                "spend category accountability_status must be question_surface_only, got {}",
+                self.accountability_status
+            ));
+        }
+        if self.subfunction_outlays_millions <= 0.0 {
+            return Err("spend category outlays must be positive".to_string());
+        }
+        if self.share_of_total_outlays_percent <= 0.0 || self.share_of_total_outlays_percent > 100.0
+        {
+            return Err("spend category outlay share must be between 0 and 100".to_string());
+        }
+        if self.modeled_income_tax_allocation_millions <= 0.0 {
+            return Err(
+                "spend category modeled income-tax allocation must be positive".to_string(),
+            );
+        }
+        if self.funding_caveat.to_ascii_lowercase().contains("fraud")
+            || self.funding_caveat.to_ascii_lowercase().contains("waste")
+        {
+            return Err("spend category funding caveat must not imply fraud or waste".to_string());
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PerUnitDisplayReadinessRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub display_status: String,
+    pub lane_id: String,
+    pub public_label: String,
+    pub numerator_label: String,
+    pub numerator_value: f64,
+    pub numerator_unit: String,
+    pub denominator_id: String,
+    pub denominator_value: Option<f64>,
+    pub denominator_unit: String,
+    pub computed_value_usd: Option<f64>,
+    pub year: String,
+    pub year_basis: String,
+    pub source_ids: Vec<String>,
+    pub source_record_ids: Vec<String>,
+    pub public_use_rule: String,
+}
+
+impl PerUnitDisplayReadinessRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required("display_status", &self.display_status)?;
+        validate_required("lane_id", &self.lane_id)?;
+        validate_required("public_label", &self.public_label)?;
+        validate_required("numerator_label", &self.numerator_label)?;
+        validate_required("numerator_unit", &self.numerator_unit)?;
+        validate_required("denominator_id", &self.denominator_id)?;
+        validate_required("denominator_unit", &self.denominator_unit)?;
+        validate_required("year", &self.year)?;
+        validate_required("year_basis", &self.year_basis)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+        validate_required_vec("source_ids", &self.source_ids)?;
+        validate_required_vec("source_record_ids", &self.source_record_ids)?;
+
+        if self.record_family != "per_unit_display_readiness" {
+            return Err(format!(
+                "per-unit readiness record_family must be per_unit_display_readiness, got {}",
+                self.record_family
+            ));
+        }
+        if !matches!(
+            self.display_status.as_str(),
+            "ready_same_source_year_basis"
+                | "illustrative_cross_basis"
+                | "blocked_missing_denominator"
+        ) {
+            return Err(format!(
+                "unsupported per-unit display_status {}",
+                self.display_status
+            ));
+        }
+        if self.numerator_value <= 0.0 {
+            return Err("per-unit numerator_value must be positive".to_string());
+        }
+
+        match self.display_status.as_str() {
+            "blocked_missing_denominator" => {
+                if self.denominator_value.is_some() || self.computed_value_usd.is_some() {
+                    return Err(
+                        "blocked per-unit readiness records must not publish computed values"
+                            .to_string(),
+                    );
+                }
+                if !contains_case_insensitive(&self.public_use_rule, "blocked") {
+                    return Err(
+                        "blocked per-unit readiness records must name the blocked status"
+                            .to_string(),
+                    );
+                }
+                if !contains_case_insensitive(&self.public_use_rule, "do not substitute") {
+                    return Err(
+                        "blocked per-unit readiness records must forbid denominator substitution"
+                            .to_string(),
+                    );
+                }
+            }
+            "illustrative_cross_basis" => {
+                validate_positive_option(
+                    "denominator_value",
+                    self.denominator_value,
+                    "illustrative per-unit readiness records",
+                )?;
+                validate_positive_option(
+                    "computed_value_usd",
+                    self.computed_value_usd,
+                    "illustrative per-unit readiness records",
+                )?;
+                if self.year_basis != "fiscal_year_over_calendar_year" {
+                    return Err(
+                        "illustrative per-unit readiness records must use fiscal_year_over_calendar_year"
+                            .to_string(),
+                    );
+                }
+                let rule = self.public_use_rule.to_ascii_lowercase();
+                if !(rule.contains("illustration")
+                    && rule.contains("not")
+                    && rule.contains("liability"))
+                {
+                    return Err(
+                        "illustrative per-unit readiness records must visibly block liability wording"
+                            .to_string(),
+                    );
+                }
+            }
+            "ready_same_source_year_basis" => {
+                validate_positive_option(
+                    "denominator_value",
+                    self.denominator_value,
+                    "ready per-unit readiness records",
+                )?;
+                validate_positive_option(
+                    "computed_value_usd",
+                    self.computed_value_usd,
+                    "ready per-unit readiness records",
+                )?;
+                if self.year_basis != "calendar_year" {
+                    return Err(
+                        "ready per-unit readiness records must use calendar_year".to_string()
+                    );
+                }
+                if contains_case_insensitive(&self.public_use_rule, "liability calculation")
+                    && !contains_case_insensitive(&self.public_use_rule, "not")
+                {
+                    return Err(
+                        "ready per-unit readiness records must not imply individual liability"
+                            .to_string(),
+                    );
+                }
+            }
+            _ => unreachable!(),
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PerUnitReceiptCardRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_readiness_record_id: String,
+    pub card_status: String,
+    pub lane_id: String,
+    pub headline: String,
+    pub amount_usd: Option<f64>,
+    pub basis_label: String,
+    pub visible_caveat: String,
+    pub allowed_public_use: String,
+    pub blocked_public_use: String,
+}
+
+impl PerUnitReceiptCardRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_readiness_record_id",
+            &self.source_readiness_record_id,
+        )?;
+        validate_required("card_status", &self.card_status)?;
+        validate_required("lane_id", &self.lane_id)?;
+        validate_required("headline", &self.headline)?;
+        validate_required("basis_label", &self.basis_label)?;
+        validate_required("visible_caveat", &self.visible_caveat)?;
+        validate_required("allowed_public_use", &self.allowed_public_use)?;
+        validate_required("blocked_public_use", &self.blocked_public_use)?;
+
+        if self.record_family != "per_unit_receipt_cards" {
+            return Err(format!(
+                "per-unit receipt card record_family must be per_unit_receipt_cards, got {}",
+                self.record_family
+            ));
+        }
+        if !matches!(
+            self.card_status.as_str(),
+            "source_basis_context" | "illustrative_cross_basis" | "blocked_missing_denominator"
+        ) {
+            return Err(format!(
+                "unsupported per-unit receipt card_status {}",
+                self.card_status
+            ));
+        }
+
+        match self.card_status.as_str() {
+            "blocked_missing_denominator" => {
+                if self.amount_usd.is_some() {
+                    return Err("blocked per-unit cards must not publish an amount".to_string());
+                }
+                if !(contains_case_insensitive(&self.headline, "blocked")
+                    && contains_case_insensitive(&self.visible_caveat, "do not substitute"))
+                {
+                    return Err(
+                        "blocked per-unit cards must visibly name the block and substitution guard"
+                            .to_string(),
+                    );
+                }
+            }
+            "illustrative_cross_basis" => {
+                validate_positive_option(
+                    "amount_usd",
+                    self.amount_usd,
+                    "illustrative per-unit cards",
+                )?;
+                let caveat = self.visible_caveat.to_ascii_lowercase();
+                if !(caveat.contains("cross-basis")
+                    && caveat.contains("not")
+                    && caveat.contains("tax liability")
+                    && caveat.contains("personal benefit")
+                    && caveat.contains("legal dedication"))
+                {
+                    return Err(
+                        "illustrative per-unit cards must block liability, benefit, and legal-dedication wording"
+                            .to_string(),
+                    );
+                }
+            }
+            "source_basis_context" => {
+                validate_positive_option("amount_usd", self.amount_usd, "source-basis cards")?;
+                let public_text = format!(
+                    "{} {} {}",
+                    self.headline, self.visible_caveat, self.blocked_public_use
+                )
+                .to_ascii_lowercase();
+                if (public_text.contains("what any enrollee paid")
+                    || public_text.contains("equal tax liability"))
+                    && !public_text.contains("do not")
+                {
+                    return Err(
+                        "source-basis per-unit cards must not imply personal payment or tax liability"
+                            .to_string(),
+                    );
+                }
+            }
+            _ => unreachable!(),
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct EfficiencyPressureRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub fiscal_year: u16,
+    pub surface: String,
+    pub related_spend_categories: Vec<String>,
+    pub pressure_basis: Vec<String>,
+    pub pressure_level: String,
+    pub not_a_finding: bool,
+    pub cost_down_levers: Vec<String>,
+    pub outcome_floor: String,
+    pub evidence_needed: Vec<String>,
+    pub public_claim_status: String,
+}
+
+impl EfficiencyPressureRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required("surface", &self.surface)?;
+        validate_required("pressure_level", &self.pressure_level)?;
+        validate_required("outcome_floor", &self.outcome_floor)?;
+        validate_required("public_claim_status", &self.public_claim_status)?;
+        validate_required_vec("related_spend_categories", &self.related_spend_categories)?;
+        validate_required_vec("pressure_basis", &self.pressure_basis)?;
+        validate_required_vec("cost_down_levers", &self.cost_down_levers)?;
+        validate_required_vec("evidence_needed", &self.evidence_needed)?;
+
+        if self.record_family != "efficiency_pressure" {
+            return Err(format!(
+                "efficiency pressure record_family must be efficiency_pressure, got {}",
+                self.record_family
+            ));
+        }
+        if self.fiscal_year != 2025 {
+            return Err(format!(
+                "efficiency pressure v1 only covers FY2025, got {}",
+                self.fiscal_year
+            ));
+        }
+        if !matches!(self.pressure_level.as_str(), "highest" | "high" | "watch") {
+            return Err(format!(
+                "unsupported efficiency pressure_level {}",
+                self.pressure_level
+            ));
+        }
+        if !self.not_a_finding {
+            return Err("efficiency pressure rows must remain not_a_finding=true".to_string());
+        }
+        if self.public_claim_status != "blocked_question_surface_only" {
+            return Err(format!(
+                "efficiency pressure public_claim_status must be blocked_question_surface_only, got {}",
+                self.public_claim_status
+            ));
+        }
+        if self.pressure_basis.len() < 2 {
+            return Err(
+                "efficiency pressure rows need at least two pressure-basis entries".to_string(),
+            );
+        }
+        if self.cost_down_levers.len() < 3 {
+            return Err(
+                "efficiency pressure rows need at least three cost-down levers".to_string(),
+            );
+        }
+        if self.evidence_needed.len() < 3 {
+            return Err("efficiency pressure rows need at least three evidence needs".to_string());
+        }
+        if !contains_any_case_insensitive(
+            &self.outcome_floor,
+            &["preserve", "must remain", "must not", "must"],
+        ) {
+            return Err("efficiency pressure rows must carry an outcome floor".to_string());
+        }
+        let public_text = format!(
+            "{} {} {} {}",
+            self.surface,
+            self.pressure_basis.join(" "),
+            self.cost_down_levers.join(" "),
+            self.outcome_floor
+        )
+        .to_ascii_lowercase();
+        for blocked_phrase in [
+            "fraud finding",
+            "waste finding",
+            "abuse finding",
+            "found fraud",
+            "found waste",
+            "proves waste",
+        ] {
+            if public_text.contains(blocked_phrase) {
+                return Err(format!(
+                    "efficiency pressure rows must not make finding claims: {blocked_phrase}"
+                ));
+            }
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct CostDownBacklogRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_pressure_record_id: String,
+    pub lane_id: String,
+    pub lever_id: String,
+    pub lever_label: String,
+    pub lever_type: String,
+    pub action_question: String,
+    pub required_evidence: Vec<String>,
+    pub measurement_metric: String,
+    pub outcome_floor: String,
+    pub time_horizon: String,
+    pub estimated_savings_usd: Option<f64>,
+    pub savings_claim_status: String,
+    pub public_use_rule: String,
+}
+
+impl CostDownBacklogRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required("source_pressure_record_id", &self.source_pressure_record_id)?;
+        validate_required("lane_id", &self.lane_id)?;
+        validate_required("lever_id", &self.lever_id)?;
+        validate_required("lever_label", &self.lever_label)?;
+        validate_required("lever_type", &self.lever_type)?;
+        validate_required("action_question", &self.action_question)?;
+        validate_required_vec("required_evidence", &self.required_evidence)?;
+        validate_required("measurement_metric", &self.measurement_metric)?;
+        validate_required("outcome_floor", &self.outcome_floor)?;
+        validate_required("time_horizon", &self.time_horizon)?;
+        validate_required("savings_claim_status", &self.savings_claim_status)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "cost_down_backlog" {
+            return Err(format!(
+                "cost-down backlog record_family must be cost_down_backlog, got {}",
+                self.record_family
+            ));
+        }
+        if !self
+            .source_pressure_record_id
+            .starts_with("efficiency-pressure:")
+        {
+            return Err(
+                "cost-down backlog rows must point to an efficiency pressure record".to_string(),
+            );
+        }
+        if !matches!(
+            self.lever_type.as_str(),
+            "price_discipline"
+                | "administrative_simplification"
+                | "procurement_control"
+                | "fiscal_balance"
+                | "risk_mitigation"
+                | "payment_integrity"
+        ) {
+            return Err(format!(
+                "unsupported cost-down lever_type {}",
+                self.lever_type
+            ));
+        }
+        if !matches!(
+            self.time_horizon.as_str(),
+            "near_term" | "medium_term" | "long_term"
+        ) {
+            return Err(format!(
+                "unsupported cost-down time_horizon {}",
+                self.time_horizon
+            ));
+        }
+        if self.estimated_savings_usd.is_some() {
+            return Err(
+                "cost-down backlog rows must not publish savings estimates yet".to_string(),
+            );
+        }
+        if self.savings_claim_status != "blocked_no_estimate" {
+            return Err(format!(
+                "cost-down savings_claim_status must be blocked_no_estimate, got {}",
+                self.savings_claim_status
+            ));
+        }
+        if self.required_evidence.len() < 2 {
+            return Err(
+                "cost-down backlog rows need at least two evidence requirements".to_string(),
+            );
+        }
+        if !contains_any_case_insensitive(
+            &self.outcome_floor,
+            &["preserve", "must remain", "must not", "maintain", "improve"],
+        ) {
+            return Err("cost-down backlog rows must carry an outcome floor".to_string());
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "cost-down backlog public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct CostDownSourcePacketRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_backlog_record_id: String,
+    pub source_pressure_record_id: String,
+    pub lane_id: String,
+    pub packet_status: String,
+    pub source_ids: Vec<String>,
+    pub evidence_summary: Vec<String>,
+    pub metric_candidates: Vec<String>,
+    pub outcome_floor_checks: Vec<String>,
+    pub missing_before_estimate: Vec<String>,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl CostDownSourcePacketRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required("source_backlog_record_id", &self.source_backlog_record_id)?;
+        validate_required("source_pressure_record_id", &self.source_pressure_record_id)?;
+        validate_required("lane_id", &self.lane_id)?;
+        validate_required("packet_status", &self.packet_status)?;
+        validate_required_vec("source_ids", &self.source_ids)?;
+        validate_required_vec("evidence_summary", &self.evidence_summary)?;
+        validate_required_vec("metric_candidates", &self.metric_candidates)?;
+        validate_required_vec("outcome_floor_checks", &self.outcome_floor_checks)?;
+        validate_required_vec("missing_before_estimate", &self.missing_before_estimate)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "cost_down_source_packet" {
+            return Err(format!(
+                "cost-down source packet record_family must be cost_down_source_packet, got {}",
+                self.record_family
+            ));
+        }
+        if !self.source_backlog_record_id.starts_with("cost-down:") {
+            return Err(
+                "cost-down source packets must point to a cost-down backlog row".to_string(),
+            );
+        }
+        if !self
+            .source_pressure_record_id
+            .starts_with("efficiency-pressure:")
+        {
+            return Err(
+                "cost-down source packets must point to an efficiency pressure row".to_string(),
+            );
+        }
+        if self.packet_status != "reviewed_source_packet_no_savings_estimate" {
+            return Err(format!(
+                "cost-down source packet status must be reviewed_source_packet_no_savings_estimate, got {}",
+                self.packet_status
+            ));
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "cost-down source packets must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        if self.source_ids.len() < 3 {
+            return Err("cost-down source packets need at least three source IDs".to_string());
+        }
+        if self.metric_candidates.len() < 2 {
+            return Err("cost-down source packets need at least two metric candidates".to_string());
+        }
+        if self.outcome_floor_checks.len() < 2 {
+            return Err(
+                "cost-down source packets need at least two outcome-floor checks".to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not a savings estimate")
+            && public_rule.contains("not a finding")
+            && public_rule.contains("source packet"))
+        {
+            return Err(
+                "cost-down source packet public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct CostDownEvidenceQueueRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_packet_record_id: String,
+    pub source_backlog_record_id: String,
+    pub source_pressure_record_id: String,
+    pub lane_id: String,
+    pub extraction_priority: String,
+    pub primary_source_ids: Vec<String>,
+    pub extract_question: String,
+    pub first_extract: String,
+    pub extract_grain: String,
+    pub query_lock_fields: Vec<String>,
+    pub output_artifact_candidate: String,
+    pub scoring_blockers: Vec<String>,
+    pub outcome_floor: String,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl CostDownEvidenceQueueRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required("source_packet_record_id", &self.source_packet_record_id)?;
+        validate_required("source_backlog_record_id", &self.source_backlog_record_id)?;
+        validate_required("source_pressure_record_id", &self.source_pressure_record_id)?;
+        validate_required("lane_id", &self.lane_id)?;
+        validate_required("extraction_priority", &self.extraction_priority)?;
+        validate_required_vec("primary_source_ids", &self.primary_source_ids)?;
+        validate_required("extract_question", &self.extract_question)?;
+        validate_required("first_extract", &self.first_extract)?;
+        validate_required("extract_grain", &self.extract_grain)?;
+        validate_required_vec("query_lock_fields", &self.query_lock_fields)?;
+        validate_required("output_artifact_candidate", &self.output_artifact_candidate)?;
+        validate_required_vec("scoring_blockers", &self.scoring_blockers)?;
+        validate_required("outcome_floor", &self.outcome_floor)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "cost_down_evidence_queue" {
+            return Err(format!(
+                "cost-down evidence queue record_family must be cost_down_evidence_queue, got {}",
+                self.record_family
+            ));
+        }
+        if !self
+            .source_packet_record_id
+            .starts_with("cost-down-source-packet:")
+        {
+            return Err("evidence queue rows must point to a cost-down source packet".to_string());
+        }
+        if !self.source_backlog_record_id.starts_with("cost-down:") {
+            return Err("evidence queue rows must point to a cost-down backlog row".to_string());
+        }
+        if !self
+            .source_pressure_record_id
+            .starts_with("efficiency-pressure:")
+        {
+            return Err("evidence queue rows must point to an efficiency pressure row".to_string());
+        }
+        if !matches!(
+            self.extraction_priority.as_str(),
+            "first_pass" | "follow_up" | "blocked"
+        ) {
+            return Err(format!(
+                "unknown evidence queue extraction_priority {}",
+                self.extraction_priority
+            ));
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "evidence queue rows must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "evidence queue public_use_rule must block savings and finding claims".to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityPortalProbeRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_evidence_queue_record_id: String,
+    pub source_id: String,
+    pub observed_date: String,
+    pub page_url: String,
+    pub row_kind: String,
+    pub agency_code: String,
+    pub agency_name: String,
+    pub high_priority_program_count: u16,
+    pub improper_payment_percentage: f64,
+    pub source_scope_note: String,
+    pub next_extract_need: String,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityPortalProbeRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_evidence_queue_record_id",
+            &self.source_evidence_queue_record_id,
+        )?;
+        validate_required("source_id", &self.source_id)?;
+        validate_required("observed_date", &self.observed_date)?;
+        validate_required("page_url", &self.page_url)?;
+        validate_required("row_kind", &self.row_kind)?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("agency_name", &self.agency_name)?;
+        validate_required("source_scope_note", &self.source_scope_note)?;
+        validate_required("next_extract_need", &self.next_extract_need)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_portal_probe" {
+            return Err(format!(
+                "payment integrity portal probe record_family must be payment_integrity_portal_probe, got {}",
+                self.record_family
+            ));
+        }
+        if !self
+            .source_evidence_queue_record_id
+            .starts_with("cost-down-evidence-queue:payment-integrity:")
+        {
+            return Err(
+                "payment integrity portal probes must point to a payment-integrity evidence queue row"
+                    .to_string(),
+            );
+        }
+        if self.source_id != "SRC-OMB-PAYMENTACCURACY" {
+            return Err(format!(
+                "payment integrity portal probe source_id must be SRC-OMB-PAYMENTACCURACY, got {}",
+                self.source_id
+            ));
+        }
+        if !matches!(
+            self.row_kind.as_str(),
+            "homepage_highest_performing_agency" | "homepage_lowest_performing_agency"
+        ) {
+            return Err(format!(
+                "unsupported payment integrity portal probe row_kind {}",
+                self.row_kind
+            ));
+        }
+        if self.improper_payment_percentage < 0.0 || self.improper_payment_percentage > 100.0 {
+            return Err(
+                "payment integrity portal probe improper_payment_percentage must be 0..100"
+                    .to_string(),
+            );
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "payment integrity portal probes must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity portal probe public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityScorecardProbeRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_evidence_queue_record_id: String,
+    pub source_id: String,
+    pub observed_date: String,
+    pub scorecard_url: String,
+    pub reporting_period: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub fy2024_overpayment_amount_millions: f64,
+    pub fy2024_overpayment_rate_percent: f64,
+    pub sample_period_note: String,
+    pub primary_root_cause_amount_millions: f64,
+    pub root_cause_control_scope: String,
+    pub root_cause_data_access_issue: String,
+    pub mitigation_strategy: String,
+    pub source_scope_note: String,
+    pub next_extract_need: String,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityScorecardProbeRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_evidence_queue_record_id",
+            &self.source_evidence_queue_record_id,
+        )?;
+        validate_required("source_id", &self.source_id)?;
+        validate_required("observed_date", &self.observed_date)?;
+        validate_required("scorecard_url", &self.scorecard_url)?;
+        validate_required("reporting_period", &self.reporting_period)?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("sample_period_note", &self.sample_period_note)?;
+        validate_required("root_cause_control_scope", &self.root_cause_control_scope)?;
+        validate_required(
+            "root_cause_data_access_issue",
+            &self.root_cause_data_access_issue,
+        )?;
+        validate_required("mitigation_strategy", &self.mitigation_strategy)?;
+        validate_required("source_scope_note", &self.source_scope_note)?;
+        validate_required("next_extract_need", &self.next_extract_need)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_scorecard_probe" {
+            return Err(format!(
+                "payment integrity scorecard probe record_family must be payment_integrity_scorecard_probe, got {}",
+                self.record_family
+            ));
+        }
+        if self.source_id != "SRC-OMB-PAYMENTACCURACY" {
+            return Err(format!(
+                "payment integrity scorecard probe source_id must be SRC-OMB-PAYMENTACCURACY, got {}",
+                self.source_id
+            ));
+        }
+        if self.reporting_period != "Q4 2025" {
+            return Err(format!(
+                "payment integrity scorecard probe reporting_period must be Q4 2025, got {}",
+                self.reporting_period
+            ));
+        }
+        if self.fy2024_overpayment_amount_millions < 0.0
+            || self.primary_root_cause_amount_millions < 0.0
+        {
+            return Err("payment integrity scorecard amounts must be non-negative".to_string());
+        }
+        if self.fy2024_overpayment_rate_percent < 0.0
+            || self.fy2024_overpayment_rate_percent > 100.0
+        {
+            return Err("payment integrity scorecard overpayment rate must be 0..100".to_string());
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "payment integrity scorecard probes must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity scorecard probe public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityProgramReviewGateRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_scorecard_record_id: String,
+    pub source_readiness_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub reporting_period: String,
+    pub fy2024_overpayment_amount_millions: f64,
+    pub fy2024_overpayment_rate_percent: f64,
+    pub methodology_status: String,
+    pub access_floor_status: String,
+    pub corrective_action_status: String,
+    pub confidence_limit_status: String,
+    pub claim_boundary_status: String,
+    pub required_next_evidence: Vec<String>,
+    pub review_gate_status: String,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityProgramReviewGateRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_scorecard_record_id",
+            &self.source_scorecard_record_id,
+        )?;
+        validate_required(
+            "source_readiness_record_id",
+            &self.source_readiness_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("reporting_period", &self.reporting_period)?;
+        validate_required("methodology_status", &self.methodology_status)?;
+        validate_required("access_floor_status", &self.access_floor_status)?;
+        validate_required("corrective_action_status", &self.corrective_action_status)?;
+        validate_required("confidence_limit_status", &self.confidence_limit_status)?;
+        validate_required("claim_boundary_status", &self.claim_boundary_status)?;
+        validate_required("review_gate_status", &self.review_gate_status)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_program_review_gate" {
+            return Err(format!(
+                "payment integrity program review gate record_family must be payment_integrity_program_review_gate, got {}",
+                self.record_family
+            ));
+        }
+        if self.reporting_period != "Q4 2025" {
+            return Err(format!(
+                "payment integrity program review gate reporting_period must be Q4 2025, got {}",
+                self.reporting_period
+            ));
+        }
+        if self.fy2024_overpayment_amount_millions < 0.0
+            || self.fy2024_overpayment_rate_percent < 0.0
+            || self.fy2024_overpayment_rate_percent > 100.0
+        {
+            return Err(
+                "payment integrity program review gate amounts/rates must be non-negative and rates 0..100"
+                    .to_string(),
+            );
+        }
+        if self.required_next_evidence.len() < 4 {
+            return Err(
+                "payment integrity program review gate must list methodology, access, corrective-action, and confidence evidence needs"
+                    .to_string(),
+            );
+        }
+        let evidence_text = self.required_next_evidence.join(" ").to_ascii_lowercase();
+        for required in ["methodology", "access", "corrective", "confidence"] {
+            if !evidence_text.contains(required) {
+                return Err(format!(
+                    "payment integrity program review gate required_next_evidence must include {required}"
+                ));
+            }
+        }
+        if self.review_gate_status != "blocked_before_savings_score" {
+            return Err(format!(
+                "payment integrity program review gate review_gate_status must be blocked_before_savings_score, got {}",
+                self.review_gate_status
+            ));
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "payment integrity program review gates must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity program review gate public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityProgramReviewTaskRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_program_gate_record_id: String,
+    pub source_scorecard_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub evidence_family: String,
+    pub extraction_task: String,
+    pub target_source_or_system: String,
+    pub completion_gate: String,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityProgramReviewTaskRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_program_gate_record_id",
+            &self.source_program_gate_record_id,
+        )?;
+        validate_required(
+            "source_scorecard_record_id",
+            &self.source_scorecard_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("evidence_family", &self.evidence_family)?;
+        validate_required("extraction_task", &self.extraction_task)?;
+        validate_required("target_source_or_system", &self.target_source_or_system)?;
+        validate_required("completion_gate", &self.completion_gate)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_program_review_task" {
+            return Err(format!(
+                "payment integrity program review task record_family must be payment_integrity_program_review_task, got {}",
+                self.record_family
+            ));
+        }
+        if ![
+            "methodology",
+            "access_floor",
+            "corrective_action",
+            "confidence_limits",
+        ]
+        .contains(&self.evidence_family.as_str())
+        {
+            return Err(format!(
+                "payment integrity program review task evidence_family is unsupported: {}",
+                self.evidence_family
+            ));
+        }
+        if self.completion_gate != "required_before_savings_score" {
+            return Err(format!(
+                "payment integrity program review task completion_gate must be required_before_savings_score, got {}",
+                self.completion_gate
+            ));
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "payment integrity program review tasks must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity program review task public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityProgramReviewStatusRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_program_gate_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub total_required_task_count: u8,
+    pub completed_task_count: u8,
+    pub blocked_task_count: u8,
+    pub blocker_summary: String,
+    pub next_priority_task_family: String,
+    pub next_priority_reason: String,
+    pub review_status: String,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityProgramReviewStatusRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_program_gate_record_id",
+            &self.source_program_gate_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("blocker_summary", &self.blocker_summary)?;
+        validate_required("next_priority_task_family", &self.next_priority_task_family)?;
+        validate_required("next_priority_reason", &self.next_priority_reason)?;
+        validate_required("review_status", &self.review_status)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_program_review_status" {
+            return Err(format!(
+                "payment integrity program review status record_family must be payment_integrity_program_review_status, got {}",
+                self.record_family
+            ));
+        }
+        if self.total_required_task_count != 4 {
+            return Err(format!(
+                "payment integrity program review status total_required_task_count must be 4, got {}",
+                self.total_required_task_count
+            ));
+        }
+        if self.completed_task_count + self.blocked_task_count != self.total_required_task_count {
+            return Err(
+                "payment integrity program review status completed + blocked tasks must equal total"
+                    .to_string(),
+            );
+        }
+        if ![
+            "methodology",
+            "access_floor",
+            "corrective_action",
+            "confidence_limits",
+        ]
+        .contains(&self.next_priority_task_family.as_str())
+        {
+            return Err(format!(
+                "payment integrity program review status next_priority_task_family is unsupported: {}",
+                self.next_priority_task_family
+            ));
+        }
+        if self.review_status != "blocked_before_savings_score" {
+            return Err(format!(
+                "payment integrity program review status review_status must be blocked_before_savings_score, got {}",
+                self.review_status
+            ));
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "payment integrity program review status must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity program review status public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyPlanRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_program_status_record_id: String,
+    pub source_methodology_task_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub required_methodology_fields: Vec<String>,
+    pub source_discovery_targets: Vec<String>,
+    pub extraction_priority: u8,
+    pub methodology_completion_rule: String,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyPlanRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_program_status_record_id",
+            &self.source_program_status_record_id,
+        )?;
+        validate_required(
+            "source_methodology_task_record_id",
+            &self.source_methodology_task_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required(
+            "methodology_completion_rule",
+            &self.methodology_completion_rule,
+        )?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_plan" {
+            return Err(format!(
+                "payment integrity methodology plan record_family must be payment_integrity_methodology_plan, got {}",
+                self.record_family
+            ));
+        }
+        if self.extraction_priority == 0 {
+            return Err(
+                "payment integrity methodology plan extraction_priority must be positive"
+                    .to_string(),
+            );
+        }
+        if self.required_methodology_fields.len() < 6 {
+            return Err(
+                "payment integrity methodology plan must list at least six required methodology fields"
+                    .to_string(),
+            );
+        }
+        let fields = self
+            .required_methodology_fields
+            .join(" ")
+            .to_ascii_lowercase();
+        for required in [
+            "sample",
+            "universe",
+            "method",
+            "exclusion",
+            "period",
+            "payment",
+        ] {
+            if !fields.contains(required) {
+                return Err(format!(
+                    "payment integrity methodology plan required fields must include {required}"
+                ));
+            }
+        }
+        if self.source_discovery_targets.len() < 2 {
+            return Err(
+                "payment integrity methodology plan must list at least two source discovery targets"
+                    .to_string(),
+            );
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "payment integrity methodology plans must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology plan public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyFieldRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_methodology_plan_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub methodology_field: String,
+    pub field_status: String,
+    pub required_source_target: String,
+    pub completion_rule: String,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyFieldRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_methodology_plan_record_id",
+            &self.source_methodology_plan_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("methodology_field", &self.methodology_field)?;
+        validate_required("field_status", &self.field_status)?;
+        validate_required("required_source_target", &self.required_source_target)?;
+        validate_required("completion_rule", &self.completion_rule)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_field" {
+            return Err(format!(
+                "payment integrity methodology field record_family must be payment_integrity_methodology_field, got {}",
+                self.record_family
+            ));
+        }
+        if self.field_status != "open_source_needed" {
+            return Err(format!(
+                "payment integrity methodology field status must be open_source_needed, got {}",
+                self.field_status
+            ));
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "payment integrity methodology fields must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology field public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologySourceTargetRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_methodology_plan_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub source_target: String,
+    pub target_priority: u8,
+    pub target_status: String,
+    pub target_use: String,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologySourceTargetRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_methodology_plan_record_id",
+            &self.source_methodology_plan_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("source_target", &self.source_target)?;
+        validate_required("target_status", &self.target_status)?;
+        validate_required("target_use", &self.target_use)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_source_target" {
+            return Err(format!(
+                "payment integrity methodology source target record_family must be payment_integrity_methodology_source_target, got {}",
+                self.record_family
+            ));
+        }
+        if self.target_priority == 0 {
+            return Err(
+                "payment integrity methodology source target priority must be positive".to_string(),
+            );
+        }
+        if self.target_status != "open_source_needed" {
+            return Err(format!(
+                "payment integrity methodology source target status must be open_source_needed, got {}",
+                self.target_status
+            ));
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "payment integrity methodology source targets must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology source target public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyQueryRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_methodology_target_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub query_text: String,
+    pub query_scope: String,
+    pub capture_rule: String,
+    pub query_status: String,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyQueryRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_methodology_target_record_id",
+            &self.source_methodology_target_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("query_text", &self.query_text)?;
+        validate_required("query_scope", &self.query_scope)?;
+        validate_required("capture_rule", &self.capture_rule)?;
+        validate_required("query_status", &self.query_status)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_query" {
+            return Err(format!(
+                "payment integrity methodology query record_family must be payment_integrity_methodology_query, got {}",
+                self.record_family
+            ));
+        }
+        if self.query_status != "open_not_executed" {
+            return Err(format!(
+                "payment integrity methodology query status must be open_not_executed, got {}",
+                self.query_status
+            ));
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "payment integrity methodology queries must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology query public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyQueryRunRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_methodology_query_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub run_status: String,
+    pub planned_query_text: String,
+    pub result_capture_status: String,
+    pub required_capture_fields: Vec<String>,
+    pub next_run_rule: String,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyQueryRunRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_methodology_query_record_id",
+            &self.source_methodology_query_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("run_status", &self.run_status)?;
+        validate_required("planned_query_text", &self.planned_query_text)?;
+        validate_required("result_capture_status", &self.result_capture_status)?;
+        validate_required("next_run_rule", &self.next_run_rule)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_query_run" {
+            return Err(format!(
+                "payment integrity methodology query run record_family must be payment_integrity_methodology_query_run, got {}",
+                self.record_family
+            ));
+        }
+        if self.run_status != "pending_not_run" {
+            return Err(format!(
+                "payment integrity methodology query run status must be pending_not_run, got {}",
+                self.run_status
+            ));
+        }
+        if self.result_capture_status != "no_result_captured" {
+            return Err(format!(
+                "payment integrity methodology query run result_capture_status must be no_result_captured, got {}",
+                self.result_capture_status
+            ));
+        }
+        if self.required_capture_fields.len() < 4 {
+            return Err(
+                "payment integrity methodology query run must list at least four required capture fields"
+                    .to_string(),
+            );
+        }
+        let capture_fields = self.required_capture_fields.join(" ").to_ascii_lowercase();
+        for required in ["url", "observed", "title", "field"] {
+            if !capture_fields.contains(required) {
+                return Err(format!(
+                    "payment integrity methodology query run required capture fields must include {required}"
+                ));
+            }
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "payment integrity methodology query runs must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology query run public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyResultRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_methodology_query_run_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub observed_date: String,
+    pub source_url: String,
+    pub source_title: String,
+    pub reporting_period: String,
+    pub captured_methodology_text: String,
+    pub captured_field_scope: Vec<String>,
+    pub field_closure_allowed: bool,
+    pub result_status: String,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyResultRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_methodology_query_run_record_id",
+            &self.source_methodology_query_run_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("observed_date", &self.observed_date)?;
+        validate_required("source_url", &self.source_url)?;
+        validate_required("source_title", &self.source_title)?;
+        validate_required("reporting_period", &self.reporting_period)?;
+        validate_required("captured_methodology_text", &self.captured_methodology_text)?;
+        validate_required("result_status", &self.result_status)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_result" {
+            return Err(format!(
+                "payment integrity methodology result record_family must be payment_integrity_methodology_result, got {}",
+                self.record_family
+            ));
+        }
+        if self.captured_field_scope.is_empty() {
+            return Err(
+                "payment integrity methodology result must list captured field scope".to_string(),
+            );
+        }
+        if self.field_closure_allowed {
+            return Err(
+                "payment integrity methodology result must not close fields until reviewed"
+                    .to_string(),
+            );
+        }
+        if self.result_status != "source_captured_review_needed" {
+            return Err(format!(
+                "payment integrity methodology result status must be source_captured_review_needed, got {}",
+                self.result_status
+            ));
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "payment integrity methodology results must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology result public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyResultReviewReadinessRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_methodology_result_record_ids: Vec<String>,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub source_capture_count: u8,
+    pub review_readiness_status: String,
+    pub next_field_review_count: u8,
+    pub next_methodology_fields: Vec<String>,
+    pub next_action: String,
+    pub field_closure_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyResultReviewReadinessRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required_vec(
+            "source_methodology_result_record_ids",
+            &self.source_methodology_result_record_ids,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("review_readiness_status", &self.review_readiness_status)?;
+        validate_required("next_action", &self.next_action)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_result_review_readiness" {
+            return Err(format!(
+                "payment integrity methodology result review readiness record_family must be payment_integrity_methodology_result_review_readiness, got {}",
+                self.record_family
+            ));
+        }
+        if self.source_capture_count as usize != self.source_methodology_result_record_ids.len() {
+            return Err(
+                "payment integrity methodology result review readiness source count must match source IDs"
+                    .to_string(),
+            );
+        }
+        if self.review_readiness_status != "ready_for_field_review_queue" {
+            return Err(format!(
+                "payment integrity methodology result review readiness status must be ready_for_field_review_queue, got {}",
+                self.review_readiness_status
+            ));
+        }
+        if self.next_field_review_count as usize != self.next_methodology_fields.len() {
+            return Err(
+                "payment integrity methodology result review readiness field count must match next fields"
+                    .to_string(),
+            );
+        }
+        if self.field_closure_allowed || self.public_claim_allowed || self.savings_estimate_allowed
+        {
+            return Err(
+                "payment integrity methodology result review readiness must block field closure, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology result review readiness public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyFieldReviewRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_methodology_result_record_id: String,
+    pub source_methodology_field_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub methodology_field: String,
+    pub evidence_status: String,
+    pub reviewed_source_scope: String,
+    pub review_note: String,
+    pub field_closure_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyFieldReviewRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_methodology_result_record_id",
+            &self.source_methodology_result_record_id,
+        )?;
+        validate_required(
+            "source_methodology_field_record_id",
+            &self.source_methodology_field_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("methodology_field", &self.methodology_field)?;
+        validate_required("evidence_status", &self.evidence_status)?;
+        validate_required("reviewed_source_scope", &self.reviewed_source_scope)?;
+        validate_required("review_note", &self.review_note)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_field_review" {
+            return Err(format!(
+                "payment integrity methodology field review record_family must be payment_integrity_methodology_field_review, got {}",
+                self.record_family
+            ));
+        }
+        if !["partial_support_review_needed", "not_supported_by_result"]
+            .contains(&self.evidence_status.as_str())
+        {
+            return Err(format!(
+                "payment integrity methodology field review evidence_status is unsupported: {}",
+                self.evidence_status
+            ));
+        }
+        if self.field_closure_allowed {
+            return Err(
+                "payment integrity methodology field review must not close fields".to_string(),
+            );
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "payment integrity methodology field reviews must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology field review public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyGapFollowupRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_methodology_field_review_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub methodology_field: String,
+    pub gap_class: String,
+    pub followup_priority: u8,
+    pub source_target: String,
+    pub next_action: String,
+    pub completion_evidence_required: Vec<String>,
+    pub field_closure_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyGapFollowupRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_methodology_field_review_record_id",
+            &self.source_methodology_field_review_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("methodology_field", &self.methodology_field)?;
+        validate_required("gap_class", &self.gap_class)?;
+        validate_required("source_target", &self.source_target)?;
+        validate_required("next_action", &self.next_action)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_gap_followup" {
+            return Err(format!(
+                "payment integrity methodology gap followup record_family must be payment_integrity_methodology_gap_followup, got {}",
+                self.record_family
+            ));
+        }
+        if ![
+            "unsupported_field_source_needed",
+            "partial_support_citation_needed",
+        ]
+        .contains(&self.gap_class.as_str())
+        {
+            return Err(format!(
+                "payment integrity methodology gap followup gap_class is unsupported: {}",
+                self.gap_class
+            ));
+        }
+        if !(1..=8).contains(&self.followup_priority) {
+            return Err(format!(
+                "payment integrity methodology gap followup priority must be 1-8, got {}",
+                self.followup_priority
+            ));
+        }
+        if self.completion_evidence_required.is_empty() {
+            return Err(
+                "payment integrity methodology gap followup must list completion evidence"
+                    .to_string(),
+            );
+        }
+        if self.field_closure_allowed {
+            return Err(
+                "payment integrity methodology gap followup must not close fields".to_string(),
+            );
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "payment integrity methodology gap followups must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology gap followup public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyGapSourceCaptureRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_methodology_gap_followup_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub methodology_field: String,
+    pub observed_date: String,
+    pub source_url: String,
+    pub source_title: String,
+    pub source_publisher: String,
+    pub captured_source_scope: String,
+    pub captured_methodology_summary: String,
+    pub support_status: String,
+    pub field_closure_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyGapSourceCaptureRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_methodology_gap_followup_record_id",
+            &self.source_methodology_gap_followup_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("methodology_field", &self.methodology_field)?;
+        validate_required("observed_date", &self.observed_date)?;
+        validate_required("source_url", &self.source_url)?;
+        validate_required("source_title", &self.source_title)?;
+        validate_required("source_publisher", &self.source_publisher)?;
+        validate_required("captured_source_scope", &self.captured_source_scope)?;
+        validate_required(
+            "captured_methodology_summary",
+            &self.captured_methodology_summary,
+        )?;
+        validate_required("support_status", &self.support_status)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_gap_source_capture" {
+            return Err(format!(
+                "payment integrity methodology gap source capture record_family must be payment_integrity_methodology_gap_source_capture, got {}",
+                self.record_family
+            ));
+        }
+        if self.support_status != "partial_support_review_needed" {
+            return Err(format!(
+                "payment integrity methodology gap source capture support_status must be partial_support_review_needed, got {}",
+                self.support_status
+            ));
+        }
+        if self.field_closure_allowed {
+            return Err(
+                "payment integrity methodology gap source capture must not close fields"
+                    .to_string(),
+            );
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "payment integrity methodology gap source captures must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology gap source capture public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologySourceCaptureRollupRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_methodology_gap_followup_record_id: String,
+    pub source_methodology_gap_source_capture_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub methodology_field: String,
+    pub capture_coverage_status: String,
+    pub remaining_review_need: String,
+    pub reviewer_action: String,
+    pub field_closure_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologySourceCaptureRollupRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_methodology_gap_followup_record_id",
+            &self.source_methodology_gap_followup_record_id,
+        )?;
+        validate_required(
+            "source_methodology_gap_source_capture_record_id",
+            &self.source_methodology_gap_source_capture_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("methodology_field", &self.methodology_field)?;
+        validate_required("capture_coverage_status", &self.capture_coverage_status)?;
+        validate_required("remaining_review_need", &self.remaining_review_need)?;
+        validate_required("reviewer_action", &self.reviewer_action)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_source_capture_rollup" {
+            return Err(format!(
+                "payment integrity methodology source capture rollup record_family must be payment_integrity_methodology_source_capture_rollup, got {}",
+                self.record_family
+            ));
+        }
+        if self.capture_coverage_status != "source_captured_review_needed" {
+            return Err(format!(
+                "payment integrity methodology source capture rollup status must be source_captured_review_needed, got {}",
+                self.capture_coverage_status
+            ));
+        }
+        if self.field_closure_allowed {
+            return Err(
+                "payment integrity methodology source capture rollup must not close fields"
+                    .to_string(),
+            );
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "payment integrity methodology source capture rollups must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology source capture rollup public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyClosureReadinessRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_methodology_source_capture_rollup_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub methodology_field: String,
+    pub closure_readiness_status: String,
+    pub readiness_reason: String,
+    pub next_required_action: String,
+    pub field_closure_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyClosureReadinessRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_methodology_source_capture_rollup_record_id",
+            &self.source_methodology_source_capture_rollup_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("methodology_field", &self.methodology_field)?;
+        validate_required("closure_readiness_status", &self.closure_readiness_status)?;
+        validate_required("readiness_reason", &self.readiness_reason)?;
+        validate_required("next_required_action", &self.next_required_action)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_closure_readiness" {
+            return Err(format!(
+                "payment integrity methodology closure readiness record_family must be payment_integrity_methodology_closure_readiness, got {}",
+                self.record_family
+            ));
+        }
+        if !["closure_review_candidate", "additional_source_needed"]
+            .contains(&self.closure_readiness_status.as_str())
+        {
+            return Err(format!(
+                "payment integrity methodology closure readiness status is unsupported: {}",
+                self.closure_readiness_status
+            ));
+        }
+        if self.field_closure_allowed {
+            return Err(
+                "payment integrity methodology closure readiness must not close fields".to_string(),
+            );
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "payment integrity methodology closure readiness rows must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology closure readiness public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyClosureDecisionRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_methodology_closure_readiness_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub methodology_field: String,
+    pub decision_status: String,
+    pub field_closed: bool,
+    pub decision_basis: String,
+    pub closure_scope: String,
+    pub residual_limitations: Vec<String>,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyClosureDecisionRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_methodology_closure_readiness_record_id",
+            &self.source_methodology_closure_readiness_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("methodology_field", &self.methodology_field)?;
+        validate_required("decision_status", &self.decision_status)?;
+        validate_required("decision_basis", &self.decision_basis)?;
+        validate_required("closure_scope", &self.closure_scope)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_closure_decision" {
+            return Err(format!(
+                "payment integrity methodology closure decision record_family must be payment_integrity_methodology_closure_decision, got {}",
+                self.record_family
+            ));
+        }
+        if self.decision_status != "field_closed_internal_only" {
+            return Err(format!(
+                "payment integrity methodology closure decision status must be field_closed_internal_only, got {}",
+                self.decision_status
+            ));
+        }
+        if !self.field_closed {
+            return Err(
+                "payment integrity methodology closure decision must set field_closed true"
+                    .to_string(),
+            );
+        }
+        if self.residual_limitations.is_empty() {
+            return Err(
+                "payment integrity methodology closure decision must list residual limitations"
+                    .to_string(),
+            );
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "payment integrity methodology closure decisions must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology closure decision public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyResidualSourceGapRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_methodology_closure_readiness_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub methodology_field: String,
+    pub residual_gap_class: String,
+    pub source_need: String,
+    pub next_query_text: String,
+    pub closure_blocked_reason: String,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyResidualSourceGapRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_methodology_closure_readiness_record_id",
+            &self.source_methodology_closure_readiness_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("methodology_field", &self.methodology_field)?;
+        validate_required("residual_gap_class", &self.residual_gap_class)?;
+        validate_required("source_need", &self.source_need)?;
+        validate_required("next_query_text", &self.next_query_text)?;
+        validate_required("closure_blocked_reason", &self.closure_blocked_reason)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_residual_source_gap" {
+            return Err(format!(
+                "payment integrity methodology residual source gap record_family must be payment_integrity_methodology_residual_source_gap, got {}",
+                self.record_family
+            ));
+        }
+        if ![
+            "detail_source_needed",
+            "current_year_source_needed",
+            "reviewer_determination_needed",
+        ]
+        .contains(&self.residual_gap_class.as_str())
+        {
+            return Err(format!(
+                "payment integrity methodology residual source gap class is unsupported: {}",
+                self.residual_gap_class
+            ));
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "payment integrity methodology residual source gaps must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology residual source gap public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyClosureCoverageRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub source_methodology_closure_decision_record_id: String,
+    pub total_methodology_fields: u8,
+    pub closed_field_count: u8,
+    pub open_field_count: u8,
+    pub closed_fields: Vec<String>,
+    pub open_fields: Vec<String>,
+    pub coverage_status: String,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyClosureCoverageRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required(
+            "source_methodology_closure_decision_record_id",
+            &self.source_methodology_closure_decision_record_id,
+        )?;
+        validate_required("coverage_status", &self.coverage_status)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_closure_coverage" {
+            return Err(format!(
+                "payment integrity methodology closure coverage record_family must be payment_integrity_methodology_closure_coverage, got {}",
+                self.record_family
+            ));
+        }
+        if self.total_methodology_fields != 8 {
+            return Err(format!(
+                "payment integrity methodology closure coverage must have 8 total fields, got {}",
+                self.total_methodology_fields
+            ));
+        }
+        if self.closed_field_count as usize != self.closed_fields.len()
+            || self.open_field_count as usize != self.open_fields.len()
+            || self.closed_field_count + self.open_field_count != self.total_methodology_fields
+        {
+            return Err(
+                "payment integrity methodology closure coverage field counts are inconsistent"
+                    .to_string(),
+            );
+        }
+        if self.coverage_status != "partial_methodology_closure" {
+            return Err(format!(
+                "payment integrity methodology closure coverage status must be partial_methodology_closure, got {}",
+                self.coverage_status
+            ));
+        }
+        if self.scoring_allowed || self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "payment integrity methodology closure coverage must block scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology closure coverage public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyScoringGateRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_methodology_closure_coverage_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub gate_status: String,
+    pub gate_reason: String,
+    pub blockers: Vec<String>,
+    pub next_milestone: String,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyScoringGateRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_methodology_closure_coverage_record_id",
+            &self.source_methodology_closure_coverage_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("gate_status", &self.gate_status)?;
+        validate_required("gate_reason", &self.gate_reason)?;
+        validate_required("next_milestone", &self.next_milestone)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_scoring_gate" {
+            return Err(format!(
+                "payment integrity methodology scoring gate record_family must be payment_integrity_methodology_scoring_gate, got {}",
+                self.record_family
+            ));
+        }
+        if self.gate_status != "blocked_methodology_incomplete" {
+            return Err(format!(
+                "payment integrity methodology scoring gate status must be blocked_methodology_incomplete, got {}",
+                self.gate_status
+            ));
+        }
+        if self.blockers.is_empty() {
+            return Err(
+                "payment integrity methodology scoring gate must list blockers".to_string(),
+            );
+        }
+        if self.scoring_allowed || self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "payment integrity methodology scoring gate must block scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology scoring gate public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyProgramRollupRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_methodology_scoring_gate_record_id: String,
+    pub source_methodology_closure_coverage_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub total_methodology_fields: u8,
+    pub closed_field_count: u8,
+    pub open_field_count: u8,
+    pub scoring_gate_status: String,
+    pub next_open_methodology_fields: Vec<String>,
+    pub next_action: String,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyProgramRollupRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_methodology_scoring_gate_record_id",
+            &self.source_methodology_scoring_gate_record_id,
+        )?;
+        validate_required(
+            "source_methodology_closure_coverage_record_id",
+            &self.source_methodology_closure_coverage_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("scoring_gate_status", &self.scoring_gate_status)?;
+        validate_required("next_action", &self.next_action)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_program_rollup" {
+            return Err(format!(
+                "payment integrity methodology program rollup record_family must be payment_integrity_methodology_program_rollup, got {}",
+                self.record_family
+            ));
+        }
+        if self.total_methodology_fields != 8 {
+            return Err(format!(
+                "payment integrity methodology program rollup must have 8 total fields, got {}",
+                self.total_methodology_fields
+            ));
+        }
+        if self.open_field_count as usize != self.next_open_methodology_fields.len()
+            || self.closed_field_count + self.open_field_count != self.total_methodology_fields
+        {
+            return Err(
+                "payment integrity methodology program rollup field counts are inconsistent"
+                    .to_string(),
+            );
+        }
+        if self.scoring_gate_status != "blocked_methodology_incomplete" {
+            return Err(format!(
+                "payment integrity methodology program rollup scoring_gate_status must be blocked_methodology_incomplete, got {}",
+                self.scoring_gate_status
+            ));
+        }
+        if self.scoring_allowed || self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "payment integrity methodology program rollup must block scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology program rollup public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyOpenProgramStatusRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_methodology_plan_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub closure_path_status: String,
+    pub total_methodology_fields: u8,
+    pub closed_field_count: u8,
+    pub open_field_count: u8,
+    pub closure_decision_count: u8,
+    pub residual_source_gap_count: u8,
+    pub blocker_summary: String,
+    pub next_priority: String,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyOpenProgramStatusRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_methodology_plan_record_id",
+            &self.source_methodology_plan_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("closure_path_status", &self.closure_path_status)?;
+        validate_required("blocker_summary", &self.blocker_summary)?;
+        validate_required("next_priority", &self.next_priority)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_open_program_status" {
+            return Err(format!(
+                "payment integrity methodology open program status record_family must be payment_integrity_methodology_open_program_status, got {}",
+                self.record_family
+            ));
+        }
+        if self.total_methodology_fields != 8 {
+            return Err(format!(
+                "payment integrity methodology open program status must have 8 total fields, got {}",
+                self.total_methodology_fields
+            ));
+        }
+        if self.closed_field_count + self.open_field_count != self.total_methodology_fields {
+            return Err(
+                "payment integrity methodology open program status field counts are inconsistent"
+                    .to_string(),
+            );
+        }
+        if self.closure_decision_count != self.closed_field_count {
+            return Err(
+                "payment integrity methodology open program status closure decisions must match closed field count"
+                    .to_string(),
+            );
+        }
+        if self.residual_source_gap_count != self.open_field_count {
+            return Err(
+                "payment integrity methodology open program status residual gaps must match open field count"
+                    .to_string(),
+            );
+        }
+        match self.closure_path_status.as_str() {
+            "closure_coverage_available" => {
+                if self.closed_field_count == 0 {
+                    return Err(
+                        "closure_coverage_available status requires at least one closed field"
+                            .to_string(),
+                    );
+                }
+            }
+            "fully_open_no_closure_decision" => {
+                if self.closed_field_count != 0 {
+                    return Err(
+                        "fully_open_no_closure_decision status requires zero closed fields"
+                            .to_string(),
+                    );
+                }
+            }
+            _ => {
+                return Err(format!(
+                    "payment integrity methodology open program status closure_path_status is unsupported: {}",
+                    self.closure_path_status
+                ));
+            }
+        }
+        if self.scoring_allowed || self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "payment integrity methodology open program status must block scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology open program status public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyResidualGapPriorityRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_open_program_status_record_id: String,
+    pub source_residual_source_gap_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub priority_rank: u8,
+    pub selected_methodology_field: String,
+    pub priority_reason: String,
+    pub next_query_text: String,
+    pub resolution_rule: String,
+    pub blocked_claims_note: String,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyResidualGapPriorityRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_open_program_status_record_id",
+            &self.source_open_program_status_record_id,
+        )?;
+        validate_required(
+            "source_residual_source_gap_record_id",
+            &self.source_residual_source_gap_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required(
+            "selected_methodology_field",
+            &self.selected_methodology_field,
+        )?;
+        validate_required("priority_reason", &self.priority_reason)?;
+        validate_required("next_query_text", &self.next_query_text)?;
+        validate_required("resolution_rule", &self.resolution_rule)?;
+        validate_required("blocked_claims_note", &self.blocked_claims_note)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_residual_gap_priority" {
+            return Err(format!(
+                "payment integrity methodology residual gap priority record_family must be payment_integrity_methodology_residual_gap_priority, got {}",
+                self.record_family
+            ));
+        }
+        if self.priority_rank == 0 {
+            return Err(
+                "payment integrity methodology residual gap priority rank must be positive"
+                    .to_string(),
+            );
+        }
+        if self.scoring_allowed || self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "payment integrity methodology residual gap priority must block scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology residual gap priority public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+        let blocked_note = self.blocked_claims_note.to_ascii_lowercase();
+        if !(blocked_note.contains("scor")
+            && blocked_note.contains("savings")
+            && blocked_note.contains("waste"))
+        {
+            return Err(
+                "payment integrity methodology residual gap priority blocked_claims_note must block scoring, savings, and waste claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyPrioritySourceWorkRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_residual_gap_priority_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub priority_rank: u8,
+    pub selected_methodology_field: String,
+    pub observed_date: String,
+    pub source_work_status: String,
+    pub official_source_urls: Vec<String>,
+    pub source_summary: String,
+    pub resolution_effect: String,
+    pub remaining_blocker: String,
+    pub field_closure_allowed: bool,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyPrioritySourceWorkRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_residual_gap_priority_record_id",
+            &self.source_residual_gap_priority_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required(
+            "selected_methodology_field",
+            &self.selected_methodology_field,
+        )?;
+        validate_required("observed_date", &self.observed_date)?;
+        validate_required("source_work_status", &self.source_work_status)?;
+        validate_required("source_summary", &self.source_summary)?;
+        validate_required("resolution_effect", &self.resolution_effect)?;
+        validate_required("remaining_blocker", &self.remaining_blocker)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_priority_source_work" {
+            return Err(format!(
+                "payment integrity methodology priority source work record_family must be payment_integrity_methodology_priority_source_work, got {}",
+                self.record_family
+            ));
+        }
+        if self.priority_rank == 0 {
+            return Err(
+                "payment integrity methodology priority source work rank must be positive"
+                    .to_string(),
+            );
+        }
+        match self.source_work_status.as_str() {
+            "reviewer_resolution_ready"
+            | "source_captured_review_needed"
+            | "boundary_source_captured_review_needed"
+            | "partial_recovery_process_support_review_needed" => {}
+            _ => {
+                return Err(format!(
+                    "payment integrity methodology priority source work status is unsupported: {}",
+                    self.source_work_status
+                ));
+            }
+        }
+        if self.official_source_urls.is_empty() {
+            return Err(
+                "payment integrity methodology priority source work requires at least one official source URL"
+                    .to_string(),
+            );
+        }
+        if !self
+            .official_source_urls
+            .iter()
+            .all(|url| url.contains(".gov") || url.contains("paymentaccuracy.gov"))
+        {
+            return Err(
+                "payment integrity methodology priority source work source URLs must be official .gov or PaymentAccuracy sources"
+                    .to_string(),
+            );
+        }
+        if self.field_closure_allowed
+            || self.scoring_allowed
+            || self.public_claim_allowed
+            || self.savings_estimate_allowed
+        {
+            return Err(
+                "payment integrity methodology priority source work must block field closure, scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology priority source work public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyPriorityReviewerActionRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_priority_source_work_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub priority_rank: u8,
+    pub selected_methodology_field: String,
+    pub reviewer_action_status: String,
+    pub reviewer_action: String,
+    pub field_reframing_allowed: bool,
+    pub field_closure_allowed: bool,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub next_required_artifact: String,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyPriorityReviewerActionRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_priority_source_work_record_id",
+            &self.source_priority_source_work_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required(
+            "selected_methodology_field",
+            &self.selected_methodology_field,
+        )?;
+        validate_required("reviewer_action_status", &self.reviewer_action_status)?;
+        validate_required("reviewer_action", &self.reviewer_action)?;
+        validate_required("next_required_artifact", &self.next_required_artifact)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_priority_reviewer_action" {
+            return Err(format!(
+                "payment integrity methodology priority reviewer action record_family must be payment_integrity_methodology_priority_reviewer_action, got {}",
+                self.record_family
+            ));
+        }
+        if self.priority_rank == 0 {
+            return Err(
+                "payment integrity methodology priority reviewer action rank must be positive"
+                    .to_string(),
+            );
+        }
+        match self.reviewer_action_status.as_str() {
+            "field_reframing_approved_internal_only" => {
+                if !self.field_reframing_allowed {
+                    return Err(
+                        "field_reframing_approved_internal_only requires field_reframing_allowed"
+                            .to_string(),
+                    );
+                }
+            }
+            "additional_source_work_required" => {
+                if self.field_reframing_allowed {
+                    return Err(
+                        "additional_source_work_required must not allow field reframing"
+                            .to_string(),
+                    );
+                }
+            }
+            _ => {
+                return Err(format!(
+                    "payment integrity methodology priority reviewer action status is unsupported: {}",
+                    self.reviewer_action_status
+                ));
+            }
+        }
+        if self.field_closure_allowed
+            || self.scoring_allowed
+            || self.public_claim_allowed
+            || self.savings_estimate_allowed
+        {
+            return Err(
+                "payment integrity methodology priority reviewer action must block field closure, scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology priority reviewer action public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyFieldUpdateRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_priority_reviewer_action_record_id: String,
+    pub source_methodology_field_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub old_methodology_field: String,
+    pub revised_methodology_field: String,
+    pub old_required_source_target: String,
+    pub revised_required_source_target: String,
+    pub old_completion_rule: String,
+    pub revised_completion_rule: String,
+    pub update_status: String,
+    pub update_scope: String,
+    pub field_closure_allowed: bool,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyFieldUpdateRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_priority_reviewer_action_record_id",
+            &self.source_priority_reviewer_action_record_id,
+        )?;
+        validate_required(
+            "source_methodology_field_record_id",
+            &self.source_methodology_field_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("old_methodology_field", &self.old_methodology_field)?;
+        validate_required("revised_methodology_field", &self.revised_methodology_field)?;
+        validate_required(
+            "old_required_source_target",
+            &self.old_required_source_target,
+        )?;
+        validate_required(
+            "revised_required_source_target",
+            &self.revised_required_source_target,
+        )?;
+        validate_required("old_completion_rule", &self.old_completion_rule)?;
+        validate_required("revised_completion_rule", &self.revised_completion_rule)?;
+        validate_required("update_status", &self.update_status)?;
+        validate_required("update_scope", &self.update_scope)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_field_update" {
+            return Err(format!(
+                "payment integrity methodology field update record_family must be payment_integrity_methodology_field_update, got {}",
+                self.record_family
+            ));
+        }
+        if self.update_status != "field_reframed_internal_only" {
+            return Err(format!(
+                "payment integrity methodology field update status must be field_reframed_internal_only, got {}",
+                self.update_status
+            ));
+        }
+        if self.old_methodology_field == self.revised_methodology_field {
+            return Err(
+                "payment integrity methodology field update must change the methodology field"
+                    .to_string(),
+            );
+        }
+        if self.field_closure_allowed
+            || self.scoring_allowed
+            || self.public_claim_allowed
+            || self.savings_estimate_allowed
+        {
+            return Err(
+                "payment integrity methodology field update must block field closure, scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology field update public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyFollowupSourceQueryRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_priority_reviewer_action_record_id: String,
+    pub source_field_update_record_id: Option<String>,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub priority_rank: u8,
+    pub query_objective: String,
+    pub query_text: String,
+    pub source_scope: String,
+    pub capture_rule: String,
+    pub success_rule: String,
+    pub query_status: String,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyFollowupSourceQueryRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_priority_reviewer_action_record_id",
+            &self.source_priority_reviewer_action_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("query_objective", &self.query_objective)?;
+        validate_required("query_text", &self.query_text)?;
+        validate_required("source_scope", &self.source_scope)?;
+        validate_required("capture_rule", &self.capture_rule)?;
+        validate_required("success_rule", &self.success_rule)?;
+        validate_required("query_status", &self.query_status)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_followup_source_query" {
+            return Err(format!(
+                "payment integrity methodology followup source query record_family must be payment_integrity_methodology_followup_source_query, got {}",
+                self.record_family
+            ));
+        }
+        if self.priority_rank == 0 {
+            return Err(
+                "payment integrity methodology followup source query rank must be positive"
+                    .to_string(),
+            );
+        }
+        if self.query_status != "open_not_executed" {
+            return Err(format!(
+                "payment integrity methodology followup source query status must be open_not_executed, got {}",
+                self.query_status
+            ));
+        }
+        if self.scoring_allowed || self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "payment integrity methodology followup source query must block scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology followup source query public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyFollowupSourceQueryRunRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_followup_source_query_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub priority_rank: u8,
+    pub run_status: String,
+    pub planned_query_text: String,
+    pub result_capture_status: String,
+    pub required_capture_fields: Vec<String>,
+    pub next_run_rule: String,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyFollowupSourceQueryRunRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_followup_source_query_record_id",
+            &self.source_followup_source_query_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("run_status", &self.run_status)?;
+        validate_required("planned_query_text", &self.planned_query_text)?;
+        validate_required("result_capture_status", &self.result_capture_status)?;
+        validate_required("next_run_rule", &self.next_run_rule)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_followup_source_query_run" {
+            return Err(format!(
+                "payment integrity methodology followup source query run record_family must be payment_integrity_methodology_followup_source_query_run, got {}",
+                self.record_family
+            ));
+        }
+        if self.priority_rank == 0 {
+            return Err(
+                "payment integrity methodology followup source query run rank must be positive"
+                    .to_string(),
+            );
+        }
+        if self.run_status != "pending_not_run" {
+            return Err(format!(
+                "payment integrity methodology followup source query run status must be pending_not_run, got {}",
+                self.run_status
+            ));
+        }
+        if self.result_capture_status != "no_result_captured" {
+            return Err(format!(
+                "payment integrity methodology followup source query run result_capture_status must be no_result_captured, got {}",
+                self.result_capture_status
+            ));
+        }
+        if self.required_capture_fields.is_empty() {
+            return Err(
+                "payment integrity methodology followup source query run requires capture fields"
+                    .to_string(),
+            );
+        }
+        if self.scoring_allowed || self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "payment integrity methodology followup source query run must block scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology followup source query run public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyFollowupSourceCaptureRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_followup_source_query_run_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub priority_rank: u8,
+    pub observed_date: String,
+    pub source_url: String,
+    pub source_title: String,
+    pub captured_source_scope: String,
+    pub captured_boundary_summary: String,
+    pub recoverability_boundary_status: String,
+    pub closure_effect: String,
+    pub field_closure_allowed: bool,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyFollowupSourceCaptureRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_followup_source_query_run_record_id",
+            &self.source_followup_source_query_run_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("observed_date", &self.observed_date)?;
+        validate_required("source_url", &self.source_url)?;
+        validate_required("source_title", &self.source_title)?;
+        validate_required("captured_source_scope", &self.captured_source_scope)?;
+        validate_required("captured_boundary_summary", &self.captured_boundary_summary)?;
+        validate_required(
+            "recoverability_boundary_status",
+            &self.recoverability_boundary_status,
+        )?;
+        validate_required("closure_effect", &self.closure_effect)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_followup_source_capture" {
+            return Err(format!(
+                "payment integrity methodology followup source capture record_family must be payment_integrity_methodology_followup_source_capture, got {}",
+                self.record_family
+            ));
+        }
+        if self.priority_rank == 0 {
+            return Err(
+                "payment integrity methodology followup source capture rank must be positive"
+                    .to_string(),
+            );
+        }
+        match self.recoverability_boundary_status.as_str() {
+            "partial_recovery_process_support_review_needed"
+            | "boundary_block_support_review_needed"
+            | "recoverability_mapping_partial_review_needed" => {}
+            _ => {
+                return Err(format!(
+                    "payment integrity methodology followup source capture recoverability status is unsupported: {}",
+                    self.recoverability_boundary_status
+                ));
+            }
+        }
+        if !(self.source_url.contains(".gov") || self.source_url.contains("paymentaccuracy.gov")) {
+            return Err(
+                "payment integrity methodology followup source capture source_url must be official .gov or PaymentAccuracy source"
+                    .to_string(),
+            );
+        }
+        if self.field_closure_allowed
+            || self.scoring_allowed
+            || self.public_claim_allowed
+            || self.savings_estimate_allowed
+        {
+            return Err(
+                "payment integrity methodology followup source capture must block field closure, scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology followup source capture public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyFollowupSourceCaptureRollupRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_followup_source_capture_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub priority_rank: u8,
+    pub capture_rollup_status: String,
+    pub boundary_finding: String,
+    pub remaining_review_need: String,
+    pub reviewer_action: String,
+    pub field_closure_allowed: bool,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyFollowupSourceCaptureRollupRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_followup_source_capture_record_id",
+            &self.source_followup_source_capture_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("capture_rollup_status", &self.capture_rollup_status)?;
+        validate_required("boundary_finding", &self.boundary_finding)?;
+        validate_required("remaining_review_need", &self.remaining_review_need)?;
+        validate_required("reviewer_action", &self.reviewer_action)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_followup_source_capture_rollup" {
+            return Err(format!(
+                "payment integrity methodology followup source capture rollup record_family must be payment_integrity_methodology_followup_source_capture_rollup, got {}",
+                self.record_family
+            ));
+        }
+        if self.priority_rank == 0 {
+            return Err(
+                "payment integrity methodology followup source capture rollup rank must be positive"
+                    .to_string(),
+            );
+        }
+        match self.capture_rollup_status.as_str() {
+            "reviewer_boundary_decision_needed" | "additional_positive_basis_needed" => {}
+            _ => {
+                return Err(format!(
+                    "payment integrity methodology followup source capture rollup status is unsupported: {}",
+                    self.capture_rollup_status
+                ));
+            }
+        }
+        if self.field_closure_allowed
+            || self.scoring_allowed
+            || self.public_claim_allowed
+            || self.savings_estimate_allowed
+        {
+            return Err(
+                "payment integrity methodology followup source capture rollup must block field closure, scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology followup source capture rollup public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyFollowupBoundaryDecisionRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_followup_source_capture_rollup_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub priority_rank: u8,
+    pub boundary_decision_status: String,
+    pub boundary_decision: String,
+    pub scoring_implication: String,
+    pub next_required_action: String,
+    pub field_closure_allowed: bool,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyFollowupBoundaryDecisionRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_followup_source_capture_rollup_record_id",
+            &self.source_followup_source_capture_rollup_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("boundary_decision_status", &self.boundary_decision_status)?;
+        validate_required("boundary_decision", &self.boundary_decision)?;
+        validate_required("scoring_implication", &self.scoring_implication)?;
+        validate_required("next_required_action", &self.next_required_action)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_followup_boundary_decision" {
+            return Err(format!(
+                "payment integrity methodology followup boundary decision record_family must be payment_integrity_methodology_followup_boundary_decision, got {}",
+                self.record_family
+            ));
+        }
+        if self.priority_rank == 0 {
+            return Err(
+                "payment integrity methodology followup boundary decision rank must be positive"
+                    .to_string(),
+            );
+        }
+        match self.boundary_decision_status.as_str() {
+            "narrow_boundary_supported_internal_only"
+            | "claim_guard_confirmed_internal_only"
+            | "additional_positive_basis_required" => {}
+            _ => {
+                return Err(format!(
+                    "payment integrity methodology followup boundary decision status is unsupported: {}",
+                    self.boundary_decision_status
+                ));
+            }
+        }
+        if self.field_closure_allowed
+            || self.scoring_allowed
+            || self.public_claim_allowed
+            || self.savings_estimate_allowed
+        {
+            return Err(
+                "payment integrity methodology followup boundary decision must block field closure, scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology followup boundary decision public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyFollowupBoundaryReadinessRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_followup_boundary_decision_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub priority_rank: u8,
+    pub boundary_readiness_status: String,
+    pub readiness_scope: String,
+    pub readiness_reason: String,
+    pub next_required_action: String,
+    pub field_closure_allowed: bool,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyFollowupBoundaryReadinessRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_followup_boundary_decision_record_id",
+            &self.source_followup_boundary_decision_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("boundary_readiness_status", &self.boundary_readiness_status)?;
+        validate_required("readiness_scope", &self.readiness_scope)?;
+        validate_required("readiness_reason", &self.readiness_reason)?;
+        validate_required("next_required_action", &self.next_required_action)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_followup_boundary_readiness" {
+            return Err(format!(
+                "payment integrity methodology followup boundary readiness record_family must be payment_integrity_methodology_followup_boundary_readiness, got {}",
+                self.record_family
+            ));
+        }
+        if self.priority_rank == 0 {
+            return Err(
+                "payment integrity methodology followup boundary readiness rank must be positive"
+                    .to_string(),
+            );
+        }
+        match self.boundary_readiness_status.as_str() {
+            "narrow_internal_readiness_candidate" | "additional_positive_basis_needed" => {}
+            _ => {
+                return Err(format!(
+                    "payment integrity methodology followup boundary readiness status is unsupported: {}",
+                    self.boundary_readiness_status
+                ));
+            }
+        }
+        if self.field_closure_allowed
+            || self.scoring_allowed
+            || self.public_claim_allowed
+            || self.savings_estimate_allowed
+        {
+            return Err(
+                "payment integrity methodology followup boundary readiness must block field closure, scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology followup boundary readiness public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyNarrowClosureCandidateRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_followup_boundary_readiness_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub priority_rank: u8,
+    pub candidate_scope: String,
+    pub candidate_basis: String,
+    pub excluded_scoring_basis: String,
+    pub next_required_action: String,
+    pub field_closure_allowed: bool,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyNarrowClosureCandidateRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_followup_boundary_readiness_record_id",
+            &self.source_followup_boundary_readiness_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("candidate_scope", &self.candidate_scope)?;
+        validate_required("candidate_basis", &self.candidate_basis)?;
+        validate_required("excluded_scoring_basis", &self.excluded_scoring_basis)?;
+        validate_required("next_required_action", &self.next_required_action)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_narrow_closure_candidate" {
+            return Err(format!(
+                "payment integrity methodology narrow closure candidate record_family must be payment_integrity_methodology_narrow_closure_candidate, got {}",
+                self.record_family
+            ));
+        }
+        if self.priority_rank == 0 {
+            return Err(
+                "payment integrity methodology narrow closure candidate rank must be positive"
+                    .to_string(),
+            );
+        }
+        if self.field_closure_allowed
+            || self.scoring_allowed
+            || self.public_claim_allowed
+            || self.savings_estimate_allowed
+        {
+            return Err(
+                "payment integrity methodology narrow closure candidate must block field closure, scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology narrow closure candidate public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyNarrowClosureDecisionRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_narrow_closure_candidate_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub priority_rank: u8,
+    pub narrow_decision_status: String,
+    pub closed_component: String,
+    pub decision_basis: String,
+    pub excluded_scope: String,
+    pub residual_open_need: String,
+    pub field_closure_allowed: bool,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyNarrowClosureDecisionRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_narrow_closure_candidate_record_id",
+            &self.source_narrow_closure_candidate_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("narrow_decision_status", &self.narrow_decision_status)?;
+        validate_required("closed_component", &self.closed_component)?;
+        validate_required("decision_basis", &self.decision_basis)?;
+        validate_required("excluded_scope", &self.excluded_scope)?;
+        validate_required("residual_open_need", &self.residual_open_need)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_narrow_closure_decision" {
+            return Err(format!(
+                "payment integrity methodology narrow closure decision record_family must be payment_integrity_methodology_narrow_closure_decision, got {}",
+                self.record_family
+            ));
+        }
+        if self.priority_rank == 0 {
+            return Err(
+                "payment integrity methodology narrow closure decision rank must be positive"
+                    .to_string(),
+            );
+        }
+        if self.narrow_decision_status != "component_closed_internal_only" {
+            return Err(format!(
+                "payment integrity methodology narrow closure decision status must be component_closed_internal_only, got {}",
+                self.narrow_decision_status
+            ));
+        }
+        if self.field_closure_allowed
+            || self.scoring_allowed
+            || self.public_claim_allowed
+            || self.savings_estimate_allowed
+        {
+            return Err(
+                "payment integrity methodology narrow closure decision must block field closure, scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology narrow closure decision public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyOpenProgramComponentProgressRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_open_program_status_record_id: String,
+    pub source_narrow_closure_decision_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub component_progress_status: String,
+    pub total_methodology_fields: u8,
+    pub closed_field_count_after_component_decision: u8,
+    pub open_field_count_after_component_decision: u8,
+    pub narrow_component_decision_count: u8,
+    pub component_progress_summary: String,
+    pub unchanged_field_count_reason: String,
+    pub next_gate_condition: String,
+    pub field_closure_allowed: bool,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyOpenProgramComponentProgressRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_open_program_status_record_id",
+            &self.source_open_program_status_record_id,
+        )?;
+        validate_required(
+            "source_narrow_closure_decision_record_id",
+            &self.source_narrow_closure_decision_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("component_progress_status", &self.component_progress_status)?;
+        validate_required(
+            "component_progress_summary",
+            &self.component_progress_summary,
+        )?;
+        validate_required(
+            "unchanged_field_count_reason",
+            &self.unchanged_field_count_reason,
+        )?;
+        validate_required("next_gate_condition", &self.next_gate_condition)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_open_program_component_progress" {
+            return Err(format!(
+                "payment integrity methodology open program component progress record_family must be payment_integrity_methodology_open_program_component_progress, got {}",
+                self.record_family
+            ));
+        }
+        if self.component_progress_status != "narrow_component_recorded_no_field_closure" {
+            return Err(format!(
+                "payment integrity methodology open program component progress status must be narrow_component_recorded_no_field_closure, got {}",
+                self.component_progress_status
+            ));
+        }
+        if self.total_methodology_fields != 8 {
+            return Err(format!(
+                "payment integrity methodology open program component progress must have 8 total fields, got {}",
+                self.total_methodology_fields
+            ));
+        }
+        if self.closed_field_count_after_component_decision
+            + self.open_field_count_after_component_decision
+            != self.total_methodology_fields
+        {
+            return Err(
+                "payment integrity methodology open program component progress field counts are inconsistent"
+                    .to_string(),
+            );
+        }
+        if self.narrow_component_decision_count == 0 {
+            return Err(
+                "payment integrity methodology open program component progress must record at least one narrow component decision"
+                    .to_string(),
+            );
+        }
+        if self.field_closure_allowed
+            || self.scoring_allowed
+            || self.public_claim_allowed
+            || self.savings_estimate_allowed
+        {
+            return Err(
+                "payment integrity methodology open program component progress must block field closure, scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology open program component progress public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyComponentGateRequirementRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_component_progress_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub gate_status: String,
+    pub required_positive_evidence: String,
+    pub blocked_translation: String,
+    pub next_source_target: String,
+    pub next_decision_type: String,
+    pub field_closure_allowed: bool,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyComponentGateRequirementRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_component_progress_record_id",
+            &self.source_component_progress_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("gate_status", &self.gate_status)?;
+        validate_required(
+            "required_positive_evidence",
+            &self.required_positive_evidence,
+        )?;
+        validate_required("blocked_translation", &self.blocked_translation)?;
+        validate_required("next_source_target", &self.next_source_target)?;
+        validate_required("next_decision_type", &self.next_decision_type)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_component_gate_requirement" {
+            return Err(format!(
+                "payment integrity methodology component gate requirement record_family must be payment_integrity_methodology_component_gate_requirement, got {}",
+                self.record_family
+            ));
+        }
+        if self.gate_status != "positive_evidence_required_before_field_closure" {
+            return Err(format!(
+                "payment integrity methodology component gate requirement status must be positive_evidence_required_before_field_closure, got {}",
+                self.gate_status
+            ));
+        }
+        if self.next_decision_type != "full_field_closure_review" {
+            return Err(format!(
+                "payment integrity methodology component gate requirement next_decision_type must be full_field_closure_review, got {}",
+                self.next_decision_type
+            ));
+        }
+        if self.field_closure_allowed
+            || self.scoring_allowed
+            || self.public_claim_allowed
+            || self.savings_estimate_allowed
+        {
+            return Err(
+                "payment integrity methodology component gate requirement must block field closure, scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology component gate requirement public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyComponentGateSourceTargetRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_component_gate_requirement_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub source_target_priority: u8,
+    pub source_target_name: String,
+    pub source_target_scope: String,
+    pub evidence_to_extract: Vec<String>,
+    pub negative_evidence_rule: String,
+    pub next_artifact_family: String,
+    pub field_closure_allowed: bool,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyComponentGateSourceTargetRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_component_gate_requirement_record_id",
+            &self.source_component_gate_requirement_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("source_target_name", &self.source_target_name)?;
+        validate_required("source_target_scope", &self.source_target_scope)?;
+        validate_required("negative_evidence_rule", &self.negative_evidence_rule)?;
+        validate_required("next_artifact_family", &self.next_artifact_family)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_component_gate_source_target" {
+            return Err(format!(
+                "payment integrity methodology component gate source target record_family must be payment_integrity_methodology_component_gate_source_target, got {}",
+                self.record_family
+            ));
+        }
+        if self.source_target_priority == 0 {
+            return Err(
+                "payment integrity methodology component gate source target priority must be positive"
+                    .to_string(),
+            );
+        }
+        if self.evidence_to_extract.is_empty() {
+            return Err(
+                "payment integrity methodology component gate source target must list evidence to extract"
+                    .to_string(),
+            );
+        }
+        if self.next_artifact_family != "payment_integrity_methodology_component_gate_source_query"
+        {
+            return Err(format!(
+                "payment integrity methodology component gate source target next_artifact_family must be payment_integrity_methodology_component_gate_source_query, got {}",
+                self.next_artifact_family
+            ));
+        }
+        if self.field_closure_allowed
+            || self.scoring_allowed
+            || self.public_claim_allowed
+            || self.savings_estimate_allowed
+        {
+            return Err(
+                "payment integrity methodology component gate source target must block field closure, scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology component gate source target public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyComponentGateSourceQueryRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_component_gate_source_target_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub source_target_priority: u8,
+    pub query_text: String,
+    pub query_scope: String,
+    pub expected_evidence: Vec<String>,
+    pub insufficient_result_rule: String,
+    pub next_artifact_family: String,
+    pub field_closure_allowed: bool,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyComponentGateSourceQueryRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_component_gate_source_target_record_id",
+            &self.source_component_gate_source_target_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("query_text", &self.query_text)?;
+        validate_required("query_scope", &self.query_scope)?;
+        validate_required("insufficient_result_rule", &self.insufficient_result_rule)?;
+        validate_required("next_artifact_family", &self.next_artifact_family)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_component_gate_source_query" {
+            return Err(format!(
+                "payment integrity methodology component gate source query record_family must be payment_integrity_methodology_component_gate_source_query, got {}",
+                self.record_family
+            ));
+        }
+        if self.source_target_priority == 0 {
+            return Err(
+                "payment integrity methodology component gate source query priority must be positive"
+                    .to_string(),
+            );
+        }
+        if self.expected_evidence.is_empty() {
+            return Err(
+                "payment integrity methodology component gate source query must list expected evidence"
+                    .to_string(),
+            );
+        }
+        if self.next_artifact_family
+            != "payment_integrity_methodology_component_gate_source_query_run"
+        {
+            return Err(format!(
+                "payment integrity methodology component gate source query next_artifact_family must be payment_integrity_methodology_component_gate_source_query_run, got {}",
+                self.next_artifact_family
+            ));
+        }
+        if self.field_closure_allowed
+            || self.scoring_allowed
+            || self.public_claim_allowed
+            || self.savings_estimate_allowed
+        {
+            return Err(
+                "payment integrity methodology component gate source query must block field closure, scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology component gate source query public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyComponentGateSourceQueryRunRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_component_gate_source_query_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub source_target_priority: u8,
+    pub run_status: String,
+    pub planned_query_text: String,
+    pub result_capture_status: String,
+    pub required_capture_fields: Vec<String>,
+    pub next_run_rule: String,
+    pub field_closure_allowed: bool,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyComponentGateSourceQueryRunRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_component_gate_source_query_record_id",
+            &self.source_component_gate_source_query_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("run_status", &self.run_status)?;
+        validate_required("planned_query_text", &self.planned_query_text)?;
+        validate_required("result_capture_status", &self.result_capture_status)?;
+        validate_required("next_run_rule", &self.next_run_rule)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_component_gate_source_query_run" {
+            return Err(format!(
+                "payment integrity methodology component gate source query run record_family must be payment_integrity_methodology_component_gate_source_query_run, got {}",
+                self.record_family
+            ));
+        }
+        if self.source_target_priority == 0 {
+            return Err(
+                "payment integrity methodology component gate source query run priority must be positive"
+                    .to_string(),
+            );
+        }
+        if self.run_status != "pending_not_run" {
+            return Err(format!(
+                "payment integrity methodology component gate source query run status must be pending_not_run, got {}",
+                self.run_status
+            ));
+        }
+        if self.result_capture_status != "no_result_captured" {
+            return Err(format!(
+                "payment integrity methodology component gate source query run result_capture_status must be no_result_captured, got {}",
+                self.result_capture_status
+            ));
+        }
+        if self.required_capture_fields.is_empty() {
+            return Err(
+                "payment integrity methodology component gate source query run requires capture fields"
+                    .to_string(),
+            );
+        }
+        if self.field_closure_allowed
+            || self.scoring_allowed
+            || self.public_claim_allowed
+            || self.savings_estimate_allowed
+        {
+            return Err(
+                "payment integrity methodology component gate source query run must block field closure, scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology component gate source query run public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyComponentGateSourceCaptureRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_component_gate_source_query_run_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub source_target_priority: u8,
+    pub observed_date: String,
+    pub source_url: String,
+    pub source_title: String,
+    pub captured_source_scope: String,
+    pub captured_gate_summary: String,
+    pub component_gate_status: String,
+    pub next_review_action: String,
+    pub field_closure_allowed: bool,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyComponentGateSourceCaptureRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_component_gate_source_query_run_record_id",
+            &self.source_component_gate_source_query_run_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("observed_date", &self.observed_date)?;
+        validate_required("source_url", &self.source_url)?;
+        validate_required("source_title", &self.source_title)?;
+        validate_required("captured_source_scope", &self.captured_source_scope)?;
+        validate_required("captured_gate_summary", &self.captured_gate_summary)?;
+        validate_required("component_gate_status", &self.component_gate_status)?;
+        validate_required("next_review_action", &self.next_review_action)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_component_gate_source_capture" {
+            return Err(format!(
+                "payment integrity methodology component gate source capture record_family must be payment_integrity_methodology_component_gate_source_capture, got {}",
+                self.record_family
+            ));
+        }
+        if self.source_target_priority == 0 {
+            return Err(
+                "payment integrity methodology component gate source capture priority must be positive"
+                    .to_string(),
+            );
+        }
+        match self.component_gate_status.as_str() {
+            "partial_positive_basis_review_needed"
+            | "context_only_no_positive_amount_basis"
+            | "category_split_partial_review_needed" => {}
+            _ => {
+                return Err(format!(
+                    "payment integrity methodology component gate source capture status is unsupported: {}",
+                    self.component_gate_status
+                ));
+            }
+        }
+        if !(self.source_url.contains(".gov") || self.source_url.contains("paymentaccuracy.gov")) {
+            return Err(
+                "payment integrity methodology component gate source capture source_url must be official .gov or PaymentAccuracy source"
+                    .to_string(),
+            );
+        }
+        if self.field_closure_allowed
+            || self.scoring_allowed
+            || self.public_claim_allowed
+            || self.savings_estimate_allowed
+        {
+            return Err(
+                "payment integrity methodology component gate source capture must block field closure, scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology component gate source capture public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyComponentGateSourceCaptureRollupRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_component_gate_source_capture_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub source_target_priority: u8,
+    pub capture_rollup_status: String,
+    pub gate_finding: String,
+    pub remaining_review_need: String,
+    pub reviewer_action: String,
+    pub field_closure_allowed: bool,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyComponentGateSourceCaptureRollupRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_component_gate_source_capture_record_id",
+            &self.source_component_gate_source_capture_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("capture_rollup_status", &self.capture_rollup_status)?;
+        validate_required("gate_finding", &self.gate_finding)?;
+        validate_required("remaining_review_need", &self.remaining_review_need)?;
+        validate_required("reviewer_action", &self.reviewer_action)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family
+            != "payment_integrity_methodology_component_gate_source_capture_rollup"
+        {
+            return Err(format!(
+                "payment integrity methodology component gate source capture rollup record_family must be payment_integrity_methodology_component_gate_source_capture_rollup, got {}",
+                self.record_family
+            ));
+        }
+        if self.source_target_priority == 0 {
+            return Err(
+                "payment integrity methodology component gate source capture rollup priority must be positive"
+                    .to_string(),
+            );
+        }
+        match self.capture_rollup_status.as_str() {
+            "reviewer_gate_decision_needed" | "additional_positive_basis_needed" => {}
+            _ => {
+                return Err(format!(
+                    "payment integrity methodology component gate source capture rollup status is unsupported: {}",
+                    self.capture_rollup_status
+                ));
+            }
+        }
+        if self.field_closure_allowed
+            || self.scoring_allowed
+            || self.public_claim_allowed
+            || self.savings_estimate_allowed
+        {
+            return Err(
+                "payment integrity methodology component gate source capture rollup must block field closure, scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology component gate source capture rollup public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyComponentGateBoundaryDecisionRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_component_gate_source_capture_rollup_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub source_target_priority: u8,
+    pub boundary_decision_status: String,
+    pub boundary_decision: String,
+    pub scoring_implication: String,
+    pub next_required_action: String,
+    pub field_closure_allowed: bool,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyComponentGateBoundaryDecisionRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_component_gate_source_capture_rollup_record_id",
+            &self.source_component_gate_source_capture_rollup_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("boundary_decision_status", &self.boundary_decision_status)?;
+        validate_required("boundary_decision", &self.boundary_decision)?;
+        validate_required("scoring_implication", &self.scoring_implication)?;
+        validate_required("next_required_action", &self.next_required_action)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_component_gate_boundary_decision" {
+            return Err(format!(
+                "payment integrity methodology component gate boundary decision record_family must be payment_integrity_methodology_component_gate_boundary_decision, got {}",
+                self.record_family
+            ));
+        }
+        if self.source_target_priority == 0 {
+            return Err(
+                "payment integrity methodology component gate boundary decision priority must be positive"
+                    .to_string(),
+            );
+        }
+        match self.boundary_decision_status.as_str() {
+            "narrow_process_boundary_supported_internal_only"
+            | "additional_positive_basis_required" => {}
+            _ => {
+                return Err(format!(
+                    "payment integrity methodology component gate boundary decision status is unsupported: {}",
+                    self.boundary_decision_status
+                ));
+            }
+        }
+        if self.field_closure_allowed
+            || self.scoring_allowed
+            || self.public_claim_allowed
+            || self.savings_estimate_allowed
+        {
+            return Err(
+                "payment integrity methodology component gate boundary decision must block field closure, scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology component gate boundary decision public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyComponentGateBoundaryReadinessRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_component_gate_boundary_decision_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub source_target_priority: u8,
+    pub boundary_readiness_status: String,
+    pub readiness_scope: String,
+    pub readiness_reason: String,
+    pub next_required_action: String,
+    pub field_closure_allowed: bool,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyComponentGateBoundaryReadinessRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_component_gate_boundary_decision_record_id",
+            &self.source_component_gate_boundary_decision_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("boundary_readiness_status", &self.boundary_readiness_status)?;
+        validate_required("readiness_scope", &self.readiness_scope)?;
+        validate_required("readiness_reason", &self.readiness_reason)?;
+        validate_required("next_required_action", &self.next_required_action)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_component_gate_boundary_readiness" {
+            return Err(format!(
+                "payment integrity methodology component gate boundary readiness record_family must be payment_integrity_methodology_component_gate_boundary_readiness, got {}",
+                self.record_family
+            ));
+        }
+        if self.source_target_priority == 0 {
+            return Err(
+                "payment integrity methodology component gate boundary readiness priority must be positive"
+                    .to_string(),
+            );
+        }
+        match self.boundary_readiness_status.as_str() {
+            "narrow_internal_readiness_candidate" | "additional_positive_basis_needed" => {}
+            _ => {
+                return Err(format!(
+                    "payment integrity methodology component gate boundary readiness status is unsupported: {}",
+                    self.boundary_readiness_status
+                ));
+            }
+        }
+        if self.field_closure_allowed
+            || self.scoring_allowed
+            || self.public_claim_allowed
+            || self.savings_estimate_allowed
+        {
+            return Err(
+                "payment integrity methodology component gate boundary readiness must block field closure, scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology component gate boundary readiness public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyComponentGateNarrowCandidateRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_component_gate_boundary_readiness_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub source_target_priority: u8,
+    pub candidate_status: String,
+    pub candidate_scope: String,
+    pub candidate_basis: String,
+    pub excluded_scoring_basis: String,
+    pub next_required_action: String,
+    pub field_closure_allowed: bool,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyComponentGateNarrowCandidateRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_component_gate_boundary_readiness_record_id",
+            &self.source_component_gate_boundary_readiness_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("candidate_status", &self.candidate_status)?;
+        validate_required("candidate_scope", &self.candidate_scope)?;
+        validate_required("candidate_basis", &self.candidate_basis)?;
+        validate_required("excluded_scoring_basis", &self.excluded_scoring_basis)?;
+        validate_required("next_required_action", &self.next_required_action)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_component_gate_narrow_candidate" {
+            return Err(format!(
+                "payment integrity methodology component gate narrow candidate record_family must be payment_integrity_methodology_component_gate_narrow_candidate, got {}",
+                self.record_family
+            ));
+        }
+        if self.source_target_priority == 0 {
+            return Err(
+                "payment integrity methodology component gate narrow candidate priority must be positive"
+                    .to_string(),
+            );
+        }
+        if self.candidate_status != "narrow_component_candidate_internal_only" {
+            return Err(format!(
+                "payment integrity methodology component gate narrow candidate status is unsupported: {}",
+                self.candidate_status
+            ));
+        }
+        if self.field_closure_allowed
+            || self.scoring_allowed
+            || self.public_claim_allowed
+            || self.savings_estimate_allowed
+        {
+            return Err(
+                "payment integrity methodology component gate narrow candidate must block field closure, scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology component gate narrow candidate public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyComponentGateNarrowDecisionRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_component_gate_narrow_candidate_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub source_target_priority: u8,
+    pub narrow_decision_status: String,
+    pub closed_component: String,
+    pub decision_basis: String,
+    pub excluded_scope: String,
+    pub residual_open_need: String,
+    pub field_closure_allowed: bool,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyComponentGateNarrowDecisionRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_component_gate_narrow_candidate_record_id",
+            &self.source_component_gate_narrow_candidate_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("narrow_decision_status", &self.narrow_decision_status)?;
+        validate_required("closed_component", &self.closed_component)?;
+        validate_required("decision_basis", &self.decision_basis)?;
+        validate_required("excluded_scope", &self.excluded_scope)?;
+        validate_required("residual_open_need", &self.residual_open_need)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_component_gate_narrow_decision" {
+            return Err(format!(
+                "payment integrity methodology component gate narrow decision record_family must be payment_integrity_methodology_component_gate_narrow_decision, got {}",
+                self.record_family
+            ));
+        }
+        if self.source_target_priority == 0 {
+            return Err(
+                "payment integrity methodology component gate narrow decision priority must be positive"
+                    .to_string(),
+            );
+        }
+        if self.narrow_decision_status != "component_closed_internal_only" {
+            return Err(format!(
+                "payment integrity methodology component gate narrow decision status must be component_closed_internal_only, got {}",
+                self.narrow_decision_status
+            ));
+        }
+        if self.field_closure_allowed
+            || self.scoring_allowed
+            || self.public_claim_allowed
+            || self.savings_estimate_allowed
+        {
+            return Err(
+                "payment integrity methodology component gate narrow decision must block field closure, scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology component gate narrow decision public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyComponentGateProgressRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_open_program_status_record_id: String,
+    pub source_component_gate_narrow_decision_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub component_progress_status: String,
+    pub total_methodology_fields: u8,
+    pub closed_field_count_after_component_decision: u8,
+    pub open_field_count_after_component_decision: u8,
+    pub component_gate_decision_count: u8,
+    pub component_progress_summary: String,
+    pub unchanged_field_count_reason: String,
+    pub next_gate_condition: String,
+    pub field_closure_allowed: bool,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyComponentGateProgressRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_open_program_status_record_id",
+            &self.source_open_program_status_record_id,
+        )?;
+        validate_required(
+            "source_component_gate_narrow_decision_record_id",
+            &self.source_component_gate_narrow_decision_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("component_progress_status", &self.component_progress_status)?;
+        validate_required(
+            "component_progress_summary",
+            &self.component_progress_summary,
+        )?;
+        validate_required(
+            "unchanged_field_count_reason",
+            &self.unchanged_field_count_reason,
+        )?;
+        validate_required("next_gate_condition", &self.next_gate_condition)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_component_gate_progress" {
+            return Err(format!(
+                "payment integrity methodology component gate progress record_family must be payment_integrity_methodology_component_gate_progress, got {}",
+                self.record_family
+            ));
+        }
+        if self.component_progress_status != "component_gate_progress_recorded_no_field_closure" {
+            return Err(format!(
+                "payment integrity methodology component gate progress status must be component_gate_progress_recorded_no_field_closure, got {}",
+                self.component_progress_status
+            ));
+        }
+        if self.total_methodology_fields != 8 {
+            return Err(format!(
+                "payment integrity methodology component gate progress must have 8 total fields, got {}",
+                self.total_methodology_fields
+            ));
+        }
+        if self.closed_field_count_after_component_decision
+            + self.open_field_count_after_component_decision
+            != self.total_methodology_fields
+        {
+            return Err(
+                "payment integrity methodology component gate progress field counts are inconsistent"
+                    .to_string(),
+            );
+        }
+        if self.component_gate_decision_count == 0 {
+            return Err(
+                "payment integrity methodology component gate progress must record at least one component gate decision"
+                    .to_string(),
+            );
+        }
+        if self.field_closure_allowed
+            || self.scoring_allowed
+            || self.public_claim_allowed
+            || self.savings_estimate_allowed
+        {
+            return Err(
+                "payment integrity methodology component gate progress must block field closure, scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology component gate progress public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyComponentGateProgressRequirementRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_component_gate_progress_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub gate_status: String,
+    pub required_positive_evidence: String,
+    pub blocked_translation: String,
+    pub next_source_target: String,
+    pub next_decision_type: String,
+    pub field_closure_allowed: bool,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyComponentGateProgressRequirementRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_component_gate_progress_record_id",
+            &self.source_component_gate_progress_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("gate_status", &self.gate_status)?;
+        validate_required(
+            "required_positive_evidence",
+            &self.required_positive_evidence,
+        )?;
+        validate_required("blocked_translation", &self.blocked_translation)?;
+        validate_required("next_source_target", &self.next_source_target)?;
+        validate_required("next_decision_type", &self.next_decision_type)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_methodology_component_gate_progress_requirement"
+        {
+            return Err(format!(
+                "payment integrity methodology component gate progress requirement record_family must be payment_integrity_methodology_component_gate_progress_requirement, got {}",
+                self.record_family
+            ));
+        }
+        if self.gate_status != "positive_evidence_required_before_field_closure" {
+            return Err(format!(
+                "payment integrity methodology component gate progress requirement status must be positive_evidence_required_before_field_closure, got {}",
+                self.gate_status
+            ));
+        }
+        if self.next_decision_type != "full_field_closure_review" {
+            return Err(format!(
+                "payment integrity methodology component gate progress requirement next_decision_type must be full_field_closure_review, got {}",
+                self.next_decision_type
+            ));
+        }
+        if self.field_closure_allowed
+            || self.scoring_allowed
+            || self.public_claim_allowed
+            || self.savings_estimate_allowed
+        {
+            return Err(
+                "payment integrity methodology component gate progress requirement must block field closure, scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology component gate progress requirement public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyComponentGateProgressSourceTargetRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_component_gate_progress_requirement_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub source_target_priority: u8,
+    pub source_target_name: String,
+    pub source_target_scope: String,
+    pub evidence_to_extract: Vec<String>,
+    pub negative_evidence_rule: String,
+    pub next_artifact_family: String,
+    pub field_closure_allowed: bool,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyComponentGateProgressSourceTargetRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_component_gate_progress_requirement_record_id",
+            &self.source_component_gate_progress_requirement_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("source_target_name", &self.source_target_name)?;
+        validate_required("source_target_scope", &self.source_target_scope)?;
+        validate_required("negative_evidence_rule", &self.negative_evidence_rule)?;
+        validate_required("next_artifact_family", &self.next_artifact_family)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family
+            != "payment_integrity_methodology_component_gate_progress_source_target"
+        {
+            return Err(format!(
+                "payment integrity methodology component gate progress source target record_family must be payment_integrity_methodology_component_gate_progress_source_target, got {}",
+                self.record_family
+            ));
+        }
+        if self.source_target_priority == 0 {
+            return Err(
+                "payment integrity methodology component gate progress source target priority must be positive"
+                    .to_string(),
+            );
+        }
+        if self.evidence_to_extract.is_empty() {
+            return Err(
+                "payment integrity methodology component gate progress source target must list evidence to extract"
+                    .to_string(),
+            );
+        }
+        if self.next_artifact_family
+            != "payment_integrity_methodology_component_gate_progress_source_query"
+        {
+            return Err(format!(
+                "payment integrity methodology component gate progress source target next_artifact_family must be payment_integrity_methodology_component_gate_progress_source_query, got {}",
+                self.next_artifact_family
+            ));
+        }
+        if self.field_closure_allowed
+            || self.scoring_allowed
+            || self.public_claim_allowed
+            || self.savings_estimate_allowed
+        {
+            return Err(
+                "payment integrity methodology component gate progress source target must block field closure, scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology component gate progress source target public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyComponentGateProgressSourceQueryRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_component_gate_progress_source_target_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub source_target_priority: u8,
+    pub query_text: String,
+    pub query_scope: String,
+    pub expected_evidence: Vec<String>,
+    pub insufficient_result_rule: String,
+    pub next_artifact_family: String,
+    pub field_closure_allowed: bool,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyComponentGateProgressSourceQueryRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_component_gate_progress_source_target_record_id",
+            &self.source_component_gate_progress_source_target_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("query_text", &self.query_text)?;
+        validate_required("query_scope", &self.query_scope)?;
+        validate_required("insufficient_result_rule", &self.insufficient_result_rule)?;
+        validate_required("next_artifact_family", &self.next_artifact_family)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family
+            != "payment_integrity_methodology_component_gate_progress_source_query"
+        {
+            return Err(format!(
+                "payment integrity methodology component gate progress source query record_family must be payment_integrity_methodology_component_gate_progress_source_query, got {}",
+                self.record_family
+            ));
+        }
+        if self.source_target_priority == 0 {
+            return Err(
+                "payment integrity methodology component gate progress source query priority must be positive"
+                    .to_string(),
+            );
+        }
+        if self.expected_evidence.is_empty() {
+            return Err(
+                "payment integrity methodology component gate progress source query must list expected evidence"
+                    .to_string(),
+            );
+        }
+        if self.next_artifact_family
+            != "payment_integrity_methodology_component_gate_progress_source_query_run"
+        {
+            return Err(format!(
+                "payment integrity methodology component gate progress source query next_artifact_family must be payment_integrity_methodology_component_gate_progress_source_query_run, got {}",
+                self.next_artifact_family
+            ));
+        }
+        if self.field_closure_allowed
+            || self.scoring_allowed
+            || self.public_claim_allowed
+            || self.savings_estimate_allowed
+        {
+            return Err(
+                "payment integrity methodology component gate progress source query must block field closure, scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology component gate progress source query public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyComponentGateProgressSourceQueryRunRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_component_gate_progress_source_query_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub source_target_priority: u8,
+    pub run_status: String,
+    pub planned_query_text: String,
+    pub result_capture_status: String,
+    pub required_capture_fields: Vec<String>,
+    pub next_run_rule: String,
+    pub field_closure_allowed: bool,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyComponentGateProgressSourceQueryRunRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_component_gate_progress_source_query_record_id",
+            &self.source_component_gate_progress_source_query_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("run_status", &self.run_status)?;
+        validate_required("planned_query_text", &self.planned_query_text)?;
+        validate_required("result_capture_status", &self.result_capture_status)?;
+        validate_required("next_run_rule", &self.next_run_rule)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family
+            != "payment_integrity_methodology_component_gate_progress_source_query_run"
+        {
+            return Err(format!(
+                "payment integrity methodology component gate progress source query run record_family must be payment_integrity_methodology_component_gate_progress_source_query_run, got {}",
+                self.record_family
+            ));
+        }
+        if self.source_target_priority == 0 {
+            return Err(
+                "payment integrity methodology component gate progress source query run priority must be positive"
+                    .to_string(),
+            );
+        }
+        if self.run_status != "pending_not_run" {
+            return Err(format!(
+                "payment integrity methodology component gate progress source query run status must be pending_not_run, got {}",
+                self.run_status
+            ));
+        }
+        if self.result_capture_status != "no_result_captured" {
+            return Err(format!(
+                "payment integrity methodology component gate progress source query run result_capture_status must be no_result_captured, got {}",
+                self.result_capture_status
+            ));
+        }
+        if self.required_capture_fields.is_empty() {
+            return Err(
+                "payment integrity methodology component gate progress source query run requires capture fields"
+                    .to_string(),
+            );
+        }
+        if self.field_closure_allowed
+            || self.scoring_allowed
+            || self.public_claim_allowed
+            || self.savings_estimate_allowed
+        {
+            return Err(
+                "payment integrity methodology component gate progress source query run must block field closure, scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology component gate progress source query run public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityMethodologyComponentGateProgressSourceCaptureRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_component_gate_progress_source_query_run_record_id: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub source_target_priority: u8,
+    pub observed_date: String,
+    pub source_url: String,
+    pub source_title: String,
+    pub captured_source_scope: String,
+    pub captured_gate_summary: String,
+    pub component_gate_status: String,
+    pub next_review_action: String,
+    pub field_closure_allowed: bool,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityMethodologyComponentGateProgressSourceCaptureRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_component_gate_progress_source_query_run_record_id",
+            &self.source_component_gate_progress_source_query_run_record_id,
+        )?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("observed_date", &self.observed_date)?;
+        validate_required("source_url", &self.source_url)?;
+        validate_required("source_title", &self.source_title)?;
+        validate_required("captured_source_scope", &self.captured_source_scope)?;
+        validate_required("captured_gate_summary", &self.captured_gate_summary)?;
+        validate_required("component_gate_status", &self.component_gate_status)?;
+        validate_required("next_review_action", &self.next_review_action)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family
+            != "payment_integrity_methodology_component_gate_progress_source_capture"
+        {
+            return Err(format!(
+                "payment integrity methodology component gate progress source capture record_family must be payment_integrity_methodology_component_gate_progress_source_capture, got {}",
+                self.record_family
+            ));
+        }
+        if self.source_target_priority == 0 {
+            return Err(
+                "payment integrity methodology component gate progress source capture priority must be positive"
+                    .to_string(),
+            );
+        }
+        match self.component_gate_status.as_str() {
+            "partial_positive_basis_review_needed"
+            | "category_split_partial_review_needed"
+            | "context_only_no_positive_amount_basis" => {}
+            _ => {
+                return Err(format!(
+                    "payment integrity methodology component gate progress source capture status is unsupported: {}",
+                    self.component_gate_status
+                ));
+            }
+        }
+        if !(self.source_url.contains(".gov") || self.source_url.contains("paymentaccuracy.gov")) {
+            return Err(
+                "payment integrity methodology component gate progress source capture source_url must be official .gov or PaymentAccuracy source"
+                    .to_string(),
+            );
+        }
+        if self.field_closure_allowed
+            || self.scoring_allowed
+            || self.public_claim_allowed
+            || self.savings_estimate_allowed
+        {
+            return Err(
+                "payment integrity methodology component gate progress source capture must block field closure, scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity methodology component gate progress source capture public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityNextProgramSelectionRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub selected_program_key: String,
+    pub agency_code: String,
+    pub program_or_activity: String,
+    pub selection_status: String,
+    pub selection_reason: String,
+    pub official_source_urls: Vec<String>,
+    pub starting_methodology_fields: Vec<String>,
+    pub next_artifact_family: String,
+    pub scoring_allowed: bool,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityNextProgramSelectionRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required("selected_program_key", &self.selected_program_key)?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("program_or_activity", &self.program_or_activity)?;
+        validate_required("selection_status", &self.selection_status)?;
+        validate_required("selection_reason", &self.selection_reason)?;
+        validate_required("next_artifact_family", &self.next_artifact_family)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_next_program_selection" {
+            return Err(format!(
+                "payment integrity next program selection record_family must be payment_integrity_next_program_selection, got {}",
+                self.record_family
+            ));
+        }
+        if self.selection_status != "selected_for_methodology_planning" {
+            return Err(format!(
+                "payment integrity next program selection status must be selected_for_methodology_planning, got {}",
+                self.selection_status
+            ));
+        }
+        if self.official_source_urls.len() < 2 {
+            return Err(
+                "payment integrity next program selection must list at least two official source URLs"
+                    .to_string(),
+            );
+        }
+        if !self
+            .official_source_urls
+            .iter()
+            .all(|url| url.starts_with("https://"))
+        {
+            return Err(
+                "payment integrity next program selection source URLs must be https URLs"
+                    .to_string(),
+            );
+        }
+        if self.starting_methodology_fields.is_empty() {
+            return Err(
+                "payment integrity next program selection must list starting methodology fields"
+                    .to_string(),
+            );
+        }
+        if self.next_artifact_family != "payment_integrity_methodology_plan" {
+            return Err(format!(
+                "payment integrity next program selection next_artifact_family must be payment_integrity_methodology_plan, got {}",
+                self.next_artifact_family
+            ));
+        }
+        if self.scoring_allowed || self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "payment integrity next program selection must block scoring, public claims, and savings estimates"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "payment integrity next program selection public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PaymentIntegrityClaimsTimelinessProbeRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_evidence_queue_record_id: String,
+    pub source_id: String,
+    pub observed_date: String,
+    pub page_url: String,
+    pub agency_code: String,
+    pub metric_name: String,
+    pub metric_value: f64,
+    pub metric_unit: String,
+    pub comparison_operator: String,
+    pub metric_period: String,
+    pub source_scope_note: String,
+    pub next_extract_need: String,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl PaymentIntegrityClaimsTimelinessProbeRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_evidence_queue_record_id",
+            &self.source_evidence_queue_record_id,
+        )?;
+        validate_required("source_id", &self.source_id)?;
+        validate_required("observed_date", &self.observed_date)?;
+        validate_required("page_url", &self.page_url)?;
+        validate_required("agency_code", &self.agency_code)?;
+        validate_required("metric_name", &self.metric_name)?;
+        validate_required("metric_unit", &self.metric_unit)?;
+        validate_required("comparison_operator", &self.comparison_operator)?;
+        validate_required("metric_period", &self.metric_period)?;
+        validate_required("source_scope_note", &self.source_scope_note)?;
+        validate_required("next_extract_need", &self.next_extract_need)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "payment_integrity_claims_timeliness_probe" {
+            return Err(format!(
+                "payment integrity claims timeliness probe record_family must be payment_integrity_claims_timeliness_probe, got {}",
+                self.record_family
+            ));
+        }
+        if self.source_evidence_queue_record_id
+            != "cost-down-evidence-queue:payment-integrity:claims-timeliness:v1"
+        {
+            return Err(
+                "claims timeliness probes must point to the claims-timeliness evidence queue row"
+                    .to_string(),
+            );
+        }
+        if !matches!(
+            self.source_id.as_str(),
+            "SRC-SSA-PERFORMANCE" | "SRC-VA-CLAIMS-DATA"
+        ) {
+            return Err(format!(
+                "unsupported claims timeliness source_id {}",
+                self.source_id
+            ));
+        }
+        if !matches!(
+            self.comparison_operator.as_str(),
+            "reported_value" | "less_than" | "improvement"
+        ) {
+            return Err(format!(
+                "unsupported claims timeliness comparison_operator {}",
+                self.comparison_operator
+            ));
+        }
+        if self.metric_value < 0.0 {
+            return Err("claims timeliness metric_value must be non-negative".to_string());
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "claims timeliness probes must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "claims timeliness public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct DebtMaturityRiskTreasuryProbeRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_evidence_queue_record_id: String,
+    pub source_id: String,
+    pub query_date: String,
+    pub api_url: String,
+    pub record_date: String,
+    pub row_kind: String,
+    pub security_type: String,
+    pub security_description: String,
+    pub debt_held_public_amount: Option<f64>,
+    pub intragovernmental_holdings_amount: Option<f64>,
+    pub total_public_debt_outstanding_amount: Option<f64>,
+    pub average_interest_rate_percent: Option<f64>,
+    pub source_scope_note: String,
+    pub next_extract_need: String,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl DebtMaturityRiskTreasuryProbeRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_evidence_queue_record_id",
+            &self.source_evidence_queue_record_id,
+        )?;
+        validate_required("source_id", &self.source_id)?;
+        validate_required("query_date", &self.query_date)?;
+        validate_required("api_url", &self.api_url)?;
+        validate_required("record_date", &self.record_date)?;
+        validate_required("row_kind", &self.row_kind)?;
+        validate_required("security_type", &self.security_type)?;
+        validate_required("security_description", &self.security_description)?;
+        validate_required("source_scope_note", &self.source_scope_note)?;
+        validate_required("next_extract_need", &self.next_extract_need)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "debt_maturity_risk_treasury_probe" {
+            return Err(format!(
+                "debt maturity risk probe record_family must be debt_maturity_risk_treasury_probe, got {}",
+                self.record_family
+            ));
+        }
+        if self.source_evidence_queue_record_id
+            != "cost-down-evidence-queue:debt-interest:maturity-risk:v1"
+        {
+            return Err(
+                "debt maturity risk probes must point to the maturity-risk evidence queue row"
+                    .to_string(),
+            );
+        }
+        match self.source_id.as_str() {
+            "SRC-TREASURY-DEBT-PENNY" => {
+                if self.row_kind != "debt_stock" {
+                    return Err("Debt to the Penny rows must use row_kind debt_stock".to_string());
+                }
+                validate_positive_option(
+                    "debt_held_public_amount",
+                    self.debt_held_public_amount,
+                    "debt-stock probe rows",
+                )?;
+                validate_positive_option(
+                    "intragovernmental_holdings_amount",
+                    self.intragovernmental_holdings_amount,
+                    "debt-stock probe rows",
+                )?;
+                validate_positive_option(
+                    "total_public_debt_outstanding_amount",
+                    self.total_public_debt_outstanding_amount,
+                    "debt-stock probe rows",
+                )?;
+                if self.average_interest_rate_percent.is_some() {
+                    return Err(
+                        "debt-stock probe rows must not publish average interest rates".to_string(),
+                    );
+                }
+            }
+            "SRC-TREASURY-AVG-INTEREST" => {
+                if self.row_kind != "average_interest_rate" {
+                    return Err(
+                        "Average Interest Rates rows must use row_kind average_interest_rate"
+                            .to_string(),
+                    );
+                }
+                validate_positive_option(
+                    "average_interest_rate_percent",
+                    self.average_interest_rate_percent,
+                    "average-rate probe rows",
+                )?;
+                if self.debt_held_public_amount.is_some()
+                    || self.intragovernmental_holdings_amount.is_some()
+                    || self.total_public_debt_outstanding_amount.is_some()
+                {
+                    return Err(
+                        "average-rate probe rows must not publish debt-stock amounts".to_string(),
+                    );
+                }
+            }
+            _ => {
+                return Err(format!(
+                    "unsupported debt maturity risk source_id {}",
+                    self.source_id
+                ));
+            }
+        }
+
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "debt maturity risk probes must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "debt maturity risk public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct DebtPrimaryBalanceFiscalProbeRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_evidence_queue_record_id: String,
+    pub fiscal_year: u16,
+    pub source_ids: Vec<String>,
+    pub total_receipts_millions: f64,
+    pub total_outlays_millions: f64,
+    pub deficit_gap_millions: f64,
+    pub gross_treasury_interest_outlays_millions: f64,
+    pub primary_deficit_proxy_millions: f64,
+    pub borrowed_share_percent_of_outlays: f64,
+    pub income_tax_coverage_percent_of_outlays: f64,
+    pub basis_note: String,
+    pub next_extract_need: String,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl DebtPrimaryBalanceFiscalProbeRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_evidence_queue_record_id",
+            &self.source_evidence_queue_record_id,
+        )?;
+        validate_required_vec("source_ids", &self.source_ids)?;
+        validate_required("basis_note", &self.basis_note)?;
+        validate_required("next_extract_need", &self.next_extract_need)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "debt_primary_balance_fiscal_probe" {
+            return Err(format!(
+                "debt primary balance probe record_family must be debt_primary_balance_fiscal_probe, got {}",
+                self.record_family
+            ));
+        }
+        if self.source_evidence_queue_record_id
+            != "cost-down-evidence-queue:debt-interest:primary-balance:v1"
+        {
+            return Err(
+                "debt primary balance probes must point to the primary-balance evidence queue row"
+                    .to_string(),
+            );
+        }
+        if self.fiscal_year != 2025 {
+            return Err(format!(
+                "debt primary balance first-pass probe only covers FY2025, got {}",
+                self.fiscal_year
+            ));
+        }
+        for (field, value) in [
+            ("total_receipts_millions", self.total_receipts_millions),
+            ("total_outlays_millions", self.total_outlays_millions),
+            ("deficit_gap_millions", self.deficit_gap_millions),
+            (
+                "gross_treasury_interest_outlays_millions",
+                self.gross_treasury_interest_outlays_millions,
+            ),
+            (
+                "primary_deficit_proxy_millions",
+                self.primary_deficit_proxy_millions,
+            ),
+            (
+                "borrowed_share_percent_of_outlays",
+                self.borrowed_share_percent_of_outlays,
+            ),
+            (
+                "income_tax_coverage_percent_of_outlays",
+                self.income_tax_coverage_percent_of_outlays,
+            ),
+        ] {
+            if value < 0.0 {
+                return Err(format!("{field} must be non-negative"));
+            }
+        }
+        if self.total_outlays_millions <= self.total_receipts_millions {
+            return Err("FY2025 first-pass probe expects a deficit year".to_string());
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "debt primary balance probes must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "debt primary balance public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct DisasterDeclarationProbeRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_evidence_queue_record_id: String,
+    pub source_id: String,
+    pub query_date: String,
+    pub api_url: String,
+    pub disaster_number: u32,
+    pub declaration_date: String,
+    pub incident_type: String,
+    pub state: String,
+    pub designated_area: String,
+    pub declaration_title: String,
+    pub ih_program_declared: bool,
+    pub ia_program_declared: bool,
+    pub pa_program_declared: bool,
+    pub hm_program_declared: bool,
+    pub source_scope_note: String,
+    pub next_extract_need: String,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl DisasterDeclarationProbeRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_evidence_queue_record_id",
+            &self.source_evidence_queue_record_id,
+        )?;
+        validate_required("source_id", &self.source_id)?;
+        validate_required("query_date", &self.query_date)?;
+        validate_required("api_url", &self.api_url)?;
+        validate_required("declaration_date", &self.declaration_date)?;
+        validate_required("incident_type", &self.incident_type)?;
+        validate_required("state", &self.state)?;
+        validate_required("designated_area", &self.designated_area)?;
+        validate_required("declaration_title", &self.declaration_title)?;
+        validate_required("source_scope_note", &self.source_scope_note)?;
+        validate_required("next_extract_need", &self.next_extract_need)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "disaster_declaration_probe" {
+            return Err(format!(
+                "disaster declaration probe record_family must be disaster_declaration_probe, got {}",
+                self.record_family
+            ));
+        }
+        if self.source_evidence_queue_record_id
+            != "cost-down-evidence-queue:disaster-exposure:supplemental-tracking:v1"
+        {
+            return Err(
+                "disaster declaration probes must point to the supplemental-tracking evidence queue row"
+                    .to_string(),
+            );
+        }
+        if self.source_id != "SRC-FEMA-DISASTER-DECLARATIONS" {
+            return Err(format!(
+                "disaster declaration probe source_id must be SRC-FEMA-DISASTER-DECLARATIONS, got {}",
+                self.source_id
+            ));
+        }
+        if self.disaster_number == 0 {
+            return Err("disaster declaration probe disaster_number must be positive".to_string());
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "disaster declaration probes must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "disaster declaration public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct DisasterMitigationProjectProbeRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_evidence_queue_record_id: String,
+    pub source_id: String,
+    pub query_date: String,
+    pub api_url: String,
+    pub project_identifier: String,
+    pub program_area: String,
+    pub program_fy: u16,
+    pub state: String,
+    pub county: String,
+    pub disaster_number: Option<u32>,
+    pub project_type: String,
+    pub status: String,
+    pub recipient: String,
+    pub subrecipient: String,
+    pub data_source: String,
+    pub date_approved: Option<String>,
+    pub date_closed: Option<String>,
+    pub project_amount: Option<f64>,
+    pub federal_share_obligated: Option<f64>,
+    pub cost_share_percentage: Option<f64>,
+    pub benefit_cost_ratio: Option<f64>,
+    pub net_value_benefits: Option<f64>,
+    pub number_of_properties: Option<u32>,
+    pub source_scope_note: String,
+    pub next_extract_need: String,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl DisasterMitigationProjectProbeRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_evidence_queue_record_id",
+            &self.source_evidence_queue_record_id,
+        )?;
+        validate_required("source_id", &self.source_id)?;
+        validate_required("query_date", &self.query_date)?;
+        validate_required("api_url", &self.api_url)?;
+        validate_required("project_identifier", &self.project_identifier)?;
+        validate_required("program_area", &self.program_area)?;
+        validate_required("state", &self.state)?;
+        validate_required("county", &self.county)?;
+        validate_required("project_type", &self.project_type)?;
+        validate_required("status", &self.status)?;
+        validate_required("recipient", &self.recipient)?;
+        validate_required("subrecipient", &self.subrecipient)?;
+        validate_required("data_source", &self.data_source)?;
+        validate_required("source_scope_note", &self.source_scope_note)?;
+        validate_required("next_extract_need", &self.next_extract_need)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "disaster_mitigation_project_probe" {
+            return Err(format!(
+                "disaster mitigation project probe record_family must be disaster_mitigation_project_probe, got {}",
+                self.record_family
+            ));
+        }
+        if self.source_evidence_queue_record_id
+            != "cost-down-evidence-queue:disaster-exposure:mitigation:v1"
+        {
+            return Err(
+                "disaster mitigation project probes must point to the mitigation evidence queue row"
+                    .to_string(),
+            );
+        }
+        if self.source_id != "SRC-FEMA-HMA-PROJECTS" {
+            return Err(format!(
+                "disaster mitigation project probe source_id must be SRC-FEMA-HMA-PROJECTS, got {}",
+                self.source_id
+            ));
+        }
+        if self.program_fy == 0 {
+            return Err(
+                "disaster mitigation project probe program_fy must be positive".to_string(),
+            );
+        }
+        for (field, value) in [
+            ("project_amount", self.project_amount),
+            ("federal_share_obligated", self.federal_share_obligated),
+            ("cost_share_percentage", self.cost_share_percentage),
+            ("benefit_cost_ratio", self.benefit_cost_ratio),
+            ("net_value_benefits", self.net_value_benefits),
+        ] {
+            if let Some(value) = value {
+                if value < 0.0 {
+                    return Err(format!(
+                        "disaster mitigation project probe {field} must be non-negative"
+                    ));
+                }
+            }
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "disaster mitigation project probes must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "disaster mitigation project public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct DefenseAuditControlProbeRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_evidence_queue_record_id: String,
+    pub source_id: String,
+    pub observed_date: String,
+    pub report_url: String,
+    pub report_number: String,
+    pub fiscal_year: u16,
+    pub finding_type: String,
+    pub finding_identifier: String,
+    pub finding_title: String,
+    pub audit_opinion: Option<String>,
+    pub material_weakness_count: Option<u32>,
+    pub significant_deficiency_count: Option<u32>,
+    pub noncompliance_count: Option<u32>,
+    pub reported_amount_usd: Option<f64>,
+    pub reported_amount_basis: Option<String>,
+    pub affected_area: String,
+    pub control_signal: String,
+    pub recommendation_signal: String,
+    pub source_scope_note: String,
+    pub next_extract_need: String,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl DefenseAuditControlProbeRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_evidence_queue_record_id",
+            &self.source_evidence_queue_record_id,
+        )?;
+        validate_required("source_id", &self.source_id)?;
+        validate_required("observed_date", &self.observed_date)?;
+        validate_required("report_url", &self.report_url)?;
+        validate_required("report_number", &self.report_number)?;
+        validate_required("finding_type", &self.finding_type)?;
+        validate_required("finding_identifier", &self.finding_identifier)?;
+        validate_required("finding_title", &self.finding_title)?;
+        validate_required("affected_area", &self.affected_area)?;
+        validate_required("control_signal", &self.control_signal)?;
+        validate_required("recommendation_signal", &self.recommendation_signal)?;
+        validate_required("source_scope_note", &self.source_scope_note)?;
+        validate_required("next_extract_need", &self.next_extract_need)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "defense_audit_control_probe" {
+            return Err(format!(
+                "defense audit control probe record_family must be defense_audit_control_probe, got {}",
+                self.record_family
+            ));
+        }
+        if self.source_evidence_queue_record_id
+            != "cost-down-evidence-queue:defense:audit-control-closure:v1"
+        {
+            return Err(
+                "defense audit control probes must point to the audit-control evidence queue row"
+                    .to_string(),
+            );
+        }
+        if self.source_id != "SRC-DODIG-FY2025-AUDIT" {
+            return Err(format!(
+                "defense audit control probe source_id must be SRC-DODIG-FY2025-AUDIT, got {}",
+                self.source_id
+            ));
+        }
+        if self.fiscal_year == 0 {
+            return Err("defense audit control probe fiscal_year must be positive".to_string());
+        }
+        if let Some(amount) = self.reported_amount_usd {
+            if amount < 0.0 {
+                return Err(
+                    "defense audit control probe reported_amount_usd must be non-negative"
+                        .to_string(),
+                );
+            }
+            if self
+                .reported_amount_basis
+                .as_deref()
+                .unwrap_or("")
+                .is_empty()
+            {
+                return Err(
+                    "defense audit control probe reported_amount_basis is required when amount exists"
+                        .to_string(),
+                );
+            }
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "defense audit control probes must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "defense audit control public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct DefenseProcurementControlProbeRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_evidence_queue_record_id: String,
+    pub source_id: String,
+    pub observed_date: String,
+    pub report_url: String,
+    pub report_number: String,
+    pub report_year: u16,
+    pub program_or_portfolio: String,
+    pub service_or_scope: String,
+    pub acquisition_pathway: Option<String>,
+    pub signal_type: String,
+    pub signal_title: String,
+    pub reported_amount_usd: Option<f64>,
+    pub reported_amount_basis: Option<String>,
+    pub reported_percent: Option<f64>,
+    pub reported_months: Option<f64>,
+    pub reviewed_program_count: Option<u32>,
+    pub control_signal: String,
+    pub recommendation_signal: String,
+    pub source_scope_note: String,
+    pub next_extract_need: String,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl DefenseProcurementControlProbeRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_evidence_queue_record_id",
+            &self.source_evidence_queue_record_id,
+        )?;
+        validate_required("source_id", &self.source_id)?;
+        validate_required("observed_date", &self.observed_date)?;
+        validate_required("report_url", &self.report_url)?;
+        validate_required("report_number", &self.report_number)?;
+        validate_required("program_or_portfolio", &self.program_or_portfolio)?;
+        validate_required("service_or_scope", &self.service_or_scope)?;
+        validate_required("signal_type", &self.signal_type)?;
+        validate_required("signal_title", &self.signal_title)?;
+        validate_required("control_signal", &self.control_signal)?;
+        validate_required("recommendation_signal", &self.recommendation_signal)?;
+        validate_required("source_scope_note", &self.source_scope_note)?;
+        validate_required("next_extract_need", &self.next_extract_need)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "defense_procurement_control_probe" {
+            return Err(format!(
+                "defense procurement control probe record_family must be defense_procurement_control_probe, got {}",
+                self.record_family
+            ));
+        }
+        if self.source_evidence_queue_record_id
+            != "cost-down-evidence-queue:defense:procurement-control:v1"
+        {
+            return Err(
+                "defense procurement control probes must point to the procurement-control evidence queue row"
+                    .to_string(),
+            );
+        }
+        if self.source_id != "SRC-GAO-WEAPON-SYSTEMS-2025" {
+            return Err(format!(
+                "defense procurement control probe source_id must be SRC-GAO-WEAPON-SYSTEMS-2025, got {}",
+                self.source_id
+            ));
+        }
+        if self.report_year == 0 {
+            return Err(
+                "defense procurement control probe report_year must be positive".to_string(),
+            );
+        }
+        if let Some(amount) = self.reported_amount_usd {
+            if amount < 0.0 {
+                return Err(
+                    "defense procurement control probe reported_amount_usd must be non-negative"
+                        .to_string(),
+                );
+            }
+            if self
+                .reported_amount_basis
+                .as_deref()
+                .unwrap_or("")
+                .is_empty()
+            {
+                return Err(
+                    "defense procurement control probe reported_amount_basis is required when amount exists"
+                        .to_string(),
+                );
+            }
+        }
+        for (field, value) in [
+            ("reported_percent", self.reported_percent),
+            ("reported_months", self.reported_months),
+        ] {
+            if let Some(value) = value {
+                if value < 0.0 {
+                    return Err(format!(
+                        "defense procurement control probe {field} must be non-negative"
+                    ));
+                }
+            }
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "defense procurement control probes must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "defense procurement control public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct HealthPriceDisciplineProbeRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_evidence_queue_record_id: String,
+    pub source_ids: Vec<String>,
+    pub observed_date: String,
+    pub program_part: String,
+    pub service_or_drug_category: String,
+    pub fiscal_or_calendar_year: String,
+    pub price_or_expenditure_basis: String,
+    pub benchmark_or_comparison: String,
+    pub metric_value: Option<f64>,
+    pub metric_unit: Option<String>,
+    pub denominator_value: Option<f64>,
+    pub denominator_unit: Option<String>,
+    pub computed_value_usd: Option<f64>,
+    pub quality_or_access_measure: String,
+    pub source_record_ids: Vec<String>,
+    pub readiness_status: String,
+    pub source_scope_note: String,
+    pub next_extract_need: String,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl HealthPriceDisciplineProbeRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_evidence_queue_record_id",
+            &self.source_evidence_queue_record_id,
+        )?;
+        validate_required("observed_date", &self.observed_date)?;
+        validate_required("program_part", &self.program_part)?;
+        validate_required("service_or_drug_category", &self.service_or_drug_category)?;
+        validate_required("fiscal_or_calendar_year", &self.fiscal_or_calendar_year)?;
+        validate_required(
+            "price_or_expenditure_basis",
+            &self.price_or_expenditure_basis,
+        )?;
+        validate_required("benchmark_or_comparison", &self.benchmark_or_comparison)?;
+        validate_required("quality_or_access_measure", &self.quality_or_access_measure)?;
+        validate_required("readiness_status", &self.readiness_status)?;
+        validate_required("source_scope_note", &self.source_scope_note)?;
+        validate_required("next_extract_need", &self.next_extract_need)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "health_price_discipline_probe" {
+            return Err(format!(
+                "health price discipline probe record_family must be health_price_discipline_probe, got {}",
+                self.record_family
+            ));
+        }
+        if self.source_evidence_queue_record_id
+            != "cost-down-evidence-queue:health-medicare:price-discipline:v1"
+        {
+            return Err(
+                "health price discipline probes must point to the price-discipline evidence queue row"
+                    .to_string(),
+            );
+        }
+        if self.source_ids.is_empty() {
+            return Err("health price discipline probes need at least one source_id".to_string());
+        }
+        for source_id in &self.source_ids {
+            validate_required("source_id", source_id)?;
+        }
+        for (field, value) in [
+            ("metric_value", self.metric_value),
+            ("denominator_value", self.denominator_value),
+            ("computed_value_usd", self.computed_value_usd),
+        ] {
+            if let Some(value) = value {
+                if value < 0.0 {
+                    return Err(format!(
+                        "health price discipline probe {field} must be non-negative"
+                    ));
+                }
+            }
+        }
+        if self.metric_value.is_some() && self.metric_unit.as_deref().unwrap_or("").is_empty() {
+            return Err(
+                "health price discipline probe metric_unit is required when metric_value exists"
+                    .to_string(),
+            );
+        }
+        if self.denominator_value.is_some()
+            && self.denominator_unit.as_deref().unwrap_or("").is_empty()
+        {
+            return Err(
+                "health price discipline probe denominator_unit is required when denominator_value exists"
+                    .to_string(),
+            );
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "health price discipline probes must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "health price discipline public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct HealthAdminSimplificationProbeRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_evidence_queue_record_id: String,
+    pub source_ids: Vec<String>,
+    pub observed_date: String,
+    pub program_part: String,
+    pub workflow_step: String,
+    pub period: String,
+    pub administrative_cost_or_cycle_time_basis: String,
+    pub claim_or_case_count: Option<f64>,
+    pub claim_or_case_count_unit: Option<String>,
+    pub metric_value: Option<f64>,
+    pub metric_unit: Option<String>,
+    pub access_or_integrity_floor: String,
+    pub source_record_ids: Vec<String>,
+    pub readiness_status: String,
+    pub source_scope_note: String,
+    pub next_extract_need: String,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl HealthAdminSimplificationProbeRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_evidence_queue_record_id",
+            &self.source_evidence_queue_record_id,
+        )?;
+        validate_required("observed_date", &self.observed_date)?;
+        validate_required("program_part", &self.program_part)?;
+        validate_required("workflow_step", &self.workflow_step)?;
+        validate_required("period", &self.period)?;
+        validate_required(
+            "administrative_cost_or_cycle_time_basis",
+            &self.administrative_cost_or_cycle_time_basis,
+        )?;
+        validate_required("access_or_integrity_floor", &self.access_or_integrity_floor)?;
+        validate_required("readiness_status", &self.readiness_status)?;
+        validate_required("source_scope_note", &self.source_scope_note)?;
+        validate_required("next_extract_need", &self.next_extract_need)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "health_admin_simplification_probe" {
+            return Err(format!(
+                "health admin simplification probe record_family must be health_admin_simplification_probe, got {}",
+                self.record_family
+            ));
+        }
+        if self.source_evidence_queue_record_id
+            != "cost-down-evidence-queue:health-medicare:administrative-simplification:v1"
+        {
+            return Err(
+                "health admin simplification probes must point to the administrative-simplification evidence queue row"
+                    .to_string(),
+            );
+        }
+        if self.source_ids.is_empty() {
+            return Err(
+                "health admin simplification probes need at least one source_id".to_string(),
+            );
+        }
+        for source_id in &self.source_ids {
+            validate_required("source_id", source_id)?;
+        }
+        for (field, value) in [
+            ("claim_or_case_count", self.claim_or_case_count),
+            ("metric_value", self.metric_value),
+        ] {
+            if let Some(value) = value {
+                if value < 0.0 {
+                    return Err(format!(
+                        "health admin simplification probe {field} must be non-negative"
+                    ));
+                }
+            }
+        }
+        if self.claim_or_case_count.is_some()
+            && self
+                .claim_or_case_count_unit
+                .as_deref()
+                .unwrap_or("")
+                .is_empty()
+        {
+            return Err(
+                "health admin simplification probe claim_or_case_count_unit is required when count exists"
+                    .to_string(),
+            );
+        }
+        if self.metric_value.is_some() && self.metric_unit.as_deref().unwrap_or("").is_empty() {
+            return Err(
+                "health admin simplification probe metric_unit is required when metric_value exists"
+                    .to_string(),
+            );
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "health admin simplification probes must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "health admin simplification public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct CostDownFirstPassRollupRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_evidence_queue_record_id: String,
+    pub source_backlog_record_id: String,
+    pub source_pressure_record_id: String,
+    pub lane_id: String,
+    pub lever_id: String,
+    pub first_pass_artifacts: Vec<String>,
+    pub first_pass_row_count: u32,
+    pub signal_status: String,
+    pub strongest_current_signal: String,
+    pub scoring_blockers: Vec<String>,
+    pub next_scoring_step: String,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl CostDownFirstPassRollupRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required(
+            "source_evidence_queue_record_id",
+            &self.source_evidence_queue_record_id,
+        )?;
+        validate_required("source_backlog_record_id", &self.source_backlog_record_id)?;
+        validate_required("source_pressure_record_id", &self.source_pressure_record_id)?;
+        validate_required("lane_id", &self.lane_id)?;
+        validate_required("lever_id", &self.lever_id)?;
+        validate_required_vec("first_pass_artifacts", &self.first_pass_artifacts)?;
+        validate_required("signal_status", &self.signal_status)?;
+        validate_required("strongest_current_signal", &self.strongest_current_signal)?;
+        validate_required_vec("scoring_blockers", &self.scoring_blockers)?;
+        validate_required("next_scoring_step", &self.next_scoring_step)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "cost_down_first_pass_rollup" {
+            return Err(format!(
+                "cost-down first-pass rollup record_family must be cost_down_first_pass_rollup, got {}",
+                self.record_family
+            ));
+        }
+        if self.first_pass_row_count == 0 {
+            return Err("cost-down first-pass rollup row count must be positive".to_string());
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "cost-down first-pass rollup must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "cost-down first-pass rollup public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct CostDownScoringReadinessRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub source_rollup_record_id: String,
+    pub source_evidence_queue_record_id: String,
+    pub lane_id: String,
+    pub lever_id: String,
+    pub prioritization_rank: u8,
+    pub readiness_tier: String,
+    pub evidence_maturity_score: u8,
+    pub scale_pressure_score: u8,
+    pub scoring_complexity_score: u8,
+    pub priority_rationale: String,
+    pub immediate_next_artifact: String,
+    pub public_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+    pub public_use_rule: String,
+}
+
+impl CostDownScoringReadinessRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("record_family", &self.record_family)?;
+        validate_required("source_rollup_record_id", &self.source_rollup_record_id)?;
+        validate_required(
+            "source_evidence_queue_record_id",
+            &self.source_evidence_queue_record_id,
+        )?;
+        validate_required("lane_id", &self.lane_id)?;
+        validate_required("lever_id", &self.lever_id)?;
+        validate_required("readiness_tier", &self.readiness_tier)?;
+        validate_required("priority_rationale", &self.priority_rationale)?;
+        validate_required("immediate_next_artifact", &self.immediate_next_artifact)?;
+        validate_required("public_use_rule", &self.public_use_rule)?;
+
+        if self.record_family != "cost_down_scoring_readiness" {
+            return Err(format!(
+                "cost-down scoring readiness record_family must be cost_down_scoring_readiness, got {}",
+                self.record_family
+            ));
+        }
+        if self.prioritization_rank == 0 {
+            return Err("cost-down scoring readiness rank must be positive".to_string());
+        }
+        for (field, value) in [
+            ("evidence_maturity_score", self.evidence_maturity_score),
+            ("scale_pressure_score", self.scale_pressure_score),
+            ("scoring_complexity_score", self.scoring_complexity_score),
+        ] {
+            if !(1..=5).contains(&value) {
+                return Err(format!(
+                    "cost-down scoring readiness {field} must be between 1 and 5"
+                ));
+            }
+        }
+        if self.public_claim_allowed || self.savings_estimate_allowed {
+            return Err(
+                "cost-down scoring readiness must keep public claims and savings estimates blocked"
+                    .to_string(),
+            );
+        }
+        let public_rule = self.public_use_rule.to_ascii_lowercase();
+        if !(public_rule.contains("not")
+            && public_rule.contains("savings estimate")
+            && public_rule.contains("not a finding"))
+        {
+            return Err(
+                "cost-down scoring readiness public_use_rule must block savings and finding claims"
+                    .to_string(),
+            );
+        }
+
+        Ok(())
+    }
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
@@ -1112,6 +7597,36 @@ fn validate_required(label: &str, value: &str) -> Result<(), String> {
     }
 }
 
+fn validate_required_vec(label: &str, values: &[String]) -> Result<(), String> {
+    if values.is_empty() {
+        return Err(format!("{label} must not be empty"));
+    }
+    for value in values {
+        validate_required(label, value)?;
+    }
+    Ok(())
+}
+
+fn validate_positive_option(label: &str, value: Option<f64>, context: &str) -> Result<(), String> {
+    match value {
+        Some(value) if value > 0.0 => Ok(()),
+        Some(_) => Err(format!("{context} {label} must be positive")),
+        None => Err(format!("{context} {label} must be present")),
+    }
+}
+
+fn contains_case_insensitive(haystack: &str, needle: &str) -> bool {
+    haystack
+        .to_ascii_lowercase()
+        .contains(&needle.to_ascii_lowercase())
+}
+
+fn contains_any_case_insensitive(haystack: &str, needles: &[&str]) -> bool {
+    needles
+        .iter()
+        .any(|needle| contains_case_insensitive(haystack, needle))
+}
+
 fn validate_iso_date(label: &str, value: &str) -> Result<(), String> {
     let bytes = value.as_bytes();
     if bytes.len() == 10
@@ -1912,6 +8427,2776 @@ mod tests {
             role_review_needed: true,
             public_claim_allowed: false,
             use_rule: PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE.to_string(),
+        };
+
+        assert!(record.validate().is_err());
+    }
+
+    #[test]
+    fn validates_per_unit_ready_record_boundary() {
+        let record = PerUnitDisplayReadinessRecord {
+            record_id:
+                "per-unit-ready:medicare-part-b-government-contribution-per-part-b-enrollee:cy2025"
+                    .to_string(),
+            record_family: "per_unit_display_readiness".to_string(),
+            display_status: "ready_same_source_year_basis".to_string(),
+            lane_id: "medicare-smi-part-b".to_string(),
+            public_label: "Medicare Part B government contribution per Part B enrollee".to_string(),
+            numerator_label: "CY2025 Part B government contribution".to_string(),
+            numerator_value: 422_200_000_000.0,
+            numerator_unit: "usd".to_string(),
+            denominator_id: "medicare_part_b_enrollment".to_string(),
+            denominator_value: Some(63_448_000.0),
+            denominator_unit: "people".to_string(),
+            computed_value_usd: Some(6654.27),
+            year: "CY2025".to_string(),
+            year_basis: "calendar_year".to_string(),
+            source_ids: vec!["SRC-CMS-MEDICARE-TRUSTEES-2026".to_string()],
+            source_record_ids: vec![
+                "medicare-part-financing:part-b:cy2025:cms-trustees-2026".to_string(),
+                "denominator-value:medicare-part-b-enrollment:cy2025:cms-trustees-2026".to_string(),
+            ],
+            public_use_rule:
+                "Allowed as CY2025 source-basis context; not an individual liability calculation."
+                    .to_string(),
+        };
+
+        assert_eq!(record.validate(), Ok(()));
+    }
+
+    #[test]
+    fn blocks_per_unit_blocked_record_with_amount() {
+        let record = PerUnitDisplayReadinessRecord {
+            record_id: "per-unit-blocked:medicare-hi-payroll-per-covered-worker".to_string(),
+            record_family: "per_unit_display_readiness".to_string(),
+            display_status: "blocked_missing_denominator".to_string(),
+            lane_id: "medicare-hi".to_string(),
+            public_label: "Medicare HI payroll financing per HI covered worker".to_string(),
+            numerator_label: "HI payroll tax income".to_string(),
+            numerator_value: 403_200_000_000.0,
+            numerator_unit: "usd".to_string(),
+            denominator_id: "medicare_hi_covered_workers".to_string(),
+            denominator_value: Some(185_000_000.0),
+            denominator_unit: "people".to_string(),
+            computed_value_usd: Some(2179.46),
+            year: "CY2025".to_string(),
+            year_basis: "calendar_year".to_string(),
+            source_ids: vec!["SRC-CMS-MEDICARE-TRUSTEES-2026".to_string()],
+            source_record_ids: vec![
+                "medicare-part-financing:hi:cy2025:cms-trustees-2026".to_string(),
+            ],
+            public_use_rule: "Blocked until extracted. Do not substitute OASDI covered workers."
+                .to_string(),
+        };
+
+        assert!(record.validate().is_err());
+    }
+
+    #[test]
+    fn validates_per_unit_receipt_card_boundary() {
+        let record = PerUnitReceiptCardRecord {
+            record_id: "per-unit-card:defense-outlays-per-resident".to_string(),
+            record_family: "per_unit_receipt_cards".to_string(),
+            source_readiness_record_id:
+                "per-unit-ready:defense-outlays-per-resident:fy2025-omb-over-cy2025-census"
+                    .to_string(),
+            card_status: "illustrative_cross_basis".to_string(),
+            lane_id: "national-defense".to_string(),
+            headline: "Defense-Military FY2025 outlays equal about $2,541 per CY2025 resident as a civic-cost illustration.".to_string(),
+            amount_usd: Some(2540.86),
+            basis_label:
+                "FY2025 OMB Defense-Military subfunction outlays divided by Census resident population"
+                    .to_string(),
+            visible_caveat:
+                "Cross-basis illustration only. It is not equal tax liability, personal benefit, or legal dedication of income-tax dollars."
+                    .to_string(),
+            allowed_public_use:
+                "Can appear as broad civic burden context with the basis visible.".to_string(),
+            blocked_public_use:
+                "Do not call it a personalized receipt or what each resident paid.".to_string(),
+        };
+
+        assert_eq!(record.validate(), Ok(()));
+    }
+
+    #[test]
+    fn blocks_per_unit_card_cross_basis_without_caveat() {
+        let record = PerUnitReceiptCardRecord {
+            record_id: "per-unit-card:gross-interest-outlays-per-resident".to_string(),
+            record_family: "per_unit_receipt_cards".to_string(),
+            source_readiness_record_id:
+                "per-unit-ready:gross-interest-outlays-per-resident:fy2025-omb-over-cy2025-census"
+                    .to_string(),
+            card_status: "illustrative_cross_basis".to_string(),
+            lane_id: "net-interest".to_string(),
+            headline: "Gross Treasury interest FY2025 outlays equal about $3,557 per resident."
+                .to_string(),
+            amount_usd: Some(3556.66),
+            basis_label: "FY2025 OMB over CY2025 Census population".to_string(),
+            visible_caveat: "Cross-basis illustration only.".to_string(),
+            allowed_public_use: "Can appear as broad civic debt-service context.".to_string(),
+            blocked_public_use: "Do not call it a current program benefit.".to_string(),
+        };
+
+        assert!(record.validate().is_err());
+    }
+
+    #[test]
+    fn validates_efficiency_pressure_boundary() {
+        let record = EfficiencyPressureRecord {
+            record_id: "efficiency-pressure:defense-fy2025".to_string(),
+            record_family: "efficiency_pressure".to_string(),
+            fiscal_year: 2025,
+            surface: "Defense readiness and procurement efficiency".to_string(),
+            related_spend_categories: vec!["spendcat-fy2025-005".to_string()],
+            pressure_basis: vec![
+                "large outlay share".to_string(),
+                "strategic role caveat".to_string(),
+            ],
+            pressure_level: "high".to_string(),
+            not_a_finding: true,
+            cost_down_levers: vec![
+                "procurement discipline".to_string(),
+                "audit control closure".to_string(),
+                "readiness-per-dollar measurement".to_string(),
+            ],
+            outcome_floor:
+                "Savings must preserve readiness, alliance obligations, and service-member commitments."
+                    .to_string(),
+            evidence_needed: vec![
+                "DOD budget justification".to_string(),
+                "GAO weapon-system reports".to_string(),
+                "readiness performance records".to_string(),
+            ],
+            public_claim_status: "blocked_question_surface_only".to_string(),
+        };
+
+        assert_eq!(record.validate(), Ok(()));
+    }
+
+    #[test]
+    fn blocks_efficiency_pressure_finding_claim() {
+        let record = EfficiencyPressureRecord {
+            record_id: "efficiency-pressure:health-medicare-fy2025".to_string(),
+            record_family: "efficiency_pressure".to_string(),
+            fiscal_year: 2025,
+            surface: "Health waste finding".to_string(),
+            related_spend_categories: vec!["spendcat-fy2025-003".to_string()],
+            pressure_basis: vec!["large outlay share".to_string(), "proves waste".to_string()],
+            pressure_level: "highest".to_string(),
+            not_a_finding: true,
+            cost_down_levers: vec![
+                "price discipline".to_string(),
+                "drug pricing".to_string(),
+                "administrative simplification".to_string(),
+            ],
+            outcome_floor: "Coverage must be preserved.".to_string(),
+            evidence_needed: vec![
+                "CMS source".to_string(),
+                "CBO source".to_string(),
+                "GAO source".to_string(),
+            ],
+            public_claim_status: "blocked_question_surface_only".to_string(),
+        };
+
+        assert!(record.validate().is_err());
+    }
+
+    #[test]
+    fn validates_cost_down_backlog_boundary() {
+        let record = CostDownBacklogRecord {
+            record_id: "cost-down:health-medicare:price-discipline".to_string(),
+            record_family: "cost_down_backlog".to_string(),
+            source_pressure_record_id: "efficiency-pressure:health-medicare-fy2025".to_string(),
+            lane_id: "health-medicare".to_string(),
+            lever_id: "price-discipline".to_string(),
+            lever_label: "Provider and procedure price discipline".to_string(),
+            lever_type: "price_discipline".to_string(),
+            action_question:
+                "Which high-volume prices are above benchmark after quality and access controls?"
+                    .to_string(),
+            required_evidence: vec![
+                "CMS price and utilization source".to_string(),
+                "quality and access floor source".to_string(),
+            ],
+            measurement_metric: "price index versus benchmark with access and outcome floor"
+                .to_string(),
+            outcome_floor: "Coverage, access, and health outcomes must be preserved or improved."
+                .to_string(),
+            time_horizon: "medium_term".to_string(),
+            estimated_savings_usd: None,
+            savings_claim_status: "blocked_no_estimate".to_string(),
+            public_use_rule:
+                "Use as a work item only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert_eq!(record.validate(), Ok(()));
+    }
+
+    #[test]
+    fn blocks_cost_down_backlog_savings_estimate() {
+        let record = CostDownBacklogRecord {
+            record_id: "cost-down:defense:procurement-control".to_string(),
+            record_family: "cost_down_backlog".to_string(),
+            source_pressure_record_id: "efficiency-pressure:defense-fy2025".to_string(),
+            lane_id: "national-defense".to_string(),
+            lever_id: "procurement-control".to_string(),
+            lever_label: "Procurement control closure".to_string(),
+            lever_type: "procurement_control".to_string(),
+            action_question:
+                "Which acquisition controls have reviewed evidence of avoidable cost growth?"
+                    .to_string(),
+            required_evidence: vec![
+                "GAO weapon-system source".to_string(),
+                "DOD acquisition baseline source".to_string(),
+            ],
+            measurement_metric: "cost growth against baseline with readiness floor".to_string(),
+            outcome_floor: "Readiness and strategy commitments must remain preserved.".to_string(),
+            time_horizon: "medium_term".to_string(),
+            estimated_savings_usd: Some(1_000_000_000.0),
+            savings_claim_status: "blocked_no_estimate".to_string(),
+            public_use_rule:
+                "Use as a work item only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_err());
+    }
+
+    #[test]
+    fn validates_cost_down_source_packet_boundary() {
+        let record = CostDownSourcePacketRecord {
+            record_id: "cost-down-source-packet:health-medicare:price-discipline:v1".to_string(),
+            record_family: "cost_down_source_packet".to_string(),
+            source_backlog_record_id: "cost-down:health-medicare:price-discipline".to_string(),
+            source_pressure_record_id: "efficiency-pressure:health-medicare-fy2025".to_string(),
+            lane_id: "health-medicare".to_string(),
+            packet_status: "reviewed_source_packet_no_savings_estimate".to_string(),
+            source_ids: vec![
+                "SRC-OECD-HEALTH-2025".to_string(),
+                "SRC-JAMA-PAPANICOLAS-2018".to_string(),
+                "SRC-CBO-LTBO".to_string(),
+            ],
+            evidence_summary: vec![
+                "OECD benchmark supports high-level health cost pressure.".to_string(),
+                "Peer-reviewed literature supports price and administration as drivers."
+                    .to_string(),
+            ],
+            metric_candidates: vec![
+                "government/compulsory health spend as percent of GDP".to_string(),
+                "price and administration driver indicators".to_string(),
+            ],
+            outcome_floor_checks: vec![
+                "coverage preserved or improved".to_string(),
+                "access and outcome floor preserved".to_string(),
+            ],
+            missing_before_estimate: vec![
+                "program-specific CMS price/utilization extraction".to_string(),
+                "reviewed scoring method".to_string(),
+            ],
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a source packet only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert_eq!(record.validate(), Ok(()));
+    }
+
+    #[test]
+    fn blocks_cost_down_source_packet_claim_bypass() {
+        let record = CostDownSourcePacketRecord {
+            record_id: "cost-down-source-packet:health-medicare:price-discipline:v1".to_string(),
+            record_family: "cost_down_source_packet".to_string(),
+            source_backlog_record_id: "cost-down:health-medicare:price-discipline".to_string(),
+            source_pressure_record_id: "efficiency-pressure:health-medicare-fy2025".to_string(),
+            lane_id: "health-medicare".to_string(),
+            packet_status: "reviewed_source_packet_no_savings_estimate".to_string(),
+            source_ids: vec![
+                "SRC-OECD-HEALTH-2025".to_string(),
+                "SRC-JAMA-PAPANICOLAS-2018".to_string(),
+                "SRC-CBO-LTBO".to_string(),
+            ],
+            evidence_summary: vec![
+                "OECD benchmark supports high-level health cost pressure.".to_string(),
+                "Peer-reviewed literature supports price and administration as drivers."
+                    .to_string(),
+            ],
+            metric_candidates: vec![
+                "government/compulsory health spend as percent of GDP".to_string(),
+                "price and administration driver indicators".to_string(),
+            ],
+            outcome_floor_checks: vec![
+                "coverage preserved or improved".to_string(),
+                "access and outcome floor preserved".to_string(),
+            ],
+            missing_before_estimate: vec![
+                "program-specific CMS price/utilization extraction".to_string(),
+                "reviewed scoring method".to_string(),
+            ],
+            public_claim_allowed: true,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a source packet only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_err());
+    }
+
+    #[test]
+    fn validates_cost_down_evidence_queue_boundary() {
+        let record = CostDownEvidenceQueueRecord {
+            record_id: "cost-down-evidence-queue:health-medicare:price-discipline:v1"
+                .to_string(),
+            record_family: "cost_down_evidence_queue".to_string(),
+            source_packet_record_id: "cost-down-source-packet:health-medicare:price-discipline:v1"
+                .to_string(),
+            source_backlog_record_id: "cost-down:health-medicare:price-discipline".to_string(),
+            source_pressure_record_id: "efficiency-pressure:health-medicare-fy2025".to_string(),
+            lane_id: "health-medicare".to_string(),
+            extraction_priority: "first_pass".to_string(),
+            primary_source_ids: vec!["SRC-CMS-MEDICARE-TRUSTEES-2026".to_string()],
+            extract_question: "Which Medicare services have price and outcome data ready for a controlled comparison?".to_string(),
+            first_extract: "CMS service-level price, utilization, and quality extract.".to_string(),
+            extract_grain: "program-service-year".to_string(),
+            query_lock_fields: vec![
+                "source_id".to_string(),
+                "observed_date".to_string(),
+                "fiscal_or_calendar_year".to_string(),
+            ],
+            output_artifact_candidate:
+                "data/derived/efficiency_pressure/extracts/health_price_first_pass.jsonl"
+                    .to_string(),
+            scoring_blockers: vec![
+                "case-mix method".to_string(),
+                "quality and access floor".to_string(),
+            ],
+            outcome_floor: "Coverage, access, and health outcomes must remain preserved."
+                .to_string(),
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as an extraction queue row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert_eq!(record.validate(), Ok(()));
+    }
+
+    #[test]
+    fn blocks_cost_down_evidence_queue_claim_bypass() {
+        let record = CostDownEvidenceQueueRecord {
+            record_id: "cost-down-evidence-queue:health-medicare:price-discipline:v1"
+                .to_string(),
+            record_family: "cost_down_evidence_queue".to_string(),
+            source_packet_record_id: "cost-down-source-packet:health-medicare:price-discipline:v1"
+                .to_string(),
+            source_backlog_record_id: "cost-down:health-medicare:price-discipline".to_string(),
+            source_pressure_record_id: "efficiency-pressure:health-medicare-fy2025".to_string(),
+            lane_id: "health-medicare".to_string(),
+            extraction_priority: "first_pass".to_string(),
+            primary_source_ids: vec!["SRC-CMS-MEDICARE-TRUSTEES-2026".to_string()],
+            extract_question: "Which Medicare services have price and outcome data ready for a controlled comparison?".to_string(),
+            first_extract: "CMS service-level price, utilization, and quality extract.".to_string(),
+            extract_grain: "program-service-year".to_string(),
+            query_lock_fields: vec![
+                "source_id".to_string(),
+                "observed_date".to_string(),
+                "fiscal_or_calendar_year".to_string(),
+            ],
+            output_artifact_candidate:
+                "data/derived/efficiency_pressure/extracts/health_price_first_pass.jsonl"
+                    .to_string(),
+            scoring_blockers: vec![
+                "case-mix method".to_string(),
+                "quality and access floor".to_string(),
+            ],
+            outcome_floor: "Coverage, access, and health outcomes must remain preserved."
+                .to_string(),
+            public_claim_allowed: true,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as an extraction queue row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_err());
+    }
+
+    #[test]
+    fn validates_payment_integrity_portal_probe_boundary() {
+        let record = PaymentIntegrityPortalProbeRecord {
+            record_id: "payment-integrity-portal-probe:omb-paymentaccuracy:fps:2026-06-30"
+                .to_string(),
+            record_family: "payment_integrity_portal_probe".to_string(),
+            source_evidence_queue_record_id:
+                "cost-down-evidence-queue:payment-integrity:eligibility-accuracy:v1".to_string(),
+            source_id: "SRC-OMB-PAYMENTACCURACY".to_string(),
+            observed_date: "2026-06-30".to_string(),
+            page_url: "https://www.paymentaccuracy.gov/".to_string(),
+            row_kind: "homepage_highest_performing_agency".to_string(),
+            agency_code: "FPS".to_string(),
+            agency_name: "Federal Permitting Improvement Steering Council".to_string(),
+            high_priority_program_count: 0,
+            improper_payment_percentage: 0.0,
+            source_scope_note:
+                "Homepage agency trend row only; not program-level improper-payment extraction."
+                    .to_string(),
+            next_extract_need:
+                "Download program-year PaymentAccuracy data with methodology and root-cause fields."
+                    .to_string(),
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a portal probe only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert_eq!(record.validate(), Ok(()));
+    }
+
+    #[test]
+    fn blocks_payment_integrity_portal_probe_claim_bypass() {
+        let record = PaymentIntegrityPortalProbeRecord {
+            record_id: "payment-integrity-portal-probe:omb-paymentaccuracy:fps:2026-06-30"
+                .to_string(),
+            record_family: "payment_integrity_portal_probe".to_string(),
+            source_evidence_queue_record_id:
+                "cost-down-evidence-queue:payment-integrity:eligibility-accuracy:v1".to_string(),
+            source_id: "SRC-OMB-PAYMENTACCURACY".to_string(),
+            observed_date: "2026-06-30".to_string(),
+            page_url: "https://www.paymentaccuracy.gov/".to_string(),
+            row_kind: "homepage_highest_performing_agency".to_string(),
+            agency_code: "FPS".to_string(),
+            agency_name: "Federal Permitting Improvement Steering Council".to_string(),
+            high_priority_program_count: 0,
+            improper_payment_percentage: 0.0,
+            source_scope_note:
+                "Homepage agency trend row only; not program-level improper-payment extraction."
+                    .to_string(),
+            next_extract_need:
+                "Download program-year PaymentAccuracy data with methodology and root-cause fields."
+                    .to_string(),
+            public_claim_allowed: false,
+            savings_estimate_allowed: true,
+            public_use_rule:
+                "Use as a portal probe only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_err());
+    }
+
+    #[test]
+    fn validates_payment_integrity_scorecard_probe_boundary() {
+        let record = PaymentIntegrityScorecardProbeRecord {
+            record_id: "payment-integrity-scorecard-probe:omb-paymentaccuracy:cms-part-d:q4-2025"
+                .to_string(),
+            record_family: "payment_integrity_scorecard_probe".to_string(),
+            source_evidence_queue_record_id:
+                "cost-down-evidence-queue:payment-integrity:eligibility-accuracy:v1"
+                    .to_string(),
+            source_id: "SRC-OMB-PAYMENTACCURACY".to_string(),
+            observed_date: "2026-06-30".to_string(),
+            scorecard_url: "https://paymentaccuracy.gov/assets/scorecards/Q4%202025/Centers%20for%20Medicare%20%26%20Medicaid%20Services%20%28CMS%29%20-%20Medicare%20Prescription%20Drug%20Benefit%20%28Part%20D%29.pdf".to_string(),
+            reporting_period: "Q4 2025".to_string(),
+            agency_code: "HHS".to_string(),
+            program_or_activity: "Medicare Prescription Drug Benefit (Part D)".to_string(),
+            fy2024_overpayment_amount_millions: 3_053.0,
+            fy2024_overpayment_rate_percent: 1.02,
+            sample_period_note: "FY2024 overpayments; sample period and methodology remain source-specific.".to_string(),
+            primary_root_cause_amount_millions: 2_403.0,
+            root_cause_control_scope: "Administrative or process error made by other party".to_string(),
+            root_cause_data_access_issue: "State data".to_string(),
+            mitigation_strategy: "Engage states and stakeholders to improve Medicare Part D data access and reporting.".to_string(),
+            source_scope_note: "Scorecard row only; not a savings estimate or finding.".to_string(),
+            next_extract_need: "Download full program-year data with root-cause and methodology fields.".to_string(),
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a scorecard probe only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert_eq!(record.validate(), Ok(()));
+    }
+
+    #[test]
+    fn blocks_payment_integrity_scorecard_probe_claim_bypass() {
+        let record = PaymentIntegrityScorecardProbeRecord {
+            record_id: "payment-integrity-scorecard-probe:omb-paymentaccuracy:cms-part-d:q4-2025"
+                .to_string(),
+            record_family: "payment_integrity_scorecard_probe".to_string(),
+            source_evidence_queue_record_id:
+                "cost-down-evidence-queue:payment-integrity:eligibility-accuracy:v1"
+                    .to_string(),
+            source_id: "SRC-OMB-PAYMENTACCURACY".to_string(),
+            observed_date: "2026-06-30".to_string(),
+            scorecard_url: "https://paymentaccuracy.gov/assets/scorecards/Q4%202025/Centers%20for%20Medicare%20%26%20Medicaid%20Services%20%28CMS%29%20-%20Medicare%20Prescription%20Drug%20Benefit%20%28Part%20D%29.pdf".to_string(),
+            reporting_period: "Q4 2025".to_string(),
+            agency_code: "HHS".to_string(),
+            program_or_activity: "Medicare Prescription Drug Benefit (Part D)".to_string(),
+            fy2024_overpayment_amount_millions: 3_053.0,
+            fy2024_overpayment_rate_percent: 1.02,
+            sample_period_note: "FY2024 overpayments; sample period and methodology remain source-specific.".to_string(),
+            primary_root_cause_amount_millions: 2_403.0,
+            root_cause_control_scope: "Administrative or process error made by other party".to_string(),
+            root_cause_data_access_issue: "State data".to_string(),
+            mitigation_strategy: "Engage states and stakeholders to improve Medicare Part D data access and reporting.".to_string(),
+            source_scope_note: "Scorecard row only; not a savings estimate or finding.".to_string(),
+            next_extract_need: "Download full program-year data with root-cause and methodology fields.".to_string(),
+            public_claim_allowed: true,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a scorecard probe only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_err());
+    }
+
+    #[test]
+    fn validates_payment_integrity_program_review_gate_boundary() {
+        let record = PaymentIntegrityProgramReviewGateRecord {
+            record_id: "payment-integrity-program-review-gate:cms-part-d:q4-2025".to_string(),
+            record_family: "payment_integrity_program_review_gate".to_string(),
+            source_scorecard_record_id:
+                "payment-integrity-scorecard-probe:omb-paymentaccuracy:cms-part-d:q4-2025"
+                    .to_string(),
+            source_readiness_record_id:
+                "cost-down-scoring-readiness:payment-integrity:eligibility-accuracy:v1"
+                    .to_string(),
+            agency_code: "HHS".to_string(),
+            program_or_activity: "Medicare Prescription Drug Benefit (Part D)".to_string(),
+            reporting_period: "Q4 2025".to_string(),
+            fy2024_overpayment_amount_millions: 3053.0,
+            fy2024_overpayment_rate_percent: 1.02,
+            methodology_status: "scorecard_probe_only_methodology_needed".to_string(),
+            access_floor_status: "beneficiary_access_floor_needed".to_string(),
+            corrective_action_status: "corrective_action_detail_needed".to_string(),
+            confidence_limit_status: "confidence_limit_extract_needed".to_string(),
+            claim_boundary_status: "blocked_before_public_claim".to_string(),
+            required_next_evidence: vec![
+                "methodology and sample design".to_string(),
+                "beneficiary access, denial, appeal, reversal, and timeliness floor".to_string(),
+                "corrective-action owner, milestone, and status".to_string(),
+                "confidence limits and uncertainty fields".to_string(),
+            ],
+            review_gate_status: "blocked_before_savings_score".to_string(),
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a program-review gate only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_program_review_task_boundary() {
+        let record = PaymentIntegrityProgramReviewTaskRecord {
+            record_id: "payment-integrity-program-review-task:cms-part-d:methodology:q4-2025"
+                .to_string(),
+            record_family: "payment_integrity_program_review_task".to_string(),
+            source_program_gate_record_id:
+                "payment-integrity-program-review-gate:cms-part-d:q4-2025".to_string(),
+            source_scorecard_record_id:
+                "payment-integrity-scorecard-probe:omb-paymentaccuracy:cms-part-d:q4-2025"
+                    .to_string(),
+            agency_code: "HHS".to_string(),
+            program_or_activity: "Medicare Prescription Drug Benefit (Part D)".to_string(),
+            evidence_family: "methodology".to_string(),
+            extraction_task:
+                "Extract sample design, payment universe, estimation method, and exclusion rules."
+                    .to_string(),
+            target_source_or_system: "PaymentAccuracy scorecard and agency payment-integrity materials"
+                .to_string(),
+            completion_gate: "required_before_savings_score".to_string(),
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a program-review task only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_program_review_status_boundary() {
+        let record = PaymentIntegrityProgramReviewStatusRecord {
+            record_id: "payment-integrity-program-review-status:cms-part-d:q4-2025".to_string(),
+            record_family: "payment_integrity_program_review_status".to_string(),
+            source_program_gate_record_id:
+                "payment-integrity-program-review-gate:cms-part-d:q4-2025".to_string(),
+            agency_code: "HHS".to_string(),
+            program_or_activity: "Medicare Prescription Drug Benefit (Part D)".to_string(),
+            total_required_task_count: 4,
+            completed_task_count: 0,
+            blocked_task_count: 4,
+            blocker_summary:
+                "Methodology, access floor, corrective action, and uncertainty evidence remain open."
+                    .to_string(),
+            next_priority_task_family: "methodology".to_string(),
+            next_priority_reason:
+                "Methodology defines the payment universe before any control effect can be scored."
+                    .to_string(),
+            review_status: "blocked_before_savings_score".to_string(),
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a program-review status only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_plan_boundary() {
+        let record = PaymentIntegrityMethodologyPlanRecord {
+            record_id: "payment-integrity-methodology-plan:cms-part-d:q4-2025".to_string(),
+            record_family: "payment_integrity_methodology_plan".to_string(),
+            source_program_status_record_id:
+                "payment-integrity-program-review-status:cms-part-d:q4-2025".to_string(),
+            source_methodology_task_record_id:
+                "payment-integrity-program-review-task:cms-part-d:methodology:q4-2025"
+                    .to_string(),
+            agency_code: "HHS".to_string(),
+            program_or_activity: "Medicare Prescription Drug Benefit (Part D)".to_string(),
+            required_methodology_fields: vec![
+                "sample design".to_string(),
+                "payment universe".to_string(),
+                "estimation method".to_string(),
+                "exclusion rules".to_string(),
+                "sample period".to_string(),
+                "payment type split".to_string(),
+            ],
+            source_discovery_targets: vec![
+                "PaymentAccuracy scorecard methodology appendix".to_string(),
+                "CMS improper-payment methodology documentation".to_string(),
+            ],
+            extraction_priority: 1,
+            methodology_completion_rule:
+                "Complete only when each required field is source-cited for the same reporting period."
+                    .to_string(),
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology plan only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_field_boundary() {
+        let record = PaymentIntegrityMethodologyFieldRecord {
+            record_id: "payment-integrity-methodology-field:cms-part-d:sample-design:q4-2025"
+                .to_string(),
+            record_family: "payment_integrity_methodology_field".to_string(),
+            source_methodology_plan_record_id:
+                "payment-integrity-methodology-plan:cms-part-d:q4-2025".to_string(),
+            agency_code: "HHS".to_string(),
+            program_or_activity: "Medicare Prescription Drug Benefit (Part D)".to_string(),
+            methodology_field: "sample design".to_string(),
+            field_status: "open_source_needed".to_string(),
+            required_source_target: "PaymentAccuracy scorecard methodology appendix".to_string(),
+            completion_rule: "Capture source citation, reporting period, and field text."
+                .to_string(),
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology field checklist row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_source_target_boundary() {
+        let record = PaymentIntegrityMethodologySourceTargetRecord {
+            record_id: "payment-integrity-methodology-source-target:cms-part-d:paymentaccuracy-methodology:q4-2025".to_string(),
+            record_family: "payment_integrity_methodology_source_target".to_string(),
+            source_methodology_plan_record_id:
+                "payment-integrity-methodology-plan:cms-part-d:q4-2025".to_string(),
+            agency_code: "HHS".to_string(),
+            program_or_activity: "Medicare Prescription Drug Benefit (Part D)".to_string(),
+            source_target: "PaymentAccuracy scorecard methodology appendix".to_string(),
+            target_priority: 1,
+            target_status: "open_source_needed".to_string(),
+            target_use: "Find sample design, payment universe, estimate basis, and uncertainty fields."
+                .to_string(),
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology source-target row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_query_boundary() {
+        let record = PaymentIntegrityMethodologyQueryRecord {
+            record_id:
+                "payment-integrity-methodology-query:cms-part-d:paymentaccuracy-methodology:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_query".to_string(),
+            source_methodology_target_record_id:
+                "payment-integrity-methodology-source-target:cms-part-d:paymentaccuracy-methodology:q4-2025"
+                    .to_string(),
+            agency_code: "HHS".to_string(),
+            program_or_activity: "Medicare Prescription Drug Benefit (Part D)".to_string(),
+            query_text: "PaymentAccuracy Q4 2025 Medicare Part D methodology appendix".to_string(),
+            query_scope: "official PaymentAccuracy, OMB, HHS, and CMS sources".to_string(),
+            capture_rule: "Capture canonical URL, observed date, reporting period, and methodology fields."
+                .to_string(),
+            query_status: "open_not_executed".to_string(),
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology query row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_query_run_boundary() {
+        let record = PaymentIntegrityMethodologyQueryRunRecord {
+            record_id:
+                "payment-integrity-methodology-query-run:cms-part-d:paymentaccuracy-methodology:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_query_run".to_string(),
+            source_methodology_query_record_id:
+                "payment-integrity-methodology-query:cms-part-d:paymentaccuracy-methodology:q4-2025"
+                    .to_string(),
+            agency_code: "HHS".to_string(),
+            program_or_activity: "Medicare Prescription Drug Benefit (Part D)".to_string(),
+            run_status: "pending_not_run".to_string(),
+            planned_query_text: "PaymentAccuracy Q4 2025 Medicare Part D methodology appendix"
+                .to_string(),
+            result_capture_status: "no_result_captured".to_string(),
+            required_capture_fields: vec![
+                "canonical URL".to_string(),
+                "observed date".to_string(),
+                "source title".to_string(),
+                "methodology field text".to_string(),
+            ],
+            next_run_rule:
+                "Run query against official sources and create a source extract only after source text is captured."
+                    .to_string(),
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology query-run row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_result_boundary() {
+        let record = PaymentIntegrityMethodologyResultRecord {
+            record_id:
+                "payment-integrity-methodology-result:cms-part-d:paymentaccuracy-methodology:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_result".to_string(),
+            source_methodology_query_run_record_id:
+                "payment-integrity-methodology-query-run:cms-part-d:paymentaccuracy-methodology:q4-2025"
+                    .to_string(),
+            agency_code: "HHS".to_string(),
+            program_or_activity: "Medicare Prescription Drug Benefit (Part D)".to_string(),
+            observed_date: "2026-07-01".to_string(),
+            source_url: "https://paymentaccuracy.gov/assets/scorecards/Q4%202025/Centers%20for%20Medicare%20%26%20Medicaid%20Services%20%28CMS%29%20-%20Medicare%20Prescription%20Drug%20Benefit%20%28Part%20D%29.pdf".to_string(),
+            source_title: "Payment Integrity Scorecard: Medicare Prescription Drug Benefit (Part D), Q4 2025".to_string(),
+            reporting_period: "Q4 2025".to_string(),
+            captured_methodology_text:
+                "Scorecard reports FY2024 overpayment amount and notes the estimate is based on a 1/2022-12/2022 sampling timeframe."
+                    .to_string(),
+            captured_field_scope: vec![
+                "reporting period".to_string(),
+                "sample period".to_string(),
+                "overpayment amount".to_string(),
+            ],
+            field_closure_allowed: false,
+            result_status: "source_captured_review_needed".to_string(),
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology result row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_result_review_readiness_boundary() {
+        let record = PaymentIntegrityMethodologyResultReviewReadinessRecord {
+            record_id:
+                "payment-integrity-methodology-result-review-readiness:va-pltss:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_result_review_readiness".to_string(),
+            source_methodology_result_record_ids: vec![
+                "payment-integrity-methodology-result:va-pltss:paymentaccuracy-methodology:q4-2025"
+                    .to_string(),
+                "payment-integrity-methodology-result:va-pltss:afr-section-iii:q4-2025"
+                    .to_string(),
+            ],
+            agency_code: "VA".to_string(),
+            program_or_activity: "Purchased Long Term Services and Supports (PLTSS)".to_string(),
+            source_capture_count: 2,
+            review_readiness_status: "ready_for_field_review_queue".to_string(),
+            next_field_review_count: 2,
+            next_methodology_fields: vec![
+                "sample design".to_string(),
+                "reviewed-claim universe".to_string(),
+            ],
+            next_action: "Create field-review rows before closure.".to_string(),
+            field_closure_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology result review-readiness row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_field_review_boundary() {
+        let record = PaymentIntegrityMethodologyFieldReviewRecord {
+            record_id:
+                "payment-integrity-methodology-field-review:cms-part-d:sample-period:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_field_review".to_string(),
+            source_methodology_result_record_id:
+                "payment-integrity-methodology-result:cms-part-d:paymentaccuracy-methodology:q4-2025"
+                    .to_string(),
+            source_methodology_field_record_id:
+                "payment-integrity-methodology-field:cms-part-d:sample-period:q4-2025"
+                    .to_string(),
+            agency_code: "HHS".to_string(),
+            program_or_activity: "Medicare Prescription Drug Benefit (Part D)".to_string(),
+            methodology_field: "sample period".to_string(),
+            evidence_status: "partial_support_review_needed".to_string(),
+            reviewed_source_scope: "PaymentAccuracy Q4 2025 scorecard PDF".to_string(),
+            review_note:
+                "Scorecard states a sampling timeframe, but field closure still needs citation review."
+                    .to_string(),
+            field_closure_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology field-review row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_gap_followup_boundary() {
+        let record = PaymentIntegrityMethodologyGapFollowupRecord {
+            record_id:
+                "payment-integrity-methodology-gap-followup:cms-part-d:sample-design:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_gap_followup".to_string(),
+            source_methodology_field_review_record_id:
+                "payment-integrity-methodology-field-review:cms-part-d:sample-design:q4-2025"
+                    .to_string(),
+            agency_code: "HHS".to_string(),
+            program_or_activity: "Medicare Prescription Drug Benefit (Part D)".to_string(),
+            methodology_field: "sample design".to_string(),
+            gap_class: "unsupported_field_source_needed".to_string(),
+            followup_priority: 1,
+            source_target: "CMS Part D improper-payment methodology documentation".to_string(),
+            next_action: "Locate source text describing sample design.".to_string(),
+            completion_evidence_required: vec![
+                "source URL".to_string(),
+                "observed date".to_string(),
+                "field-specific quoted or summarized source text".to_string(),
+            ],
+            field_closure_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology gap-followup row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_gap_source_capture_boundary() {
+        let record = PaymentIntegrityMethodologyGapSourceCaptureRecord {
+            record_id:
+                "payment-integrity-methodology-gap-source-capture:cms-part-d:sample-design:cms-fy2024-fact-sheet"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_gap_source_capture".to_string(),
+            source_methodology_gap_followup_record_id:
+                "payment-integrity-methodology-gap-followup:cms-part-d:sample-design:q4-2025"
+                    .to_string(),
+            agency_code: "HHS".to_string(),
+            program_or_activity: "Medicare Prescription Drug Benefit (Part D)".to_string(),
+            methodology_field: "sample design".to_string(),
+            observed_date: "2026-07-01".to_string(),
+            source_url:
+                "https://www.cms.gov/newsroom/fact-sheets/fiscal-year-2024-improper-payments-fact-sheet"
+                    .to_string(),
+            source_title: "Fiscal Year 2024 Improper Payments Fact Sheet".to_string(),
+            source_publisher: "Centers for Medicare & Medicaid Services".to_string(),
+            captured_source_scope: "Medicare Part D improper payment measurements".to_string(),
+            captured_methodology_summary:
+                "CMS states that Part D IPM reviews a statistically valid stratified random sample of PDEs."
+                    .to_string(),
+            support_status: "partial_support_review_needed".to_string(),
+            field_closure_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology gap source-capture row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_source_capture_rollup_boundary() {
+        let record = PaymentIntegrityMethodologySourceCaptureRollupRecord {
+            record_id:
+                "payment-integrity-methodology-source-capture-rollup:cms-part-d:sample-design:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_source_capture_rollup".to_string(),
+            source_methodology_gap_followup_record_id:
+                "payment-integrity-methodology-gap-followup:cms-part-d:sample-design:q4-2025"
+                    .to_string(),
+            source_methodology_gap_source_capture_record_id:
+                "payment-integrity-methodology-gap-source-capture:cms-part-d:sample-design:cms-fy2024-fact-sheet"
+                    .to_string(),
+            agency_code: "HHS".to_string(),
+            program_or_activity: "Medicare Prescription Drug Benefit (Part D)".to_string(),
+            methodology_field: "sample design".to_string(),
+            capture_coverage_status: "source_captured_review_needed".to_string(),
+            remaining_review_need:
+                "Reviewer must decide whether the captured sample-design source text is sufficient for field closure."
+                    .to_string(),
+            reviewer_action:
+                "Compare capture against checklist completion rule and either create closure decision or a new source gap."
+                    .to_string(),
+            field_closure_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology source-capture rollup row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_closure_readiness_boundary() {
+        let record = PaymentIntegrityMethodologyClosureReadinessRecord {
+            record_id:
+                "payment-integrity-methodology-closure-readiness:cms-part-d:sample-period:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_closure_readiness".to_string(),
+            source_methodology_source_capture_rollup_record_id:
+                "payment-integrity-methodology-source-capture-rollup:cms-part-d:sample-period:q4-2025"
+                    .to_string(),
+            agency_code: "HHS".to_string(),
+            program_or_activity: "Medicare Prescription Drug Benefit (Part D)".to_string(),
+            methodology_field: "sample period".to_string(),
+            closure_readiness_status: "closure_review_candidate".to_string(),
+            readiness_reason:
+                "Captured scorecard text directly states the sampling timeframe, but reviewer closure is still required."
+                    .to_string(),
+            next_required_action:
+                "Reviewer must compare captured text to completion rule and issue a separate closure decision."
+                    .to_string(),
+            field_closure_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology closure-readiness row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_closure_decision_boundary() {
+        let record = PaymentIntegrityMethodologyClosureDecisionRecord {
+            record_id:
+                "payment-integrity-methodology-closure-decision:cms-part-d:sample-period:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_closure_decision".to_string(),
+            source_methodology_closure_readiness_record_id:
+                "payment-integrity-methodology-closure-readiness:cms-part-d:sample-period:q4-2025"
+                    .to_string(),
+            agency_code: "HHS".to_string(),
+            program_or_activity: "Medicare Prescription Drug Benefit (Part D)".to_string(),
+            methodology_field: "sample period".to_string(),
+            decision_status: "field_closed_internal_only".to_string(),
+            field_closed: true,
+            decision_basis:
+                "Source capture directly states the FY2024 estimate sampling timeframe."
+                    .to_string(),
+            closure_scope: "Close sample-period field only for Part D methodology review."
+                .to_string(),
+            residual_limitations: vec![
+                "No other methodology fields are closed by this decision.".to_string(),
+                "No savings estimate or waste finding is allowed.".to_string(),
+            ],
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as an internal methodology closure decision only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_residual_source_gap_boundary() {
+        let record = PaymentIntegrityMethodologyResidualSourceGapRecord {
+            record_id:
+                "payment-integrity-methodology-residual-source-gap:cms-part-d:sample-design:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_residual_source_gap".to_string(),
+            source_methodology_closure_readiness_record_id:
+                "payment-integrity-methodology-closure-readiness:cms-part-d:sample-design:q4-2025"
+                    .to_string(),
+            agency_code: "HHS".to_string(),
+            program_or_activity: "Medicare Prescription Drug Benefit (Part D)".to_string(),
+            methodology_field: "sample design".to_string(),
+            residual_gap_class: "detail_source_needed".to_string(),
+            source_need: "Sample size and selection method text".to_string(),
+            next_query_text: "CMS Part D IPM sample size selection method FY2024".to_string(),
+            closure_blocked_reason:
+                "Captured source supports sampling type but not enough detail for closure."
+                    .to_string(),
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology residual source-gap row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_closure_coverage_boundary() {
+        let record = PaymentIntegrityMethodologyClosureCoverageRecord {
+            record_id: "payment-integrity-methodology-closure-coverage:cms-part-d:q4-2025"
+                .to_string(),
+            record_family: "payment_integrity_methodology_closure_coverage".to_string(),
+            agency_code: "HHS".to_string(),
+            program_or_activity: "Medicare Prescription Drug Benefit (Part D)".to_string(),
+            source_methodology_closure_decision_record_id:
+                "payment-integrity-methodology-closure-decision:cms-part-d:sample-period:q4-2025"
+                    .to_string(),
+            total_methodology_fields: 8,
+            closed_field_count: 1,
+            open_field_count: 7,
+            closed_fields: vec!["sample period".to_string()],
+            open_fields: vec![
+                "sample design".to_string(),
+                "payment universe".to_string(),
+                "estimation method".to_string(),
+                "exclusion rules".to_string(),
+                "payment type split".to_string(),
+                "state-data dependency treatment".to_string(),
+                "overpayment versus recoverable amount basis".to_string(),
+            ],
+            coverage_status: "partial_methodology_closure".to_string(),
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology closure-coverage row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_scoring_gate_boundary() {
+        let record = PaymentIntegrityMethodologyScoringGateRecord {
+            record_id: "payment-integrity-methodology-scoring-gate:cms-part-d:q4-2025"
+                .to_string(),
+            record_family: "payment_integrity_methodology_scoring_gate".to_string(),
+            source_methodology_closure_coverage_record_id:
+                "payment-integrity-methodology-closure-coverage:cms-part-d:q4-2025".to_string(),
+            agency_code: "HHS".to_string(),
+            program_or_activity: "Medicare Prescription Drug Benefit (Part D)".to_string(),
+            gate_status: "blocked_methodology_incomplete".to_string(),
+            gate_reason: "Only one of eight methodology fields is internally closed.".to_string(),
+            blockers: vec!["7 open methodology fields".to_string()],
+            next_milestone: "Close residual source gaps before scoring.".to_string(),
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology scoring-gate row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_program_rollup_boundary() {
+        let record = PaymentIntegrityMethodologyProgramRollupRecord {
+            record_id: "payment-integrity-methodology-program-rollup:cms-part-d:q4-2025"
+                .to_string(),
+            record_family: "payment_integrity_methodology_program_rollup".to_string(),
+            source_methodology_scoring_gate_record_id:
+                "payment-integrity-methodology-scoring-gate:cms-part-d:q4-2025".to_string(),
+            source_methodology_closure_coverage_record_id:
+                "payment-integrity-methodology-closure-coverage:cms-part-d:q4-2025".to_string(),
+            agency_code: "HHS".to_string(),
+            program_or_activity: "Medicare Prescription Drug Benefit (Part D)".to_string(),
+            total_methodology_fields: 8,
+            closed_field_count: 1,
+            open_field_count: 7,
+            scoring_gate_status: "blocked_methodology_incomplete".to_string(),
+            next_open_methodology_fields: vec![
+                "sample design".to_string(),
+                "payment universe".to_string(),
+                "estimation method".to_string(),
+                "exclusion rules".to_string(),
+                "payment type split".to_string(),
+                "state-data dependency treatment".to_string(),
+                "overpayment versus recoverable amount basis".to_string(),
+            ],
+            next_action: "Resolve residual source gaps before scoring.".to_string(),
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology program rollup only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_open_program_status_boundary() {
+        let record = PaymentIntegrityMethodologyOpenProgramStatusRecord {
+            record_id: "payment-integrity-methodology-open-program-status:va-pltss:q4-2025"
+                .to_string(),
+            record_family: "payment_integrity_methodology_open_program_status".to_string(),
+            source_methodology_plan_record_id:
+                "payment-integrity-methodology-plan:va-pltss:q4-2025".to_string(),
+            agency_code: "VA".to_string(),
+            program_or_activity: "Purchased Long Term Services and Supports (PLTSS)".to_string(),
+            closure_path_status: "fully_open_no_closure_decision".to_string(),
+            total_methodology_fields: 8,
+            closed_field_count: 0,
+            open_field_count: 8,
+            closure_decision_count: 0,
+            residual_source_gap_count: 8,
+            blocker_summary: "All eight methodology fields remain open.".to_string(),
+            next_priority: "Resolve residual source gaps before any scoring gate.".to_string(),
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology open-program status row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_residual_gap_priority_boundary() {
+        let record = PaymentIntegrityMethodologyResidualGapPriorityRecord {
+            record_id: "payment-integrity-methodology-residual-gap-priority:va-pltss:documentation-defect-versus-recoverable-overpayment-basis:q4-2025".to_string(),
+            record_family: "payment_integrity_methodology_residual_gap_priority".to_string(),
+            source_open_program_status_record_id:
+                "payment-integrity-methodology-open-program-status:va-pltss:q4-2025".to_string(),
+            source_residual_source_gap_record_id: "payment-integrity-methodology-residual-source-gap:va-pltss:documentation-defect-versus-recoverable-overpayment-basis:q4-2025".to_string(),
+            agency_code: "VA".to_string(),
+            program_or_activity: "Purchased Long Term Services and Supports (PLTSS)".to_string(),
+            priority_rank: 2,
+            selected_methodology_field:
+                "documentation defect versus recoverable overpayment basis".to_string(),
+            priority_reason:
+                "Resolve recoverability before treating documentation defects as savings."
+                    .to_string(),
+            next_query_text: "site:department.va.gov PLTSS recoverable overpayment documentation defect collections improper unknown payments".to_string(),
+            resolution_rule:
+                "Close only with an official source distinguishing documentation defects from recoverable overpayments."
+                    .to_string(),
+            blocked_claims_note:
+                "Until resolved, block scoring, savings estimates, and waste claims for this program."
+                    .to_string(),
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology residual-gap priority row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_priority_source_work_boundary() {
+        let record = PaymentIntegrityMethodologyPrioritySourceWorkRecord {
+            record_id: "payment-integrity-methodology-priority-source-work:cms-medicaid:improper-payment-versus-fraud-waste-basis:q4-2025".to_string(),
+            record_family: "payment_integrity_methodology_priority_source_work".to_string(),
+            source_residual_gap_priority_record_id: "payment-integrity-methodology-residual-gap-priority:cms-medicaid:improper-payment-versus-fraud-waste-basis:q4-2025".to_string(),
+            agency_code: "HHS".to_string(),
+            program_or_activity: "Medicaid".to_string(),
+            priority_rank: 3,
+            selected_methodology_field: "improper payment versus fraud/waste basis".to_string(),
+            observed_date: "2026-07-01".to_string(),
+            source_work_status: "boundary_source_captured_review_needed".to_string(),
+            official_source_urls: vec![
+                "https://www.cms.gov/files/document/cms-financial-report-fiscal-year-2024.pdf"
+                    .to_string(),
+            ],
+            source_summary:
+                "CMS source language supports improper-payment boundary review for Medicaid."
+                    .to_string(),
+            resolution_effect:
+                "Use as partial boundary support, not as field closure or scoring support."
+                    .to_string(),
+            remaining_blocker:
+                "Reviewer still needs a closure decision before any scoring or savings claim."
+                    .to_string(),
+            field_closure_allowed: false,
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology priority source-work row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_priority_reviewer_action_boundary() {
+        let record = PaymentIntegrityMethodologyPriorityReviewerActionRecord {
+            record_id: "payment-integrity-methodology-priority-reviewer-action:usda-federal-crop-insurance:agency-process-error-definition:q4-2025".to_string(),
+            record_family: "payment_integrity_methodology_priority_reviewer_action".to_string(),
+            source_priority_source_work_record_id: "payment-integrity-methodology-priority-source-work:usda-federal-crop-insurance:agency-process-error-definition:q4-2025".to_string(),
+            agency_code: "USDA".to_string(),
+            program_or_activity: "Federal Crop Insurance Program".to_string(),
+            priority_rank: 1,
+            selected_methodology_field: "agency-process-error definition".to_string(),
+            reviewer_action_status: "field_reframing_approved_internal_only".to_string(),
+            reviewer_action:
+                "Reframe the checklist field to current scorecard root-cause language."
+                    .to_string(),
+            field_reframing_allowed: true,
+            field_closure_allowed: false,
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            next_required_artifact: "payment_integrity_methodology_field_update".to_string(),
+            public_use_rule:
+                "Use as a methodology priority reviewer-action row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_field_update_boundary() {
+        let record = PaymentIntegrityMethodologyFieldUpdateRecord {
+            record_id:
+                "payment-integrity-methodology-field-update:usda-federal-crop-insurance:agency-process-error-definition:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_field_update".to_string(),
+            source_priority_reviewer_action_record_id: "payment-integrity-methodology-priority-reviewer-action:usda-federal-crop-insurance:agency-process-error-definition:q4-2025".to_string(),
+            source_methodology_field_record_id:
+                "payment-integrity-methodology-field:usda-federal-crop-insurance:agency-process-error-definition:q4-2025"
+                    .to_string(),
+            agency_code: "USDA".to_string(),
+            program_or_activity: "Federal Crop Insurance Program".to_string(),
+            old_methodology_field: "agency-process-error definition".to_string(),
+            revised_methodology_field:
+                "data-access outside-agency-control root-cause definition".to_string(),
+            old_required_source_target:
+                "USDA/RMA Federal Crop Insurance improper-payment methodology or quality-control documentation"
+                    .to_string(),
+            revised_required_source_target:
+                "PaymentAccuracy FCIC scorecard root-cause table and USDA/RMA support for data-access/outside-agency-control treatment"
+                    .to_string(),
+            old_completion_rule:
+                "Capture source citation and how federal-agency process error is defined and distinguished from other root causes."
+                    .to_string(),
+            revised_completion_rule:
+                "Capture source citation and how failure or inability to access data or information is classified and distinguished from recoverable overpayments."
+                    .to_string(),
+            update_status: "field_reframed_internal_only".to_string(),
+            update_scope:
+                "Repair the methodology checklist field label and source target only.".to_string(),
+            field_closure_allowed: false,
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology field-update row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_followup_source_query_boundary() {
+        let record = PaymentIntegrityMethodologyFollowupSourceQueryRecord {
+            record_id:
+                "payment-integrity-methodology-followup-source-query:cms-part-d:overpayment-versus-recoverable-amount-basis:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_followup_source_query".to_string(),
+            source_priority_reviewer_action_record_id:
+                "payment-integrity-methodology-priority-reviewer-action:cms-part-d:overpayment-versus-recoverable-amount-basis:q4-2025"
+                    .to_string(),
+            source_field_update_record_id: None,
+            agency_code: "HHS".to_string(),
+            program_or_activity: "Medicare Prescription Drug Benefit (Part D)".to_string(),
+            priority_rank: 4,
+            query_objective:
+                "Find official recoverable or collectible basis for reported overpayments."
+                    .to_string(),
+            query_text:
+                "site:cms.gov Part D IPM recoverable collectible overpayment FY2024 PDE audit"
+                    .to_string(),
+            source_scope: "official CMS, HHS, and PaymentAccuracy sources".to_string(),
+            capture_rule:
+                "Capture source URL, observed date, recoverable amount basis, and limitation language."
+                    .to_string(),
+            success_rule:
+                "Success requires official language separating reported overpayment estimates from collectible recoveries."
+                    .to_string(),
+            query_status: "open_not_executed".to_string(),
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology follow-up source-query row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_followup_source_query_run_boundary() {
+        let record = PaymentIntegrityMethodologyFollowupSourceQueryRunRecord {
+            record_id:
+                "payment-integrity-methodology-followup-source-query-run:cms-part-d:overpayment-versus-recoverable-amount-basis:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_followup_source_query_run".to_string(),
+            source_followup_source_query_record_id:
+                "payment-integrity-methodology-followup-source-query:cms-part-d:overpayment-versus-recoverable-amount-basis:q4-2025"
+                    .to_string(),
+            agency_code: "HHS".to_string(),
+            program_or_activity: "Medicare Prescription Drug Benefit (Part D)".to_string(),
+            priority_rank: 4,
+            run_status: "pending_not_run".to_string(),
+            planned_query_text:
+                "site:cms.gov Part D IPM recoverable collectible overpayment FY2024 PDE audit closeout recovery estimate"
+                    .to_string(),
+            result_capture_status: "no_result_captured".to_string(),
+            required_capture_fields: vec![
+                "canonical URL".to_string(),
+                "observed date".to_string(),
+                "recoverable amount basis".to_string(),
+            ],
+            next_run_rule:
+                "Run against official CMS, HHS, OMB, and PaymentAccuracy sources only."
+                    .to_string(),
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology follow-up source-query-run row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_followup_source_capture_boundary() {
+        let record = PaymentIntegrityMethodologyFollowupSourceCaptureRecord {
+            record_id:
+                "payment-integrity-methodology-followup-source-capture:cms-part-d:overpayment-versus-recoverable-amount-basis:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_followup_source_capture".to_string(),
+            source_followup_source_query_run_record_id:
+                "payment-integrity-methodology-followup-source-query-run:cms-part-d:overpayment-versus-recoverable-amount-basis:q4-2025"
+                    .to_string(),
+            agency_code: "HHS".to_string(),
+            program_or_activity: "Medicare Prescription Drug Benefit (Part D)".to_string(),
+            priority_rank: 4,
+            observed_date: "2026-07-01".to_string(),
+            source_url: "https://paymentaccuracy.gov/".to_string(),
+            source_title: "Payment Integrity Scorecard".to_string(),
+            captured_source_scope: "Q4 2025 scorecard recovery text".to_string(),
+            captured_boundary_summary:
+                "The source supports audit-specific recovery process language only.".to_string(),
+            recoverability_boundary_status:
+                "partial_recovery_process_support_review_needed".to_string(),
+            closure_effect: "Keep field open pending reviewer assessment.".to_string(),
+            field_closure_allowed: false,
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology follow-up source-capture row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_followup_source_capture_rollup_boundary() {
+        let record = PaymentIntegrityMethodologyFollowupSourceCaptureRollupRecord {
+            record_id:
+                "payment-integrity-methodology-followup-source-capture-rollup:cms-medicaid:improper-payment-versus-fraud-waste-basis:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_followup_source_capture_rollup"
+                .to_string(),
+            source_followup_source_capture_record_id:
+                "payment-integrity-methodology-followup-source-capture:cms-medicaid:improper-payment-versus-fraud-waste-basis:q4-2025"
+                    .to_string(),
+            agency_code: "HHS".to_string(),
+            program_or_activity: "Medicaid".to_string(),
+            priority_rank: 3,
+            capture_rollup_status: "additional_positive_basis_needed".to_string(),
+            boundary_finding:
+                "Source blocks direct translation of PERM improper-payment dollars to savings."
+                    .to_string(),
+            remaining_review_need:
+                "Find positive recoverable amount basis before scoring.".to_string(),
+            reviewer_action:
+                "Keep field open and queue additional source work if scoring is needed."
+                    .to_string(),
+            field_closure_allowed: false,
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology follow-up source-capture rollup row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_followup_boundary_decision_boundary() {
+        let record = PaymentIntegrityMethodologyFollowupBoundaryDecisionRecord {
+            record_id:
+                "payment-integrity-methodology-followup-boundary-decision:cms-medicaid:improper-payment-versus-fraud-waste-basis:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_followup_boundary_decision".to_string(),
+            source_followup_source_capture_rollup_record_id:
+                "payment-integrity-methodology-followup-source-capture-rollup:cms-medicaid:improper-payment-versus-fraud-waste-basis:q4-2025"
+                    .to_string(),
+            agency_code: "HHS".to_string(),
+            program_or_activity: "Medicaid".to_string(),
+            priority_rank: 3,
+            boundary_decision_status: "claim_guard_confirmed_internal_only".to_string(),
+            boundary_decision:
+                "Treat the source as a claim guard against scoring PERM dollars as savings."
+                    .to_string(),
+            scoring_implication: "No scoring allowed from this capture.".to_string(),
+            next_required_action: "Find positive recoverable basis before scoring.".to_string(),
+            field_closure_allowed: false,
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology follow-up boundary-decision row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_followup_boundary_readiness_boundary() {
+        let record = PaymentIntegrityMethodologyFollowupBoundaryReadinessRecord {
+            record_id:
+                "payment-integrity-methodology-followup-boundary-readiness:usda-federal-crop-insurance:data-access-outside-agency-control-root-cause-definition:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_followup_boundary_readiness".to_string(),
+            source_followup_boundary_decision_record_id:
+                "payment-integrity-methodology-followup-boundary-decision:usda-federal-crop-insurance:data-access-outside-agency-control-root-cause-definition:q4-2025"
+                    .to_string(),
+            agency_code: "USDA".to_string(),
+            program_or_activity: "Federal Crop Insurance Program".to_string(),
+            priority_rank: 1,
+            boundary_readiness_status: "narrow_internal_readiness_candidate".to_string(),
+            readiness_scope: "Root-cause field framing only.".to_string(),
+            readiness_reason:
+                "Boundary decision supports field framing but not collectible savings.".to_string(),
+            next_required_action:
+                "Create a narrow closure-readiness candidate only for field framing.".to_string(),
+            field_closure_allowed: false,
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology follow-up boundary-readiness row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_narrow_closure_candidate_boundary() {
+        let record = PaymentIntegrityMethodologyNarrowClosureCandidateRecord {
+            record_id:
+                "payment-integrity-methodology-narrow-closure-candidate:usda-federal-crop-insurance:data-access-outside-agency-control-root-cause-definition:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_narrow_closure_candidate".to_string(),
+            source_followup_boundary_readiness_record_id:
+                "payment-integrity-methodology-followup-boundary-readiness:usda-federal-crop-insurance:data-access-outside-agency-control-root-cause-definition:q4-2025"
+                    .to_string(),
+            agency_code: "USDA".to_string(),
+            program_or_activity: "Federal Crop Insurance Program".to_string(),
+            priority_rank: 1,
+            candidate_scope: "Root-cause field framing only.".to_string(),
+            candidate_basis: "Boundary-readiness row supports internal framing.".to_string(),
+            excluded_scoring_basis:
+                "Does not support collectible savings or recoverable-dollar scoring.".to_string(),
+            next_required_action:
+                "Reviewer may create a narrow internal closure decision for field framing only."
+                    .to_string(),
+            field_closure_allowed: false,
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology narrow closure-candidate row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_narrow_closure_decision_boundary() {
+        let record = PaymentIntegrityMethodologyNarrowClosureDecisionRecord {
+            record_id:
+                "payment-integrity-methodology-narrow-closure-decision:usda-federal-crop-insurance:data-access-outside-agency-control-root-cause-definition:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_narrow_closure_decision".to_string(),
+            source_narrow_closure_candidate_record_id:
+                "payment-integrity-methodology-narrow-closure-candidate:usda-federal-crop-insurance:data-access-outside-agency-control-root-cause-definition:q4-2025"
+                    .to_string(),
+            agency_code: "USDA".to_string(),
+            program_or_activity: "Federal Crop Insurance Program".to_string(),
+            priority_rank: 1,
+            narrow_decision_status: "component_closed_internal_only".to_string(),
+            closed_component: "Root-cause field framing only.".to_string(),
+            decision_basis: "Source supports current root-cause wording.".to_string(),
+            excluded_scope: "Recoverable savings basis remains open.".to_string(),
+            residual_open_need: "Collectible amount basis.".to_string(),
+            field_closure_allowed: false,
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology narrow closure-decision row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_open_program_component_progress_boundary() {
+        let record = PaymentIntegrityMethodologyOpenProgramComponentProgressRecord {
+            record_id:
+                "payment-integrity-methodology-open-program-component-progress:va-pltss:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_open_program_component_progress"
+                .to_string(),
+            source_open_program_status_record_id:
+                "payment-integrity-methodology-open-program-status:va-pltss:q4-2025"
+                    .to_string(),
+            source_narrow_closure_decision_record_id:
+                "payment-integrity-methodology-narrow-closure-decision:va-pltss:documentation-defect-versus-recoverable-overpayment-basis:q4-2025"
+                    .to_string(),
+            agency_code: "VA".to_string(),
+            program_or_activity: "Purchased Long Term Services and Supports (PLTSS)"
+                .to_string(),
+            component_progress_status: "narrow_component_recorded_no_field_closure".to_string(),
+            total_methodology_fields: 8,
+            closed_field_count_after_component_decision: 0,
+            open_field_count_after_component_decision: 8,
+            narrow_component_decision_count: 1,
+            component_progress_summary:
+                "Record a narrow reporting-split component without changing field counts."
+                    .to_string(),
+            unchanged_field_count_reason:
+                "Recoverable amount basis and estimator support remain outside scope.".to_string(),
+            next_gate_condition:
+                "Create a full field-closure decision before any scoring gate.".to_string(),
+            field_closure_allowed: false,
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology open-program component-progress row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_component_gate_requirement_boundary() {
+        let record = PaymentIntegrityMethodologyComponentGateRequirementRecord {
+            record_id:
+                "payment-integrity-methodology-component-gate-requirement:va-pltss:recoverable-incorrect-amount-subset:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_component_gate_requirement".to_string(),
+            source_component_progress_record_id:
+                "payment-integrity-methodology-open-program-component-progress:va-pltss:q4-2025"
+                    .to_string(),
+            agency_code: "VA".to_string(),
+            program_or_activity: "Purchased Long Term Services and Supports (PLTSS)"
+                .to_string(),
+            gate_status: "positive_evidence_required_before_field_closure".to_string(),
+            required_positive_evidence:
+                "Recoverable incorrect-amount subset must be supported by source text."
+                    .to_string(),
+            blocked_translation:
+                "Do not translate overpayment reporting into a waste-reduction score.".to_string(),
+            next_source_target: "VA PLTSS bills-of-collection or AFR material.".to_string(),
+            next_decision_type: "full_field_closure_review".to_string(),
+            field_closure_allowed: false,
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology component gate-requirement row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_component_gate_source_target_boundary() {
+        let record = PaymentIntegrityMethodologyComponentGateSourceTargetRecord {
+            record_id:
+                "payment-integrity-methodology-component-gate-source-target:va-pltss:bills-of-collection:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_component_gate_source_target"
+                .to_string(),
+            source_component_gate_requirement_record_id:
+                "payment-integrity-methodology-component-gate-requirement:va-pltss:recoverable-incorrect-amount-subset:q4-2025"
+                    .to_string(),
+            agency_code: "VA".to_string(),
+            program_or_activity: "Purchased Long Term Services and Supports (PLTSS)"
+                .to_string(),
+            source_target_priority: 1,
+            source_target_name: "VA bills-of-collection materials".to_string(),
+            source_target_scope:
+                "Find recoverable incorrect-amount overpayment treatment.".to_string(),
+            evidence_to_extract: vec![
+                "source URL".to_string(),
+                "bill-of-collection basis".to_string(),
+            ],
+            negative_evidence_rule:
+                "Keep scoring blocked if recoverable incorrect-amount subset is absent."
+                    .to_string(),
+            next_artifact_family:
+                "payment_integrity_methodology_component_gate_source_query".to_string(),
+            field_closure_allowed: false,
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology component gate source-target row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_component_gate_source_query_boundary() {
+        let record = PaymentIntegrityMethodologyComponentGateSourceQueryRecord {
+            record_id:
+                "payment-integrity-methodology-component-gate-source-query:va-pltss:bills-of-collection:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_component_gate_source_query".to_string(),
+            source_component_gate_source_target_record_id:
+                "payment-integrity-methodology-component-gate-source-target:va-pltss:bills-of-collection:q4-2025"
+                    .to_string(),
+            agency_code: "VA".to_string(),
+            program_or_activity: "Purchased Long Term Services and Supports (PLTSS)"
+                .to_string(),
+            source_target_priority: 1,
+            query_text: "site:department.va.gov PLTSS bills of collection overpayment"
+                .to_string(),
+            query_scope: "Find recoverable incorrect-amount overpayment support.".to_string(),
+            expected_evidence: vec![
+                "official URL".to_string(),
+                "bill-of-collection basis".to_string(),
+            ],
+            insufficient_result_rule:
+                "Keep scoring blocked if recoverable subset support is absent.".to_string(),
+            next_artifact_family:
+                "payment_integrity_methodology_component_gate_source_query_run".to_string(),
+            field_closure_allowed: false,
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology component gate source-query row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_component_gate_source_query_run_boundary() {
+        let record = PaymentIntegrityMethodologyComponentGateSourceQueryRunRecord {
+            record_id:
+                "payment-integrity-methodology-component-gate-source-query-run:va-pltss:bills-of-collection:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_component_gate_source_query_run"
+                .to_string(),
+            source_component_gate_source_query_record_id:
+                "payment-integrity-methodology-component-gate-source-query:va-pltss:bills-of-collection:q4-2025"
+                    .to_string(),
+            agency_code: "VA".to_string(),
+            program_or_activity: "Purchased Long Term Services and Supports (PLTSS)"
+                .to_string(),
+            source_target_priority: 1,
+            run_status: "pending_not_run".to_string(),
+            planned_query_text: "site:department.va.gov PLTSS bills of collection overpayment"
+                .to_string(),
+            result_capture_status: "no_result_captured".to_string(),
+            required_capture_fields: vec![
+                "official URL".to_string(),
+                "bill-of-collection basis".to_string(),
+            ],
+            next_run_rule: "Create a source capture only after official evidence is found."
+                .to_string(),
+            field_closure_allowed: false,
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology component gate source-query-run row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_component_gate_source_capture_boundary() {
+        let record = PaymentIntegrityMethodologyComponentGateSourceCaptureRecord {
+            record_id:
+                "payment-integrity-methodology-component-gate-source-capture:va-pltss:bills-of-collection:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_component_gate_source_capture"
+                .to_string(),
+            source_component_gate_source_query_run_record_id:
+                "payment-integrity-methodology-component-gate-source-query-run:va-pltss:bills-of-collection:q4-2025"
+                    .to_string(),
+            agency_code: "VA".to_string(),
+            program_or_activity: "Purchased Long Term Services and Supports (PLTSS)"
+                .to_string(),
+            source_target_priority: 1,
+            observed_date: "2026-07-02".to_string(),
+            source_url:
+                "https://department.va.gov/wp-content/uploads/2026/01/2025-Section-III-Other-Information.pdf"
+                    .to_string(),
+            source_title: "VA FY 2025 Agency Financial Report, Section III".to_string(),
+            captured_source_scope: "PLTSS corrective-action text".to_string(),
+            captured_gate_summary:
+                "Source supports bills-of-collection process but not a quantified subset."
+                    .to_string(),
+            component_gate_status: "partial_positive_basis_review_needed".to_string(),
+            next_review_action: "Keep scoring blocked pending recoverable-dollar support."
+                .to_string(),
+            field_closure_allowed: false,
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology component gate source-capture row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_component_gate_source_capture_rollup_boundary() {
+        let record = PaymentIntegrityMethodologyComponentGateSourceCaptureRollupRecord {
+            record_id:
+                "payment-integrity-methodology-component-gate-source-capture-rollup:va-pltss:bills-of-collection:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_component_gate_source_capture_rollup"
+                .to_string(),
+            source_component_gate_source_capture_record_id:
+                "payment-integrity-methodology-component-gate-source-capture:va-pltss:bills-of-collection:q4-2025"
+                    .to_string(),
+            agency_code: "VA".to_string(),
+            program_or_activity: "Purchased Long Term Services and Supports (PLTSS)"
+                .to_string(),
+            source_target_priority: 1,
+            capture_rollup_status: "reviewer_gate_decision_needed".to_string(),
+            gate_finding:
+                "Process support exists but quantified recoverable subset remains missing."
+                    .to_string(),
+            remaining_review_need:
+                "Reviewer must decide whether process support is sufficient for internal gate handling."
+                    .to_string(),
+            reviewer_action: "Create a boundary decision; keep scoring blocked.".to_string(),
+            field_closure_allowed: false,
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology component gate source-capture rollup row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_component_gate_boundary_decision_boundary() {
+        let record = PaymentIntegrityMethodologyComponentGateBoundaryDecisionRecord {
+            record_id:
+                "payment-integrity-methodology-component-gate-boundary-decision:va-pltss:bills-of-collection:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_component_gate_boundary_decision"
+                .to_string(),
+            source_component_gate_source_capture_rollup_record_id:
+                "payment-integrity-methodology-component-gate-source-capture-rollup:va-pltss:bills-of-collection:q4-2025"
+                    .to_string(),
+            agency_code: "VA".to_string(),
+            program_or_activity: "Purchased Long Term Services and Supports (PLTSS)"
+                .to_string(),
+            source_target_priority: 1,
+            boundary_decision_status: "narrow_process_boundary_supported_internal_only"
+                .to_string(),
+            boundary_decision:
+                "Support only the bills-of-collection process boundary, not scoring."
+                    .to_string(),
+            scoring_implication: "No scoring is allowed without quantified subset support."
+                .to_string(),
+            next_required_action: "Prepare readiness only for narrow process boundary."
+                .to_string(),
+            field_closure_allowed: false,
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology component gate boundary-decision row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_component_gate_boundary_readiness_boundary() {
+        let record = PaymentIntegrityMethodologyComponentGateBoundaryReadinessRecord {
+            record_id:
+                "payment-integrity-methodology-component-gate-boundary-readiness:va-pltss:bills-of-collection:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_component_gate_boundary_readiness"
+                .to_string(),
+            source_component_gate_boundary_decision_record_id:
+                "payment-integrity-methodology-component-gate-boundary-decision:va-pltss:bills-of-collection:q4-2025"
+                    .to_string(),
+            agency_code: "VA".to_string(),
+            program_or_activity: "Purchased Long Term Services and Supports (PLTSS)"
+                .to_string(),
+            source_target_priority: 1,
+            boundary_readiness_status: "narrow_internal_readiness_candidate".to_string(),
+            readiness_scope: "Bills-of-collection process boundary only.".to_string(),
+            readiness_reason:
+                "Decision supports process boundary but not recoverable-dollar scoring."
+                    .to_string(),
+            next_required_action: "Prepare narrow component candidate only.".to_string(),
+            field_closure_allowed: false,
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology component gate boundary-readiness row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_component_gate_narrow_candidate_boundary() {
+        let record = PaymentIntegrityMethodologyComponentGateNarrowCandidateRecord {
+            record_id:
+                "payment-integrity-methodology-component-gate-narrow-candidate:va-pltss:bills-of-collection:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_component_gate_narrow_candidate"
+                .to_string(),
+            source_component_gate_boundary_readiness_record_id:
+                "payment-integrity-methodology-component-gate-boundary-readiness:va-pltss:bills-of-collection:q4-2025"
+                    .to_string(),
+            agency_code: "VA".to_string(),
+            program_or_activity: "Purchased Long Term Services and Supports (PLTSS)"
+                .to_string(),
+            source_target_priority: 1,
+            candidate_status: "narrow_component_candidate_internal_only".to_string(),
+            candidate_scope: "Bills-of-collection process boundary only.".to_string(),
+            candidate_basis:
+                "Boundary readiness supports process boundary but not recoverable-dollar scoring."
+                    .to_string(),
+            excluded_scoring_basis:
+                "Does not quantify a recoverable subset or support savings estimates."
+                    .to_string(),
+            next_required_action: "Prepare narrow component decision only.".to_string(),
+            field_closure_allowed: false,
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology component gate narrow candidate only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_component_gate_narrow_decision_boundary() {
+        let record = PaymentIntegrityMethodologyComponentGateNarrowDecisionRecord {
+            record_id:
+                "payment-integrity-methodology-component-gate-narrow-decision:va-pltss:bills-of-collection:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_component_gate_narrow_decision"
+                .to_string(),
+            source_component_gate_narrow_candidate_record_id:
+                "payment-integrity-methodology-component-gate-narrow-candidate:va-pltss:bills-of-collection:q4-2025"
+                    .to_string(),
+            agency_code: "VA".to_string(),
+            program_or_activity: "Purchased Long Term Services and Supports (PLTSS)"
+                .to_string(),
+            source_target_priority: 1,
+            narrow_decision_status: "component_closed_internal_only".to_string(),
+            closed_component: "Bills-of-collection process boundary only.".to_string(),
+            decision_basis:
+                "Candidate supports process boundary but not recoverable-dollar scoring."
+                    .to_string(),
+            excluded_scope:
+                "Does not close recoverable subset, collectible amount, or scoring gate."
+                    .to_string(),
+            residual_open_need:
+                "Recoverable incorrect-amount subset remains open before any waste-reduction score."
+                    .to_string(),
+            field_closure_allowed: false,
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology component gate narrow decision only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_component_gate_progress_boundary() {
+        let record = PaymentIntegrityMethodologyComponentGateProgressRecord {
+            record_id:
+                "payment-integrity-methodology-component-gate-progress:va-pltss:bills-of-collection:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_component_gate_progress".to_string(),
+            source_open_program_status_record_id:
+                "payment-integrity-methodology-open-program-status:va-pltss:q4-2025"
+                    .to_string(),
+            source_component_gate_narrow_decision_record_id:
+                "payment-integrity-methodology-component-gate-narrow-decision:va-pltss:bills-of-collection:q4-2025"
+                    .to_string(),
+            agency_code: "VA".to_string(),
+            program_or_activity: "Purchased Long Term Services and Supports (PLTSS)"
+                .to_string(),
+            component_progress_status: "component_gate_progress_recorded_no_field_closure"
+                .to_string(),
+            total_methodology_fields: 8,
+            closed_field_count_after_component_decision: 0,
+            open_field_count_after_component_decision: 8,
+            component_gate_decision_count: 1,
+            component_progress_summary:
+                "Bills-of-collection process boundary recorded as internal component progress."
+                    .to_string(),
+            unchanged_field_count_reason:
+                "No recoverable-dollar basis or field closure was established.".to_string(),
+            next_gate_condition:
+                "Resolve recoverable incorrect-amount subset before scoring.".to_string(),
+            field_closure_allowed: false,
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology component gate progress row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_component_gate_progress_requirement_boundary() {
+        let record = PaymentIntegrityMethodologyComponentGateProgressRequirementRecord {
+            record_id:
+                "payment-integrity-methodology-component-gate-progress-requirement:va-pltss:recoverable-incorrect-amount-subset:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_component_gate_progress_requirement"
+                .to_string(),
+            source_component_gate_progress_record_id:
+                "payment-integrity-methodology-component-gate-progress:va-pltss:bills-of-collection:q4-2025"
+                    .to_string(),
+            agency_code: "VA".to_string(),
+            program_or_activity: "Purchased Long Term Services and Supports (PLTSS)"
+                .to_string(),
+            gate_status: "positive_evidence_required_before_field_closure".to_string(),
+            required_positive_evidence:
+                "Source text must quantify recoverable incorrect-amount PLTSS overpayments."
+                    .to_string(),
+            blocked_translation:
+                "Do not translate bills-of-collection process progress into savings."
+                    .to_string(),
+            next_source_target: "VA PLTSS bills-of-collection recoverability material."
+                .to_string(),
+            next_decision_type: "full_field_closure_review".to_string(),
+            field_closure_allowed: false,
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology component gate progress requirement row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_component_gate_progress_source_target_boundary() {
+        let record = PaymentIntegrityMethodologyComponentGateProgressSourceTargetRecord {
+            record_id:
+                "payment-integrity-methodology-component-gate-progress-source-target:va-pltss:bills-of-collection-debt:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_component_gate_progress_source_target"
+                .to_string(),
+            source_component_gate_progress_requirement_record_id:
+                "payment-integrity-methodology-component-gate-progress-requirement:va-pltss:recoverable-incorrect-amount-subset:q4-2025"
+                    .to_string(),
+            agency_code: "VA".to_string(),
+            program_or_activity: "Purchased Long Term Services and Supports (PLTSS)"
+                .to_string(),
+            source_target_priority: 1,
+            source_target_name: "VA PLTSS bills-of-collection debt materials".to_string(),
+            source_target_scope:
+                "Find collectible-dollar basis for incorrect-amount PLTSS reviews.".to_string(),
+            evidence_to_extract: vec![
+                "source URL".to_string(),
+                "recoverable overpayment amount".to_string(),
+            ],
+            negative_evidence_rule:
+                "If the source only describes process without dollars, keep scoring blocked."
+                    .to_string(),
+            next_artifact_family:
+                "payment_integrity_methodology_component_gate_progress_source_query".to_string(),
+            field_closure_allowed: false,
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology component gate progress source-target row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_component_gate_progress_source_query_boundary() {
+        let record = PaymentIntegrityMethodologyComponentGateProgressSourceQueryRecord {
+            record_id:
+                "payment-integrity-methodology-component-gate-progress-source-query:va-pltss:bills-of-collection-debt:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_component_gate_progress_source_query"
+                .to_string(),
+            source_component_gate_progress_source_target_record_id:
+                "payment-integrity-methodology-component-gate-progress-source-target:va-pltss:bills-of-collection-debt:q4-2025"
+                    .to_string(),
+            agency_code: "VA".to_string(),
+            program_or_activity: "Purchased Long Term Services and Supports (PLTSS)"
+                .to_string(),
+            source_target_priority: 1,
+            query_text:
+                "site:department.va.gov OR site:va.gov PLTSS bills of collection recoverable overpayment debt"
+                    .to_string(),
+            query_scope: "Search official VA materials for collectible PLTSS overpayment dollars."
+                .to_string(),
+            expected_evidence: vec![
+                "official URL".to_string(),
+                "recoverable overpayment amount".to_string(),
+            ],
+            insufficient_result_rule:
+                "If results only describe process without dollars, keep scoring blocked."
+                    .to_string(),
+            next_artifact_family:
+                "payment_integrity_methodology_component_gate_progress_source_query_run"
+                    .to_string(),
+            field_closure_allowed: false,
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology component gate progress source-query row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_component_gate_progress_source_query_run_boundary() {
+        let record = PaymentIntegrityMethodologyComponentGateProgressSourceQueryRunRecord {
+            record_id:
+                "payment-integrity-methodology-component-gate-progress-source-query-run:va-pltss:bills-of-collection-debt:q4-2025"
+                    .to_string(),
+            record_family: "payment_integrity_methodology_component_gate_progress_source_query_run"
+                .to_string(),
+            source_component_gate_progress_source_query_record_id:
+                "payment-integrity-methodology-component-gate-progress-source-query:va-pltss:bills-of-collection-debt:q4-2025"
+                    .to_string(),
+            agency_code: "VA".to_string(),
+            program_or_activity: "Purchased Long Term Services and Supports (PLTSS)"
+                .to_string(),
+            source_target_priority: 1,
+            run_status: "pending_not_run".to_string(),
+            planned_query_text:
+                "site:department.va.gov OR site:va.gov PLTSS bills of collection recoverable overpayment debt"
+                    .to_string(),
+            result_capture_status: "no_result_captured".to_string(),
+            required_capture_fields: vec![
+                "official URL".to_string(),
+                "recoverable overpayment amount".to_string(),
+            ],
+            next_run_rule:
+                "Run against official VA sources; create a capture only if collectible-dollar evidence appears."
+                    .to_string(),
+            field_closure_allowed: false,
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology component gate progress source-query-run row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_methodology_component_gate_progress_source_capture_boundary() {
+        let record = PaymentIntegrityMethodologyComponentGateProgressSourceCaptureRecord {
+            record_id:
+                "payment-integrity-methodology-component-gate-progress-source-capture:va-pltss:bills-of-collection-debt:q4-2025"
+                    .to_string(),
+            record_family:
+                "payment_integrity_methodology_component_gate_progress_source_capture"
+                    .to_string(),
+            source_component_gate_progress_source_query_run_record_id:
+                "payment-integrity-methodology-component-gate-progress-source-query-run:va-pltss:bills-of-collection-debt:q4-2025"
+                    .to_string(),
+            agency_code: "VA".to_string(),
+            program_or_activity: "Purchased Long Term Services and Supports (PLTSS)"
+                .to_string(),
+            source_target_priority: 1,
+            observed_date: "2026-07-02".to_string(),
+            source_url: "https://department.va.gov/wp-content/uploads/2026/01/2025-Section-III-Other-Information.pdf"
+                .to_string(),
+            source_title: "Department of Veterans Affairs FY 2025 Agency Financial Report, Section III Other Information"
+                .to_string(),
+            captured_source_scope: "PLTSS post-payment review bills-of-collection process."
+                .to_string(),
+            captured_gate_summary:
+                "Supports process context but not quantified recoverable dollars.".to_string(),
+            component_gate_status: "partial_positive_basis_review_needed".to_string(),
+            next_review_action: "Keep scoring blocked until recoverable dollars are sourced."
+                .to_string(),
+            field_closure_allowed: false,
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a methodology component gate progress source-capture row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_next_program_selection_boundary() {
+        let record = PaymentIntegrityNextProgramSelectionRecord {
+            record_id: "payment-integrity-next-program-selection:cms-medicaid:q4-2025".to_string(),
+            record_family: "payment_integrity_next_program_selection".to_string(),
+            selected_program_key: "cms-medicaid".to_string(),
+            agency_code: "HHS".to_string(),
+            program_or_activity: "Medicaid".to_string(),
+            selection_status: "selected_for_methodology_planning".to_string(),
+            selection_reason:
+                "Medicaid is the next high-outlay payment-integrity branch after Part D."
+                    .to_string(),
+            official_source_urls: vec![
+                "https://paymentaccuracy.gov/assets/scorecards/Q4%202025/Centers%20for%20Medicare%20%26%20Medicaid%20Services%20%28CMS%29%20-%20Medicaid.pdf"
+                    .to_string(),
+                "https://www.cms.gov/data-research/monitoring-programs/improper-payment-measurement-programs"
+                    .to_string(),
+            ],
+            starting_methodology_fields: vec![
+                "sample design".to_string(),
+                "payment universe".to_string(),
+                "estimation method".to_string(),
+            ],
+            next_artifact_family: "payment_integrity_methodology_plan".to_string(),
+            scoring_allowed: false,
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a next-program selection row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert!(record.validate().is_ok());
+    }
+
+    #[test]
+    fn validates_payment_integrity_claims_timeliness_probe_boundary() {
+        let record = PaymentIntegrityClaimsTimelinessProbeRecord {
+            record_id:
+                "payment-integrity-claims-timeliness-probe:ssa:initial-disability-delta:2026-06-30"
+                    .to_string(),
+            record_family: "payment_integrity_claims_timeliness_probe".to_string(),
+            source_evidence_queue_record_id:
+                "cost-down-evidence-queue:payment-integrity:claims-timeliness:v1".to_string(),
+            source_id: "SRC-SSA-PERFORMANCE".to_string(),
+            observed_date: "2026-06-30".to_string(),
+            page_url: "https://www.ssa.gov/ssa-performance".to_string(),
+            agency_code: "SSA".to_string(),
+            metric_name: "Initial disability processing time improvement versus May 2025"
+                .to_string(),
+            metric_value: 42.0,
+            metric_unit: "days".to_string(),
+            comparison_operator: "improvement".to_string(),
+            metric_period: "current page observed 2026-06-30".to_string(),
+            source_scope_note:
+                "Public performance-page probe only; not a query-locked monthly CSV extract."
+                    .to_string(),
+            next_extract_need:
+                "Retrieve monthly processing-time series and pair with accuracy, appeal, and access metrics."
+                    .to_string(),
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a claims-timeliness probe only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert_eq!(record.validate(), Ok(()));
+    }
+
+    #[test]
+    fn validates_debt_maturity_risk_treasury_probe_boundary() {
+        let record = DebtMaturityRiskTreasuryProbeRecord {
+            record_id: "debt-maturity-risk-treasury-probe:debt-to-penny:2026-06-29"
+                .to_string(),
+            record_family: "debt_maturity_risk_treasury_probe".to_string(),
+            source_evidence_queue_record_id:
+                "cost-down-evidence-queue:debt-interest:maturity-risk:v1".to_string(),
+            source_id: "SRC-TREASURY-DEBT-PENNY".to_string(),
+            query_date: "2026-06-30".to_string(),
+            api_url: "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?sort=-record_date&page[size]=5".to_string(),
+            record_date: "2026-06-29".to_string(),
+            row_kind: "debt_stock".to_string(),
+            security_type: "all".to_string(),
+            security_description: "Total public debt outstanding".to_string(),
+            debt_held_public_amount: Some(31_621_329_805_348.19),
+            intragovernmental_holdings_amount: Some(7_724_010_982_621.53),
+            total_public_debt_outstanding_amount: Some(39_345_340_787_969.72),
+            average_interest_rate_percent: None,
+            source_scope_note: "Daily Treasury debt-stock row; not a maturity distribution or debt-management scenario.".to_string(),
+            next_extract_need: "Pair with maturity distribution, refinancing exposure, and CBO interest-rate assumptions.".to_string(),
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a Treasury rate-risk probe only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert_eq!(record.validate(), Ok(()));
+    }
+
+    #[test]
+    fn validates_debt_primary_balance_fiscal_probe_boundary() {
+        let record = DebtPrimaryBalanceFiscalProbeRecord {
+            record_id: "debt-primary-balance-fiscal-probe:fy2025".to_string(),
+            record_family: "debt_primary_balance_fiscal_probe".to_string(),
+            source_evidence_queue_record_id:
+                "cost-down-evidence-queue:debt-interest:primary-balance:v1".to_string(),
+            fiscal_year: 2025,
+            source_ids: vec![
+                "SRC-OMB-HIST-1-1-FY2027".to_string(),
+                "SRC-OMB-HIST-3-2-FY2027".to_string(),
+            ],
+            total_receipts_millions: 5_236_421.0,
+            total_outlays_millions: 7_011_105.0,
+            deficit_gap_millions: 1_774_684.0,
+            gross_treasury_interest_outlays_millions: 1_215_611.0,
+            primary_deficit_proxy_millions: 559_073.0,
+            borrowed_share_percent_of_outlays: 25.312472142,
+            income_tax_coverage_percent_of_outlays: 37.883386428,
+            basis_note:
+                "Primary-deficit proxy subtracts OMB Table 3.2 gross Treasury-interest subfunction outlays from the FY2025 deficit gap."
+                    .to_string(),
+            next_extract_need:
+                "Replace proxy with CBO/OMB primary-deficit series and policy scenario assumptions."
+                    .to_string(),
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as fiscal-balance context only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert_eq!(record.validate(), Ok(()));
+    }
+
+    #[test]
+    fn validates_disaster_declaration_probe_boundary() {
+        let record = DisasterDeclarationProbeRecord {
+            record_id: "disaster-declaration-probe:fema:5642:co:custer:2026-06-30"
+                .to_string(),
+            record_family: "disaster_declaration_probe".to_string(),
+            source_evidence_queue_record_id:
+                "cost-down-evidence-queue:disaster-exposure:supplemental-tracking:v1"
+                    .to_string(),
+            source_id: "SRC-FEMA-DISASTER-DECLARATIONS".to_string(),
+            query_date: "2026-06-30".to_string(),
+            api_url: "https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries".to_string(),
+            disaster_number: 5642,
+            declaration_date: "2026-06-29T00:00:00Z".to_string(),
+            incident_type: "Fire".to_string(),
+            state: "CO".to_string(),
+            designated_area: "Custer (County)".to_string(),
+            declaration_title: "ASPEN ACRES FIRE".to_string(),
+            ih_program_declared: false,
+            ia_program_declared: false,
+            pa_program_declared: true,
+            hm_program_declared: false,
+            source_scope_note: "Declaration-area row only; not an outlay, damage, or waste estimate.".to_string(),
+            next_extract_need: "Link declaration to account, obligation, award, and outlay records.".to_string(),
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a disaster declaration probe only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert_eq!(record.validate(), Ok(()));
+    }
+
+    #[test]
+    fn validates_disaster_mitigation_project_probe_boundary() {
+        let record = DisasterMitigationProjectProbeRecord {
+            record_id: "disaster-mitigation-project-probe:fema-hma:dr-4781-0063:2026-06-30"
+                .to_string(),
+            record_family: "disaster_mitigation_project_probe".to_string(),
+            source_evidence_queue_record_id:
+                "cost-down-evidence-queue:disaster-exposure:mitigation:v1".to_string(),
+            source_id: "SRC-FEMA-HMA-PROJECTS".to_string(),
+            query_date: "2026-06-30".to_string(),
+            api_url: "https://www.fema.gov/api/open/v4/HazardMitigationAssistanceProjects"
+                .to_string(),
+            project_identifier: "DR-4781-0063".to_string(),
+            program_area: "HMGP".to_string(),
+            program_fy: 2024,
+            state: "Texas".to_string(),
+            county: "Hardin".to_string(),
+            disaster_number: Some(4781),
+            project_type: "205.8: Retrofitting Public Structures - Wind".to_string(),
+            status: "Pending".to_string(),
+            recipient: "Statewide".to_string(),
+            subrecipient: "Hardin (County)".to_string(),
+            data_source: "HMGP".to_string(),
+            date_approved: None,
+            date_closed: None,
+            project_amount: Some(3_823_400.0),
+            federal_share_obligated: None,
+            cost_share_percentage: Some(0.75),
+            benefit_cost_ratio: Some(9.39),
+            net_value_benefits: Some(35_890_154.0),
+            number_of_properties: Some(0),
+            source_scope_note:
+                "FEMA HMA project row only; not an avoided-loss or savings estimate."
+                    .to_string(),
+            next_extract_need:
+                "Attach benefit-cost method, hazard/geography crosswalk, and event-to-account bridge."
+                    .to_string(),
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a disaster mitigation project probe only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert_eq!(record.validate(), Ok(()));
+    }
+
+    #[test]
+    fn validates_defense_audit_control_probe_boundary() {
+        let record = DefenseAuditControlProbeRecord {
+            record_id: "defense-audit-control-probe:dodig-fy2025:summary:2026-06-30"
+                .to_string(),
+            record_family: "defense_audit_control_probe".to_string(),
+            source_evidence_queue_record_id:
+                "cost-down-evidence-queue:defense:audit-control-closure:v1".to_string(),
+            source_id: "SRC-DODIG-FY2025-AUDIT".to_string(),
+            observed_date: "2026-06-30".to_string(),
+            report_url: "https://media.defense.gov/2025/Dec/19/2003847587/-1/-1/1/DODIG-2026-032.PDF"
+                .to_string(),
+            report_number: "DODIG-2026-032".to_string(),
+            fiscal_year: 2025,
+            finding_type: "audit_result_summary".to_string(),
+            finding_identifier: "agency-wide-fy2025".to_string(),
+            finding_title: "FY2025 DoD agency-wide financial statement audit result"
+                .to_string(),
+            audit_opinion: Some("disclaimer_of_opinion".to_string()),
+            material_weakness_count: Some(26),
+            significant_deficiency_count: Some(2),
+            noncompliance_count: Some(5),
+            reported_amount_usd: Some(4_600_000_000_000.0),
+            reported_amount_basis: Some("assets assessed by independent auditors".to_string()),
+            affected_area: "agency-wide financial statements".to_string(),
+            control_signal:
+                "Audit report summarizes material weaknesses, significant deficiencies, and noncompliance instances."
+                    .to_string(),
+            recommendation_signal:
+                "Use as inventory for closure tracking and corrective-action extraction."
+                    .to_string(),
+            source_scope_note:
+                "Audit-control context only; not a waste, fraud, readiness, or savings finding."
+                    .to_string(),
+            next_extract_need:
+                "Attach finding-level corrective-action status, repeat-finding age, and mission floor."
+                    .to_string(),
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a defense audit control probe only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert_eq!(record.validate(), Ok(()));
+    }
+
+    #[test]
+    fn validates_defense_procurement_control_probe_boundary() {
+        let record = DefenseProcurementControlProbeRecord {
+            record_id:
+                "defense-procurement-control-probe:gao-2025:mdap-cost-growth:2026-06-30"
+                    .to_string(),
+            record_family: "defense_procurement_control_probe".to_string(),
+            source_evidence_queue_record_id:
+                "cost-down-evidence-queue:defense:procurement-control:v1".to_string(),
+            source_id: "SRC-GAO-WEAPON-SYSTEMS-2025".to_string(),
+            observed_date: "2026-06-30".to_string(),
+            report_url: "https://www.gao.gov/products/gao-25-107569".to_string(),
+            report_number: "GAO-25-107569".to_string(),
+            report_year: 2025,
+            program_or_portfolio: "Major Defense Acquisition Programs".to_string(),
+            service_or_scope: "DOD portfolio".to_string(),
+            acquisition_pathway: Some("MDAP".to_string()),
+            signal_type: "portfolio_cost_growth".to_string(),
+            signal_title: "MDAP portfolio cost growth".to_string(),
+            reported_amount_usd: Some(49_300_000_000.0),
+            reported_amount_basis: Some("GAO-reported 2024 portfolio cost growth".to_string()),
+            reported_percent: None,
+            reported_months: None,
+            reviewed_program_count: None,
+            control_signal:
+                "GAO reports portfolio cost growth that needs program-level baseline review."
+                    .to_string(),
+            recommendation_signal:
+                "Extract program-level baseline, current estimate, schedule, and readiness floor."
+                    .to_string(),
+            source_scope_note:
+                "Procurement-control context only; not a readiness, waste, or savings finding."
+                    .to_string(),
+            next_extract_need:
+                "Attach acquisition baseline, current estimate, schedule variance, and strategy floor."
+                    .to_string(),
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a defense procurement control probe only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert_eq!(record.validate(), Ok(()));
+    }
+
+    #[test]
+    fn validates_health_price_discipline_probe_boundary() {
+        let record = HealthPriceDisciplineProbeRecord {
+            record_id: "health-price-discipline-probe:medicare-part-b:gov-support-per-enrollee:cy2025"
+                .to_string(),
+            record_family: "health_price_discipline_probe".to_string(),
+            source_evidence_queue_record_id:
+                "cost-down-evidence-queue:health-medicare:price-discipline:v1".to_string(),
+            source_ids: vec!["SRC-CMS-MEDICARE-TRUSTEES-2026".to_string()],
+            observed_date: "2026-06-30".to_string(),
+            program_part: "Part B".to_string(),
+            service_or_drug_category: "government contribution per Part B enrollee".to_string(),
+            fiscal_or_calendar_year: "CY2025".to_string(),
+            price_or_expenditure_basis: "Trustees Part B government contribution divided by Part B enrollment".to_string(),
+            benchmark_or_comparison: "same-source per-enrollee anchor; not a service-price benchmark".to_string(),
+            metric_value: Some(422_200_000_000.0),
+            metric_unit: Some("usd".to_string()),
+            denominator_value: Some(63_448_000.0),
+            denominator_unit: Some("people".to_string()),
+            computed_value_usd: Some(6_654.27),
+            quality_or_access_measure: "not yet attached".to_string(),
+            source_record_ids: vec![
+                "medicare-part-financing:part-b:cy2025:cms-trustees-2026".to_string(),
+                "denominator-value:medicare-part-b-enrollment:cy2025:cms-trustees-2026".to_string(),
+            ],
+            readiness_status: "anchor_ready_service_price_blocked".to_string(),
+            source_scope_note:
+                "Per-enrollee financing anchor only; not a provider price or savings estimate."
+                    .to_string(),
+            next_extract_need:
+                "Attach service-level price/utilization data, case-mix controls, and quality floor."
+                    .to_string(),
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a health price-discipline probe only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert_eq!(record.validate(), Ok(()));
+    }
+
+    #[test]
+    fn validates_health_admin_simplification_probe_boundary() {
+        let record = HealthAdminSimplificationProbeRecord {
+            record_id: "health-admin-simplification-probe:medicare:claims-workflow-gap:2026-06-30"
+                .to_string(),
+            record_family: "health_admin_simplification_probe".to_string(),
+            source_evidence_queue_record_id:
+                "cost-down-evidence-queue:health-medicare:administrative-simplification:v1"
+                    .to_string(),
+            source_ids: vec!["SRC-CMS-MEDICARE-TRUSTEES-2026".to_string()],
+            observed_date: "2026-06-30".to_string(),
+            program_part: "Part A / Part B / Part D".to_string(),
+            workflow_step: "claims workflow source inventory gap".to_string(),
+            period: "not-yet-query-locked".to_string(),
+            administrative_cost_or_cycle_time_basis:
+                "blocked until CMS/HHS workflow volume and cost sources are selected".to_string(),
+            claim_or_case_count: None,
+            claim_or_case_count_unit: None,
+            metric_value: None,
+            metric_unit: None,
+            access_or_integrity_floor:
+                "blocked until access, due-process, payment-accuracy, and service-level floors are attached"
+                    .to_string(),
+            source_record_ids: vec![
+                "cost-down-evidence-queue:health-medicare:administrative-simplification:v1"
+                    .to_string(),
+            ],
+            readiness_status: "blocked_missing_workflow_extract".to_string(),
+            source_scope_note:
+                "Explicit blocker row; not an administrative savings estimate.".to_string(),
+            next_extract_need:
+                "Choose CMS/HHS claims, denial, appeal, authorization, and rework sources."
+                    .to_string(),
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a health administrative simplification probe only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert_eq!(record.validate(), Ok(()));
+    }
+
+    #[test]
+    fn validates_cost_down_first_pass_rollup_boundary() {
+        let record = CostDownFirstPassRollupRecord {
+            record_id: "cost-down-first-pass-rollup:health-medicare:price-discipline:v1"
+                .to_string(),
+            record_family: "cost_down_first_pass_rollup".to_string(),
+            source_evidence_queue_record_id:
+                "cost-down-evidence-queue:health-medicare:price-discipline:v1".to_string(),
+            source_backlog_record_id: "cost-down:health-medicare:price-discipline".to_string(),
+            source_pressure_record_id: "efficiency-pressure:health-medicare-fy2025".to_string(),
+            lane_id: "health-medicare".to_string(),
+            lever_id: "price-discipline".to_string(),
+            first_pass_artifacts: vec![
+                "data/derived/efficiency_pressure/extracts/health_price_discipline_first_pass.jsonl"
+                    .to_string(),
+            ],
+            first_pass_row_count: 6,
+            signal_status: "context_ready_scoring_blocked".to_string(),
+            strongest_current_signal:
+                "OECD benchmark and Medicare per-enrollee anchors are ready; service-level prices are not."
+                    .to_string(),
+            scoring_blockers: vec![
+                "service-level price/utilization extract".to_string(),
+                "quality and access floor".to_string(),
+                "reviewed scoring method".to_string(),
+            ],
+            next_scoring_step:
+                "Choose CMS/HHS service categories and query-lock price/utilization fields."
+                    .to_string(),
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a first-pass rollup only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert_eq!(record.validate(), Ok(()));
+    }
+
+    #[test]
+    fn validates_cost_down_scoring_readiness_boundary() {
+        let record = CostDownScoringReadinessRecord {
+            record_id: "cost-down-scoring-readiness:payment-integrity:eligibility-accuracy:v1"
+                .to_string(),
+            record_family: "cost_down_scoring_readiness".to_string(),
+            source_rollup_record_id:
+                "cost-down-first-pass-rollup:payment-integrity:eligibility-accuracy:v1"
+                    .to_string(),
+            source_evidence_queue_record_id:
+                "cost-down-evidence-queue:payment-integrity:eligibility-accuracy:v1"
+                    .to_string(),
+            lane_id: "payment-integrity-administration".to_string(),
+            lever_id: "eligibility-accuracy".to_string(),
+            prioritization_rank: 1,
+            readiness_tier: "near_term_program_review".to_string(),
+            evidence_maturity_score: 4,
+            scale_pressure_score: 4,
+            scoring_complexity_score: 3,
+            priority_rationale:
+                "Program scorecards expose rates, dollars, and root causes, but access floors remain missing."
+                    .to_string(),
+            immediate_next_artifact:
+                "program-level methodology and corrective-action extract".to_string(),
+            public_claim_allowed: false,
+            savings_estimate_allowed: false,
+            public_use_rule:
+                "Use as a scoring-readiness row only; not a savings estimate and not a finding of waste."
+                    .to_string(),
+        };
+
+        assert_eq!(record.validate(), Ok(()));
+    }
+
+    #[test]
+    fn validates_spend_category_map_record_boundary() {
+        let record = SpendCategoryMapRecord {
+            model_id: SPEND_CATEGORY_MAP_MODEL_ID.to_string(),
+            record_id: "spendcat-fy2025-001".to_string(),
+            fiscal_year: 2025,
+            rank: 1,
+            source_level: "omb_subfunction".to_string(),
+            source_id: "SRC-OMB-HIST-3-2-FY2027".to_string(),
+            function_code: "650".to_string(),
+            function_label: "Social Security".to_string(),
+            subfunction_code: "651".to_string(),
+            subfunction_label: "Social security".to_string(),
+            subfunction_outlays_millions: 1_580_673.0,
+            share_of_total_outlays_percent: 22.545276387,
+            modeled_income_tax_allocation_millions: 598_812.460748,
+            allocation_method: "proportional_outlay_share".to_string(),
+            legal_allocation_status: "modeled_not_legal_dedication".to_string(),
+            funding_caveat: "OMB subfunction row; not taxpayer-dollar tracing.".to_string(),
+            next_source_need: "SSA trustees and OMB mandatory-program tables.".to_string(),
+            accountability_status: "question_surface_only".to_string(),
+        };
+
+        assert_eq!(record.validate(), Ok(()));
+    }
+
+    #[test]
+    fn blocks_spend_category_public_claim_bypass() {
+        let record = SpendCategoryMapRecord {
+            model_id: SPEND_CATEGORY_MAP_MODEL_ID.to_string(),
+            record_id: "spendcat-fy2025-001".to_string(),
+            fiscal_year: 2025,
+            rank: 1,
+            source_level: "omb_subfunction".to_string(),
+            source_id: "SRC-OMB-HIST-3-2-FY2027".to_string(),
+            function_code: "650".to_string(),
+            function_label: "Social Security".to_string(),
+            subfunction_code: "651".to_string(),
+            subfunction_label: "Social security".to_string(),
+            subfunction_outlays_millions: 1_580_673.0,
+            share_of_total_outlays_percent: 22.545276387,
+            modeled_income_tax_allocation_millions: 598_812.460748,
+            allocation_method: "proportional_outlay_share".to_string(),
+            legal_allocation_status: "modeled_not_legal_dedication".to_string(),
+            funding_caveat: "OMB subfunction row; not taxpayer-dollar tracing.".to_string(),
+            next_source_need: "SSA trustees and OMB mandatory-program tables.".to_string(),
+            accountability_status: "public_claim_allowed".to_string(),
         };
 
         assert!(record.validate().is_err());

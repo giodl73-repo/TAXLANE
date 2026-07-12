@@ -158,3 +158,13 @@ notes, and each source ID is recorded in `docs/sources/source-version-ledger.md`
 | Defense % GDP and NATO/Hague targets | `SRC-SIPRI-MILEX-2024`, `SRC-NATO-DEFEXP-2025` |
 | Public pension 7.3% vs OECD 8.1%; OASDI rate/cap | `SRC-OECD-PENSIONS-2025`, `SRC-SSA-OACT` |
 | Income base (AGI, taxable income, TY2022) | `SRC-IRS-SOI-1304` |
+
+## Alignment Follow-Up
+
+The next alignment layer is
+`docs/research/2026-06-28-contribution-benefit-alignment.md` and
+`data/derived/contribution_alignment/contribution_alignment.fy2025.v1.draft.jsonl`.
+It blocks a common mistake in this packet: Medicare should not be read as one
+clean payroll-funded lane. Hospital Insurance is the contributory component;
+Supplementary Medical Insurance is premiums plus general revenue support. Future
+per-person displays must name their denominator before showing a receipt number.
