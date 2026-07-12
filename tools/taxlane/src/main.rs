@@ -201,6 +201,9 @@ const HEALTH_CATEGORY_BENCHMARK_READER_PATH: &str =
 const HEALTH_TARGET_ADMISSIBILITY_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/health_target_admissibility.v1.draft.json";
 const HEALTH_TARGET_ADMISSIBILITY_READER_PATH: &str = "docs/reading/health-target-admissibility.md";
+const HEALTH_SCENARIOS_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/health_medicare_relative_scenarios.v1.draft.json";
+const HEALTH_SCENARIOS_READER_PATH: &str = "docs/reading/health-medicare-relative-scenarios.md";
 const VETERANS_DEPTH_CARD_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/veterans_depth_card.fy2025.v1.draft.json";
 const VETERANS_DEPTH_CARD_READER_PATH: &str = "docs/reading/veterans-depth-card.md";
@@ -921,6 +924,20 @@ const ARTIFACTS: &[Artifact] = &[
         path: "docs/reading/health-target-admissibility.md",
         role: "Public health target admissibility card",
         grain: "public adequacy and access decision card",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/health_medicare_relative_scenarios.v1.draft.json",
+        role: "Health Medicare-relative scenario paths",
+        grain: "hospital and professional low, central, and high policy scenarios",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/health-medicare-relative-scenarios.md",
+        role: "Public health Medicare-relative scenario card",
+        grain: "public rate-path and scoring-gate card",
         kind: "markdown",
         canonical: "supporting",
     },
@@ -8289,10 +8306,67 @@ fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
     validate_health_service_bridge(root)?;
     validate_health_category_benchmark_ladder(root)?;
     validate_health_target_admissibility(root)?;
+    validate_health_scenarios(root)?;
     println!(
         "validated {} breadth benchmark rows across full comparisons and toplines with no open coverage gaps",
         rows.len()
     );
+    Ok(())
+}
+
+fn validate_health_scenarios(root: &Path) -> Result<(), String> {
+    let text =
+        fs::read_to_string(root.join(HEALTH_SCENARIOS_JSON_PATH)).map_err(|e| e.to_string())?;
+    let card: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+    let categories = card
+        .get("categories")
+        .and_then(|v| v.as_array())
+        .ok_or("health scenario categories")?;
+    if categories.len() != 2 {
+        return Err("health scenarios need hospital and professional categories".to_string());
+    }
+    for category in categories {
+        let current = number_field(category, "current_reference_percent_medicare")?;
+        let scenarios = category
+            .get("scenarios")
+            .and_then(|v| v.as_array())
+            .ok_or("health category scenarios")?;
+        if scenarios.len() != 3
+            || !string_field(category, "dollar_effect_status")?.contains("blocked")
+        {
+            return Err(
+                "health category must have three scenarios with dollars blocked".to_string(),
+            );
+        }
+        for scenario in scenarios {
+            let target = number_field(scenario, "target_percent_medicare")?;
+            let change = number_field(scenario, "gross_rate_change_percent")?;
+            let expected = (target / current - 1.0) * 100.0;
+            if (change - expected).abs() > 0.001 {
+                return Err("health scenario rate change does not reconcile".to_string());
+            }
+        }
+    }
+    let gates = card
+        .get("shared_gates")
+        .and_then(|v| v.as_array())
+        .ok_or("health scenario shared gates")?;
+    if gates.len() < 6
+        || !string_field(&card, "gross_dollar_effect_status")?.contains("blocked")
+        || !string_field(&card, "net_savings_status")?.contains("blocked")
+    {
+        return Err("health scenarios must preserve model gates and savings blocks".to_string());
+    }
+    let reader =
+        fs::read_to_string(root.join(HEALTH_SCENARIOS_READER_PATH)).map_err(|e| e.to_string())?;
+    for required in [
+        HEALTH_SCENARIOS_JSON_PATH,
+        "illustrative rate path != spending reduction != federal savings",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("health scenario reader missing {required}"));
+        }
+    }
     Ok(())
 }
 

@@ -29,6 +29,10 @@ price references, or mechanism evidence—and why none is yet a savings target.
 references can become scenario anchors using current access, margin, quality,
 and payment-adequacy evidence; it blocks a universal target.
 
+`health_medicare_relative_scenarios.v1.draft.json` defines low, central, and
+high policy paths while blocking dollar scoring until a matched commercial
+allowed-spending base and behavioral/access model exist.
+
 The matrix deliberately includes coverage-gap rows. An explicit missing value
 is more useful than a false benchmark.
 
