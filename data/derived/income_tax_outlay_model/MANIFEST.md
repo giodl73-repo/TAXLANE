@@ -37,7 +37,7 @@ supporting views.
 | `data/derived/spend_category_map/spend_category_map.schema.md` | Spend category map row schema | documentation | n/a | supporting | `46752cb0d2fae1ec20f8320fe3601d055b22c6ea2ebaa1fdd59f6da5b38dbede` |
 | `data/derived/spend_category_map/accountability-question-handoff.md` | Spend category accountability question handoff | documentation | n/a | supporting | `b1e02dade19541634d70b11544e7fbcbdd81bbdd545a31a13ca424752a24f4f1` |
 | `data/derived/spend_category_map/spend-category-dashboard.md` | Spend category dashboard | documentation | n/a | supporting | `a25d2773d9d29d6fe724f44b8071fd84c4d710c4dad74aeca97bf49d184477cd` |
-| `data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.v1.draft.jsonl` | Breadth, depth, and current-versus-benchmark matrix | fiscal lane metric or explicit coverage gap | 17 | supporting | `3fa874eee1f931c7461018382e4ae52e4653a9662c5602e597646c448d51e23c` |
+| `data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.v1.draft.jsonl` | Breadth, depth, and current-versus-benchmark matrix | fiscal lane metric or explicit coverage gap | 17 | supporting | `4e9d30f1676ac335e14377fb22beaa7c4ca36f8a8d572a4d2549d4a41eaacbee` |
 | `data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.schema.md` | Breadth benchmark matrix schema | documentation | n/a | supporting | `a11dfb5de738571d25992be592096ac8d4309ac2f01984760729c82b1dc7cf25` |
 | `data/derived/breadth_benchmark_matrix/README.md` | Breadth benchmark matrix method note | documentation | n/a | supporting | `173d67e2fa61ed652a03810f53c1e74d12ee50e91cbcef192a3110cb440b7adf` |
 | `docs/reading/current-versus-benchmark-scoreboard.md` | Current-versus-benchmark public scoreboard | public comparison packet | n/a | supporting | `afe8967be06ad43d6ace435ce8ea271bb4fb515cdff68eb9be0c1524ac971dad` |
@@ -55,6 +55,8 @@ supporting views.
 | `docs/reading/science-energy-environment-depth-card.md` | Public science-energy-environment depth card | public fiscal depth card | n/a | supporting | `800afec31ea427d1b0ecfdefe393bdc9e75045bc908836223ecb074676bf0613` |
 | `data/derived/breadth_benchmark_matrix/agriculture_depth_card.fy2025.v1.draft.json` | Agriculture FY2025 depth card | federal function components | n/a | supporting | `9ead5fc5abb86dcc2ca6f65d4c12888bd19f3ea552692780f55fe2a40bc33db9` |
 | `docs/reading/agriculture-depth-card.md` | Public agriculture depth card | public fiscal depth card | n/a | supporting | `1adb44eeefd08149356e685c0930621a185dad5268e7d821dc66baba5fe76a2a` |
+| `data/derived/breadth_benchmark_matrix/international_affairs_depth_card.fy2025.v1.draft.json` | International affairs FY2025 depth card | federal function components | n/a | supporting | `727b8717952d0c0d2b5687ba9c47c116488a5f036c50d2802b4ae6de1fe1cffb` |
+| `docs/reading/international-affairs-depth-card.md` | Public international affairs depth card | public fiscal depth card | n/a | supporting | `e411243af54f5faa3a2f6e55e4c6e11652f77cbf8844b01fc4e3777b87b5a28a` |
 | `data/derived/headline_basis_crosswalk/headline_basis_crosswalk.v1.draft.jsonl` | Headline measure basis and incompatibility crosswalk | headline measure definition | 9 | supporting | `ce8fbc5ae873dc71a0c0f7c2f53a14257ab6266c07801f54480daadf9f778e1b` |
 | `data/derived/headline_basis_crosswalk/headline_basis_crosswalk.schema.md` | Headline basis crosswalk schema | documentation | n/a | supporting | `f4e59792da98abfe3d6bb708d937cef4a6b305d5cce07ed54e5710559ce9bfae` |
 | `data/derived/headline_basis_crosswalk/README.md` | Headline basis crosswalk method note | documentation | n/a | supporting | `b544beb3928c46742cbf70a1c9e00bf31511e443a5c396654b7425dc43092e33` |
@@ -312,7 +314,7 @@ supporting views.
 | `data/derived/accountability_evidence/performance-demand-checklist.schema.md` | Accountability performance demand checklist schema | documentation | n/a | supporting | `afdcb11bb20a75709acabb690655fd03ba8d3a56df522c7b09e8d4b4ffeff6d1` |
 | `data/derived/accountability_evidence/artifact-map.md` | Accountability artifact map | documentation | n/a | supporting | `f7b17b6046644a00ef117962cf60b089747c2fec1a7f91f0e13ecf9b9dd33a7b` |
 | `docs/reading/accountability-public-brief.md` | Reader-facing accountability brief | documentation | n/a | supporting | `cc225ff43f81fa0316f85a8f8ede225f5d1a51470f81d2a296e32820e7434c35` |
-| `docs/reading/README.md` | Reading packet index | documentation | n/a | supporting | `cf28e7a5edbb8a59541a21d51e30128a0e6b37e4af1b84b7f1f95d24a668fbbc` |
+| `docs/reading/README.md` | Reading packet index | documentation | n/a | supporting | `bf85c3962cc4c926b882025cf127f823f4d586b4fea179fa2a642cede91ea6a1` |
 | `docs/reading/placeholder-visibility-receipt.md` | Placeholder receipt reader packet | documentation | n/a | supporting | `4be976503aabb6c21ec77a553f185918190ebcb00e3300930d37e3a7a12f962e` |
 | `docs/reading/placeholder-receipt-display-packet.md` | Placeholder receipt static display packet | documentation | n/a | supporting | `aa2f3fd899fa1dd763b9482c4d4aae81fcde3e77aeb8ce01b1626d10155f35f2` |
 | `reviews/2026-06-23-placeholder-display-packet-role-review.md` | Placeholder receipt display packet role review | documentation | n/a | supporting | `1a0825afa9a4db902ea1d17a0a69443e0caeb2a6ae7c805f3718282c8806fd68` |
@@ -362,7 +364,7 @@ supporting views.
 | `crates/taxlane-core/Cargo.toml` | Rust Taxlane core crate manifest | tooling | n/a | supporting | `6469c9f3c3d01bc0c51783255082c93ed608c6c64c0d4f32f5cd2c08f2426fb9` |
 | `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `1a121eb2c2b30b9612895e3580135bfe56441f9f12d344a85fe316741b1473be` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `b910e56a20f40547ac1e4f696e84772dde163738b03915ddbcc0d0a39427719a` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `37c9a089a622bea879ffd66722c95e0ca869d3f7d7903f3aff356611a831ff98` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `24aef4270f6ba8d2a2a912298e2bdd000192d7e5622729300137e54038226314` |
 
 ## Regeneration Order
 

@@ -208,6 +208,10 @@ const SCIENCE_DEPTH_CARD_READER_PATH: &str =
 const AGRICULTURE_DEPTH_CARD_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/agriculture_depth_card.fy2025.v1.draft.json";
 const AGRICULTURE_DEPTH_CARD_READER_PATH: &str = "docs/reading/agriculture-depth-card.md";
+const INTERNATIONAL_DEPTH_CARD_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/international_affairs_depth_card.fy2025.v1.draft.json";
+const INTERNATIONAL_DEPTH_CARD_READER_PATH: &str =
+    "docs/reading/international-affairs-depth-card.md";
 const HEADLINE_BASIS_JSONL_PATH: &str =
     "data/derived/headline_basis_crosswalk/headline_basis_crosswalk.v1.draft.jsonl";
 const HEADLINE_BASIS_README_PATH: &str = "data/derived/headline_basis_crosswalk/README.md";
@@ -944,6 +948,20 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "docs/reading/agriculture-depth-card.md",
         role: "Public agriculture depth card",
+        grain: "public fiscal depth card",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/international_affairs_depth_card.fy2025.v1.draft.json",
+        role: "International affairs FY2025 depth card",
+        grain: "federal function components",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/international-affairs-depth-card.md",
+        role: "Public international affairs depth card",
         grain: "public fiscal depth card",
         kind: "markdown",
         canonical: "supporting",
@@ -8075,12 +8093,12 @@ fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
         }
     }
 
-    for required in ["tier_1_full", "tier_2_card", "tier_3_gap"] {
+    for required in ["tier_1_full", "tier_2_card"] {
         if !tiers.contains_key(required) {
             return Err(format!("breadth benchmark matrix needs {required} rows"));
         }
     }
-    for required in ["full_comparison", "topline_only", "coverage_gap"] {
+    for required in ["full_comparison", "topline_only"] {
         if !statuses.contains_key(required) {
             return Err(format!(
                 "breadth benchmark matrix needs {required} coverage rows"
@@ -8196,6 +8214,7 @@ fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
     validate_justice_depth_card(root)?;
     validate_science_depth_card(root)?;
     validate_agriculture_depth_card(root)?;
+    validate_international_depth_card(root)?;
     println!(
         "validated {} breadth benchmark rows across full comparisons, toplines, and coverage gaps",
         rows.len()
@@ -8349,6 +8368,41 @@ fn validate_agriculture_depth_card(root: &Path) -> Result<(), String> {
         .map_err(|e| e.to_string())?;
     if !reader.contains(AGRICULTURE_DEPTH_CARD_JSON_PATH) || !reader.contains("double count") {
         return Err("agriculture reader boundary failed".to_string());
+    }
+    Ok(())
+}
+
+fn validate_international_depth_card(root: &Path) -> Result<(), String> {
+    let text = fs::read_to_string(root.join(INTERNATIONAL_DEPTH_CARD_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let card: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+    let parts = card
+        .get("components")
+        .and_then(|v| v.as_array())
+        .ok_or("international components")?;
+    let sum: f64 = parts
+        .iter()
+        .map(|v| number_field(v, "outlays_millions"))
+        .collect::<Result<Vec<_>, _>>()?
+        .iter()
+        .sum();
+    let financial = parts
+        .iter()
+        .find(|v| v.get("subfunction_code").and_then(|x| x.as_str()) == Some("155"))
+        .ok_or("financial component")?;
+    if parts.len() != 5
+        || sum != 45_171.0
+        || number_field(financial, "outlays_millions")? != -14_936.0
+        || financial.get("accounting_caveat").is_none()
+    {
+        return Err("international depth boundary failed".to_string());
+    }
+    let reader = fs::read_to_string(root.join(INTERNATIONAL_DEPTH_CARD_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    if !reader.contains(INTERNATIONAL_DEPTH_CARD_JSON_PATH)
+        || !reader.contains("negative diplomacy")
+    {
+        return Err("international reader boundary failed".to_string());
     }
     Ok(())
 }

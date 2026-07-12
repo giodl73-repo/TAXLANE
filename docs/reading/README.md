@@ -23,6 +23,7 @@ explainers. They should keep three labels visible:
 | `justice-depth-card.md` | Complete FY2025 federal justice function with four components and state/local, outcome, and rights gates. |
 | `science-energy-environment-depth-card.md` | Three-function FY2025 orientation that preserves separate science, energy, and environmental outcome surfaces. |
 | `agriculture-depth-card.md` | Complete FY2025 agriculture function with farm-stabilization, research/services, and nutrition crossover boundaries. |
+| `international-affairs-depth-card.md` | Complete FY2025 international-affairs function with five components and a negative financial-program accounting gate. |
 | `income-tax-foundation.md` | First public packet explaining income-tax history, current mechanics, budget accounting, and program-linked tax lanes. |
 | `modeled-income-tax-outlays.md` | Reader-facing explanation of the annual and decade modeled allocation of individual income-tax receipts by broad outlay share. |
 | `modeled-income-tax-subfunction-outlays.md` | Reader-facing drilldown packet for modeled Table 3.2 subfunction allocation views. |
