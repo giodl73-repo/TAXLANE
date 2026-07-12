@@ -12,6 +12,11 @@ Canonical draft rows:
 
 Public scoreboard: `docs/reading/current-versus-benchmark-scoreboard.md`.
 
+The health depth phase begins with
+`health_cost_decomposition.v1.draft.json`, which separates price, volume and
+intensity, administration, coverage and case mix, and outcomes without treating
+different years or denominators as additive savings.
+
 The matrix deliberately includes coverage-gap rows. An explicit missing value
 is more useful than a false benchmark.
 

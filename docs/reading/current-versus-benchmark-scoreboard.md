@@ -50,6 +50,8 @@ The prioritized depth queue is:
 
 1. **Health cost decomposition:** quantify price, utilization, administration,
    coverage, case mix, and outcomes behind the 17.2% versus 9.3% GDP comparison.
+   The first diagnostic decomposition is now available in
+   `docs/reading/health-cost-decomposition.md`; service-level scoring remains open.
 2. **Fiscal-path scenarios:** connect borrowing, primary balance, net interest,
    debt stock, rates, and revenue bases under explicit current-policy and
    stabilization assumptions.

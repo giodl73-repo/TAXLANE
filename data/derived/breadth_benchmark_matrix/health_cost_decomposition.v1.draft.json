@@ -1,0 +1,29 @@
+{
+  "record_id": "depth-card:health-cost-decomposition:v1",
+  "record_family": "health_cost_decomposition",
+  "lane_id": "health-medicare",
+  "headline_period": "CY2024 OECD estimate",
+  "source_ids": ["SRC-OECD-HEALTH-2025", "SRC-OECD-US-HEALTH-DIFF-2022", "SRC-CMS-NHE-2024"],
+  "headline": {
+    "us_total_health_spending_percent_gdp": 17.2,
+    "oecd_average_percent_gdp": 9.3,
+    "observed_gap_percentage_points": 7.9,
+    "us_to_oecd_ratio": 1.849,
+    "us_per_capita_usd_ppp": 14885,
+    "oecd_per_capita_usd_ppp": 5967,
+    "per_capita_gap_usd_ppp": 8918,
+    "per_capita_ratio": 2.495
+  },
+  "diagnostic_signals": [
+    {"factor":"price","period":"2017","comparison_scope":"United States versus OECD average","us_value":127,"benchmark_value":100,"unit":"health_price_level_index","reading":"Available OECD price comparison places US health-sector prices about 27 percent above the OECD average; OECD cautions that methodological differences may understate the US level.","attribution_status":"directional_not_additive"},
+    {"factor":"volume_and_intensity","period":"2017","comparison_scope":"United States versus other G7 average","us_value":1.6,"benchmark_value":1.0,"unit":"relative_care_volume","reading":"Price-adjusted health-goods-and-services volume was estimated at about 1.6 times the other-G7 average, versus spending at about 2.2 times; selected imaging and elective procedures were elevated, but physician and bed supply was not.","attribution_status":"directional_not_additive"},
+    {"factor":"administration","period":"2019","comparison_scope":"United States versus other G7 average","us_value":8,"benchmark_value":null,"unit":"percent_total_health_spending","reading":"Administration accounted for about 8 percent of US health spending and more than USD 800 per person, over five times the other-G7 per-person average.","attribution_status":"directional_not_additive"},
+    {"factor":"coverage_and_case_mix","period":"latest values in OECD 2025 country note","comparison_scope":"United States versus OECD average where available","us_value":93,"benchmark_value":null,"unit":"percent_population_core_services_covered","reading":"Core-service coverage was 93 percent. Obesity was 35 percent versus 19 percent OECD average, while smoking was lower; need and risk differ, but OECD analysis finds age structure does not explain the high US spending level.","attribution_status":"context_not_cost_allocation"},
+    {"factor":"outcomes_and_quality","period":"latest values in OECD 2025 country note","comparison_scope":"United States versus OECD average","us_value":78.4,"benchmark_value":81.1,"unit":"life_expectancy_years","reading":"Outcomes are mixed: life expectancy was 2.7 years lower and preventable and treatable mortality were higher, while 30-day mortality after heart attack and stroke was lower.","attribution_status":"outcome_floor_not_cost_allocation"}
+  ],
+  "current_growth_context": {"period":"CY2024 CMS NHE","total_nhe_usd_trillions":5.3,"nhe_percent_gdp":18.0,"annual_growth_percent":7.2,"reading":"CMS reports 2024 growth was primarily driven by non-price factors, including demand and service mix. This is a one-year growth decomposition and does not contradict the OECD cross-sectional price signal."},
+  "decomposition_status":"diagnostic_not_additive",
+  "fraud_status":"not_measured_not_inferred",
+  "savings_status":"blocked_not_scored",
+  "required_next_step":"Build same-year service-level price-times-volume comparisons for hospital, physician/clinical, and drug categories with case-mix, quality, access, and coverage floors before estimating an addressable amount."
+}

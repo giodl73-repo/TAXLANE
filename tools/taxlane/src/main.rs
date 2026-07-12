@@ -187,6 +187,9 @@ const BREADTH_BENCHMARK_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.schema.md";
 const BREADTH_BENCHMARK_SCOREBOARD_PATH: &str =
     "docs/reading/current-versus-benchmark-scoreboard.md";
+const HEALTH_COST_DECOMPOSITION_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/health_cost_decomposition.v1.draft.json";
+const HEALTH_COST_DECOMPOSITION_READER_PATH: &str = "docs/reading/health-cost-decomposition.md";
 const VETERANS_DEPTH_CARD_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/veterans_depth_card.fy2025.v1.draft.json";
 const VETERANS_DEPTH_CARD_READER_PATH: &str = "docs/reading/veterans-depth-card.md";
@@ -851,6 +854,20 @@ const ARTIFACTS: &[Artifact] = &[
         path: "docs/reading/current-versus-benchmark-scoreboard.md",
         role: "Current-versus-benchmark public scoreboard",
         grain: "public comparison packet",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/health_cost_decomposition.v1.draft.json",
+        role: "Health cost diagnostic decomposition",
+        grain: "cross-country price, volume, administration, context, and outcome signals",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/health-cost-decomposition.md",
+        role: "Public health cost decomposition card",
+        grain: "public diagnostic depth card",
         kind: "markdown",
         canonical: "supporting",
     },
@@ -8215,10 +8232,52 @@ fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
     validate_science_depth_card(root)?;
     validate_agriculture_depth_card(root)?;
     validate_international_depth_card(root)?;
+    validate_health_cost_decomposition(root)?;
     println!(
         "validated {} breadth benchmark rows across full comparisons and toplines with no open coverage gaps",
         rows.len()
     );
+    Ok(())
+}
+
+fn validate_health_cost_decomposition(root: &Path) -> Result<(), String> {
+    let text = fs::read_to_string(root.join(HEALTH_COST_DECOMPOSITION_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let card: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+    let headline = card
+        .get("headline")
+        .ok_or("health decomposition headline")?;
+    let us = number_field(headline, "us_total_health_spending_percent_gdp")?;
+    let peer = number_field(headline, "oecd_average_percent_gdp")?;
+    let gap = number_field(headline, "observed_gap_percentage_points")?;
+    if us != 17.2 || peer != 9.3 || (us - peer - gap).abs() > 0.0001 {
+        return Err("health decomposition headline does not reconcile".to_string());
+    }
+    let signals = card
+        .get("diagnostic_signals")
+        .and_then(|v| v.as_array())
+        .ok_or("health decomposition diagnostic signals")?;
+    if signals.len() != 5 {
+        return Err("health decomposition must contain five diagnostic signals".to_string());
+    }
+    for field in ["decomposition_status", "fraud_status", "savings_status"] {
+        let value = string_field(&card, field)?;
+        if !value.contains("not_") && !value.contains("blocked") && !value.contains("diagnostic") {
+            return Err(format!(
+                "health decomposition must preserve {field} boundary"
+            ));
+        }
+    }
+    let reader = fs::read_to_string(root.join(HEALTH_COST_DECOMPOSITION_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        HEALTH_COST_DECOMPOSITION_JSON_PATH,
+        "observed spending gap != inefficiency != fraud != recoverable savings",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("health decomposition reader missing {required}"));
+        }
+    }
     Ok(())
 }
 
