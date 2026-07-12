@@ -193,6 +193,9 @@ const VETERANS_DEPTH_CARD_READER_PATH: &str = "docs/reading/veterans-depth-card.
 const TRANSPORTATION_DEPTH_CARD_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/transportation_depth_card.fy2025.v1.draft.json";
 const TRANSPORTATION_DEPTH_CARD_READER_PATH: &str = "docs/reading/transportation-depth-card.md";
+const EDUCATION_DEPTH_CARD_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/education_depth_card.fy2025.v1.draft.json";
+const EDUCATION_DEPTH_CARD_READER_PATH: &str = "docs/reading/education-depth-card.md";
 const HEADLINE_BASIS_JSONL_PATH: &str =
     "data/derived/headline_basis_crosswalk/headline_basis_crosswalk.v1.draft.jsonl";
 const HEADLINE_BASIS_README_PATH: &str = "data/derived/headline_basis_crosswalk/README.md";
@@ -859,6 +862,20 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "docs/reading/transportation-depth-card.md",
         role: "Public transportation breadth/depth card",
+        grain: "public fiscal depth card",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/education_depth_card.fy2025.v1.draft.json",
+        role: "Education-work-social-services FY2025 depth card",
+        grain: "federal function and net subfunction components",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/education-depth-card.md",
+        role: "Public education-work-social-services depth card",
         grain: "public fiscal depth card",
         kind: "markdown",
         canonical: "supporting",
@@ -8106,10 +8123,48 @@ fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
         );
     }
 
+    validate_education_depth_card(root)?;
     println!(
         "validated {} breadth benchmark rows across full comparisons, toplines, and coverage gaps",
         rows.len()
     );
+    Ok(())
+}
+
+fn validate_education_depth_card(root: &Path) -> Result<(), String> {
+    let text =
+        fs::read_to_string(root.join(EDUCATION_DEPTH_CARD_JSON_PATH)).map_err(|e| e.to_string())?;
+    let card: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+    let total = number_field(&card, "total_outlays_millions")?;
+    let parts = card
+        .get("components")
+        .and_then(|v| v.as_array())
+        .ok_or("education components")?;
+    let sum: f64 = parts
+        .iter()
+        .map(|v| number_field(v, "outlays_millions"))
+        .collect::<Result<Vec<_>, _>>()?
+        .iter()
+        .sum();
+    let higher = parts
+        .iter()
+        .find(|v| v.get("subfunction_code").and_then(|x| x.as_str()) == Some("502"))
+        .ok_or("higher education component")?;
+    if parts.len() != 6
+        || total != 72_042.0
+        || (sum - total).abs() > 0.001
+        || number_field(higher, "outlays_millions")? != -35_005.0
+        || higher.get("accounting_caveat").is_none()
+    {
+        return Err("education depth reconciliation failed".to_string());
+    }
+    let reader = fs::read_to_string(root.join(EDUCATION_DEPTH_CARD_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    if !reader.contains(EDUCATION_DEPTH_CARD_JSON_PATH)
+        || !reader.contains("does not mean government provided negative education")
+    {
+        return Err("education depth caveat missing".to_string());
+    }
     Ok(())
 }
 

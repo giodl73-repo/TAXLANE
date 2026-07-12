@@ -24,3 +24,6 @@ performance, fraud, and savings claims.
 transportation subfunctions and blocks peer comparisons until state/local,
 trust-fund, asset, delivery, and outcome scopes are matched.
 
+`education_depth_card.fy2025.v1.draft.json` reconciles function 500 and keeps
+the negative higher-education net entry blocked behind account-level analysis.
+

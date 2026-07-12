@@ -20,6 +20,9 @@ and explicit beneficiary/outcome gates before benchmarking.
 The fourth slice deepens transportation from the 1.44% ground-only subtotal to
 the complete $145.320B / 2.07% federal function and records the state/local,
 trust-fund, asset-condition, project-delivery, and outcome gates for comparison.
+The fifth slice reconciles the complete $72.042B / 1.03% education-work-social
+services function and makes the −$35.005B higher-education net entry an explicit
+account-level research gate rather than a performance or savings claim.
 
 ## Design rules
 

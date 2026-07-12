@@ -30,7 +30,7 @@ Machine rows:
 | Gross Treasury interest | 17.34% of federal outlays | Gross and net interest, debt structure, and GDP paths must be kept separate. |
 | Complete Veterans Benefits and Services | 5.38% of federal outlays | No outcome- and eligibility-matched comparison is attached; the earlier 4.98% subtotal covered only income security plus medical care. |
 | Complete federal Transportation function | 2.07% of federal outlays | Federal-only spending omits major state/local capital and maintenance; 1.44% is ground transportation alone. |
-| Federal elementary, secondary, and vocational education | 0.98% of federal outlays | Federal-only spending is not comparable to all-government peer education spending. |
+| Complete federal Education, Training, Employment, and Social Services | 1.03% of federal outlays | Includes a −$35.005B higher-education net entry and excludes most state/local education spending; 0.98% is the school subfunction alone. |
 | Disaster relief and insurance | 0.90% of federal outlays | Event incidence, exposure, mitigation, and supplemental funding vary sharply. |
 
 ## Breadth Gaps
