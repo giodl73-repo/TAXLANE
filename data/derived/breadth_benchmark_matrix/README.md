@@ -33,6 +33,10 @@ and payment-adequacy evidence; it blocks a universal target.
 high policy paths while blocking dollar scoring until a matched commercial
 allowed-spending base and behavioral/access model exist.
 
+`health_commercial_sample_sensitivity.v1.draft.json` applies those paths only
+to Milliman's cited analytical data volumes, exposing basis sensitivity while
+blocking national and net-savings claims.
+
 The matrix deliberately includes coverage-gap rows. An explicit missing value
 is more useful than a false benchmark.
 

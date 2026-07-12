@@ -204,6 +204,10 @@ const HEALTH_TARGET_ADMISSIBILITY_READER_PATH: &str = "docs/reading/health-targe
 const HEALTH_SCENARIOS_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/health_medicare_relative_scenarios.v1.draft.json";
 const HEALTH_SCENARIOS_READER_PATH: &str = "docs/reading/health-medicare-relative-scenarios.md";
+const HEALTH_SAMPLE_SENSITIVITY_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/health_commercial_sample_sensitivity.v1.draft.json";
+const HEALTH_SAMPLE_SENSITIVITY_READER_PATH: &str =
+    "docs/reading/health-commercial-sample-sensitivity.md";
 const VETERANS_DEPTH_CARD_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/veterans_depth_card.fy2025.v1.draft.json";
 const VETERANS_DEPTH_CARD_READER_PATH: &str = "docs/reading/veterans-depth-card.md";
@@ -938,6 +942,20 @@ const ARTIFACTS: &[Artifact] = &[
         path: "docs/reading/health-medicare-relative-scenarios.md",
         role: "Public health Medicare-relative scenario card",
         grain: "public rate-path and scoring-gate card",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/health_commercial_sample_sensitivity.v1.draft.json",
+        role: "Health commercial sample scenario sensitivity",
+        grain: "matched analytical-volume Medicare-relative sensitivity",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/health-commercial-sample-sensitivity.md",
+        role: "Public health commercial sample sensitivity card",
+        grain: "public matched-sample arithmetic and boundary card",
         kind: "markdown",
         canonical: "supporting",
     },
@@ -8307,10 +8325,63 @@ fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
     validate_health_category_benchmark_ladder(root)?;
     validate_health_target_admissibility(root)?;
     validate_health_scenarios(root)?;
+    validate_health_sample_sensitivity(root)?;
     println!(
         "validated {} breadth benchmark rows across full comparisons and toplines with no open coverage gaps",
         rows.len()
     );
+    Ok(())
+}
+
+fn validate_health_sample_sensitivity(root: &Path) -> Result<(), String> {
+    let text = fs::read_to_string(root.join(HEALTH_SAMPLE_SENSITIVITY_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let card: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+    let categories = card
+        .get("categories")
+        .and_then(|v| v.as_array())
+        .ok_or("health sample sensitivity categories")?;
+    if categories.len() != 2 {
+        return Err("health sample sensitivity needs two categories".to_string());
+    }
+    for category in categories {
+        let commercial = number_field(category, "commercial_allowed_usd_billions")?;
+        let medicare = number_field(category, "simulated_medicare_allowed_usd_billions")?;
+        let scenarios = category
+            .get("scenarios")
+            .and_then(|v| v.as_array())
+            .ok_or("health sample sensitivity scenarios")?;
+        if scenarios.len() != 3 {
+            return Err("health sample sensitivity needs three scenarios per category".to_string());
+        }
+        for scenario in scenarios {
+            let target = number_field(scenario, "target_percent_medicare")? / 100.0;
+            let change = number_field(scenario, "mechanical_sample_payment_change_usd_billions")?;
+            let expected = medicare * target - commercial;
+            if (change - expected).abs() > 0.001 {
+                return Err("health sample dollar sensitivity does not reconcile".to_string());
+            }
+        }
+    }
+    let prohibited = card
+        .get("prohibited_uses")
+        .and_then(|v| v.as_array())
+        .ok_or("health sample prohibited uses")?;
+    if prohibited.len() < 5 || !string_field(&card, "net_savings_status")?.contains("blocked") {
+        return Err("health sample sensitivity must block national and net claims".to_string());
+    }
+    let reader = fs::read_to_string(root.join(HEALTH_SAMPLE_SENSITIVITY_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        HEALTH_SAMPLE_SENSITIVITY_JSON_PATH,
+        "sample sensitivity != national gross savings != net savings",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!(
+                "health sample sensitivity reader missing {required}"
+            ));
+        }
+    }
     Ok(())
 }
 
