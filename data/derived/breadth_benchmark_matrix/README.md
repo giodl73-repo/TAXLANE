@@ -49,6 +49,10 @@ without claiming that primary balance automatically stabilizes debt.
 annual CBO baseline and adds first-order interest feedback, while preserving a
 hard boundary between transparent scenario arithmetic and a policy score.
 
+`fiscal_policy_scale_baskets.v1.draft.json` compares the cumulative paths with
+CBO-scored policy-option magnitudes. Its arithmetic baskets demonstrate scale;
+they are not additive package scores or recommendations.
+
 The matrix deliberately includes coverage-gap rows. An explicit missing value
 is more useful than a false benchmark.
 

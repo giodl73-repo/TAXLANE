@@ -1,0 +1,60 @@
+{
+  "record_id": "depth-card:fiscal-policy-scale-baskets:v1",
+  "record_family": "fiscal_policy_scale_baskets",
+  "lane_id": "revenue-solvency",
+  "source_ids": ["SRC-CBO-BUDGET-OPTIONS-2025-2034", "SRC-CBO-OPEN-DATA-2026-02"],
+  "comparison_status": "scale_comparison_not_package_score",
+  "target_columns": ["path", "taxlane_2026_2036_primary_adjustment_billions"],
+  "targets": [["partial_primary_gap_closure",2737.011],["primary_balance",5225.202],["primary_surplus_one_percent",7713.394]],
+  "option_columns": ["option_id", "label", "category", "cbo_2025_2034_low_billions", "cbo_2025_2034_high_billions"],
+  "options": [
+    ["vat_5","Impose a 5 percent value-added tax","revenue",2180,3380],
+    ["agi_surtax","Impose a surtax on individual adjusted gross income","revenue",1051,1440],
+    ["itemized_deductions","Eliminate or limit itemized deductions","revenue",736,3424],
+    ["employment_health_tax_subsidy","Reduce tax subsidies for employment-based health benefits","revenue",521,965],
+    ["emissions_tax","Impose a tax on greenhouse-gas emissions","revenue",645,919],
+    ["foreign_corporate_income","Tax all foreign income of U.S. corporations at the full statutory rate","revenue",340,340],
+    ["financial_transactions_tax","Impose a tax on financial transactions","revenue",297,297],
+    ["cap_gains_two_points","Raise long-term capital-gains and qualified-dividend rates by two percentage points","revenue",103,103],
+    ["defense_annual_budget","Reduce the Department of Defense annual budget","primary_outlay",959,959],
+    ["medicare_advantage_benchmarks","Reduce Medicare Advantage benchmarks","primary_outlay",489,489],
+    ["medicaid_provider_taxes","Limit state taxes on health care providers","primary_outlay",48,612],
+    ["crop_insurance_subsidies","Reduce crop-insurance subsidies","primary_outlay",47,47]
+  ],
+  "illustrative_baskets": [
+    {
+      "basket": "partial_scale_example",
+      "target_path": "partial_primary_gap_closure",
+      "selected_option_cases": [["vat_5","low"],["medicare_advantage_benchmarks","fixed"],["crop_insurance_subsidies","fixed"]],
+      "arithmetic_sum_billions": 2716,
+      "target_scale_billions": 2737.011,
+      "arithmetic_difference_billions": -21.011
+    },
+    {
+      "basket": "primary_balance_scale_example",
+      "target_path": "primary_balance",
+      "selected_option_cases": [["vat_5","high"],["defense_annual_budget","fixed"],["medicare_advantage_benchmarks","fixed"],["foreign_corporate_income","fixed"],["cap_gains_two_points","fixed"]],
+      "arithmetic_sum_billions": 5271,
+      "target_scale_billions": 5225.202,
+      "arithmetic_difference_billions": 45.798
+    },
+    {
+      "basket": "primary_surplus_scale_example",
+      "target_path": "primary_surplus_one_percent",
+      "selected_option_cases": [["vat_5","high"],["agi_surtax","low"],["employment_health_tax_subsidy","low"],["emissions_tax","low"],["defense_annual_budget","fixed"],["medicare_advantage_benchmarks","fixed"],["foreign_corporate_income","fixed"],["financial_transactions_tax","fixed"],["crop_insurance_subsidies","fixed"]],
+      "arithmetic_sum_billions": 7729,
+      "target_scale_billions": 7713.394,
+      "arithmetic_difference_billions": 15.606
+    }
+  ],
+  "non_additivity_flags": [
+    "CBO option estimates use a 2025-2034 window; TAXLANE paths use 2026-2036.",
+    "Option estimates were generally scored against an older baseline and cannot be transplanted unchanged to the February 2026 baseline.",
+    "Tax options can overlap in their bases and behavioral responses.",
+    "Spending options can overlap or shift costs among federal, state, household, and provider budgets.",
+    "Arithmetic sums are scale demonstrations, not legislative or distributional scores.",
+    "Every option requires an updated joint score, phase-in, distribution, access, outcome, and implementation review."
+  ],
+  "headline": "The fiscal gap is package-sized: even the partial path is roughly the scale of a major broad tax or several very large program changes; primary balance requires multiple trillion-dollar choices.",
+  "package_score_status": "blocked_requires_updated_joint_score"
+}

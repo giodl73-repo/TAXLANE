@@ -217,6 +217,9 @@ const FISCAL_PATH_SCENARIOS_READER_PATH: &str = "docs/reading/fiscal-path-scenar
 const FISCAL_DEBT_DYNAMICS_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/fiscal_debt_dynamics_2026_2036.v1.draft.json";
 const FISCAL_DEBT_DYNAMICS_READER_PATH: &str = "docs/reading/fiscal-debt-dynamics.md";
+const FISCAL_POLICY_BASKETS_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/fiscal_policy_scale_baskets.v1.draft.json";
+const FISCAL_POLICY_BASKETS_READER_PATH: &str = "docs/reading/fiscal-policy-scale-baskets.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -1017,6 +1020,20 @@ const ARTIFACTS: &[Artifact] = &[
         path: "docs/reading/fiscal-debt-dynamics.md",
         role: "Public fiscal debt dynamics card",
         grain: "annual baseline, scenario results, and scoring boundary",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/fiscal_policy_scale_baskets.v1.draft.json",
+        role: "Fiscal policy scale baskets",
+        grain: "CBO option magnitudes compared with TAXLANE adjustment paths",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/fiscal-policy-scale-baskets.md",
+        role: "Public fiscal policy scale card",
+        grain: "policy magnitude, arithmetic baskets, and non-additivity boundary",
         kind: "markdown",
         canonical: "supporting",
     },
@@ -8467,6 +8484,7 @@ fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
     validate_health_national_phi_sensitivity(root)?;
     validate_fiscal_path_scenarios(root)?;
     validate_fiscal_debt_dynamics(root)?;
+    validate_fiscal_policy_baskets(root)?;
     validate_budget_ballot_experiment(root)?;
     println!(
         "validated {} breadth benchmark rows across full comparisons and toplines with no open coverage gaps",
@@ -8520,6 +8538,44 @@ fn validate_fiscal_debt_dynamics(root: &Path) -> Result<(), String> {
     for required in [FISCAL_DEBT_DYNAMICS_JSON_PATH, "not CBO scores", "107.6%"] {
         if !reader.contains(required) {
             return Err(format!("fiscal debt reader missing {required}"));
+        }
+    }
+    Ok(())
+}
+
+fn validate_fiscal_policy_baskets(root: &Path) -> Result<(), String> {
+    let text = fs::read_to_string(root.join(FISCAL_POLICY_BASKETS_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let card: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+    if string_field(&card, "comparison_status")? != "scale_comparison_not_package_score"
+        || string_field(&card, "package_score_status")? != "blocked_requires_updated_joint_score"
+    {
+        return Err("fiscal policy basket scoring boundary invalid".to_string());
+    }
+    let baskets = card
+        .get("illustrative_baskets")
+        .and_then(|v| v.as_array())
+        .ok_or("fiscal policy baskets")?;
+    if baskets.len() != 3 {
+        return Err("fiscal policy card must contain three scale baskets".to_string());
+    }
+    for basket in baskets {
+        let sum = number_field(basket, "arithmetic_sum_billions")?;
+        let target = number_field(basket, "target_scale_billions")?;
+        let difference = number_field(basket, "arithmetic_difference_billions")?;
+        if (sum - target - difference).abs() > 0.001 {
+            return Err("fiscal policy basket arithmetic does not reconcile".to_string());
+        }
+    }
+    let reader = fs::read_to_string(root.join(FISCAL_POLICY_BASKETS_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        FISCAL_POLICY_BASKETS_JSON_PATH,
+        "package-sized",
+        "not a valid combined score",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("fiscal policy basket reader missing {required}"));
         }
     }
     Ok(())
