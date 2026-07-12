@@ -5,6 +5,7 @@ use serde::{Deserialize, Serialize};
 pub const ACCOUNTABILITY_RECORD_FAMILY: &str = "accountability_evidence";
 pub const SPEND_CATEGORY_MAP_MODEL_ID: &str = "spend-category-map-v1";
 pub const BREADTH_BENCHMARK_RECORD_FAMILY: &str = "breadth_benchmark_matrix";
+pub const HEADLINE_BASIS_RECORD_FAMILY: &str = "headline_basis_crosswalk";
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct ArtifactMetadata<'a> {
@@ -286,7 +287,9 @@ impl BreadthBenchmarkRecord {
                 }
             }
             _ => {
-                return Err("benchmark_low and benchmark_high must be supplied together".to_string());
+                return Err(
+                    "benchmark_low and benchmark_high must be supplied together".to_string()
+                );
             }
         }
         if !matches!(
@@ -319,6 +322,69 @@ impl BreadthBenchmarkRecord {
             );
         }
 
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct HeadlineBasisRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub comparison_group: String,
+    pub measure_label: String,
+    pub value: f64,
+    pub unit: String,
+    pub period: String,
+    pub government_scope: String,
+    pub accounting_scope: String,
+    pub source_ids: Vec<String>,
+    pub headline_use: String,
+    pub substitution_status: String,
+    pub cannot_substitute_for: Vec<String>,
+    pub interpretation: String,
+}
+
+impl HeadlineBasisRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        for (label, value) in [
+            ("record_id", self.record_id.as_str()),
+            ("record_family", self.record_family.as_str()),
+            ("comparison_group", self.comparison_group.as_str()),
+            ("measure_label", self.measure_label.as_str()),
+            ("unit", self.unit.as_str()),
+            ("period", self.period.as_str()),
+            ("government_scope", self.government_scope.as_str()),
+            ("accounting_scope", self.accounting_scope.as_str()),
+            ("headline_use", self.headline_use.as_str()),
+            ("substitution_status", self.substitution_status.as_str()),
+            ("interpretation", self.interpretation.as_str()),
+        ] {
+            validate_required(label, value)?;
+        }
+        validate_required_vec("source_ids", &self.source_ids)?;
+        validate_required_vec("cannot_substitute_for", &self.cannot_substitute_for)?;
+        if self.record_family != HEADLINE_BASIS_RECORD_FAMILY {
+            return Err(format!(
+                "headline basis record_family must be {HEADLINE_BASIS_RECORD_FAMILY}"
+            ));
+        }
+        if self.value < 0.0 {
+            return Err("headline basis value must be nonnegative".to_string());
+        }
+        if !matches!(
+            self.headline_use.as_str(),
+            "canonical" | "supporting" | "comparison_context"
+        ) {
+            return Err(format!("unsupported headline_use {}", self.headline_use));
+        }
+        if self.substitution_status != "not_interchangeable" {
+            return Err("headline basis rows must remain not_interchangeable".to_string());
+        }
+        if self.cannot_substitute_for.contains(&self.record_id) {
+            return Err(
+                "headline basis row cannot list itself as an incompatible substitute".to_string(),
+            );
+        }
         Ok(())
     }
 }
@@ -7853,6 +7919,49 @@ mod tests {
     fn blocks_benchmark_unit_mismatch() {
         let mut row = breadth_benchmark_fixture();
         row.benchmark_unit = "percent_federal_outlays".to_string();
+        assert!(row.validate().is_err());
+    }
+
+    #[test]
+    fn validates_headline_basis_boundary() {
+        let row = HeadlineBasisRecord {
+            record_id: "headline:interest:net".to_string(),
+            record_family: HEADLINE_BASIS_RECORD_FAMILY.to_string(),
+            comparison_group: "interest".to_string(),
+            measure_label: "Net interest".to_string(),
+            value: 970065.0,
+            unit: "millions_usd".to_string(),
+            period: "FY2025".to_string(),
+            government_scope: "us_federal".to_string(),
+            accounting_scope: "OMB function 900".to_string(),
+            source_ids: vec!["SRC-OMB-HIST-3-2-FY2027".to_string()],
+            headline_use: "canonical".to_string(),
+            substitution_status: "not_interchangeable".to_string(),
+            cannot_substitute_for: vec!["headline:interest:gross".to_string()],
+            interpretation: "Use for the additive budget lane.".to_string(),
+        };
+        assert_eq!(row.validate(), Ok(()));
+    }
+
+    #[test]
+    fn blocks_interchangeable_headline_claim() {
+        let mut row = HeadlineBasisRecord {
+            record_id: "headline:defense:function".to_string(),
+            record_family: HEADLINE_BASIS_RECORD_FAMILY.to_string(),
+            comparison_group: "defense".to_string(),
+            measure_label: "National Defense".to_string(),
+            value: 916140.0,
+            unit: "millions_usd".to_string(),
+            period: "FY2025".to_string(),
+            government_scope: "us_federal".to_string(),
+            accounting_scope: "OMB function 050".to_string(),
+            source_ids: vec!["SRC-OMB-HIST-3-2-FY2027".to_string()],
+            headline_use: "canonical".to_string(),
+            substitution_status: "not_interchangeable".to_string(),
+            cannot_substitute_for: vec!["headline:defense:dod".to_string()],
+            interpretation: "Use for the whole defense lane.".to_string(),
+        };
+        row.substitution_status = "interchangeable".to_string();
         assert!(row.validate().is_err());
     }
 

@@ -13,7 +13,7 @@ use taxlane_core::{
     CostDownSourcePacketRecord, DebtMaturityRiskTreasuryProbeRecord,
     DebtPrimaryBalanceFiscalProbeRecord, DefenseAuditControlProbeRecord,
     DefenseProcurementControlProbeRecord, DisasterDeclarationProbeRecord,
-    DisasterMitigationProjectProbeRecord, EfficiencyPressureRecord,
+    DisasterMitigationProjectProbeRecord, EfficiencyPressureRecord, HeadlineBasisRecord,
     HealthAdminSimplificationProbeRecord, HealthPriceDisciplineProbeRecord,
     PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE, PUBLIC_CLAIM_ALLOWED_LABEL,
     PUBLIC_CLAIM_BLOCKED_LABEL, PaymentIntegrityClaimsTimelinessProbeRecord,
@@ -187,6 +187,12 @@ const BREADTH_BENCHMARK_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.schema.md";
 const BREADTH_BENCHMARK_SCOREBOARD_PATH: &str =
     "docs/reading/current-versus-benchmark-scoreboard.md";
+const HEADLINE_BASIS_JSONL_PATH: &str =
+    "data/derived/headline_basis_crosswalk/headline_basis_crosswalk.v1.draft.jsonl";
+const HEADLINE_BASIS_README_PATH: &str = "data/derived/headline_basis_crosswalk/README.md";
+const HEADLINE_BASIS_SCHEMA_PATH: &str =
+    "data/derived/headline_basis_crosswalk/headline_basis_crosswalk.schema.md";
+const HEADLINE_BASIS_GUIDE_PATH: &str = "docs/reading/headline-number-selection-guide.md";
 const EFFICIENCY_PRESSURE_JSONL_PATH: &str =
     "data/derived/efficiency_pressure/efficiency_pressure.fy2025.v1.draft.jsonl";
 const EFFICIENCY_PRESSURE_README_PATH: &str = "data/derived/efficiency_pressure/README.md";
@@ -820,6 +826,34 @@ const ARTIFACTS: &[Artifact] = &[
         path: "docs/reading/current-versus-benchmark-scoreboard.md",
         role: "Current-versus-benchmark public scoreboard",
         grain: "public comparison packet",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/headline_basis_crosswalk/headline_basis_crosswalk.v1.draft.jsonl",
+        role: "Headline measure basis and incompatibility crosswalk",
+        grain: "headline measure definition",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/headline_basis_crosswalk/headline_basis_crosswalk.schema.md",
+        role: "Headline basis crosswalk schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/headline_basis_crosswalk/README.md",
+        role: "Headline basis crosswalk method note",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/headline-number-selection-guide.md",
+        role: "Public headline-number selection guide",
+        grain: "public comparison guide",
         kind: "markdown",
         canonical: "supporting",
     },
@@ -3112,6 +3146,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = validate_breadth_benchmark_matrix(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = validate_headline_basis_crosswalk(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -7966,6 +8005,87 @@ fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
         "validated {} breadth benchmark rows across full comparisons, toplines, and coverage gaps",
         rows.len()
     );
+    Ok(())
+}
+
+fn validate_headline_basis_crosswalk(root: &Path) -> Result<(), String> {
+    let source_ledger = fs::read_to_string(root.join(SOURCE_VERSION_LEDGER_PATH))
+        .map_err(|err| format!("failed to read {SOURCE_VERSION_LEDGER_PATH}: {err}"))?;
+    let rows: Vec<HeadlineBasisRecord> = read_jsonl(root.join(HEADLINE_BASIS_JSONL_PATH))?
+        .into_iter()
+        .map(|row| {
+            serde_json::from_value(row)
+                .map_err(|err| format!("{HEADLINE_BASIS_JSONL_PATH} row failed to parse: {err}"))
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+    if rows.len() != 9 {
+        return Err(format!(
+            "headline basis crosswalk must contain 9 initial rows, got {}",
+            rows.len()
+        ));
+    }
+    let ids: BTreeSet<String> = rows.iter().map(|row| row.record_id.clone()).collect();
+    if ids.len() != rows.len() {
+        return Err("headline basis crosswalk contains duplicate record IDs".to_string());
+    }
+    let mut canonical_groups = BTreeSet::new();
+    for row in &rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if row.headline_use == "canonical" {
+            canonical_groups.insert(row.comparison_group.as_str());
+        }
+        for source_id in &row.source_ids {
+            if !source_ledger.contains(&format!("`{source_id}`")) {
+                return Err(format!(
+                    "{}: source_id {source_id} is missing from {SOURCE_VERSION_LEDGER_PATH}",
+                    row.record_id
+                ));
+            }
+        }
+        for incompatible_id in &row.cannot_substitute_for {
+            if !ids.contains(incompatible_id) {
+                return Err(format!(
+                    "{} references missing incompatible measure {incompatible_id}",
+                    row.record_id
+                ));
+            }
+            let other = rows
+                .iter()
+                .find(|candidate| candidate.record_id == *incompatible_id)
+                .expect("ID membership checked");
+            if !other.cannot_substitute_for.contains(&row.record_id) {
+                return Err(format!(
+                    "headline incompatibility must be reciprocal: {} -> {}",
+                    row.record_id, incompatible_id
+                ));
+            }
+        }
+    }
+    for group in ["interest", "defense", "health"] {
+        if !canonical_groups.contains(group) {
+            return Err(format!(
+                "headline basis group {group} needs a canonical federal measure"
+            ));
+        }
+    }
+    for path in [
+        HEADLINE_BASIS_README_PATH,
+        HEADLINE_BASIS_SCHEMA_PATH,
+        HEADLINE_BASIS_GUIDE_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing headline basis artifact: {path}"));
+        }
+    }
+    let guide = fs::read_to_string(root.join(HEADLINE_BASIS_GUIDE_PATH))
+        .map_err(|err| format!("failed to read {HEADLINE_BASIS_GUIDE_PATH}: {err}"))?;
+    if !guide.contains(HEADLINE_BASIS_JSONL_PATH) || !guide.contains("not interchangeable") {
+        return Err(
+            "headline selection guide must cite the crosswalk and incompatibility rule".to_string(),
+        );
+    }
+    println!("validated {} headline basis crosswalk rows", rows.len());
     Ok(())
 }
 
