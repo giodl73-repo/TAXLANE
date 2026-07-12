@@ -21,6 +21,12 @@ The immediate proposal is truthful labeling on public tax receipts. Formal
 program-linked income taxes remain a separate design hypothesis, not a result
 the repo assumes.
 
+For the portfolio-wide evidence check, use the
+[current-versus-benchmark scoreboard](docs/reading/current-versus-benchmark-scoreboard.md).
+It shows which major lanes have matched comparisons, which only have federal
+toplines, which remain breadth gaps, and why international efficiency gaps,
+improper payments, fraud, and recoverable savings are different quantities.
+
 ## Thesis
 
 The income tax is usually presented as one tax on income, but public trust and

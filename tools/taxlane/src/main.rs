@@ -8,7 +8,7 @@ use roxmltree::Document;
 use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};
 use taxlane_core::{
-    AccountabilityEvidenceRecord, ArtifactMetadata, CostDownBacklogRecord,
+    AccountabilityEvidenceRecord, ArtifactMetadata, BreadthBenchmarkRecord, CostDownBacklogRecord,
     CostDownEvidenceQueueRecord, CostDownFirstPassRollupRecord, CostDownScoringReadinessRecord,
     CostDownSourcePacketRecord, DebtMaturityRiskTreasuryProbeRecord,
     DebtPrimaryBalanceFiscalProbeRecord, DefenseAuditControlProbeRecord,
@@ -180,6 +180,13 @@ const SPEND_CATEGORY_MAP_HANDOFF_PATH: &str =
     "data/derived/spend_category_map/accountability-question-handoff.md";
 const SPEND_CATEGORY_MAP_DASHBOARD_PATH: &str =
     "data/derived/spend_category_map/spend-category-dashboard.md";
+const BREADTH_BENCHMARK_JSONL_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.v1.draft.jsonl";
+const BREADTH_BENCHMARK_README_PATH: &str = "data/derived/breadth_benchmark_matrix/README.md";
+const BREADTH_BENCHMARK_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.schema.md";
+const BREADTH_BENCHMARK_SCOREBOARD_PATH: &str =
+    "docs/reading/current-versus-benchmark-scoreboard.md";
 const EFFICIENCY_PRESSURE_JSONL_PATH: &str =
     "data/derived/efficiency_pressure/efficiency_pressure.fy2025.v1.draft.jsonl";
 const EFFICIENCY_PRESSURE_README_PATH: &str = "data/derived/efficiency_pressure/README.md";
@@ -785,6 +792,34 @@ const ARTIFACTS: &[Artifact] = &[
         path: "data/derived/spend_category_map/spend-category-dashboard.md",
         role: "Spend category dashboard",
         grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.v1.draft.jsonl",
+        role: "Breadth, depth, and current-versus-benchmark matrix",
+        grain: "fiscal lane metric or explicit coverage gap",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.schema.md",
+        role: "Breadth benchmark matrix schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/README.md",
+        role: "Breadth benchmark matrix method note",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/current-versus-benchmark-scoreboard.md",
+        role: "Current-versus-benchmark public scoreboard",
+        grain: "public comparison packet",
         kind: "markdown",
         canonical: "supporting",
     },
@@ -3072,6 +3107,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = validate_spend_category_map(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = validate_breadth_benchmark_matrix(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -7829,6 +7869,103 @@ fn validate_spend_category_map(root: &Path) -> Result<(), String> {
     )?;
 
     println!("validated {} spend category map rows", rows.len());
+    Ok(())
+}
+
+fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
+    let source_ledger = fs::read_to_string(root.join(SOURCE_VERSION_LEDGER_PATH))
+        .map_err(|err| format!("failed to read {SOURCE_VERSION_LEDGER_PATH}: {err}"))?;
+    let rows: Vec<BreadthBenchmarkRecord> = read_jsonl(root.join(BREADTH_BENCHMARK_JSONL_PATH))?
+        .into_iter()
+        .map(|row| {
+            serde_json::from_value(row)
+                .map_err(|err| format!("{BREADTH_BENCHMARK_JSONL_PATH} row failed to parse: {err}"))
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+
+    if rows.len() != 17 {
+        return Err(format!(
+            "breadth benchmark matrix must contain 17 initial rows, got {}",
+            rows.len()
+        ));
+    }
+
+    let mut ids = BTreeSet::new();
+    let mut tiers = BTreeMap::new();
+    let mut statuses = BTreeMap::new();
+    let mut improper_payment_rows = 0usize;
+    for row in &rows {
+        row.validate()
+            .map_err(|err| format!("{}: {err}", row.record_id))?;
+        if !ids.insert(row.record_id.clone()) {
+            return Err(format!("duplicate breadth benchmark row {}", row.record_id));
+        }
+        *tiers.entry(row.depth_tier.as_str()).or_insert(0usize) += 1;
+        *statuses
+            .entry(row.coverage_status.as_str())
+            .or_insert(0usize) += 1;
+        if row.improper_payment_amount_millions.is_some() {
+            improper_payment_rows += 1;
+        }
+        for source_id in &row.source_ids {
+            if !source_ledger.contains(&format!("`{source_id}`")) {
+                return Err(format!(
+                    "{}: source_id {source_id} is missing from {SOURCE_VERSION_LEDGER_PATH}",
+                    row.record_id
+                ));
+            }
+        }
+    }
+
+    for required in ["tier_1_full", "tier_2_card", "tier_3_gap"] {
+        if !tiers.contains_key(required) {
+            return Err(format!("breadth benchmark matrix needs {required} rows"));
+        }
+    }
+    for required in ["full_comparison", "topline_only", "coverage_gap"] {
+        if !statuses.contains_key(required) {
+            return Err(format!(
+                "breadth benchmark matrix needs {required} coverage rows"
+            ));
+        }
+    }
+    if improper_payment_rows != 1 {
+        return Err(format!(
+            "breadth benchmark matrix must contain one scoped improper-payment topline, got {improper_payment_rows}"
+        ));
+    }
+
+    for path in [
+        BREADTH_BENCHMARK_README_PATH,
+        BREADTH_BENCHMARK_SCHEMA_PATH,
+        BREADTH_BENCHMARK_SCOREBOARD_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing breadth benchmark artifact: {path}"));
+        }
+    }
+    let scoreboard = fs::read_to_string(root.join(BREADTH_BENCHMARK_SCOREBOARD_PATH))
+        .map_err(|err| format!("failed to read {BREADTH_BENCHMARK_SCOREBOARD_PATH}: {err}"))?;
+    if !scoreboard.contains(BREADTH_BENCHMARK_JSONL_PATH) {
+        return Err(format!(
+            "{BREADTH_BENCHMARK_SCOREBOARD_PATH} must cite {BREADTH_BENCHMARK_JSONL_PATH}"
+        ));
+    }
+    for required_boundary in [
+        "efficiency gap != improper payments",
+        "!= fraud != recoverable savings",
+    ] {
+        if !scoreboard.contains(required_boundary) {
+            return Err(format!(
+                "{BREADTH_BENCHMARK_SCOREBOARD_PATH} must preserve boundary: {required_boundary}"
+            ));
+        }
+    }
+
+    println!(
+        "validated {} breadth benchmark rows across full comparisons, toplines, and coverage gaps",
+        rows.len()
+    );
     Ok(())
 }
 
