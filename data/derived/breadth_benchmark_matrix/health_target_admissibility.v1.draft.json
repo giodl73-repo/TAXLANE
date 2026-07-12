@@ -1,0 +1,22 @@
+{
+  "record_id":"depth-card:health-target-admissibility:v1",
+  "record_family":"health_target_admissibility",
+  "lane_id":"health-medicare",
+  "source_ids":["SRC-MEDPAC-MARCH-2026","SRC-RAND-HOSPITAL-PRICES-R5-1","SRC-MILLIMAN-COMMERCIAL-REIMBURSEMENT-2023"],
+  "anchors":[
+    {"category":"hospital care","commercial_reference_percent_medicare":253,"adequacy_period":"FY2024 actual and FY2026 projection","access_status":"good_overall","all_payer_operating_margin_percent":6.5,"aggregate_ffs_medicare_margin_percent":-12.1,"efficient_hospital_median_ffs_margin_percent":-1.0,"efficient_hospital_projected_2026_margin_percent":1.0,"quality_status":"mixed","anchor_status":"conditional_scenario_anchor","target_status":"blocked_no_universal_target","interpretation":"Medicare-relative prices can anchor scenarios for efficient delivery, but a blanket 100 percent target is not admissible because aggregate margins, hospital heterogeneity, rural/safety-net needs, quality, and access differ."},
+    {"category":"physician and clinical services","commercial_reference_percent_medicare":139,"reference_period":"2023 valuation using 2021 claims trended forward","access_status":"medicare_access_generally_as_good_as_or_better_than_privately_insured_access","payment_update_status":"medpac_recommends_updates_and_more_accurate_relative_rates","anchor_status":"conditional_scenario_anchor","target_status":"blocked_no_universal_target","interpretation":"The Medicare fee schedule is a same-service reference, but specialty mix, geographic input costs, safety-net service, misvalued relative rates, and future access require explicit floors."}
+  ],
+  "admissibility_rules":[
+    "Use service-level rather than provider-wide averages.",
+    "Adjust for geography, wages, teaching, uncompensated care, case mix, and safety-net role.",
+    "Test rural, critical-access, and low-volume providers separately.",
+    "Preserve beneficiary access, wait time, network adequacy, and clinician participation.",
+    "Preserve or improve risk-adjusted mortality, readmission, patient experience, and appropriate utilization.",
+    "Phase and monitor any scenario; stop or revise when an access or quality floor fails."
+  ],
+  "scenario_status":"method_ready_numeric_target_blocked",
+  "fraud_status":"not_measured_not_inferred",
+  "savings_status":"blocked_not_scored",
+  "next_gate":"Construct low, central, and high Medicare-relative scenarios by service and provider class, then test each against access, quality, and adequacy floors before estimating gross or net fiscal effects."
+}

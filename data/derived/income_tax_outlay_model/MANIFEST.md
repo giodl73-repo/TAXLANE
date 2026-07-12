@@ -39,7 +39,7 @@ supporting views.
 | `data/derived/spend_category_map/spend-category-dashboard.md` | Spend category dashboard | documentation | n/a | supporting | `a25d2773d9d29d6fe724f44b8071fd84c4d710c4dad74aeca97bf49d184477cd` |
 | `data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.v1.draft.jsonl` | Breadth, depth, and current-versus-benchmark matrix | fiscal lane metric or explicit coverage gap | 17 | supporting | `4e9d30f1676ac335e14377fb22beaa7c4ca36f8a8d572a4d2549d4a41eaacbee` |
 | `data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.schema.md` | Breadth benchmark matrix schema | documentation | n/a | supporting | `a11dfb5de738571d25992be592096ac8d4309ac2f01984760729c82b1dc7cf25` |
-| `data/derived/breadth_benchmark_matrix/README.md` | Breadth benchmark matrix method note | documentation | n/a | supporting | `124e67764661057e2ec000e6ba1a9a018617e7135ad2e55804dad77d745b8db8` |
+| `data/derived/breadth_benchmark_matrix/README.md` | Breadth benchmark matrix method note | documentation | n/a | supporting | `40a6af88deec07df88db667f5eba0d17a0bd746ff242237148a4a592424b7479` |
 | `docs/reading/current-versus-benchmark-scoreboard.md` | Current-versus-benchmark public scoreboard | public comparison packet | n/a | supporting | `13708b47f2a1c587495e8f9d029a1ea3b035aec29d1e78331c7367c3a7952773` |
 | `data/derived/breadth_benchmark_matrix/health_cost_decomposition.v1.draft.json` | Health cost diagnostic decomposition | cross-country price, volume, administration, context, and outcome signals | n/a | supporting | `5470e94aa82b19f82b2d67bedcf773082c47c410a6e8780f95c4e96ef48df5f3` |
 | `docs/reading/health-cost-decomposition.md` | Public health cost decomposition card | public diagnostic depth card | n/a | supporting | `8fe05576200fe2ae03cff7ac47a96c07f586e49a0512bdfb2c52e72a2e69bed5` |
@@ -47,6 +47,8 @@ supporting views.
 | `docs/reading/health-service-price-volume-bridge.md` | Public health service price-volume bridge | public service-category diagnostic card | n/a | supporting | `a9b9376fce808f55575b1302b779a320cd56349e0c7ffbcc3f05fdfb14bc8485` |
 | `data/derived/breadth_benchmark_matrix/health_category_benchmark_ladder.v1.draft.json` | Health category benchmark ladder | hospital, physician, and retail-drug benchmark readiness | n/a | supporting | `2f7505eddacf42971414b2ef6ed39e20bff9ce971ef80a0af1386818bd464dc7` |
 | `docs/reading/health-category-benchmark-ladder.md` | Public health category benchmark ladder | public category benchmark-readiness card | n/a | supporting | `a4d0a2ec5c8e4452bdd1c4d5212d3831fe686e613f1084c3ac5030fd2a0e0281` |
+| `data/derived/breadth_benchmark_matrix/health_target_admissibility.v1.draft.json` | Health target admissibility gate | hospital and professional Medicare-relative adequacy and access gate | n/a | supporting | `451b4136c480f90cca9b30dd2f021fc0a45321b6980a91680b20f3b1b128b4f0` |
+| `docs/reading/health-target-admissibility.md` | Public health target admissibility card | public adequacy and access decision card | n/a | supporting | `db3b0da4970e4e1b241fe7f28c354b141657e2b4413a9a25f6eee4cacde7a78e` |
 | `data/derived/breadth_benchmark_matrix/veterans_depth_card.fy2025.v1.draft.json` | Veterans FY2025 component depth card | federal function and subfunction components | n/a | supporting | `74796f8579f458c339785daa440a592c46c12729b76fc5f49690681a176083f8` |
 | `docs/reading/veterans-depth-card.md` | Public veterans breadth/depth card | public fiscal depth card | n/a | supporting | `fb01e578ab77afa484b0cd97711209e7a7ce1d335cde4ed11265627ce833af16` |
 | `data/derived/breadth_benchmark_matrix/transportation_depth_card.fy2025.v1.draft.json` | Transportation FY2025 component depth card | federal function and subfunction components | n/a | supporting | `b0f371fd57d0ce94d3150495d9afdda0e9d633aab8f25acb798c94a319b61cc7` |
@@ -370,7 +372,7 @@ supporting views.
 | `crates/taxlane-core/Cargo.toml` | Rust Taxlane core crate manifest | tooling | n/a | supporting | `6469c9f3c3d01bc0c51783255082c93ed608c6c64c0d4f32f5cd2c08f2426fb9` |
 | `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `1a121eb2c2b30b9612895e3580135bfe56441f9f12d344a85fe316741b1473be` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `b910e56a20f40547ac1e4f696e84772dde163738b03915ddbcc0d0a39427719a` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `c330aabc27724b3c975c58fab25cfd5da1c2174d382e9bc8c4370d9041e25ae2` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `438a27e13b180eebfd331bda32b90ff8f2ace17664aa9a305d9fe35b32c3a5cd` |
 
 ## Regeneration Order
 

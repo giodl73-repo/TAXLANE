@@ -25,6 +25,10 @@ keeping unmatched category peer benchmarks blocked.
 physician, and retail-drug comparisons are matched spending measures, domestic
 price references, or mechanism evidence—and why none is yet a savings target.
 
+`health_target_admissibility.v1.draft.json` tests whether Medicare-relative
+references can become scenario anchors using current access, margin, quality,
+and payment-adequacy evidence; it blocks a universal target.
+
 The matrix deliberately includes coverage-gap rows. An explicit missing value
 is more useful than a false benchmark.
 

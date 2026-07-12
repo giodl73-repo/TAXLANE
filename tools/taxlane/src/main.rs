@@ -198,6 +198,9 @@ const HEALTH_CATEGORY_BENCHMARK_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/health_category_benchmark_ladder.v1.draft.json";
 const HEALTH_CATEGORY_BENCHMARK_READER_PATH: &str =
     "docs/reading/health-category-benchmark-ladder.md";
+const HEALTH_TARGET_ADMISSIBILITY_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/health_target_admissibility.v1.draft.json";
+const HEALTH_TARGET_ADMISSIBILITY_READER_PATH: &str = "docs/reading/health-target-admissibility.md";
 const VETERANS_DEPTH_CARD_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/veterans_depth_card.fy2025.v1.draft.json";
 const VETERANS_DEPTH_CARD_READER_PATH: &str = "docs/reading/veterans-depth-card.md";
@@ -904,6 +907,20 @@ const ARTIFACTS: &[Artifact] = &[
         path: "docs/reading/health-category-benchmark-ladder.md",
         role: "Public health category benchmark ladder",
         grain: "public category benchmark-readiness card",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/health_target_admissibility.v1.draft.json",
+        role: "Health target admissibility gate",
+        grain: "hospital and professional Medicare-relative adequacy and access gate",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/health-target-admissibility.md",
+        role: "Public health target admissibility card",
+        grain: "public adequacy and access decision card",
         kind: "markdown",
         canonical: "supporting",
     },
@@ -8271,10 +8288,71 @@ fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
     validate_health_cost_decomposition(root)?;
     validate_health_service_bridge(root)?;
     validate_health_category_benchmark_ladder(root)?;
+    validate_health_target_admissibility(root)?;
     println!(
         "validated {} breadth benchmark rows across full comparisons and toplines with no open coverage gaps",
         rows.len()
     );
+    Ok(())
+}
+
+fn validate_health_target_admissibility(root: &Path) -> Result<(), String> {
+    let text = fs::read_to_string(root.join(HEALTH_TARGET_ADMISSIBILITY_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let card: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+    let anchors = card
+        .get("anchors")
+        .and_then(|v| v.as_array())
+        .ok_or("health target admissibility anchors")?;
+    if anchors.len() != 2 {
+        return Err(
+            "health target admissibility needs hospital and professional anchors".to_string(),
+        );
+    }
+    for anchor in anchors {
+        if string_field(anchor, "anchor_status")? != "conditional_scenario_anchor"
+            || !string_field(anchor, "target_status")?.contains("blocked")
+        {
+            return Err(
+                "health target anchor must be conditional with universal target blocked"
+                    .to_string(),
+            );
+        }
+    }
+    let hospital = anchors
+        .iter()
+        .find(|v| string_field(v, "category").ok().as_deref() == Some("hospital care"))
+        .ok_or("hospital admissibility anchor")?;
+    if number_field(hospital, "aggregate_ffs_medicare_margin_percent")? != -12.1
+        || number_field(hospital, "efficient_hospital_median_ffs_margin_percent")? != -1.0
+        || number_field(hospital, "efficient_hospital_projected_2026_margin_percent")? != 1.0
+    {
+        return Err(
+            "hospital adequacy margins must preserve aggregate and efficient-provider distinction"
+                .to_string(),
+        );
+    }
+    let rules = card
+        .get("admissibility_rules")
+        .and_then(|v| v.as_array())
+        .ok_or("health target admissibility rules")?;
+    if rules.len() < 6 || !string_field(&card, "savings_status")?.contains("blocked") {
+        return Err(
+            "health target admissibility must preserve floors and savings block".to_string(),
+        );
+    }
+    let reader = fs::read_to_string(root.join(HEALTH_TARGET_ADMISSIBILITY_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        HEALTH_TARGET_ADMISSIBILITY_JSON_PATH,
+        "credible anchor != universal target != gross reduction != net savings",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!(
+                "health target admissibility reader missing {required}"
+            ));
+        }
+    }
     Ok(())
 }
 
