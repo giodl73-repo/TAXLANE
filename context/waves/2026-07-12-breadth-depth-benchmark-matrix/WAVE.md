@@ -23,6 +23,9 @@ trust-fund, asset-condition, project-delivery, and outcome gates for comparison.
 The fifth slice reconciles the complete $72.042B / 1.03% education-work-social
 services function and makes the −$35.005B higher-education net entry an explicit
 account-level research gate rather than a performance or savings claim.
+The sixth slice keeps disaster relief at its correct subfunction grain and
+connects declaration and mitigation probes without calling them outlays,
+realized savings, or fraud findings.
 
 ## Design rules
 

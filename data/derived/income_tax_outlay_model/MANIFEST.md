@@ -40,13 +40,15 @@ supporting views.
 | `data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.v1.draft.jsonl` | Breadth, depth, and current-versus-benchmark matrix | fiscal lane metric or explicit coverage gap | 17 | supporting | `1a47969808205ca1149a12edbee857f7e8442df850b732d7414b2a9b0dd0a9d5` |
 | `data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.schema.md` | Breadth benchmark matrix schema | documentation | n/a | supporting | `a11dfb5de738571d25992be592096ac8d4309ac2f01984760729c82b1dc7cf25` |
 | `data/derived/breadth_benchmark_matrix/README.md` | Breadth benchmark matrix method note | documentation | n/a | supporting | `173d67e2fa61ed652a03810f53c1e74d12ee50e91cbcef192a3110cb440b7adf` |
-| `docs/reading/current-versus-benchmark-scoreboard.md` | Current-versus-benchmark public scoreboard | public comparison packet | n/a | supporting | `c1d5dd96a1153d779185896c949a83aa3515017b68e0195233000006d915234e` |
+| `docs/reading/current-versus-benchmark-scoreboard.md` | Current-versus-benchmark public scoreboard | public comparison packet | n/a | supporting | `4fdd8db4eb4b047ce1f31ab9f89b262e085d67db06e8b57b2937ddd84874c8cc` |
 | `data/derived/breadth_benchmark_matrix/veterans_depth_card.fy2025.v1.draft.json` | Veterans FY2025 component depth card | federal function and subfunction components | n/a | supporting | `74796f8579f458c339785daa440a592c46c12729b76fc5f49690681a176083f8` |
 | `docs/reading/veterans-depth-card.md` | Public veterans breadth/depth card | public fiscal depth card | n/a | supporting | `fb01e578ab77afa484b0cd97711209e7a7ce1d335cde4ed11265627ce833af16` |
 | `data/derived/breadth_benchmark_matrix/transportation_depth_card.fy2025.v1.draft.json` | Transportation FY2025 component depth card | federal function and subfunction components | n/a | supporting | `b0f371fd57d0ce94d3150495d9afdda0e9d633aab8f25acb798c94a319b61cc7` |
 | `docs/reading/transportation-depth-card.md` | Public transportation breadth/depth card | public fiscal depth card | n/a | supporting | `7b4856d24d829e93f8e54d33b2a986a868e002cf7e83a6952f456b1015872a9e` |
 | `data/derived/breadth_benchmark_matrix/education_depth_card.fy2025.v1.draft.json` | Education-work-social-services FY2025 depth card | federal function and net subfunction components | n/a | supporting | `fd634b415a8122dc1f2bdd59cc30dd24d796d631b2a292d58af19d668379ee05` |
 | `docs/reading/education-depth-card.md` | Public education-work-social-services depth card | public fiscal depth card | n/a | supporting | `7e75aeb496e009fdd4b1eab19b9ddc779b0ed9b18f3af5fa1d98b3369fbb50bd` |
+| `data/derived/breadth_benchmark_matrix/disaster_depth_card.fy2025.v1.draft.json` | Disaster FY2025 subfunction depth card | federal disaster subfunction and evidence boundaries | n/a | supporting | `7d7e8738e630a2bd730d2de14f779fd357f7cbe952dba5abe225dd4fd9b1afcd` |
+| `docs/reading/disaster-depth-card.md` | Public disaster-resilience depth card | public fiscal depth card | n/a | supporting | `29981ff150802dcffafe6287cce176d74bff05f1763edd0a059f85d43685c009` |
 | `data/derived/headline_basis_crosswalk/headline_basis_crosswalk.v1.draft.jsonl` | Headline measure basis and incompatibility crosswalk | headline measure definition | 9 | supporting | `ce8fbc5ae873dc71a0c0f7c2f53a14257ab6266c07801f54480daadf9f778e1b` |
 | `data/derived/headline_basis_crosswalk/headline_basis_crosswalk.schema.md` | Headline basis crosswalk schema | documentation | n/a | supporting | `f4e59792da98abfe3d6bb708d937cef4a6b305d5cce07ed54e5710559ce9bfae` |
 | `data/derived/headline_basis_crosswalk/README.md` | Headline basis crosswalk method note | documentation | n/a | supporting | `b544beb3928c46742cbf70a1c9e00bf31511e443a5c396654b7425dc43092e33` |
@@ -304,7 +306,7 @@ supporting views.
 | `data/derived/accountability_evidence/performance-demand-checklist.schema.md` | Accountability performance demand checklist schema | documentation | n/a | supporting | `afdcb11bb20a75709acabb690655fd03ba8d3a56df522c7b09e8d4b4ffeff6d1` |
 | `data/derived/accountability_evidence/artifact-map.md` | Accountability artifact map | documentation | n/a | supporting | `f7b17b6046644a00ef117962cf60b089747c2fec1a7f91f0e13ecf9b9dd33a7b` |
 | `docs/reading/accountability-public-brief.md` | Reader-facing accountability brief | documentation | n/a | supporting | `cc225ff43f81fa0316f85a8f8ede225f5d1a51470f81d2a296e32820e7434c35` |
-| `docs/reading/README.md` | Reading packet index | documentation | n/a | supporting | `3d54d3753bbb2f0d9d248e9d5f2872f957e5f595ad81a9cdac9cac0cf45f4733` |
+| `docs/reading/README.md` | Reading packet index | documentation | n/a | supporting | `e626e4e2dae2e6d2659c2080f702620d0bb88464a5120fb064d07c12011cf18b` |
 | `docs/reading/placeholder-visibility-receipt.md` | Placeholder receipt reader packet | documentation | n/a | supporting | `4be976503aabb6c21ec77a553f185918190ebcb00e3300930d37e3a7a12f962e` |
 | `docs/reading/placeholder-receipt-display-packet.md` | Placeholder receipt static display packet | documentation | n/a | supporting | `aa2f3fd899fa1dd763b9482c4d4aae81fcde3e77aeb8ce01b1626d10155f35f2` |
 | `reviews/2026-06-23-placeholder-display-packet-role-review.md` | Placeholder receipt display packet role review | documentation | n/a | supporting | `1a0825afa9a4db902ea1d17a0a69443e0caeb2a6ae7c805f3718282c8806fd68` |
@@ -354,7 +356,7 @@ supporting views.
 | `crates/taxlane-core/Cargo.toml` | Rust Taxlane core crate manifest | tooling | n/a | supporting | `6469c9f3c3d01bc0c51783255082c93ed608c6c64c0d4f32f5cd2c08f2426fb9` |
 | `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `1a121eb2c2b30b9612895e3580135bfe56441f9f12d344a85fe316741b1473be` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `b910e56a20f40547ac1e4f696e84772dde163738b03915ddbcc0d0a39427719a` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `94a1958a125424e399debce2edfaefc6abe424b0fe0d96b02cbb16ba43dafffa` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `ad81704f0e243504acad03622a5ba80981cf95ded5ae505eaebfacdcac5b913b` |
 
 ## Regeneration Order
 

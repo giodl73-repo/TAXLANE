@@ -31,7 +31,7 @@ Machine rows:
 | Complete Veterans Benefits and Services | 5.38% of federal outlays | No outcome- and eligibility-matched comparison is attached; the earlier 4.98% subtotal covered only income security plus medical care. |
 | Complete federal Transportation function | 2.07% of federal outlays | Federal-only spending omits major state/local capital and maintenance; 1.44% is ground transportation alone. |
 | Complete federal Education, Training, Employment, and Social Services | 1.03% of federal outlays | Includes a −$35.005B higher-education net entry and excludes most state/local education spending; 0.98% is the school subfunction alone. |
-| Disaster relief and insurance | 0.90% of federal outlays | Event incidence, exposure, mitigation, and supplemental funding vary sharply. |
+| Disaster relief and insurance subfunction | 0.90% of federal outlays | Event incidence, exposure, mitigation, and supplemental funding vary sharply; do not relabel the broader parent function as disaster spending. |
 
 ## Breadth Gaps
 

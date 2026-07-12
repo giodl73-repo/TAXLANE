@@ -196,6 +196,9 @@ const TRANSPORTATION_DEPTH_CARD_READER_PATH: &str = "docs/reading/transportation
 const EDUCATION_DEPTH_CARD_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/education_depth_card.fy2025.v1.draft.json";
 const EDUCATION_DEPTH_CARD_READER_PATH: &str = "docs/reading/education-depth-card.md";
+const DISASTER_DEPTH_CARD_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/disaster_depth_card.fy2025.v1.draft.json";
+const DISASTER_DEPTH_CARD_READER_PATH: &str = "docs/reading/disaster-depth-card.md";
 const HEADLINE_BASIS_JSONL_PATH: &str =
     "data/derived/headline_basis_crosswalk/headline_basis_crosswalk.v1.draft.jsonl";
 const HEADLINE_BASIS_README_PATH: &str = "data/derived/headline_basis_crosswalk/README.md";
@@ -876,6 +879,20 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "docs/reading/education-depth-card.md",
         role: "Public education-work-social-services depth card",
+        grain: "public fiscal depth card",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/disaster_depth_card.fy2025.v1.draft.json",
+        role: "Disaster FY2025 subfunction depth card",
+        grain: "federal disaster subfunction and evidence boundaries",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/disaster-depth-card.md",
+        role: "Public disaster-resilience depth card",
         grain: "public fiscal depth card",
         kind: "markdown",
         canonical: "supporting",
@@ -8124,6 +8141,7 @@ fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
     }
 
     validate_education_depth_card(root)?;
+    validate_disaster_depth_card(root)?;
     println!(
         "validated {} breadth benchmark rows across full comparisons, toplines, and coverage gaps",
         rows.len()
@@ -8165,6 +8183,30 @@ fn validate_education_depth_card(root: &Path) -> Result<(), String> {
         || !reader.contains("negative education")
     {
         return Err("education depth caveat missing".to_string());
+    }
+    Ok(())
+}
+
+fn validate_disaster_depth_card(root: &Path) -> Result<(), String> {
+    let text =
+        fs::read_to_string(root.join(DISASTER_DEPTH_CARD_JSON_PATH)).map_err(|e| e.to_string())?;
+    let card: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+    if number_field(&card, "outlays_millions")? != 62_768.0
+        || string_field(&card, "scope_status")? != "subfunction_not_parent_function"
+        || number_field(
+            card.get("evidence_probes").ok_or("evidence probes")?,
+            "declaration_rows",
+        )? != 8.0
+    {
+        return Err("disaster depth card boundary failed".to_string());
+    }
+    let reader = fs::read_to_string(root.join(DISASTER_DEPTH_CARD_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    if !reader.contains(DISASTER_DEPTH_CARD_JSON_PATH)
+        || !reader.contains("Declarations are not spending")
+        || !reader.contains("not realized savings")
+    {
+        return Err("disaster depth reader boundary failed".to_string());
     }
     Ok(())
 }
