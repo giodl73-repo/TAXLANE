@@ -21,6 +21,7 @@ explainers. They should keep three labels visible:
 | `education-depth-card.md` | Complete FY2025 education-work-social-services function with the negative higher-education net-entry caveat and federalism gates. |
 | `disaster-depth-card.md` | FY2025 disaster subfunction with parent-function, event, declaration, mitigation, and savings boundaries. |
 | `justice-depth-card.md` | Complete FY2025 federal justice function with four components and state/local, outcome, and rights gates. |
+| `science-energy-environment-depth-card.md` | Three-function FY2025 orientation that preserves separate science, energy, and environmental outcome surfaces. |
 | `income-tax-foundation.md` | First public packet explaining income-tax history, current mechanics, budget accounting, and program-linked tax lanes. |
 | `modeled-income-tax-outlays.md` | Reader-facing explanation of the annual and decade modeled allocation of individual income-tax receipts by broad outlay share. |
 | `modeled-income-tax-subfunction-outlays.md` | Reader-facing drilldown packet for modeled Table 3.2 subfunction allocation views. |
