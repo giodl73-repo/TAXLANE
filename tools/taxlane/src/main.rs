@@ -205,6 +205,9 @@ const JUSTICE_DEPTH_CARD_READER_PATH: &str = "docs/reading/justice-depth-card.md
 const SCIENCE_DEPTH_CARD_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/science_energy_environment_depth_card.fy2025.v1.draft.json";
 const SCIENCE_DEPTH_CARD_READER_PATH: &str =
     "docs/reading/science-energy-environment-depth-card.md";
+const AGRICULTURE_DEPTH_CARD_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/agriculture_depth_card.fy2025.v1.draft.json";
+const AGRICULTURE_DEPTH_CARD_READER_PATH: &str = "docs/reading/agriculture-depth-card.md";
 const HEADLINE_BASIS_JSONL_PATH: &str =
     "data/derived/headline_basis_crosswalk/headline_basis_crosswalk.v1.draft.jsonl";
 const HEADLINE_BASIS_README_PATH: &str = "data/derived/headline_basis_crosswalk/README.md";
@@ -927,6 +930,20 @@ const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "docs/reading/science-energy-environment-depth-card.md",
         role: "Public science-energy-environment depth card",
+        grain: "public fiscal depth card",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/agriculture_depth_card.fy2025.v1.draft.json",
+        role: "Agriculture FY2025 depth card",
+        grain: "federal function components",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/agriculture-depth-card.md",
+        role: "Public agriculture depth card",
         grain: "public fiscal depth card",
         kind: "markdown",
         canonical: "supporting",
@@ -8178,6 +8195,7 @@ fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
     validate_disaster_depth_card(root)?;
     validate_justice_depth_card(root)?;
     validate_science_depth_card(root)?;
+    validate_agriculture_depth_card(root)?;
     println!(
         "validated {} breadth benchmark rows across full comparisons, toplines, and coverage gaps",
         rows.len()
@@ -8303,6 +8321,34 @@ fn validate_science_depth_card(root: &Path) -> Result<(), String> {
         fs::read_to_string(root.join(SCIENCE_DEPTH_CARD_READER_PATH)).map_err(|e| e.to_string())?;
     if !reader.contains(SCIENCE_DEPTH_CARD_JSON_PATH) || !reader.contains("not an OMB function") {
         return Err("science depth reader boundary failed".to_string());
+    }
+    Ok(())
+}
+
+fn validate_agriculture_depth_card(root: &Path) -> Result<(), String> {
+    let text = fs::read_to_string(root.join(AGRICULTURE_DEPTH_CARD_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let card: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+    let parts = card
+        .get("components")
+        .and_then(|v| v.as_array())
+        .ok_or("agriculture components")?;
+    let sum: f64 = parts
+        .iter()
+        .map(|v| number_field(v, "outlays_millions"))
+        .collect::<Result<Vec<_>, _>>()?
+        .iter()
+        .sum();
+    if parts.len() != 2
+        || sum != 47_447.0
+        || !string_field(&card, "scope_boundary")?.contains("not function 350")
+    {
+        return Err("agriculture depth boundary failed".to_string());
+    }
+    let reader = fs::read_to_string(root.join(AGRICULTURE_DEPTH_CARD_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    if !reader.contains(AGRICULTURE_DEPTH_CARD_JSON_PATH) || !reader.contains("double count") {
+        return Err("agriculture reader boundary failed".to_string());
     }
     Ok(())
 }
