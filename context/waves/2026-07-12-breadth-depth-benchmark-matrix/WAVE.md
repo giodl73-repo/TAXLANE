@@ -14,6 +14,9 @@ comparisons, Tier 2 toplines, explicit breadth gaps, public scoreboard, and Rust
 claim-safety validation. The second slice adds a headline-basis crosswalk for
 interest, defense, and health so gross/net, function/subfunction, federal/system,
 and outlay/GDP measures cannot be silently substituted.
+The third slice deepens veterans coverage from a two-component 4.98% subtotal
+to the complete $377.163B / 5.38% function, with five components, service probes,
+and explicit beneficiary/outcome gates before benchmarking.
 
 ## Design rules
 

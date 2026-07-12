@@ -28,7 +28,7 @@ Machine rows:
 | Medicare plus health-care-services outlays | 27.38% of federal outlays | OECD total-health measures include different financing and government scopes. |
 | Borrowed share | 25.31% of federal outlays | The appropriate path depends on the cycle, primary balance, debt stock, rates, and policy goals. |
 | Gross Treasury interest | 17.34% of federal outlays | Gross and net interest, debt structure, and GDP paths must be kept separate. |
-| Veterans income security plus medical care | 4.98% of federal outlays | No outcome- and eligibility-matched comparison is attached. |
+| Complete Veterans Benefits and Services | 5.38% of federal outlays | No outcome- and eligibility-matched comparison is attached; the earlier 4.98% subtotal covered only income security plus medical care. |
 | Ground transportation | 1.44% of federal outlays | Federal-only spending omits state/local capital and maintenance. |
 | Federal elementary, secondary, and vocational education | 0.98% of federal outlays | Federal-only spending is not comparable to all-government peer education spending. |
 | Disaster relief and insurance | 0.90% of federal outlays | Event incidence, exposure, mitigation, and supplemental funding vary sharply. |

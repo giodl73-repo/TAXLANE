@@ -1,0 +1,28 @@
+{
+  "record_id": "depth-card:veterans:fy2025",
+  "record_family": "fiscal_depth_card",
+  "lane_id": "veterans",
+  "fiscal_year": 2025,
+  "source_id": "SRC-OMB-HIST-3-2-FY2027",
+  "function_code": "700",
+  "function_label": "Veterans Benefits and Services",
+  "total_outlays_millions": 377163,
+  "share_of_total_outlays_percent": 5.379508651,
+  "components": [
+    {"subfunction_code":"701","label":"Income security for veterans","outlays_millions":200631,"share_of_total_outlays_percent":2.861617391},
+    {"subfunction_code":"702","label":"Veterans education, training, and rehabilitation","outlays_millions":16379,"share_of_total_outlays_percent":0.233615101},
+    {"subfunction_code":"703","label":"Hospital and medical care for veterans","outlays_millions":148835,"share_of_total_outlays_percent":2.122846541},
+    {"subfunction_code":"704","label":"Veterans housing","outlays_millions":981,"share_of_total_outlays_percent":0.013992088},
+    {"subfunction_code":"705","label":"Other veterans benefits and services","outlays_millions":10337,"share_of_total_outlays_percent":0.147437529}
+  ],
+  "service_probes": [
+    {"source_id":"SRC-VA-CLAIMS-DATA","observed_date":"2026-06-30","metric":"Compensation and pension rating bundle claims backlog","value":68207,"unit":"claims","status":"probe_not_performance_finding"},
+    {"source_id":"SRC-VA-CLAIMS-DATA","observed_date":"2026-06-30","metric":"Compensation and pension claim-based quality","value":84.91,"unit":"percent","status":"probe_not_performance_finding"}
+  ],
+  "benchmark_status": "not_benchmarked",
+  "benchmark_reason": "Veterans systems differ in eligibility, military history, disability design, health integration, and government scope; no matched expected-spending value is attached.",
+  "improper_payment_status": "program_specific_only_not_lane_total",
+  "fraud_status": "not_measured_not_inferred",
+  "savings_status": "blocked_not_scored",
+  "next_depth_need": ["beneficiary counts by component","medical enrollment and utilization","disability claims inventory, timeliness, accuracy, appeals, and reversals","education and rehabilitation participation and completion","housing beneficiaries and outcomes","matched historical trends"]
+}

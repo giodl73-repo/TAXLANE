@@ -15,3 +15,8 @@ Public scoreboard: `docs/reading/current-versus-benchmark-scoreboard.md`.
 The matrix deliberately includes coverage-gap rows. An explicit missing value
 is more useful than a false benchmark.
 
+The first Tier 2 depth artifact is
+`veterans_depth_card.fy2025.v1.draft.json`, which reconciles the complete
+Veterans Benefits and Services function and keeps service probes separate from
+performance, fraud, and savings claims.
+

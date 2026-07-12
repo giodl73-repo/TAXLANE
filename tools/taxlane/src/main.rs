@@ -187,6 +187,9 @@ const BREADTH_BENCHMARK_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.schema.md";
 const BREADTH_BENCHMARK_SCOREBOARD_PATH: &str =
     "docs/reading/current-versus-benchmark-scoreboard.md";
+const VETERANS_DEPTH_CARD_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/veterans_depth_card.fy2025.v1.draft.json";
+const VETERANS_DEPTH_CARD_READER_PATH: &str = "docs/reading/veterans-depth-card.md";
 const HEADLINE_BASIS_JSONL_PATH: &str =
     "data/derived/headline_basis_crosswalk/headline_basis_crosswalk.v1.draft.jsonl";
 const HEADLINE_BASIS_README_PATH: &str = "data/derived/headline_basis_crosswalk/README.md";
@@ -826,6 +829,20 @@ const ARTIFACTS: &[Artifact] = &[
         path: "docs/reading/current-versus-benchmark-scoreboard.md",
         role: "Current-versus-benchmark public scoreboard",
         grain: "public comparison packet",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/veterans_depth_card.fy2025.v1.draft.json",
+        role: "Veterans FY2025 component depth card",
+        grain: "federal function and subfunction components",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/veterans-depth-card.md",
+        role: "Public veterans breadth/depth card",
+        grain: "public fiscal depth card",
         kind: "markdown",
         canonical: "supporting",
     },
@@ -7999,6 +8016,44 @@ fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
                 "{BREADTH_BENCHMARK_SCOREBOARD_PATH} must preserve boundary: {required_boundary}"
             ));
         }
+    }
+
+    let veterans_text = fs::read_to_string(root.join(VETERANS_DEPTH_CARD_JSON_PATH))
+        .map_err(|err| format!("failed to read {VETERANS_DEPTH_CARD_JSON_PATH}: {err}"))?;
+    let veterans_card: serde_json::Value = serde_json::from_str(&veterans_text)
+        .map_err(|err| format!("failed to parse {VETERANS_DEPTH_CARD_JSON_PATH}: {err}"))?;
+    let veterans_total = number_field(&veterans_card, "total_outlays_millions")?;
+    let components = veterans_card
+        .get("components")
+        .and_then(|value| value.as_array())
+        .ok_or_else(|| "veterans depth card needs components".to_string())?;
+    if components.len() != 5 {
+        return Err(format!(
+            "veterans depth card must contain five subfunctions, got {}",
+            components.len()
+        ));
+    }
+    let component_total: f64 = components
+        .iter()
+        .map(|component| number_field(component, "outlays_millions"))
+        .collect::<Result<Vec<_>, _>>()?
+        .into_iter()
+        .sum();
+    if (component_total - veterans_total).abs() > 0.001 || veterans_total != 377_163.0 {
+        return Err(format!(
+            "veterans depth card components do not reconcile: {component_total} vs {veterans_total}"
+        ));
+    }
+    for blocked_field in ["fraud_status", "savings_status"] {
+        let value = string_field(&veterans_card, blocked_field)?;
+        if !value.contains("not_") && !value.contains("blocked") {
+            return Err(format!("veterans depth card must block {blocked_field}"));
+        }
+    }
+    let veterans_reader = fs::read_to_string(root.join(VETERANS_DEPTH_CARD_READER_PATH))
+        .map_err(|err| format!("failed to read {VETERANS_DEPTH_CARD_READER_PATH}: {err}"))?;
+    if !veterans_reader.contains(VETERANS_DEPTH_CARD_JSON_PATH) {
+        return Err("veterans depth reader must cite its machine record".to_string());
     }
 
     println!(
