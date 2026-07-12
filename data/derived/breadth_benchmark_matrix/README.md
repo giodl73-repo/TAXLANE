@@ -45,6 +45,10 @@ cross-source result Grade C, and blocks savings and federal-budget claims.
 baseline into partial-closure, balance, and surplus adjustment equivalents
 without claiming that primary balance automatically stabilizes debt.
 
+`fiscal_debt_dynamics_2026_2036.v1.draft.json` extends those targets across an
+annual CBO baseline and adds first-order interest feedback, while preserving a
+hard boundary between transparent scenario arithmetic and a policy score.
+
 The matrix deliberately includes coverage-gap rows. An explicit missing value
 is more useful than a false benchmark.
 

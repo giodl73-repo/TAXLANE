@@ -39,7 +39,7 @@ supporting views.
 | `data/derived/spend_category_map/spend-category-dashboard.md` | Spend category dashboard | documentation | n/a | supporting | `a25d2773d9d29d6fe724f44b8071fd84c4d710c4dad74aeca97bf49d184477cd` |
 | `data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.v1.draft.jsonl` | Breadth, depth, and current-versus-benchmark matrix | fiscal lane metric or explicit coverage gap | 17 | supporting | `4e9d30f1676ac335e14377fb22beaa7c4ca36f8a8d572a4d2549d4a41eaacbee` |
 | `data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.schema.md` | Breadth benchmark matrix schema | documentation | n/a | supporting | `a11dfb5de738571d25992be592096ac8d4309ac2f01984760729c82b1dc7cf25` |
-| `data/derived/breadth_benchmark_matrix/README.md` | Breadth benchmark matrix method note | documentation | n/a | supporting | `c9564864c56902a34ee914d1863e28d77a3bafa09a3b50e9b972c3691bc0ccc1` |
+| `data/derived/breadth_benchmark_matrix/README.md` | Breadth benchmark matrix method note | documentation | n/a | supporting | `bb89c1f7772d503abbf25f1359d56f579eb0293622a135b804a16381f6d4a6a5` |
 | `docs/reading/current-versus-benchmark-scoreboard.md` | Current-versus-benchmark public scoreboard | public comparison packet | n/a | supporting | `7f88e6a71c75aa870090e840e36cbc32f471419942f07be910e6f13111a2350d` |
 | `data/derived/breadth_benchmark_matrix/health_cost_decomposition.v1.draft.json` | Health cost diagnostic decomposition | cross-country price, volume, administration, context, and outcome signals | n/a | supporting | `5470e94aa82b19f82b2d67bedcf773082c47c410a6e8780f95c4e96ef48df5f3` |
 | `docs/reading/health-cost-decomposition.md` | Public health cost decomposition card | public diagnostic depth card | n/a | supporting | `8fe05576200fe2ae03cff7ac47a96c07f586e49a0512bdfb2c52e72a2e69bed5` |
@@ -55,8 +55,10 @@ supporting views.
 | `docs/reading/health-commercial-sample-sensitivity.md` | Public health commercial sample sensitivity card | public matched-sample arithmetic and boundary card | n/a | supporting | `e17c7ff60174e9c2710a23ab703fabbda8140d568b0e10851f5b3d8bccc1aad2` |
 | `data/derived/breadth_benchmark_matrix/health_national_phi_sensitivity.v1.draft.json` | Health national private-insurance payer sensitivity | CY2024 national payer-payment scenario sensitivity | n/a | supporting | `df498a03d17252f1f3d01a85b2acf35c7fc9e1a2967e936ddbf628d341867f52` |
 | `docs/reading/health-national-phi-sensitivity.md` | Public health national private-insurance sensitivity card | public national payer sensitivity and boundary card | n/a | supporting | `2b765baf1b76ccc863f11a26cf0e788370c00e4ccdd7bee555a31417cfa241c0` |
-| `data/derived/breadth_benchmark_matrix/fiscal_path_scenarios.v1.draft.json` | Fiscal primary-balance path scenarios | CBO 2036 baseline and adjustment equivalents | n/a | supporting | `59debd232eef2918e1f2bb51d1261bed302453cc208c6e12bfe124922f0cbcd0` |
-| `docs/reading/fiscal-path-scenarios.md` | Public fiscal path scenario card | public primary-balance and debt-boundary card | n/a | supporting | `5648658f619b86ae41d615cfda0430fdf39a1fba301159b790c9993ec83c212b` |
+| `data/derived/breadth_benchmark_matrix/fiscal_path_scenarios.v1.draft.json` | Fiscal primary-balance path scenarios | CBO 2036 baseline and adjustment equivalents | n/a | supporting | `62bc7d0046572ff1d90c08ef632b7c33eca357f24f8d78a1b0e7d4eb71168af7` |
+| `docs/reading/fiscal-path-scenarios.md` | Public fiscal path scenario card | public primary-balance and debt-boundary card | n/a | supporting | `d805e2352e5b73464a7ad7623eee387eee2a2b1c95b9cced389c33edf26e5ccc` |
+| `data/derived/breadth_benchmark_matrix/fiscal_debt_dynamics_2026_2036.v1.draft.json` | Fiscal annual debt dynamics scenarios | CBO 2026-2036 baseline and first-order debt paths | n/a | supporting | `081a539157debe779f8e882b7ae5bce056107f161b90908129816afa4bb8b3b3` |
+| `docs/reading/fiscal-debt-dynamics.md` | Public fiscal debt dynamics card | annual baseline, scenario results, and scoring boundary | n/a | supporting | `7fcce165ba730b2b621cbc1b2821f284e7b438a850d1e17ac89711e8c97d1120` |
 | `experiments/README.md` | Experiment family index | documentation | n/a | supporting | `d79510988076102cf2684afdb7f64d2e8ce83e9a174a233f028318f3e455e57e` |
 | `experiments/annual-budget-ballot/README.md` | Annual budget ballot experiment method | documentation | n/a | supporting | `434c1f6b43b68a4f1284f269c24fb218bd2844f4bec603bfce24d61c6c33b193` |
 | `experiments/annual-budget-ballot/ballot.schema.md` | Annual budget ballot contract | documentation | n/a | supporting | `f3b497d59931507bec33aa46d3da919146e7e9010874ea6161c1b266a76e26c2` |
@@ -391,7 +393,7 @@ supporting views.
 | `crates/taxlane-core/Cargo.toml` | Rust Taxlane core crate manifest | tooling | n/a | supporting | `6469c9f3c3d01bc0c51783255082c93ed608c6c64c0d4f32f5cd2c08f2426fb9` |
 | `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `1a121eb2c2b30b9612895e3580135bfe56441f9f12d344a85fe316741b1473be` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `b910e56a20f40547ac1e4f696e84772dde163738b03915ddbcc0d0a39427719a` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `e892a84ac8a12ad118bf413e4d687bbb2a578889b13182159f1556dae785cbea` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `dabddb15e264273e594b3070152e78495b668929a4a6dda8b13052d926a8e934` |
 
 ## Regeneration Order
 

@@ -214,6 +214,9 @@ const HEALTH_NATIONAL_PHI_READER_PATH: &str = "docs/reading/health-national-phi-
 const FISCAL_PATH_SCENARIOS_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/fiscal_path_scenarios.v1.draft.json";
 const FISCAL_PATH_SCENARIOS_READER_PATH: &str = "docs/reading/fiscal-path-scenarios.md";
+const FISCAL_DEBT_DYNAMICS_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/fiscal_debt_dynamics_2026_2036.v1.draft.json";
+const FISCAL_DEBT_DYNAMICS_READER_PATH: &str = "docs/reading/fiscal-debt-dynamics.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -1000,6 +1003,20 @@ const ARTIFACTS: &[Artifact] = &[
         path: "docs/reading/fiscal-path-scenarios.md",
         role: "Public fiscal path scenario card",
         grain: "public primary-balance and debt-boundary card",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/fiscal_debt_dynamics_2026_2036.v1.draft.json",
+        role: "Fiscal annual debt dynamics scenarios",
+        grain: "CBO 2026-2036 baseline and first-order debt paths",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/fiscal-debt-dynamics.md",
+        role: "Public fiscal debt dynamics card",
+        grain: "annual baseline, scenario results, and scoring boundary",
         kind: "markdown",
         canonical: "supporting",
     },
@@ -8449,11 +8466,62 @@ fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
     validate_health_sample_sensitivity(root)?;
     validate_health_national_phi_sensitivity(root)?;
     validate_fiscal_path_scenarios(root)?;
+    validate_fiscal_debt_dynamics(root)?;
     validate_budget_ballot_experiment(root)?;
     println!(
         "validated {} breadth benchmark rows across full comparisons and toplines with no open coverage gaps",
         rows.len()
     );
+    Ok(())
+}
+
+fn validate_fiscal_debt_dynamics(root: &Path) -> Result<(), String> {
+    let text =
+        fs::read_to_string(root.join(FISCAL_DEBT_DYNAMICS_JSON_PATH)).map_err(|e| e.to_string())?;
+    let card: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+    let baseline = card
+        .get("baseline_rows")
+        .and_then(|v| v.as_array())
+        .ok_or("fiscal debt baseline rows")?;
+    if baseline.len() != 12 {
+        return Err("fiscal debt baseline must contain FY2025-FY2036".to_string());
+    }
+    for pair in baseline.windows(2) {
+        let prior_debt = pair[0][6].as_f64().ok_or("prior baseline debt")?;
+        let row = pair[1].as_array().ok_or("fiscal baseline row")?;
+        let debt = row[6].as_f64().ok_or("baseline debt")?;
+        let deficit = row[4].as_f64().ok_or("baseline deficit")?;
+        let other = row[5].as_f64().ok_or("baseline other financing")?;
+        if (prior_debt + deficit + other - debt).abs() > 0.002 {
+            return Err("fiscal debt baseline identity does not reconcile".to_string());
+        }
+    }
+    let scenarios = card
+        .get("scenarios")
+        .and_then(|v| v.as_array())
+        .ok_or("fiscal debt scenarios")?;
+    if scenarios.len() != 3
+        || string_field(&card, "net_budget_score_status")? != "blocked_not_policy_specific"
+    {
+        return Err("fiscal debt scenarios or scoring boundary invalid".to_string());
+    }
+    for scenario in scenarios {
+        if scenario
+            .get("rows")
+            .and_then(|v| v.as_array())
+            .map(Vec::len)
+            != Some(11)
+        {
+            return Err("each fiscal debt scenario must contain FY2026-FY2036".to_string());
+        }
+    }
+    let reader = fs::read_to_string(root.join(FISCAL_DEBT_DYNAMICS_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [FISCAL_DEBT_DYNAMICS_JSON_PATH, "not CBO scores", "107.6%"] {
+        if !reader.contains(required) {
+            return Err(format!("fiscal debt reader missing {required}"));
+        }
+    }
     Ok(())
 }
 
@@ -8465,8 +8533,8 @@ fn validate_fiscal_path_scenarios(root: &Path) -> Result<(), String> {
     let deficit = number_field(baseline, "nominal_deficit_usd_trillions_2036")?;
     let deficit_share = number_field(baseline, "total_deficit_percent_gdp_2036")? / 100.0;
     let gdp = number_field(baseline, "implied_nominal_gdp_usd_trillions_2036")?;
-    if (deficit / deficit_share - gdp).abs() > 0.000001
-        || number_field(baseline, "debt_held_by_public_percent_gdp_end")? != 120.0
+    if (deficit / deficit_share - gdp).abs() > 0.01
+        || (number_field(baseline, "debt_held_by_public_percent_gdp_end")? - 120.210).abs() > 0.001
     {
         return Err("fiscal path baseline does not reconcile".to_string());
     }
@@ -8484,7 +8552,8 @@ fn validate_fiscal_path_scenarios(root: &Path) -> Result<(), String> {
             return Err("fiscal path adjustment amount does not reconcile".to_string());
         }
     }
-    if !string_field(&card, "debt_stabilization_status")?.contains("blocked")
+    if string_field(&card, "debt_stabilization_status")?
+        != "first_order_scenarios_available_not_policy_score"
         || !string_field(&card, "net_budget_score_status")?.contains("blocked")
     {
         return Err("fiscal path must block dynamic debt and budget scoring".to_string());

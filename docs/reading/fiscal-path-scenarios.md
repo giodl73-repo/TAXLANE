@@ -12,17 +12,17 @@ CBO's February 2026 baseline projects:
 - net interest reaching **4.6% of GDP**; and
 - the primary deficit remaining **2.1% of GDP**.
 
-The $3.1T projected 2036 deficit implies nominal GDP of about $46.27T on the
-same rounded CBO basis.
+The machine-readable CBO vintage reports a $3.115T deficit and $46.712T of
+nominal GDP in 2036; the rounded public headline remains 6.7% of GDP.
 
 ## Adjustment Paths
 
 | FY2036 path | Primary balance | Change from baseline | Annual 2036 adjustment equivalent |
 |---|---:|---:|---:|
 | Current-law baseline | −2.1% GDP | 0 | $0 |
-| Partial gap closure | −1.0% GDP | 1.1% GDP | **$509B** |
-| Primary balance | 0% GDP | 2.1% GDP | **$972B** |
-| Primary surplus | +1.0% GDP | 3.1% GDP | **$1.434T** |
+| Partial gap closure | −1.0% GDP | 1.1% GDP | **$514B** |
+| Primary balance | 0% GDP | 2.1% GDP | **$981B** |
+| Primary surplus | +1.0% GDP | 3.1% GDP | **$1.448T** |
 
 These are annual FY2036 arithmetic equivalents, not ten-year budget scores.
 They can be divided into illustrative revenue-heavy (75/25), balanced (50/50),

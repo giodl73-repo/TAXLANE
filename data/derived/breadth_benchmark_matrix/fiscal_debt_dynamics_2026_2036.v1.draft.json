@@ -1,0 +1,39 @@
+{
+  "record_id": "depth-card:fiscal-debt-dynamics-2026-2036:v1",
+  "record_family": "fiscal_debt_dynamics",
+  "lane_id": "revenue-solvency",
+  "source_ids": ["SRC-CBO-OPEN-DATA-2026-02", "SRC-CBO-BUDGET-OUTLOOK-2026"],
+  "source_vintage": "2026-02",
+  "units": {"amounts": "billions_current_usd", "shares_and_rates": "percent"},
+  "baseline_columns": ["fiscal_year", "gdp", "primary_deficit", "net_interest", "total_deficit", "other_financing", "debt_held_by_public_end", "debt_percent_gdp", "average_interest_rate"],
+  "baseline_rows": [
+    [2025,30330.3,805.432,969.938,1775.370,201.470,30172.402,99.479,3.383],
+    [2026,31902.0,813.727,1038.976,1852.703,70.060,32095.165,100.605,3.404],
+    [2027,33315.2,779.487,1107.715,1887.203,22.152,34004.520,102.069,3.410],
+    [2028,34665.8,738.251,1217.824,2079.658,8.567,36092.745,104.116,3.526],
+    [2029,36010.0,818.802,1324.496,2019.715,-9.703,38102.757,105.812,3.616],
+    [2030,37390.7,768.806,1431.836,2200.642,-23.760,40279.639,107.726,3.692],
+    [2031,38812.8,737.311,1548.383,2285.695,-36.998,42528.336,109.573,3.775],
+    [2032,40276.5,768.971,1670.447,2439.418,-45.264,44922.490,111.535,3.852],
+    [2033,41795.9,830.439,1784.364,2780.735,-59.038,47644.187,113.992,3.881],
+    [2034,43373.3,902.593,1903.751,2818.500,-68.834,50393.853,116.186,3.904],
+    [2035,45011.5,938.050,2019.072,2779.034,-69.664,53103.223,117.977,3.919],
+    [2036,46712.1,971.051,2144.336,3115.387,-66.219,56152.391,120.210,3.939]
+  ],
+  "model": {
+    "status": "first_order_scenario_not_cbo_score",
+    "phase_in": "linear from one-eleventh of the FY2036 target in 2026 to the full target in 2036",
+    "debt_identity": "ending debt = prior ending debt + primary deficit after adjustment + net interest after feedback + CBO timing residual + other financing",
+    "interest_feedback": "current CBO average interest rate times the prior-year reduction in debt",
+    "held_constant": ["CBO nominal GDP", "CBO average interest rates", "CBO other financing"],
+    "excluded": ["macroeconomic feedback", "policy-specific timing", "distribution", "behavioral response", "implementation risk"]
+  },
+  "scenario_columns": ["fiscal_year", "primary_adjustment", "interest_savings", "debt_held_by_public_end", "debt_percent_gdp"],
+  "scenarios": [
+    {"scenario":"partial_primary_gap_closure","fy2036_primary_adjustment_percent_gdp":1.1,"rows":[[2026,31.902,0.000,32063.263,100.505],[2027,66.630,1.088,33904.900,101.770],[2028,103.997,3.513,35885.615,103.519],[2029,144.040,7.490,37744.097,104.816],[2030,186.953,13.242,39720.784,106.232],[2031,232.877,21.097,41715.507,107.479],[2032,281.935,31.310,43796.415,108.739],[2033,334.367,43.703,46140.042,110.394],[2034,390.360,58.722,48440.627,111.683],[2035,450.115,76.547,50623.335,112.468],[2036,513.833,97.683,53060.987,113.592]],"cumulative_primary_adjustment":2737.011,"cumulative_interest_savings":354.393},
+    {"scenario":"primary_balance","fy2036_primary_adjustment_percent_gdp":2.1,"rows":[[2026,60.904,0.000,32034.261,100.415],[2027,127.203,2.077,33814.336,101.498],[2028,198.540,6.706,35697.314,102.976],[2029,274.985,14.299,37418.042,103.910],[2030,356.911,25.280,39212.733,104.873],[2031,444.583,40.276,40976.572,105.575],[2032,538.240,59.774,42772.711,106.198],[2033,638.337,83.433,44772.638,107.122],[2034,745.232,112.105,46664.967,107.589],[2035,859.310,146.135,48368.891,107.459],[2036,980.954,186.485,50250.620,107.575]],"cumulative_primary_adjustment":5225.202,"cumulative_interest_savings":676.569},
+    {"scenario":"primary_surplus_one_percent","fy2036_primary_adjustment_percent_gdp":3.1,"rows":[[2026,89.906,0.000,32005.259,100.324],[2027,187.777,3.066,33723.772,101.226],[2028,293.084,9.899,35509.014,102.432],[2029,405.931,21.108,37091.988,103.005],[2030,526.869,37.318,38704.683,103.514],[2031,656.289,59.455,40237.636,103.671],[2032,794.546,88.238,41749.007,103.656],[2033,942.308,123.163,43405.234,103.850],[2034,1100.105,165.489,44889.306,103.495],[2035,1268.506,215.723,46114.447,102.450],[2036,1448.075,275.288,47440.252,101.559]],"cumulative_primary_adjustment":7713.394,"cumulative_interest_savings":998.745}
+  ],
+  "headline": "A gradual move to primary balance materially bends the path, but debt still reaches about 107.5 percent of GDP in 2036; the one-percent primary-surplus path roughly holds 2036 debt near today's share.",
+  "net_budget_score_status": "blocked_not_policy_specific"
+}
