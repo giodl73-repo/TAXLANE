@@ -3,36 +3,42 @@
 Machine record:
 `data/derived/breadth_benchmark_matrix/payment_integrity_depth_card.fy2024.v1.draft.json`.
 
-> Draft review surface. The underlying scorecard probes remain blocked from
-> unrestricted public claims pending source and role review.
+> Draft review surface. The annual extraction and underlying probes remain
+> blocked from unrestricted public claims pending source and role review.
 
-The government-wide headline remains **$161.5B in FY2024 reported improper
-payments across covered risk-susceptible programs**. It is not the full federal
-payment universe, a fraud estimate, or an automatically recoverable amount.
+The official FY2024 PaymentAccuracy workbook reconciles GAO's rounded **$161.5B
+improper-and-unknown payment headline** across 68 reported programs:
 
-## What the retained probes add
+| Evidence class | Amount | Share of combined headline |
+|---|---:|---:|
+| Overpayments | $135.184B | 83.68% |
+| Underpayments | $7.864B | 4.87% |
+| Technically improper payments | $5.923B | 3.67% |
+| Unknown payments | $12.569B | 7.78% |
+| **Combined** | **$161.540B** | **100.00%** |
 
-Four Q4 2025 program scorecards report FY2024 overpayment estimates totaling
-**$35.499B**, equal to 22.0% of the separate government-wide headline:
+Overpayments, underpayments, and technically improper payments reconcile to
+$148.971B classified improper payments. Adding $12.569B unknown payments
+reconciles to $161.540B. Covered outlays were $4.072T; the workbook does not
+represent the full federal payment universe, and program measurement periods
+vary.
 
-| Program probe | Reported overpayment | Rate | Primary root-cause signal |
-|---|---:|---:|---|
-| Medicaid | $29.370B | 4.81% | Needed provider, eligibility, redetermination, or documentation data unavailable |
-| Medicare Part D | $3.053B | 1.02% | Other-party process error and state-data access |
-| VA purchased long-term services and supports | $2.502B | 15.54% | Insufficient documentation to determine |
-| Federal Crop Insurance | $0.574B | 2.40% | Needed external compliance data unavailable |
+## Fraud and recovery remain parallel evidence
 
-The 22.0% figure measures how much of the government-wide headline is touched by
-these four retained probes. It is not a representative coverage rate or a
-complete decomposition. Source-specific sample periods and methods still apply.
+The workbook also has 54 FY2024 confirmed-fraud rows, defined narrowly as cases
+confirmed by a court, and 59 agency recovery rows. Neither table is established
+as a disjoint, same-period subset of the estimated improper-payment headline.
+TAXLANE therefore does not subtract either from $161.540B or call the remainder
+recoverable savings.
 
-## What is still unknown
+## A source conflict the prior probes hid
 
-Only the four-program overpayment field is populated. This bridge does not yet
-contain complete, disjoint amounts for underpayments, unknown payments,
-documentation/data errors, confirmed fraud, collectible recoveries, amounts
-actually collected, control cost, or preventable future loss. Missing means
-unknown—not zero.
+The annual workbook reports VA Purchased Long Term Services and Supports as
+$218.30M overpaid, $6.41M underpaid, $432.46M technically improper, and $102.93M
+unknown. The retained Q4 2025 scorecard probe reports $2.502B as FY2024
+overpayments. Until reporting labels, definitions, or revision history explain
+that difference, neither number should headline the program and they must not be
+combined.
 
 ```text
 improper payments
@@ -43,7 +49,6 @@ improper payments
 != net savings
 ```
 
-The next depth step is a consistent program-year extraction that preserves
-payment type, root cause, adjudication, recovery stage, control cost, appeal and
-access effects, and sampling period. Until then, fraud and savings claims remain
-blocked.
+Next depth is source and role review of the extraction, reconciliation of the VA
+conflict, and matched program/period links for fraud, recovery, control cost,
+appeals, access effects, and prospective prevention.

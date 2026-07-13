@@ -26,10 +26,10 @@ new breadth category. Priority is the payment-integrity bridge or one blocked
 accounting bridge, with improper payments, confirmed fraud, recovery, and
 prospective preventable loss kept separate.
 
-The first payment-integrity bridge now connects four retained program probes to
-the government-wide headline while leaving every unsupported evidence class
-null. Full program-year composition and addressable-opportunity scoring remain
-blocked.
+The payment-integrity bridge now captures the official FY2024 annual workbook
+and reconciles payment-type composition across 68 program rows. Confirmed-fraud,
+recovery, and net-savings links remain blocked, as does a VA PLTSS program
+headline until the annual-workbook and Q4-scorecard conflict is resolved.
 
 ## Design rules
 

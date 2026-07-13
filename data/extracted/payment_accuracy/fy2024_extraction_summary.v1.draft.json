@@ -1,0 +1,12 @@
+{
+  "record_id": "payment-accuracy-fy2024-extraction-summary",
+  "source_id": "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+  "program_result_rows": 68,
+  "confirmed_fraud_rows": 54,
+  "agency_recovery_rows": 59,
+  "reconciliation": {
+    "overpayment_plus_underpayment_plus_technical_equals_improper": true,
+    "improper_plus_unknown_equals_combined": true
+  },
+  "status": "draft_extracted_not_public_claim"
+}

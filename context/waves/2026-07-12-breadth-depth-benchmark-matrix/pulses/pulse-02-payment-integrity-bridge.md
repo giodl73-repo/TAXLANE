@@ -2,20 +2,20 @@
 
 ## Result
 
-Connected the $161.5B FY2024 government-wide improper-payment headline to four
-retained Q4 2025 scorecard probes. Their FY2024 overpayment estimates total
-$35.499B, or 22.0% of the separate headline.
+Captured and extracted the official FY2024 annual workbook. It reconciles the
+$161.540B improper-and-unknown headline into $135.184B overpayments, $7.864B
+underpayments, $5.923B technically improper payments, and $12.569B unknown
+payments across 68 program rows.
 
 ## Boundary
 
-The four probes are not representative and do not decompose the whole federal
-total. Their sampling periods and methodologies remain source-specific. Only
-the partial overpayment field is populated; underpayment, unknown-payment,
-disjoint documentation/data error, confirmed fraud, collectible and collected
-recovery, control cost, and preventable-future-loss amounts remain null.
+Program measurement periods remain source-specific. Court-confirmed-fraud and
+agency-recovery tables exist but are not established as disjoint same-period
+subsets of the estimated headline. The annual workbook and Q4 scorecard disagree
+materially for VA PLTSS; the conflict is retained and blocks a program headline.
 
 ## Decision gate
 
-Pass. TAXLANE can add program-grain context without relabeling the full headline
-as fraud or savings. The next slice requires a consistent full program-year
-extract before calculating composition or addressable opportunity.
+Pass for draft extraction and payment-type composition. Fail for fraud,
+recoverability, or net-savings scoring. The next slice is source and role review,
+starting with the VA PLTSS discrepancy.

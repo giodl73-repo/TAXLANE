@@ -2,63 +2,80 @@
   "record_id": "depth-card:payment-integrity:fy2024",
   "record_family": "payment_integrity_depth_card",
   "lane_id": "payment-integrity",
-  "headline": {
-    "reported_improper_payments_millions": 161500.0,
-    "period": "FY2024",
-    "scope": "agency-reported estimates for covered risk-susceptible programs, not the full federal payment universe",
-    "source_id": "SRC-GAO-IMPROPER-PAYMENTS-2025"
+  "annual_dataset": {
+    "source_id": "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+    "fiscal_year": 2024,
+    "covered_outlays_millions": 4071860.585,
+    "program_rows": 68,
+    "sample_period_rule": "program measurement periods vary and remain attached to each program row"
   },
-  "retained_program_probes": {
-    "reporting_period": "Q4 2025 scorecards reporting FY2024 overpayment estimates",
-    "program_count": 4,
-    "overpayment_amount_millions": 35499.18,
-    "share_of_separate_governmentwide_headline_percent": 21.981,
-    "interpretation": "coverage indicator only; not a representative sample, complete decomposition, fraud amount, or recoverable amount",
-    "programs": [
-      {"program_id":"cms-medicaid","program":"Medicaid","overpayment_amount_millions":29370.0,"overpayment_rate_percent":4.81,"primary_root_cause_amount_millions":29370.0,"root_cause":"failure to access needed provider, eligibility, redetermination, or documentation data"},
-      {"program_id":"cms-part-d","program":"Medicare Prescription Drug Benefit (Part D)","overpayment_amount_millions":3053.0,"overpayment_rate_percent":1.02,"primary_root_cause_amount_millions":2403.0,"root_cause":"administrative or process error made by another party; state-data access issue"},
-      {"program_id":"va-pltss","program":"Purchased Long Term Services and Supports","overpayment_amount_millions":2502.18,"overpayment_rate_percent":15.54,"primary_root_cause_amount_millions":2120.91,"root_cause":"insufficient documentation to determine"},
-      {"program_id":"usda-federal-crop-insurance","program":"Federal Crop Insurance Program","overpayment_amount_millions":574.0,"overpayment_rate_percent":2.4,"primary_root_cause_amount_millions":467.0,"root_cause":"failure to access external data or information needed for compliance"}
-    ]
+  "governmentwide_reconciliation_millions": {
+    "properly_paid": 3910320.453,
+    "overpayments": 135184.184,
+    "underpayments": 7863.903,
+    "technically_improper": 5922.545,
+    "improper_total": 148970.633,
+    "unknown_payments": 12569.500,
+    "improper_plus_unknown_headline": 161540.133
   },
-  "evidence_class_fields": {
-    "overpayment_amount_millions": 35499.18,
-    "underpayment_amount_millions": null,
-    "unknown_payment_amount_millions": null,
-    "documentation_or_data_error_amount_millions": null,
-    "confirmed_fraud_amount_millions": null,
-    "collected_recovery_amount_millions": null,
-    "recoverable_or_collectible_amount_millions": null,
-    "control_cost_amount_millions": null,
-    "preventable_future_loss_amount_millions": null
+  "reconciliation_checks": {
+    "overpayment_plus_underpayment_plus_technical_equals_improper": true,
+    "improper_plus_unknown_equals_headline": true,
+    "gao_rounded_headline_billions": 161.5
+  },
+  "headline_composition_percent": {
+    "overpayments": 83.68,
+    "underpayments": 4.87,
+    "technically_improper": 3.67,
+    "unknown_payments": 7.78
+  },
+  "parallel_evidence_tables": {
+    "confirmed_fraud": {
+      "rows": 54,
+      "scope": "court-confirmed cases only; excludes out-of-court settlements with or without admission of guilt",
+      "relationship_to_headline": "not established as a disjoint subset; do not subtract or label the headline as fraud"
+    },
+    "agency_recovery": {
+      "rows": 59,
+      "scope": "agency-level recovery activities and recovery audits",
+      "relationship_to_headline": "not a direct subset of estimated program overpayments; identified and recovered amounts may span timing and recovery bases"
+    }
+  },
+  "four_program_annual_rows_millions": [
+    {"program_id":"cms-medicaid","improper":31099.13,"overpayment":29370.43,"underpayment":123.91,"technically_improper":1604.79,"unknown":0.0,"sample_period":"2022-07 through 2023-06"},
+    {"program_id":"cms-part-d","improper":3575.09,"overpayment":3052.65,"underpayment":522.44,"technically_improper":0.0,"unknown":0.0,"sample_period":"2022-01 through 2022-12"},
+    {"program_id":"va-pltss","improper":657.17,"overpayment":218.30,"underpayment":6.41,"technically_improper":432.46,"unknown":102.93,"sample_period":"2022-10 through 2023-09"},
+    {"program_id":"usda-federal-crop-insurance","improper":579.36,"overpayment":573.93,"underpayment":5.43,"technically_improper":0.0,"unknown":0.0,"sample_period":"2021-07 through 2022-06"}
+  ],
+  "source_discrepancy": {
+    "program_id": "va-pltss",
+    "annual_dataset_overpayment_millions": 218.30,
+    "q4_2025_scorecard_probe_overpayment_millions": 2502.18,
+    "status": "unreconciled_do_not_combine_or_choose",
+    "next_action": "review source definitions, reporting year labels, and scorecard revision history before public use"
   },
   "field_status": {
-    "overpayments": "partial_four_program_probe",
-    "underpayments": "not_captured_in_this_bridge",
-    "unknown_payments": "not_captured_in_this_bridge",
-    "documentation_or_data_errors": "root_cause_signals_present_but_no_disjoint_dollar_classification",
-    "confirmed_fraud": "not_measured_not_inferred",
-    "recoveries": "process_language_partial_quantified_amount_missing",
+    "payment_type_composition": "annual_workbook_reconciled_draft_extracted",
+    "confirmed_fraud": "parallel_court_confirmed_table_not_linked_to_headline",
+    "recoveries": "parallel_agency_table_not_linked_to_program_estimates",
     "recoverability": "blocked_not_scored",
-    "control_cost": "missing",
-    "preventable_future_loss": "missing_not_inferred"
+    "control_cost": "partial_recovery_administration_fields_not_net_scored",
+    "preventable_future_loss": "future_estimates_present_but_not_net_savings"
   },
   "source_inputs": [
-    "data/derived/efficiency_pressure/extracts/payment_integrity_scorecards_q4_2025_first_pass.jsonl",
-    "data/derived/efficiency_pressure/extracts/payment_integrity_program_review_status_q4_2025.jsonl",
-    "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_scoring_gate_q4_2025.jsonl"
+    "data/extracted/payment_accuracy/fy2024_governmentwide_total.v1.draft.json",
+    "data/extracted/payment_accuracy/fy2024_program_results.v1.draft.jsonl",
+    "data/extracted/payment_accuracy/fy2024_confirmed_fraud.v1.draft.jsonl",
+    "data/extracted/payment_accuracy/fy2024_agency_recovery.v1.draft.jsonl"
   ],
   "claim_firewall": "improper payments != overpayments != confirmed fraud != recoverable dollars != collected recoveries != net savings",
   "public_claim_allowed": false,
   "fraud_claim_allowed": false,
   "savings_estimate_allowed": false,
   "next_depth_need": [
-    "full program-year extract with payment types and consistent periods",
-    "underpayment and unknown-payment amounts by program",
-    "disjoint root-cause classification",
-    "confirmed-fraud findings at adjudicated program or transaction grain",
-    "recoverable, collectible, and actually collected amounts",
-    "control and appeal cost",
-    "prospective prevented-loss estimate with access and due-process floors"
+    "source and role review of the annual extraction",
+    "reconcile the VA PLTSS annual-dataset and Q4-scorecard conflict",
+    "link confirmed-fraud and recovery rows only where program, period, and definition match",
+    "estimate control, access, error, appeal, and implementation costs before net savings"
   ]
 }

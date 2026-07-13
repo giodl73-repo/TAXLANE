@@ -84,11 +84,12 @@ reported improper payments across covered programs**. It is not the full federal
 payment universe, not a fraud estimate, and not an automatically recoverable
 amount.
 
-The [payment-integrity depth card](payment-integrity-depth-card.md) connects that
-headline to four retained program probes totaling $35.499B in reported
-overpayments. The probes touch 22.0% of the separate headline but do not form a
-representative or complete decomposition. All other evidence classes remain
-missing or blocked unless separately sourced.
+The draft [payment-integrity depth card](payment-integrity-depth-card.md) now
+reconciles the official annual workbook into $135.184B overpayments, $7.864B
+underpayments, $5.923B technically improper payments, and $12.569B unknown
+payments. Confirmed-fraud and recovery tables remain parallel evidence, not
+automatic subsets or savings. A material VA PLTSS conflict between the annual
+dataset and a Q4 scorecard remains blocked for source review.
 
 The matrix enforces:
 
