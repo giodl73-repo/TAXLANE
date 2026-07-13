@@ -1,0 +1,41 @@
+{
+  "record_id": "source-verification:va-pltss:va-oig-piia-fy2024",
+  "record_family": "payment_integrity_independent_verification",
+  "program_id": "va-pltss",
+  "source_id": "SRC-VA-OIG-PIIA-FY2024",
+  "report_number": "24-03777-113",
+  "report_date": "2025-05-21",
+  "verified_reporting": {
+    "fy2024_improper_and_unknown_rate_percent": 13.52,
+    "fy2024_improper_and_unknown_amount_millions": 760.10,
+    "fy2023_improper_and_unknown_rate_percent": 38.72,
+    "fy2023_improper_and_unknown_amount_millions": 1417.99,
+    "fy2024_requirement_6_below_ten_percent_met": false
+  },
+  "methodology_review": {
+    "prior_year_activity_allowed_for_fy2024_reporting": true,
+    "sampling_plans_reviewed": true,
+    "sample_estimates_independently_verified": true,
+    "margins_of_error_independently_verified": true,
+    "independent_statistical_estimates_developed": true,
+    "pltss_specific_formula_or_weights_published": false
+  },
+  "high_priority_context": {
+    "prior_year_monetary_loss_millions": 318.46,
+    "scorecard_plans_reviewed_as_accurate_and_complete": true,
+    "meaning": "high-priority reporting and plan-review context; not a recovery, collectibility, or savings finding"
+  },
+  "recovery_lineage_discovery": {
+    "claim_cohort_published": false,
+    "established_receivable_cohort_published": false,
+    "appeal_or_reversal_disposition_published": false,
+    "collection_transaction_cohort_published": false,
+    "questioned_costs_millions": 0.0,
+    "funds_for_better_use_millions": 0.0,
+    "result": "no_public_transaction_lineage_in_report"
+  },
+  "allowed_interpretation": "Use as independent support for reporting-period lag, statistical-review credibility, and the distinction between monetary loss, nonmonetary loss, and unknown payments.",
+  "prohibited_interpretation": "Do not treat compliance verification, a high-priority designation, or a reduction target as identified debt, recovered dollars, fraud, prevented loss, or net savings.",
+  "public_claim_allowed": false,
+  "savings_estimate_allowed": false
+}

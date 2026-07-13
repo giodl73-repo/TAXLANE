@@ -1,0 +1,75 @@
+{
+  "record_id": "recovery-bridge:va-pltss:fy2024-q4-2025",
+  "record_family": "payment_integrity_recovery_bridge",
+  "program_id": "va-pltss",
+  "program_name": "Purchased Long Term Services and Supports",
+  "source_ids": [
+    "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+    "SRC-OMB-PAYMENTACCURACY-VA-PLTSS-Q4-2025"
+  ],
+  "projected_overpayment_estimate": {
+    "reporting_fiscal_year": 2024,
+    "sample_period": "2022-10 through 2023-09",
+    "amount_millions": 218.30,
+    "rate_percent": 3.88,
+    "basis": "statistically projected program overpayments",
+    "is_identified_debt": false,
+    "is_collected_recovery": false
+  },
+  "scorecard_recovery_rows": [
+    {
+      "recovery_method": "recovery_activity",
+      "activity_period": "FY2025 Q4",
+      "identified_overpayments_millions": 6.91,
+      "recovered_to_date_millions": 4.46,
+      "basis": "duplicate payments, incorrect amounts, unapplied credits, and similar overpayments identified for collection"
+    },
+    {
+      "recovery_method": "recovery_audit",
+      "activity_period": "FY2025 Q4",
+      "identified_overpayments_millions": 1.18,
+      "recovered_to_date_millions": 0.76,
+      "basis": "recovery-audit review of pre-authorized care claims, referrals, reimbursement methodology, and medical-record support"
+    },
+    {
+      "recovery_method": "piia_sample_and_deep_dive_recovery_activity",
+      "activity_period": "FY2023 through FY2025",
+      "identified_overpayments_millions": 3.97,
+      "recovered_to_date_millions": 3.71,
+      "basis": "statistical-sample review and post-payment deep dives for systemic program deficiencies"
+    }
+  ],
+  "agency_recovery_context": {
+    "agency": "VA",
+    "fiscal_year": 2024,
+    "recovery_activity_identified_millions": 1517.20,
+    "recovery_activity_recovered_millions": 792.55,
+    "recovery_audit_identified_millions": 39.65,
+    "recovery_audit_recovered_millions": 85.50,
+    "scope": "VA-wide agency recovery reporting; not PLTSS program reporting"
+  },
+  "match_tests": {
+    "same_program": "partial_scorecard_rows_only",
+    "same_period": false,
+    "same_definition": false,
+    "projected_estimate_to_identified_debt_lineage": false,
+    "identified_debt_to_collection_lineage": false,
+    "row_disjointness_established": false
+  },
+  "bridge_status": "blocked_no_matched_denominator_or_lineage",
+  "allowed_interpretation": "Report projected overpayments and operational recovery rows separately with their own periods and bases.",
+  "prohibited_interpretations": [
+    "do not divide recovered amounts by the projected FY2024 estimate",
+    "do not sum mixed-period recovery rows",
+    "do not treat VA-wide recovery as PLTSS recovery",
+    "do not label projected overpayments as collectible debt, fraud, prevented loss, or net savings"
+  ],
+  "public_claim_allowed": false,
+  "savings_estimate_allowed": false,
+  "next_evidence_needed": [
+    "PLTSS claim- or debt-cohort identifier linking sampled projected errors to established receivables",
+    "collection transactions tied to the same cohort and measurement period",
+    "disposition fields for appeal, reversal, write-off, offset, and non-collectability",
+    "control and recovery-administration cost plus veteran access and provider-burden effects"
+  ]
+}

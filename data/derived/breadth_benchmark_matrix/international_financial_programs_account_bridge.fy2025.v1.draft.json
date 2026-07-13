@@ -1,0 +1,44 @@
+{
+  "record_id": "account-bridge:international-financial-programs:fy2025",
+  "record_family": "fiscal_account_bridge",
+  "fiscal_year": 2025,
+  "function_code": "150",
+  "subfunction_code": "155",
+  "subfunction_label": "International financial programs",
+  "source_ids": [
+    "SRC-OMB-HIST-3-2-FY2027",
+    "SRC-OMB-PBD-OUTLAYS-FY2027",
+    "SRC-OMB-APPENDIX-TREASURY-FY2027",
+    "SRC-OMB-APPENDIX-STATE-FY2027"
+  ],
+  "unit": "millions_usd",
+  "historical_table_total": -14936,
+  "public_budget_database_total": -14936,
+  "reconciliation_difference": 0,
+  "positive_account_entries_total": 51007,
+  "negative_account_entries_total": -65943,
+  "account_rows": [
+    {"agency":"Department of the Treasury","bureau":"Departmental Offices","account_code":"4444","account_name":"Exchange Stabilization Fund","bea_category":"Mandatory","entry_role":"net_program_outlay","amount":-1658},
+    {"agency":"International Assistance Programs","bureau":"International Monetary Programs","account_code":"1699","account_name":"Contributions to the International Monetary Fund Facilities and Trust Funds","bea_category":"Discretionary","entry_role":"program_outlay","amount":15},
+    {"agency":"International Assistance Programs","bureau":"Military Sales Program","account_code":"4116","account_name":"Special Defense Acquisition Fund","bea_category":"Discretionary","entry_role":"net_program_outlay","amount":32},
+    {"agency":"International Assistance Programs","bureau":"Military Sales Program","account_code":"8242","account_name":"Foreign Military Sales Trust Fund","bea_category":"Mandatory","entry_role":"trust_fund_net_outlay","amount":50826},
+    {"agency":"International Assistance Programs","bureau":"Military Sales Program","account_code":"824210","account_name":"Deposits, Advances, Foreign Military Sales Trust Fund","bea_category":"Mandatory","entry_role":"offsetting_receipt","amount":-64039},
+    {"agency":"Export-Import Bank of the United States","bureau":"Export-Import Bank of the United States","account_code":"0100","account_name":"Export-Import Bank Loans Program Account","bea_category":"Discretionary","entry_role":"program_outlay","amount":41},
+    {"agency":"Export-Import Bank of the United States","bureau":"Export-Import Bank of the United States","account_code":"0100","account_name":"Export-Import Bank Loans Program Account","bea_category":"Mandatory","entry_role":"program_outlay","amount":85},
+    {"agency":"Export-Import Bank of the United States","bureau":"Export-Import Bank of the United States","account_code":"0105","account_name":"Inspector General","bea_category":"Discretionary","entry_role":"program_outlay","amount":8},
+    {"agency":"Export-Import Bank of the United States","bureau":"Export-Import Bank of the United States","account_code":"272730","account_name":"Export-Import Bank Loans, Downward Reestimates of Subsidies","bea_category":"Mandatory","entry_role":"offsetting_receipt_downward_subsidy_reestimate","amount":-242},
+    {"agency":"Export-Import Bank of the United States","bureau":"Export-Import Bank of the United States","account_code":"4027","account_name":"Export-Import Bank of the United States Liquidating Account","bea_category":"Mandatory","entry_role":"net_liquidating_account_outlay","amount":-4}
+  ],
+  "explanatory_groups": [
+    {"group":"Foreign Military Sales trust-fund cycle plus Special Defense Acquisition Fund","amount":-13181,"components":["8242","824210","4116"]},
+    {"group":"Exchange Stabilization Fund","amount":-1658,"components":["4444"]},
+    {"group":"Export-Import Bank accounts","amount":-112,"components":["0100-discretionary","0100-mandatory","0105","272730","4027"]},
+    {"group":"IMF facilities and trust funds contribution","amount":15,"components":["1699"]}
+  ],
+  "bridge_status": "exact_account_reconciliation_complete",
+  "interpretation": "The negative total is produced mainly by Foreign Military Sales customer deposits exceeding same-year trust-fund net outlays, plus negative ESF net outlays. It is not negative foreign aid, fraud recovery, or automatically recoverable savings.",
+  "fraud_status": "not_measured_not_inferred",
+  "savings_status": "blocked_not_scored",
+  "observed_date": "2026-07-13",
+  "status": "draft-source-reviewed"
+}

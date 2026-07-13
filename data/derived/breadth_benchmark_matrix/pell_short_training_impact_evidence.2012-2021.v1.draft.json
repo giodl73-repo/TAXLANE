@@ -1,0 +1,96 @@
+{
+  "record_id":"causal-impact-evidence:pell-short-training:2012-2021",
+  "record_family":"causal_impact_evidence",
+  "source_ids":["SRC-IES-PELL-SHORT-TRAINING-2024"],
+  "study_title":"The Effects of Expanding Pell Grant Eligibility for Short Occupational Training Programs: New Results on Employment and Earnings from the Experimental Sites Initiative",
+  "report_number":"NCEE 2025-005",
+  "publication_date":"2024-11",
+  "policy_test":"Two experimental expansions of federal Pell Grant eligibility for short occupational training programs",
+  "study_design":{
+    "design":"randomized_control_trial",
+    "estimand":"intent_to_treat_effect_of_being_offered_experimental_pell_grant_funds",
+    "random_assignment_period":{"start":"2012-11","end":"2017-03"},
+    "assignment_probability_offer_percent":60,
+    "randomized_sample_total":2914,
+    "randomized_assignment_counts":{"experiment_1":{"offered_n":277,"not_offered_n":160,"total_n":437},"experiment_2":{"offered_n":1488,"not_offered_n":911,"total_n":2399},"eligible_for_both_experiments":{"offered_n":54,"not_offered_n":24,"total_n":78}},
+    "post_random_assignment_exclusions":{"total_n":159,"consent_n":4,"ineligible_n":4,"technical_error_n":151},
+    "primary_education_analytic_sample":2684,
+    "dual_experiment_sensitivity_sample_n":71,
+    "participating_postsecondary_schools":46,
+    "school_context":{"public_two_year_percent":72,"southeastern_region_percent":46,"selection":"Schools volunteered and were approved by Federal Student Aid."},
+    "participant_entry_conditions":["Met all other Pell Grant eligibility criteria, including low-income requirements.","Completed a Free Application for Federal Student Aid.","Expressed interest in an occupational training program approved for the study.","The experiments targeted adults who were unemployed or underemployed."],
+    "assignment_note":"Students offered and not offered experimental Pell Grant funds could receive other financial aid for which they were eligible. The randomized contrast is an offer effect, not an effect among grant users, enrollees, completers, or credential recipients.",
+    "impact_estimation":"Regression-adjusted impact estimates. The displayed offered-group mean equals the unadjusted control-group mean plus the regression-adjusted impact estimate.",
+    "statistical_test":"Two-tailed tests; p-values and standard errors are publisher-reported. A displayed p-value of 0.000 is interpreted as p < 0.001, not a literal probability of zero."
+  },
+  "outcome_periods":{
+    "experiment_1_enrollment":"Within 12 months after random assignment.",
+    "experiment_1_completion":"Within 30 months after random assignment.",
+    "experiment_2_enrollment":"Within 8 months after random assignment.",
+    "experiment_2_completion":"Within 10 months after random assignment.",
+    "employment_and_earnings":"National Directory of New Hires records from 2020 Q3 through 2021 Q4, 42 to 93 months after random assignment.",
+    "post_expected_completion_context":"Employment and earnings were measured an average of 3.2 years after expected completion for Experiment 1 and 4.9 years after expected completion for Experiment 2.",
+    "pandemic_context":"The primary labor-market window overlapped the COVID-19 pandemic and associated downturn. The report also found no significant employment or earnings effects in later-quarter sensitivity analyses; 2021 Q4 employer reporting was incomplete."
+  },
+  "experiment_1":{
+    "label":"Pell for short-term programs for students with a bachelor's degree",
+    "eligibility_change":"Waived the prohibition on Pell Grants for students who already had a bachelor's degree.",
+    "eligible_program_duration":"Up to one year when full time or two years when part time.",
+    "participant_profile":{"analytic_sample":414,"female_percent":64,"independent_student_percent":93,"average_age_years":36,"average_gross_income_usd":20670,"already_enrolled_at_study_school_percent":24},
+    "academic_outcome_sample":{"offered_n":254,"not_offered_n":160,"total_n":414},
+    "employment_earnings_sample":{"main_report_analytic_sample":407,"displayed_nonmissing_offered_n":250,"displayed_nonmissing_not_offered_n":156,"displayed_nonmissing_total_n":406,"sample_note":"The main report states a 407-student labor-market analytic sample; Appendix Exhibit C.1 displays 406 nonmissing observations for each primary employment and earnings row. Both publisher-reported quantities are retained."},
+    "primary_outcomes":[
+      {"outcome":"enrolled_in_any_program_at_study_school","unit":"percent","offered_mean":77.9,"not_offered_mean":51.9,"impact":26.0,"standard_error":4.0,"p_value":0.000,"significance_status":"statistically_significant"},
+      {"outcome":"completed_any_program_at_study_school","unit":"percent","offered_mean":52.4,"not_offered_mean":35.6,"impact":16.7,"standard_error":4.3,"p_value":0.000,"significance_status":"statistically_significant","rounding_note":"Displayed means differ by 16.8 percentage points while the regression-adjusted published impact is 16.7 percentage points."},
+      {"outcome":"ever_employed_2020q3_through_2021q4","unit":"percent","offered_mean":80.6,"not_offered_mean":83.0,"impact":-2.4,"standard_error":3.8,"p_value":0.527,"significance_status":"not_statistically_significant"},
+      {"outcome":"average_quarterly_wage_earnings_2020q3_through_2021q4","unit":"reported_usd_including_zero_for_nonemployment","offered_mean":8956,"not_offered_mean":10097,"impact":-1141,"standard_error":977,"p_value":0.244,"significance_status":"not_statistically_significant"}
+    ]
+  },
+  "experiment_2":{
+    "label":"Pell for very short-term occupational training programs",
+    "eligibility_change":"Waived the normal minimum of 600 clock hours over 15 weeks.",
+    "eligible_program_duration":"8 to 15 weeks; approved programs averaged about 11 weeks.",
+    "participant_profile":{"analytic_sample":2270,"some_college_percent":53,"female_percent":36,"independent_student_percent":85,"average_age_years":32,"average_gross_income_usd":22451,"already_enrolled_at_study_school_percent":14},
+    "academic_outcome_sample":{"offered_n":1363,"not_offered_n":907,"total_n":2270},
+    "employment_earnings_sample":{"main_report_analytic_sample":2215,"displayed_nonmissing_offered_n":1335,"displayed_nonmissing_not_offered_n":880,"displayed_nonmissing_total_n":2215},
+    "primary_outcomes":[
+      {"outcome":"enrolled_in_any_program_at_study_school","unit":"percent","offered_mean":66.4,"not_offered_mean":51.8,"impact":14.6,"standard_error":1.8,"p_value":0.000,"significance_status":"statistically_significant"},
+      {"outcome":"completed_any_program_at_study_school","unit":"percent","offered_mean":47.0,"not_offered_mean":37.7,"impact":9.3,"standard_error":1.9,"p_value":0.000,"significance_status":"statistically_significant"},
+      {"outcome":"ever_employed_2020q3_through_2021q4","unit":"percent","offered_mean":77.6,"not_offered_mean":79.0,"impact":-1.4,"standard_error":1.8,"p_value":0.424,"significance_status":"not_statistically_significant"},
+      {"outcome":"average_quarterly_wage_earnings_2020q3_through_2021q4","unit":"reported_usd_including_zero_for_nonemployment","offered_mean":5993,"not_offered_mean":6276,"impact":-283,"standard_error":251,"p_value":0.260,"significance_status":"not_statistically_significant"}
+    ]
+  },
+  "grant_take_up_and_amount_context":{
+    "experiment_1":{"offered_sample_n":254,"take_up_percent":67,"grant_users_n":170,"average_disbursed_among_users_usd":3577},
+    "experiment_2":{"offered_sample_n":1363,"take_up_percent":52,"grant_users_n":705,"average_disbursed_among_users_usd":1312},
+    "combined":{"offered_sample_n":1617,"grant_users_n":875,"take_up_percent":54,"total_disbursed_usd":1532657},
+    "combined_average_disbursed_among_users_usd":1752,
+    "interpretation":"Take-up and disbursement amounts describe use among people offered experimental grants. They are not the randomized impact on government cost per assigned student, do not include every administrative, educational, loan, household, or opportunity cost, and cannot alone support cost-effectiveness."
+  },
+  "evidence_assessment":{
+    "causal_status":"causal_for_offer_of_experimental_pell_eligibility_under_study_conditions",
+    "education_finding":"offers_increased_study_school_enrollment_and_completion_in_both_experiments",
+    "employment_finding":"no_statistically_detectable_medium_to_long_term_employment_effect_in_either_experiment",
+    "earnings_finding":"no_statistically_detectable_medium_to_long_term_quarterly_earnings_effect_in_either_experiment",
+    "null_interpretation":"The negative employment and earnings point estimates were not statistically significant. They do not establish that the offers caused harm. Failure to reject a zero effect also does not establish equivalence or prove that the true effect was exactly zero.",
+    "program_transportability":"limited_to_eligible_interested_applicants_and_volunteer_school_programs",
+    "cost_effectiveness_status":"blocked_no_full_incremental_cost_and_benefit_analysis",
+    "current_fiscal_link":"blocked_no_compatible_outlay_or_budget_cohort",
+    "fraud_status":"not_measured_not_inferred",
+    "savings_status":"blocked_not_scored"
+  },
+  "current_program_access_path":"data/derived/breadth_benchmark_matrix/fsa_title_iv_student_access_baseline.fy2024.v1.draft.json",
+  "current_program_access_status":"fy2024_fsa_administrative_scale_not_experimental_offer_population_or_counterfactual",
+  "bachelor_completer_pell_outcome_path":"data/derived/breadth_benchmark_matrix/pell_bachelor_recipient_outcome_baseline.bb2016-2020.v1.draft.json",
+  "bachelor_completer_pell_outcome_status":"descriptive_bachelor_completer_ever_pell_contrasts_not_experimental_offer_population_or_counterfactual",
+  "first_time_student_longitudinal_bridge_path":"data/derived/breadth_benchmark_matrix/bps_first_time_student_longitudinal_bridge.ay2019-2022.v1.draft.json",
+  "first_time_student_longitudinal_bridge_status":"early_descriptive_entrant_bridge_and_datalab_receipt_group_cross_tab_attached_noncausal_mature_cost_and_fiscal_gates_blocked_not_experimental_offer_population_or_counterfactual",
+  "current_entrant_pell_persistence_path":"data/derived/breadth_benchmark_matrix/pell_current_entrant_persistence_baseline.bps2020-2022.v1.draft.json",
+  "current_entrant_pell_persistence_status":"official_datalab_entry_year_pell_receipt_by_three_year_persistence_attached_descriptive_noncausal_mature_cost_and_fiscal_gates_blocked_not_experimental_offer_population_or_counterfactual",
+  "current_entrant_pell_significance_screen_path":"data/derived/breadth_benchmark_matrix/pell_current_entrant_persistence_significance_screen.bps2020-2022.v1.draft.json",
+  "current_entrant_pell_significance_screen_status":"official_independent_estimates_ttest_screen_attached_bonferroni_three_of_five_pass_covariance_aware_confirmation_blocked_noncausal_not_experimental_offer_population_or_counterfactual",
+  "limitations":["Participating schools volunteered; most were public two-year colleges and nearly half were in the Southeast.","Participants had already completed a FAFSA and expressed interest in an approved program, so the estimates do not capture policy-induced awareness or application among the broader eligible population.","The offer changed Pell eligibility and grant access, not guaranteed grant use, program enrollment, completion, credential receipt, or employment.","Primary employment and earnings measures cover 2020 Q3 through 2021 Q4, overlapping the pandemic and uneven labor-market recovery.","National Directory of New Hires earnings omit earnings not captured in covered wage records and include zero for nonemployment in the reported quarterly average.","Grant disbursement amounts among users are not a complete incremental program, social, taxpayer, student, or institutional cost measure."],
+  "prohibited_inferences":["Do not treat the statistically nonsignificant negative labor-market estimates as proof of harm.","Do not describe nonsignificance as proof of equivalence, no possible effect, or a precisely zero effect.","Do not reinterpret intent-to-treat offer effects as effects of using a Pell Grant, enrolling, completing a program, or earning a credential.","Do not divide a federal budget, outlay, or education-function topline by these study outcomes or grant amounts.","Do not infer a cost-effectiveness ratio, federal fiscal saving, waste, fraud, or recoverable amount from this evaluation."],
+  "observed_date":"2026-07-13",
+  "status":"draft-source-reviewed"
+}

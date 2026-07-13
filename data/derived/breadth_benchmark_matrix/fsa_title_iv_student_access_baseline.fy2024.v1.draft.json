@@ -1,0 +1,83 @@
+{
+  "record_id":"student-access-baseline:fsa-title-iv:fy2024",
+  "record_family":"student_program_access_baseline",
+  "source_ids":["SRC-ED-FSA-ANNUAL-REPORT-FY2024"],
+  "fiscal_year":2024,
+  "scope":"Federal Student Aid fiscal-year disbursements and separately sourced award-year recipient or award counts for Title IV loans, grants, and Federal Work-Study",
+  "reporting_basis_note":"Table 4 aid amounts are fiscal-year amounts from FSA and Department financial systems. The report states that recipient and award counts in Management's Discussion and Analysis come from multiple sources and are based on award year. These periods and systems are preserved rather than treated as one aligned cohort.",
+  "student_access_headline":{
+    "fafsa_forms_processed_more_than_millions":17.6,
+    "title_iv_aid_delivered_approximately_millions_usd":120800,
+    "postsecondary_students_and_families_more_than_millions":9.9,
+    "active_participating_postsecondary_institutions":5378,
+    "qualifier_note":"The report publishes the FAFSA and student counts as 'more than' values and the $120.8 billion headline as approximate; the inequalities and approximation are not converted to exact counts or amounts."
+  },
+  "table_4":{
+    "title":"Summary of Federal Aid Disbursed to Students by Program",
+    "unit":"millions_usd",
+    "rows":[
+      {"program":"William D. Ford Federal Direct Loan Program","program_group":"federal_loan_program","fy2024_aid_disbursed":85802.4,"fy2023_aid_disbursed":83295.3,"difference":2507.1,"published_percentage_change_display":"3.0%","arithmetic_percentage_change":3.0,"published_sign_matches_difference":true},
+      {"program":"Federal Pell Grant Program","program_group":"federal_grant_programs","fy2024_aid_disbursed":32995.7,"fy2023_aid_disbursed":28689.2,"difference":4306.5,"published_percentage_change_display":"15.0%","arithmetic_percentage_change":15.0,"published_sign_matches_difference":true},
+      {"program":"Federal Supplemental Educational Opportunity Grant Program","program_group":"federal_grant_programs","fy2024_aid_disbursed":871.5,"fy2023_aid_disbursed":893.8,"difference":-22.3,"published_percentage_change_display":"(2.5)%","arithmetic_percentage_change":-2.5,"published_sign_matches_difference":true},
+      {"program":"Teacher Education Assistance for College and Higher Education Grant Program","program_group":"federal_grant_programs","fy2024_aid_disbursed":42.3,"fy2023_aid_disbursed":82.1,"difference":-39.8,"published_percentage_change_display":"(48.5)%","arithmetic_percentage_change":-48.5,"published_sign_matches_difference":true},
+      {"program":"Iraq and Afghanistan Service Grant Program","program_group":"federal_grant_programs","fy2024_aid_disbursed":0.7,"fy2023_aid_disbursed":0.6,"difference":0.1,"published_percentage_change_display":"(16.7)%","arithmetic_percentage_change":16.7,"published_sign_matches_difference":false},
+      {"program":"Federal Work-Study Program","program_group":"federal_work_study_program","fy2024_aid_disbursed":1103.5,"fy2023_aid_disbursed":1150.2,"difference":-46.7,"published_percentage_change_display":"(4.1)%","arithmetic_percentage_change":-4.1,"published_sign_matches_difference":true}
+    ],
+    "published_grant_subtotal":{"fy2024_aid_disbursed":33910.2,"fy2023_aid_disbursed":29665.7,"difference":4244.5,"published_percentage_change_display":"(14.3)%","arithmetic_percentage_change":14.3,"published_sign_matches_difference":false},
+    "published_grand_total":{"fy2024_aid_disbursed":120816.1,"fy2023_aid_disbursed":114111.2,"difference":6704.9,"published_percentage_change_display":"5.9%","arithmetic_percentage_change":5.9,"published_sign_matches_difference":true},
+    "arithmetic_checks":{
+      "fy2024_grant_rows_sum":33910.2,
+      "fy2024_grant_rows_equal_published_subtotal":true,
+      "fy2023_grant_rows_sum":29665.7,
+      "fy2023_grant_rows_equal_published_subtotal":true,
+      "fy2024_program_rows_sum":120816.1,
+      "fy2024_program_rows_equal_published_grand_total":true,
+      "fy2023_program_rows_sum":114111.2,
+      "fy2023_program_rows_equal_published_grand_total":true,
+      "published_grand_total_difference_equals_year_subtraction":true,
+      "published_percentage_sign_contradictions":["Iraq and Afghanistan Service Grant Program","Subtotal Grant Programs"],
+      "note":"Checks use the displayed one-decimal amounts. The report prints parenthesized negative percentage changes for the Iraq and Afghanistan Service Grant row and grant subtotal even though their dollar differences are positive. Both the printed display and arithmetic direction are retained; the discrepancy is not silently repaired."
+    }
+  },
+  "program_access_details":{
+    "direct_loans":{"fy2024_net_loans_more_than_millions_usd":85800,"recipients_more_than_millions":6.7,"consolidation_loans_excluded_millions_usd":62200},
+    "all_grants":{"fy2024_disbursements_approximately_millions_usd":33900,"recipients_more_than_millions":6.3},
+    "pell_grants":{"fy2024_disbursements_approximately_millions_usd":33000,"average_grant_usd":5218,"students_more_than_millions":6.3,"maximum_award_usd":7395,"maximum_award_periods":["2023-24 award year","2024-25 award year"],"period_note":"The $33.0 billion is a fiscal-year disbursement description; the student count is award-year based; the $5,218 average and $7,395 maximum are published program measures and do not create a common fiscal-year recipient cohort."},
+    "fseog":{"fy2024_disbursements_approximately_millions_usd":871.5,"campus_based_awards_more_than_millions":1.6},
+    "teach_grants":{"fy2024_disbursements_millions_usd":42.3,"grants_more_than_count":23000},
+    "iraq_afghanistan_service_grants":{"fy2024_disbursements_approximately_millions_usd":0.7,"awards_more_than_count":100},
+    "federal_work_study":{"fy2024_disbursements_approximately_millions_usd":1100,"campus_based_awards_more_than_count":600000}
+  },
+  "education_access_transition_path":"data/derived/breadth_benchmark_matrix/census_cps_education_access_transition_baseline.oct2024.v1.draft.json",
+  "education_access_transition_status":"population_access_context_not_title_iv_eligibility_applicant_or_recipient_denominator",
+  "student_program_impact_evidence_path":"data/derived/breadth_benchmark_matrix/pell_short_training_impact_evidence.2012-2021.v1.draft.json",
+  "student_program_impact_evidence_status":"historical_experimental_offer_evidence_not_current_program_population_or_outcome_link",
+  "higher_education_account_bridge_path":"data/derived/breadth_benchmark_matrix/higher_education_account_bridge.fy2025.v1.draft.json",
+  "higher_education_account_bridge_status":"fy2025_account_outlays_not_fy2024_program_total_reconciliation",
+  "bachelor_completer_pell_outcome_path":"data/derived/breadth_benchmark_matrix/pell_bachelor_recipient_outcome_baseline.bb2016-2020.v1.draft.json",
+  "bachelor_completer_pell_outcome_status":"historical_ever_pell_bachelor_completer_outcomes_not_fy2024_title_iv_recipient_or_disbursement_cohort",
+  "first_time_student_longitudinal_bridge_path":"data/derived/breadth_benchmark_matrix/bps_first_time_student_longitudinal_bridge.ay2019-2022.v1.draft.json",
+  "first_time_student_longitudinal_bridge_status":"early_descriptive_ay2019_20_entrant_bridge_and_datalab_receipt_group_cross_tab_attached_noncausal_mature_cost_and_fiscal_gates_blocked_not_fy2024_title_iv_recipient_or_disbursement_cohort",
+  "current_entrant_pell_persistence_path":"data/derived/breadth_benchmark_matrix/pell_current_entrant_persistence_baseline.bps2020-2022.v1.draft.json",
+  "current_entrant_pell_persistence_status":"official_datalab_entry_year_pell_receipt_by_three_year_persistence_attached_descriptive_noncausal_mature_cost_and_fiscal_gates_blocked_not_fy2024_title_iv_recipient_or_disbursement_cohort",
+  "current_entrant_pell_significance_screen_path":"data/derived/breadth_benchmark_matrix/pell_current_entrant_persistence_significance_screen.bps2020-2022.v1.draft.json",
+  "current_entrant_pell_significance_screen_status":"official_independent_estimates_ttest_screen_attached_bonferroni_three_of_five_pass_covariance_aware_confirmation_blocked_noncausal_not_fy2024_title_iv_recipient_or_disbursement_cohort",
+  "comparison_status":"descriptive_administrative_access_and_disbursement_baseline_not_outcome_or_causal_evidence",
+  "period_alignment_status":"fiscal_year_disbursements_and_award_year_recipient_counts_not_cohort_aligned",
+  "account_crosswalk_status":"blocked_no_omb_function_subfunction_or_account_row_crosswalk",
+  "cost_per_student_or_outcome_status":"blocked_not_calculated",
+  "program_outcome_status":"not_measured_not_inferred",
+  "causal_status":"not_applicable_no_counterfactual",
+  "fraud_status":"not_measured_not_inferred",
+  "savings_status":"blocked_not_scored",
+  "prohibited_inferences":[
+    "Do not convert any published 'more than' count or approximate amount into an exact value.",
+    "Do not divide fiscal-year disbursements by award-year recipients or awards to create an exact average, cost per student, or cohort measure.",
+    "Do not interpret the published Pell average grant or maximum award as full tuition, full cost of attendance, program delivery cost, or federal cost per outcome.",
+    "Do not treat year-over-year disbursement changes as changes in access, need, educational quality, completion, employment, earnings, or causal program effects.",
+    "Do not map Table 4 amounts to an OMB function, subfunction, budget account, or the FY2025 higher-education bridge without a validated crosswalk.",
+    "Do not infer improper payments, fraud, waste, recoverable amounts, or savings from these access and disbursement totals."
+  ],
+  "observed_date":"2026-07-13",
+  "status":"draft-source-reviewed-checksum-verified"
+}

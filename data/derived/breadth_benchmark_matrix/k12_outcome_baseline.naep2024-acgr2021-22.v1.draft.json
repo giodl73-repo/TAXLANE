@@ -1,0 +1,26 @@
+{
+  "record_id":"outcome-baseline:k12-public-schools:naep2024-acgr2021-22",
+  "record_family":"outcome_baseline",
+  "scope":"us_public_school_students_50_states_and_dc",
+  "source_ids":["SRC-NAEP-2024-MATH-READING","SRC-NCES-ACGR-2021-22","SRC-ED-CHRONIC-ABSENTEEISM-SY2022-23","SRC-CENSUS-SCHOOL-FINANCES-FY2024","SRC-CENSUS-CPS-SCHOOL-ENROLLMENT-2024"],
+  "finance_linkage":{"path":"data/derived/breadth_benchmark_matrix/k12_federalism_finance_bridge.fy2024.v1.draft.json","period":"FY2024","scope_match_status":"adjacent_not_identical","same_cohort":false},
+  "period_map":{"finance":"FY2024 school-system finance","achievement":"NAEP January-March 2024 assessment administration","completion":"school year 2021-22 adjusted cohort graduation rate","attendance":"school year 2022-23 chronic absenteeism","alignment_status":"descriptive_multi_period_not_cohort_matched"},
+  "achievement":{"measure":"NAEP national public-school achievement-level percentages and average scores","assessment_year":2024,"achievement_level_caution":"NAEP Proficient is not grade-level proficiency; achievement levels are to be used on a trial basis and interpreted with caution.","rounding_note":"Achievement-level percentages are separately rounded. A published at-or-above percentage may differ from the sum of displayed Proficient and Advanced shares.","rows":[
+    {"subject":"mathematics","grade":4,"average_score":237,"below_basic_percent":24,"basic_percent":36,"proficient_percent":31,"advanced_percent":9,"at_or_above_proficient_percent":39,"displayed_distribution_sum_percent":100},
+    {"subject":"mathematics","grade":8,"average_score":272,"below_basic_percent":41,"basic_percent":32,"proficient_percent":19,"advanced_percent":8,"at_or_above_proficient_percent":27,"displayed_distribution_sum_percent":100},
+    {"subject":"reading","grade":4,"average_score":214,"below_basic_percent":41,"basic_percent":29,"proficient_percent":22,"advanced_percent":8,"at_or_above_proficient_percent":30,"displayed_distribution_sum_percent":100},
+    {"subject":"reading","grade":8,"average_score":257,"below_basic_percent":34,"basic_percent":37,"proficient_percent":25,"advanced_percent":4,"at_or_above_proficient_percent":29,"displayed_distribution_sum_percent":100}
+  ]},
+  "completion":{"measure":"four-year adjusted cohort graduation rate for public high school students","school_year":"2021-22","us_average_percent":87,"race_ethnicity_percent":{"american_indian_alaska_native":74,"asian_pacific_islander":94,"black":81,"hispanic":83,"white":90},"selected_characteristics_percent":{"students_with_disabilities":71,"english_learners":72,"economically_disadvantaged":81,"enrolled_homeless":68},"coverage_note":"The U.S. average includes imputed New Mexico and Oklahoma data. Selected-characteristic national discussions exclude Hawaii because data were unavailable."},
+  "attendance_access":{"measure":"students absent 10 percent or more school days during the school year","school_year":"2022-23","reported_membership":48268200,"reported_chronically_absent":13406900,"reported_chronically_absent_percent":27.8,"race_ethnicity_percent":{"american_indian":46,"asian":15,"black":37,"hispanic":33,"pacific_islander":45,"two_or_more_races":30,"white":22},"selected_characteristics_percent":{"children_with_disabilities":36,"children_without_disabilities":26,"english_learners":33,"non_english_learners":27},"aggregation_caveat":"National counts may duplicate a student reported chronically absent in more than one school during the year. Membership is point-in-time while chronic absenteeism is collected over the school year.","comparison_caveat":"State definitions and source-data quality vary; state comparisons can be misleading."},
+  "education_access_transition_path":"data/derived/breadth_benchmark_matrix/census_cps_education_access_transition_baseline.oct2024.v1.draft.json",
+  "access_status":"national_chronic_absenteeism_and_cps_age_enrollment_transition_context_attached_other_access_measures_open",
+  "peer_comparison_path":"data/derived/breadth_benchmark_matrix/k12_pisa2022_peer_comparison.v1.draft.json",
+  "benchmark_status":"definition_matched_pisa_outcome_comparison_attached_not_spending_target",
+  "efficiency_status":"descriptive_baseline_not_causal_efficiency",
+  "fraud_status":"not_measured_not_inferred",
+  "savings_status":"blocked_not_scored",
+  "prohibited_inferences":["Do not divide spending by the percentage at or above NAEP Proficient.","Do not attribute national outcomes causally to FY2024 spending.","Do not infer an expected spending level, waste, fraud, or savings from these descriptive outcomes."],
+  "observed_date":"2026-07-13",
+  "status":"draft-source-reviewed"
+}

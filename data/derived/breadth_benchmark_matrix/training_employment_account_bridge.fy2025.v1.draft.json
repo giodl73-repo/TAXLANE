@@ -1,0 +1,159 @@
+{
+  "record_id": "account-bridge:training-employment:fy2025",
+  "record_family": "fiscal_account_bridge",
+  "fiscal_year": 2025,
+  "function_code": "500",
+  "subfunction_code": "504",
+  "subfunction_label": "Training and employment",
+  "source_ids": [
+    "SRC-OMB-HIST-3-2-FY2027",
+    "SRC-OMB-PBD-OUTLAYS-FY2027",
+    "SRC-DOL-ETA-CBJ-FY2026-TES",
+    "SRC-DOL-ETA-CBJ-FY2026-SUIESO"
+  ],
+  "unit": "millions_usd",
+  "historical_table_total": 5434,
+  "public_budget_database_total": 5434,
+  "reconciliation_difference": 0,
+  "classified_row_count": 27,
+  "nonzero_row_count": 13,
+  "nonzero_entry_sign": "all_positive",
+  "agency_scope": {
+    "agency_code": "012",
+    "agency_name": "Department of Labor",
+    "bureau_code": "05",
+    "bureau_name": "Employment and Training Administration",
+    "budget_status": "all_on_budget"
+  },
+  "source_provenance": [
+    {
+      "source_id": "SRC-OMB-PBD-OUTLAYS-FY2027",
+      "canonical_url": "https://www.whitehouse.gov/wp-content/uploads/2026/04/outlays_fy2027.xlsx",
+      "raw_path": "data/raw/omb/SRC-OMB-PBD-OUTLAYS-FY2027/2026-07-13/outlays_fy2027.xlsx",
+      "sha256": "D892F2247E6C1AED68414D3E4168F8B4AB97BCFC7ACF82A6A449A3FCB1ADDB07",
+      "capture_date": "2026-07-13",
+      "amount_unit_in_source": "thousands_usd",
+      "extraction": "FY2025 column; subfunction code 504; amounts converted exactly from thousands to millions of dollars"
+    },
+    {
+      "source_id": "SRC-DOL-ETA-CBJ-FY2026-TES",
+      "canonical_url": "https://www.dol.gov/sites/dolgov/files/general/budget/2026/CBJ-2026-V1-03.pdf",
+      "review_status": "link_reviewed_no_local_capture",
+      "comparison_period": "FY2025 enacted budget authority"
+    },
+    {
+      "source_id": "SRC-DOL-ETA-CBJ-FY2026-SUIESO",
+      "canonical_url": "https://www.dol.gov/sites/dolgov/files/general/budget/2026/CBJ-2026-V1-07.pdf",
+      "review_status": "link_reviewed_no_local_capture",
+      "comparison_period": "FY2025 enacted budget authority"
+    }
+  ],
+  "classification_totals": [
+    {"bea_category":"Discretionary","grant_status":"Nongrant","amount":2546},
+    {"bea_category":"Discretionary","grant_status":"Grant","amount":2754},
+    {"bea_category":"Mandatory","grant_status":"Nongrant","amount":100},
+    {"bea_category":"Mandatory","grant_status":"Grant","amount":34}
+  ],
+  "budget_category_totals": {
+    "discretionary": 5300,
+    "mandatory": 134
+  },
+  "grant_status_totals": {
+    "grant": 2788,
+    "nongrant": 2646
+  },
+  "account_row_columns": [
+    "agency_code",
+    "bureau_code",
+    "account_code",
+    "account_name",
+    "bea_category",
+    "grant_status",
+    "budget_status",
+    "amount"
+  ],
+  "account_rows": [
+    ["012","05","0172","Program Administration","Discretionary","Nongrant","On-budget",130],
+    ["012","05","0172","Program Administration","Mandatory","Nongrant","On-budget",1],
+    ["012","05","0174","Training and Employment Services","Discretionary","Nongrant","On-budget",15],
+    ["012","05","0174","Training and Employment Services","Discretionary","Grant","On-budget",1700],
+    ["012","05","0174","Training and Employment Services","Mandatory","Nongrant","On-budget",85],
+    ["012","05","0175","Community Service Employment for Older Americans","Discretionary","Nongrant","On-budget",337],
+    ["012","05","0179","State Unemployment Insurance and Employment Service Operations","Discretionary","Nongrant","On-budget",41],
+    ["012","05","0179","State Unemployment Insurance and Employment Service Operations","Discretionary","Grant","On-budget",72],
+    ["012","05","0179","State Unemployment Insurance and Employment Service Operations","Mandatory","Nongrant","On-budget",14],
+    ["012","05","0181","Job Corps","Discretionary","Nongrant","On-budget",1851],
+    ["012","05","0326","Federal Unemployment Benefits and Allowances","Mandatory","Grant","On-budget",34],
+    ["012","05","8042","Unemployment Trust Fund","Discretionary","Nongrant","On-budget",172],
+    ["012","05","8042","Unemployment Trust Fund","Discretionary","Grant","On-budget",982]
+  ],
+  "account_totals": [
+    {"account_code":"0172","account_name":"Program Administration","amount":131},
+    {"account_code":"0174","account_name":"Training and Employment Services","amount":1800},
+    {"account_code":"0175","account_name":"Community Service Employment for Older Americans","amount":337},
+    {"account_code":"0179","account_name":"State Unemployment Insurance and Employment Service Operations","amount":127},
+    {"account_code":"0181","account_name":"Job Corps","amount":1851},
+    {"account_code":"0326","account_name":"Federal Unemployment Benefits and Allowances","amount":34},
+    {"account_code":"8042","account_name":"Unemployment Trust Fund","amount":1154}
+  ],
+  "program_budget_authority_comparison": {
+    "period": "FY2025 enacted",
+    "measure": "budget_authority",
+    "unit": "millions_usd",
+    "rows": [
+      {"program":"WIOA Adult Employment and Training Activities","cbj_budget_activity":"Adult Employment and Training Activities","amount":885.649,"account_family":"0174","mapping_status":"program_to_budget_activity_exact_account_outlay_not_separable"},
+      {"program":"WIOA Youth Activities","cbj_budget_activity":"Youth Activities","amount":948.130,"account_family":"0174","mapping_status":"program_to_budget_activity_exact_account_outlay_not_separable"},
+      {"program":"WIOA Dislocated Worker formula grants","cbj_budget_activity":"Dislocated Worker Employment and Training Activities—formula grants","amount":1095.553,"account_family":"0174","mapping_status":"program_to_budget_activity_exact_account_outlay_not_separable"},
+      {"program":"Wagner-Peyser Employment Service Grants to States—general fund","cbj_budget_activity":"Employment Service Grants to States—general fund","amount":21.413,"account_family":"0179/8042","mapping_status":"program_to_budget_activity_exact_account_outlay_not_separable"},
+      {"program":"Wagner-Peyser Employment Service Grants to States—Unemployment Trust Fund","cbj_budget_activity":"Employment Service Grants to States—Unemployment Trust Fund","amount":653.639,"account_family":"0179/8042","mapping_status":"program_to_budget_activity_exact_account_outlay_not_separable"}
+    ],
+    "wioa_title_i_subtotal": 2929.332,
+    "wagner_peyser_grants_to_states_subtotal": 675.052,
+    "matched_program_total": 3604.384,
+    "training_and_employment_services_total_budget_authority": 3898.587,
+    "training_and_employment_services_account_actual_outlays": 1800,
+    "excluded_from_wioa_title_i_subtotal": {
+      "program": "National Dislocated Worker Grants",
+      "amount": 300.859,
+      "reason": "not part of the three formula-program outcome cohorts used in the WIOA national outcome artifact"
+    },
+    "excluded_from_wagner_peyser_subtotal": {
+      "program": "Employment Service national activities",
+      "amount": 25,
+      "reason": "not Employment Service Grants to States"
+    },
+    "comparison_status": "program_to_budget_activity_budget_authority_complete_actual_account_outlay_allocation_not_separable",
+    "timing_caveat": "FY2025 enacted budget authority and FY2025 actual outlays are different measures. Multi-year availability, obligations, outlay timing, and carry-in from earlier authority can cause account outlays to differ materially from same-year budget authority."
+  },
+  "wioa_outcome_mapping": [
+    {
+      "outcome_programs": ["Adult","Dislocated Worker","Youth"],
+      "account_family": "0174",
+      "mapping": "WIOA Title I programs map to the Training and Employment Services account family, but their FY2025 actual outlays are not separately identifiable in the PBD account rows."
+    },
+    {
+      "outcome_programs": ["Wagner-Peyser"],
+      "account_family": "0179/8042",
+      "mapping": "Wagner-Peyser maps to the State Unemployment Insurance and Employment Service Operations and Unemployment Trust Fund account families, but its FY2025 actual outlays are not separately identifiable in the PBD account rows."
+    }
+  ],
+  "outcome_scope_exclusions": [
+    "Job Corps",
+    "Community Service Employment for Older Americans",
+    "Federal Unemployment Benefits and Allowances",
+    "Program Administration",
+    "other activities not represented by the four WIOA national outcome rows"
+  ],
+  "bridge_status": "exact_account_reconciliation_complete",
+  "outcome_cohort_allocation_status": "blocked_actual_outlays_not_separable",
+  "historical_causal_evidence_path": "data/derived/breadth_benchmark_matrix/wia_gold_standard_impact_evidence.2011-2013.v1.draft.json",
+  "historical_causal_evidence_status": "study_level_wia_evidence_not_fy2025_outlay_effect",
+  "cost_per_outcome_status": "blocked_not_calculated",
+  "period_alignment_status": "not_aligned_fiscal_year_program_year_and_followup_quarters_differ",
+  "causal_status": "not_established",
+  "fraud_status": "not_measured_not_inferred",
+  "savings_status": "blocked_not_scored",
+  "interpretation": "The bridge exactly identifies the accounts producing the $5.434 billion FY2025 subfunction total. It does not allocate actual outlays to WIOA participant cohorts or turn descriptive post-exit outcomes into causal program effects.",
+  "observed_date": "2026-07-13",
+  "status": "draft-source-reviewed"
+}

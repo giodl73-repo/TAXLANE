@@ -1,0 +1,62 @@
+{
+  "record_id":"worker-population-baseline:bls-cps:cy2024",
+  "record_family":"worker_population_baseline",
+  "source_ids":["SRC-BLS-CPS-ANNUAL-AVERAGES-2024"],
+  "calendar_year":2024,
+  "scope":"U.S. Current Population Survey annual-average education, employment, unemployment, and earnings measures for people age 25 and older",
+  "measure_definitions":{
+    "unemployment_rate":"People without employment who were available for work and actively sought work in the prior four weeks, or were on temporary layoff, divided by the civilian labor force.",
+    "employment_population_ratio":"Employed people divided by the civilian noninstitutional population.",
+    "median_usual_weekly_earnings":"Distribution midpoint of before-tax wage and salary earnings usually received at the main job, including usual overtime, commissions, and tips; excludes self-employed workers, employer benefits, and non-wage income.",
+    "full_time":"Usually 35 hours or more per week at all jobs combined."
+  },
+  "education_pays_table_5_1":{
+    "title":"Unemployment rates and earnings by educational attainment, 2024",
+    "earnings_universe":"Full-time wage and salary workers age 25 and older",
+    "unemployment_universe":"Civilian labor force age 25 and older",
+    "rows":[
+      {"educational_attainment":"doctoral_degree","median_usual_weekly_earnings_usd":2278,"unemployment_rate_percent":1.2},
+      {"educational_attainment":"professional_degree","median_usual_weekly_earnings_usd":2363,"unemployment_rate_percent":1.3},
+      {"educational_attainment":"masters_degree","median_usual_weekly_earnings_usd":1840,"unemployment_rate_percent":2.2},
+      {"educational_attainment":"bachelors_degree","median_usual_weekly_earnings_usd":1543,"unemployment_rate_percent":2.5},
+      {"educational_attainment":"associates_degree","median_usual_weekly_earnings_usd":1099,"unemployment_rate_percent":2.8},
+      {"educational_attainment":"some_college_no_degree","median_usual_weekly_earnings_usd":1020,"unemployment_rate_percent":3.8},
+      {"educational_attainment":"high_school_diploma","median_usual_weekly_earnings_usd":930,"unemployment_rate_percent":4.2},
+      {"educational_attainment":"less_than_high_school_diploma","median_usual_weekly_earnings_usd":738,"unemployment_rate_percent":6.2},
+      {"educational_attainment":"total","median_usual_weekly_earnings_usd":1221,"unemployment_rate_percent":3.3}
+    ],
+    "category_note":"Educational attainment is the highest level completed and does not account for apprenticeships or other on-the-job training. The nine published rows must not be summed or treated as a common earnings distribution. Professional-degree median earnings exceed doctoral-degree median earnings in the published table, so the rows do not form a strictly monotonic sequence."
+  },
+  "cps_annual_average_table_7":{
+    "title":"Employment status of the civilian noninstitutional population 25 years and over by educational attainment, sex, race, and Hispanic or Latino ethnicity",
+    "universe":"Total civilian noninstitutional population age 25 and older; estimates are annual averages and counts are in thousands",
+    "rows":[
+      {"educational_attainment":"less_than_high_school_diploma","civilian_noninstitutional_population_thousands":19295,"civilian_labor_force_thousands":9153,"labor_force_participation_rate_percent":47.4,"employed_thousands":8589,"employment_population_ratio_percent":44.5,"unemployed_thousands":563,"unemployment_rate_percent":6.2},
+      {"educational_attainment":"high_school_graduate_no_college","civilian_noninstitutional_population_thousands":63705,"civilian_labor_force_thousands":36257,"labor_force_participation_rate_percent":56.9,"employed_thousands":34725,"employment_population_ratio_percent":54.5,"unemployed_thousands":1532,"unemployment_rate_percent":4.2},
+      {"educational_attainment":"some_college_or_associates_degree_total","civilian_noninstitutional_population_thousands":56987,"civilian_labor_force_thousands":35839,"labor_force_participation_rate_percent":62.9,"employed_thousands":34627,"employment_population_ratio_percent":60.8,"unemployed_thousands":1212,"unemployment_rate_percent":3.4},
+      {"educational_attainment":"some_college_no_degree","civilian_noninstitutional_population_thousands":32179,"civilian_labor_force_thousands":19489,"labor_force_participation_rate_percent":60.6,"employed_thousands":18740,"employment_population_ratio_percent":58.2,"unemployed_thousands":749,"unemployment_rate_percent":3.8},
+      {"educational_attainment":"associates_degree","civilian_noninstitutional_population_thousands":24808,"civilian_labor_force_thousands":16350,"labor_force_participation_rate_percent":65.9,"employed_thousands":15887,"employment_population_ratio_percent":64.0,"unemployed_thousands":463,"unemployment_rate_percent":2.8},
+      {"educational_attainment":"bachelors_degree_and_higher_total","civilian_noninstitutional_population_thousands":89612,"civilian_labor_force_thousands":65080,"labor_force_participation_rate_percent":72.6,"employed_thousands":63571,"employment_population_ratio_percent":70.9,"unemployed_thousands":1509,"unemployment_rate_percent":2.3},
+      {"educational_attainment":"bachelors_degree_only","civilian_noninstitutional_population_thousands":55131,"civilian_labor_force_thousands":39897,"labor_force_participation_rate_percent":72.4,"employed_thousands":38885,"employment_population_ratio_percent":70.5,"unemployed_thousands":1012,"unemployment_rate_percent":2.5},
+      {"educational_attainment":"advanced_degree","civilian_noninstitutional_population_thousands":34481,"civilian_labor_force_thousands":25183,"labor_force_participation_rate_percent":73.0,"employed_thousands":24686,"employment_population_ratio_percent":71.6,"unemployed_thousands":497,"unemployment_rate_percent":2.0}
+    ],
+    "hierarchy_note":"The two total columns are parent categories: some_college_or_associates_degree_total equals its two child columns, and bachelors_degree_and_higher_total equals bachelors_degree_only plus advanced_degree. Do not add parent and child columns together.",
+    "arithmetic_checks":{"some_college_or_associates_children_sum_to_parent":{"population_thousands":true,"labor_force_thousands":true,"employed_thousands":true,"unemployed_thousands":true},"bachelors_or_higher_children_sum_to_parent":{"population_thousands":true,"labor_force_thousands":true,"employed_thousands":true,"unemployed_thousands":true},"published_rate_precision_decimal_places":1,"recomputed_rate_tolerance_percentage_points":0.1},
+    "rounding_note":"Published counts are rounded to thousands and rates to one decimal place. Small count identities can differ by one thousand, and recomputed rates are checked only to the published rounding precision."
+  },
+  "universe_reconciliation":{
+    "status":"distinct_universes_preserved_not_joined_person_level",
+    "shared_leaf_unemployment_rates_match":{"less_than_high_school_diploma":true,"high_school_diploma":true,"some_college_no_degree":true,"associates_degree":true,"bachelors_degree":true},
+    "note":"Table 5.1 earnings describe full-time wage and salary workers, while its unemployment rates describe the civilian labor force. Table 7 population and employment ratios describe the civilian noninstitutional population. Similar attainment labels do not make these denominators interchangeable."
+  },
+  "wioa_link":{"status":"adjacent_population_context_not_counterfactual","note":"This population baseline can contextualize WIOA participant outcomes but is not an untreated comparison group. Differences in population, selection, attainment, timing, and indicator definitions block an impact estimate."},
+  "education_transition_context_path":"data/derived/breadth_benchmark_matrix/census_cps_education_access_transition_baseline.oct2024.v1.draft.json",
+  "education_transition_context_status":"cps_oct2024_younger_population_transition_context_not_age25plus_worker_cohort",
+  "subfunction_link":{"omb_function":500,"omb_subfunction":504,"subfunction_label":"Training and employment","fiscal_year":2025,"outlays_millions":5434,"scope_status":"population_context_not_account_crosswalk","cost_per_outcome_status":"blocked_not_calculated"},
+  "comparison_status":"descriptive_cross_sectional_association_not_causal",
+  "fraud_status":"not_measured_not_inferred",
+  "savings_status":"blocked_not_scored",
+  "prohibited_inferences":["Do not interpret the education gradients as causal returns to a degree or training program.","Do not compare WIOA participant outcomes with these population rows as though they were treated and untreated cohorts.","Do not annualize weekly earnings without specifying weeks worked or combine earnings with population counts to estimate aggregate income.","Do not divide OMB subfunction 504 outlays by these people, employment, unemployment, or earnings measures.","Do not infer waste, fraud, recoverable savings, or a preferred spending level from this descriptive baseline."],
+  "observed_date":"2026-07-13",
+  "status":"draft-source-reviewed"
+}

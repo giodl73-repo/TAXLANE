@@ -1,0 +1,73 @@
+{
+  "record_id":"education-access-transition-baseline:census-cps:oct2024",
+  "record_family":"education_access_transition_baseline",
+  "source_ids":["SRC-CENSUS-CPS-SCHOOL-ENROLLMENT-2024"],
+  "survey_period":"October 2024",
+  "release_date":"2026-05-26",
+  "scope":"U.S. Current Population Survey School Enrollment Supplement estimates for the civilian noninstitutionalized population, with broad enrollment denominators for people age 3 and older and a transition snapshot for high school graduates age 15 to 24",
+  "units_note":"Published counts are in thousands of people. Rates are percentages. Counts must not be interpreted as individual-level microdata or multiplied by unrelated spending totals.",
+  "estimate_note":"These are weighted probability-sample estimates subject to sampling and nonsampling error, not complete administrative counts.",
+  "table_1_enrollment_status":{
+    "title":"Enrollment Status of the Population 3 Years Old and Over, by Sex, Age, Race, Hispanic Origin, Foreign Born, and Foreign-Born Parentage: October 2024",
+    "selected_population":"all races, both sexes",
+    "universe":"civilian noninstitutionalized population age 3 and older",
+    "headline":{"population_thousands":321500,"enrolled_in_school_thousands":75110,"enrolled_in_school_percent":23.4},
+    "enrollment_level_counts_thousands":{"nursery_or_kindergarten":8510,"elementary":32090,"high_school":17120,"college_undergraduate_or_graduate":17400},
+    "age_rows":[
+      {"age":"3_and_4","population_thousands":7432,"enrolled_in_school_thousands":4368,"enrolled_in_school_percent":58.8},
+      {"age":"5_and_6","population_thousands":7657,"enrolled_in_school_thousands":7073,"enrolled_in_school_percent":92.4},
+      {"age":"7_to_9","population_thousands":12210,"enrolled_in_school_thousands":11820,"enrolled_in_school_percent":96.8},
+      {"age":"10_to_13","population_thousands":16470,"enrolled_in_school_thousands":16080,"enrolled_in_school_percent":97.7},
+      {"age":"14_and_15","population_thousands":8477,"enrolled_in_school_thousands":8245,"enrolled_in_school_percent":97.3},
+      {"age":"16_and_17","population_thousands":8973,"enrolled_in_school_thousands":8201,"enrolled_in_school_percent":91.4},
+      {"age":"18_and_19","population_thousands":8660,"enrolled_in_school_thousands":5724,"enrolled_in_school_percent":66.1},
+      {"age":"20_and_21","population_thousands":8507,"enrolled_in_school_thousands":4351,"enrolled_in_school_percent":51.1},
+      {"age":"22_to_24","population_thousands":12930,"enrolled_in_school_thousands":3419,"enrolled_in_school_percent":26.4}
+    ],
+    "rounding_note":"The four published enrollment-level counts sum to 75,120 thousand, 10 thousand above the separately published 75,110 thousand total. This is retained as a rounding difference; the components are not forced to the headline total.",
+    "access_interpretation":"Age-specific enrollment describes broad observed access or participation, not unmet demand, attendance regularity, educational quality, completion, or causal program performance."
+  },
+  "table_7_recent_high_school_graduate_transition":{
+    "title":"Enrollment Status of High School Graduates 15 to 24 Years Old, by Type of School, Attendance Status, and Sex: October 2024",
+    "selected_cohort":"all-races high school graduates age 15 to 24 reported as graduated this year",
+    "universe":"civilian noninstitutionalized high school graduates age 15 to 24",
+    "both_sexes_counts_thousands":{"total":3250,"two_year_college_full_time":537,"two_year_college_part_time":130,"four_year_college_full_time":1303,"four_year_college_part_time":60,"graduate_school":6,"vocational_school":52,"not_enrolled_employed":613,"not_enrolled_not_employed":549},
+    "sex_counts_thousands":{
+      "male":{"total":1533,"two_year_college_full_time":272,"two_year_college_part_time":42,"four_year_college_full_time":508,"four_year_college_part_time":24,"graduate_school":1,"vocational_school":27,"not_enrolled_employed":361,"not_enrolled_not_employed":299},
+      "female":{"total":1717,"two_year_college_full_time":265,"two_year_college_part_time":88,"four_year_college_full_time":795,"four_year_college_part_time":36,"graduate_school":5,"vocational_school":25,"not_enrolled_employed":252,"not_enrolled_not_employed":250}
+    },
+    "derived_rates":{
+      "derivation_basis":"Calculated from published counts rounded to thousands; these are TaxLane calculations, not Census-published rates.",
+      "both_sexes_any_listed_school_numerator_thousands":2088,
+      "both_sexes_any_listed_school_formula":"(537 + 130 + 1303 + 60 + 6 + 52) / 3250 * 100",
+      "both_sexes_any_listed_school_percent":64.246154,
+      "both_sexes_college_only_numerator_thousands":2036,
+      "both_sexes_college_only_formula":"(537 + 130 + 1303 + 60 + 6) / 3250 * 100",
+      "both_sexes_college_only_percent":62.646154,
+      "both_sexes_not_enrolled_employed_formula":"613 / 3250 * 100",
+      "both_sexes_not_enrolled_employed_percent":18.861538,
+      "both_sexes_not_enrolled_not_employed_formula":"549 / 3250 * 100",
+      "both_sexes_not_enrolled_not_employed_percent":16.892308,
+      "male_any_listed_school_formula":"(272 + 42 + 508 + 24 + 1 + 27) / 1533 * 100",
+      "male_any_listed_school_percent":57.012394,
+      "female_any_listed_school_formula":"(265 + 88 + 795 + 36 + 5 + 25) / 1717 * 100",
+      "female_any_listed_school_percent":70.704718
+    },
+    "reconciliation":{"both_sexes_categories_sum_to_total":true,"male_categories_sum_to_total":true,"female_categories_sum_to_total":true},
+    "interpretation_note":"The mutually exclusive October statuses form a transition snapshot. Not enrolled and not employed is not labeled NEET because this table does not establish every definitional element of that separate concept."
+  },
+  "universe_reconciliation":{"status":"related_cps_universes_preserved_not_joined_person_level","note":"Table 1 covers the civilian noninstitutionalized population age 3 and older. Table 7 covers high school graduates age 15 to 24 and the selected transition rows cover those reported as graduated this year. Table 7 is not a subset that can be arithmetically reconciled to a single Table 1 enrollment-level count."},
+  "worker_evidence_link":{"status":"descriptive_transition_context_not_program_evaluation","note":"The recent-graduate transition rows provide adjacent education-to-work context but are not a comparison group for WIOA, WIA, or any other training program."},
+  "program_impact_evidence_path":"data/derived/breadth_benchmark_matrix/pell_short_training_impact_evidence.2012-2021.v1.draft.json",
+  "program_impact_evidence_status":"randomized_pell_applicant_evidence_not_cps_population_or_recent_graduate_cohort",
+  "student_aid_program_access_path":"data/derived/breadth_benchmark_matrix/fsa_title_iv_student_access_baseline.fy2024.v1.draft.json",
+  "student_aid_program_access_status":"fsa_administrative_aid_universe_not_cps_population_or_transition_denominator",
+  "spending_link":{"status":"no_compatible_spending_or_program_cohort","note":"No federal, state, local, institutional, household, function-500, or subfunction-504 spending amount is assigned to these CPS populations or statuses; cost per student, graduate, enrollee, worker, or outcome is blocked."},
+  "comparison_status":"descriptive_cross_sectional_access_and_transition_baseline_not_causal",
+  "program_attribution_status":"blocked_no_program_participation_or_counterfactual",
+  "fraud_status":"not_measured_not_inferred",
+  "savings_status":"blocked_not_scored",
+  "prohibited_inferences":["Do not interpret enrollment or transition differences as causal effects of education spending, WIOA, WIA, or another program.","Do not treat CPS respondents as program participants, eligible nonparticipants, or treated and untreated cohorts.","Do not divide any education or training spending total by these rounded survey counts to estimate cost per student or outcome.","Do not infer unmet educational demand, instructional quality, credential completion, long-run employment, waste, fraud, or recoverable savings from this cross-sectional snapshot."],
+  "observed_date":"2026-07-13",
+  "status":"draft-source-reviewed-checksum-verified"
+}

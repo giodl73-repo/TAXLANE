@@ -1,0 +1,47 @@
+{
+  "record_id":"program-outcome-baseline:wioa-national:py2024",
+  "record_family":"program_outcome_baseline",
+  "source_ids":["SRC-DOL-WIOA-PY2024-NATIONAL"],
+  "program_year":2024,
+  "reporting_period":{"start":"2024-07-01","end":"2025-06-30"},
+  "data_as_of":"2025-11-25",
+  "scope":"WIOA Title I Adult, Dislocated Worker, and Youth programs and WIOA Title III Wagner-Peyser Employment Service, national state-reported performance",
+  "indicator_periods":{
+    "participants_served_and_measurable_skill_gains":{"start":"2024-07-01","end":"2025-06-30"},
+    "employment_second_quarter_and_median_earnings_exit_cohort":{"start":"2023-07-01","end":"2024-06-30"},
+    "employment_fourth_quarter_and_credential_exit_cohort":{"start":"2023-01-01","end":"2023-12-31"},
+    "total_exited_display_not_used_as_common_outcome_denominator":{"start":"2024-04-01","end":"2025-03-31"}
+  },
+  "program_rows":[
+    {"program":"adult","wioa_title":"Title I","participants_served":250160,"participants_received_training":109506,"employment_second_quarter_after_exit":{"numerator":140065,"denominator":193904,"percent":72.2},"employment_fourth_quarter_after_exit":{"numerator":142563,"denominator":197284,"percent":72.3},"median_earnings_second_quarter_after_exit_usd":8754,"credential_attainment":{"numerator":50840,"denominator":69037,"percent":73.6},"measurable_skill_gains":{"numerator":70005,"denominator":94546,"percent":74.0}},
+    {"program":"dislocated_worker","wioa_title":"Title I","participants_served":187108,"participants_received_training":37119,"employment_second_quarter_after_exit":{"numerator":97770,"denominator":141790,"percent":69.0},"employment_fourth_quarter_after_exit":{"numerator":107944,"denominator":153147,"percent":70.5},"median_earnings_second_quarter_after_exit_usd":9897,"credential_attainment":{"numerator":16007,"denominator":21318,"percent":75.1},"measurable_skill_gains":{"numerator":21657,"denominator":29910,"percent":72.4}},
+    {"program":"youth","wioa_title":"Title I","participants_served":121531,"participants_received_training":34956,"employment_second_quarter_after_exit":{"numerator":49419,"denominator":74950,"percent":65.9},"employment_fourth_quarter_after_exit":{"numerator":50555,"denominator":74963,"percent":67.4},"median_earnings_second_quarter_after_exit_usd":5038,"credential_attainment":{"numerator":26553,"denominator":42838,"percent":62.0},"measurable_skill_gains":{"numerator":43534,"denominator":64561,"percent":67.4}},
+    {"program":"wagner_peyser_employment_service","wioa_title":"Title III","participants_served":2561317,"participants_received_training":null,"employment_second_quarter_after_exit":{"numerator":1473064,"denominator":2205552,"percent":66.8},"employment_fourth_quarter_after_exit":{"numerator":1468954,"denominator":2177640,"percent":67.5},"median_earnings_second_quarter_after_exit_usd":8558,"credential_attainment":null,"measurable_skill_gains":null}
+  ],
+  "effectiveness_in_serving_employers":{"numerator":1275198,"denominator":1971425,"percent":64.7,"definition":"Participants employed by the same employer in both the second and fourth quarters after exit; PY2024 is the first year of the newly defined indicator."},
+  "indicator_definitions":{
+    "employment_second_quarter_after_exit":"Percentage of exiters in unsubsidized employment during the second quarter after exit; the Youth indicator also counts participation in education or training.",
+    "employment_fourth_quarter_after_exit":"Percentage of exiters in unsubsidized employment during the fourth quarter after exit; the Youth indicator also counts participation in education or training.",
+    "median_earnings_second_quarter_after_exit":"Median earnings among participants in unsubsidized employment during the second quarter after exit.",
+    "credential_attainment_rate":"Percentage of participants enrolled in education or training who attained a recognized postsecondary credential or secondary-school diploma or equivalent during participation or within one year after exit, subject to the statutory indicator conditions.",
+    "measurable_skill_gains_rate":"Percentage of participants in an education or training program who achieved a documented academic, technical, occupational, or other qualifying gain during the program year.",
+    "denominator_note":"Published rates use indicator-specific eligible exiters or participants and statutory exclusions; participants served and participants received training are not the denominators for every outcome rate."
+  },
+  "source_reconciliation":{"pdf_participants_served_youth":121531,"results_webpage_participants_served_youth":125531,"selected_value_basis":"The underlying official PY2024 Annual Summary Report PDF is used for the machine record; the conflicting results-at-a-glance webpage value is retained as an unresolved publisher discrepancy."},
+  "subfunction_link":{"omb_function":500,"omb_subfunction":504,"subfunction_label":"Training and employment","fiscal_year":2025,"outlays_millions":5434,"scope_status":"program_budget_activity_crosswalk_complete_actual_outlay_cohort_allocation_blocked","cost_per_outcome_status":"blocked_not_calculated"},
+  "account_bridge_path":"data/derived/breadth_benchmark_matrix/training_employment_account_bridge.fy2025.v1.draft.json",
+  "account_bridge_status":"program_to_budget_activity_complete_actual_outlay_and_cohort_cost_blocked",
+  "historical_causal_evidence_path":"data/derived/breadth_benchmark_matrix/wia_gold_standard_impact_evidence.2011-2013.v1.draft.json",
+  "historical_causal_evidence_status":"historical_wia_randomized_contrasts_not_py2024_wioa_effect",
+  "comparison_status":"descriptive_participant_outcomes_not_causal",
+  "population_context_path":"data/derived/breadth_benchmark_matrix/bls_cps_worker_baseline.cy2024.v1.draft.json",
+  "population_context_status":"adjacent_population_baseline_not_counterfactual",
+  "education_transition_context_path":"data/derived/breadth_benchmark_matrix/census_cps_education_access_transition_baseline.oct2024.v1.draft.json",
+  "education_transition_context_status":"cps_recent_graduate_snapshot_not_wioa_youth_comparison_group",
+  "coverage_status":"wioa_title_i_and_title_iii_not_all_workers_or_function_500_programs",
+  "fraud_status":"not_measured_not_inferred",
+  "savings_status":"blocked_not_scored",
+  "prohibited_inferences":["Do not treat participants served as the denominator for every published performance rate.","Do not attribute outcomes causally to WIOA participation or federal spending without a counterfactual design.","Do not divide OMB subfunction 504 outlays by these participant or outcome values; the scopes and accounting boundaries are not crosswalked.","Do not infer waste, fraud, recoverable savings, or an expected spending level from this descriptive baseline."],
+  "observed_date":"2026-07-13",
+  "status":"draft-source-reviewed"
+}

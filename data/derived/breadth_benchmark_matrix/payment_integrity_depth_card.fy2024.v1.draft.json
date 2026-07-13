@@ -47,12 +47,13 @@
     {"program_id":"va-pltss","improper":657.17,"overpayment":218.30,"underpayment":6.41,"technically_improper":432.46,"unknown":102.93,"sample_period":"2022-10 through 2023-09"},
     {"program_id":"usda-federal-crop-insurance","improper":579.36,"overpayment":573.93,"underpayment":5.43,"technically_improper":0.0,"unknown":0.0,"sample_period":"2021-07 through 2022-06"}
   ],
-  "source_discrepancy": {
+  "source_reconciliation": {
     "program_id": "va-pltss",
     "annual_dataset_overpayment_millions": 218.30,
-    "q4_2025_scorecard_probe_overpayment_millions": 2502.18,
-    "status": "unreconciled_do_not_combine_or_choose",
-    "next_action": "review source definitions, reporting year labels, and scorecard revision history before public use"
+    "q4_2025_scorecard_probe_overpayment_millions": 218.30,
+    "sample_period": "2022-10 through 2023-09",
+    "status": "reconciled_source_reviewed",
+    "correction_note": "The prior scorecard probe used a non-resolving URL and values not present in the official PLTSS scorecard. The corrected Q4 2025 scorecard agrees with the annual workbook."
   },
   "field_status": {
     "payment_type_composition": "annual_workbook_reconciled_draft_extracted",
@@ -66,16 +67,17 @@
     "data/extracted/payment_accuracy/fy2024_governmentwide_total.v1.draft.json",
     "data/extracted/payment_accuracy/fy2024_program_results.v1.draft.jsonl",
     "data/extracted/payment_accuracy/fy2024_confirmed_fraud.v1.draft.jsonl",
-    "data/extracted/payment_accuracy/fy2024_agency_recovery.v1.draft.jsonl"
+    "data/extracted/payment_accuracy/fy2024_agency_recovery.v1.draft.jsonl",
+    "data/derived/breadth_benchmark_matrix/va_pltss_recovery_bridge.fy2024-q4-2025.v1.draft.json"
   ],
   "claim_firewall": "improper payments != overpayments != confirmed fraud != recoverable dollars != collected recoveries != net savings",
   "public_claim_allowed": false,
   "fraud_claim_allowed": false,
   "savings_estimate_allowed": false,
   "next_depth_need": [
-    "source and role review of the annual extraction",
-    "reconcile the VA PLTSS annual-dataset and Q4-scorecard conflict",
-    "link confirmed-fraud and recovery rows only where program, period, and definition match",
+    "role review of the annual extraction and corrected scorecard probe",
+    "obtain PLTSS debt-cohort lineage before linking projected errors to identified debt or recovery",
+    "link confirmed-fraud rows only where program, period, and definition match",
     "estimate control, access, error, appeal, and implementation costs before net savings"
   ]
 }

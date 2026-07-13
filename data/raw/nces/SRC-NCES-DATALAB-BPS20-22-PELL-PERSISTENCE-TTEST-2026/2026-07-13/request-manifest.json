@@ -1,0 +1,74 @@
+{
+  "source_id":"SRC-NCES-DATALAB-BPS20-22-PELL-PERSISTENCE-TTEST-2026",
+  "observed_date":"2026-07-13",
+  "dataset_id":168,
+  "weight":"WTA000",
+  "source_query_id":396385,
+  "source_retrieval_code":"zclxfu",
+  "source_table_url":"https://nces.ed.gov/datalab/powerstats/table/zclxfu",
+  "endpoint_template":"https://nces.ed.gov/datalab/api/v1/workspace/process/pvalue?datasetId=168&weight=WTA000&tValue={t_value}",
+  "method":{
+    "name":"DataLab Independent Estimates t-Test",
+    "formula":"t = (estimate_no_pell - estimate_pell) / sqrt(se_no_pell^2 + se_pell^2)",
+    "input_precision":"Full-precision estimates and BRR standard errors preserved in the saved zclxfu response were used to calculate each t value before requesting its dataset- and weight-specific p-value.",
+    "assumption":"The DataLab tool states that this formula is valid only for independent groups.",
+    "covariance":"No covariance term is used. This packet is not a replicate-weight or covariance-aware difference test."
+  },
+  "requests":[
+    {
+      "outcome_id":"attained_bachelors_degree",
+      "estimate_no_pell":0.8150894,
+      "estimate_pell":0.4971528,
+      "standard_error_no_pell":0.1008173,
+      "standard_error_pell":0.0834908,
+      "difference_percentage_points":0.3179366,
+      "t_value":2.428848787151347,
+      "url":"https://nces.ed.gov/datalab/api/v1/workspace/process/pvalue?datasetId=168&weight=WTA000&tValue=2.428848787151347",
+      "response_path":"pvalue-attained-bachelors-degree.json"
+    },
+    {
+      "outcome_id":"attained_associates_degree",
+      "estimate_no_pell":7.0807806,
+      "estimate_pell":6.4224743,
+      "standard_error_no_pell":0.3414563,
+      "standard_error_pell":0.3544924,
+      "difference_percentage_points":0.6583063,
+      "t_value":1.337487109537279,
+      "url":"https://nces.ed.gov/datalab/api/v1/workspace/process/pvalue?datasetId=168&weight=WTA000&tValue=1.337487109537279",
+      "response_path":"pvalue-attained-associates-degree.json"
+    },
+    {
+      "outcome_id":"attained_certificate",
+      "estimate_no_pell":3.4187823,
+      "estimate_pell":7.1063823,
+      "standard_error_no_pell":0.2497779,
+      "standard_error_pell":0.3445115,
+      "difference_percentage_points":-3.6876,
+      "t_value":-8.665865686216897,
+      "url":"https://nces.ed.gov/datalab/api/v1/workspace/process/pvalue?datasetId=168&weight=WTA000&tValue=-8.665865686216897",
+      "response_path":"pvalue-attained-certificate.json"
+    },
+    {
+      "outcome_id":"no_degree_enrolled_ay2021_22",
+      "estimate_no_pell":70.4424349,
+      "estimate_pell":58.0382947,
+      "standard_error_no_pell":0.6186631,
+      "standard_error_pell":0.7774679,
+      "difference_percentage_points":12.4041402,
+      "t_value":12.484294709430277,
+      "url":"https://nces.ed.gov/datalab/api/v1/workspace/process/pvalue?datasetId=168&weight=WTA000&tValue=12.484294709430277",
+      "response_path":"pvalue-no-degree-enrolled-ay2021-22.json"
+    },
+    {
+      "outcome_id":"no_degree_not_enrolled_ay2021_22",
+      "estimate_no_pell":18.2429128,
+      "estimate_pell":27.935696,
+      "standard_error_no_pell":0.5892492,
+      "standard_error_pell":0.7039664,
+      "difference_percentage_points":-9.6927832,
+      "t_value":-10.558215819775572,
+      "url":"https://nces.ed.gov/datalab/api/v1/workspace/process/pvalue?datasetId=168&weight=WTA000&tValue=-10.558215819775572",
+      "response_path":"pvalue-no-degree-not-enrolled-ay2021-22.json"
+    }
+  ]
+}

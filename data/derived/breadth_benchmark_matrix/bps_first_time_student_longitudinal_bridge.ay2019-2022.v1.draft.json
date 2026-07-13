@@ -1,0 +1,103 @@
+{
+  "record_id":"student-aid-longitudinal-bridge:bps-first-time-students:ay2019-2022",
+  "record_family":"student_aid_longitudinal_bridge",
+  "source_ids":["SRC-NCES-BPS20-22-FIRST-LOOK-2024","SRC-NCES-BPS20-22-DFD-2026","SRC-NCES-DATALAB-BPS20-22-PELL-PERSISTENCE-2026","SRC-NCES-DATALAB-BPS20-22-PELL-PERSISTENCE-TTEST-2026"],
+  "study":"2020/22 Beginning Postsecondary Students Longitudinal Study",
+  "report_title":"Persistence and Attainment of 2019-20 First-Time Postsecondary Students After 3 Years",
+  "report_number":"NCES 2024-401",
+  "documentation_number":"NCES 2026-013",
+  "cohort":{
+    "target_population":"Students who began postsecondary education for the first time after completing high school requirements during the 2019-20 academic year at a Title IV eligible postsecondary institution in the 50 states, District of Columbia, or Puerto Rico.",
+    "represented_population_approximate":3300000,
+    "observation_window":"Academic years 2019-20 through 2021-22, with attainment and enrollment status measured through June 2022.",
+    "sample_members_rounded":34240,
+    "respondents_rounded":22320,
+    "bps_followup_response_rate_unweighted_percent":65.2,
+    "bps_followup_response_rate_weighted_percent":59.6,
+    "overall_response_rate_unweighted_percent":52.1,
+    "overall_response_rate_weighted_percent":49.8,
+    "response_rate_definition":"Overall response combines the NPSAS:20 study response and BPS:20/22 follow-up response. Counts are rounded to the nearest 10.",
+    "pandemic_context":"The cohort began in 2019-20 and its three-year observation window overlaps COVID-19 education, employment, housing, and financial disruptions."
+  },
+  "weighting_and_variance":{
+    "analysis_weight":"WTA000",
+    "replicate_weights":"WTA001-WTA200",
+    "variance_method":"balanced_repeated_replication_with_bootstrap_replicate_weights",
+    "weight_adjustments":["NPSAS:20 sample design and multiplicity","BPS subsampling","unknown eligibility","nonresponse","population coverage and poststratification"],
+    "imputation_status":"All variables used in the First Look report were imputed.",
+    "disclosure_status":"Disclosure protection included logical recodes and edits, sanitization or suppression, and targeted swapping; these protections may add small nonsampling error."
+  },
+  "table_a1_total_attainment_and_persistence":{
+    "estimate_source":"NCES 2024-401 table A-1 total row",
+    "standard_error_source":"NCES 2024-401 table A-S1 total row",
+    "universe":"All 2019-20 first-time beginning postsecondary students in the BPS:20/22 target population.",
+    "unit":"percent",
+    "standard_error_unit":"percentage_points",
+    "categories":["attained_certificate","attained_associates_degree","attained_bachelors_degree","no_credential_enrolled_at_4_year_institution","no_credential_enrolled_at_less_than_4_year_institution","no_credential_not_enrolled"],
+    "estimates":[5.1,6.8,0.7,47.9,16.9,22.6],
+    "standard_errors":[0.23,0.24,0.07,0.51,0.42,0.48],
+    "category_boundary":"These are mutually exclusive attainment and persistence statuses through June 2022. The three no-credential categories use 2021-22 enrollment and, when enrolled, the level of the last institution attended.",
+    "sum_percent":100.0
+  },
+  "documented_variable_map":{
+    "entry_pell":{
+      "variable":"PELL20",
+      "label":"Federal Pell Grant amount received, academic year 2019-20",
+      "scope":"Entry-year Pell amount for the same first-time-beginner cohort; no Pell outcome contrast is encoded in this record."
+    },
+    "three_year_outcome":{
+      "variable":"PROUT3_NEW",
+      "label":"Cumulative persistence and attainment anywhere through academic year 2021-22, new version"
+    },
+    "direct_loan_borrowing":{
+      "variable":"STFCUM22",
+      "label":"Cumulative Direct Subsidized and Unsubsidized Loan amount borrowed through academic year 2021-22"
+    },
+    "title_iv_amount_owed_including_parent_plus":{
+      "variable":"T4TDUE22",
+      "label":"Title IV loan interest and principal owed through academic year 2021-22, including Parent PLUS"
+    },
+    "title_iv_amount_owed_excluding_parent_plus":{
+      "variable":"T4XDUE22",
+      "label":"Title IV loan interest and principal owed through academic year 2021-22, excluding Parent PLUS"
+    },
+    "employment":{
+      "variable":"JOBST22",
+      "label":"Employment status in 2022"
+    },
+    "annual_salary":{
+      "variable":"SALARY22",
+      "label":"Annual salary for the year-three job in 2022",
+      "scope":"Survey job measure, not mature post-completion administrative earnings for the full cohort."
+    }
+  },
+  "pell_outcome_gate":{
+    "status":"captured_as_separate_official_datalab_descriptive_baseline_not_causal",
+    "baseline_path":"data/derived/breadth_benchmark_matrix/pell_current_entrant_persistence_baseline.bps2020-2022.v1.draft.json",
+    "source_id":"SRC-NCES-DATALAB-BPS20-22-PELL-PERSISTENCE-2026",
+    "retrieval_code":"zclxfu",
+    "published_table_status":"NCES 2024-401 table A-1 does not publish Pell-status outcome rows.",
+    "contrast_status":"official_independent_estimates_ttest_screen_attached_bonferroni_three_of_five_pass_covariance_aware_confirmation_blocked_noncausal"
+  },
+  "current_entrant_pell_persistence_path":"data/derived/breadth_benchmark_matrix/pell_current_entrant_persistence_baseline.bps2020-2022.v1.draft.json",
+  "current_entrant_pell_persistence_status":"official_datalab_entry_year_pell_receipt_by_three_year_persistence_attached_descriptive_noncausal_mature_cost_and_fiscal_gates_blocked",
+  "current_entrant_pell_significance_screen_path":"data/derived/breadth_benchmark_matrix/pell_current_entrant_persistence_significance_screen.bps2020-2022.v1.draft.json",
+  "current_entrant_pell_significance_screen_status":"official_independent_estimates_ttest_screen_attached_bonferroni_three_of_five_pass_covariance_aware_confirmation_blocked_noncausal",
+  "evidence_assessment":{
+    "comparison_status":"national_descriptive_three_year_cohort_baseline",
+    "causal_status":"not_causal_no_randomized_or_adjusted_counterfactual",
+    "pell_effect_status":"blocked_descriptive_receipt_group_cross_tab_and_independent_estimates_ttest_screen_no_randomized_or_adjusted_causal_design",
+    "group_difference_significance_status":"independent_estimates_screen_only_bonferroni_three_of_five_pass_covariance_aware_confirmation_blocked",
+    "mature_completion_status":"blocked_three_year_window_many_students_still_enrolled",
+    "repayment_status":"blocked_documented_restricted_nslds_histories_not_a_public_outcome_estimate",
+    "earnings_status":"survey_year_three_job_salary_not_mature_post_completion_earnings",
+    "cost_effectiveness_status":"blocked_no_full_incremental_program_cost_and_benefit_analysis",
+    "current_fiscal_link":"blocked_no_compatible_account_outlay_or_budget_cohort",
+    "fraud_status":"not_measured_not_inferred",
+    "savings_status":"blocked_not_scored",
+    "future_gate":"BPS:20/25 six-year follow-up must be captured and reviewed before treating this cohort as a mature completion or labor-market outcome baseline."
+  },
+  "prohibited_inferences":["Do not interpret the Table A-1 distribution as a Pell Grant effect or as Pell/non-Pell outcome contrasts.","Do not interpret no credential and not enrolled in 2021-22 as a permanent dropout outcome.","Do not treat the 0.7 percent bachelor's estimate as a mature bachelor's completion rate because the window is only three years.","Do not attribute pandemic-period education or employment outcomes to aid receipt.","Do not join student loan borrowing or balances to annual salary as a causal return, cost-effectiveness ratio, or fiscal return.","Do not treat student borrowing, amount owed, tuition, aid, or net price as full incremental federal program cost.","Do not infer waste, fraud, improper payment, recoverable savings, or budget savings."],
+  "observed_date":"2026-07-13",
+  "status":"draft-source-reviewed-checksum-verified"
+}

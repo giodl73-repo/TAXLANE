@@ -8,12 +8,13 @@ payment-integrity programs before moving to another program branch.
 
 ## Current Status
 
-Both Medicare Part D and Medicaid are still blocked from scoring.
+Medicare Part D, Medicaid, and VA PLTSS are still blocked from scoring.
 
 | Program | Closed fields | Open fields | Gate |
 |---|---:|---:|---|
 | Medicare Prescription Drug Benefit (Part D) | 1 | 7 | blocked_methodology_incomplete |
 | Medicaid | 1 | 7 | blocked_methodology_incomplete |
+| VA Purchased Long Term Services and Supports | 1 | 7 | blocked_methodology_incomplete |
 
 The open fields are still source-work items, not findings. They identify where
 the methodology chain needs more official documentation before TaxLane can

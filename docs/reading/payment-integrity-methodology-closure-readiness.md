@@ -8,10 +8,11 @@ Crop Insurance methodology source-capture rollups into reviewer next steps.
 
 ## Current Status
 
-Two fields are closure-review candidates:
+Three fields are closure-review candidates:
 
 - Part D sample period
 - Medicaid sample period
+- VA PLTSS sample period
 
 Part D still has seven fields that need narrower source work before closure
 review:
@@ -35,13 +36,12 @@ review:
 - state rotation and weighting treatment
 - improper payment versus fraud/waste basis
 
-VA PLTSS has eight fields that need narrower source work before closure review:
+VA PLTSS has seven fields that need narrower source work before closure review:
 
 - sample design
 - reviewed-claim universe
 - estimation method
 - exclusion rules
-- sample period
 - payment type split
 - documentation standard
 - documentation defect versus recoverable overpayment basis
@@ -58,8 +58,8 @@ before closure review:
 - agency-process-error definition
 - recoverable savings basis
 
-Closure decisions remain built only for the Part D and Medicaid sample-period
-fields. VA PLTSS and USDA Federal Crop Insurance have no closure decisions yet.
+Closure decisions are built for the Part D, Medicaid, and VA PLTSS sample-period
+fields. USDA Federal Crop Insurance has no closure decision.
 
 ## Boundary
 

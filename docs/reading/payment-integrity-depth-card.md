@@ -31,14 +31,14 @@ as a disjoint, same-period subset of the estimated improper-payment headline.
 TAXLANE therefore does not subtract either from $161.540B or call the remainder
 recoverable savings.
 
-## A source conflict the prior probes hid
+## VA source reconciliation
 
 The annual workbook reports VA Purchased Long Term Services and Supports as
 $218.30M overpaid, $6.41M underpaid, $432.46M technically improper, and $102.93M
-unknown. The retained Q4 2025 scorecard probe reports $2.502B as FY2024
-overpayments. Until reporting labels, definitions, or revision history explain
-that difference, neither number should headline the program and they must not be
-combined.
+unknown. Source review found that the official Q4 2025 scorecard also reports
+$218.30M in FY2024 overpayments at 3.88%, based on an October 2022 through
+September 2023 sample. The prior $2.502B probe came from a non-resolving URL and
+is corrected; it was not an official-source disagreement.
 
 ```text
 improper payments
@@ -49,6 +49,11 @@ improper payments
 != net savings
 ```
 
-Next depth is source and role review of the extraction, reconciliation of the VA
-conflict, and matched program/period links for fraud, recovery, control cost,
-appeals, access effects, and prospective prevention.
+Next depth is role review of the extraction and corrected probe, plus matched
+program/period links for fraud, recovery, control cost, appeals, access effects,
+and prospective prevention.
+
+The first recovery-link attempt is now documented in the
+[VA PLTSS recovery bridge](va-pltss-recovery-bridge.md). It remains blocked
+because projected errors, established debts, and collections do not share a
+matched cohort, period, or transaction lineage.

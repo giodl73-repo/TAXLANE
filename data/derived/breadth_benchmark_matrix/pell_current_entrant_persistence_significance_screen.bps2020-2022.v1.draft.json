@@ -1,0 +1,161 @@
+{
+  "record_id":"student-aid-current-entrant-persistence-significance-screen:pell-receipt:bps2020-2022",
+  "record_family":"pell_current_entrant_persistence_significance_screen",
+  "source_ids":[
+    "SRC-NCES-DATALAB-BPS20-22-PELL-PERSISTENCE-2026",
+    "SRC-NCES-DATALAB-BPS20-22-PELL-PERSISTENCE-TTEST-2026"
+  ],
+  "study":"2020/22 Beginning Postsecondary Students Longitudinal Study",
+  "dataset":{
+    "dataset_id":168,
+    "dataset_abbreviation":"BPS2022",
+    "collection_period":"2020/2022",
+    "universe":"All respondents.",
+    "weight":"WTA000",
+    "source_variance_method":"BRR",
+    "pandemic_context":"The 2019-20 entrant cohort and its three-year observation window overlap COVID-19 education, employment, housing, and financial disruptions."
+  },
+  "source_table":{
+    "query_id":396385,
+    "retrieval_code":"zclxfu",
+    "public_url":"https://nces.ed.gov/datalab/powerstats/table/zclxfu",
+    "baseline_path":"data/derived/breadth_benchmark_matrix/pell_current_entrant_persistence_baseline.bps2020-2022.v1.draft.json",
+    "raw_path":"data/raw/nces/SRC-NCES-DATALAB-BPS20-22-PELL-PERSISTENCE-2026/2026-07-13/workspace-retrieve-zclxfu.json",
+    "raw_bytes":8023,
+    "raw_sha256":"AEDC7781DDC8DA4A9F59942E16B398F58CFFB20128CC6FE44CF24D6F04795DC5"
+  },
+  "test_method":{
+    "name":"NCES DataLab Independent Estimates t-Test",
+    "endpoint_template":"https://nces.ed.gov/datalab/api/v1/workspace/process/pvalue?datasetId=168&weight=WTA000&tValue={t_value}",
+    "difference_order":"pell_amount_zero_minus_pell_amount_positive",
+    "difference_unit":"percentage_points",
+    "formula":"t = (estimate_no_pell - estimate_pell) / sqrt(se_no_pell^2 + se_pell^2)",
+    "input_precision":"Full-precision estimates and standard errors from the saved zclxfu response.",
+    "p_value_source":"Official dataset- and weight-specific DataLab workspace/process/pvalue endpoint response.",
+    "test_sidedness":"two_sided",
+    "nominal_alpha":0.05,
+    "independence_boundary":"DataLab states that its formula is valid only for independent groups. It does not include a covariance term.",
+    "covariance_status":"not_covariance_aware_not_replicate_weight_difference_estimation",
+    "interpretation":"PELL20 zero and positive cuts are mutually exclusive receipt groups, so this is the official DataLab independent-estimates screen. It is not the stricter covariance-aware test requested by the preceding evidence gate."
+  },
+  "multiple_comparison_control":{
+    "family":"five PROUT3_NEW outcome-category receipt-group comparisons",
+    "method":"Bonferroni",
+    "familywise_alpha":0.05,
+    "comparison_count":5,
+    "per_comparison_alpha":0.01,
+    "adjusted_p_value_formula":"min(1, unadjusted_p_value * 5)",
+    "boundary":"Bonferroni is a derived conservative familywise-error screen, not a value returned by DataLab. Preserve both unadjusted and adjusted results."
+  },
+  "raw_custody":{
+    "directory":"data/raw/nces/SRC-NCES-DATALAB-BPS20-22-PELL-PERSISTENCE-TTEST-2026/2026-07-13",
+    "request_manifest":{
+      "path":"data/raw/nces/SRC-NCES-DATALAB-BPS20-22-PELL-PERSISTENCE-TTEST-2026/2026-07-13/request-manifest.json",
+      "bytes":3468,
+      "sha256":"9D09C714FA6CF290B5964AEF3A35ADA9225A2AA977F7AE0D8EE701AC7EC3CA57"
+    },
+    "responses":[
+      {"outcome_id":"attained_bachelors_degree","path":"data/raw/nces/SRC-NCES-DATALAB-BPS20-22-PELL-PERSISTENCE-TTEST-2026/2026-07-13/pvalue-attained-bachelors-degree.json","bytes":77,"sha256":"2879EC8B8E28CAEB36FEB15125F152A10020A9CF8AAFD441A0A54CEA071AAB88"},
+      {"outcome_id":"attained_associates_degree","path":"data/raw/nces/SRC-NCES-DATALAB-BPS20-22-PELL-PERSISTENCE-TTEST-2026/2026-07-13/pvalue-attained-associates-degree.json","bytes":75,"sha256":"6BDA131E950FE31623FA034FDD81BFD99DEFF76D02552CABF3E25F6C0D8F0E53"},
+      {"outcome_id":"attained_certificate","path":"data/raw/nces/SRC-NCES-DATALAB-BPS20-22-PELL-PERSISTENCE-TTEST-2026/2026-07-13/pvalue-attained-certificate.json","bytes":79,"sha256":"4BD0676E5C74BA112F7108A688B75EED4A7B5AA87416C400C677A72BBF22EBA2"},
+      {"outcome_id":"no_degree_enrolled_ay2021_22","path":"data/raw/nces/SRC-NCES-DATALAB-BPS20-22-PELL-PERSISTENCE-TTEST-2026/2026-07-13/pvalue-no-degree-enrolled-ay2021-22.json","bytes":78,"sha256":"317B326ED9ED859B02B96D68B2D6E4A3CC4890D5C569AA6B157CD7DE30769111"},
+      {"outcome_id":"no_degree_not_enrolled_ay2021_22","path":"data/raw/nces/SRC-NCES-DATALAB-BPS20-22-PELL-PERSISTENCE-TTEST-2026/2026-07-13/pvalue-no-degree-not-enrolled-ay2021-22.json","bytes":79,"sha256":"16F76FD195F10C4A504A0CF3225A21D8D162AB013E3C3A8E59345CDB7F1C1D95"}
+    ]
+  },
+  "results":[
+    {
+      "outcome_id":"attained_bachelors_degree",
+      "label":"Attained bachelor's degree",
+      "estimate_no_pell_percent":0.8150894,
+      "estimate_pell_percent":0.4971528,
+      "standard_error_no_pell_percentage_points":0.1008173,
+      "standard_error_pell_percentage_points":0.0834908,
+      "difference_no_pell_minus_pell_percentage_points":0.3179366,
+      "t_value":2.428848787151347,
+      "p_value":0.016030784667445643,
+      "nominal_alpha_0_05":"statistically_significant_under_independent_estimates_screen",
+      "bonferroni_adjusted_p_value":0.08015392333722821,
+      "bonferroni_familywise_alpha_0_05":"not_statistically_significant_after_five_comparison_adjustment"
+    },
+    {
+      "outcome_id":"attained_associates_degree",
+      "label":"Attained associate's degree",
+      "estimate_no_pell_percent":7.0807806,
+      "estimate_pell_percent":6.4224743,
+      "standard_error_no_pell_percentage_points":0.3414563,
+      "standard_error_pell_percentage_points":0.3544924,
+      "difference_no_pell_minus_pell_percentage_points":0.6583063,
+      "t_value":1.337487109537279,
+      "p_value":0.1825827005618011,
+      "nominal_alpha_0_05":"not_statistically_significant_under_independent_estimates_screen",
+      "bonferroni_adjusted_p_value":0.9129135028090055,
+      "bonferroni_familywise_alpha_0_05":"not_statistically_significant_after_five_comparison_adjustment"
+    },
+    {
+      "outcome_id":"attained_certificate",
+      "label":"Attained certificate",
+      "estimate_no_pell_percent":3.4187823,
+      "estimate_pell_percent":7.1063823,
+      "standard_error_no_pell_percentage_points":0.2497779,
+      "standard_error_pell_percentage_points":0.3445115,
+      "difference_no_pell_minus_pell_percentage_points":-3.6876,
+      "t_value":-8.665865686216897,
+      "p_value":1.5192919907382282e-15,
+      "nominal_alpha_0_05":"statistically_significant_under_independent_estimates_screen",
+      "bonferroni_adjusted_p_value":7.596459953691141e-15,
+      "bonferroni_familywise_alpha_0_05":"statistically_significant_after_five_comparison_adjustment"
+    },
+    {
+      "outcome_id":"no_degree_enrolled_ay2021_22",
+      "label":"No degree, enrolled in 2021-22 AY",
+      "estimate_no_pell_percent":70.4424349,
+      "estimate_pell_percent":58.0382947,
+      "standard_error_no_pell_percentage_points":0.6186631,
+      "standard_error_pell_percentage_points":0.7774679,
+      "difference_no_pell_minus_pell_percentage_points":12.4041402,
+      "t_value":12.484294709430277,
+      "p_value":7.994894151222828e-27,
+      "nominal_alpha_0_05":"statistically_significant_under_independent_estimates_screen",
+      "bonferroni_adjusted_p_value":3.997447075611414e-26,
+      "bonferroni_familywise_alpha_0_05":"statistically_significant_after_five_comparison_adjustment"
+    },
+    {
+      "outcome_id":"no_degree_not_enrolled_ay2021_22",
+      "label":"No degree, not enrolled in 2021-22 AY",
+      "estimate_no_pell_percent":18.2429128,
+      "estimate_pell_percent":27.935696,
+      "standard_error_no_pell_percentage_points":0.5892492,
+      "standard_error_pell_percentage_points":0.7039664,
+      "difference_no_pell_minus_pell_percentage_points":-9.6927832,
+      "t_value":-10.558215819775572,
+      "p_value":5.3799655359236484e-21,
+      "nominal_alpha_0_05":"statistically_significant_under_independent_estimates_screen",
+      "bonferroni_adjusted_p_value":2.6899827679618242e-20,
+      "bonferroni_familywise_alpha_0_05":"statistically_significant_after_five_comparison_adjustment"
+    }
+  ],
+  "evidence_assessment":{
+    "screen_status":"official_datalab_independent_estimates_screen_captured",
+    "covariance_aware_status":"blocked_no_covariance_term_or_replicate_weight_difference_estimate",
+    "causal_status":"not_causal_observational_unadjusted_receipt_group_comparison",
+    "eligibility_status":"not_measured_positive_versus_zero_amount_records_receipt_not_eligibility",
+    "category_status":"five_category_prout3_new_not_six_category_first_look_distribution",
+    "mature_completion_status":"blocked_early_three_year_window_many_students_still_enrolled",
+    "permanent_dropout_status":"not_measured_no_degree_not_enrolled_is_one_observed_status",
+    "cost_effectiveness_status":"blocked_no_full_incremental_program_cost_and_benefit_analysis",
+    "current_fiscal_link":"blocked_no_compatible_account_outlay_or_budget_cohort",
+    "fraud_status":"not_measured_not_inferred",
+    "savings_status":"blocked_not_scored",
+    "future_gate":"Capture BPS:20/25 before treating outcomes as mature, and preserve a replicate-weight or otherwise covariance-aware test before replacing this independent-estimates screen."
+  },
+  "prohibited_inferences":[
+    "Do not interpret statistical significance as a Pell Grant effect, practical importance, or causal identification.",
+    "Do not call this screen covariance-aware; the DataLab formula sums the two squared standard errors and includes no covariance term.",
+    "Do not interpret PELL20 equal to zero as Pell ineligibility, failure to apply, denial, or a valid untreated counterfactual.",
+    "Do not treat the five PROUT3_NEW categories as the six-category First Look distribution.",
+    "Do not interpret no degree and not enrolled in 2021-22 as permanent dropout or the three-year bachelor's category as mature completion.",
+    "Do not infer a cost-effectiveness ratio, fiscal return, waste, fraud, improper payment, recovery, or budget saving."
+  ],
+  "observed_date":"2026-07-13",
+  "status":"draft-official-datalab-independent-estimates-screen-checksum-verified"
+}

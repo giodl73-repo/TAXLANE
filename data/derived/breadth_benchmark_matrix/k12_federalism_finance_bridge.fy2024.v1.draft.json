@@ -1,0 +1,45 @@
+{
+  "record_id":"federalism-bridge:k12-school-system-finance:fy2024",
+  "record_family":"fiscal_federalism_bridge",
+  "scope":"public_elementary_secondary_school_systems_all_states_and_dc",
+  "fiscal_year":2024,
+  "unit":"millions_usd",
+  "source_ids":["SRC-CENSUS-SCHOOL-FINANCES-FY2024","SRC-OMB-HIST-3-2-FY2027"],
+  "census_school_system_finance":{
+    "total_revenue":994922.042,
+    "federal_revenue":115084.579,
+    "state_revenue":450044.318,
+    "local_revenue":429793.145,
+    "revenue_reconciliation_difference":0,
+    "federal_share_percent":11.567195634,
+    "state_share_percent":45.234128806,
+    "local_share_percent":43.19867556,
+    "total_expenditure":983712.629,
+    "current_spending":842343.346,
+    "capital_outlay":113087.706,
+    "other_expenditure":28281.577,
+    "expenditure_reconciliation_difference":0,
+    "published_current_spending_per_pupil_usd":17619.389028,
+    "published_per_pupil_enrollment_basis":"adjusted fall 2022 CCD membership; exclusions and scope adjustments documented by Census"
+  },
+  "omb_federal_purpose_view":{
+    "function_code":"500",
+    "subfunction_code":"501",
+    "subfunction_label":"Elementary, secondary, and vocational education",
+    "fy2024_outlays":105373,
+    "fy2025_outlays":68364
+  },
+  "omb_to_census_crosswalk":{
+    "same_period_numeric_difference_fy2024":-9711.579,
+    "comparison_status":"not_reconcilable_not_additive",
+    "reasons":["federal outlays versus school-system intergovernmental revenue","federal fiscal classification versus recipient finance classification","pass-through and recognition timing","OMB vocational and broader public-purpose boundary","Census school meal and other federal revenue categories","Census inclusion and exclusion rules for school systems and charter holders"],
+    "double_count_rule":"Do not add OMB subfunction 501 outlays to Census total revenue or federal revenue. Census already reports federal revenue received by in-scope school systems."
+  },
+  "benchmark_status":"not_benchmarked",
+  "outcome_baseline_path":"data/derived/breadth_benchmark_matrix/k12_outcome_baseline.naep2024-acgr2021-22.v1.draft.json",
+  "outcome_status":"learning_completion_attendance_and_pisa_peer_comparison_attached_not_spending_matched",
+  "fraud_status":"not_measured_not_inferred",
+  "savings_status":"blocked_not_scored",
+  "observed_date":"2026-07-13",
+  "status":"draft-source-reviewed"
+}

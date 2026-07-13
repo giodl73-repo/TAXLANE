@@ -33,12 +33,12 @@ Machine rows:
 | Gross Treasury interest | 17.34% of federal outlays | Gross and net interest, debt structure, and GDP paths must be kept separate. |
 | Complete Veterans Benefits and Services | 5.38% of federal outlays | No outcome- and eligibility-matched comparison is attached; the earlier 4.98% subtotal covered only income security plus medical care. |
 | Complete federal Transportation function | 2.07% of federal outlays | Federal-only spending omits major state/local capital and maintenance; 1.44% is ground transportation alone. |
-| Complete federal Education, Training, Employment, and Social Services | 1.03% of federal outlays | Includes a −$35.005B higher-education net entry and excludes most state/local education spending; 0.98% is the school subfunction alone. |
+| Complete federal Education, Training, Employment, and Social Services | 1.03% of federal outlays | FY2024 FSA administrative scale, historical B&B outcomes among 2015–16 bachelor completers, an early descriptive BPS cohort, and a separate official DataLab entry-year Pell-receipt by five-category three-year persistence distribution are attached. An official independent-estimates t-test screen is also attached; three of five comparisons pass a derived Bonferroni screen, but covariance-aware confirmation remains blocked. Receipt is not eligibility, and mature outcomes, causal interpretation, cost links, a FY2025 fiscal crosswalk, and a joint efficiency benchmark remain blocked. |
 | Disaster relief and insurance subfunction | 0.90% of federal outlays | Event incidence, exposure, mitigation, and supplemental funding vary sharply; do not relabel the broader parent function as disaster spending. |
 | Justice Administration | 1.19% of federal outlays | State/local spending and matched safety, access, timeliness, corrections, and due-process outcomes are not yet attached. |
 | Science, energy, environment, and natural resources | 2.18% of federal outlays | This is a disclosed composition of three OMB functions, not one official function or one benchmarkable outcome. |
 | Agriculture | 0.68% of federal outlays | Program accounts and farm, acre, risk, productivity, and conservation denominators still need reconciliation. |
-| International Affairs | 0.64% of federal outlays | The negative international-financial-program entry is net financing/accounting and must be bridged before component comparisons. |
+| International Affairs | 0.64% of federal outlays | The −$14.936B international-financial entry now reconciles exactly to ten account rows, chiefly FMS customer deposits exceeding same-year trust-fund outlays; outcome-matched component benchmarks remain open. |
 
 ## Breadth Closure And Depth Queue
 
@@ -66,9 +66,9 @@ The prioritized depth queue is:
 5. **Federalism and investment outcomes:** reconcile federal, state, and local
    scope for transportation, education, justice, disaster, agriculture, and
    environmental investment before peer ranking.
-6. **Accounting bridges:** explain negative or net entries in higher education
-   and international financial programs, and keep gross and net interest
-   separate.
+6. **Accounting bridges:** the international-financial and higher-education
+   negative entries now have exact account bridges; keep gross and net interest
+   separate and preserve cash-versus-credit-accounting boundaries.
 
 Do not add the displayed federal percentages into a “share of government
 covered.” Some rows use complete OMB functions, others use subfunctions or
@@ -88,8 +88,9 @@ The draft [payment-integrity depth card](payment-integrity-depth-card.md) now
 reconciles the official annual workbook into $135.184B overpayments, $7.864B
 underpayments, $5.923B technically improper payments, and $12.569B unknown
 payments. Confirmed-fraud and recovery tables remain parallel evidence, not
-automatic subsets or savings. A material VA PLTSS conflict between the annual
-dataset and a Q4 scorecard remains blocked for source review.
+automatic subsets or savings. The VA PLTSS annual row and Q4 scorecard are now
+source-reviewed and reconciled at $218.30M in FY2024 overpayments; the earlier
+$2.502B probe was an extraction error, not an official-source conflict.
 
 The matrix enforces:
 

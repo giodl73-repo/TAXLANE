@@ -1,0 +1,87 @@
+{
+  "record_id":"student-aid-longitudinal-outcome-baseline:pell-bachelor-recipients:bb2016-2020",
+  "record_family":"student_aid_longitudinal_outcome_baseline",
+  "source_ids":["SRC-NCES-BB16-20-PELL-OUTCOMES-2022"],
+  "study":"2016/20 Baccalaureate and Beyond Longitudinal Study",
+  "report_title":"Baccalaureate and Beyond (B&B:16/20): A First Look at the 2020 Employment and Education Experiences of 2015-16 College Graduates",
+  "report_number":"NCES 2022-241",
+  "publication_date":"2022-09",
+  "cohort":{
+    "target_population":"People who completed requirements for a bachelor's degree between July 1, 2015, and June 30, 2016, and were awarded that degree by a Title IV eligible institution in the 50 states, District of Columbia, or Puerto Rico no later than June 30, 2017.",
+    "represented_population_approximate":2000000,
+    "sampled_students_rounded":26510,
+    "eligible_students_rounded":26250,
+    "survey_respondents_rounded":17160,
+    "unweighted_response_rate_percent":65.4,
+    "weighted_response_rate_percent":62.5,
+    "outcome_timing":"Four years after 2015-16 bachelor's degree completion, with data collected in 2020.",
+    "completion_condition":"Every cohort member had already completed bachelor's degree requirements. This record cannot estimate persistence to or the effect of Pell receipt on bachelor's completion."
+  },
+  "pell_group_definition":{
+    "variable":"PELLCUM",
+    "label":"Ever received a Pell Grant",
+    "definition":"Whether the respondent ever received Pell Grant funds between the 1993-94 and 2015-16 academic award years, based on National Student Loan Data System and student records.",
+    "pell_yes_percent":50.9,
+    "pell_yes_standard_error":0.02,
+    "pell_no_percent":49.1,
+    "pell_no_standard_error":0.02,
+    "interpretation":"The groups are observational lifetime-receipt categories, not random assignment, current FY2024 recipients, or receipt in a single award year."
+  },
+  "table_a2_postbaccalaureate_employment_and_enrollment":{
+    "universe":"All 2015-16 bachelor's degree earners in the B&B:16/20 target population.",
+    "unit":"percent",
+    "categories":["employed_only","both_employed_and_enrolled","enrolled_only","unemployed","out_of_labor_force"],
+    "pell_yes":{"estimates":[69.0,11.8,4.2,4.2,10.8],"standard_errors":[0.78,0.50,0.33,0.34,0.49]},
+    "pell_no":{"estimates":[71.7,11.0,7.4,2.7,7.2],"standard_errors":[0.67,0.52,0.47,0.33,0.42]},
+    "definitions":{"unemployed":"Not working but looking for work.","out_of_labor_force":"Not working and not looking for work."}
+  },
+  "table_a3_federal_student_loan_debt_and_repayment":{
+    "universe":"Federal student loan borrowers among the 2015-16 bachelor's degree earners.",
+    "amount_and_ratio_rows":[
+      {"group":"pell_yes","average_amount_borrowed_usd":42900,"average_amount_borrowed_standard_error":540,"median_amount_borrowed_usd":33700,"median_amount_borrowed_standard_error":400,"average_owed_to_borrowed_ratio_percent":85.3,"average_ratio_standard_error":0.62,"median_owed_to_borrowed_ratio_percent":100.0,"median_ratio_standard_error":0.55,"in_repayment_percent":33.1,"in_repayment_standard_error":0.67},
+      {"group":"pell_no","average_amount_borrowed_usd":38500,"average_amount_borrowed_standard_error":900,"median_amount_borrowed_usd":27000,"median_amount_borrowed_standard_error_status":"rounds_to_zero","average_owed_to_borrowed_ratio_percent":66.3,"average_ratio_standard_error":0.90,"median_owed_to_borrowed_ratio_percent":76.0,"median_ratio_standard_error":1.22,"in_repayment_percent":18.7,"in_repayment_standard_error":0.77}
+    ],
+    "monthly_payment_among_borrowers_in_repayment":[
+      {"group":"pell_yes","average_usd":240,"average_standard_error":6,"median_usd":200,"median_standard_error":8},
+      {"group":"pell_no","average_usd":230,"average_standard_error":8,"median_usd":200,"median_standard_error":9}
+    ],
+    "loan_scope":"Federal student loans include subsidized and unsubsidized Direct Loans, Perkins Loans, and Graduate PLUS Loans, with the report's stated exclusions. Parent PLUS Loans are excluded.",
+    "repayment_note":"Income-driven repayment plans with a required monthly payment of zero are included. The March 13, 2020 COVID-19 emergency administrative forbearance likely affected percent-in-repayment estimates.",
+    "cost_boundary":"Amounts borrowed, balances, and monthly payments are borrower outcomes, not Pell Grant amounts or complete federal, institutional, household, or social costs."
+  },
+  "table_a4_most_recent_job_hours_and_pay":{
+    "universe":"2015-16 bachelor's degree earners who were working for pay four years after degree completion.",
+    "most_recent_job_definition":"The current job four years after completion or the most recent job held for at least four months within four years after completion; for multiple employers, the employer of longest duration was selected.",
+    "pell_yes":{"working_full_time_percent":87.3,"working_full_time_standard_error":0.58,"average_full_time_hours_per_week":41.2,"full_time_hours_standard_error":0.12,"average_part_time_hours_per_week":16.5,"part_time_hours_standard_error":0.32,"full_time_annualized_earned_income_average_usd":55500,"full_time_income_average_standard_error":530,"full_time_annualized_earned_income_median_usd":50000,"full_time_income_median_standard_error":410,"part_time_annualized_earned_income_average_usd":18700,"part_time_income_average_standard_error":770,"part_time_annualized_earned_income_median_usd":15600,"part_time_income_median_standard_error":410},
+    "pell_no":{"working_full_time_percent":88.1,"working_full_time_standard_error":0.56,"average_full_time_hours_per_week":42.0,"full_time_hours_standard_error":0.13,"average_part_time_hours_per_week":15.1,"part_time_hours_standard_error":0.37,"full_time_annualized_earned_income_average_usd":64200,"full_time_income_average_standard_error":730,"full_time_annualized_earned_income_median_usd":57900,"full_time_income_median_standard_error":800,"part_time_annualized_earned_income_average_usd":19900,"part_time_income_average_standard_error":890,"part_time_annualized_earned_income_median_usd":15600,"part_time_income_median_standard_error":670},
+    "earnings_boundary":"Annualized earned income is job earnings among workers, not earnings for the full bachelor-completer cohort, household income, or a causal return to Pell receipt."
+  },
+  "table_a6_financial_well_being":{
+    "universe":"All 2015-16 bachelor's degree earners in the B&B:16/20 target population.",
+    "unit":"percent",
+    "categories":["owned_home","had_retirement_account","reported_negative_net_worth","did_not_meet_essential_expenses_past_12_months"],
+    "pell_yes":{"estimates":[33.7,69.0,42.9,14.8],"standard_errors":[0.79,0.78,0.80,0.58]},
+    "pell_no":{"estimates":[27.8,79.2,24.0,6.2],"standard_errors":[0.66,0.63,0.64,0.44]}
+  },
+  "evidence_assessment":{
+    "comparison_status":"descriptive_observational_pell_group_comparison",
+    "causal_status":"not_causal_no_randomized_or_adjusted_counterfactual",
+    "completion_effect_status":"blocked_cohort_conditioned_on_bachelor_completion",
+    "current_program_link":"blocked_lifetime_pell_through_2015_16_not_fy2024_recipient_cohort",
+    "experimental_pell_link":"context_only_not_experimental_offer_population_or_estimand",
+    "covid_context":"2020 employment, financial, and repayment observations overlap the COVID-19 pandemic; repayment was affected by CARES Act administrative forbearance.",
+    "cost_effectiveness_status":"blocked_no_pell_amount_or_full_incremental_cost_and_benefit_analysis",
+    "current_fiscal_link":"blocked_no_compatible_account_outlay_or_budget_cohort",
+    "fraud_status":"not_measured_not_inferred",
+    "savings_status":"blocked_not_scored"
+  },
+  "first_time_student_longitudinal_bridge_path":"data/derived/breadth_benchmark_matrix/bps_first_time_student_longitudinal_bridge.ay2019-2022.v1.draft.json",
+  "first_time_student_longitudinal_bridge_status":"early_descriptive_first_time_entrant_bridge_and_datalab_receipt_group_cross_tab_attached_noncausal_mature_cost_and_fiscal_gates_blocked_not_bachelor_completer_postcompletion_outcomes",
+  "current_entrant_pell_persistence_path":"data/derived/breadth_benchmark_matrix/pell_current_entrant_persistence_baseline.bps2020-2022.v1.draft.json",
+  "current_entrant_pell_persistence_status":"official_datalab_entry_year_pell_receipt_by_three_year_persistence_attached_descriptive_noncausal_mature_cost_and_fiscal_gates_blocked_not_bachelor_completer_postcompletion_outcomes",
+  "current_entrant_pell_significance_screen_path":"data/derived/breadth_benchmark_matrix/pell_current_entrant_persistence_significance_screen.bps2020-2022.v1.draft.json",
+  "current_entrant_pell_significance_screen_status":"official_independent_estimates_ttest_screen_attached_bonferroni_three_of_five_pass_covariance_aware_confirmation_blocked_noncausal_not_bachelor_completer_postcompletion_outcomes",
+  "prohibited_inferences":["Do not interpret Pell/non-Pell differences as effects caused by Pell Grant receipt.","Do not infer a Pell effect on persistence or completion because every cohort member had already completed a bachelor's degree.","Do not generalize worker-only earnings or borrower-only repayment estimates to all Pell recipients, applicants, eligible students, or undergraduates.","Do not interpret federal loan borrowing, balances, or payments as Pell program cost or divide an outlay by these outcomes.","Do not compare these lifetime Pell groups directly with the randomized experimental-Pell offer groups.","Do not infer a current fiscal return, waste, fraud, improper payment, or recoverable saving."],
+  "observed_date":"2026-07-13",
+  "status":"draft-source-reviewed"
+}

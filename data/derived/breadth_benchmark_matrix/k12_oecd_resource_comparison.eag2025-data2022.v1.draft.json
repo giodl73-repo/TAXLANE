@@ -1,0 +1,23 @@
+{
+  "record_id":"resource-peer-comparison:education:eag2025-data2022:us-oecd-average",
+  "record_family":"resource_peer_comparison",
+  "source_ids":["SRC-OECD-EAG-2025-US-RESOURCES"],
+  "data_year":2022,
+  "matched_resource_rows":[
+    {"metric":"government_expenditure_per_full_time_equivalent_student","education_levels":"primary_secondary_and_post_secondary_non_tertiary","unit":"equivalent_usd_converted_using_ppp","institution_boundary":"direct_expenditure_on_educational_institutions","united_states":14603,"oecd_average":12438,"difference":2165,"us_to_oecd_ratio_percent":117.406335424},
+    {"metric":"government_share_of_total_funding_after_transfers","education_levels":"primary_secondary_and_post_secondary_non_tertiary","unit":"percent","united_states":92.4,"oecd_average":90.4,"difference_percentage_points":2.0}
+  ],
+  "broader_context_not_k12_only":[
+    {"metric":"total_expenditure_per_student","education_levels":"primary_to_tertiary_including_research_and_development","unit":"equivalent_usd_converted_using_ppp","united_states":20387,"oecd_average":15022,"difference":5365},
+    {"metric":"education_investment_share_of_gdp","education_levels":"primary_to_tertiary","unit":"percent_gdp","united_states":5.8,"oecd_average":4.7,"difference_percentage_points":1.1}
+  ],
+  "pisa_peer_comparison_path":"data/derived/breadth_benchmark_matrix/k12_pisa2022_peer_comparison.v1.draft.json",
+  "joint_interpretation":"The resource and PISA records share a 2022 reference year and matched OECD definitions within each record, but spending is not assigned to the tested students or their prior cumulative schooling inputs.",
+  "comparison_status":"definition_matched_resource_peer_not_causal_efficiency",
+  "target_status":"oecd_average_descriptive_not_automatic_target",
+  "omb_crosswalk_status":"not_comparable_to_federal_function_500_share",
+  "fraud_status":"not_measured_not_inferred",
+  "savings_status":"blocked_not_scored",
+  "observed_date":"2026-07-13",
+  "status":"draft-source-reviewed"
+}

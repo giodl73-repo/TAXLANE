@@ -1,0 +1,138 @@
+{
+  "record_id":"student-aid-current-entrant-persistence:pell-receipt:bps2020-2022",
+  "record_family":"pell_current_entrant_persistence_baseline",
+  "source_ids":["SRC-NCES-DATALAB-BPS20-22-PELL-PERSISTENCE-2026","SRC-NCES-DATALAB-BPS20-22-PELL-PERSISTENCE-TTEST-2026"],
+  "study":"2020/22 Beginning Postsecondary Students Longitudinal Study",
+  "dataset":{
+    "dataset_id":168,
+    "dataset_abbreviation":"BPS2022",
+    "collection_period_id":44,
+    "collection_period":"2020/2022",
+    "universe":"All respondents.",
+    "observation_window":"Entry academic year 2019-20 through academic year 2021-22; cumulative attainment and enrollment status through June 2022.",
+    "pandemic_context":"The 2019-20 entrant cohort and its three-year observation window overlap COVID-19 education, employment, housing, and financial disruptions."
+  },
+  "retrieval":{
+    "query_id":396385,
+    "retrieval_code":"zclxfu",
+    "public_url":"https://nces.ed.gov/datalab/powerstats/table/zclxfu",
+    "api_url":"https://nces.ed.gov/datalab/api/v1/workspace/retrieve/zclxfu",
+    "raw_path":"data/raw/nces/SRC-NCES-DATALAB-BPS20-22-PELL-PERSISTENCE-2026/2026-07-13/workspace-retrieve-zclxfu.json",
+    "raw_bytes":8023,
+    "raw_sha256":"AEDC7781DDC8DA4A9F59942E16B398F58CFFB20128CC6FE44CF24D6F04795DC5"
+  },
+  "analysis_specification":{
+    "major_version":1,
+    "minor_version":0,
+    "application_type":"PowerStats",
+    "analysis_type":"PercentageDistribution",
+    "dataset_id":168,
+    "years":["2020/2022"],
+    "title":"Cumulative persistence and attainment anywhere through AY 2021-22 (new version) by Federal Pell Grant receipt in AY 2019-20.",
+    "weight":"WTA000",
+    "variance_method":"BRR",
+    "processing_type":3,
+    "filters":[],
+    "subtable":null,
+    "row":{
+      "exists":true,
+      "variable":"PELL20",
+      "label":"Federal Pell Grant: amount received, AY 2019-20",
+      "type":"Continuous",
+      "processing_type":"Cut",
+      "ui":{"identifier":"pell20_receipt_binary","usage_type":"Row","edit_type":"Custom"},
+      "missing_elements":[],
+      "mapped":[],
+      "groups":[
+        {"id":"pell_amount_zero","label":"No Pell received (amount = $0)","start_value":0,"end_value":0},
+        {"id":"pell_amount_positive","label":"Pell received (amount > $0)","start_value":1,"end_value":9293}
+      ],
+      "receipt_boundary":"Positive PELL20 amount identifies recorded receipt in academic year 2019-20. Zero amount does not establish ineligibility, nonapplication, denial, or a common counterfactual."
+    },
+    "column":{
+      "exists":true,
+      "variable":"PROUT3_NEW",
+      "label":"Cumulative persistence and attainment anywhere through AY 2021-22 (new version)",
+      "type":"Categorical",
+      "processing_type":"Category",
+      "ui":{"identifier":"prout3_new_outcome","usage_type":"Column","edit_type":"Default"},
+      "missing_elements":[],
+      "mapped":[],
+      "values":[1,2,3,4,5]
+    },
+    "suppression_symbols":[],
+    "suppression_status":"no_cells_suppressed"
+  },
+  "outcome_categories":[
+    {"id":"attained_bachelors_degree","value":1,"label":"Attained bachelor's degree"},
+    {"id":"attained_associates_degree","value":2,"label":"Attained associate's degree"},
+    {"id":"attained_certificate","value":3,"label":"Attained certificate"},
+    {"id":"no_degree_enrolled_ay2021_22","value":4,"label":"No degree, enrolled in 2021-22 AY"},
+    {"id":"no_degree_not_enrolled_ay2021_22","value":5,"label":"No degree, not enrolled in 2021-22 AY"}
+  ],
+  "category_boundary":{
+    "status":"five_category_prout3_new_not_six_category_table_a1",
+    "description":"PROUT3_NEW combines all students with no degree who were enrolled in 2021-22 into one category. It does not divide them between 4-year and less-than-4-year institutions as the six-category PRLVL3Y distribution used in NCES 2024-401 Table A-1 does.",
+    "not_permanent_dropout":"No degree and not enrolled in 2021-22 is an observed three-year status, not a permanent-dropout classification."
+  },
+  "results":{
+    "result_identity":{"row_id":"PELL20","row_identifier":"pell20_receipt_binary","column_id":"PROUT3_NEW","column_identifier":"prout3_new_outcome","datasets":[168],"year":"2020/2022"},
+    "unit":"percent",
+    "standard_error_unit":"percentage_points",
+    "count_unit":"weighted_students",
+    "confidence_interval_level":"DataLab_default_not_restated_in_retrieval_payload",
+    "pell_amount_zero":{
+      "estimates":[0.8150894,7.0807806,3.4187823,70.4424349,18.2429128],
+      "standard_errors":[0.1008173,0.3414563,0.2497779,0.6186631,0.5892492],
+      "relative_standard_errors_percent":[12.3688601,4.8222975,7.3060493,0.8782535,3.2300171],
+      "weighted_counts":[14532,126241,60952,1255894,325247],
+      "lower_confidence_bounds":[0.6174875,6.4115262,2.9292176,69.2298552,17.0879844],
+      "upper_confidence_bounds":[1.0126912,7.7500349,3.908347,71.6550147,19.3978412],
+      "weighted_total":1782866
+    },
+    "pell_amount_positive":{
+      "estimates":[0.4971528,6.4224743,7.1063823,58.0382947,27.935696],
+      "standard_errors":[0.0834908,0.3544924,0.3445115,0.7774679,0.7039664],
+      "relative_standard_errors_percent":[16.7937819,5.5195613,4.8479174,1.3395775,2.519953],
+      "weighted_counts":[7301,94312,104355,852278,410229],
+      "lower_confidence_bounds":[0.3335109,5.7276691,6.4311396,56.5144576,26.5559218],
+      "upper_confidence_bounds":[0.6607947,7.1172794,7.7816249,59.5621318,29.3154701],
+      "weighted_total":1468475
+    },
+    "total":{
+      "estimates":[0.6714926,6.7834551,5.0842948,64.8400782,22.6206793],
+      "standard_errors":[0.069599,0.2427381,0.2258418,0.547403,0.4797255],
+      "relative_standard_errors_percent":[10.3648189,3.5783843,4.4419492,0.8442355,2.1207387],
+      "weighted_counts":[21833,220553,165308,2108172,735475],
+      "lower_confidence_bounds":[0.5350786,6.3076885,4.6416449,63.7671683,21.6804173],
+      "upper_confidence_bounds":[0.8079067,7.2592218,5.5269447,65.912988,23.5609413],
+      "weighted_total":3251341
+    }
+  },
+  "evidence_assessment":{
+    "comparison_status":"official_national_descriptive_weighted_receipt_group_cross_tab",
+    "causal_status":"not_causal_observational_unadjusted_receipt_group_comparison",
+    "pell_effect_status":"not_identified_receipt_groups_differ_in_observed_and_unobserved_characteristics",
+    "group_difference_significance_status":"independent_estimates_screen_only_bonferroni_three_of_five_pass_covariance_aware_confirmation_blocked",
+    "eligibility_status":"not_measured_by_positive_versus_zero_amount_cut",
+    "mature_completion_status":"blocked_early_three_year_window_many_students_still_enrolled",
+    "pandemic_status":"outcomes_observed_during_pandemic_disruption_window",
+    "cost_effectiveness_status":"blocked_no_full_incremental_program_cost_and_benefit_analysis",
+    "current_fiscal_link":"blocked_no_compatible_account_outlay_or_budget_cohort",
+    "fraud_status":"not_measured_not_inferred",
+    "savings_status":"blocked_not_scored",
+    "future_gate":"BPS:20/25 six-year follow-up must be captured and reviewed before treating this cohort as a mature completion or labor-market outcome baseline."
+  },
+  "current_entrant_pell_significance_screen_path":"data/derived/breadth_benchmark_matrix/pell_current_entrant_persistence_significance_screen.bps2020-2022.v1.draft.json",
+  "current_entrant_pell_significance_screen_status":"official_independent_estimates_ttest_screen_attached_bonferroni_three_of_five_pass_covariance_aware_confirmation_blocked_noncausal",
+  "prohibited_inferences":[
+    "Do not interpret differences between positive and zero PELL20 amounts as effects caused by Pell Grant receipt.",
+    "Do not interpret PELL20 equal to zero as Pell ineligibility, failure to apply, denial, or a valid untreated counterfactual.",
+    "Do not compare the five PROUT3_NEW categories as if they reproduced the six institution-level categories in First Look Table A-1.",
+    "Do not interpret no degree and not enrolled in 2021-22 as permanent dropout or the three-year bachelor's category as mature completion.",
+    "Do not attribute pandemic-period persistence or attainment differences to aid receipt.",
+    "Do not infer a cost-effectiveness ratio, fiscal return, waste, fraud, improper payment, recoverable saving, or budget saving."
+  ],
+  "observed_date":"2026-07-13",
+  "status":"draft-official-datalab-retrieval-checksum-verified"
+}

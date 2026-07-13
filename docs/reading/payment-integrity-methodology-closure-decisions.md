@@ -15,7 +15,12 @@ The Medicaid sample-period field is also closed internally. The decision is
 narrow: the PaymentAccuracy Q4 2025 Medicaid scorecard states that the FY2024
 estimate is based on a sampling timeframe starting 7/2022 and ending 6/2023.
 
-No other Part D or Medicaid methodology field is closed.
+The VA PLTSS sample-period field is now closed internally. The scorecard and
+annual workbook state that the FY2024 estimate uses an October 2022 through
+September 2023 sample, and VA OIG independently reviewed the sampling plans,
+estimates, and margins of error.
+
+No other Part D, Medicaid, or VA PLTSS methodology field is closed.
 
 ## Boundary
 

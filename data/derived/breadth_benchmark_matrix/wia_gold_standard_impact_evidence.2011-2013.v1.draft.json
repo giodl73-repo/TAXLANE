@@ -1,0 +1,89 @@
+{
+  "record_id":"causal-impact-evidence:wia-gold-standard:2011-2013",
+  "record_family":"causal_impact_evidence",
+  "source_ids":["SRC-DOL-WIA-GOLD-STANDARD-30M"],
+  "study_title":"Providing Public Workforce Services to Job Seekers: 30-Month Impact Findings on the WIA Adult and Dislocated Worker Programs",
+  "program":"Workforce Investment Act Adult and Dislocated Worker programs",
+  "program_status":"historical_predecessor_to_wioa",
+  "study_design":{
+    "design":"randomized_control_trial",
+    "randomized_applicants":35665,
+    "impact_study_sample":34429,
+    "ndnh_analysis_sample":33773,
+    "local_workforce_investment_areas":28,
+    "local_area_selection":"randomly_selected_for_national_representation",
+    "enrollment_period":{"start":"2011-11","end":"2013-04"},
+    "assignment_shares_percent":{"full_wia":88,"core_and_intensive":6,"core_only":6},
+    "assignment_groups":{
+      "full_wia":"Access to core, intensive, and training services.",
+      "core_and_intensive":"Access to core and intensive services; restricted from WIA-funded training for the first 15 months.",
+      "core_only":"Access to core services; restricted from WIA-funded intensive and training services for the first 15 months."
+    },
+    "follow_up":{"survey_months":30,"ndnh_administrative_earnings_months":36},
+    "restriction_period_months":15,
+    "estimand_note":"Intent-to-treat contrasts between randomized access groups; the training contrast is full WIA versus core-and-intensive, and the intensive-services contrast is core-and-intensive versus core-only."
+  },
+  "cumulative_earnings_2012_usd":{
+    "survey_30_month":{
+      "group_means":{"full_wia":39528,"core_and_intensive":43211,"core_only":36079},
+      "contrasts":[
+        {"service_contrast":"intensive_services","comparison":"core_and_intensive_minus_core_only","impact":7133,"significance_status":"strict_standard_significant"},
+        {"service_contrast":"training_services","comparison":"full_wia_minus_core_and_intensive","impact":-3684,"significance_status":"not_significant"}
+      ]
+    },
+    "ndnh_36_month":{
+      "group_means":{"full_wia":46509,"core_and_intensive":47960,"core_only":44664},
+      "contrasts":[
+        {"service_contrast":"intensive_services","comparison":"core_and_intensive_minus_core_only","impact":3296,"significance_status":"conventional_standard_significant_not_strict_standard"},
+        {"service_contrast":"training_services","comparison":"full_wia_minus_core_and_intensive","impact":-1451,"significance_status":"not_significant"}
+      ]
+    },
+    "currency_basis":"2012 dollars",
+    "interpretation":"The randomized contrasts identify the effect of access to the specified historical WIA service tier under the study design. The survey and NDNH measures use different follow-up windows and must not be pooled."
+  },
+  "service_receipt_percent":{
+    "training":{"full_wia":50,"core_and_intensive":41,"core_only":34},
+    "one_on_one_services":{"full_wia":63,"core_and_intensive":61,"core_only":47},
+    "training_take_up_contrast_full_minus_core_and_intensive_percentage_points":9,
+    "interpretation":"Crossover and access to non-WIA services narrowed treatment-control differences. The nine-percentage-point training take-up contrast makes the training-service impact evidence inconclusive."
+  },
+  "credential_and_completion_percent":{
+    "any_credential":{"full_wia":29,"core_and_intensive":24,"core_only":15},
+    "vocational_training_completion":{"full_wia":36,"core_and_intensive":28,"core_only":21},
+    "vocational_training_credential":{"full_wia":27,"core_and_intensive":22,"core_only":14},
+    "denominator_note":"Publisher-reported group percentages retain the report's outcome definitions and analysis universes; they are not counts or current WIOA performance indicators."
+  },
+  "benefit_cost_analysis_per_customer_2012_usd":{
+    "perspective_order":["society","customers","taxpayers"],
+    "training_services":{"society":-5046,"customers":-3274,"taxpayers":-1773},
+    "intensive_services":{"society":8573,"customers":6630,"taxpayers":1943},
+    "combined_intensive_and_training":{"society":3526,"customers":3356,"taxpayers":170},
+    "component_sum_check":{"society":{"published_combined":3526,"component_sum":3527,"difference":-1},"customers":{"published_combined":3356,"component_sum":3356,"difference":0},"taxpayers":{"published_combined":170,"component_sum":170,"difference":0},"status":"customer_and_taxpayer_exact_society_one_dollar_published_rounding_difference"},
+    "interpretation":"Historical study benefit-cost estimates per customer, not budget savings, recoveries, or present-day fiscal scores. Customer gains and taxpayer gains are distinct components of the social perspective."
+  },
+  "evidence_assessment":{
+    "causal_status":"causal_for_randomized_historical_wia_service_access_contrasts",
+    "intensive_services_finding":"positive_causal_earnings_effect_supported",
+    "training_services_finding":"inconclusive_due_small_take_up_contrast_and_nonsignificant_impacts",
+    "wioa_transportability":"blocked_predecessor_program_and_changed_operating_context",
+    "current_fiscal_link":"blocked_no_cohort_compatible_current_outlay_crosswalk",
+    "fraud_status":"not_measured_not_inferred",
+    "savings_status":"not_current_savings_not_scored"
+  },
+  "limitations":[
+    "The experiment evaluated WIA, the predecessor to WIOA, using applicants enrolled from November 2011 through April 2013 in 28 participating local areas.",
+    "The randomized offer changed access to WIA-funded service tiers, not receipt of all employment or training services; crossover and community alternatives reduced service-use contrasts.",
+    "Restrictions on the core-and-intensive and core-only groups lasted only the first 15 months, while outcomes extend to 30 or 36 months.",
+    "Veterans and other study exclusions limit the population to which the impact estimates directly apply.",
+    "The survey and NDNH earnings series use different sources, samples, and follow-up windows.",
+    "Benefit-cost estimates are in 2012 dollars per historical WIA customer and cannot be attached to FY2025 OMB subfunction 504 outlays."
+  ],
+  "prohibited_inferences":[
+    "Do not treat the nonsignificant negative training contrasts as proof that training harms earnings.",
+    "Do not transport the historical WIA impacts mechanically to current WIOA participants, service designs, labor markets, or funding levels.",
+    "Do not label benefit-cost values as fraud, waste, recoverable savings, budget authority, obligations, or actual outlays.",
+    "Do not divide current Training and Employment subfunction spending by these study impacts or customer benefits."
+  ],
+  "observed_date":"2026-07-13",
+  "status":"draft-source-reviewed"
+}

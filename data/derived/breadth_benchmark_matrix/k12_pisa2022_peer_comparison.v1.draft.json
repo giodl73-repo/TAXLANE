@@ -1,0 +1,32 @@
+{
+  "record_id":"peer-comparison:k12-pisa:2022:us-oecd-average",
+  "record_family":"outcome_peer_comparison",
+  "assessment":"OECD Programme for International Student Assessment",
+  "assessment_year":2022,
+  "population":"15-year-old students enrolled in grade 7 or higher under PISA eligibility rules",
+  "source_ids":["SRC-OECD-PISA-2022-US"],
+  "comparison_basis":"United States and OECD average measured within the same PISA 2022 assessment, scales, proficiency definitions, and reporting cycle",
+  "score_rows":[
+    {"subject":"mathematics","united_states":465,"oecd_average":472,"difference_points":-7,"reported_comparison":"close_to_oecd_average"},
+    {"subject":"reading","united_states":504,"oecd_average":476,"difference_points":28,"reported_comparison":"higher_than_oecd_average"},
+    {"subject":"science","united_states":499,"oecd_average":485,"difference_points":14,"reported_comparison":"higher_than_oecd_average"}
+  ],
+  "proficiency_rows":[
+    {"subject":"mathematics","level":"at_least_level_2","united_states_percent":66,"oecd_average_percent":69,"difference_percentage_points":-3},
+    {"subject":"mathematics","level":"level_5_or_6","united_states_percent":7,"oecd_average_percent":9,"difference_percentage_points":-2},
+    {"subject":"reading","level":"at_least_level_2","united_states_percent":80,"oecd_average_percent":74,"difference_percentage_points":6},
+    {"subject":"reading","level":"level_5_or_6","united_states_percent":14,"oecd_average_percent":7,"difference_percentage_points":7},
+    {"subject":"science","level":"at_least_level_2","united_states_percent":78,"oecd_average_percent":76,"difference_percentage_points":2},
+    {"subject":"science","level":"level_5_or_6","united_states_percent":11,"oecd_average_percent":7,"difference_percentage_points":4}
+  ],
+  "sampling_caveat":{"status":"interpret_with_caution_one_or_more_pisa_standards_not_reached","us_school_participation_before_replacement_percent":51,"us_school_participation_after_replacement_percent":63,"pisa_school_participation_target_before_replacement_percent":65,"pisa_school_participation_target_after_replacement_percent":85,"us_student_exclusion_percent":6,"pisa_maximum_student_exclusion_target_percent":5,"us_student_response_percent":80,"pisa_student_response_target_percent":80},
+  "cross_assessment_rule":"Do not equate PISA Level 2 with NAEP Proficient or compare their percentages as if they used one scale.",
+  "resource_peer_comparison_path":"data/derived/breadth_benchmark_matrix/k12_oecd_resource_comparison.eag2025-data2022.v1.draft.json",
+  "benchmark_status":"definition_matched_outcome_peer_comparison_not_spending_target",
+  "finance_match_status":"not_matched_to_fy2024_school_system_spending",
+  "efficiency_status":"not_causal_efficiency",
+  "fraud_status":"not_measured_not_inferred",
+  "savings_status":"blocked_not_scored",
+  "observed_date":"2026-07-13",
+  "status":"draft-source-reviewed"
+}

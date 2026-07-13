@@ -4,7 +4,7 @@ Machine rows:
 `data/derived/efficiency_pressure/extracts/payment_integrity_methodology_closure_coverage_q4_2025.jsonl`
 
 This packet summarizes methodology closure coverage after the internal
-sample-period closure decisions for Part D and Medicaid.
+sample-period closure decisions for Part D, Medicaid, and VA PLTSS.
 
 ## Current Coverage
 
@@ -14,7 +14,7 @@ Each covered program has:
 - Internally closed fields: 1
 - Open fields: 7
 
-Closed field for both programs:
+Closed field for all three programs:
 
 - sample period
 
@@ -37,6 +37,16 @@ Open Medicaid fields:
 - payment type split
 - state rotation and weighting treatment
 - improper payment versus fraud/waste basis
+
+Open VA PLTSS fields:
+
+- sample design
+- reviewed-claim universe
+- estimation method
+- exclusion rules
+- payment type split
+- documentation standard
+- documentation defect versus recoverable overpayment basis
 
 ## Boundary
 
