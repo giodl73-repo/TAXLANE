@@ -84,6 +84,12 @@ reported improper payments across covered programs**. It is not the full federal
 payment universe, not a fraud estimate, and not an automatically recoverable
 amount.
 
+The [payment-integrity depth card](payment-integrity-depth-card.md) connects that
+headline to four retained program probes totaling $35.499B in reported
+overpayments. The probes touch 22.0% of the separate headline but do not form a
+representative or complete decomposition. All other evidence classes remain
+missing or blocked unless separately sourced.
+
 The matrix enforces:
 
 ```text

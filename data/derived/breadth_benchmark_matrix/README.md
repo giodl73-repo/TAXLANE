@@ -57,6 +57,11 @@ they are not additive package scores or recommendations.
 likely burden bearers and protection gates without inventing quantified
 incidence. A joint microsimulation remains required before package claims.
 
+`payment_integrity_depth_card.fy2024.v1.draft.json` connects the $161.5B
+government-wide improper-payment headline to four retained program overpayment
+probes while leaving underpayment, unknown-payment, fraud, recovery, control-
+cost, and prospective-prevention fields explicitly missing where unsourced.
+
 The matrix deliberately includes coverage-gap rows. An explicit missing value
 is more useful than a false benchmark.
 

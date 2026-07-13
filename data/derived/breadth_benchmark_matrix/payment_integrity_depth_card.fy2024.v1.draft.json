@@ -1,0 +1,64 @@
+{
+  "record_id": "depth-card:payment-integrity:fy2024",
+  "record_family": "payment_integrity_depth_card",
+  "lane_id": "payment-integrity",
+  "headline": {
+    "reported_improper_payments_millions": 161500.0,
+    "period": "FY2024",
+    "scope": "agency-reported estimates for covered risk-susceptible programs, not the full federal payment universe",
+    "source_id": "SRC-GAO-IMPROPER-PAYMENTS-2025"
+  },
+  "retained_program_probes": {
+    "reporting_period": "Q4 2025 scorecards reporting FY2024 overpayment estimates",
+    "program_count": 4,
+    "overpayment_amount_millions": 35499.18,
+    "share_of_separate_governmentwide_headline_percent": 21.981,
+    "interpretation": "coverage indicator only; not a representative sample, complete decomposition, fraud amount, or recoverable amount",
+    "programs": [
+      {"program_id":"cms-medicaid","program":"Medicaid","overpayment_amount_millions":29370.0,"overpayment_rate_percent":4.81,"primary_root_cause_amount_millions":29370.0,"root_cause":"failure to access needed provider, eligibility, redetermination, or documentation data"},
+      {"program_id":"cms-part-d","program":"Medicare Prescription Drug Benefit (Part D)","overpayment_amount_millions":3053.0,"overpayment_rate_percent":1.02,"primary_root_cause_amount_millions":2403.0,"root_cause":"administrative or process error made by another party; state-data access issue"},
+      {"program_id":"va-pltss","program":"Purchased Long Term Services and Supports","overpayment_amount_millions":2502.18,"overpayment_rate_percent":15.54,"primary_root_cause_amount_millions":2120.91,"root_cause":"insufficient documentation to determine"},
+      {"program_id":"usda-federal-crop-insurance","program":"Federal Crop Insurance Program","overpayment_amount_millions":574.0,"overpayment_rate_percent":2.4,"primary_root_cause_amount_millions":467.0,"root_cause":"failure to access external data or information needed for compliance"}
+    ]
+  },
+  "evidence_class_fields": {
+    "overpayment_amount_millions": 35499.18,
+    "underpayment_amount_millions": null,
+    "unknown_payment_amount_millions": null,
+    "documentation_or_data_error_amount_millions": null,
+    "confirmed_fraud_amount_millions": null,
+    "collected_recovery_amount_millions": null,
+    "recoverable_or_collectible_amount_millions": null,
+    "control_cost_amount_millions": null,
+    "preventable_future_loss_amount_millions": null
+  },
+  "field_status": {
+    "overpayments": "partial_four_program_probe",
+    "underpayments": "not_captured_in_this_bridge",
+    "unknown_payments": "not_captured_in_this_bridge",
+    "documentation_or_data_errors": "root_cause_signals_present_but_no_disjoint_dollar_classification",
+    "confirmed_fraud": "not_measured_not_inferred",
+    "recoveries": "process_language_partial_quantified_amount_missing",
+    "recoverability": "blocked_not_scored",
+    "control_cost": "missing",
+    "preventable_future_loss": "missing_not_inferred"
+  },
+  "source_inputs": [
+    "data/derived/efficiency_pressure/extracts/payment_integrity_scorecards_q4_2025_first_pass.jsonl",
+    "data/derived/efficiency_pressure/extracts/payment_integrity_program_review_status_q4_2025.jsonl",
+    "data/derived/efficiency_pressure/extracts/payment_integrity_methodology_scoring_gate_q4_2025.jsonl"
+  ],
+  "claim_firewall": "improper payments != overpayments != confirmed fraud != recoverable dollars != collected recoveries != net savings",
+  "public_claim_allowed": false,
+  "fraud_claim_allowed": false,
+  "savings_estimate_allowed": false,
+  "next_depth_need": [
+    "full program-year extract with payment types and consistent periods",
+    "underpayment and unknown-payment amounts by program",
+    "disjoint root-cause classification",
+    "confirmed-fraud findings at adjudicated program or transaction grain",
+    "recoverable, collectible, and actually collected amounts",
+    "control and appeal cost",
+    "prospective prevented-loss estimate with access and due-process floors"
+  ]
+}

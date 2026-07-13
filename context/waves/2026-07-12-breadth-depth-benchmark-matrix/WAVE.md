@@ -26,6 +26,11 @@ new breadth category. Priority is the payment-integrity bridge or one blocked
 accounting bridge, with improper payments, confirmed fraud, recovery, and
 prospective preventable loss kept separate.
 
+The first payment-integrity bridge now connects four retained program probes to
+the government-wide headline while leaving every unsupported evidence class
+null. Full program-year composition and addressable-opportunity scoring remain
+blocked.
+
 ## Design rules
 
 - Never invent an expected value for a policy-dependent lane.
