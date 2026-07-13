@@ -9,23 +9,22 @@ recoverable savings as distinct evidence classes.
 
 ## Status
 
-Active. The first slice defines the typed matrix, initial dominant-lane
-comparisons, Tier 2 toplines, explicit breadth gaps, public scoreboard, and Rust
-claim-safety validation. The second slice adds a headline-basis crosswalk for
-interest, defense, and health so gross/net, function/subfunction, federal/system,
-and outlay/GDP measures cannot be silently substituted.
-The third slice deepens veterans coverage from a two-component 4.98% subtotal
-to the complete $377.163B / 5.38% function, with five components, service probes,
-and explicit beneficiary/outcome gates before benchmarking.
-The fourth slice deepens transportation from the 1.44% ground-only subtotal to
-the complete $145.320B / 2.07% federal function and records the state/local,
-trust-fund, asset-condition, project-delivery, and outcome gates for comparison.
-The fifth slice reconciles the complete $72.042B / 1.03% education-work-social
-services function and makes the −$35.005B higher-education net entry an explicit
-account-level research gate rather than a performance or savings claim.
-The sixth slice keeps disaster relief at its correct subfunction grain and
-connects declaration and mitigation probes without calling them outlays,
-realized savings, or fraud findings.
+Active in depth mode. Breadth is closed: all 17 questions across 13 lanes have a
+sourced current top line and zero remain Tier 3 gaps. Five questions (29.4%)
+have a matched benchmark; 12 (70.6%) have a federal top line but still need a
+scope- and outcome-matched expected value.
+
+Retained depth work includes the headline-basis crosswalk; veterans,
+transportation, education, disaster, justice, science/energy/environment,
+agriculture, and international-affairs cards; the health decomposition and
+benchmark ladder; fiscal paths and first-order debt dynamics; policy scale
+baskets; and the distribution screen. The public scoreboard is canonical for
+coverage status and the prioritized depth queue.
+
+The next bounded slice should deepen one existing Tier 2 row rather than add a
+new breadth category. Priority is the payment-integrity bridge or one blocked
+accounting bridge, with improper payments, confirmed fraud, recovery, and
+prospective preventable loss kept separate.
 
 ## Design rules
 
@@ -43,3 +42,8 @@ cargo test
 cargo run -p taxlane-tools -- income-tax-outlay validate
 git diff --check
 ```
+
+## Current pulse
+
+`pulses/pulse-01-current-state-reconciliation.md` records the exact handoff and
+next decision gate.
