@@ -37,7 +37,7 @@ Machine rows:
 | Disaster relief and insurance subfunction | 0.90% of federal outlays | Event incidence, exposure, mitigation, and supplemental funding vary sharply; do not relabel the broader parent function as disaster spending. |
 | Justice Administration | 1.19% of federal outlays | State/local spending and matched safety, access, timeliness, corrections, and due-process outcomes are not yet attached. |
 | Science, energy, environment, and natural resources | 2.18% of federal outlays | This is a disclosed composition of three OMB functions, not one official function or one benchmarkable outcome. |
-| Agriculture | 0.68% of federal outlays | The FY2024 FCIC integrity bridge retains four internal field closures and four open fields. A narrow FY2024 sample-design governance component and a separate historical FY2020/RY2018 simple-random selection component add bounded context, but neither establishes current public reproducibility or closes full sample design. This is not a FY2025 function-350 account crosswalk; estimation, exclusions, recoverability, farm, acre, risk, productivity, conservation, and peer evidence remain open. |
+| Agriculture | 0.68% of federal outlays | The FY2024 FCIC integrity bridge retains four internal field closures and four open fields. A narrow FY2024 governance component, historical FY2020/RY2018 selection component, and FY2025 public-evidence checkpoint add bounded context. OMB routes the actual S&EMP through secure MAX; the public record still does not expose a reproducible current estimator or exclusions. This is not a FY2025 function-350 account crosswalk; recoverability, farm, acre, risk, productivity, conservation, and peer evidence remain open. |
 | International Affairs | 0.64% of federal outlays | The −$14.936B international-financial entry now reconciles exactly to ten account rows, chiefly FMS customer deposits exceeding same-year trust-fund outlays; outcome-matched component benchmarks remain open. |
 
 ## Breadth Closure And Depth Queue
@@ -120,6 +120,23 @@ simple-random policy selection, premium-subsidy, A&O-subsidy, and indemnity
 coverage, and statistically valid rate and dollar estimates. It does not prove
 continuity to FY2024, change the four-closed/four-open aggregate, or relax any
 claim gate.
+
+The [public methodology evidence-ceiling extension](federal-crop-insurance-public-methodology-evidence-ceiling.md)
+records that OMB requires the plan's outputs but directs the S&EMP and checklist
+to secure MAX. FY2025 reporting repeats the public descriptors and 3.29-percent
+rate without publishing method mechanics. Zero fields close.
+
+The [recovery-lineage boundary extension](federal-crop-insurance-recovery-lineage-boundary-bridge.md)
+tracks the same sample through case dispositions and final rate reporting while
+keeping ordinary compliance findings and criminal outcomes separate. No public
+source links the projected estimate to sample-specific debt or cash collection,
+so recoverable-savings basis remains open.
+
+The [appeal and collectibility governance extension](federal-crop-insurance-appeal-collectibility-governance-bridge.md)
+maps CARS receipt, evidence-backed dispute, correction and possible repayment,
+FCIC discretion, and setoff. Those procedures prevent a Final Finding from
+being treated automatically as final collectible debt or cash collected; zero
+fields close.
 
 The matrix enforces:
 

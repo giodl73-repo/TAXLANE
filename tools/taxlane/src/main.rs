@@ -373,6 +373,77 @@ const FCIC_OIG_FS_FY2020_RAW_PATH: &str =
 const FCIC_OIG_FS_FY2020_RAW_BYTES: u64 = 13_696_922;
 const FCIC_OIG_FS_FY2020_RAW_SHA256: &str =
     "55fd128f191c3d0892f819f35a92929efb02dbd7354626d3c844a84c3253ac4b";
+const FCIC_PUBLIC_METHODOLOGY_EVIDENCE_CEILING_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/federal_crop_insurance_public_methodology_evidence_ceiling.fy2025.v1.draft.json";
+const FCIC_PUBLIC_METHODOLOGY_EVIDENCE_CEILING_READER_PATH: &str =
+    "docs/reading/federal-crop-insurance-public-methodology-evidence-ceiling.md";
+const OMB_M_21_19_SOURCE_ID: &str = "SRC-OMB-M-21-19";
+const OMB_M_21_19_METADATA_PATH: &str = "data/metadata/SRC-OMB-M-21-19.2026-07-13.metadata.md";
+const OMB_M_21_19_RAW_PATH: &str = "data/raw/omb/SRC-OMB-M-21-19/2026-07-13/M-21-19.pdf";
+const OMB_M_21_19_RAW_BYTES: u64 = 2_808_576;
+const OMB_M_21_19_RAW_SHA256: &str =
+    "12a1d448b1d5eb7040e2377e7e04bb721a2a513a9220768037b0f094c03d14aa";
+const FCIC_OIG_FS_FY2025_SOURCE_ID: &str = "SRC-USDA-OIG-FCIC-RMA-FS-FY2025";
+const FCIC_OIG_FS_FY2025_METADATA_PATH: &str =
+    "data/metadata/SRC-USDA-OIG-FCIC-RMA-FS-FY2025.2026-07-13.metadata.md";
+const FCIC_OIG_FS_FY2025_RAW_PATH: &str =
+    "data/raw/usda/SRC-USDA-OIG-FCIC-RMA-FS-FY2025/2026-07-13/05403-0002-11-FR-508-signed.pdf";
+const FCIC_OIG_FS_FY2025_RAW_BYTES: u64 = 6_099_095;
+const FCIC_OIG_FS_FY2025_RAW_SHA256: &str =
+    "0bcd7df0c7e3f78a7bb4b4c896c718e38adf1d6fba36b0efe45bd84d8738272a";
+const FCIC_RECOVERY_LINEAGE_BOUNDARY_BRIDGE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/federal_crop_insurance_recovery_lineage_boundary_bridge.fy2024.v1.draft.json";
+const FCIC_RECOVERY_LINEAGE_BOUNDARY_BRIDGE_READER_PATH: &str =
+    "docs/reading/federal-crop-insurance-recovery-lineage-boundary-bridge.md";
+const FCIC_MANAGER_SEP_2023_SOURCE_ID: &str = "SRC-USDA-RMA-FCIC-MANAGER-2023-09-20";
+const FCIC_MANAGER_SEP_2023_METADATA_PATH: &str =
+    "data/metadata/SRC-USDA-RMA-FCIC-MANAGER-2023-09-20.2026-07-13.metadata.md";
+const FCIC_MANAGER_SEP_2023_RAW_PATH: &str =
+    "data/raw/usda/SRC-USDA-RMA-FCIC-MANAGER-2023-09-20/2026-07-13/092023managers.pdf";
+const FCIC_MANAGER_SEP_2023_RAW_BYTES: u64 = 463_794;
+const FCIC_MANAGER_SEP_2023_RAW_SHA256: &str =
+    "a5f9267782552b331c294ce73836552879eadf47dda672ed5a40501d971cfcff";
+const FCIC_MANAGER_FEB_2024_SOURCE_ID: &str = "SRC-USDA-RMA-FCIC-MANAGER-2024-02-22";
+const FCIC_MANAGER_FEB_2024_METADATA_PATH: &str =
+    "data/metadata/SRC-USDA-RMA-FCIC-MANAGER-2024-02-22.2026-07-13.metadata.md";
+const FCIC_MANAGER_FEB_2024_RAW_PATH: &str =
+    "data/raw/usda/SRC-USDA-RMA-FCIC-MANAGER-2024-02-22/2026-07-13/022224managers.pdf";
+const FCIC_MANAGER_FEB_2024_RAW_BYTES: u64 = 168_423;
+const FCIC_MANAGER_FEB_2024_RAW_SHA256: &str =
+    "e89fa8202fb0eb4ff4e28211b10eed10e4cf06839172657a771da2f6b9d75be0";
+const FCIC_MANAGER_MAY_2024_SOURCE_ID: &str = "SRC-USDA-RMA-FCIC-MANAGER-2024-05-23";
+const FCIC_MANAGER_MAY_2024_METADATA_PATH: &str =
+    "data/metadata/SRC-USDA-RMA-FCIC-MANAGER-2024-05-23.2026-07-13.metadata.md";
+const FCIC_MANAGER_MAY_2024_RAW_PATH: &str =
+    "data/raw/usda/SRC-USDA-RMA-FCIC-MANAGER-2024-05-23/2026-07-13/052324managers.pdf";
+const FCIC_MANAGER_MAY_2024_RAW_BYTES: u64 = 195_464;
+const FCIC_MANAGER_MAY_2024_RAW_SHA256: &str =
+    "3da5b844433fb12db8f35e186fc227482118b118714021694ff4620e1cde4502";
+const FCIC_MANAGER_AUG_2024_SOURCE_ID: &str = "SRC-USDA-RMA-FCIC-MANAGER-2024-08-22";
+const FCIC_MANAGER_AUG_2024_METADATA_PATH: &str =
+    "data/metadata/SRC-USDA-RMA-FCIC-MANAGER-2024-08-22.2026-07-13.metadata.md";
+const FCIC_MANAGER_AUG_2024_RAW_PATH: &str =
+    "data/raw/usda/SRC-USDA-RMA-FCIC-MANAGER-2024-08-22/2026-07-13/082224managers.pdf";
+const FCIC_MANAGER_AUG_2024_RAW_BYTES: u64 = 232_689;
+const FCIC_MANAGER_AUG_2024_RAW_SHA256: &str =
+    "d090de9299d1dd7cf8b8c249e53c9b37056b648af3ef238ca3ad2951dc210026";
+const FCIC_APPEAL_COLLECTIBILITY_GOVERNANCE_BRIDGE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/federal_crop_insurance_appeal_collectibility_governance_bridge.fy2024.v1.draft.json";
+const FCIC_APPEAL_COLLECTIBILITY_GOVERNANCE_BRIDGE_READER_PATH: &str =
+    "docs/reading/federal-crop-insurance-appeal-collectibility-governance-bridge.md";
+const FCIC_COM_16_002_SOURCE_ID: &str = "SRC-USDA-RMA-COM-16-002";
+const FCIC_COM_16_002_METADATA_PATH: &str =
+    "data/metadata/SRC-USDA-RMA-COM-16-002.2026-07-13.metadata.md";
+const FCIC_COM_16_002_RAW_PATH: &str =
+    "data/raw/usda/SRC-USDA-RMA-COM-16-002/2026-07-13/COM-16-002.pdf";
+const FCIC_COM_16_002_RAW_BYTES: u64 = 43_627;
+const FCIC_COM_16_002_RAW_SHA256: &str =
+    "6c4c90f25ad5bdd7dcb76e4cae9545321f029d7fb1a07d8f2680d16313b56830";
+const FCIC_COM_16_004_SOURCE_ID: &str = "SRC-USDA-RMA-COM-16-004";
+const FCIC_COM_16_004_METADATA_PATH: &str =
+    "data/metadata/SRC-USDA-RMA-COM-16-004.2026-07-13.metadata.md";
+const FCIC_COM_16_004_RAW_PATH: &str =
+    "data/raw/usda/SRC-USDA-RMA-COM-16-004/2026-07-13/COM-16-004.pdf";
+const FCIC_COM_16_004_RAW_BYTES: u64 = 43_452;
+const FCIC_COM_16_004_RAW_SHA256: &str =
+    "a78e792079689356a1327fbf334ca024f3cb2aaa15aa48d4427dcf83251e64da";
 const K12_FEDERALISM_BRIDGE_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/k12_federalism_finance_bridge.fy2024.v1.draft.json";
 const K12_FEDERALISM_BRIDGE_READER_PATH: &str = "docs/reading/k12-federalism-finance-bridge.md";
@@ -1498,6 +1569,48 @@ const ARTIFACTS: &[Artifact] = &[
         path: "docs/reading/federal-crop-insurance-historical-sampling-method-bridge.md",
         role: "Public Federal Crop Insurance historical sampling-method bridge",
         grain: "historical component closure and current-field boundaries",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/federal_crop_insurance_public_methodology_evidence_ceiling.fy2025.v1.draft.json",
+        role: "Federal Crop Insurance public methodology evidence ceiling",
+        grain: "secure-plan boundary and FY2025 public-description continuity",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/federal-crop-insurance-public-methodology-evidence-ceiling.md",
+        role: "Public Federal Crop Insurance methodology evidence ceiling",
+        grain: "zero-closure access boundary and current-field residuals",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/federal_crop_insurance_recovery_lineage_boundary_bridge.fy2024.v1.draft.json",
+        role: "Federal Crop Insurance recovery-lineage boundary bridge",
+        grain: "FY2024 sampled-case disposition and amount-class non-additivity",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/federal-crop-insurance-recovery-lineage-boundary-bridge.md",
+        role: "Public Federal Crop Insurance recovery-lineage boundary bridge",
+        grain: "same-period disposition component and recovery residuals",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/federal_crop_insurance_appeal_collectibility_governance_bridge.fy2024.v1.draft.json",
+        role: "Federal Crop Insurance appeal and collectibility governance bridge",
+        grain: "FY2024 Final Finding dispute and contractual remedy states",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/federal-crop-insurance-appeal-collectibility-governance-bridge.md",
+        role: "Public Federal Crop Insurance appeal and collectibility governance bridge",
+        grain: "post-Finding state transitions and collectibility boundaries",
         kind: "markdown",
         canonical: "supporting",
     },
@@ -13974,6 +14087,770 @@ fn validate_fcic_payment_integrity_bridge(root: &Path) -> Result<(), String> {
         }
     }
 
+    let evidence_ceiling_text = fs::read_to_string(
+        root.join(FCIC_PUBLIC_METHODOLOGY_EVIDENCE_CEILING_JSON_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {FCIC_PUBLIC_METHODOLOGY_EVIDENCE_CEILING_JSON_PATH}: {err}")
+    })?;
+    let evidence_ceiling: serde_json::Value = serde_json::from_str(&evidence_ceiling_text)
+        .map_err(|err| {
+            format!("failed to parse {FCIC_PUBLIC_METHODOLOGY_EVIDENCE_CEILING_JSON_PATH}: {err}")
+        })?;
+    let evidence_ceiling_sources = evidence_ceiling
+        .get("source_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC public methodology evidence-ceiling source IDs")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    if string_field(&evidence_ceiling, "record_id")?
+        != "payment-integrity-public-methodology-evidence-ceiling:usda-federal-crop-insurance:fy2025"
+        || string_field(&evidence_ceiling, "record_family")?
+            != "federal_crop_insurance_public_methodology_evidence_ceiling"
+        || string_field(&evidence_ceiling, "status")?
+            != "draft_official_sources_checksum_verified_secure_plan_boundary_and_later_period_public_continuity_recorded_zero_field_closures"
+        || evidence_ceiling_sources
+            != BTreeSet::from([OMB_M_21_19_SOURCE_ID, FCIC_OIG_FS_FY2025_SOURCE_ID])
+    {
+        return Err("FCIC public methodology evidence-ceiling identity failed".to_string());
+    }
+    let ceiling_custody = evidence_ceiling
+        .get("source_custody")
+        .ok_or("FCIC public methodology evidence-ceiling custody")?;
+    let omb_custody = ceiling_custody
+        .get("omb_guidance")
+        .ok_or("FCIC public methodology OMB custody")?;
+    let fy2025_custody = ceiling_custody
+        .get("fy2025_fcic_report")
+        .ok_or("FCIC public methodology FY2025 custody")?;
+    let omb_raw = root.join(OMB_M_21_19_RAW_PATH);
+    let fy2025_raw = root.join(FCIC_OIG_FS_FY2025_RAW_PATH);
+    if string_field(omb_custody, "raw_path")? != OMB_M_21_19_RAW_PATH
+        || string_field(omb_custody, "checksum_sha256")?
+            != OMB_M_21_19_RAW_SHA256.to_ascii_uppercase()
+        || int_field(omb_custody, "bytes")? != OMB_M_21_19_RAW_BYTES as i64
+        || int_field(omb_custody, "point_estimate_requirement_printed_page")? != 17
+        || int_field(omb_custody, "secure_max_submission_printed_page")? != 18
+        || fs::metadata(&omb_raw).map_err(|err| err.to_string())?.len() != OMB_M_21_19_RAW_BYTES
+        || sha256_file(&omb_raw)? != OMB_M_21_19_RAW_SHA256
+    {
+        return Err("FCIC public methodology OMB custody failed".to_string());
+    }
+    if string_field(fy2025_custody, "raw_path")? != FCIC_OIG_FS_FY2025_RAW_PATH
+        || string_field(fy2025_custody, "checksum_sha256")?
+            != FCIC_OIG_FS_FY2025_RAW_SHA256.to_ascii_uppercase()
+        || int_field(fy2025_custody, "bytes")? != FCIC_OIG_FS_FY2025_RAW_BYTES as i64
+        || int_field(fy2025_custody, "public_method_description_printed_page")? != 17
+        || int_field(fy2025_custody, "payment_integrity_table_printed_page")? != 54
+        || fs::metadata(&fy2025_raw)
+            .map_err(|err| err.to_string())?
+            .len()
+            != FCIC_OIG_FS_FY2025_RAW_BYTES
+        || sha256_file(&fy2025_raw)? != FCIC_OIG_FS_FY2025_RAW_SHA256
+    {
+        return Err("FCIC public methodology FY2025 custody failed".to_string());
+    }
+    let plan_boundary = evidence_ceiling
+        .get("governing_plan_boundary")
+        .ok_or("FCIC governing plan boundary")?;
+    if string_field(
+        plan_boundary,
+        "sampling_and_estimation_methodology_plan_submission_channel",
+    )? != "agency secure MAX page"
+        || plan_boundary
+            .get("omb_requires_point_estimates")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || plan_boundary
+            .get("omb_requires_confidence_interval_estimates")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || plan_boundary
+            .get("fcic_plan_publicly_captured")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("FCIC governing secure-plan boundary failed".to_string());
+    }
+    let continuity = evidence_ceiling
+        .get("later_period_public_disclosure_continuity")
+        .ok_or("FCIC later-period public disclosure continuity")?;
+    let continuity_categories = continuity
+        .get("payment_categories_repeated")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC FY2025 repeated payment categories")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    let continuity_tiers = continuity
+        .get("aip_payment_tiers_repeated")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC FY2025 repeated AIP tiers")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    if continuity_categories
+        != BTreeSet::from([
+            "Administrative and Operating expense",
+            "indemnities",
+            "premium subsidy",
+        ])
+        || continuity_tiers != BTreeSet::from(["high", "low", "medium"])
+        || number_field(continuity, "fy2025_actual_improper_payment_rate_percent")? != 3.29
+        || string_field(continuity, "continuity_scope")? != "public description only"
+    {
+        return Err("FCIC FY2025 public-description continuity failed".to_string());
+    }
+    let ceiling_decision = evidence_ceiling
+        .get("evidence_ceiling_decision")
+        .ok_or("FCIC public methodology evidence-ceiling decision")?;
+    if string_field(ceiling_decision, "decision")? != "no_current_methodology_field_closure"
+        || int_field(ceiling_decision, "new_field_closures")? != 0
+    {
+        return Err("FCIC public methodology zero-closure decision failed".to_string());
+    }
+    for field in [
+        "current_sample_design_field_closed",
+        "current_estimation_method_field_closed",
+        "current_exclusion_rules_field_closed",
+        "recoverable_savings_basis_field_closed",
+        "fy2024_to_fy2025_undisclosed_method_identity_inference_allowed",
+    ] {
+        if ceiling_decision
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "FCIC public methodology decision must keep {field} false"
+            ));
+        }
+    }
+    let ceiling_boundary = evidence_ceiling
+        .get("current_program_boundary")
+        .ok_or("FCIC public methodology current-program boundary")?;
+    if int_field(ceiling_boundary, "total_methodology_fields")? != 8
+        || int_field(ceiling_boundary, "closed_field_count")? != 4
+        || int_field(ceiling_boundary, "open_field_count")? != 4
+    {
+        return Err("FCIC public methodology bridge must preserve 4/4 aggregate".to_string());
+    }
+    for field in [
+        "public_claim_allowed",
+        "scoring_allowed",
+        "fraud_claim_allowed",
+        "recovery_claim_allowed",
+        "prevention_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if evidence_ceiling
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "FCIC public methodology bridge must keep {field} false"
+            ));
+        }
+    }
+    for (metadata_path, source_id, raw_path, bytes, checksum, required) in [
+        (
+            OMB_M_21_19_METADATA_PATH,
+            OMB_M_21_19_SOURCE_ID,
+            OMB_M_21_19_RAW_PATH,
+            OMB_M_21_19_RAW_BYTES,
+            OMB_M_21_19_RAW_SHA256,
+            "secure MAX page",
+        ),
+        (
+            FCIC_OIG_FS_FY2025_METADATA_PATH,
+            FCIC_OIG_FS_FY2025_SOURCE_ID,
+            FCIC_OIG_FS_FY2025_RAW_PATH,
+            FCIC_OIG_FS_FY2025_RAW_BYTES,
+            FCIC_OIG_FS_FY2025_RAW_SHA256,
+            "3.29 percent",
+        ),
+    ] {
+        let metadata = fs::read_to_string(root.join(metadata_path))
+            .map_err(|err| format!("failed to read {metadata_path}: {err}"))?;
+        for expected in [
+            format!("| `source_id` | `{source_id}` |"),
+            format!("| `raw_path` | `{raw_path}` |"),
+            format!("| `bytes` | {bytes} |"),
+            format!(
+                "| `checksum_sha256` | `{}` |",
+                checksum.to_ascii_uppercase()
+            ),
+            "| `status` | `captured` |".to_string(),
+            required.to_string(),
+        ] {
+            if !metadata.contains(&expected) {
+                return Err(format!("{metadata_path} missing {expected}"));
+            }
+        }
+    }
+    let evidence_ceiling_reader =
+        fs::read_to_string(root.join(FCIC_PUBLIC_METHODOLOGY_EVIDENCE_CEILING_READER_PATH))
+            .map_err(|err| {
+                format!(
+                    "failed to read {FCIC_PUBLIC_METHODOLOGY_EVIDENCE_CEILING_READER_PATH}: {err}"
+                )
+            })?;
+    for required in [
+        FCIC_PUBLIC_METHODOLOGY_EVIDENCE_CEILING_JSON_PATH,
+        "secure MAX page",
+        "3.29 percent",
+        "closes zero current methodology fields",
+        "four closed fields",
+        "four open fields",
+        "No program score",
+    ] {
+        if !evidence_ceiling_reader.contains(required) {
+            return Err(format!("FCIC public methodology reader missing {required}"));
+        }
+    }
+
+    let recovery_boundary_text = fs::read_to_string(
+        root.join(FCIC_RECOVERY_LINEAGE_BOUNDARY_BRIDGE_JSON_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {FCIC_RECOVERY_LINEAGE_BOUNDARY_BRIDGE_JSON_PATH}: {err}")
+    })?;
+    let recovery_boundary: serde_json::Value = serde_json::from_str(&recovery_boundary_text)
+        .map_err(|err| {
+            format!("failed to parse {FCIC_RECOVERY_LINEAGE_BOUNDARY_BRIDGE_JSON_PATH}: {err}")
+        })?;
+    let recovery_sources = recovery_boundary
+        .get("source_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC recovery-lineage source IDs")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    if string_field(&recovery_boundary, "record_id")?
+        != "payment-integrity-recovery-lineage-boundary-bridge:usda-federal-crop-insurance:fy2024"
+        || string_field(&recovery_boundary, "record_family")?
+            != "federal_crop_insurance_recovery_lineage_boundary_bridge"
+        || string_field(&recovery_boundary, "status")?
+            != "draft_official_sources_checksum_verified_narrow_disposition_and_non_additivity_component_closed_recoverable_savings_field_open"
+        || recovery_sources
+            != BTreeSet::from([
+                FCIC_COM_23_SOURCE_ID,
+                FCIC_SCORECARD_SOURCE_ID,
+                FCIC_MANAGER_SEP_2023_SOURCE_ID,
+                FCIC_MANAGER_FEB_2024_SOURCE_ID,
+                FCIC_MANAGER_MAY_2024_SOURCE_ID,
+                FCIC_MANAGER_AUG_2024_SOURCE_ID,
+            ])
+    {
+        return Err("FCIC recovery-lineage identity or source lineage failed".to_string());
+    }
+    let recovery_custody = recovery_boundary
+        .get("source_custody")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC recovery-lineage source custody")?;
+    if recovery_custody.len() != 4 {
+        return Err("FCIC recovery-lineage custody must contain four reports".to_string());
+    }
+    for (source_id, raw_path, bytes, checksum, page) in [
+        (
+            FCIC_MANAGER_SEP_2023_SOURCE_ID,
+            FCIC_MANAGER_SEP_2023_RAW_PATH,
+            FCIC_MANAGER_SEP_2023_RAW_BYTES,
+            FCIC_MANAGER_SEP_2023_RAW_SHA256,
+            5,
+        ),
+        (
+            FCIC_MANAGER_FEB_2024_SOURCE_ID,
+            FCIC_MANAGER_FEB_2024_RAW_PATH,
+            FCIC_MANAGER_FEB_2024_RAW_BYTES,
+            FCIC_MANAGER_FEB_2024_RAW_SHA256,
+            3,
+        ),
+        (
+            FCIC_MANAGER_MAY_2024_SOURCE_ID,
+            FCIC_MANAGER_MAY_2024_RAW_PATH,
+            FCIC_MANAGER_MAY_2024_RAW_BYTES,
+            FCIC_MANAGER_MAY_2024_RAW_SHA256,
+            5,
+        ),
+        (
+            FCIC_MANAGER_AUG_2024_SOURCE_ID,
+            FCIC_MANAGER_AUG_2024_RAW_PATH,
+            FCIC_MANAGER_AUG_2024_RAW_BYTES,
+            FCIC_MANAGER_AUG_2024_RAW_SHA256,
+            5,
+        ),
+    ] {
+        let custody = recovery_custody
+            .iter()
+            .find(|row| row.get("source_id").and_then(serde_json::Value::as_str) == Some(source_id))
+            .ok_or_else(|| format!("missing FCIC recovery custody for {source_id}"))?;
+        let raw = root.join(raw_path);
+        if string_field(custody, "raw_path")? != raw_path
+            || string_field(custody, "checksum_sha256")? != checksum.to_ascii_uppercase()
+            || int_field(custody, "bytes")? != bytes as i64
+            || int_field(custody, "evidence_pdf_file_page")? != page
+            || fs::metadata(&raw).map_err(|err| err.to_string())?.len() != bytes
+            || sha256_file(&raw)? != checksum
+        {
+            return Err(format!("FCIC recovery custody failed for {source_id}"));
+        }
+    }
+    let disposition_chain = recovery_boundary
+        .get("same_period_sample_disposition_chain")
+        .ok_or("FCIC same-period sample disposition chain")?;
+    if string_field(disposition_chain, "reporting_period")? != "FY2024"
+        || int_field(disposition_chain, "sampling_reinsurance_year")? != 2022
+        || int_field(disposition_chain, "sample_policy_count")? != 326
+        || int_field(
+            disposition_chain,
+            "september_2023_no_improper_payment_closures",
+        )? != 116
+        || int_field(
+            disposition_chain,
+            "february_2024_approximate_completed_and_closed_reviews",
+        )? != 289
+        || number_field(disposition_chain, "august_2024_reported_error_rate_percent")? != 2.43
+    {
+        return Err("FCIC same-period sample disposition facts failed".to_string());
+    }
+    for field in [
+        "may_2024_review_complete_rate_calculation_pending",
+        "august_2024_review_complete",
+    ] {
+        if disposition_chain
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        {
+            return Err(format!("FCIC sample disposition fact {field} failed"));
+        }
+    }
+    let amount_classes = recovery_boundary
+        .get("published_amount_classification")
+        .ok_or("FCIC published amount classification")?;
+    for class_name in [
+        "manager_report_general_compliance_findings",
+        "manager_report_criminal_recoveries_and_judgments",
+    ] {
+        let class = amount_classes
+            .get(class_name)
+            .ok_or_else(|| format!("missing FCIC amount class {class_name}"))?;
+        if class
+            .get("separate_heading_from_iperia_sample")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+            || class
+                .get("attributed_to_326_policy_sample")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+            || class
+                .get("usable_as_sample_recovery_amount")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+        {
+            return Err(format!(
+                "FCIC amount-class boundary failed for {class_name}"
+            ));
+        }
+    }
+    if amount_classes
+        .get("sample_specific_dollar_dispositions_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(false)
+    {
+        return Err("FCIC sample-specific dollar disposition must remain false".to_string());
+    }
+    let recovery_decision = recovery_boundary
+        .get("component_decision")
+        .ok_or("FCIC recovery-lineage component decision")?;
+    if string_field(recovery_decision, "decision")? != "component_closed_internal_only"
+        || string_field(recovery_decision, "decision_status")?
+            != "narrow_disposition_and_non_additivity_component_closed_full_recoverable_savings_field_open"
+        || recovery_decision
+            .get("component_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || recovery_decision
+            .get("recoverable_savings_basis_field_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || int_field(recovery_decision, "new_methodology_field_closures")? != 0
+    {
+        return Err("FCIC recovery-lineage narrow component decision failed".to_string());
+    }
+    let recovery_residuals = recovery_boundary
+        .get("recoverable_savings_residuals")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC recoverable-savings residuals")?;
+    if recovery_residuals.len() != 9 {
+        return Err(format!(
+            "FCIC recovery-lineage bridge must retain 9 residuals, got {}",
+            recovery_residuals.len()
+        ));
+    }
+    let recovery_program_boundary = recovery_boundary
+        .get("current_program_boundary")
+        .ok_or("FCIC recovery-lineage current-program boundary")?;
+    if int_field(recovery_program_boundary, "total_methodology_fields")? != 8
+        || int_field(recovery_program_boundary, "closed_field_count")? != 4
+        || int_field(recovery_program_boundary, "open_field_count")? != 4
+        || string_field(
+            recovery_program_boundary,
+            "recoverable_savings_basis_status",
+        )? != "open"
+    {
+        return Err("FCIC recovery-lineage bridge must preserve 4/4 aggregate".to_string());
+    }
+    for field in [
+        "public_claim_allowed",
+        "scoring_allowed",
+        "fraud_claim_allowed",
+        "recovery_claim_allowed",
+        "prevention_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if recovery_boundary
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "FCIC recovery-lineage bridge must keep {field} false"
+            ));
+        }
+    }
+    for (metadata_path, source_id, raw_path, bytes, checksum, required) in [
+        (
+            FCIC_MANAGER_SEP_2023_METADATA_PATH,
+            FCIC_MANAGER_SEP_2023_SOURCE_ID,
+            FCIC_MANAGER_SEP_2023_RAW_PATH,
+            FCIC_MANAGER_SEP_2023_RAW_BYTES,
+            FCIC_MANAGER_SEP_2023_RAW_SHA256,
+            "116 of the 326",
+        ),
+        (
+            FCIC_MANAGER_FEB_2024_METADATA_PATH,
+            FCIC_MANAGER_FEB_2024_SOURCE_ID,
+            FCIC_MANAGER_FEB_2024_RAW_PATH,
+            FCIC_MANAGER_FEB_2024_RAW_BYTES,
+            FCIC_MANAGER_FEB_2024_RAW_SHA256,
+            "Final Findings",
+        ),
+        (
+            FCIC_MANAGER_MAY_2024_METADATA_PATH,
+            FCIC_MANAGER_MAY_2024_SOURCE_ID,
+            FCIC_MANAGER_MAY_2024_RAW_PATH,
+            FCIC_MANAGER_MAY_2024_RAW_BYTES,
+            FCIC_MANAGER_MAY_2024_RAW_SHA256,
+            "still being calculated",
+        ),
+        (
+            FCIC_MANAGER_AUG_2024_METADATA_PATH,
+            FCIC_MANAGER_AUG_2024_SOURCE_ID,
+            FCIC_MANAGER_AUG_2024_RAW_PATH,
+            FCIC_MANAGER_AUG_2024_RAW_BYTES,
+            FCIC_MANAGER_AUG_2024_RAW_SHA256,
+            "2.43 percent",
+        ),
+    ] {
+        let metadata = fs::read_to_string(root.join(metadata_path))
+            .map_err(|err| format!("failed to read {metadata_path}: {err}"))?;
+        for expected in [
+            format!("| `source_id` | `{source_id}` |"),
+            format!("| `raw_path` | `{raw_path}` |"),
+            format!("| `bytes` | {bytes} |"),
+            format!(
+                "| `checksum_sha256` | `{}` |",
+                checksum.to_ascii_uppercase()
+            ),
+            "| `status` | `captured` |".to_string(),
+            required.to_string(),
+        ] {
+            if !metadata.contains(&expected) {
+                return Err(format!("{metadata_path} missing {expected}"));
+            }
+        }
+    }
+    let recovery_reader = fs::read_to_string(
+        root.join(FCIC_RECOVERY_LINEAGE_BOUNDARY_BRIDGE_READER_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {FCIC_RECOVERY_LINEAGE_BOUNDARY_BRIDGE_READER_PATH}: {err}")
+    })?;
+    for required in [
+        FCIC_RECOVERY_LINEAGE_BOUNDARY_BRIDGE_JSON_PATH,
+        "116 cases",
+        "approximately 289",
+        "Initial Finding",
+        "2.43-percent",
+        "separate headings",
+        "four closed",
+        "four open",
+        "No program score",
+    ] {
+        if !recovery_reader.contains(required) {
+            return Err(format!("FCIC recovery-lineage reader missing {required}"));
+        }
+    }
+
+    let appeal_governance_text =
+        fs::read_to_string(root.join(FCIC_APPEAL_COLLECTIBILITY_GOVERNANCE_BRIDGE_JSON_PATH))
+            .map_err(|err| {
+                format!(
+                    "failed to read {FCIC_APPEAL_COLLECTIBILITY_GOVERNANCE_BRIDGE_JSON_PATH}: {err}"
+                )
+            })?;
+    let appeal_governance: serde_json::Value = serde_json::from_str(&appeal_governance_text)
+        .map_err(|err| {
+            format!(
+                "failed to parse {FCIC_APPEAL_COLLECTIBILITY_GOVERNANCE_BRIDGE_JSON_PATH}: {err}"
+            )
+        })?;
+    let appeal_sources = appeal_governance
+        .get("source_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC appeal-governance source IDs")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    if string_field(&appeal_governance, "record_id")?
+        != "payment-integrity-appeal-collectibility-governance-bridge:usda-federal-crop-insurance:fy2024"
+        || string_field(&appeal_governance, "record_family")?
+            != "federal_crop_insurance_appeal_collectibility_governance_bridge"
+        || string_field(&appeal_governance, "status")?
+            != "draft_official_sources_checksum_verified_narrow_appeal_and_contractual_collection_governance_component_closed_recoverable_savings_field_open"
+        || appeal_sources
+            != BTreeSet::from([
+                FCIC_COM_16_002_SOURCE_ID,
+                FCIC_COM_16_004_SOURCE_ID,
+                FCIC_SRA_2022_SOURCE_ID,
+            ])
+        || string_field(&appeal_governance, "upstream_artifact")?
+            != FCIC_RECOVERY_LINEAGE_BOUNDARY_BRIDGE_JSON_PATH
+    {
+        return Err("FCIC appeal-governance identity or source lineage failed".to_string());
+    }
+    let appeal_custody = appeal_governance
+        .get("source_custody")
+        .ok_or("FCIC appeal-governance source custody")?;
+    for (key, raw_path, bytes, checksum) in [
+        (
+            "com_16_002",
+            FCIC_COM_16_002_RAW_PATH,
+            FCIC_COM_16_002_RAW_BYTES,
+            FCIC_COM_16_002_RAW_SHA256,
+        ),
+        (
+            "com_16_004",
+            FCIC_COM_16_004_RAW_PATH,
+            FCIC_COM_16_004_RAW_BYTES,
+            FCIC_COM_16_004_RAW_SHA256,
+        ),
+        (
+            "sra_2022",
+            FCIC_SRA_2022_RAW_PATH,
+            FCIC_SRA_2022_RAW_BYTES,
+            FCIC_SRA_2022_RAW_SHA256,
+        ),
+    ] {
+        let custody = appeal_custody
+            .get(key)
+            .ok_or_else(|| format!("missing FCIC appeal custody {key}"))?;
+        let raw = root.join(raw_path);
+        if string_field(custody, "raw_path")? != raw_path
+            || string_field(custody, "checksum_sha256")? != checksum.to_ascii_uppercase()
+            || int_field(custody, "bytes")? != bytes as i64
+            || fs::metadata(&raw).map_err(|err| err.to_string())?.len() != bytes
+            || sha256_file(&raw)? != checksum
+        {
+            return Err(format!("FCIC appeal-governance custody failed for {key}"));
+        }
+    }
+    let sra_appeal_custody = appeal_custody
+        .get("sra_2022")
+        .ok_or("FCIC appeal-governance SRA custody")?;
+    if int_field(sra_appeal_custody, "debt_notice_printed_page")? != 28
+        || int_field(sra_appeal_custody, "debt_notice_pdf_file_page")? != 30
+        || int_field(sra_appeal_custody, "interest_mechanics_printed_page")? != 34
+        || int_field(sra_appeal_custody, "interest_mechanics_pdf_file_page")? != 36
+        || int_field(sra_appeal_custody, "dispute_and_appeal_printed_page")? != 42
+        || int_field(sra_appeal_custody, "dispute_and_appeal_pdf_file_page")? != 45
+    {
+        return Err("FCIC appeal-governance SRA page mapping failed".to_string());
+    }
+    let governance_chain = appeal_governance
+        .get("published_governance_chain")
+        .ok_or("FCIC published appeal-governance chain")?;
+    if int_field(
+        governance_chain,
+        "aip_final_administrative_determination_request_deadline_days",
+    )? != 45
+    {
+        return Err("FCIC appeal-governance deadline failed".to_string());
+    }
+    for field in [
+        "final_finding_uploaded_to_cars",
+        "cars_upload_date_is_receipt_date",
+        "aip_must_identify_disputed_provisions",
+        "aip_must_explain_asserted_error",
+        "aip_must_submit_rebuttal_evidence",
+        "sra_requires_timely_written_notice_when_review_reveals_company_debt",
+        "appeal_does_not_delay_interest_accrual_on_a_written_specific_amount",
+        "final_administrative_decision_required_before_judicial_review",
+        "fcic_may_waive_reduce_or_delay_repayment_for_program_delivery",
+        "fcic_setoff_authority_published",
+        "setoff_preserves_administrative_appeal",
+        "unpaid_amounts_may_be_set_off_across_reinsurance_years_with_interest",
+    ] {
+        if governance_chain
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        {
+            return Err(format!("FCIC appeal-governance fact {field} failed"));
+        }
+    }
+    let appeal_decision = appeal_governance
+        .get("component_decision")
+        .ok_or("FCIC appeal-governance component decision")?;
+    if string_field(appeal_decision, "decision")? != "component_closed_internal_only"
+        || string_field(appeal_decision, "decision_status")?
+            != "narrow_appeal_and_contractual_collection_governance_component_closed_full_collectibility_and_recoverable_savings_fields_open"
+        || appeal_decision
+            .get("component_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || appeal_decision
+            .get("recoverable_savings_basis_field_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || appeal_decision
+            .get("sample_specific_collectibility_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || int_field(appeal_decision, "new_methodology_field_closures")? != 0
+    {
+        return Err("FCIC appeal-governance narrow component decision failed".to_string());
+    }
+    let state_transitions = appeal_governance
+        .get("state_transition_boundary")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC appeal-governance state transitions")?;
+    if state_transitions.len() != 3
+        || state_transitions[0]
+            .get("automatically_final_collectible_debt")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || state_transitions[1]
+            .get("automatically_cash_collected")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || state_transitions[2]
+            .get("automatically_final_without_appeal")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("FCIC appeal-governance state-transition boundary failed".to_string());
+    }
+    let appeal_residuals = appeal_governance
+        .get("recoverable_savings_residuals")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC appeal-governance residuals")?;
+    if appeal_residuals.len() != 8 {
+        return Err(format!(
+            "FCIC appeal-governance bridge must retain 8 residuals, got {}",
+            appeal_residuals.len()
+        ));
+    }
+    let appeal_program_boundary = appeal_governance
+        .get("current_program_boundary")
+        .ok_or("FCIC appeal-governance current-program boundary")?;
+    if int_field(appeal_program_boundary, "total_methodology_fields")? != 8
+        || int_field(appeal_program_boundary, "closed_field_count")? != 4
+        || int_field(appeal_program_boundary, "open_field_count")? != 4
+        || string_field(appeal_program_boundary, "recoverable_savings_basis_status")? != "open"
+    {
+        return Err("FCIC appeal-governance bridge must preserve 4/4 aggregate".to_string());
+    }
+    for field in [
+        "public_claim_allowed",
+        "scoring_allowed",
+        "fraud_claim_allowed",
+        "recovery_claim_allowed",
+        "prevention_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if appeal_governance
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "FCIC appeal-governance bridge must keep {field} false"
+            ));
+        }
+    }
+    for (metadata_path, source_id, raw_path, bytes, checksum, required) in [
+        (
+            FCIC_COM_16_002_METADATA_PATH,
+            FCIC_COM_16_002_SOURCE_ID,
+            FCIC_COM_16_002_RAW_PATH,
+            FCIC_COM_16_002_RAW_BYTES,
+            FCIC_COM_16_002_RAW_SHA256,
+            "case-policy document library in CARS",
+        ),
+        (
+            FCIC_COM_16_004_METADATA_PATH,
+            FCIC_COM_16_004_SOURCE_ID,
+            FCIC_COM_16_004_RAW_PATH,
+            FCIC_COM_16_004_RAW_BYTES,
+            FCIC_COM_16_004_RAW_SHA256,
+            "within 45 days",
+        ),
+    ] {
+        let metadata = fs::read_to_string(root.join(metadata_path))
+            .map_err(|err| format!("failed to read {metadata_path}: {err}"))?;
+        for expected in [
+            format!("| `source_id` | `{source_id}` |"),
+            format!("| `raw_path` | `{raw_path}` |"),
+            format!("| `bytes` | {bytes} |"),
+            format!(
+                "| `checksum_sha256` | `{}` |",
+                checksum.to_ascii_uppercase()
+            ),
+            "| `status` | `captured` |".to_string(),
+            required.to_string(),
+        ] {
+            if !metadata.contains(&expected) {
+                return Err(format!("{metadata_path} missing {expected}"));
+            }
+        }
+    }
+    let appeal_reader = fs::read_to_string(
+        root.join(FCIC_APPEAL_COLLECTIBILITY_GOVERNANCE_BRIDGE_READER_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {FCIC_APPEAL_COLLECTIBILITY_GOVERNANCE_BRIDGE_READER_PATH}: {err}")
+    })?;
+    for required in [
+        FCIC_APPEAL_COLLECTIBILITY_GOVERNANCE_BRIDGE_JSON_PATH,
+        "45-day",
+        "rebuttal evidence",
+        "waive, reduce, or delay",
+        "Interest",
+        "final collectible debt",
+        "four closed",
+        "four open",
+        "No program score",
+    ] {
+        if !appeal_reader.contains(required) {
+            return Err(format!("FCIC appeal-governance reader missing {required}"));
+        }
+    }
+
     let payment_card: serde_json::Value = serde_json::from_str(
         &fs::read_to_string(root.join(
             "data/derived/breadth_benchmark_matrix/payment_integrity_depth_card.fy2024.v1.draft.json",
@@ -14043,6 +14920,49 @@ fn validate_fcic_payment_integrity_bridge(root: &Path) -> Result<(), String> {
         return Err(
             "payment-integrity depth card FCIC historical sampling-method bridge failed"
                 .to_string(),
+        );
+    }
+    let payment_evidence_ceiling = payment_card
+        .get("federal_crop_insurance_public_methodology_evidence_ceiling")
+        .ok_or("payment-integrity depth card FCIC public methodology evidence ceiling")?;
+    if string_field(payment_evidence_ceiling, "path")?
+        != FCIC_PUBLIC_METHODOLOGY_EVIDENCE_CEILING_JSON_PATH
+        || string_field(payment_evidence_ceiling, "status")?
+            != "secure_max_plan_boundary_and_fy2025_public_description_continuity_recorded_zero_field_closures"
+        || !string_field(payment_evidence_ceiling, "open_scope")?
+            .contains("four-closed/four-open aggregate is unchanged")
+    {
+        return Err(
+            "payment-integrity depth card FCIC public methodology evidence ceiling failed"
+                .to_string(),
+        );
+    }
+    let payment_recovery_boundary = payment_card
+        .get("federal_crop_insurance_recovery_lineage_boundary_bridge")
+        .ok_or("payment-integrity depth card FCIC recovery-lineage boundary bridge")?;
+    if string_field(payment_recovery_boundary, "path")?
+        != FCIC_RECOVERY_LINEAGE_BOUNDARY_BRIDGE_JSON_PATH
+        || string_field(payment_recovery_boundary, "status")?
+            != "narrow_same_period_disposition_and_amount_class_non_additivity_component_closed_recoverable_savings_field_open"
+        || !string_field(payment_recovery_boundary, "open_scope")?
+            .contains("four-closed/four-open aggregate is unchanged")
+    {
+        return Err(
+            "payment-integrity depth card FCIC recovery-lineage boundary bridge failed".to_string(),
+        );
+    }
+    let payment_appeal_governance = payment_card
+        .get("federal_crop_insurance_appeal_collectibility_governance_bridge")
+        .ok_or("payment-integrity depth card FCIC appeal-governance bridge")?;
+    if string_field(payment_appeal_governance, "path")?
+        != FCIC_APPEAL_COLLECTIBILITY_GOVERNANCE_BRIDGE_JSON_PATH
+        || string_field(payment_appeal_governance, "status")?
+            != "narrow_appeal_and_contractual_collection_governance_component_closed_recoverable_savings_field_open"
+        || !string_field(payment_appeal_governance, "open_scope")?
+            .contains("four-closed/four-open aggregate is unchanged")
+    {
+        return Err(
+            "payment-integrity depth card FCIC appeal-governance bridge failed".to_string(),
         );
     }
     let agriculture_card: serde_json::Value = serde_json::from_str(

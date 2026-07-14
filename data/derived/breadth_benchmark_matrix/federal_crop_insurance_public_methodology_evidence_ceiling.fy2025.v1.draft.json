@@ -1,0 +1,116 @@
+{
+  "record_id": "payment-integrity-public-methodology-evidence-ceiling:usda-federal-crop-insurance:fy2025",
+  "record_family": "federal_crop_insurance_public_methodology_evidence_ceiling",
+  "program_id": "usda-federal-crop-insurance",
+  "agency_code": "USDA",
+  "program_or_activity": "Risk Management Agency Federal Crop Insurance Corporation",
+  "status": "draft_official_sources_checksum_verified_secure_plan_boundary_and_later_period_public_continuity_recorded_zero_field_closures",
+  "source_ids": [
+    "SRC-OMB-M-21-19",
+    "SRC-USDA-OIG-FCIC-RMA-FS-FY2025"
+  ],
+  "upstream_source_ids": [
+    "SRC-USDA-RMA-COM-23-001",
+    "SRC-USDA-OIG-FCIC-RMA-FS-FY2024",
+    "SRC-USDA-OIG-PIIA-COMPLIANCE-FY2024",
+    "SRC-USDA-OIG-FCIC-RMA-FS-FY2020"
+  ],
+  "source_custody": {
+    "omb_guidance": {
+      "raw_path": "data/raw/omb/SRC-OMB-M-21-19/2026-07-13/M-21-19.pdf",
+      "checksum_sha256": "12A1D448B1D5EB7040E2377E7E04BB721A2A513A9220768037B0F094C03D14AA",
+      "bytes": 2808576,
+      "point_estimate_requirement_printed_page": 17,
+      "point_estimate_requirement_pdf_file_page": 18,
+      "secure_max_submission_printed_page": 18,
+      "secure_max_submission_pdf_file_page": 19
+    },
+    "fy2025_fcic_report": {
+      "raw_path": "data/raw/usda/SRC-USDA-OIG-FCIC-RMA-FS-FY2025/2026-07-13/05403-0002-11-FR-508-signed.pdf",
+      "checksum_sha256": "0BCD7DF0C7E3F78A7BB4B4C896C718E38ADF1D6FBA36B0EFE45BD84D8738272A",
+      "bytes": 6099095,
+      "public_method_description_printed_page": 17,
+      "public_method_description_pdf_file_page": 28,
+      "payment_integrity_table_printed_page": 54,
+      "payment_integrity_table_pdf_file_page": 64
+    }
+  },
+  "governing_plan_boundary": {
+    "omb_requires_point_estimates": true,
+    "omb_requires_confidence_interval_estimates": true,
+    "sampling_and_estimation_methodology_plan_submission_channel": "agency secure MAX page",
+    "fcic_plan_publicly_captured": false,
+    "interpretation": "OMB's governmentwide requirements and secure submission channel explain the governance chain but do not disclose the program-specific FCIC plan."
+  },
+  "later_period_public_disclosure_continuity": {
+    "source_period": "FY2025",
+    "comparison_period": "FY2024",
+    "fy2024_actual_improper_payment_rate_percent": 2.43,
+    "fy2025_actual_improper_payment_rate_percent": 3.29,
+    "payment_categories_repeated": [
+      "premium subsidy",
+      "Administrative and Operating expense",
+      "indemnities"
+    ],
+    "aip_payment_tiers_repeated": [
+      "high",
+      "medium",
+      "low"
+    ],
+    "annual_statistically_valid_sample_language_repeated": true,
+    "source_section_audit_status": "management_discussion_and_analysis_unaudited",
+    "continuity_scope": "public description only"
+  },
+  "evidence_ceiling_decision": {
+    "decision": "no_current_methodology_field_closure",
+    "decision_status": "secure_plan_boundary_explains_public_evidence_ceiling_later_period_description_corroborates_only",
+    "new_field_closures": 0,
+    "current_sample_design_field_closed": false,
+    "current_estimation_method_field_closed": false,
+    "current_exclusion_rules_field_closed": false,
+    "recoverable_savings_basis_field_closed": false,
+    "fy2024_to_fy2025_undisclosed_method_identity_inference_allowed": false,
+    "basis": "The public record establishes required outputs, secure plan submission, and repeated high-level FY2025 descriptors, but it does not expose the FCIC-specific plan or reproducible estimator and exclusion mechanics."
+  },
+  "current_program_boundary": {
+    "total_methodology_fields": 8,
+    "closed_field_count": 4,
+    "open_field_count": 4,
+    "open_fields": [
+      "sample design",
+      "estimation method",
+      "exclusion rules",
+      "recoverable savings basis"
+    ]
+  },
+  "estimation_method_residuals": [
+    "improper-payment rate formula",
+    "dollar-expansion or projection estimator",
+    "sampling weights and tier or AIP adjustments",
+    "finite-population or calibration treatment",
+    "variance and confidence-interval computation",
+    "replacement, nonresponse, and incomplete-document treatment",
+    "aggregation across payment and error categories"
+  ],
+  "exclusion_rule_residuals": [
+    "product, crop, policy, AIP, and payment-category inclusion and exclusion rules",
+    "threshold and de minimis treatment",
+    "zero, negative, late, adjusted, reversed, and appealed payment treatment",
+    "missing-document and nonresponse case treatment",
+    "duplicate and special-product treatment"
+  ],
+  "evidence_boundaries": [
+    "Secure MAX submission is evidence of a controlled governance channel, not public access to the FCIC plan.",
+    "Governmentwide OMB requirements cannot substitute for FCIC-specific estimator, weight, variance, and exclusion details.",
+    "FY2025 repeats the public categories, tiers, and statistical-validity description but does not establish identity of the undisclosed FY2024 and FY2025 methods.",
+    "Financial-statement indemnity loss estimation is not the improper-payment estimator.",
+    "Harvest Price Exclusion is an insurance product option, not evidence of a sampling exclusion rule.",
+    "Nothing in these sources establishes identified debt, collectibility, recovery, prevention, fraud, waste, control cost, or savings."
+  ],
+  "public_claim_allowed": false,
+  "scoring_allowed": false,
+  "fraud_claim_allowed": false,
+  "recovery_claim_allowed": false,
+  "prevention_claim_allowed": false,
+  "savings_estimate_allowed": false
+}

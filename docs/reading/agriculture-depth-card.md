@@ -37,6 +37,24 @@ selection, all three named payment categories, and statistically valid rate and
 dollar estimates. That section is unaudited and does not establish continuity
 to FY2024, so it closes no current methodology field and leaves the four-closed/
 four-open aggregate unchanged.
+
+The [public methodology evidence-ceiling bridge](federal-crop-insurance-public-methodology-evidence-ceiling.md)
+shows that OMB routes the S&EMP through secure MAX. FY2025 public reporting
+repeats the high-level categories, tiers, and statistical-validity description
+but still omits reproducible estimator and exclusion details. It closes zero
+fields and leaves the aggregate unchanged.
+
+The [recovery-lineage boundary bridge](federal-crop-insurance-recovery-lineage-boundary-bridge.md)
+adds a same-period disposition chain and prevents general compliance findings
+or criminal recoveries from being assigned to the 326-policy statistical
+sample. It closes no full field because sample-specific debt, appeal,
+collection, prevention, and control-cost lineage remains unpublished.
+
+The [appeal and collectibility governance bridge](federal-crop-insurance-appeal-collectibility-governance-bridge.md)
+records the 45-day dispute process and SRA correction, repayment-discretion,
+and setoff rules. It closes no full field: contractual remedies and preserved
+appeal rights do not establish FY2024 sample debt or cash collection.
+
 The financial statements' Other Information on printed pages 60-61 is
 unaudited, and its apparent $579.93M overpayment typo is excluded in favor of
 the official annual workbook's $573.93M. This is not a FY2025

@@ -90,6 +90,27 @@
     "closed_component_scope": "FY2020 Other Information discloses a simple random policy sample, premium-subsidy, A&O-subsidy, and indemnity-payment coverage, and statistically valid rate and dollar estimates for reinsurance year 2018.",
     "open_scope": "The historical disclosure does not establish continuity to FY2024 or publish current frame, allocation, probabilities, weights, estimators, variance, confidence interval, or detailed exclusions; the four-closed/four-open aggregate is unchanged."
   },
+  "federal_crop_insurance_public_methodology_evidence_ceiling": {
+    "path": "data/derived/breadth_benchmark_matrix/federal_crop_insurance_public_methodology_evidence_ceiling.fy2025.v1.draft.json",
+    "source_ids": ["SRC-OMB-M-21-19", "SRC-USDA-OIG-FCIC-RMA-FS-FY2025"],
+    "status": "secure_max_plan_boundary_and_fy2025_public_description_continuity_recorded_zero_field_closures",
+    "evidence_scope": "OMB requires point and confidence-interval estimates and directs the S&EMP and checklist to an agency secure MAX page; FY2025 repeats the public categories, AIP tiers, annual statistical-validity language, and reports a 3.29 percent actual rate.",
+    "open_scope": "The FCIC-specific plan remains unavailable publicly, so estimator, weights, variance, nonresponse, aggregation, exclusions, and recoverable-savings lineage remain open; the four-closed/four-open aggregate is unchanged."
+  },
+  "federal_crop_insurance_recovery_lineage_boundary_bridge": {
+    "path": "data/derived/breadth_benchmark_matrix/federal_crop_insurance_recovery_lineage_boundary_bridge.fy2024.v1.draft.json",
+    "source_ids": ["SRC-USDA-RMA-FCIC-MANAGER-2023-09-20", "SRC-USDA-RMA-FCIC-MANAGER-2024-02-22", "SRC-USDA-RMA-FCIC-MANAGER-2024-05-23", "SRC-USDA-RMA-FCIC-MANAGER-2024-08-22"],
+    "status": "narrow_same_period_disposition_and_amount_class_non_additivity_component_closed_recoverable_savings_field_open",
+    "closed_component_scope": "The 326-policy sample is followed from no-finding closures through Initial and Final Findings, completion, and statistical reporting; general compliance findings and criminal recoveries are separately headed and not attributed to the sample.",
+    "open_scope": "Sample-specific finding dollars, established debt, appeals, reversals, collectibility, cash collections, write-offs, prevention attribution, and control cost remain unpublished; the four-closed/four-open aggregate is unchanged."
+  },
+  "federal_crop_insurance_appeal_collectibility_governance_bridge": {
+    "path": "data/derived/breadth_benchmark_matrix/federal_crop_insurance_appeal_collectibility_governance_bridge.fy2024.v1.draft.json",
+    "source_ids": ["SRC-USDA-RMA-COM-16-002", "SRC-USDA-RMA-COM-16-004", "SRC-USDA-RMA-SRA-2022"],
+    "status": "narrow_appeal_and_contractual_collection_governance_component_closed_recoverable_savings_field_open",
+    "closed_component_scope": "Published rules cover CARS receipt, a 45-day evidence-backed dispute period, debt notice and interest mechanics, final administrative review, corrected reporting and possible payment, repayment discretion, setoff, and preserved appeal rights.",
+    "open_scope": "No FY2024 sample-specific finding, appeal, established-debt, waiver, repayment, setoff, collection, write-off, prevention, or control-cost amounts are published; the four-closed/four-open aggregate is unchanged."
+  },
   "field_status": {
     "payment_type_composition": "annual_workbook_reconciled_draft_extracted",
     "confirmed_fraud": "parallel_court_confirmed_table_not_linked_to_headline",
@@ -108,7 +129,10 @@
     "data/derived/breadth_benchmark_matrix/federal_crop_insurance_root_cause_definition_bridge.fy2024.v1.draft.json",
     "data/derived/breadth_benchmark_matrix/federal_crop_insurance_payment_universe_bridge.fy2024.v1.draft.json",
     "data/derived/breadth_benchmark_matrix/federal_crop_insurance_sample_design_component_bridge.fy2024.v1.draft.json",
-    "data/derived/breadth_benchmark_matrix/federal_crop_insurance_historical_sampling_method_bridge.fy2020.v1.draft.json"
+    "data/derived/breadth_benchmark_matrix/federal_crop_insurance_historical_sampling_method_bridge.fy2020.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/federal_crop_insurance_public_methodology_evidence_ceiling.fy2025.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/federal_crop_insurance_recovery_lineage_boundary_bridge.fy2024.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/federal_crop_insurance_appeal_collectibility_governance_bridge.fy2024.v1.draft.json"
   ],
   "claim_firewall": "improper payments != overpayments != confirmed fraud != recoverable dollars != collected recoveries != net savings",
   "public_claim_allowed": false,
@@ -117,8 +141,8 @@
   "next_depth_need": [
     "role review of the annual extraction and corrected scorecard probe",
     "obtain PLTSS debt-cohort lineage before linking projected errors to identified debt or recovery",
-    "obtain the current FCIC S&EMP or equivalent public documentation to close sample design; the FY2020 historical simple-random disclosure and FY2024 narrow governance component do not establish current-method continuity or change the four open fields",
-    "resolve estimation method, exclusion rules, and recoverable-savings basis and obtain amount-level debt, appeal, collection, prevention, and control-cost lineage before scoring",
+    "obtain authorized access to the FCIC S&EMP or equivalent program-specific public documentation to close sample design; OMB M-21-19 directs the plan to secure MAX, and the FY2025 report repeats only high-level public descriptors, so the four open fields remain unchanged",
+    "resolve estimation method and exclusion rules; for recoverable-savings basis, preserve both the amount-class non-additivity and appeal/repayment state-transition boundaries while obtaining sample-specific final determinations, debt, collections, prevention, and control-cost lineage before scoring",
     "link confirmed-fraud rows only where program, period, and definition match",
     "estimate control, access, error, appeal, and implementation costs before net savings"
   ]

@@ -88,10 +88,32 @@ open. Compliance is not public reproducibility. The separate
 records simple-random policy selection, all three named payment categories, and
 statistically valid rate and dollar estimates for RY2018. Because that evidence
 is historical unaudited Other Information, it does not establish continuity to
-FY2024, close a current field, or change the four-closed/four-open aggregate. No
-reported amount or root-cause
+FY2024, close a current field, or change the four-closed/four-open aggregate.
+
+The [public methodology evidence-ceiling bridge](federal-crop-insurance-public-methodology-evidence-ceiling.md)
+adds the governing access boundary. OMB requires point and confidence-interval
+estimates but directs the S&EMP and checklist to secure MAX. The FY2025 report
+repeats the public categories, tiers, statistical-validity language, and a
+3.29-percent actual rate without exposing the FCIC estimator or exclusions.
+Zero fields close; the aggregate remains four closed and four open. No reported
+amount or root-cause
 category is treated as identified debt, collected recovery, fraud, waste,
 preventable loss, or net savings. The USDA-wide Do Not Pay figures that follow
 the FCIC section are excluded. The financial statements' Other Information on
 printed pages 60-61 is unaudited; its apparent $579.93M overpayment typo is not
 used in place of the official annual workbook's $573.93M.
+
+The [recovery-lineage boundary bridge](federal-crop-insurance-recovery-lineage-boundary-bridge.md)
+follows the 326 sampled policies through no-finding closures, Initial and Final
+Findings, review completion, and rate reporting. It also establishes that
+general compliance findings and criminal recoveries are separate amount
+classes, not recoveries of the statistical estimate. This narrow component
+closes no full field; debt, appeals, collections, prevention, and control cost
+remain unreconciled.
+
+The [appeal and collectibility governance bridge](federal-crop-insurance-appeal-collectibility-governance-bridge.md)
+adds the post-Finding state machine: CARS receipt, a 45-day evidence-backed
+dispute window, final administrative review, possible correction and payment,
+repayment discretion, and setoff with preserved appeal rights. It closes a
+narrow governance component only. A finding is not automatically final
+collectible debt, and a payment requirement is not automatically cash collected.

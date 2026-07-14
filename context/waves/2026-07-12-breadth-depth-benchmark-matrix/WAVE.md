@@ -194,6 +194,28 @@ does not establish that the method continued through FY2024. No current field
 closes: FCIC remains four closed and four open, with every score and claim gate
 blocked.
 
+Pulse 29 records the public methodology evidence ceiling. OMB M-21-19 requires
+point and confidence-interval estimates but directs the actual S&EMP and
+checklist to an agency secure MAX page. The FY2025 FCIC/RMA report repeats the
+three payment categories, high/medium/low AIP tiers, annual statistical-validity
+language, and a 3.29-percent actual rate, but no estimator, weights, variance,
+or exclusions. This closes zero new fields: FCIC remains four closed and four
+open with every score and claim gate blocked.
+
+Pulse 30 follows the same FY2024/RY2022 sample through no-finding closures,
+Initial and Final Findings, review completion, and final rate reporting. The RMA
+Manager's Reports separately classify ordinary compliance findings, IPERIA
+sample progress, and criminal recoveries, so those amounts cannot be combined.
+This closes a narrow disposition and non-additivity component but zero full
+fields; recoverable-savings basis and every score and claim gate remain open.
+
+Pulse 31 adds the published post-Finding governance chain. CARS receipt begins
+a 45-day evidence-backed dispute period; the 2022 SRA provides possible
+correction, payment, repayment discretion, and setoff while preserving appeal.
+This closes a narrow governance component but zero full fields. A Finding is not
+automatically debt, contractual authority is not an exercised remedy, and no
+FY2024 sample collection is inferred.
+
 ## Design rules
 
 - Never invent an expected value for a policy-dependent lane.
@@ -213,5 +235,5 @@ git diff --check
 
 ## Current pulse
 
-`pulses/pulse-28-federal-crop-insurance-historical-sampling-method-component.md` records the latest
+`pulses/pulse-31-federal-crop-insurance-appeal-collectibility-governance.md` records the latest
 bounded slice and next decision gate.

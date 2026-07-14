@@ -93,6 +93,31 @@ estimates. The section is unaudited, and nothing in it proves that the method
 continued through FY2024. It closes no current field, changes no 4/4 count, and
 relaxes no scoring or claim gate.
 
+`federal_crop_insurance_public_methodology_evidence_ceiling.fy2025.v1.draft.json`
+records why the remaining method cannot be reproduced from the public sources.
+OMB M-21-19 requires point and confidence-interval estimates but directs the
+S&EMP and checklist to an agency secure MAX page. The later FY2025 FCIC report
+repeats categories, AIP tiers, annual statistical-validity language, and a
+3.29-percent actual rate, but publishes no estimator, weights, variance, or
+exclusions. This closes zero fields, preserves the 4/4 aggregate, and blocks all
+score and claim gates.
+
+`federal_crop_insurance_recovery_lineage_boundary_bridge.fy2024.v1.draft.json`
+follows the same 326-policy sample across no-finding closure, Initial and Final
+Findings, review completion, and rate reporting. RMA's Manager's Reports keep
+ordinary compliance findings, IPERIA sample progress, and criminal outcomes in
+separate sections. The bridge closes a narrow disposition and non-additivity
+component, not the recoverable-savings field: no public source reconciles the
+sample to debt, appeals, collections, prevention, or control cost.
+
+`federal_crop_insurance_appeal_collectibility_governance_bridge.fy2024.v1.draft.json`
+adds the published post-Finding state transitions. CARS receipt starts a 45-day
+evidence-backed dispute path; the 2022 SRA provides possible correction,
+payment, repayment discretion, and setoff while preserving administrative
+appeal. This closes a narrow governance component, not collectibility or
+recoverable savings. Contractual authority is not an exercised remedy or cash
+collection.
+
 The matrix deliberately includes coverage-gap rows. An explicit missing value
 is more useful than a false benchmark.
 
