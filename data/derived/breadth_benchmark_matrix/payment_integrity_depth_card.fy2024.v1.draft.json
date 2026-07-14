@@ -55,6 +55,41 @@
     "status": "reconciled_source_reviewed",
     "correction_note": "The prior scorecard probe used a non-resolving URL and values not present in the official PLTSS scorecard. The corrected Q4 2025 scorecard agrees with the annual workbook."
   },
+  "federal_crop_insurance_bridge": {
+    "path": "data/derived/breadth_benchmark_matrix/federal_crop_insurance_payment_integrity_bridge.fy2024-q4-2025.v1.draft.json",
+    "status": "fy2024_annual_scorecard_usda_afr_and_fcic_financial_statements_reconciled_four_methodology_fields_closed_internal_only_four_open_scoring_blocked",
+    "closed_internal_only": ["sample period", "payment type split", "data-access outside-agency-control root-cause definition", "payment universe"],
+    "open_methodology_fields": ["sample design", "estimation method", "exclusion rules", "recoverable savings basis"],
+    "claim_boundary": "The $579.36M improper-payment estimate and its $573.93M overpayment component are statistical estimates, not identified debt, collectible recovery, fraud, waste, preventable loss, or savings."
+  },
+  "federal_crop_insurance_payment_universe_bridge": {
+    "path": "data/derived/breadth_benchmark_matrix/federal_crop_insurance_payment_universe_bridge.fy2024.v1.draft.json",
+    "source_id": "SRC-USDA-OIG-FCIC-RMA-FS-FY2024",
+    "status": "all_payment_categories_and_aip_payment_tiers_disclosed_payment_universe_closed_internal_only",
+    "evidence_scope": "The official FCIC/RMA FY2024 financial-statements report's Management's Discussion and Analysis on printed page 18 discloses premium subsidy, Administrative and Operating expense, and indemnities across high-, medium-, and low-payment AIP tiers.",
+    "excluded_scope": "Other Information on printed pages 60-61 is unaudited and corroborative only; its apparent $579.93M overpayment typo is excluded in favor of the official annual workbook's $573.93M."
+  },
+  "federal_crop_insurance_root_cause_definition_bridge": {
+    "path": "data/derived/breadth_benchmark_matrix/federal_crop_insurance_root_cause_definition_bridge.fy2024.v1.draft.json",
+    "source_id": "SRC-USDA-AFR-FY2024",
+    "status": "same_period_failure_and_inability_to_access_definitions_closed_internal_only_recoverability_separate_and_open",
+    "evidence_scope": "USDA FY2024 Agency Financial Report printed pages 216-217 defines the two FCIC root-cause categories at the same $579.36M and 2.43 percent result.",
+    "excluded_scope": "The following USDA-wide Do Not Pay figures are not FCIC-specific; no debt, collection, recovery, prevention, or savings amount is inferred."
+  },
+  "federal_crop_insurance_sample_design_component_bridge": {
+    "path": "data/derived/breadth_benchmark_matrix/federal_crop_insurance_sample_design_component_bridge.fy2024.v1.draft.json",
+    "source_id": "SRC-USDA-OIG-PIIA-COMPLIANCE-FY2024",
+    "status": "narrow_sampling_governance_component_closed_internal_only_full_sample_design_open",
+    "closed_component_scope": "FY2024 disclosures support 326 RY2022 policy units, AIP-aware selection and high/medium/low tiering, annual statistical-validity designation, and independent audit review of samples and underlying methodologies.",
+    "open_scope": "Frame construction, allocation, selection probabilities, randomization, replacement, nonresponse, weights, estimator, and variance remain open; compliance is not public reproducibility."
+  },
+  "federal_crop_insurance_historical_sampling_method_bridge": {
+    "path": "data/derived/breadth_benchmark_matrix/federal_crop_insurance_historical_sampling_method_bridge.fy2020.v1.draft.json",
+    "source_id": "SRC-USDA-OIG-FCIC-RMA-FS-FY2020",
+    "status": "historical_fy2020_ry2018_simple_random_selection_component_closed_internal_only_no_fy2024_continuity_inference",
+    "closed_component_scope": "FY2020 Other Information discloses a simple random policy sample, premium-subsidy, A&O-subsidy, and indemnity-payment coverage, and statistically valid rate and dollar estimates for reinsurance year 2018.",
+    "open_scope": "The historical disclosure does not establish continuity to FY2024 or publish current frame, allocation, probabilities, weights, estimators, variance, confidence interval, or detailed exclusions; the four-closed/four-open aggregate is unchanged."
+  },
   "field_status": {
     "payment_type_composition": "annual_workbook_reconciled_draft_extracted",
     "confirmed_fraud": "parallel_court_confirmed_table_not_linked_to_headline",
@@ -68,7 +103,12 @@
     "data/extracted/payment_accuracy/fy2024_program_results.v1.draft.jsonl",
     "data/extracted/payment_accuracy/fy2024_confirmed_fraud.v1.draft.jsonl",
     "data/extracted/payment_accuracy/fy2024_agency_recovery.v1.draft.jsonl",
-    "data/derived/breadth_benchmark_matrix/va_pltss_recovery_bridge.fy2024-q4-2025.v1.draft.json"
+    "data/derived/breadth_benchmark_matrix/va_pltss_recovery_bridge.fy2024-q4-2025.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/federal_crop_insurance_payment_integrity_bridge.fy2024-q4-2025.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/federal_crop_insurance_root_cause_definition_bridge.fy2024.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/federal_crop_insurance_payment_universe_bridge.fy2024.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/federal_crop_insurance_sample_design_component_bridge.fy2024.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/federal_crop_insurance_historical_sampling_method_bridge.fy2020.v1.draft.json"
   ],
   "claim_firewall": "improper payments != overpayments != confirmed fraud != recoverable dollars != collected recoveries != net savings",
   "public_claim_allowed": false,
@@ -77,6 +117,8 @@
   "next_depth_need": [
     "role review of the annual extraction and corrected scorecard probe",
     "obtain PLTSS debt-cohort lineage before linking projected errors to identified debt or recovery",
+    "obtain the current FCIC S&EMP or equivalent public documentation to close sample design; the FY2020 historical simple-random disclosure and FY2024 narrow governance component do not establish current-method continuity or change the four open fields",
+    "resolve estimation method, exclusion rules, and recoverable-savings basis and obtain amount-level debt, appeal, collection, prevention, and control-cost lineage before scoring",
     "link confirmed-fraud rows only where program, period, and definition match",
     "estimate control, access, error, appeal, and implementation costs before net savings"
   ]

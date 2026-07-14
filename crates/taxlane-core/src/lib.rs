@@ -1712,9 +1712,12 @@ impl PaymentIntegrityMethodologySourceTargetRecord {
                 "payment integrity methodology source target priority must be positive".to_string(),
             );
         }
-        if self.target_status != "open_source_needed" {
+        if !matches!(
+            self.target_status.as_str(),
+            "open_source_needed" | "source_captured"
+        ) {
             return Err(format!(
-                "payment integrity methodology source target status must be open_source_needed, got {}",
+                "payment integrity methodology source target status must be open_source_needed or source_captured, got {}",
                 self.target_status
             ));
         }
@@ -1777,9 +1780,9 @@ impl PaymentIntegrityMethodologyQueryRecord {
                 self.record_family
             ));
         }
-        if self.query_status != "open_not_executed" {
+        if !matches!(self.query_status.as_str(), "open_not_executed" | "executed") {
             return Err(format!(
-                "payment integrity methodology query status must be open_not_executed, got {}",
+                "payment integrity methodology query status must be open_not_executed or executed, got {}",
                 self.query_status
             ));
         }
@@ -1843,16 +1846,17 @@ impl PaymentIntegrityMethodologyQueryRunRecord {
                 self.record_family
             ));
         }
-        if self.run_status != "pending_not_run" {
+        let valid_run_capture_pair = matches!(
+            (
+                self.run_status.as_str(),
+                self.result_capture_status.as_str()
+            ),
+            ("pending_not_run", "no_result_captured") | ("executed", "methodology_result_captured")
+        );
+        if !valid_run_capture_pair {
             return Err(format!(
-                "payment integrity methodology query run status must be pending_not_run, got {}",
-                self.run_status
-            ));
-        }
-        if self.result_capture_status != "no_result_captured" {
-            return Err(format!(
-                "payment integrity methodology query run result_capture_status must be no_result_captured, got {}",
-                self.result_capture_status
+                "payment integrity methodology query run status/capture pair is invalid: {}/{}",
+                self.run_status, self.result_capture_status
             ));
         }
         if self.required_capture_fields.len() < 4 {
@@ -2094,8 +2098,12 @@ impl PaymentIntegrityMethodologyFieldReviewRecord {
                 self.record_family
             ));
         }
-        if !["partial_support_review_needed", "not_supported_by_result"]
-            .contains(&self.evidence_status.as_str())
+        if ![
+            "partial_support_review_needed",
+            "closure_support_review_needed",
+            "not_supported_by_result",
+        ]
+        .contains(&self.evidence_status.as_str())
         {
             return Err(format!(
                 "payment integrity methodology field review evidence_status is unsupported: {}",
@@ -2172,6 +2180,7 @@ impl PaymentIntegrityMethodologyGapFollowupRecord {
         if ![
             "unsupported_field_source_needed",
             "partial_support_citation_needed",
+            "closure_support_captured_review_needed",
         ]
         .contains(&self.gap_class.as_str())
         {
@@ -2268,9 +2277,12 @@ impl PaymentIntegrityMethodologyGapSourceCaptureRecord {
                 self.record_family
             ));
         }
-        if self.support_status != "partial_support_review_needed" {
+        if !matches!(
+            self.support_status.as_str(),
+            "partial_support_review_needed" | "closure_support_review_needed"
+        ) {
             return Err(format!(
-                "payment integrity methodology gap source capture support_status must be partial_support_review_needed, got {}",
+                "payment integrity methodology gap source capture support_status must be partial_support_review_needed or closure_support_review_needed, got {}",
                 self.support_status
             ));
         }
@@ -3095,7 +3107,8 @@ impl PaymentIntegrityMethodologyPrioritySourceWorkRecord {
             "reviewer_resolution_ready"
             | "source_captured_review_needed"
             | "boundary_source_captured_review_needed"
-            | "partial_recovery_process_support_review_needed" => {}
+            | "partial_recovery_process_support_review_needed"
+            | "resolved_by_subsequent_same_period_source" => {}
             _ => {
                 return Err(format!(
                     "payment integrity methodology priority source work status is unsupported: {}",
@@ -4054,9 +4067,14 @@ impl PaymentIntegrityMethodologyOpenProgramComponentProgressRecord {
                 self.record_family
             ));
         }
-        if self.component_progress_status != "narrow_component_recorded_no_field_closure" {
+        if !matches!(
+            self.component_progress_status.as_str(),
+            "narrow_component_recorded_no_field_closure"
+                | "narrow_sample_design_component_added_full_field_counts_unchanged"
+                | "full_field_closure_added_after_narrow_component"
+        ) {
             return Err(format!(
-                "payment integrity methodology open program component progress status must be narrow_component_recorded_no_field_closure, got {}",
+                "payment integrity methodology open program component progress status is unsupported: {}",
                 self.component_progress_status
             ));
         }
@@ -4151,16 +4169,20 @@ impl PaymentIntegrityMethodologyComponentGateRequirementRecord {
                 self.record_family
             ));
         }
-        if self.gate_status != "positive_evidence_required_before_field_closure" {
+        let valid_requirement_state = matches!(
+            (self.gate_status.as_str(), self.next_decision_type.as_str()),
+            (
+                "positive_evidence_required_before_field_closure",
+                "full_field_closure_review"
+            ) | (
+                "narrow_component_evidence_required_full_field_remains_open",
+                "narrow_component_closure_review_only"
+            )
+        );
+        if !valid_requirement_state {
             return Err(format!(
-                "payment integrity methodology component gate requirement status must be positive_evidence_required_before_field_closure, got {}",
-                self.gate_status
-            ));
-        }
-        if self.next_decision_type != "full_field_closure_review" {
-            return Err(format!(
-                "payment integrity methodology component gate requirement next_decision_type must be full_field_closure_review, got {}",
-                self.next_decision_type
+                "payment integrity methodology component gate requirement status and next_decision_type are unsupported: {} / {}",
+                self.gate_status, self.next_decision_type
             ));
         }
         if self.field_closure_allowed
@@ -4409,16 +4431,18 @@ impl PaymentIntegrityMethodologyComponentGateSourceQueryRunRecord {
                     .to_string(),
             );
         }
-        if self.run_status != "pending_not_run" {
+        let valid_run_state = matches!(
+            (
+                self.run_status.as_str(),
+                self.result_capture_status.as_str()
+            ),
+            ("pending_not_run", "no_result_captured")
+                | ("executed", "component_gate_source_captured")
+        );
+        if !valid_run_state {
             return Err(format!(
-                "payment integrity methodology component gate source query run status must be pending_not_run, got {}",
-                self.run_status
-            ));
-        }
-        if self.result_capture_status != "no_result_captured" {
-            return Err(format!(
-                "payment integrity methodology component gate source query run result_capture_status must be no_result_captured, got {}",
-                self.result_capture_status
+                "payment integrity methodology component gate source query run status pair is unsupported: {} / {}",
+                self.run_status, self.result_capture_status
             ));
         }
         if self.required_capture_fields.is_empty() {
@@ -4508,7 +4532,8 @@ impl PaymentIntegrityMethodologyComponentGateSourceCaptureRecord {
         match self.component_gate_status.as_str() {
             "partial_positive_basis_review_needed"
             | "context_only_no_positive_amount_basis"
-            | "category_split_partial_review_needed" => {}
+            | "category_split_partial_review_needed"
+            | "narrow_sample_design_governance_component_supported" => {}
             _ => {
                 return Err(format!(
                     "payment integrity methodology component gate source capture status is unsupported: {}",
@@ -4597,7 +4622,9 @@ impl PaymentIntegrityMethodologyComponentGateSourceCaptureRollupRecord {
             );
         }
         match self.capture_rollup_status.as_str() {
-            "reviewer_gate_decision_needed" | "additional_positive_basis_needed" => {}
+            "reviewer_gate_decision_needed"
+            | "additional_positive_basis_needed"
+            | "narrow_component_review_ready_full_field_open" => {}
             _ => {
                 return Err(format!(
                     "payment integrity methodology component gate source capture rollup status is unsupported: {}",
@@ -4679,7 +4706,8 @@ impl PaymentIntegrityMethodologyComponentGateBoundaryDecisionRecord {
         }
         match self.boundary_decision_status.as_str() {
             "narrow_process_boundary_supported_internal_only"
-            | "additional_positive_basis_required" => {}
+            | "additional_positive_basis_required"
+            | "narrow_component_only_full_field_blocked" => {}
             _ => {
                 return Err(format!(
                     "payment integrity methodology component gate boundary decision status is unsupported: {}",
@@ -4760,7 +4788,9 @@ impl PaymentIntegrityMethodologyComponentGateBoundaryReadinessRecord {
             );
         }
         match self.boundary_readiness_status.as_str() {
-            "narrow_internal_readiness_candidate" | "additional_positive_basis_needed" => {}
+            "narrow_internal_readiness_candidate"
+            | "additional_positive_basis_needed"
+            | "narrow_component_candidate_ready_full_field_open" => {}
             _ => {
                 return Err(format!(
                     "payment integrity methodology component gate boundary readiness status is unsupported: {}",

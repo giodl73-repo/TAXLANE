@@ -1,0 +1,86 @@
+{
+  "record_id": "payment-integrity-historical-sampling-method-bridge:usda-federal-crop-insurance:fy2020",
+  "record_family": "federal_crop_insurance_historical_sampling_method_bridge",
+  "program_id": "usda-federal-crop-insurance",
+  "agency_code": "USDA",
+  "program_or_activity": "Risk Management Agency Federal Crop Insurance Corporation",
+  "status": "draft_official_source_checksum_verified_historical_selection_method_component_closed_current_fields_open",
+  "source_ids": [
+    "SRC-USDA-OIG-FCIC-RMA-FS-FY2020"
+  ],
+  "source_custody": {
+    "raw_path": "data/raw/usda/SRC-USDA-OIG-FCIC-RMA-FS-FY2020/2026-07-13/05401-0012-11FRFOIA.pdf",
+    "checksum_sha256": "55FD128F191C3D0892F819F35A92929EFB02DBD7354626D3C844A84C3253AC4B",
+    "bytes": 13696922,
+    "evidence_printed_page": 66,
+    "evidence_pdf_file_page": 93,
+    "evidence_zero_based_viewer_index": 92,
+    "continuation_printed_page": 67,
+    "continuation_pdf_file_page": 94,
+    "continuation_zero_based_viewer_index": 93
+  },
+  "historical_disclosed_selection_method_component": {
+    "reporting_period": "FY2020",
+    "sampling_reinsurance_year": 2018,
+    "reinsurance_agreement_period": "2017-07 through 2018-06",
+    "policy_selection_method": "simple random sample",
+    "payment_categories_included": [
+      "premium subsidies",
+      "administrative and operating subsidies",
+      "indemnity payments"
+    ],
+    "statistically_valid_rate_estimate_disclosed": true,
+    "statistically_valid_dollar_estimate_disclosed": true,
+    "omb_approval_described_for_fy2017_and_beyond": true,
+    "source_section_audit_status": "other_information_unaudited"
+  },
+  "component_decision": {
+    "component": "historical FY2020 disclosed policy-selection method and named payment-category coverage",
+    "decision": "component_closed_internal_only",
+    "decision_status": "historical_component_closed_no_current_method_continuity_inference",
+    "basis": "The checksum-verified official FY2020 report expressly describes a simple random policy sample, all three named FCIC payment categories, statistically valid rate and dollar estimates, reinsurance year 2018, and OMB approval of the statistically valid methodology for FY2017 and beyond.",
+    "component_closed": true,
+    "current_sample_design_field_closed": false,
+    "current_estimation_method_field_closed": false,
+    "current_exclusion_rules_field_closed": false,
+    "continuity_to_fy2024_inference_allowed": false,
+    "public_claim_allowed": false,
+    "scoring_allowed": false,
+    "savings_estimate_allowed": false
+  },
+  "current_methodology_residuals": [
+    "evidence that the FY2020 simple-random method continued through FY2024",
+    "current sample frame construction and coverage",
+    "current allocation and sample counts",
+    "current selection probabilities and randomization implementation",
+    "current replacement, nonresponse, and incomplete-document treatment",
+    "current sampling weights",
+    "current improper-payment rate estimator",
+    "current dollar projection estimator",
+    "current variance and confidence-interval method",
+    "current exclusion rules below or outside the three named payment categories"
+  ],
+  "current_program_boundary": {
+    "total_methodology_fields": 8,
+    "closed_field_count": 4,
+    "open_field_count": 4,
+    "sample_design_status": "open",
+    "estimation_method_status": "open",
+    "exclusion_rules_status": "open",
+    "recoverable_savings_basis_status": "open"
+  },
+  "evidence_boundaries": [
+    "The closure is historical and applies only to the FY2020 disclosure tied to reinsurance year 2018.",
+    "The phrase FY2017 and beyond describes OMB approval in the FY2020 source; it is not evidence that the disclosed simple-random implementation remained unchanged through FY2024.",
+    "Naming all payment categories does not publish transaction-level inclusion and exclusion rules or prove that every current crop, policy, or payment entered the sampling frame.",
+    "Stating that rate and dollar estimates were statistically valid does not disclose the estimator, weights, projection formula, variance calculation, or confidence interval.",
+    "The cited disclosure appears in Other Information (Unaudited), which further limits it to a documented historical benchmark rather than independent validation of the method.",
+    "Nothing in the source establishes fraud, waste, identified debt, collectibility, recovery, prevention, control cost, or savings."
+  ],
+  "public_claim_allowed": false,
+  "scoring_allowed": false,
+  "fraud_claim_allowed": false,
+  "recovery_claim_allowed": false,
+  "prevention_claim_allowed": false,
+  "savings_estimate_allowed": false
+}

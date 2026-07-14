@@ -305,6 +305,74 @@ const PELL_CURRENT_ENTRANT_SIGNIFICANCE_MANIFEST_PATH: &str = "data/raw/nces/SRC
 const PELL_CURRENT_ENTRANT_SIGNIFICANCE_MANIFEST_BYTES: u64 = 3_468;
 const PELL_CURRENT_ENTRANT_SIGNIFICANCE_MANIFEST_SHA256: &str =
     "9d09c714fa6cf290b5964aef3a35ada9225a2aa977f7ae0d8ee701ac7ec3ca57";
+const FCIC_PAYMENT_INTEGRITY_BRIDGE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/federal_crop_insurance_payment_integrity_bridge.fy2024-q4-2025.v1.draft.json";
+const FCIC_PAYMENT_INTEGRITY_BRIDGE_READER_PATH: &str =
+    "docs/reading/federal-crop-insurance-payment-integrity-bridge.md";
+const FCIC_SCORECARD_SOURCE_ID: &str = "SRC-OMB-PAYMENTACCURACY-FCIC-Q4-2025";
+const FCIC_SCORECARD_METADATA_PATH: &str =
+    "data/metadata/SRC-OMB-PAYMENTACCURACY-FCIC-Q4-2025.2026-07-13.metadata.md";
+const FCIC_SCORECARD_RAW_PATH: &str = "data/raw/omb/SRC-OMB-PAYMENTACCURACY-FCIC-Q4-2025/2026-07-13/Federal Crop Insurance Corporation (FCIC).pdf";
+const FCIC_SCORECARD_RAW_BYTES: u64 = 217_443;
+const FCIC_SCORECARD_RAW_SHA256: &str =
+    "64486352e268061b05554255f5fbb43ded57401549efc19e31268ae97e945ed2";
+const FCIC_COM_23_SOURCE_ID: &str = "SRC-USDA-RMA-COM-23-001";
+const FCIC_COM_23_METADATA_PATH: &str =
+    "data/metadata/SRC-USDA-RMA-COM-23-001.2026-07-13.metadata.md";
+const FCIC_COM_23_RAW_PATH: &str =
+    "data/raw/usda/SRC-USDA-RMA-COM-23-001/2026-07-13/COM-23-001.pdf";
+const FCIC_COM_23_RAW_BYTES: u64 = 43_246;
+const FCIC_COM_23_RAW_SHA256: &str =
+    "e28d06d615bb4af8447c6d53d1017a0f9d8a74d7f2399966d6bd0551d31a8a6c";
+const FCIC_SRA_2022_SOURCE_ID: &str = "SRC-USDA-RMA-SRA-2022";
+const FCIC_SRA_2022_METADATA_PATH: &str =
+    "data/metadata/SRC-USDA-RMA-SRA-2022.2026-07-13.metadata.md";
+const FCIC_SRA_2022_RAW_PATH: &str = "data/raw/usda/SRC-USDA-RMA-SRA-2022/2026-07-13/SRA_2022.pdf";
+const FCIC_SRA_2022_RAW_BYTES: u64 = 372_206;
+const FCIC_SRA_2022_RAW_SHA256: &str =
+    "589adbc9219012ae487ee567e8e0a0c6b351ff08abbdb66820f3ce1130e551dd";
+const FCIC_ROOT_CAUSE_DEFINITION_BRIDGE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/federal_crop_insurance_root_cause_definition_bridge.fy2024.v1.draft.json";
+const FCIC_ROOT_CAUSE_DEFINITION_BRIDGE_READER_PATH: &str =
+    "docs/reading/federal-crop-insurance-root-cause-definition-bridge.md";
+const FCIC_AFR_SOURCE_ID: &str = "SRC-USDA-AFR-FY2024";
+const FCIC_AFR_METADATA_PATH: &str = "data/metadata/SRC-USDA-AFR-FY2024.2026-07-13.metadata.md";
+const FCIC_AFR_RAW_PATH: &str =
+    "data/raw/usda/SRC-USDA-AFR-FY2024/2026-07-13/fy-2024-agency-financial-report.pdf";
+const FCIC_AFR_RAW_BYTES: u64 = 15_170_759;
+const FCIC_AFR_RAW_SHA256: &str =
+    "f573ac22ddcc64a1ce2dd9c13370eb1e02e83f2467f3a87146c3e3d521e8de22";
+const FCIC_PAYMENT_UNIVERSE_BRIDGE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/federal_crop_insurance_payment_universe_bridge.fy2024.v1.draft.json";
+const FCIC_PAYMENT_UNIVERSE_BRIDGE_READER_PATH: &str =
+    "docs/reading/federal-crop-insurance-payment-universe-bridge.md";
+const FCIC_OIG_FS_SOURCE_ID: &str = "SRC-USDA-OIG-FCIC-RMA-FS-FY2024";
+const FCIC_OIG_FS_METADATA_PATH: &str =
+    "data/metadata/SRC-USDA-OIG-FCIC-RMA-FS-FY2024.2026-07-13.metadata.md";
+const FCIC_OIG_FS_RAW_PATH: &str =
+    "data/raw/usda/SRC-USDA-OIG-FCIC-RMA-FS-FY2024/2026-07-13/05403-0001-11_FR_508.pdf";
+const FCIC_OIG_FS_RAW_BYTES: u64 = 7_242_677;
+const FCIC_OIG_FS_RAW_SHA256: &str =
+    "0797bd2ccb1027b568bce3b640849e89f30a235f528b1b1a2b249d525695ed32";
+const FCIC_SAMPLE_DESIGN_COMPONENT_BRIDGE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/federal_crop_insurance_sample_design_component_bridge.fy2024.v1.draft.json";
+const FCIC_SAMPLE_DESIGN_COMPONENT_BRIDGE_READER_PATH: &str =
+    "docs/reading/federal-crop-insurance-sample-design-component-bridge.md";
+const FCIC_OIG_PIIA_SOURCE_ID: &str = "SRC-USDA-OIG-PIIA-COMPLIANCE-FY2024";
+const FCIC_OIG_PIIA_METADATA_PATH: &str =
+    "data/metadata/SRC-USDA-OIG-PIIA-COMPLIANCE-FY2024.2026-07-13.metadata.md";
+const FCIC_OIG_PIIA_RAW_PATH: &str =
+    "data/raw/usda/SRC-USDA-OIG-PIIA-COMPLIANCE-FY2024/2026-07-13/50024-0016-11_FR_508.pdf";
+const FCIC_OIG_PIIA_RAW_BYTES: u64 = 5_619_427;
+const FCIC_OIG_PIIA_RAW_SHA256: &str =
+    "a3cebe04d34d926737995ee9b176f5d7f43eff0e60dc20574ddb8d4fa7b5c60f";
+const FCIC_HISTORICAL_SAMPLING_METHOD_BRIDGE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/federal_crop_insurance_historical_sampling_method_bridge.fy2020.v1.draft.json";
+const FCIC_HISTORICAL_SAMPLING_METHOD_BRIDGE_READER_PATH: &str =
+    "docs/reading/federal-crop-insurance-historical-sampling-method-bridge.md";
+const FCIC_OIG_FS_FY2020_SOURCE_ID: &str = "SRC-USDA-OIG-FCIC-RMA-FS-FY2020";
+const FCIC_OIG_FS_FY2020_METADATA_PATH: &str =
+    "data/metadata/SRC-USDA-OIG-FCIC-RMA-FS-FY2020.2026-07-13.metadata.md";
+const FCIC_OIG_FS_FY2020_RAW_PATH: &str =
+    "data/raw/usda/SRC-USDA-OIG-FCIC-RMA-FS-FY2020/2026-07-13/05401-0012-11FRFOIA.pdf";
+const FCIC_OIG_FS_FY2020_RAW_BYTES: u64 = 13_696_922;
+const FCIC_OIG_FS_FY2020_RAW_SHA256: &str =
+    "55fd128f191c3d0892f819f35a92929efb02dbd7354626d3c844a84c3253ac4b";
 const K12_FEDERALISM_BRIDGE_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/k12_federalism_finance_bridge.fy2024.v1.draft.json";
 const K12_FEDERALISM_BRIDGE_READER_PATH: &str = "docs/reading/k12-federalism-finance-bridge.md";
@@ -1360,6 +1428,76 @@ const ARTIFACTS: &[Artifact] = &[
         path: "docs/reading/pell-current-entrant-persistence-significance-screen.md",
         role: "Public Pell current-entrant persistence significance screen",
         grain: "public independent-estimates test context and boundaries",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/federal_crop_insurance_payment_integrity_bridge.fy2024-q4-2025.v1.draft.json",
+        role: "Federal Crop Insurance payment-integrity bridge",
+        grain: "FY2024 annual, scorecard, and RMA review-period reconciliation",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/federal-crop-insurance-payment-integrity-bridge.md",
+        role: "Public Federal Crop Insurance payment-integrity bridge",
+        grain: "public payment-type, period, and claim-boundary context",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/federal_crop_insurance_root_cause_definition_bridge.fy2024.v1.draft.json",
+        role: "Federal Crop Insurance root-cause definition bridge",
+        grain: "FY2024 FCIC data-access root-cause definitions",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/federal-crop-insurance-root-cause-definition-bridge.md",
+        role: "Public Federal Crop Insurance root-cause definition bridge",
+        grain: "FY2024 internal methodology closure and claim boundaries",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/federal_crop_insurance_payment_universe_bridge.fy2024.v1.draft.json",
+        role: "Federal Crop Insurance payment-universe bridge",
+        grain: "FY2024 FCIC included payment-category universe",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/federal-crop-insurance-payment-universe-bridge.md",
+        role: "Public Federal Crop Insurance payment-universe bridge",
+        grain: "FY2024 internal methodology closure and claim boundaries",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/federal_crop_insurance_sample_design_component_bridge.fy2024.v1.draft.json",
+        role: "Federal Crop Insurance sample-design component bridge",
+        grain: "FY2024 FCIC disclosed sampling governance and design attributes",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/federal-crop-insurance-sample-design-component-bridge.md",
+        role: "Public Federal Crop Insurance sample-design component bridge",
+        grain: "FY2024 narrow component closure and full-field boundaries",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/federal_crop_insurance_historical_sampling_method_bridge.fy2020.v1.draft.json",
+        role: "Federal Crop Insurance historical sampling-method bridge",
+        grain: "FY2020/RY2018 disclosed selection method and current-continuity boundary",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/federal-crop-insurance-historical-sampling-method-bridge.md",
+        role: "Public Federal Crop Insurance historical sampling-method bridge",
+        grain: "historical component closure and current-field boundaries",
         kind: "markdown",
         canonical: "supporting",
     },
@@ -3890,6 +4028,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = validate_breadth_benchmark_matrix(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = validate_fcic_payment_integrity_bridge(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -12706,6 +12849,1358 @@ fn validate_education_depth_card(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_fcic_payment_integrity_bridge(root: &Path) -> Result<(), String> {
+    let bridge_text = fs::read_to_string(root.join(FCIC_PAYMENT_INTEGRITY_BRIDGE_JSON_PATH))
+        .map_err(|err| {
+            format!("failed to read {FCIC_PAYMENT_INTEGRITY_BRIDGE_JSON_PATH}: {err}")
+        })?;
+    let bridge: serde_json::Value = serde_json::from_str(&bridge_text).map_err(|err| {
+        format!("failed to parse {FCIC_PAYMENT_INTEGRITY_BRIDGE_JSON_PATH}: {err}")
+    })?;
+    let source_ids = bridge
+        .get("source_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC bridge source_ids")?;
+    let source_id_set: BTreeSet<String> = source_ids
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .map(str::to_string)
+        .collect();
+    if string_field(&bridge, "record_id")?
+        != "payment-integrity-bridge:usda-federal-crop-insurance:fy2024-q4-2025"
+        || string_field(&bridge, "record_family")?
+            != "federal_crop_insurance_payment_integrity_bridge"
+        || string_field(&bridge, "program_id")? != "usda-federal-crop-insurance"
+        || string_field(&bridge, "agency_code")? != "USDA"
+        || string_field(&bridge, "program_or_activity")?
+            != "Risk Management Agency Federal Crop Insurance Corporation"
+        || string_field(&bridge, "status")?
+            != "draft_official_sources_checksum_verified_two_methodology_fields_closed_internal_only"
+        || source_ids.len() != 4
+        || !source_id_set.contains("SRC-OMB-PAYMENTACCURACY-FY2024-DATA")
+        || !source_id_set.contains(FCIC_SCORECARD_SOURCE_ID)
+        || !source_id_set.contains(FCIC_COM_23_SOURCE_ID)
+        || !source_id_set.contains(FCIC_SRA_2022_SOURCE_ID)
+    {
+        return Err("FCIC bridge identity or source membership failed".to_string());
+    }
+
+    let annual = bridge
+        .get("annual_workbook_fy2024")
+        .ok_or("FCIC annual workbook block")?;
+    if string_field(annual, "source_path")?
+        != "data/extracted/payment_accuracy/fy2024_program_results.v1.draft.jsonl"
+        || string_field(annual, "source_sheet")? != "All Program Results"
+        || int_field(annual, "source_row")? != 1422
+        || number_field(annual, "outlays_millions")? != 23_867.31
+        || number_field(annual, "properly_paid_millions")? != 23_287.95
+        || number_field(annual, "payment_accuracy_rate_percent")? != 97.5725794
+        || number_field(annual, "improper_payment_millions")? != 579.36
+        || number_field(annual, "improper_payment_rate_percent")? != 2.4274206
+        || number_field(annual, "overpayment_millions")? != 573.93
+        || number_field(annual, "overpayment_rate_percent")? != 2.4046698
+        || number_field(annual, "overpayments_outside_agency_control_millions")? != 573.93
+        || number_field(annual, "overpayments_within_agency_control_millions")? != 0.0
+        || number_field(annual, "underpayment_millions")? != 5.43
+        || number_field(annual, "underpayment_rate_percent")? != 0.0227508
+        || number_field(annual, "technically_improper_millions")? != 0.0
+        || number_field(annual, "unknown_payment_millions")? != 0.0
+        || string_field(annual, "sample_start")? != "2021-07"
+        || string_field(annual, "sample_end")? != "2022-06"
+        || string_field(annual, "confidence_interval_category")? != "95% to <100%"
+        || number_field(annual, "margin_of_error_reported")? != 2.5
+        || string_field(annual, "margin_of_error_unit")?
+            != "not_specified_in_extracted_workbook_row"
+    {
+        return Err("FCIC annual workbook reconciliation failed".to_string());
+    }
+    let annual_rows = read_jsonl(root.join(string_field(annual, "source_path")?))?;
+    let annual_source = annual_rows
+        .iter()
+        .find(|row| {
+            row.get("source_row").and_then(serde_json::Value::as_i64) == Some(1422)
+                && row.get("Program Name").and_then(serde_json::Value::as_str)
+                    == Some(
+                        "Risk Management Agency (RMA) Federal Crop Insurance Corporation (FCIC)",
+                    )
+        })
+        .ok_or("FCIC FY2024 annual source row 1422")?;
+    for (field, expected) in [
+        ("Outlays Amount ($M)", 23_867.31),
+        ("Amount Properly Paid ($M)", 23_287.95),
+        ("Improper Payment Amount ($M)", 579.36),
+        ("Total Overpayment Amount ($M)", 573.93),
+        (
+            "Overpayments Outside the Agency Control Amount ($M)",
+            573.93,
+        ),
+        ("Overpayments within the Agency Control Amount ($M)", 0.0),
+        ("Underpayment Amount ($M)", 5.43),
+        ("Technically Improper Payment Amount ($M)", 0.0),
+        ("Unknown Payment Amount ($M)", 0.0),
+    ] {
+        if number_field(annual_source, field)? != expected {
+            return Err(format!("FCIC annual source row mismatch for {field}"));
+        }
+    }
+    if string_field(annual_source, "Start Date of the sampling timeframe")? != "7/2021"
+        || string_field(annual_source, "End Date of the sampling timeframe")? != "6/2022"
+        || string_field(annual_source, "Confidence Interval for the estimate")? != "95% to <100%"
+        || number_field(annual_source, "Margin of Error for the estimate")? != 2.5
+    {
+        return Err("FCIC annual source period or uncertainty mismatch".to_string());
+    }
+
+    let scorecard = bridge
+        .get("q4_2025_scorecard")
+        .ok_or("FCIC Q4 2025 scorecard block")?;
+    let root_causes = scorecard
+        .get("root_causes_millions_rounded")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC scorecard root causes")?;
+    if string_field(scorecard, "reporting_period")? != "Q4 2025"
+        || number_field(scorecard, "fy2024_overpayment_millions_rounded")? != 574.0
+        || number_field(scorecard, "fy2024_overpayment_rate_percent_rounded")? != 2.40
+        || string_field(scorecard, "sample_start")? != "2021-07"
+        || string_field(scorecard, "sample_end")? != "2022-06"
+        || root_causes.len() != 2
+        || scorecard
+            .get("published_recovery_amount")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || scorecard
+            .get("published_collectible_amount")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || scorecard
+            .get("published_estimate_to_collection_lineage")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || !string_field(scorecard, "recovery_process")?.contains("CARS")
+    {
+        return Err("FCIC scorecard reconciliation or recovery boundary failed".to_string());
+    }
+    let root_cause_map: BTreeMap<String, (String, f64)> = root_causes
+        .iter()
+        .map(|row| {
+            Ok((
+                string_field(row, "category")?.to_string(),
+                (
+                    string_field(row, "control_scope")?,
+                    number_field(row, "amount_millions")?,
+                ),
+            ))
+        })
+        .collect::<Result<_, String>>()?;
+    if root_cause_map
+        != BTreeMap::from([
+            (
+                "failure_to_access_data_or_information_needed".to_string(),
+                ("outside_agency_control".to_string(), 467.0),
+            ),
+            (
+                "inability_to_access_data_or_information_needed".to_string(),
+                ("outside_agency_control".to_string(), 107.0),
+            ),
+        ])
+    {
+        return Err("FCIC scorecard root-cause split failed".to_string());
+    }
+
+    let review = bridge
+        .get("rma_fy2024_review")
+        .ok_or("FCIC RMA FY2024 review block")?;
+    if string_field(review, "reporting_period")? != "2024"
+        || int_field(review, "sample_reinsurance_year")? != 2022
+        || int_field(review, "sample_policy_count")? != 326
+        || string_field(review, "selection_factor_published")?
+            != "Approved Insurance Provider servicing the policy"
+        || string_field(review, "documentation_channel")? != "Compliance Activities Results System"
+        || review
+            .get("statistically_selected")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || review
+            .get("statistically_valid")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("FCIC RMA review identity failed".to_string());
+    }
+    for field in [
+        "sample_frame_published",
+        "strata_published",
+        "weights_published",
+        "projection_estimator_published",
+        "variance_method_published",
+    ] {
+        if review.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("FCIC review must keep {field} blocked"));
+        }
+    }
+
+    let period = bridge
+        .get("period_reconciliation")
+        .ok_or("FCIC period reconciliation")?;
+    if string_field(period, "reinsurance_year_2022_start")? != "2021-07"
+        || string_field(period, "reinsurance_year_2022_end")? != "2022-06"
+        || string_field(period, "result")?
+            != "fy2024_reporting_period_uses_reinsurance_year_2022_measurement_window"
+        || period
+            .get("com_23_to_paymentaccuracy_dates_match")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || period
+            .get("scorecard_to_annual_workbook_dates_match")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("FCIC period reconciliation failed".to_string());
+    }
+    let numeric = bridge
+        .get("numeric_reconciliation")
+        .ok_or("FCIC numeric reconciliation")?;
+    for field in [
+        "proper_plus_improper_equals_outlays",
+        "overpayment_plus_underpayment_plus_technical_equals_improper",
+        "scorecard_overpayment_amount_is_annual_workbook_value_rounded_to_whole_millions",
+        "scorecard_overpayment_rate_is_annual_workbook_value_rounded_to_two_decimals",
+        "scorecard_root_causes_sum_to_scorecard_rounded_overpayment_millions",
+        "root_cause_rounding_precludes_exact_subcategory_reconciliation_to_573_93_millions",
+    ] {
+        if numeric.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("FCIC numeric reconciliation failed for {field}"));
+        }
+    }
+
+    let decisions = bridge
+        .get("methodology_field_decisions")
+        .ok_or("FCIC methodology field decisions")?;
+    let closed = decisions
+        .get("closed_internal_only")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC internally closed fields")?;
+    let open = decisions
+        .get("open")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC open fields")?;
+    let closed_fields: BTreeSet<String> = closed
+        .iter()
+        .map(|row| string_field(row, "field"))
+        .collect::<Result<_, _>>()?;
+    let open_fields: BTreeSet<String> = open
+        .iter()
+        .map(|row| string_field(row, "field"))
+        .collect::<Result<_, _>>()?;
+    if int_field(decisions, "closed_count")? != 2
+        || int_field(decisions, "open_count")? != 6
+        || decisions
+            .get("program_scoring_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || closed_fields
+            != BTreeSet::from([
+                "payment type split".to_string(),
+                "sample period".to_string(),
+            ])
+        || open_fields
+            != BTreeSet::from([
+                "sample design".to_string(),
+                "payment universe".to_string(),
+                "estimation method".to_string(),
+                "exclusion rules".to_string(),
+                "data-access outside-agency-control root-cause definition".to_string(),
+                "recoverable savings basis".to_string(),
+            ])
+    {
+        return Err("FCIC methodology closure counts or field sets failed".to_string());
+    }
+    for field in [
+        "public_claim_allowed",
+        "fraud_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if bridge.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("FCIC bridge must keep {field} false"));
+        }
+    }
+    let boundaries = bridge
+        .get("evidence_boundaries")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC evidence boundaries")?;
+    let boundary_text = boundaries
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<Vec<_>>()
+        .join(" ");
+    for required in [
+        "not a transaction-level list of identified debts",
+        "not findings of fraud, waste, or abuse",
+        "does not identify how much",
+        "not savings estimates",
+        "does not establish recoverability",
+        "No savings score",
+    ] {
+        if !boundary_text.contains(required) {
+            return Err(format!("FCIC bridge boundary missing {required}"));
+        }
+    }
+
+    for (source_id, metadata_path, raw_path, raw_bytes, raw_sha256) in [
+        (
+            FCIC_SCORECARD_SOURCE_ID,
+            FCIC_SCORECARD_METADATA_PATH,
+            FCIC_SCORECARD_RAW_PATH,
+            FCIC_SCORECARD_RAW_BYTES,
+            FCIC_SCORECARD_RAW_SHA256,
+        ),
+        (
+            FCIC_COM_23_SOURCE_ID,
+            FCIC_COM_23_METADATA_PATH,
+            FCIC_COM_23_RAW_PATH,
+            FCIC_COM_23_RAW_BYTES,
+            FCIC_COM_23_RAW_SHA256,
+        ),
+        (
+            FCIC_SRA_2022_SOURCE_ID,
+            FCIC_SRA_2022_METADATA_PATH,
+            FCIC_SRA_2022_RAW_PATH,
+            FCIC_SRA_2022_RAW_BYTES,
+            FCIC_SRA_2022_RAW_SHA256,
+        ),
+    ] {
+        let raw = root.join(raw_path);
+        if fs::metadata(&raw).map_err(|err| err.to_string())?.len() != raw_bytes
+            || sha256_file(&raw)? != raw_sha256
+        {
+            return Err(format!("FCIC raw custody failed for {source_id}"));
+        }
+        let metadata = fs::read_to_string(root.join(metadata_path))
+            .map_err(|err| format!("failed to read {metadata_path}: {err}"))?;
+        for required in [
+            format!("| `source_id` | `{source_id}` |"),
+            format!("| `raw_path` | `{raw_path}` |"),
+            format!("| `bytes` | {raw_bytes} |"),
+            format!(
+                "| `checksum_sha256` | `{}` |",
+                raw_sha256.to_ascii_uppercase()
+            ),
+            "| `status` | `captured` |".to_string(),
+        ] {
+            if !metadata.contains(&required) {
+                return Err(format!("{metadata_path} missing {required}"));
+            }
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(FCIC_PAYMENT_INTEGRITY_BRIDGE_READER_PATH)).map_err(
+        |err| format!("failed to read {FCIC_PAYMENT_INTEGRITY_BRIDGE_READER_PATH}: {err}"),
+    )?;
+    for required in [
+        FCIC_PAYMENT_INTEGRITY_BRIDGE_JSON_PATH,
+        "$23,867.31M",
+        "$579.36M",
+        "$573.93M",
+        "$5.43M",
+        "$467M",
+        "$107M",
+        "326 policies",
+        "July 2021 through June 2022",
+        "sample period",
+        "payment type split",
+        "does not publish a collected or collectible amount",
+        "not automatically fraud, waste, identified debt",
+        "No score is allowed",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("FCIC bridge reader missing {required}"));
+        }
+    }
+
+    let root_cause_bridge_text =
+        fs::read_to_string(root.join(FCIC_ROOT_CAUSE_DEFINITION_BRIDGE_JSON_PATH)).map_err(
+            |err| format!("failed to read {FCIC_ROOT_CAUSE_DEFINITION_BRIDGE_JSON_PATH}: {err}"),
+        )?;
+    let root_cause_bridge: serde_json::Value = serde_json::from_str(&root_cause_bridge_text)
+        .map_err(|err| {
+            format!("failed to parse {FCIC_ROOT_CAUSE_DEFINITION_BRIDGE_JSON_PATH}: {err}")
+        })?;
+    let root_cause_source_ids = root_cause_bridge
+        .get("source_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC root-cause bridge source IDs")?;
+    if string_field(&root_cause_bridge, "record_id")?
+        != "payment-integrity-root-cause-definition-bridge:usda-federal-crop-insurance:fy2024"
+        || string_field(&root_cause_bridge, "record_family")?
+            != "federal_crop_insurance_root_cause_definition_bridge"
+        || string_field(&root_cause_bridge, "program_id")? != "usda-federal-crop-insurance"
+        || string_field(&root_cause_bridge, "status")?
+            != "draft_official_source_checksum_verified_third_methodology_field_closed_internal_only"
+        || string_field(&root_cause_bridge, "upstream_artifact")?
+            != FCIC_PAYMENT_INTEGRITY_BRIDGE_JSON_PATH
+        || root_cause_source_ids.len() != 1
+        || root_cause_source_ids[0].as_str() != Some(FCIC_AFR_SOURCE_ID)
+    {
+        return Err("FCIC root-cause bridge identity or lineage failed".to_string());
+    }
+    let custody = root_cause_bridge
+        .get("source_custody")
+        .ok_or("FCIC AFR source custody")?;
+    let afr_raw = root.join(FCIC_AFR_RAW_PATH);
+    if string_field(custody, "raw_path")? != FCIC_AFR_RAW_PATH
+        || string_field(custody, "checksum_sha256")? != FCIC_AFR_RAW_SHA256.to_ascii_uppercase()
+        || int_field(custody, "bytes")? != FCIC_AFR_RAW_BYTES as i64
+        || string_field(custody, "printed_pages")? != "216-217"
+        || string_field(custody, "canonical_usda_pdf_pages")? != "220-221"
+        || string_field(custody, "govinfo_custody_pdf_pages")? != "250-251"
+        || fs::metadata(&afr_raw).map_err(|err| err.to_string())?.len() != FCIC_AFR_RAW_BYTES
+        || sha256_file(&afr_raw)? != FCIC_AFR_RAW_SHA256
+    {
+        return Err("FCIC AFR custody failed".to_string());
+    }
+    let evidence = root_cause_bridge
+        .get("fy2024_fcic_evidence")
+        .ok_or("FCIC FY2024 AFR evidence")?;
+    let categories = evidence
+        .get("root_cause_categories")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC AFR root-cause categories")?;
+    let category_definitions = categories
+        .iter()
+        .map(|row| {
+            Ok((
+                string_field(row, "category")?.to_string(),
+                string_field(row, "definition")?.to_string(),
+            ))
+        })
+        .collect::<Result<BTreeMap<_, _>, String>>()?;
+    if number_field(evidence, "reported_improper_payment_millions")? != 579.36
+        || number_field(evidence, "reported_improper_payment_rate_percent")? != 2.43
+        || evidence
+            .get("methodology_changed_during_reporting_period")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || category_definitions.len() != 2
+        || !category_definitions
+            .get("failure_to_access_data_or_information")
+            .is_some_and(|definition| {
+                definition.contains("existed, was obtained, and was used")
+                    && definition.contains("administrative or calculation error")
+            })
+        || !category_definitions
+            .get("inability_to_access_data_or_information")
+            .is_some_and(|definition| {
+                definition.contains("certification errors")
+                    && definition.contains("premiums, and indemnities")
+            })
+    {
+        return Err("FCIC AFR evidence reconciliation failed".to_string());
+    }
+    let decision = root_cause_bridge
+        .get("methodology_field_decision")
+        .ok_or("FCIC root-cause methodology decision")?;
+    let methodology_state = root_cause_bridge
+        .get("program_methodology_state")
+        .ok_or("FCIC root-cause methodology state")?;
+    let closed = methodology_state
+        .get("closed_internal_only")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC root-cause closed fields")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<Vec<_>>();
+    let open = methodology_state
+        .get("open")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC root-cause open fields")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<Vec<_>>();
+    if string_field(decision, "field")?
+        != "data-access outside-agency-control root-cause definition"
+        || string_field(decision, "decision")?
+            != "closed_root_cause_categories_defined_internal_only"
+        || string_field(decision, "decision_status")? != "field_closed_internal_only"
+        || decision
+            .get("field_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || int_field(methodology_state, "closed_count")? != 4
+        || int_field(methodology_state, "open_count")? != 4
+        || closed
+            != vec![
+                "sample period",
+                "payment type split",
+                "data-access outside-agency-control root-cause definition",
+                "payment universe",
+            ]
+        || open
+            != vec![
+                "sample design",
+                "estimation method",
+                "exclusion rules",
+                "recoverable savings basis",
+            ]
+    {
+        return Err("FCIC root-cause closure decision or field state failed".to_string());
+    }
+    for (object, field) in [
+        (decision, "public_claim_allowed"),
+        (decision, "recovery_claim_allowed"),
+        (decision, "savings_claim_allowed"),
+        (methodology_state, "program_scoring_allowed"),
+        (&root_cause_bridge, "public_claim_allowed"),
+        (&root_cause_bridge, "fraud_claim_allowed"),
+        (&root_cause_bridge, "recovery_claim_allowed"),
+        (&root_cause_bridge, "savings_estimate_allowed"),
+    ] {
+        if object.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("FCIC root-cause bridge must keep {field} false"));
+        }
+    }
+    let afr_metadata = fs::read_to_string(root.join(FCIC_AFR_METADATA_PATH))
+        .map_err(|err| format!("failed to read {FCIC_AFR_METADATA_PATH}: {err}"))?;
+    for required in [
+        format!("| `source_id` | `{FCIC_AFR_SOURCE_ID}` |"),
+        format!("| `raw_path` | `{FCIC_AFR_RAW_PATH}` |"),
+        format!("| `bytes` | {FCIC_AFR_RAW_BYTES} |"),
+        format!(
+            "| `checksum_sha256` | `{}` |",
+            FCIC_AFR_RAW_SHA256.to_ascii_uppercase()
+        ),
+        "| `status` | `captured` |".to_string(),
+        "Printed pages 216-217".to_string(),
+    ] {
+        if !afr_metadata.contains(&required) {
+            return Err(format!("{FCIC_AFR_METADATA_PATH} missing {required}"));
+        }
+    }
+    let root_cause_reader =
+        fs::read_to_string(root.join(FCIC_ROOT_CAUSE_DEFINITION_BRIDGE_READER_PATH)).map_err(
+            |err| format!("failed to read {FCIC_ROOT_CAUSE_DEFINITION_BRIDGE_READER_PATH}: {err}"),
+        )?;
+    for required in [
+        FCIC_ROOT_CAUSE_DEFINITION_BRIDGE_JSON_PATH,
+        "printed pages 216-217",
+        "Failure to access data/information",
+        "Inability to access data/information",
+        "three closed fields and five open fields",
+        "Do Not Pay",
+        "fraud, recoveries, prevented loss, or net savings remain blocked",
+    ] {
+        if !root_cause_reader.contains(required) {
+            return Err(format!("FCIC root-cause reader missing {required}"));
+        }
+    }
+
+    let payment_universe_text =
+        fs::read_to_string(root.join(FCIC_PAYMENT_UNIVERSE_BRIDGE_JSON_PATH)).map_err(|err| {
+            format!("failed to read {FCIC_PAYMENT_UNIVERSE_BRIDGE_JSON_PATH}: {err}")
+        })?;
+    let payment_universe: serde_json::Value = serde_json::from_str(&payment_universe_text)
+        .map_err(|err| {
+            format!("failed to parse {FCIC_PAYMENT_UNIVERSE_BRIDGE_JSON_PATH}: {err}")
+        })?;
+    let universe_source_ids = payment_universe
+        .get("source_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC payment-universe source IDs")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    if string_field(&payment_universe, "record_id")?
+        != "payment-integrity-payment-universe-bridge:usda-federal-crop-insurance:fy2024"
+        || string_field(&payment_universe, "record_family")?
+            != "federal_crop_insurance_payment_universe_bridge"
+        || string_field(&payment_universe, "program_id")? != "usda-federal-crop-insurance"
+        || string_field(&payment_universe, "status")?
+            != "draft_official_sources_checksum_verified_fourth_methodology_field_closed_internal_only"
+        || universe_source_ids
+            != BTreeSet::from([
+                "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+                FCIC_COM_23_SOURCE_ID,
+                FCIC_OIG_FS_SOURCE_ID,
+            ])
+    {
+        return Err("FCIC payment-universe bridge identity or lineage failed".to_string());
+    }
+    let universe_custody = payment_universe
+        .get("source_custody")
+        .ok_or("FCIC payment-universe source custody")?;
+    let oig_raw = root.join(FCIC_OIG_FS_RAW_PATH);
+    if string_field(universe_custody, "raw_path")? != FCIC_OIG_FS_RAW_PATH
+        || string_field(universe_custody, "checksum_sha256")?
+            != FCIC_OIG_FS_RAW_SHA256.to_ascii_uppercase()
+        || int_field(universe_custody, "bytes")? != FCIC_OIG_FS_RAW_BYTES as i64
+        || int_field(universe_custody, "printed_page")? != 18
+        || int_field(universe_custody, "pdf_file_page")? != 29
+        || fs::metadata(&oig_raw).map_err(|err| err.to_string())?.len() != FCIC_OIG_FS_RAW_BYTES
+        || sha256_file(&oig_raw)? != FCIC_OIG_FS_RAW_SHA256
+    {
+        return Err("FCIC payment-universe custody failed".to_string());
+    }
+    let universe_evidence = payment_universe
+        .get("fy2024_payment_universe_evidence")
+        .ok_or("FCIC payment-universe evidence")?;
+    let included_categories = universe_evidence
+        .get("included_payment_categories")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC included payment categories")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    let payment_tiers = universe_evidence
+        .get("aip_payment_tiers")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC AIP payment tiers")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    if included_categories
+        != BTreeSet::from([
+            "Administrative and Operating expense",
+            "indemnities",
+            "premium subsidy",
+        ])
+        || payment_tiers != BTreeSet::from(["high", "low", "medium"])
+        || universe_evidence
+            .get("all_categories_statement_published")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || universe_evidence
+            .get("annual_statistically_valid_sample_published")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || universe_evidence
+            .get("methodology_changed_during_reporting_period")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("FCIC payment-universe evidence reconciliation failed".to_string());
+    }
+    let universe_context = payment_universe
+        .get("fy2024_result_context")
+        .ok_or("FCIC payment-universe result context")?;
+    let excluded_value = universe_context
+        .get("excluded_oig_table_value")
+        .ok_or("FCIC excluded OIG table value")?;
+    if number_field(universe_context, "outlays_millions")? != 23_867.31
+        || number_field(universe_context, "improper_payment_millions")? != 579.36
+        || universe_context
+            .get("other_information_audited")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || number_field(excluded_value, "printed_value")? != 579.93
+        || number_field(excluded_value, "authoritative_annual_workbook_value")? != 573.93
+    {
+        return Err("FCIC payment-universe numeric boundary failed".to_string());
+    }
+    let universe_decision = payment_universe
+        .get("methodology_field_decision")
+        .ok_or("FCIC payment-universe methodology decision")?;
+    let universe_state = payment_universe
+        .get("program_methodology_state")
+        .ok_or("FCIC payment-universe methodology state")?;
+    let universe_closed = universe_state
+        .get("closed_internal_only")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC payment-universe closed fields")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    let universe_open = universe_state
+        .get("open")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC payment-universe open fields")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    if string_field(universe_decision, "field")? != "payment universe"
+        || string_field(universe_decision, "decision")?
+            != "closed_all_payment_categories_defined_internal_only"
+        || string_field(universe_decision, "decision_status")? != "field_closed_internal_only"
+        || universe_decision
+            .get("field_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || int_field(universe_state, "closed_count")? != 4
+        || int_field(universe_state, "open_count")? != 4
+        || universe_closed
+            != BTreeSet::from([
+                "data-access outside-agency-control root-cause definition",
+                "payment type split",
+                "payment universe",
+                "sample period",
+            ])
+        || universe_open
+            != BTreeSet::from([
+                "estimation method",
+                "exclusion rules",
+                "recoverable savings basis",
+                "sample design",
+            ])
+    {
+        return Err("FCIC payment-universe closure decision or field state failed".to_string());
+    }
+    for (object, field) in [
+        (universe_decision, "public_claim_allowed"),
+        (universe_decision, "recovery_claim_allowed"),
+        (universe_decision, "savings_claim_allowed"),
+        (universe_state, "program_scoring_allowed"),
+        (&payment_universe, "public_claim_allowed"),
+        (&payment_universe, "fraud_claim_allowed"),
+        (&payment_universe, "recovery_claim_allowed"),
+        (&payment_universe, "prevention_claim_allowed"),
+        (&payment_universe, "savings_estimate_allowed"),
+    ] {
+        if object.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "FCIC payment-universe bridge must keep {field} false"
+            ));
+        }
+    }
+    let oig_metadata = fs::read_to_string(root.join(FCIC_OIG_FS_METADATA_PATH))
+        .map_err(|err| format!("failed to read {FCIC_OIG_FS_METADATA_PATH}: {err}"))?;
+    for required in [
+        format!("| `source_id` | `{FCIC_OIG_FS_SOURCE_ID}` |"),
+        format!("| `raw_path` | `{FCIC_OIG_FS_RAW_PATH}` |"),
+        format!("| `bytes` | {FCIC_OIG_FS_RAW_BYTES} |"),
+        format!(
+            "| `checksum_sha256` | `{}` |",
+            FCIC_OIG_FS_RAW_SHA256.to_ascii_uppercase()
+        ),
+        "| `status` | `captured` |".to_string(),
+        "Other Information (Unaudited)".to_string(),
+    ] {
+        if !oig_metadata.contains(&required) {
+            return Err(format!("{FCIC_OIG_FS_METADATA_PATH} missing {required}"));
+        }
+    }
+    let payment_universe_reader =
+        fs::read_to_string(root.join(FCIC_PAYMENT_UNIVERSE_BRIDGE_READER_PATH)).map_err(|err| {
+            format!("failed to read {FCIC_PAYMENT_UNIVERSE_BRIDGE_READER_PATH}: {err}")
+        })?;
+    for required in [
+        FCIC_PAYMENT_UNIVERSE_BRIDGE_JSON_PATH,
+        "premium subsidy",
+        "Administrative and",
+        "Operating (A&O) expense",
+        "indemnities",
+        "four",
+        "closed fields and four open fields",
+        "Other Information (Unaudited)",
+        "$579.93M",
+        "$573.93M",
+        "Program scoring and all public, fraud",
+        "recovery, prevention, and savings claims remain blocked",
+    ] {
+        if !payment_universe_reader.contains(required) {
+            return Err(format!("FCIC payment-universe reader missing {required}"));
+        }
+    }
+
+    let sample_component_text =
+        fs::read_to_string(root.join(FCIC_SAMPLE_DESIGN_COMPONENT_BRIDGE_JSON_PATH)).map_err(
+            |err| format!("failed to read {FCIC_SAMPLE_DESIGN_COMPONENT_BRIDGE_JSON_PATH}: {err}"),
+        )?;
+    let sample_component: serde_json::Value = serde_json::from_str(&sample_component_text)
+        .map_err(|err| {
+            format!("failed to parse {FCIC_SAMPLE_DESIGN_COMPONENT_BRIDGE_JSON_PATH}: {err}")
+        })?;
+    let sample_source_ids = sample_component
+        .get("source_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC sample-design component source IDs")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    if string_field(&sample_component, "record_id")?
+        != "payment-integrity-sample-design-component-bridge:usda-federal-crop-insurance:fy2024"
+        || string_field(&sample_component, "record_family")?
+            != "federal_crop_insurance_sample_design_component_bridge"
+        || string_field(&sample_component, "status")?
+            != "draft_official_sources_checksum_verified_narrow_sampling_governance_component_closed_full_sample_design_open"
+        || sample_source_ids
+            != BTreeSet::from([
+                FCIC_COM_23_SOURCE_ID,
+                FCIC_OIG_FS_SOURCE_ID,
+                FCIC_OIG_PIIA_SOURCE_ID,
+            ])
+    {
+        return Err("FCIC sample-design component identity or lineage failed".to_string());
+    }
+    let sample_custody = sample_component
+        .get("source_custody")
+        .ok_or("FCIC sample-design component source custody")?;
+    let piia_raw = root.join(FCIC_OIG_PIIA_RAW_PATH);
+    if string_field(sample_custody, "raw_path")? != FCIC_OIG_PIIA_RAW_PATH
+        || string_field(sample_custody, "checksum_sha256")?
+            != FCIC_OIG_PIIA_RAW_SHA256.to_ascii_uppercase()
+        || int_field(sample_custody, "bytes")? != FCIC_OIG_PIIA_RAW_BYTES as i64
+        || string_field(sample_custody, "audit_scope_printed_pages")? != "3-5 and 10"
+        || string_field(sample_custody, "audit_scope_pdf_file_pages")? != "7-9 and 14"
+        || int_field(sample_custody, "governance_recommendation_printed_page")? != 23
+        || int_field(sample_custody, "governance_recommendation_pdf_file_page")? != 27
+        || fs::metadata(&piia_raw)
+            .map_err(|err| err.to_string())?
+            .len()
+            != FCIC_OIG_PIIA_RAW_BYTES
+        || sha256_file(&piia_raw)? != FCIC_OIG_PIIA_RAW_SHA256
+    {
+        return Err("FCIC sample-design component custody failed".to_string());
+    }
+    let disclosed_design = sample_component
+        .get("disclosed_sampling_governance_design_component")
+        .ok_or("FCIC disclosed sampling governance component")?;
+    let tiers = disclosed_design
+        .get("aip_payment_tiers")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC sample-design component AIP tiers")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    if string_field(disclosed_design, "reporting_period")? != "FY2024"
+        || int_field(disclosed_design, "sample_policy_count")? != 326
+        || int_field(disclosed_design, "reinsurance_year")? != 2022
+        || tiers != BTreeSet::from(["high", "low", "medium"])
+    {
+        return Err("FCIC disclosed sampling-design facts failed".to_string());
+    }
+    for field in [
+        "selection_considered_servicing_aip",
+        "statistically_valid_designation_published",
+        "independent_performance_audit_reviewed_usda_samples",
+        "independent_performance_audit_reviewed_underlying_sampling_methodologies",
+        "fcic_identified_as_reviewed_phase_2_and_high_priority_program",
+        "fcic_piia_compliance_reported",
+    ] {
+        if disclosed_design
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        {
+            return Err(format!(
+                "FCIC disclosed sampling-design fact {field} failed"
+            ));
+        }
+    }
+    let sample_decision = sample_component
+        .get("component_decision")
+        .ok_or("FCIC sample-design component decision")?;
+    if string_field(sample_decision, "decision")? != "component_closed_internal_only"
+        || string_field(sample_decision, "decision_status")?
+            != "narrow_component_closed_full_methodology_field_open"
+        || sample_decision
+            .get("component_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || sample_decision
+            .get("full_sample_design_field_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("FCIC sample-design narrow decision failed".to_string());
+    }
+    let residuals = sample_component
+        .get("full_sample_design_residuals")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC full sample-design residuals")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<Vec<_>>()
+        .join(" ");
+    for required in [
+        "sample frame",
+        "tier allocation",
+        "selection probabilities",
+        "randomization",
+        "replacement",
+        "nonresponse",
+        "sampling weights",
+        "projection estimator",
+        "variance",
+    ] {
+        if !residuals.contains(required) {
+            return Err(format!("FCIC sample-design residual missing {required}"));
+        }
+    }
+    for field in [
+        "public_claim_allowed",
+        "scoring_allowed",
+        "fraud_claim_allowed",
+        "recovery_claim_allowed",
+        "prevention_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if sample_component
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!("FCIC sample-design bridge must keep {field} false"));
+        }
+    }
+    let piia_metadata = fs::read_to_string(root.join(FCIC_OIG_PIIA_METADATA_PATH))
+        .map_err(|err| format!("failed to read {FCIC_OIG_PIIA_METADATA_PATH}: {err}"))?;
+    for required in [
+        format!("| `source_id` | `{FCIC_OIG_PIIA_SOURCE_ID}` |"),
+        format!("| `raw_path` | `{FCIC_OIG_PIIA_RAW_PATH}` |"),
+        format!("| `bytes` | {FCIC_OIG_PIIA_RAW_BYTES} |"),
+        format!(
+            "| `checksum_sha256` | `{}` |",
+            FCIC_OIG_PIIA_RAW_SHA256.to_ascii_uppercase()
+        ),
+        "| `status` | `captured` |".to_string(),
+        "Printed pages 3-5 and 10".to_string(),
+        "printed page 23".to_string(),
+    ] {
+        if !piia_metadata.contains(&required) {
+            return Err(format!("{FCIC_OIG_PIIA_METADATA_PATH} missing {required}"));
+        }
+    }
+    let sample_reader = fs::read_to_string(
+        root.join(FCIC_SAMPLE_DESIGN_COMPONENT_BRIDGE_READER_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {FCIC_SAMPLE_DESIGN_COMPONENT_BRIDGE_READER_PATH}: {err}")
+    })?;
+    for required in [
+        FCIC_SAMPLE_DESIGN_COMPONENT_BRIDGE_JSON_PATH,
+        "326",
+        "reinsurance year 2022",
+        "high, medium, and low",
+        "underlying",
+        "sampling methodologies",
+        "Full sample design remains open",
+        "publicly reproducible",
+        "No program score",
+    ] {
+        if !sample_reader.contains(required) {
+            return Err(format!("FCIC sample-design reader missing {required}"));
+        }
+    }
+
+    let historical_sampling_text = fs::read_to_string(
+        root.join(FCIC_HISTORICAL_SAMPLING_METHOD_BRIDGE_JSON_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {FCIC_HISTORICAL_SAMPLING_METHOD_BRIDGE_JSON_PATH}: {err}")
+    })?;
+    let historical_sampling: serde_json::Value = serde_json::from_str(&historical_sampling_text)
+        .map_err(|err| {
+            format!("failed to parse {FCIC_HISTORICAL_SAMPLING_METHOD_BRIDGE_JSON_PATH}: {err}")
+        })?;
+    if string_field(&historical_sampling, "record_id")?
+        != "payment-integrity-historical-sampling-method-bridge:usda-federal-crop-insurance:fy2020"
+        || string_field(&historical_sampling, "record_family")?
+            != "federal_crop_insurance_historical_sampling_method_bridge"
+        || string_field(&historical_sampling, "status")?
+            != "draft_official_source_checksum_verified_historical_selection_method_component_closed_current_fields_open"
+        || historical_sampling
+            .get("source_ids")
+            .and_then(serde_json::Value::as_array)
+            .and_then(|ids| ids.as_slice().first())
+            .and_then(serde_json::Value::as_str)
+            != Some(FCIC_OIG_FS_FY2020_SOURCE_ID)
+    {
+        return Err("FCIC historical sampling-method identity or lineage failed".to_string());
+    }
+    let historical_custody = historical_sampling
+        .get("source_custody")
+        .ok_or("FCIC historical sampling-method source custody")?;
+    let historical_raw = root.join(FCIC_OIG_FS_FY2020_RAW_PATH);
+    if string_field(historical_custody, "raw_path")? != FCIC_OIG_FS_FY2020_RAW_PATH
+        || string_field(historical_custody, "checksum_sha256")?
+            != FCIC_OIG_FS_FY2020_RAW_SHA256.to_ascii_uppercase()
+        || int_field(historical_custody, "bytes")? != FCIC_OIG_FS_FY2020_RAW_BYTES as i64
+        || int_field(historical_custody, "evidence_printed_page")? != 66
+        || int_field(historical_custody, "evidence_pdf_file_page")? != 93
+        || int_field(historical_custody, "evidence_zero_based_viewer_index")? != 92
+        || fs::metadata(&historical_raw)
+            .map_err(|err| err.to_string())?
+            .len()
+            != FCIC_OIG_FS_FY2020_RAW_BYTES
+        || sha256_file(&historical_raw)? != FCIC_OIG_FS_FY2020_RAW_SHA256
+    {
+        return Err("FCIC historical sampling-method custody failed".to_string());
+    }
+    let historical_method = historical_sampling
+        .get("historical_disclosed_selection_method_component")
+        .ok_or("FCIC historical disclosed selection-method component")?;
+    let historical_categories = historical_method
+        .get("payment_categories_included")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC historical sampling-method payment categories")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    if string_field(historical_method, "reporting_period")? != "FY2020"
+        || int_field(historical_method, "sampling_reinsurance_year")? != 2018
+        || string_field(historical_method, "policy_selection_method")? != "simple random sample"
+        || historical_categories
+            != BTreeSet::from([
+                "administrative and operating subsidies",
+                "indemnity payments",
+                "premium subsidies",
+            ])
+        || string_field(historical_method, "source_section_audit_status")?
+            != "other_information_unaudited"
+    {
+        return Err("FCIC historical sampling-method facts failed".to_string());
+    }
+    for field in [
+        "statistically_valid_rate_estimate_disclosed",
+        "statistically_valid_dollar_estimate_disclosed",
+        "omb_approval_described_for_fy2017_and_beyond",
+    ] {
+        if historical_method
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        {
+            return Err(format!(
+                "FCIC historical sampling-method fact {field} failed"
+            ));
+        }
+    }
+    let historical_decision = historical_sampling
+        .get("component_decision")
+        .ok_or("FCIC historical sampling-method decision")?;
+    if string_field(historical_decision, "decision")? != "component_closed_internal_only"
+        || string_field(historical_decision, "decision_status")?
+            != "historical_component_closed_no_current_method_continuity_inference"
+        || historical_decision
+            .get("component_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("FCIC historical sampling-method decision failed".to_string());
+    }
+    for field in [
+        "current_sample_design_field_closed",
+        "current_estimation_method_field_closed",
+        "current_exclusion_rules_field_closed",
+        "continuity_to_fy2024_inference_allowed",
+        "public_claim_allowed",
+        "scoring_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if historical_decision
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "FCIC historical sampling decision must keep {field} false"
+            ));
+        }
+    }
+    let historical_boundary = historical_sampling
+        .get("current_program_boundary")
+        .ok_or("FCIC historical sampling current-program boundary")?;
+    if int_field(historical_boundary, "total_methodology_fields")? != 8
+        || int_field(historical_boundary, "closed_field_count")? != 4
+        || int_field(historical_boundary, "open_field_count")? != 4
+    {
+        return Err("FCIC historical sampling bridge must preserve 4/4 aggregate".to_string());
+    }
+    let historical_residuals = historical_sampling
+        .get("current_methodology_residuals")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC historical sampling current residuals")?;
+    if historical_residuals.len() != 10 {
+        return Err(format!(
+            "FCIC historical sampling bridge must retain 10 residuals, got {}",
+            historical_residuals.len()
+        ));
+    }
+    for field in [
+        "public_claim_allowed",
+        "scoring_allowed",
+        "fraud_claim_allowed",
+        "recovery_claim_allowed",
+        "prevention_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if historical_sampling
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "FCIC historical sampling bridge must keep {field} false"
+            ));
+        }
+    }
+    let historical_metadata = fs::read_to_string(root.join(FCIC_OIG_FS_FY2020_METADATA_PATH))
+        .map_err(|err| format!("failed to read {FCIC_OIG_FS_FY2020_METADATA_PATH}: {err}"))?;
+    for required in [
+        format!("| `source_id` | `{FCIC_OIG_FS_FY2020_SOURCE_ID}` |"),
+        format!("| `raw_path` | `{FCIC_OIG_FS_FY2020_RAW_PATH}` |"),
+        format!("| `bytes` | {FCIC_OIG_FS_FY2020_RAW_BYTES} |"),
+        format!(
+            "| `checksum_sha256` | `{}` |",
+            FCIC_OIG_FS_FY2020_RAW_SHA256.to_ascii_uppercase()
+        ),
+        "Printed page 66".to_string(),
+        "Other Information (Unaudited)".to_string(),
+    ] {
+        if !historical_metadata.contains(&required) {
+            return Err(format!(
+                "{FCIC_OIG_FS_FY2020_METADATA_PATH} missing {required}"
+            ));
+        }
+    }
+    let historical_reader = fs::read_to_string(
+        root.join(FCIC_HISTORICAL_SAMPLING_METHOD_BRIDGE_READER_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {FCIC_HISTORICAL_SAMPLING_METHOD_BRIDGE_READER_PATH}: {err}")
+    })?;
+    for required in [
+        FCIC_HISTORICAL_SAMPLING_METHOD_BRIDGE_JSON_PATH,
+        "simple random sample",
+        "FY2020",
+        "reinsurance year 2018",
+        "It does not support continuity to FY2024",
+        "closed fields and four open fields",
+        "Other Information (Unaudited)",
+        "No program score",
+    ] {
+        if !historical_reader.contains(required) {
+            return Err(format!(
+                "FCIC historical sampling reader missing {required}"
+            ));
+        }
+    }
+
+    let payment_card: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(
+            "data/derived/breadth_benchmark_matrix/payment_integrity_depth_card.fy2024.v1.draft.json",
+        ))
+            .map_err(|err| err.to_string())?,
+    )
+    .map_err(|err| err.to_string())?;
+    let payment_bridge = payment_card
+        .get("federal_crop_insurance_bridge")
+        .ok_or("payment-integrity depth card FCIC bridge")?;
+    if string_field(payment_bridge, "path")? != FCIC_PAYMENT_INTEGRITY_BRIDGE_JSON_PATH
+        || string_field(payment_bridge, "status")?
+            != "fy2024_annual_scorecard_usda_afr_and_fcic_financial_statements_reconciled_four_methodology_fields_closed_internal_only_four_open_scoring_blocked"
+        || !string_field(payment_bridge, "claim_boundary")?.contains("not identified debt")
+    {
+        return Err("payment-integrity depth card FCIC bridge failed".to_string());
+    }
+    let payment_root_cause_bridge = payment_card
+        .get("federal_crop_insurance_root_cause_definition_bridge")
+        .ok_or("payment-integrity depth card FCIC root-cause bridge")?;
+    if string_field(payment_root_cause_bridge, "path")?
+        != FCIC_ROOT_CAUSE_DEFINITION_BRIDGE_JSON_PATH
+        || string_field(payment_root_cause_bridge, "source_id")? != FCIC_AFR_SOURCE_ID
+        || string_field(payment_root_cause_bridge, "status")?
+            != "same_period_failure_and_inability_to_access_definitions_closed_internal_only_recoverability_separate_and_open"
+    {
+        return Err("payment-integrity depth card FCIC root-cause bridge failed".to_string());
+    }
+    let payment_universe_card = payment_card
+        .get("federal_crop_insurance_payment_universe_bridge")
+        .ok_or("payment-integrity depth card FCIC payment-universe bridge")?;
+    if string_field(payment_universe_card, "path")? != FCIC_PAYMENT_UNIVERSE_BRIDGE_JSON_PATH
+        || string_field(payment_universe_card, "source_id")? != FCIC_OIG_FS_SOURCE_ID
+        || string_field(payment_universe_card, "status")?
+            != "all_payment_categories_and_aip_payment_tiers_disclosed_payment_universe_closed_internal_only"
+        || !string_field(payment_universe_card, "excluded_scope")?.contains("unaudited")
+    {
+        return Err("payment-integrity depth card FCIC payment-universe bridge failed".to_string());
+    }
+    let payment_sample_component = payment_card
+        .get("federal_crop_insurance_sample_design_component_bridge")
+        .ok_or("payment-integrity depth card FCIC sample-design component bridge")?;
+    if string_field(payment_sample_component, "path")?
+        != FCIC_SAMPLE_DESIGN_COMPONENT_BRIDGE_JSON_PATH
+        || string_field(payment_sample_component, "source_id")? != FCIC_OIG_PIIA_SOURCE_ID
+        || string_field(payment_sample_component, "status")?
+            != "narrow_sampling_governance_component_closed_internal_only_full_sample_design_open"
+        || !string_field(payment_sample_component, "open_scope")?
+            .contains("compliance is not public reproducibility")
+    {
+        return Err(
+            "payment-integrity depth card FCIC sample-design component bridge failed".to_string(),
+        );
+    }
+    let payment_historical_sampling_component = payment_card
+        .get("federal_crop_insurance_historical_sampling_method_bridge")
+        .ok_or("payment-integrity depth card FCIC historical sampling-method bridge")?;
+    if string_field(payment_historical_sampling_component, "path")?
+        != FCIC_HISTORICAL_SAMPLING_METHOD_BRIDGE_JSON_PATH
+        || string_field(payment_historical_sampling_component, "source_id")?
+            != FCIC_OIG_FS_FY2020_SOURCE_ID
+        || string_field(payment_historical_sampling_component, "status")?
+            != "historical_fy2020_ry2018_simple_random_selection_component_closed_internal_only_no_fy2024_continuity_inference"
+        || !string_field(payment_historical_sampling_component, "open_scope")?
+            .contains("four-closed/four-open aggregate is unchanged")
+    {
+        return Err(
+            "payment-integrity depth card FCIC historical sampling-method bridge failed"
+                .to_string(),
+        );
+    }
+    let agriculture_card: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(AGRICULTURE_DEPTH_CARD_JSON_PATH))
+            .map_err(|err| err.to_string())?,
+    )
+    .map_err(|err| err.to_string())?;
+    let agriculture_sources = agriculture_card
+        .get("supporting_source_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("agriculture supporting source IDs")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    if agriculture_sources
+        != BTreeSet::from([
+            "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+            FCIC_SCORECARD_SOURCE_ID,
+            FCIC_COM_23_SOURCE_ID,
+            FCIC_SRA_2022_SOURCE_ID,
+            FCIC_AFR_SOURCE_ID,
+            FCIC_OIG_FS_SOURCE_ID,
+            FCIC_OIG_PIIA_SOURCE_ID,
+            FCIC_OIG_FS_FY2020_SOURCE_ID,
+        ])
+        || string_field(
+            &agriculture_card,
+            "federal_crop_insurance_payment_integrity_bridge_path",
+        )? != FCIC_PAYMENT_INTEGRITY_BRIDGE_JSON_PATH
+        || string_field(
+            &agriculture_card,
+            "federal_crop_insurance_root_cause_definition_bridge_path",
+        )? != FCIC_ROOT_CAUSE_DEFINITION_BRIDGE_JSON_PATH
+        || string_field(
+            &agriculture_card,
+            "federal_crop_insurance_payment_universe_bridge_path",
+        )? != FCIC_PAYMENT_UNIVERSE_BRIDGE_JSON_PATH
+        || string_field(
+            &agriculture_card,
+            "federal_crop_insurance_sample_design_component_bridge_path",
+        )? != FCIC_SAMPLE_DESIGN_COMPONENT_BRIDGE_JSON_PATH
+        || string_field(
+            &agriculture_card,
+            "federal_crop_insurance_historical_sampling_method_bridge_path",
+        )? != FCIC_HISTORICAL_SAMPLING_METHOD_BRIDGE_JSON_PATH
+        || string_field(
+            &agriculture_card,
+            "federal_crop_insurance_payment_integrity_bridge_status",
+        )? != "fy2024_four_fields_closed_four_open_with_narrow_sample_design_governance_and_historical_fy2020_selection_method_components_scoring_blocked_not_fy2025_function_350_account_crosswalk"
+    {
+        return Err("agriculture depth card FCIC bridge failed".to_string());
+    }
+    let breadth_rows = read_jsonl(root.join(BREADTH_BENCHMARK_JSONL_PATH))?;
+    for (record_id, expected_scope) in [
+        ("breadth:agriculture", "none_attached"),
+        (
+            "breadth:payment-integrity-governmentwide",
+            "reported_fy2024_covered_programs_not_full_universe",
+        ),
+    ] {
+        let row = breadth_rows
+            .iter()
+            .find(|row| row.get("record_id").and_then(serde_json::Value::as_str) == Some(record_id))
+            .ok_or_else(|| format!("missing FCIC-linked breadth row {record_id}"))?;
+        if string_field(row, "improper_payment_scope")? != expected_scope {
+            return Err(format!("{record_id} FCIC scope failed"));
+        }
+        for source_id in [
+            "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+            FCIC_SCORECARD_SOURCE_ID,
+            FCIC_COM_23_SOURCE_ID,
+            FCIC_SRA_2022_SOURCE_ID,
+            FCIC_AFR_SOURCE_ID,
+            FCIC_OIG_FS_SOURCE_ID,
+            FCIC_OIG_PIIA_SOURCE_ID,
+            FCIC_OIG_FS_FY2020_SOURCE_ID,
+        ] {
+            if !row
+                .get("source_ids")
+                .and_then(serde_json::Value::as_array)
+                .is_some_and(|ids| ids.iter().any(|id| id.as_str() == Some(source_id)))
+            {
+                return Err(format!("{record_id} missing FCIC source {source_id}"));
+            }
+        }
+    }
+
+    let closure_coverage_values =
+        read_jsonl(root.join(PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_COVERAGE_JSONL_PATH))?;
+    let fcic_coverage = closure_coverage_values
+        .iter()
+        .find(|row| {
+            row.get("record_id").and_then(serde_json::Value::as_str)
+                == Some("payment-integrity-methodology-closure-coverage:usda-federal-crop-insurance:q4-2025")
+        })
+        .ok_or("FCIC shared closure coverage")?;
+    if int_field(fcic_coverage, "closed_field_count")? != 4
+        || int_field(fcic_coverage, "open_field_count")? != 4
+        || string_field(fcic_coverage, "coverage_status")? != "partial_methodology_closure"
+        || fcic_coverage
+            .get("scoring_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("FCIC shared closure coverage status failed".to_string());
+    }
+    for (path, record_id, status_field, status) in [
+        (
+            PAYMENT_INTEGRITY_METHODOLOGY_SCORING_GATE_JSONL_PATH,
+            "payment-integrity-methodology-scoring-gate:usda-federal-crop-insurance:q4-2025",
+            "gate_status",
+            "blocked_methodology_incomplete",
+        ),
+        (
+            PAYMENT_INTEGRITY_METHODOLOGY_PROGRAM_ROLLUP_JSONL_PATH,
+            "payment-integrity-methodology-program-rollup:usda-federal-crop-insurance:q4-2025",
+            "scoring_gate_status",
+            "blocked_methodology_incomplete",
+        ),
+        (
+            PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_STATUS_JSONL_PATH,
+            "payment-integrity-methodology-open-program-status:usda-federal-crop-insurance:q4-2025",
+            "closure_path_status",
+            "closure_coverage_available",
+        ),
+    ] {
+        let rows = read_jsonl(root.join(path))?;
+        let row = rows
+            .iter()
+            .find(|row| row.get("record_id").and_then(serde_json::Value::as_str) == Some(record_id))
+            .ok_or_else(|| format!("missing FCIC shared row {record_id}"))?;
+        let count_fields_match = path == PAYMENT_INTEGRITY_METHODOLOGY_SCORING_GATE_JSONL_PATH
+            || (int_field(row, "closed_field_count")? == 4
+                && int_field(row, "open_field_count")? == 4);
+        if string_field(row, status_field)? != status
+            || !count_fields_match
+            || row
+                .get("scoring_allowed")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+            || row
+                .get("public_claim_allowed")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+            || row
+                .get("savings_estimate_allowed")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+        {
+            return Err(format!(
+                "FCIC shared status or boundary failed for {record_id}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_disaster_depth_card(root: &Path) -> Result<(), String> {
     let text =
         fs::read_to_string(root.join(DISASTER_DEPTH_CARD_JSON_PATH)).map_err(|e| e.to_string())?;
@@ -13659,9 +15154,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
                 })
             })
             .collect::<Result<Vec<_>, _>>()?;
-    if methodology_source_target_rows.len() != 12 {
+    if methodology_source_target_rows.len() != 14 {
         return Err(format!(
-            "payment integrity methodology source targets must contain 12 rows, got {}",
+            "payment integrity methodology source targets must contain 14 rows, got {}",
             methodology_source_target_rows.len()
         ));
     }
@@ -13740,9 +15235,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
         })
             })
             .collect::<Result<Vec<_>, _>>()?;
-    if methodology_query_rows.len() != 12 {
+    if methodology_query_rows.len() != 14 {
         return Err(format!(
-            "payment integrity methodology queries must contain 12 rows, got {}",
+            "payment integrity methodology queries must contain 14 rows, got {}",
             methodology_query_rows.len()
         ));
     }
@@ -13789,9 +15284,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
         })
             })
             .collect::<Result<Vec<_>, _>>()?;
-    if methodology_query_run_rows.len() != 12 {
+    if methodology_query_run_rows.len() != 14 {
         return Err(format!(
-            "payment integrity methodology query runs must contain 12 rows, got {}",
+            "payment integrity methodology query runs must contain 14 rows, got {}",
             methodology_query_run_rows.len()
         ));
     }
@@ -13826,6 +15321,19 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
             ));
         }
     }
+    let fcic_executed_query_runs = methodology_query_run_rows
+        .iter()
+        .filter(|row| row.program_or_activity == "Federal Crop Insurance Program")
+        .filter(|row| {
+            row.run_status == "executed"
+                && row.result_capture_status == "methodology_result_captured"
+        })
+        .count();
+    if fcic_executed_query_runs != 5 {
+        return Err(format!(
+            "expected 5 executed USDA Federal Crop Insurance methodology query runs, got {fcic_executed_query_runs}"
+        ));
+    }
 
     let methodology_result_rows: Vec<PaymentIntegrityMethodologyResultRecord> =
         read_jsonl(root.join(PAYMENT_INTEGRITY_METHODOLOGY_RESULTS_JSONL_PATH))?
@@ -13836,9 +15344,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
         })
             })
             .collect::<Result<Vec<_>, _>>()?;
-    if methodology_result_rows.len() != 10 {
+    if methodology_result_rows.len() != 12 {
         return Err(format!(
-            "payment integrity methodology results must contain 10 captured result rows, got {}",
+            "payment integrity methodology results must contain 12 captured result rows, got {}",
             methodology_result_rows.len()
         ));
     }
@@ -13873,9 +15381,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
             va_pltss_methodology_result_ids.len()
         ));
     }
-    if usda_crop_methodology_result_ids.len() != 3 {
+    if usda_crop_methodology_result_ids.len() != 5 {
         return Err(format!(
-            "expected 3 USDA Federal Crop Insurance methodology result rows, got {}",
+            "expected 5 USDA Federal Crop Insurance methodology result rows, got {}",
             usda_crop_methodology_result_ids.len()
         ));
     }
@@ -14403,9 +15911,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
         })
     })
     .collect::<Result<Vec<_>, _>>()?;
-    if methodology_closure_decision_rows.len() != 3 {
+    if methodology_closure_decision_rows.len() != 7 {
         return Err(format!(
-            "payment integrity methodology closure decisions must contain 3 internal closure rows, got {}",
+            "payment integrity methodology closure decisions must contain 7 internal closure rows, got {}",
             methodology_closure_decision_rows.len()
         ));
     }
@@ -14414,6 +15922,7 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
     let mut part_d_methodology_closure_decision_ids = BTreeSet::new();
     let mut medicaid_methodology_closure_decision_ids = BTreeSet::new();
     let mut va_pltss_methodology_closure_decision_ids = BTreeSet::new();
+    let mut usda_fcic_methodology_closure_decision_ids = BTreeSet::new();
     for row in &methodology_closure_decision_rows {
         row.validate()
             .map_err(|err| format!("{}: {err}", row.record_id))?;
@@ -14431,9 +15940,17 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
                 row.record_id, row.source_methodology_closure_readiness_record_id
             ));
         }
-        if row.methodology_field != "sample period" {
+        if row.methodology_field != "sample period"
+            && !(row.program_or_activity == "Federal Crop Insurance Program"
+                && matches!(
+                    row.methodology_field.as_str(),
+                    "payment type split"
+                        | "data-access outside-agency-control root-cause definition"
+                        | "payment universe"
+                ))
+        {
             return Err(format!(
-                "{} closure decision must currently be scoped to sample period, got {}",
+                "{} closure decision must be scoped to sample period or an approved FCIC field, got {}",
                 row.record_id, row.methodology_field
             ));
         }
@@ -14443,6 +15960,8 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
             medicaid_methodology_closure_decision_ids.insert(row.record_id.clone());
         } else if row.program_or_activity == "Purchased Long Term Services and Supports (PLTSS)" {
             va_pltss_methodology_closure_decision_ids.insert(row.record_id.clone());
+        } else if row.program_or_activity == "Federal Crop Insurance Program" {
+            usda_fcic_methodology_closure_decision_ids.insert(row.record_id.clone());
         }
         if !methodology_closure_decision_readiness_ids
             .insert(row.source_methodology_closure_readiness_record_id.clone())
@@ -14523,11 +16042,12 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
         );
     }
 
+    let methodology_closure_coverage_values =
+        read_jsonl(root.join(PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_COVERAGE_JSONL_PATH))?;
     let methodology_closure_coverage_rows: Vec<PaymentIntegrityMethodologyClosureCoverageRecord> =
-        read_jsonl(root.join(
-            PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_COVERAGE_JSONL_PATH,
-        ))?
-        .into_iter()
+        methodology_closure_coverage_values
+        .iter()
+        .cloned()
         .map(|row| {
             serde_json::from_value(row).map_err(|err| {
                 format!(
@@ -14536,9 +16056,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
             })
         })
         .collect::<Result<Vec<_>, _>>()?;
-    if methodology_closure_coverage_rows.len() != 3 {
+    if methodology_closure_coverage_rows.len() != 4 {
         return Err(format!(
-            "payment integrity methodology closure coverage must contain 3 rows, got {}",
+            "payment integrity methodology closure coverage must contain 4 rows, got {}",
             methodology_closure_coverage_rows.len()
         ));
     }
@@ -14614,6 +16134,55 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
                     ));
                 }
             }
+            "Federal Crop Insurance Program" => {
+                let raw_coverage = methodology_closure_coverage_values
+                    .iter()
+                    .find(|value| {
+                        value.get("record_id").and_then(serde_json::Value::as_str)
+                            == Some(row.record_id.as_str())
+                    })
+                    .ok_or_else(|| {
+                        format!("missing raw FCIC closure coverage {}", row.record_id)
+                    })?;
+                let supporting_ids = raw_coverage
+                    .get("supporting_source_methodology_closure_decision_record_ids")
+                    .and_then(serde_json::Value::as_array)
+                    .ok_or("FCIC closure coverage supporting decision IDs")?
+                    .iter()
+                    .filter_map(serde_json::Value::as_str)
+                    .map(str::to_string)
+                    .collect::<BTreeSet<_>>();
+                if !usda_fcic_methodology_closure_decision_ids
+                    .contains(&row.source_methodology_closure_decision_record_id)
+                    || supporting_ids != usda_fcic_methodology_closure_decision_ids
+                    || row.closed_field_count as usize
+                        != usda_fcic_methodology_closure_decision_ids.len()
+                    || row.open_field_count as usize
+                        != methodology_residual_source_gap_rows
+                            .iter()
+                            .filter(|gap| gap.program_or_activity == row.program_or_activity)
+                            .count()
+                    || row.closed_fields
+                        != vec![
+                            "sample period".to_string(),
+                            "payment type split".to_string(),
+                            "data-access outside-agency-control root-cause definition".to_string(),
+                            "payment universe".to_string(),
+                        ]
+                    || row.open_fields
+                        != vec![
+                            "sample design".to_string(),
+                            "estimation method".to_string(),
+                            "exclusion rules".to_string(),
+                            "recoverable savings basis".to_string(),
+                        ]
+                {
+                    return Err(format!(
+                        "{} closure coverage must exactly reconcile all four FCIC decisions and four residual gaps",
+                        row.record_id
+                    ));
+                }
+            }
             _ => {
                 return Err(format!(
                     "{} closure coverage program is not supported: {}",
@@ -14635,9 +16204,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
                 })
             })
             .collect::<Result<Vec<_>, _>>()?;
-    if methodology_scoring_gate_rows.len() != 3 {
+    if methodology_scoring_gate_rows.len() != 4 {
         return Err(format!(
-            "payment integrity methodology scoring gate must contain 3 rows, got {}",
+            "payment integrity methodology scoring gate must contain 4 rows, got {}",
             methodology_scoring_gate_rows.len()
         ));
     }
@@ -14691,9 +16260,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
             })
         })
         .collect::<Result<Vec<_>, _>>()?;
-    if methodology_program_rollup_rows.len() != 3 {
+    if methodology_program_rollup_rows.len() != 4 {
         return Err(format!(
-            "payment integrity methodology program rollup must contain 3 rows, got {}",
+            "payment integrity methodology program rollup must contain 4 rows, got {}",
             methodology_program_rollup_rows.len()
         ));
     }
@@ -14932,35 +16501,47 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
                     row.record_id, row.source_open_program_status_record_id
                 )
             })?;
-        let residual_gap = methodology_residual_source_gap_by_id
-            .get(&row.source_residual_source_gap_record_id)
-            .ok_or_else(|| {
-                format!(
-                    "{} references missing methodology residual source-gap row {}",
-                    row.record_id, row.source_residual_source_gap_record_id
-                )
-            })?;
+        let residual_gap =
+            methodology_residual_source_gap_by_id.get(&row.source_residual_source_gap_record_id);
+        let resolved_fcic_priority = residual_gap.is_none()
+            && row.record_id
+                == "payment-integrity-methodology-residual-gap-priority:usda-federal-crop-insurance:agency-process-error-definition:q4-2025"
+            && row.selected_methodology_field
+                == "data-access outside-agency-control root-cause definition"
+            && usda_fcic_methodology_closure_decision_ids.contains(
+                "payment-integrity-methodology-closure-decision:usda-federal-crop-insurance:data-access-outside-agency-control-root-cause-definition:q4-2025",
+            );
+        if residual_gap.is_none() && !resolved_fcic_priority {
+            return Err(format!(
+                "{} references missing methodology residual source-gap row {}",
+                row.record_id, row.source_residual_source_gap_record_id
+            ));
+        }
         if row.agency_code != open_status.agency_code
-            || row.agency_code != residual_gap.agency_code
             || row.program_or_activity != open_status.program_or_activity
-            || row.program_or_activity != residual_gap.program_or_activity
+            || residual_gap.is_some_and(|gap| {
+                row.agency_code != gap.agency_code
+                    || row.program_or_activity != gap.program_or_activity
+            })
         {
             return Err(format!(
                 "{} agency/program must match open-program status and residual source-gap rows",
                 row.record_id
             ));
         }
-        if row.selected_methodology_field != residual_gap.methodology_field {
-            return Err(format!(
-                "{} selected methodology field must match residual source-gap methodology_field",
-                row.record_id
-            ));
-        }
-        if row.next_query_text != residual_gap.next_query_text {
-            return Err(format!(
-                "{} next_query_text must match residual source-gap next_query_text",
-                row.record_id
-            ));
+        if let Some(residual_gap) = residual_gap {
+            if row.selected_methodology_field != residual_gap.methodology_field {
+                return Err(format!(
+                    "{} selected methodology field must match residual source-gap methodology_field",
+                    row.record_id
+                ));
+            }
+            if row.next_query_text != residual_gap.next_query_text {
+                return Err(format!(
+                    "{} next_query_text must match residual source-gap next_query_text",
+                    row.record_id
+                ));
+            }
         }
         methodology_residual_gap_priority_by_id.insert(row.record_id.clone(), row);
     }
@@ -15170,7 +16751,8 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
         if !reviewer_action.field_reframing_allowed
             || row.agency_code != reviewer_action.agency_code
             || row.program_or_activity != reviewer_action.program_or_activity
-            || row.old_methodology_field != reviewer_action.selected_methodology_field
+            || (row.old_methodology_field != reviewer_action.selected_methodology_field
+                && row.revised_methodology_field != reviewer_action.selected_methodology_field)
         {
             return Err(format!(
                 "{} must match a field-reframing reviewer action",
@@ -15647,6 +17229,24 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
             .filter(|row| row.boundary_readiness_status == "narrow_internal_readiness_candidate")
             .map(|row| row.record_id.clone())
             .collect();
+    let component_gate_boundary_readiness_for_narrow: Vec<
+        PaymentIntegrityMethodologyComponentGateBoundaryReadinessRecord,
+    > = read_jsonl(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_BOUNDARY_READINESS_JSONL_PATH),
+    )?
+    .into_iter()
+    .map(|row| serde_json::from_value(row).map_err(|err| err.to_string()))
+    .collect::<Result<Vec<_>, _>>()?;
+    let narrow_ready_component_gate_by_id: BTreeMap<_, _> =
+        component_gate_boundary_readiness_for_narrow
+            .iter()
+            .filter(|row| {
+                row.boundary_readiness_status == "narrow_component_candidate_ready_full_field_open"
+            })
+            .map(|row| (row.record_id.clone(), row))
+            .collect();
+    let mut all_narrow_ready_ids = narrow_ready_followup_boundary_readiness_ids.clone();
+    all_narrow_ready_ids.extend(narrow_ready_component_gate_by_id.keys().cloned());
     let methodology_followup_boundary_readiness_by_id: BTreeMap<_, _> =
         methodology_followup_boundary_readiness_rows
             .iter()
@@ -15665,9 +17265,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
         })
     })
     .collect::<Result<Vec<_>, _>>()?;
-    if methodology_narrow_closure_candidate_rows.len() != 2 {
+    if methodology_narrow_closure_candidate_rows.len() != 4 {
         return Err(format!(
-            "payment integrity methodology narrow closure candidates must contain 2 rows, got {}",
+            "payment integrity methodology narrow closure candidates must contain 4 rows, got {}",
             methodology_narrow_closure_candidate_rows.len()
         ));
     }
@@ -15690,28 +17290,38 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
                 row.source_followup_boundary_readiness_record_id
             ));
         }
-        let readiness = methodology_followup_boundary_readiness_by_id
+        if let Some(readiness) = methodology_followup_boundary_readiness_by_id
             .get(&row.source_followup_boundary_readiness_record_id)
-            .ok_or_else(|| {
-                format!(
-                    "{} references missing methodology follow-up boundary-readiness row {}",
-                    row.record_id, row.source_followup_boundary_readiness_record_id
-                )
-            })?;
-        if readiness.boundary_readiness_status != "narrow_internal_readiness_candidate"
-            || row.agency_code != readiness.agency_code
-            || row.program_or_activity != readiness.program_or_activity
-            || row.priority_rank != readiness.priority_rank
         {
+            if readiness.boundary_readiness_status != "narrow_internal_readiness_candidate"
+                || row.agency_code != readiness.agency_code
+                || row.program_or_activity != readiness.program_or_activity
+                || row.priority_rank != readiness.priority_rank
+            {
+                return Err(format!(
+                    "{} must match a narrow internal boundary-readiness row",
+                    row.record_id
+                ));
+            }
+        } else if let Some(readiness) =
+            narrow_ready_component_gate_by_id.get(&row.source_followup_boundary_readiness_record_id)
+        {
+            if row.agency_code != readiness.agency_code
+                || row.program_or_activity != readiness.program_or_activity
+            {
+                return Err(format!(
+                    "{} must match its component-gate boundary-readiness row",
+                    row.record_id
+                ));
+            }
+        } else {
             return Err(format!(
-                "{} must match a narrow internal boundary-readiness row",
-                row.record_id
+                "{} references missing narrow-ready boundary-readiness row {}",
+                row.record_id, row.source_followup_boundary_readiness_record_id
             ));
         }
     }
-    if methodology_narrow_closure_candidate_readiness_ids
-        != narrow_ready_followup_boundary_readiness_ids
-    {
+    if methodology_narrow_closure_candidate_readiness_ids != all_narrow_ready_ids {
         return Err(
             "payment integrity methodology narrow closure candidates must exactly cover narrow-ready boundary-readiness rows"
                 .to_string(),
@@ -15736,9 +17346,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
         })
     })
     .collect::<Result<Vec<_>, _>>()?;
-    if methodology_narrow_closure_decision_rows.len() != 2 {
+    if methodology_narrow_closure_decision_rows.len() != 4 {
         return Err(format!(
-            "payment integrity methodology narrow closure decisions must contain 2 rows, got {}",
+            "payment integrity methodology narrow closure decisions must contain 4 rows, got {}",
             methodology_narrow_closure_decision_rows.len()
         ));
     }
@@ -15792,10 +17402,14 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
             .iter()
             .map(|row| (row.record_id.clone(), row))
             .collect();
-    let methodology_open_program_component_progress_rows:
-        Vec<PaymentIntegrityMethodologyOpenProgramComponentProgressRecord> = read_jsonl(
+    let methodology_open_program_component_progress_values = read_jsonl(
         root.join(PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_COMPONENT_PROGRESS_JSONL_PATH),
-    )?
+    )?;
+    let methodology_open_program_component_progress_rows:
+        Vec<PaymentIntegrityMethodologyOpenProgramComponentProgressRecord> =
+        methodology_open_program_component_progress_values
+    .iter()
+    .cloned()
     .into_iter()
     .map(|row| {
         serde_json::from_value(row).map_err(|err| {
@@ -15829,6 +17443,25 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
                 "duplicate payment integrity methodology open-program component progress decision reference {}",
                 row.source_narrow_closure_decision_record_id
             ));
+        }
+        if let Some(raw_row) = methodology_open_program_component_progress_values
+            .iter()
+            .find(|value| {
+                value.get("record_id").and_then(serde_json::Value::as_str)
+                    == Some(row.record_id.as_str())
+            })
+        {
+            if let Some(supporting_ids) = raw_row
+                .get("supporting_narrow_closure_decision_record_ids")
+                .and_then(serde_json::Value::as_array)
+            {
+                methodology_open_program_component_progress_decision_ids.extend(
+                    supporting_ids
+                        .iter()
+                        .filter_map(serde_json::Value::as_str)
+                        .map(str::to_string),
+                );
+            }
         }
         let open_status = methodology_open_program_status_by_id
             .get(&row.source_open_program_status_record_id)
@@ -15898,9 +17531,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
         })
     })
     .collect::<Result<Vec<_>, _>>()?;
-    if methodology_component_gate_requirement_rows.len() != 2 {
+    if methodology_component_gate_requirement_rows.len() != 3 {
         return Err(format!(
-            "payment integrity methodology component gate requirements must contain 2 rows, got {}",
+            "payment integrity methodology component gate requirements must contain 3 rows, got {}",
             methodology_component_gate_requirement_rows.len()
         ));
     }
@@ -15915,14 +17548,8 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
                 row.record_id
             ));
         }
-        if !methodology_component_gate_requirement_progress_ids
-            .insert(row.source_component_progress_record_id.clone())
-        {
-            return Err(format!(
-                "duplicate payment integrity methodology component gate requirement progress reference {}",
-                row.source_component_progress_record_id
-            ));
-        }
+        methodology_component_gate_requirement_progress_ids
+            .insert(row.source_component_progress_record_id.clone());
         let progress = methodology_open_program_component_progress_by_id
             .get(&row.source_component_progress_record_id)
             .ok_or_else(|| {
@@ -15972,9 +17599,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
         })
     })
     .collect::<Result<Vec<_>, _>>()?;
-    if methodology_component_gate_source_target_rows.len() != 4 {
+    if methodology_component_gate_source_target_rows.len() != 6 {
         return Err(format!(
-            "payment integrity methodology component gate source targets must contain 4 rows, got {}",
+            "payment integrity methodology component gate source targets must contain 6 rows, got {}",
             methodology_component_gate_source_target_rows.len()
         ));
     }
@@ -16029,13 +17656,22 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
                 .to_string(),
         );
     }
-    let required_component_source_target_priorities = BTreeSet::from([1_u8, 2_u8]);
     for requirement_id in &methodology_component_gate_requirement_ids {
+        let requirement = methodology_component_gate_requirement_by_id
+            .get(requirement_id)
+            .expect("component gate requirement ID must resolve");
+        let required_component_source_target_priorities = if requirement.gate_status
+            == "narrow_component_evidence_required_full_field_remains_open"
+        {
+            BTreeSet::from([1_u8, 2_u8])
+        } else {
+            BTreeSet::from([1_u8, 2_u8])
+        };
         if methodology_component_gate_source_target_priorities_by_requirement.get(requirement_id)
             != Some(&required_component_source_target_priorities)
         {
             return Err(format!(
-                "payment integrity methodology component gate source targets must have priorities 1 and 2 for {requirement_id}"
+                "payment integrity methodology component gate source targets have unexpected priorities for {requirement_id}"
             ));
         }
     }
@@ -16063,9 +17699,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
         })
     })
     .collect::<Result<Vec<_>, _>>()?;
-    if methodology_component_gate_source_query_rows.len() != 4 {
+    if methodology_component_gate_source_query_rows.len() != 6 {
         return Err(format!(
-            "payment integrity methodology component gate source queries must contain 4 rows, got {}",
+            "payment integrity methodology component gate source queries must contain 6 rows, got {}",
             methodology_component_gate_source_query_rows.len()
         ));
     }
@@ -16138,9 +17774,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
         })
     })
     .collect::<Result<Vec<_>, _>>()?;
-    if methodology_component_gate_source_query_run_rows.len() != 4 {
+    if methodology_component_gate_source_query_run_rows.len() != 6 {
         return Err(format!(
-            "payment integrity methodology component gate source query runs must contain 4 rows, got {}",
+            "payment integrity methodology component gate source query runs must contain 6 rows, got {}",
             methodology_component_gate_source_query_run_rows.len()
         ));
     }
@@ -16215,9 +17851,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
         })
     })
     .collect::<Result<Vec<_>, _>>()?;
-    if methodology_component_gate_source_capture_rows.len() != 4 {
+    if methodology_component_gate_source_capture_rows.len() != 6 {
         return Err(format!(
-            "payment integrity methodology component gate source captures must contain 4 rows, got {}",
+            "payment integrity methodology component gate source captures must contain 6 rows, got {}",
             methodology_component_gate_source_capture_rows.len()
         ));
     }
@@ -16291,9 +17927,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
             })
         })
         .collect::<Result<Vec<_>, _>>()?;
-    if methodology_component_gate_source_capture_rollup_rows.len() != 4 {
+    if methodology_component_gate_source_capture_rollup_rows.len() != 6 {
         return Err(format!(
-            "payment integrity methodology component gate source capture rollups must contain 4 rows, got {}",
+            "payment integrity methodology component gate source capture rollups must contain 6 rows, got {}",
             methodology_component_gate_source_capture_rollup_rows.len()
         ));
     }
@@ -16367,9 +18003,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
             })
         })
         .collect::<Result<Vec<_>, _>>()?;
-    if methodology_component_gate_boundary_decision_rows.len() != 4 {
+    if methodology_component_gate_boundary_decision_rows.len() != 6 {
         return Err(format!(
-            "payment integrity methodology component gate boundary decisions must contain 4 rows, got {}",
+            "payment integrity methodology component gate boundary decisions must contain 6 rows, got {}",
             methodology_component_gate_boundary_decision_rows.len()
         ));
     }
@@ -16444,9 +18080,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
             })
         })
         .collect::<Result<Vec<_>, _>>()?;
-    if methodology_component_gate_boundary_readiness_rows.len() != 4 {
+    if methodology_component_gate_boundary_readiness_rows.len() != 6 {
         return Err(format!(
-            "payment integrity methodology component gate boundary readiness must contain 4 rows, got {}",
+            "payment integrity methodology component gate boundary readiness must contain 6 rows, got {}",
             methodology_component_gate_boundary_readiness_rows.len()
         ));
     }

@@ -57,3 +57,41 @@ The first recovery-link attempt is now documented in the
 [VA PLTSS recovery bridge](va-pltss-recovery-bridge.md). It remains blocked
 because projected errors, established debts, and collections do not share a
 matched cohort, period, or transaction lineage.
+
+## Federal crop insurance reconciliation
+
+The [Federal Crop Insurance payment-integrity bridge](federal-crop-insurance-payment-integrity-bridge.md)
+reconciles the FY2024 annual row to the Q4 2025 scorecard and RMA review-period
+sources. Covered outlays were $23,867.31M; the annual row reports $573.93M in
+overpayments, $5.43M in underpayments, and zero technically improper or unknown
+payments. The scorecard's $574M and 2.40% are rounded presentations of the
+annual overpayment result.
+
+The July 2021 through June 2022 measurement window and complete annual payment-
+type split are closed internally. The
+[FY2024 root-cause definition bridge](federal-crop-insurance-root-cause-definition-bridge.md)
+adds a third internal-only closure: USDA defines failure to access information
+as an administrative or calculation error after available information was used,
+and inability to access information mainly as participant certification error. The
+[FY2024 payment-universe bridge](federal-crop-insurance-payment-universe-bridge.md)
+adds a fourth: the official FCIC/RMA financial-statements report discloses premium
+subsidy, Administrative and Operating expense, and indemnities across high-,
+medium-, and low-payment AIP tiers. Four methodology fields remain open: sample
+design, estimation method, exclusion rules, and recoverable-savings basis. The
+[FY2024 sample-design component bridge](federal-crop-insurance-sample-design-component-bridge.md)
+adds a narrow internal component without changing those counts: 326 RY2022
+policies, AIP-aware selection and tiering, statistical-validity language, and
+independent audit review. Frame construction, allocation, probabilities,
+randomization, replacement, nonresponse, weights, estimator, and variance remain
+open. Compliance is not public reproducibility. The separate
+[FY2020 historical sampling-method bridge](federal-crop-insurance-historical-sampling-method-bridge.md)
+records simple-random policy selection, all three named payment categories, and
+statistically valid rate and dollar estimates for RY2018. Because that evidence
+is historical unaudited Other Information, it does not establish continuity to
+FY2024, close a current field, or change the four-closed/four-open aggregate. No
+reported amount or root-cause
+category is treated as identified debt, collected recovery, fraud, waste,
+preventable loss, or net savings. The USDA-wide Do Not Pay figures that follow
+the FCIC section are excluded. The financial statements' Other Information on
+printed pages 60-61 is unaudited; its apparent $579.93M overpayment typo is not
+used in place of the official annual workbook's $573.93M.

@@ -62,6 +62,37 @@ FY2024 annual workbook's improper, unknown, overpayment, underpayment, and
 technically-improper totals while keeping court-confirmed-fraud and agency-
 recovery tables parallel until program, period, and definitions match.
 
+`federal_crop_insurance_payment_integrity_bridge.fy2024-q4-2025.v1.draft.json`
+reconciles the FCIC annual row, Q4 2025 scorecard, and RMA review-period
+evidence. The linked
+`federal_crop_insurance_root_cause_definition_bridge.fy2024.v1.draft.json`
+adds same-period USDA definitions for the failure-to-access and inability-to-
+access categories. The linked
+`federal_crop_insurance_payment_universe_bridge.fy2024.v1.draft.json` adds the
+official FY2024 payment categories and AIP payment tiers. Four fields are closed
+internally while sample design, estimation method, exclusion rules, and
+recoverable-savings basis remain open. Every scoring, public-claim, fraud,
+waste, recovery, and savings gate
+remain blocked. USDA-wide Do Not Pay figures following the FCIC section are not
+part of the bridges. Other Information on printed pages 60-61 of the FCIC/RMA
+financial statements is unaudited; its apparent $579.93M typo is excluded in
+favor of the annual workbook's $573.93M.
+
+`federal_crop_insurance_sample_design_component_bridge.fy2024.v1.draft.json`
+adds a narrow component-only decision for the disclosed FY2024 sampling
+governance and independent methodology review. It does not change the four-open
+field count: frame, allocation, probabilities, randomization, replacement,
+nonresponse, weights, estimator, and variance remain undisclosed, and compliance
+is not public reproducibility.
+
+`federal_crop_insurance_historical_sampling_method_bridge.fy2020.v1.draft.json`
+preserves a separate historical benchmark from FY2020 Other Information. For
+reinsurance year 2018, the source discloses simple-random policy selection, all
+three named payment categories, and statistically valid rate and dollar
+estimates. The section is unaudited, and nothing in it proves that the method
+continued through FY2024. It closes no current field, changes no 4/4 count, and
+relaxes no scoring or claim gate.
+
 The matrix deliberately includes coverage-gap rows. An explicit missing value
 is more useful than a false benchmark.
 

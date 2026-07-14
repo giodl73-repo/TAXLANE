@@ -37,7 +37,7 @@ Machine rows:
 | Disaster relief and insurance subfunction | 0.90% of federal outlays | Event incidence, exposure, mitigation, and supplemental funding vary sharply; do not relabel the broader parent function as disaster spending. |
 | Justice Administration | 1.19% of federal outlays | State/local spending and matched safety, access, timeliness, corrections, and due-process outcomes are not yet attached. |
 | Science, energy, environment, and natural resources | 2.18% of federal outlays | This is a disclosed composition of three OMB functions, not one official function or one benchmarkable outcome. |
-| Agriculture | 0.68% of federal outlays | Program accounts and farm, acre, risk, productivity, and conservation denominators still need reconciliation. |
+| Agriculture | 0.68% of federal outlays | The FY2024 FCIC integrity bridge retains four internal field closures and four open fields. A narrow FY2024 sample-design governance component and a separate historical FY2020/RY2018 simple-random selection component add bounded context, but neither establishes current public reproducibility or closes full sample design. This is not a FY2025 function-350 account crosswalk; estimation, exclusions, recoverability, farm, acre, risk, productivity, conservation, and peer evidence remain open. |
 | International Affairs | 0.64% of federal outlays | The −$14.936B international-financial entry now reconciles exactly to ten account rows, chiefly FMS customer deposits exceeding same-year trust-fund outlays; outcome-matched component benchmarks remain open. |
 
 ## Breadth Closure And Depth Queue
@@ -91,6 +91,35 @@ payments. Confirmed-fraud and recovery tables remain parallel evidence, not
 automatic subsets or savings. The VA PLTSS annual row and Q4 scorecard are now
 source-reviewed and reconciled at $218.30M in FY2024 overpayments; the earlier
 $2.502B probe was an extraction error, not an official-source conflict.
+
+The [Federal Crop Insurance bridge](federal-crop-insurance-payment-integrity-bridge.md)
+now reconciles the FY2024 annual row's $579.36M improper-payment estimate—
+$573.93M overpayments and $5.43M underpayments—to the Q4 2025 scorecard and the
+RMA July 2021–June 2022 review window. The
+[USDA AFR extension](federal-crop-insurance-root-cause-definition-bridge.md)
+defines both FY2024 data-access root-cause categories. The
+[payment-universe extension](federal-crop-insurance-payment-universe-bridge.md)
+discloses premium subsidy, A&O expense, and indemnities across AIP payment tiers.
+Sample period, payment type split, root-cause definition, and payment universe
+are closed internally. The
+[sample-design component extension](federal-crop-insurance-sample-design-component-bridge.md)
+records 326 RY2022 policies, AIP-aware selection and tiering,
+statistical-validity language, and independent audit review. It is a narrow
+component only: compliance is not public reproducibility, and frame, allocation,
+probabilities, randomization, replacement, nonresponse, weights, estimator, and
+variance remain open. Sample design, estimation method, exclusion rules, and
+recoverable savings basis remain open, and no amount or category is scored as fraud, waste,
+identified debt, collectible recovery, prevention, or savings. The subsequent
+USDA-wide Do Not Pay figures are excluded from FCIC evidence. Other Information
+on printed pages 60-61 of the FCIC/RMA statements is unaudited; its apparent
+$579.93M typo is excluded in favor of the annual workbook's $573.93M.
+
+The [historical sampling-method extension](federal-crop-insurance-historical-sampling-method-bridge.md)
+adds a year-bound FY2020/RY2018 benchmark: unaudited Other Information describes
+simple-random policy selection, premium-subsidy, A&O-subsidy, and indemnity
+coverage, and statistically valid rate and dollar estimates. It does not prove
+continuity to FY2024, change the four-closed/four-open aggregate, or relax any
+claim gate.
 
 The matrix enforces:
 

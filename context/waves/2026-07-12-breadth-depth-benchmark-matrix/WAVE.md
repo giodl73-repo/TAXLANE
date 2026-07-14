@@ -156,6 +156,44 @@ independent-estimates screen with no covariance term, not covariance-aware
 confirmation or a causal Pell effect. All receipt-not-eligibility, early
 pandemic-era, maturity, cost, fiscal, fraud, and savings boundaries remain.
 
+The Federal Crop Insurance payment-integrity extension reconciles the FY2024
+annual workbook's $579.36M improper-payment estimate—$573.93M overpayments and
+$5.43M underpayments—to the Q4 2025 scorecard and RMA's reinsurance-year 2022
+review evidence. The July 2021–June 2022 sample period and complete annual
+payment-type split are closed internally. USDA's FY2024 Agency Financial Report
+then defines failure to access data or information as an administrative or
+calculation error after available information was obtained and used, and
+inability to access mainly as participant certification error. That taxonomy is
+a third internal-only closure. The official FCIC/RMA FY2024 financial-statements report
+disclose all payment categories—premium subsidy, Administrative and Operating
+expense, and indemnities—and high-, medium-, and low-payment AIP tiers, closing
+payment universe internally as a fourth field. Sample design, estimation method,
+exclusion rules, and recoverable-savings basis remain open. The financial
+statements' Other Information on printed pages 60-61 is unaudited; its apparent
+$579.93M overpayment typo is excluded in favor of the annual workbook's
+$573.93M. No
+program score, fraud, waste, identified-debt, collection, prevention, or savings
+claim is allowed, and the USDA-wide Do Not Pay section is excluded.
+
+Pulse 27 adds a narrow sample-design governance component without changing the
+four-closed/four-open aggregate. Same-period sources disclose 326 RY2022 policy
+units, AIP-aware selection and high/medium/low tiering, an annual
+statistical-validity designation, and independent audit review of samples and
+underlying methodologies. Full sample design remains open because frame,
+allocation, selection probabilities, randomization, replacement, nonresponse,
+weights, estimator, and variance are not public. The audit's printed-page-23
+S&EMP governance recommendation makes the boundary explicit: compliance is not
+public reproducibility.
+
+Pulse 28 adds a separate historical FY2020/RY2018 disclosed-selection-method
+component. FCIC/RMA Other Information on printed page 66 describes a simple
+random policy sample, inclusion of premium subsidies, A&O subsidies, and
+indemnity payments, statistically valid rate and dollar estimates, and an OMB
+approval posture described for FY2017 and beyond. The section is unaudited and
+does not establish that the method continued through FY2024. No current field
+closes: FCIC remains four closed and four open, with every score and claim gate
+blocked.
+
 ## Design rules
 
 - Never invent an expected value for a policy-dependent lane.
@@ -175,5 +213,5 @@ git diff --check
 
 ## Current pulse
 
-`pulses/pulse-23-pell-current-entrant-persistence-significance-screen.md` records the latest
+`pulses/pulse-28-federal-crop-insurance-historical-sampling-method-component.md` records the latest
 bounded slice and next decision gate.

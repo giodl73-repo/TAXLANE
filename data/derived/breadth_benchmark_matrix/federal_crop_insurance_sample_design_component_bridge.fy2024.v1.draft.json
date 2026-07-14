@@ -1,0 +1,88 @@
+{
+  "record_id": "payment-integrity-sample-design-component-bridge:usda-federal-crop-insurance:fy2024",
+  "record_family": "federal_crop_insurance_sample_design_component_bridge",
+  "program_id": "usda-federal-crop-insurance",
+  "agency_code": "USDA",
+  "program_or_activity": "Risk Management Agency Federal Crop Insurance Corporation",
+  "status": "draft_official_sources_checksum_verified_narrow_sampling_governance_component_closed_full_sample_design_open",
+  "source_ids": [
+    "SRC-USDA-OIG-PIIA-COMPLIANCE-FY2024",
+    "SRC-USDA-RMA-COM-23-001",
+    "SRC-USDA-OIG-FCIC-RMA-FS-FY2024"
+  ],
+  "upstream_artifacts": [
+    "data/derived/breadth_benchmark_matrix/federal_crop_insurance_payment_universe_bridge.fy2024.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/federal_crop_insurance_payment_integrity_bridge.fy2024-q4-2025.v1.draft.json"
+  ],
+  "source_custody": {
+    "raw_path": "data/raw/usda/SRC-USDA-OIG-PIIA-COMPLIANCE-FY2024/2026-07-13/50024-0016-11_FR_508.pdf",
+    "checksum_sha256": "A3CEBE04D34D926737995EE9B176F5D7F43EFF0E60DC20574DDB8D4FA7B5C60F",
+    "bytes": 5619427,
+    "audit_scope_printed_pages": "3-5 and 10",
+    "audit_scope_pdf_file_pages": "7-9 and 14",
+    "audit_scope_zero_based_viewer_indices": "6-8 and 13",
+    "governance_recommendation_printed_page": 23,
+    "governance_recommendation_pdf_file_page": 27,
+    "governance_recommendation_zero_based_viewer_index": 26
+  },
+  "disclosed_sampling_governance_design_component": {
+    "reporting_period": "FY2024",
+    "sample_policy_count": 326,
+    "reinsurance_year": 2022,
+    "selection_considered_servicing_aip": true,
+    "aip_payment_tiers": [
+      "high",
+      "medium",
+      "low"
+    ],
+    "statistically_valid_designation_published": true,
+    "independent_performance_audit_reviewed_usda_samples": true,
+    "independent_performance_audit_reviewed_underlying_sampling_methodologies": true,
+    "fcic_identified_as_reviewed_phase_2_and_high_priority_program": true,
+    "fcic_piia_compliance_reported": true
+  },
+  "component_decision": {
+    "component": "disclosed sampling governance and design attributes",
+    "decision": "component_closed_internal_only",
+    "decision_status": "narrow_component_closed_full_methodology_field_open",
+    "basis": "Official sources jointly disclose the 326-policy FY2024 review sample from reinsurance year 2022, AIP-aware selection, high/medium/low AIP tiers, a statistically valid designation, and independent audit review of USDA samples and underlying sampling methodologies.",
+    "component_closed": true,
+    "full_sample_design_field_closed": false,
+    "public_claim_allowed": false,
+    "scoring_allowed": false,
+    "savings_estimate_allowed": false
+  },
+  "full_sample_design_residuals": [
+    "sample frame construction and coverage",
+    "tier allocation and tier-level sample counts",
+    "selection probabilities",
+    "randomization or systematic-selection procedure",
+    "replacement rules",
+    "nonresponse and incomplete-document treatment",
+    "sampling weights",
+    "projection estimator",
+    "variance and confidence-interval method"
+  ],
+  "governance_boundary": {
+    "other_matters_item": "The auditor encouraged OCFO to perform more detailed reviews of Sampling and Estimation Methodology Plans and inquire about potential inconsistencies.",
+    "interpretation": "Independent audit review and reported PIIA compliance establish governance review, not public methodological reproducibility.",
+    "full_sample_design_status": "open",
+    "estimation_method_status": "open",
+    "exclusion_rules_status": "open",
+    "recoverable_savings_basis_status": "open"
+  },
+  "evidence_boundaries": [
+    "The component closure covers only the disclosed sample count, period label, AIP-aware selection, tier labels, statistical-validity designation, and independent-review governance.",
+    "The performance audit reviewed USDA samples and underlying sampling methodologies but does not publish the FCIC methodology materials it inspected.",
+    "Reported PIIA compliance does not establish that an outside reader can reproduce FCIC sample selection or projection.",
+    "Printed page 23 expressly encourages more detailed OCFO review of Sampling and Estimation Methodology Plans.",
+    "Full sample design remains open because frame, allocation, probabilities, randomization, replacement, nonresponse, weights, estimator, and variance details remain unpublished.",
+    "Nothing in the sources establishes fraud, waste, identified debt, collectibility, recovery, prevention, control cost, or savings."
+  ],
+  "public_claim_allowed": false,
+  "scoring_allowed": false,
+  "fraud_claim_allowed": false,
+  "recovery_claim_allowed": false,
+  "prevention_claim_allowed": false,
+  "savings_estimate_allowed": false
+}

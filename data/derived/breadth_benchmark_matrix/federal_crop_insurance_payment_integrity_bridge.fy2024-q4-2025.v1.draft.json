@@ -1,0 +1,145 @@
+{
+  "record_id": "payment-integrity-bridge:usda-federal-crop-insurance:fy2024-q4-2025",
+  "record_family": "federal_crop_insurance_payment_integrity_bridge",
+  "program_id": "usda-federal-crop-insurance",
+  "agency_code": "USDA",
+  "program_or_activity": "Risk Management Agency Federal Crop Insurance Corporation",
+  "status": "draft_official_sources_checksum_verified_two_methodology_fields_closed_internal_only",
+  "source_ids": [
+    "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+    "SRC-OMB-PAYMENTACCURACY-FCIC-Q4-2025",
+    "SRC-USDA-RMA-COM-23-001",
+    "SRC-USDA-RMA-SRA-2022"
+  ],
+  "annual_workbook_fy2024": {
+    "source_path": "data/extracted/payment_accuracy/fy2024_program_results.v1.draft.jsonl",
+    "source_sheet": "All Program Results",
+    "source_row": 1422,
+    "outlays_millions": 23867.31,
+    "properly_paid_millions": 23287.95,
+    "payment_accuracy_rate_percent": 97.5725794,
+    "improper_payment_millions": 579.36,
+    "improper_payment_rate_percent": 2.4274206,
+    "overpayment_millions": 573.93,
+    "overpayment_rate_percent": 2.4046698,
+    "overpayments_outside_agency_control_millions": 573.93,
+    "overpayments_within_agency_control_millions": 0.0,
+    "underpayment_millions": 5.43,
+    "underpayment_rate_percent": 0.0227508,
+    "technically_improper_millions": 0.0,
+    "unknown_payment_millions": 0.0,
+    "sample_start": "2021-07",
+    "sample_end": "2022-06",
+    "confidence_interval_category": "95% to <100%",
+    "margin_of_error_reported": 2.5,
+    "margin_of_error_unit": "not_specified_in_extracted_workbook_row"
+  },
+  "q4_2025_scorecard": {
+    "reporting_period": "Q4 2025",
+    "fy2024_overpayment_millions_rounded": 574.0,
+    "fy2024_overpayment_rate_percent_rounded": 2.40,
+    "sample_start": "2021-07",
+    "sample_end": "2022-06",
+    "root_causes_millions_rounded": [
+      {
+        "category": "failure_to_access_data_or_information_needed",
+        "control_scope": "outside_agency_control",
+        "amount_millions": 467.0
+      },
+      {
+        "category": "inability_to_access_data_or_information_needed",
+        "control_scope": "outside_agency_control",
+        "amount_millions": 107.0
+      }
+    ],
+    "recovery_process": "AIPs are notified through CARS; reported overpayments are then tracked, collected, and verified through RMA accounting systems.",
+    "published_recovery_amount": false,
+    "published_collectible_amount": false,
+    "published_estimate_to_collection_lineage": false
+  },
+  "rma_fy2024_review": {
+    "reporting_period": "2024",
+    "sample_reinsurance_year": 2022,
+    "sample_policy_count": 326,
+    "sample_scope_text": "policies from across the program",
+    "selection_factor_published": "Approved Insurance Provider servicing the policy",
+    "statistically_selected": true,
+    "statistically_valid": true,
+    "documentation_channel": "Compliance Activities Results System",
+    "sample_frame_published": false,
+    "strata_published": false,
+    "weights_published": false,
+    "projection_estimator_published": false,
+    "variance_method_published": false
+  },
+  "period_reconciliation": {
+    "sra_definition": "A reinsurance year begins July 1, ends June 30 of the following year, and is identified by the year containing June.",
+    "reinsurance_year_2022_start": "2021-07",
+    "reinsurance_year_2022_end": "2022-06",
+    "com_23_to_paymentaccuracy_dates_match": true,
+    "scorecard_to_annual_workbook_dates_match": true,
+    "result": "fy2024_reporting_period_uses_reinsurance_year_2022_measurement_window"
+  },
+  "numeric_reconciliation": {
+    "proper_plus_improper_equals_outlays": true,
+    "overpayment_plus_underpayment_plus_technical_equals_improper": true,
+    "scorecard_overpayment_amount_is_annual_workbook_value_rounded_to_whole_millions": true,
+    "scorecard_overpayment_rate_is_annual_workbook_value_rounded_to_two_decimals": true,
+    "scorecard_root_causes_sum_to_scorecard_rounded_overpayment_millions": true,
+    "root_cause_rounding_precludes_exact_subcategory_reconciliation_to_573_93_millions": true
+  },
+  "methodology_field_decisions": {
+    "closed_internal_only": [
+      {
+        "field": "sample period",
+        "decision": "closed_period_reconciled",
+        "basis": "COM-23-001 identifies the FY2024 review as reinsurance year 2022; the SRA definition converts that label to July 2021 through June 2022, matching both PaymentAccuracy sources."
+      },
+      {
+        "field": "payment type split",
+        "decision": "closed_annual_categories_reconciled",
+        "basis": "The FY2024 annual row completely separates overpayments, underpayments, technically improper payments, and unknown payments and reconciles those categories to the improper-payment total."
+      }
+    ],
+    "open": [
+      {
+        "field": "sample design",
+        "remaining_need": "sample frame, strata, weights, projection details, and variance method"
+      },
+      {
+        "field": "payment universe",
+        "remaining_need": "included and excluded payment and policy categories"
+      },
+      {
+        "field": "estimation method",
+        "remaining_need": "estimator, weights, variance, and sampled-error-to-dollar projection"
+      },
+      {
+        "field": "exclusion rules",
+        "remaining_need": "excluded policy or payment categories and rationale"
+      },
+      {
+        "field": "data-access outside-agency-control root-cause definition",
+        "remaining_need": "complete classification rules and separation from collectible or recoverable overpayments"
+      },
+      {
+        "field": "recoverable savings basis",
+        "remaining_need": "amount-level lineage from estimated errors to established debt, collections, prevention, and control cost"
+      }
+    ],
+    "closed_count": 2,
+    "open_count": 6,
+    "program_scoring_allowed": false
+  },
+  "evidence_boundaries": [
+    "The FY2024 values are statistical estimates for a sampled payment universe, not a transaction-level list of identified debts.",
+    "Improper payments and outside-agency-control root causes are not findings of fraud, waste, or abuse.",
+    "The scorecard recovery-process description does not identify how much of the FY2024 estimate was collectible, collected, or prevented.",
+    "The rounded 467 million and 107 million root-cause categories are not savings estimates and cannot be reconciled below their displayed precision.",
+    "The margin of error applies to the published estimate and does not establish recoverability or net fiscal benefit.",
+    "No savings score is allowed without debt lineage, appeal and reversal treatment, collections, prevention attribution, and control cost."
+  ],
+  "public_claim_allowed": false,
+  "fraud_claim_allowed": false,
+  "savings_estimate_allowed": false
+}

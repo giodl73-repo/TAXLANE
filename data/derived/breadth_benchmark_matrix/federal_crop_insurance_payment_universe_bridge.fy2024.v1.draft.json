@@ -1,0 +1,98 @@
+{
+  "record_id": "payment-integrity-payment-universe-bridge:usda-federal-crop-insurance:fy2024",
+  "record_family": "federal_crop_insurance_payment_universe_bridge",
+  "program_id": "usda-federal-crop-insurance",
+  "agency_code": "USDA",
+  "program_or_activity": "Risk Management Agency Federal Crop Insurance Corporation",
+  "status": "draft_official_sources_checksum_verified_fourth_methodology_field_closed_internal_only",
+  "source_ids": [
+    "SRC-USDA-OIG-FCIC-RMA-FS-FY2024",
+    "SRC-USDA-RMA-COM-23-001",
+    "SRC-OMB-PAYMENTACCURACY-FY2024-DATA"
+  ],
+  "upstream_artifacts": [
+    "data/derived/breadth_benchmark_matrix/federal_crop_insurance_payment_integrity_bridge.fy2024-q4-2025.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/federal_crop_insurance_root_cause_definition_bridge.fy2024.v1.draft.json"
+  ],
+  "source_custody": {
+    "raw_path": "data/raw/usda/SRC-USDA-OIG-FCIC-RMA-FS-FY2024/2026-07-13/05403-0001-11_FR_508.pdf",
+    "checksum_sha256": "0797BD2CCB1027B568BCE3B640849E89F30A235F528B1B1A2B249D525695ED32",
+    "bytes": 7242677,
+    "printed_page": 18,
+    "pdf_file_page": 29,
+    "zero_based_viewer_index": 28,
+    "supporting_printed_pages": "60-61",
+    "supporting_pdf_file_pages": "71-72",
+    "supporting_zero_based_viewer_indices": "70-71"
+  },
+  "fy2024_payment_universe_evidence": {
+    "included_payment_categories": [
+      "premium subsidy",
+      "Administrative and Operating expense",
+      "indemnities"
+    ],
+    "all_categories_statement_published": true,
+    "aip_payment_tiers": [
+      "high",
+      "medium",
+      "low"
+    ],
+    "annual_statistically_valid_sample_published": true,
+    "individual_aip_results_captured_annually": true,
+    "com_23_001_document_scope": "all applicable policyholder and Approved Insurance Provider documentation for the 326 statistically selected policies is submitted through CARS",
+    "methodology_changed_during_reporting_period": false
+  },
+  "fy2024_result_context": {
+    "outlays_millions": 23867.31,
+    "improper_payment_millions": 579.36,
+    "improper_payment_rate_percent": 2.43,
+    "numeric_authority": "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+    "other_information_audited": false,
+    "excluded_oig_table_value": {
+      "field": "overpayments_millions",
+      "printed_value": 579.93,
+      "authoritative_annual_workbook_value": 573.93,
+      "reason": "The OIG-hosted report's unaudited table value conflicts with the authoritative PaymentAccuracy annual workbook and appears to be a typographical error; it must not be used."
+    }
+  },
+  "methodology_field_decision": {
+    "field": "payment universe",
+    "decision": "closed_all_payment_categories_defined_internal_only",
+    "decision_status": "field_closed_internal_only",
+    "basis": "The FCIC/RMA FY2024 report explicitly says the rate considers all payment categories and enumerates premium subsidy, A&O expense, and indemnities. COM-23-001 independently confirms that all applicable policyholder and AIP documentation for the sampled policies is submitted through CARS.",
+    "field_closed": true,
+    "public_claim_allowed": false,
+    "recovery_claim_allowed": false,
+    "savings_claim_allowed": false
+  },
+  "program_methodology_state": {
+    "closed_internal_only": [
+      "sample period",
+      "payment type split",
+      "data-access outside-agency-control root-cause definition",
+      "payment universe"
+    ],
+    "open": [
+      "sample design",
+      "estimation method",
+      "exclusion rules",
+      "recoverable savings basis"
+    ],
+    "closed_count": 4,
+    "open_count": 4,
+    "program_scoring_allowed": false
+  },
+  "evidence_boundaries": [
+    "The payment-universe closure is limited to the reported inclusion of all three payment-category classes in the improper-payment rate.",
+    "AIP tier names and annual statistical-validity language do not disclose frame construction, tier allocation, selection probabilities, randomization details, weights, projection estimator, or variance method; sample design and estimation method remain open.",
+    "The sources do not publish policy-level exclusions or review exclusions; exclusion rules remain open.",
+    "The Payment Integrity section on printed pages 60-61 is explicitly Other Information (Unaudited), and the page-18 discussion is also unaudited management discussion and analysis.",
+    "The apparent 579.93 million overpayment table typo is excluded; the authoritative annual workbook value remains 573.93 million.",
+    "Nothing in these sources establishes identified debt, collectible dollars, collections, recoveries, preventable loss, control cost, or savings."
+  ],
+  "public_claim_allowed": false,
+  "fraud_claim_allowed": false,
+  "recovery_claim_allowed": false,
+  "prevention_claim_allowed": false,
+  "savings_estimate_allowed": false
+}
