@@ -39,8 +39,9 @@ established debt and collection.
 
 The VA OIG FY2024 PIIA review independently verifies sampling plans, estimates,
 and margins of error and explains prior-year reporting activity. It does not
-publish transaction lineage. The PLTSS sample-period field is now closed
-internally; recovery and savings gates remain blocked.
+publish transaction lineage. The PLTSS sample-period and payment-type-split
+fields are now closed internally; six fields plus recovery and savings gates
+remain blocked.
 
 The international-financial accounting bridge now reconciles all ten FY2025
 subfunction-155 account rows to −$14.936B. The dominant cause is Foreign
@@ -216,6 +217,185 @@ This closes a narrow governance component but zero full fields. A Finding is not
 automatically debt, contractual authority is not an exercised remedy, and no
 FY2024 sample collection is inferred.
 
+Pulse 32 records the public cohort-outcome evidence ceiling. After the August
+2024 report marked the FY2024/RY2022 review complete at 2.43 percent, the
+September and November Manager's Reports moved payment-integrity reporting to
+the 388-policy FY2025/RY2023 cohort. Their separately headed ordinary compliance
+findings cannot be assigned to either statistical sample. No retrospective
+FY2024 sample-specific appeal, final-debt, setoff, or collection outcome is
+published, so zero fields close and the four-closed/four-open aggregate remains.
+
+Pulse 33 converts that ceiling into a privacy-aware request specification for
+existing records. It targets the 326-policy FY2024/RY2022 cohort across CARS,
+RMA compliance, and linked settlement or receivable records; accepts existing
+deidentified or aggregate forms; requests native electronic delivery and
+segregable partial release; and does not require creation of a new record. The
+template remains unsent pending owner identity, fee, and submission approval.
+Zero fields close and all score and claim gates remain blocked.
+
+Pulse 34 adds a hard submission preflight and a blank response-intake state
+machine. It preserves acknowledgments, clarification, fees, extensions,
+productions, adverse determinations, and appeals without treating administrative
+events as substantive evidence. Submission is still blocked pending owner
+identity, contact, fee, channel, and explicit authorization. Zero fields close;
+FCIC remains four closed and four open.
+
+Pulse 35 returns to the highest-value internally actionable VA PLTSS gap. The
+same-period FY2024 annual workbook completely reconciles overpayment,
+underpayment, technically improper, and unknown categories, while the FY2025
+AFR corroborates the same taxonomy for a later reporting cycle. The payment-type
+split closes internally, moving PLTSS to two closed and six open fields. The
+cycles are not blended, and documentation-to-debt, appeal, collection, recovery,
+and savings lineage remains open.
+
+Pulse 36 captures current VA payment-integrity and recovery-audit policy. The
+rules distinguish documentation failure, unknown payments, monetary-loss
+overpayments, technical/non-monetary errors, and returned-funds recovery; they
+also require actual certified funds for recovery-audit accounting. The PLTSS
+report still does not map its causes through category, bill, dispute,
+collectibility, collection, or recovery. A narrow policy boundary closes, but
+the full field stays open and PLTSS remains two closed and six open.
+
+Pulse 37 closes Medicare Part D's FY2024 payment-type-composition field for
+internal methodology review. The exact annual row reports $3,052.65 million in
+overpayments, $522.44 million in underpayments, and zero technically improper
+or unknown payments, reconciling to the $3,575.09 million improper-payment
+estimate. The CMS FY2024 findings PDF corroborates the rounded categories and
+definitions. Part D moves to two closed and six open; scoring remains blocked
+because statistical overpayments are not identified debt, collectible dollars,
+recovery, fraud, waste, or savings.
+
+Pulse 38 captures and reconciles the official Part D Q4 2025 scorecard. It
+corrects a stale 1.02-percent transcription to 3.16 percent and replaces a
+$2,403 million/state-data root-cause transcription with the scorecard's full
+$3,053 million failure-to-access-data-or-information classification. CMS's
+findings split that rate into 2.70 percent documentation and 0.46 percent
+drug/pricing components. The evidence supports sponsor-data and documentation
+dependency, not state data, but does not close the full treatment field. Part D
+remains two closed and six open.
+
+Pulse 39 captures the same-period CY2022 Part D submission guide and FAQ. They
+establish selected-PDE evidence requirements, missing-document fail treatment,
+approved correction windows, final review, the reconciliation-PDE cutoff, and
+successor-sponsor responsibility. Reconciled to the FY2024 findings' 2.70
+percent documentation component, this closes sponsor-documentation dependency
+treatment internally. Part D moves to three closed and five open; scoring and
+recoverability remain blocked.
+
+Pulse 40 records the same-period Part D sample-design evidence ceiling. The
+official sources identify PDEs as the sampled unit, describe selection as a
+statistically valid stratified random sample, route selected records by sponsor
+contract, and bind review to the CY2022 reconciliation PDE. They do not publish
+the national sample size, frame, stratum definitions, allocation, inclusion
+probabilities, selection implementation, replacement or nonresponse rules,
+weights, or linkage to the beneficiary simulation. No full field closes: Part D
+remains three closed and five open, with every scoring and recoverability gate
+blocked.
+
+Pulse 41 records a custody-blocked Part D estimation-method evidence ceiling.
+Web extraction verifies the official HHS FY2024 Annual Performance Report text
+at printed page 88: each audited PDE receives a gross drug cost error and a
+representative beneficiary sample undergoes simulation. HHS blocked official
+PDF bytes with Akamai HTTP 403, so no source custody or closure is claimed. The
+captured FY2024 findings add statistical-validity, output, confidence-limit, and
+GDC-direction evidence; the 2026 CMS background is non-same-period
+corroboration only. Formula, weights, aggregation, simulation, sample linkage,
+record treatment, variance, and reconciliation mechanics remain open. Part D
+stays three closed and five open with every gate blocked.
+
+Pulse 42 closes one narrow Part D missing-document exclusion-treatment
+component. CY2022 sources establish that timely incomplete or problematic files
+remain in review, a Missing Documentation Form does not replace valid evidence
+and leaves the PDE failed while unresolved, and missing or invalid evidence may
+be cured before the final deadline. FY2024 findings include invalid or missing
+documentation in the reported 2.70-percent category. The FY2020 exclusion of 27
+of 4,526 sampled PDEs is historical comparison only. Full exclusion rules remain
+open for taxonomy, counts, decision stages, post-deadline and appeal treatment,
+replacement, weights, and estimator effects. Part D remains three closed and
+five open with every claim and scoring gate blocked.
+
+Pulse 43 closes one narrow Part D payment-universe component. The CY2022 guide
+identifies sampled reconciliation PDE records; the FY2024 findings define the
+corrected-versus-reported GDC comparison and publish a $96.52 billion Part D
+Denominator; and PaymentAccuracy row 828 reports the exact $96,521.39 million
+outlays value. Full payment universe remains open because the sources do not
+enumerate included and excluded streams or map combined plan-beneficiary GDC
+liability to federal outlays. Part D remains three closed and five open with
+every claim and scoring gate blocked.
+
+Pulse 44 closes one current Part D recovery-process component. The Q4 2025
+scorecard documents issued Adcirca, Revatio, and Cialis national-audit closeout
+notices requiring deletion of audit-determined improper PDE records and calls
+that recovery. Planned DME and Tepezza notices remain distinct. This later
+process has no amount or cohort linkage to the FY2024 estimate based on CY2022
+payments, so full recoverable-amount basis remains open. Part D remains three
+closed and five open with every claim and scoring gate blocked.
+
+Pulse 45 closes one same-period Part D estimation-output component. The FY2024
+findings publish 95% dollar bounds of $3.19-$4.01 billion and rate bounds of
+3.31%-4.15% around the rounded $3.58 billion/3.70% gross result. Annual row 828
+reports $3,575.09 million, rate 0.037039355, confidence label `95% to <100%`,
+and margin-of-error value 0.42. The row discloses no units or formula for 0.42,
+and no reconciliation is forced. Full estimator and APR custody remain open;
+Part D remains three closed and five open with every gate blocked.
+
+Pulse 46 closes one narrow Part D payment-universe component. Appendix A of the
+CY2022 submission guide requires two documentation tracks after a sampled
+reconciliation PDE is adjusted: reconciliation-PDE-aligned documentation
+remains required, and linked documentation showing the later adjustment is
+additionally required. The June 29, 2023 cutoff and final reconciliation-PDE
+review target are prior Pulse 39 and Pulse 43 context, not new closure scope.
+The guide discloses no inclusion, exclusion, denominator, weight, estimator, or
+payment effect. Full payment universe remains open, Part D remains three closed
+and five open, and every claim and scoring gate stays blocked.
+
+Pulse 47 records a zero-closure Part D access evidence ceiling rather than
+slicing another already-bounded public fact. OMB M-21-19 directs agencies to
+upload S&EMPs and checklists to secure MAX. Prior validated Part D bridges
+inventory the public evidence ceiling, while the exact CY2022/FY2024 plan,
+checklist, appendices, version history, and reproducible sample, universe,
+estimator, and exclusion details remain the acquisition target. Secure MAX does
+not prove exemption, withholding, nonexistence, or public unavailability, and a
+governmentwide requirement is not Part D-specific evidence. No request or
+outbound action occurred. Part D stays three closed and five open with every
+gate false.
+
+Pulse 48 turns that ceiling into an internal, unsent, privacy-aware
+existing-records request specification. The draft targets the final
+CY2022/FY2024 Part D S&EMP, OMB checklist, incorporated attachments, operative
+version history, and final approval or transmittal records. It excludes claims,
+PHI, identifiers, credentials, raw inputs, production access, and the separate
+recovery track and accepts lawful redaction and segregable release without
+predicting any outcome. Owner authorization, requester and contact details,
+fees, scope review, and a single channel remain blocked. No external action
+occurred; Part D stays three closed and five open with every gate false.
+
+Pulse 49 adds the hard all-false submission preflight and blank response-intake
+state machine for the unsent request. The 19 lifecycle states have explicit
+evidence effects, events are append-only, and response or production states
+cannot advance without matching local custody. Administrative routing,
+acknowledgment, fees, timing, no-records, withholding, denial, and appeal do not
+close methodology fields. Owner authorization is necessary but insufficient.
+No outbound or agency event occurred; Part D stays three closed and five open
+with every gate false.
+
+Pulse 50 completes the pending role review of the FY2024 PaymentAccuracy annual
+extraction. The review covers the governmentwide total, 68 program rows, 54
+court-confirmed-fraud rows, and 59 agency-recovery rows under the existing OMB
+workbook custody. It permits exact source-labeled reconciliation language while
+keeping program measurement periods and evidence classes distinct. One review
+action closes; zero methodology components and fields close, all program counts
+remain unchanged, and every scoring and claim gate stays blocked.
+
+Pulse 51 records a bounded VA PLTSS same-cohort debt and collection lineage
+evidence ceiling from the six existing checksum-verified sources. The annual
+workbook, scorecard, and OIG review are reviewed evidence; the later AFR and
+current policies cannot assign historical dispositions. No same-cohort link
+connects sampled payment, debt, dispute, collectibility, collection, and
+certified cash. No search, download, request, fee, submission, or agency contact
+occurred. Zero components and fields close, PLTSS stays two closed and six open,
+and every gate remains false.
+
 ## Design rules
 
 - Never invent an expected value for a policy-dependent lane.
@@ -235,5 +415,5 @@ git diff --check
 
 ## Current pulse
 
-`pulses/pulse-31-federal-crop-insurance-appeal-collectibility-governance.md` records the latest
-bounded slice and next decision gate.
+`pulses/pulse-51-va-pltss-same-cohort-debt-collection-lineage-evidence-ceiling.md` records the
+latest bounded slice and next decision gate.

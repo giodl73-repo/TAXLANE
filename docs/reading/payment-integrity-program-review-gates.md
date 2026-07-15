@@ -19,9 +19,48 @@ families are attached:
 
 ## Program Notes
 
-Medicare Part D has a scorecard overpayment probe and a state-data root-cause
-signal. The next useful artifact is a methodology and access-floor extract that
-separates better data matching from benefit disruption risk.
+Medicare Part D has a reconciled scorecard overpayment probe centered on sponsor
+drug, pricing, and documentation inputs rather than state data. Sample design
+and estimation method now have evidence ceilings, not closures. The estimator
+ceiling web-verifies official APR process text but lacks official PDF custody;
+formula, weights, aggregation, simulation, PDE-to-beneficiary linkage, record
+treatment, variance, same-period 5% confirmation, and reconciliation remain
+open. Part D stays three closed and five open. Access, appeals, recoverability,
+and control-cost gates also remain blocked.
+
+The Part D payment-universe component now identifies the PDE/GDC measurement
+object and reconciles row 828's $96,521.39 million outlays to the published
+$96.52 billion denominator. The gate remains blocked because the complete
+included/excluded payment taxonomy, combined plan-beneficiary liability to
+federal-outlay mapping, and record-level denominator construction are still
+missing. No field count or scoring gate changes.
+
+Appendix A now closes a second payment-universe component: after a sampled
+reconciliation PDE is adjusted, reconciliation-PDE-aligned documentation
+remains required and linked adjustment documentation is additionally required.
+The cutoff and final reconciliation target are prior context. No inclusion,
+exclusion, denominator, weight, estimator, or payment effect is disclosed, so
+the program gate and field count remain unchanged.
+
+The Part D audit-closeout recovery-process component documents issued named-
+audit notices requiring deletion of audit-determined improper PDE records and
+publisher-described recovery, with planned notices kept separate. It supplies
+no amount or cohort link to the FY2024/CY2022 estimate. Debt, appeal,
+settlement, collectibility, collection, write-off, liability allocation, and
+control-cost evidence remain required, so no program gate changes.
+
+The Part D published-uncertainty output component now preserves the findings'
+95% dollar and rate confidence intervals and row 828's confidence label and
+0.42 margin-of-error value. The row does not disclose the 0.42 field's units or
+formula, and the value is not forced to reconcile to the findings bounds. APR
+custody and the full estimator mechanics remain open, so no program gate or
+field count changes.
+
+The Part D missing-document exclusion-treatment component is internally closed,
+but full exclusion rules remain open for taxonomy, current counts, decision
+stages, post-deadline and appeal treatment, replacement, weights, and estimator
+effects. FY2020's 27 exclusions are historical comparison only. This component
+does not change the program gate or the three-closed/five-open field count.
 
 VA Purchased Long Term Services and Supports has a larger overpayment-rate probe
 and a documentation root-cause signal. The next useful artifact must distinguish

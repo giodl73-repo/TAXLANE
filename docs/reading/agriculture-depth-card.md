@@ -55,6 +55,21 @@ records the 45-day dispute process and SRA correction, repayment-discretion,
 and setoff rules. It closes no full field: contractual remedies and preserved
 appeal rights do not establish FY2024 sample debt or cash collection.
 
+The [public cohort-outcome evidence ceiling](federal-crop-insurance-public-cohort-outcome-evidence-ceiling.md)
+records that subsequent public Manager's Reports roll forward to the FY2025/
+RY2023 sample instead of preserving FY2024/RY2022 appeal and collection lineage.
+The later cohort and ordinary compliance findings cannot substitute for the
+missing FY2024 outcome chain; zero fields close.
+
+The [cohort-disposition request specification](federal-crop-insurance-cohort-disposition-request-specification.md)
+defines a deidentified existing-records request for that missing chain. It does
+not submit the request, commit fees, compel creation of a table, or close a
+field.
+
+The [FOIA preflight and response-intake extension](federal-crop-insurance-foia-preflight-response-intake.md)
+keeps submission owner-controlled and records any future agency lifecycle
+without interpreting process events as findings, debt, collection, or savings.
+
 The financial statements' Other Information on printed pages 60-61 is
 unaudited, and its apparent $579.93M overpayment typo is excluded in favor of
 the official annual workbook's $573.93M. This is not a FY2025

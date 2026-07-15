@@ -1,0 +1,119 @@
+{
+  "record_id": "payment-integrity-missing-document-exclusion-treatment:cms-part-d:fy2024",
+  "record_family": "medicare_part_d_missing_document_exclusion_treatment_bridge",
+  "program_id": "cms-part-d",
+  "agency_code": "HHS",
+  "program_or_activity": "Medicare Prescription Drug Benefit (Part D)",
+  "reporting_period": "FY2024",
+  "measurement_period": "CY2022",
+  "methodology_field": "exclusion rules",
+  "component": "CY2022 missing-document exclusion treatment and predeadline cure boundary",
+  "status": "same_period_missing_document_review_and_fail_treatment_component_closed_internal_only_full_exclusion_rules_open",
+  "source_ids": [
+    "SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE",
+    "SRC-CMS-PART-D-IPM-CY2022-FAQ",
+    "SRC-CMS-PART-D-IPM-FY2024-FINDINGS"
+  ],
+  "historical_comparison_source_url": "https://www.cms.gov/files/document/fy-2020-medicare-part-d-error-rate-findings-and-results.pdf",
+  "same_period_evidence": [
+    {
+      "source_id": "SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE",
+      "location": "printed page 5; PDF file page 8; Best Practices for Supporting Documentation",
+      "text": "All supporting documentation submitted by the final submission deadline will undergo the Part D IPM process; CMS instructs sponsors to submit the best documentation obtainable even if it is incomplete.",
+      "supports": "Timely incomplete documentation remains in the review process rather than being automatically excluded."
+    },
+    {
+      "source_id": "SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE",
+      "location": "printed page 28; PDF file page 31",
+      "text": "When a prescription hardcopy or medication order cannot be obtained, the sponsor must submit a Missing Documentation Form in its place and explain why the evidence is unavailable and what verification steps were taken.",
+      "supports": "Missing evidence has a prescribed submission path and is not silently removed from operational review."
+    },
+    {
+      "source_id": "SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE",
+      "location": "printed page 29; PDF file page 32",
+      "text": "The HPMS module will not accept a Missing Documentation Form in place of the Claim Detail File.",
+      "supports": "The missing-document form has a limited role and is not substitute evidence for every required file."
+    },
+    {
+      "source_id": "SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE",
+      "location": "printed page 33; PDF file page 36; Verification Checks and Resubmission",
+      "text": "Sponsors may resubmit corrected or valid documentation that was previously missing or invalid before the April 19, 2024 final deadline. All files submitted by that deadline, whether incomplete or presenting another issue, will be reviewed during the Part D IPM process.",
+      "supports": "The cycle provides a predeadline cure window and retains timely problematic files for review."
+    },
+    {
+      "source_id": "SRC-CMS-PART-D-IPM-CY2022-FAQ",
+      "location": "printed page 1; PDF file page 1; Document Submission",
+      "text": "A Missing Documentation Form does not substitute for valid supporting documentation, so the PDE remains fail; supporting documents found before the final submission deadline may still be submitted.",
+      "supports": "Unresolved missing documentation retains failed status, subject to cure before the final deadline."
+    },
+    {
+      "source_id": "SRC-CMS-PART-D-IPM-FY2024-FINDINGS",
+      "location": "printed page 2; PDF file page 2; Findings on Overpayments",
+      "text": "The FY2024 overpayment error categories include 2.70 percent for insufficient documentation, defined there as invalid or missing documentation.",
+      "supports": "Invalid and missing documentation contributes to the reported FY2024 measure and is not universally omitted from the calculation."
+    }
+  ],
+  "closed_component_scope": [
+    "Supporting documentation submitted by the CY2022 final deadline remains in Part D IPM review even when incomplete or otherwise problematic.",
+    "A Missing Documentation Form is not valid substitute evidence and leaves the PDE failed while the defect remains unresolved.",
+    "Missing or invalid evidence may be cured through permitted resubmission before the final deadline.",
+    "Invalid or missing documentation contributes to the reported FY2024 documentation-error category."
+  ],
+  "historical_boundary": {
+    "source_url": "https://www.cms.gov/files/document/fy-2020-medicare-part-d-error-rate-findings-and-results.pdf",
+    "period": "FY2020 reporting based on CY2018 payments",
+    "location": "printed page 2; PDF index 1",
+    "text": "Of 4,526 sampled PDEs, 27 were unable to obtain requested supporting documentation, and CMS excluded those 27 PDEs from the Part D IPM calculation.",
+    "comparison_use": "Historical contrast only. It does not establish the CY2022 rule or continuity into FY2024.",
+    "covid_context_boundary": "The FY2020 report separately describes suspended provider-documentation requests and a two-week deadline extension. It does not state that COVID-19 caused the 27 exclusions."
+  },
+  "unsupported_or_missing_components": [
+    "complete CY2022 exclusion taxonomy and governing authority",
+    "current-cycle counts and reasons for excluded, ineligible, duplicate, replaced, late, or nonresponsive units",
+    "decision stage and distinctions among no submission, late submission, Missing Documentation Form, invalid evidence, and incomplete evidence",
+    "post-deadline correction, adjustment, dispute, and appeal treatment",
+    "replacement and sample-weight treatment for excluded units",
+    "effect of exclusions on projection, variance, and confidence limits",
+    "reason for and continuity or noncontinuity from the 27 historical FY2020 exclusions"
+  ],
+  "interpretation_boundaries": [
+    "Reviewed does not mean every incomplete record is ultimately classified as an error or enters the estimator unchanged.",
+    "Remain fail applies to the unresolved Missing Documentation Form case and is subject to the predeadline cure window.",
+    "The sources do not establish that every invalid or incomplete document receives the same failed status.",
+    "The aggregate 2.70 percent category does not prove identical unit-level treatment for every documentation defect.",
+    "The FY2020 exclusions are historical comparison only and are not a current rule or proof of a COVID-19 effect.",
+    "Documentation failure and improper-payment classification are not automatically monetary loss, debt, fraud, waste, collectibility, recovery, prevention, or savings."
+  ],
+  "field_review": {
+    "component_closed_internal_only": true,
+    "full_field_closed": false,
+    "remaining_need": "A same-period source disclosing the complete exclusion taxonomy, unit counts and decision stages, post-deadline and appeal treatment, replacement and weight mechanics, estimator effects, and the relationship to historical exclusions."
+  },
+  "program_status": {
+    "closed_field_count": 3,
+    "open_field_count": 5,
+    "closed_fields": [
+      "sample period",
+      "payment type split",
+      "sponsor documentation dependency treatment"
+    ],
+    "open_fields": [
+      "sample design",
+      "payment universe",
+      "estimation method",
+      "exclusion rules",
+      "overpayment versus recoverable basis"
+    ],
+    "new_component_closures": 1,
+    "new_full_field_closures": 0,
+    "scoring_status": "blocked_methodology_incomplete"
+  },
+  "public_claim_allowed": false,
+  "field_closure_allowed": false,
+  "scoring_allowed": false,
+  "fraud_claim_allowed": false,
+  "waste_claim_allowed": false,
+  "debt_claim_allowed": false,
+  "recovery_claim_allowed": false,
+  "savings_estimate_allowed": false
+}

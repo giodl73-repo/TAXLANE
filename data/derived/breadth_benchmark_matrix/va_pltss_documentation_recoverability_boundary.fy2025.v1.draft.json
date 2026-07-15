@@ -1,0 +1,102 @@
+{
+  "record_id": "payment-integrity-documentation-recoverability-boundary:va-pltss:fy2025",
+  "record_family": "va_pltss_documentation_recoverability_boundary",
+  "program_id": "va-pltss",
+  "agency_code": "VA",
+  "program_or_activity": "Purchased Long Term Services and Supports (PLTSS)",
+  "status": "draft_current_policy_checksum_verified_classification_and_recovery_boundary_recorded_full_field_open",
+  "source_ids": [
+    "SRC-VA-FIN-POLICY-PAYMENT-INTEGRITY",
+    "SRC-VA-FIN-POLICY-OVERPAYMENT-AUDIT-RECOVERIES",
+    "SRC-VA-AFR-SECTION-III-FY2025"
+  ],
+  "source_custody": {
+    "payment_integrity_policy": {
+      "raw_path": "data/raw/va/SRC-VA-FIN-POLICY-PAYMENT-INTEGRITY/2026-07-14/chapter-03-payment-integrity-and-fraud-reduction.html",
+      "bytes": 249093,
+      "checksum_sha256": "B8A12F68789C42001F4A3F76AE92858C84CCC3628A2A519FA4819E0B07037D75",
+      "approved_date": "2026-03-12"
+    },
+    "overpayment_audit_recovery_policy": {
+      "raw_path": "data/raw/va/SRC-VA-FIN-POLICY-OVERPAYMENT-AUDIT-RECOVERIES/2026-07-14/chapter-30-overpayment-audit-recoveries.html",
+      "bytes": 122908,
+      "checksum_sha256": "EB3ADC8783FC40BD0F15C3C2ACEC8DFB77BDDFDDA8938B7C9EF17864FCB87F59",
+      "approved_date": "2026-06-01"
+    },
+    "pltss_reporting": {
+      "raw_path": "data/raw/va/SRC-VA-AFR-SECTION-III-FY2025/2026-07-14/2025-Section-III-Other-Information.pdf",
+      "bytes": 1204753,
+      "checksum_sha256": "3F3E19818ECF5F59F241D8DEAC4BC2FFA2E377C7BE4DAF65666C33D75CB2F7C1"
+    }
+  },
+  "policy_classification_supported": {
+    "insufficient_documentation": "When unavailable documentation prevents determining the right recipient or right amount, VA classifies the payment as unknown and reports it separately from improper-payment estimates.",
+    "documentation_failure_can_still_be_proper": "A failure of agency policy, procedure, or documentation does not itself make a payment improper when sufficient evidence establishes the right recipient, right amount, and statutory or regulatory compliance.",
+    "monetary_loss": "An amount that should not have been paid and in theory could or should be recovered; it is an overpayment.",
+    "non_monetary_loss": "An underpayment or a technically improper payment to the right recipient in the right amount with a statutory or regulatory failure.",
+    "recovery": "A monetary-loss improper payment returned to the federal government.",
+    "recovery_activity": "PIIA samples and post-payment reviews may identify or recapture overpayments, but identification alone is not return of funds.",
+    "bill_of_collection": "A bill may be a corrective action for an error found in testing; issuance is not certified collection."
+  },
+  "recovery_audit_cash_boundary_supported": {
+    "cost_effectiveness_required": true,
+    "contractor_fee_basis": "actual funds certified recovered, credited, or realized",
+    "service_obligation_before_certified_collection": false,
+    "collection_documentation_required": true,
+    "estimated_or_identified_equals_recovered": false,
+    "billed_or_outstanding_equals_recovered": false
+  },
+  "pltss_specific_observed": {
+    "reported_causes": [
+      "purchases using a Basic Ordering Agreement rather than a contract",
+      "failure to deny claims received outside required timeframes",
+      "missing signatures or vendor-to-invoice reconciliation",
+      "missing documentation related to authorization, payment, or Veteran level of care"
+    ],
+    "incorrect_amount_process": "Post-payment reviews may issue additional payments or establish bills of collection for claims paid in the incorrect amount.",
+    "payment_categories_published": true,
+    "defect_to_category_mapping_published": false,
+    "defect_to_bill_mapping_published": false,
+    "bill_to_appeal_or_collection_mapping_published": false
+  },
+  "mapping_not_supported": [
+    "which PLTSS documentation defects are proper despite a process failure",
+    "which PLTSS documentation defects are unknown payments",
+    "which PLTSS documentation defects are technically improper or otherwise non-monetary",
+    "which PLTSS documentation defects are monetary-loss overpayments",
+    "which PLTSS estimated overpayments became established bills or receivables",
+    "which PLTSS bills were disputed, modified, waived, written off, or collected",
+    "which PLTSS amounts were certified as returned funds"
+  ],
+  "period_and_applicability_boundary": {
+    "policies_postdate_tested_payments": true,
+    "policy_role": "current VA-wide classification and recovery governance",
+    "may_assign_historical_pltss_claim_dispositions": false,
+    "may_restate_fy2024_pltss_categories": false
+  },
+  "decision": {
+    "component": "VA-wide classification and certified-recovery policy boundary applied to PLTSS reporting context",
+    "decision_status": "narrow_policy_boundary_recorded_full_field_open",
+    "component_closed_internal_only": true,
+    "documentation_defect_versus_recoverable_overpayment_basis_field_closed": false,
+    "new_full_field_closures": 0,
+    "closed_field_count": 2,
+    "open_field_count": 6,
+    "basis": "Current policy establishes the classification and returned-funds rules, but no source maps PLTSS-specific defects through category, bill, dispute, collectibility, and certified recovery."
+  },
+  "next_bounded_action": {
+    "required_evidence": "PLTSS-specific cohort or aggregate disposition evidence mapping defect cause to payment category, established bill or receivable, dispute outcome, write-off, and certified collection.",
+    "do_not_repeat": [
+      "general VA policy search for the classification definitions now captured",
+      "conversion of estimated or identified overpayments into recovered cash",
+      "inference that a bill of collection is a final collectible or collected amount"
+    ]
+  },
+  "public_claim_allowed": false,
+  "scoring_allowed": false,
+  "fraud_claim_allowed": false,
+  "debt_claim_allowed": false,
+  "collectibility_claim_allowed": false,
+  "recovery_claim_allowed": false,
+  "savings_estimate_allowed": false
+}

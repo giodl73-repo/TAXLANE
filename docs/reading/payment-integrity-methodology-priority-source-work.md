@@ -11,7 +11,7 @@ queue. Each row states what an official source supports and what remains blocked
 | Rank | Program | Source-work result |
 |---:|---|---|
 | 1 | USDA Federal Crop Insurance Program | Current scorecard root-cause framing is ready for reviewer resolution. |
-| 2 | VA PLTSS | FY2025 VA reporting separates improper/unknown payments from overpayments, but recoverability still needs review. |
+| 2 | VA PLTSS | Current policy defines classification and certified-return boundaries; PLTSS-specific cause-to-disposition mapping remains absent. |
 | 3 | Medicaid | CMS sources support the boundary that PERM improper-payment estimates are not automatically fraud, waste, or savings. |
 | 4 | Medicare Part D | Scorecard supports a recovery-process signal for audit closeouts, not a full collectible-amount basis. |
 

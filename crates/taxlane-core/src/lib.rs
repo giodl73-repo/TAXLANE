@@ -1643,9 +1643,12 @@ impl PaymentIntegrityMethodologyFieldRecord {
                 self.record_family
             ));
         }
-        if self.field_status != "open_source_needed" {
+        if !matches!(
+            self.field_status.as_str(),
+            "open_source_needed" | "open_reframing_and_source_needed"
+        ) {
             return Err(format!(
-                "payment integrity methodology field status must be open_source_needed, got {}",
+                "payment integrity methodology field status is unsupported: {}",
                 self.field_status
             ));
         }
@@ -2102,6 +2105,7 @@ impl PaymentIntegrityMethodologyFieldReviewRecord {
             "partial_support_review_needed",
             "closure_support_review_needed",
             "not_supported_by_result",
+            "field_reframing_review_needed",
         ]
         .contains(&self.evidence_status.as_str())
         {
@@ -2181,6 +2185,7 @@ impl PaymentIntegrityMethodologyGapFollowupRecord {
             "unsupported_field_source_needed",
             "partial_support_citation_needed",
             "closure_support_captured_review_needed",
+            "field_reframing_and_detail_source_needed",
         ]
         .contains(&self.gap_class.as_str())
         {
@@ -2279,7 +2284,9 @@ impl PaymentIntegrityMethodologyGapSourceCaptureRecord {
         }
         if !matches!(
             self.support_status.as_str(),
-            "partial_support_review_needed" | "closure_support_review_needed"
+            "partial_support_review_needed"
+                | "closure_support_review_needed"
+                | "field_reframing_review_needed"
         ) {
             return Err(format!(
                 "payment integrity methodology gap source capture support_status must be partial_support_review_needed or closure_support_review_needed, got {}",
@@ -2357,7 +2364,10 @@ impl PaymentIntegrityMethodologySourceCaptureRollupRecord {
                 self.record_family
             ));
         }
-        if self.capture_coverage_status != "source_captured_review_needed" {
+        if !matches!(
+            self.capture_coverage_status.as_str(),
+            "source_captured_review_needed" | "field_reframing_supported_full_treatment_open"
+        ) {
             return Err(format!(
                 "payment integrity methodology source capture rollup status must be source_captured_review_needed, got {}",
                 self.capture_coverage_status
@@ -2586,6 +2596,7 @@ impl PaymentIntegrityMethodologyResidualSourceGapRecord {
             "detail_source_needed",
             "current_year_source_needed",
             "reviewer_determination_needed",
+            "field_reframing_and_detail_source_needed",
         ]
         .contains(&self.residual_gap_class.as_str())
         {

@@ -1,0 +1,227 @@
+{
+  "record_id": "payment-integrity-sampling-estimation-methodology-plan-request-specification:cms-part-d:fy2024",
+  "record_family": "medicare_part_d_sampling_estimation_methodology_plan_request_specification",
+  "program_id": "cms-part-d",
+  "agency_code": "HHS",
+  "program_or_activity": "Medicare Prescription Drug Benefit (Part D)",
+  "reporting_period": "FY2024",
+  "measurement_period": "CY2022",
+  "component": "unsent existing-records-only CY2022/FY2024 Part D S&EMP request specification",
+  "status": "draft_not_submitted_existing_records_only_privacy_aware_request_specification",
+  "submission_status": "draft_not_submitted_owner_authorization_required",
+  "upstream_artifact": "data/derived/breadth_benchmark_matrix/medicare_part_d_sampling_estimation_plan_access_evidence_ceiling.fy2024.v1.draft.json",
+  "source_ids": [
+    "SRC-OMB-M-21-19",
+    "SRC-CMS-FOIA-FILING",
+    "SRC-ECFR-45-CFR-5"
+  ],
+  "source_custody": {
+    "omb_m_21_19": {
+      "source_id": "SRC-OMB-M-21-19",
+      "raw_path": "data/raw/omb/SRC-OMB-M-21-19/2026-07-13/M-21-19.pdf",
+      "bytes": 2808576,
+      "pdf_file_pages": 79,
+      "checksum_sha256": "12A1D448B1D5EB7040E2377E7E04BB721A2A513A9220768037B0F094C03D14AA",
+      "captured_date": "2026-07-13"
+    },
+    "cms_foia_filing": {
+      "source_id": "SRC-CMS-FOIA-FILING",
+      "source_url": "https://www.cms.gov/medicare/regulations-guidance/legislation/freedom-information-act-foia-service-center/how-file-privacy-act-request",
+      "raw_path": "data/raw/cms/SRC-CMS-FOIA-FILING/2026-07-14/cms-foia-filing.html",
+      "metadata_path": "data/metadata/SRC-CMS-FOIA-FILING.2026-07-14.metadata.md",
+      "bytes": 212862,
+      "checksum_sha256": "58C82EDA98850CAACCF6C1802DCEA1BB75F6457530A948DFA5A20EB1204F77BB",
+      "observed_date": "2026-07-14",
+      "format": "html",
+      "capture_sanitization": "One publisher-embedded Mapbox token was replaced locally with [REDACTED_MAPBOX_TOKEN]; the checksum covers the sanitized capture."
+    },
+    "ecfr_45_cfr_5": {
+      "source_id": "SRC-ECFR-45-CFR-5",
+      "source_url": "https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-A/part-5",
+      "retrieval_url": "https://www.govinfo.gov/link/cfr/45/5?link-type=pdf&year=mostrecent",
+      "raw_path": "data/raw/ecfr/SRC-ECFR-45-CFR-5/2026-07-14/45-cfr-part-5.pdf",
+      "metadata_path": "data/metadata/SRC-ECFR-45-CFR-5.2026-07-14.metadata.md",
+      "bytes": 249694,
+      "pdf_file_pages": 18,
+      "checksum_sha256": "C5C1A301ACD0353FB66EA0850AC188A22E0391AA499766CB68137BCCB29158F1",
+      "observed_date": "2026-07-14",
+      "edition": "2025-10-01"
+    }
+  },
+  "web_verified_custody_blocked": {
+    "publisher": "U.S. Department of Health and Human Services",
+    "title": "Submit or Check Status of a FOIA Request",
+    "official_url": "https://www.hhs.gov/foia/request/index.html",
+    "observed_date": "2026-07-14",
+    "verification_status": "official_page_web_verified_local_binary_custody_blocked",
+    "local_capture_result": "Akamai HTTP 403",
+    "source_id_assigned": false,
+    "raw_path": null,
+    "bytes": null,
+    "checksum_sha256": null,
+    "custody_claimed": false,
+    "effect": "CMS filing instructions and 45 CFR Part 5 are sufficient for the internal route and rules specification; no HHS-page custody is claimed."
+  },
+  "filing_route": {
+    "record_type": "CMS agency policy and methodology records, not Medicare beneficiary claims",
+    "preferred_route_if_authorized": "CMS component through the FOIA.gov portal",
+    "alternative_routes": [
+      "FOIA_Request@cms.hhs.gov",
+      "fax 443-380-8871",
+      "Freedom of Information Act Office, Mail Stop C5-11-06, 7500 Security Boulevard, Baltimore, Maryland 21244"
+    ],
+    "one_channel_only": true,
+    "beneficiary_claims_portal_allowed": false,
+    "route_boundary": "Choose exactly one route only after owner authorization; no route has been used."
+  },
+  "exact_acquisition_target": {
+    "documents": [
+      "CY2022/FY2024 Medicare Part D Sampling and Estimation Methodology Plan",
+      "associated OMB checklist",
+      "all appendices, exhibits, technical attachments, and data dictionaries",
+      "version history, approval history, effective dates, and change log governing the FY2024 estimate based on CY2022 payments"
+    ],
+    "sample_design_detail": [
+      "national sample and frame size and coverage",
+      "stratum definitions and allocation",
+      "within-domain selection procedure and inclusion probabilities",
+      "replacement, nonresponse, and sample-weight rules",
+      "relationship, nesting, and linkage between PDE and beneficiary samples"
+    ],
+    "payment_universe_detail": [
+      "complete included and excluded PDE and payment-stream taxonomy",
+      "denominator algebra and exact record-level construction",
+      "GDC, plan liability, beneficiary liability, statutory subsidy, federal-payment, and outlay mapping",
+      "subsidy, reinsurance, low-income-subsidy, premium, discount, payment-phase, overlap, and double-count treatment",
+      "adjustment, reversal, deletion, rejection, duplicate, replacement, eligibility, settlement, gross/net, and rounding treatment"
+    ],
+    "estimation_method_detail": [
+      "point and rate estimator formula",
+      "weights, projection factors, calibration, normalization, trimming, and nonresponse adjustments",
+      "PDE-to-beneficiary aggregation and benefit-parameter simulation mechanics",
+      "record treatment for overpayments, underpayments, missing documents, exclusions, and zero-error records",
+      "variance estimator, finite-population treatment, confidence-limit construction, transformations, and endpoint method",
+      "annual margin-of-error definition, units, and formula",
+      "unrounded estimates and rounding or reconciliation rules"
+    ],
+    "exclusion_rules_detail": [
+      "complete exclusion taxonomy and governing authority",
+      "current counts, reasons, decision stages, and submission-state distinctions",
+      "late, missing, invalid, incomplete, ineligible, duplicate, adjusted, replaced, disputed, and appealed unit treatment",
+      "denominator, replacement, weight, projection, variance, and confidence-limit consequences",
+      "change control from the historical FY2020/CY2018 exclusions"
+    ]
+  },
+  "separate_recoverable_basis_target": {
+    "methodology_field": "overpayment versus recoverable amount basis",
+    "boundary": "Same-cohort audit determination, debt, appeal, PDE deletion, settlement, collectibility, collection, write-off, liability allocation, and control-cost lineage is not a Sampling and Estimation Methodology Plan detail and remains a separate acquisition track."
+  },
+  "existing_records_only_scope": {
+    "requested_records": [
+      "final approved plan package and incorporated attachments",
+      "final OMB checklist associated with that plan",
+      "existing final approval, acceptance, or transmittal records identifying the operative version",
+      "existing version history, effective-date record, or change log"
+    ],
+    "date_scope": "Records governing FY2024 reporting based on CY2022 Part D payments, including operative approval and version records created through FY2024.",
+    "no_answers_or_new_analysis": true,
+    "no_new_record_creation": true,
+    "no_reconstruction_or_calculation": true,
+    "public_duplicate_treatment": "If an exact responsive record is already public, provide its stable URL instead of a duplicate copy."
+  },
+  "privacy_commercial_and_security_exclusions": [
+    "beneficiary names, identifiers, protected health information, and individual claims",
+    "sampled PDE identifiers and line-level PDE or claim data",
+    "provider, prescriber, pharmacy, plan employee, or contractor personal contact information",
+    "secure MAX credentials, access instructions, tokens, account details, and security-control information",
+    "source-system extracts, raw input files, executable code, and production database access",
+    "confidential commercial details not necessary to understand the methodology; accept lawful redaction without predicting Exemption 4",
+    "same-cohort debt, appeal, collection, recovery, or write-off records, which remain a separate acquisition track",
+    "superseded drafts and duplicates except where an existing version record is needed to identify the operative final plan"
+  ],
+  "format_and_segregability": {
+    "preferred_format": "native electronic format when existing and reasonably and readily reproducible; otherwise searchable PDF",
+    "rolling_release_accepted": true,
+    "redaction_accepted": true,
+    "deidentification_accepted": true,
+    "reasonably_segregable_nonexempt_portions_requested": true,
+    "release_prediction_made": false
+  },
+  "preflight": {
+    "owner_authorization": "required_missing",
+    "requester_name": "required_missing",
+    "requester_full_mailing_address": "required_missing",
+    "requester_phone": "required_missing",
+    "requester_email": "required_missing",
+    "truthful_fee_category": "required_missing",
+    "fee_cap_usd": "required_missing",
+    "fee_waiver_choice_and_support": "required_missing",
+    "expedited_processing_choice_and_certified_support": "required_missing",
+    "single_submission_channel": "required_missing",
+    "final_scope_and_date_review": "required_missing",
+    "public_library_duplicate_check": "required_before_submission",
+    "all_preflight_gates_passed": false
+  },
+  "fee_and_expedition_decision": {
+    "fee_waiver_requested": false,
+    "fee_waiver_status": "not_selected_owner_facts_needed",
+    "fee_boundary": "A waiver requires a supported public-interest, broad-understanding, and non-primary-commercial-interest showing; no eligibility is claimed.",
+    "expedited_processing_requested": false,
+    "expedition_status": "not_selected_no_certified_compelling_need",
+    "expedition_boundary": "No imminent life-or-safety threat or qualifying urgent dissemination need is asserted.",
+    "certification_requested": false
+  },
+  "internal_state": {
+    "template_path": "docs/requests/medicare-part-d-fy2024-sampling-estimation-methodology-plan-foia-request.md",
+    "draft_created": true,
+    "owner_authorization_obtained": false,
+    "request_submitted": false,
+    "external_message_sent": false,
+    "portal_opened_for_submission": false,
+    "fee_commitment_made": false,
+    "outbound_state_changed": false
+  },
+  "guardrails": [
+    "This is an internal draft, not a submitted request, legal advice, or authorization to contact CMS, HHS, OMB, or any other party.",
+    "The request is limited to existing agency records and does not ask the agency to answer questions, create records, calculate results, reconstruct a method, or perform research.",
+    "Secure MAX location does not prove exemption, withholding, nonexistence, or public unavailability.",
+    "The request may yield no records, a referral, public URLs, partial records, redacted records, withheld records, or fee and clarification correspondence.",
+    "Privacy, commercial, security, and personal identifiers may be redacted; reasonably segregable nonexempt portions are requested without predicting release.",
+    "The requested plan package would require custody and substantive review before changing any methodology field, count, gate, score, or claim.",
+    "No fraud, waste, debt, collectibility, recovery, prevention, or savings claim follows from drafting this specification or from any future administrative event."
+  ],
+  "closure_impact": {
+    "new_component_closures": 0,
+    "new_full_field_closures": 0,
+    "fields_closed_by_this_record": []
+  },
+  "program_status": {
+    "closed_field_count": 3,
+    "open_field_count": 5,
+    "closed_fields": [
+      "sample period",
+      "payment type split",
+      "sponsor documentation dependency treatment"
+    ],
+    "open_fields": [
+      "sample design",
+      "payment universe",
+      "estimation method",
+      "exclusion rules",
+      "overpayment versus recoverable amount basis"
+    ],
+    "closure_decision_count": 3,
+    "residual_gap_count": 5,
+    "scoring_status": "blocked_methodology_incomplete"
+  },
+  "public_claim_allowed": false,
+  "field_closure_allowed": false,
+  "scoring_allowed": false,
+  "fraud_claim_allowed": false,
+  "waste_claim_allowed": false,
+  "debt_claim_allowed": false,
+  "collectibility_claim_allowed": false,
+  "recovery_claim_allowed": false,
+  "prevention_claim_allowed": false,
+  "savings_estimate_allowed": false
+}

@@ -1,0 +1,135 @@
+{
+  "record_id": "payment-integrity-published-uncertainty-output-bridge:cms-part-d:fy2024",
+  "record_family": "medicare_part_d_published_uncertainty_output_bridge",
+  "program_id": "cms-part-d",
+  "agency_code": "HHS",
+  "program_or_activity": "Medicare Prescription Drug Benefit (Part D)",
+  "reporting_period": "FY2024",
+  "measurement_period": "CY2022",
+  "methodology_field": "estimation method",
+  "component": "published 95-percent confidence interval and annual margin-of-error output",
+  "status": "same_period_published_confidence_interval_and_margin_of_error_output_component_closed_internal_only_full_estimation_method_open",
+  "source_ids": [
+    "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+    "SRC-CMS-PART-D-IPM-FY2024-FINDINGS"
+  ],
+  "source_custody": {
+    "fy2024_annual_workbook": {
+      "source_id": "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+      "source_url": "https://paymentaccuracy.gov/assets/files/FY2024_Dataset.xlsx",
+      "raw_path": "data/raw/omb/SRC-OMB-PAYMENTACCURACY/2026-07-12/FY2024_Dataset.xlsx",
+      "bytes": 700992,
+      "checksum_sha256": "595369DA4C32965C457543E2695B5738BC131049318537948CD396323391E28C",
+      "observed_date": "2026-07-12"
+    },
+    "fy2024_findings": {
+      "source_id": "SRC-CMS-PART-D-IPM-FY2024-FINDINGS",
+      "source_url": "https://www.cms.gov/files/document/fy-2024-medicare-part-d-error-rate-findings-and-results.pdf",
+      "raw_path": "data/raw/cms/SRC-CMS-PART-D-IPM-FY2024-FINDINGS/2026-07-14/fy-2024-medicare-part-d-error-rate-findings-and-results.pdf",
+      "bytes": 121610,
+      "checksum_sha256": "36AFD362B5E5AF4DAC098C2502C9C548D79D7AA001725FE92E757BB4CF5E7BE8",
+      "pdf_file_pages": 3,
+      "observed_date": "2026-07-14"
+    }
+  },
+  "source_record": {
+    "path": "data/extracted/payment_accuracy/fy2024_program_results.v1.draft.jsonl",
+    "source_sheet": "All Program Results",
+    "source_row": 828,
+    "fiscal_year": 2024,
+    "sample_period": "2022-01 through 2022-12",
+    "extraction_status": "draft_extracted"
+  },
+  "findings_published_uncertainty_output": {
+    "location": "printed page 1; PDF file page 1; Table 1",
+    "gross_improper_payment_estimate_usd_billions": 3.58,
+    "gross_improper_payment_rate_percent": 3.70,
+    "confidence_level_percent": 95,
+    "confidence_interval_lower_usd_billions": 3.19,
+    "confidence_interval_upper_usd_billions": 4.01,
+    "confidence_interval_lower_rate_percent": 3.31,
+    "confidence_interval_upper_rate_percent": 4.15,
+    "scope": "Rounded published confidence-interval output accompanying the CY2022 Part D IPM gross improper-payment estimate for FY2024 reporting."
+  },
+  "annual_row_828_uncertainty_output": {
+    "improper_payment_amount_millions": 3575.09,
+    "improper_payment_rate": 0.037039355,
+    "confidence_interval_label": "95% to <100%",
+    "margin_of_error_reported": 0.42,
+    "margin_of_error_units_disclosed_in_row": false,
+    "margin_of_error_formula_disclosed_in_row": false,
+    "relationship_to_findings_interval_disclosed": false,
+    "forced_reconciliation_allowed": false,
+    "interpretation": "Preserve the label and value exactly as publisher-reported fields. Do not infer whether 0.42 is percentage points, percent, dollars, a relative measure, or another unit, and do not force it to reproduce the rounded findings endpoints."
+  },
+  "closed_component_scope": [
+    "CMS publishes a 95-percent confidence interval with lower and upper dollar bounds of $3.19 billion and $4.01 billion around the rounded $3.58 billion gross improper-payment result.",
+    "CMS publishes lower and upper rate bounds of 3.31 percent and 4.15 percent around the rounded 3.70 percent gross improper-payment rate.",
+    "PaymentAccuracy annual row 828 reports $3,575.09 million improper payments, a 0.037039355 improper-payment rate, the confidence label 95% to <100%, and a margin-of-error value of 0.42.",
+    "The findings interval and annual-row uncertainty fields are preserved as distinct published outputs without an inferred formula or forced numeric reconciliation."
+  ],
+  "unsupported_or_missing_components": [
+    "official binary custody for the HHS FY2024 Annual Performance Report process description",
+    "estimator formula and sequence from reviewed PDE errors to the national estimate",
+    "sample weights, strata, projection factors, and aggregation rules",
+    "relationship, nesting, and linkage between the audited PDE sample and representative beneficiary sample",
+    "benefit-phase, reinsurance, low-income-subsidy, and other payment-parameter simulation mechanics",
+    "treatment of overpayments, underpayments, missing documentation, zero-error records, adjustments, and exclusions within the estimator",
+    "variance estimator, replicate or linearization method, and finite-population treatment",
+    "confidence-interval construction, distributional assumptions, transformations, and endpoint method",
+    "definition, units, and formula for the annual-row margin-of-error value",
+    "authoritative relationship between the annual margin-of-error field and the findings dollar and rate confidence intervals",
+    "unrounded estimates and rounding or reconciliation rules for the published point estimates and interval bounds",
+    "same-period confirmation of any beneficiary-sample fraction and national extrapolation description"
+  ],
+  "interpretation_boundaries": [
+    "Published confidence limits close an uncertainty-output component; they do not disclose or validate the estimator, weights, simulation, or variance mechanics.",
+    "The 95-percent interval is statistical uncertainty around the gross improper-payment result, not a range of identified debt, collectibility, recovery, prevention, or savings.",
+    "The findings do not publish a separate confidence interval for the $2.53 billion net improper-payment estimate, so the gross interval must not be applied to the net result.",
+    "The annual-row value 0.42 has no unit or formula disclosed in the row and must not be labeled percentage points, percent, dollars, or a relative margin by inference.",
+    "Do not force the 0.42 margin-of-error field to reconstruct the rounded $3.19 billion to $4.01 billion or 3.31 percent to 4.15 percent findings intervals.",
+    "Rounded point estimates and interval endpoints cannot reconstruct unrounded estimates, weights, variance, or confidence-limit calculations.",
+    "OMB-compliant and statistically valid are publisher attestations, not a reproducible-methodology disclosure.",
+    "FY2024 is a post-methodology-change baseline comparable to FY2023 but not to earlier reporting years according to CMS.",
+    "No fraud, waste, debt, collectibility, recovery, prevention, or savings claim follows from the uncertainty outputs."
+  ],
+  "apr_custody_blocker": {
+    "status": "official_pdf_custody_blocked",
+    "official_url": "https://www.hhs.gov/sites/default/files/hhs-fy-2024-agency-performance-report.pdf",
+    "effect": "The published-output component can close from captured findings and annual-workbook custody, but full estimation method remains open and the APR process passage remains without official binary custody."
+  },
+  "field_review": {
+    "component_closed_internal_only": true,
+    "full_field_closed": false,
+    "remaining_need": "Official APR custody and reproducible estimator, weighting, PDE-to-beneficiary linkage, simulation, record-treatment, variance, confidence-limit, margin-of-error, and rounding mechanics."
+  },
+  "program_status": {
+    "closed_field_count": 3,
+    "open_field_count": 5,
+    "closed_fields": [
+      "sample period",
+      "payment type split",
+      "sponsor documentation dependency treatment"
+    ],
+    "open_fields": [
+      "sample design",
+      "payment universe",
+      "estimation method",
+      "exclusion rules",
+      "overpayment versus recoverable amount basis"
+    ],
+    "new_component_closures": 1,
+    "new_full_field_closures": 0,
+    "scoring_status": "blocked_methodology_incomplete"
+  },
+  "public_claim_allowed": false,
+  "field_closure_allowed": false,
+  "scoring_allowed": false,
+  "fraud_claim_allowed": false,
+  "waste_claim_allowed": false,
+  "debt_claim_allowed": false,
+  "collectibility_claim_allowed": false,
+  "recovery_claim_allowed": false,
+  "prevention_claim_allowed": false,
+  "savings_estimate_allowed": false
+}

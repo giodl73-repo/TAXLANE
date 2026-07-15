@@ -20,6 +20,10 @@ guarding, not scoring. USDA, VA PLTSS, and Part D have partial recovery-process
 or mapping support, but still need reviewer decisions before any field can move
 toward closure-readiness.
 
+For PLTSS, current policy now closes the agencywide definition question. The
+remaining need is program-specific cause-to-category, bill, dispute, and
+certified-collection lineage.
+
 ## Boundary
 
 These rows do not close fields, do not score programs, do not estimate savings,

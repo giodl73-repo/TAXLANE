@@ -41,6 +41,20 @@
       "relationship_to_headline": "not a direct subset of estimated program overpayments; identified and recovered amounts may span timing and recovery bases"
     }
   },
+  "fy2024_annual_extraction_role_review": {
+    "path": "reviews/2026-07-14-payment-integrity-fy2024-annual-extraction-role-review.md",
+    "source_id": "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+    "status": "bounded_factual_reporting_review_passed_unrestricted_claims_blocked",
+    "review_action_closed": true,
+    "new_component_closures": 0,
+    "new_full_field_closures": 0,
+    "prior_corrected_probe_review_path": "reviews/2026-07-13-payment-integrity-va-pltss-source-role-review.md",
+    "prior_corrected_probe_review_status": "source_and_role_review_passed_not_reopened",
+    "review_scope": "Governmentwide total, 68 program-result rows, 54 court-confirmed-fraud rows, and 59 agency-recovery rows from the official FY2024 annual workbook.",
+    "decision_effect": "Closes the pending annual-extraction review action only; zero methodology components and fields close, no program counts change, and no scoring or claim gate changes.",
+    "allowed_use": "Exact source-labeled factual composition and reconciliation with publisher, fiscal year, units, coverage qualification, program-specific measurement periods, and evidence-class labels preserved.",
+    "prohibited_use": "Do not join, subtract, divide, or net confirmed-fraud or agency-recovery rows against estimated improper payments and do not infer fraud, waste, debt, collectibility, recovery, prevention, or savings."
+  },
   "four_program_annual_rows_millions": [
     {"program_id":"cms-medicaid","improper":31099.13,"overpayment":29370.43,"underpayment":123.91,"technically_improper":1604.79,"unknown":0.0,"sample_period":"2022-07 through 2023-06"},
     {"program_id":"cms-part-d","improper":3575.09,"overpayment":3052.65,"underpayment":522.44,"technically_improper":0.0,"unknown":0.0,"sample_period":"2022-01 through 2022-12"},
@@ -54,6 +68,130 @@
     "sample_period": "2022-10 through 2023-09",
     "status": "reconciled_source_reviewed",
     "correction_note": "The prior scorecard probe used a non-resolving URL and values not present in the official PLTSS scorecard. The corrected Q4 2025 scorecard agrees with the annual workbook."
+  },
+  "medicare_part_d_payment_type_composition_bridge": {
+    "path": "data/derived/breadth_benchmark_matrix/medicare_part_d_payment_type_composition_bridge.fy2024.v1.draft.json",
+    "source_ids": ["SRC-OMB-PAYMENTACCURACY-FY2024-DATA", "SRC-CMS-PART-D-IPM-FY2024-FINDINGS"],
+    "status": "same_period_fy2024_payment_type_split_closed_internal_only",
+    "closed_internal_only": ["sample period", "payment type split"],
+    "open_methodology_fields": ["sample design", "payment universe", "estimation method", "exclusion rules", "state-data dependency treatment", "overpayment versus recoverable amount basis"],
+    "evidence_scope": "The exact FY2024 annual row reports $3,052.65M overpayments, $522.44M underpayments, zero technically improper payments, and zero unknown payments, reconciling exactly to $3,575.09M improper payments; the CMS findings PDF corroborates the rounded categories and definitions.",
+    "excluded_scope": "The statistical overpayment component is not identified debt, collectible dollars, recovery, collections, fraud, waste, or savings."
+  },
+  "medicare_part_d_sponsor_documentation_dependency_evidence_ceiling": {
+    "path": "data/derived/breadth_benchmark_matrix/medicare_part_d_sponsor_documentation_dependency_evidence_ceiling.fy2024.v1.draft.json",
+    "source_ids": ["SRC-OMB-PAYMENTACCURACY-FY2024-DATA", "SRC-CMS-PART-D-IPM-FY2024-FINDINGS", "SRC-OMB-PAYMENTACCURACY-PART-D-Q4-2025"],
+    "status": "same_period_scorecard_reconciled_field_reframing_needed_full_field_open",
+    "evidence_scope": "The captured scorecard corrects the Part D rate to 3.16% and full rounded root-cause amount to $3,053M; CMS findings reconcile 2.70% documentation and 0.46% drug/pricing components.",
+    "open_scope": "The evidence supports sponsor-data and documentation dependency rather than state data, but the full treatment remains open and Part D stays two closed/six open."
+  },
+  "medicare_part_d_sponsor_documentation_dependency_bridge": {
+    "path": "data/derived/breadth_benchmark_matrix/medicare_part_d_sponsor_documentation_dependency_bridge.fy2024.v1.draft.json",
+    "source_ids": ["SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE", "SRC-CMS-PART-D-IPM-CY2022-FAQ", "SRC-CMS-PART-D-IPM-FY2024-FINDINGS", "SRC-OMB-PAYMENTACCURACY-PART-D-Q4-2025"],
+    "status": "same_period_sponsor_documentation_treatment_closed_internal_only",
+    "closed_internal_only": ["sample period", "payment type split", "sponsor documentation dependency treatment"],
+    "open_methodology_fields": ["sample design", "payment universe", "estimation method", "exclusion rules", "overpayment versus recoverable amount basis"],
+    "evidence_scope": "Same-period guide and FAQ establish required documentation, fail treatment, correction windows, final review, reconciliation cutoff, and successor responsibility; findings publish the 2.70% documentation component.",
+    "excluded_scope": "PDE failure and projected documentation error are not automatically monetary error, debt, collectibility, recovery, fraud, waste, or savings."
+  },
+  "medicare_part_d_sample_design_evidence_ceiling": {
+    "path": "data/derived/breadth_benchmark_matrix/medicare_part_d_sample_design_evidence_ceiling.fy2024.v1.draft.json",
+    "source_ids": ["SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE", "SRC-CMS-PART-D-IPM-CY2022-FAQ", "SRC-CMS-PART-D-IPM-FY2024-FINDINGS"],
+    "source_capture_record_ids": ["payment-integrity-methodology-gap-source-capture:cms-part-d:sample-design:cms-fy2024-fact-sheet"],
+    "status": "same_period_sample_unit_and_operational_routing_supported_full_field_open",
+    "supported_component_scope": "Same-period sources identify PDEs as the sampled unit, describe a statistically valid stratified random sample, route selected records by sponsor contract, bind review to the CY2022 reconciliation PDE, and state OMB sampling-and-estimation-plan compliance.",
+    "open_scope": "Full sample design remains open because the national sample size, frame, stratum definitions, allocation, inclusion probabilities, within-stratum selection implementation, replacement and nonresponse, weights, and the relationship to the beneficiary simulation remain unpublished; Part D stays three closed/five open."
+  },
+  "medicare_part_d_estimation_method_evidence_ceiling": {
+    "path": "data/derived/breadth_benchmark_matrix/medicare_part_d_estimation_method_evidence_ceiling.fy2024.v1.draft.json",
+    "captured_source_ids": ["SRC-CMS-PART-D-IPM-FY2024-FINDINGS"],
+    "official_apr_url": "https://www.hhs.gov/sites/default/files/hhs-fy-2024-agency-performance-report.pdf",
+    "status": "same_period_process_text_web_verified_official_pdf_custody_blocked_field_open",
+    "evidence_scope": "Web extraction verifies the official APR text at printed page 88/PDF index 87 assigning each audited PDE a gross drug cost error and describing representative-beneficiary simulation; captured FY2024 findings provide OMB-plan, statistical-validity, published-output, confidence-limit, and corrected-GDC-direction evidence.",
+    "custody_scope": "The HHS edge returned Akamai HTTP 403, so the APR has no local official-byte custody, source ID, checksum, or metadata; the CMS background page modified in 2026 is non-same-period corroboration only.",
+    "open_scope": "Official APR custody remains blocked, and full estimation method remains open for formula, weights, PDE-to-beneficiary aggregation and sample linkage, benefit-parameter simulation, record treatment, variance and confidence-limit construction, same-period 5-percent confirmation, and rounding and reconciliation mechanics; Part D stays three closed/five open."
+  },
+  "medicare_part_d_missing_document_exclusion_treatment_bridge": {
+    "path": "data/derived/breadth_benchmark_matrix/medicare_part_d_missing_document_exclusion_treatment_bridge.fy2024.v1.draft.json",
+    "source_ids": ["SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE", "SRC-CMS-PART-D-IPM-CY2022-FAQ", "SRC-CMS-PART-D-IPM-FY2024-FINDINGS"],
+    "status": "same_period_missing_document_review_and_fail_treatment_component_closed_internal_only_full_exclusion_rules_open",
+    "closed_component_scope": "CY2022 sources establish timely incomplete/problematic-file review, unresolved Missing Documentation Form fail treatment, permitted predeadline cure for missing or invalid evidence, and FY2024 inclusion of invalid or missing documentation in the reported error category.",
+    "historical_scope": "FY2020/CY2018 excluded 27 of 4,526 sampled PDEs lacking requested documentation; this is historical comparison only and does not establish the CY2022 rule or a COVID-19 cause.",
+    "open_scope": "Full exclusion rules remain open for the complete taxonomy, current counts and decision stages, submission-state distinctions, post-deadline and appeal treatment, replacement and weights, estimator effects, and historical continuity; Part D stays three closed/five open."
+  },
+  "medicare_part_d_payment_universe_measurement_object_denominator_bridge": {
+    "path": "data/derived/breadth_benchmark_matrix/medicare_part_d_payment_universe_measurement_object_denominator_bridge.fy2024.v1.draft.json",
+    "source_ids": ["SRC-OMB-PAYMENTACCURACY-FY2024-DATA", "SRC-CMS-PART-D-IPM-FY2024-FINDINGS", "SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE"],
+    "status": "same_period_pde_gdc_measurement_object_and_published_denominator_component_closed_internal_only_full_payment_universe_open",
+    "closed_component_scope": "Same-period sources identify sampled reconciliation PDE records as the measurement object, corrected-versus-reported GDC as the error basis, and $96,521.39M in row-828 outlays as the exact value rounding to CMS's $96.52B Part D Denominator.",
+    "open_scope": "Full payment universe remains open for included/excluded streams, GDC and combined plan-beneficiary liability mapping to federal outlays, settlement and adjustment rules, covered populations and phases, double-count controls, and sample-to-denominator linkage; Part D stays three closed/five open."
+  },
+  "medicare_part_d_audit_closeout_recovery_process_bridge": {
+    "path": "data/derived/breadth_benchmark_matrix/medicare_part_d_audit_closeout_recovery_process_bridge.q4-2025.v1.draft.json",
+    "source_ids": ["SRC-OMB-PAYMENTACCURACY-PART-D-Q4-2025"],
+    "status": "scorecard_audit_closeout_pde_deletion_recovery_process_component_closed_internal_only_full_recoverable_amount_basis_open",
+    "closed_component_scope": "The Q4 2025 scorecard documents issued Adcirca, Revatio, and Cialis audit closeout notices requiring deletion of audit-determined improper PDE records and describes that deletion as recovery; planned DME and Tepezza notices remain distinct.",
+    "open_scope": "The later process has no amount or cohort linkage to the FY2024/CY2022 estimate and does not establish debt, appeal, settlement, collectibility, actual collection, write-off, liability allocation, control cost, or savings; Part D stays three closed/five open."
+  },
+  "medicare_part_d_published_uncertainty_output_bridge": {
+    "path": "data/derived/breadth_benchmark_matrix/medicare_part_d_published_uncertainty_output_bridge.fy2024.v1.draft.json",
+    "source_ids": ["SRC-OMB-PAYMENTACCURACY-FY2024-DATA", "SRC-CMS-PART-D-IPM-FY2024-FINDINGS"],
+    "status": "same_period_published_confidence_interval_and_margin_of_error_output_component_closed_internal_only_full_estimation_method_open",
+    "closed_component_scope": "The findings publish a 95% confidence interval of $3.19B-$4.01B and 3.31%-4.15% around the rounded $3.58B/3.70% gross result; row 828 reports $3,575.09M, rate 0.037039355, confidence label 95% to <100%, and margin-of-error value 0.42.",
+    "open_scope": "The 0.42 field has no disclosed units or formula and is not forced to reconcile to the findings bounds. APR custody, formula, weights, simulation, record treatment, variance, confidence-limit construction, sample linkage, and rounding remain open; Part D stays three closed/five open."
+  },
+  "medicare_part_d_reconciliation_pde_adjustment_documentation_bridge": {
+    "path": "data/derived/breadth_benchmark_matrix/medicare_part_d_reconciliation_pde_adjustment_documentation_bridge.cy2022.v1.draft.json",
+    "source_ids": ["SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE"],
+    "status": "same_period_recon_pde_review_target_and_post_reconciliation_adjustment_documentation_component_closed_internal_only_full_payment_universe_open",
+    "closed_component_scope": "After a sampled reconciliation PDE is adjusted, reconciliation-PDE-aligned documentation remains required and linked adjustment documentation is additionally required. The cutoff and final reconciliation target are prior Pulse 39 and Pulse 43 context, not new closure scope.",
+    "open_scope": "The guide discloses no inclusion, exclusion, denominator, weight, estimator, or payment effect for adjusted PDEs. Full payment universe remains open and Part D stays three closed/five open."
+  },
+  "medicare_part_d_sampling_estimation_plan_access_evidence_ceiling": {
+    "path": "data/derived/breadth_benchmark_matrix/medicare_part_d_sampling_estimation_plan_access_evidence_ceiling.fy2024.v1.draft.json",
+    "source_ids": ["SRC-OMB-M-21-19"],
+    "status": "governmentwide_secure_max_plan_location_and_part_d_public_evidence_ceiling_recorded_zero_field_closures",
+    "evidence_scope": "OMB M-21-19 requires statistically valid point and confidence-interval estimates and directs the S&EMP and checklist to the agency secure MAX page. Prior validated Part D bridges inventory the public evidence ceiling without becoming new source custody or closures.",
+    "open_scope": "The Part D-specific plan, checklist, appendices, version history, and reproducible sample, universe, estimator, and exclusion detail remain missing; recoverable-amount lineage is separate. Zero components and zero fields close, and Part D stays three closed/five open."
+  },
+  "medicare_part_d_sampling_estimation_methodology_plan_request_specification": {
+    "path": "data/derived/breadth_benchmark_matrix/medicare_part_d_sampling_estimation_methodology_plan_request_specification.fy2024.v1.draft.json",
+    "source_ids": ["SRC-OMB-M-21-19", "SRC-CMS-FOIA-FILING", "SRC-ECFR-45-CFR-5"],
+    "status": "draft_not_submitted_existing_records_only_privacy_aware_request_specification",
+    "submission_status": "draft_not_submitted_owner_authorization_required",
+    "request_scope": "The internal draft targets the final CY2022/FY2024 Part D S&EMP, OMB checklist, incorporated attachments, operative version history, and final approval or transmittal records while excluding person-level claims, PHI, identifiers, credentials, raw inputs, production access, and the separate recovery track.",
+    "open_scope": "Owner authorization, requester and contact details, fee choices, scope review, and one submission channel remain unresolved. No outbound action occurred, zero components and fields close, and Part D stays three closed/five open."
+  },
+  "medicare_part_d_sampling_estimation_methodology_plan_foia_response_intake_contract": {
+    "path": "data/derived/breadth_benchmark_matrix/medicare_part_d_sampling_estimation_methodology_plan_foia_response_intake_contract.fy2024.v1.draft.json",
+    "source_ids": ["SRC-OMB-M-21-19", "SRC-CMS-FOIA-FILING", "SRC-ECFR-45-CFR-5"],
+    "status": "draft_internal_preflight_and_response_intake_ready_external_submission_blocked",
+    "submission_status": "draft_not_submitted_owner_authorization_required",
+    "pipeline_scope": "The hard all-false preflight, closed-world lifecycle, append-only event rules, blank intake, timing capture, appeal taxonomy, and production-review gates are ready for internal use only.",
+    "open_scope": "Owner authorization is necessary but insufficient; every identity, contact, fee, scope, single-channel, freeze, checksum, destination, and custody gate remains unresolved. No external action or agency evidence exists, zero components and fields close, and Part D stays three closed/five open."
+  },
+  "va_pltss_payment_type_composition_bridge": {
+    "path": "data/derived/breadth_benchmark_matrix/va_pltss_payment_type_composition_bridge.fy2025.v1.draft.json",
+    "source_ids": ["SRC-OMB-PAYMENTACCURACY-FY2024-DATA", "SRC-VA-AFR-SECTION-III-FY2025"],
+    "status": "same_period_fy2024_payment_type_split_closed_internal_only_later_fy2025_taxonomy_corroboration",
+    "closed_internal_only": ["sample period", "payment type split"],
+    "open_methodology_fields": ["sample design", "reviewed-claim universe", "estimation method", "exclusion rules", "documentation standard", "documentation defect versus recoverable overpayment basis"],
+    "evidence_scope": "The FY2024 annual row exactly reconciles overpayment, underpayment, technically improper, and unknown categories; the FY2025 AFR independently publishes the same full taxonomy for a later cycle testing payments made in FY2024.",
+    "excluded_scope": "The two measurement cycles are not blended. Neither composition establishes bills, receivables, collectible debt, appeals, write-offs, collections, recovery, or savings."
+  },
+  "va_pltss_documentation_recoverability_boundary": {
+    "path": "data/derived/breadth_benchmark_matrix/va_pltss_documentation_recoverability_boundary.fy2025.v1.draft.json",
+    "source_ids": ["SRC-VA-FIN-POLICY-PAYMENT-INTEGRITY", "SRC-VA-FIN-POLICY-OVERPAYMENT-AUDIT-RECOVERIES", "SRC-VA-AFR-SECTION-III-FY2025"],
+    "status": "current_policy_classification_and_certified_return_boundary_recorded_full_field_open",
+    "evidence_scope": "Current VA policy distinguishes documentation failure, unknown payment, monetary-loss overpayment, technical/non-monetary loss, and returned-funds recovery and requires actual certified funds for recovery-audit accounting.",
+    "open_scope": "The policies postdate the tested payments and do not map PLTSS causes through category, bill, dispute, write-off, collectibility, collection, or recovery; the two-closed/six-open aggregate is unchanged."
+  },
+  "va_pltss_same_cohort_debt_collection_lineage_evidence_ceiling": {
+    "path": "data/derived/breadth_benchmark_matrix/va_pltss_same_cohort_debt_collection_lineage_evidence_ceiling.fy2024-q4-2025.v1.draft.json",
+    "source_ids": ["SRC-OMB-PAYMENTACCURACY-FY2024-DATA", "SRC-OMB-PAYMENTACCURACY-VA-PLTSS-Q4-2025", "SRC-VA-OIG-PIIA-FY2024", "SRC-VA-AFR-SECTION-III-FY2025", "SRC-VA-FIN-POLICY-PAYMENT-INTEGRITY", "SRC-VA-FIN-POLICY-OVERPAYMENT-AUDIT-RECOVERIES"],
+    "status": "custodied_source_inventory_complete_same_cohort_debt_collection_lineage_not_observed_zero_field_closures",
+    "evidence_scope": "The FY2024 annual row, Q4 2025 PLTSS scorecard, and FY2024 VA OIG review are reviewed evidence. The FY2025 AFR and current policies are later/current context and cannot assign historical sampled-payment dispositions.",
+    "open_scope": "No privacy-safe same-cohort link connects sampled payment, final classification, projection, receivable, dispute, collectibility, collection, certified cash, cost, and veteran/provider effects. Zero components and fields close and PLTSS stays two closed/six open."
   },
   "federal_crop_insurance_bridge": {
     "path": "data/derived/breadth_benchmark_matrix/federal_crop_insurance_payment_integrity_bridge.fy2024-q4-2025.v1.draft.json",
@@ -111,6 +249,27 @@
     "closed_component_scope": "Published rules cover CARS receipt, a 45-day evidence-backed dispute period, debt notice and interest mechanics, final administrative review, corrected reporting and possible payment, repayment discretion, setoff, and preserved appeal rights.",
     "open_scope": "No FY2024 sample-specific finding, appeal, established-debt, waiver, repayment, setoff, collection, write-off, prevention, or control-cost amounts are published; the four-closed/four-open aggregate is unchanged."
   },
+  "federal_crop_insurance_public_cohort_outcome_evidence_ceiling": {
+    "path": "data/derived/breadth_benchmark_matrix/federal_crop_insurance_public_cohort_outcome_evidence_ceiling.fy2024.v1.draft.json",
+    "source_ids": ["SRC-USDA-RMA-FCIC-MANAGER-2024-09-25", "SRC-USDA-RMA-FCIC-MANAGER-2024-11-21"],
+    "status": "post_completion_public_reporting_rolls_to_fy2025_cohort_zero_field_closures",
+    "evidence_scope": "After FY2024/RY2022 completion, September and November 2024 Manager's Reports report only the 388-policy FY2025/RY2023 sample while keeping ordinary compliance findings in a separate section.",
+    "open_scope": "No public report preserves FY2024/RY2022 cohort lineage through Final Findings, final administrative determinations, debt, appeal, setoff, collection, write-off, prevention, or control cost; the four-closed/four-open aggregate is unchanged."
+  },
+  "federal_crop_insurance_cohort_disposition_request_specification": {
+    "path": "data/derived/breadth_benchmark_matrix/federal_crop_insurance_cohort_disposition_request_specification.fy2024.v1.draft.json",
+    "source_ids": ["SRC-USDA-RMA-FOIA", "SRC-USCODE-7-1502", "SRC-ECFR-7-CFR-1-SUBPART-A", "SRC-USDA-RMA-COM-16-002"],
+    "status": "draft_not_submitted_existing_records_only_privacy_aware_request_specification",
+    "evidence_scope": "The unsent request targets existing cohort-preserving CARS, compliance, and linked disposition records while accepting deidentified or aggregate forms and reasonably segregable electronic release.",
+    "open_scope": "Submission requires owner authorization, identity, contact details, and a fee decision; requested records may not exist or may be withheld or redacted, so the four-closed/four-open aggregate is unchanged."
+  },
+  "federal_crop_insurance_foia_response_intake_contract": {
+    "path": "data/derived/breadth_benchmark_matrix/federal_crop_insurance_foia_response_intake_contract.v1.draft.json",
+    "source_ids": ["SRC-USDA-RMA-FOIA", "SRC-USDA-RMA-FOIA-FEES", "SRC-ECFR-7-CFR-1-SUBPART-A"],
+    "status": "draft_internal_preflight_and_response_intake_ready_external_submission_blocked",
+    "evidence_scope": "The preflight blocks external action until owner and fee gates pass; the response state machine records administrative events, production custody, cohort review, and appeal status without treating process events as outcome evidence.",
+    "open_scope": "No request is submitted and no response exists; later productions would still require custody, privacy, cohort, field, and claim-gate review, so the four-closed/four-open aggregate is unchanged."
+  },
   "field_status": {
     "payment_type_composition": "annual_workbook_reconciled_draft_extracted",
     "confirmed_fraud": "parallel_court_confirmed_table_not_linked_to_headline",
@@ -124,7 +283,23 @@
     "data/extracted/payment_accuracy/fy2024_program_results.v1.draft.jsonl",
     "data/extracted/payment_accuracy/fy2024_confirmed_fraud.v1.draft.jsonl",
     "data/extracted/payment_accuracy/fy2024_agency_recovery.v1.draft.jsonl",
+    "data/derived/breadth_benchmark_matrix/medicare_part_d_payment_type_composition_bridge.fy2024.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/medicare_part_d_sponsor_documentation_dependency_evidence_ceiling.fy2024.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/medicare_part_d_sponsor_documentation_dependency_bridge.fy2024.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/medicare_part_d_sample_design_evidence_ceiling.fy2024.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/medicare_part_d_estimation_method_evidence_ceiling.fy2024.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/medicare_part_d_missing_document_exclusion_treatment_bridge.fy2024.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/medicare_part_d_payment_universe_measurement_object_denominator_bridge.fy2024.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/medicare_part_d_audit_closeout_recovery_process_bridge.q4-2025.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/medicare_part_d_published_uncertainty_output_bridge.fy2024.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/medicare_part_d_reconciliation_pde_adjustment_documentation_bridge.cy2022.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/medicare_part_d_sampling_estimation_plan_access_evidence_ceiling.fy2024.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/medicare_part_d_sampling_estimation_methodology_plan_request_specification.fy2024.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/medicare_part_d_sampling_estimation_methodology_plan_foia_response_intake_contract.fy2024.v1.draft.json",
     "data/derived/breadth_benchmark_matrix/va_pltss_recovery_bridge.fy2024-q4-2025.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/va_pltss_payment_type_composition_bridge.fy2025.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/va_pltss_documentation_recoverability_boundary.fy2025.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/va_pltss_same_cohort_debt_collection_lineage_evidence_ceiling.fy2024-q4-2025.v1.draft.json",
     "data/derived/breadth_benchmark_matrix/federal_crop_insurance_payment_integrity_bridge.fy2024-q4-2025.v1.draft.json",
     "data/derived/breadth_benchmark_matrix/federal_crop_insurance_root_cause_definition_bridge.fy2024.v1.draft.json",
     "data/derived/breadth_benchmark_matrix/federal_crop_insurance_payment_universe_bridge.fy2024.v1.draft.json",
@@ -132,17 +307,20 @@
     "data/derived/breadth_benchmark_matrix/federal_crop_insurance_historical_sampling_method_bridge.fy2020.v1.draft.json",
     "data/derived/breadth_benchmark_matrix/federal_crop_insurance_public_methodology_evidence_ceiling.fy2025.v1.draft.json",
     "data/derived/breadth_benchmark_matrix/federal_crop_insurance_recovery_lineage_boundary_bridge.fy2024.v1.draft.json",
-    "data/derived/breadth_benchmark_matrix/federal_crop_insurance_appeal_collectibility_governance_bridge.fy2024.v1.draft.json"
+    "data/derived/breadth_benchmark_matrix/federal_crop_insurance_appeal_collectibility_governance_bridge.fy2024.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/federal_crop_insurance_public_cohort_outcome_evidence_ceiling.fy2024.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/federal_crop_insurance_cohort_disposition_request_specification.fy2024.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/federal_crop_insurance_foia_response_intake_contract.v1.draft.json"
   ],
   "claim_firewall": "improper payments != overpayments != confirmed fraud != recoverable dollars != collected recoveries != net savings",
   "public_claim_allowed": false,
   "fraud_claim_allowed": false,
   "savings_estimate_allowed": false,
   "next_depth_need": [
-    "role review of the annual extraction and corrected scorecard probe",
-    "obtain PLTSS debt-cohort lineage before linking projected errors to identified debt or recovery",
+    "resolve the five remaining Part D methodology fields; stop at the hard all-false S&EMP submission preflight unless the owner completes every identity, contact, fee, scope, freeze, custody, and single-channel gate and explicitly authorizes the exact outbound action, while separately pursuing APR custody and same-cohort recoverability lineage",
+    "obtain the privacy-safe PLTSS same-cohort linkage defined by the debt-and-collection evidence ceiling before linking projected errors to identified debt, collectibility, collection, or certified recovery",
     "obtain authorized access to the FCIC S&EMP or equivalent program-specific public documentation to close sample design; OMB M-21-19 directs the plan to secure MAX, and the FY2025 report repeats only high-level public descriptors, so the four open fields remain unchanged",
-    "resolve estimation method and exclusion rules; for recoverable-savings basis, preserve both the amount-class non-additivity and appeal/repayment state-transition boundaries while obtaining sample-specific final determinations, debt, collections, prevention, and control-cost lineage before scoring",
+    "resolve estimation method and exclusion rules; for recoverable-savings basis, owner-review and, if authorized, submit the existing-records-only privacy-aware request specification for FY2024/RY2022 final-determination, debt, and collection lineage before scoring",
     "link confirmed-fraud rows only where program, period, and definition match",
     "estimate control, access, error, appeal, and implementation costs before net savings"
   ]

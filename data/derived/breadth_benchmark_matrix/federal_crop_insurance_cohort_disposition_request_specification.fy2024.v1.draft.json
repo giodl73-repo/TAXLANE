@@ -1,0 +1,143 @@
+{
+  "record_id": "payment-integrity-cohort-disposition-request-specification:usda-federal-crop-insurance:fy2024",
+  "record_family": "federal_crop_insurance_cohort_disposition_request_specification",
+  "program_id": "usda-federal-crop-insurance",
+  "agency_code": "USDA",
+  "program_or_activity": "Risk Management Agency Federal Crop Insurance Corporation",
+  "status": "draft_not_submitted_existing_records_only_privacy_aware_request_specification",
+  "submission_status": "draft_not_submitted_user_authorization_required",
+  "external_action_executed": false,
+  "fee_commitment_executed": false,
+  "source_ids": [
+    "SRC-USDA-RMA-FOIA",
+    "SRC-USCODE-7-1502",
+    "SRC-ECFR-7-CFR-1-SUBPART-A",
+    "SRC-USDA-RMA-COM-16-002"
+  ],
+  "upstream_artifact": "data/derived/breadth_benchmark_matrix/federal_crop_insurance_public_cohort_outcome_evidence_ceiling.fy2024.v1.draft.json",
+  "source_custody": {
+    "rma_foia_page": {
+      "raw_path": "data/raw/usda/SRC-USDA-RMA-FOIA/2026-07-14/rma-foia.html",
+      "bytes": 85950,
+      "checksum_sha256": "07BAAEF274DE84D1E4569AF3E820A0BFB5A827A4C176EDABA86350DCDC21A671"
+    },
+    "us_code_7_1502": {
+      "raw_path": "data/raw/uscode/SRC-USCODE-7-1502/2026-07-14/7-usc-1502.html",
+      "bytes": 168877,
+      "checksum_sha256": "CD71097EF55E3D1311D5E504B8B7C2B72D03338E5FB6C2D6B05DDF652486ACCD"
+    },
+    "ecfr_7_cfr_1_subpart_a": {
+      "raw_path": "data/raw/ecfr/SRC-ECFR-7-CFR-1-SUBPART-A/2026-07-14/7-cfr-1-subpart-a.html",
+      "bytes": 197132,
+      "checksum_sha256": "4069AA69CD67B04ED87B032022BCDD143ECD97FD42E78285C6F448EDBDE6BDD1"
+    }
+  },
+  "request_channel": {
+    "recipient_component": "USDA Risk Management Agency via FPAC-BC FOIA Team",
+    "email": "SM.FP.FOIA@usda.gov",
+    "online_portal_available": true,
+    "submission_channel_rule": "choose one submission channel; do not duplicate the same request by portal and email",
+    "service_center_phone": "202-690-3041",
+    "public_liaison_phone": "202-260-8252",
+    "postal_address": "1400 Independence Avenue SW, Room 6618-S, Washington, DC 20250-9410"
+  },
+  "request_scope": {
+    "records_only_not_questions": true,
+    "existing_records_only": true,
+    "new_record_creation_requested": false,
+    "cohort": "FY2024 reporting period/Reinsurance Year 2022/326 selected policies",
+    "date_start": "2023-04-01",
+    "date_end": "date the agency performs its search",
+    "likely_record_locations": [
+      "Compliance Activities and Results System case-policy document libraries",
+      "Regional Compliance Office review and disposition records",
+      "Deputy Administrator for Compliance records",
+      "OCFO submission and reconciliation records",
+      "linked FCIC settlement or accounts-receivable records reasonably likely to contain responsive dispositions"
+    ],
+    "requested_existing_record_types": [
+      "cohort disposition export, ledger, report, or query output",
+      "field definitions or data dictionary for the released record",
+      "finding-to-final-determination reconciliation",
+      "final-determination-to-debt and collection reconciliation"
+    ]
+  },
+  "requested_fields": [
+    {"field":"stable deidentified case key if already present and safely releasable","purpose":"preserve state transitions without requiring creation of a pseudonym or identifying a producer or AIP"},
+    {"field":"review disposition and disposition date","purpose":"separate no-error closure, finding, and unresolved states"},
+    {"field":"Initial Finding status, date, and amount by payment class","purpose":"identify preliminary asserted amounts"},
+    {"field":"Final Finding status, date, and amount by payment class","purpose":"identify appealable asserted amounts"},
+    {"field":"final administrative determination request status and date","purpose":"identify whether administrative review was invoked"},
+    {"field":"final administrative determination outcome and date","purpose":"separate affirmed, modified, reversed, withdrawn, pending, and other outcomes"},
+    {"field":"post-review corrected amount by payment class","purpose":"preserve revisions after administrative review"},
+    {"field":"debt-established status, date, and amount","purpose":"distinguish a finding from an established receivable"},
+    {"field":"waiver, reduction, or delay status and amount","purpose":"preserve repayment discretion"},
+    {"field":"setoff status, date, and amount","purpose":"distinguish setoff from other remedies"},
+    {"field":"cash receipt status, date, and amount","purpose":"identify actual cash collection"},
+    {"field":"compromise, write-off, or uncollectible status, date, and amount","purpose":"preserve noncollection dispositions"},
+    {"field":"existing link to the reported 2.43-percent and $579.36-million estimate","purpose":"test cohort-to-projection reconciliation without asking RMA to calculate a new recovery rate or assuming equivalence"}
+  ],
+  "privacy_and_segregability": {
+    "exclude_direct_identifiers": [
+      "producer and policyholder names",
+      "addresses and contact information",
+      "taxpayer or Social Security numbers",
+      "policy and claim numbers",
+      "farm, tract, field, and geospatial identifiers",
+      "AIP identities, crops, and exact locations",
+      "free text that could identify a producer"
+    ],
+    "accept_deidentified_row_level_existing_record": true,
+    "accept_statistical_or_aggregate_existing_record": true,
+    "request_reasonably_segregable_nonexempt_portions": true,
+    "statutory_boundary": "7 U.S.C. 1502(c)(1) protects producer-furnished information; 7 U.S.C. 1502(c)(2)(A) authorizes non-identifying statistical or aggregate disclosure.",
+    "non_guarantee": "The statute permits qualifying disclosure but does not require creation of a new record or guarantee release of every requested field."
+  },
+  "delivery_preferences": {
+    "preferred_formats": ["CSV", "XLSX", "JSON", "native electronic format"],
+    "supporting_documents_format": "searchable PDF or native electronic format",
+    "readily_reproducible_qualification": true,
+    "rolling_release_requested": true
+  },
+  "owner_placeholders": {
+    "requester_name": "[REQUESTER NAME]",
+    "requester_organization": "[ORGANIZATION OR INDIVIDUAL]",
+    "requester_email": "[EMAIL]",
+    "requester_phone": "[PHONE]",
+    "fee_limit_usd": "[FEE LIMIT]",
+    "recommended_default_fee_limit_usd": 25,
+    "fee_waiver_position": "[STATE REQUEST OR NO REQUEST FOR FEE WAIVER; DO NOT CLAIM ENTITLEMENT WITHOUT SUPPORT]"
+  },
+  "decision": {
+    "decision_status": "request_specification_complete_submission_blocked_pending_owner_authorization",
+    "request_specification_complete": true,
+    "submission_allowed_by_this_artifact": false,
+    "new_methodology_field_closures": 0,
+    "recoverable_savings_basis_field_closed": false
+  },
+  "current_program_boundary": {
+    "total_methodology_fields": 8,
+    "closed_field_count": 4,
+    "open_field_count": 4,
+    "open_fields": ["sample design", "estimation method", "exclusion rules", "recoverable savings basis"]
+  },
+  "claim_guardrails": [
+    "A request specification is not evidence that responsive records exist.",
+    "A released finding amount would not automatically be final debt.",
+    "A final administrative determination request would not establish reversal or affirmance.",
+    "Setoff would not automatically equal cash collection.",
+    "Raw sampled amounts would not automatically equal the weighted $579.36 million projection.",
+    "A collection amount without prevention attribution and control cost would not establish net savings.",
+    "A no-records response would establish only the result of the described search, not zero outcomes.",
+    "A denial or redaction would not establish that responsive records do not exist."
+  ],
+  "public_claim_allowed": false,
+  "scoring_allowed": false,
+  "fraud_claim_allowed": false,
+  "debt_claim_allowed": false,
+  "collectibility_claim_allowed": false,
+  "recovery_claim_allowed": false,
+  "prevention_claim_allowed": false,
+  "control_cost_claim_allowed": false,
+  "savings_estimate_allowed": false
+}

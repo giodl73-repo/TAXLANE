@@ -11,7 +11,7 @@ closure candidates.
 | Rank | Program | Closed component |
 |---:|---|---|
 | 1 | USDA Federal Crop Insurance Program | Root-cause field framing only. |
-| 2 | VA PLTSS | Reporting split between overpayments and improper/unknown payments only. |
+| 2 | VA PLTSS | VA-wide classification and certified-return boundary only. |
 
 These are not full methodology-field closures. Medicaid and Medicare Part D do
 not appear because their readiness rows still require positive recoverable or

@@ -14,52 +14,84 @@ Part D IPM Program Background page. The fourth capture uses a CMS FY2020 Part D
 IPM findings PDF as historical exclusion-rule evidence. The fifth capture uses
 the CMS FY2024 Part D IPM findings PDF for payment-type split evidence. The
 sixth capture uses the PaymentAccuracy Q4 2025 Part D scorecard for sample
-period evidence. The seventh capture uses the same scorecard for state-data
-dependency evidence. The eighth capture uses the scorecard for
+period evidence. The seventh capture combines that scorecard with the CY2022
+submission guide and FAQ for sponsor-documentation dependency treatment. The
+eighth capture uses the scorecard for
 overpayment-versus-recoverable-amount basis evidence.
 
 For sample design, CMS states that Part D IPM reviews a statistically valid
 stratified random sample of Prescription Drug Events and uses prescription
-record data plus supporting documentation from Part D plan sponsors.
+record data plus supporting documentation from Part D plan sponsors. The
+CY2022 guide further establishes PDE-level selection, sponsor-contract routing,
+CMS record identifiers, and the reconciliation-PDE cutoff. These components do
+not disclose the national sample size, frame and coverage, stratum definitions,
+allocation, inclusion probabilities, within-stratum selection implementation,
+replacement and nonresponse rules, weights, or linkage to the beneficiary
+simulation, so sample design remains open.
 
-For payment universe, CMS states that Part D IPM primarily analyzes Prescription
-Drug Events, which are CMS-defined summary extracts that include prescription
-transaction details. This partially supports the universe question but does not
-fully define included and excluded payments.
+For payment universe, the checksum-verified guide and findings identify sampled
+reconciliation PDE records and corrected-versus-reported GDC, while the annual
+workbook's row 828 reconciles $92,946.30 million proper plus $3,575.09 million
+improper to $96,521.39 million outlays. CMS publishes the rounded denominator as
+$96.52 billion. This closes only the measurement-object and
+published-denominator component. Appendix A closes a separate component: after
+a sampled reconciliation PDE is adjusted, reconciliation-PDE-aligned documents
+remain required and linked adjustment documents are additionally required. The
+cutoff and final reconciliation target are prior context, not new closures.
+Included and excluded streams, adjustment and payment effects, denominator,
+weights, estimator treatment, and the mapping from combined plan-beneficiary
+GDC liability to federal outlays remain open.
 
-For estimation method, CMS states that validation findings are applied to a
-randomly selected 5% sample of the Part D beneficiary population and extrapolated
-onto payments of remaining Part D beneficiaries to determine the gross payment
-error amount and national Part D IPM. This partially supports the estimator
-question but still needs reviewer confirmation before field closure.
+For estimation method, web extraction verifies the official HHS FY2024 APR
+passage at printed page 88 assigning each audited PDE a gross drug cost error
+and describing representative-beneficiary simulation. HHS blocked official PDF
+custody with Akamai HTTP 403, so that process capture remains custody-blocked.
+Separately, checksum-custodied findings and annual row 828 close the published
+confidence-interval and margin-of-error output component. Row 828 does not
+define the 0.42 value's units or formula, and no reconciliation to the findings
+bounds is forced. Formula, weights, PDE-to-beneficiary linkage, simulation,
+record treatment, variance and confidence-limit construction, margin-of-error
+definition, same-period 5% confirmation, and rounding remain open.
 
-For exclusion rules, CMS's FY2020 findings state that 27 sampled PDEs were
-excluded from the Part D IPM calculation because requested supporting
-documentation could not be obtained. This is evidence that exclusion rules exist,
-but it is historical and does not close the FY2024/Q4 2025 exclusion-rule field.
+For exclusion rules, the CY2022 guide and FAQ establish a narrow current-cycle
+component: timely incomplete or problematic files remain in review; a Missing
+Documentation Form does not substitute for evidence and leaves the PDE failed
+while unresolved; and missing or invalid evidence may be cured before the final
+deadline. FY2024 findings include invalid or missing documentation in the 2.70%
+reported category. CMS's FY2020 findings separately excluded 27 of 4,526 PDEs
+when requested evidence could not be obtained, but that CY2018 treatment is
+historical comparison only. Full exclusion rules remain open for taxonomy,
+counts, decision stages, submission-state distinctions, post-deadline and appeal
+treatment, replacement and weights, estimator effects, and historical
+continuity.
 
-For payment type split, CMS's FY2024 findings define overpayment and
-underpayment logic using corrected gross drug cost compared with the PDE record.
-They also identify FY2024 overpayment categories and the FY2024 underpayment
-category. This supports overpayment and underpayment split review but does not
-establish unknown-payment treatment.
+For payment type split, the exact annual row reports $3,052.65 million in
+overpayments, $522.44 million in underpayments, and zero technically improper
+or unknown payments, reconciling to $3,575.09 million improper payments. CMS's
+FY2024 findings corroborate the rounded values and category definitions. This
+closes payment type split internally but does not establish debt, collectibility,
+recovery, fraud, waste, or savings.
 
 For sample period, the PaymentAccuracy Q4 2025 scorecard states that the FY2024
 estimate is based on a sampling timeframe starting 1/2022 and ending 12/2022.
 This supports sample-period review but still needs reviewer confirmation before
 field closure.
 
-For state-data dependency treatment, the PaymentAccuracy Q4 2025 scorecard
-classifies the FY2024 Part D overpayment root cause as failure to access data or
-information needed and describes data/support validation barriers. This supports
-state-data dependency review but does not establish the full data-dependency
-treatment used in the estimate.
+For the inherited state-data dependency field, the checksum-verified scorecard
+reports $3,053 million at 3.16% and classifies the full rounded amount as outside
+agency control because of failure to access data or information needed. The
+underlying issues are Part D sponsor drug, pricing, and documentation inputs—not
+state data. The CY2022 guide and FAQ establish missing-document failure,
+approved correction, final review, retention, and successor-sponsor treatment,
+supporting narrow internal closure under the sponsor-documentation label.
 
-For overpayment-versus-recoverable-amount basis, the PaymentAccuracy Q4 2025
-scorecard reports the FY2024 overpayment amount and rate and includes
-corrective-action and recovery-plan context. This supports distinguishing the
-reported overpayment estimate from recovery work, but it does not establish the
-collectible or recoverable amount basis.
+For overpayment-versus-recoverable-amount basis, the checksum-verified Q4 2025
+scorecard reports issued Adcirca, Revatio, and Cialis audit closeout notices
+requiring deletion of PDE records determined improper, which the publisher
+describes as resulting in recovery. It separately labels DME and Tepezza notices
+as planned. This closes one current-process component, but the later process has
+no amount or cohort linkage to the FY2024/CY2022 estimate and does not establish
+the collectible or recoverable amount basis.
 
 The Medicaid captures use the PaymentAccuracy Medicaid Q4 2025 scorecard, CMS
 PERM program page, CMS PERM manual, and CMS FY2025 Improper Payments Fact Sheet.
@@ -90,17 +122,16 @@ supports that PERM improper-payment rates are not fraud rates and that
 insufficient documentation is generally not indicative of fraud or abuse. It
 does not establish recoverable savings.
 
-The VA PLTSS captures use the PaymentAccuracy PLTSS Q4 2025 scorecard, VA
-FY2025 AFR Section III, and VA Financial Policy Chapter 03. They provide partial
-support for seven VA methodology fields and source-location context for
-exclusion rules, but all eight VA fields remain open.
+The VA PLTSS captures use the PaymentAccuracy annual workbook and Q4 2025
+scorecard, VA FY2025 AFR Section III, and VA Financial Policy Chapter 03. The
+same-period annual row completely reconciles overpayment, underpayment,
+technically improper, and unknown amounts. The FY2025 AFR corroborates that
+taxonomy for a separate later cycle.
 
-For VA PLTSS, the current captures support statistical sampling, FY2024 tested
-payment context, proper/improper/unknown reporting, payment-appropriateness test
-attributes, documentation-related causes, and recovery context. They do not
-close PLTSS-specific sample design, reviewed-claim universe, estimator,
-exclusion rules, exact sample dates, payment-type split, documentation standard,
-or recoverable-overpayment basis.
+For VA PLTSS, sample period and payment-type split are now closure-supported.
+The captures do not close sample design, reviewed-claim universe, estimator,
+exclusion rules, documentation standard, or documentation-defect-to-
+recoverable-overpayment basis.
 
 The USDA Federal Crop Insurance captures use the PaymentAccuracy FCIC Q4 2025
 scorecard, RMA COM-25-001, and the RMA compliance memorandum archive. They

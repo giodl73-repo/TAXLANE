@@ -1,0 +1,118 @@
+{
+  "record_id": "payment-integrity-payment-type-composition-bridge:va-pltss:fy2025",
+  "record_family": "va_pltss_payment_type_composition_bridge",
+  "program_id": "va-pltss",
+  "agency_code": "VA",
+  "program_or_activity": "Purchased Long Term Services and Supports (PLTSS)",
+  "status": "draft_official_source_checksum_verified_payment_type_split_closed_internal_only",
+  "source_ids": [
+    "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+    "SRC-VA-AFR-SECTION-III-FY2025"
+  ],
+  "same_period_fy2024_composition_millions": {
+    "outlays": 5620.66,
+    "improper_payments": 657.17,
+    "overpayments": 218.30,
+    "underpayments": 6.41,
+    "technically_improper": 432.46,
+    "unknown_payments": 102.93,
+    "improper_payments_plus_unknown": 760.10,
+    "sample_period": "2022-10 through 2023-09",
+    "overpayment_plus_underpayment_plus_technical_equals_improper": true,
+    "improper_plus_unknown_equals_headline": true,
+    "closure_evidence_role": "same-period primary composition"
+  },
+  "source_custody": {
+    "raw_path": "data/raw/va/SRC-VA-AFR-SECTION-III-FY2025/2026-07-14/2025-Section-III-Other-Information.pdf",
+    "bytes": 1204753,
+    "checksum_sha256": "3F3E19818ECF5F59F241D8DEAC4BC2FFA2E377C7BE4DAF65666C33D75CB2F7C1",
+    "pdf_file_pages": 34,
+    "composition_table_pdf_file_page": 24,
+    "composition_table_zero_based_viewer_index": 23,
+    "composition_table_printed_page": 139,
+    "pltss_narrative_pdf_file_pages": [28, 29],
+    "pltss_narrative_printed_pages": [143, 144]
+  },
+  "measurement_scope": {
+    "reporting_fiscal_year": 2025,
+    "tested_payment_fiscal_year": 2024,
+    "source_statement": "In FY 2025, VA tested and reported on payments made in FY 2024.",
+    "later_cycle_than_fy2024_scorecard_estimate": true,
+    "closure_evidence_role": "later-period taxonomy corroboration",
+    "may_reconcile_to_fy2024_scorecard_estimate": false,
+    "reason_not_reconcilable": "The earlier FY2024 scorecard estimate used an October 2022 through September 2023 sample and reports different period-specific amounts."
+  },
+  "publisher_reported_composition_millions": {
+    "outlays": 7330.11,
+    "proper_payments": 6982.69,
+    "improper_payments": 301.58,
+    "overpayments": 77.08,
+    "non_monetary_loss": 224.50,
+    "underpayments": 1.82,
+    "technically_improper": 222.68,
+    "unknown_payments": 45.84,
+    "improper_payments_plus_unknown": 347.41
+  },
+  "publisher_reported_composition_percent": {
+    "proper_payments": 95.26,
+    "improper_payments": 4.11,
+    "overpayments": 1.05,
+    "non_monetary_loss": 3.06,
+    "underpayments": 0.02,
+    "technically_improper": 3.04,
+    "unknown_payments": 0.63,
+    "improper_payments_plus_unknown": 4.74
+  },
+  "reported_reconciliations": {
+    "overpayments_plus_non_monetary_loss_equals_improper_payments": true,
+    "underpayments_plus_technically_improper_equals_non_monetary_loss": true,
+    "improper_plus_unknown_rounding_note_applies": true,
+    "calculated_improper_plus_unknown_millions": 347.42,
+    "reported_improper_plus_unknown_millions": 347.41
+  },
+  "process_context": {
+    "incorrect_amount_claims_may_produce": [
+      "additional payments",
+      "bills of collection"
+    ],
+    "separately_reported_error_context": [
+      "purchases using a Basic Ordering Agreement rather than a contract",
+      "failure to deny claims received outside required timeframes",
+      "missing signatures or vendor-to-invoice reconciliation",
+      "missing documentation related to authorization, payment, or Veteran level of care"
+    ],
+    "defect_to_payment_category_mapping_published": false,
+    "claim_to_bill_or_collection_lineage_published": false
+  },
+  "methodology_closure_decision": {
+    "methodology_field": "payment type split",
+    "decision_status": "field_closed_internal_only",
+    "field_closed": true,
+    "closure_scope": "Close the FY2024 annual PLTSS payment-type composition field using the same-period annual workbook; retain the FY2025 AFR as later-period taxonomy corroboration only.",
+    "current_closed_field_count": 2,
+    "current_open_field_count": 6,
+    "does_not_close": [
+      "sample design",
+      "reviewed-claim universe",
+      "estimation method",
+      "exclusion rules",
+      "documentation standard",
+      "documentation defect versus recoverable overpayment basis"
+    ]
+  },
+  "evidence_boundaries": [
+    "The field closure is based on the same-period FY2024 annual workbook composition. The later FY2025 AFR composition is corroborative and is not blended with or treated as a reconciliation to that estimate.",
+    "Technically improper and unknown payments are not identified as recoverable debts by the table.",
+    "The $77.08 million overpayment estimate is not a list of established bills, receivables, collectible debt, or collections.",
+    "The corrective-action narrative says bills of collection may be established for claims paid in the incorrect amount but supplies no cohort count, amount, appeal, write-off, or collection lineage.",
+    "The source does not map each documentation defect to monetary, technically improper, unknown, recoverable, or collectible disposition.",
+    "No recovery percentage, savings estimate, waste finding, fraud claim, or public performance claim follows from this closure."
+  ],
+  "public_claim_allowed": false,
+  "scoring_allowed": false,
+  "fraud_claim_allowed": false,
+  "debt_claim_allowed": false,
+  "collectibility_claim_allowed": false,
+  "recovery_claim_allowed": false,
+  "savings_estimate_allowed": false
+}

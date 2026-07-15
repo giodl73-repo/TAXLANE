@@ -1,0 +1,126 @@
+{
+  "record_id": "payment-integrity-estimation-method-evidence-ceiling:cms-part-d:fy2024",
+  "record_family": "medicare_part_d_estimation_method_evidence_ceiling",
+  "program_id": "cms-part-d",
+  "agency_code": "HHS",
+  "program_or_activity": "Medicare Prescription Drug Benefit (Part D)",
+  "reporting_period": "FY2024",
+  "measurement_period": "CY2022",
+  "methodology_field": "estimation method",
+  "status": "same_period_process_text_web_verified_official_pdf_custody_blocked_field_open",
+  "official_apr_source": {
+    "title": "FY 2024 HHS Annual Performance Report",
+    "publisher": "U.S. Department of Health and Human Services",
+    "source_url": "https://www.hhs.gov/sites/default/files/hhs-fy-2024-agency-performance-report.pdf",
+    "evidence_location": "printed page 88; PDF page index 87; web extraction lines 3331-3338",
+    "verified_text": [
+      "Based on these reviews, each PDE in the audit sample is assigned a gross drug cost error.",
+      "A representative sample of beneficiaries undergoes a simulation to determine the Part D improper payment estimate."
+    ],
+    "web_verified_observations": [
+      "CMS measures inconsistencies between PDE information and sponsor supporting documentation.",
+      "Each PDE in the audit sample is assigned a gross drug cost error.",
+      "A representative sample of beneficiaries undergoes a simulation to determine the Part D improper payment estimate."
+    ],
+    "custody_status": "blocked_official_bytes_unavailable",
+    "custody_attempt_result": "The official HHS edge returned Akamai HTTP 403 responses to scripted requests on 2026-07-14, and a bounded headless-browser attempt did not yield the PDF.",
+    "local_source_id_assigned": false,
+    "raw_file_present": false,
+    "metadata_record_present": false,
+    "observation_closure_allowed": false
+  },
+  "captured_same_period_source": {
+    "source_id": "SRC-CMS-PART-D-IPM-FY2024-FINDINGS",
+    "source_url": "https://www.cms.gov/files/document/fy-2024-medicare-part-d-error-rate-findings-and-results.pdf",
+    "custody_status": "captured_and_checksum_verified",
+    "supported_observations": [
+      "The FY2024 Part D IPM reports CY2022 payments and attests compliance with OMB sampling and estimation-plan guidance and a statistically valid methodology.",
+      "The report publishes gross and net improper-payment estimates, the rate and denominator, and 95 percent confidence limits.",
+      "A corrected gross drug cost below the PDE value is classified as an overpayment error, while a corrected gross drug cost above the PDE value is classified as an underpayment."
+    ],
+    "closure_limit": "The findings report does not disclose the estimator formula or the mechanics that connect reviewed PDE errors and beneficiary simulation to the national estimate and confidence limits."
+  },
+  "non_same_period_corroboration": {
+    "title": "Medicare Part D IPM Program Background",
+    "publisher": "Centers for Medicare & Medicaid Services",
+    "source_url": "https://www.cms.gov/data-research/monitoring-programs/improper-payment-measurement-programs/medicare-part-d-ipm/program-background",
+    "page_last_modified": "2026-01-15",
+    "observation": "The current page describes applying PDE validation findings to a randomly selected 5 percent beneficiary sample and extrapolating to remaining beneficiary payments.",
+    "use_rule": "Current general corroboration only. Do not infer that the 5 percent design, extrapolation mechanics, or sample relationship governed CY2022/FY2024 without same-period evidence."
+  },
+  "evidence_ceiling": {
+    "web_verified_process_observations": [
+      "PDE-level gross drug cost error assignment",
+      "representative beneficiary-sample simulation",
+      "same-period OMB plan-compliance and statistical-validity attestation",
+      "published gross, net, rate, denominator, and confidence-limit outputs",
+      "directional corrected-versus-reported gross drug cost rules"
+    ],
+    "component_closure_allowed": false,
+    "full_field_closed": false,
+    "reason": "The key APR process text lacks official local custody, and the combined record does not disclose a reproducible estimator."
+  },
+  "exact_residuals": [
+    "estimator formula for the dollar estimate and rate",
+    "sample weights and any calibration, normalization, trimming, or nonresponse adjustment",
+    "aggregation from PDE-level gross drug cost errors to beneficiary-level simulated payment errors",
+    "benefit-phase, reinsurance, low-income-subsidy, and other payment-parameter simulation mechanics",
+    "relationship, nesting, or linkage between the audited PDE sample and representative beneficiary sample",
+    "treatment of overpayments, underpayments, missing documentation, and zero-error records within the estimator",
+    "variance estimator, replicate or linearization method, finite-population treatment, and confidence-limit construction",
+    "same-period confirmation of any 5 percent beneficiary-sample and national extrapolation description",
+    "rounding and reconciliation rules connecting unrounded estimates to the published gross, net, rate, denominator, and confidence limits"
+  ],
+  "custody_retry_contract": {
+    "acceptable_paths": [
+      "Retry the exact official HHS URL when the edge permits binary access.",
+      "Accept a user-provided PDF only when the user identifies it as downloaded from the exact official HHS URL."
+    ],
+    "required_verification": [
+      "verify the PDF signature before promotion from a temporary partial file",
+      "record stable source ID, observation date, raw path, byte count, SHA-256 checksum, and page count",
+      "extract printed page 88 and verify the PDE error-assignment and beneficiary-simulation text against the web extraction",
+      "create source metadata only after the official PDF bytes pass verification"
+    ],
+    "prohibited_fallbacks": [
+      "do not retain an access-denied HTML response as a PDF",
+      "do not substitute a third-party mirror while claiming official HHS custody",
+      "do not infer estimator details from the current 2026 background page"
+    ],
+    "closure_after_custody": "Successful custody would authenticate the process text but would not by itself close a component or the full estimation-method field; the exact estimator residuals would still require review."
+  },
+  "program_status": {
+    "closed_field_count": 3,
+    "open_field_count": 5,
+    "closed_fields": [
+      "sample period",
+      "payment type split",
+      "sponsor documentation dependency treatment"
+    ],
+    "open_fields": [
+      "sample design",
+      "payment universe",
+      "estimation method",
+      "exclusion rules",
+      "overpayment versus recoverable basis"
+    ],
+    "new_component_closures": 0,
+    "new_full_field_closures": 0,
+    "scoring_status": "blocked_methodology_incomplete"
+  },
+  "evidence_boundaries": [
+    "Web extraction verifies text location and content but is not official binary custody.",
+    "Representative, simulation, statistically valid, and OMB-compliant do not disclose a reproducible estimator.",
+    "The 95 percent confidence interval is statistical uncertainty around the improper-payment estimate, not a recoverable-dollar range.",
+    "PDE gross drug cost error and projected overpayment are not automatically identified debt, collectibility, recovery, fraud, waste, prevention, or savings."
+  ],
+  "public_claim_allowed": false,
+  "component_closure_allowed": false,
+  "field_closure_allowed": false,
+  "scoring_allowed": false,
+  "fraud_claim_allowed": false,
+  "waste_claim_allowed": false,
+  "debt_claim_allowed": false,
+  "recovery_claim_allowed": false,
+  "savings_estimate_allowed": false
+}

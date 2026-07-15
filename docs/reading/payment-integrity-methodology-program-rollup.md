@@ -12,13 +12,17 @@ Medicare Part D, Medicaid, and VA PLTSS are still blocked from scoring.
 
 | Program | Closed fields | Open fields | Gate |
 |---|---:|---:|---|
-| Medicare Prescription Drug Benefit (Part D) | 1 | 7 | blocked_methodology_incomplete |
+| Medicare Prescription Drug Benefit (Part D) | 3 | 5 | blocked_methodology_incomplete |
 | Medicaid | 1 | 7 | blocked_methodology_incomplete |
-| VA Purchased Long Term Services and Supports | 1 | 7 | blocked_methodology_incomplete |
+| VA Purchased Long Term Services and Supports | 2 | 6 | blocked_methodology_incomplete |
 
 The open fields are still source-work items, not findings. They identify where
 the methodology chain needs more official documentation before TaxLane can
 estimate recoverable amounts, savings opportunities, waste, or fraud.
+
+For Part D, the five open fields are sample design, payment universe,
+estimation method, exclusion rules, and overpayment versus recoverable amount
+basis.
 
 ## Boundary
 

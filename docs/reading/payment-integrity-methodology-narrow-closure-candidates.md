@@ -11,7 +11,7 @@ decision without creating a scoring basis.
 | Rank | Program | Candidate scope |
 |---:|---|---|
 | 1 | USDA Federal Crop Insurance Program | Root-cause field framing only. |
-| 2 | VA PLTSS | Reporting split between overpayments and improper/unknown payments only. |
+| 2 | VA PLTSS | VA-wide classification and certified-return boundary only. |
 
 Medicaid and Medicare Part D are excluded because their boundary-readiness rows
 still require a positive recoverable or collectible amount basis.

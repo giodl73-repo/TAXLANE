@@ -1,0 +1,112 @@
+{
+  "record_id": "payment-integrity-audit-closeout-recovery-process-bridge:cms-part-d:q4-2025",
+  "record_family": "medicare_part_d_audit_closeout_recovery_process_bridge",
+  "program_id": "cms-part-d",
+  "agency_code": "HHS",
+  "program_or_activity": "Medicare Prescription Drug Benefit (Part D)",
+  "reporting_period": "Q4 2025",
+  "related_estimate_reporting_period": "FY2024",
+  "related_estimate_measurement_period": "CY2022",
+  "methodology_field": "overpayment versus recoverable amount basis",
+  "component": "current audit-closeout PDE-deletion recovery pathway",
+  "status": "scorecard_audit_closeout_pde_deletion_recovery_process_component_closed_internal_only_full_recoverable_amount_basis_open",
+  "source_ids": [
+    "SRC-OMB-PAYMENTACCURACY-PART-D-Q4-2025"
+  ],
+  "source_custody": {
+    "q4_2025_scorecard": {
+      "source_id": "SRC-OMB-PAYMENTACCURACY-PART-D-Q4-2025",
+      "raw_path": "data/raw/payment_accuracy/SRC-OMB-PAYMENTACCURACY-PART-D-Q4-2025/2026-07-14/medicare-part-d-q4-2025-scorecard.pdf",
+      "bytes": 215862,
+      "checksum_sha256": "7A3287AD75CFD5F4A53AC1CBFA8992E9223BB57C363C6794D3959471FBED6097",
+      "pdf_file_pages": 2
+    }
+  },
+  "scorecard_evidence": [
+    {
+      "location": "PDF file page 1; Discussion of Actions Taken in the Preceding Quarter and Actions Planned in the Following Quarter to Prevent Overpayments",
+      "text": "In Q4 FY2025, CMS conducted audits of Part D plan sponsors focused on drugs at high risk of overpayment. The scorecard says the audits aim to educate sponsors and identify, reduce, and recover overpayments.",
+      "supports": "The scorecard describes a current Part D audit and recovery process."
+    },
+    {
+      "location": "PDF file page 2; Recovery Overpayments Recovery Plans; method 1 Recovery Audit",
+      "text": "CMS reports issuing closeout notices for the Adcirca, Revatio, and Cialis national audit that require plan sponsors to delete PDE records determined improper under Medicare Part D; the scorecard describes that deletion as resulting in recovery of those payments to the program.",
+      "supports": "An issued audit-closeout pathway links audit-determined improper PDE records to sponsor deletion and publisher-described recovery."
+    },
+    {
+      "location": "PDF file page 2; Recovery Overpayments Recovery Plans; brief description of actions",
+      "text": "The scorecard separately says closeout notifications will be sent for the Durable Medical Equipment and Tepezza national audits and will instruct plans to delete improper PDE records, which it describes as resulting in recovery to Medicare Part D.",
+      "supports": "The scorecard distinguishes planned recovery notices from the already issued named-audit notices."
+    }
+  ],
+  "closed_component_scope": [
+    "The Q4 2025 scorecard identifies Recovery Audit as the published recovery method for the described Part D national-audit closeout pathway.",
+    "Issued closeout notices for the Adcirca, Revatio, and Cialis national audit require sponsors to delete PDE records determined improper under Medicare Part D.",
+    "The publisher describes deletion of those audit-determined improper PDE records as resulting in recovery of the associated payments to the program.",
+    "Durable Medical Equipment and Tepezza closeout notices are planned actions and remain distinct from the issued Adcirca, Revatio, and Cialis notices."
+  ],
+  "period_and_linkage_boundary": {
+    "same_period_as_fy2024_cy2022_estimate": false,
+    "scorecard_process_period": "Q4 2025",
+    "estimate_reporting_period": "FY2024",
+    "estimate_measurement_period": "CY2022",
+    "amount_linkage_disclosed": false,
+    "cohort_linkage_disclosed": false,
+    "boundary": "The later scorecard recovery-process narrative is not linked by record, cohort, amount, or period to the FY2024 estimate based on CY2022 payments."
+  },
+  "unsupported_or_missing_components": [
+    "PDE identifiers, record counts, and payment amounts covered by the issued or planned national-audit closeout notices",
+    "record-level or cohort-level linkage between the named audits and the CY2022/FY2024 Part D IPM sample or projected overpayment estimate",
+    "calculation connecting corrected GDC error to an audit-determined recoverable payment amount",
+    "legal or administrative debt establishment, sponsor notice rights, dispute, appeal, and reversal treatment",
+    "technical and accounting mechanics connecting PDE deletion to reconciliation, offset, receivable, refund, or cash collection",
+    "gross recoverable, collectible, collected, waived, compromised, written-off, and outstanding amounts and their timing",
+    "allocation among plan liability, beneficiary liability, statutory government subsidy, and federal recovery",
+    "coverage and completeness of the described recovery process across all Part D overpayment causes, audits, sponsors, and PDEs",
+    "recovery-process control costs and any net prevention or savings basis"
+  ],
+  "interpretation_boundaries": [
+    "Publisher language that PDE deletion results in recovery documents a process description; it is not proof that cash was received or that a particular amount was recovered.",
+    "The named national-audit cohorts are not linked to the FY2024/CY2022 statistical estimate and cannot support a recovery percentage.",
+    "Issued Adcirca, Revatio, and Cialis closeout notices must remain distinct from planned Durable Medical Equipment and Tepezza notices.",
+    "Deletion of an audit-determined improper PDE record does not by itself establish debt, collectibility, cash collection, or full federal recovery.",
+    "Gross Drug Cost combines plan and beneficiary liability, while government subsidizes portions under statutory rules; no source maps that liability basis to the recovery process.",
+    "The scorecard's fraud, waste, and abuse education objective is not a finding that the audited PDE records constitute fraud or waste.",
+    "A current Q4 2025 process description is not a same-period rule for the FY2024 estimate based on CY2022 payments.",
+    "No debt, collectible amount, recovery amount, prevention amount, control-cost estimate, or savings estimate is inferred."
+  ],
+  "field_review": {
+    "component_closed_internal_only": true,
+    "full_field_closed": false,
+    "remaining_need": "Same-cohort records linking the FY2024/CY2022 projected overpayment estimate through audit determination, debt and appeal status, PDE deletion and settlement mechanics, collectible amount, actual collection, write-off, and control cost."
+  },
+  "program_status": {
+    "closed_field_count": 3,
+    "open_field_count": 5,
+    "closed_fields": [
+      "sample period",
+      "payment type split",
+      "sponsor documentation dependency treatment"
+    ],
+    "open_fields": [
+      "sample design",
+      "payment universe",
+      "estimation method",
+      "exclusion rules",
+      "overpayment versus recoverable amount basis"
+    ],
+    "new_component_closures": 1,
+    "new_full_field_closures": 0,
+    "scoring_status": "blocked_methodology_incomplete"
+  },
+  "public_claim_allowed": false,
+  "field_closure_allowed": false,
+  "scoring_allowed": false,
+  "fraud_claim_allowed": false,
+  "waste_claim_allowed": false,
+  "debt_claim_allowed": false,
+  "collectibility_claim_allowed": false,
+  "recovery_claim_allowed": false,
+  "prevention_claim_allowed": false,
+  "savings_estimate_allowed": false
+}

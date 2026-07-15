@@ -10,7 +10,7 @@ This packet records reviewer actions over the priority source-work pass.
 | Rank | Program | Action |
 |---:|---|---|
 | 1 | USDA Federal Crop Insurance Program | Approve internal field reframing from stale agency-process-error wording to current scorecard root-cause language. |
-| 2 | VA PLTSS | Keep open; recoverability still needs more source work. |
+| 2 | VA PLTSS | Keep open; agencywide definitions do not map PLTSS causes through debt and certified collection. |
 | 3 | Medicaid | Keep open; PERM boundary source is useful but not enough for scoring. |
 | 4 | Medicare Part D | Keep open; audit recovery language does not establish collectible basis for the full estimate. |
 

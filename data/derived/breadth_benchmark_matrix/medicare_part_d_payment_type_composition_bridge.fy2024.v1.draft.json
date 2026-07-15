@@ -1,0 +1,83 @@
+{
+  "record_id": "payment-integrity-payment-type-composition-bridge:cms-part-d:fy2024",
+  "record_family": "medicare_part_d_payment_type_composition_bridge",
+  "program_id": "cms-part-d",
+  "agency_code": "HHS",
+  "program_or_activity": "Medicare Prescription Drug Benefit (Part D)",
+  "status": "draft_same_period_official_annual_row_payment_type_split_closed_internal_only",
+  "source_ids": [
+    "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+    "SRC-CMS-PART-D-IPM-FY2024-FINDINGS"
+  ],
+  "cms_findings_custody": {
+    "raw_path": "data/raw/cms/SRC-CMS-PART-D-IPM-FY2024-FINDINGS/2026-07-14/fy-2024-medicare-part-d-error-rate-findings-and-results.pdf",
+    "bytes": 121610,
+    "checksum_sha256": "36AFD362B5E5AF4DAC098C2502C9C548D79D7AA001725FE92E757BB4CF5E7BE8",
+    "pdf_file_pages": 3,
+    "table_pages": [1, 2, 3],
+    "source_role": "rounded category-definition corroboration"
+  },
+  "source_record": {
+    "path": "data/extracted/payment_accuracy/fy2024_program_results.v1.draft.jsonl",
+    "source_sheet": "All Program Results",
+    "source_row": 828,
+    "fiscal_year": 2024,
+    "sample_period": "2022-01 through 2022-12"
+  },
+  "publisher_reported_composition_millions": {
+    "outlays": 96521.39,
+    "proper_payments": 92946.30,
+    "improper_payments": 3575.09,
+    "overpayments": 3052.65,
+    "underpayments": 522.44,
+    "technically_improper": 0.0,
+    "unknown_payments": 0.0,
+    "improper_payments_plus_unknown": 3575.09
+  },
+  "publisher_reported_rates": {
+    "payment_accuracy": 0.962960645,
+    "improper_payment": 0.037039355,
+    "overpayment": 0.031626668,
+    "underpayment": 0.005412686,
+    "technically_improper": 0.0,
+    "unknown_payment": 0.0
+  },
+  "reconciliation": {
+    "overpayment_plus_underpayment_plus_technical_equals_improper": true,
+    "improper_plus_unknown_equals_headline": true,
+    "calculated_improper_millions": 3575.09,
+    "reported_improper_millions": 3575.09,
+    "unknown_payment_treatment_explicit": true,
+    "unknown_payment_amount_millions": 0.0
+  },
+  "methodology_closure_decision": {
+    "methodology_field": "payment type split",
+    "decision_status": "field_closed_internal_only",
+    "field_closed": true,
+    "closure_scope": "Close the FY2024 annual Part D payment-type-composition field only.",
+    "current_closed_field_count": 2,
+    "current_open_field_count": 6,
+    "does_not_close": [
+      "sample design",
+      "payment universe",
+      "estimation method",
+      "exclusion rules",
+      "state-data dependency treatment",
+      "overpayment versus recoverable amount basis"
+    ]
+  },
+  "evidence_boundaries": [
+    "The annual row explicitly reports zero unknown and zero technically improper payments; zero is a reported category value, not missing data.",
+    "CMS classifies insufficient, invalid, or missing documentation within the overpayment result; that classification does not by itself establish fraud, waste, identified debt, or collectibility.",
+    "The category reconciliation does not establish sample design, payment universe, estimator, exclusions, or sponsor-data treatment.",
+    "The $3,052.65 million overpayment estimate is statistical and is not a list of identified debts, collectible amounts, recoveries, or collections.",
+    "The composition does not establish a recovery percentage, savings estimate, waste finding, fraud claim, or public performance claim."
+  ],
+  "public_claim_allowed": false,
+  "scoring_allowed": false,
+  "fraud_claim_allowed": false,
+  "debt_claim_allowed": false,
+  "collectibility_claim_allowed": false,
+  "recovery_claim_allowed": false,
+  "savings_estimate_allowed": false
+}

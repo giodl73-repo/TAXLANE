@@ -1,0 +1,60 @@
+{
+  "record_id": "payment-integrity-sponsor-documentation-dependency-bridge:cms-part-d:fy2024",
+  "record_family": "medicare_part_d_sponsor_documentation_dependency_bridge",
+  "program_id": "cms-part-d",
+  "agency_code": "HHS",
+  "program_or_activity": "Medicare Prescription Drug Benefit (Part D)",
+  "status": "same_period_sponsor_documentation_treatment_closed_internal_only",
+  "source_ids": [
+    "SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE",
+    "SRC-CMS-PART-D-IPM-CY2022-FAQ",
+    "SRC-CMS-PART-D-IPM-FY2024-FINDINGS",
+    "SRC-OMB-PAYMENTACCURACY-PART-D-Q4-2025"
+  ],
+  "measurement_period": "CY2022 payments reported in FY2024",
+  "submission_timeline": {
+    "reconciliation_pde_cutoff": "2023-06-29",
+    "sponsor_notification": "2024-01-12",
+    "submission_window_open": "2024-01-26",
+    "early_submission_deadline": "2024-03-08",
+    "element_checks_and_interim_findings_report": "2024-03-29",
+    "final_submission_deadline": "2024-04-19 23:59 PT"
+  },
+  "treatment_path": {
+    "sample_assignment": "Selected PDE records are assigned to Part D sponsors by contract in the HPMS Part D IPM Module.",
+    "required_evidence": ["Claim Detail File", "prescription record hardcopy or LTC medication order", "permitted supplemental documentation or attestation"],
+    "record_alignment": "Supporting documentation must correspond to the sampled reconciliation PDE and date of service; later adjustments do not replace the June 29, 2023 reconciliation target.",
+    "missing_documentation": "A Missing Documentation Form records unsuccessful retrieval attempts but does not substitute for valid evidence; the PDE remains fail.",
+    "cure_window": "A completed or failed PDE can receive new documentation only through an approved reset or resubmission window before the final deadline.",
+    "final_review": "All files submitted by the final deadline, including incomplete files, undergo Part D IPM review.",
+    "successor_responsibility": "A gaining sponsor remains responsible for predecessor-contract records and the federal ten-year retention requirement is not displaced by shorter state rules."
+  },
+  "published_measurement_effect": {
+    "documentation_overpayment_rate_percent": 2.70,
+    "drug_and_pricing_discrepancy_rate_percent": 0.46,
+    "total_overpayment_rate_percent": 3.16,
+    "classification_scope": "statistical overpayment measurement after the documentation submission and review process"
+  },
+  "methodology_closure_decision": {
+    "legacy_methodology_field": "state-data dependency treatment",
+    "closed_methodology_field": "sponsor documentation dependency treatment",
+    "decision_status": "field_closed_internal_only",
+    "field_closed": true,
+    "closure_scope": "Close only the FY2024-reporting/CY2022 sponsor-documentation dependency treatment field.",
+    "current_closed_field_count": 3,
+    "current_open_field_count": 5,
+    "does_not_close": ["sample design", "payment universe", "estimation method", "exclusion rules", "overpayment versus recoverable amount basis"]
+  },
+  "evidence_boundaries": [
+    "A failed PDE is a review status and does not by itself prove that the transaction was monetarily wrong.",
+    "The 2.70 percent documentation component is a statistical measurement category, not a transaction-level debt ledger.",
+    "Outside-agency-control is publisher taxonomy, not a legal nonrecoverability finding.",
+    "No source links the full statistical estimate to identified debt, appeal outcomes, collectibility, cash collection, recovery, fraud, waste, or savings."
+  ],
+  "public_claim_allowed": false,
+  "scoring_allowed": false,
+  "fraud_claim_allowed": false,
+  "debt_claim_allowed": false,
+  "recovery_claim_allowed": false,
+  "savings_estimate_allowed": false
+}

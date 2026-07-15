@@ -18,6 +18,10 @@ Only the PLTSS bills-of-collection capture has enough process support to ask
 for a reviewer gate decision. It still does not support scoring or a savings
 estimate.
 
+The second PLTSS capture defines the VA-wide categories but still lacks the
+program-specific cause-to-category and bill-to-disposition mapping required for
+positive basis.
+
 ## Boundary
 
 These rows do not close fields, do not score programs, do not estimate savings,

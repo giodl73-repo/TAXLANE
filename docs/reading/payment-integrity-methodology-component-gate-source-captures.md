@@ -12,7 +12,7 @@ This packet captures official-source evidence for the component gate queries.
 | USDA Federal Crop Insurance Program | 1 | partial recovery-process support, review needed |
 | USDA Federal Crop Insurance Program | 2 | control context only, no positive amount basis |
 | VA PLTSS | 1 | partial incorrect-amount recoverability support, review needed |
-| VA PLTSS | 2 | category split partial, review needed |
+| VA PLTSS | 2 | agencywide category definitions captured; PLTSS mapping absent |
 
 The captures narrow the next work, but none establishes a full recoverable,
 collectible, preventable, or savings basis for scoring.
