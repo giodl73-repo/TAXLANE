@@ -24,6 +24,11 @@ reconciles to $161.540B. Covered outlays were $4.072T; the workbook does not
 represent the full federal payment universe, and program measurement periods
 vary.
 
+For the concise public handoff, use [Payment Integrity: What The Public
+Evidence Shows](payment-integrity-bounded-factual-examples.md). It packages
+seven reviewed examples while keeping statistical estimates, unknown status,
+fraud, recovery, debt, and savings distinct.
+
 ## Fraud and recovery remain parallel evidence
 
 The workbook also has 54 FY2024 confirmed-fraud rows, defined narrowly as cases

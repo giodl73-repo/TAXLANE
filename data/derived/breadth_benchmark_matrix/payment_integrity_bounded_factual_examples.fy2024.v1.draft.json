@@ -1,0 +1,179 @@
+{
+  "record_id": "payment-integrity-bounded-factual-examples:fy2024:v1",
+  "record_family": "payment_integrity_bounded_factual_examples",
+  "status": "bounded_source_labeled_factual_reporting_only_no_performance_fraud_recovery_or_savings_claim",
+  "reporting_scope": "Official FY2024 PaymentAccuracy annual-workbook facts and reviewed program-specific supporting evidence, with each measurement period and evidence class preserved.",
+  "headline_reconciliation_millions": {
+    "covered_outlays": 4071860.585,
+    "overpayments": 135184.184,
+    "underpayments": 7863.903,
+    "technically_improper": 5922.545,
+    "improper_total": 148970.633,
+    "unknown_payments": 12569.500,
+    "improper_plus_unknown": 161540.133,
+    "program_rows": 68,
+    "checks": {
+      "displayed_payment_type_sum_millions": 148970.632,
+      "source_reported_improper_total_millions": 148970.633,
+      "displayed_rounding_residual_millions": 0.001,
+      "source_precision_tolerance_millions": 0.001,
+      "overpayment_plus_underpayment_plus_technical_reconciles_within_source_precision": true,
+      "improper_plus_unknown_equals_combined": true
+    }
+  },
+  "evidence_class_legend": [
+    {"evidence_class":"statistical_payment_estimate","meaning":"A source-published estimate for a sampled payment universe; not a transaction ledger or automatically collectible amount."},
+    {"evidence_class":"unknown_payment_status","meaning":"A separately reported status that is added to, not relabeled as, classified improper payments."},
+    {"evidence_class":"court_confirmed_fraud","meaning":"A separate annual-workbook table limited to court-confirmed cases; not established as a disjoint subset of estimated improper payments."},
+    {"evidence_class":"operational_recovery","meaning":"Identified and recovered amounts reported on their own operational periods and bases; not automatically traceable to a statistical estimate."},
+    {"evidence_class":"internal_methodology_closure","meaning":"A reviewed evidence-coverage decision used inside TAXLANE; not a public performance or savings finding."}
+  ],
+  "ordered_program_cards": [
+    {
+      "order": 1,
+      "program_id": "cms-part-d",
+      "program_name": "Medicare Prescription Drug Benefit (Part D)",
+      "methodology_fields_closed": 3,
+      "methodology_fields_open": 5,
+      "closed_fields": ["sample period", "payment type split", "sponsor documentation dependency treatment"],
+      "open_fields": ["sample design", "payment universe", "estimation method", "exclusion rules", "overpayment versus recoverable amount basis"],
+      "sample_period": "2022-01 through 2022-12",
+      "annual_row_millions": {"outlays":96521.39,"improper":3575.09,"overpayment":3052.65,"underpayment":522.44,"technically_improper":0.0,"unknown":0.0},
+      "public_question": "What same-cohort records connect the statistical estimate to final debt, appeal, collectibility, collection, and control cost?"
+    },
+    {
+      "order": 2,
+      "program_id": "cms-medicaid",
+      "program_name": "Medicaid",
+      "methodology_fields_closed": 1,
+      "methodology_fields_open": 7,
+      "closed_fields": ["sample period"],
+      "open_fields": ["sample design", "payment universe", "estimation method", "exclusion rules", "payment type split", "state rotation and weighting treatment", "improper payment versus fraud/waste basis"],
+      "sample_period": "2022-07 through 2023-06",
+      "annual_row_millions": {"outlays":610833.37,"improper":31099.13,"overpayment":29370.43,"underpayment":123.91,"technically_improper":1604.79,"unknown":0.0},
+      "public_question": "How are state-cycle samples, payment components, exclusions, and weights combined into the national estimate?"
+    },
+    {
+      "order": 3,
+      "program_id": "va-pltss",
+      "program_name": "VA Purchased Long Term Services and Supports (PLTSS)",
+      "methodology_fields_closed": 2,
+      "methodology_fields_open": 6,
+      "closed_fields": ["sample period", "payment type split"],
+      "open_fields": ["sample design", "reviewed-claim universe", "estimation method", "exclusion rules", "documentation standard", "documentation defect versus recoverable overpayment basis"],
+      "sample_period": "2022-10 through 2023-09",
+      "annual_row_millions": {"outlays":5620.66,"improper":657.17,"overpayment":218.30,"underpayment":6.41,"technically_improper":432.46,"unknown":102.93},
+      "public_question": "Which privacy-safe same-cohort records connect sampled classifications to bills, disputes, collectibility, and certified cash?"
+    },
+    {
+      "order": 4,
+      "program_id": "usda-federal-crop-insurance",
+      "program_name": "Federal Crop Insurance Corporation",
+      "methodology_fields_closed": 4,
+      "methodology_fields_open": 4,
+      "closed_fields": ["sample period", "payment type split", "data-access outside-agency-control root-cause definition", "payment universe"],
+      "open_fields": ["sample design", "estimation method", "exclusion rules", "recoverable savings basis"],
+      "sample_period": "2021-07 through 2022-06",
+      "annual_row_millions": {"outlays":23867.31,"improper":579.36,"overpayment":573.93,"underpayment":5.43,"technically_improper":0.0,"unknown":0.0},
+      "public_question": "What reproducible current-cycle estimator, exclusion, uncertainty, appeal, debt, and collection records support the reported result?"
+    }
+  ],
+  "bounded_examples": [
+    {
+      "example_id": "fy2024-governmentwide-composition",
+      "title": "FY2024 covered-program composition",
+      "evidence_class": "statistical_payment_estimate",
+      "source_ids": ["SRC-OMB-PAYMENTACCURACY-FY2024-DATA"],
+      "source_artifacts": ["data/derived/breadth_benchmark_matrix/payment_integrity_depth_card.fy2024.v1.draft.json", "reviews/2026-07-14-payment-integrity-fy2024-annual-extraction-role-review.md"],
+      "allowed_wording": "The official FY2024 workbook's 68 program rows cover $4,071,860.585 million in outlays and report $148,970.633 million classified improper plus $12,569.500 million unknown, for $161,540.133 million improper plus unknown.",
+      "required_caveat": "Coverage is not the full federal payment universe and program measurement periods vary.",
+      "prohibited_inferences": ["fraud", "waste", "identified debt", "collectibility", "recovery", "prevention", "savings"]
+    },
+    {
+      "example_id": "va-pltss-corrected-projected-result",
+      "title": "Corrected VA PLTSS projected result",
+      "evidence_class": "statistical_payment_estimate",
+      "source_ids": ["SRC-OMB-PAYMENTACCURACY-FY2024-DATA", "SRC-OMB-PAYMENTACCURACY-VA-PLTSS-Q4-2025"],
+      "source_artifacts": ["data/derived/breadth_benchmark_matrix/va_pltss_payment_type_composition_bridge.fy2025.v1.draft.json", "reviews/2026-07-13-payment-integrity-va-pltss-source-role-review.md"],
+      "allowed_wording": "The official FY2024 PLTSS result is a projected $218.30 million overpayment estimate at 3.88 percent for payments sampled from October 2022 through September 2023.",
+      "required_caveat": "The estimate is not established debt or collection, and the later FY2025 AFR measurement cycle must not be blended into it.",
+      "prohibited_inferences": ["fraud", "waste", "collectible debt", "recovery rate", "savings"]
+    },
+    {
+      "example_id": "fcic-fy2024-composition",
+      "title": "Federal Crop Insurance FY2024 composition",
+      "evidence_class": "statistical_payment_estimate",
+      "source_ids": ["SRC-OMB-PAYMENTACCURACY-FY2024-DATA"],
+      "source_artifacts": ["data/derived/breadth_benchmark_matrix/federal_crop_insurance_payment_integrity_bridge.fy2024-q4-2025.v1.draft.json"],
+      "allowed_wording": "For the July 2021 through June 2022 sample period, the annual row reports $23,867.31 million in outlays and $579.36 million improper, comprising $573.93 million overpayments and $5.43 million underpayments.",
+      "required_caveat": "This is a sampled-universe estimate; the unaudited $579.93 million apparent typo is excluded and the annual-row margin-of-error unit is undisclosed.",
+      "prohibited_inferences": ["identified debt", "fraud", "waste", "recovery", "savings"]
+    },
+    {
+      "example_id": "part-d-fy2024-composition",
+      "title": "Medicare Part D FY2024 composition",
+      "evidence_class": "statistical_payment_estimate",
+      "source_ids": ["SRC-OMB-PAYMENTACCURACY-FY2024-DATA", "SRC-CMS-PART-D-IPM-FY2024-FINDINGS"],
+      "source_artifacts": ["data/derived/breadth_benchmark_matrix/medicare_part_d_payment_type_composition_bridge.fy2024.v1.draft.json"],
+      "allowed_wording": "For the CY2022 sample period, the annual row reports $96,521.39 million in outlays and $3,575.09 million improper, comprising $3,052.65 million overpayments and $522.44 million underpayments, with technical and unknown categories reported as zero.",
+      "required_caveat": "The composition is a statistical estimate, not identified or collectible debt.",
+      "prohibited_inferences": ["fraud", "waste", "recovery", "savings"]
+    },
+    {
+      "example_id": "part-d-documentation-dependency",
+      "title": "Medicare Part D documentation dependency",
+      "evidence_class": "internal_methodology_closure",
+      "source_ids": ["SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE", "SRC-CMS-PART-D-IPM-CY2022-FAQ", "SRC-CMS-PART-D-IPM-FY2024-FINDINGS", "SRC-OMB-PAYMENTACCURACY-PART-D-Q4-2025"],
+      "source_artifacts": ["data/derived/breadth_benchmark_matrix/medicare_part_d_sponsor_documentation_dependency_bridge.fy2024.v1.draft.json"],
+      "allowed_wording": "CMS's corrected 3.16 percent Part D overpayment result separates a 2.70 percent documentation component from 0.46 percent drug and pricing discrepancies.",
+      "required_caveat": "A documentation-related measurement failure is not a transaction-level debt ledger. The sponsor-documentation dependency field is closed internally; the other five methodology fields remain open.",
+      "prohibited_inferences": ["fraud", "waste", "collectibility", "recovery", "savings"]
+    },
+    {
+      "example_id": "part-d-published-uncertainty",
+      "title": "Medicare Part D published uncertainty",
+      "evidence_class": "statistical_payment_estimate",
+      "source_ids": ["SRC-OMB-PAYMENTACCURACY-FY2024-DATA", "SRC-CMS-PART-D-IPM-FY2024-FINDINGS"],
+      "source_artifacts": ["data/derived/breadth_benchmark_matrix/medicare_part_d_published_uncertainty_output_bridge.fy2024.v1.draft.json"],
+      "allowed_wording": "CMS publishes a 95 percent confidence interval of $3.19 billion to $4.01 billion and 3.31 percent to 4.15 percent around the rounded $3.58 billion and 3.70 percent gross improper-payment result.",
+      "required_caveat": "The annual-row 0.42 margin-of-error value has no disclosed unit or formula, must not be forced to reconstruct the intervals, and the gross interval must not be applied to a net result.",
+      "prohibited_inferences": ["identified debt range", "collectibility range", "recovery range", "savings range"]
+    },
+    {
+      "example_id": "va-pltss-recovery-lineage-guardrail",
+      "title": "VA PLTSS recovery rows remain separate",
+      "evidence_class": "operational_recovery",
+      "source_ids": ["SRC-OMB-PAYMENTACCURACY-VA-PLTSS-Q4-2025"],
+      "source_artifacts": ["data/derived/breadth_benchmark_matrix/va_pltss_recovery_bridge.fy2024-q4-2025.v1.draft.json", "data/derived/breadth_benchmark_matrix/va_pltss_same_cohort_debt_collection_lineage_evidence_ceiling.fy2024-q4-2025.v1.draft.json"],
+      "allowed_wording": "The scorecard separately reports recovery activity of $6.91 million identified and $4.46 million recovered, recovery audit activity of $1.18 million and $0.76 million, and FY2023-FY2025 PIIA sample and deep-dive activity of $3.97 million and $3.71 million, each with its own period and basis.",
+      "required_caveat": "Same period, same definition, estimate-to-debt lineage, debt-to-collection lineage, and row disjointness are all unestablished.",
+      "prohibited_inferences": ["sum the rows", "net the rows", "divide recovery by the $218.30 million estimate", "PLTSS recovery rate", "savings"]
+    }
+  ],
+  "comparison_rules": [
+    "Match program, tested-payment cohort, evidence class, units, and definitions before comparing amounts.",
+    "Keep classified improper payments separate from unknown-payment status.",
+    "Keep statistical estimates separate from court-confirmed fraud and operational recovery rows.",
+    "Do not sum, subtract, divide, net, or rank mixed-period or unmatched-basis records.",
+    "Internal methodology closure counts describe evidence coverage, not program performance."
+  ],
+  "use": ["source-labeled factual explanation", "source-precision arithmetic reconciliation", "public questions about missing evidence", "transparent correction of prior extraction error"],
+  "avoid": ["performance ranking", "fraud or waste labeling", "debt or collectibility claims", "recovery-rate calculations", "prevented-loss or savings estimates"],
+  "decision": {"new_component_closures":0,"new_full_field_closures":0,"program_counts_changed":false,"outbound_action_occurred":false},
+  "claim_gates": {
+    "bounded_factual_reporting_allowed": true,
+    "public_claim_allowed": false,
+    "field_closure_allowed": false,
+    "scoring_allowed": false,
+    "performance_claim_allowed": false,
+    "fraud_claim_allowed": false,
+    "waste_claim_allowed": false,
+    "debt_claim_allowed": false,
+    "collectibility_claim_allowed": false,
+    "recovery_claim_allowed": false,
+    "prevention_claim_allowed": false,
+    "savings_estimate_allowed": false
+  },
+  "role_review_path": "reviews/2026-07-14-payment-integrity-bounded-factual-examples-role-review.md",
+  "reader_path": "docs/reading/payment-integrity-bounded-factual-examples.md"
+}

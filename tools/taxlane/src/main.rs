@@ -628,6 +628,13 @@ const VA_OIG_PIIA_FY2024_RAW_PATH: &str =
 const VA_OIG_PIIA_FY2024_RAW_BYTES: u64 = 1_972_706;
 const VA_OIG_PIIA_FY2024_RAW_SHA256: &str =
     "b3010f3635be8dcfca3d6762a33c583c4b91ed0ff05bdb8a709ed193883e6c3b";
+const PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/payment_integrity_bounded_factual_examples.fy2024.v1.draft.json";
+const PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/payment_integrity_bounded_factual_examples.schema.md";
+const PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_READER_PATH: &str =
+    "docs/reading/payment-integrity-bounded-factual-examples.md";
+const PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_REVIEW_PATH: &str =
+    "reviews/2026-07-14-payment-integrity-bounded-factual-examples-role-review.md";
 const VA_PAYMENT_INTEGRITY_POLICY_SOURCE_ID: &str = "SRC-VA-FIN-POLICY-PAYMENT-INTEGRITY";
 const VA_PAYMENT_INTEGRITY_POLICY_METADATA_PATH: &str =
     "data/metadata/SRC-VA-FIN-POLICY-PAYMENT-INTEGRITY.2026-07-14.metadata.md";
@@ -2132,6 +2139,34 @@ const ARTIFACTS: &[Artifact] = &[
         path: VA_PLTSS_SAME_COHORT_LINEAGE_CEILING_READER_PATH,
         role: "Public VA PLTSS same-cohort lineage evidence-ceiling reader",
         grain: "source roles, negative-evidence boundary, and claim firewall",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_JSON_PATH,
+        role: "Payment-integrity bounded factual examples surface",
+        grain: "FY2024 headline, four program cards, and seven source-labeled examples",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_SCHEMA_PATH,
+        role: "Payment-integrity bounded factual examples schema",
+        grain: "presentation contract, precision rules, and claim gates",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_READER_PATH,
+        role: "Public payment-integrity bounded factual examples reader",
+        grain: "government-wide headline and four evidence-bounded program cards",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_REVIEW_PATH,
+        role: "Five-lens payment-integrity bounded examples review",
+        grain: "AI-simulated source, accounting, beneficiary, taxpayer, and skeptic review",
         kind: "markdown",
         canonical: "supporting",
     },
@@ -20336,6 +20371,568 @@ fn validate_fcic_payment_integrity_bridge(root: &Path) -> Result<(), String> {
 
     let closure_coverage_values =
         read_jsonl(root.join(PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_COVERAGE_JSONL_PATH))?;
+    let bounded_examples: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_JSON_PATH)).map_err(
+            |err| format!("failed to read {PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_JSON_PATH}: {err}"),
+        )?,
+    )
+    .map_err(|err| {
+        format!("failed to parse {PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_JSON_PATH}: {err}")
+    })?;
+    if string_field(&bounded_examples, "record_id")?
+        != "payment-integrity-bounded-factual-examples:fy2024:v1"
+        || string_field(&bounded_examples, "record_family")?
+            != "payment_integrity_bounded_factual_examples"
+        || string_field(&bounded_examples, "status")?
+            != "bounded_source_labeled_factual_reporting_only_no_performance_fraud_recovery_or_savings_claim"
+        || string_field(&bounded_examples, "role_review_path")?
+            != PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_REVIEW_PATH
+        || string_field(&bounded_examples, "reader_path")?
+            != PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_READER_PATH
+    {
+        return Err("payment-integrity bounded examples identity failed".to_string());
+    }
+    let headline = bounded_examples
+        .get("headline_reconciliation_millions")
+        .ok_or("bounded examples headline")?;
+    let headline_checks = headline
+        .get("checks")
+        .ok_or("bounded examples headline checks")?;
+    if number_field(headline, "covered_outlays")? != 4_071_860.585
+        || number_field(headline, "overpayments")? != 135_184.184
+        || number_field(headline, "underpayments")? != 7_863.903
+        || number_field(headline, "technically_improper")? != 5_922.545
+        || number_field(headline, "improper_total")? != 148_970.633
+        || number_field(headline, "unknown_payments")? != 12_569.500
+        || number_field(headline, "improper_plus_unknown")? != 161_540.133
+        || int_field(headline, "program_rows")? != 68
+        || headline_checks
+            != &serde_json::json!({
+                "displayed_payment_type_sum_millions":148970.632,
+                "source_reported_improper_total_millions":148970.633,
+                "displayed_rounding_residual_millions":0.001,
+                "source_precision_tolerance_millions":0.001,
+                "overpayment_plus_underpayment_plus_technical_reconciles_within_source_precision":true,
+                "improper_plus_unknown_equals_combined":true
+            })
+        || ((number_field(headline, "overpayments")?
+            + number_field(headline, "underpayments")?
+            + number_field(headline, "technically_improper")?)
+            - 148_970.632)
+            .abs()
+            > 0.000_000_1
+        || (number_field(headline, "improper_total")? + number_field(headline, "unknown_payments")?
+            - number_field(headline, "improper_plus_unknown")?)
+        .abs()
+            > 0.000_000_1
+    {
+        return Err(
+            "payment-integrity bounded headline precision reconciliation failed".to_string(),
+        );
+    }
+    let expected_legend = serde_json::json!([
+        {"evidence_class":"statistical_payment_estimate","meaning":"A source-published estimate for a sampled payment universe; not a transaction ledger or automatically collectible amount."},
+        {"evidence_class":"unknown_payment_status","meaning":"A separately reported status that is added to, not relabeled as, classified improper payments."},
+        {"evidence_class":"court_confirmed_fraud","meaning":"A separate annual-workbook table limited to court-confirmed cases; not established as a disjoint subset of estimated improper payments."},
+        {"evidence_class":"operational_recovery","meaning":"Identified and recovered amounts reported on their own operational periods and bases; not automatically traceable to a statistical estimate."},
+        {"evidence_class":"internal_methodology_closure","meaning":"A reviewed evidence-coverage decision used inside TAXLANE; not a public performance or savings finding."}
+    ]);
+    if bounded_examples.get("evidence_class_legend") != Some(&expected_legend) {
+        return Err("payment-integrity bounded five-class legend failed".to_string());
+    }
+    let cards = bounded_examples
+        .get("ordered_program_cards")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("bounded program cards")?;
+    let expected_card_specs = [
+        (
+            1,
+            "cms-part-d",
+            "Medicare Prescription Drug Benefit (Part D)",
+            3,
+            5,
+            "2022-01 through 2022-12",
+            "What same-cohort records connect the statistical estimate to final debt, appeal, collectibility, collection, and control cost?",
+        ),
+        (
+            2,
+            "cms-medicaid",
+            "Medicaid",
+            1,
+            7,
+            "2022-07 through 2023-06",
+            "How are state-cycle samples, payment components, exclusions, and weights combined into the national estimate?",
+        ),
+        (
+            3,
+            "va-pltss",
+            "VA Purchased Long Term Services and Supports (PLTSS)",
+            2,
+            6,
+            "2022-10 through 2023-09",
+            "Which privacy-safe same-cohort records connect sampled classifications to bills, disputes, collectibility, and certified cash?",
+        ),
+        (
+            4,
+            "usda-federal-crop-insurance",
+            "Federal Crop Insurance Corporation",
+            4,
+            4,
+            "2021-07 through 2022-06",
+            "What reproducible current-cycle estimator, exclusion, uncertainty, appeal, debt, and collection records support the reported result?",
+        ),
+    ];
+    let annual_program_rows = read_jsonl(
+        root.join("data/extracted/payment_accuracy/fy2024_program_results.v1.draft.jsonl"),
+    )?;
+    let annual_names = [
+        "Centers for Medicare & Medicaid Services (CMS) - Medicare Prescription Drug Benefit (Part D)",
+        "Centers for Medicare & Medicaid Services (CMS) - Medicaid",
+        "Purchased Long Term Services and Supports",
+        "Risk Management Agency (RMA) Federal Crop Insurance Corporation (FCIC)",
+    ];
+    let annual_periods = [
+        ("1/2022", "12/2022"),
+        ("7/2022", "6/2023"),
+        ("10/2022", "9/2023"),
+        ("7/2021", "6/2022"),
+    ];
+    let expected_annual = [
+        serde_json::json!({"outlays":96521.39,"improper":3575.09,"overpayment":3052.65,"underpayment":522.44,"technically_improper":0.0,"unknown":0.0}),
+        serde_json::json!({"outlays":610833.37,"improper":31099.13,"overpayment":29370.43,"underpayment":123.91,"technically_improper":1604.79,"unknown":0.0}),
+        serde_json::json!({"outlays":5620.66,"improper":657.17,"overpayment":218.30,"underpayment":6.41,"technically_improper":432.46,"unknown":102.93}),
+        serde_json::json!({"outlays":23867.31,"improper":579.36,"overpayment":573.93,"underpayment":5.43,"technically_improper":0.0,"unknown":0.0}),
+    ];
+    if cards.len() != 4 {
+        return Err("payment-integrity bounded examples must have four cards".to_string());
+    }
+    let mut questions = std::collections::BTreeSet::new();
+    for ((((card, spec), annual_name), annual_period), expected_amounts) in cards
+        .iter()
+        .zip(expected_card_specs)
+        .zip(annual_names)
+        .zip(annual_periods)
+        .zip(expected_annual)
+    {
+        let coverage_id = format!(
+            "payment-integrity-methodology-closure-coverage:{}:q4-2025",
+            spec.1
+        );
+        let coverage = closure_coverage_values
+            .iter()
+            .find(|row| {
+                row.get("record_id").and_then(serde_json::Value::as_str) == Some(&coverage_id)
+            })
+            .ok_or_else(|| format!("missing bounded card coverage {coverage_id}"))?;
+        let question = string_field(card, "public_question")?;
+        if int_field(card, "order")? != spec.0
+            || string_field(card, "program_id")? != spec.1
+            || string_field(card, "program_name")? != spec.2
+            || int_field(card, "methodology_fields_closed")? != spec.3
+            || int_field(card, "methodology_fields_open")? != spec.4
+            || string_field(card, "sample_period")? != spec.5
+            || question != spec.6
+            || !questions.insert(question)
+            || card.get("closed_fields") != coverage.get("closed_fields")
+            || card.get("open_fields") != coverage.get("open_fields")
+            || int_field(coverage, "closed_field_count")? != spec.3
+            || int_field(coverage, "open_field_count")? != spec.4
+            || card.get("annual_row_millions") != Some(&expected_amounts)
+        {
+            return Err(format!("bounded program card {} failed", spec.1));
+        }
+        let annual_row = annual_program_rows
+            .iter()
+            .find(|row| {
+                row.get("Program Name").and_then(serde_json::Value::as_str) == Some(annual_name)
+            })
+            .ok_or_else(|| format!("missing annual program row {annual_name}"))?;
+        let amounts = card
+            .get("annual_row_millions")
+            .ok_or("bounded card annual amounts")?;
+        if string_field(annual_row, "Start Date of the sampling timeframe")? != annual_period.0
+            || string_field(annual_row, "End Date of the sampling timeframe")? != annual_period.1
+        {
+            return Err(format!("bounded card {} annual period mismatch", spec.1));
+        }
+        for (card_key, annual_key) in [
+            ("outlays", "Outlays Amount ($M)"),
+            ("improper", "Improper Payment Amount ($M)"),
+            ("overpayment", "Total Overpayment Amount ($M)"),
+            ("underpayment", "Underpayment Amount ($M)"),
+            (
+                "technically_improper",
+                "Technically Improper Payment Amount ($M)",
+            ),
+            ("unknown", "Unknown Payment Amount ($M)"),
+        ] {
+            if number_field(amounts, card_key)? != number_field(annual_row, annual_key)? {
+                return Err(format!("bounded card {} annual amount mismatch", spec.1));
+            }
+        }
+    }
+    if questions.len() != 4 {
+        return Err("bounded examples public questions must be unique".to_string());
+    }
+    let examples = bounded_examples
+        .get("bounded_examples")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("bounded examples array")?;
+    let expected_examples = [
+        (
+            "fy2024-governmentwide-composition",
+            serde_json::json!(["SRC-OMB-PAYMENTACCURACY-FY2024-DATA"]),
+            serde_json::json!([
+                "data/derived/breadth_benchmark_matrix/payment_integrity_depth_card.fy2024.v1.draft.json",
+                "reviews/2026-07-14-payment-integrity-fy2024-annual-extraction-role-review.md"
+            ]),
+            "The official FY2024 workbook's 68 program rows cover $4,071,860.585 million in outlays and report $148,970.633 million classified improper plus $12,569.500 million unknown, for $161,540.133 million improper plus unknown.",
+            "Coverage is not the full federal payment universe and program measurement periods vary.",
+        ),
+        (
+            "va-pltss-corrected-projected-result",
+            serde_json::json!([
+                "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+                "SRC-OMB-PAYMENTACCURACY-VA-PLTSS-Q4-2025"
+            ]),
+            serde_json::json!([
+                "data/derived/breadth_benchmark_matrix/va_pltss_payment_type_composition_bridge.fy2025.v1.draft.json",
+                "reviews/2026-07-13-payment-integrity-va-pltss-source-role-review.md"
+            ]),
+            "The official FY2024 PLTSS result is a projected $218.30 million overpayment estimate at 3.88 percent for payments sampled from October 2022 through September 2023.",
+            "The estimate is not established debt or collection, and the later FY2025 AFR measurement cycle must not be blended into it.",
+        ),
+        (
+            "fcic-fy2024-composition",
+            serde_json::json!(["SRC-OMB-PAYMENTACCURACY-FY2024-DATA"]),
+            serde_json::json!([
+                "data/derived/breadth_benchmark_matrix/federal_crop_insurance_payment_integrity_bridge.fy2024-q4-2025.v1.draft.json"
+            ]),
+            "For the July 2021 through June 2022 sample period, the annual row reports $23,867.31 million in outlays and $579.36 million improper, comprising $573.93 million overpayments and $5.43 million underpayments.",
+            "This is a sampled-universe estimate; the unaudited $579.93 million apparent typo is excluded and the annual-row margin-of-error unit is undisclosed.",
+        ),
+        (
+            "part-d-fy2024-composition",
+            serde_json::json!([
+                "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+                "SRC-CMS-PART-D-IPM-FY2024-FINDINGS"
+            ]),
+            serde_json::json!([
+                "data/derived/breadth_benchmark_matrix/medicare_part_d_payment_type_composition_bridge.fy2024.v1.draft.json"
+            ]),
+            "For the CY2022 sample period, the annual row reports $96,521.39 million in outlays and $3,575.09 million improper, comprising $3,052.65 million overpayments and $522.44 million underpayments, with technical and unknown categories reported as zero.",
+            "The composition is a statistical estimate, not identified or collectible debt.",
+        ),
+        (
+            "part-d-documentation-dependency",
+            serde_json::json!([
+                "SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE",
+                "SRC-CMS-PART-D-IPM-CY2022-FAQ",
+                "SRC-CMS-PART-D-IPM-FY2024-FINDINGS",
+                "SRC-OMB-PAYMENTACCURACY-PART-D-Q4-2025"
+            ]),
+            serde_json::json!([
+                "data/derived/breadth_benchmark_matrix/medicare_part_d_sponsor_documentation_dependency_bridge.fy2024.v1.draft.json"
+            ]),
+            "CMS's corrected 3.16 percent Part D overpayment result separates a 2.70 percent documentation component from 0.46 percent drug and pricing discrepancies.",
+            "A documentation-related measurement failure is not a transaction-level debt ledger. The sponsor-documentation dependency field is closed internally; the other five methodology fields remain open.",
+        ),
+        (
+            "part-d-published-uncertainty",
+            serde_json::json!([
+                "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+                "SRC-CMS-PART-D-IPM-FY2024-FINDINGS"
+            ]),
+            serde_json::json!([
+                "data/derived/breadth_benchmark_matrix/medicare_part_d_published_uncertainty_output_bridge.fy2024.v1.draft.json"
+            ]),
+            "CMS publishes a 95 percent confidence interval of $3.19 billion to $4.01 billion and 3.31 percent to 4.15 percent around the rounded $3.58 billion and 3.70 percent gross improper-payment result.",
+            "The annual-row 0.42 margin-of-error value has no disclosed unit or formula, must not be forced to reconstruct the intervals, and the gross interval must not be applied to a net result.",
+        ),
+        (
+            "va-pltss-recovery-lineage-guardrail",
+            serde_json::json!(["SRC-OMB-PAYMENTACCURACY-VA-PLTSS-Q4-2025"]),
+            serde_json::json!([
+                "data/derived/breadth_benchmark_matrix/va_pltss_recovery_bridge.fy2024-q4-2025.v1.draft.json",
+                "data/derived/breadth_benchmark_matrix/va_pltss_same_cohort_debt_collection_lineage_evidence_ceiling.fy2024-q4-2025.v1.draft.json"
+            ]),
+            "The scorecard separately reports recovery activity of $6.91 million identified and $4.46 million recovered, recovery audit activity of $1.18 million and $0.76 million, and FY2023-FY2025 PIIA sample and deep-dive activity of $3.97 million and $3.71 million, each with its own period and basis.",
+            "Same period, same definition, estimate-to-debt lineage, debt-to-collection lineage, and row disjointness are all unestablished.",
+        ),
+    ];
+    let mut example_ids = std::collections::BTreeSet::new();
+    let legend_classes: std::collections::BTreeSet<&str> = [
+        "statistical_payment_estimate",
+        "unknown_payment_status",
+        "court_confirmed_fraud",
+        "operational_recovery",
+        "internal_methodology_closure",
+    ]
+    .into_iter()
+    .collect();
+    let expected_example_details = [
+        (
+            "FY2024 covered-program composition",
+            "statistical_payment_estimate",
+            serde_json::json!([
+                "fraud",
+                "waste",
+                "identified debt",
+                "collectibility",
+                "recovery",
+                "prevention",
+                "savings"
+            ]),
+        ),
+        (
+            "Corrected VA PLTSS projected result",
+            "statistical_payment_estimate",
+            serde_json::json!([
+                "fraud",
+                "waste",
+                "collectible debt",
+                "recovery rate",
+                "savings"
+            ]),
+        ),
+        (
+            "Federal Crop Insurance FY2024 composition",
+            "statistical_payment_estimate",
+            serde_json::json!(["identified debt", "fraud", "waste", "recovery", "savings"]),
+        ),
+        (
+            "Medicare Part D FY2024 composition",
+            "statistical_payment_estimate",
+            serde_json::json!(["fraud", "waste", "recovery", "savings"]),
+        ),
+        (
+            "Medicare Part D documentation dependency",
+            "internal_methodology_closure",
+            serde_json::json!(["fraud", "waste", "collectibility", "recovery", "savings"]),
+        ),
+        (
+            "Medicare Part D published uncertainty",
+            "statistical_payment_estimate",
+            serde_json::json!([
+                "identified debt range",
+                "collectibility range",
+                "recovery range",
+                "savings range"
+            ]),
+        ),
+        (
+            "VA PLTSS recovery rows remain separate",
+            "operational_recovery",
+            serde_json::json!([
+                "sum the rows",
+                "net the rows",
+                "divide recovery by the $218.30 million estimate",
+                "PLTSS recovery rate",
+                "savings"
+            ]),
+        ),
+    ];
+    if examples.len() != 7 {
+        return Err("bounded examples must contain seven examples".to_string());
+    }
+    for ((example, expected), detail) in examples
+        .iter()
+        .zip(expected_examples)
+        .zip(expected_example_details)
+    {
+        let evidence_class = string_field(example, "evidence_class")?;
+        if string_field(example, "example_id")? != expected.0
+            || !example_ids.insert(expected.0)
+            || string_field(example, "title")? != detail.0
+            || evidence_class != detail.1
+            || !legend_classes.contains(evidence_class.as_str())
+            || example.get("source_ids") != Some(&expected.1)
+            || example.get("source_artifacts") != Some(&expected.2)
+            || string_field(example, "allowed_wording")? != expected.3
+            || string_field(example, "required_caveat")? != expected.4
+            || example.get("prohibited_inferences") != Some(&detail.2)
+        {
+            return Err(format!("bounded factual example {} failed", expected.0));
+        }
+        for artifact in expected.2.as_array().ok_or("bounded example artifacts")? {
+            let path = artifact.as_str().ok_or("bounded example artifact path")?;
+            if !root.join(path).is_file() {
+                return Err(format!("bounded example supporting path missing {path}"));
+            }
+        }
+        for source_id in expected.1.as_array().ok_or("bounded example source IDs")? {
+            let source_id = source_id.as_str().ok_or("bounded example source ID")?;
+            if !source_id.starts_with("SRC-") {
+                return Err(format!(
+                    "bounded example {} invalid source ID {source_id}",
+                    expected.0
+                ));
+            }
+        }
+    }
+    let expected_rules = serde_json::json!([
+        "Match program, tested-payment cohort, evidence class, units, and definitions before comparing amounts.",
+        "Keep classified improper payments separate from unknown-payment status.",
+        "Keep statistical estimates separate from court-confirmed fraud and operational recovery rows.",
+        "Do not sum, subtract, divide, net, or rank mixed-period or unmatched-basis records.",
+        "Internal methodology closure counts describe evidence coverage, not program performance."
+    ]);
+    let expected_use = serde_json::json!([
+        "source-labeled factual explanation",
+        "source-precision arithmetic reconciliation",
+        "public questions about missing evidence",
+        "transparent correction of prior extraction error"
+    ]);
+    let expected_avoid = serde_json::json!([
+        "performance ranking",
+        "fraud or waste labeling",
+        "debt or collectibility claims",
+        "recovery-rate calculations",
+        "prevented-loss or savings estimates"
+    ]);
+    let decision = bounded_examples
+        .get("decision")
+        .ok_or("bounded examples decision")?;
+    let gates = bounded_examples
+        .get("claim_gates")
+        .ok_or("bounded examples gates")?;
+    if bounded_examples.get("comparison_rules") != Some(&expected_rules)
+        || bounded_examples.get("use") != Some(&expected_use)
+        || bounded_examples.get("avoid") != Some(&expected_avoid)
+        || decision
+            != &serde_json::json!({"new_component_closures":0,"new_full_field_closures":0,"program_counts_changed":false,"outbound_action_occurred":false})
+        || gates
+            .get("bounded_factual_reporting_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("bounded examples rules, decision, or bounded gate failed".to_string());
+    }
+    for gate in [
+        "public_claim_allowed",
+        "field_closure_allowed",
+        "scoring_allowed",
+        "performance_claim_allowed",
+        "fraud_claim_allowed",
+        "waste_claim_allowed",
+        "debt_claim_allowed",
+        "collectibility_claim_allowed",
+        "recovery_claim_allowed",
+        "prevention_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if gates.get(gate).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("bounded examples gate {gate} must remain false"));
+        }
+    }
+    let schema = fs::read_to_string(root.join(PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_SCHEMA_PATH))
+        .map_err(|err| err.to_string())?;
+    for required in [
+        "Exactly four cards",
+        "Exactly seven reviewed examples",
+        "$148,970.632M",
+        "$0.001M",
+        "source-precision tolerance",
+        "Decision counts are `0/0`",
+        "all false",
+    ] {
+        if !schema.contains(required) {
+            return Err(format!("bounded examples schema missing {required}"));
+        }
+    }
+    let reader = fs::read_to_string(root.join(PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_READER_PATH))
+        .map_err(|err| err.to_string())?;
+    let normalized_reader = reader.split_whitespace().collect::<Vec<_>>().join(" ");
+    for card in cards {
+        let question = string_field(card, "public_question")?;
+        let normalized_question = question.split_whitespace().collect::<Vec<_>>().join(" ");
+        if !normalized_reader.contains(&normalized_question) {
+            return Err(format!(
+                "bounded examples reader missing exact question {question}"
+            ));
+        }
+    }
+    for required in [
+        "$4,071.861 billion",
+        "$148.971B",
+        "$161.540B",
+        "68 FY2024 program rows",
+        "three fields closed, five open",
+        "one field closed, seven open",
+        "two fields closed, six open",
+        "four fields closed, four open",
+        "sponsor-documentation dependency field",
+        "different tested-payment cycle and must not be blended",
+        "sum them or divide them by $218.30 million",
+        "recoverable-savings basis",
+        "statistical estimate",
+        "identify corrected source errors",
+        "Avoid performance rankings",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("bounded examples reader missing {required}"));
+        }
+    }
+    let review = fs::read_to_string(root.join(PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_REVIEW_PATH))
+        .map_err(|err| err.to_string())?;
+    for required in [
+        "AI-simulated review",
+        "not external endorsement",
+        "Taxpayer Advocate",
+        "Source Custodian",
+        "Budget Accountant",
+        "Program Beneficiary Reviewer",
+        "Reform Skeptic",
+        "closes zero methodology components",
+        "authorizes no outbound",
+    ] {
+        if !review.contains(required) {
+            return Err(format!("bounded examples review missing {required}"));
+        }
+    }
+    let bounded_surface = payment_card
+        .get("bounded_factual_examples_surface")
+        .ok_or("depth card bounded surface")?;
+    if string_field(bounded_surface, "path")? != PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_JSON_PATH
+        || string_field(bounded_surface, "reader_path")?
+            != PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_READER_PATH
+        || string_field(bounded_surface, "review_path")?
+            != PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_REVIEW_PATH
+        || string_field(bounded_surface, "status")? != string_field(&bounded_examples, "status")?
+        || !string_field(bounded_surface, "decision_effect")?
+            .contains("seven previously validated examples")
+    {
+        return Err("payment-integrity depth-card bounded surface failed".to_string());
+    }
+    for (path, required) in [
+        (
+            "README.md",
+            "docs/reading/payment-integrity-bounded-factual-examples.md",
+        ),
+        (
+            "data/derived/breadth_benchmark_matrix/README.md",
+            "payment_integrity_bounded_factual_examples.fy2024.v1.draft.json",
+        ),
+        (
+            "docs/reading/current-versus-benchmark-scoreboard.md",
+            "$161.5 billion in FY2024\nreported improper plus unknown payments across covered programs",
+        ),
+        (
+            "context/waves/2026-07-12-breadth-depth-benchmark-matrix/WAVE.md",
+            "pulses/pulse-52-payment-integrity-bounded-factual-examples.md",
+        ),
+        (
+            "docs/sources/source-version-ledger.md",
+            "Payment-integrity bounded factual examples",
+        ),
+    ] {
+        let text = fs::read_to_string(root.join(path)).map_err(|err| err.to_string())?;
+        if !text.contains(required) {
+            return Err(format!(
+                "bounded examples integration {path} missing {required}"
+            ));
+        }
+    }
     let fcic_coverage = closure_coverage_values
         .iter()
         .find(|row| {

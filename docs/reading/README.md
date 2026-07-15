@@ -15,6 +15,7 @@ explainers. They should keep three labels visible:
 |---|---|
 | `honest-federal-tax-receipt.md` | Flagship one-page before/after case and financing-lane receipt prototype. |
 | `current-versus-benchmark-scoreboard.md` | Breadth/depth scoreboard showing matched current-versus-benchmark values, topline-only areas, explicit gaps, and the fraud/savings firewall. |
+| `payment-integrity-bounded-factual-examples.md` | Public payment-integrity handoff: exact FY2024 reconciliation, four program cards, seven source-labeled examples, and required claim boundaries. |
 | `headline-number-selection-guide.md` | Selection guide reconciling the valid health, defense, and interest headline measures and their incompatible scopes. |
 | `veterans-depth-card.md` | Complete FY2025 veterans function and five-component breakdown with current service probes and benchmark gates. |
 | `transportation-depth-card.md` | Complete FY2025 transportation function and four-component breakdown with federalism and outcome benchmark gates. |
@@ -119,6 +120,10 @@ explainers. They should keep three labels visible:
 | `per-unit-receipt-cards.md` | Public-facing per-unit card copy with source-basis, civic-illustration, and blocked-card labels. |
 
 ## Reading Order
+
+For payment integrity, read `payment-integrity-bounded-factual-examples.md`
+after the portfolio scoreboard and before the longer methodology packet chain.
+It is the bounded public surface, not a performance or savings report.
 
 1. Start with `income-tax-foundation.md` for current-law mechanics and the
    program-linked tax lane hypothesis.

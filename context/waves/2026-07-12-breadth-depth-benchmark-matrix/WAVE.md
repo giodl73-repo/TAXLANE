@@ -396,6 +396,14 @@ certified cash. No search, download, request, fee, submission, or agency contact
 occurred. Zero components and fields close, PLTSS stays two closed and six open,
 and every gate remains false.
 
+Pulse 52 packages seven previously validated examples into a bounded public
+surface with an exact improper-versus-unknown reconciliation, five-class
+legend, and ordered Part D, Medicaid, PLTSS, and FCIC cards. It permits only
+source-labeled factual explanation with required caveats. Zero components and
+fields close, counts remain 3/5, 1/7, 2/6, and 4/4, and every established
+public, performance, fraud, waste, debt, collectibility, recovery, prevention,
+and savings gate remains false.
+
 ## Design rules
 
 - Never invent an expected value for a policy-dependent lane.
@@ -415,5 +423,5 @@ git diff --check
 
 ## Current pulse
 
-`pulses/pulse-51-va-pltss-same-cohort-debt-collection-lineage-evidence-ceiling.md` records the
+`pulses/pulse-52-payment-integrity-bounded-factual-examples.md` records the
 latest bounded slice and next decision gate.

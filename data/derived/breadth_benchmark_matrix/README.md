@@ -62,6 +62,12 @@ FY2024 annual workbook's improper, unknown, overpayment, underpayment, and
 technically-improper totals while keeping court-confirmed-fraud and agency-
 recovery tables parallel until program, period, and definitions match.
 
+`payment_integrity_bounded_factual_examples.fy2024.v1.draft.json` packages
+seven reviewed examples, a five-class evidence legend, and ordered Part D,
+Medicaid, PLTSS, and FCIC cards for bounded source-labeled public explanation.
+It closes zero components and fields and leaves every established public,
+performance, fraud, waste, debt, recovery, prevention, and savings gate false.
+
 `federal_crop_insurance_payment_integrity_bridge.fy2024-q4-2025.v1.draft.json`
 reconciles the FCIC annual row, Q4 2025 scorecard, and RMA review-period
 evidence. The linked

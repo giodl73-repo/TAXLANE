@@ -80,9 +80,9 @@ outlay percentage.
 ## Fraud And Savings Firewall
 
 The current government-wide integrity top line is **$161.5 billion in FY2024
-reported improper payments across covered programs**. It is not the full federal
-payment universe, not a fraud estimate, and not an automatically recoverable
-amount.
+reported improper plus unknown payments across covered programs**: $148.971B
+classified improper plus $12.570B unknown. It is not the full federal payment
+universe, not a fraud estimate, and not an automatically recoverable amount.
 
 The draft [payment-integrity depth card](payment-integrity-depth-card.md) now
 reconciles the official annual workbook into $135.184B overpayments, $7.864B
@@ -280,6 +280,15 @@ historical dispositions, and absence from this bounded inventory does not prove
 nonexistence, withholding, zero debt, zero collection, or noncollectibility.
 Zero components and fields close; PLTSS remains two closed and six open with
 every gate false.
+
+Pulse 52 turns the reviewed evidence into the bounded public handoff
+[Payment Integrity: What The Public Evidence Shows](payment-integrity-bounded-factual-examples.md).
+Its seven examples retain source, period, evidence class, wording, and caveat;
+the four program cards preserve Part D 3/5, Medicaid 1/7, PLTSS 2/6, and FCIC
+4/4 internal methodology counts. Zero components and fields close. Bounded
+factual reporting is allowed, but every established public, performance,
+fraud, waste, debt, collectibility, recovery, prevention, and savings gate
+remains false.
 
 ```text
 international efficiency gap != improper payments != fraud != recoverable savings

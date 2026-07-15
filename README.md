@@ -26,6 +26,10 @@ For the portfolio-wide evidence check, use the
 It shows which major lanes have matched comparisons, which only have federal
 toplines, which remain breadth gaps, and why international efficiency gaps,
 improper payments, fraud, and recoverable savings are different quantities.
+For the clearest public examples behind that firewall, read [Payment Integrity:
+What The Public Evidence Shows](docs/reading/payment-integrity-bounded-factual-examples.md).
+It distinguishes the FY2024 $148.971B classified-improper total from $12.570B
+unknown payments and labels $161.540B as improper plus unknown.
 Use the [headline-number selection guide](docs/reading/headline-number-selection-guide.md)
 when choosing among gross/net interest, defense function/subfunction, or
 federal/system-wide health measures.

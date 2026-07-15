@@ -55,6 +55,13 @@
     "allowed_use": "Exact source-labeled factual composition and reconciliation with publisher, fiscal year, units, coverage qualification, program-specific measurement periods, and evidence-class labels preserved.",
     "prohibited_use": "Do not join, subtract, divide, or net confirmed-fraud or agency-recovery rows against estimated improper payments and do not infer fraud, waste, debt, collectibility, recovery, prevention, or savings."
   },
+  "bounded_factual_examples_surface": {
+    "path": "data/derived/breadth_benchmark_matrix/payment_integrity_bounded_factual_examples.fy2024.v1.draft.json",
+    "reader_path": "docs/reading/payment-integrity-bounded-factual-examples.md",
+    "review_path": "reviews/2026-07-14-payment-integrity-bounded-factual-examples-role-review.md",
+    "status": "bounded_source_labeled_factual_reporting_only_no_performance_fraud_recovery_or_savings_claim",
+    "decision_effect": "Packages seven previously validated examples for bounded factual reporting; zero components and fields close and every established claim gate remains false."
+  },
   "four_program_annual_rows_millions": [
     {"program_id":"cms-medicaid","improper":31099.13,"overpayment":29370.43,"underpayment":123.91,"technically_improper":1604.79,"unknown":0.0,"sample_period":"2022-07 through 2023-06"},
     {"program_id":"cms-part-d","improper":3575.09,"overpayment":3052.65,"underpayment":522.44,"technically_improper":0.0,"unknown":0.0,"sample_period":"2022-01 through 2022-12"},
