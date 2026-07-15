@@ -13,11 +13,14 @@ use taxlane_core::{
     CostDownSourcePacketRecord, DebtMaturityRiskTreasuryProbeRecord,
     DebtPrimaryBalanceFiscalProbeRecord, DefenseAuditControlProbeRecord,
     DefenseProcurementControlProbeRecord, DisasterDeclarationProbeRecord,
-    DisasterMitigationProjectProbeRecord, EfficiencyPressureRecord, HeadlineBasisRecord,
-    HealthAdminSimplificationProbeRecord, HealthPriceDisciplineProbeRecord,
-    PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE, PUBLIC_CLAIM_ALLOWED_LABEL,
-    PUBLIC_CLAIM_BLOCKED_LABEL, PaymentIntegrityClaimsTimelinessProbeRecord,
-    PaymentIntegrityMethodologyClosureCoverageRecord,
+    DisasterMitigationProjectProbeRecord, EfficiencyPressureRecord,
+    ExternalAccountabilityClaimIntakeRecord, ExternalClaimAmountDerivation,
+    ExternalClaimAmountSemantic, ExternalClaimCustodyStatus, ExternalClaimEvidenceRelation,
+    ExternalClaimPublicationKind, ExternalClaimReviewStatus, ExternalClaimStatus,
+    ExternalClaimType, HeadlineBasisRecord, HealthAdminSimplificationProbeRecord,
+    HealthPriceDisciplineProbeRecord, PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE,
+    PUBLIC_CLAIM_ALLOWED_LABEL, PUBLIC_CLAIM_BLOCKED_LABEL,
+    PaymentIntegrityClaimsTimelinessProbeRecord, PaymentIntegrityMethodologyClosureCoverageRecord,
     PaymentIntegrityMethodologyClosureDecisionRecord,
     PaymentIntegrityMethodologyClosureReadinessRecord,
     PaymentIntegrityMethodologyComponentGateBoundaryDecisionRecord,
@@ -149,6 +152,23 @@ const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_INTAKE_SCHEMA_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-intake.schema.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_INTAKE_EXAMPLE_JSONL_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-intake.example.jsonl";
+const EXTERNAL_ACCOUNTABILITY_CLAIM_INTAKE_JSONL_PATH: &str =
+    "data/derived/accountability_evidence/external-accountability-claim-intake.v1.draft.jsonl";
+const EXTERNAL_ACCOUNTABILITY_CLAIM_INTAKE_SCHEMA_PATH: &str =
+    "data/derived/accountability_evidence/external-accountability-claim-intake.schema.md";
+const EXTERNAL_ACCOUNTABILITY_CLAIM_INTAKE_READER_PATH: &str =
+    "data/derived/accountability_evidence/external-accountability-claim-intake.md";
+const EXTERNAL_ACCOUNTABILITY_CLAIM_INTAKE_REVIEW_PATH: &str =
+    "reviews/2026-07-14-external-accountability-claim-intake-role-review.md";
+const HOUSE_SHIRLEY_TESTIMONY_RAW_PATH: &str =
+    "data/raw/house/SRC-HOUSE-JUDICIARY-SHIRLEY-TESTIMONY-2026/2026-07-14/shirley-testimony.pdf";
+const HOUSE_SHIRLEY_TESTIMONY_METADATA_PATH: &str =
+    "data/metadata/SRC-HOUSE-JUDICIARY-SHIRLEY-TESTIMONY-2026.2026-07-14.metadata.md";
+const HOUSE_SHIRLEY_TESTIMONY_REVIEW_PATH: &str =
+    "reviews/2026-07-14-house-testimony-quality-learing-center-claim-atom-role-review.md";
+const HOUSE_SHIRLEY_TESTIMONY_BYTES: u64 = 60_433;
+const HOUSE_SHIRLEY_TESTIMONY_SHA256: &str =
+    "e90266a876dcb6882593a1a63df70646270c7f9a037f6ba49d20f9e310c040c5";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_LOG_APPLIED_EXAMPLE_JSONL_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-log.applied-example.jsonl";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_STATUS_APPLIED_EXAMPLE_PATH: &str =
@@ -305,6 +325,351 @@ const PELL_CURRENT_ENTRANT_SIGNIFICANCE_MANIFEST_PATH: &str = "data/raw/nces/SRC
 const PELL_CURRENT_ENTRANT_SIGNIFICANCE_MANIFEST_BYTES: u64 = 3_468;
 const PELL_CURRENT_ENTRANT_SIGNIFICANCE_MANIFEST_SHA256: &str =
     "9d09c714fa6cf290b5964aef3a35ada9225a2aa977f7ae0d8ee701ac7ec3ca57";
+const FCIC_PAYMENT_INTEGRITY_BRIDGE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/federal_crop_insurance_payment_integrity_bridge.fy2024-q4-2025.v1.draft.json";
+const FCIC_PAYMENT_INTEGRITY_BRIDGE_READER_PATH: &str =
+    "docs/reading/federal-crop-insurance-payment-integrity-bridge.md";
+const FCIC_SCORECARD_SOURCE_ID: &str = "SRC-OMB-PAYMENTACCURACY-FCIC-Q4-2025";
+const FCIC_SCORECARD_METADATA_PATH: &str =
+    "data/metadata/SRC-OMB-PAYMENTACCURACY-FCIC-Q4-2025.2026-07-13.metadata.md";
+const FCIC_SCORECARD_RAW_PATH: &str = "data/raw/omb/SRC-OMB-PAYMENTACCURACY-FCIC-Q4-2025/2026-07-13/Federal Crop Insurance Corporation (FCIC).pdf";
+const FCIC_SCORECARD_RAW_BYTES: u64 = 217_443;
+const FCIC_SCORECARD_RAW_SHA256: &str =
+    "64486352e268061b05554255f5fbb43ded57401549efc19e31268ae97e945ed2";
+const FCIC_COM_23_SOURCE_ID: &str = "SRC-USDA-RMA-COM-23-001";
+const FCIC_COM_23_METADATA_PATH: &str =
+    "data/metadata/SRC-USDA-RMA-COM-23-001.2026-07-13.metadata.md";
+const FCIC_COM_23_RAW_PATH: &str =
+    "data/raw/usda/SRC-USDA-RMA-COM-23-001/2026-07-13/COM-23-001.pdf";
+const FCIC_COM_23_RAW_BYTES: u64 = 43_246;
+const FCIC_COM_23_RAW_SHA256: &str =
+    "e28d06d615bb4af8447c6d53d1017a0f9d8a74d7f2399966d6bd0551d31a8a6c";
+const FCIC_SRA_2022_SOURCE_ID: &str = "SRC-USDA-RMA-SRA-2022";
+const FCIC_SRA_2022_METADATA_PATH: &str =
+    "data/metadata/SRC-USDA-RMA-SRA-2022.2026-07-13.metadata.md";
+const FCIC_SRA_2022_RAW_PATH: &str = "data/raw/usda/SRC-USDA-RMA-SRA-2022/2026-07-13/SRA_2022.pdf";
+const FCIC_SRA_2022_RAW_BYTES: u64 = 372_206;
+const FCIC_SRA_2022_RAW_SHA256: &str =
+    "589adbc9219012ae487ee567e8e0a0c6b351ff08abbdb66820f3ce1130e551dd";
+const FCIC_ROOT_CAUSE_DEFINITION_BRIDGE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/federal_crop_insurance_root_cause_definition_bridge.fy2024.v1.draft.json";
+const FCIC_ROOT_CAUSE_DEFINITION_BRIDGE_READER_PATH: &str =
+    "docs/reading/federal-crop-insurance-root-cause-definition-bridge.md";
+const FCIC_AFR_SOURCE_ID: &str = "SRC-USDA-AFR-FY2024";
+const FCIC_AFR_METADATA_PATH: &str = "data/metadata/SRC-USDA-AFR-FY2024.2026-07-13.metadata.md";
+const FCIC_AFR_RAW_PATH: &str =
+    "data/raw/usda/SRC-USDA-AFR-FY2024/2026-07-13/fy-2024-agency-financial-report.pdf";
+const FCIC_AFR_RAW_BYTES: u64 = 15_170_759;
+const FCIC_AFR_RAW_SHA256: &str =
+    "f573ac22ddcc64a1ce2dd9c13370eb1e02e83f2467f3a87146c3e3d521e8de22";
+const FCIC_PAYMENT_UNIVERSE_BRIDGE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/federal_crop_insurance_payment_universe_bridge.fy2024.v1.draft.json";
+const FCIC_PAYMENT_UNIVERSE_BRIDGE_READER_PATH: &str =
+    "docs/reading/federal-crop-insurance-payment-universe-bridge.md";
+const FCIC_OIG_FS_SOURCE_ID: &str = "SRC-USDA-OIG-FCIC-RMA-FS-FY2024";
+const FCIC_OIG_FS_METADATA_PATH: &str =
+    "data/metadata/SRC-USDA-OIG-FCIC-RMA-FS-FY2024.2026-07-13.metadata.md";
+const FCIC_OIG_FS_RAW_PATH: &str =
+    "data/raw/usda/SRC-USDA-OIG-FCIC-RMA-FS-FY2024/2026-07-13/05403-0001-11_FR_508.pdf";
+const FCIC_OIG_FS_RAW_BYTES: u64 = 7_242_677;
+const FCIC_OIG_FS_RAW_SHA256: &str =
+    "0797bd2ccb1027b568bce3b640849e89f30a235f528b1b1a2b249d525695ed32";
+const FCIC_SAMPLE_DESIGN_COMPONENT_BRIDGE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/federal_crop_insurance_sample_design_component_bridge.fy2024.v1.draft.json";
+const FCIC_SAMPLE_DESIGN_COMPONENT_BRIDGE_READER_PATH: &str =
+    "docs/reading/federal-crop-insurance-sample-design-component-bridge.md";
+const FCIC_OIG_PIIA_SOURCE_ID: &str = "SRC-USDA-OIG-PIIA-COMPLIANCE-FY2024";
+const FCIC_OIG_PIIA_METADATA_PATH: &str =
+    "data/metadata/SRC-USDA-OIG-PIIA-COMPLIANCE-FY2024.2026-07-13.metadata.md";
+const FCIC_OIG_PIIA_RAW_PATH: &str =
+    "data/raw/usda/SRC-USDA-OIG-PIIA-COMPLIANCE-FY2024/2026-07-13/50024-0016-11_FR_508.pdf";
+const FCIC_OIG_PIIA_RAW_BYTES: u64 = 5_619_427;
+const FCIC_OIG_PIIA_RAW_SHA256: &str =
+    "a3cebe04d34d926737995ee9b176f5d7f43eff0e60dc20574ddb8d4fa7b5c60f";
+const FCIC_HISTORICAL_SAMPLING_METHOD_BRIDGE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/federal_crop_insurance_historical_sampling_method_bridge.fy2020.v1.draft.json";
+const FCIC_HISTORICAL_SAMPLING_METHOD_BRIDGE_READER_PATH: &str =
+    "docs/reading/federal-crop-insurance-historical-sampling-method-bridge.md";
+const FCIC_OIG_FS_FY2020_SOURCE_ID: &str = "SRC-USDA-OIG-FCIC-RMA-FS-FY2020";
+const FCIC_OIG_FS_FY2020_METADATA_PATH: &str =
+    "data/metadata/SRC-USDA-OIG-FCIC-RMA-FS-FY2020.2026-07-13.metadata.md";
+const FCIC_OIG_FS_FY2020_RAW_PATH: &str =
+    "data/raw/usda/SRC-USDA-OIG-FCIC-RMA-FS-FY2020/2026-07-13/05401-0012-11FRFOIA.pdf";
+const FCIC_OIG_FS_FY2020_RAW_BYTES: u64 = 13_696_922;
+const FCIC_OIG_FS_FY2020_RAW_SHA256: &str =
+    "55fd128f191c3d0892f819f35a92929efb02dbd7354626d3c844a84c3253ac4b";
+const FCIC_PUBLIC_METHODOLOGY_EVIDENCE_CEILING_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/federal_crop_insurance_public_methodology_evidence_ceiling.fy2025.v1.draft.json";
+const FCIC_PUBLIC_METHODOLOGY_EVIDENCE_CEILING_READER_PATH: &str =
+    "docs/reading/federal-crop-insurance-public-methodology-evidence-ceiling.md";
+const OMB_M_21_19_SOURCE_ID: &str = "SRC-OMB-M-21-19";
+const OMB_M_21_19_METADATA_PATH: &str = "data/metadata/SRC-OMB-M-21-19.2026-07-13.metadata.md";
+const OMB_M_21_19_RAW_PATH: &str = "data/raw/omb/SRC-OMB-M-21-19/2026-07-13/M-21-19.pdf";
+const OMB_M_21_19_RAW_BYTES: u64 = 2_808_576;
+const OMB_M_21_19_RAW_SHA256: &str =
+    "12a1d448b1d5eb7040e2377e7e04bb721a2a513a9220768037b0f094c03d14aa";
+const FCIC_OIG_FS_FY2025_SOURCE_ID: &str = "SRC-USDA-OIG-FCIC-RMA-FS-FY2025";
+const FCIC_OIG_FS_FY2025_METADATA_PATH: &str =
+    "data/metadata/SRC-USDA-OIG-FCIC-RMA-FS-FY2025.2026-07-13.metadata.md";
+const FCIC_OIG_FS_FY2025_RAW_PATH: &str =
+    "data/raw/usda/SRC-USDA-OIG-FCIC-RMA-FS-FY2025/2026-07-13/05403-0002-11-FR-508-signed.pdf";
+const FCIC_OIG_FS_FY2025_RAW_BYTES: u64 = 6_099_095;
+const FCIC_OIG_FS_FY2025_RAW_SHA256: &str =
+    "0bcd7df0c7e3f78a7bb4b4c896c718e38adf1d6fba36b0efe45bd84d8738272a";
+const FCIC_RECOVERY_LINEAGE_BOUNDARY_BRIDGE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/federal_crop_insurance_recovery_lineage_boundary_bridge.fy2024.v1.draft.json";
+const FCIC_RECOVERY_LINEAGE_BOUNDARY_BRIDGE_READER_PATH: &str =
+    "docs/reading/federal-crop-insurance-recovery-lineage-boundary-bridge.md";
+const FCIC_MANAGER_SEP_2023_SOURCE_ID: &str = "SRC-USDA-RMA-FCIC-MANAGER-2023-09-20";
+const FCIC_MANAGER_SEP_2023_METADATA_PATH: &str =
+    "data/metadata/SRC-USDA-RMA-FCIC-MANAGER-2023-09-20.2026-07-13.metadata.md";
+const FCIC_MANAGER_SEP_2023_RAW_PATH: &str =
+    "data/raw/usda/SRC-USDA-RMA-FCIC-MANAGER-2023-09-20/2026-07-13/092023managers.pdf";
+const FCIC_MANAGER_SEP_2023_RAW_BYTES: u64 = 463_794;
+const FCIC_MANAGER_SEP_2023_RAW_SHA256: &str =
+    "a5f9267782552b331c294ce73836552879eadf47dda672ed5a40501d971cfcff";
+const FCIC_MANAGER_FEB_2024_SOURCE_ID: &str = "SRC-USDA-RMA-FCIC-MANAGER-2024-02-22";
+const FCIC_MANAGER_FEB_2024_METADATA_PATH: &str =
+    "data/metadata/SRC-USDA-RMA-FCIC-MANAGER-2024-02-22.2026-07-13.metadata.md";
+const FCIC_MANAGER_FEB_2024_RAW_PATH: &str =
+    "data/raw/usda/SRC-USDA-RMA-FCIC-MANAGER-2024-02-22/2026-07-13/022224managers.pdf";
+const FCIC_MANAGER_FEB_2024_RAW_BYTES: u64 = 168_423;
+const FCIC_MANAGER_FEB_2024_RAW_SHA256: &str =
+    "e89fa8202fb0eb4ff4e28211b10eed10e4cf06839172657a771da2f6b9d75be0";
+const FCIC_MANAGER_MAY_2024_SOURCE_ID: &str = "SRC-USDA-RMA-FCIC-MANAGER-2024-05-23";
+const FCIC_MANAGER_MAY_2024_METADATA_PATH: &str =
+    "data/metadata/SRC-USDA-RMA-FCIC-MANAGER-2024-05-23.2026-07-13.metadata.md";
+const FCIC_MANAGER_MAY_2024_RAW_PATH: &str =
+    "data/raw/usda/SRC-USDA-RMA-FCIC-MANAGER-2024-05-23/2026-07-13/052324managers.pdf";
+const FCIC_MANAGER_MAY_2024_RAW_BYTES: u64 = 195_464;
+const FCIC_MANAGER_MAY_2024_RAW_SHA256: &str =
+    "3da5b844433fb12db8f35e186fc227482118b118714021694ff4620e1cde4502";
+const FCIC_MANAGER_AUG_2024_SOURCE_ID: &str = "SRC-USDA-RMA-FCIC-MANAGER-2024-08-22";
+const FCIC_MANAGER_AUG_2024_METADATA_PATH: &str =
+    "data/metadata/SRC-USDA-RMA-FCIC-MANAGER-2024-08-22.2026-07-13.metadata.md";
+const FCIC_MANAGER_AUG_2024_RAW_PATH: &str =
+    "data/raw/usda/SRC-USDA-RMA-FCIC-MANAGER-2024-08-22/2026-07-13/082224managers.pdf";
+const FCIC_MANAGER_AUG_2024_RAW_BYTES: u64 = 232_689;
+const FCIC_MANAGER_AUG_2024_RAW_SHA256: &str =
+    "d090de9299d1dd7cf8b8c249e53c9b37056b648af3ef238ca3ad2951dc210026";
+const FCIC_APPEAL_COLLECTIBILITY_GOVERNANCE_BRIDGE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/federal_crop_insurance_appeal_collectibility_governance_bridge.fy2024.v1.draft.json";
+const FCIC_APPEAL_COLLECTIBILITY_GOVERNANCE_BRIDGE_READER_PATH: &str =
+    "docs/reading/federal-crop-insurance-appeal-collectibility-governance-bridge.md";
+const FCIC_COM_16_002_SOURCE_ID: &str = "SRC-USDA-RMA-COM-16-002";
+const FCIC_COM_16_002_METADATA_PATH: &str =
+    "data/metadata/SRC-USDA-RMA-COM-16-002.2026-07-13.metadata.md";
+const FCIC_COM_16_002_RAW_PATH: &str =
+    "data/raw/usda/SRC-USDA-RMA-COM-16-002/2026-07-13/COM-16-002.pdf";
+const FCIC_COM_16_002_RAW_BYTES: u64 = 43_627;
+const FCIC_COM_16_002_RAW_SHA256: &str =
+    "6c4c90f25ad5bdd7dcb76e4cae9545321f029d7fb1a07d8f2680d16313b56830";
+const FCIC_COM_16_004_SOURCE_ID: &str = "SRC-USDA-RMA-COM-16-004";
+const FCIC_COM_16_004_METADATA_PATH: &str =
+    "data/metadata/SRC-USDA-RMA-COM-16-004.2026-07-13.metadata.md";
+const FCIC_COM_16_004_RAW_PATH: &str =
+    "data/raw/usda/SRC-USDA-RMA-COM-16-004/2026-07-13/COM-16-004.pdf";
+const FCIC_COM_16_004_RAW_BYTES: u64 = 43_452;
+const FCIC_COM_16_004_RAW_SHA256: &str =
+    "a78e792079689356a1327fbf334ca024f3cb2aaa15aa48d4427dcf83251e64da";
+const FCIC_PUBLIC_COHORT_OUTCOME_EVIDENCE_CEILING_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/federal_crop_insurance_public_cohort_outcome_evidence_ceiling.fy2024.v1.draft.json";
+const FCIC_PUBLIC_COHORT_OUTCOME_EVIDENCE_CEILING_READER_PATH: &str =
+    "docs/reading/federal-crop-insurance-public-cohort-outcome-evidence-ceiling.md";
+const FCIC_MANAGER_SEP_2024_SOURCE_ID: &str = "SRC-USDA-RMA-FCIC-MANAGER-2024-09-25";
+const FCIC_MANAGER_SEP_2024_METADATA_PATH: &str =
+    "data/metadata/SRC-USDA-RMA-FCIC-MANAGER-2024-09-25.2026-07-14.metadata.md";
+const FCIC_MANAGER_SEP_2024_RAW_PATH: &str =
+    "data/raw/usda/SRC-USDA-RMA-FCIC-MANAGER-2024-09-25/2026-07-14/092524managers.pdf";
+const FCIC_MANAGER_SEP_2024_RAW_BYTES: u64 = 105_445;
+const FCIC_MANAGER_SEP_2024_RAW_SHA256: &str =
+    "acd35b47587751305f1199e675b715ccb5c074e2ad88d4ddb9d1d1e148ee9d22";
+const FCIC_MANAGER_NOV_2024_SOURCE_ID: &str = "SRC-USDA-RMA-FCIC-MANAGER-2024-11-21";
+const FCIC_MANAGER_NOV_2024_METADATA_PATH: &str =
+    "data/metadata/SRC-USDA-RMA-FCIC-MANAGER-2024-11-21.2026-07-14.metadata.md";
+const FCIC_MANAGER_NOV_2024_RAW_PATH: &str =
+    "data/raw/usda/SRC-USDA-RMA-FCIC-MANAGER-2024-11-21/2026-07-14/112124managers.pdf";
+const FCIC_MANAGER_NOV_2024_RAW_BYTES: u64 = 144_513;
+const FCIC_MANAGER_NOV_2024_RAW_SHA256: &str =
+    "f581f11fb99a690743894ba932fc6e460f57e82b3ffc68e2952169523947e443";
+const FCIC_COHORT_DISPOSITION_REQUEST_SPEC_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/federal_crop_insurance_cohort_disposition_request_specification.fy2024.v1.draft.json";
+const FCIC_COHORT_DISPOSITION_REQUEST_SPEC_READER_PATH: &str =
+    "docs/reading/federal-crop-insurance-cohort-disposition-request-specification.md";
+const FCIC_COHORT_DISPOSITION_REQUEST_TEMPLATE_PATH: &str =
+    "docs/requests/federal-crop-insurance-fy2024-cohort-disposition-foia-request.md";
+const RMA_FOIA_SOURCE_ID: &str = "SRC-USDA-RMA-FOIA";
+const RMA_FOIA_METADATA_PATH: &str = "data/metadata/SRC-USDA-RMA-FOIA.2026-07-14.metadata.md";
+const RMA_FOIA_RAW_PATH: &str = "data/raw/usda/SRC-USDA-RMA-FOIA/2026-07-14/rma-foia.html";
+const RMA_FOIA_RAW_BYTES: u64 = 85_950;
+const RMA_FOIA_RAW_SHA256: &str =
+    "07baaef274de84d1e4569af3e820a0bfb5a827a4c176edaba86350dcdc21a671";
+const USCODE_7_1502_SOURCE_ID: &str = "SRC-USCODE-7-1502";
+const USCODE_7_1502_METADATA_PATH: &str = "data/metadata/SRC-USCODE-7-1502.2026-07-14.metadata.md";
+const USCODE_7_1502_RAW_PATH: &str = "data/raw/uscode/SRC-USCODE-7-1502/2026-07-14/7-usc-1502.html";
+const USCODE_7_1502_RAW_BYTES: u64 = 168_877;
+const USCODE_7_1502_RAW_SHA256: &str =
+    "cd71097ef55e3d1311d5e504b8b7c2b72d03338e5fb6c2d6b05ddf652486accd";
+const ECFR_7_CFR_1_SOURCE_ID: &str = "SRC-ECFR-7-CFR-1-SUBPART-A";
+const ECFR_7_CFR_1_METADATA_PATH: &str =
+    "data/metadata/SRC-ECFR-7-CFR-1-SUBPART-A.2026-07-14.metadata.md";
+const ECFR_7_CFR_1_RAW_PATH: &str =
+    "data/raw/ecfr/SRC-ECFR-7-CFR-1-SUBPART-A/2026-07-14/7-cfr-1-subpart-a.html";
+const ECFR_7_CFR_1_RAW_BYTES: u64 = 197_132;
+const ECFR_7_CFR_1_RAW_SHA256: &str =
+    "4069aa69cd67b04ed87b032022bcdd143ecd97fd42e78285c6f448edbde6bdd1";
+const FCIC_FOIA_RESPONSE_INTAKE_CONTRACT_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/federal_crop_insurance_foia_response_intake_contract.v1.draft.json";
+const FCIC_FOIA_RESPONSE_INTAKE_TEMPLATE_PATH: &str =
+    "data/templates/federal_crop_insurance_foia_response_intake.v1.template.json";
+const FCIC_FOIA_PREFLIGHT_PATH: &str =
+    "docs/requests/federal-crop-insurance-foia-submission-preflight.md";
+const FCIC_FOIA_RESPONSE_INTAKE_READER_PATH: &str =
+    "docs/reading/federal-crop-insurance-foia-preflight-response-intake.md";
+const RMA_FOIA_FEES_SOURCE_ID: &str = "SRC-USDA-RMA-FOIA-FEES";
+const RMA_FOIA_FEES_METADATA_PATH: &str =
+    "data/metadata/SRC-USDA-RMA-FOIA-FEES.2026-07-14.metadata.md";
+const RMA_FOIA_FEES_RAW_PATH: &str =
+    "data/raw/usda/SRC-USDA-RMA-FOIA-FEES/2026-07-14/rma-foia-fees.html";
+const RMA_FOIA_FEES_RAW_BYTES: u64 = 84_531;
+const RMA_FOIA_FEES_RAW_SHA256: &str =
+    "874816d0ec560706d8f74a118ab9d5d903c151742b9a760a86085d6a22f06749";
+const MEDICARE_PART_D_PAYMENT_TYPE_COMPOSITION_BRIDGE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/medicare_part_d_payment_type_composition_bridge.fy2024.v1.draft.json";
+const MEDICARE_PART_D_PAYMENT_TYPE_COMPOSITION_BRIDGE_READER_PATH: &str =
+    "docs/reading/medicare-part-d-payment-type-composition-bridge.md";
+const CMS_PART_D_IPM_FY2024_FINDINGS_SOURCE_ID: &str = "SRC-CMS-PART-D-IPM-FY2024-FINDINGS";
+const CMS_PART_D_IPM_FY2024_FINDINGS_METADATA_PATH: &str =
+    "data/metadata/SRC-CMS-PART-D-IPM-FY2024-FINDINGS.2026-07-14.metadata.md";
+const CMS_PART_D_IPM_FY2024_FINDINGS_RAW_PATH: &str = "data/raw/cms/SRC-CMS-PART-D-IPM-FY2024-FINDINGS/2026-07-14/fy-2024-medicare-part-d-error-rate-findings-and-results.pdf";
+const CMS_PART_D_IPM_FY2024_FINDINGS_RAW_BYTES: u64 = 121_610;
+const CMS_PART_D_IPM_FY2024_FINDINGS_RAW_SHA256: &str =
+    "36afd362b5e5af4dac098c2502c9c548d79d7aa001725fe92e757bb4cf5e7be8";
+const MEDICARE_PART_D_SPONSOR_DOCUMENTATION_DEPENDENCY_CEILING_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/medicare_part_d_sponsor_documentation_dependency_evidence_ceiling.fy2024.v1.draft.json";
+const MEDICARE_PART_D_SPONSOR_DOCUMENTATION_DEPENDENCY_CEILING_READER_PATH: &str =
+    "docs/reading/medicare-part-d-sponsor-documentation-dependency-evidence-ceiling.md";
+const MEDICARE_PART_D_SAMPLE_DESIGN_EVIDENCE_CEILING_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/medicare_part_d_sample_design_evidence_ceiling.fy2024.v1.draft.json";
+const MEDICARE_PART_D_SAMPLE_DESIGN_EVIDENCE_CEILING_READER_PATH: &str =
+    "docs/reading/medicare-part-d-sample-design-evidence-ceiling.md";
+const MEDICARE_PART_D_ESTIMATION_METHOD_EVIDENCE_CEILING_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/medicare_part_d_estimation_method_evidence_ceiling.fy2024.v1.draft.json";
+const MEDICARE_PART_D_ESTIMATION_METHOD_EVIDENCE_CEILING_READER_PATH: &str =
+    "docs/reading/medicare-part-d-estimation-method-evidence-ceiling.md";
+const MEDICARE_PART_D_MISSING_DOCUMENT_EXCLUSION_TREATMENT_BRIDGE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/medicare_part_d_missing_document_exclusion_treatment_bridge.fy2024.v1.draft.json";
+const MEDICARE_PART_D_MISSING_DOCUMENT_EXCLUSION_TREATMENT_BRIDGE_READER_PATH: &str =
+    "docs/reading/medicare-part-d-missing-document-exclusion-treatment-bridge.md";
+const MEDICARE_PART_D_PAYMENT_UNIVERSE_MEASUREMENT_OBJECT_DENOMINATOR_BRIDGE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/medicare_part_d_payment_universe_measurement_object_denominator_bridge.fy2024.v1.draft.json";
+const MEDICARE_PART_D_PAYMENT_UNIVERSE_MEASUREMENT_OBJECT_DENOMINATOR_BRIDGE_READER_PATH: &str =
+    "docs/reading/medicare-part-d-payment-universe-measurement-object-denominator-bridge.md";
+const MEDICARE_PART_D_AUDIT_CLOSEOUT_RECOVERY_PROCESS_BRIDGE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/medicare_part_d_audit_closeout_recovery_process_bridge.q4-2025.v1.draft.json";
+const MEDICARE_PART_D_AUDIT_CLOSEOUT_RECOVERY_PROCESS_BRIDGE_READER_PATH: &str =
+    "docs/reading/medicare-part-d-audit-closeout-recovery-process-bridge.md";
+const MEDICARE_PART_D_PUBLISHED_UNCERTAINTY_OUTPUT_BRIDGE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/medicare_part_d_published_uncertainty_output_bridge.fy2024.v1.draft.json";
+const MEDICARE_PART_D_PUBLISHED_UNCERTAINTY_OUTPUT_BRIDGE_READER_PATH: &str =
+    "docs/reading/medicare-part-d-published-uncertainty-output-bridge.md";
+const MEDICARE_PART_D_RECONCILIATION_PDE_ADJUSTMENT_DOCUMENTATION_BRIDGE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/medicare_part_d_reconciliation_pde_adjustment_documentation_bridge.cy2022.v1.draft.json";
+const MEDICARE_PART_D_RECONCILIATION_PDE_ADJUSTMENT_DOCUMENTATION_BRIDGE_READER_PATH: &str =
+    "docs/reading/medicare-part-d-reconciliation-pde-adjustment-documentation-bridge.md";
+const MEDICARE_PART_D_SAMPLING_ESTIMATION_PLAN_ACCESS_EVIDENCE_CEILING_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/medicare_part_d_sampling_estimation_plan_access_evidence_ceiling.fy2024.v1.draft.json";
+const MEDICARE_PART_D_SAMPLING_ESTIMATION_PLAN_ACCESS_EVIDENCE_CEILING_READER_PATH: &str =
+    "docs/reading/medicare-part-d-sampling-estimation-plan-access-evidence-ceiling.md";
+const MEDICARE_PART_D_SAMPLING_ESTIMATION_METHODOLOGY_PLAN_REQUEST_SPEC_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/medicare_part_d_sampling_estimation_methodology_plan_request_specification.fy2024.v1.draft.json";
+const MEDICARE_PART_D_SAMPLING_ESTIMATION_METHODOLOGY_PLAN_REQUEST_SPEC_READER_PATH: &str =
+    "docs/reading/medicare-part-d-sampling-estimation-methodology-plan-request-specification.md";
+const MEDICARE_PART_D_SAMPLING_ESTIMATION_METHODOLOGY_PLAN_REQUEST_TEMPLATE_PATH: &str =
+    "docs/requests/medicare-part-d-fy2024-sampling-estimation-methodology-plan-foia-request.md";
+const CMS_FOIA_FILING_SOURCE_ID: &str = "SRC-CMS-FOIA-FILING";
+const CMS_FOIA_FILING_METADATA_PATH: &str =
+    "data/metadata/SRC-CMS-FOIA-FILING.2026-07-14.metadata.md";
+const CMS_FOIA_FILING_RAW_PATH: &str =
+    "data/raw/cms/SRC-CMS-FOIA-FILING/2026-07-14/cms-foia-filing.html";
+const CMS_FOIA_FILING_RAW_BYTES: u64 = 212_862;
+const CMS_FOIA_FILING_RAW_SHA256: &str =
+    "58c82eda98850caaccf6c1802dcea1bb75f6457530a948dfa5a20eb1204f77bb";
+const ECFR_45_CFR_5_SOURCE_ID: &str = "SRC-ECFR-45-CFR-5";
+const ECFR_45_CFR_5_METADATA_PATH: &str = "data/metadata/SRC-ECFR-45-CFR-5.2026-07-14.metadata.md";
+const ECFR_45_CFR_5_RAW_PATH: &str = "data/raw/ecfr/SRC-ECFR-45-CFR-5/2026-07-14/45-cfr-part-5.pdf";
+const ECFR_45_CFR_5_RAW_BYTES: u64 = 249_694;
+const ECFR_45_CFR_5_RAW_SHA256: &str =
+    "c5c1a301acd0353fb66ea0850ac188a22e0391aa499766cb68137bccb29158f1";
+const MEDICARE_PART_D_FOIA_RESPONSE_INTAKE_CONTRACT_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/medicare_part_d_sampling_estimation_methodology_plan_foia_response_intake_contract.fy2024.v1.draft.json";
+const MEDICARE_PART_D_FOIA_RESPONSE_INTAKE_TEMPLATE_PATH: &str = "data/templates/medicare_part_d_sampling_estimation_methodology_plan_foia_response_intake.v1.template.json";
+const MEDICARE_PART_D_FOIA_PREFLIGHT_PATH: &str = "docs/requests/medicare-part-d-fy2024-sampling-estimation-methodology-plan-foia-submission-preflight.md";
+const MEDICARE_PART_D_FOIA_RESPONSE_INTAKE_READER_PATH: &str = "docs/reading/medicare-part-d-sampling-estimation-methodology-plan-foia-preflight-response-intake.md";
+const PAYMENT_INTEGRITY_FY2024_ANNUAL_EXTRACTION_ROLE_REVIEW_PATH: &str =
+    "reviews/2026-07-14-payment-integrity-fy2024-annual-extraction-role-review.md";
+const PAYMENT_ACCURACY_FY2024_WORKBOOK_RAW_PATH: &str =
+    "data/raw/omb/SRC-OMB-PAYMENTACCURACY/2026-07-12/FY2024_Dataset.xlsx";
+const PAYMENT_ACCURACY_FY2024_WORKBOOK_RAW_BYTES: u64 = 700_992;
+const PAYMENT_ACCURACY_FY2024_WORKBOOK_RAW_SHA256: &str =
+    "595369da4c32965c457543e2695b5738bc131049318537948cd396323391e28c";
+const MEDICARE_PART_D_SPONSOR_DOCUMENTATION_DEPENDENCY_BRIDGE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/medicare_part_d_sponsor_documentation_dependency_bridge.fy2024.v1.draft.json";
+const MEDICARE_PART_D_SPONSOR_DOCUMENTATION_DEPENDENCY_BRIDGE_READER_PATH: &str =
+    "docs/reading/medicare-part-d-sponsor-documentation-dependency-bridge.md";
+const CMS_PART_D_IPM_CY2022_SUBMISSION_GUIDE_SOURCE_ID: &str =
+    "SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE";
+const CMS_PART_D_IPM_CY2022_SUBMISSION_GUIDE_METADATA_PATH: &str =
+    "data/metadata/SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE.2026-07-14.metadata.md";
+const CMS_PART_D_IPM_CY2022_SUBMISSION_GUIDE_RAW_PATH: &str = "data/raw/cms/SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE/2026-07-14/part-d-ipm-cy22-submission-instruction-guide.pdf";
+const CMS_PART_D_IPM_CY2022_SUBMISSION_GUIDE_RAW_BYTES: u64 = 5_962_810;
+const CMS_PART_D_IPM_CY2022_SUBMISSION_GUIDE_RAW_SHA256: &str =
+    "52a76c9910bb66edd387d127744f864d78e59826bc5ff0162bc81ede428c7199";
+const CMS_PART_D_IPM_CY2022_FAQ_SOURCE_ID: &str = "SRC-CMS-PART-D-IPM-CY2022-FAQ";
+const CMS_PART_D_IPM_CY2022_FAQ_METADATA_PATH: &str =
+    "data/metadata/SRC-CMS-PART-D-IPM-CY2022-FAQ.2026-07-14.metadata.md";
+const CMS_PART_D_IPM_CY2022_FAQ_RAW_PATH: &str =
+    "data/raw/cms/SRC-CMS-PART-D-IPM-CY2022-FAQ/2026-07-14/part-d-ipm-cy22-faqs.pdf";
+const CMS_PART_D_IPM_CY2022_FAQ_RAW_BYTES: u64 = 304_485;
+const CMS_PART_D_IPM_CY2022_FAQ_RAW_SHA256: &str =
+    "1f3e3fddb8a954a0096810ce24e6ede482938191dcff6c2d3b779727330891d4";
+const PAYMENT_ACCURACY_PART_D_Q4_2025_SOURCE_ID: &str = "SRC-OMB-PAYMENTACCURACY-PART-D-Q4-2025";
+const PAYMENT_ACCURACY_PART_D_Q4_2025_METADATA_PATH: &str =
+    "data/metadata/SRC-OMB-PAYMENTACCURACY-PART-D-Q4-2025.2026-07-14.metadata.md";
+const PAYMENT_ACCURACY_PART_D_Q4_2025_RAW_PATH: &str = "data/raw/payment_accuracy/SRC-OMB-PAYMENTACCURACY-PART-D-Q4-2025/2026-07-14/medicare-part-d-q4-2025-scorecard.pdf";
+const PAYMENT_ACCURACY_PART_D_Q4_2025_RAW_BYTES: u64 = 215_862;
+const PAYMENT_ACCURACY_PART_D_Q4_2025_RAW_SHA256: &str =
+    "7a3287ad75cfd5f4a53ac1cbfa8992e9223bb57c363c6794d3959471fbed6097";
+const VA_PLTSS_PAYMENT_TYPE_COMPOSITION_BRIDGE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/va_pltss_payment_type_composition_bridge.fy2025.v1.draft.json";
+const VA_PLTSS_PAYMENT_TYPE_COMPOSITION_BRIDGE_READER_PATH: &str =
+    "docs/reading/va-pltss-payment-type-composition-bridge.md";
+const VA_AFR_SECTION_III_FY2025_SOURCE_ID: &str = "SRC-VA-AFR-SECTION-III-FY2025";
+const VA_AFR_SECTION_III_FY2025_METADATA_PATH: &str =
+    "data/metadata/SRC-VA-AFR-SECTION-III-FY2025.2026-07-14.metadata.md";
+const VA_AFR_SECTION_III_FY2025_RAW_PATH: &str =
+    "data/raw/va/SRC-VA-AFR-SECTION-III-FY2025/2026-07-14/2025-Section-III-Other-Information.pdf";
+const VA_AFR_SECTION_III_FY2025_RAW_BYTES: u64 = 1_204_753;
+const VA_AFR_SECTION_III_FY2025_RAW_SHA256: &str =
+    "3f3e19818ecf5f59f241d8deac4bc2ffa2e377c7be4daf65666c33d75cb2f7c1";
+const VA_PLTSS_DOCUMENTATION_RECOVERABILITY_BOUNDARY_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/va_pltss_documentation_recoverability_boundary.fy2025.v1.draft.json";
+const VA_PLTSS_DOCUMENTATION_RECOVERABILITY_BOUNDARY_READER_PATH: &str =
+    "docs/reading/va-pltss-documentation-recoverability-boundary.md";
+const VA_PLTSS_OIG_VERIFICATION_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/va_pltss_oig_verification.fy2024.v1.draft.json";
+const VA_PLTSS_OIG_VERIFICATION_READER_PATH: &str = "docs/reading/va-pltss-oig-verification.md";
+const VA_PLTSS_SAME_COHORT_LINEAGE_CEILING_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/va_pltss_same_cohort_debt_collection_lineage_evidence_ceiling.fy2024-q4-2025.v1.draft.json";
+const VA_PLTSS_SAME_COHORT_LINEAGE_CEILING_READER_PATH: &str =
+    "docs/reading/va-pltss-same-cohort-debt-collection-lineage-evidence-ceiling.md";
+const VA_PLTSS_Q4_2025_SOURCE_ID: &str = "SRC-OMB-PAYMENTACCURACY-VA-PLTSS-Q4-2025";
+const VA_PLTSS_Q4_2025_RAW_PATH: &str =
+    "data/raw/omb/SRC-OMB-PAYMENTACCURACY/2026-07-13/Purchased Long Term Services and Supports.pdf";
+const VA_PLTSS_Q4_2025_RAW_BYTES: u64 = 222_751;
+const VA_PLTSS_Q4_2025_RAW_SHA256: &str =
+    "9f365d7c42bb5ec2b50cc3cba8dfda3a12229ece27e430a234b950af93ca8692";
+const VA_OIG_PIIA_FY2024_SOURCE_ID: &str = "SRC-VA-OIG-PIIA-FY2024";
+const VA_OIG_PIIA_FY2024_RAW_PATH: &str =
+    "data/raw/va-oig/SRC-VA-OIG-PIIA-FY2024/2026-07-13/vaoig-24-03777-113.pdf";
+const VA_OIG_PIIA_FY2024_RAW_BYTES: u64 = 1_972_706;
+const VA_OIG_PIIA_FY2024_RAW_SHA256: &str =
+    "b3010f3635be8dcfca3d6762a33c583c4b91ed0ff05bdb8a709ed193883e6c3b";
+const PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/payment_integrity_bounded_factual_examples.fy2024.v1.draft.json";
+const PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/payment_integrity_bounded_factual_examples.schema.md";
+const PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_READER_PATH: &str =
+    "docs/reading/payment-integrity-bounded-factual-examples.md";
+const PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_REVIEW_PATH: &str =
+    "reviews/2026-07-14-payment-integrity-bounded-factual-examples-role-review.md";
+const VA_PAYMENT_INTEGRITY_POLICY_SOURCE_ID: &str = "SRC-VA-FIN-POLICY-PAYMENT-INTEGRITY";
+const VA_PAYMENT_INTEGRITY_POLICY_METADATA_PATH: &str =
+    "data/metadata/SRC-VA-FIN-POLICY-PAYMENT-INTEGRITY.2026-07-14.metadata.md";
+const VA_PAYMENT_INTEGRITY_POLICY_RAW_PATH: &str = "data/raw/va/SRC-VA-FIN-POLICY-PAYMENT-INTEGRITY/2026-07-14/chapter-03-payment-integrity-and-fraud-reduction.html";
+const VA_PAYMENT_INTEGRITY_POLICY_RAW_BYTES: u64 = 249_093;
+const VA_PAYMENT_INTEGRITY_POLICY_RAW_SHA256: &str =
+    "b8a12f68789c42001f4a3f76ae92858c84ccc3628a2a519fa4819e0b07037d75";
+const VA_OVERPAYMENT_AUDIT_POLICY_SOURCE_ID: &str =
+    "SRC-VA-FIN-POLICY-OVERPAYMENT-AUDIT-RECOVERIES";
+const VA_OVERPAYMENT_AUDIT_POLICY_METADATA_PATH: &str =
+    "data/metadata/SRC-VA-FIN-POLICY-OVERPAYMENT-AUDIT-RECOVERIES.2026-07-14.metadata.md";
+const VA_OVERPAYMENT_AUDIT_POLICY_RAW_PATH: &str = "data/raw/va/SRC-VA-FIN-POLICY-OVERPAYMENT-AUDIT-RECOVERIES/2026-07-14/chapter-30-overpayment-audit-recoveries.html";
+const VA_OVERPAYMENT_AUDIT_POLICY_RAW_BYTES: u64 = 122_908;
+const VA_OVERPAYMENT_AUDIT_POLICY_RAW_SHA256: &str =
+    "eb3adc8783fc40bd0f15c3c2acec8dfb77bddfdda8938b7c9ef17864fcb87f59";
 const K12_FEDERALISM_BRIDGE_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/k12_federalism_finance_bridge.fy2024.v1.draft.json";
 const K12_FEDERALISM_BRIDGE_READER_PATH: &str = "docs/reading/k12-federalism-finance-bridge.md";
@@ -1360,6 +1725,468 @@ const ARTIFACTS: &[Artifact] = &[
         path: "docs/reading/pell-current-entrant-persistence-significance-screen.md",
         role: "Public Pell current-entrant persistence significance screen",
         grain: "public independent-estimates test context and boundaries",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/federal_crop_insurance_payment_integrity_bridge.fy2024-q4-2025.v1.draft.json",
+        role: "Federal Crop Insurance payment-integrity bridge",
+        grain: "FY2024 annual, scorecard, and RMA review-period reconciliation",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/federal-crop-insurance-payment-integrity-bridge.md",
+        role: "Public Federal Crop Insurance payment-integrity bridge",
+        grain: "public payment-type, period, and claim-boundary context",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/federal_crop_insurance_root_cause_definition_bridge.fy2024.v1.draft.json",
+        role: "Federal Crop Insurance root-cause definition bridge",
+        grain: "FY2024 FCIC data-access root-cause definitions",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/federal-crop-insurance-root-cause-definition-bridge.md",
+        role: "Public Federal Crop Insurance root-cause definition bridge",
+        grain: "FY2024 internal methodology closure and claim boundaries",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/federal_crop_insurance_payment_universe_bridge.fy2024.v1.draft.json",
+        role: "Federal Crop Insurance payment-universe bridge",
+        grain: "FY2024 FCIC included payment-category universe",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/federal-crop-insurance-payment-universe-bridge.md",
+        role: "Public Federal Crop Insurance payment-universe bridge",
+        grain: "FY2024 internal methodology closure and claim boundaries",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/federal_crop_insurance_sample_design_component_bridge.fy2024.v1.draft.json",
+        role: "Federal Crop Insurance sample-design component bridge",
+        grain: "FY2024 FCIC disclosed sampling governance and design attributes",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/federal-crop-insurance-sample-design-component-bridge.md",
+        role: "Public Federal Crop Insurance sample-design component bridge",
+        grain: "FY2024 narrow component closure and full-field boundaries",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/federal_crop_insurance_historical_sampling_method_bridge.fy2020.v1.draft.json",
+        role: "Federal Crop Insurance historical sampling-method bridge",
+        grain: "FY2020/RY2018 disclosed selection method and current-continuity boundary",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/federal-crop-insurance-historical-sampling-method-bridge.md",
+        role: "Public Federal Crop Insurance historical sampling-method bridge",
+        grain: "historical component closure and current-field boundaries",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/federal_crop_insurance_public_methodology_evidence_ceiling.fy2025.v1.draft.json",
+        role: "Federal Crop Insurance public methodology evidence ceiling",
+        grain: "secure-plan boundary and FY2025 public-description continuity",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/federal-crop-insurance-public-methodology-evidence-ceiling.md",
+        role: "Public Federal Crop Insurance methodology evidence ceiling",
+        grain: "zero-closure access boundary and current-field residuals",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/federal_crop_insurance_recovery_lineage_boundary_bridge.fy2024.v1.draft.json",
+        role: "Federal Crop Insurance recovery-lineage boundary bridge",
+        grain: "FY2024 sampled-case disposition and amount-class non-additivity",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/federal-crop-insurance-recovery-lineage-boundary-bridge.md",
+        role: "Public Federal Crop Insurance recovery-lineage boundary bridge",
+        grain: "same-period disposition component and recovery residuals",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/federal_crop_insurance_appeal_collectibility_governance_bridge.fy2024.v1.draft.json",
+        role: "Federal Crop Insurance appeal and collectibility governance bridge",
+        grain: "FY2024 Final Finding dispute and contractual remedy states",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/federal-crop-insurance-appeal-collectibility-governance-bridge.md",
+        role: "Public Federal Crop Insurance appeal and collectibility governance bridge",
+        grain: "post-Finding state transitions and collectibility boundaries",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/federal_crop_insurance_public_cohort_outcome_evidence_ceiling.fy2024.v1.draft.json",
+        role: "Federal Crop Insurance public cohort-outcome evidence ceiling",
+        grain: "post-FY2024 cohort transition and unavailable outcome lineage",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/federal-crop-insurance-public-cohort-outcome-evidence-ceiling.md",
+        role: "Public Federal Crop Insurance cohort-outcome evidence ceiling",
+        grain: "later-cohort reporting boundary and authorized-export next gate",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/federal_crop_insurance_cohort_disposition_request_specification.fy2024.v1.draft.json",
+        role: "Federal Crop Insurance cohort-disposition request specification",
+        grain: "existing-records request fields, privacy boundary, and submission gate",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/federal-crop-insurance-cohort-disposition-request-specification.md",
+        role: "Public Federal Crop Insurance cohort-disposition request specification",
+        grain: "request rationale, privacy boundary, and unsent status",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/requests/federal-crop-insurance-fy2024-cohort-disposition-foia-request.md",
+        role: "Unsent Federal Crop Insurance FY2024 cohort-disposition FOIA request",
+        grain: "owner-completed request text with fee and identity placeholders",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/federal_crop_insurance_foia_response_intake_contract.v1.draft.json",
+        role: "Federal Crop Insurance FOIA preflight and response-intake contract",
+        grain: "owner submission gate, administrative lifecycle, and evidence firewall",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/templates/federal_crop_insurance_foia_response_intake.v1.template.json",
+        role: "Federal Crop Insurance blank FOIA response-intake template",
+        grain: "request custody, agency correspondence, production, and appeal state",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/requests/federal-crop-insurance-foia-submission-preflight.md",
+        role: "Federal Crop Insurance FOIA owner submission preflight",
+        grain: "identity, fee, scope, privacy, authorization, and outbound custody gates",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/federal-crop-insurance-foia-preflight-response-intake.md",
+        role: "Public Federal Crop Insurance FOIA preflight and response-intake reader",
+        grain: "administrative state machine and interpretation boundaries",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/medicare_part_d_payment_type_composition_bridge.fy2024.v1.draft.json",
+        role: "Medicare Part D payment-type composition bridge",
+        grain: "FY2024 same-period exact category reconciliation",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/medicare-part-d-payment-type-composition-bridge.md",
+        role: "Public Medicare Part D payment-type composition bridge",
+        grain: "category reconciliation and debt/recovery claim firewall",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/medicare_part_d_sponsor_documentation_dependency_evidence_ceiling.fy2024.v1.draft.json",
+        role: "Medicare Part D sponsor-documentation dependency evidence ceiling",
+        grain: "FY2024 scorecard correction and methodology-field reframing boundary",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/medicare-part-d-sponsor-documentation-dependency-evidence-ceiling.md",
+        role: "Public Medicare Part D sponsor-documentation dependency evidence ceiling",
+        grain: "scorecard reconciliation, field reframing, and claim firewall",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/medicare_part_d_sample_design_evidence_ceiling.fy2024.v1.draft.json",
+        role: "Medicare Part D sample-design evidence ceiling",
+        grain: "FY2024 sampled-unit support and unreproducible-design boundary",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/medicare-part-d-sample-design-evidence-ceiling.md",
+        role: "Public Medicare Part D sample-design evidence ceiling",
+        grain: "supported sampling components, exact residuals, and claim firewall",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/medicare_part_d_estimation_method_evidence_ceiling.fy2024.v1.draft.json",
+        role: "Medicare Part D estimation-method evidence ceiling",
+        grain: "FY2024 web-verified process observations, custody blocker, and estimator residuals",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/medicare-part-d-estimation-method-evidence-ceiling.md",
+        role: "Public Medicare Part D estimation-method evidence ceiling",
+        grain: "custody retry contract, estimator residuals, and claim firewall",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/medicare_part_d_missing_document_exclusion_treatment_bridge.fy2024.v1.draft.json",
+        role: "Medicare Part D missing-document exclusion-treatment component bridge",
+        grain: "CY2022 missing-document review, fail treatment, cure boundary, and historical contrast",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/medicare-part-d-missing-document-exclusion-treatment-bridge.md",
+        role: "Public Medicare Part D missing-document exclusion-treatment component bridge",
+        grain: "bounded component closure, full-field residuals, and claim firewall",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/medicare_part_d_payment_universe_measurement_object_denominator_bridge.fy2024.v1.draft.json",
+        role: "Medicare Part D payment-universe measurement-object and denominator bridge",
+        grain: "CY2022 PDE/GDC measurement object, FY2024 published denominator, and full-universe boundary",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/medicare-part-d-payment-universe-measurement-object-denominator-bridge.md",
+        role: "Public Medicare Part D payment-universe measurement-object and denominator bridge",
+        grain: "bounded component closure, denominator reconciliation, residuals, and claim firewall",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/medicare_part_d_audit_closeout_recovery_process_bridge.q4-2025.v1.draft.json",
+        role: "Medicare Part D audit-closeout recovery-process bridge",
+        grain: "Q4 2025 issued and planned national-audit PDE-deletion pathway and recoverability boundary",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/medicare-part-d-audit-closeout-recovery-process-bridge.md",
+        role: "Public Medicare Part D audit-closeout recovery-process bridge",
+        grain: "current-process component, period and amount firewall, residuals, and claim boundaries",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/medicare_part_d_published_uncertainty_output_bridge.fy2024.v1.draft.json",
+        role: "Medicare Part D published uncertainty-output bridge",
+        grain: "FY2024 confidence interval, annual margin-of-error output, and estimator boundary",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/medicare-part-d-published-uncertainty-output-bridge.md",
+        role: "Public Medicare Part D published uncertainty-output bridge",
+        grain: "published bounds, margin-of-error boundary, estimator residuals, and claim firewall",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/medicare_part_d_reconciliation_pde_adjustment_documentation_bridge.cy2022.v1.draft.json",
+        role: "Medicare Part D reconciliation-PDE adjustment-documentation bridge",
+        grain: "CY2022 two-track post-reconciliation adjustment documentation treatment and payment-universe boundary",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/medicare-part-d-reconciliation-pde-adjustment-documentation-bridge.md",
+        role: "Public Medicare Part D reconciliation-PDE adjustment-documentation bridge",
+        grain: "two-track documentation component, prior-pulse overlap, residuals, and claim firewall",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/medicare_part_d_sampling_estimation_plan_access_evidence_ceiling.fy2024.v1.draft.json",
+        role: "Medicare Part D sampling-and-estimation-plan access evidence ceiling",
+        grain: "FY2024 governmentwide secure-MAX location, reviewed public inventory, exact acquisition target, and zero-closure boundary",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/medicare-part-d-sampling-estimation-plan-access-evidence-ceiling.md",
+        role: "Public Medicare Part D sampling-and-estimation-plan access evidence ceiling",
+        grain: "controlled plan location, public evidence ceiling, acquisition target, and claim firewall",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/medicare_part_d_sampling_estimation_methodology_plan_request_specification.fy2024.v1.draft.json",
+        role: "Medicare Part D sampling-and-estimation methodology-plan request specification",
+        grain: "FY2024 existing-records target, privacy boundary, preflight, and no-outbound gate",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/medicare-part-d-sampling-estimation-methodology-plan-request-specification.md",
+        role: "Public Medicare Part D methodology-plan request-specification reader",
+        grain: "unsent target, filing route, custody boundary, and zero-closure firewall",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/requests/medicare-part-d-fy2024-sampling-estimation-methodology-plan-foia-request.md",
+        role: "Unsent Medicare Part D FY2024 methodology-plan FOIA request",
+        grain: "existing-record request language, exclusions, owner placeholders, and internal preflight",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/medicare_part_d_sampling_estimation_methodology_plan_foia_response_intake_contract.fy2024.v1.draft.json",
+        role: "Medicare Part D methodology-plan FOIA preflight and response-intake contract",
+        grain: "hard owner gate, closed-world administrative lifecycle, and evidence firewall",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/templates/medicare_part_d_sampling_estimation_methodology_plan_foia_response_intake.v1.template.json",
+        role: "Blank Medicare Part D methodology-plan FOIA response-intake template",
+        grain: "draft-only null state, empty event history, and closed review gates",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/requests/medicare-part-d-fy2024-sampling-estimation-methodology-plan-foia-submission-preflight.md",
+        role: "Medicare Part D methodology-plan FOIA owner submission preflight",
+        grain: "identity, fee, scope, channel, freeze, checksum, and stop-condition checklist",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/medicare-part-d-sampling-estimation-methodology-plan-foia-preflight-response-intake.md",
+        role: "Public Medicare Part D methodology-plan FOIA preflight and response-intake reader",
+        grain: "administrative timing, state transitions, blank intake, and no-evidence boundary",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/medicare_part_d_sponsor_documentation_dependency_bridge.fy2024.v1.draft.json",
+        role: "Medicare Part D sponsor-documentation dependency bridge",
+        grain: "CY2022 submission, correction, fail-treatment, and successor-responsibility closure",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/medicare-part-d-sponsor-documentation-dependency-bridge.md",
+        role: "Public Medicare Part D sponsor-documentation dependency bridge",
+        grain: "same-period documentation treatment and claim firewall",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/va_pltss_payment_type_composition_bridge.fy2025.v1.draft.json",
+        role: "VA PLTSS payment-type composition bridge",
+        grain: "FY2024 same-period composition with later FY2025 taxonomy corroboration",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/va-pltss-payment-type-composition-bridge.md",
+        role: "Public VA PLTSS payment-type composition bridge",
+        grain: "category reconciliation, period boundary, and recoverability firewall",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/va_pltss_documentation_recoverability_boundary.fy2025.v1.draft.json",
+        role: "VA PLTSS documentation and recoverability policy boundary",
+        grain: "current VA classification rules and PLTSS-specific mapping gap",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/va-pltss-documentation-recoverability-boundary.md",
+        role: "Public VA PLTSS documentation and recoverability policy boundary",
+        grain: "classification, certified-return, and program disposition firewall",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: VA_PLTSS_OIG_VERIFICATION_JSON_PATH,
+        role: "VA PLTSS independent PIIA verification record",
+        grain: "FY2024 statistical review and public recovery-lineage boundary",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: VA_PLTSS_OIG_VERIFICATION_READER_PATH,
+        role: "Public VA PLTSS independent verification reader",
+        grain: "methodology verification and transaction-lineage firewall",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: VA_PLTSS_SAME_COHORT_LINEAGE_CEILING_JSON_PATH,
+        role: "VA PLTSS same-cohort debt and collection lineage evidence ceiling",
+        grain: "FY2024 estimate, Q4 2025 recovery rows, bounded custody, and zero closures",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: VA_PLTSS_SAME_COHORT_LINEAGE_CEILING_READER_PATH,
+        role: "Public VA PLTSS same-cohort lineage evidence-ceiling reader",
+        grain: "source roles, negative-evidence boundary, and claim firewall",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_JSON_PATH,
+        role: "Payment-integrity bounded factual examples surface",
+        grain: "FY2024 headline, four program cards, and seven source-labeled examples",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_SCHEMA_PATH,
+        role: "Payment-integrity bounded factual examples schema",
+        grain: "presentation contract, precision rules, and claim gates",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_READER_PATH,
+        role: "Public payment-integrity bounded factual examples reader",
+        grain: "government-wide headline and four evidence-bounded program cards",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_REVIEW_PATH,
+        role: "Five-lens payment-integrity bounded examples review",
+        grain: "AI-simulated source, accounting, beneficiary, taxpayer, and skeptic review",
         kind: "markdown",
         canonical: "supporting",
     },
@@ -2988,6 +3815,13 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "reviews/2026-07-14-payment-integrity-fy2024-annual-extraction-role-review.md",
+        role: "FY2024 PaymentAccuracy annual-extraction role review",
+        grain: "source custody, 68/54/59 row scope, reconciliation, and bounded-use decision",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "docs/research/2026-06-22-subfunction-deficit-context-note.md",
         role: "Subfunction deficit context note",
         grain: "documentation",
@@ -3272,6 +4106,48 @@ const ARTIFACTS: &[Artifact] = &[
         role: "Accountability performance demand response intake example rows",
         grain: "response intake row",
         kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: EXTERNAL_ACCOUNTABILITY_CLAIM_INTAKE_JSONL_PATH,
+        role: "External accountability claim quarantine rows",
+        grain: "external claim amount atom",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: EXTERNAL_ACCOUNTABILITY_CLAIM_INTAKE_SCHEMA_PATH,
+        role: "External accountability claim intake schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: EXTERNAL_ACCOUNTABILITY_CLAIM_INTAKE_READER_PATH,
+        role: "External accountability claim intake internal reader",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: EXTERNAL_ACCOUNTABILITY_CLAIM_INTAKE_REVIEW_PATH,
+        role: "External accountability claim intake role review",
+        grain: "review",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: HOUSE_SHIRLEY_TESTIMONY_METADATA_PATH,
+        role: "House Shirley testimony source metadata",
+        grain: "source custody metadata",
+        kind: "markdown",
+        canonical: "source",
+    },
+    Artifact {
+        path: HOUSE_SHIRLEY_TESTIMONY_REVIEW_PATH,
+        role: "House testimony Quality Learing Center claim atom role review",
+        grain: "review",
+        kind: "markdown",
         canonical: "supporting",
     },
     Artifact {
@@ -3894,6 +4770,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
         return ExitCode::from(1);
     }
 
+    if let Err(err) = validate_fcic_payment_integrity_bridge(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
     if let Err(err) = validate_headline_basis_crosswalk(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
@@ -4035,6 +4916,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_accountability_performance_demand_response_intake_example_jsonl(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_external_accountability_claim_intake(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -12706,6 +13592,7483 @@ fn validate_education_depth_card(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_fcic_payment_integrity_bridge(root: &Path) -> Result<(), String> {
+    let bridge_text = fs::read_to_string(root.join(FCIC_PAYMENT_INTEGRITY_BRIDGE_JSON_PATH))
+        .map_err(|err| {
+            format!("failed to read {FCIC_PAYMENT_INTEGRITY_BRIDGE_JSON_PATH}: {err}")
+        })?;
+    let bridge: serde_json::Value = serde_json::from_str(&bridge_text).map_err(|err| {
+        format!("failed to parse {FCIC_PAYMENT_INTEGRITY_BRIDGE_JSON_PATH}: {err}")
+    })?;
+    let source_ids = bridge
+        .get("source_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC bridge source_ids")?;
+    let source_id_set: BTreeSet<String> = source_ids
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .map(str::to_string)
+        .collect();
+    if string_field(&bridge, "record_id")?
+        != "payment-integrity-bridge:usda-federal-crop-insurance:fy2024-q4-2025"
+        || string_field(&bridge, "record_family")?
+            != "federal_crop_insurance_payment_integrity_bridge"
+        || string_field(&bridge, "program_id")? != "usda-federal-crop-insurance"
+        || string_field(&bridge, "agency_code")? != "USDA"
+        || string_field(&bridge, "program_or_activity")?
+            != "Risk Management Agency Federal Crop Insurance Corporation"
+        || string_field(&bridge, "status")?
+            != "draft_official_sources_checksum_verified_two_methodology_fields_closed_internal_only"
+        || source_ids.len() != 4
+        || !source_id_set.contains("SRC-OMB-PAYMENTACCURACY-FY2024-DATA")
+        || !source_id_set.contains(FCIC_SCORECARD_SOURCE_ID)
+        || !source_id_set.contains(FCIC_COM_23_SOURCE_ID)
+        || !source_id_set.contains(FCIC_SRA_2022_SOURCE_ID)
+    {
+        return Err("FCIC bridge identity or source membership failed".to_string());
+    }
+
+    let annual = bridge
+        .get("annual_workbook_fy2024")
+        .ok_or("FCIC annual workbook block")?;
+    if string_field(annual, "source_path")?
+        != "data/extracted/payment_accuracy/fy2024_program_results.v1.draft.jsonl"
+        || string_field(annual, "source_sheet")? != "All Program Results"
+        || int_field(annual, "source_row")? != 1422
+        || number_field(annual, "outlays_millions")? != 23_867.31
+        || number_field(annual, "properly_paid_millions")? != 23_287.95
+        || number_field(annual, "payment_accuracy_rate_percent")? != 97.5725794
+        || number_field(annual, "improper_payment_millions")? != 579.36
+        || number_field(annual, "improper_payment_rate_percent")? != 2.4274206
+        || number_field(annual, "overpayment_millions")? != 573.93
+        || number_field(annual, "overpayment_rate_percent")? != 2.4046698
+        || number_field(annual, "overpayments_outside_agency_control_millions")? != 573.93
+        || number_field(annual, "overpayments_within_agency_control_millions")? != 0.0
+        || number_field(annual, "underpayment_millions")? != 5.43
+        || number_field(annual, "underpayment_rate_percent")? != 0.0227508
+        || number_field(annual, "technically_improper_millions")? != 0.0
+        || number_field(annual, "unknown_payment_millions")? != 0.0
+        || string_field(annual, "sample_start")? != "2021-07"
+        || string_field(annual, "sample_end")? != "2022-06"
+        || string_field(annual, "confidence_interval_category")? != "95% to <100%"
+        || number_field(annual, "margin_of_error_reported")? != 2.5
+        || string_field(annual, "margin_of_error_unit")?
+            != "not_specified_in_extracted_workbook_row"
+    {
+        return Err("FCIC annual workbook reconciliation failed".to_string());
+    }
+    let annual_rows = read_jsonl(root.join(string_field(annual, "source_path")?))?;
+    let annual_source = annual_rows
+        .iter()
+        .find(|row| {
+            row.get("source_row").and_then(serde_json::Value::as_i64) == Some(1422)
+                && row.get("Program Name").and_then(serde_json::Value::as_str)
+                    == Some(
+                        "Risk Management Agency (RMA) Federal Crop Insurance Corporation (FCIC)",
+                    )
+        })
+        .ok_or("FCIC FY2024 annual source row 1422")?;
+    for (field, expected) in [
+        ("Outlays Amount ($M)", 23_867.31),
+        ("Amount Properly Paid ($M)", 23_287.95),
+        ("Improper Payment Amount ($M)", 579.36),
+        ("Total Overpayment Amount ($M)", 573.93),
+        (
+            "Overpayments Outside the Agency Control Amount ($M)",
+            573.93,
+        ),
+        ("Overpayments within the Agency Control Amount ($M)", 0.0),
+        ("Underpayment Amount ($M)", 5.43),
+        ("Technically Improper Payment Amount ($M)", 0.0),
+        ("Unknown Payment Amount ($M)", 0.0),
+    ] {
+        if number_field(annual_source, field)? != expected {
+            return Err(format!("FCIC annual source row mismatch for {field}"));
+        }
+    }
+    if string_field(annual_source, "Start Date of the sampling timeframe")? != "7/2021"
+        || string_field(annual_source, "End Date of the sampling timeframe")? != "6/2022"
+        || string_field(annual_source, "Confidence Interval for the estimate")? != "95% to <100%"
+        || number_field(annual_source, "Margin of Error for the estimate")? != 2.5
+    {
+        return Err("FCIC annual source period or uncertainty mismatch".to_string());
+    }
+
+    let scorecard = bridge
+        .get("q4_2025_scorecard")
+        .ok_or("FCIC Q4 2025 scorecard block")?;
+    let root_causes = scorecard
+        .get("root_causes_millions_rounded")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC scorecard root causes")?;
+    if string_field(scorecard, "reporting_period")? != "Q4 2025"
+        || number_field(scorecard, "fy2024_overpayment_millions_rounded")? != 574.0
+        || number_field(scorecard, "fy2024_overpayment_rate_percent_rounded")? != 2.40
+        || string_field(scorecard, "sample_start")? != "2021-07"
+        || string_field(scorecard, "sample_end")? != "2022-06"
+        || root_causes.len() != 2
+        || scorecard
+            .get("published_recovery_amount")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || scorecard
+            .get("published_collectible_amount")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || scorecard
+            .get("published_estimate_to_collection_lineage")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || !string_field(scorecard, "recovery_process")?.contains("CARS")
+    {
+        return Err("FCIC scorecard reconciliation or recovery boundary failed".to_string());
+    }
+    let root_cause_map: BTreeMap<String, (String, f64)> = root_causes
+        .iter()
+        .map(|row| {
+            Ok((
+                string_field(row, "category")?.to_string(),
+                (
+                    string_field(row, "control_scope")?,
+                    number_field(row, "amount_millions")?,
+                ),
+            ))
+        })
+        .collect::<Result<_, String>>()?;
+    if root_cause_map
+        != BTreeMap::from([
+            (
+                "failure_to_access_data_or_information_needed".to_string(),
+                ("outside_agency_control".to_string(), 467.0),
+            ),
+            (
+                "inability_to_access_data_or_information_needed".to_string(),
+                ("outside_agency_control".to_string(), 107.0),
+            ),
+        ])
+    {
+        return Err("FCIC scorecard root-cause split failed".to_string());
+    }
+
+    let review = bridge
+        .get("rma_fy2024_review")
+        .ok_or("FCIC RMA FY2024 review block")?;
+    if string_field(review, "reporting_period")? != "2024"
+        || int_field(review, "sample_reinsurance_year")? != 2022
+        || int_field(review, "sample_policy_count")? != 326
+        || string_field(review, "selection_factor_published")?
+            != "Approved Insurance Provider servicing the policy"
+        || string_field(review, "documentation_channel")? != "Compliance Activities Results System"
+        || review
+            .get("statistically_selected")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || review
+            .get("statistically_valid")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("FCIC RMA review identity failed".to_string());
+    }
+    for field in [
+        "sample_frame_published",
+        "strata_published",
+        "weights_published",
+        "projection_estimator_published",
+        "variance_method_published",
+    ] {
+        if review.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("FCIC review must keep {field} blocked"));
+        }
+    }
+
+    let period = bridge
+        .get("period_reconciliation")
+        .ok_or("FCIC period reconciliation")?;
+    if string_field(period, "reinsurance_year_2022_start")? != "2021-07"
+        || string_field(period, "reinsurance_year_2022_end")? != "2022-06"
+        || string_field(period, "result")?
+            != "fy2024_reporting_period_uses_reinsurance_year_2022_measurement_window"
+        || period
+            .get("com_23_to_paymentaccuracy_dates_match")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || period
+            .get("scorecard_to_annual_workbook_dates_match")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("FCIC period reconciliation failed".to_string());
+    }
+    let numeric = bridge
+        .get("numeric_reconciliation")
+        .ok_or("FCIC numeric reconciliation")?;
+    for field in [
+        "proper_plus_improper_equals_outlays",
+        "overpayment_plus_underpayment_plus_technical_equals_improper",
+        "scorecard_overpayment_amount_is_annual_workbook_value_rounded_to_whole_millions",
+        "scorecard_overpayment_rate_is_annual_workbook_value_rounded_to_two_decimals",
+        "scorecard_root_causes_sum_to_scorecard_rounded_overpayment_millions",
+        "root_cause_rounding_precludes_exact_subcategory_reconciliation_to_573_93_millions",
+    ] {
+        if numeric.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("FCIC numeric reconciliation failed for {field}"));
+        }
+    }
+
+    let decisions = bridge
+        .get("methodology_field_decisions")
+        .ok_or("FCIC methodology field decisions")?;
+    let closed = decisions
+        .get("closed_internal_only")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC internally closed fields")?;
+    let open = decisions
+        .get("open")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC open fields")?;
+    let closed_fields: BTreeSet<String> = closed
+        .iter()
+        .map(|row| string_field(row, "field"))
+        .collect::<Result<_, _>>()?;
+    let open_fields: BTreeSet<String> = open
+        .iter()
+        .map(|row| string_field(row, "field"))
+        .collect::<Result<_, _>>()?;
+    if int_field(decisions, "closed_count")? != 2
+        || int_field(decisions, "open_count")? != 6
+        || decisions
+            .get("program_scoring_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || closed_fields
+            != BTreeSet::from([
+                "payment type split".to_string(),
+                "sample period".to_string(),
+            ])
+        || open_fields
+            != BTreeSet::from([
+                "sample design".to_string(),
+                "payment universe".to_string(),
+                "estimation method".to_string(),
+                "exclusion rules".to_string(),
+                "data-access outside-agency-control root-cause definition".to_string(),
+                "recoverable savings basis".to_string(),
+            ])
+    {
+        return Err("FCIC methodology closure counts or field sets failed".to_string());
+    }
+    for field in [
+        "public_claim_allowed",
+        "fraud_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if bridge.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("FCIC bridge must keep {field} false"));
+        }
+    }
+    let boundaries = bridge
+        .get("evidence_boundaries")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC evidence boundaries")?;
+    let boundary_text = boundaries
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<Vec<_>>()
+        .join(" ");
+    for required in [
+        "not a transaction-level list of identified debts",
+        "not findings of fraud, waste, or abuse",
+        "does not identify how much",
+        "not savings estimates",
+        "does not establish recoverability",
+        "No savings score",
+    ] {
+        if !boundary_text.contains(required) {
+            return Err(format!("FCIC bridge boundary missing {required}"));
+        }
+    }
+
+    for (source_id, metadata_path, raw_path, raw_bytes, raw_sha256) in [
+        (
+            FCIC_SCORECARD_SOURCE_ID,
+            FCIC_SCORECARD_METADATA_PATH,
+            FCIC_SCORECARD_RAW_PATH,
+            FCIC_SCORECARD_RAW_BYTES,
+            FCIC_SCORECARD_RAW_SHA256,
+        ),
+        (
+            FCIC_COM_23_SOURCE_ID,
+            FCIC_COM_23_METADATA_PATH,
+            FCIC_COM_23_RAW_PATH,
+            FCIC_COM_23_RAW_BYTES,
+            FCIC_COM_23_RAW_SHA256,
+        ),
+        (
+            FCIC_SRA_2022_SOURCE_ID,
+            FCIC_SRA_2022_METADATA_PATH,
+            FCIC_SRA_2022_RAW_PATH,
+            FCIC_SRA_2022_RAW_BYTES,
+            FCIC_SRA_2022_RAW_SHA256,
+        ),
+    ] {
+        let raw = root.join(raw_path);
+        if fs::metadata(&raw).map_err(|err| err.to_string())?.len() != raw_bytes
+            || sha256_file(&raw)? != raw_sha256
+        {
+            return Err(format!("FCIC raw custody failed for {source_id}"));
+        }
+        let metadata = fs::read_to_string(root.join(metadata_path))
+            .map_err(|err| format!("failed to read {metadata_path}: {err}"))?;
+        for required in [
+            format!("| `source_id` | `{source_id}` |"),
+            format!("| `raw_path` | `{raw_path}` |"),
+            format!("| `bytes` | {raw_bytes} |"),
+            format!(
+                "| `checksum_sha256` | `{}` |",
+                raw_sha256.to_ascii_uppercase()
+            ),
+            "| `status` | `captured` |".to_string(),
+        ] {
+            if !metadata.contains(&required) {
+                return Err(format!("{metadata_path} missing {required}"));
+            }
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(FCIC_PAYMENT_INTEGRITY_BRIDGE_READER_PATH)).map_err(
+        |err| format!("failed to read {FCIC_PAYMENT_INTEGRITY_BRIDGE_READER_PATH}: {err}"),
+    )?;
+    for required in [
+        FCIC_PAYMENT_INTEGRITY_BRIDGE_JSON_PATH,
+        "$23,867.31M",
+        "$579.36M",
+        "$573.93M",
+        "$5.43M",
+        "$467M",
+        "$107M",
+        "326 policies",
+        "July 2021 through June 2022",
+        "sample period",
+        "payment type split",
+        "does not publish a collected or collectible amount",
+        "not automatically fraud, waste, identified debt",
+        "No score is allowed",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("FCIC bridge reader missing {required}"));
+        }
+    }
+
+    let root_cause_bridge_text =
+        fs::read_to_string(root.join(FCIC_ROOT_CAUSE_DEFINITION_BRIDGE_JSON_PATH)).map_err(
+            |err| format!("failed to read {FCIC_ROOT_CAUSE_DEFINITION_BRIDGE_JSON_PATH}: {err}"),
+        )?;
+    let root_cause_bridge: serde_json::Value = serde_json::from_str(&root_cause_bridge_text)
+        .map_err(|err| {
+            format!("failed to parse {FCIC_ROOT_CAUSE_DEFINITION_BRIDGE_JSON_PATH}: {err}")
+        })?;
+    let root_cause_source_ids = root_cause_bridge
+        .get("source_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC root-cause bridge source IDs")?;
+    if string_field(&root_cause_bridge, "record_id")?
+        != "payment-integrity-root-cause-definition-bridge:usda-federal-crop-insurance:fy2024"
+        || string_field(&root_cause_bridge, "record_family")?
+            != "federal_crop_insurance_root_cause_definition_bridge"
+        || string_field(&root_cause_bridge, "program_id")? != "usda-federal-crop-insurance"
+        || string_field(&root_cause_bridge, "status")?
+            != "draft_official_source_checksum_verified_third_methodology_field_closed_internal_only"
+        || string_field(&root_cause_bridge, "upstream_artifact")?
+            != FCIC_PAYMENT_INTEGRITY_BRIDGE_JSON_PATH
+        || root_cause_source_ids.len() != 1
+        || root_cause_source_ids[0].as_str() != Some(FCIC_AFR_SOURCE_ID)
+    {
+        return Err("FCIC root-cause bridge identity or lineage failed".to_string());
+    }
+    let custody = root_cause_bridge
+        .get("source_custody")
+        .ok_or("FCIC AFR source custody")?;
+    let afr_raw = root.join(FCIC_AFR_RAW_PATH);
+    if string_field(custody, "raw_path")? != FCIC_AFR_RAW_PATH
+        || string_field(custody, "checksum_sha256")? != FCIC_AFR_RAW_SHA256.to_ascii_uppercase()
+        || int_field(custody, "bytes")? != FCIC_AFR_RAW_BYTES as i64
+        || string_field(custody, "printed_pages")? != "216-217"
+        || string_field(custody, "canonical_usda_pdf_pages")? != "220-221"
+        || string_field(custody, "govinfo_custody_pdf_pages")? != "250-251"
+        || fs::metadata(&afr_raw).map_err(|err| err.to_string())?.len() != FCIC_AFR_RAW_BYTES
+        || sha256_file(&afr_raw)? != FCIC_AFR_RAW_SHA256
+    {
+        return Err("FCIC AFR custody failed".to_string());
+    }
+    let evidence = root_cause_bridge
+        .get("fy2024_fcic_evidence")
+        .ok_or("FCIC FY2024 AFR evidence")?;
+    let categories = evidence
+        .get("root_cause_categories")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC AFR root-cause categories")?;
+    let category_definitions = categories
+        .iter()
+        .map(|row| {
+            Ok((
+                string_field(row, "category")?.to_string(),
+                string_field(row, "definition")?.to_string(),
+            ))
+        })
+        .collect::<Result<BTreeMap<_, _>, String>>()?;
+    if number_field(evidence, "reported_improper_payment_millions")? != 579.36
+        || number_field(evidence, "reported_improper_payment_rate_percent")? != 2.43
+        || evidence
+            .get("methodology_changed_during_reporting_period")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || category_definitions.len() != 2
+        || !category_definitions
+            .get("failure_to_access_data_or_information")
+            .is_some_and(|definition| {
+                definition.contains("existed, was obtained, and was used")
+                    && definition.contains("administrative or calculation error")
+            })
+        || !category_definitions
+            .get("inability_to_access_data_or_information")
+            .is_some_and(|definition| {
+                definition.contains("certification errors")
+                    && definition.contains("premiums, and indemnities")
+            })
+    {
+        return Err("FCIC AFR evidence reconciliation failed".to_string());
+    }
+    let decision = root_cause_bridge
+        .get("methodology_field_decision")
+        .ok_or("FCIC root-cause methodology decision")?;
+    let methodology_state = root_cause_bridge
+        .get("program_methodology_state")
+        .ok_or("FCIC root-cause methodology state")?;
+    let closed = methodology_state
+        .get("closed_internal_only")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC root-cause closed fields")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<Vec<_>>();
+    let open = methodology_state
+        .get("open")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC root-cause open fields")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<Vec<_>>();
+    if string_field(decision, "field")?
+        != "data-access outside-agency-control root-cause definition"
+        || string_field(decision, "decision")?
+            != "closed_root_cause_categories_defined_internal_only"
+        || string_field(decision, "decision_status")? != "field_closed_internal_only"
+        || decision
+            .get("field_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || int_field(methodology_state, "closed_count")? != 4
+        || int_field(methodology_state, "open_count")? != 4
+        || closed
+            != vec![
+                "sample period",
+                "payment type split",
+                "data-access outside-agency-control root-cause definition",
+                "payment universe",
+            ]
+        || open
+            != vec![
+                "sample design",
+                "estimation method",
+                "exclusion rules",
+                "recoverable savings basis",
+            ]
+    {
+        return Err("FCIC root-cause closure decision or field state failed".to_string());
+    }
+    for (object, field) in [
+        (decision, "public_claim_allowed"),
+        (decision, "recovery_claim_allowed"),
+        (decision, "savings_claim_allowed"),
+        (methodology_state, "program_scoring_allowed"),
+        (&root_cause_bridge, "public_claim_allowed"),
+        (&root_cause_bridge, "fraud_claim_allowed"),
+        (&root_cause_bridge, "recovery_claim_allowed"),
+        (&root_cause_bridge, "savings_estimate_allowed"),
+    ] {
+        if object.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("FCIC root-cause bridge must keep {field} false"));
+        }
+    }
+    let afr_metadata = fs::read_to_string(root.join(FCIC_AFR_METADATA_PATH))
+        .map_err(|err| format!("failed to read {FCIC_AFR_METADATA_PATH}: {err}"))?;
+    for required in [
+        format!("| `source_id` | `{FCIC_AFR_SOURCE_ID}` |"),
+        format!("| `raw_path` | `{FCIC_AFR_RAW_PATH}` |"),
+        format!("| `bytes` | {FCIC_AFR_RAW_BYTES} |"),
+        format!(
+            "| `checksum_sha256` | `{}` |",
+            FCIC_AFR_RAW_SHA256.to_ascii_uppercase()
+        ),
+        "| `status` | `captured` |".to_string(),
+        "Printed pages 216-217".to_string(),
+    ] {
+        if !afr_metadata.contains(&required) {
+            return Err(format!("{FCIC_AFR_METADATA_PATH} missing {required}"));
+        }
+    }
+    let root_cause_reader =
+        fs::read_to_string(root.join(FCIC_ROOT_CAUSE_DEFINITION_BRIDGE_READER_PATH)).map_err(
+            |err| format!("failed to read {FCIC_ROOT_CAUSE_DEFINITION_BRIDGE_READER_PATH}: {err}"),
+        )?;
+    for required in [
+        FCIC_ROOT_CAUSE_DEFINITION_BRIDGE_JSON_PATH,
+        "printed pages 216-217",
+        "Failure to access data/information",
+        "Inability to access data/information",
+        "three closed fields and five open fields",
+        "Do Not Pay",
+        "fraud, recoveries, prevented loss, or net savings remain blocked",
+    ] {
+        if !root_cause_reader.contains(required) {
+            return Err(format!("FCIC root-cause reader missing {required}"));
+        }
+    }
+
+    let payment_universe_text =
+        fs::read_to_string(root.join(FCIC_PAYMENT_UNIVERSE_BRIDGE_JSON_PATH)).map_err(|err| {
+            format!("failed to read {FCIC_PAYMENT_UNIVERSE_BRIDGE_JSON_PATH}: {err}")
+        })?;
+    let payment_universe: serde_json::Value = serde_json::from_str(&payment_universe_text)
+        .map_err(|err| {
+            format!("failed to parse {FCIC_PAYMENT_UNIVERSE_BRIDGE_JSON_PATH}: {err}")
+        })?;
+    let universe_source_ids = payment_universe
+        .get("source_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC payment-universe source IDs")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    if string_field(&payment_universe, "record_id")?
+        != "payment-integrity-payment-universe-bridge:usda-federal-crop-insurance:fy2024"
+        || string_field(&payment_universe, "record_family")?
+            != "federal_crop_insurance_payment_universe_bridge"
+        || string_field(&payment_universe, "program_id")? != "usda-federal-crop-insurance"
+        || string_field(&payment_universe, "status")?
+            != "draft_official_sources_checksum_verified_fourth_methodology_field_closed_internal_only"
+        || universe_source_ids
+            != BTreeSet::from([
+                "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+                FCIC_COM_23_SOURCE_ID,
+                FCIC_OIG_FS_SOURCE_ID,
+            ])
+    {
+        return Err("FCIC payment-universe bridge identity or lineage failed".to_string());
+    }
+    let universe_custody = payment_universe
+        .get("source_custody")
+        .ok_or("FCIC payment-universe source custody")?;
+    let oig_raw = root.join(FCIC_OIG_FS_RAW_PATH);
+    if string_field(universe_custody, "raw_path")? != FCIC_OIG_FS_RAW_PATH
+        || string_field(universe_custody, "checksum_sha256")?
+            != FCIC_OIG_FS_RAW_SHA256.to_ascii_uppercase()
+        || int_field(universe_custody, "bytes")? != FCIC_OIG_FS_RAW_BYTES as i64
+        || int_field(universe_custody, "printed_page")? != 18
+        || int_field(universe_custody, "pdf_file_page")? != 29
+        || fs::metadata(&oig_raw).map_err(|err| err.to_string())?.len() != FCIC_OIG_FS_RAW_BYTES
+        || sha256_file(&oig_raw)? != FCIC_OIG_FS_RAW_SHA256
+    {
+        return Err("FCIC payment-universe custody failed".to_string());
+    }
+    let universe_evidence = payment_universe
+        .get("fy2024_payment_universe_evidence")
+        .ok_or("FCIC payment-universe evidence")?;
+    let included_categories = universe_evidence
+        .get("included_payment_categories")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC included payment categories")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    let payment_tiers = universe_evidence
+        .get("aip_payment_tiers")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC AIP payment tiers")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    if included_categories
+        != BTreeSet::from([
+            "Administrative and Operating expense",
+            "indemnities",
+            "premium subsidy",
+        ])
+        || payment_tiers != BTreeSet::from(["high", "low", "medium"])
+        || universe_evidence
+            .get("all_categories_statement_published")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || universe_evidence
+            .get("annual_statistically_valid_sample_published")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || universe_evidence
+            .get("methodology_changed_during_reporting_period")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("FCIC payment-universe evidence reconciliation failed".to_string());
+    }
+    let universe_context = payment_universe
+        .get("fy2024_result_context")
+        .ok_or("FCIC payment-universe result context")?;
+    let excluded_value = universe_context
+        .get("excluded_oig_table_value")
+        .ok_or("FCIC excluded OIG table value")?;
+    if number_field(universe_context, "outlays_millions")? != 23_867.31
+        || number_field(universe_context, "improper_payment_millions")? != 579.36
+        || universe_context
+            .get("other_information_audited")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || number_field(excluded_value, "printed_value")? != 579.93
+        || number_field(excluded_value, "authoritative_annual_workbook_value")? != 573.93
+    {
+        return Err("FCIC payment-universe numeric boundary failed".to_string());
+    }
+    let universe_decision = payment_universe
+        .get("methodology_field_decision")
+        .ok_or("FCIC payment-universe methodology decision")?;
+    let universe_state = payment_universe
+        .get("program_methodology_state")
+        .ok_or("FCIC payment-universe methodology state")?;
+    let universe_closed = universe_state
+        .get("closed_internal_only")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC payment-universe closed fields")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    let universe_open = universe_state
+        .get("open")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC payment-universe open fields")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    if string_field(universe_decision, "field")? != "payment universe"
+        || string_field(universe_decision, "decision")?
+            != "closed_all_payment_categories_defined_internal_only"
+        || string_field(universe_decision, "decision_status")? != "field_closed_internal_only"
+        || universe_decision
+            .get("field_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || int_field(universe_state, "closed_count")? != 4
+        || int_field(universe_state, "open_count")? != 4
+        || universe_closed
+            != BTreeSet::from([
+                "data-access outside-agency-control root-cause definition",
+                "payment type split",
+                "payment universe",
+                "sample period",
+            ])
+        || universe_open
+            != BTreeSet::from([
+                "estimation method",
+                "exclusion rules",
+                "recoverable savings basis",
+                "sample design",
+            ])
+    {
+        return Err("FCIC payment-universe closure decision or field state failed".to_string());
+    }
+    for (object, field) in [
+        (universe_decision, "public_claim_allowed"),
+        (universe_decision, "recovery_claim_allowed"),
+        (universe_decision, "savings_claim_allowed"),
+        (universe_state, "program_scoring_allowed"),
+        (&payment_universe, "public_claim_allowed"),
+        (&payment_universe, "fraud_claim_allowed"),
+        (&payment_universe, "recovery_claim_allowed"),
+        (&payment_universe, "prevention_claim_allowed"),
+        (&payment_universe, "savings_estimate_allowed"),
+    ] {
+        if object.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "FCIC payment-universe bridge must keep {field} false"
+            ));
+        }
+    }
+    let oig_metadata = fs::read_to_string(root.join(FCIC_OIG_FS_METADATA_PATH))
+        .map_err(|err| format!("failed to read {FCIC_OIG_FS_METADATA_PATH}: {err}"))?;
+    for required in [
+        format!("| `source_id` | `{FCIC_OIG_FS_SOURCE_ID}` |"),
+        format!("| `raw_path` | `{FCIC_OIG_FS_RAW_PATH}` |"),
+        format!("| `bytes` | {FCIC_OIG_FS_RAW_BYTES} |"),
+        format!(
+            "| `checksum_sha256` | `{}` |",
+            FCIC_OIG_FS_RAW_SHA256.to_ascii_uppercase()
+        ),
+        "| `status` | `captured` |".to_string(),
+        "Other Information (Unaudited)".to_string(),
+    ] {
+        if !oig_metadata.contains(&required) {
+            return Err(format!("{FCIC_OIG_FS_METADATA_PATH} missing {required}"));
+        }
+    }
+    let payment_universe_reader =
+        fs::read_to_string(root.join(FCIC_PAYMENT_UNIVERSE_BRIDGE_READER_PATH)).map_err(|err| {
+            format!("failed to read {FCIC_PAYMENT_UNIVERSE_BRIDGE_READER_PATH}: {err}")
+        })?;
+    for required in [
+        FCIC_PAYMENT_UNIVERSE_BRIDGE_JSON_PATH,
+        "premium subsidy",
+        "Administrative and",
+        "Operating (A&O) expense",
+        "indemnities",
+        "four",
+        "closed fields and four open fields",
+        "Other Information (Unaudited)",
+        "$579.93M",
+        "$573.93M",
+        "Program scoring and all public, fraud",
+        "recovery, prevention, and savings claims remain blocked",
+    ] {
+        if !payment_universe_reader.contains(required) {
+            return Err(format!("FCIC payment-universe reader missing {required}"));
+        }
+    }
+
+    let sample_component_text =
+        fs::read_to_string(root.join(FCIC_SAMPLE_DESIGN_COMPONENT_BRIDGE_JSON_PATH)).map_err(
+            |err| format!("failed to read {FCIC_SAMPLE_DESIGN_COMPONENT_BRIDGE_JSON_PATH}: {err}"),
+        )?;
+    let sample_component: serde_json::Value = serde_json::from_str(&sample_component_text)
+        .map_err(|err| {
+            format!("failed to parse {FCIC_SAMPLE_DESIGN_COMPONENT_BRIDGE_JSON_PATH}: {err}")
+        })?;
+    let sample_source_ids = sample_component
+        .get("source_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC sample-design component source IDs")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    if string_field(&sample_component, "record_id")?
+        != "payment-integrity-sample-design-component-bridge:usda-federal-crop-insurance:fy2024"
+        || string_field(&sample_component, "record_family")?
+            != "federal_crop_insurance_sample_design_component_bridge"
+        || string_field(&sample_component, "status")?
+            != "draft_official_sources_checksum_verified_narrow_sampling_governance_component_closed_full_sample_design_open"
+        || sample_source_ids
+            != BTreeSet::from([
+                FCIC_COM_23_SOURCE_ID,
+                FCIC_OIG_FS_SOURCE_ID,
+                FCIC_OIG_PIIA_SOURCE_ID,
+            ])
+    {
+        return Err("FCIC sample-design component identity or lineage failed".to_string());
+    }
+    let sample_custody = sample_component
+        .get("source_custody")
+        .ok_or("FCIC sample-design component source custody")?;
+    let piia_raw = root.join(FCIC_OIG_PIIA_RAW_PATH);
+    if string_field(sample_custody, "raw_path")? != FCIC_OIG_PIIA_RAW_PATH
+        || string_field(sample_custody, "checksum_sha256")?
+            != FCIC_OIG_PIIA_RAW_SHA256.to_ascii_uppercase()
+        || int_field(sample_custody, "bytes")? != FCIC_OIG_PIIA_RAW_BYTES as i64
+        || string_field(sample_custody, "audit_scope_printed_pages")? != "3-5 and 10"
+        || string_field(sample_custody, "audit_scope_pdf_file_pages")? != "7-9 and 14"
+        || int_field(sample_custody, "governance_recommendation_printed_page")? != 23
+        || int_field(sample_custody, "governance_recommendation_pdf_file_page")? != 27
+        || fs::metadata(&piia_raw)
+            .map_err(|err| err.to_string())?
+            .len()
+            != FCIC_OIG_PIIA_RAW_BYTES
+        || sha256_file(&piia_raw)? != FCIC_OIG_PIIA_RAW_SHA256
+    {
+        return Err("FCIC sample-design component custody failed".to_string());
+    }
+    let disclosed_design = sample_component
+        .get("disclosed_sampling_governance_design_component")
+        .ok_or("FCIC disclosed sampling governance component")?;
+    let tiers = disclosed_design
+        .get("aip_payment_tiers")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC sample-design component AIP tiers")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    if string_field(disclosed_design, "reporting_period")? != "FY2024"
+        || int_field(disclosed_design, "sample_policy_count")? != 326
+        || int_field(disclosed_design, "reinsurance_year")? != 2022
+        || tiers != BTreeSet::from(["high", "low", "medium"])
+    {
+        return Err("FCIC disclosed sampling-design facts failed".to_string());
+    }
+    for field in [
+        "selection_considered_servicing_aip",
+        "statistically_valid_designation_published",
+        "independent_performance_audit_reviewed_usda_samples",
+        "independent_performance_audit_reviewed_underlying_sampling_methodologies",
+        "fcic_identified_as_reviewed_phase_2_and_high_priority_program",
+        "fcic_piia_compliance_reported",
+    ] {
+        if disclosed_design
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        {
+            return Err(format!(
+                "FCIC disclosed sampling-design fact {field} failed"
+            ));
+        }
+    }
+    let sample_decision = sample_component
+        .get("component_decision")
+        .ok_or("FCIC sample-design component decision")?;
+    if string_field(sample_decision, "decision")? != "component_closed_internal_only"
+        || string_field(sample_decision, "decision_status")?
+            != "narrow_component_closed_full_methodology_field_open"
+        || sample_decision
+            .get("component_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || sample_decision
+            .get("full_sample_design_field_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("FCIC sample-design narrow decision failed".to_string());
+    }
+    let residuals = sample_component
+        .get("full_sample_design_residuals")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC full sample-design residuals")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<Vec<_>>()
+        .join(" ");
+    for required in [
+        "sample frame",
+        "tier allocation",
+        "selection probabilities",
+        "randomization",
+        "replacement",
+        "nonresponse",
+        "sampling weights",
+        "projection estimator",
+        "variance",
+    ] {
+        if !residuals.contains(required) {
+            return Err(format!("FCIC sample-design residual missing {required}"));
+        }
+    }
+    for field in [
+        "public_claim_allowed",
+        "scoring_allowed",
+        "fraud_claim_allowed",
+        "recovery_claim_allowed",
+        "prevention_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if sample_component
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!("FCIC sample-design bridge must keep {field} false"));
+        }
+    }
+    let piia_metadata = fs::read_to_string(root.join(FCIC_OIG_PIIA_METADATA_PATH))
+        .map_err(|err| format!("failed to read {FCIC_OIG_PIIA_METADATA_PATH}: {err}"))?;
+    for required in [
+        format!("| `source_id` | `{FCIC_OIG_PIIA_SOURCE_ID}` |"),
+        format!("| `raw_path` | `{FCIC_OIG_PIIA_RAW_PATH}` |"),
+        format!("| `bytes` | {FCIC_OIG_PIIA_RAW_BYTES} |"),
+        format!(
+            "| `checksum_sha256` | `{}` |",
+            FCIC_OIG_PIIA_RAW_SHA256.to_ascii_uppercase()
+        ),
+        "| `status` | `captured` |".to_string(),
+        "Printed pages 3-5 and 10".to_string(),
+        "printed page 23".to_string(),
+    ] {
+        if !piia_metadata.contains(&required) {
+            return Err(format!("{FCIC_OIG_PIIA_METADATA_PATH} missing {required}"));
+        }
+    }
+    let sample_reader = fs::read_to_string(
+        root.join(FCIC_SAMPLE_DESIGN_COMPONENT_BRIDGE_READER_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {FCIC_SAMPLE_DESIGN_COMPONENT_BRIDGE_READER_PATH}: {err}")
+    })?;
+    for required in [
+        FCIC_SAMPLE_DESIGN_COMPONENT_BRIDGE_JSON_PATH,
+        "326",
+        "reinsurance year 2022",
+        "high, medium, and low",
+        "underlying",
+        "sampling methodologies",
+        "Full sample design remains open",
+        "publicly reproducible",
+        "No program score",
+    ] {
+        if !sample_reader.contains(required) {
+            return Err(format!("FCIC sample-design reader missing {required}"));
+        }
+    }
+
+    let historical_sampling_text = fs::read_to_string(
+        root.join(FCIC_HISTORICAL_SAMPLING_METHOD_BRIDGE_JSON_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {FCIC_HISTORICAL_SAMPLING_METHOD_BRIDGE_JSON_PATH}: {err}")
+    })?;
+    let historical_sampling: serde_json::Value = serde_json::from_str(&historical_sampling_text)
+        .map_err(|err| {
+            format!("failed to parse {FCIC_HISTORICAL_SAMPLING_METHOD_BRIDGE_JSON_PATH}: {err}")
+        })?;
+    if string_field(&historical_sampling, "record_id")?
+        != "payment-integrity-historical-sampling-method-bridge:usda-federal-crop-insurance:fy2020"
+        || string_field(&historical_sampling, "record_family")?
+            != "federal_crop_insurance_historical_sampling_method_bridge"
+        || string_field(&historical_sampling, "status")?
+            != "draft_official_source_checksum_verified_historical_selection_method_component_closed_current_fields_open"
+        || historical_sampling
+            .get("source_ids")
+            .and_then(serde_json::Value::as_array)
+            .and_then(|ids| ids.as_slice().first())
+            .and_then(serde_json::Value::as_str)
+            != Some(FCIC_OIG_FS_FY2020_SOURCE_ID)
+    {
+        return Err("FCIC historical sampling-method identity or lineage failed".to_string());
+    }
+    let historical_custody = historical_sampling
+        .get("source_custody")
+        .ok_or("FCIC historical sampling-method source custody")?;
+    let historical_raw = root.join(FCIC_OIG_FS_FY2020_RAW_PATH);
+    if string_field(historical_custody, "raw_path")? != FCIC_OIG_FS_FY2020_RAW_PATH
+        || string_field(historical_custody, "checksum_sha256")?
+            != FCIC_OIG_FS_FY2020_RAW_SHA256.to_ascii_uppercase()
+        || int_field(historical_custody, "bytes")? != FCIC_OIG_FS_FY2020_RAW_BYTES as i64
+        || int_field(historical_custody, "evidence_printed_page")? != 66
+        || int_field(historical_custody, "evidence_pdf_file_page")? != 93
+        || int_field(historical_custody, "evidence_zero_based_viewer_index")? != 92
+        || fs::metadata(&historical_raw)
+            .map_err(|err| err.to_string())?
+            .len()
+            != FCIC_OIG_FS_FY2020_RAW_BYTES
+        || sha256_file(&historical_raw)? != FCIC_OIG_FS_FY2020_RAW_SHA256
+    {
+        return Err("FCIC historical sampling-method custody failed".to_string());
+    }
+    let historical_method = historical_sampling
+        .get("historical_disclosed_selection_method_component")
+        .ok_or("FCIC historical disclosed selection-method component")?;
+    let historical_categories = historical_method
+        .get("payment_categories_included")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC historical sampling-method payment categories")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    if string_field(historical_method, "reporting_period")? != "FY2020"
+        || int_field(historical_method, "sampling_reinsurance_year")? != 2018
+        || string_field(historical_method, "policy_selection_method")? != "simple random sample"
+        || historical_categories
+            != BTreeSet::from([
+                "administrative and operating subsidies",
+                "indemnity payments",
+                "premium subsidies",
+            ])
+        || string_field(historical_method, "source_section_audit_status")?
+            != "other_information_unaudited"
+    {
+        return Err("FCIC historical sampling-method facts failed".to_string());
+    }
+    for field in [
+        "statistically_valid_rate_estimate_disclosed",
+        "statistically_valid_dollar_estimate_disclosed",
+        "omb_approval_described_for_fy2017_and_beyond",
+    ] {
+        if historical_method
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        {
+            return Err(format!(
+                "FCIC historical sampling-method fact {field} failed"
+            ));
+        }
+    }
+    let historical_decision = historical_sampling
+        .get("component_decision")
+        .ok_or("FCIC historical sampling-method decision")?;
+    if string_field(historical_decision, "decision")? != "component_closed_internal_only"
+        || string_field(historical_decision, "decision_status")?
+            != "historical_component_closed_no_current_method_continuity_inference"
+        || historical_decision
+            .get("component_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("FCIC historical sampling-method decision failed".to_string());
+    }
+    for field in [
+        "current_sample_design_field_closed",
+        "current_estimation_method_field_closed",
+        "current_exclusion_rules_field_closed",
+        "continuity_to_fy2024_inference_allowed",
+        "public_claim_allowed",
+        "scoring_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if historical_decision
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "FCIC historical sampling decision must keep {field} false"
+            ));
+        }
+    }
+    let historical_boundary = historical_sampling
+        .get("current_program_boundary")
+        .ok_or("FCIC historical sampling current-program boundary")?;
+    if int_field(historical_boundary, "total_methodology_fields")? != 8
+        || int_field(historical_boundary, "closed_field_count")? != 4
+        || int_field(historical_boundary, "open_field_count")? != 4
+    {
+        return Err("FCIC historical sampling bridge must preserve 4/4 aggregate".to_string());
+    }
+    let historical_residuals = historical_sampling
+        .get("current_methodology_residuals")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC historical sampling current residuals")?;
+    if historical_residuals.len() != 10 {
+        return Err(format!(
+            "FCIC historical sampling bridge must retain 10 residuals, got {}",
+            historical_residuals.len()
+        ));
+    }
+    for field in [
+        "public_claim_allowed",
+        "scoring_allowed",
+        "fraud_claim_allowed",
+        "recovery_claim_allowed",
+        "prevention_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if historical_sampling
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "FCIC historical sampling bridge must keep {field} false"
+            ));
+        }
+    }
+    let historical_metadata = fs::read_to_string(root.join(FCIC_OIG_FS_FY2020_METADATA_PATH))
+        .map_err(|err| format!("failed to read {FCIC_OIG_FS_FY2020_METADATA_PATH}: {err}"))?;
+    for required in [
+        format!("| `source_id` | `{FCIC_OIG_FS_FY2020_SOURCE_ID}` |"),
+        format!("| `raw_path` | `{FCIC_OIG_FS_FY2020_RAW_PATH}` |"),
+        format!("| `bytes` | {FCIC_OIG_FS_FY2020_RAW_BYTES} |"),
+        format!(
+            "| `checksum_sha256` | `{}` |",
+            FCIC_OIG_FS_FY2020_RAW_SHA256.to_ascii_uppercase()
+        ),
+        "Printed page 66".to_string(),
+        "Other Information (Unaudited)".to_string(),
+    ] {
+        if !historical_metadata.contains(&required) {
+            return Err(format!(
+                "{FCIC_OIG_FS_FY2020_METADATA_PATH} missing {required}"
+            ));
+        }
+    }
+    let historical_reader = fs::read_to_string(
+        root.join(FCIC_HISTORICAL_SAMPLING_METHOD_BRIDGE_READER_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {FCIC_HISTORICAL_SAMPLING_METHOD_BRIDGE_READER_PATH}: {err}")
+    })?;
+    for required in [
+        FCIC_HISTORICAL_SAMPLING_METHOD_BRIDGE_JSON_PATH,
+        "simple random sample",
+        "FY2020",
+        "reinsurance year 2018",
+        "It does not support continuity to FY2024",
+        "closed fields and four open fields",
+        "Other Information (Unaudited)",
+        "No program score",
+    ] {
+        if !historical_reader.contains(required) {
+            return Err(format!(
+                "FCIC historical sampling reader missing {required}"
+            ));
+        }
+    }
+
+    let evidence_ceiling_text = fs::read_to_string(
+        root.join(FCIC_PUBLIC_METHODOLOGY_EVIDENCE_CEILING_JSON_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {FCIC_PUBLIC_METHODOLOGY_EVIDENCE_CEILING_JSON_PATH}: {err}")
+    })?;
+    let evidence_ceiling: serde_json::Value = serde_json::from_str(&evidence_ceiling_text)
+        .map_err(|err| {
+            format!("failed to parse {FCIC_PUBLIC_METHODOLOGY_EVIDENCE_CEILING_JSON_PATH}: {err}")
+        })?;
+    let evidence_ceiling_sources = evidence_ceiling
+        .get("source_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC public methodology evidence-ceiling source IDs")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    if string_field(&evidence_ceiling, "record_id")?
+        != "payment-integrity-public-methodology-evidence-ceiling:usda-federal-crop-insurance:fy2025"
+        || string_field(&evidence_ceiling, "record_family")?
+            != "federal_crop_insurance_public_methodology_evidence_ceiling"
+        || string_field(&evidence_ceiling, "status")?
+            != "draft_official_sources_checksum_verified_secure_plan_boundary_and_later_period_public_continuity_recorded_zero_field_closures"
+        || evidence_ceiling_sources
+            != BTreeSet::from([OMB_M_21_19_SOURCE_ID, FCIC_OIG_FS_FY2025_SOURCE_ID])
+    {
+        return Err("FCIC public methodology evidence-ceiling identity failed".to_string());
+    }
+    let ceiling_custody = evidence_ceiling
+        .get("source_custody")
+        .ok_or("FCIC public methodology evidence-ceiling custody")?;
+    let omb_custody = ceiling_custody
+        .get("omb_guidance")
+        .ok_or("FCIC public methodology OMB custody")?;
+    let fy2025_custody = ceiling_custody
+        .get("fy2025_fcic_report")
+        .ok_or("FCIC public methodology FY2025 custody")?;
+    let omb_raw = root.join(OMB_M_21_19_RAW_PATH);
+    let fy2025_raw = root.join(FCIC_OIG_FS_FY2025_RAW_PATH);
+    if string_field(omb_custody, "raw_path")? != OMB_M_21_19_RAW_PATH
+        || string_field(omb_custody, "checksum_sha256")?
+            != OMB_M_21_19_RAW_SHA256.to_ascii_uppercase()
+        || int_field(omb_custody, "bytes")? != OMB_M_21_19_RAW_BYTES as i64
+        || int_field(omb_custody, "point_estimate_requirement_printed_page")? != 17
+        || int_field(omb_custody, "secure_max_submission_printed_page")? != 18
+        || fs::metadata(&omb_raw).map_err(|err| err.to_string())?.len() != OMB_M_21_19_RAW_BYTES
+        || sha256_file(&omb_raw)? != OMB_M_21_19_RAW_SHA256
+    {
+        return Err("FCIC public methodology OMB custody failed".to_string());
+    }
+    if string_field(fy2025_custody, "raw_path")? != FCIC_OIG_FS_FY2025_RAW_PATH
+        || string_field(fy2025_custody, "checksum_sha256")?
+            != FCIC_OIG_FS_FY2025_RAW_SHA256.to_ascii_uppercase()
+        || int_field(fy2025_custody, "bytes")? != FCIC_OIG_FS_FY2025_RAW_BYTES as i64
+        || int_field(fy2025_custody, "public_method_description_printed_page")? != 17
+        || int_field(fy2025_custody, "payment_integrity_table_printed_page")? != 54
+        || fs::metadata(&fy2025_raw)
+            .map_err(|err| err.to_string())?
+            .len()
+            != FCIC_OIG_FS_FY2025_RAW_BYTES
+        || sha256_file(&fy2025_raw)? != FCIC_OIG_FS_FY2025_RAW_SHA256
+    {
+        return Err("FCIC public methodology FY2025 custody failed".to_string());
+    }
+    let plan_boundary = evidence_ceiling
+        .get("governing_plan_boundary")
+        .ok_or("FCIC governing plan boundary")?;
+    if string_field(
+        plan_boundary,
+        "sampling_and_estimation_methodology_plan_submission_channel",
+    )? != "agency secure MAX page"
+        || plan_boundary
+            .get("omb_requires_point_estimates")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || plan_boundary
+            .get("omb_requires_confidence_interval_estimates")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || plan_boundary
+            .get("fcic_plan_publicly_captured")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("FCIC governing secure-plan boundary failed".to_string());
+    }
+    let continuity = evidence_ceiling
+        .get("later_period_public_disclosure_continuity")
+        .ok_or("FCIC later-period public disclosure continuity")?;
+    let continuity_categories = continuity
+        .get("payment_categories_repeated")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC FY2025 repeated payment categories")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    let continuity_tiers = continuity
+        .get("aip_payment_tiers_repeated")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC FY2025 repeated AIP tiers")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    if continuity_categories
+        != BTreeSet::from([
+            "Administrative and Operating expense",
+            "indemnities",
+            "premium subsidy",
+        ])
+        || continuity_tiers != BTreeSet::from(["high", "low", "medium"])
+        || number_field(continuity, "fy2025_actual_improper_payment_rate_percent")? != 3.29
+        || string_field(continuity, "continuity_scope")? != "public description only"
+    {
+        return Err("FCIC FY2025 public-description continuity failed".to_string());
+    }
+    let ceiling_decision = evidence_ceiling
+        .get("evidence_ceiling_decision")
+        .ok_or("FCIC public methodology evidence-ceiling decision")?;
+    if string_field(ceiling_decision, "decision")? != "no_current_methodology_field_closure"
+        || int_field(ceiling_decision, "new_field_closures")? != 0
+    {
+        return Err("FCIC public methodology zero-closure decision failed".to_string());
+    }
+    for field in [
+        "current_sample_design_field_closed",
+        "current_estimation_method_field_closed",
+        "current_exclusion_rules_field_closed",
+        "recoverable_savings_basis_field_closed",
+        "fy2024_to_fy2025_undisclosed_method_identity_inference_allowed",
+    ] {
+        if ceiling_decision
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "FCIC public methodology decision must keep {field} false"
+            ));
+        }
+    }
+    let ceiling_boundary = evidence_ceiling
+        .get("current_program_boundary")
+        .ok_or("FCIC public methodology current-program boundary")?;
+    if int_field(ceiling_boundary, "total_methodology_fields")? != 8
+        || int_field(ceiling_boundary, "closed_field_count")? != 4
+        || int_field(ceiling_boundary, "open_field_count")? != 4
+    {
+        return Err("FCIC public methodology bridge must preserve 4/4 aggregate".to_string());
+    }
+    for field in [
+        "public_claim_allowed",
+        "scoring_allowed",
+        "fraud_claim_allowed",
+        "recovery_claim_allowed",
+        "prevention_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if evidence_ceiling
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "FCIC public methodology bridge must keep {field} false"
+            ));
+        }
+    }
+    for (metadata_path, source_id, raw_path, bytes, checksum, required) in [
+        (
+            OMB_M_21_19_METADATA_PATH,
+            OMB_M_21_19_SOURCE_ID,
+            OMB_M_21_19_RAW_PATH,
+            OMB_M_21_19_RAW_BYTES,
+            OMB_M_21_19_RAW_SHA256,
+            "secure MAX page",
+        ),
+        (
+            FCIC_OIG_FS_FY2025_METADATA_PATH,
+            FCIC_OIG_FS_FY2025_SOURCE_ID,
+            FCIC_OIG_FS_FY2025_RAW_PATH,
+            FCIC_OIG_FS_FY2025_RAW_BYTES,
+            FCIC_OIG_FS_FY2025_RAW_SHA256,
+            "3.29 percent",
+        ),
+    ] {
+        let metadata = fs::read_to_string(root.join(metadata_path))
+            .map_err(|err| format!("failed to read {metadata_path}: {err}"))?;
+        for expected in [
+            format!("| `source_id` | `{source_id}` |"),
+            format!("| `raw_path` | `{raw_path}` |"),
+            format!("| `bytes` | {bytes} |"),
+            format!(
+                "| `checksum_sha256` | `{}` |",
+                checksum.to_ascii_uppercase()
+            ),
+            "| `status` | `captured` |".to_string(),
+            required.to_string(),
+        ] {
+            if !metadata.contains(&expected) {
+                return Err(format!("{metadata_path} missing {expected}"));
+            }
+        }
+    }
+    let evidence_ceiling_reader =
+        fs::read_to_string(root.join(FCIC_PUBLIC_METHODOLOGY_EVIDENCE_CEILING_READER_PATH))
+            .map_err(|err| {
+                format!(
+                    "failed to read {FCIC_PUBLIC_METHODOLOGY_EVIDENCE_CEILING_READER_PATH}: {err}"
+                )
+            })?;
+    for required in [
+        FCIC_PUBLIC_METHODOLOGY_EVIDENCE_CEILING_JSON_PATH,
+        "secure MAX page",
+        "3.29 percent",
+        "closes zero current methodology fields",
+        "four closed fields",
+        "four open fields",
+        "No program score",
+    ] {
+        if !evidence_ceiling_reader.contains(required) {
+            return Err(format!("FCIC public methodology reader missing {required}"));
+        }
+    }
+
+    let recovery_boundary_text = fs::read_to_string(
+        root.join(FCIC_RECOVERY_LINEAGE_BOUNDARY_BRIDGE_JSON_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {FCIC_RECOVERY_LINEAGE_BOUNDARY_BRIDGE_JSON_PATH}: {err}")
+    })?;
+    let recovery_boundary: serde_json::Value = serde_json::from_str(&recovery_boundary_text)
+        .map_err(|err| {
+            format!("failed to parse {FCIC_RECOVERY_LINEAGE_BOUNDARY_BRIDGE_JSON_PATH}: {err}")
+        })?;
+    let recovery_sources = recovery_boundary
+        .get("source_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC recovery-lineage source IDs")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    if string_field(&recovery_boundary, "record_id")?
+        != "payment-integrity-recovery-lineage-boundary-bridge:usda-federal-crop-insurance:fy2024"
+        || string_field(&recovery_boundary, "record_family")?
+            != "federal_crop_insurance_recovery_lineage_boundary_bridge"
+        || string_field(&recovery_boundary, "status")?
+            != "draft_official_sources_checksum_verified_narrow_disposition_and_non_additivity_component_closed_recoverable_savings_field_open"
+        || recovery_sources
+            != BTreeSet::from([
+                FCIC_COM_23_SOURCE_ID,
+                FCIC_SCORECARD_SOURCE_ID,
+                FCIC_MANAGER_SEP_2023_SOURCE_ID,
+                FCIC_MANAGER_FEB_2024_SOURCE_ID,
+                FCIC_MANAGER_MAY_2024_SOURCE_ID,
+                FCIC_MANAGER_AUG_2024_SOURCE_ID,
+            ])
+    {
+        return Err("FCIC recovery-lineage identity or source lineage failed".to_string());
+    }
+    let recovery_custody = recovery_boundary
+        .get("source_custody")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC recovery-lineage source custody")?;
+    if recovery_custody.len() != 4 {
+        return Err("FCIC recovery-lineage custody must contain four reports".to_string());
+    }
+    for (source_id, raw_path, bytes, checksum, page) in [
+        (
+            FCIC_MANAGER_SEP_2023_SOURCE_ID,
+            FCIC_MANAGER_SEP_2023_RAW_PATH,
+            FCIC_MANAGER_SEP_2023_RAW_BYTES,
+            FCIC_MANAGER_SEP_2023_RAW_SHA256,
+            5,
+        ),
+        (
+            FCIC_MANAGER_FEB_2024_SOURCE_ID,
+            FCIC_MANAGER_FEB_2024_RAW_PATH,
+            FCIC_MANAGER_FEB_2024_RAW_BYTES,
+            FCIC_MANAGER_FEB_2024_RAW_SHA256,
+            3,
+        ),
+        (
+            FCIC_MANAGER_MAY_2024_SOURCE_ID,
+            FCIC_MANAGER_MAY_2024_RAW_PATH,
+            FCIC_MANAGER_MAY_2024_RAW_BYTES,
+            FCIC_MANAGER_MAY_2024_RAW_SHA256,
+            5,
+        ),
+        (
+            FCIC_MANAGER_AUG_2024_SOURCE_ID,
+            FCIC_MANAGER_AUG_2024_RAW_PATH,
+            FCIC_MANAGER_AUG_2024_RAW_BYTES,
+            FCIC_MANAGER_AUG_2024_RAW_SHA256,
+            5,
+        ),
+    ] {
+        let custody = recovery_custody
+            .iter()
+            .find(|row| row.get("source_id").and_then(serde_json::Value::as_str) == Some(source_id))
+            .ok_or_else(|| format!("missing FCIC recovery custody for {source_id}"))?;
+        let raw = root.join(raw_path);
+        if string_field(custody, "raw_path")? != raw_path
+            || string_field(custody, "checksum_sha256")? != checksum.to_ascii_uppercase()
+            || int_field(custody, "bytes")? != bytes as i64
+            || int_field(custody, "evidence_pdf_file_page")? != page
+            || fs::metadata(&raw).map_err(|err| err.to_string())?.len() != bytes
+            || sha256_file(&raw)? != checksum
+        {
+            return Err(format!("FCIC recovery custody failed for {source_id}"));
+        }
+    }
+    let disposition_chain = recovery_boundary
+        .get("same_period_sample_disposition_chain")
+        .ok_or("FCIC same-period sample disposition chain")?;
+    if string_field(disposition_chain, "reporting_period")? != "FY2024"
+        || int_field(disposition_chain, "sampling_reinsurance_year")? != 2022
+        || int_field(disposition_chain, "sample_policy_count")? != 326
+        || int_field(
+            disposition_chain,
+            "september_2023_no_improper_payment_closures",
+        )? != 116
+        || int_field(
+            disposition_chain,
+            "february_2024_approximate_completed_and_closed_reviews",
+        )? != 289
+        || number_field(disposition_chain, "august_2024_reported_error_rate_percent")? != 2.43
+    {
+        return Err("FCIC same-period sample disposition facts failed".to_string());
+    }
+    for field in [
+        "may_2024_review_complete_rate_calculation_pending",
+        "august_2024_review_complete",
+    ] {
+        if disposition_chain
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        {
+            return Err(format!("FCIC sample disposition fact {field} failed"));
+        }
+    }
+    let amount_classes = recovery_boundary
+        .get("published_amount_classification")
+        .ok_or("FCIC published amount classification")?;
+    for class_name in [
+        "manager_report_general_compliance_findings",
+        "manager_report_criminal_recoveries_and_judgments",
+    ] {
+        let class = amount_classes
+            .get(class_name)
+            .ok_or_else(|| format!("missing FCIC amount class {class_name}"))?;
+        if class
+            .get("separate_heading_from_iperia_sample")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+            || class
+                .get("attributed_to_326_policy_sample")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+            || class
+                .get("usable_as_sample_recovery_amount")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+        {
+            return Err(format!(
+                "FCIC amount-class boundary failed for {class_name}"
+            ));
+        }
+    }
+    if amount_classes
+        .get("sample_specific_dollar_dispositions_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(false)
+    {
+        return Err("FCIC sample-specific dollar disposition must remain false".to_string());
+    }
+    let recovery_decision = recovery_boundary
+        .get("component_decision")
+        .ok_or("FCIC recovery-lineage component decision")?;
+    if string_field(recovery_decision, "decision")? != "component_closed_internal_only"
+        || string_field(recovery_decision, "decision_status")?
+            != "narrow_disposition_and_non_additivity_component_closed_full_recoverable_savings_field_open"
+        || recovery_decision
+            .get("component_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || recovery_decision
+            .get("recoverable_savings_basis_field_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || int_field(recovery_decision, "new_methodology_field_closures")? != 0
+    {
+        return Err("FCIC recovery-lineage narrow component decision failed".to_string());
+    }
+    let recovery_residuals = recovery_boundary
+        .get("recoverable_savings_residuals")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC recoverable-savings residuals")?;
+    if recovery_residuals.len() != 9 {
+        return Err(format!(
+            "FCIC recovery-lineage bridge must retain 9 residuals, got {}",
+            recovery_residuals.len()
+        ));
+    }
+    let recovery_program_boundary = recovery_boundary
+        .get("current_program_boundary")
+        .ok_or("FCIC recovery-lineage current-program boundary")?;
+    if int_field(recovery_program_boundary, "total_methodology_fields")? != 8
+        || int_field(recovery_program_boundary, "closed_field_count")? != 4
+        || int_field(recovery_program_boundary, "open_field_count")? != 4
+        || string_field(
+            recovery_program_boundary,
+            "recoverable_savings_basis_status",
+        )? != "open"
+    {
+        return Err("FCIC recovery-lineage bridge must preserve 4/4 aggregate".to_string());
+    }
+    for field in [
+        "public_claim_allowed",
+        "scoring_allowed",
+        "fraud_claim_allowed",
+        "recovery_claim_allowed",
+        "prevention_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if recovery_boundary
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "FCIC recovery-lineage bridge must keep {field} false"
+            ));
+        }
+    }
+    for (metadata_path, source_id, raw_path, bytes, checksum, required) in [
+        (
+            FCIC_MANAGER_SEP_2023_METADATA_PATH,
+            FCIC_MANAGER_SEP_2023_SOURCE_ID,
+            FCIC_MANAGER_SEP_2023_RAW_PATH,
+            FCIC_MANAGER_SEP_2023_RAW_BYTES,
+            FCIC_MANAGER_SEP_2023_RAW_SHA256,
+            "116 of the 326",
+        ),
+        (
+            FCIC_MANAGER_FEB_2024_METADATA_PATH,
+            FCIC_MANAGER_FEB_2024_SOURCE_ID,
+            FCIC_MANAGER_FEB_2024_RAW_PATH,
+            FCIC_MANAGER_FEB_2024_RAW_BYTES,
+            FCIC_MANAGER_FEB_2024_RAW_SHA256,
+            "Final Findings",
+        ),
+        (
+            FCIC_MANAGER_MAY_2024_METADATA_PATH,
+            FCIC_MANAGER_MAY_2024_SOURCE_ID,
+            FCIC_MANAGER_MAY_2024_RAW_PATH,
+            FCIC_MANAGER_MAY_2024_RAW_BYTES,
+            FCIC_MANAGER_MAY_2024_RAW_SHA256,
+            "still being calculated",
+        ),
+        (
+            FCIC_MANAGER_AUG_2024_METADATA_PATH,
+            FCIC_MANAGER_AUG_2024_SOURCE_ID,
+            FCIC_MANAGER_AUG_2024_RAW_PATH,
+            FCIC_MANAGER_AUG_2024_RAW_BYTES,
+            FCIC_MANAGER_AUG_2024_RAW_SHA256,
+            "2.43 percent",
+        ),
+    ] {
+        let metadata = fs::read_to_string(root.join(metadata_path))
+            .map_err(|err| format!("failed to read {metadata_path}: {err}"))?;
+        for expected in [
+            format!("| `source_id` | `{source_id}` |"),
+            format!("| `raw_path` | `{raw_path}` |"),
+            format!("| `bytes` | {bytes} |"),
+            format!(
+                "| `checksum_sha256` | `{}` |",
+                checksum.to_ascii_uppercase()
+            ),
+            "| `status` | `captured` |".to_string(),
+            required.to_string(),
+        ] {
+            if !metadata.contains(&expected) {
+                return Err(format!("{metadata_path} missing {expected}"));
+            }
+        }
+    }
+    let recovery_reader = fs::read_to_string(
+        root.join(FCIC_RECOVERY_LINEAGE_BOUNDARY_BRIDGE_READER_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {FCIC_RECOVERY_LINEAGE_BOUNDARY_BRIDGE_READER_PATH}: {err}")
+    })?;
+    for required in [
+        FCIC_RECOVERY_LINEAGE_BOUNDARY_BRIDGE_JSON_PATH,
+        "116 cases",
+        "approximately 289",
+        "Initial Finding",
+        "2.43-percent",
+        "separate headings",
+        "four closed",
+        "four open",
+        "No program score",
+    ] {
+        if !recovery_reader.contains(required) {
+            return Err(format!("FCIC recovery-lineage reader missing {required}"));
+        }
+    }
+
+    let appeal_governance_text =
+        fs::read_to_string(root.join(FCIC_APPEAL_COLLECTIBILITY_GOVERNANCE_BRIDGE_JSON_PATH))
+            .map_err(|err| {
+                format!(
+                    "failed to read {FCIC_APPEAL_COLLECTIBILITY_GOVERNANCE_BRIDGE_JSON_PATH}: {err}"
+                )
+            })?;
+    let appeal_governance: serde_json::Value = serde_json::from_str(&appeal_governance_text)
+        .map_err(|err| {
+            format!(
+                "failed to parse {FCIC_APPEAL_COLLECTIBILITY_GOVERNANCE_BRIDGE_JSON_PATH}: {err}"
+            )
+        })?;
+    let appeal_sources = appeal_governance
+        .get("source_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC appeal-governance source IDs")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    if string_field(&appeal_governance, "record_id")?
+        != "payment-integrity-appeal-collectibility-governance-bridge:usda-federal-crop-insurance:fy2024"
+        || string_field(&appeal_governance, "record_family")?
+            != "federal_crop_insurance_appeal_collectibility_governance_bridge"
+        || string_field(&appeal_governance, "status")?
+            != "draft_official_sources_checksum_verified_narrow_appeal_and_contractual_collection_governance_component_closed_recoverable_savings_field_open"
+        || appeal_sources
+            != BTreeSet::from([
+                FCIC_COM_16_002_SOURCE_ID,
+                FCIC_COM_16_004_SOURCE_ID,
+                FCIC_SRA_2022_SOURCE_ID,
+            ])
+        || string_field(&appeal_governance, "upstream_artifact")?
+            != FCIC_RECOVERY_LINEAGE_BOUNDARY_BRIDGE_JSON_PATH
+    {
+        return Err("FCIC appeal-governance identity or source lineage failed".to_string());
+    }
+    let appeal_custody = appeal_governance
+        .get("source_custody")
+        .ok_or("FCIC appeal-governance source custody")?;
+    for (key, raw_path, bytes, checksum) in [
+        (
+            "com_16_002",
+            FCIC_COM_16_002_RAW_PATH,
+            FCIC_COM_16_002_RAW_BYTES,
+            FCIC_COM_16_002_RAW_SHA256,
+        ),
+        (
+            "com_16_004",
+            FCIC_COM_16_004_RAW_PATH,
+            FCIC_COM_16_004_RAW_BYTES,
+            FCIC_COM_16_004_RAW_SHA256,
+        ),
+        (
+            "sra_2022",
+            FCIC_SRA_2022_RAW_PATH,
+            FCIC_SRA_2022_RAW_BYTES,
+            FCIC_SRA_2022_RAW_SHA256,
+        ),
+    ] {
+        let custody = appeal_custody
+            .get(key)
+            .ok_or_else(|| format!("missing FCIC appeal custody {key}"))?;
+        let raw = root.join(raw_path);
+        if string_field(custody, "raw_path")? != raw_path
+            || string_field(custody, "checksum_sha256")? != checksum.to_ascii_uppercase()
+            || int_field(custody, "bytes")? != bytes as i64
+            || fs::metadata(&raw).map_err(|err| err.to_string())?.len() != bytes
+            || sha256_file(&raw)? != checksum
+        {
+            return Err(format!("FCIC appeal-governance custody failed for {key}"));
+        }
+    }
+    let sra_appeal_custody = appeal_custody
+        .get("sra_2022")
+        .ok_or("FCIC appeal-governance SRA custody")?;
+    if int_field(sra_appeal_custody, "debt_notice_printed_page")? != 28
+        || int_field(sra_appeal_custody, "debt_notice_pdf_file_page")? != 30
+        || int_field(sra_appeal_custody, "interest_mechanics_printed_page")? != 34
+        || int_field(sra_appeal_custody, "interest_mechanics_pdf_file_page")? != 36
+        || int_field(sra_appeal_custody, "dispute_and_appeal_printed_page")? != 42
+        || int_field(sra_appeal_custody, "dispute_and_appeal_pdf_file_page")? != 45
+    {
+        return Err("FCIC appeal-governance SRA page mapping failed".to_string());
+    }
+    let governance_chain = appeal_governance
+        .get("published_governance_chain")
+        .ok_or("FCIC published appeal-governance chain")?;
+    if int_field(
+        governance_chain,
+        "aip_final_administrative_determination_request_deadline_days",
+    )? != 45
+    {
+        return Err("FCIC appeal-governance deadline failed".to_string());
+    }
+    for field in [
+        "final_finding_uploaded_to_cars",
+        "cars_upload_date_is_receipt_date",
+        "aip_must_identify_disputed_provisions",
+        "aip_must_explain_asserted_error",
+        "aip_must_submit_rebuttal_evidence",
+        "sra_requires_timely_written_notice_when_review_reveals_company_debt",
+        "appeal_does_not_delay_interest_accrual_on_a_written_specific_amount",
+        "final_administrative_decision_required_before_judicial_review",
+        "fcic_may_waive_reduce_or_delay_repayment_for_program_delivery",
+        "fcic_setoff_authority_published",
+        "setoff_preserves_administrative_appeal",
+        "unpaid_amounts_may_be_set_off_across_reinsurance_years_with_interest",
+    ] {
+        if governance_chain
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        {
+            return Err(format!("FCIC appeal-governance fact {field} failed"));
+        }
+    }
+    let appeal_decision = appeal_governance
+        .get("component_decision")
+        .ok_or("FCIC appeal-governance component decision")?;
+    if string_field(appeal_decision, "decision")? != "component_closed_internal_only"
+        || string_field(appeal_decision, "decision_status")?
+            != "narrow_appeal_and_contractual_collection_governance_component_closed_full_collectibility_and_recoverable_savings_fields_open"
+        || appeal_decision
+            .get("component_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || appeal_decision
+            .get("recoverable_savings_basis_field_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || appeal_decision
+            .get("sample_specific_collectibility_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || int_field(appeal_decision, "new_methodology_field_closures")? != 0
+    {
+        return Err("FCIC appeal-governance narrow component decision failed".to_string());
+    }
+    let state_transitions = appeal_governance
+        .get("state_transition_boundary")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC appeal-governance state transitions")?;
+    if state_transitions.len() != 3
+        || state_transitions[0]
+            .get("automatically_final_collectible_debt")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || state_transitions[1]
+            .get("automatically_cash_collected")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || state_transitions[2]
+            .get("automatically_final_without_appeal")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("FCIC appeal-governance state-transition boundary failed".to_string());
+    }
+    let appeal_residuals = appeal_governance
+        .get("recoverable_savings_residuals")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC appeal-governance residuals")?;
+    if appeal_residuals.len() != 8 {
+        return Err(format!(
+            "FCIC appeal-governance bridge must retain 8 residuals, got {}",
+            appeal_residuals.len()
+        ));
+    }
+    let appeal_program_boundary = appeal_governance
+        .get("current_program_boundary")
+        .ok_or("FCIC appeal-governance current-program boundary")?;
+    if int_field(appeal_program_boundary, "total_methodology_fields")? != 8
+        || int_field(appeal_program_boundary, "closed_field_count")? != 4
+        || int_field(appeal_program_boundary, "open_field_count")? != 4
+        || string_field(appeal_program_boundary, "recoverable_savings_basis_status")? != "open"
+    {
+        return Err("FCIC appeal-governance bridge must preserve 4/4 aggregate".to_string());
+    }
+    for field in [
+        "public_claim_allowed",
+        "scoring_allowed",
+        "fraud_claim_allowed",
+        "recovery_claim_allowed",
+        "prevention_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if appeal_governance
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "FCIC appeal-governance bridge must keep {field} false"
+            ));
+        }
+    }
+    for (metadata_path, source_id, raw_path, bytes, checksum, required) in [
+        (
+            FCIC_COM_16_002_METADATA_PATH,
+            FCIC_COM_16_002_SOURCE_ID,
+            FCIC_COM_16_002_RAW_PATH,
+            FCIC_COM_16_002_RAW_BYTES,
+            FCIC_COM_16_002_RAW_SHA256,
+            "case-policy document library in CARS",
+        ),
+        (
+            FCIC_COM_16_004_METADATA_PATH,
+            FCIC_COM_16_004_SOURCE_ID,
+            FCIC_COM_16_004_RAW_PATH,
+            FCIC_COM_16_004_RAW_BYTES,
+            FCIC_COM_16_004_RAW_SHA256,
+            "within 45 days",
+        ),
+    ] {
+        let metadata = fs::read_to_string(root.join(metadata_path))
+            .map_err(|err| format!("failed to read {metadata_path}: {err}"))?;
+        for expected in [
+            format!("| `source_id` | `{source_id}` |"),
+            format!("| `raw_path` | `{raw_path}` |"),
+            format!("| `bytes` | {bytes} |"),
+            format!(
+                "| `checksum_sha256` | `{}` |",
+                checksum.to_ascii_uppercase()
+            ),
+            "| `status` | `captured` |".to_string(),
+            required.to_string(),
+        ] {
+            if !metadata.contains(&expected) {
+                return Err(format!("{metadata_path} missing {expected}"));
+            }
+        }
+    }
+    let appeal_reader = fs::read_to_string(
+        root.join(FCIC_APPEAL_COLLECTIBILITY_GOVERNANCE_BRIDGE_READER_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {FCIC_APPEAL_COLLECTIBILITY_GOVERNANCE_BRIDGE_READER_PATH}: {err}")
+    })?;
+    for required in [
+        FCIC_APPEAL_COLLECTIBILITY_GOVERNANCE_BRIDGE_JSON_PATH,
+        "45-day",
+        "rebuttal evidence",
+        "waive, reduce, or delay",
+        "Interest",
+        "final collectible debt",
+        "four closed",
+        "four open",
+        "No program score",
+    ] {
+        if !appeal_reader.contains(required) {
+            return Err(format!("FCIC appeal-governance reader missing {required}"));
+        }
+    }
+
+    let cohort_ceiling_text =
+        fs::read_to_string(root.join(FCIC_PUBLIC_COHORT_OUTCOME_EVIDENCE_CEILING_JSON_PATH))
+            .map_err(|err| {
+                format!(
+                    "failed to read {FCIC_PUBLIC_COHORT_OUTCOME_EVIDENCE_CEILING_JSON_PATH}: {err}"
+                )
+            })?;
+    let cohort_ceiling: serde_json::Value =
+        serde_json::from_str(&cohort_ceiling_text).map_err(|err| {
+            format!(
+                "failed to parse {FCIC_PUBLIC_COHORT_OUTCOME_EVIDENCE_CEILING_JSON_PATH}: {err}"
+            )
+        })?;
+    let cohort_sources = cohort_ceiling
+        .get("source_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC cohort-outcome ceiling source IDs")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    if string_field(&cohort_ceiling, "record_id")?
+        != "payment-integrity-public-cohort-outcome-evidence-ceiling:usda-federal-crop-insurance:fy2024"
+        || string_field(&cohort_ceiling, "record_family")?
+            != "federal_crop_insurance_public_cohort_outcome_evidence_ceiling"
+        || string_field(&cohort_ceiling, "status")?
+            != "draft_official_sources_checksum_verified_narrow_public_reporting_continuity_and_search_ceiling_recorded_zero_full_field_closures"
+        || cohort_sources
+            != BTreeSet::from([
+                FCIC_MANAGER_SEP_2024_SOURCE_ID,
+                FCIC_MANAGER_NOV_2024_SOURCE_ID,
+            ])
+        || string_field(&cohort_ceiling, "upstream_artifact")?
+            != FCIC_APPEAL_COLLECTIBILITY_GOVERNANCE_BRIDGE_JSON_PATH
+    {
+        return Err("FCIC cohort-outcome ceiling identity or lineage failed".to_string());
+    }
+    let cohort_custody = cohort_ceiling
+        .get("source_custody")
+        .ok_or("FCIC cohort-outcome source custody")?;
+    for (key, raw_path, bytes, checksum, page) in [
+        (
+            "september_2024_manager_report",
+            FCIC_MANAGER_SEP_2024_RAW_PATH,
+            FCIC_MANAGER_SEP_2024_RAW_BYTES,
+            FCIC_MANAGER_SEP_2024_RAW_SHA256,
+            2,
+        ),
+        (
+            "november_2024_manager_report",
+            FCIC_MANAGER_NOV_2024_RAW_PATH,
+            FCIC_MANAGER_NOV_2024_RAW_BYTES,
+            FCIC_MANAGER_NOV_2024_RAW_SHA256,
+            3,
+        ),
+    ] {
+        let custody = cohort_custody
+            .get(key)
+            .ok_or_else(|| format!("missing FCIC cohort-outcome custody {key}"))?;
+        let raw = root.join(raw_path);
+        if string_field(custody, "raw_path")? != raw_path
+            || string_field(custody, "checksum_sha256")? != checksum.to_ascii_uppercase()
+            || int_field(custody, "bytes")? != bytes as i64
+            || int_field(custody, "evidence_pdf_file_page")? != page
+            || fs::metadata(&raw).map_err(|err| err.to_string())?.len() != bytes
+            || sha256_file(&raw)? != checksum
+        {
+            return Err(format!("FCIC cohort-outcome custody failed for {key}"));
+        }
+    }
+    let archive = cohort_ceiling
+        .get("public_archive_sequence")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC cohort-outcome public archive sequence")?;
+    if archive.len() != 3
+        || int_field(&archive[0], "fiscal_year")? != 2024
+        || int_field(&archive[0], "reinsurance_year")? != 2022
+        || int_field(&archive[0], "sample_policy_count")? != 326
+        || int_field(&archive[1], "fiscal_year")? != 2025
+        || int_field(&archive[1], "reinsurance_year")? != 2023
+        || int_field(&archive[1], "sample_policy_count")? != 388
+        || int_field(&archive[1], "closed_with_no_improper_payments_identified")? != 75
+        || int_field(&archive[2], "sample_policy_count")? != 388
+        || int_field(&archive[2], "completed_and_closed_reviews")? != 237
+        || string_field(&archive[2], "initial_findings_deadline")? != "2024-12-20"
+    {
+        return Err("FCIC cohort-outcome archive transition failed".to_string());
+    }
+    let transition = cohort_ceiling
+        .get("cohort_transition")
+        .ok_or("FCIC cohort transition")?;
+    if transition
+        .get("transition_observed_after_rate_publication")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+        || transition
+            .get("later_reports_return_to_prior_cohort_outcomes")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("FCIC cohort transition boundary failed".to_string());
+    }
+    let ordinary_boundary = cohort_ceiling
+        .get("ordinary_compliance_reporting_boundary")
+        .ok_or("FCIC ordinary compliance reporting boundary")?;
+    for field in [
+        "attributed_to_fy2024_ry2022_sample",
+        "attributed_to_fy2025_ry2023_sample",
+        "may_be_combined_with_sample_findings_or_outcomes",
+        "may_be_used_as_sample_recovery_or_savings",
+    ] {
+        if ordinary_boundary
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!("FCIC ordinary-compliance boundary {field} failed"));
+        }
+    }
+    let cohort_decision = cohort_ceiling
+        .get("public_search_ceiling_decision")
+        .ok_or("FCIC cohort-outcome ceiling decision")?;
+    if string_field(cohort_decision, "decision")? != "component_closed_internal_only"
+        || string_field(cohort_decision, "decision_status")?
+            != "narrow_public_reporting_continuity_and_search_ceiling_closed_full_recoverable_savings_field_open"
+        || cohort_decision
+            .get("recoverable_savings_basis_field_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || cohort_decision
+            .get("sample_specific_collectibility_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || int_field(cohort_decision, "new_methodology_field_closures")? != 0
+    {
+        return Err("FCIC cohort-outcome ceiling decision failed".to_string());
+    }
+    let unavailable = cohort_ceiling
+        .get("unavailable_fy2024_cohort_fields")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC unavailable FY2024 cohort fields")?;
+    if unavailable.len() != 11 {
+        return Err(format!(
+            "FCIC cohort-outcome ceiling must retain 11 unavailable fields, got {}",
+            unavailable.len()
+        ));
+    }
+    let cohort_program_boundary = cohort_ceiling
+        .get("current_program_boundary")
+        .ok_or("FCIC cohort-outcome current-program boundary")?;
+    if int_field(cohort_program_boundary, "total_methodology_fields")? != 8
+        || int_field(cohort_program_boundary, "closed_field_count")? != 4
+        || int_field(cohort_program_boundary, "open_field_count")? != 4
+        || string_field(cohort_program_boundary, "recoverable_savings_basis_status")? != "open"
+    {
+        return Err("FCIC cohort-outcome ceiling must preserve 4/4 aggregate".to_string());
+    }
+    for field in [
+        "public_claim_allowed",
+        "scoring_allowed",
+        "fraud_claim_allowed",
+        "debt_claim_allowed",
+        "collectibility_claim_allowed",
+        "recovery_claim_allowed",
+        "prevention_claim_allowed",
+        "control_cost_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if cohort_ceiling
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "FCIC cohort-outcome ceiling must keep {field} false"
+            ));
+        }
+    }
+    for (metadata_path, source_id, raw_path, bytes, checksum, required) in [
+        (
+            FCIC_MANAGER_SEP_2024_METADATA_PATH,
+            FCIC_MANAGER_SEP_2024_SOURCE_ID,
+            FCIC_MANAGER_SEP_2024_RAW_PATH,
+            FCIC_MANAGER_SEP_2024_RAW_BYTES,
+            FCIC_MANAGER_SEP_2024_RAW_SHA256,
+            "75 cases closed with no",
+        ),
+        (
+            FCIC_MANAGER_NOV_2024_METADATA_PATH,
+            FCIC_MANAGER_NOV_2024_SOURCE_ID,
+            FCIC_MANAGER_NOV_2024_RAW_PATH,
+            FCIC_MANAGER_NOV_2024_RAW_BYTES,
+            FCIC_MANAGER_NOV_2024_RAW_SHA256,
+            "237 reviews completed",
+        ),
+    ] {
+        let metadata = fs::read_to_string(root.join(metadata_path))
+            .map_err(|err| format!("failed to read {metadata_path}: {err}"))?;
+        for expected in [
+            format!("| `source_id` | `{source_id}` |"),
+            format!("| `raw_path` | `{raw_path}` |"),
+            format!("| `bytes` | {bytes} |"),
+            format!(
+                "| `checksum_sha256` | `{}` |",
+                checksum.to_ascii_uppercase()
+            ),
+            "| `status` | `captured` |".to_string(),
+            required.to_string(),
+        ] {
+            if !metadata.contains(&expected) {
+                return Err(format!("{metadata_path} missing {expected}"));
+            }
+        }
+    }
+    let cohort_reader = fs::read_to_string(
+        root.join(FCIC_PUBLIC_COHORT_OUTCOME_EVIDENCE_CEILING_READER_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {FCIC_PUBLIC_COHORT_OUTCOME_EVIDENCE_CEILING_READER_PATH}: {err}")
+    })?;
+    for required in [
+        FCIC_PUBLIC_COHORT_OUTCOME_EVIDENCE_CEILING_JSON_PATH,
+        "388-policy",
+        "75 policies",
+        "237",
+        "separate",
+        "four closed",
+        "four open",
+        "authorized CARS/AIP export",
+        "No program score",
+    ] {
+        if !cohort_reader.contains(required) {
+            return Err(format!("FCIC cohort-outcome reader missing {required}"));
+        }
+    }
+
+    let request_spec_text =
+        fs::read_to_string(root.join(FCIC_COHORT_DISPOSITION_REQUEST_SPEC_JSON_PATH)).map_err(
+            |err| format!("failed to read {FCIC_COHORT_DISPOSITION_REQUEST_SPEC_JSON_PATH}: {err}"),
+        )?;
+    let request_spec: serde_json::Value =
+        serde_json::from_str(&request_spec_text).map_err(|err| {
+            format!("failed to parse {FCIC_COHORT_DISPOSITION_REQUEST_SPEC_JSON_PATH}: {err}")
+        })?;
+    let request_sources = request_spec
+        .get("source_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC cohort-disposition request source IDs")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    if string_field(&request_spec, "record_id")?
+        != "payment-integrity-cohort-disposition-request-specification:usda-federal-crop-insurance:fy2024"
+        || string_field(&request_spec, "record_family")?
+            != "federal_crop_insurance_cohort_disposition_request_specification"
+        || string_field(&request_spec, "status")?
+            != "draft_not_submitted_existing_records_only_privacy_aware_request_specification"
+        || string_field(&request_spec, "submission_status")?
+            != "draft_not_submitted_user_authorization_required"
+        || request_sources
+            != BTreeSet::from([
+                RMA_FOIA_SOURCE_ID,
+                USCODE_7_1502_SOURCE_ID,
+                ECFR_7_CFR_1_SOURCE_ID,
+                FCIC_COM_16_002_SOURCE_ID,
+            ])
+        || string_field(&request_spec, "upstream_artifact")?
+            != FCIC_PUBLIC_COHORT_OUTCOME_EVIDENCE_CEILING_JSON_PATH
+        || request_spec
+            .get("external_action_executed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || request_spec
+            .get("fee_commitment_executed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err(
+            "FCIC cohort-disposition request identity or submission gate failed".to_string(),
+        );
+    }
+    let request_custody = request_spec
+        .get("source_custody")
+        .ok_or("FCIC cohort-disposition request source custody")?;
+    for (key, raw_path, bytes, checksum) in [
+        (
+            "rma_foia_page",
+            RMA_FOIA_RAW_PATH,
+            RMA_FOIA_RAW_BYTES,
+            RMA_FOIA_RAW_SHA256,
+        ),
+        (
+            "us_code_7_1502",
+            USCODE_7_1502_RAW_PATH,
+            USCODE_7_1502_RAW_BYTES,
+            USCODE_7_1502_RAW_SHA256,
+        ),
+        (
+            "ecfr_7_cfr_1_subpart_a",
+            ECFR_7_CFR_1_RAW_PATH,
+            ECFR_7_CFR_1_RAW_BYTES,
+            ECFR_7_CFR_1_RAW_SHA256,
+        ),
+    ] {
+        let custody = request_custody
+            .get(key)
+            .ok_or_else(|| format!("missing FCIC request custody {key}"))?;
+        let raw = root.join(raw_path);
+        if string_field(custody, "raw_path")? != raw_path
+            || string_field(custody, "checksum_sha256")? != checksum.to_ascii_uppercase()
+            || int_field(custody, "bytes")? != bytes as i64
+            || fs::metadata(&raw).map_err(|err| err.to_string())?.len() != bytes
+            || sha256_file(&raw)? != checksum
+        {
+            return Err(format!(
+                "FCIC cohort-disposition request custody failed for {key}"
+            ));
+        }
+    }
+    let request_channel = request_spec
+        .get("request_channel")
+        .ok_or("FCIC request channel")?;
+    if string_field(request_channel, "email")? != "SM.FP.FOIA@usda.gov"
+        || string_field(request_channel, "service_center_phone")? != "202-690-3041"
+        || string_field(request_channel, "public_liaison_phone")? != "202-260-8252"
+        || !string_field(request_channel, "submission_channel_rule")?.contains("do not duplicate")
+    {
+        return Err("FCIC cohort-disposition request channel failed".to_string());
+    }
+    let request_scope = request_spec
+        .get("request_scope")
+        .ok_or("FCIC cohort-disposition request scope")?;
+    if request_scope
+        .get("records_only_not_questions")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+        || request_scope
+            .get("existing_records_only")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || request_scope
+            .get("new_record_creation_requested")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || string_field(request_scope, "cohort")?
+            != "FY2024 reporting period/Reinsurance Year 2022/326 selected policies"
+        || string_field(request_scope, "date_start")? != "2023-04-01"
+        || string_field(request_scope, "date_end")? != "date the agency performs its search"
+    {
+        return Err("FCIC cohort-disposition request scope failed".to_string());
+    }
+    let requested_fields = request_spec
+        .get("requested_fields")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC cohort-disposition requested fields")?;
+    if requested_fields.len() != 13 {
+        return Err(format!(
+            "FCIC cohort-disposition request must retain 13 field groups, got {}",
+            requested_fields.len()
+        ));
+    }
+    let privacy = request_spec
+        .get("privacy_and_segregability")
+        .ok_or("FCIC request privacy and segregability")?;
+    for field in [
+        "accept_deidentified_row_level_existing_record",
+        "accept_statistical_or_aggregate_existing_record",
+        "request_reasonably_segregable_nonexempt_portions",
+    ] {
+        if privacy.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("FCIC request privacy field {field} failed"));
+        }
+    }
+    if !string_field(privacy, "statutory_boundary")?.contains("1502(c)(2)(A)")
+        || !string_field(privacy, "non_guarantee")?.contains("does not require creation")
+    {
+        return Err("FCIC request statutory disclosure boundary failed".to_string());
+    }
+    let request_decision = request_spec
+        .get("decision")
+        .ok_or("FCIC cohort-disposition request decision")?;
+    if string_field(request_decision, "decision_status")?
+        != "request_specification_complete_submission_blocked_pending_owner_authorization"
+        || request_decision
+            .get("submission_allowed_by_this_artifact")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || int_field(request_decision, "new_methodology_field_closures")? != 0
+        || request_decision
+            .get("recoverable_savings_basis_field_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("FCIC cohort-disposition request decision failed".to_string());
+    }
+    let request_program_boundary = request_spec
+        .get("current_program_boundary")
+        .ok_or("FCIC request current-program boundary")?;
+    if int_field(request_program_boundary, "total_methodology_fields")? != 8
+        || int_field(request_program_boundary, "closed_field_count")? != 4
+        || int_field(request_program_boundary, "open_field_count")? != 4
+    {
+        return Err("FCIC cohort-disposition request must preserve 4/4 aggregate".to_string());
+    }
+    for field in [
+        "public_claim_allowed",
+        "scoring_allowed",
+        "fraud_claim_allowed",
+        "debt_claim_allowed",
+        "collectibility_claim_allowed",
+        "recovery_claim_allowed",
+        "prevention_claim_allowed",
+        "control_cost_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if request_spec.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "FCIC cohort-disposition request must keep {field} false"
+            ));
+        }
+    }
+    for (metadata_path, source_id, raw_path, bytes, checksum, required) in [
+        (
+            RMA_FOIA_METADATA_PATH,
+            RMA_FOIA_SOURCE_ID,
+            RMA_FOIA_RAW_PATH,
+            RMA_FOIA_RAW_BYTES,
+            RMA_FOIA_RAW_SHA256,
+            "SM.FP.FOIA@usda.gov",
+        ),
+        (
+            USCODE_7_1502_METADATA_PATH,
+            USCODE_7_1502_SOURCE_ID,
+            USCODE_7_1502_RAW_PATH,
+            USCODE_7_1502_RAW_BYTES,
+            USCODE_7_1502_RAW_SHA256,
+            "1502(c)(2)(A)",
+        ),
+        (
+            ECFR_7_CFR_1_METADATA_PATH,
+            ECFR_7_CFR_1_SOURCE_ID,
+            ECFR_7_CFR_1_RAW_PATH,
+            ECFR_7_CFR_1_RAW_BYTES,
+            ECFR_7_CFR_1_RAW_SHA256,
+            "reasonably segregable",
+        ),
+    ] {
+        let metadata = fs::read_to_string(root.join(metadata_path))
+            .map_err(|err| format!("failed to read {metadata_path}: {err}"))?;
+        for expected in [
+            format!("| `source_id` | `{source_id}` |"),
+            format!("| `raw_path` | `{raw_path}` |"),
+            format!("| `bytes` | {bytes} |"),
+            format!(
+                "| `checksum_sha256` | `{}` |",
+                checksum.to_ascii_uppercase()
+            ),
+            "| `status` | `captured` |".to_string(),
+            required.to_string(),
+        ] {
+            if !metadata.contains(&expected) {
+                return Err(format!("{metadata_path} missing {expected}"));
+            }
+        }
+    }
+    let request_reader = fs::read_to_string(
+        root.join(FCIC_COHORT_DISPOSITION_REQUEST_SPEC_READER_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {FCIC_COHORT_DISPOSITION_REQUEST_SPEC_READER_PATH}: {err}")
+    })?;
+    for required in [
+        FCIC_COHORT_DISPOSITION_REQUEST_SPEC_JSON_PATH,
+        "existing RMA records",
+        "1502(c)(2)(A)",
+        "does not ask RMA to create a new record",
+        "draft and unsent",
+        "four closed",
+        "four open",
+        "No score",
+    ] {
+        if !request_reader.contains(required) {
+            return Err(format!("FCIC cohort-disposition reader missing {required}"));
+        }
+    }
+    let request_template =
+        fs::read_to_string(root.join(FCIC_COHORT_DISPOSITION_REQUEST_TEMPLATE_PATH)).map_err(
+            |err| format!("failed to read {FCIC_COHORT_DISPOSITION_REQUEST_TEMPLATE_PATH}: {err}"),
+        )?;
+    for required in [
+        "draft only; not submitted",
+        "SM.FP.FOIA@usda.gov",
+        "326-policy",
+        "existing records only",
+        "reasonably segregable",
+        "[REQUESTER NAME]",
+        "[FEE LIMIT]",
+        "no-records response",
+    ] {
+        if !request_template.contains(required) {
+            return Err(format!(
+                "FCIC cohort-disposition request template missing {required}"
+            ));
+        }
+    }
+
+    let intake_contract_text =
+        fs::read_to_string(root.join(FCIC_FOIA_RESPONSE_INTAKE_CONTRACT_JSON_PATH)).map_err(
+            |err| format!("failed to read {FCIC_FOIA_RESPONSE_INTAKE_CONTRACT_JSON_PATH}: {err}"),
+        )?;
+    let intake_contract: serde_json::Value =
+        serde_json::from_str(&intake_contract_text).map_err(|err| {
+            format!("failed to parse {FCIC_FOIA_RESPONSE_INTAKE_CONTRACT_JSON_PATH}: {err}")
+        })?;
+    let intake_sources = intake_contract
+        .get("source_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC FOIA intake source IDs")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    if string_field(&intake_contract, "record_id")?
+        != "payment-integrity-foia-response-intake-contract:usda-federal-crop-insurance:fy2024"
+        || string_field(&intake_contract, "record_family")?
+            != "federal_crop_insurance_foia_response_intake_contract"
+        || string_field(&intake_contract, "status")?
+            != "draft_internal_preflight_and_response_intake_ready_external_submission_blocked"
+        || intake_sources
+            != BTreeSet::from([
+                RMA_FOIA_SOURCE_ID,
+                RMA_FOIA_FEES_SOURCE_ID,
+                ECFR_7_CFR_1_SOURCE_ID,
+            ])
+        || string_field(&intake_contract, "upstream_artifact")?
+            != FCIC_COHORT_DISPOSITION_REQUEST_SPEC_JSON_PATH
+    {
+        return Err("FCIC FOIA intake identity or lineage failed".to_string());
+    }
+    let intake_custody = intake_contract
+        .get("source_custody")
+        .ok_or("FCIC FOIA intake source custody")?;
+    for (key, raw_path, bytes, checksum) in [
+        (
+            "rma_foia_page",
+            RMA_FOIA_RAW_PATH,
+            RMA_FOIA_RAW_BYTES,
+            RMA_FOIA_RAW_SHA256,
+        ),
+        (
+            "rma_foia_fees_page",
+            RMA_FOIA_FEES_RAW_PATH,
+            RMA_FOIA_FEES_RAW_BYTES,
+            RMA_FOIA_FEES_RAW_SHA256,
+        ),
+        (
+            "ecfr_7_cfr_1_subpart_a",
+            ECFR_7_CFR_1_RAW_PATH,
+            ECFR_7_CFR_1_RAW_BYTES,
+            ECFR_7_CFR_1_RAW_SHA256,
+        ),
+    ] {
+        let custody = intake_custody
+            .get(key)
+            .ok_or_else(|| format!("missing FCIC FOIA intake custody {key}"))?;
+        let raw = root.join(raw_path);
+        if string_field(custody, "raw_path")? != raw_path
+            || string_field(custody, "checksum_sha256")? != checksum.to_ascii_uppercase()
+            || int_field(custody, "bytes")? != bytes as i64
+            || fs::metadata(&raw).map_err(|err| err.to_string())?.len() != bytes
+            || sha256_file(&raw)? != checksum
+        {
+            return Err(format!("FCIC FOIA intake custody failed for {key}"));
+        }
+    }
+    let preflight_gate = intake_contract
+        .get("preflight_gate")
+        .ok_or("FCIC FOIA preflight gate")?;
+    if string_field(preflight_gate, "gate_status")?
+        != "blocked_pending_owner_completion_and_explicit_submission_authorization"
+    {
+        return Err("FCIC FOIA preflight status failed".to_string());
+    }
+    for field in [
+        "external_submission_authorized",
+        "requester_identity_complete",
+        "requester_contact_complete",
+        "requester_fee_category_confirmed",
+        "fee_limit_authorized",
+        "fee_waiver_position_confirmed",
+        "submission_channel_selected",
+        "expedited_processing_requested",
+        "request_text_frozen_and_hashed",
+    ] {
+        if preflight_gate
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!("FCIC FOIA preflight must keep {field} false"));
+        }
+    }
+    let timing = intake_contract
+        .get("administrative_timing")
+        .ok_or("FCIC FOIA administrative timing")?;
+    if int_field(timing, "ordinary_initial_determination_working_days")? != 20
+        || int_field(
+            timing,
+            "unusual_circumstances_extension_over_working_days_triggers_narrowing_offer",
+        )? != 10
+        || int_field(timing, "administrative_appeal_deadline_calendar_days")? != 90
+        || int_field(timing, "ordinary_appeal_decision_working_days")? != 20
+        || !string_field(timing, "tolling_boundary")?.contains("do not silently restart")
+    {
+        return Err("FCIC FOIA administrative timing failed".to_string());
+    }
+    let lifecycle = intake_contract
+        .get("lifecycle_states")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FCIC FOIA lifecycle states")?;
+    let lifecycle_names = lifecycle
+        .iter()
+        .filter_map(|row| row.get("state"))
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    if lifecycle.len() != 19 {
+        return Err(format!(
+            "FCIC FOIA intake must retain 19 lifecycle states, got {}",
+            lifecycle.len()
+        ));
+    }
+    for required in [
+        "draft_not_submitted",
+        "received_or_routed",
+        "fee_estimate_or_commitment_pending",
+        "no_records",
+        "partial_adverse_determination",
+        "administrative_appeal_pending",
+        "appeal_denied",
+    ] {
+        if !lifecycle_names.contains(required) {
+            return Err(format!("FCIC FOIA lifecycle missing {required}"));
+        }
+    }
+    let appeal_contract = intake_contract
+        .get("appeal_contract")
+        .ok_or("FCIC FOIA appeal contract")?;
+    if int_field(appeal_contract, "deadline_calendar_days")? != 90
+        || string_field(appeal_contract, "deadline_anchor")? != "date of the adverse determination"
+        || appeal_contract
+            .get("public_liaison_or_ogis_contact_tolls_deadline")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || !string_field(appeal_contract, "appeal_boundary")?.contains("does not establish zero")
+    {
+        return Err("FCIC FOIA appeal boundary failed".to_string());
+    }
+    let production_gates = intake_contract
+        .get("production_review_gates")
+        .ok_or("FCIC FOIA production-review gates")?;
+    for field in [
+        "custody_verified",
+        "malware_or_active_content_screened",
+        "fy2024_ry2022_326_policy_cohort_matched",
+        "later_cohort_contamination_excluded",
+        "direct_identifiers_absent_or_quarantined",
+        "finding_debt_collection_states_kept_distinct",
+        "sample_amounts_not_equated_to_weighted_projection",
+        "field_closure_review_allowed",
+    ] {
+        if production_gates
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "FCIC FOIA production gate {field} must start false"
+            ));
+        }
+    }
+    if string_field(&intake_contract, "blank_intake_template_path")?
+        != FCIC_FOIA_RESPONSE_INTAKE_TEMPLATE_PATH
+        || string_field(&intake_contract, "preflight_checklist_path")? != FCIC_FOIA_PREFLIGHT_PATH
+    {
+        return Err("FCIC FOIA intake linked paths failed".to_string());
+    }
+    let intake_decision = intake_contract
+        .get("decision")
+        .ok_or("FCIC FOIA intake decision")?;
+    if string_field(intake_decision, "decision_status")?
+        != "preflight_and_intake_contract_complete_submission_still_blocked"
+        || int_field(intake_decision, "new_methodology_field_closures")? != 0
+        || intake_decision
+            .get("recoverable_savings_basis_field_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("FCIC FOIA intake decision failed".to_string());
+    }
+    let intake_program_boundary = intake_contract
+        .get("current_program_boundary")
+        .ok_or("FCIC FOIA intake program boundary")?;
+    if int_field(intake_program_boundary, "total_methodology_fields")? != 8
+        || int_field(intake_program_boundary, "closed_field_count")? != 4
+        || int_field(intake_program_boundary, "open_field_count")? != 4
+    {
+        return Err("FCIC FOIA intake must preserve 4/4 aggregate".to_string());
+    }
+    for field in [
+        "public_claim_allowed",
+        "scoring_allowed",
+        "fraud_claim_allowed",
+        "debt_claim_allowed",
+        "collectibility_claim_allowed",
+        "recovery_claim_allowed",
+        "prevention_claim_allowed",
+        "control_cost_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if intake_contract
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!("FCIC FOIA intake must keep {field} false"));
+        }
+    }
+    let fees_metadata = fs::read_to_string(root.join(RMA_FOIA_FEES_METADATA_PATH))
+        .map_err(|err| format!("failed to read {RMA_FOIA_FEES_METADATA_PATH}: {err}"))?;
+    for expected in [
+        format!("| `source_id` | `{RMA_FOIA_FEES_SOURCE_ID}` |"),
+        format!("| `raw_path` | `{RMA_FOIA_FEES_RAW_PATH}` |"),
+        format!("| `bytes` | {RMA_FOIA_FEES_RAW_BYTES} |"),
+        format!(
+            "| `checksum_sha256` | `{}` |",
+            RMA_FOIA_FEES_RAW_SHA256.to_ascii_uppercase()
+        ),
+        "| `status` | `captured` |".to_string(),
+        "$25".to_string(),
+    ] {
+        if !fees_metadata.contains(&expected) {
+            return Err(format!("{RMA_FOIA_FEES_METADATA_PATH} missing {expected}"));
+        }
+    }
+    let blank_intake_text = fs::read_to_string(root.join(FCIC_FOIA_RESPONSE_INTAKE_TEMPLATE_PATH))
+        .map_err(|err| {
+            format!("failed to read {FCIC_FOIA_RESPONSE_INTAKE_TEMPLATE_PATH}: {err}")
+        })?;
+    let blank_intake: serde_json::Value =
+        serde_json::from_str(&blank_intake_text).map_err(|err| {
+            format!("failed to parse {FCIC_FOIA_RESPONSE_INTAKE_TEMPLATE_PATH}: {err}")
+        })?;
+    if string_field(&blank_intake, "lifecycle_state")? != "draft_not_submitted"
+        || blank_intake.get("submitted_at") != Some(&serde_json::Value::Null)
+        || blank_intake
+            .get("claim_gate")
+            .and_then(|value| value.get("field_closure_review_allowed"))
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("FCIC blank FOIA intake must remain unsubmitted and closed-gate".to_string());
+    }
+    let preflight = fs::read_to_string(root.join(FCIC_FOIA_PREFLIGHT_PATH))
+        .map_err(|err| format!("failed to read {FCIC_FOIA_PREFLIGHT_PATH}: {err}"))?;
+    for required in [
+        "owner completion and explicit submission authorization required",
+        "not both",
+        "Exact fee ceiling",
+        "Existing records only",
+        "SHA-256",
+        "does not itself authorize submission",
+    ] {
+        if !preflight.contains(required) {
+            return Err(format!("FCIC FOIA preflight missing {required}"));
+        }
+    }
+    let intake_reader = fs::read_to_string(root.join(FCIC_FOIA_RESPONSE_INTAKE_READER_PATH))
+        .map_err(|err| format!("failed to read {FCIC_FOIA_RESPONSE_INTAKE_READER_PATH}: {err}"))?;
+    for required in [
+        FCIC_FOIA_RESPONSE_INTAKE_CONTRACT_JSON_PATH,
+        FCIC_FOIA_RESPONSE_INTAKE_TEMPLATE_PATH,
+        "no-records response",
+        "90-calendar-day",
+        "does not replace",
+        "draft and unsent",
+        "four closed",
+        "four open",
+        "No score",
+    ] {
+        if !intake_reader.contains(required) {
+            return Err(format!("FCIC FOIA intake reader missing {required}"));
+        }
+    }
+
+    let cms_part_d_findings_raw = root.join(CMS_PART_D_IPM_FY2024_FINDINGS_RAW_PATH);
+    if fs::metadata(&cms_part_d_findings_raw)
+        .map_err(|err| err.to_string())?
+        .len()
+        != CMS_PART_D_IPM_FY2024_FINDINGS_RAW_BYTES
+        || sha256_file(&cms_part_d_findings_raw)? != CMS_PART_D_IPM_FY2024_FINDINGS_RAW_SHA256
+    {
+        return Err("CMS Part D FY2024 findings raw custody failed".to_string());
+    }
+    let cms_part_d_findings_metadata =
+        fs::read_to_string(root.join(CMS_PART_D_IPM_FY2024_FINDINGS_METADATA_PATH)).map_err(
+            |err| format!("failed to read {CMS_PART_D_IPM_FY2024_FINDINGS_METADATA_PATH}: {err}"),
+        )?;
+    for required in [
+        CMS_PART_D_IPM_FY2024_FINDINGS_SOURCE_ID,
+        CMS_PART_D_IPM_FY2024_FINDINGS_RAW_PATH,
+        "121610",
+        "36AFD362B5E5AF4DAC098C2502C9C548D79D7AA001725FE92E757BB4CF5E7BE8",
+        "Embedded PDF title metadata incorrectly references FY2020",
+    ] {
+        if !cms_part_d_findings_metadata.contains(required) {
+            return Err(format!(
+                "CMS Part D FY2024 findings metadata missing {required}"
+            ));
+        }
+    }
+    let part_d_payment_type_bridge: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(MEDICARE_PART_D_PAYMENT_TYPE_COMPOSITION_BRIDGE_JSON_PATH))
+            .map_err(|err| {
+            format!(
+                "failed to read {MEDICARE_PART_D_PAYMENT_TYPE_COMPOSITION_BRIDGE_JSON_PATH}: {err}"
+            )
+        })?,
+    )
+    .map_err(|err| {
+        format!(
+            "failed to parse {MEDICARE_PART_D_PAYMENT_TYPE_COMPOSITION_BRIDGE_JSON_PATH}: {err}"
+        )
+    })?;
+    let part_d_composition = part_d_payment_type_bridge
+        .get("publisher_reported_composition_millions")
+        .ok_or("Part D payment-type composition")?;
+    let part_d_decision = part_d_payment_type_bridge
+        .get("methodology_closure_decision")
+        .ok_or("Part D payment-type closure decision")?;
+    if string_field(&part_d_payment_type_bridge, "record_family")?
+        != "medicare_part_d_payment_type_composition_bridge"
+        || string_field(&part_d_payment_type_bridge, "program_id")? != "cms-part-d"
+        || number_field(part_d_composition, "overpayments")? != 3052.65
+        || number_field(part_d_composition, "underpayments")? != 522.44
+        || number_field(part_d_composition, "technically_improper")? != 0.0
+        || number_field(part_d_composition, "unknown_payments")? != 0.0
+        || number_field(part_d_composition, "improper_payments")? != 3575.09
+        || part_d_decision
+            .get("field_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || number_field(part_d_decision, "current_closed_field_count")? != 2.0
+        || number_field(part_d_decision, "current_open_field_count")? != 6.0
+        || part_d_payment_type_bridge
+            .get("public_claim_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || part_d_payment_type_bridge
+            .get("recovery_claim_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || part_d_payment_type_bridge
+            .get("savings_estimate_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("Medicare Part D payment-type composition bridge failed".to_string());
+    }
+    let part_d_payment_type_reader = fs::read_to_string(
+        root.join(MEDICARE_PART_D_PAYMENT_TYPE_COMPOSITION_BRIDGE_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {MEDICARE_PART_D_PAYMENT_TYPE_COMPOSITION_BRIDGE_READER_PATH}: {err}"
+        )
+    })?;
+    for required in [
+        MEDICARE_PART_D_PAYMENT_TYPE_COMPOSITION_BRIDGE_JSON_PATH,
+        "$3,052.65",
+        "zero unknown payments",
+        "two closed and six open",
+        "identified-debt",
+        "No score",
+    ] {
+        if !part_d_payment_type_reader.contains(required) {
+            return Err(format!(
+                "Medicare Part D payment-type reader missing {required}"
+            ));
+        }
+    }
+
+    let part_d_scorecard_raw = root.join(PAYMENT_ACCURACY_PART_D_Q4_2025_RAW_PATH);
+    if fs::metadata(&part_d_scorecard_raw)
+        .map_err(|err| err.to_string())?
+        .len()
+        != PAYMENT_ACCURACY_PART_D_Q4_2025_RAW_BYTES
+        || sha256_file(&part_d_scorecard_raw)? != PAYMENT_ACCURACY_PART_D_Q4_2025_RAW_SHA256
+    {
+        return Err("PaymentAccuracy Part D Q4 2025 raw custody failed".to_string());
+    }
+    let part_d_scorecard_metadata =
+        fs::read_to_string(root.join(PAYMENT_ACCURACY_PART_D_Q4_2025_METADATA_PATH)).map_err(
+            |err| format!("failed to read {PAYMENT_ACCURACY_PART_D_Q4_2025_METADATA_PATH}: {err}"),
+        )?;
+    for required in [
+        PAYMENT_ACCURACY_PART_D_Q4_2025_SOURCE_ID,
+        PAYMENT_ACCURACY_PART_D_Q4_2025_RAW_PATH,
+        "215862",
+        "7A3287AD75CFD5F4A53AC1CBFA8992E9223BB57C363C6794D3959471FBED6097",
+        "not the stale 1.02%",
+    ] {
+        if !part_d_scorecard_metadata.contains(required) {
+            return Err(format!("Part D scorecard metadata missing {required}"));
+        }
+    }
+    let part_d_dependency_ceiling: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(
+            MEDICARE_PART_D_SPONSOR_DOCUMENTATION_DEPENDENCY_CEILING_JSON_PATH,
+        ))
+        .map_err(|err| {
+            format!(
+                "failed to read {MEDICARE_PART_D_SPONSOR_DOCUMENTATION_DEPENDENCY_CEILING_JSON_PATH}: {err}"
+            )
+        })?,
+    )
+    .map_err(|err| {
+        format!(
+            "failed to parse {MEDICARE_PART_D_SPONSOR_DOCUMENTATION_DEPENDENCY_CEILING_JSON_PATH}: {err}"
+        )
+    })?;
+    let part_d_correction = part_d_dependency_ceiling
+        .get("scorecard_correction")
+        .ok_or("Part D dependency ceiling scorecard correction")?;
+    let part_d_dependency_decision = part_d_dependency_ceiling
+        .get("decision")
+        .ok_or("Part D dependency ceiling decision")?;
+    if string_field(&part_d_dependency_ceiling, "record_family")?
+        != "medicare_part_d_sponsor_documentation_dependency_evidence_ceiling"
+        || number_field(
+            part_d_correction,
+            "corrected_scorecard_overpayment_rate_percent",
+        )? != 3.16
+        || number_field(part_d_correction, "corrected_scorecard_root_cause_millions")? != 3053.0
+        || string_field(part_d_correction, "corrected_scorecard_data_access_issue")?
+            != "Failure to Access Data/Information Needed"
+        || number_field(part_d_dependency_decision, "new_full_field_closures")? != 0.0
+        || number_field(part_d_dependency_decision, "closed_field_count")? != 2.0
+        || number_field(part_d_dependency_decision, "open_field_count")? != 6.0
+        || part_d_dependency_ceiling
+            .get("field_closure_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || part_d_dependency_ceiling
+            .get("savings_estimate_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("Medicare Part D sponsor-documentation evidence ceiling failed".to_string());
+    }
+    let part_d_dependency_reader = fs::read_to_string(root.join(
+        MEDICARE_PART_D_SPONSOR_DOCUMENTATION_DEPENDENCY_CEILING_READER_PATH,
+    ))
+    .map_err(|err| {
+        format!(
+            "failed to read {MEDICARE_PART_D_SPONSOR_DOCUMENTATION_DEPENDENCY_CEILING_READER_PATH}: {err}"
+        )
+    })?;
+    for required in [
+        MEDICARE_PART_D_SPONSOR_DOCUMENTATION_DEPENDENCY_CEILING_JSON_PATH,
+        "$3,053 million at 3.16%",
+        "is not supported",
+        "two fields closed and six open",
+        "not a legal determination",
+        "No score",
+    ] {
+        if !part_d_dependency_reader.contains(required) {
+            return Err(format!("Part D dependency reader missing {required}"));
+        }
+    }
+
+    let part_d_sample_design_ceiling: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(
+            MEDICARE_PART_D_SAMPLE_DESIGN_EVIDENCE_CEILING_JSON_PATH,
+        ))
+        .map_err(|err| {
+            format!(
+                "failed to read {MEDICARE_PART_D_SAMPLE_DESIGN_EVIDENCE_CEILING_JSON_PATH}: {err}"
+            )
+        })?,
+    )
+    .map_err(|err| {
+        format!(
+            "failed to parse {MEDICARE_PART_D_SAMPLE_DESIGN_EVIDENCE_CEILING_JSON_PATH}: {err}"
+        )
+    })?;
+    let part_d_sample_field_review = part_d_sample_design_ceiling
+        .get("field_review")
+        .ok_or("Part D sample-design evidence ceiling field review")?;
+    let part_d_sample_program_status = part_d_sample_design_ceiling
+        .get("program_status")
+        .ok_or("Part D sample-design evidence ceiling program status")?;
+    let part_d_sample_supported_components = part_d_sample_design_ceiling
+        .get("supported_components")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Part D sample-design evidence ceiling supported components")?;
+    let has_reconciliation_cutoff = part_d_sample_supported_components.iter().any(|component| {
+        component
+            .get("component")
+            .and_then(serde_json::Value::as_str)
+            == Some("reconciliation_cutoff")
+            && component
+                .get("finding")
+                .and_then(serde_json::Value::as_str)
+                .is_some_and(|finding| finding.contains("June 29, 2023"))
+    });
+    let sample_design_remains_open = part_d_sample_program_status
+        .get("open_fields")
+        .and_then(serde_json::Value::as_array)
+        .is_some_and(|fields| {
+            fields
+                .iter()
+                .any(|field| field.as_str() == Some("sample design"))
+        });
+    if string_field(&part_d_sample_design_ceiling, "record_family")?
+        != "medicare_part_d_sample_design_evidence_ceiling"
+        || string_field(&part_d_sample_design_ceiling, "program_id")? != "cms-part-d"
+        || string_field(&part_d_sample_design_ceiling, "status")?
+            != "same_period_sample_unit_and_operational_routing_supported_full_field_open"
+        || int_field(part_d_sample_field_review, "supported_component_count")? != 8
+        || part_d_sample_supported_components.len() != 8
+        || !has_reconciliation_cutoff
+        || part_d_sample_field_review
+            .get("full_field_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || int_field(part_d_sample_program_status, "closed_field_count")? != 3
+        || int_field(part_d_sample_program_status, "open_field_count")? != 5
+        || int_field(part_d_sample_program_status, "new_full_field_closures")? != 0
+        || string_field(part_d_sample_program_status, "scoring_status")?
+            != "blocked_methodology_incomplete"
+        || !sample_design_remains_open
+    {
+        return Err("Medicare Part D sample-design evidence ceiling failed".to_string());
+    }
+    for field in [
+        "public_claim_allowed",
+        "field_closure_allowed",
+        "scoring_allowed",
+        "fraud_claim_allowed",
+        "waste_claim_allowed",
+        "debt_claim_allowed",
+        "recovery_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if part_d_sample_design_ceiling
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "Medicare Part D sample-design evidence ceiling must keep {field} false"
+            ));
+        }
+    }
+    let part_d_sample_design_reader =
+        fs::read_to_string(root.join(MEDICARE_PART_D_SAMPLE_DESIGN_EVIDENCE_CEILING_READER_PATH))
+            .map_err(|err| {
+            format!(
+                "failed to read {MEDICARE_PART_D_SAMPLE_DESIGN_EVIDENCE_CEILING_READER_PATH}: {err}"
+            )
+        })?;
+    for required in [
+        MEDICARE_PART_D_SAMPLE_DESIGN_EVIDENCE_CEILING_JSON_PATH,
+        "individual Prescription Drug Event",
+        "June 29, 2023",
+        "actual national sample size",
+        "two or five PDEs",
+        "Medicare Part D remains three fields",
+        "closed and five open",
+        "`sample design`",
+        "every public, fraud, waste, debt, recovery, and savings gate remain blocked",
+    ] {
+        if !part_d_sample_design_reader.contains(required) {
+            return Err(format!("Part D sample-design reader missing {required}"));
+        }
+    }
+
+    let part_d_estimation_ceiling: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(
+            MEDICARE_PART_D_ESTIMATION_METHOD_EVIDENCE_CEILING_JSON_PATH,
+        ))
+        .map_err(|err| {
+            format!(
+                "failed to read {MEDICARE_PART_D_ESTIMATION_METHOD_EVIDENCE_CEILING_JSON_PATH}: {err}"
+            )
+        })?,
+    )
+    .map_err(|err| {
+        format!(
+            "failed to parse {MEDICARE_PART_D_ESTIMATION_METHOD_EVIDENCE_CEILING_JSON_PATH}: {err}"
+        )
+    })?;
+    let part_d_estimation_apr = part_d_estimation_ceiling
+        .get("official_apr_source")
+        .ok_or("Part D estimation-method evidence ceiling official APR source")?;
+    let part_d_estimation_evidence_ceiling = part_d_estimation_ceiling
+        .get("evidence_ceiling")
+        .ok_or("Part D estimation-method evidence ceiling decision")?;
+    let part_d_estimation_program_status = part_d_estimation_ceiling
+        .get("program_status")
+        .ok_or("Part D estimation-method evidence ceiling program status")?;
+    if string_field(&part_d_estimation_ceiling, "record_family")?
+        != "medicare_part_d_estimation_method_evidence_ceiling"
+        || string_field(&part_d_estimation_ceiling, "program_id")? != "cms-part-d"
+        || string_field(&part_d_estimation_ceiling, "status")?
+            != "same_period_process_text_web_verified_official_pdf_custody_blocked_field_open"
+        || string_field(part_d_estimation_apr, "source_url")?
+            != "https://www.hhs.gov/sites/default/files/hhs-fy-2024-agency-performance-report.pdf"
+        || !string_field(part_d_estimation_apr, "evidence_location")?
+            .contains("printed page 88; PDF page index 87")
+        || string_field(part_d_estimation_apr, "custody_status")?
+            != "blocked_official_bytes_unavailable"
+        || part_d_estimation_apr
+            .get("local_source_id_assigned")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || part_d_estimation_apr
+            .get("raw_file_present")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || part_d_estimation_apr
+            .get("metadata_record_present")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || part_d_estimation_apr
+            .get("observation_closure_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || part_d_estimation_evidence_ceiling
+            .get("component_closure_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || part_d_estimation_evidence_ceiling
+            .get("full_field_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || int_field(part_d_estimation_program_status, "closed_field_count")? != 3
+        || int_field(part_d_estimation_program_status, "open_field_count")? != 5
+        || int_field(part_d_estimation_program_status, "new_component_closures")? != 0
+        || int_field(part_d_estimation_program_status, "new_full_field_closures")? != 0
+        || string_field(part_d_estimation_program_status, "scoring_status")?
+            != "blocked_methodology_incomplete"
+    {
+        return Err("Medicare Part D estimation-method evidence ceiling failed".to_string());
+    }
+    let part_d_estimation_observations = part_d_estimation_evidence_ceiling
+        .get("web_verified_process_observations")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Part D estimation-method web-verified process observations")?;
+    let expected_estimation_observations = [
+        "PDE-level gross drug cost error assignment",
+        "representative beneficiary-sample simulation",
+        "same-period OMB plan-compliance and statistical-validity attestation",
+        "published gross, net, rate, denominator, and confidence-limit outputs",
+        "directional corrected-versus-reported gross drug cost rules",
+    ];
+    if part_d_estimation_observations.len() != expected_estimation_observations.len()
+        || !expected_estimation_observations.iter().all(|expected| {
+            part_d_estimation_observations
+                .iter()
+                .any(|actual| actual.as_str() == Some(expected))
+        })
+    {
+        return Err(
+            "Medicare Part D estimation-method ceiling must retain five web-verified observations"
+                .to_string(),
+        );
+    }
+    let part_d_estimation_residuals = part_d_estimation_ceiling
+        .get("exact_residuals")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Part D estimation-method exact residuals")?;
+    let expected_estimation_residuals = [
+        "estimator formula for the dollar estimate and rate",
+        "sample weights and any calibration, normalization, trimming, or nonresponse adjustment",
+        "aggregation from PDE-level gross drug cost errors to beneficiary-level simulated payment errors",
+        "benefit-phase, reinsurance, low-income-subsidy, and other payment-parameter simulation mechanics",
+        "relationship, nesting, or linkage between the audited PDE sample and representative beneficiary sample",
+        "treatment of overpayments, underpayments, missing documentation, and zero-error records within the estimator",
+        "variance estimator, replicate or linearization method, finite-population treatment, and confidence-limit construction",
+        "same-period confirmation of any 5 percent beneficiary-sample and national extrapolation description",
+        "rounding and reconciliation rules connecting unrounded estimates to the published gross, net, rate, denominator, and confidence limits",
+    ];
+    if part_d_estimation_residuals.len() != expected_estimation_residuals.len()
+        || !expected_estimation_residuals.iter().all(|expected| {
+            part_d_estimation_residuals
+                .iter()
+                .any(|actual| actual.as_str() == Some(expected))
+        })
+    {
+        return Err("Medicare Part D estimation-method ceiling exact residuals failed".to_string());
+    }
+    let estimation_method_remains_open = part_d_estimation_program_status
+        .get("open_fields")
+        .and_then(serde_json::Value::as_array)
+        .is_some_and(|fields| {
+            fields
+                .iter()
+                .any(|field| field.as_str() == Some("estimation method"))
+        });
+    if !estimation_method_remains_open {
+        return Err(
+            "Medicare Part D estimation method must remain in the open-field set".to_string(),
+        );
+    }
+    let part_d_estimation_retry = part_d_estimation_ceiling
+        .get("custody_retry_contract")
+        .ok_or("Part D estimation-method custody retry contract")?;
+    let acceptable_retry_paths = part_d_estimation_retry
+        .get("acceptable_paths")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Part D estimation-method acceptable custody paths")?;
+    let required_retry_verification = part_d_estimation_retry
+        .get("required_verification")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Part D estimation-method required custody verification")?;
+    let prohibited_retry_fallbacks = part_d_estimation_retry
+        .get("prohibited_fallbacks")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Part D estimation-method prohibited custody fallbacks")?;
+    if acceptable_retry_paths.len() != 2
+        || required_retry_verification.len() != 4
+        || prohibited_retry_fallbacks.len() != 3
+        || !acceptable_retry_paths.iter().any(|value| {
+            value
+                .as_str()
+                .is_some_and(|text| text.contains("exact official HHS URL"))
+        })
+        || !required_retry_verification.iter().any(|value| {
+            value
+                .as_str()
+                .is_some_and(|text| text.contains("SHA-256 checksum"))
+        })
+        || !prohibited_retry_fallbacks.iter().any(|value| {
+            value
+                .as_str()
+                .is_some_and(|text| text.contains("access-denied HTML response"))
+        })
+        || !prohibited_retry_fallbacks.iter().any(|value| {
+            value
+                .as_str()
+                .is_some_and(|text| text.contains("third-party mirror"))
+        })
+        || !string_field(part_d_estimation_retry, "closure_after_custody")?
+            .contains("would not by itself close a component or the full estimation-method field")
+    {
+        return Err(
+            "Medicare Part D estimation-method custody retry guardrails failed".to_string(),
+        );
+    }
+    for field in [
+        "public_claim_allowed",
+        "component_closure_allowed",
+        "field_closure_allowed",
+        "scoring_allowed",
+        "fraud_claim_allowed",
+        "waste_claim_allowed",
+        "debt_claim_allowed",
+        "recovery_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if part_d_estimation_ceiling
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "Medicare Part D estimation-method evidence ceiling must keep {field} false"
+            ));
+        }
+    }
+    let part_d_estimation_reader = fs::read_to_string(
+        root.join(MEDICARE_PART_D_ESTIMATION_METHOD_EVIDENCE_CEILING_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {MEDICARE_PART_D_ESTIMATION_METHOD_EVIDENCE_CEILING_READER_PATH}: {err}"
+        )
+    })?;
+    for required in [
+        MEDICARE_PART_D_ESTIMATION_METHOD_EVIDENCE_CEILING_JSON_PATH,
+        "printed page 88, PDF page index 87",
+        "gross drug cost error",
+        "representative sample of",
+        "beneficiaries undergoes a simulation",
+        "Akamai HTTP 403",
+        "No source ID or metadata was assigned",
+        "closes neither a component",
+        "third-party mirror",
+        "Medicare Part D remains three fields",
+        "closed and five open",
+        "All scoring, public-claim, fraud, waste, debt, recovery",
+        "and savings gates remain blocked",
+    ] {
+        if !part_d_estimation_reader.contains(required) {
+            return Err(format!(
+                "Part D estimation-method reader missing {required}"
+            ));
+        }
+    }
+
+    let part_d_missing_document_bridge: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(
+            MEDICARE_PART_D_MISSING_DOCUMENT_EXCLUSION_TREATMENT_BRIDGE_JSON_PATH,
+        ))
+        .map_err(|err| {
+            format!(
+                "failed to read {MEDICARE_PART_D_MISSING_DOCUMENT_EXCLUSION_TREATMENT_BRIDGE_JSON_PATH}: {err}"
+            )
+        })?,
+    )
+    .map_err(|err| {
+        format!(
+            "failed to parse {MEDICARE_PART_D_MISSING_DOCUMENT_EXCLUSION_TREATMENT_BRIDGE_JSON_PATH}: {err}"
+        )
+    })?;
+    let missing_document_source_ids = part_d_missing_document_bridge
+        .get("source_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Part D missing-document bridge source IDs")?;
+    let expected_missing_document_source_ids = [
+        CMS_PART_D_IPM_CY2022_SUBMISSION_GUIDE_SOURCE_ID,
+        CMS_PART_D_IPM_CY2022_FAQ_SOURCE_ID,
+        CMS_PART_D_IPM_FY2024_FINDINGS_SOURCE_ID,
+    ];
+    if string_field(&part_d_missing_document_bridge, "record_family")?
+        != "medicare_part_d_missing_document_exclusion_treatment_bridge"
+        || string_field(&part_d_missing_document_bridge, "program_id")? != "cms-part-d"
+        || string_field(&part_d_missing_document_bridge, "status")?
+            != "same_period_missing_document_review_and_fail_treatment_component_closed_internal_only_full_exclusion_rules_open"
+        || missing_document_source_ids.len() != expected_missing_document_source_ids.len()
+        || !expected_missing_document_source_ids.iter().all(|expected| {
+            missing_document_source_ids
+                .iter()
+                .any(|actual| actual.as_str() == Some(expected))
+        })
+    {
+        return Err("Medicare Part D missing-document bridge identity failed".to_string());
+    }
+    for (path, bytes, sha256, label) in [
+        (
+            CMS_PART_D_IPM_CY2022_SUBMISSION_GUIDE_RAW_PATH,
+            CMS_PART_D_IPM_CY2022_SUBMISSION_GUIDE_RAW_BYTES,
+            CMS_PART_D_IPM_CY2022_SUBMISSION_GUIDE_RAW_SHA256,
+            "submission guide",
+        ),
+        (
+            CMS_PART_D_IPM_CY2022_FAQ_RAW_PATH,
+            CMS_PART_D_IPM_CY2022_FAQ_RAW_BYTES,
+            CMS_PART_D_IPM_CY2022_FAQ_RAW_SHA256,
+            "FAQ",
+        ),
+        (
+            CMS_PART_D_IPM_FY2024_FINDINGS_RAW_PATH,
+            CMS_PART_D_IPM_FY2024_FINDINGS_RAW_BYTES,
+            CMS_PART_D_IPM_FY2024_FINDINGS_RAW_SHA256,
+            "FY2024 findings",
+        ),
+    ] {
+        let raw = root.join(path);
+        if fs::metadata(&raw).map_err(|err| err.to_string())?.len() != bytes
+            || sha256_file(&raw)? != sha256
+        {
+            return Err(format!(
+                "Medicare Part D missing-document bridge {label} custody failed"
+            ));
+        }
+    }
+    let missing_document_evidence = part_d_missing_document_bridge
+        .get("same_period_evidence")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Part D missing-document same-period evidence")?;
+    let evidence_contains = |needle: &str| {
+        missing_document_evidence.iter().any(|item| {
+            item.get("text")
+                .and_then(serde_json::Value::as_str)
+                .is_some_and(|text| text.contains(needle))
+        })
+    };
+    if missing_document_evidence.len() != 6
+        || !evidence_contains("even if it is incomplete")
+        || !evidence_contains("April 19, 2024 final deadline")
+        || !evidence_contains("PDE remains fail")
+        || !evidence_contains("2.70 percent")
+    {
+        return Err(
+            "Medicare Part D missing-document bridge treatment evidence failed".to_string(),
+        );
+    }
+    let missing_document_field_review = part_d_missing_document_bridge
+        .get("field_review")
+        .ok_or("Part D missing-document bridge field review")?;
+    if missing_document_field_review
+        .get("component_closed_internal_only")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+        || missing_document_field_review
+            .get("full_field_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err(
+            "Medicare Part D missing-document component/full-field decision failed".to_string(),
+        );
+    }
+    let missing_document_historical = part_d_missing_document_bridge
+        .get("historical_boundary")
+        .ok_or("Part D missing-document bridge historical boundary")?;
+    if string_field(
+        &part_d_missing_document_bridge,
+        "historical_comparison_source_url",
+    )? != "https://www.cms.gov/files/document/fy-2020-medicare-part-d-error-rate-findings-and-results.pdf"
+        || string_field(missing_document_historical, "period")?
+            != "FY2020 reporting based on CY2018 payments"
+        || !string_field(missing_document_historical, "text")?.contains("Of 4,526 sampled PDEs, 27")
+        || !string_field(missing_document_historical, "comparison_use")?
+            .contains("Historical contrast only")
+        || !string_field(missing_document_historical, "covid_context_boundary")?
+            .contains("does not state that COVID-19 caused the 27 exclusions")
+    {
+        return Err(
+            "Medicare Part D missing-document historical comparison boundary failed".to_string(),
+        );
+    }
+    let missing_document_residuals = part_d_missing_document_bridge
+        .get("unsupported_or_missing_components")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Part D missing-document full-field residuals")?;
+    let expected_missing_document_residuals = [
+        "complete CY2022 exclusion taxonomy and governing authority",
+        "current-cycle counts and reasons for excluded, ineligible, duplicate, replaced, late, or nonresponsive units",
+        "decision stage and distinctions among no submission, late submission, Missing Documentation Form, invalid evidence, and incomplete evidence",
+        "post-deadline correction, adjustment, dispute, and appeal treatment",
+        "replacement and sample-weight treatment for excluded units",
+        "effect of exclusions on projection, variance, and confidence limits",
+        "reason for and continuity or noncontinuity from the 27 historical FY2020 exclusions",
+    ];
+    if missing_document_residuals.len() != expected_missing_document_residuals.len()
+        || !expected_missing_document_residuals.iter().all(|expected| {
+            missing_document_residuals
+                .iter()
+                .any(|actual| actual.as_str() == Some(expected))
+        })
+    {
+        return Err("Medicare Part D missing-document residuals failed".to_string());
+    }
+    let missing_document_program_status = part_d_missing_document_bridge
+        .get("program_status")
+        .ok_or("Part D missing-document bridge program status")?;
+    let exclusion_rules_remain_open = missing_document_program_status
+        .get("open_fields")
+        .and_then(serde_json::Value::as_array)
+        .is_some_and(|fields| {
+            fields
+                .iter()
+                .any(|field| field.as_str() == Some("exclusion rules"))
+        });
+    if int_field(missing_document_program_status, "closed_field_count")? != 3
+        || int_field(missing_document_program_status, "open_field_count")? != 5
+        || int_field(missing_document_program_status, "new_component_closures")? != 1
+        || int_field(missing_document_program_status, "new_full_field_closures")? != 0
+        || string_field(missing_document_program_status, "scoring_status")?
+            != "blocked_methodology_incomplete"
+        || !exclusion_rules_remain_open
+    {
+        return Err("Medicare Part D missing-document program status failed".to_string());
+    }
+    for field in [
+        "public_claim_allowed",
+        "field_closure_allowed",
+        "scoring_allowed",
+        "fraud_claim_allowed",
+        "waste_claim_allowed",
+        "debt_claim_allowed",
+        "recovery_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if part_d_missing_document_bridge
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "Medicare Part D missing-document bridge must keep {field} false"
+            ));
+        }
+    }
+    let missing_document_reader = fs::read_to_string(root.join(
+        MEDICARE_PART_D_MISSING_DOCUMENT_EXCLUSION_TREATMENT_BRIDGE_READER_PATH,
+    ))
+    .map_err(|err| {
+        format!(
+            "failed to read {MEDICARE_PART_D_MISSING_DOCUMENT_EXCLUSION_TREATMENT_BRIDGE_READER_PATH}: {err}"
+        )
+    })?;
+    for required in [
+        MEDICARE_PART_D_MISSING_DOCUMENT_EXCLUSION_TREATMENT_BRIDGE_JSON_PATH,
+        "Missing Documentation Form",
+        "not valid supporting evidence",
+        "PDE remains failed",
+        "April 19, 2024",
+        "2.70%",
+        "27 of 4,526",
+        "That treatment is historical",
+        "comparison only",
+        "Medicare Part D",
+        "remains three fields closed and five open",
+        "All scoring, public-claim, fraud",
+        "waste, debt, recovery, and savings gates remain blocked",
+    ] {
+        if !missing_document_reader.contains(required) {
+            return Err(format!("Part D missing-document reader missing {required}"));
+        }
+    }
+
+    let part_d_payment_universe_bridge: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(
+            MEDICARE_PART_D_PAYMENT_UNIVERSE_MEASUREMENT_OBJECT_DENOMINATOR_BRIDGE_JSON_PATH,
+        ))
+        .map_err(|err| {
+            format!(
+                "failed to read {MEDICARE_PART_D_PAYMENT_UNIVERSE_MEASUREMENT_OBJECT_DENOMINATOR_BRIDGE_JSON_PATH}: {err}"
+            )
+        })?,
+    )
+    .map_err(|err| {
+        format!(
+            "failed to parse {MEDICARE_PART_D_PAYMENT_UNIVERSE_MEASUREMENT_OBJECT_DENOMINATOR_BRIDGE_JSON_PATH}: {err}"
+        )
+    })?;
+    let payment_universe_source_ids = part_d_payment_universe_bridge
+        .get("source_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Part D payment-universe bridge source IDs")?;
+    let expected_payment_universe_source_ids = [
+        "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+        CMS_PART_D_IPM_FY2024_FINDINGS_SOURCE_ID,
+        CMS_PART_D_IPM_CY2022_SUBMISSION_GUIDE_SOURCE_ID,
+    ];
+    if string_field(&part_d_payment_universe_bridge, "record_family")?
+        != "medicare_part_d_payment_universe_measurement_object_denominator_bridge"
+        || string_field(&part_d_payment_universe_bridge, "status")?
+            != "same_period_pde_gdc_measurement_object_and_published_denominator_component_closed_internal_only_full_payment_universe_open"
+        || string_field(&part_d_payment_universe_bridge, "component")?
+            != "PDE/GDC measurement object and published denominator reconciliation"
+        || payment_universe_source_ids.len() != expected_payment_universe_source_ids.len()
+        || !payment_universe_source_ids
+            .iter()
+            .zip(expected_payment_universe_source_ids)
+            .all(|(actual, expected)| actual.as_str() == Some(expected))
+    {
+        return Err("Medicare Part D payment-universe bridge identity failed".to_string());
+    }
+    let payment_universe_custody = part_d_payment_universe_bridge
+        .get("source_custody")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Part D payment-universe source custody")?;
+    let expected_payment_universe_custody = [
+        (
+            "fy2024_annual_row",
+            PAYMENT_ACCURACY_FY2024_WORKBOOK_RAW_PATH,
+            PAYMENT_ACCURACY_FY2024_WORKBOOK_RAW_BYTES,
+            PAYMENT_ACCURACY_FY2024_WORKBOOK_RAW_SHA256,
+        ),
+        (
+            "fy2024_findings",
+            CMS_PART_D_IPM_FY2024_FINDINGS_RAW_PATH,
+            CMS_PART_D_IPM_FY2024_FINDINGS_RAW_BYTES,
+            CMS_PART_D_IPM_FY2024_FINDINGS_RAW_SHA256,
+        ),
+        (
+            "cy2022_submission_guide",
+            CMS_PART_D_IPM_CY2022_SUBMISSION_GUIDE_RAW_PATH,
+            CMS_PART_D_IPM_CY2022_SUBMISSION_GUIDE_RAW_BYTES,
+            CMS_PART_D_IPM_CY2022_SUBMISSION_GUIDE_RAW_SHA256,
+        ),
+    ];
+    if payment_universe_custody.len() != expected_payment_universe_custody.len() {
+        return Err("Medicare Part D payment-universe custody scope failed".to_string());
+    }
+    for (key, path, bytes, sha256) in expected_payment_universe_custody {
+        let custody = payment_universe_custody
+            .get(key)
+            .ok_or("Part D payment-universe custody key")?;
+        if string_field(custody, "raw_path")? != path
+            || number_field(custody, "bytes")? != bytes as f64
+            || !string_field(custody, "checksum_sha256")?.eq_ignore_ascii_case(sha256)
+        {
+            return Err(format!(
+                "Medicare Part D payment-universe {key} custody metadata failed"
+            ));
+        }
+        let raw = root.join(path);
+        if fs::metadata(&raw).map_err(|err| err.to_string())?.len() != bytes
+            || sha256_file(&raw)? != sha256
+        {
+            return Err(format!(
+                "Medicare Part D payment-universe {key} raw custody failed"
+            ));
+        }
+    }
+    let denominator_bridge = part_d_payment_universe_bridge
+        .get("published_denominator_bridge")
+        .ok_or("Part D published denominator bridge")?;
+    if number_field(denominator_bridge, "cms_findings_value_usd_billions")? != 96.52
+        || number_field(denominator_bridge, "paymentaccuracy_row_828_value_millions")? != 96_521.39
+        || denominator_bridge
+            .get("rounds_to_cms_findings_value")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("Medicare Part D published denominator reconciliation failed".to_string());
+    }
+    let payment_universe_residuals = part_d_payment_universe_bridge
+        .get("unsupported_or_missing_components")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Part D payment-universe residuals")?;
+    let expected_payment_universe_residuals = [
+        "formal definition and algebra for the $96.52 billion denominator",
+        "complete included and excluded payment-stream taxonomy, including explicit treatment of direct subsidy or capitation, reinsurance, low-income cost-sharing subsidy, risk sharing and reconciliation, premiums, beneficiary cost sharing, manufacturer discounts, direct and indirect remuneration, and employer subsidy",
+        "relationship between PDE-level GDC, plan liability, beneficiary liability, statutory government subsidies, federal payments, and reported outlays",
+        "whether the denominator is federal payments or outlays, GDC, or a modeled or simulated payment measure, including its exact period and settlement basis",
+        "treatment of negative adjustments, reversals, post-reconciliation changes, duplicate records, rejected PDEs, and deleted PDEs",
+        "included and excluded plan types, contracts, and beneficiary populations",
+        "payment-phase categories and subsidy components, including overlap and double-count controls",
+        "gross-versus-net basis, treatment before or after recoveries and offsets, and rounding rules",
+        "linkage among the PDE sample, beneficiary-level simulation or extrapolation, denominator categories, and statistical weights",
+    ];
+    if payment_universe_residuals.len() != expected_payment_universe_residuals.len()
+        || !payment_universe_residuals
+            .iter()
+            .zip(expected_payment_universe_residuals)
+            .all(|(actual, expected)| actual.as_str() == Some(expected))
+    {
+        return Err("Medicare Part D payment-universe residuals failed".to_string());
+    }
+    let payment_universe_field_review = part_d_payment_universe_bridge
+        .get("field_review")
+        .ok_or("Part D payment-universe field review")?;
+    let payment_universe_program_status = part_d_payment_universe_bridge
+        .get("program_status")
+        .ok_or("Part D payment-universe program status")?;
+    if payment_universe_field_review
+        .get("component_closed_internal_only")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+        || payment_universe_field_review
+            .get("full_field_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || int_field(payment_universe_program_status, "new_component_closures")? != 1
+        || int_field(payment_universe_program_status, "new_full_field_closures")? != 0
+        || int_field(payment_universe_program_status, "closed_field_count")? != 3
+        || int_field(payment_universe_program_status, "open_field_count")? != 5
+    {
+        return Err("Medicare Part D payment-universe closure status failed".to_string());
+    }
+    for field in [
+        "public_claim_allowed",
+        "field_closure_allowed",
+        "scoring_allowed",
+        "fraud_claim_allowed",
+        "waste_claim_allowed",
+        "debt_claim_allowed",
+        "collectibility_claim_allowed",
+        "recovery_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if part_d_payment_universe_bridge
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "Medicare Part D payment-universe bridge must keep {field} false"
+            ));
+        }
+    }
+    let payment_universe_reader = fs::read_to_string(root.join(
+        MEDICARE_PART_D_PAYMENT_UNIVERSE_MEASUREMENT_OBJECT_DENOMINATOR_BRIDGE_READER_PATH,
+    ))
+    .map_err(|err| {
+        format!(
+            "failed to read {MEDICARE_PART_D_PAYMENT_UNIVERSE_MEASUREMENT_OBJECT_DENOMINATOR_BRIDGE_READER_PATH}: {err}"
+        )
+    })?;
+    for required in [
+        MEDICARE_PART_D_PAYMENT_UNIVERSE_MEASUREMENT_OBJECT_DENOMINATOR_BRIDGE_JSON_PATH,
+        "$96.52 billion",
+        "$96,521.39 million",
+        "combined plan and beneficiary liability",
+        "must not be labeled federal outlay",
+        "full `payment universe` field",
+        "three fields closed and five open",
+        "collectibility",
+        "gate remains false",
+    ] {
+        if !payment_universe_reader.contains(required) {
+            return Err(format!("Part D payment-universe reader missing {required}"));
+        }
+    }
+
+    let part_d_audit_closeout_bridge: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(
+            root.join(MEDICARE_PART_D_AUDIT_CLOSEOUT_RECOVERY_PROCESS_BRIDGE_JSON_PATH),
+        )
+        .map_err(|err| {
+            format!(
+                "failed to read {MEDICARE_PART_D_AUDIT_CLOSEOUT_RECOVERY_PROCESS_BRIDGE_JSON_PATH}: {err}"
+            )
+        })?,
+    )
+    .map_err(|err| {
+        format!(
+            "failed to parse {MEDICARE_PART_D_AUDIT_CLOSEOUT_RECOVERY_PROCESS_BRIDGE_JSON_PATH}: {err}"
+        )
+    })?;
+    let audit_closeout_source_ids = part_d_audit_closeout_bridge
+        .get("source_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Part D audit-closeout bridge source IDs")?;
+    if string_field(&part_d_audit_closeout_bridge, "record_id")?
+        != "payment-integrity-audit-closeout-recovery-process-bridge:cms-part-d:q4-2025"
+        || string_field(&part_d_audit_closeout_bridge, "record_family")?
+            != "medicare_part_d_audit_closeout_recovery_process_bridge"
+        || string_field(&part_d_audit_closeout_bridge, "status")?
+            != "scorecard_audit_closeout_pde_deletion_recovery_process_component_closed_internal_only_full_recoverable_amount_basis_open"
+        || string_field(&part_d_audit_closeout_bridge, "reporting_period")? != "Q4 2025"
+        || string_field(&part_d_audit_closeout_bridge, "component")?
+            != "current audit-closeout PDE-deletion recovery pathway"
+        || audit_closeout_source_ids.len() != 1
+        || audit_closeout_source_ids[0].as_str() != Some(PAYMENT_ACCURACY_PART_D_Q4_2025_SOURCE_ID)
+    {
+        return Err("Medicare Part D audit-closeout bridge identity failed".to_string());
+    }
+    let audit_closeout_custody = part_d_audit_closeout_bridge
+        .get("source_custody")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Part D audit-closeout source custody")?;
+    let scorecard_custody = audit_closeout_custody
+        .get("q4_2025_scorecard")
+        .ok_or("Part D audit-closeout scorecard custody")?;
+    if audit_closeout_custody.len() != 1
+        || string_field(scorecard_custody, "source_id")?
+            != PAYMENT_ACCURACY_PART_D_Q4_2025_SOURCE_ID
+        || string_field(scorecard_custody, "raw_path")? != PAYMENT_ACCURACY_PART_D_Q4_2025_RAW_PATH
+        || number_field(scorecard_custody, "bytes")?
+            != PAYMENT_ACCURACY_PART_D_Q4_2025_RAW_BYTES as f64
+        || !string_field(scorecard_custody, "checksum_sha256")?
+            .eq_ignore_ascii_case(PAYMENT_ACCURACY_PART_D_Q4_2025_RAW_SHA256)
+        || int_field(scorecard_custody, "pdf_file_pages")? != 2
+    {
+        return Err("Medicare Part D audit-closeout custody metadata failed".to_string());
+    }
+    let scorecard_raw = root.join(PAYMENT_ACCURACY_PART_D_Q4_2025_RAW_PATH);
+    if fs::metadata(&scorecard_raw)
+        .map_err(|err| err.to_string())?
+        .len()
+        != PAYMENT_ACCURACY_PART_D_Q4_2025_RAW_BYTES
+        || sha256_file(&scorecard_raw)? != PAYMENT_ACCURACY_PART_D_Q4_2025_RAW_SHA256
+    {
+        return Err("Medicare Part D audit-closeout raw custody failed".to_string());
+    }
+    let audit_closeout_scope = part_d_audit_closeout_bridge
+        .get("closed_component_scope")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Part D audit-closeout component scope")?;
+    let scope_contains = |needle: &str| {
+        audit_closeout_scope
+            .iter()
+            .filter_map(serde_json::Value::as_str)
+            .any(|item| item.contains(needle))
+    };
+    if audit_closeout_scope.len() != 4
+        || !scope_contains("Adcirca, Revatio, and Cialis")
+        || !scope_contains("require sponsors to delete PDE records")
+        || !scope_contains("resulting in recovery")
+        || !scope_contains("Durable Medical Equipment and Tepezza")
+        || !scope_contains("planned actions")
+    {
+        return Err("Medicare Part D issued/planned audit action boundary failed".to_string());
+    }
+    let period_boundary = part_d_audit_closeout_bridge
+        .get("period_and_linkage_boundary")
+        .ok_or("Part D audit-closeout period boundary")?;
+    if period_boundary
+        .get("same_period_as_fy2024_cy2022_estimate")
+        .and_then(serde_json::Value::as_bool)
+        != Some(false)
+        || string_field(period_boundary, "scorecard_process_period")? != "Q4 2025"
+        || period_boundary
+            .get("amount_linkage_disclosed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || period_boundary
+            .get("cohort_linkage_disclosed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || !string_field(period_boundary, "boundary")?
+            .contains("not linked by record, cohort, amount, or period")
+        || [
+            "recovery_amount",
+            "recoverable_amount",
+            "collectible_amount",
+            "recovery_percentage",
+        ]
+        .iter()
+        .any(|field| part_d_audit_closeout_bridge.get(field).is_some())
+    {
+        return Err("Medicare Part D current/not-same-period boundary failed".to_string());
+    }
+    let audit_closeout_residuals = part_d_audit_closeout_bridge
+        .get("unsupported_or_missing_components")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Part D audit-closeout residuals")?;
+    let expected_audit_closeout_residuals = [
+        "PDE identifiers, record counts, and payment amounts covered by the issued or planned national-audit closeout notices",
+        "record-level or cohort-level linkage between the named audits and the CY2022/FY2024 Part D IPM sample or projected overpayment estimate",
+        "calculation connecting corrected GDC error to an audit-determined recoverable payment amount",
+        "legal or administrative debt establishment, sponsor notice rights, dispute, appeal, and reversal treatment",
+        "technical and accounting mechanics connecting PDE deletion to reconciliation, offset, receivable, refund, or cash collection",
+        "gross recoverable, collectible, collected, waived, compromised, written-off, and outstanding amounts and their timing",
+        "allocation among plan liability, beneficiary liability, statutory government subsidy, and federal recovery",
+        "coverage and completeness of the described recovery process across all Part D overpayment causes, audits, sponsors, and PDEs",
+        "recovery-process control costs and any net prevention or savings basis",
+    ];
+    if audit_closeout_residuals.len() != expected_audit_closeout_residuals.len()
+        || !audit_closeout_residuals
+            .iter()
+            .zip(expected_audit_closeout_residuals)
+            .all(|(actual, expected)| actual.as_str() == Some(expected))
+    {
+        return Err("Medicare Part D audit-closeout residuals failed".to_string());
+    }
+    let audit_closeout_field_review = part_d_audit_closeout_bridge
+        .get("field_review")
+        .ok_or("Part D audit-closeout field review")?;
+    let audit_closeout_program_status = part_d_audit_closeout_bridge
+        .get("program_status")
+        .ok_or("Part D audit-closeout program status")?;
+    if audit_closeout_field_review
+        .get("component_closed_internal_only")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+        || audit_closeout_field_review
+            .get("full_field_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || int_field(audit_closeout_program_status, "new_component_closures")? != 1
+        || int_field(audit_closeout_program_status, "new_full_field_closures")? != 0
+        || int_field(audit_closeout_program_status, "closed_field_count")? != 3
+        || int_field(audit_closeout_program_status, "open_field_count")? != 5
+    {
+        return Err("Medicare Part D audit-closeout closure status failed".to_string());
+    }
+    for field in [
+        "public_claim_allowed",
+        "field_closure_allowed",
+        "scoring_allowed",
+        "fraud_claim_allowed",
+        "waste_claim_allowed",
+        "debt_claim_allowed",
+        "collectibility_claim_allowed",
+        "recovery_claim_allowed",
+        "prevention_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if part_d_audit_closeout_bridge
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "Medicare Part D audit-closeout bridge must keep {field} false"
+            ));
+        }
+    }
+    let audit_closeout_reader = fs::read_to_string(root.join(
+        MEDICARE_PART_D_AUDIT_CLOSEOUT_RECOVERY_PROCESS_BRIDGE_READER_PATH,
+    ))
+    .map_err(|err| {
+        format!(
+            "failed to read {MEDICARE_PART_D_AUDIT_CLOSEOUT_RECOVERY_PROCESS_BRIDGE_READER_PATH}: {err}"
+        )
+    })?;
+    for required in [
+        MEDICARE_PART_D_AUDIT_CLOSEOUT_RECOVERY_PROCESS_BRIDGE_JSON_PATH,
+        "Adcirca, Revatio, and Cialis",
+        "Durable Medical Equipment and Tepezza",
+        "planned notices",
+        "not same-period evidence",
+        "no recovery percentage",
+        "not proof that",
+        "full `overpayment versus recoverable",
+        "three fields closed and",
+        "five open",
+        "prevention,",
+        "savings gate remains false",
+    ] {
+        if !audit_closeout_reader.contains(required) {
+            return Err(format!("Part D audit-closeout reader missing {required}"));
+        }
+    }
+
+    let part_d_uncertainty_bridge: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(
+            root.join(MEDICARE_PART_D_PUBLISHED_UNCERTAINTY_OUTPUT_BRIDGE_JSON_PATH),
+        )
+        .map_err(|err| {
+            format!(
+                "failed to read {MEDICARE_PART_D_PUBLISHED_UNCERTAINTY_OUTPUT_BRIDGE_JSON_PATH}: {err}"
+            )
+        })?,
+    )
+    .map_err(|err| {
+        format!(
+            "failed to parse {MEDICARE_PART_D_PUBLISHED_UNCERTAINTY_OUTPUT_BRIDGE_JSON_PATH}: {err}"
+        )
+    })?;
+    let uncertainty_source_ids = part_d_uncertainty_bridge
+        .get("source_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Part D uncertainty bridge source IDs")?;
+    let expected_uncertainty_source_ids = [
+        "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+        CMS_PART_D_IPM_FY2024_FINDINGS_SOURCE_ID,
+    ];
+    if string_field(&part_d_uncertainty_bridge, "record_id")?
+        != "payment-integrity-published-uncertainty-output-bridge:cms-part-d:fy2024"
+        || string_field(&part_d_uncertainty_bridge, "record_family")?
+            != "medicare_part_d_published_uncertainty_output_bridge"
+        || string_field(&part_d_uncertainty_bridge, "component")?
+            != "published 95-percent confidence interval and annual margin-of-error output"
+        || string_field(&part_d_uncertainty_bridge, "status")?
+            != "same_period_published_confidence_interval_and_margin_of_error_output_component_closed_internal_only_full_estimation_method_open"
+        || uncertainty_source_ids.len() != expected_uncertainty_source_ids.len()
+        || !uncertainty_source_ids
+            .iter()
+            .zip(expected_uncertainty_source_ids)
+            .all(|(actual, expected)| actual.as_str() == Some(expected))
+    {
+        return Err("Medicare Part D uncertainty bridge identity failed".to_string());
+    }
+    let uncertainty_custody = part_d_uncertainty_bridge
+        .get("source_custody")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Part D uncertainty source custody")?;
+    let expected_uncertainty_custody = [
+        (
+            "fy2024_annual_workbook",
+            PAYMENT_ACCURACY_FY2024_WORKBOOK_RAW_PATH,
+            PAYMENT_ACCURACY_FY2024_WORKBOOK_RAW_BYTES,
+            PAYMENT_ACCURACY_FY2024_WORKBOOK_RAW_SHA256,
+            None,
+        ),
+        (
+            "fy2024_findings",
+            CMS_PART_D_IPM_FY2024_FINDINGS_RAW_PATH,
+            CMS_PART_D_IPM_FY2024_FINDINGS_RAW_BYTES,
+            CMS_PART_D_IPM_FY2024_FINDINGS_RAW_SHA256,
+            Some(3),
+        ),
+    ];
+    if uncertainty_custody.len() != expected_uncertainty_custody.len() {
+        return Err("Medicare Part D uncertainty custody scope failed".to_string());
+    }
+    for (key, path, bytes, sha256, pages) in expected_uncertainty_custody {
+        let custody = uncertainty_custody
+            .get(key)
+            .ok_or("Part D uncertainty custody key")?;
+        if string_field(custody, "raw_path")? != path
+            || number_field(custody, "bytes")? != bytes as f64
+            || !string_field(custody, "checksum_sha256")?.eq_ignore_ascii_case(sha256)
+            || pages.is_some_and(|expected| {
+                custody
+                    .get("pdf_file_pages")
+                    .and_then(serde_json::Value::as_i64)
+                    != Some(expected)
+            })
+        {
+            return Err(format!(
+                "Medicare Part D uncertainty {key} custody metadata failed"
+            ));
+        }
+        let raw = root.join(path);
+        if fs::metadata(&raw).map_err(|err| err.to_string())?.len() != bytes
+            || sha256_file(&raw)? != sha256
+        {
+            return Err(format!(
+                "Medicare Part D uncertainty {key} raw custody failed"
+            ));
+        }
+    }
+    let uncertainty_source_record = part_d_uncertainty_bridge
+        .get("source_record")
+        .ok_or("Part D uncertainty source record")?;
+    if string_field(uncertainty_source_record, "source_sheet")? != "All Program Results"
+        || int_field(uncertainty_source_record, "source_row")? != 828
+        || string_field(uncertainty_source_record, "path")?
+            != "data/extracted/payment_accuracy/fy2024_program_results.v1.draft.jsonl"
+    {
+        return Err("Medicare Part D uncertainty row-828 lineage failed".to_string());
+    }
+    let findings_uncertainty = part_d_uncertainty_bridge
+        .get("findings_published_uncertainty_output")
+        .ok_or("Part D findings uncertainty output")?;
+    if number_field(
+        findings_uncertainty,
+        "gross_improper_payment_estimate_usd_billions",
+    )? != 3.58
+        || number_field(findings_uncertainty, "gross_improper_payment_rate_percent")? != 3.70
+        || int_field(findings_uncertainty, "confidence_level_percent")? != 95
+        || number_field(
+            findings_uncertainty,
+            "confidence_interval_lower_usd_billions",
+        )? != 3.19
+        || number_field(
+            findings_uncertainty,
+            "confidence_interval_upper_usd_billions",
+        )? != 4.01
+        || number_field(
+            findings_uncertainty,
+            "confidence_interval_lower_rate_percent",
+        )? != 3.31
+        || number_field(
+            findings_uncertainty,
+            "confidence_interval_upper_rate_percent",
+        )? != 4.15
+    {
+        return Err("Medicare Part D findings uncertainty values failed".to_string());
+    }
+    let annual_uncertainty = part_d_uncertainty_bridge
+        .get("annual_row_828_uncertainty_output")
+        .ok_or("Part D annual uncertainty output")?;
+    if number_field(annual_uncertainty, "improper_payment_amount_millions")? != 3_575.09
+        || number_field(annual_uncertainty, "improper_payment_rate")? != 0.037039355
+        || string_field(annual_uncertainty, "confidence_interval_label")? != "95% to <100%"
+        || number_field(annual_uncertainty, "margin_of_error_reported")? != 0.42
+        || annual_uncertainty
+            .get("margin_of_error_units_disclosed_in_row")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || annual_uncertainty
+            .get("margin_of_error_formula_disclosed_in_row")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || annual_uncertainty
+            .get("relationship_to_findings_interval_disclosed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || annual_uncertainty
+            .get("forced_reconciliation_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || !string_field(annual_uncertainty, "interpretation")?
+            .contains("Do not infer whether 0.42")
+        || !string_field(annual_uncertainty, "interpretation")?
+            .contains("do not force it to reproduce")
+    {
+        return Err("Medicare Part D annual uncertainty boundary failed".to_string());
+    }
+    let uncertainty_residuals = part_d_uncertainty_bridge
+        .get("unsupported_or_missing_components")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Part D uncertainty residuals")?;
+    let expected_uncertainty_residuals = [
+        "official binary custody for the HHS FY2024 Annual Performance Report process description",
+        "estimator formula and sequence from reviewed PDE errors to the national estimate",
+        "sample weights, strata, projection factors, and aggregation rules",
+        "relationship, nesting, and linkage between the audited PDE sample and representative beneficiary sample",
+        "benefit-phase, reinsurance, low-income-subsidy, and other payment-parameter simulation mechanics",
+        "treatment of overpayments, underpayments, missing documentation, zero-error records, adjustments, and exclusions within the estimator",
+        "variance estimator, replicate or linearization method, and finite-population treatment",
+        "confidence-interval construction, distributional assumptions, transformations, and endpoint method",
+        "definition, units, and formula for the annual-row margin-of-error value",
+        "authoritative relationship between the annual margin-of-error field and the findings dollar and rate confidence intervals",
+        "unrounded estimates and rounding or reconciliation rules for the published point estimates and interval bounds",
+        "same-period confirmation of any beneficiary-sample fraction and national extrapolation description",
+    ];
+    if uncertainty_residuals.len() != expected_uncertainty_residuals.len()
+        || !uncertainty_residuals
+            .iter()
+            .zip(expected_uncertainty_residuals)
+            .all(|(actual, expected)| actual.as_str() == Some(expected))
+    {
+        return Err("Medicare Part D uncertainty residuals failed".to_string());
+    }
+    let apr_blocker = part_d_uncertainty_bridge
+        .get("apr_custody_blocker")
+        .ok_or("Part D uncertainty APR blocker")?;
+    let uncertainty_field_review = part_d_uncertainty_bridge
+        .get("field_review")
+        .ok_or("Part D uncertainty field review")?;
+    let uncertainty_program_status = part_d_uncertainty_bridge
+        .get("program_status")
+        .ok_or("Part D uncertainty program status")?;
+    if string_field(apr_blocker, "status")? != "official_pdf_custody_blocked"
+        || !string_field(apr_blocker, "effect")?.contains("full estimation method remains open")
+        || uncertainty_field_review
+            .get("component_closed_internal_only")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || uncertainty_field_review
+            .get("full_field_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || int_field(uncertainty_program_status, "new_component_closures")? != 1
+        || int_field(uncertainty_program_status, "new_full_field_closures")? != 0
+        || int_field(uncertainty_program_status, "closed_field_count")? != 3
+        || int_field(uncertainty_program_status, "open_field_count")? != 5
+    {
+        return Err("Medicare Part D uncertainty closure status failed".to_string());
+    }
+    for field in [
+        "public_claim_allowed",
+        "field_closure_allowed",
+        "scoring_allowed",
+        "fraud_claim_allowed",
+        "waste_claim_allowed",
+        "debt_claim_allowed",
+        "collectibility_claim_allowed",
+        "recovery_claim_allowed",
+        "prevention_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if part_d_uncertainty_bridge
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "Medicare Part D uncertainty bridge must keep {field} false"
+            ));
+        }
+    }
+    let uncertainty_reader = fs::read_to_string(
+        root.join(MEDICARE_PART_D_PUBLISHED_UNCERTAINTY_OUTPUT_BRIDGE_READER_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {MEDICARE_PART_D_PUBLISHED_UNCERTAINTY_OUTPUT_BRIDGE_READER_PATH}: {err}"
+        )
+    })?;
+    for required in [
+        MEDICARE_PART_D_PUBLISHED_UNCERTAINTY_OUTPUT_BRIDGE_JSON_PATH,
+        "$3.58 billion",
+        "$3.19 billion to $4.01 billion",
+        "3.31% to 4.15%",
+        "0.037039355",
+        "95% to <100%",
+        "does not disclose a unit or formula",
+        "No reconciliation is forced",
+        "Full estimation method remains open",
+        "three fields closed and five open",
+        "prevention,",
+        "savings gate remains false",
+    ] {
+        if !uncertainty_reader.contains(required) {
+            return Err(format!("Part D uncertainty reader missing {required}"));
+        }
+    }
+
+    let part_d_adjustment_bridge: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(
+            MEDICARE_PART_D_RECONCILIATION_PDE_ADJUSTMENT_DOCUMENTATION_BRIDGE_JSON_PATH,
+        ))
+        .map_err(|err| {
+            format!(
+                "failed to read {MEDICARE_PART_D_RECONCILIATION_PDE_ADJUSTMENT_DOCUMENTATION_BRIDGE_JSON_PATH}: {err}"
+            )
+        })?,
+    )
+    .map_err(|err| {
+        format!(
+            "failed to parse {MEDICARE_PART_D_RECONCILIATION_PDE_ADJUSTMENT_DOCUMENTATION_BRIDGE_JSON_PATH}: {err}"
+        )
+    })?;
+    let adjustment_source_ids = part_d_adjustment_bridge
+        .get("source_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Part D adjustment bridge source IDs")?;
+    if string_field(&part_d_adjustment_bridge, "record_id")?
+        != "payment-integrity-reconciliation-pde-adjustment-documentation-bridge:cms-part-d:cy2022"
+        || string_field(&part_d_adjustment_bridge, "record_family")?
+            != "medicare_part_d_reconciliation_pde_adjustment_documentation_bridge"
+        || string_field(&part_d_adjustment_bridge, "component")?
+            != "reconciliation-PDE version selection and post-reconciliation adjustment documentation treatment"
+        || string_field(&part_d_adjustment_bridge, "status")?
+            != "same_period_recon_pde_review_target_and_post_reconciliation_adjustment_documentation_component_closed_internal_only_full_payment_universe_open"
+        || adjustment_source_ids.len() != 1
+        || adjustment_source_ids[0].as_str()
+            != Some(CMS_PART_D_IPM_CY2022_SUBMISSION_GUIDE_SOURCE_ID)
+    {
+        return Err("Medicare Part D adjustment bridge identity failed".to_string());
+    }
+    let adjustment_custody = part_d_adjustment_bridge
+        .get("source_custody")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Part D adjustment source custody")?;
+    let guide_custody = adjustment_custody
+        .get("cy2022_submission_guide")
+        .ok_or("Part D adjustment guide custody")?;
+    if adjustment_custody.len() != 1
+        || string_field(guide_custody, "source_id")?
+            != CMS_PART_D_IPM_CY2022_SUBMISSION_GUIDE_SOURCE_ID
+        || string_field(guide_custody, "raw_path")?
+            != CMS_PART_D_IPM_CY2022_SUBMISSION_GUIDE_RAW_PATH
+        || number_field(guide_custody, "bytes")?
+            != CMS_PART_D_IPM_CY2022_SUBMISSION_GUIDE_RAW_BYTES as f64
+        || !string_field(guide_custody, "checksum_sha256")?
+            .eq_ignore_ascii_case(CMS_PART_D_IPM_CY2022_SUBMISSION_GUIDE_RAW_SHA256)
+        || int_field(guide_custody, "pdf_file_pages")? != 40
+    {
+        return Err("Medicare Part D adjustment custody metadata failed".to_string());
+    }
+    let guide_raw = root.join(CMS_PART_D_IPM_CY2022_SUBMISSION_GUIDE_RAW_PATH);
+    if fs::metadata(&guide_raw)
+        .map_err(|err| err.to_string())?
+        .len()
+        != CMS_PART_D_IPM_CY2022_SUBMISSION_GUIDE_RAW_BYTES
+        || sha256_file(&guide_raw)? != CMS_PART_D_IPM_CY2022_SUBMISSION_GUIDE_RAW_SHA256
+    {
+        return Err("Medicare Part D adjustment raw custody failed".to_string());
+    }
+    let prior_context = part_d_adjustment_bridge
+        .get("prior_component_context_not_new_closure")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Part D adjustment prior component context")?;
+    if prior_context.len() != 2
+        || !prior_context.iter().any(|item| {
+            item.get("prior_pulse_context")
+                .and_then(serde_json::Value::as_str)
+                .is_some_and(|text| text.contains("Pulse 43 already used the cutoff"))
+        })
+        || !prior_context.iter().any(|item| {
+            item.get("prior_pulse_context")
+                .and_then(serde_json::Value::as_str)
+                .is_some_and(|text| text.contains("Pulses 39 and 43 already established"))
+        })
+    {
+        return Err("Medicare Part D adjustment prior-pulse overlap failed".to_string());
+    }
+    let two_track = part_d_adjustment_bridge
+        .get("new_two_track_after_adjustment_treatment")
+        .ok_or("Part D adjustment two-track treatment")?;
+    if string_field(two_track, "trigger")?
+        != "The sponsor adjusted a sampled reconciliation PDE after June 29, 2023."
+        || !string_field(two_track, "track_one_reconciliation_pde_documentation")?
+            .contains("must still submit documentation aligned")
+        || !string_field(two_track, "track_one_reconciliation_pde_documentation")?
+            .contains("RECON PDE")
+        || !string_field(two_track, "track_two_linked_adjustment_documentation")?
+            .contains("must also submit additional documentation")
+        || !string_field(two_track, "track_two_linked_adjustment_documentation")?
+            .contains("linked to the adjusted PDE")
+        || string_field(two_track, "location")? != "printed page 36; PDF file page 39; Appendix A"
+        || string_field(two_track, "closure_boundary")?
+            != "Only the two-track documentation requirement after an adjustment is newly closed by this pulse."
+    {
+        return Err("Medicare Part D adjustment two-track policy failed".to_string());
+    }
+    let adjustment_residuals = part_d_adjustment_bridge
+        .get("unsupported_or_missing_components")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Part D adjustment residuals")?;
+    let expected_adjustment_residuals = [
+        "whether an adjusted sampled PDE is included in or excluded from the national estimate",
+        "whether an adjustment changes the unit's error classification or corrected Gross Drug Cost",
+        "treatment of adjustments in the $96,521.39 million denominator or any payment-stream taxonomy",
+        "treatment of negative adjustments, reversals, deletions, rejected PDEs, duplicates, replacements, or post-cutoff changes beyond the documented case",
+        "sample-weight, projection-factor, replacement, nonresponse, aggregation, variance, or confidence-limit effects",
+        "relationship of adjusted sampled PDEs to beneficiary simulation, federal outlays, settlement, or payment reconciliation amounts",
+        "counts of adjusted sampled PDEs and their aggregate dollar or rate effect",
+        "complete included and excluded payment streams, plan types, contracts, populations, subsidy components, and payment phases",
+    ];
+    if adjustment_residuals.len() != expected_adjustment_residuals.len()
+        || !adjustment_residuals
+            .iter()
+            .zip(expected_adjustment_residuals)
+            .all(|(actual, expected)| actual.as_str() == Some(expected))
+    {
+        return Err("Medicare Part D adjustment residuals failed".to_string());
+    }
+    let adjustment_boundaries = part_d_adjustment_bridge
+        .get("interpretation_boundaries")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Part D adjustment interpretation boundaries")?;
+    let boundary_contains = |needle: &str| {
+        adjustment_boundaries
+            .iter()
+            .filter_map(serde_json::Value::as_str)
+            .any(|item| item.contains(needle))
+    };
+    if !boundary_contains("not new closures")
+        || !boundary_contains("does not establish whether a record is included, excluded")
+        || !boundary_contains("does not replace the sampled reconciliation PDE")
+        || !boundary_contains("not the complete Part D payment universe")
+        || !boundary_contains("No payment effect")
+    {
+        return Err("Medicare Part D adjustment inference boundary failed".to_string());
+    }
+    let adjustment_field_review = part_d_adjustment_bridge
+        .get("field_review")
+        .ok_or("Part D adjustment field review")?;
+    let adjustment_program_status = part_d_adjustment_bridge
+        .get("program_status")
+        .ok_or("Part D adjustment program status")?;
+    if adjustment_field_review
+        .get("component_closed_internal_only")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+        || adjustment_field_review
+            .get("full_field_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || int_field(adjustment_program_status, "new_component_closures")? != 1
+        || int_field(adjustment_program_status, "new_full_field_closures")? != 0
+        || int_field(adjustment_program_status, "closed_field_count")? != 3
+        || int_field(adjustment_program_status, "open_field_count")? != 5
+        || int_field(adjustment_program_status, "closure_decision_count")? != 3
+        || int_field(adjustment_program_status, "residual_gap_count")? != 5
+    {
+        return Err("Medicare Part D adjustment closure status failed".to_string());
+    }
+    for field in [
+        "public_claim_allowed",
+        "field_closure_allowed",
+        "scoring_allowed",
+        "fraud_claim_allowed",
+        "waste_claim_allowed",
+        "debt_claim_allowed",
+        "collectibility_claim_allowed",
+        "recovery_claim_allowed",
+        "prevention_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if part_d_adjustment_bridge
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "Medicare Part D adjustment bridge must keep {field} false"
+            ));
+        }
+    }
+    let adjustment_reader = fs::read_to_string(root.join(
+        MEDICARE_PART_D_RECONCILIATION_PDE_ADJUSTMENT_DOCUMENTATION_BRIDGE_READER_PATH,
+    ))
+    .map_err(|err| {
+        format!(
+            "failed to read {MEDICARE_PART_D_RECONCILIATION_PDE_ADJUSTMENT_DOCUMENTATION_BRIDGE_READER_PATH}: {err}"
+        )
+    })?;
+    for required in [
+        MEDICARE_PART_D_RECONCILIATION_PDE_ADJUSTMENT_DOCUMENTATION_BRIDGE_JSON_PATH,
+        "two documentation tracks",
+        "aligned to the sampled",
+        "additionally submit",
+        "prior Pulse 39 and Pulse 43 context",
+        "only the two-track",
+        "not estimator treatment",
+        "not proof of inclusion or exclusion",
+        "three fields closed and five",
+        "five residual gaps",
+        "All claim and scoring gates remain false",
+    ] {
+        if !adjustment_reader.contains(required) {
+            return Err(format!("Part D adjustment reader missing {required}"));
+        }
+    }
+
+    let part_d_plan_access_ceiling: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(
+            MEDICARE_PART_D_SAMPLING_ESTIMATION_PLAN_ACCESS_EVIDENCE_CEILING_JSON_PATH,
+        ))
+        .map_err(|err| {
+            format!(
+                "failed to read {MEDICARE_PART_D_SAMPLING_ESTIMATION_PLAN_ACCESS_EVIDENCE_CEILING_JSON_PATH}: {err}"
+            )
+        })?,
+    )
+    .map_err(|err| {
+        format!(
+            "failed to parse {MEDICARE_PART_D_SAMPLING_ESTIMATION_PLAN_ACCESS_EVIDENCE_CEILING_JSON_PATH}: {err}"
+        )
+    })?;
+    if string_field(&part_d_plan_access_ceiling, "record_id")?
+        != "payment-integrity-sampling-estimation-plan-access-evidence-ceiling:cms-part-d:fy2024"
+        || string_field(&part_d_plan_access_ceiling, "record_family")?
+            != "medicare_part_d_sampling_estimation_plan_access_evidence_ceiling"
+        || string_field(&part_d_plan_access_ceiling, "program_id")? != "cms-part-d"
+        || string_field(&part_d_plan_access_ceiling, "component")?
+            != "secure-MAX sampling-and-estimation-plan location and public evidence-access ceiling"
+        || string_field(&part_d_plan_access_ceiling, "status")?
+            != "governmentwide_secure_max_plan_location_and_part_d_public_evidence_ceiling_recorded_zero_field_closures"
+        || part_d_plan_access_ceiling.get("source_ids")
+            != Some(&serde_json::json!([OMB_M_21_19_SOURCE_ID]))
+        || part_d_plan_access_ceiling.get("methodology_fields")
+            != Some(&serde_json::json!([
+                "sample design",
+                "payment universe",
+                "estimation method",
+                "exclusion rules"
+            ]))
+    {
+        return Err("Medicare Part D plan-access evidence ceiling identity failed".to_string());
+    }
+    let plan_custody = part_d_plan_access_ceiling
+        .get("source_custody")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Part D plan-access evidence ceiling source custody")?;
+    let plan_omb_custody = plan_custody
+        .get("omb_m_21_19")
+        .ok_or("Part D plan-access evidence ceiling OMB M-21-19 custody")?;
+    if plan_custody.len() != 1
+        || string_field(plan_omb_custody, "source_id")? != OMB_M_21_19_SOURCE_ID
+        || string_field(plan_omb_custody, "raw_path")? != OMB_M_21_19_RAW_PATH
+        || string_field(plan_omb_custody, "metadata_path")? != OMB_M_21_19_METADATA_PATH
+        || int_field(plan_omb_custody, "bytes")? != OMB_M_21_19_RAW_BYTES as i64
+        || int_field(plan_omb_custody, "pdf_file_pages")? != 79
+        || string_field(plan_omb_custody, "checksum_sha256")?
+            != OMB_M_21_19_RAW_SHA256.to_ascii_uppercase()
+        || fs::metadata(root.join(OMB_M_21_19_RAW_PATH))
+            .map_err(|err| err.to_string())?
+            .len()
+            != OMB_M_21_19_RAW_BYTES
+        || sha256_file(&root.join(OMB_M_21_19_RAW_PATH))? != OMB_M_21_19_RAW_SHA256
+    {
+        return Err("Medicare Part D plan-access M-21-19 custody failed".to_string());
+    }
+    let expected_access_evidence = serde_json::json!([
+        {
+            "location": "printed page 17; PDF file page 18",
+            "finding": "For statistically valid estimates, OMB requires agencies to produce point estimates and confidence-interval estimates.",
+            "use": "Defines a governmentwide output requirement, not the Part D estimator or its implementation."
+        },
+        {
+            "location": "printed page 18; PDF file page 19",
+            "finding": "OMB directs agencies to upload the Sampling and Estimation Methodology Plan and OMB checklist to the agency secure MAX page.",
+            "use": "Identifies a controlled plan-submission location and an exact evidence target without claiming public access or Part D-specific content."
+        }
+    ]);
+    if part_d_plan_access_ceiling.get("governmentwide_access_evidence")
+        != Some(&expected_access_evidence)
+    {
+        return Err("Medicare Part D plan-access governmentwide evidence failed".to_string());
+    }
+    let public_inventory = part_d_plan_access_ceiling
+        .get("reviewed_public_evidence_inventory")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Part D plan-access reviewed public inventory")?;
+    let expected_inventory_paths = [
+        (
+            "data/derived/breadth_benchmark_matrix/medicare_part_d_sample_design_evidence_ceiling.fy2024.v1.draft.json",
+            "sample design",
+        ),
+        (
+            "data/derived/breadth_benchmark_matrix/medicare_part_d_payment_universe_measurement_object_denominator_bridge.fy2024.v1.draft.json",
+            "payment universe",
+        ),
+        (
+            "data/derived/breadth_benchmark_matrix/medicare_part_d_reconciliation_pde_adjustment_documentation_bridge.cy2022.v1.draft.json",
+            "payment universe",
+        ),
+        (
+            "data/derived/breadth_benchmark_matrix/medicare_part_d_estimation_method_evidence_ceiling.fy2024.v1.draft.json",
+            "estimation method",
+        ),
+        (
+            "data/derived/breadth_benchmark_matrix/medicare_part_d_published_uncertainty_output_bridge.fy2024.v1.draft.json",
+            "estimation method",
+        ),
+        (
+            "data/derived/breadth_benchmark_matrix/medicare_part_d_missing_document_exclusion_treatment_bridge.fy2024.v1.draft.json",
+            "exclusion rules",
+        ),
+    ];
+    if public_inventory.len() != expected_inventory_paths.len()
+        || public_inventory
+            .iter()
+            .zip(expected_inventory_paths)
+            .any(|(entry, (path, field))| {
+                string_field(entry, "path").ok().as_deref() != Some(path)
+                    || string_field(entry, "field").ok().as_deref() != Some(field)
+                    || !string_field(entry, "use_rule").is_ok_and(|rule| {
+                        rule.contains("not new raw-source custody or a new closure")
+                    })
+                    || !string_field(entry, "validated_scope").is_ok_and(|scope| !scope.is_empty())
+            })
+    {
+        return Err("Medicare Part D plan-access reviewed public inventory failed".to_string());
+    }
+    let public_ceiling = part_d_plan_access_ceiling
+        .get("public_evidence_ceiling")
+        .ok_or("Part D plan-access public evidence ceiling")?;
+    if !string_field(public_ceiling, "finding")?
+        .contains("not the Part D-specific CY2022/FY2024 Sampling and Estimation Methodology Plan")
+        || string_field(public_ceiling, "effect")?
+            != "The four methodology fields remain open. The secure-MAX direction identifies an acquisition target but supplies none of the missing Part D-specific contents."
+    {
+        return Err("Medicare Part D plan-access public evidence ceiling failed".to_string());
+    }
+    let expected_acquisition_target = serde_json::json!({
+        "documents": ["CY2022/FY2024 Medicare Part D Sampling and Estimation Methodology Plan", "associated OMB checklist", "all appendices, exhibits, technical attachments, and data dictionaries", "version history, approval history, effective dates, and change log governing the FY2024 estimate based on CY2022 payments"],
+        "sample_design_detail": ["national sample and frame size and coverage", "stratum definitions and allocation", "within-domain selection procedure and inclusion probabilities", "replacement, nonresponse, and sample-weight rules", "relationship, nesting, and linkage between PDE and beneficiary samples"],
+        "payment_universe_detail": ["complete included and excluded PDE and payment-stream taxonomy", "denominator algebra and exact record-level construction", "GDC, plan liability, beneficiary liability, statutory subsidy, federal-payment, and outlay mapping", "subsidy, reinsurance, low-income-subsidy, premium, discount, payment-phase, overlap, and double-count treatment", "adjustment, reversal, deletion, rejection, duplicate, replacement, eligibility, settlement, gross/net, and rounding treatment"],
+        "estimation_method_detail": ["point and rate estimator formula", "weights, projection factors, calibration, normalization, trimming, and nonresponse adjustments", "PDE-to-beneficiary aggregation and benefit-parameter simulation mechanics", "record treatment for overpayments, underpayments, missing documents, exclusions, and zero-error records", "variance estimator, finite-population treatment, confidence-limit construction, transformations, and endpoint method", "annual margin-of-error definition, units, and formula", "unrounded estimates and rounding or reconciliation rules"],
+        "exclusion_rules_detail": ["complete exclusion taxonomy and governing authority", "current counts, reasons, decision stages, and submission-state distinctions", "late, missing, invalid, incomplete, ineligible, duplicate, adjusted, replaced, disputed, and appealed unit treatment", "denominator, replacement, weight, projection, variance, and confidence-limit consequences", "change control from the historical FY2020/CY2018 exclusions"]
+    });
+    if part_d_plan_access_ceiling.get("exact_acquisition_target")
+        != Some(&expected_acquisition_target)
+        || part_d_plan_access_ceiling.get("separate_recoverable_basis_target")
+            != Some(&serde_json::json!({
+                "methodology_field": "overpayment versus recoverable amount basis",
+                "boundary": "Same-cohort audit determination, debt, appeal, PDE deletion, settlement, collectibility, collection, write-off, liability allocation, and control-cost lineage is not a Sampling and Estimation Methodology Plan detail and remains a separate acquisition track."
+            }))
+    {
+        return Err("Medicare Part D plan-access acquisition targets failed".to_string());
+    }
+    if part_d_plan_access_ceiling.get("outbound_state")
+        != Some(&serde_json::json!({
+            "request_drafted": false,
+            "request_submitted": false,
+            "external_message_sent": false,
+            "owner_authorization_obtained": false,
+            "status": "no_request_or_outbound_state_change"
+        }))
+    {
+        return Err("Medicare Part D plan-access outbound state failed".to_string());
+    }
+    let guardrails = part_d_plan_access_ceiling
+        .get("guardrails")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Part D plan-access guardrails")?;
+    for required in [
+        "does not establish a FOIA exemption, withholding, nonexistence, or public unavailability",
+        "not Part D-specific evidence of the plan's contents or implementation",
+        "not a request, does not authorize a request, and makes no outbound state change",
+    ] {
+        if !guardrails
+            .iter()
+            .any(|item| item.as_str().is_some_and(|item| item.contains(required)))
+        {
+            return Err(format!(
+                "Medicare Part D plan-access guardrails missing {required}"
+            ));
+        }
+    }
+    let plan_closure = part_d_plan_access_ceiling
+        .get("closure_impact")
+        .ok_or("Part D plan-access closure impact")?;
+    let plan_status = part_d_plan_access_ceiling
+        .get("program_status")
+        .ok_or("Part D plan-access program status")?;
+    if int_field(plan_closure, "new_component_closures")? != 0
+        || int_field(plan_closure, "new_full_field_closures")? != 0
+        || plan_closure.get("fields_closed_by_this_record") != Some(&serde_json::json!([]))
+        || int_field(plan_status, "closed_field_count")? != 3
+        || int_field(plan_status, "open_field_count")? != 5
+        || int_field(plan_status, "closure_decision_count")? != 3
+        || int_field(plan_status, "residual_gap_count")? != 5
+        || string_field(plan_status, "scoring_status")? != "blocked_methodology_incomplete"
+    {
+        return Err("Medicare Part D plan-access closure accounting failed".to_string());
+    }
+    for field in [
+        "public_claim_allowed",
+        "field_closure_allowed",
+        "scoring_allowed",
+        "fraud_claim_allowed",
+        "waste_claim_allowed",
+        "debt_claim_allowed",
+        "collectibility_claim_allowed",
+        "recovery_claim_allowed",
+        "prevention_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if part_d_plan_access_ceiling
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "Medicare Part D plan-access ceiling must keep {field} false"
+            ));
+        }
+    }
+    let plan_access_reader = fs::read_to_string(root.join(
+        MEDICARE_PART_D_SAMPLING_ESTIMATION_PLAN_ACCESS_EVIDENCE_CEILING_READER_PATH,
+    ))
+    .map_err(|err| {
+        format!(
+            "failed to read {MEDICARE_PART_D_SAMPLING_ESTIMATION_PLAN_ACCESS_EVIDENCE_CEILING_READER_PATH}: {err}"
+        )
+    })?;
+    for required in [
+        MEDICARE_PART_D_SAMPLING_ESTIMATION_PLAN_ACCESS_EVIDENCE_CEILING_JSON_PATH,
+        "zero-closure evidence ceiling",
+        "point and confidence-interval",
+        "Sampling and Estimation",
+        "Methodology Plan and OMB checklist",
+        "agency secure MAX page",
+        "not new raw-source custody or new closures",
+        "CY2022/FY2024 Part D S&EMP",
+        "remains a separate acquisition track",
+        "Secure MAX does not mean exempt, withheld, nonexistent, or publicly unavailable",
+        "governmentwide rule is not Part D-specific evidence",
+        "No request was drafted",
+        "zero component and zero full-field closures",
+        "three closed and five open",
+        "Every public, field-closure, scoring, fraud, waste, debt, collectibility",
+        "recovery, prevention, and savings gate remains false",
+    ] {
+        if !plan_access_reader.contains(required) {
+            return Err(format!("Part D plan-access reader missing {required}"));
+        }
+    }
+
+    let part_d_plan_request: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(
+            MEDICARE_PART_D_SAMPLING_ESTIMATION_METHODOLOGY_PLAN_REQUEST_SPEC_JSON_PATH,
+        ))
+        .map_err(|err| {
+            format!(
+                "failed to read {MEDICARE_PART_D_SAMPLING_ESTIMATION_METHODOLOGY_PLAN_REQUEST_SPEC_JSON_PATH}: {err}"
+            )
+        })?,
+    )
+    .map_err(|err| {
+        format!(
+            "failed to parse {MEDICARE_PART_D_SAMPLING_ESTIMATION_METHODOLOGY_PLAN_REQUEST_SPEC_JSON_PATH}: {err}"
+        )
+    })?;
+    if string_field(&part_d_plan_request, "record_id")?
+        != "payment-integrity-sampling-estimation-methodology-plan-request-specification:cms-part-d:fy2024"
+        || string_field(&part_d_plan_request, "record_family")?
+            != "medicare_part_d_sampling_estimation_methodology_plan_request_specification"
+        || string_field(&part_d_plan_request, "program_id")? != "cms-part-d"
+        || string_field(&part_d_plan_request, "component")?
+            != "unsent existing-records-only CY2022/FY2024 Part D S&EMP request specification"
+        || string_field(&part_d_plan_request, "status")?
+            != "draft_not_submitted_existing_records_only_privacy_aware_request_specification"
+        || string_field(&part_d_plan_request, "submission_status")?
+            != "draft_not_submitted_owner_authorization_required"
+        || string_field(&part_d_plan_request, "upstream_artifact")?
+            != MEDICARE_PART_D_SAMPLING_ESTIMATION_PLAN_ACCESS_EVIDENCE_CEILING_JSON_PATH
+        || part_d_plan_request.get("source_ids")
+            != Some(&serde_json::json!([
+                OMB_M_21_19_SOURCE_ID,
+                CMS_FOIA_FILING_SOURCE_ID,
+                ECFR_45_CFR_5_SOURCE_ID
+            ]))
+    {
+        return Err("Medicare Part D methodology-plan request identity failed".to_string());
+    }
+    let request_custody = part_d_plan_request
+        .get("source_custody")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Part D methodology-plan request source custody")?;
+    if request_custody.len() != 3 {
+        return Err(
+            "Part D methodology-plan request must retain exactly three custody entries".to_string(),
+        );
+    }
+    for (key, source_id, raw_path, bytes, checksum, pages) in [
+        (
+            "omb_m_21_19",
+            OMB_M_21_19_SOURCE_ID,
+            OMB_M_21_19_RAW_PATH,
+            OMB_M_21_19_RAW_BYTES,
+            OMB_M_21_19_RAW_SHA256,
+            Some(79),
+        ),
+        (
+            "cms_foia_filing",
+            CMS_FOIA_FILING_SOURCE_ID,
+            CMS_FOIA_FILING_RAW_PATH,
+            CMS_FOIA_FILING_RAW_BYTES,
+            CMS_FOIA_FILING_RAW_SHA256,
+            None,
+        ),
+        (
+            "ecfr_45_cfr_5",
+            ECFR_45_CFR_5_SOURCE_ID,
+            ECFR_45_CFR_5_RAW_PATH,
+            ECFR_45_CFR_5_RAW_BYTES,
+            ECFR_45_CFR_5_RAW_SHA256,
+            Some(18),
+        ),
+    ] {
+        let custody = request_custody
+            .get(key)
+            .ok_or_else(|| format!("Part D methodology-plan request missing custody {key}"))?;
+        let raw = root.join(raw_path);
+        if string_field(custody, "source_id")? != source_id
+            || string_field(custody, "raw_path")? != raw_path
+            || int_field(custody, "bytes")? != bytes as i64
+            || string_field(custody, "checksum_sha256")? != checksum.to_ascii_uppercase()
+            || pages.is_some_and(|pages| int_field(custody, "pdf_file_pages").ok() != Some(pages))
+            || fs::metadata(&raw).map_err(|err| err.to_string())?.len() != bytes
+            || sha256_file(&raw)? != checksum
+        {
+            return Err(format!(
+                "Part D methodology-plan request custody failed for {key}"
+            ));
+        }
+    }
+    let hhs_blocked = part_d_plan_request
+        .get("web_verified_custody_blocked")
+        .ok_or("Part D methodology-plan request HHS custody blocker")?;
+    if string_field(hhs_blocked, "official_url")? != "https://www.hhs.gov/foia/request/index.html"
+        || string_field(hhs_blocked, "verification_status")?
+            != "official_page_web_verified_local_binary_custody_blocked"
+        || string_field(hhs_blocked, "local_capture_result")? != "Akamai HTTP 403"
+        || hhs_blocked
+            .get("source_id_assigned")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || hhs_blocked.get("raw_path") != Some(&serde_json::Value::Null)
+        || hhs_blocked.get("bytes") != Some(&serde_json::Value::Null)
+        || hhs_blocked.get("checksum_sha256") != Some(&serde_json::Value::Null)
+        || hhs_blocked
+            .get("custody_claimed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("Part D methodology-plan request HHS custody boundary failed".to_string());
+    }
+    for (metadata_path, source_id, raw_path, bytes, checksum, required) in [
+        (
+            CMS_FOIA_FILING_METADATA_PATH,
+            CMS_FOIA_FILING_SOURCE_ID,
+            CMS_FOIA_FILING_RAW_PATH,
+            CMS_FOIA_FILING_RAW_BYTES,
+            CMS_FOIA_FILING_RAW_SHA256,
+            "one-channel-only instruction",
+        ),
+        (
+            ECFR_45_CFR_5_METADATA_PATH,
+            ECFR_45_CFR_5_SOURCE_ID,
+            ECFR_45_CFR_5_RAW_PATH,
+            ECFR_45_CFR_5_RAW_BYTES,
+            ECFR_45_CFR_5_RAW_SHA256,
+            "segregability",
+        ),
+    ] {
+        let metadata = fs::read_to_string(root.join(metadata_path))
+            .map_err(|err| format!("failed to read {metadata_path}: {err}"))?;
+        for expected in [
+            format!("| `source_id` | `{source_id}` |"),
+            format!("| `raw_path` | `{raw_path}` |"),
+            format!("| `bytes` | `{bytes}` |"),
+            format!(
+                "| `checksum_sha256` | `{}` |",
+                checksum.to_ascii_uppercase()
+            ),
+            "| `status` | `source-reviewed` |".to_string(),
+            required.to_string(),
+        ] {
+            if !metadata.contains(&expected) {
+                return Err(format!("{metadata_path} missing {expected}"));
+            }
+        }
+    }
+    let filing_route = part_d_plan_request
+        .get("filing_route")
+        .ok_or("Part D methodology-plan request filing route")?;
+    if string_field(filing_route, "record_type")?
+        != "CMS agency policy and methodology records, not Medicare beneficiary claims"
+        || string_field(filing_route, "preferred_route_if_authorized")?
+            != "CMS component through the FOIA.gov portal"
+        || filing_route
+            .get("one_channel_only")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || filing_route
+            .get("beneficiary_claims_portal_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || !string_field(filing_route, "route_boundary")?.contains("no route has been used")
+    {
+        return Err("Part D methodology-plan request filing route failed".to_string());
+    }
+    if part_d_plan_request.get("exact_acquisition_target")
+        != part_d_plan_access_ceiling.get("exact_acquisition_target")
+        || part_d_plan_request.get("separate_recoverable_basis_target")
+            != part_d_plan_access_ceiling.get("separate_recoverable_basis_target")
+    {
+        return Err(
+            "Part D methodology-plan request acquisition target drifted from Pulse47".to_string(),
+        );
+    }
+    let existing_scope = part_d_plan_request
+        .get("existing_records_only_scope")
+        .ok_or("Part D methodology-plan request existing-record scope")?;
+    if existing_scope.get("requested_records")
+        != Some(&serde_json::json!([
+            "final approved plan package and incorporated attachments",
+            "final OMB checklist associated with that plan",
+            "existing final approval, acceptance, or transmittal records identifying the operative version",
+            "existing version history, effective-date record, or change log"
+        ]))
+        || existing_scope
+            .get("no_answers_or_new_analysis")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || existing_scope
+            .get("no_new_record_creation")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || existing_scope
+            .get("no_reconstruction_or_calculation")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || !string_field(existing_scope, "public_duplicate_treatment")?.contains("stable URL")
+    {
+        return Err("Part D methodology-plan request existing-record scope failed".to_string());
+    }
+    let expected_exclusions = serde_json::json!([
+        "beneficiary names, identifiers, protected health information, and individual claims",
+        "sampled PDE identifiers and line-level PDE or claim data",
+        "provider, prescriber, pharmacy, plan employee, or contractor personal contact information",
+        "secure MAX credentials, access instructions, tokens, account details, and security-control information",
+        "source-system extracts, raw input files, executable code, and production database access",
+        "confidential commercial details not necessary to understand the methodology; accept lawful redaction without predicting Exemption 4",
+        "same-cohort debt, appeal, collection, recovery, or write-off records, which remain a separate acquisition track",
+        "superseded drafts and duplicates except where an existing version record is needed to identify the operative final plan"
+    ]);
+    let format_scope = part_d_plan_request
+        .get("format_and_segregability")
+        .ok_or("Part D methodology-plan request format and segregability")?;
+    if part_d_plan_request.get("privacy_commercial_and_security_exclusions")
+        != Some(&expected_exclusions)
+        || string_field(format_scope, "preferred_format")?
+            != "native electronic format when existing and reasonably and readily reproducible; otherwise searchable PDF"
+        || format_scope
+            .get("rolling_release_accepted")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || format_scope
+            .get("redaction_accepted")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || format_scope
+            .get("deidentification_accepted")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || format_scope
+            .get("reasonably_segregable_nonexempt_portions_requested")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || format_scope
+            .get("release_prediction_made")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("Part D methodology-plan request privacy or segregability failed".to_string());
+    }
+    let preflight = part_d_plan_request
+        .get("preflight")
+        .ok_or("Part D methodology-plan request preflight")?;
+    for field in [
+        "owner_authorization",
+        "requester_name",
+        "requester_full_mailing_address",
+        "requester_phone",
+        "requester_email",
+        "truthful_fee_category",
+        "fee_cap_usd",
+        "fee_waiver_choice_and_support",
+        "expedited_processing_choice_and_certified_support",
+        "single_submission_channel",
+        "final_scope_and_date_review",
+    ] {
+        if string_field(preflight, field)? != "required_missing" {
+            return Err(format!(
+                "Part D methodology-plan request preflight {field} must remain missing"
+            ));
+        }
+    }
+    if string_field(preflight, "public_library_duplicate_check")? != "required_before_submission"
+        || preflight
+            .get("all_preflight_gates_passed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("Part D methodology-plan request preflight gate failed".to_string());
+    }
+    let fee_decision = part_d_plan_request
+        .get("fee_and_expedition_decision")
+        .ok_or("Part D methodology-plan request fee and expedition decision")?;
+    if fee_decision
+        .get("fee_waiver_requested")
+        .and_then(serde_json::Value::as_bool)
+        != Some(false)
+        || fee_decision
+            .get("expedited_processing_requested")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || fee_decision
+            .get("certification_requested")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || !string_field(fee_decision, "fee_waiver_status")?.contains("owner_facts_needed")
+        || !string_field(fee_decision, "expedition_status")?
+            .contains("no_certified_compelling_need")
+    {
+        return Err("Part D methodology-plan request fee or expedition gate failed".to_string());
+    }
+    let internal_state = part_d_plan_request
+        .get("internal_state")
+        .ok_or("Part D methodology-plan request internal state")?;
+    if string_field(internal_state, "template_path")?
+        != MEDICARE_PART_D_SAMPLING_ESTIMATION_METHODOLOGY_PLAN_REQUEST_TEMPLATE_PATH
+        || internal_state
+            .get("draft_created")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("Part D methodology-plan request internal draft state failed".to_string());
+    }
+    for field in [
+        "owner_authorization_obtained",
+        "request_submitted",
+        "external_message_sent",
+        "portal_opened_for_submission",
+        "fee_commitment_made",
+        "outbound_state_changed",
+    ] {
+        if internal_state
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "Part D methodology-plan request must keep {field} false"
+            ));
+        }
+    }
+    let request_closure = part_d_plan_request
+        .get("closure_impact")
+        .ok_or("Part D methodology-plan request closure impact")?;
+    let request_status = part_d_plan_request
+        .get("program_status")
+        .ok_or("Part D methodology-plan request program status")?;
+    if int_field(request_closure, "new_component_closures")? != 0
+        || int_field(request_closure, "new_full_field_closures")? != 0
+        || request_closure.get("fields_closed_by_this_record") != Some(&serde_json::json!([]))
+        || int_field(request_status, "closed_field_count")? != 3
+        || int_field(request_status, "open_field_count")? != 5
+        || int_field(request_status, "closure_decision_count")? != 3
+        || int_field(request_status, "residual_gap_count")? != 5
+        || string_field(request_status, "scoring_status")? != "blocked_methodology_incomplete"
+        || request_status.get("closed_fields")
+            != Some(&serde_json::json!([
+                "sample period",
+                "payment type split",
+                "sponsor documentation dependency treatment"
+            ]))
+        || request_status.get("open_fields")
+            != Some(&serde_json::json!([
+                "sample design",
+                "payment universe",
+                "estimation method",
+                "exclusion rules",
+                "overpayment versus recoverable amount basis"
+            ]))
+    {
+        return Err("Part D methodology-plan request closure accounting failed".to_string());
+    }
+    for field in [
+        "public_claim_allowed",
+        "field_closure_allowed",
+        "scoring_allowed",
+        "fraud_claim_allowed",
+        "waste_claim_allowed",
+        "debt_claim_allowed",
+        "collectibility_claim_allowed",
+        "recovery_claim_allowed",
+        "prevention_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if part_d_plan_request
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "Part D methodology-plan request must keep {field} false"
+            ));
+        }
+    }
+    let request_guardrails = part_d_plan_request
+        .get("guardrails")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Part D methodology-plan request guardrails")?;
+    for required in [
+        "internal draft, not a submitted request",
+        "limited to existing agency records",
+        "does not prove exemption, withholding, nonexistence, or public unavailability",
+        "require custody and substantive review before changing any methodology field",
+        "No fraud, waste, debt, collectibility, recovery, prevention, or savings claim",
+    ] {
+        if !request_guardrails
+            .iter()
+            .any(|item| item.as_str().is_some_and(|item| item.contains(required)))
+        {
+            return Err(format!(
+                "Part D methodology-plan request guardrails missing {required}"
+            ));
+        }
+    }
+    let request_reader = fs::read_to_string(root.join(
+        MEDICARE_PART_D_SAMPLING_ESTIMATION_METHODOLOGY_PLAN_REQUEST_SPEC_READER_PATH,
+    ))
+    .map_err(|err| {
+        format!(
+            "failed to read {MEDICARE_PART_D_SAMPLING_ESTIMATION_METHODOLOGY_PLAN_REQUEST_SPEC_READER_PATH}: {err}"
+        )
+    })?;
+    for required in [
+        MEDICARE_PART_D_SAMPLING_ESTIMATION_METHODOLOGY_PLAN_REQUEST_SPEC_JSON_PATH,
+        MEDICARE_PART_D_SAMPLING_ESTIMATION_METHODOLOGY_PLAN_REQUEST_TEMPLATE_PATH,
+        "existing-records-only draft",
+        "has not been submitted",
+        "No external",
+        "final CY2022/FY2024 Medicare Part D Sampling",
+        "Same-cohort debt and recovery",
+        "CMS",
+        "FOIA.gov",
+        "only one route",
+        "reasonably segregable",
+        "Akamai HTTP 403",
+        "no source ID, raw path, byte count",
+        "zero components and zero fields",
+        "three closed",
+        "five open",
+        "All ten",
+    ] {
+        if !request_reader.contains(required) {
+            return Err(format!(
+                "Part D methodology-plan request reader missing {required}"
+            ));
+        }
+    }
+    let request_template = fs::read_to_string(root.join(
+        MEDICARE_PART_D_SAMPLING_ESTIMATION_METHODOLOGY_PLAN_REQUEST_TEMPLATE_PATH,
+    ))
+    .map_err(|err| {
+        format!(
+            "failed to read {MEDICARE_PART_D_SAMPLING_ESTIMATION_METHODOLOGY_PLAN_REQUEST_TEMPLATE_PATH}: {err}"
+        )
+    })?;
+    for required in [
+        "DRAFT — NOT SUBMITTED",
+        "Owner authorization is required",
+        "SELECT EXACTLY ONE",
+        "existing CMS agency records",
+        "final approved CY2022/FY2024",
+        "associated final OMB checklist",
+        "existing records only",
+        "does not ask CMS to answer",
+        "Same-cohort debt",
+        "segregable nonexempt portions",
+        "does not assert that any exemption",
+        "Maximum fee commitment",
+        "Internal Preflight",
+        "No external message",
+    ] {
+        if !request_template.contains(required) {
+            return Err(format!(
+                "Part D methodology-plan request template missing {required}"
+            ));
+        }
+    }
+
+    let part_d_intake_contract: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(MEDICARE_PART_D_FOIA_RESPONSE_INTAKE_CONTRACT_JSON_PATH))
+            .map_err(|err| {
+                format!(
+                    "failed to read {MEDICARE_PART_D_FOIA_RESPONSE_INTAKE_CONTRACT_JSON_PATH}: {err}"
+                )
+            })?,
+    )
+    .map_err(|err| {
+        format!(
+            "failed to parse {MEDICARE_PART_D_FOIA_RESPONSE_INTAKE_CONTRACT_JSON_PATH}: {err}"
+        )
+    })?;
+    if string_field(&part_d_intake_contract, "record_id")?
+        != "payment-integrity-foia-response-intake-contract:cms-part-d:fy2024"
+        || string_field(&part_d_intake_contract, "record_family")?
+            != "medicare_part_d_sampling_estimation_methodology_plan_foia_response_intake_contract"
+        || string_field(&part_d_intake_contract, "program_id")? != "cms-part-d"
+        || string_field(&part_d_intake_contract, "status")?
+            != "draft_internal_preflight_and_response_intake_ready_external_submission_blocked"
+        || string_field(&part_d_intake_contract, "submission_status")?
+            != "draft_not_submitted_owner_authorization_required"
+        || string_field(&part_d_intake_contract, "upstream_artifact")?
+            != MEDICARE_PART_D_SAMPLING_ESTIMATION_METHODOLOGY_PLAN_REQUEST_SPEC_JSON_PATH
+        || part_d_intake_contract.get("source_ids")
+            != Some(&serde_json::json!([
+                OMB_M_21_19_SOURCE_ID,
+                CMS_FOIA_FILING_SOURCE_ID,
+                ECFR_45_CFR_5_SOURCE_ID
+            ]))
+    {
+        return Err("Part D FOIA intake identity or lineage failed".to_string());
+    }
+    let intake_custody = part_d_intake_contract
+        .get("source_custody")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Part D FOIA intake source custody")?;
+    if intake_custody.len() != 3 {
+        return Err("Part D FOIA intake must retain exactly three custody entries".to_string());
+    }
+    for (key, source_id, raw_path, bytes, checksum, pages) in [
+        (
+            "omb_m_21_19",
+            OMB_M_21_19_SOURCE_ID,
+            OMB_M_21_19_RAW_PATH,
+            OMB_M_21_19_RAW_BYTES,
+            OMB_M_21_19_RAW_SHA256,
+            Some(79),
+        ),
+        (
+            "cms_foia_filing",
+            CMS_FOIA_FILING_SOURCE_ID,
+            CMS_FOIA_FILING_RAW_PATH,
+            CMS_FOIA_FILING_RAW_BYTES,
+            CMS_FOIA_FILING_RAW_SHA256,
+            None,
+        ),
+        (
+            "ecfr_45_cfr_5",
+            ECFR_45_CFR_5_SOURCE_ID,
+            ECFR_45_CFR_5_RAW_PATH,
+            ECFR_45_CFR_5_RAW_BYTES,
+            ECFR_45_CFR_5_RAW_SHA256,
+            Some(18),
+        ),
+    ] {
+        let custody = intake_custody
+            .get(key)
+            .ok_or_else(|| format!("Part D FOIA intake missing custody {key}"))?;
+        let raw = root.join(raw_path);
+        if string_field(custody, "source_id")? != source_id
+            || string_field(custody, "raw_path")? != raw_path
+            || int_field(custody, "bytes")? != bytes as i64
+            || string_field(custody, "checksum_sha256")? != checksum.to_ascii_uppercase()
+            || pages.is_some_and(|pages| int_field(custody, "pdf_file_pages").ok() != Some(pages))
+            || fs::metadata(&raw).map_err(|err| err.to_string())?.len() != bytes
+            || sha256_file(&raw)? != checksum
+        {
+            return Err(format!("Part D FOIA intake custody failed for {key}"));
+        }
+    }
+    let intake_hhs_blocked = part_d_intake_contract
+        .get("web_verified_custody_blocked")
+        .ok_or("Part D FOIA intake HHS custody blocker")?;
+    if intake_hhs_blocked != hhs_blocked {
+        return Err("Part D FOIA intake HHS custody blocker drifted from Pulse48".to_string());
+    }
+    let hard_preflight = part_d_intake_contract
+        .get("hard_preflight")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Part D FOIA intake hard preflight")?;
+    let preflight_bool_fields = hard_preflight
+        .iter()
+        .filter(|(_, value)| value.is_boolean())
+        .collect::<Vec<_>>();
+    if preflight_bool_fields.len() != 17
+        || preflight_bool_fields
+            .iter()
+            .any(|(_, value)| value.as_bool() != Some(false))
+        || !string_field(&part_d_intake_contract["hard_preflight"], "preflight_rule")?
+            .contains("necessary but insufficient")
+        || !string_field(
+            &part_d_intake_contract["hard_preflight"],
+            "completion_effect",
+        )?
+        .contains("does not itself submit")
+    {
+        return Err("Part D FOIA intake hard preflight must remain all-false".to_string());
+    }
+    let lifecycle_states = part_d_intake_contract
+        .get("lifecycle_states")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Part D FOIA intake lifecycle states")?;
+    let expected_state_names = [
+        "draft_not_submitted",
+        "authorized_for_submission",
+        "submitted",
+        "received_or_routed",
+        "acknowledged",
+        "clarification_or_scope_discussion",
+        "perfected_or_processing",
+        "fee_estimate_or_commitment_pending",
+        "unusual_circumstances_or_extended",
+        "rolling_or_partial_production",
+        "full_production",
+        "no_records",
+        "partial_adverse_determination",
+        "full_adverse_determination",
+        "withdrawn_or_closed_without_determination",
+        "administrative_appeal_pending",
+        "appeal_granted_or_remanded",
+        "appeal_partially_granted",
+        "appeal_denied",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let state_names = lifecycle_states
+        .iter()
+        .map(|state| string_field(state, "state"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if lifecycle_states.len() != 19
+        || state_names != expected_state_names
+        || lifecycle_states.iter().any(|state| {
+            string_field(state, "evidentiary_effect").is_ok_and(|effect| effect.trim().is_empty())
+        })
+    {
+        return Err("Part D FOIA intake must retain 19 unique bounded states".to_string());
+    }
+    for (state, required) in [
+        ("draft_not_submitted", "no external action"),
+        ("authorized_for_submission", "owner authorization only"),
+        ("submitted", "outbound transmission only"),
+        ("acknowledged", "no production or methodology evidence"),
+        (
+            "fee_estimate_or_commitment_pending",
+            "not proof that responsive records exist",
+        ),
+        (
+            "rolling_or_partial_production",
+            "no automatic field closure",
+        ),
+        ("no_records", "result of the described search"),
+        (
+            "full_adverse_determination",
+            "not proof that requested records",
+        ),
+        (
+            "appeal_denied",
+            "nonexistence and substantive outcomes are not inferred",
+        ),
+    ] {
+        let effect = lifecycle_states
+            .iter()
+            .find(|entry| string_field(entry, "state").ok().as_deref() == Some(state))
+            .ok_or_else(|| format!("Part D FOIA intake state missing {state}"))?;
+        if !string_field(effect, "evidentiary_effect")?.contains(required) {
+            return Err(format!(
+                "Part D FOIA intake state {state} missing {required}"
+            ));
+        }
+    }
+    let expected_events = serde_json::json!([
+        "authorization_recorded",
+        "authorization_revoked",
+        "submission_transmitted",
+        "receipt_or_routing_recorded",
+        "acknowledgment_received",
+        "clarification_or_narrowing_requested",
+        "clarification_response_recorded",
+        "clarification_toll_started",
+        "clarification_toll_ended",
+        "processing_perfected_or_track_assigned",
+        "fee_notice_received",
+        "fee_response_recorded",
+        "fee_toll_started",
+        "fee_toll_ended",
+        "unusual_circumstances_notice_received",
+        "estimated_completion_updated",
+        "referral_consultation_or_coordination_notice_received",
+        "partial_production_received",
+        "full_production_received",
+        "no_records_determination_received",
+        "partial_adverse_determination_received",
+        "full_adverse_determination_received",
+        "withdrawal_or_administrative_closure_recorded",
+        "appeal_submitted",
+        "appeal_granted_or_remanded_received",
+        "appeal_partially_granted_received",
+        "appeal_denied_received",
+        "public_liaison_or_ogis_contact_recorded"
+    ]);
+    if part_d_intake_contract.get("allowed_event_types") != Some(&expected_events) {
+        return Err("Part D FOIA intake allowed event taxonomy failed".to_string());
+    }
+    let transition_graph = part_d_intake_contract
+        .get("allowed_state_transitions")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Part D FOIA intake transition graph")?;
+    let transition_keys = transition_graph.keys().cloned().collect::<BTreeSet<_>>();
+    let mut transition_edge_count = 0;
+    for (source, targets) in transition_graph {
+        let targets = targets
+            .as_array()
+            .ok_or_else(|| format!("Part D FOIA intake transitions for {source}"))?;
+        transition_edge_count += targets.len();
+        for target in targets {
+            let target = target
+                .as_str()
+                .ok_or("Part D FOIA intake transition target")?;
+            if !expected_state_names.contains(target) {
+                return Err(format!(
+                    "Part D FOIA intake invalid transition {source}->{target}"
+                ));
+            }
+        }
+    }
+    if transition_keys != expected_state_names
+        || transition_edge_count != 74
+        || transition_graph.get("draft_not_submitted")
+            != Some(&serde_json::json!(["authorized_for_submission"]))
+        || transition_graph.get("authorized_for_submission")
+            != Some(&serde_json::json!(["draft_not_submitted", "submitted"]))
+        || transition_graph.get("administrative_appeal_pending")
+            != Some(&serde_json::json!([
+                "appeal_granted_or_remanded",
+                "appeal_partially_granted",
+                "appeal_denied"
+            ]))
+        || transition_graph.get("full_production") != Some(&serde_json::json!([]))
+        || transition_graph.get("appeal_denied") != Some(&serde_json::json!([]))
+    {
+        return Err("Part D FOIA intake closed-world transition graph failed".to_string());
+    }
+    let transition_invariants = part_d_intake_contract
+        .get("transition_invariants")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Part D FOIA intake transition invariants")?;
+    if transition_invariants.len() != 8 {
+        return Err("Part D FOIA intake must retain eight transition invariants".to_string());
+    }
+    for required in [
+        "closed-world enumerations",
+        "append-only",
+        "Every state change must be an allowed edge",
+        "Submission requires every applicable hard-preflight boolean true",
+        "Agency-response states require locally held correspondence custody",
+        "requires separate owner authorization",
+        "No event or state adjudicates",
+        "cannot change methodology counts",
+    ] {
+        if !transition_invariants
+            .iter()
+            .any(|item| item.as_str().is_some_and(|item| item.contains(required)))
+        {
+            return Err(format!(
+                "Part D FOIA intake transition invariants missing {required}"
+            ));
+        }
+    }
+    let timing = part_d_intake_contract
+        .get("administrative_timing_boundaries")
+        .ok_or("Part D FOIA intake timing boundaries")?;
+    if int_field(timing, "appropriate_office_acknowledgment_working_days")? != 10
+        || int_field(timing, "ordinary_initial_determination_working_days")? != 20
+        || int_field(
+            timing,
+            "unusual_circumstances_extension_over_working_days_triggers_narrowing_offer",
+        )? != 10
+        || int_field(
+            timing,
+            "minimum_requester_response_window_for_clarification_or_fee_working_days",
+        )? != 20
+        || int_field(timing, "administrative_appeal_deadline_calendar_days")? != 90
+        || int_field(timing, "ordinary_appeal_response_working_days")? != 20
+        || timing
+            .get("no_deadline_adjudication")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || !string_field(timing, "tolling_boundary")?.contains("do not calculate")
+        || !string_field(timing, "determination_not_production_boundary")?
+            .contains("not a promised production date")
+        || !string_field(timing, "liaison_ogis_boundary")?.contains("not treated as an appeal")
+    {
+        return Err("Part D FOIA intake administrative timing boundary failed".to_string());
+    }
+    let appeal = part_d_intake_contract
+        .get("appeal_taxonomy")
+        .ok_or("Part D FOIA intake appeal taxonomy")?;
+    if appeal.get("appeal_eligible_adverse_determinations")
+        != Some(&serde_json::json!([
+            "refusal_to_release_in_full_or_part",
+            "record_does_not_exist_or_cannot_be_found",
+            "request_does_not_reasonably_describe_records",
+            "requested_record_not_subject_to_foia",
+            "expedited_processing_denial",
+            "fee_waiver_denial",
+            "fee_category_determination"
+        ]))
+        || appeal
+            .get("required_capture")
+            .and_then(serde_json::Value::as_array)
+            .map(Vec::len)
+            != Some(8)
+        || !string_field(appeal, "appeal_boundary")?.contains("does not authorize an appeal")
+    {
+        return Err("Part D FOIA intake appeal taxonomy failed".to_string());
+    }
+    let intake_required = part_d_intake_contract
+        .get("intake_required_fields")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Part D FOIA intake required fields")?;
+    if intake_required.len() != 20 {
+        return Err("Part D FOIA intake must retain twenty required-field groups".to_string());
+    }
+    for required in [
+        "exact outbound SHA-256",
+        "append-only event ID",
+        "local path, bytes, and SHA-256",
+        "clarification and fee toll",
+        "production file names",
+        "CY2022/FY2024 cohort",
+        "separate recoverable-amount basis",
+        "no-evidence boundary",
+    ] {
+        if !intake_required
+            .iter()
+            .any(|item| item.as_str().is_some_and(|item| item.contains(required)))
+        {
+            return Err(format!(
+                "Part D FOIA intake required fields missing {required}"
+            ));
+        }
+    }
+    let production_gates = part_d_intake_contract
+        .get("production_review_gates")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Part D FOIA intake production gates")?;
+    if production_gates.len() != 13
+        || production_gates
+            .values()
+            .any(|value| value.as_bool() != Some(false))
+        || string_field(&part_d_intake_contract, "blank_intake_template_path")?
+            != MEDICARE_PART_D_FOIA_RESPONSE_INTAKE_TEMPLATE_PATH
+        || string_field(&part_d_intake_contract, "preflight_checklist_path")?
+            != MEDICARE_PART_D_FOIA_PREFLIGHT_PATH
+        || string_field(&part_d_intake_contract, "reader_path")?
+            != MEDICARE_PART_D_FOIA_RESPONSE_INTAKE_READER_PATH
+    {
+        return Err("Part D FOIA intake production gates or linked paths failed".to_string());
+    }
+    let no_evidence = part_d_intake_contract
+        .get("no_evidence_boundary")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Part D FOIA intake no-evidence boundary")?;
+    if no_evidence
+        .iter()
+        .filter(|(_, value)| value.is_boolean())
+        .count()
+        != 8
+        || no_evidence
+            .values()
+            .filter_map(serde_json::Value::as_bool)
+            .any(|value| value)
+        || !string_field(
+            &part_d_intake_contract["no_evidence_boundary"],
+            "interpretation",
+        )?
+        .contains("internal controls only")
+    {
+        return Err("Part D FOIA intake no-evidence boundary failed".to_string());
+    }
+    let intake_decision = part_d_intake_contract
+        .get("decision")
+        .ok_or("Part D FOIA intake decision")?;
+    let intake_status = part_d_intake_contract
+        .get("program_status")
+        .ok_or("Part D FOIA intake program status")?;
+    if string_field(intake_decision, "decision_status")?
+        != "preflight_and_intake_contract_complete_submission_still_blocked"
+        || int_field(intake_decision, "new_component_closures")? != 0
+        || int_field(intake_decision, "new_full_field_closures")? != 0
+        || int_field(intake_status, "total_methodology_fields")? != 8
+        || int_field(intake_status, "closed_field_count")? != 3
+        || int_field(intake_status, "open_field_count")? != 5
+        || int_field(intake_status, "closure_decision_count")? != 3
+        || int_field(intake_status, "residual_gap_count")? != 5
+        || intake_status.get("closed_fields")
+            != Some(&serde_json::json!([
+                "sample period",
+                "payment type split",
+                "sponsor documentation dependency treatment"
+            ]))
+        || intake_status.get("open_fields")
+            != Some(&serde_json::json!([
+                "sample design",
+                "payment universe",
+                "estimation method",
+                "exclusion rules",
+                "overpayment versus recoverable amount basis"
+            ]))
+    {
+        return Err("Part D FOIA intake decision or 3/5 boundary failed".to_string());
+    }
+    for field in [
+        "public_claim_allowed",
+        "field_closure_allowed",
+        "scoring_allowed",
+        "fraud_claim_allowed",
+        "waste_claim_allowed",
+        "debt_claim_allowed",
+        "collectibility_claim_allowed",
+        "recovery_claim_allowed",
+        "prevention_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if part_d_intake_contract
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!("Part D FOIA intake must keep {field} false"));
+        }
+    }
+    let blank_intake_text = fs::read_to_string(
+        root.join(MEDICARE_PART_D_FOIA_RESPONSE_INTAKE_TEMPLATE_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {MEDICARE_PART_D_FOIA_RESPONSE_INTAKE_TEMPLATE_PATH}: {err}")
+    })?;
+    let blank_intake: serde_json::Value =
+        serde_json::from_str(&blank_intake_text).map_err(|err| {
+            format!("failed to parse {MEDICARE_PART_D_FOIA_RESPONSE_INTAKE_TEMPLATE_PATH}: {err}")
+        })?;
+    let mut blank_stack = vec![&blank_intake];
+    while let Some(value) = blank_stack.pop() {
+        match value {
+            serde_json::Value::Object(object) => blank_stack.extend(object.values()),
+            serde_json::Value::Array(array) if array.is_empty() => {}
+            serde_json::Value::Array(_) => {
+                return Err("Part D blank FOIA intake arrays must start empty".to_string());
+            }
+            serde_json::Value::Bool(false)
+            | serde_json::Value::Null
+            | serde_json::Value::String(_) => {}
+            serde_json::Value::Bool(true) | serde_json::Value::Number(_) => {
+                return Err(
+                    "Part D blank FOIA intake dynamic values must be null, empty, or false"
+                        .to_string(),
+                );
+            }
+        }
+    }
+    if blank_intake.get("record_id") != Some(&serde_json::Value::Null)
+        || string_field(&blank_intake, "record_family")?
+            != "medicare_part_d_sampling_estimation_methodology_plan_foia_response_intake"
+        || string_field(&blank_intake, "program_id")? != "cms-part-d"
+        || string_field(&blank_intake, "request_specification_record_id")?
+            != "payment-integrity-sampling-estimation-methodology-plan-request-specification:cms-part-d:fy2024"
+        || string_field(&blank_intake, "current_lifecycle_state")? != "draft_not_submitted"
+        || blank_intake.get("prior_lifecycle_state") != Some(&serde_json::Value::Null)
+        || blank_intake.get("events") != Some(&serde_json::json!([]))
+        || blank_intake.get("production_files") != Some(&serde_json::json!([]))
+        || string_field(&blank_intake["fee_and_expedition"], "commitment_status")?
+            != "not_authorized"
+        || string_field(&blank_intake["appeal"], "status")? != "not_applicable"
+        || string_field(&blank_intake["claim_gate"], "reviewer_note")?
+            != "No evidence inference is allowed from this blank intake template."
+    {
+        return Err("Part D blank FOIA intake initial state failed".to_string());
+    }
+    let intake_preflight = fs::read_to_string(root.join(MEDICARE_PART_D_FOIA_PREFLIGHT_PATH))
+        .map_err(|err| format!("failed to read {MEDICARE_PART_D_FOIA_PREFLIGHT_PATH}: {err}"))?;
+    for required in [
+        "blocked; owner completion",
+        "necessary but",
+        "insufficient",
+        "Exactly one CMS channel",
+        "No fee is paid or committed",
+        "existing final CY2022/FY2024 Part D S&EMP",
+        "reasonably segregable nonexempt portions",
+        "exact request text is frozen",
+        "SHA-256 is computed",
+        "draft_not_submitted",
+        "do not rewrite the blank history",
+        "does not itself authorize or perform submission",
+    ] {
+        if !intake_preflight.contains(required) {
+            return Err(format!("Part D FOIA intake preflight missing {required}"));
+        }
+    }
+    let intake_reader = fs::read_to_string(
+        root.join(MEDICARE_PART_D_FOIA_RESPONSE_INTAKE_READER_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {MEDICARE_PART_D_FOIA_RESPONSE_INTAKE_READER_PATH}: {err}")
+    })?;
+    for required in [
+        MEDICARE_PART_D_FOIA_RESPONSE_INTAKE_CONTRACT_JSON_PATH,
+        MEDICARE_PART_D_FOIA_RESPONSE_INTAKE_TEMPLATE_PATH,
+        "hard submission preflight",
+        "Every submission gate starts false",
+        "draft_not_submitted",
+        "contains no events or agency",
+        "append-only",
+        "Administrative evidence firewall",
+        "no-records responses",
+        "does not adjudicate deadlines",
+        "draft and unsent",
+        "Zero components and fields close",
+        "three closed and five open",
+        "Every public, field",
+        "gate remains false",
+    ] {
+        if !intake_reader.contains(required) {
+            return Err(format!("Part D FOIA intake reader missing {required}"));
+        }
+    }
+
+    let part_d_submission_guide_raw = root.join(CMS_PART_D_IPM_CY2022_SUBMISSION_GUIDE_RAW_PATH);
+    if fs::metadata(&part_d_submission_guide_raw)
+        .map_err(|err| err.to_string())?
+        .len()
+        != CMS_PART_D_IPM_CY2022_SUBMISSION_GUIDE_RAW_BYTES
+        || sha256_file(&part_d_submission_guide_raw)?
+            != CMS_PART_D_IPM_CY2022_SUBMISSION_GUIDE_RAW_SHA256
+    {
+        return Err("CMS Part D CY2022 submission guide raw custody failed".to_string());
+    }
+    let part_d_submission_guide_metadata =
+        fs::read_to_string(root.join(CMS_PART_D_IPM_CY2022_SUBMISSION_GUIDE_METADATA_PATH))
+            .map_err(|err| {
+                format!(
+                    "failed to read {CMS_PART_D_IPM_CY2022_SUBMISSION_GUIDE_METADATA_PATH}: {err}"
+                )
+            })?;
+    for required in [
+        CMS_PART_D_IPM_CY2022_SUBMISSION_GUIDE_SOURCE_ID,
+        CMS_PART_D_IPM_CY2022_SUBMISSION_GUIDE_RAW_PATH,
+        "5962810",
+        "52A76C9910BB66EDD387D127744F864D78E59826BC5FF0162BC81EDE428C7199",
+        "40 PDF file pages",
+    ] {
+        if !part_d_submission_guide_metadata.contains(required) {
+            return Err(format!(
+                "CMS Part D CY2022 submission guide metadata missing {required}"
+            ));
+        }
+    }
+
+    let part_d_faq_raw = root.join(CMS_PART_D_IPM_CY2022_FAQ_RAW_PATH);
+    if fs::metadata(&part_d_faq_raw)
+        .map_err(|err| err.to_string())?
+        .len()
+        != CMS_PART_D_IPM_CY2022_FAQ_RAW_BYTES
+        || sha256_file(&part_d_faq_raw)? != CMS_PART_D_IPM_CY2022_FAQ_RAW_SHA256
+    {
+        return Err("CMS Part D CY2022 FAQ raw custody failed".to_string());
+    }
+    let part_d_faq_metadata =
+        fs::read_to_string(root.join(CMS_PART_D_IPM_CY2022_FAQ_METADATA_PATH)).map_err(|err| {
+            format!("failed to read {CMS_PART_D_IPM_CY2022_FAQ_METADATA_PATH}: {err}")
+        })?;
+    for required in [
+        CMS_PART_D_IPM_CY2022_FAQ_SOURCE_ID,
+        CMS_PART_D_IPM_CY2022_FAQ_RAW_PATH,
+        "304485",
+        "1F3E3FDDB8A954A0096810CE24E6EDE482938191DCFF6C2D3B779727330891D4",
+        "PDE review failure is a measurement status",
+    ] {
+        if !part_d_faq_metadata.contains(required) {
+            return Err(format!("CMS Part D CY2022 FAQ metadata missing {required}"));
+        }
+    }
+
+    let part_d_dependency_bridge: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(
+            MEDICARE_PART_D_SPONSOR_DOCUMENTATION_DEPENDENCY_BRIDGE_JSON_PATH,
+        ))
+        .map_err(|err| {
+            format!(
+                "failed to read {MEDICARE_PART_D_SPONSOR_DOCUMENTATION_DEPENDENCY_BRIDGE_JSON_PATH}: {err}"
+            )
+        })?,
+    )
+    .map_err(|err| {
+        format!(
+            "failed to parse {MEDICARE_PART_D_SPONSOR_DOCUMENTATION_DEPENDENCY_BRIDGE_JSON_PATH}: {err}"
+        )
+    })?;
+    let part_d_timeline = part_d_dependency_bridge
+        .get("submission_timeline")
+        .ok_or("Part D sponsor-documentation submission timeline")?;
+    let part_d_measurement_effect = part_d_dependency_bridge
+        .get("published_measurement_effect")
+        .ok_or("Part D sponsor-documentation measurement effect")?;
+    let part_d_dependency_closure = part_d_dependency_bridge
+        .get("methodology_closure_decision")
+        .ok_or("Part D sponsor-documentation closure decision")?;
+    if string_field(&part_d_dependency_bridge, "record_family")?
+        != "medicare_part_d_sponsor_documentation_dependency_bridge"
+        || string_field(&part_d_dependency_bridge, "program_id")? != "cms-part-d"
+        || string_field(part_d_timeline, "reconciliation_pde_cutoff")? != "2023-06-29"
+        || string_field(part_d_timeline, "final_submission_deadline")? != "2024-04-19 23:59 PT"
+        || number_field(
+            part_d_measurement_effect,
+            "documentation_overpayment_rate_percent",
+        )? != 2.70
+        || number_field(
+            part_d_measurement_effect,
+            "drug_and_pricing_discrepancy_rate_percent",
+        )? != 0.46
+        || number_field(part_d_measurement_effect, "total_overpayment_rate_percent")? != 3.16
+        || string_field(part_d_dependency_closure, "closed_methodology_field")?
+            != "sponsor documentation dependency treatment"
+        || part_d_dependency_closure
+            .get("field_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || number_field(part_d_dependency_closure, "current_closed_field_count")? != 3.0
+        || number_field(part_d_dependency_closure, "current_open_field_count")? != 5.0
+        || part_d_dependency_bridge
+            .get("public_claim_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || part_d_dependency_bridge
+            .get("recovery_claim_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || part_d_dependency_bridge
+            .get("savings_estimate_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("Medicare Part D sponsor-documentation dependency bridge failed".to_string());
+    }
+    let part_d_dependency_bridge_reader = fs::read_to_string(root.join(
+        MEDICARE_PART_D_SPONSOR_DOCUMENTATION_DEPENDENCY_BRIDGE_READER_PATH,
+    ))
+    .map_err(|err| {
+        format!(
+            "failed to read {MEDICARE_PART_D_SPONSOR_DOCUMENTATION_DEPENDENCY_BRIDGE_READER_PATH}: {err}"
+        )
+    })?;
+    for required in [
+        MEDICARE_PART_D_SPONSOR_DOCUMENTATION_DEPENDENCY_BRIDGE_JSON_PATH,
+        "April 19, 2024",
+        "2.70%",
+        "three closed and five open",
+        "not identified debt",
+        "No score",
+    ] {
+        if !part_d_dependency_bridge_reader.contains(required) {
+            return Err(format!(
+                "Medicare Part D sponsor-documentation dependency reader missing {required}"
+            ));
+        }
+    }
+
+    let va_afr_raw = root.join(VA_AFR_SECTION_III_FY2025_RAW_PATH);
+    if fs::metadata(&va_afr_raw)
+        .map_err(|err| err.to_string())?
+        .len()
+        != VA_AFR_SECTION_III_FY2025_RAW_BYTES
+        || sha256_file(&va_afr_raw)? != VA_AFR_SECTION_III_FY2025_RAW_SHA256
+    {
+        return Err("VA FY2025 AFR raw custody failed".to_string());
+    }
+    let va_afr_metadata = fs::read_to_string(root.join(VA_AFR_SECTION_III_FY2025_METADATA_PATH))
+        .map_err(|err| {
+            format!("failed to read {VA_AFR_SECTION_III_FY2025_METADATA_PATH}: {err}")
+        })?;
+    for required in [
+        VA_AFR_SECTION_III_FY2025_SOURCE_ID,
+        VA_AFR_SECTION_III_FY2025_RAW_PATH,
+        "1204753",
+        "3F3E19818ECF5F59F241D8DEAC4BC2FFA2E377C7BE4DAF65666C33D75CB2F7C1",
+        "statistical payment-category estimate, not a debt ledger",
+    ] {
+        if !va_afr_metadata.contains(required) {
+            return Err(format!("VA FY2025 AFR metadata missing {required}"));
+        }
+    }
+    let va_payment_type_bridge: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(VA_PLTSS_PAYMENT_TYPE_COMPOSITION_BRIDGE_JSON_PATH))
+            .map_err(|err| {
+                format!(
+                    "failed to read {VA_PLTSS_PAYMENT_TYPE_COMPOSITION_BRIDGE_JSON_PATH}: {err}"
+                )
+            })?,
+    )
+    .map_err(|err| {
+        format!("failed to parse {VA_PLTSS_PAYMENT_TYPE_COMPOSITION_BRIDGE_JSON_PATH}: {err}")
+    })?;
+    if string_field(&va_payment_type_bridge, "record_family")?
+        != "va_pltss_payment_type_composition_bridge"
+        || string_field(&va_payment_type_bridge, "program_id")? != "va-pltss"
+        || number_field(
+            va_payment_type_bridge
+                .get("same_period_fy2024_composition_millions")
+                .ok_or("VA PLTSS same-period composition")?,
+            "overpayments",
+        )? != 218.30
+        || number_field(
+            va_payment_type_bridge
+                .get("publisher_reported_composition_millions")
+                .ok_or("VA PLTSS later composition")?,
+            "overpayments",
+        )? != 77.08
+        || va_payment_type_bridge
+            .get("methodology_closure_decision")
+            .and_then(|value| value.get("field_closed"))
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || va_payment_type_bridge
+            .get("public_claim_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || va_payment_type_bridge
+            .get("debt_claim_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || va_payment_type_bridge
+            .get("savings_estimate_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("VA PLTSS payment-type composition bridge failed".to_string());
+    }
+    let va_payment_type_reader =
+        fs::read_to_string(root.join(VA_PLTSS_PAYMENT_TYPE_COMPOSITION_BRIDGE_READER_PATH))
+            .map_err(|err| {
+                format!(
+                    "failed to read {VA_PLTSS_PAYMENT_TYPE_COMPOSITION_BRIDGE_READER_PATH}: {err}"
+                )
+            })?;
+    for required in [
+        VA_PLTSS_PAYMENT_TYPE_COMPOSITION_BRIDGE_JSON_PATH,
+        "$218.30 million overpayments",
+        "$77.08 million overpayment estimate",
+        "two closed fields and six open fields",
+        "must not be combined",
+        "No recovery rate",
+    ] {
+        if !va_payment_type_reader.contains(required) {
+            return Err(format!("VA PLTSS payment-type reader missing {required}"));
+        }
+    }
+
+    for (raw_path, expected_bytes, expected_sha256, metadata_path, source_id) in [
+        (
+            VA_PAYMENT_INTEGRITY_POLICY_RAW_PATH,
+            VA_PAYMENT_INTEGRITY_POLICY_RAW_BYTES,
+            VA_PAYMENT_INTEGRITY_POLICY_RAW_SHA256,
+            VA_PAYMENT_INTEGRITY_POLICY_METADATA_PATH,
+            VA_PAYMENT_INTEGRITY_POLICY_SOURCE_ID,
+        ),
+        (
+            VA_OVERPAYMENT_AUDIT_POLICY_RAW_PATH,
+            VA_OVERPAYMENT_AUDIT_POLICY_RAW_BYTES,
+            VA_OVERPAYMENT_AUDIT_POLICY_RAW_SHA256,
+            VA_OVERPAYMENT_AUDIT_POLICY_METADATA_PATH,
+            VA_OVERPAYMENT_AUDIT_POLICY_SOURCE_ID,
+        ),
+    ] {
+        let raw = root.join(raw_path);
+        if fs::metadata(&raw).map_err(|err| err.to_string())?.len() != expected_bytes
+            || sha256_file(&raw)? != expected_sha256
+        {
+            return Err(format!("VA policy raw custody failed for {source_id}"));
+        }
+        let metadata = fs::read_to_string(root.join(metadata_path))
+            .map_err(|err| format!("failed to read {metadata_path}: {err}"))?;
+        for required in [
+            source_id,
+            raw_path,
+            &expected_bytes.to_string(),
+            &expected_sha256.to_ascii_uppercase(),
+            "postdates",
+        ] {
+            if !metadata.contains(required) {
+                return Err(format!(
+                    "VA policy metadata {metadata_path} missing {required}"
+                ));
+            }
+        }
+    }
+    let va_documentation_boundary: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(
+            VA_PLTSS_DOCUMENTATION_RECOVERABILITY_BOUNDARY_JSON_PATH,
+        ))
+        .map_err(|err| {
+            format!(
+                "failed to read {VA_PLTSS_DOCUMENTATION_RECOVERABILITY_BOUNDARY_JSON_PATH}: {err}"
+            )
+        })?,
+    )
+    .map_err(|err| {
+        format!(
+            "failed to parse {VA_PLTSS_DOCUMENTATION_RECOVERABILITY_BOUNDARY_JSON_PATH}: {err}"
+        )
+    })?;
+    let va_documentation_decision = va_documentation_boundary
+        .get("decision")
+        .ok_or("VA PLTSS documentation boundary decision")?;
+    if string_field(&va_documentation_boundary, "record_family")?
+        != "va_pltss_documentation_recoverability_boundary"
+        || string_field(va_documentation_decision, "decision_status")?
+            != "narrow_policy_boundary_recorded_full_field_open"
+        || number_field(va_documentation_decision, "new_full_field_closures")? != 0.0
+        || number_field(va_documentation_decision, "closed_field_count")? != 2.0
+        || number_field(va_documentation_decision, "open_field_count")? != 6.0
+        || va_documentation_decision
+            .get("documentation_defect_versus_recoverable_overpayment_basis_field_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || va_documentation_boundary
+            .get("recovery_claim_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || va_documentation_boundary
+            .get("savings_estimate_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("VA PLTSS documentation-recoverability boundary failed".to_string());
+    }
+    let va_documentation_reader =
+        fs::read_to_string(root.join(VA_PLTSS_DOCUMENTATION_RECOVERABILITY_BOUNDARY_READER_PATH))
+            .map_err(|err| {
+            format!(
+                "failed to read {VA_PLTSS_DOCUMENTATION_RECOVERABILITY_BOUNDARY_READER_PATH}: {err}"
+            )
+        })?;
+    for required in [
+        VA_PLTSS_DOCUMENTATION_RECOVERABILITY_BOUNDARY_JSON_PATH,
+        "unknown payment",
+        "actual funds certified recovered",
+        "not recovered cash",
+        "two fields closed and six open",
+        "No score",
+    ] {
+        if !va_documentation_reader.contains(required) {
+            return Err(format!("VA PLTSS documentation reader missing {required}"));
+        }
+    }
+
+    let va_oig_verification: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(VA_PLTSS_OIG_VERIFICATION_JSON_PATH)).map_err(|err| {
+            format!("failed to read {VA_PLTSS_OIG_VERIFICATION_JSON_PATH}: {err}")
+        })?,
+    )
+    .map_err(|err| format!("failed to parse {VA_PLTSS_OIG_VERIFICATION_JSON_PATH}: {err}"))?;
+    if string_field(&va_oig_verification, "record_id")?
+        != "source-verification:va-pltss:va-oig-piia-fy2024"
+        || string_field(&va_oig_verification, "record_family")?
+            != "payment_integrity_independent_verification"
+        || string_field(&va_oig_verification, "program_id")? != "va-pltss"
+        || string_field(&va_oig_verification, "source_id")? != VA_OIG_PIIA_FY2024_SOURCE_ID
+        || va_oig_verification.get("verified_reporting")
+            != Some(&serde_json::json!({
+                "fy2024_improper_and_unknown_rate_percent": 13.52,
+                "fy2024_improper_and_unknown_amount_millions": 760.10,
+                "fy2023_improper_and_unknown_rate_percent": 38.72,
+                "fy2023_improper_and_unknown_amount_millions": 1417.99,
+                "fy2024_requirement_6_below_ten_percent_met": false
+            }))
+        || va_oig_verification.get("recovery_lineage_discovery")
+            != Some(&serde_json::json!({
+                "claim_cohort_published": false,
+                "established_receivable_cohort_published": false,
+                "appeal_or_reversal_disposition_published": false,
+                "collection_transaction_cohort_published": false,
+                "questioned_costs_millions": 0.0,
+                "funds_for_better_use_millions": 0.0,
+                "result": "no_public_transaction_lineage_in_report"
+            }))
+        || va_oig_verification.get("methodology_review")
+            != Some(&serde_json::json!({
+                "prior_year_activity_allowed_for_fy2024_reporting": true,
+                "sampling_plans_reviewed": true,
+                "sample_estimates_independently_verified": true,
+                "margins_of_error_independently_verified": true,
+                "independent_statistical_estimates_developed": true,
+                "pltss_specific_formula_or_weights_published": false
+            }))
+        || string_field(&va_oig_verification, "prohibited_interpretation")?
+            != "Do not treat compliance verification, a high-priority designation, or a reduction target as identified debt, recovered dollars, fraud, prevented loss, or net savings."
+        || va_oig_verification
+            .get("public_claim_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || va_oig_verification
+            .get("savings_estimate_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("VA PLTSS OIG verification record failed".to_string());
+    }
+    let va_oig_reader = fs::read_to_string(root.join(VA_PLTSS_OIG_VERIFICATION_READER_PATH))
+        .map_err(|err| format!("failed to read {VA_PLTSS_OIG_VERIFICATION_READER_PATH}: {err}"))?;
+    for required in [
+        VA_PLTSS_OIG_VERIFICATION_JSON_PATH,
+        "$760.10M at 13.52%",
+        "October 2022 through",
+        "September 2023",
+        "does not publish a PLTSS claim cohort",
+        "questioned costs and zero funds",
+        "not debt establishment",
+    ] {
+        if !va_oig_reader.contains(required) {
+            return Err(format!(
+                "VA PLTSS OIG verification reader missing {required}"
+            ));
+        }
+    }
+
+    let va_same_cohort: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(VA_PLTSS_SAME_COHORT_LINEAGE_CEILING_JSON_PATH)).map_err(
+            |err| format!("failed to read {VA_PLTSS_SAME_COHORT_LINEAGE_CEILING_JSON_PATH}: {err}"),
+        )?,
+    )
+    .map_err(|err| {
+        format!("failed to parse {VA_PLTSS_SAME_COHORT_LINEAGE_CEILING_JSON_PATH}: {err}")
+    })?;
+    let expected_source_ids = serde_json::json!([
+        "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+        VA_PLTSS_Q4_2025_SOURCE_ID,
+        VA_OIG_PIIA_FY2024_SOURCE_ID,
+        VA_AFR_SECTION_III_FY2025_SOURCE_ID,
+        VA_PAYMENT_INTEGRITY_POLICY_SOURCE_ID,
+        VA_OVERPAYMENT_AUDIT_POLICY_SOURCE_ID
+    ]);
+    let expected_upstreams = serde_json::json!([
+        "data/derived/breadth_benchmark_matrix/va_pltss_recovery_bridge.fy2024-q4-2025.v1.draft.json",
+        VA_PLTSS_OIG_VERIFICATION_JSON_PATH,
+        VA_PLTSS_PAYMENT_TYPE_COMPOSITION_BRIDGE_JSON_PATH,
+        VA_PLTSS_DOCUMENTATION_RECOVERABILITY_BOUNDARY_JSON_PATH
+    ]);
+    let expected_reviews = serde_json::json!([
+        PAYMENT_INTEGRITY_FY2024_ANNUAL_EXTRACTION_ROLE_REVIEW_PATH,
+        "reviews/2026-07-13-payment-integrity-va-pltss-source-role-review.md",
+        "reviews/2026-07-13-va-pltss-recovery-bridge-role-review.md"
+    ]);
+    if string_field(&va_same_cohort, "record_id")?
+        != "payment-integrity-same-cohort-debt-collection-lineage-evidence-ceiling:va-pltss:fy2024-q4-2025"
+        || string_field(&va_same_cohort, "record_family")?
+            != "va_pltss_same_cohort_debt_collection_lineage_evidence_ceiling"
+        || string_field(&va_same_cohort, "program_id")? != "va-pltss"
+        || string_field(&va_same_cohort, "agency_code")? != "VA"
+        || string_field(&va_same_cohort, "component")?
+            != "same-cohort projected-error to debt, dispute, collectibility, collection, and certified-recovery lineage evidence ceiling"
+        || string_field(&va_same_cohort, "status")?
+            != "custodied_source_inventory_complete_same_cohort_debt_collection_lineage_not_observed_zero_field_closures"
+        || va_same_cohort.get("source_ids") != Some(&expected_source_ids)
+        || va_same_cohort.get("upstream_artifacts") != Some(&expected_upstreams)
+        || va_same_cohort.get("review_inputs") != Some(&expected_reviews)
+    {
+        return Err("VA PLTSS same-cohort identity or ordered inputs failed".to_string());
+    }
+    let expected_roles = serde_json::json!([
+        {"source_id":"SRC-OMB-PAYMENTACCURACY-FY2024-DATA","role":"reviewed_evidence","boundary":"Same-period FY2024 statistical estimate and payment-type composition; not a debt or collection ledger."},
+        {"source_id":VA_PLTSS_Q4_2025_SOURCE_ID,"role":"reviewed_evidence","boundary":"PLTSS recovery activity with separate periods and bases; no demonstrated membership in the FY2024 sampled-payment cohort."},
+        {"source_id":VA_OIG_PIIA_FY2024_SOURCE_ID,"role":"reviewed_evidence","boundary":"Independent verification and explicit absence of claim, receivable, appeal, or collection-cohort publication in that report."},
+        {"source_id":VA_AFR_SECTION_III_FY2025_SOURCE_ID,"role":"later_cycle_context_only","boundary":"Later tested-payment cycle and corrective-action context; cannot assign historical FY2024 sampled-payment dispositions."},
+        {"source_id":VA_PAYMENT_INTEGRITY_POLICY_SOURCE_ID,"role":"current_policy_context_only","boundary":"Current VA-wide classification policy postdates the tested cohort and cannot assign historical PLTSS dispositions."},
+        {"source_id":VA_OVERPAYMENT_AUDIT_POLICY_SOURCE_ID,"role":"current_policy_context_only","boundary":"Current VA-wide certified-cash and recovery-audit policy postdates the tested cohort and cannot assign historical PLTSS dispositions."}
+    ]);
+    if va_same_cohort.get("source_role_classification") != Some(&expected_roles) {
+        return Err("VA PLTSS ordered source-role separation failed".to_string());
+    }
+    let custody = va_same_cohort
+        .get("source_custody")
+        .ok_or("VA PLTSS source custody")?;
+    for (key, source_id, raw_path, bytes, sha256) in [
+        (
+            "fy2024_annual_workbook",
+            "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+            PAYMENT_ACCURACY_FY2024_WORKBOOK_RAW_PATH,
+            PAYMENT_ACCURACY_FY2024_WORKBOOK_RAW_BYTES,
+            PAYMENT_ACCURACY_FY2024_WORKBOOK_RAW_SHA256,
+        ),
+        (
+            "q4_2025_pltss_scorecard",
+            VA_PLTSS_Q4_2025_SOURCE_ID,
+            VA_PLTSS_Q4_2025_RAW_PATH,
+            VA_PLTSS_Q4_2025_RAW_BYTES,
+            VA_PLTSS_Q4_2025_RAW_SHA256,
+        ),
+        (
+            "fy2024_va_oig_piia_review",
+            VA_OIG_PIIA_FY2024_SOURCE_ID,
+            VA_OIG_PIIA_FY2024_RAW_PATH,
+            VA_OIG_PIIA_FY2024_RAW_BYTES,
+            VA_OIG_PIIA_FY2024_RAW_SHA256,
+        ),
+        (
+            "fy2025_va_afr_section_iii",
+            VA_AFR_SECTION_III_FY2025_SOURCE_ID,
+            VA_AFR_SECTION_III_FY2025_RAW_PATH,
+            VA_AFR_SECTION_III_FY2025_RAW_BYTES,
+            VA_AFR_SECTION_III_FY2025_RAW_SHA256,
+        ),
+        (
+            "current_va_payment_integrity_policy",
+            VA_PAYMENT_INTEGRITY_POLICY_SOURCE_ID,
+            VA_PAYMENT_INTEGRITY_POLICY_RAW_PATH,
+            VA_PAYMENT_INTEGRITY_POLICY_RAW_BYTES,
+            VA_PAYMENT_INTEGRITY_POLICY_RAW_SHA256,
+        ),
+        (
+            "current_va_overpayment_audit_recovery_policy",
+            VA_OVERPAYMENT_AUDIT_POLICY_SOURCE_ID,
+            VA_OVERPAYMENT_AUDIT_POLICY_RAW_PATH,
+            VA_OVERPAYMENT_AUDIT_POLICY_RAW_BYTES,
+            VA_OVERPAYMENT_AUDIT_POLICY_RAW_SHA256,
+        ),
+    ] {
+        let item = custody
+            .get(key)
+            .ok_or_else(|| format!("VA PLTSS custody missing {key}"))?;
+        if string_field(item, "source_id")? != source_id
+            || string_field(item, "raw_path")? != raw_path
+            || int_field(item, "bytes")? != bytes as i64
+            || !string_field(item, "checksum_sha256")?.eq_ignore_ascii_case(sha256)
+            || fs::metadata(root.join(raw_path))
+                .map_err(|err| err.to_string())?
+                .len()
+                != bytes
+            || sha256_file(&root.join(raw_path))? != sha256
+        {
+            return Err(format!("VA PLTSS custody failed for {source_id}"));
+        }
+    }
+    let supported = va_same_cohort
+        .get("supported_scope")
+        .ok_or("VA PLTSS supported scope")?;
+    let annual = supported
+        .get("fy2024_annual_row")
+        .ok_or("VA PLTSS annual row")?;
+    if annual
+        != &serde_json::json!({
+            "source_path": "data/extracted/payment_accuracy/fy2024_program_results.v1.draft.jsonl",
+            "source_sheet": "All Program Results", "source_row": 1579, "reporting_fiscal_year": 2024,
+            "sample_period": "2022-10 through 2023-09", "outlays_millions": 5620.66,
+            "projected_overpayments_millions": 218.30, "projected_overpayment_rate_percent": 3.88,
+            "underpayments_millions": 6.41, "technically_improper_millions": 432.46,
+            "unknown_payments_millions": 102.93,
+            "boundary": "The annual row contains statistical estimates and does not identify sampled transactions, bills, receivables, collectible debt, or collections."
+        })
+        || supported.get("q4_2025_scorecard_recovery_rows")
+            != Some(&serde_json::json!([
+                {"recovery_method":"recovery_activity","activity_period":"FY2025 Q4","identified_overpayments_millions":6.91,"recovered_to_date_millions":4.46},
+                {"recovery_method":"recovery_audit","activity_period":"FY2025 Q4","identified_overpayments_millions":1.18,"recovered_to_date_millions":0.76},
+                {"recovery_method":"piia_sample_and_deep_dive_recovery_activity","activity_period":"FY2023 through FY2025","identified_overpayments_millions":3.97,"recovered_to_date_millions":3.71}
+            ]))
+        || supported.get("match_tests")
+            != Some(&serde_json::json!({
+                "same_program":"partial_scorecard_rows_only", "same_period":false, "same_definition":false,
+                "projected_estimate_to_identified_debt_lineage":false,
+                "identified_debt_to_collection_lineage":false, "row_disjointness_established":false
+            }))
+        || supported.get("va_wide_fy2024_context_excluded_from_pltss_lineage")
+            != Some(&serde_json::json!({
+                "recovery_activity_identified_millions":1517.20,"recovery_activity_recovered_millions":792.55,
+                "recovery_audit_identified_millions":39.65,"recovery_audit_recovered_millions":85.50,
+                "is_pltss_program_lineage":false
+            }))
+        || supported.get("oig_boundary")
+            != Some(&serde_json::json!({
+                "sampling_plans_and_estimates_verified":true,"claim_cohort_published":false,
+                "established_receivable_cohort_published":false,"appeal_or_reversal_disposition_published":false,
+                "collection_transaction_cohort_published":false,
+                "zero_questioned_costs_or_funds_for_better_use_means_zero_pltss_debt_or_recovery":false
+            }))
+        || supported.get("later_and_current_context_boundary")
+            != Some(&serde_json::json!({
+                "fy2025_afr_is_later_tested_payment_cycle":true,"current_policies_postdate_tested_cohort":true,
+                "current_policy_defines_payment_and_recovery_states":true,
+                "current_policy_requires_actual_certified_recovered_credited_or_realized_funds":true,
+                "may_assign_historical_pltss_dispositions":false
+            }))
+    {
+        return Err("VA PLTSS same-cohort supported-scope firewall failed".to_string());
+    }
+    let expected_lineage = serde_json::json!([
+        "privacy-safe stable linkage from sampled PLTSS claim or payment to the FY2024 sample cohort",
+        "sampled error amount, final payment classification, and any weight or projection factor kept distinct",
+        "established bill or receivable identifier, date, principal, adjustment, and outstanding balance",
+        "dispute, review, and appeal state, date, decision, and resulting amount",
+        "correction, reversal, waiver, write-off, compromise, or noncollectable disposition",
+        "collection, refund, or offset transaction identifier, date, amount, and allocation",
+        "certified recovered, credited, or realized status and supporting record",
+        "reconciliation across sampled estimate, identified debt, outstanding debt, disposition, and cash",
+        "recovery and control administration cost",
+        "veteran access, continuity, timeliness, error-correction, appeal, and provider-burden effects"
+    ]);
+    let negative = va_same_cohort
+        .get("negative_evidence_boundary")
+        .ok_or("VA PLTSS negative boundary")?;
+    let decision = va_same_cohort.get("decision").ok_or("VA PLTSS decision")?;
+    let program_status = va_same_cohort
+        .get("program_status")
+        .ok_or("VA PLTSS program status")?;
+    if va_same_cohort.get("open_same_cohort_lineage_scope") != Some(&expected_lineage)
+        || negative
+            != &serde_json::json!({
+                "scope":"The finding is limited to the six checksum-verified sources and four upstream artifacts inventoried here.",
+                "same_cohort_lineage_observed":false,"proves_records_do_not_exist":false,
+                "proves_records_are_not_public":false,"proves_exemption_or_withholding":false,
+                "proves_zero_debt":false,"proves_zero_collection":false,"proves_noncollectibility":false,
+                "new_web_search_performed":false,"request_or_external_contact_made":false,
+                "interpretation":"Not observed in this bounded local inventory is not a finding of nonexistence, unavailability, withholding, zero debt, zero collection, or noncollectibility."
+            })
+        || decision
+            != &serde_json::json!({
+                "decision_status":"bounded_local_evidence_ceiling_recorded_same_cohort_lineage_still_open",
+                "new_component_closures":0,"new_full_field_closures":0
+            })
+        || program_status
+            != &serde_json::json!({
+                "total_methodology_fields":8,"closed_field_count":2,"open_field_count":6,
+                "closure_decision_count":2,"residual_gap_count":6,
+                "closed_fields":["sample period","payment type split"],
+                "open_fields":["sample design","reviewed-claim universe","estimation method","exclusion rules","documentation standard","documentation defect versus recoverable overpayment basis"]
+            })
+    {
+        return Err("VA PLTSS same-cohort ceiling, decision, or 2/6 state failed".to_string());
+    }
+    for gate in [
+        "public_claim_allowed",
+        "field_closure_allowed",
+        "scoring_allowed",
+        "fraud_claim_allowed",
+        "waste_claim_allowed",
+        "debt_claim_allowed",
+        "collectibility_claim_allowed",
+        "recovery_claim_allowed",
+        "prevention_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if va_same_cohort
+            .get(gate)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "VA PLTSS same-cohort gate {gate} must remain false"
+            ));
+        }
+    }
+    let va_same_cohort_reader = fs::read_to_string(
+        root.join(VA_PLTSS_SAME_COHORT_LINEAGE_CEILING_READER_PATH),
+    )
+    .map_err(|err| {
+        format!("failed to read {VA_PLTSS_SAME_COHORT_LINEAGE_CEILING_READER_PATH}: {err}")
+    })?;
+    for required in [
+        VA_PLTSS_SAME_COHORT_LINEAGE_CEILING_JSON_PATH,
+        "Six checksum-verified sources",
+        "$218.30 million",
+        "3.88 percent",
+        "October 2022 through September 2023",
+        "three separate operational recovery rows",
+        "later-cycle context",
+        "cannot assign historical dispositions",
+        "privacy-safe stable link",
+        "Not observed",
+        "No new web search",
+        "must not be divided, subtracted, or netted",
+        "VA-wide reporting is not",
+        "OIG zero questioned costs",
+        "Zero components and zero full fields close",
+        "two fields closed",
+        "six open",
+        "All ten",
+    ] {
+        if !va_same_cohort_reader.contains(required) {
+            return Err(format!("VA PLTSS same-cohort reader missing {required}"));
+        }
+    }
+
+    let payment_card: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(
+            "data/derived/breadth_benchmark_matrix/payment_integrity_depth_card.fy2024.v1.draft.json",
+        ))
+            .map_err(|err| err.to_string())?,
+    )
+    .map_err(|err| err.to_string())?;
+    let annual_dataset = payment_card
+        .get("annual_dataset")
+        .ok_or("payment-integrity depth card annual dataset")?;
+    let parallel_tables = payment_card
+        .get("parallel_evidence_tables")
+        .ok_or("payment-integrity depth card parallel evidence tables")?;
+    let annual_review_ref = payment_card
+        .get("fy2024_annual_extraction_role_review")
+        .ok_or("payment-integrity depth card FY2024 annual-extraction role review")?;
+    if string_field(annual_dataset, "source_id")? != "SRC-OMB-PAYMENTACCURACY-FY2024-DATA"
+        || int_field(annual_dataset, "program_rows")? != 68
+        || int_field(&parallel_tables["confirmed_fraud"], "rows")? != 54
+        || int_field(&parallel_tables["agency_recovery"], "rows")? != 59
+        || string_field(annual_review_ref, "path")?
+            != PAYMENT_INTEGRITY_FY2024_ANNUAL_EXTRACTION_ROLE_REVIEW_PATH
+        || string_field(annual_review_ref, "source_id")? != "SRC-OMB-PAYMENTACCURACY-FY2024-DATA"
+        || string_field(annual_review_ref, "status")?
+            != "bounded_factual_reporting_review_passed_unrestricted_claims_blocked"
+        || annual_review_ref
+            .get("review_action_closed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || int_field(annual_review_ref, "new_component_closures")? != 0
+        || int_field(annual_review_ref, "new_full_field_closures")? != 0
+        || string_field(annual_review_ref, "prior_corrected_probe_review_path")?
+            != "reviews/2026-07-13-payment-integrity-va-pltss-source-role-review.md"
+        || string_field(annual_review_ref, "prior_corrected_probe_review_status")?
+            != "source_and_role_review_passed_not_reopened"
+        || string_field(annual_review_ref, "review_scope")?
+            != "Governmentwide total, 68 program-result rows, 54 court-confirmed-fraud rows, and 59 agency-recovery rows from the official FY2024 annual workbook."
+        || string_field(annual_review_ref, "decision_effect")?
+            != "Closes the pending annual-extraction review action only; zero methodology components and fields close, no program counts change, and no scoring or claim gate changes."
+        || string_field(annual_review_ref, "allowed_use")?
+            != "Exact source-labeled factual composition and reconciliation with publisher, fiscal year, units, coverage qualification, program-specific measurement periods, and evidence-class labels preserved."
+        || string_field(annual_review_ref, "prohibited_use")?
+            != "Do not join, subtract, divide, or net confirmed-fraud or agency-recovery rows against estimated improper payments and do not infer fraud, waste, debt, collectibility, recovery, prevention, or savings."
+    {
+        return Err("payment-integrity annual-extraction role review reference failed".to_string());
+    }
+    let next_depth_need = payment_card
+        .get("next_depth_need")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("payment-integrity depth card next-depth need")?;
+    if next_depth_need.len() != 6
+        || next_depth_need.iter().any(|need| {
+            need.as_str().is_some_and(|need| {
+                need.contains("role review of the annual extraction and corrected scorecard probe")
+            })
+        })
+        || next_depth_need.first().and_then(serde_json::Value::as_str)
+            != Some(
+                "resolve the five remaining Part D methodology fields; stop at the hard all-false S&EMP submission preflight unless the owner completes every identity, contact, fee, scope, freeze, custody, and single-channel gate and explicitly authorizes the exact outbound action, while separately pursuing APR custody and same-cohort recoverability lineage",
+            )
+        || next_depth_need.get(1).and_then(serde_json::Value::as_str)
+            != Some(
+                "obtain the privacy-safe PLTSS same-cohort linkage defined by the debt-and-collection evidence ceiling before linking projected errors to identified debt, collectibility, collection, or certified recovery",
+            )
+        || next_depth_need.iter().any(|need| {
+            need.as_str()
+                .is_some_and(|need| need.contains("obtain PLTSS debt-cohort lineage"))
+        })
+        || payment_card
+            .get("public_claim_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || payment_card
+            .get("fraud_claim_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || payment_card
+            .get("savings_estimate_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err(
+            "payment-integrity role-review queue or claim-gate invariants failed".to_string(),
+        );
+    }
+    let annual_review = fs::read_to_string(
+        root.join(PAYMENT_INTEGRITY_FY2024_ANNUAL_EXTRACTION_ROLE_REVIEW_PATH),
+    )
+    .map_err(|err| {
+        format!(
+            "failed to read {PAYMENT_INTEGRITY_FY2024_ANNUAL_EXTRACTION_ROLE_REVIEW_PATH}: {err}"
+        )
+    })?;
+    for required in [
+        "AI-simulated review",
+        "not external endorsement",
+        "68 program-result rows",
+        "54 court-confirmed-fraud rows",
+        "59 agency-recovery rows",
+        "700,992 bytes",
+        "595369DA4C32965C457543E2695B5738BC131049318537948CD396323391E28C",
+        "data/extracted/payment_accuracy/fy2024_program_results.v1.draft.jsonl",
+        "data/extracted/payment_accuracy/fy2024_confirmed_fraud.v1.draft.jsonl",
+        "data/extracted/payment_accuracy/fy2024_agency_recovery.v1.draft.jsonl",
+        "reviews/2026-07-13-payment-integrity-va-pltss-source-role-review.md",
+        "## Validation evidence",
+        "exactly one governmentwide row, 68 program rows, 54",
+        "court-confirmed-fraud rows, and 59 agency-recovery rows",
+        "source-row anchor",
+        "remaining null rather than becoming zero",
+        "Source Custodian",
+        "Budget Accountant",
+        "Program Beneficiary Reviewer",
+        "Reform Skeptic",
+        "Pass the annual extraction for internal analysis",
+        "Fail unrestricted public, fraud, waste, debt, collectibility, recovery",
+        "closes the pending annual-extraction review action only",
+        "zero methodology components and zero methodology fields",
+    ] {
+        if !annual_review.contains(required) {
+            return Err(format!(
+                "payment-integrity annual role review missing {required}"
+            ));
+        }
+    }
+    let payment_depth_reader =
+        fs::read_to_string(root.join("docs/reading/payment-integrity-depth-card.md"))
+            .map_err(|err| format!("failed to read payment-integrity depth-card reader: {err}"))?;
+    for required in [
+        "annual extraction and corrected VA PLTSS probe have",
+        "passed bounded role review",
+        "68 reported programs",
+        "54 FY2024 confirmed-fraud rows",
+        "59 agency recovery rows",
+        "does not subtract either",
+        "Unrestricted public, scoring, fraud, recovery",
+        "VA PLTSS same-cohort debt and collection lineage evidence ceiling",
+        "all six checksum-verified local sources",
+        "Zero components and fields",
+        "two closed and six open",
+    ] {
+        if !payment_depth_reader.contains(required) {
+            return Err(format!(
+                "payment-integrity depth-card reader missing {required}"
+            ));
+        }
+    }
+    let payment_bridge = payment_card
+        .get("federal_crop_insurance_bridge")
+        .ok_or("payment-integrity depth card FCIC bridge")?;
+    if string_field(payment_bridge, "path")? != FCIC_PAYMENT_INTEGRITY_BRIDGE_JSON_PATH
+        || string_field(payment_bridge, "status")?
+            != "fy2024_annual_scorecard_usda_afr_and_fcic_financial_statements_reconciled_four_methodology_fields_closed_internal_only_four_open_scoring_blocked"
+        || !string_field(payment_bridge, "claim_boundary")?.contains("not identified debt")
+    {
+        return Err("payment-integrity depth card FCIC bridge failed".to_string());
+    }
+    let payment_part_d_type_bridge = payment_card
+        .get("medicare_part_d_payment_type_composition_bridge")
+        .ok_or("payment-integrity depth card Medicare Part D payment-type bridge")?;
+    if string_field(payment_part_d_type_bridge, "path")?
+        != MEDICARE_PART_D_PAYMENT_TYPE_COMPOSITION_BRIDGE_JSON_PATH
+        || string_field(payment_part_d_type_bridge, "status")?
+            != "same_period_fy2024_payment_type_split_closed_internal_only"
+        || !string_field(payment_part_d_type_bridge, "excluded_scope")?
+            .contains("not identified debt")
+    {
+        return Err(
+            "payment-integrity depth card Medicare Part D payment-type bridge failed".to_string(),
+        );
+    }
+    let payment_part_d_dependency_ceiling = payment_card
+        .get("medicare_part_d_sponsor_documentation_dependency_evidence_ceiling")
+        .ok_or("payment-integrity depth card Part D dependency ceiling")?;
+    if string_field(payment_part_d_dependency_ceiling, "path")?
+        != MEDICARE_PART_D_SPONSOR_DOCUMENTATION_DEPENDENCY_CEILING_JSON_PATH
+        || string_field(payment_part_d_dependency_ceiling, "status")?
+            != "same_period_scorecard_reconciled_field_reframing_needed_full_field_open"
+        || !string_field(payment_part_d_dependency_ceiling, "open_scope")?
+            .contains("two closed/six open")
+    {
+        return Err("payment-integrity depth card Part D dependency ceiling failed".to_string());
+    }
+    let payment_part_d_dependency_bridge = payment_card
+        .get("medicare_part_d_sponsor_documentation_dependency_bridge")
+        .ok_or("payment-integrity depth card Part D dependency bridge")?;
+    if string_field(payment_part_d_dependency_bridge, "path")?
+        != MEDICARE_PART_D_SPONSOR_DOCUMENTATION_DEPENDENCY_BRIDGE_JSON_PATH
+        || string_field(payment_part_d_dependency_bridge, "status")?
+            != "same_period_sponsor_documentation_treatment_closed_internal_only"
+        || !string_field(payment_part_d_dependency_bridge, "excluded_scope")?
+            .contains("not automatically monetary error")
+    {
+        return Err("payment-integrity depth card Part D dependency bridge failed".to_string());
+    }
+    let payment_part_d_sample_design_ceiling = payment_card
+        .get("medicare_part_d_sample_design_evidence_ceiling")
+        .ok_or("payment-integrity depth card Part D sample-design evidence ceiling")?;
+    if string_field(payment_part_d_sample_design_ceiling, "path")?
+        != MEDICARE_PART_D_SAMPLE_DESIGN_EVIDENCE_CEILING_JSON_PATH
+        || string_field(payment_part_d_sample_design_ceiling, "status")?
+            != "same_period_sample_unit_and_operational_routing_supported_full_field_open"
+        || !string_field(payment_part_d_sample_design_ceiling, "open_scope")?
+            .contains("sample design")
+    {
+        return Err(
+            "payment-integrity depth card Part D sample-design evidence ceiling failed".to_string(),
+        );
+    }
+    let payment_part_d_estimation_ceiling = payment_card
+        .get("medicare_part_d_estimation_method_evidence_ceiling")
+        .ok_or("payment-integrity depth card Part D estimation-method evidence ceiling")?;
+    if string_field(payment_part_d_estimation_ceiling, "path")?
+        != MEDICARE_PART_D_ESTIMATION_METHOD_EVIDENCE_CEILING_JSON_PATH
+        || string_field(payment_part_d_estimation_ceiling, "status")?
+            != "same_period_process_text_web_verified_official_pdf_custody_blocked_field_open"
+        || !string_field(payment_part_d_estimation_ceiling, "custody_scope")?
+            .contains("Akamai HTTP 403")
+        || !string_field(payment_part_d_estimation_ceiling, "custody_scope")?
+            .contains("no local official-byte custody")
+        || !string_field(payment_part_d_estimation_ceiling, "open_scope")?
+            .contains("full estimation method remains open")
+        || !string_field(payment_part_d_estimation_ceiling, "open_scope")?
+            .contains("three closed/five open")
+    {
+        return Err(
+            "payment-integrity depth card Part D estimation-method evidence ceiling failed"
+                .to_string(),
+        );
+    }
+    let payment_part_d_missing_document_bridge = payment_card
+        .get("medicare_part_d_missing_document_exclusion_treatment_bridge")
+        .ok_or("payment-integrity depth card Part D missing-document bridge")?;
+    if string_field(payment_part_d_missing_document_bridge, "path")?
+        != MEDICARE_PART_D_MISSING_DOCUMENT_EXCLUSION_TREATMENT_BRIDGE_JSON_PATH
+        || string_field(payment_part_d_missing_document_bridge, "status")?
+            != "same_period_missing_document_review_and_fail_treatment_component_closed_internal_only_full_exclusion_rules_open"
+        || !string_field(
+            payment_part_d_missing_document_bridge,
+            "closed_component_scope",
+        )?
+        .contains("Missing Documentation Form fail treatment")
+        || !string_field(payment_part_d_missing_document_bridge, "historical_scope")?
+            .contains("historical comparison only")
+        || !string_field(payment_part_d_missing_document_bridge, "open_scope")?
+            .contains("Full exclusion rules remain open")
+        || !string_field(payment_part_d_missing_document_bridge, "open_scope")?
+            .contains("three closed/five open")
+    {
+        return Err(
+            "payment-integrity depth card Part D missing-document bridge failed".to_string(),
+        );
+    }
+    let payment_part_d_audit_closeout_bridge = payment_card
+        .get("medicare_part_d_audit_closeout_recovery_process_bridge")
+        .ok_or("payment-integrity depth card Part D audit-closeout bridge")?;
+    if string_field(payment_part_d_audit_closeout_bridge, "path")?
+        != MEDICARE_PART_D_AUDIT_CLOSEOUT_RECOVERY_PROCESS_BRIDGE_JSON_PATH
+        || string_field(payment_part_d_audit_closeout_bridge, "status")?
+            != "scorecard_audit_closeout_pde_deletion_recovery_process_component_closed_internal_only_full_recoverable_amount_basis_open"
+        || !string_field(
+            payment_part_d_audit_closeout_bridge,
+            "closed_component_scope",
+        )?
+        .contains("issued Adcirca, Revatio, and Cialis")
+        || !string_field(payment_part_d_audit_closeout_bridge, "open_scope")?
+            .contains("no amount or cohort linkage")
+        || !string_field(payment_part_d_audit_closeout_bridge, "open_scope")?
+            .contains("three closed/five open")
+    {
+        return Err("payment-integrity depth card Part D audit-closeout bridge failed".to_string());
+    }
+    let payment_part_d_uncertainty_bridge = payment_card
+        .get("medicare_part_d_published_uncertainty_output_bridge")
+        .ok_or("payment-integrity depth card Part D uncertainty bridge")?;
+    if string_field(payment_part_d_uncertainty_bridge, "path")?
+        != MEDICARE_PART_D_PUBLISHED_UNCERTAINTY_OUTPUT_BRIDGE_JSON_PATH
+        || string_field(payment_part_d_uncertainty_bridge, "status")?
+            != "same_period_published_confidence_interval_and_margin_of_error_output_component_closed_internal_only_full_estimation_method_open"
+        || !string_field(payment_part_d_uncertainty_bridge, "closed_component_scope")?
+            .contains("95")
+        || !string_field(payment_part_d_uncertainty_bridge, "closed_component_scope")?
+            .contains("0.42")
+        || !string_field(payment_part_d_uncertainty_bridge, "open_scope")?.contains("APR custody")
+        || !string_field(payment_part_d_uncertainty_bridge, "open_scope")?
+            .contains("three closed/five open")
+    {
+        return Err("payment-integrity depth card Part D uncertainty bridge failed".to_string());
+    }
+    let payment_part_d_adjustment_bridge = payment_card
+        .get("medicare_part_d_reconciliation_pde_adjustment_documentation_bridge")
+        .ok_or("payment-integrity depth card Part D adjustment bridge")?;
+    if string_field(payment_part_d_adjustment_bridge, "path")?
+        != MEDICARE_PART_D_RECONCILIATION_PDE_ADJUSTMENT_DOCUMENTATION_BRIDGE_JSON_PATH
+        || string_field(payment_part_d_adjustment_bridge, "status")?
+            != "same_period_recon_pde_review_target_and_post_reconciliation_adjustment_documentation_component_closed_internal_only_full_payment_universe_open"
+        || !string_field(payment_part_d_adjustment_bridge, "closed_component_scope")?
+            .contains("linked adjustment documentation is additionally required")
+        || !string_field(payment_part_d_adjustment_bridge, "open_scope")?
+            .contains("Full payment universe remains open")
+        || !string_field(payment_part_d_adjustment_bridge, "open_scope")?
+            .contains("three closed/five open")
+    {
+        return Err("payment-integrity depth card Part D adjustment bridge failed".to_string());
+    }
+    let payment_part_d_plan_access_ceiling = payment_card
+        .get("medicare_part_d_sampling_estimation_plan_access_evidence_ceiling")
+        .ok_or("payment-integrity depth card Part D plan-access evidence ceiling")?;
+    if string_field(payment_part_d_plan_access_ceiling, "path")?
+        != MEDICARE_PART_D_SAMPLING_ESTIMATION_PLAN_ACCESS_EVIDENCE_CEILING_JSON_PATH
+        || string_field(payment_part_d_plan_access_ceiling, "status")?
+            != "governmentwide_secure_max_plan_location_and_part_d_public_evidence_ceiling_recorded_zero_field_closures"
+        || !string_field(payment_part_d_plan_access_ceiling, "evidence_scope")?
+            .contains("agency secure MAX page")
+        || !string_field(payment_part_d_plan_access_ceiling, "evidence_scope")?
+            .contains("without becoming new source custody or closures")
+        || !string_field(payment_part_d_plan_access_ceiling, "open_scope")?
+            .contains("recoverable-amount lineage is separate")
+        || !string_field(payment_part_d_plan_access_ceiling, "open_scope")?
+            .contains("Zero components and zero fields close")
+        || !string_field(payment_part_d_plan_access_ceiling, "open_scope")?
+            .contains("three closed/five open")
+    {
+        return Err(
+            "payment-integrity depth card Part D plan-access evidence ceiling failed".to_string(),
+        );
+    }
+    let payment_part_d_plan_request = payment_card
+        .get("medicare_part_d_sampling_estimation_methodology_plan_request_specification")
+        .ok_or("payment-integrity depth card Part D methodology-plan request specification")?;
+    if string_field(payment_part_d_plan_request, "path")?
+        != MEDICARE_PART_D_SAMPLING_ESTIMATION_METHODOLOGY_PLAN_REQUEST_SPEC_JSON_PATH
+        || payment_part_d_plan_request.get("source_ids")
+            != Some(&serde_json::json!([
+                OMB_M_21_19_SOURCE_ID,
+                CMS_FOIA_FILING_SOURCE_ID,
+                ECFR_45_CFR_5_SOURCE_ID
+            ]))
+        || string_field(payment_part_d_plan_request, "status")?
+            != "draft_not_submitted_existing_records_only_privacy_aware_request_specification"
+        || string_field(payment_part_d_plan_request, "submission_status")?
+            != "draft_not_submitted_owner_authorization_required"
+        || !string_field(payment_part_d_plan_request, "request_scope")?
+            .contains("final CY2022/FY2024 Part D S&EMP")
+        || !string_field(payment_part_d_plan_request, "request_scope")?
+            .contains("separate recovery track")
+        || !string_field(payment_part_d_plan_request, "open_scope")?
+            .contains("No outbound action occurred")
+        || !string_field(payment_part_d_plan_request, "open_scope")?
+            .contains("zero components and fields close")
+        || !string_field(payment_part_d_plan_request, "open_scope")?
+            .contains("three closed/five open")
+    {
+        return Err(
+            "payment-integrity depth card Part D methodology-plan request specification failed"
+                .to_string(),
+        );
+    }
+    let payment_part_d_intake_contract = payment_card
+        .get("medicare_part_d_sampling_estimation_methodology_plan_foia_response_intake_contract")
+        .ok_or("payment-integrity depth card Part D FOIA response-intake contract")?;
+    if string_field(payment_part_d_intake_contract, "path")?
+        != MEDICARE_PART_D_FOIA_RESPONSE_INTAKE_CONTRACT_JSON_PATH
+        || payment_part_d_intake_contract.get("source_ids")
+            != Some(&serde_json::json!([
+                OMB_M_21_19_SOURCE_ID,
+                CMS_FOIA_FILING_SOURCE_ID,
+                ECFR_45_CFR_5_SOURCE_ID
+            ]))
+        || string_field(payment_part_d_intake_contract, "status")?
+            != "draft_internal_preflight_and_response_intake_ready_external_submission_blocked"
+        || string_field(payment_part_d_intake_contract, "submission_status")?
+            != "draft_not_submitted_owner_authorization_required"
+        || !string_field(payment_part_d_intake_contract, "pipeline_scope")?
+            .contains("hard all-false preflight")
+        || !string_field(payment_part_d_intake_contract, "pipeline_scope")?
+            .contains("append-only event rules")
+        || !string_field(payment_part_d_intake_contract, "open_scope")?
+            .contains("Owner authorization is necessary but insufficient")
+        || !string_field(payment_part_d_intake_contract, "open_scope")?
+            .contains("No external action or agency evidence exists")
+        || !string_field(payment_part_d_intake_contract, "open_scope")?
+            .contains("zero components and fields close")
+        || !string_field(payment_part_d_intake_contract, "open_scope")?
+            .contains("three closed/five open")
+    {
+        return Err(
+            "payment-integrity depth card Part D FOIA response-intake contract failed".to_string(),
+        );
+    }
+    let payment_va_type_bridge = payment_card
+        .get("va_pltss_payment_type_composition_bridge")
+        .ok_or("payment-integrity depth card VA PLTSS payment-type bridge")?;
+    if string_field(payment_va_type_bridge, "path")?
+        != VA_PLTSS_PAYMENT_TYPE_COMPOSITION_BRIDGE_JSON_PATH
+        || string_field(payment_va_type_bridge, "status")?
+            != "same_period_fy2024_payment_type_split_closed_internal_only_later_fy2025_taxonomy_corroboration"
+        || !string_field(payment_va_type_bridge, "excluded_scope")?
+            .contains("Neither composition establishes bills")
+    {
+        return Err("payment-integrity depth card VA PLTSS payment-type bridge failed".to_string());
+    }
+    let payment_va_documentation_boundary = payment_card
+        .get("va_pltss_documentation_recoverability_boundary")
+        .ok_or("payment-integrity depth card VA PLTSS documentation boundary")?;
+    if string_field(payment_va_documentation_boundary, "path")?
+        != VA_PLTSS_DOCUMENTATION_RECOVERABILITY_BOUNDARY_JSON_PATH
+        || string_field(payment_va_documentation_boundary, "status")?
+            != "current_policy_classification_and_certified_return_boundary_recorded_full_field_open"
+        || !string_field(payment_va_documentation_boundary, "open_scope")?
+            .contains("two-closed/six-open aggregate is unchanged")
+    {
+        return Err(
+            "payment-integrity depth card VA PLTSS documentation boundary failed".to_string(),
+        );
+    }
+    let payment_va_same_cohort = payment_card
+        .get("va_pltss_same_cohort_debt_collection_lineage_evidence_ceiling")
+        .ok_or("payment-integrity depth card VA PLTSS same-cohort ceiling")?;
+    if string_field(payment_va_same_cohort, "path")?
+        != VA_PLTSS_SAME_COHORT_LINEAGE_CEILING_JSON_PATH
+        || payment_va_same_cohort.get("source_ids") != Some(&expected_source_ids)
+        || string_field(payment_va_same_cohort, "status")?
+            != "custodied_source_inventory_complete_same_cohort_debt_collection_lineage_not_observed_zero_field_closures"
+        || string_field(payment_va_same_cohort, "evidence_scope")?
+            != "The FY2024 annual row, Q4 2025 PLTSS scorecard, and FY2024 VA OIG review are reviewed evidence. The FY2025 AFR and current policies are later/current context and cannot assign historical sampled-payment dispositions."
+        || string_field(payment_va_same_cohort, "open_scope")?
+            != "No privacy-safe same-cohort link connects sampled payment, final classification, projection, receivable, dispute, collectibility, collection, certified cash, cost, and veteran/provider effects. Zero components and fields close and PLTSS stays two closed/six open."
+    {
+        return Err("payment-integrity depth card VA PLTSS same-cohort ceiling failed".to_string());
+    }
+    let payment_source_inputs = payment_card
+        .get("source_inputs")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("payment-integrity source inputs")?;
+    if payment_source_inputs.iter().filter(|value| value.as_str() == Some(VA_PLTSS_SAME_COHORT_LINEAGE_CEILING_JSON_PATH)).count() != 1
+        || ![
+            "data/derived/breadth_benchmark_matrix/va_pltss_recovery_bridge.fy2024-q4-2025.v1.draft.json",
+            VA_PLTSS_PAYMENT_TYPE_COMPOSITION_BRIDGE_JSON_PATH,
+            VA_PLTSS_DOCUMENTATION_RECOVERABILITY_BOUNDARY_JSON_PATH,
+        ].iter().all(|path| payment_source_inputs.iter().any(|value| value.as_str() == Some(path)))
+    {
+        return Err("payment-integrity VA PLTSS source-input integration failed".to_string());
+    }
+    let payment_root_cause_bridge = payment_card
+        .get("federal_crop_insurance_root_cause_definition_bridge")
+        .ok_or("payment-integrity depth card FCIC root-cause bridge")?;
+    if string_field(payment_root_cause_bridge, "path")?
+        != FCIC_ROOT_CAUSE_DEFINITION_BRIDGE_JSON_PATH
+        || string_field(payment_root_cause_bridge, "source_id")? != FCIC_AFR_SOURCE_ID
+        || string_field(payment_root_cause_bridge, "status")?
+            != "same_period_failure_and_inability_to_access_definitions_closed_internal_only_recoverability_separate_and_open"
+    {
+        return Err("payment-integrity depth card FCIC root-cause bridge failed".to_string());
+    }
+    let payment_universe_card = payment_card
+        .get("federal_crop_insurance_payment_universe_bridge")
+        .ok_or("payment-integrity depth card FCIC payment-universe bridge")?;
+    if string_field(payment_universe_card, "path")? != FCIC_PAYMENT_UNIVERSE_BRIDGE_JSON_PATH
+        || string_field(payment_universe_card, "source_id")? != FCIC_OIG_FS_SOURCE_ID
+        || string_field(payment_universe_card, "status")?
+            != "all_payment_categories_and_aip_payment_tiers_disclosed_payment_universe_closed_internal_only"
+        || !string_field(payment_universe_card, "excluded_scope")?.contains("unaudited")
+    {
+        return Err("payment-integrity depth card FCIC payment-universe bridge failed".to_string());
+    }
+    let payment_sample_component = payment_card
+        .get("federal_crop_insurance_sample_design_component_bridge")
+        .ok_or("payment-integrity depth card FCIC sample-design component bridge")?;
+    if string_field(payment_sample_component, "path")?
+        != FCIC_SAMPLE_DESIGN_COMPONENT_BRIDGE_JSON_PATH
+        || string_field(payment_sample_component, "source_id")? != FCIC_OIG_PIIA_SOURCE_ID
+        || string_field(payment_sample_component, "status")?
+            != "narrow_sampling_governance_component_closed_internal_only_full_sample_design_open"
+        || !string_field(payment_sample_component, "open_scope")?
+            .contains("compliance is not public reproducibility")
+    {
+        return Err(
+            "payment-integrity depth card FCIC sample-design component bridge failed".to_string(),
+        );
+    }
+    let payment_historical_sampling_component = payment_card
+        .get("federal_crop_insurance_historical_sampling_method_bridge")
+        .ok_or("payment-integrity depth card FCIC historical sampling-method bridge")?;
+    if string_field(payment_historical_sampling_component, "path")?
+        != FCIC_HISTORICAL_SAMPLING_METHOD_BRIDGE_JSON_PATH
+        || string_field(payment_historical_sampling_component, "source_id")?
+            != FCIC_OIG_FS_FY2020_SOURCE_ID
+        || string_field(payment_historical_sampling_component, "status")?
+            != "historical_fy2020_ry2018_simple_random_selection_component_closed_internal_only_no_fy2024_continuity_inference"
+        || !string_field(payment_historical_sampling_component, "open_scope")?
+            .contains("four-closed/four-open aggregate is unchanged")
+    {
+        return Err(
+            "payment-integrity depth card FCIC historical sampling-method bridge failed"
+                .to_string(),
+        );
+    }
+    let payment_evidence_ceiling = payment_card
+        .get("federal_crop_insurance_public_methodology_evidence_ceiling")
+        .ok_or("payment-integrity depth card FCIC public methodology evidence ceiling")?;
+    if string_field(payment_evidence_ceiling, "path")?
+        != FCIC_PUBLIC_METHODOLOGY_EVIDENCE_CEILING_JSON_PATH
+        || string_field(payment_evidence_ceiling, "status")?
+            != "secure_max_plan_boundary_and_fy2025_public_description_continuity_recorded_zero_field_closures"
+        || !string_field(payment_evidence_ceiling, "open_scope")?
+            .contains("four-closed/four-open aggregate is unchanged")
+    {
+        return Err(
+            "payment-integrity depth card FCIC public methodology evidence ceiling failed"
+                .to_string(),
+        );
+    }
+    let payment_recovery_boundary = payment_card
+        .get("federal_crop_insurance_recovery_lineage_boundary_bridge")
+        .ok_or("payment-integrity depth card FCIC recovery-lineage boundary bridge")?;
+    if string_field(payment_recovery_boundary, "path")?
+        != FCIC_RECOVERY_LINEAGE_BOUNDARY_BRIDGE_JSON_PATH
+        || string_field(payment_recovery_boundary, "status")?
+            != "narrow_same_period_disposition_and_amount_class_non_additivity_component_closed_recoverable_savings_field_open"
+        || !string_field(payment_recovery_boundary, "open_scope")?
+            .contains("four-closed/four-open aggregate is unchanged")
+    {
+        return Err(
+            "payment-integrity depth card FCIC recovery-lineage boundary bridge failed".to_string(),
+        );
+    }
+    let payment_appeal_governance = payment_card
+        .get("federal_crop_insurance_appeal_collectibility_governance_bridge")
+        .ok_or("payment-integrity depth card FCIC appeal-governance bridge")?;
+    if string_field(payment_appeal_governance, "path")?
+        != FCIC_APPEAL_COLLECTIBILITY_GOVERNANCE_BRIDGE_JSON_PATH
+        || string_field(payment_appeal_governance, "status")?
+            != "narrow_appeal_and_contractual_collection_governance_component_closed_recoverable_savings_field_open"
+        || !string_field(payment_appeal_governance, "open_scope")?
+            .contains("four-closed/four-open aggregate is unchanged")
+    {
+        return Err(
+            "payment-integrity depth card FCIC appeal-governance bridge failed".to_string(),
+        );
+    }
+    let payment_cohort_ceiling = payment_card
+        .get("federal_crop_insurance_public_cohort_outcome_evidence_ceiling")
+        .ok_or("payment-integrity depth card FCIC cohort-outcome evidence ceiling")?;
+    if string_field(payment_cohort_ceiling, "path")?
+        != FCIC_PUBLIC_COHORT_OUTCOME_EVIDENCE_CEILING_JSON_PATH
+        || string_field(payment_cohort_ceiling, "status")?
+            != "post_completion_public_reporting_rolls_to_fy2025_cohort_zero_field_closures"
+        || !string_field(payment_cohort_ceiling, "open_scope")?
+            .contains("four-closed/four-open aggregate is unchanged")
+    {
+        return Err(
+            "payment-integrity depth card FCIC cohort-outcome evidence ceiling failed".to_string(),
+        );
+    }
+    let payment_request_spec = payment_card
+        .get("federal_crop_insurance_cohort_disposition_request_specification")
+        .ok_or("payment-integrity depth card FCIC cohort-disposition request specification")?;
+    if string_field(payment_request_spec, "path")? != FCIC_COHORT_DISPOSITION_REQUEST_SPEC_JSON_PATH
+        || string_field(payment_request_spec, "status")?
+            != "draft_not_submitted_existing_records_only_privacy_aware_request_specification"
+        || !string_field(payment_request_spec, "open_scope")?
+            .contains("four-closed/four-open aggregate is unchanged")
+    {
+        return Err(
+            "payment-integrity depth card FCIC cohort-disposition request specification failed"
+                .to_string(),
+        );
+    }
+    let payment_intake_contract = payment_card
+        .get("federal_crop_insurance_foia_response_intake_contract")
+        .ok_or("payment-integrity depth card FCIC FOIA response-intake contract")?;
+    if string_field(payment_intake_contract, "path")?
+        != FCIC_FOIA_RESPONSE_INTAKE_CONTRACT_JSON_PATH
+        || string_field(payment_intake_contract, "status")?
+            != "draft_internal_preflight_and_response_intake_ready_external_submission_blocked"
+        || !string_field(payment_intake_contract, "open_scope")?
+            .contains("four-closed/four-open aggregate is unchanged")
+    {
+        return Err(
+            "payment-integrity depth card FCIC FOIA response-intake contract failed".to_string(),
+        );
+    }
+    let agriculture_card: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(AGRICULTURE_DEPTH_CARD_JSON_PATH))
+            .map_err(|err| err.to_string())?,
+    )
+    .map_err(|err| err.to_string())?;
+    let agriculture_sources = agriculture_card
+        .get("supporting_source_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("agriculture supporting source IDs")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    if agriculture_sources
+        != BTreeSet::from([
+            "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+            FCIC_SCORECARD_SOURCE_ID,
+            FCIC_COM_23_SOURCE_ID,
+            FCIC_SRA_2022_SOURCE_ID,
+            FCIC_AFR_SOURCE_ID,
+            FCIC_OIG_FS_SOURCE_ID,
+            FCIC_OIG_PIIA_SOURCE_ID,
+            FCIC_OIG_FS_FY2020_SOURCE_ID,
+        ])
+        || string_field(
+            &agriculture_card,
+            "federal_crop_insurance_payment_integrity_bridge_path",
+        )? != FCIC_PAYMENT_INTEGRITY_BRIDGE_JSON_PATH
+        || string_field(
+            &agriculture_card,
+            "federal_crop_insurance_root_cause_definition_bridge_path",
+        )? != FCIC_ROOT_CAUSE_DEFINITION_BRIDGE_JSON_PATH
+        || string_field(
+            &agriculture_card,
+            "federal_crop_insurance_payment_universe_bridge_path",
+        )? != FCIC_PAYMENT_UNIVERSE_BRIDGE_JSON_PATH
+        || string_field(
+            &agriculture_card,
+            "federal_crop_insurance_sample_design_component_bridge_path",
+        )? != FCIC_SAMPLE_DESIGN_COMPONENT_BRIDGE_JSON_PATH
+        || string_field(
+            &agriculture_card,
+            "federal_crop_insurance_historical_sampling_method_bridge_path",
+        )? != FCIC_HISTORICAL_SAMPLING_METHOD_BRIDGE_JSON_PATH
+        || string_field(
+            &agriculture_card,
+            "federal_crop_insurance_payment_integrity_bridge_status",
+        )? != "fy2024_four_fields_closed_four_open_with_narrow_sample_design_governance_and_historical_fy2020_selection_method_components_scoring_blocked_not_fy2025_function_350_account_crosswalk"
+    {
+        return Err("agriculture depth card FCIC bridge failed".to_string());
+    }
+    let breadth_rows = read_jsonl(root.join(BREADTH_BENCHMARK_JSONL_PATH))?;
+    for (record_id, expected_scope) in [
+        ("breadth:agriculture", "none_attached"),
+        (
+            "breadth:payment-integrity-governmentwide",
+            "reported_fy2024_covered_programs_not_full_universe",
+        ),
+    ] {
+        let row = breadth_rows
+            .iter()
+            .find(|row| row.get("record_id").and_then(serde_json::Value::as_str) == Some(record_id))
+            .ok_or_else(|| format!("missing FCIC-linked breadth row {record_id}"))?;
+        if string_field(row, "improper_payment_scope")? != expected_scope {
+            return Err(format!("{record_id} FCIC scope failed"));
+        }
+        for source_id in [
+            "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+            FCIC_SCORECARD_SOURCE_ID,
+            FCIC_COM_23_SOURCE_ID,
+            FCIC_SRA_2022_SOURCE_ID,
+            FCIC_AFR_SOURCE_ID,
+            FCIC_OIG_FS_SOURCE_ID,
+            FCIC_OIG_PIIA_SOURCE_ID,
+            FCIC_OIG_FS_FY2020_SOURCE_ID,
+        ] {
+            if !row
+                .get("source_ids")
+                .and_then(serde_json::Value::as_array)
+                .is_some_and(|ids| ids.iter().any(|id| id.as_str() == Some(source_id)))
+            {
+                return Err(format!("{record_id} missing FCIC source {source_id}"));
+            }
+        }
+    }
+
+    let closure_coverage_values =
+        read_jsonl(root.join(PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_COVERAGE_JSONL_PATH))?;
+    let bounded_examples: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_JSON_PATH)).map_err(
+            |err| format!("failed to read {PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_JSON_PATH}: {err}"),
+        )?,
+    )
+    .map_err(|err| {
+        format!("failed to parse {PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_JSON_PATH}: {err}")
+    })?;
+    if string_field(&bounded_examples, "record_id")?
+        != "payment-integrity-bounded-factual-examples:fy2024:v1"
+        || string_field(&bounded_examples, "record_family")?
+            != "payment_integrity_bounded_factual_examples"
+        || string_field(&bounded_examples, "status")?
+            != "bounded_source_labeled_factual_reporting_only_no_performance_fraud_recovery_or_savings_claim"
+        || string_field(&bounded_examples, "role_review_path")?
+            != PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_REVIEW_PATH
+        || string_field(&bounded_examples, "reader_path")?
+            != PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_READER_PATH
+    {
+        return Err("payment-integrity bounded examples identity failed".to_string());
+    }
+    let headline = bounded_examples
+        .get("headline_reconciliation_millions")
+        .ok_or("bounded examples headline")?;
+    let headline_checks = headline
+        .get("checks")
+        .ok_or("bounded examples headline checks")?;
+    if number_field(headline, "covered_outlays")? != 4_071_860.585
+        || number_field(headline, "overpayments")? != 135_184.184
+        || number_field(headline, "underpayments")? != 7_863.903
+        || number_field(headline, "technically_improper")? != 5_922.545
+        || number_field(headline, "improper_total")? != 148_970.633
+        || number_field(headline, "unknown_payments")? != 12_569.500
+        || number_field(headline, "improper_plus_unknown")? != 161_540.133
+        || int_field(headline, "program_rows")? != 68
+        || headline_checks
+            != &serde_json::json!({
+                "displayed_payment_type_sum_millions":148970.632,
+                "source_reported_improper_total_millions":148970.633,
+                "displayed_rounding_residual_millions":0.001,
+                "source_precision_tolerance_millions":0.001,
+                "overpayment_plus_underpayment_plus_technical_reconciles_within_source_precision":true,
+                "improper_plus_unknown_equals_combined":true
+            })
+        || ((number_field(headline, "overpayments")?
+            + number_field(headline, "underpayments")?
+            + number_field(headline, "technically_improper")?)
+            - 148_970.632)
+            .abs()
+            > 0.000_000_1
+        || (number_field(headline, "improper_total")? + number_field(headline, "unknown_payments")?
+            - number_field(headline, "improper_plus_unknown")?)
+        .abs()
+            > 0.000_000_1
+    {
+        return Err(
+            "payment-integrity bounded headline precision reconciliation failed".to_string(),
+        );
+    }
+    let expected_legend = serde_json::json!([
+        {"evidence_class":"statistical_payment_estimate","meaning":"A source-published estimate for a sampled payment universe; not a transaction ledger or automatically collectible amount."},
+        {"evidence_class":"unknown_payment_status","meaning":"A separately reported status that is added to, not relabeled as, classified improper payments."},
+        {"evidence_class":"court_confirmed_fraud","meaning":"A separate annual-workbook table limited to court-confirmed cases; not established as a disjoint subset of estimated improper payments."},
+        {"evidence_class":"operational_recovery","meaning":"Identified and recovered amounts reported on their own operational periods and bases; not automatically traceable to a statistical estimate."},
+        {"evidence_class":"internal_methodology_closure","meaning":"A reviewed evidence-coverage decision used inside TAXLANE; not a public performance or savings finding."}
+    ]);
+    if bounded_examples.get("evidence_class_legend") != Some(&expected_legend) {
+        return Err("payment-integrity bounded five-class legend failed".to_string());
+    }
+    let cards = bounded_examples
+        .get("ordered_program_cards")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("bounded program cards")?;
+    let expected_card_specs = [
+        (
+            1,
+            "cms-part-d",
+            "Medicare Prescription Drug Benefit (Part D)",
+            3,
+            5,
+            "2022-01 through 2022-12",
+            "What same-cohort records connect the statistical estimate to final debt, appeal, collectibility, collection, and control cost?",
+        ),
+        (
+            2,
+            "cms-medicaid",
+            "Medicaid",
+            1,
+            7,
+            "2022-07 through 2023-06",
+            "How are state-cycle samples, payment components, exclusions, and weights combined into the national estimate?",
+        ),
+        (
+            3,
+            "va-pltss",
+            "VA Purchased Long Term Services and Supports (PLTSS)",
+            2,
+            6,
+            "2022-10 through 2023-09",
+            "Which privacy-safe same-cohort records connect sampled classifications to bills, disputes, collectibility, and certified cash?",
+        ),
+        (
+            4,
+            "usda-federal-crop-insurance",
+            "Federal Crop Insurance Corporation",
+            4,
+            4,
+            "2021-07 through 2022-06",
+            "What reproducible current-cycle estimator, exclusion, uncertainty, appeal, debt, and collection records support the reported result?",
+        ),
+    ];
+    let annual_program_rows = read_jsonl(
+        root.join("data/extracted/payment_accuracy/fy2024_program_results.v1.draft.jsonl"),
+    )?;
+    let annual_names = [
+        "Centers for Medicare & Medicaid Services (CMS) - Medicare Prescription Drug Benefit (Part D)",
+        "Centers for Medicare & Medicaid Services (CMS) - Medicaid",
+        "Purchased Long Term Services and Supports",
+        "Risk Management Agency (RMA) Federal Crop Insurance Corporation (FCIC)",
+    ];
+    let annual_periods = [
+        ("1/2022", "12/2022"),
+        ("7/2022", "6/2023"),
+        ("10/2022", "9/2023"),
+        ("7/2021", "6/2022"),
+    ];
+    let expected_annual = [
+        serde_json::json!({"outlays":96521.39,"improper":3575.09,"overpayment":3052.65,"underpayment":522.44,"technically_improper":0.0,"unknown":0.0}),
+        serde_json::json!({"outlays":610833.37,"improper":31099.13,"overpayment":29370.43,"underpayment":123.91,"technically_improper":1604.79,"unknown":0.0}),
+        serde_json::json!({"outlays":5620.66,"improper":657.17,"overpayment":218.30,"underpayment":6.41,"technically_improper":432.46,"unknown":102.93}),
+        serde_json::json!({"outlays":23867.31,"improper":579.36,"overpayment":573.93,"underpayment":5.43,"technically_improper":0.0,"unknown":0.0}),
+    ];
+    if cards.len() != 4 {
+        return Err("payment-integrity bounded examples must have four cards".to_string());
+    }
+    let mut questions = std::collections::BTreeSet::new();
+    for ((((card, spec), annual_name), annual_period), expected_amounts) in cards
+        .iter()
+        .zip(expected_card_specs)
+        .zip(annual_names)
+        .zip(annual_periods)
+        .zip(expected_annual)
+    {
+        let coverage_id = format!(
+            "payment-integrity-methodology-closure-coverage:{}:q4-2025",
+            spec.1
+        );
+        let coverage = closure_coverage_values
+            .iter()
+            .find(|row| {
+                row.get("record_id").and_then(serde_json::Value::as_str) == Some(&coverage_id)
+            })
+            .ok_or_else(|| format!("missing bounded card coverage {coverage_id}"))?;
+        let question = string_field(card, "public_question")?;
+        if int_field(card, "order")? != spec.0
+            || string_field(card, "program_id")? != spec.1
+            || string_field(card, "program_name")? != spec.2
+            || int_field(card, "methodology_fields_closed")? != spec.3
+            || int_field(card, "methodology_fields_open")? != spec.4
+            || string_field(card, "sample_period")? != spec.5
+            || question != spec.6
+            || !questions.insert(question)
+            || card.get("closed_fields") != coverage.get("closed_fields")
+            || card.get("open_fields") != coverage.get("open_fields")
+            || int_field(coverage, "closed_field_count")? != spec.3
+            || int_field(coverage, "open_field_count")? != spec.4
+            || card.get("annual_row_millions") != Some(&expected_amounts)
+        {
+            return Err(format!("bounded program card {} failed", spec.1));
+        }
+        let annual_row = annual_program_rows
+            .iter()
+            .find(|row| {
+                row.get("Program Name").and_then(serde_json::Value::as_str) == Some(annual_name)
+            })
+            .ok_or_else(|| format!("missing annual program row {annual_name}"))?;
+        let amounts = card
+            .get("annual_row_millions")
+            .ok_or("bounded card annual amounts")?;
+        if string_field(annual_row, "Start Date of the sampling timeframe")? != annual_period.0
+            || string_field(annual_row, "End Date of the sampling timeframe")? != annual_period.1
+        {
+            return Err(format!("bounded card {} annual period mismatch", spec.1));
+        }
+        for (card_key, annual_key) in [
+            ("outlays", "Outlays Amount ($M)"),
+            ("improper", "Improper Payment Amount ($M)"),
+            ("overpayment", "Total Overpayment Amount ($M)"),
+            ("underpayment", "Underpayment Amount ($M)"),
+            (
+                "technically_improper",
+                "Technically Improper Payment Amount ($M)",
+            ),
+            ("unknown", "Unknown Payment Amount ($M)"),
+        ] {
+            if number_field(amounts, card_key)? != number_field(annual_row, annual_key)? {
+                return Err(format!("bounded card {} annual amount mismatch", spec.1));
+            }
+        }
+    }
+    if questions.len() != 4 {
+        return Err("bounded examples public questions must be unique".to_string());
+    }
+    let examples = bounded_examples
+        .get("bounded_examples")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("bounded examples array")?;
+    let expected_examples = [
+        (
+            "fy2024-governmentwide-composition",
+            serde_json::json!(["SRC-OMB-PAYMENTACCURACY-FY2024-DATA"]),
+            serde_json::json!([
+                "data/derived/breadth_benchmark_matrix/payment_integrity_depth_card.fy2024.v1.draft.json",
+                "reviews/2026-07-14-payment-integrity-fy2024-annual-extraction-role-review.md"
+            ]),
+            "The official FY2024 workbook's 68 program rows cover $4,071,860.585 million in outlays and report $148,970.633 million classified improper plus $12,569.500 million unknown, for $161,540.133 million improper plus unknown.",
+            "Coverage is not the full federal payment universe and program measurement periods vary.",
+        ),
+        (
+            "va-pltss-corrected-projected-result",
+            serde_json::json!([
+                "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+                "SRC-OMB-PAYMENTACCURACY-VA-PLTSS-Q4-2025"
+            ]),
+            serde_json::json!([
+                "data/derived/breadth_benchmark_matrix/va_pltss_payment_type_composition_bridge.fy2025.v1.draft.json",
+                "reviews/2026-07-13-payment-integrity-va-pltss-source-role-review.md"
+            ]),
+            "The official FY2024 PLTSS result is a projected $218.30 million overpayment estimate at 3.88 percent for payments sampled from October 2022 through September 2023.",
+            "The estimate is not established debt or collection, and the later FY2025 AFR measurement cycle must not be blended into it.",
+        ),
+        (
+            "fcic-fy2024-composition",
+            serde_json::json!(["SRC-OMB-PAYMENTACCURACY-FY2024-DATA"]),
+            serde_json::json!([
+                "data/derived/breadth_benchmark_matrix/federal_crop_insurance_payment_integrity_bridge.fy2024-q4-2025.v1.draft.json"
+            ]),
+            "For the July 2021 through June 2022 sample period, the annual row reports $23,867.31 million in outlays and $579.36 million improper, comprising $573.93 million overpayments and $5.43 million underpayments.",
+            "This is a sampled-universe estimate; the unaudited $579.93 million apparent typo is excluded and the annual-row margin-of-error unit is undisclosed.",
+        ),
+        (
+            "part-d-fy2024-composition",
+            serde_json::json!([
+                "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+                "SRC-CMS-PART-D-IPM-FY2024-FINDINGS"
+            ]),
+            serde_json::json!([
+                "data/derived/breadth_benchmark_matrix/medicare_part_d_payment_type_composition_bridge.fy2024.v1.draft.json"
+            ]),
+            "For the CY2022 sample period, the annual row reports $96,521.39 million in outlays and $3,575.09 million improper, comprising $3,052.65 million overpayments and $522.44 million underpayments, with technical and unknown categories reported as zero.",
+            "The composition is a statistical estimate, not identified or collectible debt.",
+        ),
+        (
+            "part-d-documentation-dependency",
+            serde_json::json!([
+                "SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE",
+                "SRC-CMS-PART-D-IPM-CY2022-FAQ",
+                "SRC-CMS-PART-D-IPM-FY2024-FINDINGS",
+                "SRC-OMB-PAYMENTACCURACY-PART-D-Q4-2025"
+            ]),
+            serde_json::json!([
+                "data/derived/breadth_benchmark_matrix/medicare_part_d_sponsor_documentation_dependency_bridge.fy2024.v1.draft.json"
+            ]),
+            "CMS's corrected 3.16 percent Part D overpayment result separates a 2.70 percent documentation component from 0.46 percent drug and pricing discrepancies.",
+            "A documentation-related measurement failure is not a transaction-level debt ledger. The sponsor-documentation dependency field is closed internally; the other five methodology fields remain open.",
+        ),
+        (
+            "part-d-published-uncertainty",
+            serde_json::json!([
+                "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+                "SRC-CMS-PART-D-IPM-FY2024-FINDINGS"
+            ]),
+            serde_json::json!([
+                "data/derived/breadth_benchmark_matrix/medicare_part_d_published_uncertainty_output_bridge.fy2024.v1.draft.json"
+            ]),
+            "CMS publishes a 95 percent confidence interval of $3.19 billion to $4.01 billion and 3.31 percent to 4.15 percent around the rounded $3.58 billion and 3.70 percent gross improper-payment result.",
+            "The annual-row 0.42 margin-of-error value has no disclosed unit or formula, must not be forced to reconstruct the intervals, and the gross interval must not be applied to a net result.",
+        ),
+        (
+            "va-pltss-recovery-lineage-guardrail",
+            serde_json::json!(["SRC-OMB-PAYMENTACCURACY-VA-PLTSS-Q4-2025"]),
+            serde_json::json!([
+                "data/derived/breadth_benchmark_matrix/va_pltss_recovery_bridge.fy2024-q4-2025.v1.draft.json",
+                "data/derived/breadth_benchmark_matrix/va_pltss_same_cohort_debt_collection_lineage_evidence_ceiling.fy2024-q4-2025.v1.draft.json"
+            ]),
+            "The scorecard separately reports recovery activity of $6.91 million identified and $4.46 million recovered, recovery audit activity of $1.18 million and $0.76 million, and FY2023-FY2025 PIIA sample and deep-dive activity of $3.97 million and $3.71 million, each with its own period and basis.",
+            "Same period, same definition, estimate-to-debt lineage, debt-to-collection lineage, and row disjointness are all unestablished.",
+        ),
+    ];
+    let mut example_ids = std::collections::BTreeSet::new();
+    let legend_classes: std::collections::BTreeSet<&str> = [
+        "statistical_payment_estimate",
+        "unknown_payment_status",
+        "court_confirmed_fraud",
+        "operational_recovery",
+        "internal_methodology_closure",
+    ]
+    .into_iter()
+    .collect();
+    let expected_example_details = [
+        (
+            "FY2024 covered-program composition",
+            "statistical_payment_estimate",
+            serde_json::json!([
+                "fraud",
+                "waste",
+                "identified debt",
+                "collectibility",
+                "recovery",
+                "prevention",
+                "savings"
+            ]),
+        ),
+        (
+            "Corrected VA PLTSS projected result",
+            "statistical_payment_estimate",
+            serde_json::json!([
+                "fraud",
+                "waste",
+                "collectible debt",
+                "recovery rate",
+                "savings"
+            ]),
+        ),
+        (
+            "Federal Crop Insurance FY2024 composition",
+            "statistical_payment_estimate",
+            serde_json::json!(["identified debt", "fraud", "waste", "recovery", "savings"]),
+        ),
+        (
+            "Medicare Part D FY2024 composition",
+            "statistical_payment_estimate",
+            serde_json::json!(["fraud", "waste", "recovery", "savings"]),
+        ),
+        (
+            "Medicare Part D documentation dependency",
+            "internal_methodology_closure",
+            serde_json::json!(["fraud", "waste", "collectibility", "recovery", "savings"]),
+        ),
+        (
+            "Medicare Part D published uncertainty",
+            "statistical_payment_estimate",
+            serde_json::json!([
+                "identified debt range",
+                "collectibility range",
+                "recovery range",
+                "savings range"
+            ]),
+        ),
+        (
+            "VA PLTSS recovery rows remain separate",
+            "operational_recovery",
+            serde_json::json!([
+                "sum the rows",
+                "net the rows",
+                "divide recovery by the $218.30 million estimate",
+                "PLTSS recovery rate",
+                "savings"
+            ]),
+        ),
+    ];
+    if examples.len() != 7 {
+        return Err("bounded examples must contain seven examples".to_string());
+    }
+    for ((example, expected), detail) in examples
+        .iter()
+        .zip(expected_examples)
+        .zip(expected_example_details)
+    {
+        let evidence_class = string_field(example, "evidence_class")?;
+        if string_field(example, "example_id")? != expected.0
+            || !example_ids.insert(expected.0)
+            || string_field(example, "title")? != detail.0
+            || evidence_class != detail.1
+            || !legend_classes.contains(evidence_class.as_str())
+            || example.get("source_ids") != Some(&expected.1)
+            || example.get("source_artifacts") != Some(&expected.2)
+            || string_field(example, "allowed_wording")? != expected.3
+            || string_field(example, "required_caveat")? != expected.4
+            || example.get("prohibited_inferences") != Some(&detail.2)
+        {
+            return Err(format!("bounded factual example {} failed", expected.0));
+        }
+        for artifact in expected.2.as_array().ok_or("bounded example artifacts")? {
+            let path = artifact.as_str().ok_or("bounded example artifact path")?;
+            if !root.join(path).is_file() {
+                return Err(format!("bounded example supporting path missing {path}"));
+            }
+        }
+        for source_id in expected.1.as_array().ok_or("bounded example source IDs")? {
+            let source_id = source_id.as_str().ok_or("bounded example source ID")?;
+            if !source_id.starts_with("SRC-") {
+                return Err(format!(
+                    "bounded example {} invalid source ID {source_id}",
+                    expected.0
+                ));
+            }
+        }
+    }
+    let expected_rules = serde_json::json!([
+        "Match program, tested-payment cohort, evidence class, units, and definitions before comparing amounts.",
+        "Keep classified improper payments separate from unknown-payment status.",
+        "Keep statistical estimates separate from court-confirmed fraud and operational recovery rows.",
+        "Do not sum, subtract, divide, net, or rank mixed-period or unmatched-basis records.",
+        "Internal methodology closure counts describe evidence coverage, not program performance."
+    ]);
+    let expected_use = serde_json::json!([
+        "source-labeled factual explanation",
+        "source-precision arithmetic reconciliation",
+        "public questions about missing evidence",
+        "transparent correction of prior extraction error"
+    ]);
+    let expected_avoid = serde_json::json!([
+        "performance ranking",
+        "fraud or waste labeling",
+        "debt or collectibility claims",
+        "recovery-rate calculations",
+        "prevented-loss or savings estimates"
+    ]);
+    let decision = bounded_examples
+        .get("decision")
+        .ok_or("bounded examples decision")?;
+    let gates = bounded_examples
+        .get("claim_gates")
+        .ok_or("bounded examples gates")?;
+    if bounded_examples.get("comparison_rules") != Some(&expected_rules)
+        || bounded_examples.get("use") != Some(&expected_use)
+        || bounded_examples.get("avoid") != Some(&expected_avoid)
+        || decision
+            != &serde_json::json!({"new_component_closures":0,"new_full_field_closures":0,"program_counts_changed":false,"outbound_action_occurred":false})
+        || gates
+            .get("bounded_factual_reporting_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("bounded examples rules, decision, or bounded gate failed".to_string());
+    }
+    for gate in [
+        "public_claim_allowed",
+        "field_closure_allowed",
+        "scoring_allowed",
+        "performance_claim_allowed",
+        "fraud_claim_allowed",
+        "waste_claim_allowed",
+        "debt_claim_allowed",
+        "collectibility_claim_allowed",
+        "recovery_claim_allowed",
+        "prevention_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if gates.get(gate).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("bounded examples gate {gate} must remain false"));
+        }
+    }
+    let schema = fs::read_to_string(root.join(PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_SCHEMA_PATH))
+        .map_err(|err| err.to_string())?;
+    for required in [
+        "Exactly four cards",
+        "Exactly seven reviewed examples",
+        "$148,970.632M",
+        "$0.001M",
+        "source-precision tolerance",
+        "Decision counts are `0/0`",
+        "all false",
+    ] {
+        if !schema.contains(required) {
+            return Err(format!("bounded examples schema missing {required}"));
+        }
+    }
+    let reader = fs::read_to_string(root.join(PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_READER_PATH))
+        .map_err(|err| err.to_string())?;
+    let normalized_reader = reader.split_whitespace().collect::<Vec<_>>().join(" ");
+    for card in cards {
+        let question = string_field(card, "public_question")?;
+        let normalized_question = question.split_whitespace().collect::<Vec<_>>().join(" ");
+        if !normalized_reader.contains(&normalized_question) {
+            return Err(format!(
+                "bounded examples reader missing exact question {question}"
+            ));
+        }
+    }
+    for required in [
+        "$4,071.861 billion",
+        "$148.971B",
+        "$161.540B",
+        "68 FY2024 program rows",
+        "three fields closed, five open",
+        "one field closed, seven open",
+        "two fields closed, six open",
+        "four fields closed, four open",
+        "sponsor-documentation dependency field",
+        "different tested-payment cycle and must not be blended",
+        "sum them or divide them by $218.30 million",
+        "recoverable-savings basis",
+        "statistical estimate",
+        "identify corrected source errors",
+        "Avoid performance rankings",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("bounded examples reader missing {required}"));
+        }
+    }
+    let review = fs::read_to_string(root.join(PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_REVIEW_PATH))
+        .map_err(|err| err.to_string())?;
+    for required in [
+        "AI-simulated review",
+        "not external endorsement",
+        "Taxpayer Advocate",
+        "Source Custodian",
+        "Budget Accountant",
+        "Program Beneficiary Reviewer",
+        "Reform Skeptic",
+        "closes zero methodology components",
+        "authorizes no outbound",
+    ] {
+        if !review.contains(required) {
+            return Err(format!("bounded examples review missing {required}"));
+        }
+    }
+    let bounded_surface = payment_card
+        .get("bounded_factual_examples_surface")
+        .ok_or("depth card bounded surface")?;
+    if string_field(bounded_surface, "path")? != PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_JSON_PATH
+        || string_field(bounded_surface, "reader_path")?
+            != PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_READER_PATH
+        || string_field(bounded_surface, "review_path")?
+            != PAYMENT_INTEGRITY_BOUNDED_EXAMPLES_REVIEW_PATH
+        || string_field(bounded_surface, "status")? != string_field(&bounded_examples, "status")?
+        || !string_field(bounded_surface, "decision_effect")?
+            .contains("seven previously validated examples")
+    {
+        return Err("payment-integrity depth-card bounded surface failed".to_string());
+    }
+    for (path, required) in [
+        (
+            "README.md",
+            "docs/reading/payment-integrity-bounded-factual-examples.md",
+        ),
+        (
+            "data/derived/breadth_benchmark_matrix/README.md",
+            "payment_integrity_bounded_factual_examples.fy2024.v1.draft.json",
+        ),
+        (
+            "docs/reading/current-versus-benchmark-scoreboard.md",
+            "$161.5 billion in FY2024\nreported improper plus unknown payments across covered programs",
+        ),
+        (
+            "context/waves/2026-07-12-breadth-depth-benchmark-matrix/WAVE.md",
+            "pulses/pulse-52-payment-integrity-bounded-factual-examples.md",
+        ),
+        (
+            "docs/sources/source-version-ledger.md",
+            "Payment-integrity bounded factual examples",
+        ),
+    ] {
+        let text = fs::read_to_string(root.join(path)).map_err(|err| err.to_string())?;
+        if !text.contains(required) {
+            return Err(format!(
+                "bounded examples integration {path} missing {required}"
+            ));
+        }
+    }
+    let fcic_coverage = closure_coverage_values
+        .iter()
+        .find(|row| {
+            row.get("record_id").and_then(serde_json::Value::as_str)
+                == Some("payment-integrity-methodology-closure-coverage:usda-federal-crop-insurance:q4-2025")
+        })
+        .ok_or("FCIC shared closure coverage")?;
+    if int_field(fcic_coverage, "closed_field_count")? != 4
+        || int_field(fcic_coverage, "open_field_count")? != 4
+        || string_field(fcic_coverage, "coverage_status")? != "partial_methodology_closure"
+        || fcic_coverage
+            .get("scoring_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("FCIC shared closure coverage status failed".to_string());
+    }
+    for (path, record_id, status_field, status) in [
+        (
+            PAYMENT_INTEGRITY_METHODOLOGY_SCORING_GATE_JSONL_PATH,
+            "payment-integrity-methodology-scoring-gate:usda-federal-crop-insurance:q4-2025",
+            "gate_status",
+            "blocked_methodology_incomplete",
+        ),
+        (
+            PAYMENT_INTEGRITY_METHODOLOGY_PROGRAM_ROLLUP_JSONL_PATH,
+            "payment-integrity-methodology-program-rollup:usda-federal-crop-insurance:q4-2025",
+            "scoring_gate_status",
+            "blocked_methodology_incomplete",
+        ),
+        (
+            PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_STATUS_JSONL_PATH,
+            "payment-integrity-methodology-open-program-status:usda-federal-crop-insurance:q4-2025",
+            "closure_path_status",
+            "closure_coverage_available",
+        ),
+    ] {
+        let rows = read_jsonl(root.join(path))?;
+        let row = rows
+            .iter()
+            .find(|row| row.get("record_id").and_then(serde_json::Value::as_str) == Some(record_id))
+            .ok_or_else(|| format!("missing FCIC shared row {record_id}"))?;
+        let count_fields_match = path == PAYMENT_INTEGRITY_METHODOLOGY_SCORING_GATE_JSONL_PATH
+            || (int_field(row, "closed_field_count")? == 4
+                && int_field(row, "open_field_count")? == 4);
+        if string_field(row, status_field)? != status
+            || !count_fields_match
+            || row
+                .get("scoring_allowed")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+            || row
+                .get("public_claim_allowed")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+            || row
+                .get("savings_estimate_allowed")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+        {
+            return Err(format!(
+                "FCIC shared status or boundary failed for {record_id}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_disaster_depth_card(root: &Path) -> Result<(), String> {
     let text =
         fs::read_to_string(root.join(DISASTER_DEPTH_CARD_JSON_PATH)).map_err(|e| e.to_string())?;
@@ -13659,9 +22022,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
                 })
             })
             .collect::<Result<Vec<_>, _>>()?;
-    if methodology_source_target_rows.len() != 12 {
+    if methodology_source_target_rows.len() != 14 {
         return Err(format!(
-            "payment integrity methodology source targets must contain 12 rows, got {}",
+            "payment integrity methodology source targets must contain 14 rows, got {}",
             methodology_source_target_rows.len()
         ));
     }
@@ -13740,9 +22103,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
         })
             })
             .collect::<Result<Vec<_>, _>>()?;
-    if methodology_query_rows.len() != 12 {
+    if methodology_query_rows.len() != 14 {
         return Err(format!(
-            "payment integrity methodology queries must contain 12 rows, got {}",
+            "payment integrity methodology queries must contain 14 rows, got {}",
             methodology_query_rows.len()
         ));
     }
@@ -13789,9 +22152,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
         })
             })
             .collect::<Result<Vec<_>, _>>()?;
-    if methodology_query_run_rows.len() != 12 {
+    if methodology_query_run_rows.len() != 14 {
         return Err(format!(
-            "payment integrity methodology query runs must contain 12 rows, got {}",
+            "payment integrity methodology query runs must contain 14 rows, got {}",
             methodology_query_run_rows.len()
         ));
     }
@@ -13826,6 +22189,19 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
             ));
         }
     }
+    let fcic_executed_query_runs = methodology_query_run_rows
+        .iter()
+        .filter(|row| row.program_or_activity == "Federal Crop Insurance Program")
+        .filter(|row| {
+            row.run_status == "executed"
+                && row.result_capture_status == "methodology_result_captured"
+        })
+        .count();
+    if fcic_executed_query_runs != 5 {
+        return Err(format!(
+            "expected 5 executed USDA Federal Crop Insurance methodology query runs, got {fcic_executed_query_runs}"
+        ));
+    }
 
     let methodology_result_rows: Vec<PaymentIntegrityMethodologyResultRecord> =
         read_jsonl(root.join(PAYMENT_INTEGRITY_METHODOLOGY_RESULTS_JSONL_PATH))?
@@ -13836,9 +22212,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
         })
             })
             .collect::<Result<Vec<_>, _>>()?;
-    if methodology_result_rows.len() != 10 {
+    if methodology_result_rows.len() != 12 {
         return Err(format!(
-            "payment integrity methodology results must contain 10 captured result rows, got {}",
+            "payment integrity methodology results must contain 12 captured result rows, got {}",
             methodology_result_rows.len()
         ));
     }
@@ -13873,9 +22249,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
             va_pltss_methodology_result_ids.len()
         ));
     }
-    if usda_crop_methodology_result_ids.len() != 3 {
+    if usda_crop_methodology_result_ids.len() != 5 {
         return Err(format!(
-            "expected 3 USDA Federal Crop Insurance methodology result rows, got {}",
+            "expected 5 USDA Federal Crop Insurance methodology result rows, got {}",
             usda_crop_methodology_result_ids.len()
         ));
     }
@@ -14403,9 +22779,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
         })
     })
     .collect::<Result<Vec<_>, _>>()?;
-    if methodology_closure_decision_rows.len() != 3 {
+    if methodology_closure_decision_rows.len() != 10 {
         return Err(format!(
-            "payment integrity methodology closure decisions must contain 3 internal closure rows, got {}",
+            "payment integrity methodology closure decisions must contain 10 internal closure rows, got {}",
             methodology_closure_decision_rows.len()
         ));
     }
@@ -14414,6 +22790,7 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
     let mut part_d_methodology_closure_decision_ids = BTreeSet::new();
     let mut medicaid_methodology_closure_decision_ids = BTreeSet::new();
     let mut va_pltss_methodology_closure_decision_ids = BTreeSet::new();
+    let mut usda_fcic_methodology_closure_decision_ids = BTreeSet::new();
     for row in &methodology_closure_decision_rows {
         row.validate()
             .map_err(|err| format!("{}: {err}", row.record_id))?;
@@ -14431,9 +22808,24 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
                 row.record_id, row.source_methodology_closure_readiness_record_id
             ));
         }
-        if row.methodology_field != "sample period" {
+        if row.methodology_field != "sample period"
+            && !(row.program_or_activity == "Medicare Prescription Drug Benefit (Part D)"
+                && matches!(
+                    row.methodology_field.as_str(),
+                    "payment type split" | "sponsor documentation dependency treatment"
+                ))
+            && !(row.program_or_activity == "Purchased Long Term Services and Supports (PLTSS)"
+                && row.methodology_field == "payment type split")
+            && !(row.program_or_activity == "Federal Crop Insurance Program"
+                && matches!(
+                    row.methodology_field.as_str(),
+                    "payment type split"
+                        | "data-access outside-agency-control root-cause definition"
+                        | "payment universe"
+                ))
+        {
             return Err(format!(
-                "{} closure decision must currently be scoped to sample period, got {}",
+                "{} closure decision must be scoped to sample period or an approved program field, got {}",
                 row.record_id, row.methodology_field
             ));
         }
@@ -14443,6 +22835,8 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
             medicaid_methodology_closure_decision_ids.insert(row.record_id.clone());
         } else if row.program_or_activity == "Purchased Long Term Services and Supports (PLTSS)" {
             va_pltss_methodology_closure_decision_ids.insert(row.record_id.clone());
+        } else if row.program_or_activity == "Federal Crop Insurance Program" {
+            usda_fcic_methodology_closure_decision_ids.insert(row.record_id.clone());
         }
         if !methodology_closure_decision_readiness_ids
             .insert(row.source_methodology_closure_readiness_record_id.clone())
@@ -14523,11 +22917,12 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
         );
     }
 
+    let methodology_closure_coverage_values =
+        read_jsonl(root.join(PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_COVERAGE_JSONL_PATH))?;
     let methodology_closure_coverage_rows: Vec<PaymentIntegrityMethodologyClosureCoverageRecord> =
-        read_jsonl(root.join(
-            PAYMENT_INTEGRITY_METHODOLOGY_CLOSURE_COVERAGE_JSONL_PATH,
-        ))?
-        .into_iter()
+        methodology_closure_coverage_values
+        .iter()
+        .cloned()
         .map(|row| {
             serde_json::from_value(row).map_err(|err| {
                 format!(
@@ -14536,9 +22931,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
             })
         })
         .collect::<Result<Vec<_>, _>>()?;
-    if methodology_closure_coverage_rows.len() != 3 {
+    if methodology_closure_coverage_rows.len() != 4 {
         return Err(format!(
-            "payment integrity methodology closure coverage must contain 3 rows, got {}",
+            "payment integrity methodology closure coverage must contain 4 rows, got {}",
             methodology_closure_coverage_rows.len()
         ));
     }
@@ -14614,6 +23009,55 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
                     ));
                 }
             }
+            "Federal Crop Insurance Program" => {
+                let raw_coverage = methodology_closure_coverage_values
+                    .iter()
+                    .find(|value| {
+                        value.get("record_id").and_then(serde_json::Value::as_str)
+                            == Some(row.record_id.as_str())
+                    })
+                    .ok_or_else(|| {
+                        format!("missing raw FCIC closure coverage {}", row.record_id)
+                    })?;
+                let supporting_ids = raw_coverage
+                    .get("supporting_source_methodology_closure_decision_record_ids")
+                    .and_then(serde_json::Value::as_array)
+                    .ok_or("FCIC closure coverage supporting decision IDs")?
+                    .iter()
+                    .filter_map(serde_json::Value::as_str)
+                    .map(str::to_string)
+                    .collect::<BTreeSet<_>>();
+                if !usda_fcic_methodology_closure_decision_ids
+                    .contains(&row.source_methodology_closure_decision_record_id)
+                    || supporting_ids != usda_fcic_methodology_closure_decision_ids
+                    || row.closed_field_count as usize
+                        != usda_fcic_methodology_closure_decision_ids.len()
+                    || row.open_field_count as usize
+                        != methodology_residual_source_gap_rows
+                            .iter()
+                            .filter(|gap| gap.program_or_activity == row.program_or_activity)
+                            .count()
+                    || row.closed_fields
+                        != vec![
+                            "sample period".to_string(),
+                            "payment type split".to_string(),
+                            "data-access outside-agency-control root-cause definition".to_string(),
+                            "payment universe".to_string(),
+                        ]
+                    || row.open_fields
+                        != vec![
+                            "sample design".to_string(),
+                            "estimation method".to_string(),
+                            "exclusion rules".to_string(),
+                            "recoverable savings basis".to_string(),
+                        ]
+                {
+                    return Err(format!(
+                        "{} closure coverage must exactly reconcile all four FCIC decisions and four residual gaps",
+                        row.record_id
+                    ));
+                }
+            }
             _ => {
                 return Err(format!(
                     "{} closure coverage program is not supported: {}",
@@ -14635,9 +23079,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
                 })
             })
             .collect::<Result<Vec<_>, _>>()?;
-    if methodology_scoring_gate_rows.len() != 3 {
+    if methodology_scoring_gate_rows.len() != 4 {
         return Err(format!(
-            "payment integrity methodology scoring gate must contain 3 rows, got {}",
+            "payment integrity methodology scoring gate must contain 4 rows, got {}",
             methodology_scoring_gate_rows.len()
         ));
     }
@@ -14691,9 +23135,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
             })
         })
         .collect::<Result<Vec<_>, _>>()?;
-    if methodology_program_rollup_rows.len() != 3 {
+    if methodology_program_rollup_rows.len() != 4 {
         return Err(format!(
-            "payment integrity methodology program rollup must contain 3 rows, got {}",
+            "payment integrity methodology program rollup must contain 4 rows, got {}",
             methodology_program_rollup_rows.len()
         ));
     }
@@ -14932,35 +23376,47 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
                     row.record_id, row.source_open_program_status_record_id
                 )
             })?;
-        let residual_gap = methodology_residual_source_gap_by_id
-            .get(&row.source_residual_source_gap_record_id)
-            .ok_or_else(|| {
-                format!(
-                    "{} references missing methodology residual source-gap row {}",
-                    row.record_id, row.source_residual_source_gap_record_id
-                )
-            })?;
+        let residual_gap =
+            methodology_residual_source_gap_by_id.get(&row.source_residual_source_gap_record_id);
+        let resolved_fcic_priority = residual_gap.is_none()
+            && row.record_id
+                == "payment-integrity-methodology-residual-gap-priority:usda-federal-crop-insurance:agency-process-error-definition:q4-2025"
+            && row.selected_methodology_field
+                == "data-access outside-agency-control root-cause definition"
+            && usda_fcic_methodology_closure_decision_ids.contains(
+                "payment-integrity-methodology-closure-decision:usda-federal-crop-insurance:data-access-outside-agency-control-root-cause-definition:q4-2025",
+            );
+        if residual_gap.is_none() && !resolved_fcic_priority {
+            return Err(format!(
+                "{} references missing methodology residual source-gap row {}",
+                row.record_id, row.source_residual_source_gap_record_id
+            ));
+        }
         if row.agency_code != open_status.agency_code
-            || row.agency_code != residual_gap.agency_code
             || row.program_or_activity != open_status.program_or_activity
-            || row.program_or_activity != residual_gap.program_or_activity
+            || residual_gap.is_some_and(|gap| {
+                row.agency_code != gap.agency_code
+                    || row.program_or_activity != gap.program_or_activity
+            })
         {
             return Err(format!(
                 "{} agency/program must match open-program status and residual source-gap rows",
                 row.record_id
             ));
         }
-        if row.selected_methodology_field != residual_gap.methodology_field {
-            return Err(format!(
-                "{} selected methodology field must match residual source-gap methodology_field",
-                row.record_id
-            ));
-        }
-        if row.next_query_text != residual_gap.next_query_text {
-            return Err(format!(
-                "{} next_query_text must match residual source-gap next_query_text",
-                row.record_id
-            ));
+        if let Some(residual_gap) = residual_gap {
+            if row.selected_methodology_field != residual_gap.methodology_field {
+                return Err(format!(
+                    "{} selected methodology field must match residual source-gap methodology_field",
+                    row.record_id
+                ));
+            }
+            if row.next_query_text != residual_gap.next_query_text {
+                return Err(format!(
+                    "{} next_query_text must match residual source-gap next_query_text",
+                    row.record_id
+                ));
+            }
         }
         methodology_residual_gap_priority_by_id.insert(row.record_id.clone(), row);
     }
@@ -15170,7 +23626,8 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
         if !reviewer_action.field_reframing_allowed
             || row.agency_code != reviewer_action.agency_code
             || row.program_or_activity != reviewer_action.program_or_activity
-            || row.old_methodology_field != reviewer_action.selected_methodology_field
+            || (row.old_methodology_field != reviewer_action.selected_methodology_field
+                && row.revised_methodology_field != reviewer_action.selected_methodology_field)
         {
             return Err(format!(
                 "{} must match a field-reframing reviewer action",
@@ -15647,6 +24104,24 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
             .filter(|row| row.boundary_readiness_status == "narrow_internal_readiness_candidate")
             .map(|row| row.record_id.clone())
             .collect();
+    let component_gate_boundary_readiness_for_narrow: Vec<
+        PaymentIntegrityMethodologyComponentGateBoundaryReadinessRecord,
+    > = read_jsonl(
+        root.join(PAYMENT_INTEGRITY_METHODOLOGY_COMPONENT_GATE_BOUNDARY_READINESS_JSONL_PATH),
+    )?
+    .into_iter()
+    .map(|row| serde_json::from_value(row).map_err(|err| err.to_string()))
+    .collect::<Result<Vec<_>, _>>()?;
+    let narrow_ready_component_gate_by_id: BTreeMap<_, _> =
+        component_gate_boundary_readiness_for_narrow
+            .iter()
+            .filter(|row| {
+                row.boundary_readiness_status == "narrow_component_candidate_ready_full_field_open"
+            })
+            .map(|row| (row.record_id.clone(), row))
+            .collect();
+    let mut all_narrow_ready_ids = narrow_ready_followup_boundary_readiness_ids.clone();
+    all_narrow_ready_ids.extend(narrow_ready_component_gate_by_id.keys().cloned());
     let methodology_followup_boundary_readiness_by_id: BTreeMap<_, _> =
         methodology_followup_boundary_readiness_rows
             .iter()
@@ -15665,9 +24140,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
         })
     })
     .collect::<Result<Vec<_>, _>>()?;
-    if methodology_narrow_closure_candidate_rows.len() != 2 {
+    if methodology_narrow_closure_candidate_rows.len() != 4 {
         return Err(format!(
-            "payment integrity methodology narrow closure candidates must contain 2 rows, got {}",
+            "payment integrity methodology narrow closure candidates must contain 4 rows, got {}",
             methodology_narrow_closure_candidate_rows.len()
         ));
     }
@@ -15690,28 +24165,38 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
                 row.source_followup_boundary_readiness_record_id
             ));
         }
-        let readiness = methodology_followup_boundary_readiness_by_id
+        if let Some(readiness) = methodology_followup_boundary_readiness_by_id
             .get(&row.source_followup_boundary_readiness_record_id)
-            .ok_or_else(|| {
-                format!(
-                    "{} references missing methodology follow-up boundary-readiness row {}",
-                    row.record_id, row.source_followup_boundary_readiness_record_id
-                )
-            })?;
-        if readiness.boundary_readiness_status != "narrow_internal_readiness_candidate"
-            || row.agency_code != readiness.agency_code
-            || row.program_or_activity != readiness.program_or_activity
-            || row.priority_rank != readiness.priority_rank
         {
+            if readiness.boundary_readiness_status != "narrow_internal_readiness_candidate"
+                || row.agency_code != readiness.agency_code
+                || row.program_or_activity != readiness.program_or_activity
+                || row.priority_rank != readiness.priority_rank
+            {
+                return Err(format!(
+                    "{} must match a narrow internal boundary-readiness row",
+                    row.record_id
+                ));
+            }
+        } else if let Some(readiness) =
+            narrow_ready_component_gate_by_id.get(&row.source_followup_boundary_readiness_record_id)
+        {
+            if row.agency_code != readiness.agency_code
+                || row.program_or_activity != readiness.program_or_activity
+            {
+                return Err(format!(
+                    "{} must match its component-gate boundary-readiness row",
+                    row.record_id
+                ));
+            }
+        } else {
             return Err(format!(
-                "{} must match a narrow internal boundary-readiness row",
-                row.record_id
+                "{} references missing narrow-ready boundary-readiness row {}",
+                row.record_id, row.source_followup_boundary_readiness_record_id
             ));
         }
     }
-    if methodology_narrow_closure_candidate_readiness_ids
-        != narrow_ready_followup_boundary_readiness_ids
-    {
+    if methodology_narrow_closure_candidate_readiness_ids != all_narrow_ready_ids {
         return Err(
             "payment integrity methodology narrow closure candidates must exactly cover narrow-ready boundary-readiness rows"
                 .to_string(),
@@ -15736,9 +24221,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
         })
     })
     .collect::<Result<Vec<_>, _>>()?;
-    if methodology_narrow_closure_decision_rows.len() != 2 {
+    if methodology_narrow_closure_decision_rows.len() != 4 {
         return Err(format!(
-            "payment integrity methodology narrow closure decisions must contain 2 rows, got {}",
+            "payment integrity methodology narrow closure decisions must contain 4 rows, got {}",
             methodology_narrow_closure_decision_rows.len()
         ));
     }
@@ -15792,10 +24277,14 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
             .iter()
             .map(|row| (row.record_id.clone(), row))
             .collect();
-    let methodology_open_program_component_progress_rows:
-        Vec<PaymentIntegrityMethodologyOpenProgramComponentProgressRecord> = read_jsonl(
+    let methodology_open_program_component_progress_values = read_jsonl(
         root.join(PAYMENT_INTEGRITY_METHODOLOGY_OPEN_PROGRAM_COMPONENT_PROGRESS_JSONL_PATH),
-    )?
+    )?;
+    let methodology_open_program_component_progress_rows:
+        Vec<PaymentIntegrityMethodologyOpenProgramComponentProgressRecord> =
+        methodology_open_program_component_progress_values
+    .iter()
+    .cloned()
     .into_iter()
     .map(|row| {
         serde_json::from_value(row).map_err(|err| {
@@ -15829,6 +24318,25 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
                 "duplicate payment integrity methodology open-program component progress decision reference {}",
                 row.source_narrow_closure_decision_record_id
             ));
+        }
+        if let Some(raw_row) = methodology_open_program_component_progress_values
+            .iter()
+            .find(|value| {
+                value.get("record_id").and_then(serde_json::Value::as_str)
+                    == Some(row.record_id.as_str())
+            })
+        {
+            if let Some(supporting_ids) = raw_row
+                .get("supporting_narrow_closure_decision_record_ids")
+                .and_then(serde_json::Value::as_array)
+            {
+                methodology_open_program_component_progress_decision_ids.extend(
+                    supporting_ids
+                        .iter()
+                        .filter_map(serde_json::Value::as_str)
+                        .map(str::to_string),
+                );
+            }
         }
         let open_status = methodology_open_program_status_by_id
             .get(&row.source_open_program_status_record_id)
@@ -15898,9 +24406,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
         })
     })
     .collect::<Result<Vec<_>, _>>()?;
-    if methodology_component_gate_requirement_rows.len() != 2 {
+    if methodology_component_gate_requirement_rows.len() != 3 {
         return Err(format!(
-            "payment integrity methodology component gate requirements must contain 2 rows, got {}",
+            "payment integrity methodology component gate requirements must contain 3 rows, got {}",
             methodology_component_gate_requirement_rows.len()
         ));
     }
@@ -15915,14 +24423,8 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
                 row.record_id
             ));
         }
-        if !methodology_component_gate_requirement_progress_ids
-            .insert(row.source_component_progress_record_id.clone())
-        {
-            return Err(format!(
-                "duplicate payment integrity methodology component gate requirement progress reference {}",
-                row.source_component_progress_record_id
-            ));
-        }
+        methodology_component_gate_requirement_progress_ids
+            .insert(row.source_component_progress_record_id.clone());
         let progress = methodology_open_program_component_progress_by_id
             .get(&row.source_component_progress_record_id)
             .ok_or_else(|| {
@@ -15972,9 +24474,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
         })
     })
     .collect::<Result<Vec<_>, _>>()?;
-    if methodology_component_gate_source_target_rows.len() != 4 {
+    if methodology_component_gate_source_target_rows.len() != 6 {
         return Err(format!(
-            "payment integrity methodology component gate source targets must contain 4 rows, got {}",
+            "payment integrity methodology component gate source targets must contain 6 rows, got {}",
             methodology_component_gate_source_target_rows.len()
         ));
     }
@@ -16029,13 +24531,22 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
                 .to_string(),
         );
     }
-    let required_component_source_target_priorities = BTreeSet::from([1_u8, 2_u8]);
     for requirement_id in &methodology_component_gate_requirement_ids {
+        let requirement = methodology_component_gate_requirement_by_id
+            .get(requirement_id)
+            .expect("component gate requirement ID must resolve");
+        let required_component_source_target_priorities = if requirement.gate_status
+            == "narrow_component_evidence_required_full_field_remains_open"
+        {
+            BTreeSet::from([1_u8, 2_u8])
+        } else {
+            BTreeSet::from([1_u8, 2_u8])
+        };
         if methodology_component_gate_source_target_priorities_by_requirement.get(requirement_id)
             != Some(&required_component_source_target_priorities)
         {
             return Err(format!(
-                "payment integrity methodology component gate source targets must have priorities 1 and 2 for {requirement_id}"
+                "payment integrity methodology component gate source targets have unexpected priorities for {requirement_id}"
             ));
         }
     }
@@ -16063,9 +24574,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
         })
     })
     .collect::<Result<Vec<_>, _>>()?;
-    if methodology_component_gate_source_query_rows.len() != 4 {
+    if methodology_component_gate_source_query_rows.len() != 6 {
         return Err(format!(
-            "payment integrity methodology component gate source queries must contain 4 rows, got {}",
+            "payment integrity methodology component gate source queries must contain 6 rows, got {}",
             methodology_component_gate_source_query_rows.len()
         ));
     }
@@ -16138,9 +24649,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
         })
     })
     .collect::<Result<Vec<_>, _>>()?;
-    if methodology_component_gate_source_query_run_rows.len() != 4 {
+    if methodology_component_gate_source_query_run_rows.len() != 6 {
         return Err(format!(
-            "payment integrity methodology component gate source query runs must contain 4 rows, got {}",
+            "payment integrity methodology component gate source query runs must contain 6 rows, got {}",
             methodology_component_gate_source_query_run_rows.len()
         ));
     }
@@ -16215,9 +24726,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
         })
     })
     .collect::<Result<Vec<_>, _>>()?;
-    if methodology_component_gate_source_capture_rows.len() != 4 {
+    if methodology_component_gate_source_capture_rows.len() != 6 {
         return Err(format!(
-            "payment integrity methodology component gate source captures must contain 4 rows, got {}",
+            "payment integrity methodology component gate source captures must contain 6 rows, got {}",
             methodology_component_gate_source_capture_rows.len()
         ));
     }
@@ -16291,9 +24802,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
             })
         })
         .collect::<Result<Vec<_>, _>>()?;
-    if methodology_component_gate_source_capture_rollup_rows.len() != 4 {
+    if methodology_component_gate_source_capture_rollup_rows.len() != 6 {
         return Err(format!(
-            "payment integrity methodology component gate source capture rollups must contain 4 rows, got {}",
+            "payment integrity methodology component gate source capture rollups must contain 6 rows, got {}",
             methodology_component_gate_source_capture_rollup_rows.len()
         ));
     }
@@ -16367,9 +24878,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
             })
         })
         .collect::<Result<Vec<_>, _>>()?;
-    if methodology_component_gate_boundary_decision_rows.len() != 4 {
+    if methodology_component_gate_boundary_decision_rows.len() != 6 {
         return Err(format!(
-            "payment integrity methodology component gate boundary decisions must contain 4 rows, got {}",
+            "payment integrity methodology component gate boundary decisions must contain 6 rows, got {}",
             methodology_component_gate_boundary_decision_rows.len()
         ));
     }
@@ -16444,9 +24955,9 @@ fn validate_efficiency_pressure_records(root: &Path) -> Result<(), String> {
             })
         })
         .collect::<Result<Vec<_>, _>>()?;
-    if methodology_component_gate_boundary_readiness_rows.len() != 4 {
+    if methodology_component_gate_boundary_readiness_rows.len() != 6 {
         return Err(format!(
-            "payment integrity methodology component gate boundary readiness must contain 4 rows, got {}",
+            "payment integrity methodology component gate boundary readiness must contain 6 rows, got {}",
             methodology_component_gate_boundary_readiness_rows.len()
         ));
     }
@@ -20116,6 +28627,476 @@ fn check_accountability_performance_demand_response_intake_example_jsonl(
     }
 
     println!("validated accountability performance demand response intake example JSONL");
+    Ok(())
+}
+
+fn check_external_accountability_claim_intake(root: &Path) -> Result<(), String> {
+    let rows: Vec<ExternalAccountabilityClaimIntakeRecord> =
+        read_jsonl(root.join(EXTERNAL_ACCOUNTABILITY_CLAIM_INTAKE_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row)
+                    .map_err(|err| format!("external accountability claim intake: {err}"))
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if rows.len() != 5 {
+        return Err(format!(
+            "external accountability claim intake must contain exactly 5 rows, found {}",
+            rows.len()
+        ));
+    }
+
+    let mut record_ids = BTreeSet::new();
+    let mut group_ids = BTreeSet::new();
+    let mut publication_source_ids = BTreeSet::new();
+    for row in &rows {
+        row.validate()?;
+        if !record_ids.insert(row.record_id.as_str()) {
+            return Err(format!(
+                "duplicate external claim record_id: {}",
+                row.record_id
+            ));
+        }
+        if !group_ids.insert(row.claim_group_id.as_str()) {
+            return Err(format!(
+                "duplicate external claim claim_group_id: {}",
+                row.claim_group_id
+            ));
+        }
+        for publication in &row.publications {
+            if !publication_source_ids.insert(publication.source_id.as_str()) {
+                return Err(format!(
+                    "external claim publication source ID reused across rows: {}",
+                    publication.source_id
+                ));
+            }
+        }
+    }
+    if record_ids.len() != 5 || group_ids.len() != 5 || publication_source_ids.len() != 12 {
+        return Err("external claim intake requires 5 unique records/groups and 12 unique publication source IDs".to_string());
+    }
+
+    struct ExpectedPublication<'a> {
+        source_id: &'a str,
+        source_url: &'a str,
+        publisher: &'a str,
+        ledger_publisher: &'a str,
+        published_date: Option<&'a str>,
+        observed_date: &'a str,
+        publication_kind: ExternalClaimPublicationKind,
+        evidence_relation: ExternalClaimEvidenceRelation,
+    }
+    struct ExpectedExternalClaim<'a> {
+        record_id: &'a str,
+        claim_group_id: &'a str,
+        claim_type: ExternalClaimType,
+        paraphrase: &'a str,
+        value: f64,
+        unit: &'a str,
+        semantic: ExternalClaimAmountSemantic,
+        derivation: ExternalClaimAmountDerivation,
+        publications: &'a [ExpectedPublication<'a>],
+    }
+    let expected = [
+        ExpectedExternalClaim {
+            record_id: "external-claim:nick-shirley:2026-07-10:nyc-care:amount:01",
+            claim_group_id: "external-claim-group:nick-shirley:2026-07-10:nyc-care",
+            claim_type: ExternalClaimType::AggregateFraudAllegation,
+            paraphrase: "Nick Shirley alleges more than $190 million in fraud involving New York City adult day care and personal home care activity.",
+            value: 190.0,
+            unit: "millions",
+            semantic: ExternalClaimAmountSemantic::AllegedFraudExposure,
+            derivation: ExternalClaimAmountDerivation::SourceStatedLowerBound,
+            publications: &[
+                ExpectedPublication {
+                    source_id: "SRC-NICK-SHIRLEY-NYC-CARE-YOUTUBE-2026-07-10",
+                    source_url: "https://www.youtube.com/watch?v=Ji3KpgOT0zM",
+                    publisher: "Nick Shirley",
+                    ledger_publisher: "Nick Shirley / YouTube",
+                    published_date: Some("2026-07-10"),
+                    observed_date: "2026-07-14",
+                    publication_kind: ExternalClaimPublicationKind::OriginalVideo,
+                    evidence_relation: ExternalClaimEvidenceRelation::ClaimOrigin,
+                },
+                ExpectedPublication {
+                    source_id: "SRC-MEDIAITE-NYC-CARE-COVERAGE-2026-07",
+                    source_url: "https://www.mediaite.com/online/major-red-flags-dr-oz-joins-maga-influencer-nick-shirley-to-confront-alleged-fraudsters/",
+                    publisher: "Mediaite",
+                    ledger_publisher: "Mediaite",
+                    published_date: None,
+                    observed_date: "2026-07-14",
+                    publication_kind: ExternalClaimPublicationKind::Article,
+                    evidence_relation: ExternalClaimEvidenceRelation::SuppliesContext,
+                },
+                ExpectedPublication {
+                    source_id: "SRC-DOJ-NYC-ADULT-DAY-CARE-PLEAS-2026-01-15",
+                    source_url: "https://www.justice.gov/opa/pr/two-individuals-plead-guilty-68m-adult-day-care-fraud-scheme",
+                    publisher: "U.S. Department of Justice",
+                    ledger_publisher: "U.S. Department of Justice",
+                    published_date: Some("2026-01-15"),
+                    observed_date: "2026-07-14",
+                    publication_kind: ExternalClaimPublicationKind::AgencyRelease,
+                    evidence_relation: ExternalClaimEvidenceRelation::SuppliesContext,
+                },
+            ],
+        },
+        ExpectedExternalClaim {
+            record_id: "external-claim:nick-shirley:2026-06-28:national-savings:amount:01",
+            claim_group_id: "external-claim-group:nick-shirley:2026-06-28:national-savings",
+            claim_type: ExternalClaimType::SavingsAssertion,
+            paraphrase: "Nick Shirley claims that his reporting saved the United States more than $250 billion.",
+            value: 250.0,
+            unit: "billions",
+            semantic: ExternalClaimAmountSemantic::SourceStatedSavingsTotal,
+            derivation: ExternalClaimAmountDerivation::SourceStatedLowerBound,
+            publications: &[
+                ExpectedPublication {
+                    source_id: "SRC-NICK-SHIRLEY-NATIONAL-SAVINGS-X-2026-06-28",
+                    source_url: "https://x.com/nickshirleyy/status/2071317393058455930",
+                    publisher: "Nick Shirley",
+                    ledger_publisher: "Nick Shirley / X",
+                    published_date: Some("2026-06-28"),
+                    observed_date: "2026-07-14",
+                    publication_kind: ExternalClaimPublicationKind::SocialPost,
+                    evidence_relation: ExternalClaimEvidenceRelation::ClaimOrigin,
+                },
+                ExpectedPublication {
+                    source_id: "SRC-DOJ-NATIONAL-HEALTH-CARE-FRAUD-TAKEDOWN-2026-06-23",
+                    source_url: "https://www.justice.gov/opa/pr/national-health-care-fraud-takedown-results-455-defendants-charged-connection-over-65",
+                    publisher: "U.S. Department of Justice",
+                    ledger_publisher: "U.S. Department of Justice",
+                    published_date: Some("2026-06-23"),
+                    observed_date: "2026-07-14",
+                    publication_kind: ExternalClaimPublicationKind::AgencyRelease,
+                    evidence_relation: ExternalClaimEvidenceRelation::SuppliesContext,
+                },
+            ],
+        },
+        ExpectedExternalClaim {
+            record_id: "external-claim:nick-shirley:2025-12-26:minnesota:amount:01",
+            claim_group_id: "external-claim-group:nick-shirley:2025-12-26:minnesota",
+            claim_type: ExternalClaimType::AggregateFraudAllegation,
+            paraphrase: "Nick Shirley alleges that more than $110 million in fraud was uncovered in Minnesota in one day.",
+            value: 110.0,
+            unit: "millions",
+            semantic: ExternalClaimAmountSemantic::AllegedFraudExposure,
+            derivation: ExternalClaimAmountDerivation::SourceStatedLowerBound,
+            publications: &[
+                ExpectedPublication {
+                    source_id: "SRC-NICK-SHIRLEY-MINNESOTA-X-2025-12-26",
+                    source_url: "https://x.com/nickshirleyy/status/2004642794862961123",
+                    publisher: "Nick Shirley",
+                    ledger_publisher: "Nick Shirley / X",
+                    published_date: Some("2025-12-26"),
+                    observed_date: "2026-07-14",
+                    publication_kind: ExternalClaimPublicationKind::SocialPost,
+                    evidence_relation: ExternalClaimEvidenceRelation::ClaimOrigin,
+                },
+                ExpectedPublication {
+                    source_id: "SRC-HHS-OIG-MINNESOTA-CCAP-ATTENDANCE-2025",
+                    source_url: "https://oig.hhs.gov/reports/all/2025/minnesota-could-better-ensure-that-childcare-assistance-providers-comply-with-attendance-requirements/",
+                    publisher: "U.S. Department of Health and Human Services, Office of Inspector General",
+                    ledger_publisher: "U.S. Department of Health and Human Services, Office of Inspector General",
+                    published_date: Some("2025"),
+                    observed_date: "2026-07-14",
+                    publication_kind: ExternalClaimPublicationKind::AuditReport,
+                    evidence_relation: ExternalClaimEvidenceRelation::SuppliesContext,
+                },
+                ExpectedPublication {
+                    source_id: "SRC-DOJ-MINNESOTA-HEALTH-CARE-FRAUD-CASE-SUMMARIES-2026",
+                    source_url: "https://www.justice.gov/criminal/criminal-fraud/health-care-fraud-unit/2026-minnesota-hcf-case-summaries",
+                    publisher: "U.S. Department of Justice",
+                    ledger_publisher: "U.S. Department of Justice",
+                    published_date: Some("2026"),
+                    observed_date: "2026-07-14",
+                    publication_kind: ExternalClaimPublicationKind::AgencyRelease,
+                    evidence_relation: ExternalClaimEvidenceRelation::SuppliesContext,
+                },
+            ],
+        },
+        ExpectedExternalClaim {
+            record_id: "external-claim:nick-shirley:2026-03:california-care:amount:01",
+            claim_group_id: "external-claim-group:nick-shirley:2026-03:california-care",
+            claim_type: ExternalClaimType::AggregateFraudAllegation,
+            paraphrase: "Nick Shirley alleges more than $170 million in fraud involving California daycare and hospice activity.",
+            value: 170.0,
+            unit: "millions",
+            semantic: ExternalClaimAmountSemantic::AllegedFraudExposure,
+            derivation: ExternalClaimAmountDerivation::SourceStatedLowerBound,
+            publications: &[
+                ExpectedPublication {
+                    source_id: "SRC-FOXLA-SHIRLEY-CALIFORNIA-CARE-2026-03",
+                    source_url: "https://www.foxla.com/news/nick-shirley-california-daycare-fraud-dr-oz-hospice",
+                    publisher: "FOX 11 Los Angeles",
+                    ledger_publisher: "FOX 11 Los Angeles",
+                    published_date: None,
+                    observed_date: "2026-07-14",
+                    publication_kind: ExternalClaimPublicationKind::Article,
+                    evidence_relation: ExternalClaimEvidenceRelation::ClaimOrigin,
+                },
+                ExpectedPublication {
+                    source_id: "SRC-CDPH-CALIFORNIA-HOSPICE-LOCATION-REVIEW-2026-04",
+                    source_url: "https://www.cdph.ca.gov/Programs/OPA/Pages/NR26-014.aspx",
+                    publisher: "California Department of Public Health",
+                    ledger_publisher: "California Department of Public Health",
+                    published_date: Some("2026-04"),
+                    observed_date: "2026-07-14",
+                    publication_kind: ExternalClaimPublicationKind::AgencyRelease,
+                    evidence_relation: ExternalClaimEvidenceRelation::SuppliesContext,
+                },
+                ExpectedPublication {
+                    source_id: "SRC-CA-DOJ-HEALTH-CARE-FRAUD-CHARGES-267M-2026",
+                    source_url: "https://oag.ca.gov/node/621529",
+                    publisher: "California Department of Justice",
+                    ledger_publisher: "California Department of Justice",
+                    published_date: Some("2026"),
+                    observed_date: "2026-07-14",
+                    publication_kind: ExternalClaimPublicationKind::AgencyRelease,
+                    evidence_relation: ExternalClaimEvidenceRelation::SuppliesContext,
+                },
+            ],
+        },
+        ExpectedExternalClaim {
+            record_id: "external-claim:nick-shirley:2026:house-testimony-quality-learing-center:amount:01",
+            claim_group_id: "external-claim-group:nick-shirley:2026:house-testimony-quality-learing-center",
+            claim_type: ExternalClaimType::PaymentOrBilling,
+            paraphrase: "In House-hosted written testimony, Nick Shirley claims that downtown Minneapolis's Quality Learing Center received $1.9 million in Child Care Assistance Program funding.",
+            value: 1.9,
+            unit: "millions",
+            semantic: ExternalClaimAmountSemantic::PaidAmount,
+            derivation: ExternalClaimAmountDerivation::SourceStatedExact,
+            publications: &[ExpectedPublication {
+                source_id: "SRC-HOUSE-JUDICIARY-SHIRLEY-TESTIMONY-2026",
+                source_url: "https://judiciary.house.gov/sites/evo-subsites/republicans-judiciary.house.gov/files/evo-media-document/shirley-testimony.pdf",
+                publisher: "U.S. House Committee on the Judiciary",
+                ledger_publisher: "U.S. House Committee on the Judiciary",
+                published_date: None,
+                observed_date: "2026-07-14",
+                publication_kind: ExternalClaimPublicationKind::WrittenTestimony,
+                evidence_relation: ExternalClaimEvidenceRelation::ClaimOrigin,
+            }],
+        },
+    ];
+
+    let source_ledger = fs::read_to_string(root.join("docs/sources/source-version-ledger.md"))
+        .map_err(|err| format!("failed to read source version ledger: {err}"))?;
+    for expected_row in expected {
+        let row = rows
+            .iter()
+            .find(|row| row.record_id == expected_row.record_id)
+            .ok_or_else(|| {
+                format!(
+                    "missing expected external claim row: {}",
+                    expected_row.record_id
+                )
+            })?;
+        if row.claim_group_id != expected_row.claim_group_id
+            || row.claim_atom.claim_type != expected_row.claim_type
+            || row.claim_atom.neutral_paraphrase != expected_row.paraphrase
+            || row.amount_assertion.value != expected_row.value
+            || row.amount_assertion.unit != expected_row.unit
+            || row.amount_assertion.amount_semantic != expected_row.semantic
+            || row.amount_assertion.derivation != expected_row.derivation
+            || row.publications.len() != expected_row.publications.len()
+        {
+            return Err(format!(
+                "external claim expected configuration mismatch: {}",
+                expected_row.record_id
+            ));
+        }
+        for (publication, expected_publication) in
+            row.publications.iter().zip(expected_row.publications)
+        {
+            if publication.source_id != expected_publication.source_id
+                || publication.source_url != expected_publication.source_url
+                || publication.publisher != expected_publication.publisher
+                || publication.published_date.as_deref() != expected_publication.published_date
+                || publication.observed_date != expected_publication.observed_date
+                || publication.publication_kind != expected_publication.publication_kind
+                || publication.evidence_relation != expected_publication.evidence_relation
+            {
+                return Err(format!(
+                    "external claim publication configuration mismatch: {} / {}",
+                    expected_row.record_id, expected_publication.source_id
+                ));
+            }
+            let ledger_marker = format!("| `{}` |", expected_publication.source_id);
+            let ledger_line = source_ledger
+                .lines()
+                .find(|line| line.starts_with(&ledger_marker));
+            let ledger_cells =
+                ledger_line.map(|line| line.split('|').map(str::trim).collect::<Vec<_>>());
+            let ledger_identity_matches = ledger_cells.as_ref().is_some_and(|cells| {
+                cells.get(2) == Some(&expected_publication.ledger_publisher)
+                    && cells.get(3).map(|cell| cell.as_ref())
+                        == Some(format!("<{}>", expected_publication.source_url).as_str())
+                    && cells.get(4).is_some_and(|observed| {
+                        *observed == expected_publication.observed_date
+                            || observed
+                                .starts_with(&format!("{};", expected_publication.observed_date))
+                    })
+            });
+            if !ledger_identity_matches {
+                return Err(format!(
+                    "external claim source-ledger identity mismatch: {}",
+                    expected_publication.source_id
+                ));
+            }
+        }
+    }
+
+    let house_record = rows
+        .iter()
+        .find(|row| {
+            row.record_id
+                == "external-claim:nick-shirley:2026:house-testimony-quality-learing-center:amount:01"
+        })
+        .ok_or("missing custody-backed House testimony claim atom")?;
+    let house_publication = house_record
+        .publications
+        .first()
+        .ok_or("House testimony claim atom has no publication")?;
+    if house_record.claim_status != ExternalClaimStatus::AttributedClaimSupported
+        || house_record.review_status != ExternalClaimReviewStatus::SourceReviewed
+        || !house_record.claim_atom.exact_text_verified
+        || house_record.official_response.respondent.as_deref() != Some("Quality Learing Center")
+        || house_publication.custody_status != ExternalClaimCustodyStatus::OfficialCopyCaptured
+        || house_publication.custody_path.as_deref() != Some(HOUSE_SHIRLEY_TESTIMONY_RAW_PATH)
+        || house_publication.sha256.as_deref() != Some(HOUSE_SHIRLEY_TESTIMONY_SHA256)
+        || house_record.claim_atom.object != "Child Care Assistance Program funding"
+        || house_record.claim_atom.coverage_period != "source_defined_undetermined"
+        || house_record.amount_assertion.period != "source_defined_undetermined"
+        || house_record.amount_assertion.overlap_group
+            != "house-testimony-quality-learing-center-ccap-undetermined"
+        || house_record.comparison_basis
+            != "Checksum-verified House-hosted testimony supports only that Shirley made the attributed CCAP payment assertion. The testimony does not state a period for this amount. No period-specific CCAP payment record, HHS or Minnesota agency record, recipient response, program-universe reconciliation, or overlap mapping is attached."
+    {
+        return Err("House testimony claim atom custody/status configuration mismatch".to_string());
+    }
+
+    let house_raw_path = root.join(HOUSE_SHIRLEY_TESTIMONY_RAW_PATH);
+    let house_raw_bytes = fs::metadata(&house_raw_path)
+        .map_err(|err| format!("failed to inspect {HOUSE_SHIRLEY_TESTIMONY_RAW_PATH}: {err}"))?
+        .len();
+    let house_raw_sha256 = sha256_file(&house_raw_path)?;
+    if house_raw_bytes != HOUSE_SHIRLEY_TESTIMONY_BYTES
+        || house_raw_sha256 != HOUSE_SHIRLEY_TESTIMONY_SHA256
+    {
+        return Err("House testimony raw PDF bytes or SHA-256 mismatch".to_string());
+    }
+    let house_metadata = fs::read_to_string(root.join(HOUSE_SHIRLEY_TESTIMONY_METADATA_PATH))
+        .map_err(|err| format!("failed to read {HOUSE_SHIRLEY_TESTIMONY_METADATA_PATH}: {err}"))?;
+    for required in [
+        "`SRC-HOUSE-JUDICIARY-SHIRLEY-TESTIMONY-2026`",
+        "U.S. House Committee on the Judiciary",
+        HOUSE_SHIRLEY_TESTIMONY_RAW_PATH,
+        "`60433`",
+        "`E90266A876DCB6882593A1A63DF70646270C7F9A037F6BA49D20F9E310C040C5`",
+        "1 PDF file page.",
+        "`secret_scan`",
+        "No credential, token, private-key, password, or authorization-header patterns found",
+        "All locations below are PDF file page 1.",
+        "does not support the separate more-than-$110-million",
+    ] {
+        if !house_metadata.contains(required) {
+            return Err(format!(
+                "House testimony metadata missing custody token: {required}"
+            ));
+        }
+    }
+    let house_ledger_row = source_ledger
+        .lines()
+        .find(|line| line.starts_with("| `SRC-HOUSE-JUDICIARY-SHIRLEY-TESTIMONY-2026` |"))
+        .ok_or("House testimony source ledger row missing")?;
+    for required in [
+        "official PDF captured and checksum-verified",
+        "60,433 bytes",
+        "E90266A876DCB6882593A1A63DF70646270C7F9A037F6BA49D20F9E310C040C5",
+        "Use PDF page 1 only",
+        "do not establish truth",
+    ] {
+        if !house_ledger_row.contains(required) {
+            return Err(format!(
+                "House testimony source ledger row missing custody token: {required}"
+            ));
+        }
+    }
+
+    for (path, required_tokens) in [
+        (
+            "data/derived/accountability_evidence/README.md",
+            vec![
+                "external-accountability-claim-intake.v1.draft.jsonl",
+                "external-accountability-claim-intake.schema.md",
+                "external-accountability-claim-intake.md",
+            ],
+        ),
+        (
+            "context/waves/2026-07-12-breadth-depth-benchmark-matrix/WAVE.md",
+            vec!["pulse-53-external-accountability-claim-intake.md"],
+        ),
+        (
+            "context/waves/2026-07-12-breadth-depth-benchmark-matrix/pulses/pulse-53-external-accountability-claim-intake.md",
+            vec!["WP-TAX-071", "EVID-TAX-071", "VAL-TAX-071"],
+        ),
+        (
+            "context/waves/2026-07-12-breadth-depth-benchmark-matrix/pulses/pulse-54-house-testimony-quality-learing-center-claim-atom.md",
+            vec!["$1.9 million", "WP-TAX-072", "EVID-TAX-072", "VAL-TAX-072"],
+        ),
+        ("docs/vtrace/WORK_PACKAGES.md", vec!["WP-TAX-071"]),
+        ("docs/vtrace/TRACE.md", vec!["WP-TAX-071", "EVID-TAX-071"]),
+        ("docs/vtrace/VERIFICATION.md", vec!["EVID-TAX-071"]),
+        (
+            "docs/vtrace/VALIDATION.md",
+            vec!["VAL-TAX-071", "EVID-TAX-071"],
+        ),
+        ("docs/vtrace/EVIDENCE.md", vec!["EVID-TAX-071"]),
+        ("docs/vtrace/WORK_PACKAGES.md", vec!["WP-TAX-072"]),
+        ("docs/vtrace/TRACE.md", vec!["WP-TAX-072", "EVID-TAX-072"]),
+        ("docs/vtrace/VERIFICATION.md", vec!["EVID-TAX-072"]),
+        (
+            "docs/vtrace/VALIDATION.md",
+            vec!["VAL-TAX-072", "EVID-TAX-072"],
+        ),
+        ("docs/vtrace/EVIDENCE.md", vec!["EVID-TAX-072"]),
+        (
+            "context/waves/2026-07-12-breadth-depth-benchmark-matrix/WAVE.md",
+            vec!["pulse-54-house-testimony-quality-learing-center-claim-atom.md"],
+        ),
+        (
+            HOUSE_SHIRLEY_TESTIMONY_REVIEW_PATH,
+            vec!["$1.9 million", "All twelve claim gates remain false"],
+        ),
+    ] {
+        let text = fs::read_to_string(root.join(path))
+            .map_err(|err| format!("failed to read {path}: {err}"))?;
+        for required in required_tokens {
+            if !text.contains(required) {
+                return Err(format!(
+                    "external claim integration {path} missing {required}"
+                ));
+            }
+        }
+    }
+
+    let internal_intake_filenames = [
+        "external-accountability-claim-intake.v1.draft.jsonl",
+        "external-accountability-claim-intake.schema.md",
+        "external-accountability-claim-intake.md",
+    ];
+    for path in ["README.md", "docs/reading/README.md"] {
+        let text = fs::read_to_string(root.join(path))
+            .map_err(|err| format!("failed to read {path}: {err}"))?;
+        for filename in internal_intake_filenames {
+            if text.contains(filename) {
+                return Err(format!(
+                    "internal external claim intake must not be routed from {path}: {filename}"
+                ));
+            }
+        }
+    }
+
+    println!("validated external accountability claim intake");
     Ok(())
 }
 

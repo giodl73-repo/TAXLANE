@@ -1,0 +1,110 @@
+{
+  "record_id": "payment-integrity-reconciliation-pde-adjustment-documentation-bridge:cms-part-d:cy2022",
+  "record_family": "medicare_part_d_reconciliation_pde_adjustment_documentation_bridge",
+  "program_id": "cms-part-d",
+  "agency_code": "HHS",
+  "program_or_activity": "Medicare Prescription Drug Benefit (Part D)",
+  "reporting_period": "FY2024",
+  "measurement_period": "CY2022",
+  "methodology_field": "payment universe",
+  "component": "reconciliation-PDE version selection and post-reconciliation adjustment documentation treatment",
+  "status": "same_period_recon_pde_review_target_and_post_reconciliation_adjustment_documentation_component_closed_internal_only_full_payment_universe_open",
+  "source_ids": [
+    "SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE"
+  ],
+  "source_custody": {
+    "cy2022_submission_guide": {
+      "source_id": "SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE",
+      "source_url": "https://www.cms.gov/files/document/part-d-ipm-cy22-submission-instruction-guide.pdf-0",
+      "raw_path": "data/raw/cms/SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE/2026-07-14/part-d-ipm-cy22-submission-instruction-guide.pdf",
+      "metadata_path": "data/metadata/SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE.2026-07-14.metadata.md",
+      "observed_date": "2026-07-14",
+      "bytes": 5962810,
+      "checksum_sha256": "52A76C9910BB66EDD387D127744F864D78E59826BC5FF0162BC81EDE428C7199",
+      "pdf_file_pages": 40
+    }
+  },
+  "prior_component_context_not_new_closure": [
+    {
+      "location": "printed page 36; PDF file page 39; Appendix A",
+      "context": "The CY2022 reconciliation deadline was June 29, 2023, and sampled PDE records were submitted on or before that date.",
+      "prior_pulse_context": "Pulse 43 already used the cutoff and sampled reconciliation-PDE frame as measurement-object context."
+    },
+    {
+      "location": "printed page 36; PDF file page 39; Appendix A",
+      "context": "The CY2022 Part D IPM validates the PDE that the sponsor determined was final for CY2022 Part D Payment Reconciliation.",
+      "prior_pulse_context": "Pulses 39 and 43 already established the reconciliation PDE as the aligned documentation and review target."
+    }
+  ],
+  "new_two_track_after_adjustment_treatment": {
+    "trigger": "The sponsor adjusted a sampled reconciliation PDE after June 29, 2023.",
+    "track_one_reconciliation_pde_documentation": "The sponsor must still submit documentation aligned to the PDE submitted to CMS as the RECON PDE, matching the sampled reconciliation-PDE identifiers and specified fields.",
+    "track_two_linked_adjustment_documentation": "The sponsor must also submit additional documentation indicating that the sampled PDE was adjusted after reconciliation, linked to the adjusted PDE when it supports intended reconciliation-PDE fields.",
+    "location": "printed page 36; PDF file page 39; Appendix A",
+    "closure_boundary": "Only the two-track documentation requirement after an adjustment is newly closed by this pulse."
+  },
+  "supporting_operational_detail": {
+    "missing_reconciliation_pde_documentation": "If the sponsor cannot locate documentation for the sampled reconciliation PDE, the guide directs it to upload a Missing Documentation Form for each missing document.",
+    "claim_detail_file_alignment": "Claim Detail File data must match the reconciliation PDE in the supplied identifier fields.",
+    "interpretation": "These are operational submission requirements; they do not disclose inclusion, exclusion, denominator, weighting, estimator, or payment effects."
+  },
+  "closed_component_scope": [
+    "After a sampled reconciliation PDE is adjusted following reconciliation, documentation aligned to the sampled reconciliation PDE remains required.",
+    "The sponsor must separately provide linked documentation showing the post-reconciliation adjustment.",
+    "The two documentation tracks coexist; later adjustment documentation does not replace reconciliation-PDE-aligned documentation."
+  ],
+  "unsupported_or_missing_components": [
+    "whether an adjusted sampled PDE is included in or excluded from the national estimate",
+    "whether an adjustment changes the unit's error classification or corrected Gross Drug Cost",
+    "treatment of adjustments in the $96,521.39 million denominator or any payment-stream taxonomy",
+    "treatment of negative adjustments, reversals, deletions, rejected PDEs, duplicates, replacements, or post-cutoff changes beyond the documented case",
+    "sample-weight, projection-factor, replacement, nonresponse, aggregation, variance, or confidence-limit effects",
+    "relationship of adjusted sampled PDEs to beneficiary simulation, federal outlays, settlement, or payment reconciliation amounts",
+    "counts of adjusted sampled PDEs and their aggregate dollar or rate effect",
+    "complete included and excluded payment streams, plan types, contracts, populations, subsidy components, and payment phases"
+  ],
+  "interpretation_boundaries": [
+    "The June 29, 2023 cutoff and final reconciliation-PDE review target are prior Pulse 39 and Pulse 43 context, not new closures in this pulse.",
+    "A documentation requirement does not establish whether a record is included, excluded, replaced, reweighted, or assigned an error in the estimator.",
+    "The adjusted PDE does not replace the sampled reconciliation PDE as the documented review target under Appendix A.",
+    "A Missing Documentation Form submission path is not proof that a record is excluded from or retained in the estimator.",
+    "The sampled reconciliation-PDE object is not the complete Part D payment universe or the federal-outlay denominator.",
+    "No payment effect, debt, collectibility, recovery, fraud, waste, prevention, or savings claim follows from the two-track documentation rule."
+  ],
+  "field_review": {
+    "component_closed_internal_only": true,
+    "full_field_closed": false,
+    "remaining_need": "A same-period authoritative payment-universe and estimator specification defining included and excluded streams; adjustment, reversal, deletion, duplicate, replacement, eligibility, settlement, and denominator treatment; GDC-to-federal-outlay mapping; and sample-weight, projection, simulation, and variance effects."
+  },
+  "program_status": {
+    "closed_field_count": 3,
+    "open_field_count": 5,
+    "closed_fields": [
+      "sample period",
+      "payment type split",
+      "sponsor documentation dependency treatment"
+    ],
+    "open_fields": [
+      "sample design",
+      "payment universe",
+      "estimation method",
+      "exclusion rules",
+      "overpayment versus recoverable amount basis"
+    ],
+    "closure_decision_count": 3,
+    "residual_gap_count": 5,
+    "new_component_closures": 1,
+    "new_full_field_closures": 0,
+    "scoring_status": "blocked_methodology_incomplete"
+  },
+  "public_claim_allowed": false,
+  "field_closure_allowed": false,
+  "scoring_allowed": false,
+  "fraud_claim_allowed": false,
+  "waste_claim_allowed": false,
+  "debt_claim_allowed": false,
+  "collectibility_claim_allowed": false,
+  "recovery_claim_allowed": false,
+  "prevention_claim_allowed": false,
+  "savings_estimate_allowed": false
+}

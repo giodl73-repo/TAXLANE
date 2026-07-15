@@ -10,6 +10,9 @@ claims.
 
 | Artifact | Grain | Status |
 |---|---|---|
+| `external-accountability-claim-intake.v1.draft.jsonl` | one externally published amount claim per quarantine row | Internal five-row inventory; four originating claims remain URL-observed and one House testimony atom is custody-backed, but none is corroborated or public-claim eligible. |
+| `external-accountability-claim-intake.schema.md` | external claim intake contract | Documents atomization, custody, lifecycle, amount semantics, evidence relations, and independent public gates. |
+| `external-accountability-claim-intake.md` | internal review reader | Quarantine-only explanation; intentionally not routed from the root public README. |
 | `accountability_evidence.omb-fy2027-v1.2026-06-23.draft.jsonl` | reviewed and draft evidence records | Draft; source-custody and baseline-gap bootstrap only. |
 | `readiness-report.md` | one generated readiness and next-action summary | Generated from draft evidence records. |
 | `action-queue.md` | one generated reviewer action queue | Groups draft records by the next evidence or review task. |
@@ -49,6 +52,13 @@ claims.
 | `artifact-map.md` | one generated accountability artifact map | Routes each artifact to its audience, use, and public-use boundary. |
 
 ## Public-Use Rule
+
+The external claim intake is a quarantine layer before `accountability_evidence`.
+Its initial records prove only that URLs were observed; exact text, source
+custody, attribution, underlying facts, and every substantive claim remain
+unverified and blocked. Attributed reporting has its own gate and cannot open a
+fraud, waste, performance, debt, collectibility, recovery, prevention, or
+savings gate.
 
 These records are not fraud findings, waste findings, abuse findings, or
 performance scores. Public wording must preserve `allegation_status`,

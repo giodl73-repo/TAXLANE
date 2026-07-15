@@ -18,6 +18,9 @@ Only the VA PLTSS bills-of-collection process boundary can move toward a
 narrow internal candidate. It remains blocked from scoring and full field
 closure.
 
+The agencywide category definitions at priority 2 still need PLTSS-specific
+disposition evidence and remain additional-positive-basis-needed.
+
 ## Boundary
 
 These rows do not close fields, do not score programs, do not estimate savings,

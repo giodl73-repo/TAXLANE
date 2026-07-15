@@ -8,12 +8,12 @@ payment-integrity methodology records are ready for scoring.
 
 ## Current Gate
 
-Scoring is blocked because methodology closure is incomplete. For each covered
-program, only one of eight fields is internally closed.
+Scoring is blocked because methodology closure is incomplete. Part D has three
+of eight fields closed, VA PLTSS has two, and Medicaid has one.
 
 Part D blockers:
 
-- 7 open methodology fields
+- 5 open methodology fields
 - recoverable or collectible amount basis is not established
 - estimator formula, weights, and uncertainty treatment are not established
 - included and excluded payment universe is not established
@@ -28,7 +28,7 @@ Medicaid blockers:
 
 VA PLTSS blockers:
 
-- 7 open methodology fields
+- 6 open methodology fields
 - sample frame, sample size, and selection method are not published
 - reviewed-claim universe, exclusions, estimator formula, and weights remain open
 - projected errors are not linked to established receivables or collections

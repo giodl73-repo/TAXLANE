@@ -1,0 +1,120 @@
+{
+  "record_id": "payment-integrity-appeal-collectibility-governance-bridge:usda-federal-crop-insurance:fy2024",
+  "record_family": "federal_crop_insurance_appeal_collectibility_governance_bridge",
+  "program_id": "usda-federal-crop-insurance",
+  "agency_code": "USDA",
+  "program_or_activity": "Risk Management Agency Federal Crop Insurance Corporation",
+  "status": "draft_official_sources_checksum_verified_narrow_appeal_and_contractual_collection_governance_component_closed_recoverable_savings_field_open",
+  "source_ids": [
+    "SRC-USDA-RMA-COM-16-002",
+    "SRC-USDA-RMA-COM-16-004",
+    "SRC-USDA-RMA-SRA-2022"
+  ],
+  "upstream_artifact": "data/derived/breadth_benchmark_matrix/federal_crop_insurance_recovery_lineage_boundary_bridge.fy2024.v1.draft.json",
+  "source_custody": {
+    "com_16_002": {
+      "raw_path": "data/raw/usda/SRC-USDA-RMA-COM-16-002/2026-07-13/COM-16-002.pdf",
+      "bytes": 43627,
+      "checksum_sha256": "6C4C90F25AD5BDD7DCB76E4CAE9545321F029D7FB1A07D8F2680D16313B56830",
+      "evidence_pdf_file_pages": "1-2"
+    },
+    "com_16_004": {
+      "raw_path": "data/raw/usda/SRC-USDA-RMA-COM-16-004/2026-07-13/COM-16-004.pdf",
+      "bytes": 43452,
+      "checksum_sha256": "A78E792079689356A1327FBF334CA024F3CB2AAA15AA48D4427DCF83251E64DA",
+      "evidence_pdf_file_pages": "1-2"
+    },
+    "sra_2022": {
+      "raw_path": "data/raw/usda/SRC-USDA-RMA-SRA-2022/2026-07-13/SRA_2022.pdf",
+      "bytes": 372206,
+      "checksum_sha256": "589ADBC9219012AE487EE567E8E0A0C6B351FF08ABBDB66820F3CE1130E551DD",
+      "debt_notice_printed_page": 28,
+      "debt_notice_pdf_file_page": 30,
+      "interest_mechanics_printed_page": 34,
+      "interest_mechanics_pdf_file_page": 36,
+      "correction_and_repayment_printed_pages": "39-40",
+      "correction_and_repayment_pdf_file_pages": "42-43",
+      "dispute_and_appeal_printed_page": 42,
+      "dispute_and_appeal_pdf_file_page": 45,
+      "setoff_printed_pages": "44-45",
+      "setoff_pdf_file_pages": "46-47"
+    }
+  },
+  "published_governance_chain": {
+    "final_finding_uploaded_to_cars": true,
+    "cars_upload_date_is_receipt_date": true,
+    "aip_final_administrative_determination_request_deadline_days": 45,
+    "aip_must_identify_disputed_provisions": true,
+    "aip_must_explain_asserted_error": true,
+    "aip_must_submit_rebuttal_evidence": true,
+    "sra_requires_timely_written_notice_when_review_reveals_company_debt": true,
+    "appeal_does_not_delay_interest_accrual_on_a_written_specific_amount": true,
+    "final_administrative_decision_required_before_judicial_review": true,
+    "when_correct_amount_is_determinable": [
+      "Company reports corrected indemnity, payment, and premium data",
+      "Company pays policyholder underpaid indemnity or overpaid premium",
+      "Company pays FCIC overpaid indemnity or underpaid premium and excess subsidy"
+    ],
+    "fcic_may_waive_reduce_or_delay_repayment_for_program_delivery": true,
+    "fcic_setoff_authority_published": true,
+    "setoff_preserves_administrative_appeal": true,
+    "unpaid_amounts_may_be_set_off_across_reinsurance_years_with_interest": true
+  },
+  "component_decision": {
+    "component": "published Final Finding dispute, correction, repayment-discretion, and setoff governance",
+    "decision": "component_closed_internal_only",
+    "decision_status": "narrow_appeal_and_contractual_collection_governance_component_closed_full_collectibility_and_recoverable_savings_fields_open",
+    "component_closed": true,
+    "recoverable_savings_basis_field_closed": false,
+    "sample_specific_collectibility_closed": false,
+    "new_methodology_field_closures": 0,
+    "basis": "Official RMA memoranda and the 2022 SRA publish a controlled path from an appealable Final Finding to possible correction, payment, final administrative review, and setoff while preserving repayment discretion and appeal rights."
+  },
+  "state_transition_boundary": [
+    {
+      "state": "Final Finding",
+      "automatically_final_collectible_debt": false,
+      "reason": "The finding can be disputed with rebuttal evidence; contractual interest may accrue during appeal when FCIC has issued a final determination or written specific amount."
+    },
+    {
+      "state": "contractual payment requirement",
+      "automatically_cash_collected": false,
+      "reason": "FCIC may waive, reduce, or delay repayment, and unpaid amounts may proceed to setoff."
+    },
+    {
+      "state": "setoff",
+      "automatically_final_without_appeal": false,
+      "reason": "The SRA expressly preserves administrative appeal of the indebtedness involved."
+    }
+  ],
+  "recoverable_savings_residuals": [
+    "FY2024 sample-specific Final Finding count and dollar amount",
+    "affirmed, modified, reversed, withdrawn, and pending appeal amounts",
+    "established debt after final administrative review",
+    "waived, reduced, and delayed repayment amounts",
+    "cash collections and setoffs by sample cohort and period",
+    "write-off, compromise, and uncollectible amounts",
+    "prevention attribution and control cost",
+    "reconciliation to the projected improper-payment estimate"
+  ],
+  "current_program_boundary": {
+    "total_methodology_fields": 8,
+    "closed_field_count": 4,
+    "open_field_count": 4,
+    "recoverable_savings_basis_status": "open"
+  },
+  "evidence_boundaries": [
+    "The procedural memoranda are marked until rescinded and define governance; they do not prove that every FY2024 sample finding followed every possible step.",
+    "The 2022 SRA governs the sample reinsurance year but contractual authority is not evidence of an exercised remedy or collected amount.",
+    "A Final Finding is appealable and cannot be equated automatically with final collectible debt, even though a written specific amount may accrue interest during appeal.",
+    "A payment requirement can be waived, reduced, delayed, disputed, or offset and is not automatically a cash collection.",
+    "Nothing in these sources publishes FY2024 sample-specific appeal outcomes, final debt amounts, collectible amounts, collections, prevention, control cost, or savings.",
+    "This bridge is period-specific to the 2022 SRA and does not present current legal advice."
+  ],
+  "public_claim_allowed": false,
+  "scoring_allowed": false,
+  "fraud_claim_allowed": false,
+  "recovery_claim_allowed": false,
+  "prevention_claim_allowed": false,
+  "savings_estimate_allowed": false
+}

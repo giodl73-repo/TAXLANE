@@ -1,0 +1,107 @@
+{
+  "record_id": "payment-integrity-sample-design-evidence-ceiling:cms-part-d:fy2024",
+  "record_family": "medicare_part_d_sample_design_evidence_ceiling",
+  "program_id": "cms-part-d",
+  "agency_code": "HHS",
+  "program_or_activity": "Medicare Prescription Drug Benefit (Part D)",
+  "reporting_period": "FY2024",
+  "measurement_period": "CY2022",
+  "methodology_field": "sample design",
+  "status": "same_period_sample_unit_and_operational_routing_supported_full_field_open",
+  "source_ids": [
+    "SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE",
+    "SRC-CMS-PART-D-IPM-CY2022-FAQ",
+    "SRC-CMS-PART-D-IPM-FY2024-FINDINGS"
+  ],
+  "source_capture_record_ids": [
+    "payment-integrity-methodology-gap-source-capture:cms-part-d:sample-design:cms-fy2024-fact-sheet"
+  ],
+  "supported_components": [
+    {
+      "component": "measurement_period",
+      "finding": "The FY2024 Part D improper-payment measure is based on CY2022 payments."
+    },
+    {
+      "component": "sampled_unit",
+      "finding": "CMS selected individual Prescription Drug Event records for documentation review; each sampled record receives a CMS-assigned PDE ID."
+    },
+    {
+      "component": "selection_type",
+      "finding": "The CMS FY2024 Improper Payments Fact Sheet describes the Part D review as a statistically valid stratified random sample of PDEs."
+    },
+    {
+      "component": "sponsor_contract_routing",
+      "finding": "Sampled PDE records are routed to the corresponding Part D sponsor contract through the HPMS Part D IPM Module and PDE Record Identifier spreadsheet."
+    },
+    {
+      "component": "record_identification",
+      "finding": "The identifier spreadsheet supplies ten data elements that uniquely identify each PDE record to be validated."
+    },
+    {
+      "component": "reconciliation_cutoff",
+      "finding": "Supporting documentation must correspond to the sampled PDE version submitted for Part D reconciliation by the June 29, 2023 final PDE submission deadline."
+    },
+    {
+      "component": "statistical_governance",
+      "finding": "CMS states that the FY2024 Part D IPM complied with OMB guidance on sampling and estimation plans and produced a statistically valid methodology."
+    },
+    {
+      "component": "baseline_boundary",
+      "finding": "FY2024 follows methodology changes implemented for FY2023; CMS treats FY2024 as a baseline and does not treat it as comparable with reporting years before FY2023."
+    }
+  ],
+  "unsupported_or_missing_components": [
+    "actual national FY2024 sample size",
+    "sampling-frame definition, construction, coverage, and frame size",
+    "stratum definitions and number of strata",
+    "sample allocation across strata, sponsors, contracts, beneficiaries, or PDE categories",
+    "selection procedure within strata or other sampling domains",
+    "unit selection probabilities or inclusion probabilities",
+    "randomization method, seed, ordering, and reproducibility details",
+    "replacement, duplicate-unit, ineligible-unit, and nonresponse treatment",
+    "relationship between the sampled PDE review and any separately described beneficiary sample",
+    "sample weights and their connection to projection, variance, and confidence-limit calculations"
+  ],
+  "non_evidence": [
+    "The guide's examples showing two or five PDE records illustrate file naming and upload mechanics; they are not the national sample size.",
+    "A statistically valid designation does not disclose the frame, strata, allocation, selection probabilities, weights, or reproducible selection procedure.",
+    "Sponsor-specific PDE lists in HPMS describe operational routing after selection, not the construction of the national sample."
+  ],
+  "field_review": {
+    "supported_component_count": 8,
+    "full_field_closed": false,
+    "remaining_need": "A same-period FY2024 sampling-method source disclosing the national sample size, frame and coverage, strata and allocation, within-domain selection procedure and probabilities, replacement or nonresponse rules, and the relationship between PDE selection and any beneficiary-level sample."
+  },
+  "program_status": {
+    "closed_field_count": 3,
+    "open_field_count": 5,
+    "closed_fields": [
+      "sample period",
+      "payment type split",
+      "sponsor documentation dependency treatment"
+    ],
+    "open_fields": [
+      "sample design",
+      "payment universe",
+      "estimation method",
+      "exclusion rules",
+      "overpayment versus recoverable basis"
+    ],
+    "new_full_field_closures": 0,
+    "scoring_status": "blocked_methodology_incomplete"
+  },
+  "evidence_boundaries": [
+    "This record establishes only disclosed components and an evidence ceiling; it does not close sample design.",
+    "Operational documentation-review rules do not disclose a reproducible probability-sample design.",
+    "Statistical validity does not establish that every sampled discrepancy is fraud, waste, debt, collectible loss, recovery, prevention, or savings.",
+    "No inference may be made from a current or separately described beneficiary sample to the FY2024 CY2022 PDE design without same-period linkage."
+  ],
+  "public_claim_allowed": false,
+  "field_closure_allowed": false,
+  "scoring_allowed": false,
+  "fraud_claim_allowed": false,
+  "waste_claim_allowed": false,
+  "debt_claim_allowed": false,
+  "recovery_claim_allowed": false,
+  "savings_estimate_allowed": false
+}

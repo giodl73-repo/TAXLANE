@@ -19,6 +19,9 @@ The VA PLTSS process boundary only says incorrect-amount post-payment reviews
 can result in bills of collection. It does not quantify recoverable dollars and
 does not unlock scoring.
 
+Priority 2 additionally records the VA-wide classification rules, but no PLTSS
+cause is assigned to a recoverability or collection outcome.
+
 ## Boundary
 
 These rows do not close fields, do not score programs, do not estimate savings,

@@ -1,0 +1,131 @@
+{
+  "record_id": "payment-integrity-foia-response-intake-contract:usda-federal-crop-insurance:fy2024",
+  "record_family": "federal_crop_insurance_foia_response_intake_contract",
+  "program_id": "usda-federal-crop-insurance",
+  "status": "draft_internal_preflight_and_response_intake_ready_external_submission_blocked",
+  "source_ids": ["SRC-USDA-RMA-FOIA", "SRC-USDA-RMA-FOIA-FEES", "SRC-ECFR-7-CFR-1-SUBPART-A"],
+  "upstream_artifact": "data/derived/breadth_benchmark_matrix/federal_crop_insurance_cohort_disposition_request_specification.fy2024.v1.draft.json",
+  "source_custody": {
+    "rma_foia_page": {
+      "raw_path": "data/raw/usda/SRC-USDA-RMA-FOIA/2026-07-14/rma-foia.html",
+      "bytes": 85950,
+      "checksum_sha256": "07BAAEF274DE84D1E4569AF3E820A0BFB5A827A4C176EDABA86350DCDC21A671"
+    },
+    "rma_foia_fees_page": {
+      "raw_path": "data/raw/usda/SRC-USDA-RMA-FOIA-FEES/2026-07-14/rma-foia-fees.html",
+      "bytes": 84531,
+      "checksum_sha256": "874816D0EC560706D8F74A118AB9D5D903C151742B9A760A86085D6A22F06749"
+    },
+    "ecfr_7_cfr_1_subpart_a": {
+      "raw_path": "data/raw/ecfr/SRC-ECFR-7-CFR-1-SUBPART-A/2026-07-14/7-cfr-1-subpart-a.html",
+      "bytes": 197132,
+      "checksum_sha256": "4069AA69CD67B04ED87B032022BCDD143ECD97FD42E78285C6F448EDBDE6BDD1"
+    }
+  },
+  "preflight_gate": {
+    "gate_status": "blocked_pending_owner_completion_and_explicit_submission_authorization",
+    "external_submission_authorized": false,
+    "requester_identity_complete": false,
+    "requester_contact_complete": false,
+    "requester_fee_category_confirmed": false,
+    "fee_limit_authorized": false,
+    "fee_waiver_position_confirmed": false,
+    "submission_channel_selected": false,
+    "expedited_processing_requested": false,
+    "request_text_frozen_and_hashed": false
+  },
+  "administrative_timing": {
+    "clock_anchor": "receipt by the proper component, but not later than 10 working days after first receipt by a designated USDA component",
+    "ordinary_initial_determination_working_days": 20,
+    "unusual_circumstances_extension_over_working_days_triggers_narrowing_offer": 10,
+    "administrative_appeal_deadline_calendar_days": 90,
+    "ordinary_appeal_decision_working_days": 20,
+    "determination_not_production_boundary": "The 20-working-day target concerns the determination and does not necessarily require completion of production.",
+    "tolling_boundary": "Record clarification and fee toll start and end separately; do not silently restart the 20-working-day clock.",
+    "timing_boundary": "Record agency dates and notices exactly; this contract does not determine exhaustion, timeliness compliance, or legal entitlement."
+  },
+  "lifecycle_states": [
+    {"state":"draft_not_submitted","evidentiary_effect":"no external action and no responsive-record evidence"},
+    {"state":"authorized_for_submission","evidentiary_effect":"owner authorization only; no agency receipt"},
+    {"state":"submitted","evidentiary_effect":"outbound transmission only; no agency acknowledgment"},
+    {"state":"received_or_routed","evidentiary_effect":"agency routing and clock-anchor evidence only; no production or outcome evidence"},
+    {"state":"acknowledged","evidentiary_effect":"agency receipt only; no production or outcome evidence"},
+    {"state":"clarification_or_scope_discussion","evidentiary_effect":"request processing dialogue only"},
+    {"state":"perfected_or_processing","evidentiary_effect":"administrative processing only; no released evidence"},
+    {"state":"fee_estimate_or_commitment_pending","evidentiary_effect":"fee administration only; not proof responsive records exist"},
+    {"state":"unusual_circumstances_or_extended","evidentiary_effect":"schedule notice only; not a merits determination"},
+    {"state":"rolling_or_partial_production","evidentiary_effect":"only released files may support review after custody and cohort validation"},
+    {"state":"full_production","evidentiary_effect":"released files require custody, field, cohort, and claim-gate review"},
+    {"state":"no_records","evidentiary_effect":"result of the described search; not zero findings, appeals, debts, or collections"},
+    {"state":"partial_adverse_determination","evidentiary_effect":"withholding or redaction boundary; not proof withheld outcomes are absent"},
+    {"state":"full_adverse_determination","evidentiary_effect":"denial boundary; not proof responsive records do not exist"},
+    {"state":"withdrawn_or_closed_without_determination","evidentiary_effect":"administrative closure only"},
+    {"state":"administrative_appeal_pending","evidentiary_effect":"appeal initiated; no change to underlying evidence"},
+    {"state":"appeal_granted_or_remanded","evidentiary_effect":"processing reopens; no evidence until records are produced"},
+    {"state":"appeal_partially_granted","evidentiary_effect":"only subsequent released records may support review"},
+    {"state":"appeal_denied","evidentiary_effect":"final administrative denial recorded; nonexistence is not inferred"}
+  ],
+  "intake_required_fields": [
+    "internal intake record ID",
+    "request version and outbound checksum",
+    "submission channel and timestamp",
+    "first USDA receipt and proper-component receipt timestamps",
+    "agency tracking number",
+    "agency correspondence date and received timestamp",
+    "lifecycle state and prior state",
+    "response deadline or estimated completion date as stated",
+    "clarification or narrowing requested and response",
+    "clarification and fee toll start, end, reason, and remaining working days",
+    "processing track, statutory due date, and responsive-record cutoff if stated",
+    "fee category, estimate, authorized ceiling, and commitment status",
+    "search locations and search date if disclosed",
+    "determination type and asserted exemptions",
+    "records located, responsive, released, and withheld counts or volume estimates",
+    "responsible official and foreseeable-harm or legal-prohibition basis",
+    "segregability statement and redaction scope",
+    "production file names, native formats, bytes, and SHA-256 checksums",
+    "cohort match to FY2024/RY2022/326 policies",
+    "field coverage and missing requested fields",
+    "appeal deadline, status, and disposition",
+    "reviewer interpretation and claim-gate decision"
+  ],
+  "appeal_contract": {
+    "appeal_eligible_adverse_states": ["no_records", "partial_adverse_determination", "full_adverse_determination", "fee_or_waiver_dispute", "format_refusal", "expedited_processing_denial"],
+    "deadline_anchor": "date of the adverse determination",
+    "deadline_calendar_days": 90,
+    "required_capture": ["FOIA APPEAL label", "request and tracking identifiers", "challenged determination", "determination date and copy", "requested relief", "supporting reasons", "submission and receipt timestamps", "timeliness evidence"],
+    "public_liaison_or_ogis_contact_tolls_deadline": false,
+    "appeal_boundary": "A no-records response is appealable but does not establish zero domain outcomes; liaison or OGIS contact does not replace a timely administrative appeal."
+  },
+  "production_review_gates": {
+    "custody_verified": false,
+    "malware_or_active_content_screened": false,
+    "fy2024_ry2022_326_policy_cohort_matched": false,
+    "later_cohort_contamination_excluded": false,
+    "direct_identifiers_absent_or_quarantined": false,
+    "finding_debt_collection_states_kept_distinct": false,
+    "sample_amounts_not_equated_to_weighted_projection": false,
+    "field_closure_review_allowed": false
+  },
+  "blank_intake_template_path": "data/templates/federal_crop_insurance_foia_response_intake.v1.template.json",
+  "preflight_checklist_path": "docs/requests/federal-crop-insurance-foia-submission-preflight.md",
+  "decision": {
+    "decision_status": "preflight_and_intake_contract_complete_submission_still_blocked",
+    "new_methodology_field_closures": 0,
+    "recoverable_savings_basis_field_closed": false
+  },
+  "current_program_boundary": {
+    "total_methodology_fields": 8,
+    "closed_field_count": 4,
+    "open_field_count": 4
+  },
+  "public_claim_allowed": false,
+  "scoring_allowed": false,
+  "fraud_claim_allowed": false,
+  "debt_claim_allowed": false,
+  "collectibility_claim_allowed": false,
+  "recovery_claim_allowed": false,
+  "prevention_claim_allowed": false,
+  "control_cost_claim_allowed": false,
+  "savings_estimate_allowed": false
+}

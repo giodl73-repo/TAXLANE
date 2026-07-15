@@ -32,5 +32,5 @@ recovery, control-cost, and preventable-future-loss fields only where sourced.
 
 ## Decision gate
 
-Can TAXLANE deepen the government-wide $161.5B FY2024 improper-payment top line
+Can TAXLANE deepen the government-wide $161.5B FY2024 improper-plus-unknown top line
 without implying that the full amount is fraud or recoverable savings?

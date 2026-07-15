@@ -1,0 +1,239 @@
+{
+  "record_id": "payment-integrity-same-cohort-debt-collection-lineage-evidence-ceiling:va-pltss:fy2024-q4-2025",
+  "record_family": "va_pltss_same_cohort_debt_collection_lineage_evidence_ceiling",
+  "program_id": "va-pltss",
+  "agency_code": "VA",
+  "program_or_activity": "Purchased Long Term Services and Supports (PLTSS)",
+  "component": "same-cohort projected-error to debt, dispute, collectibility, collection, and certified-recovery lineage evidence ceiling",
+  "status": "custodied_source_inventory_complete_same_cohort_debt_collection_lineage_not_observed_zero_field_closures",
+  "source_ids": [
+    "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+    "SRC-OMB-PAYMENTACCURACY-VA-PLTSS-Q4-2025",
+    "SRC-VA-OIG-PIIA-FY2024",
+    "SRC-VA-AFR-SECTION-III-FY2025",
+    "SRC-VA-FIN-POLICY-PAYMENT-INTEGRITY",
+    "SRC-VA-FIN-POLICY-OVERPAYMENT-AUDIT-RECOVERIES"
+  ],
+  "source_custody": {
+    "fy2024_annual_workbook": {
+      "source_id": "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+      "raw_path": "data/raw/omb/SRC-OMB-PAYMENTACCURACY/2026-07-12/FY2024_Dataset.xlsx",
+      "bytes": 700992,
+      "checksum_sha256": "595369DA4C32965C457543E2695B5738BC131049318537948CD396323391E28C",
+      "observed_date": "2026-07-12"
+    },
+    "q4_2025_pltss_scorecard": {
+      "source_id": "SRC-OMB-PAYMENTACCURACY-VA-PLTSS-Q4-2025",
+      "raw_path": "data/raw/omb/SRC-OMB-PAYMENTACCURACY/2026-07-13/Purchased Long Term Services and Supports.pdf",
+      "bytes": 222751,
+      "checksum_sha256": "9F365D7C42BB5EC2B50CC3CBA8DFDA3A12229ECE27E430A234B950AF93CA8692",
+      "observed_date": "2026-07-13"
+    },
+    "fy2024_va_oig_piia_review": {
+      "source_id": "SRC-VA-OIG-PIIA-FY2024",
+      "raw_path": "data/raw/va-oig/SRC-VA-OIG-PIIA-FY2024/2026-07-13/vaoig-24-03777-113.pdf",
+      "bytes": 1972706,
+      "checksum_sha256": "B3010F3635BE8DCFCA3D6762A33C583C4B91ED0FF05BDB8A709ED193883E6C3B",
+      "observed_date": "2026-07-13"
+    },
+    "fy2025_va_afr_section_iii": {
+      "source_id": "SRC-VA-AFR-SECTION-III-FY2025",
+      "raw_path": "data/raw/va/SRC-VA-AFR-SECTION-III-FY2025/2026-07-14/2025-Section-III-Other-Information.pdf",
+      "bytes": 1204753,
+      "checksum_sha256": "3F3E19818ECF5F59F241D8DEAC4BC2FFA2E377C7BE4DAF65666C33D75CB2F7C1",
+      "observed_date": "2026-07-14"
+    },
+    "current_va_payment_integrity_policy": {
+      "source_id": "SRC-VA-FIN-POLICY-PAYMENT-INTEGRITY",
+      "raw_path": "data/raw/va/SRC-VA-FIN-POLICY-PAYMENT-INTEGRITY/2026-07-14/chapter-03-payment-integrity-and-fraud-reduction.html",
+      "bytes": 249093,
+      "checksum_sha256": "B8A12F68789C42001F4A3F76AE92858C84CCC3628A2A519FA4819E0B07037D75",
+      "approved_date": "2026-03-12",
+      "observed_date": "2026-07-14"
+    },
+    "current_va_overpayment_audit_recovery_policy": {
+      "source_id": "SRC-VA-FIN-POLICY-OVERPAYMENT-AUDIT-RECOVERIES",
+      "raw_path": "data/raw/va/SRC-VA-FIN-POLICY-OVERPAYMENT-AUDIT-RECOVERIES/2026-07-14/chapter-30-overpayment-audit-recoveries.html",
+      "bytes": 122908,
+      "checksum_sha256": "EB3ADC8783FC40BD0F15C3C2ACEC8DFB77BDDFDDA8938B7C9EF17864FCB87F59",
+      "approved_date": "2026-06-01",
+      "observed_date": "2026-07-14"
+    }
+  },
+  "source_role_classification": [
+    {
+      "source_id": "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+      "role": "reviewed_evidence",
+      "boundary": "Same-period FY2024 statistical estimate and payment-type composition; not a debt or collection ledger."
+    },
+    {
+      "source_id": "SRC-OMB-PAYMENTACCURACY-VA-PLTSS-Q4-2025",
+      "role": "reviewed_evidence",
+      "boundary": "PLTSS recovery activity with separate periods and bases; no demonstrated membership in the FY2024 sampled-payment cohort."
+    },
+    {
+      "source_id": "SRC-VA-OIG-PIIA-FY2024",
+      "role": "reviewed_evidence",
+      "boundary": "Independent verification and explicit absence of claim, receivable, appeal, or collection-cohort publication in that report."
+    },
+    {
+      "source_id": "SRC-VA-AFR-SECTION-III-FY2025",
+      "role": "later_cycle_context_only",
+      "boundary": "Later tested-payment cycle and corrective-action context; cannot assign historical FY2024 sampled-payment dispositions."
+    },
+    {
+      "source_id": "SRC-VA-FIN-POLICY-PAYMENT-INTEGRITY",
+      "role": "current_policy_context_only",
+      "boundary": "Current VA-wide classification policy postdates the tested cohort and cannot assign historical PLTSS dispositions."
+    },
+    {
+      "source_id": "SRC-VA-FIN-POLICY-OVERPAYMENT-AUDIT-RECOVERIES",
+      "role": "current_policy_context_only",
+      "boundary": "Current VA-wide certified-cash and recovery-audit policy postdates the tested cohort and cannot assign historical PLTSS dispositions."
+    }
+  ],
+  "upstream_artifacts": [
+    "data/derived/breadth_benchmark_matrix/va_pltss_recovery_bridge.fy2024-q4-2025.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/va_pltss_oig_verification.fy2024.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/va_pltss_payment_type_composition_bridge.fy2025.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/va_pltss_documentation_recoverability_boundary.fy2025.v1.draft.json"
+  ],
+  "review_inputs": [
+    "reviews/2026-07-14-payment-integrity-fy2024-annual-extraction-role-review.md",
+    "reviews/2026-07-13-payment-integrity-va-pltss-source-role-review.md",
+    "reviews/2026-07-13-va-pltss-recovery-bridge-role-review.md"
+  ],
+  "supported_scope": {
+    "fy2024_annual_row": {
+      "source_path": "data/extracted/payment_accuracy/fy2024_program_results.v1.draft.jsonl",
+      "source_sheet": "All Program Results",
+      "source_row": 1579,
+      "reporting_fiscal_year": 2024,
+      "sample_period": "2022-10 through 2023-09",
+      "outlays_millions": 5620.66,
+      "projected_overpayments_millions": 218.30,
+      "projected_overpayment_rate_percent": 3.88,
+      "underpayments_millions": 6.41,
+      "technically_improper_millions": 432.46,
+      "unknown_payments_millions": 102.93,
+      "boundary": "The annual row contains statistical estimates and does not identify sampled transactions, bills, receivables, collectible debt, or collections."
+    },
+    "q4_2025_scorecard_recovery_rows": [
+      {
+        "recovery_method": "recovery_activity",
+        "activity_period": "FY2025 Q4",
+        "identified_overpayments_millions": 6.91,
+        "recovered_to_date_millions": 4.46
+      },
+      {
+        "recovery_method": "recovery_audit",
+        "activity_period": "FY2025 Q4",
+        "identified_overpayments_millions": 1.18,
+        "recovered_to_date_millions": 0.76
+      },
+      {
+        "recovery_method": "piia_sample_and_deep_dive_recovery_activity",
+        "activity_period": "FY2023 through FY2025",
+        "identified_overpayments_millions": 3.97,
+        "recovered_to_date_millions": 3.71
+      }
+    ],
+    "match_tests": {
+      "same_program": "partial_scorecard_rows_only",
+      "same_period": false,
+      "same_definition": false,
+      "projected_estimate_to_identified_debt_lineage": false,
+      "identified_debt_to_collection_lineage": false,
+      "row_disjointness_established": false
+    },
+    "va_wide_fy2024_context_excluded_from_pltss_lineage": {
+      "recovery_activity_identified_millions": 1517.20,
+      "recovery_activity_recovered_millions": 792.55,
+      "recovery_audit_identified_millions": 39.65,
+      "recovery_audit_recovered_millions": 85.50,
+      "is_pltss_program_lineage": false
+    },
+    "oig_boundary": {
+      "sampling_plans_and_estimates_verified": true,
+      "claim_cohort_published": false,
+      "established_receivable_cohort_published": false,
+      "appeal_or_reversal_disposition_published": false,
+      "collection_transaction_cohort_published": false,
+      "zero_questioned_costs_or_funds_for_better_use_means_zero_pltss_debt_or_recovery": false
+    },
+    "later_and_current_context_boundary": {
+      "fy2025_afr_is_later_tested_payment_cycle": true,
+      "current_policies_postdate_tested_cohort": true,
+      "current_policy_defines_payment_and_recovery_states": true,
+      "current_policy_requires_actual_certified_recovered_credited_or_realized_funds": true,
+      "may_assign_historical_pltss_dispositions": false
+    }
+  },
+  "open_same_cohort_lineage_scope": [
+    "privacy-safe stable linkage from sampled PLTSS claim or payment to the FY2024 sample cohort",
+    "sampled error amount, final payment classification, and any weight or projection factor kept distinct",
+    "established bill or receivable identifier, date, principal, adjustment, and outstanding balance",
+    "dispute, review, and appeal state, date, decision, and resulting amount",
+    "correction, reversal, waiver, write-off, compromise, or noncollectable disposition",
+    "collection, refund, or offset transaction identifier, date, amount, and allocation",
+    "certified recovered, credited, or realized status and supporting record",
+    "reconciliation across sampled estimate, identified debt, outstanding debt, disposition, and cash",
+    "recovery and control administration cost",
+    "veteran access, continuity, timeliness, error-correction, appeal, and provider-burden effects"
+  ],
+  "negative_evidence_boundary": {
+    "scope": "The finding is limited to the six checksum-verified sources and four upstream artifacts inventoried here.",
+    "same_cohort_lineage_observed": false,
+    "proves_records_do_not_exist": false,
+    "proves_records_are_not_public": false,
+    "proves_exemption_or_withholding": false,
+    "proves_zero_debt": false,
+    "proves_zero_collection": false,
+    "proves_noncollectibility": false,
+    "new_web_search_performed": false,
+    "request_or_external_contact_made": false,
+    "interpretation": "Not observed in this bounded local inventory is not a finding of nonexistence, unavailability, withholding, zero debt, zero collection, or noncollectibility."
+  },
+  "guardrails": [
+    "Do not divide, subtract, or net any scorecard recovery amount against the $218.30 million statistical overpayment estimate.",
+    "Do not sum mixed-period recovery rows or assume they are disjoint.",
+    "Do not treat VA-wide recovery reporting as PLTSS program recovery.",
+    "Do not reinterpret OIG zero questioned costs or funds for better use as zero PLTSS debt or recovery.",
+    "Do not use the later FY2025 AFR cycle or current policies to assign FY2024 sampled-payment dispositions.",
+    "Do not label projected overpayments as established debt, collectible debt, collected recovery, fraud, waste, prevented loss, or net savings."
+  ],
+  "decision": {
+    "decision_status": "bounded_local_evidence_ceiling_recorded_same_cohort_lineage_still_open",
+    "new_component_closures": 0,
+    "new_full_field_closures": 0
+  },
+  "program_status": {
+    "total_methodology_fields": 8,
+    "closed_field_count": 2,
+    "open_field_count": 6,
+    "closure_decision_count": 2,
+    "residual_gap_count": 6,
+    "closed_fields": [
+      "sample period",
+      "payment type split"
+    ],
+    "open_fields": [
+      "sample design",
+      "reviewed-claim universe",
+      "estimation method",
+      "exclusion rules",
+      "documentation standard",
+      "documentation defect versus recoverable overpayment basis"
+    ]
+  },
+  "public_claim_allowed": false,
+  "field_closure_allowed": false,
+  "scoring_allowed": false,
+  "fraud_claim_allowed": false,
+  "waste_claim_allowed": false,
+  "debt_claim_allowed": false,
+  "collectibility_claim_allowed": false,
+  "recovery_claim_allowed": false,
+  "prevention_claim_allowed": false,
+  "savings_estimate_allowed": false
+}

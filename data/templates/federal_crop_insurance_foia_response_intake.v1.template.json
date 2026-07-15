@@ -1,0 +1,63 @@
+{
+  "record_id": "[INTERNAL INTAKE RECORD ID]",
+  "record_family": "federal_crop_insurance_foia_response_intake",
+  "request_version": "[REQUEST VERSION]",
+  "outbound_sha256": "[OUTBOUND SHA-256 OR NOT SUBMITTED]",
+  "submission_channel": "[EMAIL OR PORTAL OR NOT SUBMITTED]",
+  "submitted_at": null,
+  "first_usda_received_at": null,
+  "proper_component_received_at": null,
+  "agency_tracking_number": null,
+  "agency_correspondence_date": null,
+  "received_at": null,
+  "lifecycle_state": "draft_not_submitted",
+  "prior_lifecycle_state": null,
+  "agency_stated_deadline_or_estimated_completion": null,
+  "clarification_or_narrowing": null,
+  "clock": {
+    "clarification_toll_start": null,
+    "clarification_toll_end": null,
+    "fee_toll_start": null,
+    "fee_toll_end": null,
+    "statutory_due_at": null,
+    "estimated_completion_at": null,
+    "responsive_record_cutoff": null
+  },
+  "fee": {
+    "requester_category": null,
+    "estimated_usd": null,
+    "authorized_ceiling_usd": null,
+    "commitment_status": "not_authorized"
+  },
+  "search": {
+    "locations_disclosed": [],
+    "search_date_disclosed": null
+  },
+  "determination": {
+    "type": null,
+    "asserted_exemptions": [],
+    "segregability_statement": null,
+    "redaction_scope": null
+  },
+  "production_files": [],
+  "cohort_review": {
+    "fy2024_ry2022_326_policy_match": "not_reviewed",
+    "later_cohort_contamination": "not_reviewed",
+    "direct_identifier_status": "not_reviewed",
+    "requested_field_coverage": [],
+    "missing_requested_fields": []
+  },
+  "appeal": {
+    "deadline": null,
+    "status": "not_applicable",
+    "submitted_at": null,
+    "disposition": null
+  },
+  "claim_gate": {
+    "field_closure_review_allowed": false,
+    "public_claim_allowed": false,
+    "scoring_allowed": false,
+    "savings_estimate_allowed": false,
+    "reviewer_note": "No evidence inference is allowed from this blank intake template."
+  }
+}

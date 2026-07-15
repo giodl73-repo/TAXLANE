@@ -10,12 +10,12 @@ without changing full methodology-field counts.
 
 | Program | Component progress | Closed fields after decision | Open fields after decision |
 |---|---|---:|---:|
-| USDA Federal Crop Insurance Program | Current root-cause framing recorded. | 0 | 8 |
-| VA PLTSS | Overpayment versus improper/unknown reporting split recorded. | 0 | 8 |
+| USDA Federal Crop Insurance Program | Current root-cause framing recorded. | 4 | 4 |
+| VA PLTSS | Agencywide classification and certified-return boundary recorded; program mapping open. | 2 | 6 |
 
-The field counts stay unchanged because neither row establishes a recoverable
-or collectible amount basis, estimator, universe, payment-type split, or full
-field-closure decision.
+These component decisions do not add closures beyond the separately recorded
+full-field decisions. Neither establishes a recoverable or collectible amount
+basis.
 
 ## Boundary
 

@@ -10,7 +10,7 @@ without changing full methodology-field counts.
 
 | Program | Component progress | Closed fields after decision | Open fields after decision |
 |---|---|---:|---:|
-| VA PLTSS | Bills-of-collection process boundary recorded. | 0 | 8 |
+| VA PLTSS | Bills-of-collection process boundary recorded. | 2 | 6 |
 
 The field counts stay unchanged because the row does not establish a
 recoverable incorrect-amount subset, collectible-dollar basis, recoverability

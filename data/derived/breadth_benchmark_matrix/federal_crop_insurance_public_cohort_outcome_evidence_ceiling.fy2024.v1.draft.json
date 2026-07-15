@@ -1,0 +1,143 @@
+{
+  "record_id": "payment-integrity-public-cohort-outcome-evidence-ceiling:usda-federal-crop-insurance:fy2024",
+  "record_family": "federal_crop_insurance_public_cohort_outcome_evidence_ceiling",
+  "program_id": "usda-federal-crop-insurance",
+  "agency_code": "USDA",
+  "program_or_activity": "Risk Management Agency Federal Crop Insurance Corporation",
+  "status": "draft_official_sources_checksum_verified_narrow_public_reporting_continuity_and_search_ceiling_recorded_zero_full_field_closures",
+  "source_ids": [
+    "SRC-USDA-RMA-FCIC-MANAGER-2024-09-25",
+    "SRC-USDA-RMA-FCIC-MANAGER-2024-11-21"
+  ],
+  "upstream_artifact": "data/derived/breadth_benchmark_matrix/federal_crop_insurance_appeal_collectibility_governance_bridge.fy2024.v1.draft.json",
+  "source_custody": {
+    "september_2024_manager_report": {
+      "raw_path": "data/raw/usda/SRC-USDA-RMA-FCIC-MANAGER-2024-09-25/2026-07-14/092524managers.pdf",
+      "bytes": 105445,
+      "checksum_sha256": "ACD35B47587751305F1199E675B715CCB5C074E2AD88D4DDB9D1D1E148EE9D22",
+      "evidence_pdf_file_page": 2,
+      "evidence_zero_based_viewer_index": 1
+    },
+    "november_2024_manager_report": {
+      "raw_path": "data/raw/usda/SRC-USDA-RMA-FCIC-MANAGER-2024-11-21/2026-07-14/112124managers.pdf",
+      "bytes": 144513,
+      "checksum_sha256": "F581F11FB99A690743894BA932FC6E460F57E82B3FFC68E2952169523947E443",
+      "evidence_pdf_file_page": 3,
+      "evidence_zero_based_viewer_index": 2
+    }
+  },
+  "public_archive_sequence": [
+    {
+      "report_date": "2024-08-22",
+      "fiscal_year": 2024,
+      "reinsurance_year": 2022,
+      "sample_policy_count": 326,
+      "review_complete": true,
+      "reported_improper_payment_rate_percent": 2.43,
+      "source_role": "upstream same-period completion checkpoint"
+    },
+    {
+      "report_date": "2024-09-25",
+      "fiscal_year": 2025,
+      "reinsurance_year": 2023,
+      "sample_policy_count": 388,
+      "closed_with_no_improper_payments_identified": 75,
+      "review_horizon_reported": "through the end of October",
+      "source_role": "new-cohort initiation and no-finding closure checkpoint"
+    },
+    {
+      "report_date": "2024-11-21",
+      "fiscal_year": 2025,
+      "reinsurance_year": 2023,
+      "sample_policy_count": 388,
+      "completed_and_closed_reviews": 237,
+      "initial_findings_deadline": "2024-12-20",
+      "source_role": "new-cohort progress and finding-deadline checkpoint"
+    }
+  ],
+  "cohort_transition": {
+    "prior_cohort": "FY2024/Reinsurance Year 2022/326 policies",
+    "subsequent_cohort": "FY2025/Reinsurance Year 2023/388 policies",
+    "transition_observed_after_rate_publication": true,
+    "later_reports_return_to_prior_cohort_outcomes": false,
+    "interpretation": "The public Manager-report sequence advances to a new sample cohort after publishing the prior cohort's aggregate rate; it does not publish a retrospective amount-level disposition chain for the FY2024 cohort."
+  },
+  "ordinary_compliance_reporting_boundary": {
+    "reported_under_separate_compliance_heading": true,
+    "september_ordinary_compliance_period": "2024-08-06 through 2024-09-13",
+    "november_ordinary_compliance_period": "2024-09-16 through 2024-11-01",
+    "attributed_to_fy2024_ry2022_sample": false,
+    "attributed_to_fy2025_ry2023_sample": false,
+    "may_be_combined_with_sample_findings_or_outcomes": false,
+    "may_be_used_as_sample_recovery_or_savings": false
+  },
+  "public_search_ceiling_decision": {
+    "component": "post-rate Manager-report continuity and public cohort-outcome search ceiling",
+    "decision": "component_closed_internal_only",
+    "decision_status": "narrow_public_reporting_continuity_and_search_ceiling_closed_full_recoverable_savings_field_open",
+    "component_closed": true,
+    "recoverable_savings_basis_field_closed": false,
+    "sample_specific_collectibility_closed": false,
+    "new_methodology_field_closures": 0,
+    "manager_report_search_should_be_repeated_for_fy2024_retrospective_outcomes": false,
+    "basis": "The next two official Manager reports advance PIIA reporting to a 388-policy FY2025/Reinsurance Year 2023 cohort and do not supply retrospective FY2024 cohort-specific finding, appeal, debt, setoff, or collection outcomes."
+  },
+  "unavailable_fy2024_cohort_fields": [
+    "sample-specific Initial Finding count and amount",
+    "sample-specific Final Finding count and amount",
+    "final-administrative-determination requests and outcomes",
+    "affirmed, modified, reversed, withdrawn, and pending appeal amounts",
+    "established debt after administrative review",
+    "waived, reduced, and delayed repayment amounts",
+    "cash collections and setoffs",
+    "write-offs, compromises, and uncollectible amounts",
+    "prevention attribution and counterfactual",
+    "control and review cost",
+    "reconciliation from the 2.43 percent estimate to debt, collection, prevention, and net savings"
+  ],
+  "current_program_boundary": {
+    "total_methodology_fields": 8,
+    "closed_field_count": 4,
+    "open_field_count": 4,
+    "open_fields": [
+      "sample design",
+      "estimation method",
+      "exclusion rules",
+      "recoverable savings basis"
+    ],
+    "recoverable_savings_basis_status": "open"
+  },
+  "next_bounded_action": {
+    "preferred_evidence": "authorized CARS/AIP export or focused FOIA response providing a deidentified row-level or aggregate cohort table",
+    "required_cohort": "FY2024/Reinsurance Year 2022/326 policies",
+    "required_characteristics": [
+      "cohort-preserving identifiers",
+      "finding status and amount",
+      "appeal or final-administrative-determination status and amount",
+      "established-debt status and amount",
+      "waiver, reduction, delay, setoff, collection, and write-off status and amount"
+    ],
+    "do_not_repeat": [
+      "general Manager-report search for retrospective FY2024 outcomes",
+      "combination of ordinary compliance findings with either PIIA sample"
+    ]
+  },
+  "evidence_boundaries": [
+    "The September and November reports describe the FY2025/Reinsurance Year 2023 sample, not retrospective outcomes for the completed FY2024/Reinsurance Year 2022 sample.",
+    "A policy review closed with no improper payment identified is not a recovery or prevention amount.",
+    "A completed and closed review does not by itself establish whether an Initial Finding, Final Finding, appeal, debt, setoff, or collection followed.",
+    "The Initial Findings deadline describes workflow timing and does not report a finding count or amount.",
+    "Ordinary compliance findings are reported separately and cannot be attributed to either payment-integrity sample.",
+    "The 2.43 percent statistical rate is not a transaction list of identified, collectible, or collected debts.",
+    "Nothing in these reports establishes FY2024 sample-specific debt, collectibility, recovery, prevention, control cost, or savings."
+  ],
+  "public_claim_allowed": false,
+  "scoring_allowed": false,
+  "fraud_claim_allowed": false,
+  "debt_claim_allowed": false,
+  "collectibility_claim_allowed": false,
+  "recovery_claim_allowed": false,
+  "prevention_claim_allowed": false,
+  "control_cost_claim_allowed": false,
+  "savings_estimate_allowed": false
+}

@@ -11,7 +11,7 @@ or additional-source-needed states.
 | Rank | Program | Readiness |
 |---:|---|---|
 | 1 | USDA Federal Crop Insurance Program | Narrow internal readiness candidate for root-cause field framing only. |
-| 2 | VA PLTSS | Narrow internal readiness candidate for reporting split only. |
+| 2 | VA PLTSS | Narrow internal readiness candidate for agencywide classification and certified-return rules only. |
 | 3 | Medicaid | Additional positive recoverable-basis source needed. |
 | 4 | Medicare Part D | Additional positive recoverable-basis source needed. |
 

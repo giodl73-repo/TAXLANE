@@ -1,0 +1,167 @@
+{
+  "record_id": "payment-integrity-sampling-estimation-plan-access-evidence-ceiling:cms-part-d:fy2024",
+  "record_family": "medicare_part_d_sampling_estimation_plan_access_evidence_ceiling",
+  "program_id": "cms-part-d",
+  "agency_code": "HHS",
+  "program_or_activity": "Medicare Prescription Drug Benefit (Part D)",
+  "reporting_period": "FY2024",
+  "measurement_period": "CY2022",
+  "methodology_fields": [
+    "sample design",
+    "payment universe",
+    "estimation method",
+    "exclusion rules"
+  ],
+  "component": "secure-MAX sampling-and-estimation-plan location and public evidence-access ceiling",
+  "status": "governmentwide_secure_max_plan_location_and_part_d_public_evidence_ceiling_recorded_zero_field_closures",
+  "source_ids": [
+    "SRC-OMB-M-21-19"
+  ],
+  "source_custody": {
+    "omb_m_21_19": {
+      "source_id": "SRC-OMB-M-21-19",
+      "publisher": "Executive Office of the President, Office of Management and Budget",
+      "title": "Transmittal of Appendix C to OMB Circular A-123, Requirements for Payment Integrity Improvement",
+      "source_url": "https://www.whitehouse.gov/wp-content/uploads/2021/03/M-21-19.pdf",
+      "raw_path": "data/raw/omb/SRC-OMB-M-21-19/2026-07-13/M-21-19.pdf",
+      "metadata_path": "data/metadata/SRC-OMB-M-21-19.2026-07-13.metadata.md",
+      "captured_date": "2026-07-13",
+      "bytes": 2808576,
+      "pdf_file_pages": 79,
+      "checksum_sha256": "12A1D448B1D5EB7040E2377E7E04BB721A2A513A9220768037B0F094C03D14AA"
+    }
+  },
+  "governmentwide_access_evidence": [
+    {
+      "location": "printed page 17; PDF file page 18",
+      "finding": "For statistically valid estimates, OMB requires agencies to produce point estimates and confidence-interval estimates.",
+      "use": "Defines a governmentwide output requirement, not the Part D estimator or its implementation."
+    },
+    {
+      "location": "printed page 18; PDF file page 19",
+      "finding": "OMB directs agencies to upload the Sampling and Estimation Methodology Plan and OMB checklist to the agency secure MAX page.",
+      "use": "Identifies a controlled plan-submission location and an exact evidence target without claiming public access or Part D-specific content."
+    }
+  ],
+  "reviewed_public_evidence_inventory": [
+    {
+      "path": "data/derived/breadth_benchmark_matrix/medicare_part_d_sample_design_evidence_ceiling.fy2024.v1.draft.json",
+      "field": "sample design",
+      "validated_scope": "PDE sampled unit, stratified-random description, sponsor routing, reconciliation cutoff, and statistical-governance evidence ceiling",
+      "use_rule": "Prior validated bridge only; not new raw-source custody or a new closure."
+    },
+    {
+      "path": "data/derived/breadth_benchmark_matrix/medicare_part_d_payment_universe_measurement_object_denominator_bridge.fy2024.v1.draft.json",
+      "field": "payment universe",
+      "validated_scope": "PDE/GDC measurement object and published-denominator reconciliation component",
+      "use_rule": "Prior validated bridge only; not new raw-source custody or a new closure."
+    },
+    {
+      "path": "data/derived/breadth_benchmark_matrix/medicare_part_d_reconciliation_pde_adjustment_documentation_bridge.cy2022.v1.draft.json",
+      "field": "payment universe",
+      "validated_scope": "Two-track reconciliation-PDE and linked adjustment-documentation treatment",
+      "use_rule": "Prior validated bridge only; not new raw-source custody or a new closure."
+    },
+    {
+      "path": "data/derived/breadth_benchmark_matrix/medicare_part_d_estimation_method_evidence_ceiling.fy2024.v1.draft.json",
+      "field": "estimation method",
+      "validated_scope": "PDE error-assignment and beneficiary-simulation process text with official APR custody blocked",
+      "use_rule": "Prior validated bridge only; not new raw-source custody or a new closure."
+    },
+    {
+      "path": "data/derived/breadth_benchmark_matrix/medicare_part_d_published_uncertainty_output_bridge.fy2024.v1.draft.json",
+      "field": "estimation method",
+      "validated_scope": "Published confidence-interval and annual margin-of-error output component",
+      "use_rule": "Prior validated bridge only; not new raw-source custody or a new closure."
+    },
+    {
+      "path": "data/derived/breadth_benchmark_matrix/medicare_part_d_missing_document_exclusion_treatment_bridge.fy2024.v1.draft.json",
+      "field": "exclusion rules",
+      "validated_scope": "Missing-document review, fail treatment, and predeadline cure component",
+      "use_rule": "Prior validated bridge only; not new raw-source custody or a new closure."
+    }
+  ],
+  "public_evidence_ceiling": {
+    "finding": "Current reviewed public evidence supplies bounded operational components and published outputs but not the Part D-specific CY2022/FY2024 Sampling and Estimation Methodology Plan, checklist, appendices, or reproducible method details.",
+    "effect": "The four methodology fields remain open. The secure-MAX direction identifies an acquisition target but supplies none of the missing Part D-specific contents."
+  },
+  "exact_acquisition_target": {
+    "documents": [
+      "CY2022/FY2024 Medicare Part D Sampling and Estimation Methodology Plan",
+      "associated OMB checklist",
+      "all appendices, exhibits, technical attachments, and data dictionaries",
+      "version history, approval history, effective dates, and change log governing the FY2024 estimate based on CY2022 payments"
+    ],
+    "sample_design_detail": [
+      "national sample and frame size and coverage",
+      "stratum definitions and allocation",
+      "within-domain selection procedure and inclusion probabilities",
+      "replacement, nonresponse, and sample-weight rules",
+      "relationship, nesting, and linkage between PDE and beneficiary samples"
+    ],
+    "payment_universe_detail": [
+      "complete included and excluded PDE and payment-stream taxonomy",
+      "denominator algebra and exact record-level construction",
+      "GDC, plan liability, beneficiary liability, statutory subsidy, federal-payment, and outlay mapping",
+      "subsidy, reinsurance, low-income-subsidy, premium, discount, payment-phase, overlap, and double-count treatment",
+      "adjustment, reversal, deletion, rejection, duplicate, replacement, eligibility, settlement, gross/net, and rounding treatment"
+    ],
+    "estimation_method_detail": [
+      "point and rate estimator formula",
+      "weights, projection factors, calibration, normalization, trimming, and nonresponse adjustments",
+      "PDE-to-beneficiary aggregation and benefit-parameter simulation mechanics",
+      "record treatment for overpayments, underpayments, missing documents, exclusions, and zero-error records",
+      "variance estimator, finite-population treatment, confidence-limit construction, transformations, and endpoint method",
+      "annual margin-of-error definition, units, and formula",
+      "unrounded estimates and rounding or reconciliation rules"
+    ],
+    "exclusion_rules_detail": [
+      "complete exclusion taxonomy and governing authority",
+      "current counts, reasons, decision stages, and submission-state distinctions",
+      "late, missing, invalid, incomplete, ineligible, duplicate, adjusted, replaced, disputed, and appealed unit treatment",
+      "denominator, replacement, weight, projection, variance, and confidence-limit consequences",
+      "change control from the historical FY2020/CY2018 exclusions"
+    ]
+  },
+  "separate_recoverable_basis_target": {
+    "methodology_field": "overpayment versus recoverable amount basis",
+    "boundary": "Same-cohort audit determination, debt, appeal, PDE deletion, settlement, collectibility, collection, write-off, liability allocation, and control-cost lineage is not a Sampling and Estimation Methodology Plan detail and remains a separate acquisition track."
+  },
+  "outbound_state": {
+    "request_drafted": false,
+    "request_submitted": false,
+    "external_message_sent": false,
+    "owner_authorization_obtained": false,
+    "status": "no_request_or_outbound_state_change"
+  },
+  "guardrails": [
+    "A secure MAX submission location does not establish a FOIA exemption, withholding, nonexistence, or public unavailability.",
+    "A governmentwide requirement to create and upload a plan is not Part D-specific evidence of the plan's contents or implementation.",
+    "This evidence ceiling is not a request, does not authorize a request, and makes no outbound state change.",
+    "Prior validated bridges are an evidence inventory, not new raw-source custody and not new closures.",
+    "The plan target does not supply same-cohort debt, collectibility, recovery, or savings lineage.",
+    "No fraud, waste, debt, collectibility, recovery, prevention, or savings claim follows from the controlled plan location or evidence gap."
+  ],
+  "closure_impact": {
+    "new_component_closures": 0,
+    "new_full_field_closures": 0,
+    "fields_closed_by_this_record": []
+  },
+  "program_status": {
+    "closed_field_count": 3,
+    "open_field_count": 5,
+    "closure_decision_count": 3,
+    "residual_gap_count": 5,
+    "scoring_status": "blocked_methodology_incomplete"
+  },
+  "public_claim_allowed": false,
+  "field_closure_allowed": false,
+  "scoring_allowed": false,
+  "fraud_claim_allowed": false,
+  "waste_claim_allowed": false,
+  "debt_claim_allowed": false,
+  "collectibility_claim_allowed": false,
+  "recovery_claim_allowed": false,
+  "prevention_claim_allowed": false,
+  "savings_estimate_allowed": false
+}

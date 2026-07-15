@@ -1,0 +1,170 @@
+{
+  "record_id": "payment-integrity-payment-universe-measurement-object-denominator-bridge:cms-part-d:fy2024",
+  "record_family": "medicare_part_d_payment_universe_measurement_object_denominator_bridge",
+  "program_id": "cms-part-d",
+  "agency_code": "HHS",
+  "program_or_activity": "Medicare Prescription Drug Benefit (Part D)",
+  "reporting_period": "FY2024",
+  "measurement_period": "CY2022",
+  "methodology_field": "payment universe",
+  "component": "PDE/GDC measurement object and published denominator reconciliation",
+  "status": "same_period_pde_gdc_measurement_object_and_published_denominator_component_closed_internal_only_full_payment_universe_open",
+  "source_ids": [
+    "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+    "SRC-CMS-PART-D-IPM-FY2024-FINDINGS",
+    "SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE"
+  ],
+  "source_custody": {
+    "fy2024_findings": {
+      "source_id": "SRC-CMS-PART-D-IPM-FY2024-FINDINGS",
+      "raw_path": "data/raw/cms/SRC-CMS-PART-D-IPM-FY2024-FINDINGS/2026-07-14/fy-2024-medicare-part-d-error-rate-findings-and-results.pdf",
+      "bytes": 121610,
+      "checksum_sha256": "36AFD362B5E5AF4DAC098C2502C9C548D79D7AA001725FE92E757BB4CF5E7BE8",
+      "pdf_file_pages": 3
+    },
+    "fy2024_annual_row": {
+      "source_id": "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+      "source_url": "https://paymentaccuracy.gov/assets/files/FY2024_Dataset.xlsx",
+      "raw_path": "data/raw/omb/SRC-OMB-PAYMENTACCURACY/2026-07-12/FY2024_Dataset.xlsx",
+      "metadata_path": "data/metadata/SRC-OMB-PAYMENTACCURACY-FY2024-DATA.2026-07-12.metadata.md",
+      "observed_date": "2026-07-12",
+      "bytes": 700992,
+      "checksum_sha256": "595369DA4C32965C457543E2695B5738BC131049318537948CD396323391E28C",
+      "path": "data/extracted/payment_accuracy/fy2024_program_results.v1.draft.jsonl",
+      "source_sheet": "All Program Results",
+      "source_row": 828,
+      "fiscal_year": 2024,
+      "sample_period": "2022-01 through 2022-12",
+      "extraction_status": "draft_extracted"
+    },
+    "cy2022_submission_guide": {
+      "source_id": "SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE",
+      "raw_path": "data/raw/cms/SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE/2026-07-14/part-d-ipm-cy22-submission-instruction-guide.pdf",
+      "bytes": 5962810,
+      "checksum_sha256": "52A76C9910BB66EDD387D127744F864D78E59826BC5FF0162BC81EDE428C7199",
+      "pdf_file_pages": 40
+    }
+  },
+  "same_period_evidence": [
+    {
+      "source_id": "SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE",
+      "location": "printed page 1; PDF file page 4; Introduction",
+      "text": "CMS describes the review as validating the accuracy of CY2022 Part D prescription drug event data and whether prescribed drugs were received and billed appropriately to Part D contracts and CMS.",
+      "supports": "The primary reviewed measurement object is CY2022 PDE data."
+    },
+    {
+      "source_id": "SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE",
+      "location": "printed page 2; PDF file page 5; Records Maintenance",
+      "text": "CMS collects and reviews documentation supporting a sample of PDE records selected for Part D IPM.",
+      "supports": "The review operates on sampled PDE records."
+    },
+    {
+      "source_id": "SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE",
+      "location": "printed page 23; PDF file page 26; Identifying Selected PDE Records",
+      "text": "The CY2022 sample contains PDE records corresponding to the sponsor contract, identified through the PDE identifier spreadsheet.",
+      "supports": "The sampled PDE is tied to the sponsor-contract review frame."
+    },
+    {
+      "source_id": "SRC-CMS-PART-D-IPM-CY2022-SUBMISSION-GUIDE",
+      "location": "printed page 36; PDF file page 39; Appendix A",
+      "text": "The June 29, 2023 reconciliation cutoff fixes sampled PDEs submitted on or before that date and the final reconciliation PDE used for CY2022 Part D payment reconciliation.",
+      "supports": "The cycle frame is anchored to the final reconciliation PDE and stated cutoff."
+    },
+    {
+      "source_id": "SRC-CMS-PART-D-IPM-FY2024-FINDINGS",
+      "location": "printed page 1; PDF file page 1; Table 1",
+      "text": "CMS publishes a $3.58 billion gross improper-payment numerator, a $96.52 billion Part D Denominator, and a 3.70 percent gross improper-payment rate for CY2022/FY2024.",
+      "supports": "The same-period findings identify the rounded national denominator and its published rate relationship."
+    },
+    {
+      "source_id": "SRC-CMS-PART-D-IPM-FY2024-FINDINGS",
+      "location": "printed page 2; PDF file page 2; Findings on Overpayments and footnote 3",
+      "text": "CMS measures a discrepancy as a partial Gross Drug Cost error. GDC is ingredient cost paid plus dispensing fee paid, sales tax, and vaccine administration fee; conceptually it is combined plan and beneficiary liability, of which government subsidizes portions under statutory rules.",
+      "supports": "The PDE-level error basis and GDC components are identified, together with the liability boundary that prevents treating GDC as federal outlay."
+    },
+    {
+      "source_id": "SRC-CMS-PART-D-IPM-FY2024-FINDINGS",
+      "location": "printed page 3; PDF file page 3; Findings on Underpayments",
+      "text": "A corrected GDC above the PDE GDC produces an underpayment difference.",
+      "supports": "The corrected-versus-PDE GDC comparison operates in both error directions."
+    }
+  ],
+  "published_denominator_bridge": {
+    "cms_findings_label": "Part D Denominator",
+    "cms_findings_value_usd_billions": 96.52,
+    "paymentaccuracy_row_828_label": "Outlays Amount ($M)",
+    "paymentaccuracy_row_828_value_millions": 96521.39,
+    "paymentaccuracy_row_828_value_billions": 96.52139,
+    "rounds_to_cms_findings_value": true,
+    "published_gross_improper_payment_millions": 3575.09,
+    "published_gross_improper_payment_rate": 0.037039355,
+    "published_overpayment_millions": 3052.65,
+    "published_overpayment_rate": 0.031626668,
+    "published_underpayment_millions": 522.44,
+    "published_underpayment_rate": 0.005412686,
+    "published_proper_payment_millions": 92946.30,
+    "published_payment_accuracy_rate": 0.962960645,
+    "published_unknown_payment_millions": 0.0,
+    "published_technically_improper_payment_millions": 0.0,
+    "interpretation": "The annual outlays value numerically reconciles to the rounded findings denominator. This identifies the published denominator value and label only; it does not disclose denominator composition or establish equivalence between outlays and PDE-level GDC."
+  },
+  "closed_component_scope": [
+    "The primary CY2022 Part D IPM reviewed object is a sampled PDE record tied to the sponsor contract and final reconciliation PDE frame.",
+    "A prescription discrepancy is measured as a partial GDC error using corrected GDC versus PDE GDC.",
+    "GDC consists of ingredient cost paid, dispensing fee paid, sales tax, and vaccine administration fee.",
+    "CMS publishes a $96.52 billion Part D Denominator; PaymentAccuracy annual row 828 reports $96,521.39 million in outlays, which rounds to that value."
+  ],
+  "unsupported_or_missing_components": [
+    "formal definition and algebra for the $96.52 billion denominator",
+    "complete included and excluded payment-stream taxonomy, including explicit treatment of direct subsidy or capitation, reinsurance, low-income cost-sharing subsidy, risk sharing and reconciliation, premiums, beneficiary cost sharing, manufacturer discounts, direct and indirect remuneration, and employer subsidy",
+    "relationship between PDE-level GDC, plan liability, beneficiary liability, statutory government subsidies, federal payments, and reported outlays",
+    "whether the denominator is federal payments or outlays, GDC, or a modeled or simulated payment measure, including its exact period and settlement basis",
+    "treatment of negative adjustments, reversals, post-reconciliation changes, duplicate records, rejected PDEs, and deleted PDEs",
+    "included and excluded plan types, contracts, and beneficiary populations",
+    "payment-phase categories and subsidy components, including overlap and double-count controls",
+    "gross-versus-net basis, treatment before or after recoveries and offsets, and rounding rules",
+    "linkage among the PDE sample, beneficiary-level simulation or extrapolation, denominator categories, and statistical weights"
+  ],
+  "interpretation_boundaries": [
+    "A PDE summary extract is not an individual pharmacy claim or transaction.",
+    "The PDE/GDC review object is not the full Part D payment universe.",
+    "GDC is combined plan and beneficiary liability; it is not federal outlay, and government subsidizes only portions according to statutory rules.",
+    "The $96.52 billion denominator label and row-828 rounding reconciliation do not prove the denominator's component composition or equivalence to GDC.",
+    "Plan and beneficiary liabilities must not be added to federal outlays without a disclosed accounting bridge and double-count controls.",
+    "A sample framed by sponsor-contract reconciliation PDEs does not prove every denominator payment stream is represented one-for-one by a PDE.",
+    "A measurement error or denominator amount is not automatically monetary loss, debt, fraud, waste, collectibility, recovery, prevention, or savings."
+  ],
+  "field_review": {
+    "component_closed_internal_only": true,
+    "full_field_closed": false,
+    "remaining_need": "A same-period authoritative denominator specification that enumerates included and excluded payment streams, reconciles GDC and liability concepts to federal outlays, defines settlement and adjustment treatment, identifies covered populations and phases, and explains extrapolation and weight linkage without double counting."
+  },
+  "program_status": {
+    "closed_field_count": 3,
+    "open_field_count": 5,
+    "closed_fields": [
+      "sample period",
+      "payment type split",
+      "sponsor documentation dependency treatment"
+    ],
+    "open_fields": [
+      "sample design",
+      "payment universe",
+      "estimation method",
+      "exclusion rules",
+      "overpayment versus recoverable basis"
+    ],
+    "new_component_closures": 1,
+    "new_full_field_closures": 0,
+    "scoring_status": "blocked_methodology_incomplete"
+  },
+  "public_claim_allowed": false,
+  "field_closure_allowed": false,
+  "scoring_allowed": false,
+  "fraud_claim_allowed": false,
+  "waste_claim_allowed": false,
+  "debt_claim_allowed": false,
+  "collectibility_claim_allowed": false,
+  "recovery_claim_allowed": false,
+  "savings_estimate_allowed": false
+}

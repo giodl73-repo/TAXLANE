@@ -1,0 +1,130 @@
+{
+  "record_id": "payment-integrity-recovery-lineage-boundary-bridge:usda-federal-crop-insurance:fy2024",
+  "record_family": "federal_crop_insurance_recovery_lineage_boundary_bridge",
+  "program_id": "usda-federal-crop-insurance",
+  "agency_code": "USDA",
+  "program_or_activity": "Risk Management Agency Federal Crop Insurance Corporation",
+  "status": "draft_official_sources_checksum_verified_narrow_disposition_and_non_additivity_component_closed_recoverable_savings_field_open",
+  "source_ids": [
+    "SRC-USDA-RMA-COM-23-001",
+    "SRC-USDA-RMA-FCIC-MANAGER-2023-09-20",
+    "SRC-USDA-RMA-FCIC-MANAGER-2024-02-22",
+    "SRC-USDA-RMA-FCIC-MANAGER-2024-05-23",
+    "SRC-USDA-RMA-FCIC-MANAGER-2024-08-22",
+    "SRC-OMB-PAYMENTACCURACY-FCIC-Q4-2025"
+  ],
+  "upstream_artifacts": [
+    "data/derived/breadth_benchmark_matrix/federal_crop_insurance_payment_integrity_bridge.fy2024-q4-2025.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/federal_crop_insurance_public_methodology_evidence_ceiling.fy2025.v1.draft.json"
+  ],
+  "source_custody": [
+    {
+      "source_id": "SRC-USDA-RMA-FCIC-MANAGER-2023-09-20",
+      "raw_path": "data/raw/usda/SRC-USDA-RMA-FCIC-MANAGER-2023-09-20/2026-07-13/092023managers.pdf",
+      "bytes": 463794,
+      "checksum_sha256": "A5F9267782552B331C294CE73836552879EADF47DDA672ED5A40501D971CFCFF",
+      "evidence_pdf_file_page": 5,
+      "evidence_zero_based_viewer_index": 4
+    },
+    {
+      "source_id": "SRC-USDA-RMA-FCIC-MANAGER-2024-02-22",
+      "raw_path": "data/raw/usda/SRC-USDA-RMA-FCIC-MANAGER-2024-02-22/2026-07-13/022224managers.pdf",
+      "bytes": 168423,
+      "checksum_sha256": "E89FA8202FB0EB4FF4E28211B10EED10E4CF06839172657A771DA2F6B9D75BE0",
+      "evidence_pdf_file_page": 3,
+      "evidence_zero_based_viewer_index": 2
+    },
+    {
+      "source_id": "SRC-USDA-RMA-FCIC-MANAGER-2024-05-23",
+      "raw_path": "data/raw/usda/SRC-USDA-RMA-FCIC-MANAGER-2024-05-23/2026-07-13/052324managers.pdf",
+      "bytes": 195464,
+      "checksum_sha256": "3DA5B844433FB12DB8F35E186FC227482118B118714021694FF4620E1CDE4502",
+      "evidence_pdf_file_page": 5,
+      "evidence_zero_based_viewer_index": 4
+    },
+    {
+      "source_id": "SRC-USDA-RMA-FCIC-MANAGER-2024-08-22",
+      "raw_path": "data/raw/usda/SRC-USDA-RMA-FCIC-MANAGER-2024-08-22/2026-07-13/082224managers.pdf",
+      "bytes": 232689,
+      "checksum_sha256": "D090DE9299D1DD7CF8B8C249E53C9B37056B648AF3EF238CA3AD2951DC210026",
+      "evidence_pdf_file_page": 5,
+      "evidence_zero_based_viewer_index": 4
+    }
+  ],
+  "same_period_sample_disposition_chain": {
+    "reporting_period": "FY2024",
+    "sampling_reinsurance_year": 2022,
+    "sample_policy_count": 326,
+    "initiation_channel": "CARS notification and document submission",
+    "september_2023_no_improper_payment_closures": 116,
+    "february_2024_approximate_completed_and_closed_reviews": 289,
+    "finding_workflow": [
+      "review",
+      "closure without identified improper payment or Initial Finding",
+      "Final Finding when an Initial Finding was issued"
+    ],
+    "may_2024_review_complete_rate_calculation_pending": true,
+    "august_2024_review_complete": true,
+    "august_2024_reported_error_rate_percent": 2.43,
+    "scorecard_post_finding_process": "AIPs are notified through CARS; reported overpayments are tracked, collected, and verified through RMA accounting systems."
+  },
+  "published_amount_classification": {
+    "statistical_estimate": {
+      "fy2024_improper_payment_millions": 579.36,
+      "fy2024_overpayment_millions": 573.93,
+      "identified_debt": false,
+      "collectible_amount": false
+    },
+    "manager_report_general_compliance_findings": {
+      "separate_heading_from_iperia_sample": true,
+      "attributed_to_326_policy_sample": false,
+      "usable_as_sample_recovery_amount": false
+    },
+    "manager_report_criminal_recoveries_and_judgments": {
+      "separate_heading_from_iperia_sample": true,
+      "attributed_to_326_policy_sample": false,
+      "usable_as_sample_recovery_amount": false
+    },
+    "sample_specific_dollar_dispositions_published": false
+  },
+  "component_decision": {
+    "component": "same-period sampled-case disposition workflow and amount-class non-additivity",
+    "decision": "component_closed_internal_only",
+    "decision_status": "narrow_disposition_and_non_additivity_component_closed_full_recoverable_savings_field_open",
+    "component_closed": true,
+    "recoverable_savings_basis_field_closed": false,
+    "new_methodology_field_closures": 0,
+    "basis": "Same-period official reports establish initiation, no-finding closure, initial-to-final finding, review completion, and post-finding tracking channels while explicitly separating IPERIA sample reporting from general compliance findings and criminal case amounts."
+  },
+  "recoverable_savings_residuals": [
+    "sample-specific improper-payment finding amount",
+    "established debt amount and debtor",
+    "appeal, reconsideration, reversal, and adjustment treatment",
+    "collectibility determination",
+    "cash collection by cohort and period",
+    "write-off and compromise treatment",
+    "prevention attribution and counterfactual",
+    "control and compliance-review cost",
+    "reconciliation from projected error to debt, collection, prevention, and net savings"
+  ],
+  "current_program_boundary": {
+    "total_methodology_fields": 8,
+    "closed_field_count": 4,
+    "open_field_count": 4,
+    "recoverable_savings_basis_status": "open"
+  },
+  "evidence_boundaries": [
+    "A closed sampled-policy review can mean no improper payment was identified; case closure is not a recovery.",
+    "An Initial or Final Finding is not automatically an established, collectible, or collected debt.",
+    "General compliance finding amounts reported beside the IPERIA section are not attributed to the 326-policy sample.",
+    "Criminal restitution, judgments, and settlements arise from separately described matters and cannot be assigned to the statistical sample.",
+    "The 2.43 percent rate and projected dollar estimate are not a transaction list of identified debts.",
+    "CARS and accounting-system tracking establish process, not a published amount-level recovery reconciliation."
+  ],
+  "public_claim_allowed": false,
+  "scoring_allowed": false,
+  "fraud_claim_allowed": false,
+  "recovery_claim_allowed": false,
+  "prevention_claim_allowed": false,
+  "savings_estimate_allowed": false
+}

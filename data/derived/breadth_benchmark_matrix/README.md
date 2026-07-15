@@ -62,6 +62,110 @@ FY2024 annual workbook's improper, unknown, overpayment, underpayment, and
 technically-improper totals while keeping court-confirmed-fraud and agency-
 recovery tables parallel until program, period, and definitions match.
 
+`payment_integrity_bounded_factual_examples.fy2024.v1.draft.json` packages
+seven reviewed examples, a five-class evidence legend, and ordered Part D,
+Medicaid, PLTSS, and FCIC cards for bounded source-labeled public explanation.
+It closes zero components and fields and leaves every established public,
+performance, fraud, waste, debt, recovery, prevention, and savings gate false.
+
+`federal_crop_insurance_payment_integrity_bridge.fy2024-q4-2025.v1.draft.json`
+reconciles the FCIC annual row, Q4 2025 scorecard, and RMA review-period
+evidence. The linked
+`federal_crop_insurance_root_cause_definition_bridge.fy2024.v1.draft.json`
+adds same-period USDA definitions for the failure-to-access and inability-to-
+access categories. The linked
+`federal_crop_insurance_payment_universe_bridge.fy2024.v1.draft.json` adds the
+official FY2024 payment categories and AIP payment tiers. Four fields are closed
+internally while sample design, estimation method, exclusion rules, and
+recoverable-savings basis remain open. Every scoring, public-claim, fraud,
+waste, recovery, and savings gate
+remain blocked. USDA-wide Do Not Pay figures following the FCIC section are not
+part of the bridges. Other Information on printed pages 60-61 of the FCIC/RMA
+financial statements is unaudited; its apparent $579.93M typo is excluded in
+favor of the annual workbook's $573.93M.
+
+`federal_crop_insurance_sample_design_component_bridge.fy2024.v1.draft.json`
+adds a narrow component-only decision for the disclosed FY2024 sampling
+governance and independent methodology review. It does not change the four-open
+field count: frame, allocation, probabilities, randomization, replacement,
+nonresponse, weights, estimator, and variance remain undisclosed, and compliance
+is not public reproducibility.
+
+`federal_crop_insurance_historical_sampling_method_bridge.fy2020.v1.draft.json`
+preserves a separate historical benchmark from FY2020 Other Information. For
+reinsurance year 2018, the source discloses simple-random policy selection, all
+three named payment categories, and statistically valid rate and dollar
+estimates. The section is unaudited, and nothing in it proves that the method
+continued through FY2024. It closes no current field, changes no 4/4 count, and
+relaxes no scoring or claim gate.
+
+`federal_crop_insurance_public_methodology_evidence_ceiling.fy2025.v1.draft.json`
+records why the remaining method cannot be reproduced from the public sources.
+OMB M-21-19 requires point and confidence-interval estimates but directs the
+S&EMP and checklist to an agency secure MAX page. The later FY2025 FCIC report
+repeats categories, AIP tiers, annual statistical-validity language, and a
+3.29-percent actual rate, but publishes no estimator, weights, variance, or
+exclusions. This closes zero fields, preserves the 4/4 aggregate, and blocks all
+score and claim gates.
+
+`federal_crop_insurance_recovery_lineage_boundary_bridge.fy2024.v1.draft.json`
+follows the same 326-policy sample across no-finding closure, Initial and Final
+Findings, review completion, and rate reporting. RMA's Manager's Reports keep
+ordinary compliance findings, IPERIA sample progress, and criminal outcomes in
+separate sections. The bridge closes a narrow disposition and non-additivity
+component, not the recoverable-savings field: no public source reconciles the
+sample to debt, appeals, collections, prevention, or control cost.
+
+`federal_crop_insurance_appeal_collectibility_governance_bridge.fy2024.v1.draft.json`
+adds the published post-Finding state transitions. CARS receipt starts a 45-day
+evidence-backed dispute path; the 2022 SRA provides possible correction,
+payment, repayment discretion, and setoff while preserving administrative
+appeal. This closes a narrow governance component, not collectibility or
+recoverable savings. Contractual authority is not an exercised remedy or cash
+collection.
+
+`federal_crop_insurance_public_cohort_outcome_evidence_ceiling.fy2024.v1.draft.json`
+records the end of the public Manager's Report path for the FY2024/RY2022
+cohort. After completion and rate reporting, the September and November 2024
+reports move to the 388-policy FY2025/RY2023 cohort and keep ordinary compliance
+findings separate. No retrospective appeal, final-debt, setoff, or collection
+lineage is published. Zero fields close and the 4/4 aggregate remains.
+
+`federal_crop_insurance_cohort_disposition_request_specification.fy2024.v1.draft.json`
+turns the ceiling into an existing-records-only request contract. It specifies
+the cohort, likely custodians, disposition states, privacy exclusions,
+deidentified or aggregate fallbacks, electronic formats, segregability, and
+owner placeholders. The linked request template is unsent; it creates no fee
+commitment and closes no field.
+
+`federal_crop_insurance_foia_response_intake_contract.v1.draft.json` adds the
+owner preflight and response lifecycle. It records timing, clarification, fees,
+productions, denials, no-records responses, and appeals while preserving an
+interpretation firewall. The blank intake template begins at
+`draft_not_submitted`; no external action or field closure occurs.
+
+`va_pltss_payment_type_composition_bridge.fy2025.v1.draft.json` closes the
+PLTSS payment-type split internally from the same-period FY2024 annual row and
+uses the FY2025 AFR only as later-cycle taxonomy corroboration. PLTSS moves to
+two closed and six open fields. Statistical overpayments remain separate from
+bills, receivables, collectible debt, collections, recovery, and savings.
+
+`va_pltss_documentation_recoverability_boundary.fy2025.v1.draft.json` records
+current VA classification and certified-return rules. Documentation failure is
+not automatically monetary loss, unknown and technical/non-monetary categories
+remain separate, and recovery requires returned funds. No source maps PLTSS
+causes through category, bill, dispute, collection, or certified recovery, so
+the full field remains open and the 2/6 aggregate is unchanged.
+
+`va_pltss_same_cohort_debt_collection_lineage_evidence_ceiling.fy2024-q4-2025.v1.draft.json`
+inventories the six existing checksum-verified sources without a new search or
+outbound action. The first three are reviewed evidence; the AFR and policies
+are later/current context that cannot assign historical dispositions. The
+bounded inventory contains no same-cohort link from sampled payment through
+debt, dispute, collectibility, collection, and certified cash. Zero components
+and fields close, PLTSS remains two closed and six open, and all gates remain
+false.
+
 The matrix deliberately includes coverage-gap rows. An explicit missing value
 is more useful than a false benchmark.
 
@@ -76,4 +180,119 @@ trust-fund, asset, delivery, and outcome scopes are matched.
 
 `education_depth_card.fy2025.v1.draft.json` reconciles function 500 and keeps
 the negative higher-education net entry blocked behind account-level analysis.
+
+`medicare_part_d_payment_type_composition_bridge.fy2024.v1.draft.json` uses
+the exact annual row and CMS FY2024 findings to close the payment-type split
+internally. At that bridge stage, Part D was two closed and six open; no debt, collectibility,
+recovery, fraud, waste, or savings claim is allowed.
+
+`medicare_part_d_sponsor_documentation_dependency_evidence_ceiling.fy2024.v1.draft.json`
+reconciles the captured scorecard to the annual row and CMS findings, corrects
+the stale Part D rate and root-cause transcription, and reframes the remaining
+state-data field around sponsor documentation. At that evidence-ceiling stage, no field closes; Part D remains
+two closed and six open.
+
+`medicare_part_d_sponsor_documentation_dependency_bridge.fy2024.v1.draft.json`
+adds the same-period guide and FAQ, closes sponsor-documentation dependency
+treatment internally, and moves Part D to three closed and five open. Review
+failure remains separate from debt, recovery, fraud, waste, and savings.
+
+`medicare_part_d_sample_design_evidence_ceiling.fy2024.v1.draft.json` records
+the same-period sample-design ceiling. It supports PDEs as the sampled unit, a
+statistically valid stratified-random selection description, sponsor-contract
+routing, reconciliation-PDE timing, and statistical-governance boundaries. It
+does not publish the national sample size, frame, stratum definitions,
+allocation, inclusion probabilities, selection implementation, replacement or
+nonresponse rules, weights, or the PDE-to-beneficiary-simulation relationship.
+Sample design stays open and Part D remains three closed and five open.
+
+`medicare_part_d_estimation_method_evidence_ceiling.fy2024.v1.draft.json`
+records the estimation-process evidence and custody blocker. Web extraction
+verifies the official HHS FY2024 Annual Performance Report passage assigning a
+GDC error to each audited PDE and describing representative-beneficiary
+simulation, but Akamai HTTP 403 prevented official PDF custody. The captured
+FY2024 findings supply same-period statistical-governance, output, confidence-
+limit, and GDC-direction evidence; the 2026 CMS background remains current-only
+corroboration. No component or field closes, and Part D remains three closed and
+five open pending formula, weights, aggregation, simulation, sample linkage,
+record-treatment, variance, and reconciliation mechanics.
+
+`medicare_part_d_missing_document_exclusion_treatment_bridge.fy2024.v1.draft.json`
+closes one narrow internal component. Timely incomplete or problematic files
+remain in CY2022 review; an unresolved Missing Documentation Form leaves the PDE
+failed; and missing or invalid evidence can be corrected before the final
+deadline. The FY2024 findings count invalid or missing documentation in the
+reported category. FY2020's 27 exclusions are comparison-only. Full exclusion
+rules remain open, so Part D stays three closed and five open and all scoring,
+fraud, waste, debt, recovery, and savings gates remain blocked.
+
+`medicare_part_d_payment_universe_measurement_object_denominator_bridge.fy2024.v1.draft.json`
+closes one narrow internal component. It identifies sampled reconciliation PDE
+records as the reviewed object, corrected-versus-reported GDC as the error
+basis, and row 828's $96,521.39 million outlays as the exact value rounding to
+CMS's $96.52 billion Part D Denominator. It does not enumerate the complete
+payment universe or map combined plan-beneficiary liability to federal outlays.
+Payment universe stays open, Part D remains three closed and five open, and all
+claim and scoring gates remain blocked.
+
+`medicare_part_d_audit_closeout_recovery_process_bridge.q4-2025.v1.draft.json`
+closes one current-process component. The scorecard documents issued named-
+audit closeout notices requiring deletion of audit-determined improper PDE
+records and describes that deletion as recovery, while keeping planned DME and
+Tepezza notices distinct. The Q4 2025 process has no amount or cohort linkage to
+the FY2024/CY2022 estimate, so recoverable-amount basis stays open, Part D
+remains three closed and five open, and all gates remain blocked.
+
+`medicare_part_d_published_uncertainty_output_bridge.fy2024.v1.draft.json`
+closes one same-period published-output component. Findings provide the 95%
+dollar and rate confidence bounds, while annual row 828 preserves its confidence
+label and 0.42 margin-of-error value. The row does not define units or a formula
+for 0.42, and the bridge forces no reconciliation. Full estimator and APR
+custody remain open, Part D stays three closed and five open, and all gates stay
+blocked.
+
+`medicare_part_d_reconciliation_pde_adjustment_documentation_bridge.cy2022.v1.draft.json`
+closes only the two-track documentation treatment after a sampled reconciliation
+PDE is adjusted. Reconciliation-PDE-aligned documentation remains required and
+linked adjustment documentation is additionally required. The cutoff and final
+reconciliation target are prior Pulse 39 and Pulse 43 context. No inclusion,
+exclusion, denominator, weight, estimator, or payment effect is disclosed. Full
+payment universe remains open, Part D remains three closed and five open, and
+all gates remain blocked.
+
+`medicare_part_d_sampling_estimation_plan_access_evidence_ceiling.fy2024.v1.draft.json`
+records the governmentwide secure-MAX location for agency S&EMPs and OMB
+checklists, inventories the prior validated Part D public evidence, and defines
+the exact plan, checklist, appendices, version-history, sample, universe,
+estimator, and exclusion details still needed. Secure MAX does not prove
+exemption, withholding, nonexistence, or public unavailability. No request was
+submitted and no outbound state changed. This ceiling closes zero components
+and zero fields; Part D remains three closed and five open with all gates false.
+
+`medicare_part_d_sampling_estimation_methodology_plan_request_specification.fy2024.v1.draft.json`
+turns the access ceiling into an unsent, privacy-aware existing-records draft
+for the final Part D S&EMP package and operative version records. It uses the
+CMS non-claims filing route and HHS rules, excludes person-level and security
+material, and requests native/searchable and reasonably segregable output
+without predicting release. Owner, requester, fee, scope, and single-channel
+preflight remain blocked. Zero components and fields close, Part D remains
+three closed and five open, and all gates stay false.
+
+`medicare_part_d_sampling_estimation_methodology_plan_foia_response_intake_contract.fy2024.v1.draft.json`
+adds a hard all-false submission preflight, a closed-world 19-state lifecycle,
+append-only event rules, a blank intake, administrative timing capture, an
+appeal taxonomy, and production-review gates. Owner authorization is necessary
+but insufficient. Administrative events and unreviewed productions cannot
+close methodology fields. The request remains unsent, zero components and
+fields close, Part D remains three closed and five open, and all gates stay
+false.
+
+`reviews/2026-07-14-payment-integrity-fy2024-annual-extraction-role-review.md`
+closes the pending review action for the official FY2024 PaymentAccuracy
+extraction. It checks raw custody, metadata, schema, all five extraction
+artifacts, exact row counts, payment-class reconciliation, program-specific
+measurement periods, the confirmed-fraud definition, the agency-recovery scope,
+and preserved nulls. It permits bounded source-labeled factual reporting only.
+Zero methodology components and fields close, program counts remain unchanged,
+and every scoring and claim gate stays blocked.
 

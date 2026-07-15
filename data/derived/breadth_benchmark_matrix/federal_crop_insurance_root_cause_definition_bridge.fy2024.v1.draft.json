@@ -1,0 +1,81 @@
+{
+  "record_id": "payment-integrity-root-cause-definition-bridge:usda-federal-crop-insurance:fy2024",
+  "record_family": "federal_crop_insurance_root_cause_definition_bridge",
+  "program_id": "usda-federal-crop-insurance",
+  "agency_code": "USDA",
+  "program_or_activity": "Risk Management Agency Federal Crop Insurance Corporation",
+  "status": "draft_official_source_checksum_verified_third_methodology_field_closed_internal_only",
+  "source_ids": [
+    "SRC-USDA-AFR-FY2024"
+  ],
+  "upstream_artifact": "data/derived/breadth_benchmark_matrix/federal_crop_insurance_payment_integrity_bridge.fy2024-q4-2025.v1.draft.json",
+  "source_custody": {
+    "raw_path": "data/raw/usda/SRC-USDA-AFR-FY2024/2026-07-13/fy-2024-agency-financial-report.pdf",
+    "checksum_sha256": "F573AC22DDCC64A1CE2DD9C13370EB1E02E83F2467F3A87146C3E3D521E8DE22",
+    "bytes": 15170759,
+    "printed_pages": "216-217",
+    "canonical_usda_pdf_pages": "220-221",
+    "govinfo_custody_pdf_pages": "250-251"
+  },
+  "fy2024_fcic_evidence": {
+    "reported_improper_payment_millions": 579.36,
+    "reported_improper_payment_rate_percent": 2.43,
+    "root_cause_categories": [
+      {
+        "category": "failure_to_access_data_or_information",
+        "definition": "The needed data or information existed, was obtained, and was used in the payment calculation, but a subsequent administrative or calculation error made the payment improper.",
+        "examples_or_response_scope": "RMA describes policy and procedure clarification, annual Approved Insurance Provider review, program reviews, manager bulletins, and a cotton loss-adjustment review."
+      },
+      {
+        "category": "inability_to_access_data_or_information",
+        "definition": "The category is principally associated with certification errors in information used to establish policy insurance amounts, premiums, and indemnities.",
+        "examples_or_response_scope": "RMA describes policy and procedure updates, informational memoranda and manager bulletins, program reviews, and assessment of Spot Check List procedures and corrective actions."
+      }
+    ],
+    "methodology_changed_during_reporting_period": false
+  },
+  "methodology_field_decision": {
+    "field": "data-access outside-agency-control root-cause definition",
+    "decision": "closed_root_cause_categories_defined_internal_only",
+    "decision_status": "field_closed_internal_only",
+    "basis": "The FY2024 AFR separately explains the circumstances represented by failure to access and inability to access data or information for FCIC and identifies the operational error patterns associated with each category.",
+    "field_closed": true,
+    "public_claim_allowed": false,
+    "recovery_claim_allowed": false,
+    "savings_claim_allowed": false
+  },
+  "program_methodology_state": {
+    "closed_internal_only": [
+      "sample period",
+      "payment type split",
+      "data-access outside-agency-control root-cause definition",
+      "payment universe"
+    ],
+    "open": [
+      "sample design",
+      "estimation method",
+      "exclusion rules",
+      "recoverable savings basis"
+    ],
+    "closed_count": 4,
+    "open_count": 4,
+    "program_scoring_allowed": false
+  },
+  "excluded_evidence": [
+    {
+      "section": "Do Not Pay",
+      "reason": "The figures are reported for USDA programs collectively and provide no FCIC-specific attribution or lineage."
+    }
+  ],
+  "evidence_boundaries": [
+    "The closure is limited to the definitions and separation of the two FCIC data-access root-cause categories.",
+    "The AFR does not turn the statistical improper-payment estimate into identified debt, collectible dollars, collections, recoveries, preventable loss, or savings.",
+    "The described corrective activities do not quantify their effect or establish causal attribution to avoided improper payments.",
+    "Department-wide Do Not Pay activity and match totals cannot be attributed to FCIC.",
+    "The separate FCIC/RMA FY2024 financial-statement bridge later closes payment universe internally; sample design, estimation method, exclusion rules, and recoverable-savings basis remain open."
+  ],
+  "public_claim_allowed": false,
+  "fraud_claim_allowed": false,
+  "recovery_claim_allowed": false,
+  "savings_estimate_allowed": false
+}

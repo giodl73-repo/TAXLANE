@@ -11,7 +11,7 @@ rollup. These decisions clarify what can and cannot be used later.
 | Rank | Program | Decision |
 |---:|---|---|
 | 1 | USDA Federal Crop Insurance Program | Narrow root-cause field support only; no collectible-savings basis. |
-| 2 | VA PLTSS | Narrow overpayment/reporting support only; no broad recoverability mapping. |
+| 2 | VA PLTSS | Narrow VA-wide classification and certified-return boundary only; no PLTSS recoverability mapping. |
 | 3 | Medicaid | Claim guard confirmed; PERM dollars cannot be scored as waste or savings. |
 | 4 | Medicare Part D | Additional positive basis required; audit recovery does not cover the full estimate. |
 

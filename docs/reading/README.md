@@ -15,6 +15,7 @@ explainers. They should keep three labels visible:
 |---|---|
 | `honest-federal-tax-receipt.md` | Flagship one-page before/after case and financing-lane receipt prototype. |
 | `current-versus-benchmark-scoreboard.md` | Breadth/depth scoreboard showing matched current-versus-benchmark values, topline-only areas, explicit gaps, and the fraud/savings firewall. |
+| `payment-integrity-bounded-factual-examples.md` | Public payment-integrity handoff: exact FY2024 reconciliation, four program cards, seven source-labeled examples, and required claim boundaries. |
 | `headline-number-selection-guide.md` | Selection guide reconciling the valid health, defense, and interest headline measures and their incompatible scopes. |
 | `veterans-depth-card.md` | Complete FY2025 veterans function and five-component breakdown with current service probes and benchmark gates. |
 | `transportation-depth-card.md` | Complete FY2025 transportation function and four-component breakdown with federalism and outcome benchmark gates. |
@@ -23,6 +24,11 @@ explainers. They should keep three labels visible:
 | `justice-depth-card.md` | Complete FY2025 federal justice function with four components and state/local, outcome, and rights gates. |
 | `science-energy-environment-depth-card.md` | Three-function FY2025 orientation that preserves separate science, energy, and environmental outcome surfaces. |
 | `agriculture-depth-card.md` | Complete FY2025 agriculture function with farm-stabilization, research/services, and nutrition crossover boundaries. |
+| `federal-crop-insurance-payment-integrity-bridge.md` | FY2024 FCIC annual-workbook, scorecard, RMA period, USDA AFR, and FCIC/RMA financial-statement reconciliation; shared status is four internal closures and four blocked methodology fields. |
+| `federal-crop-insurance-root-cause-definition-bridge.md` | Same-period USDA FY2024 FCIC failure-to-access and inability-to-access definitions; third internal-only field closure with all claim gates still open. |
+| `federal-crop-insurance-payment-universe-bridge.md` | Official FCIC/RMA FY2024 payment categories and AIP payment tiers; fourth internal-only field closure, with page-18 MD&A and unaudited Other Information boundaries explicit. |
+| `federal-crop-insurance-sample-design-component-bridge.md` | Narrow FY2024 sampling-governance component: 326 RY2022 policies, AIP-aware features, statistical-validity language, and independent methodology review; full sample design and public reproducibility remain open. |
+| `federal-crop-insurance-historical-sampling-method-bridge.md` | Historical FY2020/RY2018 component: simple-random policy selection, three named payment categories, and statistically valid rate-and-dollar designation; no continuity to FY2024 or current-field closure is inferred. |
 | `international-affairs-depth-card.md` | Complete FY2025 international-affairs function with five components and a negative financial-program accounting gate. |
 | `income-tax-foundation.md` | First public packet explaining income-tax history, current mechanics, budget accounting, and program-linked tax lanes. |
 | `modeled-income-tax-outlays.md` | Reader-facing explanation of the annual and decade modeled allocation of individual income-tax receipts by broad outlay share. |
@@ -114,6 +120,10 @@ explainers. They should keep three labels visible:
 | `per-unit-receipt-cards.md` | Public-facing per-unit card copy with source-basis, civic-illustration, and blocked-card labels. |
 
 ## Reading Order
+
+For payment integrity, read `payment-integrity-bounded-factual-examples.md`
+after the portfolio scoreboard and before the longer methodology packet chain.
+It is the bounded public surface, not a performance or savings report.
 
 1. Start with `income-tax-foundation.md` for current-law mechanics and the
    program-linked tax lane hypothesis.

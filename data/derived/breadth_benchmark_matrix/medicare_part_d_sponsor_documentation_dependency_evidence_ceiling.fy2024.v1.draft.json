@@ -1,0 +1,63 @@
+{
+  "record_id": "payment-integrity-sponsor-documentation-dependency-evidence-ceiling:cms-part-d:fy2024",
+  "record_family": "medicare_part_d_sponsor_documentation_dependency_evidence_ceiling",
+  "program_id": "cms-part-d",
+  "agency_code": "HHS",
+  "program_or_activity": "Medicare Prescription Drug Benefit (Part D)",
+  "status": "same_period_scorecard_reconciled_field_reframing_needed_full_field_open",
+  "source_ids": [
+    "SRC-OMB-PAYMENTACCURACY-FY2024-DATA",
+    "SRC-CMS-PART-D-IPM-FY2024-FINDINGS",
+    "SRC-OMB-PAYMENTACCURACY-PART-D-Q4-2025"
+  ],
+  "scorecard_custody": {
+    "raw_path": "data/raw/payment_accuracy/SRC-OMB-PAYMENTACCURACY-PART-D-Q4-2025/2026-07-14/medicare-part-d-q4-2025-scorecard.pdf",
+    "bytes": 215862,
+    "checksum_sha256": "7A3287AD75CFD5F4A53AC1CBFA8992E9223BB57C363C6794D3959471FBED6097"
+  },
+  "scorecard_correction": {
+    "prior_transcribed_overpayment_rate_percent": 1.02,
+    "corrected_scorecard_overpayment_rate_percent": 3.16,
+    "prior_transcribed_primary_root_cause_millions": 2403.0,
+    "corrected_scorecard_root_cause_millions": 3053.0,
+    "prior_transcribed_data_access_issue": "State data",
+    "corrected_scorecard_data_access_issue": "Failure to Access Data/Information Needed",
+    "corrected_scorecard_control_scope": "Overpayments outside the agency control"
+  },
+  "same_period_reconciliation": {
+    "annual_workbook_overpayment_millions": 3052.65,
+    "scorecard_rounded_overpayment_millions": 3053.0,
+    "scorecard_overpayment_rate_percent": 3.16,
+    "cms_findings_documentation_overpayment_rate_percent": 2.70,
+    "cms_findings_drug_and_pricing_discrepancy_rate_percent": 0.46,
+    "cms_findings_total_overpayment_rate_percent": 3.16,
+    "component_rates_reconcile": true
+  },
+  "field_reframing_review": {
+    "current_methodology_field": "state-data dependency treatment",
+    "supported_dependency": "Part D sponsor, pharmacy benefit manager, pharmacy, and supporting-documentation dependency",
+    "state_data_dependency_supported": false,
+    "recommended_field_label": "sponsor-data and documentation dependency treatment",
+    "full_field_closed": false,
+    "remaining_need": "Same-period methodology text explaining how missing, invalid, late, corrected, or unavailable sponsor documentation flows through PDE review, estimation, reconsideration, and final reporting."
+  },
+  "decision": {
+    "new_full_field_closures": 0,
+    "closed_field_count": 2,
+    "open_field_count": 6,
+    "scoring_status": "blocked_methodology_incomplete"
+  },
+  "evidence_boundaries": [
+    "The scorecard's outside-agency-control label is a publisher root-cause taxonomy, not a legal finding that an amount is nonrecoverable.",
+    "Insufficient documentation is a measurement classification, not proof of fraud, waste, identified debt, or collectibility.",
+    "The scorecard's audit-recovery narrative describes a process for specific closeouts and does not establish recovery of the full statistical estimate.",
+    "FY2024 reporting is based on CY2022 payments and is a post-FY2023-methodology-change baseline; it is not comparable to earlier years by inference."
+  ],
+  "public_claim_allowed": false,
+  "field_closure_allowed": false,
+  "scoring_allowed": false,
+  "fraud_claim_allowed": false,
+  "debt_claim_allowed": false,
+  "recovery_claim_allowed": false,
+  "savings_estimate_allowed": false
+}
