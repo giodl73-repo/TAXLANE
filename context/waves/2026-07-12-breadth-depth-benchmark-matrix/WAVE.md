@@ -396,13 +396,33 @@ certified cash. No search, download, request, fee, submission, or agency contact
 occurred. Zero components and fields close, PLTSS stays two closed and six open,
 and every gate remains false.
 
-Pulse 52 packages seven previously validated examples into a bounded public
-surface with an exact improper-versus-unknown reconciliation, five-class
-legend, and ordered Part D, Medicaid, PLTSS, and FCIC cards. It permits only
-source-labeled factual explanation with required caveats. Zero components and
-fields close, counts remain 3/5, 1/7, 2/6, and 4/4, and every established
-public, performance, fraud, waste, debt, collectibility, recovery, prevention,
-and savings gate remains false.
+Pulse 52 (`pulses/pulse-52-payment-integrity-bounded-factual-examples.md`)
+packages seven previously validated examples into a bounded public surface
+with an exact improper-versus-unknown reconciliation, five-class legend, and
+ordered Part D, Medicaid, PLTSS, and FCIC cards. It permits only source-labeled
+factual explanation with required caveats. Zero components and fields close,
+counts remain 3/5, 1/7, 2/6, and 4/4, and every established public,
+performance, fraud, waste, debt, collectibility, recovery, prevention, and
+savings gate remains false.
+
+Pulse 53 (`pulses/pulse-53-external-accountability-claim-intake.md`) adds an
+internal external-claim quarantine contract and four example amount atoms. The
+URLs are observed but not captured, exact text is unverified, all amounts are
+not summable, and official hosting supplies context only. The records preserve
+neutral attribution, amount semantics, unresolved overlap, and
+response/counterevidence/corroboration state while every attributed and
+substantive gate remains false. A dedicated typed core contract and manifest-
+covered validator enforce the quarantine boundary; no root public route or
+finding is created.
+
+Pulse 54 uses the captured House-hosted testimony to create a fifth, narrower
+claim-origin atom: Shirley's page-1 assertion that downtown Minneapolis's
+`Quality Learing Center` received $1.9 million in CCAP funding. The source does
+not state a period for this amount; the preceding unnamed-daycare sentence's
+2025 period is not carried forward. Custody supports only the attribution, not the payment or its accuracy. The testimony
+is removed from the separate broad Minnesota row; the new amount remains not
+summable with unresolved overlap, no corroboration, no counterevidence, no
+recorded response, and every claim gate false.
 
 ## Design rules
 
@@ -423,5 +443,5 @@ git diff --check
 
 ## Current pulse
 
-`pulses/pulse-52-payment-integrity-bounded-factual-examples.md` records the
+`pulses/pulse-54-house-testimony-quality-learing-center-claim-atom.md` records the
 latest bounded slice and next decision gate.

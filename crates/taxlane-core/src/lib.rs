@@ -1,4 +1,4 @@
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 
 use serde::{Deserialize, Serialize};
 
@@ -7066,6 +7066,10 @@ pub const PERFORMANCE_DEMAND_RESPONSE_LOG_NEXT_ACTION: &str =
     "Send or resend public-safe evidence request; keep claim gate blocked.";
 pub const PERFORMANCE_DEMAND_RESPONSE_LOG_USE_RULE: &str = "Track response status and remaining evidence gaps; do not claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits.";
 pub const PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE: &str = "Capture reply custody and classification; do not claim TAXLANE found fraud, waste, abuse, legal dedication of income taxes, poor performance, or proven reform benefits.";
+pub const EXTERNAL_ACCOUNTABILITY_CLAIM_INTAKE_RECORD_FAMILY: &str =
+    "external_accountability_claim_intake";
+pub const EXTERNAL_ACCOUNTABILITY_CLAIM_INTAKE_SCHEMA_VERSION: &str = "v1";
+pub const EXTERNAL_ACCOUNTABILITY_CLAIM_INTAKE_USE_RULE: &str = "Internal quarantine use only: record that an attributed claim was published, preserve source and amount semantics, and request corroborating or counterevidence; do not present the underlying allegation as fact or infer fraud, waste, debt, collectibility, recovery, prevention, performance, or savings.";
 pub const PUBLIC_CLAIM_ALLOWED_LABEL: &str = "Public claim allowed.";
 pub const PUBLIC_CLAIM_BLOCKED_LABEL: &str = "Public claim blocked.";
 
@@ -7725,6 +7729,694 @@ impl PerformanceDemandResponseClass {
     }
 }
 
+#[derive(Clone, Copy, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ExternalClaimantType {
+    JournalistOrCommentator,
+    Witness,
+    Whistleblower,
+    Beneficiary,
+    VendorOrRecipient,
+    AgencyOfficial,
+    InspectorGeneral,
+    LawEnforcement,
+    Court,
+    ElectedOfficial,
+    Other,
+}
+
+#[derive(Clone, Copy, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ExternalClaimPublicationKind {
+    OriginalVideo,
+    SocialPost,
+    Article,
+    Interview,
+    WrittenTestimony,
+    HearingVideo,
+    AgencyRelease,
+    AuditReport,
+    CourtRecord,
+    Dataset,
+    ResponseLetter,
+    Correction,
+    Other,
+}
+
+#[derive(Clone, Copy, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ExternalClaimEvidenceRelation {
+    ClaimOrigin,
+    SupportsClaimAtom,
+    CorroboratesPart,
+    ContradictsPart,
+    SuppliesContext,
+    OfficialResponse,
+    Correction,
+    Supersession,
+}
+
+#[derive(Clone, Copy, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ExternalClaimCustodyStatus {
+    UrlObservedNotCaptured,
+    CapturedHashVerified,
+    OfficialCopyCaptured,
+    Unavailable,
+    Superseded,
+}
+
+#[derive(Clone, Copy, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ExternalClaimType {
+    DirectObservation,
+    IdentityOrAffiliation,
+    SiteOrServiceOperation,
+    EligibilityOrEnrollment,
+    PaymentOrBilling,
+    AwardOrContract,
+    DuplicateOrOverlap,
+    DataQuality,
+    ControlFailure,
+    AggregateImproperPaymentAllegation,
+    AggregateFraudAllegation,
+    PerformanceAllegation,
+    DebtAllegation,
+    RecoveryAssertion,
+    PreventionAssertion,
+    SavingsAssertion,
+    OfficialResponse,
+    CorrectionOrRetraction,
+    Other,
+}
+
+#[derive(Clone, Copy, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ExternalClaimAmountSemantic {
+    SourceStatedTotal,
+    ProgramOutlays,
+    AwardOrContractCeiling,
+    PaidAmount,
+    BilledAmount,
+    QuestionedCost,
+    StatisticalImproperPaymentEstimate,
+    UnknownPaymentStatus,
+    AllegedFraudExposure,
+    ChargedLoss,
+    CourtConfirmedFraud,
+    SettlementAmount,
+    IdentifiedOverpayment,
+    EstablishedDebt,
+    CollectibleAmount,
+    RecoveredCash,
+    RestitutionOrdered,
+    RestitutionPaid,
+    PreventedLossEstimate,
+    SourceStatedSavingsTotal,
+    GrossSavingsEstimate,
+    ControlCost,
+    OffsetOrLeakage,
+    NetSavingsEstimate,
+}
+
+#[derive(Clone, Copy, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ExternalClaimStatus {
+    IntakeUnverified,
+    SourceCustodied,
+    EvidenceMappingInProgress,
+    AttributedClaimSupported,
+    PartiallyCorroborated,
+    IndependentlyCorroborated,
+    Contested,
+    UnableToVerify,
+    Corrected,
+    Retracted,
+    Superseded,
+}
+
+#[derive(Clone, Copy, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ExternalClaimLegalOrAdministrativeStatus {
+    NoneEstablished,
+    AgencyReviewReported,
+    AuditOpened,
+    ReferredForReview,
+    InvestigationReported,
+    CivilComplaintFiled,
+    CriminalChargeFiled,
+    OfficialFinding,
+    SettlementNoAdmission,
+    SettlementWithAdmission,
+    PleaEntered,
+    Adjudicated,
+    Dismissed,
+    Overturned,
+    ClosedWithoutFinding,
+    Unknown,
+}
+
+#[derive(Clone, Copy, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum ExternalClaimReviewStatus {
+    Draft,
+    SourceReviewed,
+    AccountabilityReviewed,
+    RoleReviewed,
+    Superseded,
+    Retired,
+}
+
+#[derive(Clone, Copy, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ExternalClaimAmountStatus {
+    PublisherAllegation,
+}
+
+#[derive(Clone, Copy, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ExternalClaimAggregationMethod {
+    Undisclosed,
+}
+
+#[derive(Clone, Copy, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ExternalClaimAmountDerivation {
+    SourceStatedLowerBound,
+    SourceStatedExact,
+    SourceStatedRange,
+}
+
+#[derive(Clone, Copy, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ExternalClaimSummability {
+    NotSummable,
+}
+
+#[derive(Clone, Copy, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ExternalClaimResponseRequestStatus {
+    NotRecorded,
+}
+
+#[derive(Clone, Copy, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ExternalClaimResponsePosition {
+    NoneRecorded,
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct ExternalAccountabilityClaimant {
+    pub display_name: String,
+    pub claimant_type: ExternalClaimantType,
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct ExternalAccountabilityClaimPublication {
+    pub publication_kind: ExternalClaimPublicationKind,
+    pub publisher: String,
+    pub published_date: Option<String>,
+    pub observed_date: String,
+    pub source_id: String,
+    pub source_url: String,
+    pub custody_path: Option<String>,
+    pub sha256: Option<String>,
+    pub custody_status: ExternalClaimCustodyStatus,
+    pub evidence_relation: ExternalClaimEvidenceRelation,
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct ExternalAccountabilityClaimAtom {
+    pub claim_type: ExternalClaimType,
+    pub neutral_paraphrase: String,
+    pub exact_text_verified: bool,
+    pub subject: String,
+    pub predicate: String,
+    pub object: String,
+    pub geography: String,
+    pub coverage_period: String,
+    pub basis_disclosed: bool,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct ExternalAccountabilityClaimAmountAssertion {
+    pub value: f64,
+    pub lower_bound: Option<f64>,
+    pub upper_bound: Option<f64>,
+    pub currency: String,
+    pub unit: String,
+    pub amount_semantic: ExternalClaimAmountSemantic,
+    pub amount_status: ExternalClaimAmountStatus,
+    pub aggregation_method: ExternalClaimAggregationMethod,
+    pub population_or_universe: String,
+    pub period: String,
+    pub derivation: ExternalClaimAmountDerivation,
+    pub overlap_group: String,
+    pub overlap_established: bool,
+    pub summability: ExternalClaimSummability,
+    pub lineage_ids: Vec<String>,
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct ExternalAccountabilityClaimOfficialResponse {
+    pub request_status: ExternalClaimResponseRequestStatus,
+    pub requested_at: Option<String>,
+    pub respondent: Option<String>,
+    pub response_source_ids: Vec<String>,
+    pub position: ExternalClaimResponsePosition,
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct ExternalAccountabilityClaimGates {
+    pub attributed_claim_reporting_allowed: bool,
+    pub underlying_factual_claim_allowed: bool,
+    pub misconduct_signal_claim_allowed: bool,
+    pub official_finding_claim_allowed: bool,
+    pub performance_claim_allowed: bool,
+    pub fraud_claim_allowed: bool,
+    pub waste_claim_allowed: bool,
+    pub debt_claim_allowed: bool,
+    pub collectibility_claim_allowed: bool,
+    pub recovery_claim_allowed: bool,
+    pub prevention_claim_allowed: bool,
+    pub savings_estimate_allowed: bool,
+}
+
+impl ExternalAccountabilityClaimGates {
+    pub fn all_false(&self) -> bool {
+        !self.attributed_claim_reporting_allowed
+            && !self.underlying_factual_claim_allowed
+            && !self.misconduct_signal_claim_allowed
+            && !self.official_finding_claim_allowed
+            && !self.performance_claim_allowed
+            && !self.fraud_claim_allowed
+            && !self.waste_claim_allowed
+            && !self.debt_claim_allowed
+            && !self.collectibility_claim_allowed
+            && !self.recovery_claim_allowed
+            && !self.prevention_claim_allowed
+            && !self.savings_estimate_allowed
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct ExternalAccountabilityClaimIntakeRecord {
+    pub record_id: String,
+    pub record_family: String,
+    pub schema_version: String,
+    pub claim_group_id: String,
+    pub atom_order: u32,
+    pub lane_id: Option<String>,
+    pub program_or_account_id: Option<String>,
+    pub subject_ids: Vec<String>,
+    pub claimant: ExternalAccountabilityClaimant,
+    pub publications: Vec<ExternalAccountabilityClaimPublication>,
+    pub claim_atom: ExternalAccountabilityClaimAtom,
+    pub amount_assertion: ExternalAccountabilityClaimAmountAssertion,
+    pub corroborating_source_ids: Vec<String>,
+    pub counterevidence_source_ids: Vec<String>,
+    pub official_response: ExternalAccountabilityClaimOfficialResponse,
+    pub claim_status: ExternalClaimStatus,
+    pub legal_or_administrative_status: ExternalClaimLegalOrAdministrativeStatus,
+    pub review_status: ExternalClaimReviewStatus,
+    pub status_as_of: String,
+    pub supersedes_record_id: Option<String>,
+    pub correction_or_retraction_note: Option<String>,
+    pub comparison_basis: String,
+    pub due_process_caveat: String,
+    pub use_rule: String,
+    pub claim_gates: ExternalAccountabilityClaimGates,
+}
+
+impl ExternalAccountabilityClaimIntakeRecord {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("record_id", &self.record_id)?;
+        validate_required("claim_group_id", &self.claim_group_id)?;
+        validate_required("claimant.display_name", &self.claimant.display_name)?;
+        validate_required(
+            "claim_atom.neutral_paraphrase",
+            &self.claim_atom.neutral_paraphrase,
+        )?;
+        validate_required("claim_atom.subject", &self.claim_atom.subject)?;
+        validate_required("claim_atom.predicate", &self.claim_atom.predicate)?;
+        validate_required("claim_atom.object", &self.claim_atom.object)?;
+        validate_required("claim_atom.geography", &self.claim_atom.geography)?;
+        validate_required(
+            "claim_atom.coverage_period",
+            &self.claim_atom.coverage_period,
+        )?;
+        validate_required(
+            "amount_assertion.population_or_universe",
+            &self.amount_assertion.population_or_universe,
+        )?;
+        validate_required("amount_assertion.period", &self.amount_assertion.period)?;
+        validate_required(
+            "amount_assertion.overlap_group",
+            &self.amount_assertion.overlap_group,
+        )?;
+        validate_required("comparison_basis", &self.comparison_basis)?;
+        validate_required("due_process_caveat", &self.due_process_caveat)?;
+        validate_required("use_rule", &self.use_rule)?;
+        validate_iso_date("status_as_of", &self.status_as_of)?;
+        let status_as_of = parse_iso_date("status_as_of", &self.status_as_of)?;
+
+        if self.record_family != EXTERNAL_ACCOUNTABILITY_CLAIM_INTAKE_RECORD_FAMILY {
+            return Err("external claim intake has unexpected record_family".to_string());
+        }
+        if self.schema_version != EXTERNAL_ACCOUNTABILITY_CLAIM_INTAKE_SCHEMA_VERSION {
+            return Err("external claim intake has unexpected schema_version".to_string());
+        }
+        if self.use_rule != EXTERNAL_ACCOUNTABILITY_CLAIM_INTAKE_USE_RULE {
+            return Err("external claim intake has unexpected use_rule".to_string());
+        }
+        if self.atom_order != 1 {
+            return Err(
+                "external claim intake rows must contain one amount atom at atom_order 1"
+                    .to_string(),
+            );
+        }
+        if self.publications.is_empty() {
+            return Err("external claim intake requires at least one publication".to_string());
+        }
+
+        let mut source_ids = BTreeSet::new();
+        let mut claim_origin_count = 0usize;
+        let mut has_url_observed = false;
+        let mut all_claim_origins_captured = true;
+        for publication in &self.publications {
+            validate_required("publication.publisher", &publication.publisher)?;
+            validate_required("publication.source_id", &publication.source_id)?;
+            validate_required("publication.source_url", &publication.source_url)?;
+            validate_required("publication.observed_date", &publication.observed_date)?;
+            let observed_date =
+                parse_iso_date("publication.observed_date", &publication.observed_date)?;
+            if observed_date > status_as_of {
+                return Err(
+                    "publication observed_date must not be later than status_as_of".to_string(),
+                );
+            }
+            if let Some(date) = &publication.published_date {
+                let published_interval =
+                    parse_iso_date_precision("publication.published_date", date)?;
+                if published_interval.0 > observed_date {
+                    return Err(
+                        "publication published_date must not be later than observed_date"
+                            .to_string(),
+                    );
+                }
+            }
+            if !publication.source_url.starts_with("https://") {
+                return Err("external claim publication source_url must use https".to_string());
+            }
+            if !source_ids.insert(publication.source_id.as_str()) {
+                return Err(
+                    "external claim publication source IDs must be unique per row".to_string(),
+                );
+            }
+            if publication.evidence_relation == ExternalClaimEvidenceRelation::ClaimOrigin {
+                claim_origin_count += 1;
+                all_claim_origins_captured &= matches!(
+                    publication.custody_status,
+                    ExternalClaimCustodyStatus::CapturedHashVerified
+                        | ExternalClaimCustodyStatus::OfficialCopyCaptured
+                );
+            } else if publication.evidence_relation
+                != ExternalClaimEvidenceRelation::SuppliesContext
+            {
+                return Err(
+                    "unverified intake publications may only originate a claim or supply context"
+                        .to_string(),
+                );
+            }
+            match publication.custody_status {
+                ExternalClaimCustodyStatus::UrlObservedNotCaptured => {
+                    has_url_observed = true;
+                    if publication.custody_path.is_some() || publication.sha256.is_some() {
+                        return Err(
+                            "URL-observed publication must not claim custody path or SHA-256"
+                                .to_string(),
+                        );
+                    }
+                }
+                ExternalClaimCustodyStatus::CapturedHashVerified
+                | ExternalClaimCustodyStatus::OfficialCopyCaptured => {
+                    let path = publication
+                        .custody_path
+                        .as_deref()
+                        .ok_or_else(|| "captured publication requires custody_path".to_string())?;
+                    validate_required("publication.custody_path", path)?;
+                    let sha256 = publication
+                        .sha256
+                        .as_deref()
+                        .ok_or_else(|| "captured publication requires sha256".to_string())?;
+                    if !is_lowercase_sha256(sha256) {
+                        return Err(
+                            "captured publication sha256 must be 64 lowercase hex characters"
+                                .to_string(),
+                        );
+                    }
+                }
+                ExternalClaimCustodyStatus::Unavailable
+                | ExternalClaimCustodyStatus::Superseded => {
+                    if publication.custody_path.is_some() || publication.sha256.is_some() {
+                        return Err(
+                            "uncaptured publication status must not claim custody metadata"
+                                .to_string(),
+                        );
+                    }
+                }
+            }
+        }
+        if claim_origin_count != 1 {
+            return Err(
+                "external claim intake requires exactly one claim_origin publication".to_string(),
+            );
+        }
+        if has_url_observed && self.claim_atom.exact_text_verified {
+            return Err("URL-observed claim text cannot be exact_text_verified".to_string());
+        }
+
+        let amount = &self.amount_assertion;
+        if !amount.value.is_finite() || amount.value <= 0.0 {
+            return Err("external claim amount value must be finite and positive".to_string());
+        }
+        match amount.derivation {
+            ExternalClaimAmountDerivation::SourceStatedLowerBound => {
+                if amount.lower_bound != Some(amount.value) || amount.upper_bound.is_some() {
+                    return Err("external claim lower-bound derivation requires lower_bound equal to value and no upper_bound".to_string());
+                }
+            }
+            ExternalClaimAmountDerivation::SourceStatedExact => {
+                if amount.lower_bound.is_some() || amount.upper_bound.is_some() {
+                    return Err("external claim exact derivation must not carry bounds".to_string());
+                }
+            }
+            ExternalClaimAmountDerivation::SourceStatedRange => {
+                let lower = amount.lower_bound.ok_or_else(|| {
+                    "external claim range derivation requires lower_bound".to_string()
+                })?;
+                let upper = amount.upper_bound.ok_or_else(|| {
+                    "external claim range derivation requires upper_bound".to_string()
+                })?;
+                if !lower.is_finite()
+                    || !upper.is_finite()
+                    || lower <= 0.0
+                    || lower >= upper
+                    || amount.value < lower
+                    || amount.value > upper
+                {
+                    return Err("external claim range derivation requires positive ordered bounds containing value".to_string());
+                }
+            }
+        }
+        if amount.currency != "USD" || !matches!(amount.unit.as_str(), "millions" | "billions") {
+            return Err("external claim amount requires USD and millions or billions".to_string());
+        }
+        if amount.overlap_established {
+            return Err("external claim intake overlap_established must remain false".to_string());
+        }
+        if amount.summability != ExternalClaimSummability::NotSummable {
+            return Err("external claim intake must remain not_summable".to_string());
+        }
+        if !amount.lineage_ids.is_empty() {
+            return Err("external claim intake lineage_ids must remain empty".to_string());
+        }
+        if self.claim_atom.basis_disclosed {
+            return Err("external claim intake basis_disclosed must remain false".to_string());
+        }
+        if !self.subject_ids.is_empty()
+            || !self.corroborating_source_ids.is_empty()
+            || !self.counterevidence_source_ids.is_empty()
+        {
+            return Err("external claim quarantine must not claim subjects, corroboration, or counterevidence".to_string());
+        }
+        if self.official_response.requested_at.is_some()
+            || !self.official_response.response_source_ids.is_empty()
+        {
+            return Err("external claim official response must remain not recorded".to_string());
+        }
+        if self.legal_or_administrative_status
+            != ExternalClaimLegalOrAdministrativeStatus::NoneEstablished
+        {
+            return Err(
+                "external claim intake must keep legal status none_established".to_string(),
+            );
+        }
+        match self.claim_status {
+            ExternalClaimStatus::IntakeUnverified => {
+                if self.review_status != ExternalClaimReviewStatus::Draft
+                    || self.claim_atom.exact_text_verified
+                    || self.official_response.respondent.is_some()
+                    || all_claim_origins_captured
+                {
+                    return Err("unverified external claim must remain draft, exact-text unverified, uncaptured at its origin, and without a named respondent".to_string());
+                }
+            }
+            ExternalClaimStatus::AttributedClaimSupported => {
+                let respondent = self
+                    .official_response
+                    .respondent
+                    .as_deref()
+                    .ok_or_else(|| {
+                        "supported attributed claim requires a named respondent".to_string()
+                    })?;
+                validate_required("official_response.respondent", respondent)?;
+                if !all_claim_origins_captured
+                    || !self.claim_atom.exact_text_verified
+                    || !matches!(
+                        self.review_status,
+                        ExternalClaimReviewStatus::SourceReviewed
+                            | ExternalClaimReviewStatus::AccountabilityReviewed
+                            | ExternalClaimReviewStatus::RoleReviewed
+                    )
+                {
+                    return Err("attributed_claim_supported requires captured claim origin, exact-text verification, and source-or-higher review".to_string());
+                }
+            }
+            _ => {
+                return Err(
+                    "external claim status is not enabled for the current quarantine slice"
+                        .to_string(),
+                );
+            }
+        }
+        if self.supersedes_record_id.is_some() || self.correction_or_retraction_note.is_some() {
+            return Err(
+                "initial external claim intake cannot claim correction or supersession".to_string(),
+            );
+        }
+        if !self.claim_gates.all_false() {
+            return Err("external claim intake requires all twelve claim gates false".to_string());
+        }
+        let caveat = self.due_process_caveat.to_ascii_lowercase();
+        let attribution_boundary = match self.claim_status {
+            ExternalClaimStatus::IntakeUnverified => caveat.contains("records an attributed"),
+            ExternalClaimStatus::AttributedClaimSupported => {
+                caveat.contains("custody proves only the attributed assertion")
+                    && caveat.contains("no response is recorded")
+            }
+            _ => false,
+        };
+        if !attribution_boundary
+            || !(caveat.contains("does not establish") || caveat.contains("do not establish"))
+        {
+            return Err(
+                "external claim intake requires attributed-claim due-process wording".to_string(),
+            );
+        }
+        if self.publications.iter().any(|publication| {
+            publication.publication_kind == ExternalClaimPublicationKind::WrittenTestimony
+                && publication.publisher.contains("House")
+        }) && (!(self.comparison_basis.contains("not an official finding")
+            || self.comparison_basis.contains("official context only")
+            || self.comparison_basis.contains("supports only that"))
+            || self.claim_gates.official_finding_claim_allowed)
+        {
+            return Err(
+                "House-hosted testimony must remain context, not an official finding".to_string(),
+            );
+        }
+
+        Ok(())
+    }
+}
+
+fn is_lowercase_sha256(value: &str) -> bool {
+    value.len() == 64
+        && value
+            .bytes()
+            .all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte))
+}
+
+fn parse_iso_date_precision(
+    label: &str,
+    value: &str,
+) -> Result<((u16, u8, u8), (u16, u8, u8)), String> {
+    match value.len() {
+        4 => {
+            let year = parse_date_number(label, value, "year")?;
+            Ok(((year, 1, 1), (year, 12, 31)))
+        }
+        7 if value.as_bytes()[4] == b'-' => {
+            let year = parse_date_number(label, &value[..4], "year")?;
+            let month = parse_date_number::<u8>(label, &value[5..], "month")?;
+            let last_day = days_in_month(year, month)
+                .ok_or_else(|| format!("{label} contains an invalid month"))?;
+            Ok(((year, month, 1), (year, month, last_day)))
+        }
+        10 => {
+            let date = parse_iso_date(label, value)?;
+            Ok((date, date))
+        }
+        _ => Err(format!("{label} must use YYYY, YYYY-MM, or YYYY-MM-DD")),
+    }
+}
+
+fn parse_iso_date(label: &str, value: &str) -> Result<(u16, u8, u8), String> {
+    let bytes = value.as_bytes();
+    if bytes.len() != 10 || bytes[4] != b'-' || bytes[7] != b'-' {
+        return Err(format!("{label} must use YYYY-MM-DD"));
+    }
+    let year = parse_date_number(label, &value[..4], "year")?;
+    let month = parse_date_number::<u8>(label, &value[5..7], "month")?;
+    let day = parse_date_number::<u8>(label, &value[8..], "day")?;
+    let last_day =
+        days_in_month(year, month).ok_or_else(|| format!("{label} contains an invalid month"))?;
+    if day == 0 || day > last_day {
+        return Err(format!("{label} contains an invalid day"));
+    }
+    Ok((year, month, day))
+}
+
+fn parse_date_number<T>(label: &str, value: &str, component: &str) -> Result<T, String>
+where
+    T: std::str::FromStr,
+{
+    if value.is_empty() || !value.bytes().all(|byte| byte.is_ascii_digit()) {
+        return Err(format!("{label} contains an invalid {component}"));
+    }
+    value
+        .parse::<T>()
+        .map_err(|_| format!("{label} contains an invalid {component}"))
+}
+
+fn days_in_month(year: u16, month: u8) -> Option<u8> {
+    match month {
+        1 | 3 | 5 | 7 | 8 | 10 | 12 => Some(31),
+        4 | 6 | 9 | 11 => Some(30),
+        2 if year % 400 == 0 || (year % 4 == 0 && year % 100 != 0) => Some(29),
+        2 => Some(28),
+        _ => None,
+    }
+}
+
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 pub struct PerformanceDemandResponseIntakeRecord {
     pub record_id: String,
@@ -7910,6 +8602,114 @@ fn validate_iso_date(label: &str, value: &str) -> Result<(), String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn external_claim_intake_fixture() -> ExternalAccountabilityClaimIntakeRecord {
+        ExternalAccountabilityClaimIntakeRecord {
+            record_id: "external-claim:test:amount:01".to_string(),
+            record_family: EXTERNAL_ACCOUNTABILITY_CLAIM_INTAKE_RECORD_FAMILY.to_string(),
+            schema_version: EXTERNAL_ACCOUNTABILITY_CLAIM_INTAKE_SCHEMA_VERSION.to_string(),
+            claim_group_id: "external-claim-group:test".to_string(),
+            atom_order: 1,
+            lane_id: Some("health".to_string()),
+            program_or_account_id: None,
+            subject_ids: Vec::new(),
+            claimant: ExternalAccountabilityClaimant {
+                display_name: "Example Claimant".to_string(),
+                claimant_type: ExternalClaimantType::JournalistOrCommentator,
+            },
+            publications: vec![ExternalAccountabilityClaimPublication {
+                publication_kind: ExternalClaimPublicationKind::SocialPost,
+                publisher: "Example Claimant".to_string(),
+                published_date: Some("2026-07-10".to_string()),
+                observed_date: "2026-07-14".to_string(),
+                source_id: "SRC-EXAMPLE-CLAIM".to_string(),
+                source_url: "https://example.test/claim".to_string(),
+                custody_path: None,
+                sha256: None,
+                custody_status: ExternalClaimCustodyStatus::UrlObservedNotCaptured,
+                evidence_relation: ExternalClaimEvidenceRelation::ClaimOrigin,
+            }],
+            claim_atom: ExternalAccountabilityClaimAtom {
+                claim_type: ExternalClaimType::AggregateFraudAllegation,
+                neutral_paraphrase: "Example Claimant alleges more than $10 million in fraud."
+                    .to_string(),
+                exact_text_verified: false,
+                subject: "Example activity".to_string(),
+                predicate: "is alleged to involve fraud".to_string(),
+                object: "public-program payments".to_string(),
+                geography: "Example jurisdiction".to_string(),
+                coverage_period: "source_defined_undetermined".to_string(),
+                basis_disclosed: false,
+            },
+            amount_assertion: ExternalAccountabilityClaimAmountAssertion {
+                value: 10.0,
+                lower_bound: Some(10.0),
+                upper_bound: None,
+                currency: "USD".to_string(),
+                unit: "millions".to_string(),
+                amount_semantic: ExternalClaimAmountSemantic::AllegedFraudExposure,
+                amount_status: ExternalClaimAmountStatus::PublisherAllegation,
+                aggregation_method: ExternalClaimAggregationMethod::Undisclosed,
+                population_or_universe: "undisclosed".to_string(),
+                period: "undisclosed".to_string(),
+                derivation: ExternalClaimAmountDerivation::SourceStatedLowerBound,
+                overlap_group: "example-undetermined".to_string(),
+                overlap_established: false,
+                summability: ExternalClaimSummability::NotSummable,
+                lineage_ids: Vec::new(),
+            },
+            corroborating_source_ids: Vec::new(),
+            counterevidence_source_ids: Vec::new(),
+            official_response: ExternalAccountabilityClaimOfficialResponse {
+                request_status: ExternalClaimResponseRequestStatus::NotRecorded,
+                requested_at: None,
+                respondent: None,
+                response_source_ids: Vec::new(),
+                position: ExternalClaimResponsePosition::NoneRecorded,
+            },
+            claim_status: ExternalClaimStatus::IntakeUnverified,
+            legal_or_administrative_status:
+                ExternalClaimLegalOrAdministrativeStatus::NoneEstablished,
+            review_status: ExternalClaimReviewStatus::Draft,
+            status_as_of: "2026-07-14".to_string(),
+            supersedes_record_id: None,
+            correction_or_retraction_note: None,
+            comparison_basis: "Publisher allegation; basis is not reconciled.".to_string(),
+            due_process_caveat: "This quarantine row records an attributed allegation and does not establish misconduct, fraud, debt, recovery, or savings.".to_string(),
+            use_rule: EXTERNAL_ACCOUNTABILITY_CLAIM_INTAKE_USE_RULE.to_string(),
+            claim_gates: ExternalAccountabilityClaimGates {
+                attributed_claim_reporting_allowed: false,
+                underlying_factual_claim_allowed: false,
+                misconduct_signal_claim_allowed: false,
+                official_finding_claim_allowed: false,
+                performance_claim_allowed: false,
+                fraud_claim_allowed: false,
+                waste_claim_allowed: false,
+                debt_claim_allowed: false,
+                collectibility_claim_allowed: false,
+                recovery_claim_allowed: false,
+                prevention_claim_allowed: false,
+                savings_estimate_allowed: false,
+            },
+        }
+    }
+
+    fn captured_attributed_claim_fixture() -> ExternalAccountabilityClaimIntakeRecord {
+        let mut record = external_claim_intake_fixture();
+        record.claimant.claimant_type = ExternalClaimantType::Witness;
+        record.publications[0].custody_status = ExternalClaimCustodyStatus::OfficialCopyCaptured;
+        record.publications[0].custody_path = Some("data/raw/example/testimony.pdf".to_string());
+        record.publications[0].sha256 =
+            Some("0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef".to_string());
+        record.claim_atom.exact_text_verified = true;
+        record.claim_atom.coverage_period = "source_defined_undetermined".to_string();
+        record.amount_assertion.period = "source_defined_undetermined".to_string();
+        record.claim_status = ExternalClaimStatus::AttributedClaimSupported;
+        record.review_status = ExternalClaimReviewStatus::SourceReviewed;
+        record.official_response.respondent = Some("Named Organization".to_string());
+        record.due_process_caveat = "Custody proves only the attributed assertion; no response is recorded, and the row does not establish an underlying payment or wrongdoing.".to_string();
+        record
+    }
 
     fn breadth_benchmark_fixture() -> BreadthBenchmarkRecord {
         BreadthBenchmarkRecord {
@@ -8704,6 +9504,146 @@ mod tests {
             PerformanceDemandResponseDeltaRow::from_response_log_records(&[before], &[after])
                 .is_err()
         );
+    }
+
+    #[test]
+    fn validates_external_claim_intake_record() {
+        assert_eq!(external_claim_intake_fixture().validate(), Ok(()));
+    }
+
+    #[test]
+    fn validates_captured_attributed_claim_record() {
+        assert_eq!(captured_attributed_claim_fixture().validate(), Ok(()));
+    }
+
+    #[test]
+    fn blocks_captured_attributed_claim_without_path_or_hash() {
+        let mut record = captured_attributed_claim_fixture();
+        record.publications[0].custody_path = None;
+        assert!(record.validate().is_err());
+
+        let mut record = captured_attributed_claim_fixture();
+        record.publications[0].sha256 = None;
+        assert!(record.validate().is_err());
+    }
+
+    #[test]
+    fn blocks_attributed_claim_without_origin_verification_or_review() {
+        let mut record = captured_attributed_claim_fixture();
+        record.publications[0].custody_status = ExternalClaimCustodyStatus::UrlObservedNotCaptured;
+        record.publications[0].custody_path = None;
+        record.publications[0].sha256 = None;
+        assert!(record.validate().is_err());
+
+        let mut record = captured_attributed_claim_fixture();
+        record.claim_atom.exact_text_verified = false;
+        assert!(record.validate().is_err());
+
+        let mut record = captured_attributed_claim_fixture();
+        record.review_status = ExternalClaimReviewStatus::Draft;
+        assert!(record.validate().is_err());
+    }
+
+    #[test]
+    fn blocks_attributed_claim_without_named_respondent_state() {
+        let mut record = captured_attributed_claim_fixture();
+        record.official_response.respondent = None;
+        assert!(record.validate().is_err());
+    }
+
+    #[test]
+    fn blocks_external_claim_gate_bypass() {
+        let mut record = external_claim_intake_fixture();
+        record.claim_gates.fraud_claim_allowed = true;
+        assert!(record.validate().is_err());
+
+        let mut record = captured_attributed_claim_fixture();
+        record.claim_gates.attributed_claim_reporting_allowed = true;
+        assert!(record.validate().is_err());
+    }
+
+    #[test]
+    fn blocks_exact_external_claim_verification_without_custody() {
+        let mut record = external_claim_intake_fixture();
+        record.claim_atom.exact_text_verified = true;
+        assert!(record.validate().is_err());
+    }
+
+    #[test]
+    fn blocks_external_claim_invalid_date() {
+        let mut record = external_claim_intake_fixture();
+        record.status_as_of = "July 14, 2026".to_string();
+        assert!(record.validate().is_err());
+    }
+
+    #[test]
+    fn blocks_external_claim_invalid_calendar_month() {
+        let mut record = external_claim_intake_fixture();
+        record.publications[0].published_date = Some("2026-13".to_string());
+        assert!(record.validate().is_err());
+    }
+
+    #[test]
+    fn blocks_external_claim_date_chronology() {
+        let mut record = external_claim_intake_fixture();
+        record.publications[0].published_date = Some("2026-07-15".to_string());
+        assert!(record.validate().is_err());
+
+        let mut record = external_claim_intake_fixture();
+        record.publications[0].observed_date = "2026-07-15".to_string();
+        assert!(record.validate().is_err());
+    }
+
+    #[test]
+    fn blocks_external_claim_invalid_amount_summability_and_overlap() {
+        let mut record = external_claim_intake_fixture();
+        record.amount_assertion.lower_bound = Some(9.0);
+        assert!(record.validate().is_err());
+
+        let mut record = external_claim_intake_fixture();
+        record.amount_assertion.overlap_established = true;
+        assert!(record.validate().is_err());
+
+        let mut record = external_claim_intake_fixture();
+        record.amount_assertion.lineage_ids = vec!["unsupported-lineage".to_string()];
+        assert!(record.validate().is_err());
+    }
+
+    #[test]
+    fn validates_external_claim_exact_and_range_amount_shapes() {
+        let mut exact = external_claim_intake_fixture();
+        exact.amount_assertion.derivation = ExternalClaimAmountDerivation::SourceStatedExact;
+        exact.amount_assertion.lower_bound = None;
+        assert_eq!(exact.validate(), Ok(()));
+
+        let mut range = external_claim_intake_fixture();
+        range.amount_assertion.derivation = ExternalClaimAmountDerivation::SourceStatedRange;
+        range.amount_assertion.lower_bound = Some(5.0);
+        range.amount_assertion.upper_bound = Some(15.0);
+        assert_eq!(range.validate(), Ok(()));
+    }
+
+    #[test]
+    fn blocks_official_hosting_to_finding_bypass() {
+        let mut record = external_claim_intake_fixture();
+        record
+            .publications
+            .push(ExternalAccountabilityClaimPublication {
+                publication_kind: ExternalClaimPublicationKind::WrittenTestimony,
+                publisher: "U.S. House Committee on Example Affairs".to_string(),
+                published_date: None,
+                observed_date: "2026-07-14".to_string(),
+                source_id: "SRC-HOUSE-EXAMPLE".to_string(),
+                source_url: "https://example.test/house-testimony.pdf".to_string(),
+                custody_path: None,
+                sha256: None,
+                custody_status: ExternalClaimCustodyStatus::UrlObservedNotCaptured,
+                evidence_relation: ExternalClaimEvidenceRelation::SuppliesContext,
+            });
+        record.legal_or_administrative_status =
+            ExternalClaimLegalOrAdministrativeStatus::OfficialFinding;
+        record.claim_gates.official_finding_claim_allowed = true;
+        assert!(record.validate().is_err());
     }
 
     #[test]

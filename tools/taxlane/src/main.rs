@@ -13,11 +13,14 @@ use taxlane_core::{
     CostDownSourcePacketRecord, DebtMaturityRiskTreasuryProbeRecord,
     DebtPrimaryBalanceFiscalProbeRecord, DefenseAuditControlProbeRecord,
     DefenseProcurementControlProbeRecord, DisasterDeclarationProbeRecord,
-    DisasterMitigationProjectProbeRecord, EfficiencyPressureRecord, HeadlineBasisRecord,
-    HealthAdminSimplificationProbeRecord, HealthPriceDisciplineProbeRecord,
-    PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE, PUBLIC_CLAIM_ALLOWED_LABEL,
-    PUBLIC_CLAIM_BLOCKED_LABEL, PaymentIntegrityClaimsTimelinessProbeRecord,
-    PaymentIntegrityMethodologyClosureCoverageRecord,
+    DisasterMitigationProjectProbeRecord, EfficiencyPressureRecord,
+    ExternalAccountabilityClaimIntakeRecord, ExternalClaimAmountDerivation,
+    ExternalClaimAmountSemantic, ExternalClaimCustodyStatus, ExternalClaimEvidenceRelation,
+    ExternalClaimPublicationKind, ExternalClaimReviewStatus, ExternalClaimStatus,
+    ExternalClaimType, HeadlineBasisRecord, HealthAdminSimplificationProbeRecord,
+    HealthPriceDisciplineProbeRecord, PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE,
+    PUBLIC_CLAIM_ALLOWED_LABEL, PUBLIC_CLAIM_BLOCKED_LABEL,
+    PaymentIntegrityClaimsTimelinessProbeRecord, PaymentIntegrityMethodologyClosureCoverageRecord,
     PaymentIntegrityMethodologyClosureDecisionRecord,
     PaymentIntegrityMethodologyClosureReadinessRecord,
     PaymentIntegrityMethodologyComponentGateBoundaryDecisionRecord,
@@ -149,6 +152,23 @@ const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_INTAKE_SCHEMA_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-intake.schema.md";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_INTAKE_EXAMPLE_JSONL_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-intake.example.jsonl";
+const EXTERNAL_ACCOUNTABILITY_CLAIM_INTAKE_JSONL_PATH: &str =
+    "data/derived/accountability_evidence/external-accountability-claim-intake.v1.draft.jsonl";
+const EXTERNAL_ACCOUNTABILITY_CLAIM_INTAKE_SCHEMA_PATH: &str =
+    "data/derived/accountability_evidence/external-accountability-claim-intake.schema.md";
+const EXTERNAL_ACCOUNTABILITY_CLAIM_INTAKE_READER_PATH: &str =
+    "data/derived/accountability_evidence/external-accountability-claim-intake.md";
+const EXTERNAL_ACCOUNTABILITY_CLAIM_INTAKE_REVIEW_PATH: &str =
+    "reviews/2026-07-14-external-accountability-claim-intake-role-review.md";
+const HOUSE_SHIRLEY_TESTIMONY_RAW_PATH: &str =
+    "data/raw/house/SRC-HOUSE-JUDICIARY-SHIRLEY-TESTIMONY-2026/2026-07-14/shirley-testimony.pdf";
+const HOUSE_SHIRLEY_TESTIMONY_METADATA_PATH: &str =
+    "data/metadata/SRC-HOUSE-JUDICIARY-SHIRLEY-TESTIMONY-2026.2026-07-14.metadata.md";
+const HOUSE_SHIRLEY_TESTIMONY_REVIEW_PATH: &str =
+    "reviews/2026-07-14-house-testimony-quality-learing-center-claim-atom-role-review.md";
+const HOUSE_SHIRLEY_TESTIMONY_BYTES: u64 = 60_433;
+const HOUSE_SHIRLEY_TESTIMONY_SHA256: &str =
+    "e90266a876dcb6882593a1a63df70646270c7f9a037f6ba49d20f9e310c040c5";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_LOG_APPLIED_EXAMPLE_JSONL_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-log.applied-example.jsonl";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_STATUS_APPLIED_EXAMPLE_PATH: &str =
@@ -4089,6 +4109,48 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: EXTERNAL_ACCOUNTABILITY_CLAIM_INTAKE_JSONL_PATH,
+        role: "External accountability claim quarantine rows",
+        grain: "external claim amount atom",
+        kind: "jsonl",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: EXTERNAL_ACCOUNTABILITY_CLAIM_INTAKE_SCHEMA_PATH,
+        role: "External accountability claim intake schema",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: EXTERNAL_ACCOUNTABILITY_CLAIM_INTAKE_READER_PATH,
+        role: "External accountability claim intake internal reader",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: EXTERNAL_ACCOUNTABILITY_CLAIM_INTAKE_REVIEW_PATH,
+        role: "External accountability claim intake role review",
+        grain: "review",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: HOUSE_SHIRLEY_TESTIMONY_METADATA_PATH,
+        role: "House Shirley testimony source metadata",
+        grain: "source custody metadata",
+        kind: "markdown",
+        canonical: "source",
+    },
+    Artifact {
+        path: HOUSE_SHIRLEY_TESTIMONY_REVIEW_PATH,
+        role: "House testimony Quality Learing Center claim atom role review",
+        grain: "review",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "data/derived/accountability_evidence/performance-demand-response-log.applied-example.jsonl",
         role: "Accountability performance demand response log applied example rows",
         grain: "response log row",
@@ -4854,6 +4916,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_accountability_performance_demand_response_intake_example_jsonl(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_external_accountability_claim_intake(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -28560,6 +28627,476 @@ fn check_accountability_performance_demand_response_intake_example_jsonl(
     }
 
     println!("validated accountability performance demand response intake example JSONL");
+    Ok(())
+}
+
+fn check_external_accountability_claim_intake(root: &Path) -> Result<(), String> {
+    let rows: Vec<ExternalAccountabilityClaimIntakeRecord> =
+        read_jsonl(root.join(EXTERNAL_ACCOUNTABILITY_CLAIM_INTAKE_JSONL_PATH))?
+            .into_iter()
+            .map(|row| {
+                serde_json::from_value(row)
+                    .map_err(|err| format!("external accountability claim intake: {err}"))
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+    if rows.len() != 5 {
+        return Err(format!(
+            "external accountability claim intake must contain exactly 5 rows, found {}",
+            rows.len()
+        ));
+    }
+
+    let mut record_ids = BTreeSet::new();
+    let mut group_ids = BTreeSet::new();
+    let mut publication_source_ids = BTreeSet::new();
+    for row in &rows {
+        row.validate()?;
+        if !record_ids.insert(row.record_id.as_str()) {
+            return Err(format!(
+                "duplicate external claim record_id: {}",
+                row.record_id
+            ));
+        }
+        if !group_ids.insert(row.claim_group_id.as_str()) {
+            return Err(format!(
+                "duplicate external claim claim_group_id: {}",
+                row.claim_group_id
+            ));
+        }
+        for publication in &row.publications {
+            if !publication_source_ids.insert(publication.source_id.as_str()) {
+                return Err(format!(
+                    "external claim publication source ID reused across rows: {}",
+                    publication.source_id
+                ));
+            }
+        }
+    }
+    if record_ids.len() != 5 || group_ids.len() != 5 || publication_source_ids.len() != 12 {
+        return Err("external claim intake requires 5 unique records/groups and 12 unique publication source IDs".to_string());
+    }
+
+    struct ExpectedPublication<'a> {
+        source_id: &'a str,
+        source_url: &'a str,
+        publisher: &'a str,
+        ledger_publisher: &'a str,
+        published_date: Option<&'a str>,
+        observed_date: &'a str,
+        publication_kind: ExternalClaimPublicationKind,
+        evidence_relation: ExternalClaimEvidenceRelation,
+    }
+    struct ExpectedExternalClaim<'a> {
+        record_id: &'a str,
+        claim_group_id: &'a str,
+        claim_type: ExternalClaimType,
+        paraphrase: &'a str,
+        value: f64,
+        unit: &'a str,
+        semantic: ExternalClaimAmountSemantic,
+        derivation: ExternalClaimAmountDerivation,
+        publications: &'a [ExpectedPublication<'a>],
+    }
+    let expected = [
+        ExpectedExternalClaim {
+            record_id: "external-claim:nick-shirley:2026-07-10:nyc-care:amount:01",
+            claim_group_id: "external-claim-group:nick-shirley:2026-07-10:nyc-care",
+            claim_type: ExternalClaimType::AggregateFraudAllegation,
+            paraphrase: "Nick Shirley alleges more than $190 million in fraud involving New York City adult day care and personal home care activity.",
+            value: 190.0,
+            unit: "millions",
+            semantic: ExternalClaimAmountSemantic::AllegedFraudExposure,
+            derivation: ExternalClaimAmountDerivation::SourceStatedLowerBound,
+            publications: &[
+                ExpectedPublication {
+                    source_id: "SRC-NICK-SHIRLEY-NYC-CARE-YOUTUBE-2026-07-10",
+                    source_url: "https://www.youtube.com/watch?v=Ji3KpgOT0zM",
+                    publisher: "Nick Shirley",
+                    ledger_publisher: "Nick Shirley / YouTube",
+                    published_date: Some("2026-07-10"),
+                    observed_date: "2026-07-14",
+                    publication_kind: ExternalClaimPublicationKind::OriginalVideo,
+                    evidence_relation: ExternalClaimEvidenceRelation::ClaimOrigin,
+                },
+                ExpectedPublication {
+                    source_id: "SRC-MEDIAITE-NYC-CARE-COVERAGE-2026-07",
+                    source_url: "https://www.mediaite.com/online/major-red-flags-dr-oz-joins-maga-influencer-nick-shirley-to-confront-alleged-fraudsters/",
+                    publisher: "Mediaite",
+                    ledger_publisher: "Mediaite",
+                    published_date: None,
+                    observed_date: "2026-07-14",
+                    publication_kind: ExternalClaimPublicationKind::Article,
+                    evidence_relation: ExternalClaimEvidenceRelation::SuppliesContext,
+                },
+                ExpectedPublication {
+                    source_id: "SRC-DOJ-NYC-ADULT-DAY-CARE-PLEAS-2026-01-15",
+                    source_url: "https://www.justice.gov/opa/pr/two-individuals-plead-guilty-68m-adult-day-care-fraud-scheme",
+                    publisher: "U.S. Department of Justice",
+                    ledger_publisher: "U.S. Department of Justice",
+                    published_date: Some("2026-01-15"),
+                    observed_date: "2026-07-14",
+                    publication_kind: ExternalClaimPublicationKind::AgencyRelease,
+                    evidence_relation: ExternalClaimEvidenceRelation::SuppliesContext,
+                },
+            ],
+        },
+        ExpectedExternalClaim {
+            record_id: "external-claim:nick-shirley:2026-06-28:national-savings:amount:01",
+            claim_group_id: "external-claim-group:nick-shirley:2026-06-28:national-savings",
+            claim_type: ExternalClaimType::SavingsAssertion,
+            paraphrase: "Nick Shirley claims that his reporting saved the United States more than $250 billion.",
+            value: 250.0,
+            unit: "billions",
+            semantic: ExternalClaimAmountSemantic::SourceStatedSavingsTotal,
+            derivation: ExternalClaimAmountDerivation::SourceStatedLowerBound,
+            publications: &[
+                ExpectedPublication {
+                    source_id: "SRC-NICK-SHIRLEY-NATIONAL-SAVINGS-X-2026-06-28",
+                    source_url: "https://x.com/nickshirleyy/status/2071317393058455930",
+                    publisher: "Nick Shirley",
+                    ledger_publisher: "Nick Shirley / X",
+                    published_date: Some("2026-06-28"),
+                    observed_date: "2026-07-14",
+                    publication_kind: ExternalClaimPublicationKind::SocialPost,
+                    evidence_relation: ExternalClaimEvidenceRelation::ClaimOrigin,
+                },
+                ExpectedPublication {
+                    source_id: "SRC-DOJ-NATIONAL-HEALTH-CARE-FRAUD-TAKEDOWN-2026-06-23",
+                    source_url: "https://www.justice.gov/opa/pr/national-health-care-fraud-takedown-results-455-defendants-charged-connection-over-65",
+                    publisher: "U.S. Department of Justice",
+                    ledger_publisher: "U.S. Department of Justice",
+                    published_date: Some("2026-06-23"),
+                    observed_date: "2026-07-14",
+                    publication_kind: ExternalClaimPublicationKind::AgencyRelease,
+                    evidence_relation: ExternalClaimEvidenceRelation::SuppliesContext,
+                },
+            ],
+        },
+        ExpectedExternalClaim {
+            record_id: "external-claim:nick-shirley:2025-12-26:minnesota:amount:01",
+            claim_group_id: "external-claim-group:nick-shirley:2025-12-26:minnesota",
+            claim_type: ExternalClaimType::AggregateFraudAllegation,
+            paraphrase: "Nick Shirley alleges that more than $110 million in fraud was uncovered in Minnesota in one day.",
+            value: 110.0,
+            unit: "millions",
+            semantic: ExternalClaimAmountSemantic::AllegedFraudExposure,
+            derivation: ExternalClaimAmountDerivation::SourceStatedLowerBound,
+            publications: &[
+                ExpectedPublication {
+                    source_id: "SRC-NICK-SHIRLEY-MINNESOTA-X-2025-12-26",
+                    source_url: "https://x.com/nickshirleyy/status/2004642794862961123",
+                    publisher: "Nick Shirley",
+                    ledger_publisher: "Nick Shirley / X",
+                    published_date: Some("2025-12-26"),
+                    observed_date: "2026-07-14",
+                    publication_kind: ExternalClaimPublicationKind::SocialPost,
+                    evidence_relation: ExternalClaimEvidenceRelation::ClaimOrigin,
+                },
+                ExpectedPublication {
+                    source_id: "SRC-HHS-OIG-MINNESOTA-CCAP-ATTENDANCE-2025",
+                    source_url: "https://oig.hhs.gov/reports/all/2025/minnesota-could-better-ensure-that-childcare-assistance-providers-comply-with-attendance-requirements/",
+                    publisher: "U.S. Department of Health and Human Services, Office of Inspector General",
+                    ledger_publisher: "U.S. Department of Health and Human Services, Office of Inspector General",
+                    published_date: Some("2025"),
+                    observed_date: "2026-07-14",
+                    publication_kind: ExternalClaimPublicationKind::AuditReport,
+                    evidence_relation: ExternalClaimEvidenceRelation::SuppliesContext,
+                },
+                ExpectedPublication {
+                    source_id: "SRC-DOJ-MINNESOTA-HEALTH-CARE-FRAUD-CASE-SUMMARIES-2026",
+                    source_url: "https://www.justice.gov/criminal/criminal-fraud/health-care-fraud-unit/2026-minnesota-hcf-case-summaries",
+                    publisher: "U.S. Department of Justice",
+                    ledger_publisher: "U.S. Department of Justice",
+                    published_date: Some("2026"),
+                    observed_date: "2026-07-14",
+                    publication_kind: ExternalClaimPublicationKind::AgencyRelease,
+                    evidence_relation: ExternalClaimEvidenceRelation::SuppliesContext,
+                },
+            ],
+        },
+        ExpectedExternalClaim {
+            record_id: "external-claim:nick-shirley:2026-03:california-care:amount:01",
+            claim_group_id: "external-claim-group:nick-shirley:2026-03:california-care",
+            claim_type: ExternalClaimType::AggregateFraudAllegation,
+            paraphrase: "Nick Shirley alleges more than $170 million in fraud involving California daycare and hospice activity.",
+            value: 170.0,
+            unit: "millions",
+            semantic: ExternalClaimAmountSemantic::AllegedFraudExposure,
+            derivation: ExternalClaimAmountDerivation::SourceStatedLowerBound,
+            publications: &[
+                ExpectedPublication {
+                    source_id: "SRC-FOXLA-SHIRLEY-CALIFORNIA-CARE-2026-03",
+                    source_url: "https://www.foxla.com/news/nick-shirley-california-daycare-fraud-dr-oz-hospice",
+                    publisher: "FOX 11 Los Angeles",
+                    ledger_publisher: "FOX 11 Los Angeles",
+                    published_date: None,
+                    observed_date: "2026-07-14",
+                    publication_kind: ExternalClaimPublicationKind::Article,
+                    evidence_relation: ExternalClaimEvidenceRelation::ClaimOrigin,
+                },
+                ExpectedPublication {
+                    source_id: "SRC-CDPH-CALIFORNIA-HOSPICE-LOCATION-REVIEW-2026-04",
+                    source_url: "https://www.cdph.ca.gov/Programs/OPA/Pages/NR26-014.aspx",
+                    publisher: "California Department of Public Health",
+                    ledger_publisher: "California Department of Public Health",
+                    published_date: Some("2026-04"),
+                    observed_date: "2026-07-14",
+                    publication_kind: ExternalClaimPublicationKind::AgencyRelease,
+                    evidence_relation: ExternalClaimEvidenceRelation::SuppliesContext,
+                },
+                ExpectedPublication {
+                    source_id: "SRC-CA-DOJ-HEALTH-CARE-FRAUD-CHARGES-267M-2026",
+                    source_url: "https://oag.ca.gov/node/621529",
+                    publisher: "California Department of Justice",
+                    ledger_publisher: "California Department of Justice",
+                    published_date: Some("2026"),
+                    observed_date: "2026-07-14",
+                    publication_kind: ExternalClaimPublicationKind::AgencyRelease,
+                    evidence_relation: ExternalClaimEvidenceRelation::SuppliesContext,
+                },
+            ],
+        },
+        ExpectedExternalClaim {
+            record_id: "external-claim:nick-shirley:2026:house-testimony-quality-learing-center:amount:01",
+            claim_group_id: "external-claim-group:nick-shirley:2026:house-testimony-quality-learing-center",
+            claim_type: ExternalClaimType::PaymentOrBilling,
+            paraphrase: "In House-hosted written testimony, Nick Shirley claims that downtown Minneapolis's Quality Learing Center received $1.9 million in Child Care Assistance Program funding.",
+            value: 1.9,
+            unit: "millions",
+            semantic: ExternalClaimAmountSemantic::PaidAmount,
+            derivation: ExternalClaimAmountDerivation::SourceStatedExact,
+            publications: &[ExpectedPublication {
+                source_id: "SRC-HOUSE-JUDICIARY-SHIRLEY-TESTIMONY-2026",
+                source_url: "https://judiciary.house.gov/sites/evo-subsites/republicans-judiciary.house.gov/files/evo-media-document/shirley-testimony.pdf",
+                publisher: "U.S. House Committee on the Judiciary",
+                ledger_publisher: "U.S. House Committee on the Judiciary",
+                published_date: None,
+                observed_date: "2026-07-14",
+                publication_kind: ExternalClaimPublicationKind::WrittenTestimony,
+                evidence_relation: ExternalClaimEvidenceRelation::ClaimOrigin,
+            }],
+        },
+    ];
+
+    let source_ledger = fs::read_to_string(root.join("docs/sources/source-version-ledger.md"))
+        .map_err(|err| format!("failed to read source version ledger: {err}"))?;
+    for expected_row in expected {
+        let row = rows
+            .iter()
+            .find(|row| row.record_id == expected_row.record_id)
+            .ok_or_else(|| {
+                format!(
+                    "missing expected external claim row: {}",
+                    expected_row.record_id
+                )
+            })?;
+        if row.claim_group_id != expected_row.claim_group_id
+            || row.claim_atom.claim_type != expected_row.claim_type
+            || row.claim_atom.neutral_paraphrase != expected_row.paraphrase
+            || row.amount_assertion.value != expected_row.value
+            || row.amount_assertion.unit != expected_row.unit
+            || row.amount_assertion.amount_semantic != expected_row.semantic
+            || row.amount_assertion.derivation != expected_row.derivation
+            || row.publications.len() != expected_row.publications.len()
+        {
+            return Err(format!(
+                "external claim expected configuration mismatch: {}",
+                expected_row.record_id
+            ));
+        }
+        for (publication, expected_publication) in
+            row.publications.iter().zip(expected_row.publications)
+        {
+            if publication.source_id != expected_publication.source_id
+                || publication.source_url != expected_publication.source_url
+                || publication.publisher != expected_publication.publisher
+                || publication.published_date.as_deref() != expected_publication.published_date
+                || publication.observed_date != expected_publication.observed_date
+                || publication.publication_kind != expected_publication.publication_kind
+                || publication.evidence_relation != expected_publication.evidence_relation
+            {
+                return Err(format!(
+                    "external claim publication configuration mismatch: {} / {}",
+                    expected_row.record_id, expected_publication.source_id
+                ));
+            }
+            let ledger_marker = format!("| `{}` |", expected_publication.source_id);
+            let ledger_line = source_ledger
+                .lines()
+                .find(|line| line.starts_with(&ledger_marker));
+            let ledger_cells =
+                ledger_line.map(|line| line.split('|').map(str::trim).collect::<Vec<_>>());
+            let ledger_identity_matches = ledger_cells.as_ref().is_some_and(|cells| {
+                cells.get(2) == Some(&expected_publication.ledger_publisher)
+                    && cells.get(3).map(|cell| cell.as_ref())
+                        == Some(format!("<{}>", expected_publication.source_url).as_str())
+                    && cells.get(4).is_some_and(|observed| {
+                        *observed == expected_publication.observed_date
+                            || observed
+                                .starts_with(&format!("{};", expected_publication.observed_date))
+                    })
+            });
+            if !ledger_identity_matches {
+                return Err(format!(
+                    "external claim source-ledger identity mismatch: {}",
+                    expected_publication.source_id
+                ));
+            }
+        }
+    }
+
+    let house_record = rows
+        .iter()
+        .find(|row| {
+            row.record_id
+                == "external-claim:nick-shirley:2026:house-testimony-quality-learing-center:amount:01"
+        })
+        .ok_or("missing custody-backed House testimony claim atom")?;
+    let house_publication = house_record
+        .publications
+        .first()
+        .ok_or("House testimony claim atom has no publication")?;
+    if house_record.claim_status != ExternalClaimStatus::AttributedClaimSupported
+        || house_record.review_status != ExternalClaimReviewStatus::SourceReviewed
+        || !house_record.claim_atom.exact_text_verified
+        || house_record.official_response.respondent.as_deref() != Some("Quality Learing Center")
+        || house_publication.custody_status != ExternalClaimCustodyStatus::OfficialCopyCaptured
+        || house_publication.custody_path.as_deref() != Some(HOUSE_SHIRLEY_TESTIMONY_RAW_PATH)
+        || house_publication.sha256.as_deref() != Some(HOUSE_SHIRLEY_TESTIMONY_SHA256)
+        || house_record.claim_atom.object != "Child Care Assistance Program funding"
+        || house_record.claim_atom.coverage_period != "source_defined_undetermined"
+        || house_record.amount_assertion.period != "source_defined_undetermined"
+        || house_record.amount_assertion.overlap_group
+            != "house-testimony-quality-learing-center-ccap-undetermined"
+        || house_record.comparison_basis
+            != "Checksum-verified House-hosted testimony supports only that Shirley made the attributed CCAP payment assertion. The testimony does not state a period for this amount. No period-specific CCAP payment record, HHS or Minnesota agency record, recipient response, program-universe reconciliation, or overlap mapping is attached."
+    {
+        return Err("House testimony claim atom custody/status configuration mismatch".to_string());
+    }
+
+    let house_raw_path = root.join(HOUSE_SHIRLEY_TESTIMONY_RAW_PATH);
+    let house_raw_bytes = fs::metadata(&house_raw_path)
+        .map_err(|err| format!("failed to inspect {HOUSE_SHIRLEY_TESTIMONY_RAW_PATH}: {err}"))?
+        .len();
+    let house_raw_sha256 = sha256_file(&house_raw_path)?;
+    if house_raw_bytes != HOUSE_SHIRLEY_TESTIMONY_BYTES
+        || house_raw_sha256 != HOUSE_SHIRLEY_TESTIMONY_SHA256
+    {
+        return Err("House testimony raw PDF bytes or SHA-256 mismatch".to_string());
+    }
+    let house_metadata = fs::read_to_string(root.join(HOUSE_SHIRLEY_TESTIMONY_METADATA_PATH))
+        .map_err(|err| format!("failed to read {HOUSE_SHIRLEY_TESTIMONY_METADATA_PATH}: {err}"))?;
+    for required in [
+        "`SRC-HOUSE-JUDICIARY-SHIRLEY-TESTIMONY-2026`",
+        "U.S. House Committee on the Judiciary",
+        HOUSE_SHIRLEY_TESTIMONY_RAW_PATH,
+        "`60433`",
+        "`E90266A876DCB6882593A1A63DF70646270C7F9A037F6BA49D20F9E310C040C5`",
+        "1 PDF file page.",
+        "`secret_scan`",
+        "No credential, token, private-key, password, or authorization-header patterns found",
+        "All locations below are PDF file page 1.",
+        "does not support the separate more-than-$110-million",
+    ] {
+        if !house_metadata.contains(required) {
+            return Err(format!(
+                "House testimony metadata missing custody token: {required}"
+            ));
+        }
+    }
+    let house_ledger_row = source_ledger
+        .lines()
+        .find(|line| line.starts_with("| `SRC-HOUSE-JUDICIARY-SHIRLEY-TESTIMONY-2026` |"))
+        .ok_or("House testimony source ledger row missing")?;
+    for required in [
+        "official PDF captured and checksum-verified",
+        "60,433 bytes",
+        "E90266A876DCB6882593A1A63DF70646270C7F9A037F6BA49D20F9E310C040C5",
+        "Use PDF page 1 only",
+        "do not establish truth",
+    ] {
+        if !house_ledger_row.contains(required) {
+            return Err(format!(
+                "House testimony source ledger row missing custody token: {required}"
+            ));
+        }
+    }
+
+    for (path, required_tokens) in [
+        (
+            "data/derived/accountability_evidence/README.md",
+            vec![
+                "external-accountability-claim-intake.v1.draft.jsonl",
+                "external-accountability-claim-intake.schema.md",
+                "external-accountability-claim-intake.md",
+            ],
+        ),
+        (
+            "context/waves/2026-07-12-breadth-depth-benchmark-matrix/WAVE.md",
+            vec!["pulse-53-external-accountability-claim-intake.md"],
+        ),
+        (
+            "context/waves/2026-07-12-breadth-depth-benchmark-matrix/pulses/pulse-53-external-accountability-claim-intake.md",
+            vec!["WP-TAX-071", "EVID-TAX-071", "VAL-TAX-071"],
+        ),
+        (
+            "context/waves/2026-07-12-breadth-depth-benchmark-matrix/pulses/pulse-54-house-testimony-quality-learing-center-claim-atom.md",
+            vec!["$1.9 million", "WP-TAX-072", "EVID-TAX-072", "VAL-TAX-072"],
+        ),
+        ("docs/vtrace/WORK_PACKAGES.md", vec!["WP-TAX-071"]),
+        ("docs/vtrace/TRACE.md", vec!["WP-TAX-071", "EVID-TAX-071"]),
+        ("docs/vtrace/VERIFICATION.md", vec!["EVID-TAX-071"]),
+        (
+            "docs/vtrace/VALIDATION.md",
+            vec!["VAL-TAX-071", "EVID-TAX-071"],
+        ),
+        ("docs/vtrace/EVIDENCE.md", vec!["EVID-TAX-071"]),
+        ("docs/vtrace/WORK_PACKAGES.md", vec!["WP-TAX-072"]),
+        ("docs/vtrace/TRACE.md", vec!["WP-TAX-072", "EVID-TAX-072"]),
+        ("docs/vtrace/VERIFICATION.md", vec!["EVID-TAX-072"]),
+        (
+            "docs/vtrace/VALIDATION.md",
+            vec!["VAL-TAX-072", "EVID-TAX-072"],
+        ),
+        ("docs/vtrace/EVIDENCE.md", vec!["EVID-TAX-072"]),
+        (
+            "context/waves/2026-07-12-breadth-depth-benchmark-matrix/WAVE.md",
+            vec!["pulse-54-house-testimony-quality-learing-center-claim-atom.md"],
+        ),
+        (
+            HOUSE_SHIRLEY_TESTIMONY_REVIEW_PATH,
+            vec!["$1.9 million", "All twelve claim gates remain false"],
+        ),
+    ] {
+        let text = fs::read_to_string(root.join(path))
+            .map_err(|err| format!("failed to read {path}: {err}"))?;
+        for required in required_tokens {
+            if !text.contains(required) {
+                return Err(format!(
+                    "external claim integration {path} missing {required}"
+                ));
+            }
+        }
+    }
+
+    let internal_intake_filenames = [
+        "external-accountability-claim-intake.v1.draft.jsonl",
+        "external-accountability-claim-intake.schema.md",
+        "external-accountability-claim-intake.md",
+    ];
+    for path in ["README.md", "docs/reading/README.md"] {
+        let text = fs::read_to_string(root.join(path))
+            .map_err(|err| format!("failed to read {path}: {err}"))?;
+        for filename in internal_intake_filenames {
+            if text.contains(filename) {
+                return Err(format!(
+                    "internal external claim intake must not be routed from {path}: {filename}"
+                ));
+            }
+        }
+    }
+
+    println!("validated external accountability claim intake");
     Ok(())
 }
 
