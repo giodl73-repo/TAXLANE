@@ -113,6 +113,13 @@ they are not additive package scores or recommendations.
 likely burden bearers and protection gates without inventing quantified
 incidence. A joint microsimulation remains required before package claims.
 
+`health_fiscal_scenario_path.v1.draft.json` creates the current-law health
+fiscal path for FY2025-FY2036. It keeps Medicare HI, Medicare SMI/other
+Medicare, and non-Medicare health general-fund components separate. OMB Table
+3.2 supports non-Medicare health through FY2031 and combined Medicare context
+through FY2031, but combined Medicare is not used as a Medicare HI or SMI
+component. FY2032-FY2036 and the fiscal-year HI/SMI split remain null.
+
 `payment_integrity_depth_card.fy2024.v1.draft.json` reconciles the official
 FY2024 annual workbook's improper, unknown, overpayment, underpayment, and
 technically-improper totals while keeping court-confirmed-fraud and agency-

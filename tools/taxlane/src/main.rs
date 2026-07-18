@@ -742,6 +742,19 @@ const INTERNATIONAL_COMPARATOR_TARGET_RUBRIC_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/international_comparator_target_rubric.v1.draft.json";
 const PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json";
+const HEALTH_FISCAL_SCENARIO_PATH_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/health_fiscal_scenario_path.v1.draft.json";
+const HEALTH_FISCAL_SCENARIO_PATH_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/health_fiscal_scenario_path.schema.md";
+const HEALTH_FISCAL_SCENARIO_PATH_READER_PATH: &str = "docs/reading/health-fiscal-scenario-path.md";
+const OMB_HIST_3_2_RAW_PATH: &str =
+    "data/raw/omb/SRC-OMB-HIST-3-2-FY2027/2026-06-21/hist03z2_fy2027.xlsx";
+const OMB_HIST_3_2_RAW_SHA256: &str =
+    "78100F3EFB1A6B08D675B24AF173A57359E47DCE103A2F1499D905A4BBBA06CE";
+const OMB_HIST_2_4_RAW_PATH: &str =
+    "data/raw/omb/SRC-OMB-HIST-2-4-FY2027/2026-06-21/hist02z4_fy2027.xlsx";
+const OMB_HIST_2_4_RAW_SHA256: &str =
+    "21D071576D5627A18C3F62DE86BFC7FAECED1A68265F2DB87B4F737B2773C5BD";
 const OECD_COFOG_PANEL_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/oecd_cofog_country_panel.data2022.v1.draft.json";
 const OECD_COFOG_PANEL_SCHEMA_PATH: &str =
@@ -10536,6 +10549,256 @@ fn validate_program_lane_target_cost_contract(root: &Path) -> Result<(), String>
     Ok(())
 }
 
+fn validate_health_fiscal_scenario_path(root: &Path) -> Result<(), String> {
+    for (path, checksum) in [
+        (OMB_HIST_3_2_RAW_PATH, OMB_HIST_3_2_RAW_SHA256),
+        (OMB_HIST_2_4_RAW_PATH, OMB_HIST_2_4_RAW_SHA256),
+    ] {
+        let raw = root.join(path);
+        if !raw.exists() || !sha256_file(&raw)?.eq_ignore_ascii_case(checksum) {
+            return Err(format!("health fiscal scenario raw custody failed: {path}"));
+        }
+    }
+    for path in [
+        HEALTH_FISCAL_SCENARIO_PATH_SCHEMA_PATH,
+        HEALTH_FISCAL_SCENARIO_PATH_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("health fiscal scenario missing {path}"));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(HEALTH_FISCAL_SCENARIO_PATH_JSON_PATH))
+        .map_err(|err| format!("failed to read {HEALTH_FISCAL_SCENARIO_PATH_JSON_PATH}: {err}"))?;
+    let record: serde_json::Value = serde_json::from_str(&text)
+        .map_err(|err| format!("failed to parse {HEALTH_FISCAL_SCENARIO_PATH_JSON_PATH}: {err}"))?;
+
+    if string_field(&record, "record_family")? != "health_fiscal_scenario_path"
+        || string_field(&record, "schema_version")? != "v1.draft"
+        || string_field(&record, "scenario")? != "current_law"
+        || string_field(&record, "status")? != "draft_current_law_partial_path_solver_ineligible"
+        || string_field(&record, "units")? != "millions_current_usd"
+    {
+        return Err("health fiscal scenario identity or status failed".to_string());
+    }
+
+    let expected_years: Vec<i64> = (2025..=2036).collect();
+    let years = record
+        .get("fiscal_years")
+        .and_then(|value| value.as_array())
+        .ok_or("health fiscal scenario needs fiscal_years")?
+        .iter()
+        .map(|value| value.as_i64().ok_or("fiscal year must be integer"))
+        .collect::<Result<Vec<_>, _>>()?;
+    if years != expected_years {
+        return Err("health fiscal scenario must cover FY2025-FY2036".to_string());
+    }
+
+    let expected_components = BTreeSet::from([
+        "medicare_hi".to_string(),
+        "medicare_smi_and_other_medicare".to_string(),
+        "non_medicare_health_general_fund".to_string(),
+    ]);
+    let components = record
+        .get("components")
+        .and_then(|value| value.as_array())
+        .ok_or("health fiscal scenario needs components")?
+        .iter()
+        .map(|value| {
+            value
+                .as_str()
+                .map(str::to_string)
+                .ok_or("component must be string")
+        })
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if components != expected_components {
+        return Err("health fiscal scenario exact component split failed".to_string());
+    }
+
+    let source_custody = record
+        .get("source_custody")
+        .and_then(|value| value.as_array())
+        .ok_or("health fiscal scenario needs source_custody")?;
+    if source_custody.len() != 2 {
+        return Err("health fiscal scenario source custody count failed".to_string());
+    }
+    for source in source_custody {
+        let source_id = string_field(source, "source_id")?;
+        match source_id.as_str() {
+            "SRC-OMB-HIST-3-2-FY2027" => {
+                if number_field(source, "byte_count")? != 60343.0
+                    || !string_field(source, "sha256")?
+                        .eq_ignore_ascii_case(OMB_HIST_3_2_RAW_SHA256)
+                    || string_field(source, "status")? != "captured"
+                {
+                    return Err("health fiscal OMB 3.2 custody failed".to_string());
+                }
+            }
+            "SRC-OMB-HIST-2-4-FY2027" => {
+                if number_field(source, "byte_count")? != 26752.0
+                    || !string_field(source, "sha256")?
+                        .eq_ignore_ascii_case(OMB_HIST_2_4_RAW_SHA256)
+                    || string_field(source, "status")? != "captured"
+                {
+                    return Err("health fiscal OMB 2.4 custody failed".to_string());
+                }
+            }
+            _ => return Err(format!("unexpected health fiscal source {source_id}")),
+        }
+    }
+
+    let boundary = record
+        .get("source_boundary")
+        .ok_or("health fiscal scenario needs source_boundary")?;
+    if string_field(boundary, "external_request_status")? != "none_submitted"
+        || string_field(boundary, "interpolation_status")? != "none"
+        || !string_field(boundary, "medicare_split_rule")?.contains("Do not use combined Medicare")
+    {
+        return Err("health fiscal scenario source boundary failed".to_string());
+    }
+
+    let fixtures = record
+        .get("fy2025_fixtures")
+        .ok_or("health fiscal scenario needs fy2025_fixtures")?;
+    if number_field(fixtures, "medicare_total_musd")? != 996718.0
+        || number_field(fixtures, "non_medicare_health_musd")? != 978511.0
+        || number_field(fixtures, "combined_health_medicare_musd")? != 1975229.0
+    {
+        return Err("health fiscal FY2025 topline fixtures failed".to_string());
+    }
+    let financing = fixtures
+        .get("medicare_financing_reconciliation_musd")
+        .ok_or("health fiscal scenario needs Medicare financing fixture")?;
+    if number_field(financing, "payroll")? != 395350.0
+        || number_field(financing, "excise")? != 3434.0
+        || number_field(financing, "general_requirement")? != 597934.0
+        || number_field(financing, "total")? != 996718.0
+    {
+        return Err("health fiscal Medicare financing fixture failed".to_string());
+    }
+
+    let records = record
+        .get("component_year_records")
+        .and_then(|value| value.as_array())
+        .ok_or("health fiscal scenario needs component_year_records")?;
+    if records.len() != 36 {
+        return Err(format!(
+            "health fiscal scenario needs 36 component-year records, got {}",
+            records.len()
+        ));
+    }
+
+    let expected_health = BTreeMap::from([
+        (2025, 978511.0),
+        (2026, 1047526.0),
+        (2027, 1032118.0),
+        (2028, 1036983.0),
+        (2029, 1077961.0),
+        (2030, 1112624.0),
+        (2031, 1143249.0),
+    ]);
+    let expected_combined_medicare = BTreeMap::from([
+        (2025, 996718.0),
+        (2026, 1070248.0),
+        (2027, 1200809.0),
+        (2028, 1350466.0),
+        (2029, 1316240.0),
+        (2030, 1473374.0),
+        (2031, 1573538.0),
+    ]);
+    let mut seen = BTreeSet::new();
+    for row in records {
+        let year = int_field(row, "fiscal_year")?;
+        let component = string_field(row, "component")?;
+        if !seen.insert((year, component.clone())) {
+            return Err(format!("duplicate health fiscal row {year}/{component}"));
+        }
+        if !expected_components.contains(&component) || !(2025..=2036).contains(&year) {
+            return Err(format!("unexpected health fiscal row {year}/{component}"));
+        }
+        if number_field(row, "delta_from_current_law_musd")? != 0.0 {
+            return Err("health fiscal current-law deltas must be zero".to_string());
+        }
+        if !row
+            .get("reserve_contribution_musd")
+            .is_some_and(serde_json::Value::is_null)
+        {
+            return Err("health fiscal reserve contributions must remain null".to_string());
+        }
+
+        if component == "non_medicare_health_general_fund" {
+            if let Some(expected) = expected_health.get(&(year as i32)) {
+                if number_field(row, "gross_program_outlays_musd")? != *expected
+                    || number_field(row, "unrounded_value_musd")? != *expected
+                    || string_field(row, "score_source_id")? != "SRC-OMB-HIST-3-2-FY2027"
+                {
+                    return Err(format!("non-Medicare health value failed for FY{year}"));
+                }
+            } else if !row
+                .get("gross_program_outlays_musd")
+                .is_some_and(serde_json::Value::is_null)
+                || string_field(row, "missing_reason")? != "no_local_official_annual_source"
+            {
+                return Err(format!("non-Medicare health FY{year} must remain null"));
+            }
+        } else {
+            if !row
+                .get("gross_program_outlays_musd")
+                .is_some_and(serde_json::Value::is_null)
+            {
+                return Err(
+                    "Medicare HI/SMI split cannot be populated from combined Medicare".to_string(),
+                );
+            }
+            if let Some(expected) = expected_combined_medicare.get(&(year as i32)) {
+                if number_field(row, "combined_medicare_omb_context_musd")? != *expected
+                    || string_field(row, "missing_reason")?
+                        != "official_fiscal_year_hi_smi_split_not_locally_captured"
+                {
+                    return Err(format!("combined Medicare context failed for FY{year}"));
+                }
+            } else if !row
+                .get("combined_medicare_omb_context_musd")
+                .is_some_and(serde_json::Value::is_null)
+                || string_field(row, "missing_reason")? != "no_local_official_annual_source"
+            {
+                return Err(format!("Medicare FY{year} context must remain null"));
+            }
+        }
+    }
+    if seen.len() != 36 {
+        return Err("health fiscal scenario unique row count failed".to_string());
+    }
+
+    let readiness = record
+        .get("readiness")
+        .ok_or("health fiscal scenario needs readiness")?;
+    for field in [
+        "official_annual_source_complete_through_2036",
+        "medicare_hi_fiscal_split_available",
+        "medicare_smi_fiscal_split_available",
+        "central_reform_solver_eligible",
+        "stress_solver_eligible",
+    ] {
+        if readiness.get(field).and_then(|value| value.as_bool()) != Some(false) {
+            return Err(format!("health fiscal readiness {field} must remain false"));
+        }
+    }
+
+    let reader =
+        fs::read_to_string(root.join(HEALTH_FISCAL_SCENARIO_PATH_READER_PATH)).map_err(|err| {
+            format!("failed to read {HEALTH_FISCAL_SCENARIO_PATH_READER_PATH}: {err}")
+        })?;
+    if !reader.contains(HEALTH_FISCAL_SCENARIO_PATH_JSON_PATH)
+        || !reader.contains("No interpolation is used")
+        || !reader.contains("not used as either a Medicare HI or SMI component")
+    {
+        return Err("health fiscal scenario reader boundary failed".to_string());
+    }
+
+    Ok(())
+}
+
 fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String> {
     let text = fs::read_to_string(root.join(GLOBAL_COUNTRY_COMPARISON_JSON_PATH))
         .map_err(|err| format!("failed to read {GLOBAL_COUNTRY_COMPARISON_JSON_PATH}: {err}"))?;
@@ -10800,6 +11063,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_age_relative_poverty_country_panel(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
+    validate_health_fiscal_scenario_path(root)?;
 
     println!("validated {} global country comparison lanes", lanes.len());
     Ok(())
@@ -12222,6 +12486,12 @@ mod global_country_comparison_tests {
     fn program_lane_target_cost_contract_preserves_mapping_and_claim_boundaries() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_program_lane_target_cost_contract(&root).unwrap();
+    }
+
+    #[test]
+    fn health_fiscal_scenario_path_preserves_current_law_split_and_nulls() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_health_fiscal_scenario_path(&root).unwrap();
     }
 }
 
