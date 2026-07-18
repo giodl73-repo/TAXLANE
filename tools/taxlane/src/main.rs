@@ -399,6 +399,12 @@ const TRANSPORTATION_PILOT_TRUST_FUND_ACCOUNTING_BOUNDARY_JSON_PATH: &str = "dat
 const TRANSPORTATION_PILOT_TRUST_FUND_ACCOUNTING_BOUNDARY_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/transportation_pilot_trust_fund_accounting_boundary.schema.md";
 const TRANSPORTATION_PILOT_TRUST_FUND_ACCOUNTING_BOUNDARY_READER_PATH: &str =
     "docs/reading/transportation-pilot-trust-fund-accounting-boundary.md";
+const FUND_GROUP_FY2025_RECONCILIATION_FIXTURE_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/fund_group_fy2025_reconciliation_fixture.v1.draft.json";
+const FUND_GROUP_FY2025_RECONCILIATION_FIXTURE_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/fund_group_fy2025_reconciliation_fixture.schema.md";
+const FUND_GROUP_FY2025_RECONCILIATION_FIXTURE_READER_PATH: &str =
+    "docs/reading/fund-group-fy2025-reconciliation-fixture.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10919,6 +10925,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_transportation_pilot_partial_federal_outlay_path(root)?;
     validate_transportation_pilot_trust_fund_source_custody(root)?;
     validate_transportation_pilot_trust_fund_accounting_boundary(root)?;
+    validate_fund_group_fy2025_reconciliation_fixture(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -17521,6 +17528,229 @@ fn validate_transportation_pilot_trust_fund_accounting_boundary(root: &Path) -> 
     Ok(())
 }
 
+fn validate_fund_group_fy2025_reconciliation_fixture(root: &Path) -> Result<(), String> {
+    for path in [
+        FUND_GROUP_FY2025_RECONCILIATION_FIXTURE_JSON_PATH,
+        FUND_GROUP_FY2025_RECONCILIATION_FIXTURE_SCHEMA_PATH,
+        FUND_GROUP_FY2025_RECONCILIATION_FIXTURE_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing fund-group fixture artifact: {path}"));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(FUND_GROUP_FY2025_RECONCILIATION_FIXTURE_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let fixture: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&fixture, "record_id")? != "fund-group-fy2025-reconciliation-fixture:v1"
+        || string_field(&fixture, "record_family")? != "fund_group_fy2025_reconciliation_fixture"
+        || int_field(&fixture, "pulse")? != 99
+        || string_field(&fixture, "program_lane_target_cost_contract_path")?
+            != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(
+            &fixture,
+            "transportation_trust_fund_accounting_boundary_path",
+        )? != TRANSPORTATION_PILOT_TRUST_FUND_ACCOUNTING_BOUNDARY_JSON_PATH
+        || string_field(&fixture, "unit")? != "tenths_of_billions_usd_as_published_in_source_tables"
+    {
+        return Err("fund-group fixture identity failed".to_string());
+    }
+
+    let source = fixture.get("source_custody").ok_or("fund-group source")?;
+    if string_field(source, "source_id")? != "SRC-OMB-AP-13-FUNDS-FY2027"
+        || string_field(source, "publisher")? != "Office of Management and Budget"
+        || string_field(source, "retrieval_date")? != "2026-06-21"
+        || int_field(source, "raw_byte_count")? != 296958
+        || string_field(source, "raw_sha256")?
+            != "6a332e8291db7f8e6a4252c79e444c782f5cf2d369cae4b738fe63b7dc0d4437"
+        || source
+            .get("new_external_request_submitted")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("fund-group fixture source fields failed".to_string());
+    }
+    let raw_path = root.join(string_field(source, "local_raw_path")?);
+    let bytes = fs::read(&raw_path).map_err(|e| e.to_string())?;
+    if bytes.len() as i64 != int_field(source, "raw_byte_count")? {
+        return Err("fund-group fixture raw byte count mismatch".to_string());
+    }
+    let mut hasher = Sha256::new();
+    hasher.update(&bytes);
+    if format!("{:x}", hasher.finalize()) != string_field(source, "raw_sha256")? {
+        return Err("fund-group fixture raw SHA mismatch".to_string());
+    }
+
+    let tables = fixture
+        .get("source_tables")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("fund-group source tables")?;
+    if tables.len() != 2 {
+        return Err("fund-group fixture must contain two source tables".to_string());
+    }
+    let table_13_1 = tables
+        .iter()
+        .find(|row| string_field(row, "table_id").is_ok_and(|id| id == "13-1"))
+        .ok_or("fund-group table 13-1")?;
+    let receipts_sum = int_field(table_13_1, "federal_funds_unified_receipts_tenths_billion")?
+        + int_field(table_13_1, "trust_funds_unified_receipts_tenths_billion")?;
+    if receipts_sum != int_field(table_13_1, "computed_unified_receipts_tenths_billion")?
+        || receipts_sum
+            != int_field(
+                table_13_1,
+                "published_total_unified_receipts_tenths_billion",
+            )?
+        || int_field(table_13_1, "receipts_rounding_residual_tenths_billion")? != 0
+    {
+        return Err("fund-group receipts reconciliation failed".to_string());
+    }
+    let outlay_sum = int_field(table_13_1, "federal_funds_unified_outlays_tenths_billion")?
+        + int_field(table_13_1, "trust_funds_unified_outlays_tenths_billion")?;
+    let published_outlays =
+        int_field(table_13_1, "published_total_unified_outlays_tenths_billion")?;
+    let outlay_residual = int_field(table_13_1, "outlays_rounding_residual_tenths_billion")?;
+    if outlay_sum != int_field(table_13_1, "computed_unified_outlays_tenths_billion")?
+        || outlay_sum + outlay_residual != published_outlays
+        || outlay_residual != -1
+    {
+        return Err("fund-group outlay reconciliation or rounding line failed".to_string());
+    }
+    let surplus_deficit_sum =
+        int_field(table_13_1, "federal_funds_surplus_deficit_tenths_billion")?
+            + int_field(table_13_1, "trust_funds_surplus_deficit_tenths_billion")?;
+    if surplus_deficit_sum
+        != int_field(
+            table_13_1,
+            "published_total_unified_surplus_deficit_tenths_billion",
+        )?
+        || int_field(table_13_1, "deficit_positive_financing_need_tenths_billion")?
+            != -surplus_deficit_sum
+    {
+        return Err("fund-group deficit positive financing need failed".to_string());
+    }
+
+    let table_13_3 = tables
+        .iter()
+        .find(|row| string_field(row, "table_id").is_ok_and(|id| id == "13-3"))
+        .ok_or("fund-group table 13-3")?;
+    let subtotal = int_field(table_13_3, "surplus_excluding_interest_tenths_billion")?
+        + int_field(table_13_3, "interest_tenths_billion")?;
+    if subtotal != int_field(table_13_3, "subtotal_surplus_deficit_tenths_billion")? {
+        return Err("fund-group table 13-3 surplus subtotal failed".to_string());
+    }
+    let total_change = subtotal
+        + int_field(
+            table_13_3,
+            "borrowing_transfers_lapses_other_adjustments_tenths_billion",
+        )?;
+    if total_change != int_field(table_13_3, "total_change_in_fund_balance_tenths_billion")? {
+        return Err("fund-group table 13-3 change failed".to_string());
+    }
+    let computed_end = int_field(table_13_3, "total_balance_start_tenths_billion")? + total_change;
+    if computed_end != int_field(table_13_3, "computed_balance_end_of_year_tenths_billion")?
+        || computed_end != int_field(table_13_3, "balance_end_of_year_tenths_billion")?
+        || int_field(table_13_3, "balance_rounding_residual_tenths_billion")? != 0
+    {
+        return Err("fund-group trust-fund balance reconciliation failed".to_string());
+    }
+
+    let context = fixture
+        .get("solver_context")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("fund-group solver context")?;
+    for flag in [
+        "aggregate_fixture_only",
+        "not_transportation_specific",
+        "not_trust_fund_lane_reconciliation",
+        "rounding_line_required",
+        "trust_funds_remain_separate",
+        "deficit_recorded_as_positive_financing_need",
+        "transportation_trust_fund_values_remain_null",
+    ] {
+        if context.get(flag).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("fund-group solver context flag {flag} failed"));
+        }
+    }
+
+    let outputs = fixture
+        .get("output_placeholders")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("fund-group outputs")?;
+    for (field, value) in outputs {
+        if !value.is_null() {
+            return Err(format!("fund-group output {field} must remain null"));
+        }
+    }
+
+    let claims = fixture
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("fund-group claims")?;
+    for (field, value) in claims {
+        let observed = value.as_bool().ok_or("fund-group claim bool")?;
+        if field == "aggregate_fund_group_fixture_published" {
+            if !observed {
+                return Err("fund-group fixture publish flag must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!("fund-group public claim {field} must be false"));
+        }
+    }
+
+    let non_claim = string_field(&fixture, "non_claim_boundary")?;
+    for required in [
+        "aggregate FY2025 federal-fund and trust-fund reconciliation fixture",
+        "not transportation-specific trust-fund values",
+        "not a transportation trust-fund reconciliation",
+        "not a baseline path",
+        "not a simulator run",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a solver result",
+        "not a balanced-budget claim",
+    ] {
+        if !non_claim.contains(required) {
+            return Err(format!("fund-group boundary missing {required}"));
+        }
+    }
+
+    let reader =
+        fs::read_to_string(root.join(FUND_GROUP_FY2025_RECONCILIATION_FIXTURE_READER_PATH))
+            .map_err(|e| e.to_string())?;
+    for required in [
+        FUND_GROUP_FY2025_RECONCILIATION_FIXTURE_JSON_PATH,
+        "No new external request was submitted",
+        "not transportation-specific trust-fund data",
+        "$3,411.5B federal funds + $1,824.9B trust funds =",
+        "$5,282.6B federal funds + $1,728.6B trust funds =",
+        "explicit -$0.1B rounding line",
+        "positive $1,774.7B financing need",
+        "$6,185.3B start balance",
+        "$6,281.7B end balance",
+        "not a transportation trust-fund reconciliation",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+        "Transportation annual trust-fund values remain null, not zero",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("fund-group reader missing {required}"));
+        }
+    }
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -17679,6 +17909,12 @@ mod global_country_comparison_tests {
     fn transportation_pilot_trust_fund_accounting_boundary_keeps_values_null() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_transportation_pilot_trust_fund_accounting_boundary(&root).unwrap();
+    }
+
+    #[test]
+    fn fund_group_fy2025_reconciliation_fixture_exposes_rounding_line() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_fund_group_fy2025_reconciliation_fixture(&root).unwrap();
     }
 
     #[test]

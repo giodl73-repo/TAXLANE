@@ -147,6 +147,12 @@ work. It keeps trust funds separate, requires explicit general-fund transfers,
 and keeps all annual values, reconciliation, rates, savings, and balanced-budget
 claims blocked.
 
+`fund_group_fy2025_reconciliation_fixture.v1.draft.json` captures aggregate
+FY2025 federal-fund and trust-fund OMB Appendix Chapter 13 accounting context,
+including an explicit public rounding line. It is not transportation-specific
+trust-fund data and does not open baseline, rate, savings, or balanced-budget
+claims.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is
