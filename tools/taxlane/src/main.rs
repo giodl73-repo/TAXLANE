@@ -332,6 +332,11 @@ const PUBLIC_RATE_CARD_V2_CONTRACT_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/public_rate_card_v2_contract.schema.md";
 const PUBLIC_RATE_CARD_V2_CONTRACT_READER_PATH: &str =
     "docs/reading/public-rate-card-v2-contract.md";
+const PILOT_LANE_SELECTION_GATE_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/pilot_lane_selection_gate.v1.draft.json";
+const PILOT_LANE_SELECTION_GATE_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/pilot_lane_selection_gate.schema.md";
+const PILOT_LANE_SELECTION_GATE_READER_PATH: &str = "docs/reading/pilot-lane-selection-gate.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10839,6 +10844,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_overspending_risk_taxonomy(root)?;
     validate_technology_transition_operating_model(root)?;
     validate_public_rate_card_v2_contract(root)?;
+    validate_pilot_lane_selection_gate(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -13605,6 +13611,247 @@ fn validate_public_rate_card_v2_contract(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_pilot_lane_selection_gate(root: &Path) -> Result<(), String> {
+    for path in [
+        PILOT_LANE_SELECTION_GATE_JSON_PATH,
+        PILOT_LANE_SELECTION_GATE_SCHEMA_PATH,
+        PILOT_LANE_SELECTION_GATE_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing pilot-lane selection artifact: {path}"));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(PILOT_LANE_SELECTION_GATE_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let gate: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&gate, "record_id")? != "pilot-lane-selection-gate:v1"
+        || string_field(&gate, "record_family")? != "pilot_lane_selection_gate"
+        || int_field(&gate, "pulse")? != 86
+        || string_field(&gate, "adaptive_rate_system_contract_path")?
+            != ADAPTIVE_RATE_SYSTEM_CONTRACT_JSON_PATH
+        || string_field(&gate, "public_rate_card_v2_contract_path")?
+            != PUBLIC_RATE_CARD_V2_CONTRACT_JSON_PATH
+        || string_field(&gate, "role_review_path")?
+            != "reviews/2026-07-18-adaptive-rate-performance-system-role-review.md"
+        || string_field(&gate, "phase_plan_path")?
+            != "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md"
+    {
+        return Err("pilot-lane selection identity or governing paths failed".to_string());
+    }
+    for path in [
+        ADAPTIVE_RATE_SYSTEM_CONTRACT_JSON_PATH,
+        PUBLIC_RATE_CARD_V2_CONTRACT_JSON_PATH,
+        "reviews/2026-07-18-adaptive-rate-performance-system-role-review.md",
+        "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md",
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("pilot-lane linked artifact missing {path}"));
+        }
+    }
+    if !string_field(&gate, "source_custody_status")?.contains("no_new_external_request") {
+        return Err("pilot-lane custody status must prohibit external requests".to_string());
+    }
+    let boundary = string_field(&gate, "non_claim_boundary")?;
+    for required in [
+        "pilot-lane selection gate, not a final pilot choice",
+        "public rate card",
+        "statutory-rate proposal",
+        "department-cut instruction",
+        "solver result",
+        "balanced-budget claim",
+        "final pilot lane remains null",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!("pilot-lane boundary missing {required}"));
+        }
+    }
+
+    let criteria = gate
+        .get("selection_criteria")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("pilot-lane selection criteria")?;
+    let observed_criteria = criteria
+        .iter()
+        .map(|row| string_field(row, "criterion_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_criteria = BTreeSet::from([
+        "narrow_scope".to_string(),
+        "low_normative_distribution_risk".to_string(),
+        "official_source_feasibility".to_string(),
+        "floor_observability".to_string(),
+        "technology_transition_fit".to_string(),
+        "solver_containment".to_string(),
+        "public_language_safety".to_string(),
+    ]);
+    if observed_criteria != expected_criteria {
+        return Err("pilot-lane selection criteria set failed".to_string());
+    }
+    for criterion in criteria {
+        if string_field(criterion, "rule")?.is_empty() {
+            return Err("pilot-lane criterion rule missing".to_string());
+        }
+    }
+
+    let candidates = gate
+        .get("recommended_initial_candidates")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("pilot-lane recommended candidates")?;
+    let observed_candidates = candidates
+        .iter()
+        .map(|row| string_field(row, "candidate_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_candidates = BTreeSet::from([
+        "transportation_asset_maintenance_and_safety".to_string(),
+        "disaster_administration_and_mitigation_reserve_operations".to_string(),
+        "claims_processing_modernization".to_string(),
+    ]);
+    if observed_candidates != expected_candidates {
+        return Err("pilot-lane candidate set failed".to_string());
+    }
+    for candidate in candidates {
+        if string_field(candidate, "status")? != "candidate_not_selected"
+            || string_field(candidate, "lane_id")?.is_empty()
+            || string_field(candidate, "reason")?.is_empty()
+        {
+            return Err("pilot-lane candidates must remain unselected".to_string());
+        }
+    }
+
+    let exclusions = gate
+        .get("excluded_first_pilots")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("pilot-lane exclusions")?;
+    let observed_exclusions = exclusions
+        .iter()
+        .map(|row| string_field(row, "lane_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    for required in [
+        "social-security",
+        "medicare",
+        "health-medicare",
+        "veterans",
+        "any_immediate_normative_distribution_choice",
+    ] {
+        if !observed_exclusions.contains(required) {
+            return Err(format!("pilot-lane exclusion missing {required}"));
+        }
+    }
+
+    let review_gate = gate
+        .get("role_review_gate")
+        .ok_or("pilot-lane role review gate")?;
+    if review_gate
+        .get("required")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+        || review_gate
+            .get("complete")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || review_gate
+            .get("blocks_final_pilot_choice")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("pilot-lane role review gate must block selection".to_string());
+    }
+    let block_if = review_gate
+        .get("block_if")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("pilot-lane role review blockers")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    for required in [
+        "normative_target_choice_required",
+        "tax_distribution_choice_required",
+        "conflicting_official_sources",
+        "outcome_floor_threshold_choice_required",
+        "causal_evidence_interpretation_required",
+        "public_savings_or_rate_claim_required",
+    ] {
+        if !block_if.contains(required) {
+            return Err(format!("pilot-lane role-review blocker missing {required}"));
+        }
+    }
+
+    let final_selection = gate
+        .get("final_selection")
+        .ok_or("pilot-lane final selection")?;
+    for required_null in [
+        "selected_candidate_id",
+        "selected_lane_id",
+        "selection_rationale",
+        "role_review_result",
+    ] {
+        if !final_selection
+            .get(required_null)
+            .is_some_and(serde_json::Value::is_null)
+        {
+            return Err(format!(
+                "pilot-lane final field {required_null} must remain null"
+            ));
+        }
+    }
+    for required_false in ["simulator_ready", "public_claim_allowed"] {
+        if final_selection
+            .get(required_false)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "pilot-lane final flag {required_false} must remain false"
+            ));
+        }
+    }
+
+    let outputs = gate
+        .get("output_placeholders")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("pilot-lane outputs")?;
+    for (field, value) in outputs {
+        if !value.is_null() {
+            return Err(format!("pilot-lane output {field} must remain null"));
+        }
+    }
+    let claims = gate
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("pilot-lane claim booleans")?;
+    if claims
+        .iter()
+        .any(|(_, value)| value.as_bool() != Some(false))
+    {
+        return Err("pilot-lane claim booleans must all remain false".to_string());
+    }
+
+    let reader = fs::read_to_string(root.join(PILOT_LANE_SELECTION_GATE_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        PILOT_LANE_SELECTION_GATE_JSON_PATH,
+        "This is a pilot-lane selection gate, not a final pilot choice",
+        "statutory-rate proposal",
+        "technology-savings claim",
+        "balanced-budget claim",
+        "The final pilot lane remains null",
+        "transportation asset maintenance and safety",
+        "disaster administration and mitigation reserve operations",
+        "claims-processing",
+        "none is selected by this gate",
+        "Social Security, Medicare, broad health, veterans statutory commitments",
+        "Selection criteria require narrow scope",
+        "All selected-pilot",
+        "Every claim boolean remains false.",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("pilot-lane reader missing {required}"));
+        }
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -13685,6 +13932,12 @@ mod global_country_comparison_tests {
     fn public_rate_card_v2_contract_preserves_blocked_public_outcomes() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_public_rate_card_v2_contract(&root).unwrap();
+    }
+
+    #[test]
+    fn pilot_lane_selection_gate_blocks_final_pilot_choice() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_pilot_lane_selection_gate(&root).unwrap();
     }
 
     #[test]

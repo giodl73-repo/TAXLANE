@@ -311,6 +311,9 @@ It is the bounded public surface, not a performance or savings report.
     cost, lower rate, savings score, or department-cut basis.
 82. Read `public-rate-card-v2-contract.md` before drafting public rate-card
     displays. It requires blocked and not-calculated values to stay explicit.
+83. Read `pilot-lane-selection-gate.md` before choosing the first annual-update
+    simulator pilot. It lists candidates but keeps final selection blocked
+    pending role review.
 
 ## Public-Use Guardrail
 

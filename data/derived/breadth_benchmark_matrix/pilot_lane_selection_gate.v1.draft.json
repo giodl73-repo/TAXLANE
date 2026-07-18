@@ -1,0 +1,125 @@
+{
+  "record_id": "pilot-lane-selection-gate:v1",
+  "record_family": "pilot_lane_selection_gate",
+  "version": "v1.draft",
+  "status": "draft_gate_no_pilot_selected",
+  "pulse": 86,
+  "adaptive_rate_system_contract_path": "data/derived/breadth_benchmark_matrix/adaptive_rate_system_contract.v1.draft.json",
+  "public_rate_card_v2_contract_path": "data/derived/breadth_benchmark_matrix/public_rate_card_v2_contract.v1.draft.json",
+  "role_review_path": "reviews/2026-07-18-adaptive-rate-performance-system-role-review.md",
+  "phase_plan_path": "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md",
+  "source_custody_status": "derived_from_existing_repo_custodied_records_no_new_external_request",
+  "non_claim_boundary": "This is a pilot-lane selection gate, not a final pilot choice, public rate card, statutory-rate proposal, tax proposal, savings estimate, waste finding, fraud finding, department-cut instruction, technology-savings claim, solver result, or balanced-budget claim. The final pilot lane remains null until role review clears normative and source conflicts.",
+  "selection_criteria": [
+    {
+      "criterion_id": "narrow_scope",
+      "rule": "The pilot must be a bounded operational lane or sub-lane, not a broad entitlement or whole-department reform."
+    },
+    {
+      "criterion_id": "low_normative_distribution_risk",
+      "rule": "The pilot must avoid immediate tax-distribution, benefit-adequacy, eligibility, or statutory-continuity choices."
+    },
+    {
+      "criterion_id": "official_source_feasibility",
+      "rule": "The pilot must plausibly use official or already-custodied sources with matched period, unit, and perimeter."
+    },
+    {
+      "criterion_id": "floor_observability",
+      "rule": "The pilot must have observable access, quality, equity, adequacy/resilience, delivery-feasibility, and lane-specific floor indicators."
+    },
+    {
+      "criterion_id": "technology_transition_fit",
+      "rule": "The pilot should support baseline, transition, measured-productivity, and stress paths without assuming automatic savings."
+    },
+    {
+      "criterion_id": "solver_containment",
+      "rule": "The pilot must be narrow enough for a deterministic simulator and must not require full revenue-package optimization."
+    },
+    {
+      "criterion_id": "public_language_safety",
+      "rule": "The pilot must be explainable without calling a risk signal waste, fraud, recoverable savings, causal savings, or a department cut."
+    }
+  ],
+  "recommended_initial_candidates": [
+    {
+      "candidate_id": "transportation_asset_maintenance_and_safety",
+      "lane_id": "transportation-infrastructure",
+      "reason": "Bounded asset-maintenance and safety floors can be separated from broad tax distribution choices.",
+      "status": "candidate_not_selected"
+    },
+    {
+      "candidate_id": "disaster_administration_and_mitigation_reserve_operations",
+      "lane_id": "disaster-resilience",
+      "reason": "Reserve operations, mitigation administration, and stress paths align with the deterministic simulator without declaring avoided-loss savings.",
+      "status": "candidate_not_selected"
+    },
+    {
+      "candidate_id": "claims_processing_modernization",
+      "lane_id": "payment-integrity",
+      "reason": "Claims-processing modernization can test technology transition and service-floor logic without inferring fraud or recoverable savings.",
+      "status": "candidate_not_selected"
+    }
+  ],
+  "excluded_first_pilots": [
+    {
+      "lane_id": "social-security",
+      "reason": "Requires demographic, 75-year trust-fund, wage-base, eligibility, formula, adequacy, and old-age-poverty choices."
+    },
+    {
+      "lane_id": "medicare",
+      "reason": "Requires Medicare HI separation, broad health policy instrument scoring, incidence, provider response, and outcome-floor decisions."
+    },
+    {
+      "lane_id": "health-medicare",
+      "reason": "Broad health remains too sensitive for the first pilot because PHI sensitivities are not federal savings or target costs."
+    },
+    {
+      "lane_id": "veterans",
+      "reason": "Veterans commitments require statutory continuity, eligible cohort, access, health, housing, and claims-timeliness floors."
+    },
+    {
+      "lane_id": "any_immediate_normative_distribution_choice",
+      "reason": "Any pilot requiring immediate normative tax distribution or benefit-adequacy choices must wait for stronger-model review."
+    }
+  ],
+  "role_review_gate": {
+    "required": true,
+    "complete": false,
+    "blocks_final_pilot_choice": true,
+    "block_if": [
+      "normative_target_choice_required",
+      "tax_distribution_choice_required",
+      "conflicting_official_sources",
+      "outcome_floor_threshold_choice_required",
+      "causal_evidence_interpretation_required",
+      "public_savings_or_rate_claim_required"
+    ]
+  },
+  "final_selection": {
+    "selected_candidate_id": null,
+    "selected_lane_id": null,
+    "selection_rationale": null,
+    "role_review_result": null,
+    "simulator_ready": false,
+    "public_claim_allowed": false
+  },
+  "output_placeholders": {
+    "selected_pilot_lane": null,
+    "pilot_rate_card": null,
+    "pilot_target_cost": null,
+    "pilot_effective_rate": null,
+    "pilot_savings_estimate": null,
+    "pilot_solver_result": null
+  },
+  "claim_booleans": {
+    "pilot_selected": false,
+    "public_rate_card_published": false,
+    "statutory_rate_published": false,
+    "effective_rate_published": false,
+    "savings_claim_published": false,
+    "waste_finding_published": false,
+    "fraud_finding_published": false,
+    "department_cut_instruction_published": false,
+    "balanced_budget_claim_published": false
+  }
+}

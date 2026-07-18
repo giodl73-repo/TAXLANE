@@ -65,6 +65,10 @@ shape for valid and blocked rates. It treats `not_calculated` and `blocked` as
 first-class outcomes and keeps statutory-rate language unavailable until
 publication gates pass.
 
+`pilot_lane_selection_gate.v1.draft.json` defines criteria for the first
+deterministic simulator pilot and keeps the final pilot lane unselected until
+role review clears normative and source conflicts.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is
