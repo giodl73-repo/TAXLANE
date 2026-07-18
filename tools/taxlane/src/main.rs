@@ -297,6 +297,11 @@ const FISCAL_POLICY_DISTRIBUTION_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/fiscal_policy_distribution_screen.v1.draft.json";
 const FISCAL_POLICY_DISTRIBUTION_READER_PATH: &str =
     "docs/reading/fiscal-policy-distribution-screen.md";
+const INTEGRATED_FISCAL_SOLVER_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/integrated_fiscal_solver.v1.draft.json";
+const INTEGRATED_FISCAL_SOLVER_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/integrated_fiscal_solver.schema.md";
+const INTEGRATED_FISCAL_SOLVER_READER_PATH: &str = "docs/reading/integrated-fiscal-solver.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -12223,6 +12228,12 @@ mod global_country_comparison_tests {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_program_lane_target_cost_contract(&root).unwrap();
     }
+
+    #[test]
+    fn integrated_fiscal_solver_reconciles_rows_and_interest_feedback() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_integrated_fiscal_solver(&root).unwrap();
+    }
 }
 
 fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
@@ -12422,11 +12433,330 @@ fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
     validate_fiscal_debt_dynamics(root)?;
     validate_fiscal_policy_baskets(root)?;
     validate_fiscal_policy_distribution(root)?;
+    validate_integrated_fiscal_solver(root)?;
     validate_budget_ballot_experiment(root)?;
     println!(
         "validated {} breadth benchmark rows across full comparisons and toplines with no open coverage gaps",
         rows.len()
     );
+    Ok(())
+}
+
+fn validate_integrated_fiscal_solver(root: &Path) -> Result<(), String> {
+    let text = fs::read_to_string(root.join(INTEGRATED_FISCAL_SOLVER_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let solver: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&solver, "record_family")? != "integrated_fiscal_solver"
+        || string_field(&solver, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&solver, "rate_model_path")?
+            != "data/derived/program_lane_rate_model/program_lane_rate_model.fy2025.omb-fy2027-v1.draft.jsonl"
+        || string_field(&solver, "solver_status")? != "deterministic_scaffold_not_optimization"
+    {
+        return Err("integrated fiscal solver identity failed".to_string());
+    }
+    for path in [
+        INTEGRATED_FISCAL_SOLVER_SCHEMA_PATH,
+        INTEGRATED_FISCAL_SOLVER_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("integrated fiscal solver missing {path}"));
+        }
+    }
+
+    let years = solver
+        .get("horizon_years_plus_baseline")
+        .and_then(|value| value.as_array())
+        .ok_or("integrated fiscal solver horizon")?;
+    let expected_years: Vec<i64> = (2025..=2035).collect();
+    let observed_years = years
+        .iter()
+        .map(|value| {
+            value
+                .as_i64()
+                .ok_or_else(|| "integrated fiscal solver non-integer horizon year".to_string())
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+    if observed_years != expected_years {
+        return Err("integrated fiscal solver must cover baseline plus ten years".to_string());
+    }
+
+    let sign = solver
+        .get("accounting_sign_conventions")
+        .ok_or("integrated fiscal solver sign conventions")?;
+    for (field, expected) in [
+        ("outlays", "positive"),
+        ("implementation_costs", "positive_outlays"),
+        ("receipts", "positive"),
+        ("offsetting_collections", "positive_offsets"),
+        ("deficit", "positive_financing_need"),
+        ("surplus", "positive_excess_receipts"),
+    ] {
+        if string_field(sign, field)? != expected {
+            return Err(format!(
+                "integrated fiscal solver sign convention {field} changed"
+            ));
+        }
+    }
+    let identities = solver
+        .get("accounting_identities")
+        .ok_or("integrated fiscal solver identities")?;
+    for field in [
+        "primary_outlays",
+        "net_cash_requirement",
+        "fund_balance_change",
+        "primary_balance",
+        "deficit",
+        "debt",
+    ] {
+        if string_field(identities, field)?.is_empty() {
+            return Err(format!("integrated fiscal solver identity {field} missing"));
+        }
+    }
+
+    let funds = solver
+        .get("funds_kept_separate")
+        .and_then(|value| value.as_array())
+        .ok_or("integrated fiscal solver funds")?
+        .iter()
+        .map(|value| {
+            value
+                .as_str()
+                .map(str::to_string)
+                .ok_or_else(|| "integrated fiscal solver non-string fund".to_string())
+        })
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_funds: BTreeSet<String> = [
+        "oasdi",
+        "medicare_hi",
+        "transportation_trust",
+        "general_fund",
+        "reserves",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect();
+    if funds != expected_funds {
+        return Err("integrated fiscal solver must keep required funds separate".to_string());
+    }
+    if solver
+        .get("explicit_interfund_transfers")
+        .and_then(|value| value.as_array())
+        .is_none()
+    {
+        return Err("integrated fiscal solver must expose interfund transfers".to_string());
+    }
+
+    let recon = solver
+        .get("fy2025_reconciliation")
+        .ok_or("integrated fiscal solver FY2025 reconciliation")?;
+    if number_field(recon, "total_federal_outlays_musd")? != 7_011_105.0
+        || number_field(recon, "total_federal_receipts_musd")? != 5_236_421.0
+        || number_field(recon, "deficit_musd")? != 1_774_684.0
+        || number_field(recon, "net_interest_musd")? != 970_065.0
+        || number_field(recon, "primary_outlays_musd")? != 6_041_040.0
+        || number_field(recon, "primary_balance_musd")? != -804_619.0
+        || number_field(recon, "budget_row_count")? != 17.0
+        || number_field(recon, "analytic_lane_count")? != 15.0
+        || number_field(recon, "row_sum_musd")? != 7_011_105.0
+        || number_field(recon, "rounding_line_musd")? != 0.0
+        || number_field(recon, "residual_general_fund_need_denominator_musd")? != 5_189_439.0
+    {
+        return Err("integrated fiscal solver FY2025 reconciliation failed".to_string());
+    }
+
+    let rows = solver
+        .get("budget_rows")
+        .and_then(|value| value.as_array())
+        .ok_or("integrated fiscal solver budget rows")?;
+    if rows.len() != 17 {
+        return Err("integrated fiscal solver must preserve all 17 budget rows".to_string());
+    }
+    let mut row_ids = BTreeSet::<String>::new();
+    let mut row_sum = 0.0;
+    let mut residual_sum = 0.0;
+    let mut all_share_sum = 0.0;
+    let mut residual_share_sum = 0.0;
+    for row in rows {
+        let id = string_field(row, "budget_row_id")?;
+        row_ids.insert(id.clone());
+        let cost = number_field(row, "current_law_cost_musd")?;
+        let target = number_field(row, "current_law_target_cost_musd")?;
+        if cost != target {
+            return Err(format!(
+                "integrated fiscal solver current-law target mismatch for {id}"
+            ));
+        }
+        if !row
+            .get("reform_target_cost_musd")
+            .is_some_and(serde_json::Value::is_null)
+            || !row
+                .get("assigned_base_rate_percent")
+                .is_some_and(serde_json::Value::is_null)
+        {
+            return Err(format!(
+                "integrated fiscal solver blocked rate/target fields must stay null for {id}"
+            ));
+        }
+        let residual = number_field(row, "residual_general_fund_need_musd")?;
+        row_sum += cost;
+        residual_sum += residual;
+        let expected_all = cost / 7_011_105.0 * 100.0;
+        let expected_residual = residual / 5_189_439.0 * 100.0;
+        let all_share = number_field(row, "all_receipt_funding_share_percent")?;
+        let residual_share = number_field(row, "residual_general_fund_requirement_share_percent")?;
+        if (all_share - expected_all).abs() > 0.000001
+            || (residual_share - expected_residual).abs() > 0.000001
+        {
+            return Err(format!(
+                "integrated fiscal solver share formula failed for {id}"
+            ));
+        }
+        all_share_sum += all_share;
+        residual_share_sum += residual_share;
+    }
+    for required in [
+        "commerce-housing-credit",
+        "undistributed-offsetting-receipts",
+        "net-interest",
+        "medicare",
+        "health",
+    ] {
+        if !row_ids.contains(required) {
+            return Err(format!("integrated fiscal solver missing row {required}"));
+        }
+    }
+    if (row_sum - 7_011_105.0).abs() > 0.000001
+        || (residual_sum - 5_189_439.0).abs() > 0.000001
+        || (all_share_sum - 100.0).abs() > 0.00001
+        || (residual_share_sum - 100.0).abs() > 0.00001
+    {
+        return Err("integrated fiscal solver row/share totals failed".to_string());
+    }
+
+    let debt_rows = solver
+        .get("debt_interest_path")
+        .and_then(|value| value.as_array())
+        .ok_or("integrated fiscal solver debt path")?;
+    if debt_rows.len() != 11 {
+        return Err(
+            "integrated fiscal solver debt path must cover baseline plus ten years".to_string(),
+        );
+    }
+    let mut prior_debt = None::<f64>;
+    for (idx, row) in debt_rows.iter().enumerate() {
+        let year = int_field(row, "fiscal_year")?;
+        if year != 2025 + idx as i64 {
+            return Err("integrated fiscal solver debt path year sequence failed".to_string());
+        }
+        let primary_balance = number_field(row, "primary_balance_musd")?;
+        let net_interest = number_field(row, "net_interest_musd")?;
+        let deficit = number_field(row, "total_deficit_musd")?;
+        let other_financing = number_field(row, "explicit_other_financing_musd")?;
+        let debt = number_field(row, "debt_held_by_public_end_musd")?;
+        if (deficit - (-primary_balance + net_interest)).abs() > 1_000.0 {
+            return Err(format!(
+                "integrated fiscal solver deficit identity failed for FY{year}"
+            ));
+        }
+        if let Some(previous) = prior_debt {
+            if (debt - (previous + deficit + other_financing)).abs() > 1_000.0 {
+                return Err(format!(
+                    "integrated fiscal solver debt identity failed for FY{year}"
+                ));
+            }
+        }
+        prior_debt = Some(debt);
+    }
+
+    let reserve_rows = solver
+        .get("reserve_path")
+        .and_then(|value| value.as_array())
+        .ok_or("integrated fiscal solver reserve path")?;
+    if reserve_rows.is_empty()
+        || !reserve_rows.iter().all(|row| {
+            row.get("reserve_contribution_musd")
+                .is_some_and(serde_json::Value::is_null)
+                && row
+                    .get("reserve_withdrawal_musd")
+                    .is_some_and(serde_json::Value::is_null)
+                && row
+                    .get("reserve_balance_musd")
+                    .is_some_and(serde_json::Value::is_null)
+        })
+    {
+        return Err("integrated fiscal solver reserves must remain null".to_string());
+    }
+    let fund_rows = solver
+        .get("fund_balance_outputs")
+        .and_then(|value| value.as_array())
+        .ok_or("integrated fiscal solver fund balances")?;
+    if fund_rows.len() != 5
+        || !fund_rows.iter().all(|row| {
+            row.get("fund_balance_musd")
+                .is_some_and(serde_json::Value::is_null)
+        })
+    {
+        return Err("integrated fiscal solver fund balances must remain null".to_string());
+    }
+
+    let fixture = solver
+        .get("primary_change_regression_fixture")
+        .ok_or("integrated fiscal solver primary-change fixture")?;
+    let improvement = number_field(fixture, "primary_balance_improvement_2026_musd")?;
+    let baseline_debt = number_field(fixture, "baseline_2026_debt_held_by_public_end_musd")?;
+    let changed_debt = number_field(fixture, "changed_2026_debt_held_by_public_end_musd")?;
+    let baseline_interest = number_field(fixture, "baseline_2027_net_interest_musd")?;
+    let changed_interest = number_field(fixture, "changed_2027_net_interest_musd")?;
+    let rate = number_field(fixture, "average_interest_rate_2027_percent")?;
+    let expected_debt = baseline_debt - improvement;
+    let expected_interest = baseline_interest - improvement * rate / 100.0;
+    if changed_debt == baseline_debt
+        || changed_interest == baseline_interest
+        || (changed_debt - expected_debt).abs() > 0.000001
+        || (changed_interest - expected_interest).abs() > 0.000001
+    {
+        return Err(
+            "integrated fiscal solver primary-change regression fixture failed".to_string(),
+        );
+    }
+
+    let blocked = solver
+        .get("blocked_outputs")
+        .ok_or("integrated fiscal solver blocked outputs")?;
+    if !blocked
+        .get("assigned_base_rates")
+        .is_some_and(serde_json::Value::is_null)
+        || !blocked
+            .get("distributional_effect_placeholder")
+            .is_some_and(serde_json::Value::is_null)
+        || string_field(blocked, "optimization_status")?
+            != "blocked_until_all_target_paths_reconcile"
+        || blocked
+            .get("balanced_budget_claim_allowed")
+            .and_then(|value| value.as_bool())
+            != Some(false)
+    {
+        return Err("integrated fiscal solver blocked outputs changed".to_string());
+    }
+
+    let reader = fs::read_to_string(root.join(INTEGRATED_FISCAL_SOLVER_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        INTEGRATED_FISCAL_SOLVER_JSON_PATH,
+        "This is a deterministic scaffold, not an optimizer.",
+        "$7,011.105B",
+        "A value after subtracting dedicated receipts is not a share of every tax dollar.",
+        "primary change leaves later debt and interest unchanged",
+        "balanced-budget claims remain blocked",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!(
+                "integrated fiscal solver reader missing {required}"
+            ));
+        }
+    }
+
     Ok(())
 }
 

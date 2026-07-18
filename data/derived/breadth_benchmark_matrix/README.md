@@ -113,6 +113,15 @@ they are not additive package scores or recommendations.
 likely burden bearers and protection gates without inventing quantified
 incidence. A joint microsimulation remains required before package claims.
 
+`integrated_fiscal_solver.v1.draft.json` is the first narrow deterministic
+solver scaffold. It reconciles the FY2025 17-row ledger to $7,011.105B,
+including both negative offset rows, exposes all-receipt and residual
+general-fund denominator shares separately, keeps OASDI, Medicare HI,
+transportation trust, general fund, and reserves separate, and includes a
+primary-change fixture that forces subsequent debt and net interest to move.
+Assigned-base rates, reserves, fund balances, distribution, macro feedback, and
+balanced-budget claims remain blocked.
+
 `payment_integrity_depth_card.fy2024.v1.draft.json` reconciles the official
 FY2024 annual workbook's improper, unknown, overpayment, underpayment, and
 technically-improper totals while keeping court-confirmed-fraud and agency-
