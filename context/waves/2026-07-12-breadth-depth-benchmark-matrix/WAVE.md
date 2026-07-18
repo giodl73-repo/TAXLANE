@@ -424,6 +424,77 @@ is removed from the separate broad Minnesota row; the new amount remains not
 summable with unresolved overlap, no corroboration, no counterevidence, no
 recorded response, and every claim gate false.
 
+Pulse 59 (`pulses/pulse-59-global-country-comparison-coverage.md`) defines the
+multi-country acquisition contract for all 15 unique fiscal lane IDs. It sets
+European, Asian, and additional peer panels, lane-specific official source
+families and metrics, and explicit treatment for policy-dependent,
+exposure-dependent, and structurally non-harmonized lanes. No country value or
+ranking is promoted; every efficiency, fraud, and savings gate remains false.
+The pulse also corrects the scoreboard's stale 13-lane headline to 15.
+
+Pulse 60 (`pulses/pulse-60-oecd-cofog-country-panel-2022.md`) captures the first
+observed global comparison batch: 99 calendar-2022 general-government COFOG
+country/function observations plus 11 explicit missing cells. Same-source OECD
+GDP supplies the denominator. Canada remains missing and U.S. GF05 remains
+missing; neither is imputed. The batch supplies spending context, not outcome,
+efficiency, fraud, or savings findings.
+
+Pulse 61 (`pulses/pulse-61-hybrid-oecd-imf-cofog-panel.md`) captures IMF GFS
+COFOG, audits 89 overlaps, and uses IMF only to fill Canada's ten OECD-missing
+cells. Korea remains OECD and U.S. GF05 remains missing. Coverage rises to 109
+of 110 cells without averaging sources or opening any ranking or savings gate.
+
+Pulse 62 (`pulses/pulse-62-fiscal-country-panel-2022.md`) adds the 2022 fiscal
+specialist panel from pinned IMF Fiscal Monitor and OECD Revenue Statistics
+sources. It keeps tax and total revenue, overall and primary balance, and gross
+and net debt separate. Its initial IMF GFS interest route returned no
+observations, so the pulse published no inferred interest value.
+
+Pulse 63 (`pulses/pulse-63-oecd-direct-interest-panel-2022.md`) closes the core
+peer interest gap with 11 direct OECD D.41 general-government interest-payable
+observations. Same-year OECD GDP supplies the denominator, while a separately
+labeled IMF revenue ratio supports interest/revenue context. Singapore remains
+missing; gross interest payable is not relabeled as net interest, a target, or
+available savings.
+
+Pulse 64 (`pulses/pulse-64-oecd-net-interest-panel-2022.md`) adds the pinned
+OECD 2025 edition's direct 2022 general-government net-interest measure for the
+same 11 core peers. It preserves Korea's negative observation, keeps Singapore
+missing, and does not substitute the series for gross D.41 interest or United
+States federal net interest.
+
+Pulse 65 (`pulses/pulse-65-qpsd-maturity-panel-2022q4.md`) rejects the
+under-defined OECD Economic Outlook refinancing index and captures explicit
+joint World Bank–IMF QPSD maturity components instead. Ten peers report
+short-term original-maturity debt and six also report long-term-original debt
+due within one year. Combined near-term stocks are limited to those six;
+missing classifications remain missing.
+
+Pulse 66 (`pulses/pulse-66-socx-oldage-family-panel-2022.md`) captures 42 OECD
+SOCX observations covering 2022 public old-age/survivors and family benefits
+for seven countries, split into totals, cash, and services. Five peers remain
+missing; Canada's blank service value stays missing and mixed-year tax breaks
+are not spliced into the matched panel.
+
+Pulse 67 (`pulses/pulse-67-pension-replacement-panel-model2024.md`) captures
+gross and net mandatory-scheme replacement rates for a male average earner
+entering work at age 22 in 2024 across all 11 core peers. It labels the values
+as future theoretical entitlements, not current-retiree outcomes, and refuses
+an unmatched spending-efficiency ratio.
+
+Pulse 68 (`pulses/pulse-68-age-relative-poverty-panel.md`) adds actual older-
+person and child relative-income-poverty observations. Actual country years,
+Australia's child fallback, and the Netherlands provisional flag remain
+visible; the national median-income threshold is not presented as an absolute
+international living standard.
+
+Pulse 69 (`pulses/pulse-69-international-comparator-target-rubric.md`) defines
+how a fair international benchmark is selected. The equal-country peer median
+and IQR describe a typical peer; a favorable quartile is conditional on outcome,
+floor, transferability, and stability tests; sustained leaders are examples to
+study. Best-country and small-panel P85 targets are prohibited, and no existing
+ranking, efficiency, fraud, or savings gate opens.
+
 ## Design rules
 
 - Never invent an expected value for a policy-dependent lane.
@@ -443,5 +514,5 @@ git diff --check
 
 ## Current pulse
 
-`pulses/pulse-54-house-testimony-quality-learing-center-claim-atom.md` records the
-latest bounded slice and next decision gate.
+`pulses/pulse-69-international-comparator-target-rubric.md` records the latest
+bounded slice and next decision gate.

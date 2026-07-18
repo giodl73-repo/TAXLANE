@@ -1,0 +1,30 @@
+{
+  "record_id": "country-comparison:socx-oldage-family:2022",
+  "record_family": "social_expenditure_country_comparison",
+  "data_year": 2022,
+  "source_ids": ["SRC-OECD-SOCX-OLDAGE-FAMILY-PANEL-2022"],
+  "country_count": 12,
+  "country_records": [
+    {"country_code":"USA","country_name":"United States","region":"north_america","old_age_survivors_total_percent_gdp":7.162,"old_age_survivors_cash_percent_gdp":7.095,"old_age_survivors_services_percent_gdp":0.068,"family_total_percent_gdp":0.658,"family_cash_percent_gdp":0.051,"family_services_percent_gdp":0.607,"observation_status":"complete_rounded_components"},
+    {"country_code":"DEU","country_name":"Germany","region":"europe","old_age_survivors_total_percent_gdp":null,"old_age_survivors_cash_percent_gdp":null,"old_age_survivors_services_percent_gdp":null,"family_total_percent_gdp":null,"family_cash_percent_gdp":null,"family_services_percent_gdp":null,"observation_status":"no_2022_observation"},
+    {"country_code":"FRA","country_name":"France","region":"europe","old_age_survivors_total_percent_gdp":13.803,"old_age_survivors_cash_percent_gdp":13.396,"old_age_survivors_services_percent_gdp":0.406,"family_total_percent_gdp":2.628,"family_cash_percent_gdp":1.252,"family_services_percent_gdp":1.376,"observation_status":"complete_rounded_components"},
+    {"country_code":"GBR","country_name":"United Kingdom","region":"europe","old_age_survivors_total_percent_gdp":7.469,"old_age_survivors_cash_percent_gdp":7.072,"old_age_survivors_services_percent_gdp":0.396,"family_total_percent_gdp":1.854,"family_cash_percent_gdp":0.898,"family_services_percent_gdp":0.957,"observation_status":"complete_rounded_components"},
+    {"country_code":"SWE","country_name":"Sweden","region":"europe","old_age_survivors_total_percent_gdp":null,"old_age_survivors_cash_percent_gdp":null,"old_age_survivors_services_percent_gdp":null,"family_total_percent_gdp":null,"family_cash_percent_gdp":null,"family_services_percent_gdp":null,"observation_status":"no_2022_observation"},
+    {"country_code":"NLD","country_name":"Netherlands","region":"europe","old_age_survivors_total_percent_gdp":null,"old_age_survivors_cash_percent_gdp":null,"old_age_survivors_services_percent_gdp":null,"family_total_percent_gdp":null,"family_cash_percent_gdp":null,"family_services_percent_gdp":null,"observation_status":"no_2022_observation"},
+    {"country_code":"POL","country_name":"Poland","region":"europe","old_age_survivors_total_percent_gdp":null,"old_age_survivors_cash_percent_gdp":null,"old_age_survivors_services_percent_gdp":null,"family_total_percent_gdp":null,"family_cash_percent_gdp":null,"family_services_percent_gdp":null,"observation_status":"no_2022_observation"},
+    {"country_code":"JPN","country_name":"Japan","region":"asia","old_age_survivors_total_percent_gdp":9.393,"old_age_survivors_cash_percent_gdp":9.154,"old_age_survivors_services_percent_gdp":0.238,"family_total_percent_gdp":1.975,"family_cash_percent_gdp":0.665,"family_services_percent_gdp":1.31,"observation_status":"complete_rounded_components"},
+    {"country_code":"KOR","country_name":"South Korea","region":"asia","old_age_survivors_total_percent_gdp":4.03,"old_age_survivors_cash_percent_gdp":3.81,"old_age_survivors_services_percent_gdp":0.22,"family_total_percent_gdp":1.652,"family_cash_percent_gdp":0.393,"family_services_percent_gdp":1.259,"observation_status":"complete_rounded_components"},
+    {"country_code":"CAN","country_name":"Canada","region":"north_america","old_age_survivors_total_percent_gdp":5.867,"old_age_survivors_cash_percent_gdp":5.867,"old_age_survivors_services_percent_gdp":null,"family_total_percent_gdp":1.567,"family_cash_percent_gdp":1.205,"family_services_percent_gdp":0.363,"observation_status":"partial_old_age_services_blank"},
+    {"country_code":"AUS","country_name":"Australia","region":"oceania","old_age_survivors_total_percent_gdp":4.501,"old_age_survivors_cash_percent_gdp":3.409,"old_age_survivors_services_percent_gdp":1.092,"family_total_percent_gdp":1.889,"family_cash_percent_gdp":0.956,"family_services_percent_gdp":0.933,"observation_status":"complete"},
+    {"country_code":"SGP","country_name":"Singapore","region":"asia","old_age_survivors_total_percent_gdp":null,"old_age_survivors_cash_percent_gdp":null,"old_age_survivors_services_percent_gdp":null,"family_total_percent_gdp":null,"family_cash_percent_gdp":null,"family_services_percent_gdp":null,"observation_status":"country_absent_from_source"}
+  ],
+  "old_age_boundary": "TP01 combines public old-age and survivors spending. It is not a measure of United States Social Security alone and excludes important mandatory private or occupational pillars in some countries.",
+  "family_boundary": "TP51 separates cash and in-kind services. Tax breaks for social purposes are not components of this exact 2022 aggregate response and are not mixed in from a different-year Family Database table.",
+  "outcome_boundary": "Spending levels do not establish benefit adequacy, poverty reduction, service quality, or causal efficiency. Replacement rates, old-age poverty, childcare participation, and child outcomes remain separate gates.",
+  "target_status": "descriptive_social_spending_not_policy_target",
+  "ranking_status": "blocked",
+  "efficiency_status": "not_causal_efficiency",
+  "savings_status": "blocked_not_scored",
+  "observed_date": "2026-07-15",
+  "status": "draft-source-captured"
+}

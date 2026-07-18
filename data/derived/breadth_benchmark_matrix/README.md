@@ -12,6 +12,54 @@ Canonical draft rows:
 
 Public scoreboard: `docs/reading/current-versus-benchmark-scoreboard.md`.
 
+`global_country_comparison_coverage.v1.draft.json` defines the European,
+Asian, and additional peer panels, lane-specific metrics, official source
+families, and claim gates for all 15 lane IDs. It is an acquisition contract,
+not observed country data; its reader is
+`docs/reading/global-country-comparison-coverage.md`.
+
+`international_comparator_target_rubric.v1.draft.json` defines how an observed
+panel becomes a fair reference: peer median and IQR for typical context,
+favorable quartile only after outcome and transferability gates, and sustained
+high performers as examples rather than automatic targets. It blocks best-
+country and small-panel P85 targeting and preserves the causal savings firewall.
+
+`oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
+99 captured 2022 country/function observations and 11 explicit missing cells
+across 11 countries and ten COFOG divisions. Its reader is
+`docs/reading/oecd-cofog-country-panel-2022.md`.
+
+`hybrid_cofog_country_panel.data2022.v1.draft.json` reconciles the OECD panel
+with IMF GFS and uses IMF only to fill Canada's ten missing cells. It contains
+109 observed cells and one unresolved U.S. environmental-protection cell.
+
+`fiscal_country_panel.data2022.v1.draft.json` adds 2022 tax revenue and tax
+mix, total revenue, overall and primary balances, gross and net debt, and direct
+OECD D.41 interest payable plus separately sourced net interest for the 11 core
+peers. Singapore's interest remains missing. Gross and net interest are not
+substituted or treated as savings targets.
+
+`qpsd_maturity_country_panel.2022q4.v1.draft.json` adds a joint World Bank–IMF
+general-government maturity snapshot. Ten peers report short-term debt by
+original maturity, but only six also report long-term-original debt due within
+one year. A combined near-term stock is limited to those six; missing maturity
+components are never treated as zero.
+
+`socx_oldage_family_country_panel.data2022.v1.draft.json` adds matched OECD
+public old-age/survivors and family-benefit spending for seven countries, with
+cash and service components kept separate. Five countries remain missing;
+mixed-year family tax-break figures are not spliced into the 2022 panel.
+
+`pension_replacement_country_panel.model2024.v1.draft.json` captures modeled
+gross and net mandatory-scheme replacement rates for an average-earning male
+worker entering at age 22 in 2024. It is a future entitlement model, not a
+current-retiree outcome or a spending-efficiency score.
+
+`age_relative_poverty_country_panel.v1.draft.json` adds actual older-person and
+child relative-income-poverty observations with every country year exposed.
+The measure uses each country's own median-income threshold and remains separate
+from spending and modeled pension entitlements.
+
 The health depth phase begins with
 `health_cost_decomposition.v1.draft.json`, which separates price, volume and
 intensity, administration, coverage and case mix, and outcomes without treating

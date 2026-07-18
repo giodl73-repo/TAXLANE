@@ -1,0 +1,31 @@
+{
+  "record_id": "country-comparison:age-relative-poverty:v1",
+  "record_family": "age_relative_income_poverty_country_comparison",
+  "source_ids": ["SRC-OECD-IDD-AGE-POVERTY-PANELS"],
+  "poverty_definition": "share of the age group living in households with equivalised disposable income below 50 percent of the national median",
+  "country_count": 12,
+  "country_records": [
+    {"country_code":"USA","country_name":"United States","region":"north_america","older_people_age_group":"over_65","older_people_reference_year":2023,"older_people_poverty_percent":22.874,"older_people_observation_status":"actual","child_age_group":"under_18","child_reference_year":2021,"child_poverty_percent":13.99,"child_observation_status":"actual"},
+    {"country_code":"DEU","country_name":"Germany","region":"europe","older_people_age_group":"over_65","older_people_reference_year":2023,"older_people_poverty_percent":14.4999995827675,"older_people_observation_status":"actual","child_age_group":"under_18","child_reference_year":2021,"child_poverty_percent":11.1,"child_observation_status":"actual"},
+    {"country_code":"FRA","country_name":"France","region":"europe","older_people_age_group":"over_65","older_people_reference_year":2023,"older_people_poverty_percent":6.1999998986721,"older_people_observation_status":"actual","child_age_group":"under_18","child_reference_year":2021,"child_poverty_percent":11.9,"child_observation_status":"actual"},
+    {"country_code":"GBR","country_name":"United Kingdom","region":"europe","older_people_age_group":"over_65","older_people_reference_year":2023,"older_people_poverty_percent":15.0491312146187,"older_people_observation_status":"actual","child_age_group":"under_18","child_reference_year":2021,"child_poverty_percent":12.7033616,"child_observation_status":"actual"},
+    {"country_code":"SWE","country_name":"Sweden","region":"europe","older_people_age_group":"over_65","older_people_reference_year":2024,"older_people_poverty_percent":6.89186602830887,"older_people_observation_status":"actual","child_age_group":"under_18","child_reference_year":2021,"child_poverty_percent":8.769934,"child_observation_status":"actual"},
+    {"country_code":"NLD","country_name":"Netherlands","region":"europe","older_people_age_group":"over_65","older_people_reference_year":2024,"older_people_poverty_percent":6.3000001013279,"older_people_observation_status":"provisional","child_age_group":"under_18","child_reference_year":2021,"child_poverty_percent":12.0,"child_observation_status":"actual"},
+    {"country_code":"POL","country_name":"Poland","region":"europe","older_people_age_group":"over_65","older_people_reference_year":2023,"older_people_poverty_percent":10.9424687922001,"older_people_observation_status":"actual","child_age_group":"under_18","child_reference_year":2021,"child_poverty_percent":8.28716808581117,"child_observation_status":"actual"},
+    {"country_code":"JPN","country_name":"Japan","region":"asia","older_people_age_group":"over_65","older_people_reference_year":2021,"older_people_poverty_percent":20.0,"older_people_observation_status":"actual","child_age_group":"under_18","child_reference_year":2021,"child_poverty_percent":11.5370734,"child_observation_status":"actual"},
+    {"country_code":"KOR","country_name":"South Korea","region":"asia","older_people_age_group":"over_65","older_people_reference_year":2023,"older_people_poverty_percent":39.8000001907349,"older_people_observation_status":"actual","child_age_group":"under_18","child_reference_year":2021,"child_poverty_percent":9.6,"child_observation_status":"actual"},
+    {"country_code":"CAN","country_name":"Canada","region":"north_america","older_people_age_group":"over_65","older_people_reference_year":2023,"older_people_poverty_percent":10.1000003516674,"older_people_observation_status":"actual","child_age_group":"under_18","child_reference_year":2021,"child_poverty_percent":9.528,"child_observation_status":"actual"},
+    {"country_code":"AUS","country_name":"Australia","region":"oceania","older_people_age_group":"over_65","older_people_reference_year":2020,"older_people_poverty_percent":22.6,"older_people_observation_status":"actual","child_age_group":"under_18","child_reference_year":2020,"child_poverty_percent":13.3,"child_observation_status":"fallback_2020_no_2021_observation"},
+    {"country_code":"SGP","country_name":"Singapore","region":"asia","older_people_age_group":"over_65","older_people_reference_year":null,"older_people_poverty_percent":null,"older_people_observation_status":"country_absent_from_source","child_age_group":"under_18","child_reference_year":null,"child_poverty_percent":null,"child_observation_status":"country_absent_from_source"}
+  ],
+  "older_people_period_boundary": "No common actual year covers all eleven OECD peers. The panel selects the latest observation in 2020-2024 and displays every country year; the Netherlands 2024 value is provisional.",
+  "child_period_boundary": "The child panel uses 2021 for ten peers and Australia's 2020 fallback. No exact common year covers all eleven peers.",
+  "interpretation_boundary": "Relative income poverty is measured against each country's own median and is not an absolute deprivation threshold. It omits wealth and does not by itself identify pension or family-policy causality.",
+  "spending_boundary": "Poverty observations are not divided into SOCX spending or modeled pension replacement rates to create an efficiency ranking.",
+  "target_status": "descriptive_income_outcome_not_policy_target",
+  "ranking_status": "blocked",
+  "efficiency_status": "not_causal_efficiency",
+  "savings_status": "blocked_not_scored",
+  "observed_date": "2026-07-15",
+  "status": "draft-source-captured"
+}
