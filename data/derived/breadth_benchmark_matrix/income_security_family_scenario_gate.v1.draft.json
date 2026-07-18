@@ -1,0 +1,136 @@
+{
+  "record_id": "target-cost:income-security-family-scenario-gate:v1",
+  "record_family": "income_security_family_scenario_gate",
+  "schema_version": "v1.draft",
+  "as_of_date": "2026-07-18",
+  "lane_id": "income-security-family",
+  "rate_component_id": "income-security",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "rubric_path": "data/derived/breadth_benchmark_matrix/international_comparator_target_rubric.v1.draft.json",
+  "rate_model_path": "data/derived/program_lane_rate_model/program_lane_rate_model.fy2025.omb-fy2027-v1.draft.jsonl",
+  "allocation_model_path": "data/derived/program_lane_rate_model/receipts_to_lane_allocation.fy2025.draft.jsonl",
+  "evidence_context_paths": [
+    "data/derived/breadth_benchmark_matrix/socx_oldage_family_country_panel.data2022.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/age_relative_poverty_country_panel.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/census_cps_education_access_transition_baseline.oct2024.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/bls_cps_worker_baseline.cy2024.v1.draft.json"
+  ],
+  "purpose": "Gate income security and family target-cost scenarios until benefit package, take-up, child-poverty, childcare-access, work-transition, federalism, distribution, and administration models exist.",
+  "non_claim_boundary": "No income-security or family target cost, benefit package, eligibility rule, take-up assumption, child-poverty result, childcare-access result, work-transition result, federal budget effect, balanced rate, or savings claim is selected or scored.",
+  "fy2025_current_law_context": {
+    "source_rows": ["lane-rate:income-security:fy2025:omb-fy2027-v1", "receipts-to-lane:income-security:fy2025"],
+    "gross_program_cost_musd": 701609,
+    "dedicated_payroll_musd": 69208,
+    "dedicated_excise_musd": 243,
+    "residual_general_fund_need_musd": 632158,
+    "baseline_year_basis": "fiscal_year",
+    "omb_function_code": "600",
+    "included_subfunctions": ["601","602","603","604","605","609"]
+  },
+  "required_model_inputs": [
+    {"input_id": "benefit_package_model", "status": "missing", "value": null},
+    {"input_id": "eligible_population_model", "status": "missing", "value": null},
+    {"input_id": "take_up_model", "status": "missing", "value": null},
+    {"input_id": "refundable_credit_translation", "status": "missing", "value": null},
+    {"input_id": "housing_support_translation", "status": "missing", "value": null},
+    {"input_id": "nutrition_support_translation", "status": "missing", "value": null},
+    {"input_id": "federal_state_local_translation", "status": "missing", "value": null},
+    {"input_id": "child_poverty_floor", "status": "missing", "value": null},
+    {"input_id": "material_hardship_floor", "status": "missing", "value": null},
+    {"input_id": "childcare_access_floor", "status": "missing", "value": null},
+    {"input_id": "work_transition_floor", "status": "missing", "value": null},
+    {"input_id": "distribution_by_income_family_type_and_work_status", "status": "missing", "value": null},
+    {"input_id": "administration_and_transition_cost", "status": "missing", "value": null},
+    {"input_id": "policy_specific_score_provenance", "status": "missing", "value": null}
+  ],
+  "scenarios": [
+    {
+      "scenario_id": "current_law",
+      "scenario_role": "baseline_current_law_context",
+      "gross_program_cost_musd": 701609,
+      "dedicated_receipts_musd": 69451,
+      "residual_general_fund_need_musd": 632158,
+      "reform_delta_musd": 0,
+      "solver_eligible": false
+    },
+    {
+      "scenario_id": "central_reform",
+      "scenario_role": "selected_policy_expected_realization",
+      "benefit_package_policy": null,
+      "eligibility_policy": null,
+      "take_up_assumption": null,
+      "refundable_credit_policy": null,
+      "childcare_services_policy": null,
+      "housing_support_policy": null,
+      "gross_program_cost_delta_musd": null,
+      "dedicated_receipt_delta_musd": null,
+      "general_fund_delta_musd": null,
+      "administration_transition_cost_musd": null,
+      "outcome_floor_statuses": {
+        "child_poverty": false,
+        "material_hardship": false,
+        "formal_childcare_access": false,
+        "work_and_care_transition": false,
+        "delivery_feasibility": false
+      },
+      "solver_eligible": false,
+      "target_cost_ready": false,
+      "balanced_rate_ready": false
+    },
+    {
+      "scenario_id": "stress",
+      "scenario_role": "same_policy_adverse_realization",
+      "same_policy_as_central": false,
+      "higher_take_up": null,
+      "higher_unit_cost": null,
+      "weaker_employment_response": null,
+      "higher_administration_transition_cost": null,
+      "lower_state_local_maintenance_of_effort": null,
+      "outcome_floor_statuses": {
+        "child_poverty": false,
+        "material_hardship": false,
+        "formal_childcare_access": false,
+        "work_and_care_transition": false,
+        "delivery_feasibility": false
+      },
+      "solver_eligible": false,
+      "target_cost_ready": false,
+      "balanced_rate_ready": false
+    }
+  ],
+  "claim_booleans": {
+    "target_cost_published": false,
+    "federal_effect_published": false,
+    "benefit_package_selected": false,
+    "take_up_modeled": false,
+    "child_poverty_result_published": false,
+    "childcare_access_result_published": false,
+    "work_transition_result_published": false,
+    "balanced_rate_published": false,
+    "savings_published": false
+  },
+  "explicit_blockers": [
+    "benefit_package_model_missing",
+    "eligible_population_model_missing",
+    "take_up_model_missing",
+    "federal_state_local_translation_missing",
+    "child_poverty_floor_missing",
+    "childcare_access_floor_missing",
+    "work_transition_floor_missing",
+    "distribution_missing",
+    "administration_and_transition_cost_missing",
+    "policy_specific_score_provenance_missing",
+    "central_and_stress_solver_eligible_false"
+  ],
+  "readiness": {
+    "current_law_context_available": true,
+    "target_path_reconciled": false,
+    "benefit_package_scored": false,
+    "take_up_model_ready": false,
+    "central_reform_scored": false,
+    "stress_scored": false,
+    "solver_integration_ready": false,
+    "public_rate_claim_allowed": false,
+    "public_savings_claim_allowed": false
+  }
+}

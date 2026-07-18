@@ -833,6 +833,12 @@ const TRAINING_EMPLOYMENT_BRIDGE_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/training_employment_account_bridge.fy2025.v1.draft.json";
 const TRAINING_EMPLOYMENT_BRIDGE_READER_PATH: &str =
     "docs/reading/training-employment-account-bridge.md";
+const INCOME_SECURITY_FAMILY_SCENARIO_GATE_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/income_security_family_scenario_gate.v1.draft.json";
+const INCOME_SECURITY_FAMILY_SCENARIO_GATE_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/income_security_family_scenario_gate.schema.md";
+const INCOME_SECURITY_FAMILY_SCENARIO_GATE_READER_PATH: &str =
+    "docs/reading/income-security-family-scenario-gate.md";
 const WIA_GOLD_STANDARD_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/wia_gold_standard_impact_evidence.2011-2013.v1.draft.json";
 const WIA_GOLD_STANDARD_READER_PATH: &str = "docs/reading/wia-gold-standard-impact-evidence.md";
 const DISASTER_DEPTH_CARD_JSON_PATH: &str =
@@ -10798,10 +10804,335 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_socx_oldage_family_country_panel(root)?;
     validate_pension_replacement_country_panel(root)?;
     validate_age_relative_poverty_country_panel(root)?;
+    validate_income_security_family_scenario_gate(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
     println!("validated {} global country comparison lanes", lanes.len());
+    Ok(())
+}
+
+fn validate_income_security_family_scenario_gate(root: &Path) -> Result<(), String> {
+    let text = fs::read_to_string(root.join(INCOME_SECURITY_FAMILY_SCENARIO_GATE_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let gate: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+    let string_set = |row: &serde_json::Value, field: &str| -> Result<BTreeSet<String>, String> {
+        Ok(row
+            .get(field)
+            .and_then(|value| value.as_array())
+            .ok_or_else(|| format!("income security/family gate missing array {field}"))?
+            .iter()
+            .map(|value| {
+                value
+                    .as_str()
+                    .map(str::to_string)
+                    .ok_or_else(|| format!("income security/family gate non-string {field}"))
+            })
+            .collect::<Result<BTreeSet<_>, _>>()?)
+    };
+
+    if string_field(&gate, "record_family")? != "income_security_family_scenario_gate"
+        || string_field(&gate, "lane_id")? != "income-security-family"
+        || string_field(&gate, "rate_component_id")? != "income-security"
+        || string_field(&gate, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&gate, "rubric_path")? != INTERNATIONAL_COMPARATOR_TARGET_RUBRIC_JSON_PATH
+    {
+        return Err("income security/family scenario gate identity failed".to_string());
+    }
+    for path in [
+        INCOME_SECURITY_FAMILY_SCENARIO_GATE_SCHEMA_PATH,
+        INCOME_SECURITY_FAMILY_SCENARIO_GATE_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "income security/family scenario gate missing {path}"
+            ));
+        }
+    }
+
+    let evidence_paths = string_set(&gate, "evidence_context_paths")?;
+    for required in [
+        SOCX_OLDAGE_FAMILY_PANEL_JSON_PATH,
+        AGE_RELATIVE_POVERTY_PANEL_JSON_PATH,
+        CPS_EDUCATION_ACCESS_TRANSITION_JSON_PATH,
+        BLS_CPS_WORKER_BASELINE_JSON_PATH,
+    ] {
+        if !evidence_paths.contains(required) {
+            return Err(format!(
+                "income security/family scenario gate missing evidence path {required}"
+            ));
+        }
+    }
+    let boundary = string_field(&gate, "non_claim_boundary")?;
+    for required in [
+        "No income-security or family target cost",
+        "benefit package",
+        "take-up assumption",
+        "child-poverty result",
+        "childcare-access result",
+        "balanced rate",
+        "savings claim",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!(
+                "income security/family claim boundary missing {required}"
+            ));
+        }
+    }
+
+    let context = gate
+        .get("fy2025_current_law_context")
+        .ok_or("income security/family FY2025 context")?;
+    if number_field(context, "gross_program_cost_musd")? != 701_609.0
+        || number_field(context, "dedicated_payroll_musd")? != 69_208.0
+        || number_field(context, "dedicated_excise_musd")? != 243.0
+        || number_field(context, "residual_general_fund_need_musd")? != 632_158.0
+        || string_field(context, "omb_function_code")? != "600"
+    {
+        return Err("income security/family FY2025 values failed".to_string());
+    }
+    let residual = number_field(context, "gross_program_cost_musd")?
+        - number_field(context, "dedicated_payroll_musd")?
+        - number_field(context, "dedicated_excise_musd")?;
+    if (residual - number_field(context, "residual_general_fund_need_musd")?).abs() > 0.000001 {
+        return Err("income security/family FY2025 residual does not reconcile".to_string());
+    }
+    let subfunctions = string_set(context, "included_subfunctions")?;
+    if subfunctions
+        != ["601", "602", "603", "604", "605", "609"]
+            .into_iter()
+            .map(str::to_string)
+            .collect()
+    {
+        return Err("income security/family included subfunctions changed".to_string());
+    }
+
+    let inputs = gate
+        .get("required_model_inputs")
+        .and_then(|value| value.as_array())
+        .ok_or("income security/family required inputs")?;
+    let expected_inputs: BTreeSet<String> = [
+        "benefit_package_model",
+        "eligible_population_model",
+        "take_up_model",
+        "refundable_credit_translation",
+        "housing_support_translation",
+        "nutrition_support_translation",
+        "federal_state_local_translation",
+        "child_poverty_floor",
+        "material_hardship_floor",
+        "childcare_access_floor",
+        "work_transition_floor",
+        "distribution_by_income_family_type_and_work_status",
+        "administration_and_transition_cost",
+        "policy_specific_score_provenance",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect();
+    let mut observed_inputs = BTreeSet::<String>::new();
+    for input in inputs {
+        let id = string_field(input, "input_id")?;
+        observed_inputs.insert(id.clone());
+        if string_field(input, "status")? != "missing"
+            || !input.get("value").is_some_and(serde_json::Value::is_null)
+        {
+            return Err(format!(
+                "income security/family input {id} must remain missing and null"
+            ));
+        }
+    }
+    if observed_inputs != expected_inputs {
+        return Err("income security/family required input set changed".to_string());
+    }
+
+    let scenarios = gate
+        .get("scenarios")
+        .and_then(|value| value.as_array())
+        .ok_or("income security/family scenarios")?;
+    let mut scenario_ids = BTreeSet::<String>::new();
+    for scenario in scenarios {
+        let id = string_field(scenario, "scenario_id")?;
+        scenario_ids.insert(id.clone());
+        if scenario
+            .get("solver_eligible")
+            .and_then(|value| value.as_bool())
+            != Some(false)
+        {
+            return Err(format!(
+                "income security/family scenario {id} must remain solver-ineligible"
+            ));
+        }
+        if id == "current_law" {
+            if number_field(scenario, "gross_program_cost_musd")? != 701_609.0
+                || number_field(scenario, "dedicated_receipts_musd")? != 69_451.0
+                || number_field(scenario, "residual_general_fund_need_musd")? != 632_158.0
+                || number_field(scenario, "reform_delta_musd")? != 0.0
+            {
+                return Err("income security/family current-law scenario failed".to_string());
+            }
+        } else {
+            for field in ["target_cost_ready", "balanced_rate_ready"] {
+                if scenario.get(field).and_then(|value| value.as_bool()) != Some(false) {
+                    return Err(format!(
+                        "income security/family scenario {id} field {field} must be false"
+                    ));
+                }
+            }
+            let floors = scenario
+                .get("outcome_floor_statuses")
+                .ok_or("income security/family floors")?;
+            for field in [
+                "child_poverty",
+                "material_hardship",
+                "formal_childcare_access",
+                "work_and_care_transition",
+                "delivery_feasibility",
+            ] {
+                if floors.get(field).and_then(|value| value.as_bool()) != Some(false) {
+                    return Err(format!(
+                        "income security/family floor {field} must remain false"
+                    ));
+                }
+            }
+        }
+    }
+    let expected_scenarios: BTreeSet<String> = ["current_law", "central_reform", "stress"]
+        .into_iter()
+        .map(str::to_string)
+        .collect();
+    if scenario_ids != expected_scenarios {
+        return Err("income security/family scenario set changed".to_string());
+    }
+
+    let central = scenarios
+        .iter()
+        .find(|scenario| {
+            string_field(scenario, "scenario_id").ok().as_deref() == Some("central_reform")
+        })
+        .ok_or("income security/family central scenario")?;
+    for field in [
+        "benefit_package_policy",
+        "eligibility_policy",
+        "take_up_assumption",
+        "refundable_credit_policy",
+        "childcare_services_policy",
+        "housing_support_policy",
+        "gross_program_cost_delta_musd",
+        "dedicated_receipt_delta_musd",
+        "general_fund_delta_musd",
+        "administration_transition_cost_musd",
+    ] {
+        if !central.get(field).is_some_and(serde_json::Value::is_null) {
+            return Err(format!(
+                "income security/family central scenario field {field} must remain null"
+            ));
+        }
+    }
+
+    let stress = scenarios
+        .iter()
+        .find(|scenario| string_field(scenario, "scenario_id").ok().as_deref() == Some("stress"))
+        .ok_or("income security/family stress scenario")?;
+    if string_field(stress, "scenario_role")? != "same_policy_adverse_realization"
+        || stress
+            .get("same_policy_as_central")
+            .and_then(|value| value.as_bool())
+            != Some(false)
+    {
+        return Err("income security/family stress scenario must remain unselected".to_string());
+    }
+    for field in [
+        "higher_take_up",
+        "higher_unit_cost",
+        "weaker_employment_response",
+        "higher_administration_transition_cost",
+        "lower_state_local_maintenance_of_effort",
+    ] {
+        if !stress.get(field).is_some_and(serde_json::Value::is_null) {
+            return Err(format!(
+                "income security/family stress scenario field {field} must remain null"
+            ));
+        }
+    }
+
+    let claims = gate
+        .get("claim_booleans")
+        .ok_or("income security/family claim booleans")?;
+    for field in [
+        "target_cost_published",
+        "federal_effect_published",
+        "benefit_package_selected",
+        "take_up_modeled",
+        "child_poverty_result_published",
+        "childcare_access_result_published",
+        "work_transition_result_published",
+        "balanced_rate_published",
+        "savings_published",
+    ] {
+        if claims.get(field).and_then(|value| value.as_bool()) != Some(false) {
+            return Err(format!(
+                "income security/family claim {field} must remain false"
+            ));
+        }
+    }
+    let blockers = string_set(&gate, "explicit_blockers")?;
+    for required in [
+        "benefit_package_model_missing",
+        "take_up_model_missing",
+        "federal_state_local_translation_missing",
+        "child_poverty_floor_missing",
+        "childcare_access_floor_missing",
+        "work_transition_floor_missing",
+        "central_and_stress_solver_eligible_false",
+    ] {
+        if !blockers.contains(required) {
+            return Err(format!("income security/family blocker missing {required}"));
+        }
+    }
+    let readiness = gate
+        .get("readiness")
+        .ok_or("income security/family readiness")?;
+    if readiness
+        .get("current_law_context_available")
+        .and_then(|value| value.as_bool())
+        != Some(true)
+    {
+        return Err("income security/family current-law readiness must be true".to_string());
+    }
+    for field in [
+        "target_path_reconciled",
+        "benefit_package_scored",
+        "take_up_model_ready",
+        "central_reform_scored",
+        "stress_scored",
+        "solver_integration_ready",
+        "public_rate_claim_allowed",
+        "public_savings_claim_allowed",
+    ] {
+        if readiness.get(field).and_then(|value| value.as_bool()) != Some(false) {
+            return Err(format!(
+                "income security/family readiness {field} must remain false"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(INCOME_SECURITY_FAMILY_SCENARIO_GATE_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        INCOME_SECURITY_FAMILY_SCENARIO_GATE_JSON_PATH,
+        "This is a readiness gate, not an income-support or family-policy plan.",
+        "$632.158B residual general-fund need",
+        "Family spending comparisons are context, not an income-security target.",
+        "central and stress income-security/family scenarios remain unscored and solver-ineligible",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!(
+                "income security/family scenario gate reader missing {required}"
+            ));
+        }
+    }
+
     Ok(())
 }
 
@@ -12210,6 +12541,12 @@ mod global_country_comparison_tests {
     fn age_relative_poverty_panel_preserves_source_years_values_and_boundaries() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_age_relative_poverty_country_panel(&root).unwrap();
+    }
+
+    #[test]
+    fn income_security_family_scenario_gate_blocks_package_floors_and_claims() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_income_security_family_scenario_gate(&root).unwrap();
     }
 
     #[test]

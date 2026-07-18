@@ -68,6 +68,14 @@ child relative-income-poverty observations with every country year exposed.
 The measure uses each country's own median-income threshold and remains separate
 from spending and modeled pension entitlements.
 
+`income_security_family_scenario_gate.v1.draft.json` starts the income-security
+and family lane scenario gate. It preserves FY2025 current-law function cost and
+dedicated-receipt context, requires benefit-package, eligible-population,
+take-up, federal/state/local, distribution, administration, transition-cost, and
+outcome-floor models before target-cost scoring, and blocks benefit-package,
+child-poverty, childcare-access, work-transition, savings, and balanced-rate
+claims.
+
 The health depth phase begins with
 `health_cost_decomposition.v1.draft.json`, which separates price, volume and
 intensity, administration, coverage and case mix, and outcomes without treating
