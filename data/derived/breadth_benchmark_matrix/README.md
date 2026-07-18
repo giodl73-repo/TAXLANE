@@ -97,6 +97,13 @@ blocking national and net-savings claims.
 CY2024 private-insurance hospital and physician/clinical payments, labels the
 cross-source result Grade C, and blocks savings and federal-budget claims.
 
+`health_policy_scored_reform_path.v1.draft.json` gates `central_reform` and
+`stress` for federal health reform scoring. It keeps every federal cash-flow
+field null and solver-ineligible until a specific federal policy instrument,
+behavioral response, incidence, score provenance, and all outcome floors exist.
+Stress is the same selected policy under adverse realization, not the aggressive
+private-insurance price sensitivity.
+
 `fiscal_path_scenarios.v1.draft.json` translates CBO's 2036 primary-deficit
 baseline into partial-closure, balance, and surplus adjustment equivalents
 without claiming that primary balance automatically stabilizes debt.

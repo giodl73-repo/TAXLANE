@@ -1,0 +1,123 @@
+{
+  "record_id": "target-cost:health-policy-scored-reform-path:v1",
+  "record_family": "health_policy_scored_reform_path",
+  "schema_version": "v1.draft",
+  "as_of_date": "2026-07-17",
+  "lane_id": "health-medicare",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "rubric_path": "data/derived/breadth_benchmark_matrix/international_comparator_target_rubric.v1.draft.json",
+  "evidence_boundary_paths": [
+    "data/derived/breadth_benchmark_matrix/health_medicare_relative_scenarios.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/health_commercial_sample_sensitivity.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/health_national_phi_sensitivity.v1.draft.json"
+  ],
+  "purpose": "Define the policy-score gate for central_reform and stress health fiscal scenarios without converting private-insurance payer sensitivities into federal savings.",
+  "non_claim_boundary": "No federal health reform score is present. PHI sensitivity evidence cannot populate federal target-cost, gross-savings, net-savings, receipt, premium, provider-revenue, or deficit fields.",
+  "stress_definition": "Stress is the same selected federal policy under adverse realization: weaker payment effect, higher utilization, higher implementation cost, access remediation, weaker receipts, and higher interest rates where relevant. It is not the aggressive Medicare-relative price sensitivity.",
+  "required_policy_score_inputs": [
+    {"input_id": "specific_federal_policy_instrument", "status": "missing", "value": null},
+    {"input_id": "service_provider_segmentation", "status": "missing", "value": null},
+    {"input_id": "annual_phase_in", "status": "missing", "value": null},
+    {"input_id": "utilization_and_volume_response", "status": "missing", "value": null},
+    {"input_id": "coding_and_site_of_care_behavior", "status": "missing", "value": null},
+    {"input_id": "network_and_consolidation_response", "status": "missing", "value": null},
+    {"input_id": "transition_administration_monitoring_enforcement_costs", "status": "missing", "value": null},
+    {"input_id": "premium_employer_household_wage_tax_incidence", "status": "missing", "value": null},
+    {"input_id": "policy_specific_score_provenance", "status": "missing", "value": null},
+    {"input_id": "all_outcome_floors_passed", "status": "missing", "value": null}
+  ],
+  "scenarios": [
+    {
+      "scenario_id": "central_reform",
+      "scenario_role": "selected_policy_expected_realization",
+      "policy_instrument": null,
+      "service_provider_segmentation": null,
+      "annual_phase_in": null,
+      "utilization_and_volume_response": null,
+      "coding_and_site_of_care_behavior": null,
+      "network_and_consolidation_response": null,
+      "transition_costs_musd": null,
+      "administration_monitoring_enforcement_costs_musd": null,
+      "premium_effect_musd": null,
+      "employer_effect_musd": null,
+      "household_effect_musd": null,
+      "wage_effect_musd": null,
+      "tax_incidence_effect_musd": null,
+      "policy_specific_score_provenance": null,
+      "outcome_floor_statuses": {
+        "access": false,
+        "quality": false,
+        "equity": false,
+        "adequacy_resilience": false,
+        "delivery_feasibility": false
+      },
+      "federal_cash_flow": {
+        "gross_program_outlay_delta_musd": null,
+        "implementation_admin_outlay_delta_musd": null,
+        "credited_offset_delta_musd": null,
+        "receipt_delta_musd": null,
+        "net_interest_delta_musd": null,
+        "net_federal_budget_effect_musd": null
+      },
+      "solver_eligible": false,
+      "target_cost_ready": false,
+      "federal_effect_ready": false
+    },
+    {
+      "scenario_id": "stress",
+      "scenario_role": "same_policy_adverse_realization",
+      "policy_instrument": null,
+      "weaker_payment_effect": null,
+      "higher_utilization": null,
+      "higher_implementation_cost": null,
+      "access_remediation": null,
+      "weaker_receipts": null,
+      "higher_interest_rates_where_relevant": null,
+      "policy_specific_score_provenance": null,
+      "outcome_floor_statuses": {
+        "access": false,
+        "quality": false,
+        "equity": false,
+        "adequacy_resilience": false,
+        "delivery_feasibility": false
+      },
+      "federal_cash_flow": {
+        "gross_program_outlay_delta_musd": null,
+        "implementation_admin_outlay_delta_musd": null,
+        "credited_offset_delta_musd": null,
+        "receipt_delta_musd": null,
+        "net_interest_delta_musd": null,
+        "net_federal_budget_effect_musd": null
+      },
+      "solver_eligible": false,
+      "target_cost_ready": false,
+      "federal_effect_ready": false
+    }
+  ],
+  "claim_booleans": {
+    "target_cost_published": false,
+    "federal_effect_published": false,
+    "gross_savings_published": false,
+    "net_savings_published": false,
+    "balanced_rate_published": false,
+    "stress_maps_to_aggressive_price_sensitivity": false
+  },
+  "explicit_blockers": [
+    "specific_federal_policy_instrument_missing",
+    "service_provider_segmentation_missing",
+    "annual_phase_in_missing",
+    "behavioral_response_missing",
+    "transition_and_administration_costs_missing",
+    "premium_wage_tax_incidence_missing",
+    "policy_specific_score_provenance_missing",
+    "outcome_floors_not_passed",
+    "central_and_stress_federal_cash_flows_null"
+  ],
+  "readiness": {
+    "central_reform_federal_cash_flow_ready": false,
+    "stress_federal_cash_flow_ready": false,
+    "solver_integration_ready": false,
+    "public_savings_claim_allowed": false,
+    "public_rate_claim_allowed": false
+  }
+}

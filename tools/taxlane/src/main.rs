@@ -284,6 +284,12 @@ const HEALTH_SAMPLE_SENSITIVITY_READER_PATH: &str =
 const HEALTH_NATIONAL_PHI_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/health_national_phi_sensitivity.v1.draft.json";
 const HEALTH_NATIONAL_PHI_READER_PATH: &str = "docs/reading/health-national-phi-sensitivity.md";
+const HEALTH_POLICY_SCORED_REFORM_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/health_policy_scored_reform_path.v1.draft.json";
+const HEALTH_POLICY_SCORED_REFORM_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/health_policy_scored_reform_path.schema.md";
+const HEALTH_POLICY_SCORED_REFORM_READER_PATH: &str =
+    "docs/reading/health-policy-scored-reform-path.md";
 const FISCAL_PATH_SCENARIOS_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/fiscal_path_scenarios.v1.draft.json";
 const FISCAL_PATH_SCENARIOS_READER_PATH: &str = "docs/reading/fiscal-path-scenarios.md";
@@ -12223,6 +12229,12 @@ mod global_country_comparison_tests {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_program_lane_target_cost_contract(&root).unwrap();
     }
+
+    #[test]
+    fn health_policy_scored_reform_path_blocks_unscored_central_and_stress() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_health_policy_scored_reform_path(&root).unwrap();
+    }
 }
 
 fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
@@ -12418,6 +12430,7 @@ fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
     validate_health_scenarios(root)?;
     validate_health_sample_sensitivity(root)?;
     validate_health_national_phi_sensitivity(root)?;
+    validate_health_policy_scored_reform_path(root)?;
     validate_fiscal_path_scenarios(root)?;
     validate_fiscal_debt_dynamics(root)?;
     validate_fiscal_policy_baskets(root)?;
@@ -12812,6 +12825,307 @@ fn validate_health_national_phi_sensitivity(root: &Path) -> Result<(), String> {
             return Err(format!("health national PHI reader missing {required}"));
         }
     }
+    Ok(())
+}
+
+fn validate_health_policy_scored_reform_path(root: &Path) -> Result<(), String> {
+    let text = fs::read_to_string(root.join(HEALTH_POLICY_SCORED_REFORM_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let card: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+    let string_set = |row: &serde_json::Value, field: &str| -> Result<BTreeSet<String>, String> {
+        Ok(row
+            .get(field)
+            .and_then(|value| value.as_array())
+            .ok_or_else(|| format!("health policy-scored path missing string array {field}"))?
+            .iter()
+            .map(|value| {
+                value
+                    .as_str()
+                    .map(str::to_string)
+                    .ok_or_else(|| format!("health policy-scored path non-string {field}"))
+            })
+            .collect::<Result<BTreeSet<_>, _>>()?)
+    };
+
+    if string_field(&card, "record_family")? != "health_policy_scored_reform_path"
+        || string_field(&card, "lane_id")? != "health-medicare"
+        || string_field(&card, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&card, "rubric_path")? != INTERNATIONAL_COMPARATOR_TARGET_RUBRIC_JSON_PATH
+    {
+        return Err("health policy-scored reform path identity failed".to_string());
+    }
+
+    for path in [
+        HEALTH_POLICY_SCORED_REFORM_SCHEMA_PATH,
+        HEALTH_POLICY_SCORED_REFORM_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("health policy-scored reform path missing {path}"));
+        }
+    }
+
+    let evidence_paths = string_set(&card, "evidence_boundary_paths")?;
+    for required in [
+        HEALTH_SCENARIOS_JSON_PATH,
+        HEALTH_SAMPLE_SENSITIVITY_JSON_PATH,
+        HEALTH_NATIONAL_PHI_JSON_PATH,
+    ] {
+        if !evidence_paths.contains(required) {
+            return Err(format!(
+                "health policy-scored reform path missing evidence boundary {required}"
+            ));
+        }
+    }
+
+    if !string_field(&card, "non_claim_boundary")?
+        .contains("PHI sensitivity evidence cannot populate federal target-cost")
+    {
+        return Err("health policy-scored PHI federal-score firewall missing".to_string());
+    }
+    let stress_definition = string_field(&card, "stress_definition")?;
+    for required in [
+        "same selected federal policy under adverse realization",
+        "weaker payment effect",
+        "higher utilization",
+        "higher implementation cost",
+        "access remediation",
+        "weaker receipts",
+        "higher interest rates",
+        "not the aggressive Medicare-relative price sensitivity",
+    ] {
+        if !stress_definition.contains(required) {
+            return Err(format!(
+                "health policy-scored stress definition missing {required}"
+            ));
+        }
+    }
+
+    let inputs = card
+        .get("required_policy_score_inputs")
+        .and_then(|value| value.as_array())
+        .ok_or("health policy-scored required inputs")?;
+    let expected_inputs: BTreeSet<String> = [
+        "specific_federal_policy_instrument",
+        "service_provider_segmentation",
+        "annual_phase_in",
+        "utilization_and_volume_response",
+        "coding_and_site_of_care_behavior",
+        "network_and_consolidation_response",
+        "transition_administration_monitoring_enforcement_costs",
+        "premium_employer_household_wage_tax_incidence",
+        "policy_specific_score_provenance",
+        "all_outcome_floors_passed",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect();
+    let mut observed_inputs = BTreeSet::<String>::new();
+    for input in inputs {
+        observed_inputs.insert(string_field(input, "input_id")?);
+        if string_field(input, "status")? != "missing"
+            || !input.get("value").is_some_and(serde_json::Value::is_null)
+        {
+            return Err("health policy-scored inputs must remain missing/null".to_string());
+        }
+    }
+    if observed_inputs != expected_inputs {
+        return Err("health policy-scored required input set changed".to_string());
+    }
+
+    let scenarios = card
+        .get("scenarios")
+        .and_then(|value| value.as_array())
+        .ok_or("health policy-scored scenarios")?;
+    if scenarios.len() != 2 {
+        return Err("health policy-scored path must contain central_reform and stress".to_string());
+    }
+    let mut scenario_ids = BTreeSet::<String>::new();
+    for scenario in scenarios {
+        scenario_ids.insert(string_field(scenario, "scenario_id")?);
+        let floors = scenario
+            .get("outcome_floor_statuses")
+            .ok_or("health policy-scored outcome floors")?;
+        for field in [
+            "access",
+            "quality",
+            "equity",
+            "adequacy_resilience",
+            "delivery_feasibility",
+        ] {
+            if floors.get(field).and_then(|value| value.as_bool()) != Some(false) {
+                return Err(format!(
+                    "health policy-scored floor {field} must remain false"
+                ));
+            }
+        }
+        let cash_flow = scenario
+            .get("federal_cash_flow")
+            .ok_or("health policy-scored federal cash flow")?;
+        for field in [
+            "gross_program_outlay_delta_musd",
+            "implementation_admin_outlay_delta_musd",
+            "credited_offset_delta_musd",
+            "receipt_delta_musd",
+            "net_interest_delta_musd",
+            "net_federal_budget_effect_musd",
+        ] {
+            if !cash_flow.get(field).is_some_and(serde_json::Value::is_null) {
+                return Err(format!(
+                    "health policy-scored federal cash field {field} must be null"
+                ));
+            }
+        }
+        for field in [
+            "solver_eligible",
+            "target_cost_ready",
+            "federal_effect_ready",
+        ] {
+            if scenario.get(field).and_then(|value| value.as_bool()) != Some(false) {
+                return Err(format!(
+                    "health policy-scored scenario gate {field} must be false"
+                ));
+            }
+        }
+        if !scenario
+            .get("policy_specific_score_provenance")
+            .is_some_and(serde_json::Value::is_null)
+        {
+            return Err(
+                "health policy-scored score provenance must remain null until scored".to_string(),
+            );
+        }
+    }
+    let expected_scenarios: BTreeSet<String> = ["central_reform", "stress"]
+        .into_iter()
+        .map(str::to_string)
+        .collect();
+    if scenario_ids != expected_scenarios {
+        return Err("health policy-scored scenario ids changed".to_string());
+    }
+
+    let central = scenarios
+        .iter()
+        .find(|scenario| {
+            string_field(scenario, "scenario_id").ok().as_deref() == Some("central_reform")
+        })
+        .ok_or("health policy-scored central scenario")?;
+    for field in [
+        "policy_instrument",
+        "service_provider_segmentation",
+        "annual_phase_in",
+        "utilization_and_volume_response",
+        "coding_and_site_of_care_behavior",
+        "network_and_consolidation_response",
+        "transition_costs_musd",
+        "administration_monitoring_enforcement_costs_musd",
+        "premium_effect_musd",
+        "employer_effect_musd",
+        "household_effect_musd",
+        "wage_effect_musd",
+        "tax_incidence_effect_musd",
+    ] {
+        if !central.get(field).is_some_and(serde_json::Value::is_null) {
+            return Err(format!(
+                "health policy-scored central field {field} must be null"
+            ));
+        }
+    }
+
+    let stress = scenarios
+        .iter()
+        .find(|scenario| string_field(scenario, "scenario_id").ok().as_deref() == Some("stress"))
+        .ok_or("health policy-scored stress scenario")?;
+    if string_field(stress, "scenario_role")? != "same_policy_adverse_realization" {
+        return Err("health policy-scored stress role must be same-policy adverse".to_string());
+    }
+    for field in [
+        "policy_instrument",
+        "weaker_payment_effect",
+        "higher_utilization",
+        "higher_implementation_cost",
+        "access_remediation",
+        "weaker_receipts",
+        "higher_interest_rates_where_relevant",
+    ] {
+        if !stress.get(field).is_some_and(serde_json::Value::is_null) {
+            return Err(format!(
+                "health policy-scored stress field {field} must be null"
+            ));
+        }
+    }
+
+    let claim_booleans = card
+        .get("claim_booleans")
+        .ok_or("health policy-scored claim booleans")?;
+    for field in [
+        "target_cost_published",
+        "federal_effect_published",
+        "gross_savings_published",
+        "net_savings_published",
+        "balanced_rate_published",
+        "stress_maps_to_aggressive_price_sensitivity",
+    ] {
+        if claim_booleans.get(field).and_then(|value| value.as_bool()) != Some(false) {
+            return Err(format!(
+                "health policy-scored claim gate {field} must remain false"
+            ));
+        }
+    }
+
+    let blockers = string_set(&card, "explicit_blockers")?;
+    for required in [
+        "specific_federal_policy_instrument_missing",
+        "policy_specific_score_provenance_missing",
+        "outcome_floors_not_passed",
+        "central_and_stress_federal_cash_flows_null",
+    ] {
+        if !blockers.contains(required) {
+            return Err(format!("health policy-scored blocker missing {required}"));
+        }
+    }
+
+    let readiness = card
+        .get("readiness")
+        .ok_or("health policy-scored readiness")?;
+    for field in [
+        "central_reform_federal_cash_flow_ready",
+        "stress_federal_cash_flow_ready",
+        "solver_integration_ready",
+        "public_savings_claim_allowed",
+        "public_rate_claim_allowed",
+    ] {
+        if readiness.get(field).and_then(|value| value.as_bool()) != Some(false) {
+            return Err(format!(
+                "health policy-scored readiness {field} must remain false"
+            ));
+        }
+    }
+
+    let serialized = serde_json::to_string(&card).map_err(|e| e.to_string())?;
+    for prohibited in ["149.786", "-149.786135", "223.182", "175"] {
+        if serialized.contains(prohibited) {
+            return Err(format!(
+                "health policy-scored federal gate must not embed PHI sensitivity value {prohibited}"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(HEALTH_POLICY_SCORED_REFORM_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        HEALTH_POLICY_SCORED_REFORM_JSON_PATH,
+        "This is a gate, not a score.",
+        "Private-insurance payer-payment sensitivities are not federal gross savings",
+        "Stress is not the aggressive Medicare-relative private-insurance price sensitivity.",
+        "federal cash-flow field remains null and solver-ineligible",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!(
+                "health policy-scored reform reader missing {required}"
+            ));
+        }
+    }
+
     Ok(())
 }
 
