@@ -411,6 +411,11 @@ const SOLVER_ACCOUNTING_READINESS_GATE_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_accounting_readiness_gate.schema.md";
 const SOLVER_ACCOUNTING_READINESS_GATE_READER_PATH: &str =
     "docs/reading/solver-accounting-readiness-gate.md";
+const SOLVER_INPUT_INVENTORY_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/solver_input_inventory.v1.draft.json";
+const SOLVER_INPUT_INVENTORY_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/solver_input_inventory.schema.md";
+const SOLVER_INPUT_INVENTORY_READER_PATH: &str = "docs/reading/solver-input-inventory.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10933,6 +10938,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_transportation_pilot_trust_fund_accounting_boundary(root)?;
     validate_fund_group_fy2025_reconciliation_fixture(root)?;
     validate_solver_accounting_readiness_gate(root)?;
+    validate_solver_input_inventory(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -17973,6 +17979,196 @@ fn validate_solver_accounting_readiness_gate(root: &Path) -> Result<(), String> 
     Ok(())
 }
 
+fn validate_solver_input_inventory(root: &Path) -> Result<(), String> {
+    for path in [
+        SOLVER_INPUT_INVENTORY_JSON_PATH,
+        SOLVER_INPUT_INVENTORY_SCHEMA_PATH,
+        SOLVER_INPUT_INVENTORY_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing solver input inventory artifact: {path}"));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(SOLVER_INPUT_INVENTORY_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let inventory: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&inventory, "record_id")? != "solver-input-inventory:v1"
+        || string_field(&inventory, "record_family")? != "solver_input_inventory"
+        || int_field(&inventory, "pulse")? != 101
+        || string_field(&inventory, "program_lane_target_cost_contract_path")?
+            != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(
+            &inventory,
+            "deterministic_annual_update_simulator_contract_path",
+        )? != DETERMINISTIC_ANNUAL_UPDATE_SIMULATOR_CONTRACT_JSON_PATH
+        || string_field(&inventory, "solver_accounting_readiness_gate_path")?
+            != SOLVER_ACCOUNTING_READINESS_GATE_JSON_PATH
+        || string_field(&inventory, "fund_group_fy2025_reconciliation_fixture_path")?
+            != FUND_GROUP_FY2025_RECONCILIATION_FIXTURE_JSON_PATH
+    {
+        return Err("solver input inventory identity failed".to_string());
+    }
+
+    let rows = inventory
+        .get("inventory_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("solver input inventory rows")?;
+    let observed = rows
+        .iter()
+        .map(|row| string_field(row, "input_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected = [
+        "full_17_row_fy2025_ledger",
+        "baseline_plus_ten_year_horizon",
+        "oasdi_fund_path",
+        "medicare_hi_fund_path",
+        "transportation_trust_fund_path",
+        "general_fund_path",
+        "reserves_path",
+        "explicit_interfund_transfers",
+        "credited_offsetting_collections",
+        "net_interest_formula",
+        "assigned_receipt_bases",
+        "distributional_effect_placeholder",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    if observed != expected || rows.len() != expected.len() {
+        return Err("solver input inventory row set failed".to_string());
+    }
+    for row in rows {
+        if row.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+            || !row.get("value").is_some_and(serde_json::Value::is_null)
+        {
+            return Err("solver input inventory rows must remain false/null".to_string());
+        }
+        let missing = row
+            .get("missing_for_solver")
+            .and_then(serde_json::Value::as_array)
+            .ok_or("solver input inventory missing list")?;
+        if missing.is_empty() {
+            return Err("solver input inventory rows must name missing evidence".to_string());
+        }
+    }
+
+    let row_by_id = rows
+        .iter()
+        .map(|row| Ok((string_field(row, "input_id")?, row)))
+        .collect::<Result<BTreeMap<_, _>, String>>()?;
+    for (input_id, required_status) in [
+        ("oasdi_fund_path", "missing"),
+        ("medicare_hi_fund_path", "missing"),
+        (
+            "transportation_trust_fund_path",
+            "accounting_boundary_only_no_annual_values",
+        ),
+        ("net_interest_formula", "missing_endogenous_formula"),
+        (
+            "assigned_receipt_bases",
+            "missing_behavior_distribution_administration",
+        ),
+    ] {
+        if string_field(
+            row_by_id.get(input_id).ok_or("solver input row lookup")?,
+            "coverage_status",
+        )? != required_status
+        {
+            return Err(format!(
+                "solver input inventory status failed for {input_id}"
+            ));
+        }
+    }
+
+    let actions = inventory
+        .get("next_bounded_actions")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("solver input next actions")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    for required in [
+        "capture official annual OASDI fund path",
+        "capture official annual Medicare HI fund path",
+        "capture official transportation trust-fund annual values",
+        "create reserve rule contract",
+        "create endogenous net-interest formula contract",
+        "create assigned receipt-base inventory",
+    ] {
+        if !actions.contains(required) {
+            return Err(format!("solver input next action missing {required}"));
+        }
+    }
+
+    let claims = inventory
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("solver input inventory claims")?;
+    for (field, value) in claims {
+        let observed = value.as_bool().ok_or("solver input inventory claim bool")?;
+        if field == "solver_input_inventory_published" {
+            if !observed {
+                return Err("solver input inventory publish flag must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!(
+                "solver input inventory public claim {field} must be false"
+            ));
+        }
+    }
+
+    let boundary = string_field(&inventory, "non_claim_boundary")?;
+    for required in [
+        "solver input inventory",
+        "not a solver run",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!(
+                "solver input inventory boundary missing {required}"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(SOLVER_INPUT_INVENTORY_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        SOLVER_INPUT_INVENTORY_JSON_PATH,
+        "the solver is not ready",
+        "OASDI annual fund path",
+        "Medicare HI annual fund path",
+        "transportation trust-fund annual values",
+        "endogenous net-interest formula",
+        "assigned receipt bases",
+        "not a solver run",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("solver input inventory reader missing {required}"));
+        }
+    }
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -18143,6 +18339,12 @@ mod global_country_comparison_tests {
     fn solver_accounting_readiness_gate_blocks_solver_outputs() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_solver_accounting_readiness_gate(&root).unwrap();
+    }
+
+    #[test]
+    fn solver_input_inventory_keeps_every_required_input_blocked() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_solver_input_inventory(&root).unwrap();
     }
 
     #[test]

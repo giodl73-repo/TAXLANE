@@ -1,0 +1,49 @@
+{
+  "record_id": "solver-input-inventory:v1",
+  "record_family": "solver_input_inventory",
+  "version": "v1.draft",
+  "status": "draft_inventory_solver_blocked",
+  "pulse": 101,
+  "program_lane_target_cost_contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "deterministic_annual_update_simulator_contract_path": "data/derived/breadth_benchmark_matrix/deterministic_annual_update_simulator_contract.v1.draft.json",
+  "solver_accounting_readiness_gate_path": "data/derived/breadth_benchmark_matrix/solver_accounting_readiness_gate.v1.draft.json",
+  "fund_group_fy2025_reconciliation_fixture_path": "data/derived/breadth_benchmark_matrix/fund_group_fy2025_reconciliation_fixture.v1.draft.json",
+  "inventory_rows": [
+    {"input_id": "full_17_row_fy2025_ledger", "current_artifact_path": "data/derived/income_tax_outlay_model/fy2025_function_rows.v1.draft.jsonl", "coverage_status": "available_elsewhere_not_solver_bound_here", "missing_for_solver": ["solver_row_mapping", "fund_split", "rounding_line_binding"], "ready": false, "value": null},
+    {"input_id": "baseline_plus_ten_year_horizon", "current_artifact_path": "data/derived/breadth_benchmark_matrix/transportation_pilot_partial_federal_outlay_path.v1.draft.json", "coverage_status": "partial_transportation_fy2025_fy2031_only", "missing_for_solver": ["fy2032_fy2035_transportation_rows", "all_other_lane_annual_paths", "baseline_year_plus_ten_year_unified_horizon"], "ready": false, "value": null},
+    {"input_id": "oasdi_fund_path", "current_artifact_path": null, "coverage_status": "missing", "missing_for_solver": ["annual_receipts", "annual_outgo", "fund_balance", "explicit_transfers", "trust_fund_identity"], "ready": false, "value": null},
+    {"input_id": "medicare_hi_fund_path", "current_artifact_path": null, "coverage_status": "missing", "missing_for_solver": ["annual_receipts", "annual_outgo", "fund_balance", "explicit_transfers", "trust_fund_identity"], "ready": false, "value": null},
+    {"input_id": "transportation_trust_fund_path", "current_artifact_path": "data/derived/breadth_benchmark_matrix/transportation_pilot_trust_fund_accounting_boundary.v1.draft.json", "coverage_status": "accounting_boundary_only_no_annual_values", "missing_for_solver": ["annual_highway_trust_fund_values", "annual_airport_and_airway_values", "explicit_general_fund_transfers", "credited_offsets", "fund_balance_identity"], "ready": false, "value": null},
+    {"input_id": "general_fund_path", "current_artifact_path": "data/derived/breadth_benchmark_matrix/fund_group_fy2025_reconciliation_fixture.v1.draft.json", "coverage_status": "aggregate_fy2025_context_only", "missing_for_solver": ["annual_general_fund_path", "lane_assignments", "explicit_interfund_transfers", "baseline_plus_ten_year_horizon"], "ready": false, "value": null},
+    {"input_id": "reserves_path", "current_artifact_path": null, "coverage_status": "missing_parameterized_rule", "missing_for_solver": ["reserve_contributions", "withdrawals", "caps", "emergency_overrides", "rounding_treatment"], "ready": false, "value": null},
+    {"input_id": "explicit_interfund_transfers", "current_artifact_path": "data/derived/breadth_benchmark_matrix/transportation_pilot_trust_fund_accounting_boundary.v1.draft.json", "coverage_status": "rule_only_amounts_missing", "missing_for_solver": ["annual_amounts", "source_account", "destination_account", "legal_authority", "fund_balance_effect"], "ready": false, "value": null},
+    {"input_id": "credited_offsetting_collections", "current_artifact_path": "data/derived/breadth_benchmark_matrix/fund_group_fy2025_reconciliation_fixture.v1.draft.json", "coverage_status": "aggregate_context_only_lane_values_missing", "missing_for_solver": ["lane_level_credited_offsets", "fund_level_credited_offsets", "gross_to_net_bridge", "annual_series"], "ready": false, "value": null},
+    {"input_id": "net_interest_formula", "current_artifact_path": null, "coverage_status": "missing_endogenous_formula", "missing_for_solver": ["debt_stock", "maturity_schedule", "rate_path", "primary_balance_feedback", "regression_test"], "ready": false, "value": null},
+    {"input_id": "assigned_receipt_bases", "current_artifact_path": null, "coverage_status": "missing_behavior_distribution_administration", "missing_for_solver": ["matched_year", "legal_perimeter", "economic_perimeter", "baseline_amount", "elasticity", "distribution", "administration"], "ready": false, "value": null},
+    {"input_id": "distributional_effect_placeholder", "current_artifact_path": null, "coverage_status": "missing_placeholder", "missing_for_solver": ["placeholder_schema", "income_distribution", "incidence", "interaction_with_other_taxes"], "ready": false, "value": null}
+  ],
+  "next_bounded_actions": [
+    "capture official annual OASDI fund path",
+    "capture official annual Medicare HI fund path",
+    "capture official transportation trust-fund annual values",
+    "create reserve rule contract",
+    "create endogenous net-interest formula contract",
+    "create assigned receipt-base inventory"
+  ],
+  "claim_booleans": {
+    "solver_input_inventory_published": true,
+    "solver_ready": false,
+    "target_cost_published": false,
+    "statutory_rate_published": false,
+    "effective_rate_published": false,
+    "public_rate_card_published": false,
+    "tax_proposal_published": false,
+    "savings_claim_published": false,
+    "waste_finding_published": false,
+    "fraud_finding_published": false,
+    "department_cut_instruction_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "non_claim_boundary": "This is a solver input inventory, not a solver run, not target-cost selection, not rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+}

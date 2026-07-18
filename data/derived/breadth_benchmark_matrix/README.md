@@ -158,6 +158,11 @@ uses of the aggregate fund-group fixture: rounding, deficit-sign, and aggregate
 fund-balance tests. It keeps solver readiness, transportation readiness, rates,
 savings, and balanced-budget claims blocked.
 
+`solver_input_inventory.v1.draft.json` names each required deterministic solver
+input, any current partial/context artifact, and the missing evidence. Every row
+remains not ready with a null value; no solver, rate, savings, or
+balanced-budget claim is opened.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is

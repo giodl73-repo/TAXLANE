@@ -60,6 +60,7 @@ explainers. They should keep three labels visible:
 | `transportation-pilot-trust-fund-accounting-boundary.md` | Pulse 98 boundary: extracts OMB trust-fund accounting rules for transportation while keeping annual values, reconciliation, rate, savings, and balanced-budget claims blocked. |
 | `fund-group-fy2025-reconciliation-fixture.md` | Pulse 99 fixture: captures aggregate FY2025 federal-fund/trust-fund OMB accounting context with an explicit rounding line while keeping transportation-specific values and claims blocked. |
 | `solver-accounting-readiness-gate.md` | Pulse 100 gate: allows the aggregate fixture only for rounding/sign/balance tests while keeping solver, rate, savings, and balanced-budget claims blocked. |
+| `solver-input-inventory.md` | Pulse 101 inventory: lists each required deterministic solver input, current partial context, and missing evidence while keeping all rows not ready/null. |
 | `rate-change-worked-examples.md` | Three end-to-end examples of the rate-adjustment operating model (defense up, health down, Social Security cap lift). |
 | `budget-area-funding-explainer.md` | Lay distillation of the six panel-reviewed research papers: where the US over-funds (health), under-funds (family), funds by strategy (defense), runs a broken base (Social Security), and under-collects overall (revenue). Points to `docs/papers/`. |
 | `where-federal-money-goes.md` | Spending-side packet showing the largest FY2025 outlay categories, financing context, and safe accountability questions. |
