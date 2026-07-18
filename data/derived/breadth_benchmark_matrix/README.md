@@ -141,6 +141,12 @@ trust-fund work. It extracts no annual values and is not a trust-fund
 reconciliation, fund-balance path, baseline, rate, savings, or balanced-budget
 claim.
 
+`transportation_pilot_trust_fund_accounting_boundary.v1.draft.json` extracts
+only the OMB funds-appendix accounting boundary for transportation trust-fund
+work. It keeps trust funds separate, requires explicit general-fund transfers,
+and keeps all annual values, reconciliation, rates, savings, and balanced-budget
+claims blocked.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is

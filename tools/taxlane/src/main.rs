@@ -395,6 +395,10 @@ const TRANSPORTATION_PILOT_TRUST_FUND_SOURCE_CUSTODY_JSON_PATH: &str = "data/der
 const TRANSPORTATION_PILOT_TRUST_FUND_SOURCE_CUSTODY_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/transportation_pilot_trust_fund_source_custody.schema.md";
 const TRANSPORTATION_PILOT_TRUST_FUND_SOURCE_CUSTODY_READER_PATH: &str =
     "docs/reading/transportation-pilot-trust-fund-source-custody.md";
+const TRANSPORTATION_PILOT_TRUST_FUND_ACCOUNTING_BOUNDARY_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/transportation_pilot_trust_fund_accounting_boundary.v1.draft.json";
+const TRANSPORTATION_PILOT_TRUST_FUND_ACCOUNTING_BOUNDARY_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/transportation_pilot_trust_fund_accounting_boundary.schema.md";
+const TRANSPORTATION_PILOT_TRUST_FUND_ACCOUNTING_BOUNDARY_READER_PATH: &str =
+    "docs/reading/transportation-pilot-trust-fund-accounting-boundary.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10914,6 +10918,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_transportation_pilot_fy2025_anchor_custody(root)?;
     validate_transportation_pilot_partial_federal_outlay_path(root)?;
     validate_transportation_pilot_trust_fund_source_custody(root)?;
+    validate_transportation_pilot_trust_fund_accounting_boundary(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -17261,6 +17266,261 @@ fn validate_transportation_pilot_trust_fund_source_custody(root: &Path) -> Resul
     Ok(())
 }
 
+fn validate_transportation_pilot_trust_fund_accounting_boundary(root: &Path) -> Result<(), String> {
+    for path in [
+        TRANSPORTATION_PILOT_TRUST_FUND_ACCOUNTING_BOUNDARY_JSON_PATH,
+        TRANSPORTATION_PILOT_TRUST_FUND_ACCOUNTING_BOUNDARY_SCHEMA_PATH,
+        TRANSPORTATION_PILOT_TRUST_FUND_ACCOUNTING_BOUNDARY_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing transportation trust-fund accounting boundary artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(
+        root.join(TRANSPORTATION_PILOT_TRUST_FUND_ACCOUNTING_BOUNDARY_JSON_PATH),
+    )
+    .map_err(|e| e.to_string())?;
+    let boundary_record: serde_json::Value =
+        serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&boundary_record, "record_id")?
+        != "transportation-pilot-trust-fund-accounting-boundary:v1"
+        || string_field(&boundary_record, "record_family")?
+            != "transportation_pilot_trust_fund_accounting_boundary"
+        || int_field(&boundary_record, "pulse")? != 98
+        || string_field(&boundary_record, "source_plan_path")?
+            != TRANSPORTATION_PILOT_SOURCE_PLAN_JSON_PATH
+        || string_field(&boundary_record, "baseline_path_contract_path")?
+            != TRANSPORTATION_PILOT_BASELINE_PATH_CONTRACT_JSON_PATH
+        || string_field(&boundary_record, "partial_federal_outlay_path")?
+            != TRANSPORTATION_PILOT_PARTIAL_FEDERAL_OUTLAY_PATH_JSON_PATH
+        || string_field(&boundary_record, "trust_fund_source_custody_path")?
+            != TRANSPORTATION_PILOT_TRUST_FUND_SOURCE_CUSTODY_JSON_PATH
+        || string_field(&boundary_record, "program_lane_target_cost_contract_path")?
+            != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+    {
+        return Err("transportation trust-fund accounting identity failed".to_string());
+    }
+
+    let source = boundary_record
+        .get("source_custody")
+        .ok_or("transportation trust-fund accounting source custody")?;
+    if string_field(source, "source_id")? != "SRC-OMB-AP-13-FUNDS-FY2027"
+        || string_field(source, "publisher")? != "Office of Management and Budget"
+        || string_field(source, "retrieval_date")? != "2026-06-21"
+        || int_field(source, "raw_byte_count")? != 296958
+        || string_field(source, "raw_sha256")?
+            != "6a332e8291db7f8e6a4252c79e444c782f5cf2d369cae4b738fe63b7dc0d4437"
+        || source
+            .get("new_external_request_submitted")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || source
+            .get("custody_complete_for_accounting_boundary")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || source
+            .get("custody_complete_for_annual_trust_fund_values")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("transportation trust-fund accounting source fields failed".to_string());
+    }
+
+    let raw_path = root.join(string_field(source, "local_raw_path")?);
+    let bytes = fs::read(&raw_path).map_err(|e| e.to_string())?;
+    if bytes.len() as i64 != int_field(source, "raw_byte_count")? {
+        return Err("transportation trust-fund accounting raw byte count mismatch".to_string());
+    }
+    let mut hasher = Sha256::new();
+    hasher.update(&bytes);
+    if format!("{:x}", hasher.finalize()) != string_field(source, "raw_sha256")? {
+        return Err("transportation trust-fund accounting raw SHA mismatch".to_string());
+    }
+
+    let accounting = boundary_record
+        .get("accounting_boundary")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation trust-fund accounting boundary")?;
+    for flag in [
+        "trust_funds_remain_separate",
+        "highway_trust_fund_in_scope",
+        "airport_and_airway_context_in_scope",
+        "highway_trust_fund_financed_by_motor_fuel_taxes_and_associated_fees",
+        "general_fund_transfers_must_be_explicit",
+        "trust_fund_income_must_be_used_for_statutory_purposes",
+        "trust_fund_balances_invested_in_treasury_securities",
+        "borrowing_from_general_fund_is_financing_not_receipt",
+        "repayment_of_borrowing_is_not_outlay",
+        "offsetting_collections_and_offsetting_receipts_must_not_be_silent",
+        "intrafund_transactions_must_not_overstate_income_or_outgo",
+        "annual_table_13_4_available_online_not_captured",
+    ] {
+        if accounting.get(flag).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "transportation trust-fund accounting flag {flag} must be true"
+            ));
+        }
+    }
+    if string_field(
+        boundary_record
+            .get("accounting_boundary")
+            .ok_or("transportation trust-fund accounting boundary object")?,
+        "lane_id",
+    )? != "transportation-infrastructure"
+    {
+        return Err("transportation trust-fund accounting lane failed".to_string());
+    }
+
+    let identities = boundary_record
+        .get("required_identity_for_future_rows")
+        .ok_or("transportation trust-fund future identities")?;
+    if string_field(identities, "primary_outlays")?
+        != "gross_program_outlays + implementation_admin_outlays"
+        || string_field(identities, "net_cash_requirement")?
+            != "primary_outlays - credited_offsetting_collections"
+        || string_field(identities, "fund_balance_change")?
+            != "dedicated_receipts + explicit_general_fund_transfer + other_scored_fund_income - net_cash_requirement"
+        || identities
+            .get("missing_terms_remain_null")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("transportation trust-fund future identity fields failed".to_string());
+    }
+
+    if boundary_record
+        .get("annual_value_rows")
+        .and_then(serde_json::Value::as_array)
+        .is_none_or(|rows| !rows.is_empty())
+    {
+        return Err("transportation trust-fund annual value rows must remain empty".to_string());
+    }
+
+    let blockers = boundary_record
+        .get("blocked_until_captured")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("transportation trust-fund accounting blockers")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    for required in [
+        "table_13_4_or_equivalent_official_annual_source",
+        "annual_highway_trust_fund_receipts",
+        "annual_highway_trust_fund_outgo",
+        "annual_highway_trust_fund_balance",
+        "annual_airport_and_airway_trust_fund_receipts",
+        "annual_airport_and_airway_trust_fund_outgo",
+        "annual_airport_and_airway_trust_fund_balance",
+        "explicit_general_fund_transfer_amounts",
+        "credited_offsetting_collections",
+        "fund_balance_change_identity_recomputed",
+        "mapping_to_transportation_function_400_net_outlays",
+    ] {
+        if !blockers.contains(required) {
+            return Err(format!(
+                "transportation trust-fund accounting blocker missing {required}"
+            ));
+        }
+    }
+
+    let outputs = boundary_record
+        .get("output_placeholders")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation trust-fund accounting outputs")?;
+    for (field, value) in outputs {
+        if !value.is_null() {
+            return Err(format!(
+                "transportation trust-fund accounting output {field} must remain null"
+            ));
+        }
+    }
+
+    let claims = boundary_record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation trust-fund accounting claims")?;
+    for (field, value) in claims {
+        let observed = value
+            .as_bool()
+            .ok_or("transportation trust-fund accounting claim must be bool")?;
+        if field == "accounting_boundary_published" {
+            if !observed {
+                return Err(
+                    "transportation trust-fund accounting publish flag must be true".to_string(),
+                );
+            }
+        } else if observed {
+            return Err(format!(
+                "transportation trust-fund accounting public claim {field} must be false"
+            ));
+        }
+    }
+
+    let non_claim = string_field(&boundary_record, "non_claim_boundary")?;
+    for required in [
+        "transportation trust-fund accounting-boundary record",
+        "not annual trust-fund values",
+        "trust-fund reconciliation",
+        "fund-balance path",
+        "baseline path",
+        "simulator run",
+        "target-cost selection",
+        "rate calculation",
+        "savings estimate",
+        "waste finding",
+        "fraud finding",
+        "technology-savings claim",
+        "balanced-budget claim",
+    ] {
+        if !non_claim.contains(required) {
+            return Err(format!(
+                "transportation trust-fund accounting boundary missing {required}"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(
+        root.join(TRANSPORTATION_PILOT_TRUST_FUND_ACCOUNTING_BOUNDARY_READER_PATH),
+    )
+    .map_err(|e| e.to_string())?;
+    for required in [
+        TRANSPORTATION_PILOT_TRUST_FUND_ACCOUNTING_BOUNDARY_JSON_PATH,
+        "No new external request was submitted",
+        "trust funds remain separate",
+        "general-fund transfers must be explicit",
+        "borrowing from the general fund is financing, not a receipt",
+        "repayment of borrowing is not an outlay",
+        "offsetting collections and offsetting receipts cannot be silent",
+        "fund-balance identity",
+        "annual trust-fund values",
+        "Table 13-4 or equivalent official annual source capture",
+        "trust-fund reconciliation",
+        "fund-balance path",
+        "transportation baseline path",
+        "simulator run",
+        "target-cost selection",
+        "rate calculation",
+        "savings estimate",
+        "waste finding",
+        "fraud finding",
+        "technology-savings claim",
+        "balanced-budget claim",
+        "Missing annual values remain null, not zero",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!(
+                "transportation trust-fund accounting reader missing {required}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -17413,6 +17673,12 @@ mod global_country_comparison_tests {
     fn transportation_pilot_trust_fund_source_custody_blocks_reconciliation_claims() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_transportation_pilot_trust_fund_source_custody(&root).unwrap();
+    }
+
+    #[test]
+    fn transportation_pilot_trust_fund_accounting_boundary_keeps_values_null() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_transportation_pilot_trust_fund_accounting_boundary(&root).unwrap();
     }
 
     #[test]
