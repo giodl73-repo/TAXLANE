@@ -303,6 +303,12 @@ const BALANCED_RATE_READINESS_GATE_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/balanced_rate_readiness_gate.schema.md";
 const BALANCED_RATE_READINESS_GATE_READER_PATH: &str =
     "docs/reading/balanced-rate-readiness-gate.md";
+const FINAL_CLOSURE_READINESS_GATE_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/final_closure_readiness_gate.v1.draft.json";
+const FINAL_CLOSURE_READINESS_GATE_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/final_closure_readiness_gate.schema.md";
+const FINAL_CLOSURE_READINESS_GATE_READER_PATH: &str =
+    "docs/reading/final-closure-readiness-gate.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10805,6 +10811,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_pension_replacement_country_panel(root)?;
     validate_age_relative_poverty_country_panel(root)?;
     validate_balanced_rate_readiness_gate(root)?;
+    validate_final_closure_readiness_gate(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -12475,6 +12482,214 @@ fn validate_balanced_rate_readiness_gate(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_final_closure_readiness_gate(root: &Path) -> Result<(), String> {
+    for path in [
+        FINAL_CLOSURE_READINESS_GATE_JSON_PATH,
+        FINAL_CLOSURE_READINESS_GATE_SCHEMA_PATH,
+        FINAL_CLOSURE_READINESS_GATE_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing final-closure readiness artifact: {path}"));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(FINAL_CLOSURE_READINESS_GATE_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let gate: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+    let string_array_set =
+        |row: &serde_json::Value, field: &str| -> Result<BTreeSet<String>, String> {
+            row.get(field)
+                .and_then(serde_json::Value::as_array)
+                .ok_or_else(|| format!("final-closure {field} array missing"))?
+                .iter()
+                .map(|value| {
+                    value
+                        .as_str()
+                        .map(str::to_string)
+                        .ok_or_else(|| format!("final-closure {field} value not string"))
+                })
+                .collect()
+        };
+
+    if string_field(&gate, "record_id")? != "final-closure-readiness-gate:v1"
+        || string_field(&gate, "record_family")? != "final_closure_readiness_gate"
+        || int_field(&gate, "pulse")? != 81
+        || string_field(&gate, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&gate, "rubric_path")? != INTERNATIONAL_COMPARATOR_TARGET_RUBRIC_JSON_PATH
+        || string_field(&gate, "coverage_contract_path")? != GLOBAL_COUNTRY_COMPARISON_JSON_PATH
+        || string_field(&gate, "balanced_rate_readiness_gate_path")?
+            != BALANCED_RATE_READINESS_GATE_JSON_PATH
+        || string_field(&gate, "rate_model_path")?
+            != "data/derived/program_lane_rate_model/program_lane_rate_model.fy2025.omb-fy2027-v1.draft.jsonl"
+    {
+        return Err("final-closure identity or governing paths failed".to_string());
+    }
+    if !root
+        .join(BALANCED_RATE_READINESS_GATE_JSON_PATH)
+        .try_exists()
+        .map_err(|e| e.to_string())?
+    {
+        return Err("final closure must link existing Pulse 80 gate".to_string());
+    }
+    let custody_status = string_field(&gate, "source_custody_status")?;
+    if !custody_status.contains("repo_custodied")
+        || !custody_status.contains("no_new_external_request")
+    {
+        return Err("final-closure custody status boundary failed".to_string());
+    }
+    let boundary = string_field(&gate, "non_claim_boundary")?;
+    for required in [
+        "final-closure readiness gate, not a balanced-budget claim",
+        "public rate card",
+        "distributional score",
+        "No final public closure claim",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!("final-closure boundary missing {required}"));
+        }
+    }
+
+    let work = gate
+        .get("required_final_closure_work")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("final-closure work array")?;
+    let observed_work = work
+        .iter()
+        .map(|row| string_field(row, "work_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_work = BTreeSet::from([
+        "distributional_analysis".to_string(),
+        "behavioral_sensitivity".to_string(),
+        "macro_feedback".to_string(),
+        "interaction_scoring".to_string(),
+        "reserve_emergency_stress_tests".to_string(),
+        "eight_role_review".to_string(),
+        "public_language_review".to_string(),
+        "public_rate_cards".to_string(),
+    ]);
+    if observed_work != expected_work {
+        return Err("final-closure required work set failed".to_string());
+    }
+    for row in work {
+        if string_field(row, "status")? != "missing"
+            || row.get("complete").and_then(serde_json::Value::as_bool) != Some(false)
+            || !row
+                .get("output_path")
+                .is_some_and(serde_json::Value::is_null)
+        {
+            return Err("final-closure work items must remain missing and null".to_string());
+        }
+    }
+
+    let conditions = gate
+        .get("balanced_budget_claim_conditions")
+        .ok_or("final-closure balanced-budget conditions")?;
+    if conditions
+        .get("every_budget_row_included_once")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+        || conditions
+            .get("offsets_explicit")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("final-closure ledger/offset conditions should remain true".to_string());
+    }
+    for field in [
+        "all_funds_reconcile",
+        "target_outlays_and_receipts_jointly_scored",
+        "net_interest_endogenous",
+        "reserves_and_emergencies_parameterized",
+        "distribution_and_macro_effects_present",
+        "deficit_gap_zero_under_unrounded_arithmetic",
+    ] {
+        if conditions.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "final-closure balanced-budget condition {field} must remain false"
+            ));
+        }
+    }
+
+    let outputs = gate
+        .get("public_closure_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("final-closure output object")?;
+    for (field, value) in outputs {
+        if !value.is_null() {
+            return Err(format!("final-closure output {field} must remain null"));
+        }
+    }
+    let claims = gate
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("final-closure claim booleans")?;
+    if claims
+        .iter()
+        .any(|(_, value)| value.as_bool() != Some(false))
+    {
+        return Err("final-closure claim booleans must all remain false".to_string());
+    }
+
+    let blockers = string_array_set(&gate, "explicit_blockers")?;
+    for required in [
+        "pulse_80_balanced_rate_gate_blocks_rate_calculation",
+        "distributional_analysis_missing",
+        "behavioral_sensitivity_missing",
+        "macro_feedback_missing",
+        "interaction_scoring_missing",
+        "reserve_emergency_stress_tests_missing",
+        "eight_role_review_missing",
+        "public_language_review_missing",
+        "public_rate_cards_missing",
+        "deficit_gap_not_zero_under_unrounded_arithmetic",
+    ] {
+        if !blockers.contains(required) {
+            return Err(format!("final-closure blocker missing {required}"));
+        }
+    }
+
+    let readiness = gate.get("readiness").ok_or("final-closure readiness")?;
+    for field in [
+        "final_closure_ready",
+        "balanced_budget_claim_allowed",
+        "public_release_ready",
+    ] {
+        if readiness.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("final-closure readiness {field} must remain false"));
+        }
+    }
+    if readiness
+        .get("requires_stronger_model_review_before_any_public_claim")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("final-closure stronger-model review gate must remain true".to_string());
+    }
+
+    let reader = fs::read_to_string(root.join(FINAL_CLOSURE_READINESS_GATE_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        FINAL_CLOSURE_READINESS_GATE_JSON_PATH,
+        "This is a final-closure readiness gate, not a balanced-budget claim, public rate card, tax proposal, savings estimate, macro score, distributional score, or role-review approval.",
+        "distributional analysis",
+        "behavioral sensitivity",
+        "macro feedback",
+        "interaction scoring",
+        "reserve/emergency stress tests",
+        "eight-role review",
+        "public-language review",
+        "public rate cards",
+        "A balanced-budget claim remains blocked unless every budget row is included once",
+        "the deficit gap is zero under unrounded arithmetic",
+        "No final public closure claim is published by this gate.",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("final-closure reader missing {required}"));
+        }
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -12525,6 +12740,12 @@ mod global_country_comparison_tests {
     fn balanced_rate_readiness_gate_blocks_rate_and_budget_claims() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_balanced_rate_readiness_gate(&root).unwrap();
+    }
+
+    #[test]
+    fn final_closure_readiness_gate_blocks_public_closure_claims() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_final_closure_readiness_gate(&root).unwrap();
     }
 
     #[test]

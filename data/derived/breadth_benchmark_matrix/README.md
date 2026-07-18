@@ -38,6 +38,12 @@ and assigned-base effective rates remain uncalculated until target paths,
 assigned bases, the integrated solver, endogenous interest, and a zero
 unrounded deficit gap all reconcile.
 
+`final_closure_readiness_gate.v1.draft.json` freezes the Pulse 81 no-closure
+boundary: distributional analysis, behavioral sensitivity, macro feedback,
+interaction scoring, reserve/emergency stress tests, eight-role review,
+public-language review, public rate cards, and a zero unrounded deficit gap all
+remain required before any final public closure claim.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is

@@ -1,0 +1,119 @@
+{
+  "record_id": "final-closure-readiness-gate:v1",
+  "record_family": "final_closure_readiness_gate",
+  "version": "v1.draft",
+  "status": "draft_blocked_no_final_closure_claim",
+  "pulse": 81,
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "rubric_path": "data/derived/breadth_benchmark_matrix/international_comparator_target_rubric.v1.draft.json",
+  "coverage_contract_path": "data/derived/breadth_benchmark_matrix/global_country_comparison_coverage.v1.draft.json",
+  "rate_model_path": "data/derived/program_lane_rate_model/program_lane_rate_model.fy2025.omb-fy2027-v1.draft.jsonl",
+  "balanced_rate_readiness_gate_path": "data/derived/breadth_benchmark_matrix/balanced_rate_readiness_gate.v1.draft.json",
+  "source_custody_status": "derived_from_existing_repo_custodied_records_no_new_external_request",
+  "non_claim_boundary": "This is a final-closure readiness gate, not a balanced-budget claim, public rate card, tax proposal, savings estimate, macro score, distributional score, or role-review approval. No final public closure claim is published by this gate.",
+  "required_final_closure_work": [
+    {
+      "work_id": "distributional_analysis",
+      "status": "missing",
+      "complete": false,
+      "output_path": null
+    },
+    {
+      "work_id": "behavioral_sensitivity",
+      "status": "missing",
+      "complete": false,
+      "output_path": null
+    },
+    {
+      "work_id": "macro_feedback",
+      "status": "missing",
+      "complete": false,
+      "output_path": null
+    },
+    {
+      "work_id": "interaction_scoring",
+      "status": "missing",
+      "complete": false,
+      "output_path": null
+    },
+    {
+      "work_id": "reserve_emergency_stress_tests",
+      "status": "missing",
+      "complete": false,
+      "output_path": null
+    },
+    {
+      "work_id": "eight_role_review",
+      "status": "missing",
+      "complete": false,
+      "output_path": null
+    },
+    {
+      "work_id": "public_language_review",
+      "status": "missing",
+      "complete": false,
+      "output_path": null
+    },
+    {
+      "work_id": "public_rate_cards",
+      "status": "missing",
+      "complete": false,
+      "output_path": null
+    }
+  ],
+  "balanced_budget_claim_conditions": {
+    "every_budget_row_included_once": true,
+    "all_funds_reconcile": false,
+    "target_outlays_and_receipts_jointly_scored": false,
+    "offsets_explicit": true,
+    "net_interest_endogenous": false,
+    "reserves_and_emergencies_parameterized": false,
+    "distribution_and_macro_effects_present": false,
+    "deficit_gap_zero_under_unrounded_arithmetic": false
+  },
+  "public_closure_outputs": {
+    "balanced_budget_claim": null,
+    "public_rate_cards": null,
+    "distributional_analysis": null,
+    "behavioral_sensitivity": null,
+    "macro_feedback": null,
+    "interaction_score": null,
+    "reserve_emergency_stress_test": null,
+    "eight_role_review": null,
+    "public_language_review": null
+  },
+  "claim_booleans": {
+    "balanced_budget_claim_published": false,
+    "public_rate_cards_published": false,
+    "statutory_rate_published": false,
+    "effective_rate_published": false,
+    "gross_savings_published": false,
+    "net_savings_published": false,
+    "distributional_claim_published": false,
+    "macro_feedback_claim_published": false,
+    "role_review_approval_claim_published": false,
+    "final_closure_claim_published": false
+  },
+  "explicit_blockers": [
+    "pulse_80_balanced_rate_gate_blocks_rate_calculation",
+    "distributional_analysis_missing",
+    "behavioral_sensitivity_missing",
+    "macro_feedback_missing",
+    "interaction_scoring_missing",
+    "reserve_emergency_stress_tests_missing",
+    "eight_role_review_missing",
+    "public_language_review_missing",
+    "public_rate_cards_missing",
+    "all_funds_do_not_reconcile",
+    "target_outlays_and_receipts_not_jointly_scored",
+    "net_interest_not_endogenous_in_final_solver",
+    "reserves_and_emergencies_not_parameterized",
+    "deficit_gap_not_zero_under_unrounded_arithmetic"
+  ],
+  "readiness": {
+    "final_closure_ready": false,
+    "balanced_budget_claim_allowed": false,
+    "public_release_ready": false,
+    "requires_stronger_model_review_before_any_public_claim": true
+  }
+}
