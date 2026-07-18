@@ -55,6 +55,11 @@ payment integrity, and technology gaps. It blocks waste, fraud, recoverability,
 savings, budget-score, and department-cut claims unless separate positive
 evidence exists.
 
+`technology_transition_operating_model.v1.draft.json` defines the modernization
+scenario contract. It requires implementation, training, cybersecurity,
+privacy, fallback, service-risk, phase-in, measured-productivity, and stress
+fields before any lower target cost or rate effect can be considered.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is

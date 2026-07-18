@@ -306,6 +306,9 @@ It is the bounded public surface, not a performance or savings report.
    displays or treating Medicare as one payroll-funded lane.
 80. Use `per-unit-receipt-cards.md` only after the alignment packet; it is the
     public copy boundary for readiness-approved per-unit displays.
+81. Read `technology-transition-operating-model.md` before treating
+    modernization, automation, AI, or other technology changes as a lower target
+    cost, lower rate, savings score, or department-cut basis.
 
 ## Public-Use Guardrail
 

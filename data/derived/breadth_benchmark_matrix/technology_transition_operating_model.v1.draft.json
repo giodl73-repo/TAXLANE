@@ -1,0 +1,218 @@
+{
+  "record_id": "technology-transition-operating-model:v1",
+  "record_family": "technology_transition_operating_model",
+  "version": "v1.draft",
+  "status": "draft_contract_no_savings_or_rate_effect",
+  "pulse": 84,
+  "adaptive_rate_system_contract_path": "data/derived/breadth_benchmark_matrix/adaptive_rate_system_contract.v1.draft.json",
+  "overspending_risk_taxonomy_path": "data/derived/breadth_benchmark_matrix/overspending_risk_taxonomy.v1.draft.json",
+  "phase_plan_path": "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md",
+  "source_custody_status": "derived_from_existing_repo_custodied_records_no_new_external_request",
+  "non_claim_boundary": "This is a technology transition operating model, not a technology-savings claim, department-cut instruction, target-cost reduction, rate reduction, procurement recommendation, vendor recommendation, budget score, or balanced-budget claim. Technology is a transition path, not an automatic cut.",
+  "required_scenario_fields": [
+    {
+      "field_id": "current_delivery_process",
+      "required_before_lower_target_cost": true,
+      "initial_value": null
+    },
+    {
+      "field_id": "manual_workload",
+      "required_before_lower_target_cost": true,
+      "initial_value": null
+    },
+    {
+      "field_id": "automatable_workload",
+      "required_before_lower_target_cost": true,
+      "initial_value": null
+    },
+    {
+      "field_id": "legal_constraints",
+      "required_before_lower_target_cost": true,
+      "initial_value": null
+    },
+    {
+      "field_id": "privacy_constraints",
+      "required_before_lower_target_cost": true,
+      "initial_value": null
+    },
+    {
+      "field_id": "cybersecurity_constraints",
+      "required_before_lower_target_cost": true,
+      "initial_value": null
+    },
+    {
+      "field_id": "implementation_cost",
+      "required_before_lower_target_cost": true,
+      "initial_value": null
+    },
+    {
+      "field_id": "training_and_change_management_cost",
+      "required_before_lower_target_cost": true,
+      "initial_value": null
+    },
+    {
+      "field_id": "procurement_and_vendor_lock_in_risk",
+      "required_before_lower_target_cost": true,
+      "initial_value": null
+    },
+    {
+      "field_id": "fallback_and_resilience_plan",
+      "required_before_lower_target_cost": true,
+      "initial_value": null
+    },
+    {
+      "field_id": "service_quality_and_access_risk",
+      "required_before_lower_target_cost": true,
+      "initial_value": null
+    },
+    {
+      "field_id": "annual_phase_in",
+      "required_before_lower_target_cost": true,
+      "initial_value": null
+    },
+    {
+      "field_id": "measured_productivity_target",
+      "required_before_lower_target_cost": true,
+      "initial_value": null
+    },
+    {
+      "field_id": "outcome_floor_monitoring",
+      "required_before_lower_target_cost": true,
+      "initial_value": null
+    },
+    {
+      "field_id": "stress_case",
+      "required_before_lower_target_cost": true,
+      "initial_value": null
+    }
+  ],
+  "phase_definitions": [
+    {
+      "phase_id": "baseline",
+      "year_treatment": "current_operations",
+      "rate_treatment": "no_rate_effect",
+      "lower_target_cost_allowed": false,
+      "required_evidence": [
+        "current_delivery_process",
+        "manual_workload",
+        "service_volume",
+        "current_outcome_floor_status"
+      ]
+    },
+    {
+      "phase_id": "transition",
+      "year_treatment": "year_0_to_year_3",
+      "rate_treatment": "investment_and_transition_cost_may_increase_outlays",
+      "lower_target_cost_allowed": false,
+      "required_evidence": [
+        "implementation_cost",
+        "training_and_change_management_cost",
+        "cybersecurity_constraints",
+        "privacy_constraints",
+        "fallback_and_resilience_plan",
+        "service_quality_and_access_risk"
+      ]
+    },
+    {
+      "phase_id": "measured_productivity",
+      "year_treatment": "year_3_to_year_10",
+      "rate_treatment": "lower_funding_requirement_may_be_recognized_only_if_all_gates_pass",
+      "lower_target_cost_allowed": false,
+      "required_evidence": [
+        "measured_productivity_actuals",
+        "implementation_actuals",
+        "adoption_actuals",
+        "outcome_floors_passed",
+        "policy_specific_score_provenance"
+      ]
+    },
+    {
+      "phase_id": "stress",
+      "year_treatment": "adverse_realization",
+      "rate_treatment": "preserve_remediation_cost_and_block_unsupported_savings",
+      "lower_target_cost_allowed": false,
+      "required_evidence": [
+        "delay_or_failure_case",
+        "higher_implementation_cost",
+        "degraded_access_or_quality_response",
+        "fallback_operation_cost",
+        "remediation_cost"
+      ]
+    }
+  ],
+  "outcome_floor_families": [
+    {
+      "floor_id": "access",
+      "status": "missing",
+      "passed": false,
+      "value": null
+    },
+    {
+      "floor_id": "quality",
+      "status": "missing",
+      "passed": false,
+      "value": null
+    },
+    {
+      "floor_id": "equity",
+      "status": "missing",
+      "passed": false,
+      "value": null
+    },
+    {
+      "floor_id": "adequacy_resilience",
+      "status": "missing",
+      "passed": false,
+      "value": null
+    },
+    {
+      "floor_id": "delivery_feasibility",
+      "status": "missing",
+      "passed": false,
+      "value": null
+    },
+    {
+      "floor_id": "lane_specific_statutory_or_service_floor",
+      "status": "missing",
+      "passed": false,
+      "value": null
+    }
+  ],
+  "lower_cost_gate": {
+    "currently_open": false,
+    "rule": "A lower target cost, lower funding requirement, lower assigned-base rate, or savings score is blocked unless implementation, training, cybersecurity, privacy, fallback, service-risk, phase-in, measured-productivity, stress, score-provenance, and all applicable outcome-floor fields are complete and passed.",
+    "blocked_by": [
+      "scenario_fields_missing",
+      "outcome_floors_missing_or_false",
+      "measured_productivity_missing",
+      "implementation_and_training_costs_missing",
+      "cybersecurity_privacy_fallback_review_missing",
+      "stress_case_missing",
+      "policy_specific_score_provenance_missing"
+    ]
+  },
+  "rate_treatment": {
+    "baseline_year": "no technology savings or rate effect",
+    "transition_years_0_to_3": "investment and transition costs may increase outlays; productivity remains provisional unless measured",
+    "recognition_years_3_to_10": "lower funding requirement may be recognized only if floors pass and score provenance exists",
+    "stress": "adverse realization preserves remediation cost and blocks unsupported savings"
+  },
+  "output_placeholders": {
+    "technology_savings": null,
+    "target_cost_reduction": null,
+    "rate_reduction": null,
+    "budget_score": null,
+    "department_cut_instruction": null,
+    "vendor_or_procurement_recommendation": null,
+    "solver_cash_flow_effect": null
+  },
+  "claim_booleans": {
+    "technology_savings_published": false,
+    "target_cost_reduction_published": false,
+    "rate_reduction_published": false,
+    "budget_score_published": false,
+    "department_cut_instruction_published": false,
+    "procurement_recommendation_published": false,
+    "solver_eligible": false
+  }
+}

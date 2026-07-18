@@ -320,6 +320,12 @@ const OVERSPENDING_RISK_TAXONOMY_JSON_PATH: &str =
 const OVERSPENDING_RISK_TAXONOMY_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/overspending_risk_taxonomy.schema.md";
 const OVERSPENDING_RISK_TAXONOMY_READER_PATH: &str = "docs/reading/overspending-risk-taxonomy.md";
+const TECHNOLOGY_TRANSITION_OPERATING_MODEL_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/technology_transition_operating_model.v1.draft.json";
+const TECHNOLOGY_TRANSITION_OPERATING_MODEL_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/technology_transition_operating_model.schema.md";
+const TECHNOLOGY_TRANSITION_OPERATING_MODEL_READER_PATH: &str =
+    "docs/reading/technology-transition-operating-model.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10825,6 +10831,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_final_closure_readiness_gate(root)?;
     validate_adaptive_rate_system_contract(root)?;
     validate_overspending_risk_taxonomy(root)?;
+    validate_technology_transition_operating_model(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -13096,6 +13103,267 @@ fn validate_overspending_risk_taxonomy(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_technology_transition_operating_model(root: &Path) -> Result<(), String> {
+    for path in [
+        TECHNOLOGY_TRANSITION_OPERATING_MODEL_JSON_PATH,
+        TECHNOLOGY_TRANSITION_OPERATING_MODEL_SCHEMA_PATH,
+        TECHNOLOGY_TRANSITION_OPERATING_MODEL_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing technology-transition artifact: {path}"));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(TECHNOLOGY_TRANSITION_OPERATING_MODEL_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let model: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&model, "record_id")? != "technology-transition-operating-model:v1"
+        || string_field(&model, "record_family")? != "technology_transition_operating_model"
+        || int_field(&model, "pulse")? != 84
+        || string_field(&model, "adaptive_rate_system_contract_path")?
+            != ADAPTIVE_RATE_SYSTEM_CONTRACT_JSON_PATH
+        || string_field(&model, "overspending_risk_taxonomy_path")?
+            != OVERSPENDING_RISK_TAXONOMY_JSON_PATH
+        || string_field(&model, "phase_plan_path")?
+            != "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md"
+    {
+        return Err("technology-transition identity or governing paths failed".to_string());
+    }
+    for path in [
+        ADAPTIVE_RATE_SYSTEM_CONTRACT_JSON_PATH,
+        OVERSPENDING_RISK_TAXONOMY_JSON_PATH,
+        "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md",
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "technology-transition linked artifact missing {path}"
+            ));
+        }
+    }
+    if !string_field(&model, "source_custody_status")?.contains("no_new_external_request") {
+        return Err(
+            "technology-transition custody status must prohibit external requests".to_string(),
+        );
+    }
+    let boundary = string_field(&model, "non_claim_boundary")?;
+    for required in [
+        "technology transition operating model, not a technology-savings claim",
+        "department-cut instruction",
+        "target-cost reduction",
+        "rate reduction",
+        "Technology is a transition path, not an automatic cut",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!("technology-transition boundary missing {required}"));
+        }
+    }
+
+    let fields = model
+        .get("required_scenario_fields")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("technology-transition required fields")?;
+    let observed_fields = fields
+        .iter()
+        .map(|row| string_field(row, "field_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_fields = BTreeSet::from([
+        "current_delivery_process".to_string(),
+        "manual_workload".to_string(),
+        "automatable_workload".to_string(),
+        "legal_constraints".to_string(),
+        "privacy_constraints".to_string(),
+        "cybersecurity_constraints".to_string(),
+        "implementation_cost".to_string(),
+        "training_and_change_management_cost".to_string(),
+        "procurement_and_vendor_lock_in_risk".to_string(),
+        "fallback_and_resilience_plan".to_string(),
+        "service_quality_and_access_risk".to_string(),
+        "annual_phase_in".to_string(),
+        "measured_productivity_target".to_string(),
+        "outcome_floor_monitoring".to_string(),
+        "stress_case".to_string(),
+    ]);
+    if observed_fields != expected_fields {
+        return Err("technology-transition required field set failed".to_string());
+    }
+    for field in fields {
+        if field
+            .get("required_before_lower_target_cost")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+            || !field
+                .get("initial_value")
+                .is_some_and(serde_json::Value::is_null)
+        {
+            return Err("technology-transition required fields must be required/null".to_string());
+        }
+    }
+
+    let phases = model
+        .get("phase_definitions")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("technology-transition phases")?;
+    let observed_phases = phases
+        .iter()
+        .map(|row| string_field(row, "phase_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_phases = BTreeSet::from([
+        "baseline".to_string(),
+        "transition".to_string(),
+        "measured_productivity".to_string(),
+        "stress".to_string(),
+    ]);
+    if observed_phases != expected_phases {
+        return Err(
+            "technology-transition phases must be baseline/transition/measured/stress".to_string(),
+        );
+    }
+    for phase in phases {
+        if phase
+            .get("lower_target_cost_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+            || string_field(phase, "rate_treatment")?.is_empty()
+            || phase
+                .get("required_evidence")
+                .and_then(serde_json::Value::as_array)
+                .is_none_or(Vec::is_empty)
+        {
+            return Err("technology-transition phase lower-cost gate failed".to_string());
+        }
+    }
+
+    let floors = model
+        .get("outcome_floor_families")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("technology-transition floor families")?;
+    let observed_floors = floors
+        .iter()
+        .map(|row| string_field(row, "floor_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_floors = BTreeSet::from([
+        "access".to_string(),
+        "quality".to_string(),
+        "equity".to_string(),
+        "adequacy_resilience".to_string(),
+        "delivery_feasibility".to_string(),
+        "lane_specific_statutory_or_service_floor".to_string(),
+    ]);
+    if observed_floors != expected_floors {
+        return Err("technology-transition floor family set failed".to_string());
+    }
+    for floor in floors {
+        if string_field(floor, "status")? != "missing"
+            || floor.get("passed").and_then(serde_json::Value::as_bool) != Some(false)
+            || !floor.get("value").is_some_and(serde_json::Value::is_null)
+        {
+            return Err("technology-transition floors must start missing/false/null".to_string());
+        }
+    }
+
+    let lower_gate = model
+        .get("lower_cost_gate")
+        .ok_or("technology-transition lower-cost gate")?;
+    if lower_gate
+        .get("currently_open")
+        .and_then(serde_json::Value::as_bool)
+        != Some(false)
+        || !string_field(lower_gate, "rule")?.contains("A lower target cost")
+        || !string_field(lower_gate, "rule")?.contains("blocked unless")
+    {
+        return Err("technology-transition lower-cost gate must remain closed".to_string());
+    }
+    let blockers = lower_gate
+        .get("blocked_by")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("technology-transition lower-cost blockers")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    for required in [
+        "scenario_fields_missing",
+        "outcome_floors_missing_or_false",
+        "measured_productivity_missing",
+        "implementation_and_training_costs_missing",
+        "cybersecurity_privacy_fallback_review_missing",
+        "stress_case_missing",
+        "policy_specific_score_provenance_missing",
+    ] {
+        if !blockers.contains(required) {
+            return Err(format!("technology-transition blocker missing {required}"));
+        }
+    }
+
+    let rate_treatment = model
+        .get("rate_treatment")
+        .ok_or("technology-transition rate treatment")?;
+    for required in [
+        "baseline_year",
+        "transition_years_0_to_3",
+        "recognition_years_3_to_10",
+        "stress",
+    ] {
+        if string_field(rate_treatment, required)?.is_empty() {
+            return Err(format!(
+                "technology-transition rate treatment missing {required}"
+            ));
+        }
+    }
+
+    let outputs = model
+        .get("output_placeholders")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("technology-transition outputs")?;
+    for (field, value) in outputs {
+        if !value.is_null() {
+            return Err(format!(
+                "technology-transition output {field} must remain null"
+            ));
+        }
+    }
+    let claims = model
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("technology-transition claim booleans")?;
+    if claims
+        .iter()
+        .any(|(_, value)| value.as_bool() != Some(false))
+    {
+        return Err("technology-transition claim booleans must all remain false".to_string());
+    }
+
+    let reader = fs::read_to_string(root.join(TECHNOLOGY_TRANSITION_OPERATING_MODEL_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        TECHNOLOGY_TRANSITION_OPERATING_MODEL_JSON_PATH,
+        "This is a technology transition operating model, not a technology-savings claim",
+        "department-cut instruction",
+        "target-cost reduction",
+        "rate reduction",
+        "balanced-budget claim",
+        "Technology is a transition path, not an automatic cut.",
+        "implementation cost",
+        "training and change-management cost",
+        "cybersecurity",
+        "privacy",
+        "fallback and resilience planning",
+        "service-quality and access risk",
+        "baseline",
+        "transition",
+        "measured productivity",
+        "stress",
+        "All technology-savings",
+        "solver cash-flow outputs remain",
+        "Every claim boolean remains false.",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("technology-transition reader missing {required}"));
+        }
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -13164,6 +13432,12 @@ mod global_country_comparison_tests {
     fn overspending_risk_taxonomy_blocks_waste_fraud_and_savings_shortcuts() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_overspending_risk_taxonomy(&root).unwrap();
+    }
+
+    #[test]
+    fn technology_transition_operating_model_blocks_automatic_cuts() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_technology_transition_operating_model(&root).unwrap();
     }
 
     #[test]
