@@ -1,0 +1,132 @@
+{
+  "record_id": "transportation-pilot-fy2025-anchor-custody:v1",
+  "record_family": "transportation_pilot_fy2025_anchor_custody",
+  "version": "v1.draft",
+  "status": "draft_fy2025_anchor_custody_closed_baseline_path_incomplete",
+  "pulse": 95,
+  "source_plan_path": "data/derived/breadth_benchmark_matrix/transportation_pilot_source_plan.v1.draft.json",
+  "baseline_path_contract_path": "data/derived/breadth_benchmark_matrix/transportation_pilot_baseline_path_contract.v1.draft.json",
+  "transportation_depth_card_path": "data/derived/breadth_benchmark_matrix/transportation_depth_card.fy2025.v1.draft.json",
+  "source_version_ledger_path": "docs/sources/source-version-ledger.md",
+  "raw_source_path": "data/raw/omb/SRC-OMB-HIST-3-2-FY2027/2026-06-21/hist03z2_fy2027.xlsx",
+  "extracted_source_path": "data/extracted/outlay_function/outlay_function.SRC-OMB-HIST-3-2-FY2027.2026-06-21.draft.jsonl",
+  "source_custody": {
+    "source_id": "SRC-OMB-HIST-3-2-FY2027",
+    "publisher": "Office of Management and Budget",
+    "source_title": "OMB Historical Table 3.2 FY2027",
+    "source_url": "https://www.whitehouse.gov/wp-content/uploads/2026/04/hist03z2_fy2027.xlsx",
+    "retrieval_date": "2026-06-21",
+    "local_raw_path": "data/raw/omb/SRC-OMB-HIST-3-2-FY2027/2026-06-21/hist03z2_fy2027.xlsx",
+    "raw_byte_count": 60343,
+    "raw_sha256": "78100f3efb1a6b08d675b24af173a57359e47dce103a2f1499d905a4bbba06ce",
+    "raw_bytes_already_present_in_repo": true,
+    "new_external_request_submitted": false,
+    "custody_complete_for_fy2025_anchor": true,
+    "custody_complete_for_full_baseline_path": false
+  },
+  "scope": {
+    "lane_id": "transportation-infrastructure",
+    "function_code": "400",
+    "function_label": "Transportation",
+    "fiscal_year": 2025,
+    "period": "FY2025",
+    "unit": "millions_usd",
+    "measure": "net_outlays_by_function_and_subfunction",
+    "perimeter": "federal_budget_function_400_only",
+    "actual_or_projection": "actual",
+    "federal_state_local_translation_status": null,
+    "trust_fund_reconciliation_status": null,
+    "baseline_path_complete": false
+  },
+  "fy2025_anchor_reconciliation": {
+    "total_outlays_millions": 145320,
+    "component_sum_millions": 145320,
+    "difference_millions": 0,
+    "matches_transportation_depth_card": true,
+    "current_law_reform_delta_millions": 0,
+    "rows": [
+      {
+        "record_id": "outlay-function:2025:400:401:outlays",
+        "source_row_ref": "Table!A56:BN56; 401 Ground transportation",
+        "subfunction_code": "401",
+        "subfunction_label": "Ground transportation",
+        "amount_millions": 100827
+      },
+      {
+        "record_id": "outlay-function:2025:400:402:outlays",
+        "source_row_ref": "Table!A57:BN57; 402 Air transportation",
+        "subfunction_code": "402",
+        "subfunction_label": "Air transportation",
+        "amount_millions": 29743
+      },
+      {
+        "record_id": "outlay-function:2025:400:403:outlays",
+        "source_row_ref": "Table!A58:BN58; 403 Water transportation",
+        "subfunction_code": "403",
+        "subfunction_label": "Water transportation",
+        "amount_millions": 13852
+      },
+      {
+        "record_id": "outlay-function:2025:400:407:outlays",
+        "source_row_ref": "Table!A59:BN59; 407 Other transportation",
+        "subfunction_code": "407",
+        "subfunction_label": "Other transportation",
+        "amount_millions": 898
+      }
+    ],
+    "total_row": {
+      "record_id": "outlay-function:2025:400:total:outlays",
+      "source_row_ref": "Table!A60:BN60; Total, Transportation",
+      "amount_millions": 145320
+    }
+  },
+  "still_missing_for_baseline_path": [
+    "fy2026_fy2035_annual_rows",
+    "gross_program_outlays_series",
+    "implementation_admin_outlays_series",
+    "credited_offsetting_collections_series",
+    "dedicated_receipts_series",
+    "explicit_general_fund_transfer_series",
+    "other_scored_fund_income_series",
+    "reserve_contribution_rule",
+    "net_cash_requirement_series",
+    "fund_balance_change_series",
+    "trust_fund_reconciliation",
+    "federal_state_local_translation"
+  ],
+  "output_placeholders": {
+    "completed_baseline_path": null,
+    "trust_fund_reconciliation": null,
+    "floor_pass_report": null,
+    "modernization_path": null,
+    "stress_path": null,
+    "simulator_result": null,
+    "target_cost": null,
+    "effective_rate": null,
+    "savings_estimate": null,
+    "balanced_budget_result": null
+  },
+  "claim_booleans": {
+    "fy2025_anchor_custody_published": true,
+    "completed_baseline_path_published": false,
+    "source_custody_complete_for_full_baseline": false,
+    "floor_thresholds_set": false,
+    "all_floors_passed": false,
+    "modernization_path_published": false,
+    "stress_path_published": false,
+    "simulator_ready": false,
+    "simulator_run_published": false,
+    "target_cost_published": false,
+    "statutory_rate_published": false,
+    "effective_rate_published": false,
+    "public_rate_card_published": false,
+    "tax_proposal_published": false,
+    "savings_claim_published": false,
+    "waste_finding_published": false,
+    "fraud_finding_published": false,
+    "department_cut_instruction_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "non_claim_boundary": "This closes custody for the existing FY2025 OMB transportation anchor only. It is not a completed baseline path, trust-fund reconciliation, federal-state-local translation, floor pass finding, modernization result, stress result, simulator run, target-cost selection, rate calculation, rate publication, public rate card, tax proposal, savings estimate, waste finding, fraud finding, department-cut instruction, technology-savings claim, solver result, or balanced-budget claim."
+}

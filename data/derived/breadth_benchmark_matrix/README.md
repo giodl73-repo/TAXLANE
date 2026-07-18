@@ -122,6 +122,13 @@ null, stress rows remain empty, and simulator, target-cost, rate, savings,
 waste, fraud, technology-savings, solver, and balanced-budget claims remain
 blocked.
 
+`transportation_pilot_fy2025_anchor_custody.v1.draft.json` closes custody for
+the already-local OMB FY2025 transportation anchor only. It records the raw file
+path, byte count, SHA-256, and FY2025 component reconciliation while leaving the
+full FY2025-FY2035 baseline path, trust-fund reconciliation, floors,
+modernization, stress, simulator, rate, savings, and balanced-budget claims
+blocked.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is
