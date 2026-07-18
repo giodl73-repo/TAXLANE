@@ -742,6 +742,12 @@ const INTERNATIONAL_COMPARATOR_TARGET_RUBRIC_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/international_comparator_target_rubric.v1.draft.json";
 const PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json";
+const FISCAL_ACCOUNTING_RATE_DEFINITIONS_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/fiscal_accounting_rate_definitions.v1.draft.json";
+const FISCAL_ACCOUNTING_RATE_DEFINITIONS_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/fiscal_accounting_rate_definitions.schema.md";
+const FISCAL_ACCOUNTING_RATE_DEFINITIONS_READER_PATH: &str =
+    "docs/reading/fiscal-accounting-rate-definitions.md";
 const OECD_COFOG_PANEL_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/oecd_cofog_country_panel.data2022.v1.draft.json";
 const OECD_COFOG_PANEL_SCHEMA_PATH: &str =
@@ -10100,6 +10106,8 @@ fn validate_international_comparator_target_rubric(root: &Path) -> Result<(), St
 }
 
 fn validate_program_lane_target_cost_contract(root: &Path) -> Result<(), String> {
+    validate_fiscal_accounting_rate_definitions(root)?;
+
     let text = fs::read_to_string(root.join(PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH)).map_err(
         |err| format!("failed to read {PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH}: {err}"),
     )?;
@@ -10129,6 +10137,10 @@ fn validate_program_lane_target_cost_contract(root: &Path) -> Result<(), String>
         (
             "target_rubric",
             INTERNATIONAL_COMPARATOR_TARGET_RUBRIC_JSON_PATH,
+        ),
+        (
+            "accounting_rate_definitions",
+            FISCAL_ACCOUNTING_RATE_DEFINITIONS_JSON_PATH,
         ),
         (
             "rate_model",
@@ -10284,8 +10296,10 @@ fn validate_program_lane_target_cost_contract(root: &Path) -> Result<(), String>
     }
     for field in [
         "target_net_cost",
-        "receipt_share",
+        "all_receipt_funding_share",
+        "residual_general_fund_requirement_share",
         "statutory_or_effective_rate",
+        "post_dedicated_receipt_label_rule",
         "balance_identity",
     ] {
         if string_field(
@@ -10300,6 +10314,31 @@ fn validate_program_lane_target_cost_contract(root: &Path) -> Result<(), String>
                 "program lane target-cost definition {field} is required"
             ));
         }
+    }
+    let rate_definitions = contract
+        .get("rate_definitions")
+        .ok_or("program lane target-cost needs rate_definitions")?;
+    if rate_definitions.get("receipt_share").is_some()
+        || string_field(rate_definitions, "all_receipt_funding_share")?
+            != "gross_program_cost / total_funded_federal_cost"
+        || string_field(rate_definitions, "residual_general_fund_requirement_share")?
+            != "residual_general_fund_need / total_residual_general_fund_need"
+        || !string_field(rate_definitions, "post_dedicated_receipt_label_rule")?
+            .contains("not share of every tax dollar")
+    {
+        return Err("program lane target-cost Pulse 72 rate denominator freeze failed".to_string());
+    }
+    let accounting_freeze = contract
+        .get("accounting_freeze")
+        .ok_or("program lane target-cost needs accounting_freeze")?;
+    if string_field(accounting_freeze, "definition_record")?
+        != FISCAL_ACCOUNTING_RATE_DEFINITIONS_JSON_PATH
+        || !string_field(accounting_freeze, "rounding_residual_rule")?
+            .contains("explicit rounding line")
+        || string_field(accounting_freeze, "reserve_rule_status")?
+            != "documented_numeric_parameters_blocked"
+    {
+        return Err("program lane target-cost accounting freeze link failed".to_string());
     }
 
     let expected_components: BTreeMap<&str, &[&str]> = BTreeMap::from([
@@ -10525,12 +10564,181 @@ fn validate_program_lane_target_cost_contract(root: &Path) -> Result<(), String>
         .ok_or("program lane target-cost contract needs aggregate_solver")?;
     if number_field(solver, "horizon_years")? != 10.0
         || string_field(solver, "senior_claim")? != "net-interest"
-        || string_set(solver, "funds_kept_separate")?.is_empty()
-        || string_set(solver, "required_outputs")?.is_empty()
+        || !string_set(solver, "funds_kept_separate")?.contains("reserves")
+        || !string_set(solver, "required_outputs")?.contains("all_receipt_funding_share_by_lane")
+        || !string_set(solver, "required_outputs")?
+            .contains("residual_general_fund_requirement_share_by_lane")
+        || !string_set(solver, "required_outputs")?.contains("rounding_line")
         || string_field(solver, "iteration_rule")?.is_empty()
         || string_field(solver, "rounding_rule")?.is_empty()
     {
         return Err("program lane target-cost aggregate solver boundary failed".to_string());
+    }
+
+    Ok(())
+}
+
+fn validate_fiscal_accounting_rate_definitions(root: &Path) -> Result<(), String> {
+    let text = fs::read_to_string(root.join(FISCAL_ACCOUNTING_RATE_DEFINITIONS_JSON_PATH))
+        .map_err(|err| {
+            format!("failed to read {FISCAL_ACCOUNTING_RATE_DEFINITIONS_JSON_PATH}: {err}")
+        })?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|err| {
+        format!("failed to parse {FISCAL_ACCOUNTING_RATE_DEFINITIONS_JSON_PATH}: {err}")
+    })?;
+
+    if string_field(&record, "record_id")? != "rate-design:fiscal-accounting-rate-definitions:v1"
+        || string_field(&record, "record_family")? != "fiscal_accounting_rate_definitions"
+        || string_field(&record, "schema_version")? != "v1.draft"
+        || string_field(&record, "status")? != "draft_definition_freeze_solver_not_built"
+        || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+    {
+        return Err("fiscal accounting rate definitions identity or link failed".to_string());
+    }
+    for path in [
+        FISCAL_ACCOUNTING_RATE_DEFINITIONS_SCHEMA_PATH,
+        FISCAL_ACCOUNTING_RATE_DEFINITIONS_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("fiscal accounting rate definitions missing {path}"));
+        }
+    }
+
+    let quantity_definitions = record
+        .get("quantity_definitions")
+        .ok_or("fiscal accounting rate definitions need quantity_definitions")?;
+    let all_receipt = quantity_definitions
+        .get("all_receipt_funding_share")
+        .ok_or("missing all_receipt_funding_share")?;
+    let residual = quantity_definitions
+        .get("residual_general_fund_requirement_share")
+        .ok_or("missing residual_general_fund_requirement_share")?;
+    if string_field(all_receipt, "formula")? != "gross_program_cost / total_funded_federal_cost"
+        || string_field(residual, "formula")?
+            != "residual_general_fund_need / total_residual_general_fund_need"
+        || all_receipt
+            .get("share_of_every_tax_dollar_allowed")
+            .and_then(|value| value.as_bool())
+            != Some(true)
+        || residual
+            .get("share_of_every_tax_dollar_allowed")
+            .and_then(|value| value.as_bool())
+            != Some(false)
+    {
+        return Err("fiscal accounting rate denominator definitions failed".to_string());
+    }
+
+    let sign_conventions = record
+        .get("sign_conventions")
+        .ok_or("fiscal accounting rate definitions need sign_conventions")?;
+    for (field, expected) in [
+        ("outlays", "positive"),
+        ("implementation_costs", "positive_outlays"),
+        ("receipts", "positive"),
+        ("offsetting_collections", "positive_offsets"),
+        ("deficit", "positive_financing_need"),
+        ("surplus", "positive_excess_receipts"),
+    ] {
+        if string_field(sign_conventions, field)? != expected {
+            return Err(format!("fiscal accounting sign convention {field} failed"));
+        }
+    }
+
+    let identities = record
+        .get("identities")
+        .ok_or("fiscal accounting rate definitions need identities")?;
+    for (field, expected) in [
+        (
+            "primary_outlays",
+            "gross_program_outlays + implementation_outlays",
+        ),
+        (
+            "net_cash_requirement",
+            "primary_outlays - credited_offsetting_collections",
+        ),
+        (
+            "fund_balance_change",
+            "dedicated_receipts + explicit_general_fund_transfer + other_scored_fund_income - net_cash_requirement",
+        ),
+        (
+            "primary_balance",
+            "total_federal_receipts - primary_outlays",
+        ),
+        (
+            "deficit",
+            "primary_outlays + net_interest - total_federal_receipts",
+        ),
+        (
+            "debt_t",
+            "debt_t_minus_1 + deficit_t + explicit_other_financing_t",
+        ),
+    ] {
+        if string_field(identities, field)? != expected {
+            return Err(format!("fiscal accounting identity {field} failed"));
+        }
+    }
+
+    let reserve = record
+        .get("reserve_accounting")
+        .ok_or("fiscal accounting rate definitions need reserve_accounting")?;
+    if !reserve
+        .get("initial_numeric_parameters")
+        .is_some_and(serde_json::Value::is_null)
+        || string_field(reserve, "status")? != "definition_frozen_numeric_parameters_blocked"
+    {
+        return Err("fiscal accounting reserve parameter boundary failed".to_string());
+    }
+    for field in [
+        "contributions",
+        "withdrawals",
+        "caps",
+        "emergency_overrides",
+    ] {
+        if string_field(reserve, field)?.is_empty() {
+            return Err(format!(
+                "fiscal accounting reserve field {field} is required"
+            ));
+        }
+    }
+
+    let rounding = record
+        .get("rounding_treatment")
+        .ok_or("fiscal accounting rate definitions need rounding_treatment")?;
+    if string_field(rounding, "solver_values")? != "unrounded"
+        || !string_field(rounding, "public_rounding_residual_rule")?
+            .contains("explicit rounding line")
+    {
+        return Err("fiscal accounting rounding treatment failed".to_string());
+    }
+
+    let prohibited = record
+        .get("prohibited_language")
+        .and_then(|value| value.as_array())
+        .ok_or("fiscal accounting rate definitions need prohibited_language")?;
+    if prohibited.len() != 1
+        || string_field(&prohibited[0], "condition")?
+            != "calculated_after_subtracting_dedicated_receipts"
+        || string_field(&prohibited[0], "prohibited_phrase")? != "share of every tax dollar"
+        || string_field(&prohibited[0], "required_replacement")?
+            != "residual general-fund requirement share"
+    {
+        return Err("fiscal accounting prohibited language guard failed".to_string());
+    }
+
+    let solver_boundary = record
+        .get("solver_boundary")
+        .ok_or("fiscal accounting rate definitions need solver_boundary")?;
+    for field in [
+        "current_law_ready",
+        "central_reform_ready",
+        "stress_ready",
+        "balanced_rates_ready",
+    ] {
+        if solver_boundary.get(field).and_then(|value| value.as_bool()) != Some(false) {
+            return Err(format!(
+                "fiscal accounting solver boundary {field} must remain false"
+            ));
+        }
     }
 
     Ok(())
@@ -12222,6 +12430,12 @@ mod global_country_comparison_tests {
     fn program_lane_target_cost_contract_preserves_mapping_and_claim_boundaries() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_program_lane_target_cost_contract(&root).unwrap();
+    }
+
+    #[test]
+    fn fiscal_accounting_rate_definitions_preserve_denominators_and_identities() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_fiscal_accounting_rate_definitions(&root).unwrap();
     }
 }
 

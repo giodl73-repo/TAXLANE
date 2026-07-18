@@ -32,6 +32,12 @@ offset rows. Every lane declares a target-cost method, policy levers, outcome
 floors, federal translation, financing bases, and ten-year solver treatment.
 All numeric target and balanced-rate gates remain false.
 
+`fiscal_accounting_rate_definitions.v1.draft.json` freezes Pulse 72 accounting
+definitions before solver work begins. It separates all-receipt funding share
+from residual general-fund requirement share, freezes positive sign
+conventions, documents reserve and emergency placeholders, and requires public
+rounding residuals to appear on an explicit rounding line.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is

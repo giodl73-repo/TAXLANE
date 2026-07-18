@@ -19,6 +19,7 @@
   "input_paths": {
     "comparison_coverage": "data/derived/breadth_benchmark_matrix/global_country_comparison_coverage.v1.draft.json",
     "target_rubric": "data/derived/breadth_benchmark_matrix/international_comparator_target_rubric.v1.draft.json",
+    "accounting_rate_definitions": "data/derived/breadth_benchmark_matrix/fiscal_accounting_rate_definitions.v1.draft.json",
     "rate_model": "data/derived/program_lane_rate_model/program_lane_rate_model.fy2025.omb-fy2027-v1.draft.jsonl",
     "balance_guardrail": "docs/research/2026-06-23-balance-rule-guardrail-spec.md",
     "rate_adjustment": "docs/research/2026-06-24-rate-adjustment-operating-model.md"
@@ -34,9 +35,32 @@
   "mandatory_floor_classes": ["access_coverage", "quality_safety", "equity_distribution", "adequacy_resilience", "fiscal_delivery_feasibility"],
   "rate_definitions": {
     "target_net_cost": "target_gross_outlays + implementation_cost + reserve_contribution - dedicated_receipts - credited_offsets",
-    "receipt_share": "lane_target_net_cost / sum_of_all_lane_target_net_costs_after_offsets",
+    "all_receipt_funding_share": "gross_program_cost / total_funded_federal_cost",
+    "residual_general_fund_requirement_share": "residual_general_fund_need / total_residual_general_fund_need",
     "statutory_or_effective_rate": "lane_required_revenue / behaviorally_adjusted_assigned_receipt_base",
+    "post_dedicated_receipt_label_rule": "A value calculated after subtracting dedicated receipts is not share of every tax dollar; label it residual general-fund requirement share.",
     "balance_identity": "program_outlays + net_interest + reserve_contributions = dedicated_receipts + general_receipts + credited_offsets + explicit_deficit_gap"
+  },
+  "accounting_freeze": {
+    "definition_record": "data/derived/breadth_benchmark_matrix/fiscal_accounting_rate_definitions.v1.draft.json",
+    "sign_conventions": {
+      "outlays": "positive",
+      "implementation_costs": "positive_outlays",
+      "receipts": "positive",
+      "offsetting_collections": "positive_offsets",
+      "deficit": "positive_financing_need",
+      "surplus": "positive_excess_receipts"
+    },
+    "identities": {
+      "primary_outlays": "gross_program_outlays + implementation_outlays",
+      "net_cash_requirement": "primary_outlays - credited_offsetting_collections",
+      "fund_balance_change": "dedicated_receipts + explicit_general_fund_transfer + other_scored_fund_income - net_cash_requirement",
+      "primary_balance": "total_federal_receipts - primary_outlays",
+      "deficit": "primary_outlays + net_interest - total_federal_receipts",
+      "debt_t": "debt_t_minus_1 + deficit_t + explicit_other_financing_t"
+    },
+    "rounding_residual_rule": "Public rounding residuals must go to an explicit rounding line.",
+    "reserve_rule_status": "documented_numeric_parameters_blocked"
   },
   "required_scenarios": ["current_law", "central_reform", "stress"],
   "common_rate_gates": [
@@ -53,9 +77,9 @@
   ],
   "aggregate_solver": {
     "horizon_years": 10,
-    "funds_kept_separate": ["oasdi", "medicare_hi", "transportation_trust", "general_fund"],
+    "funds_kept_separate": ["oasdi", "medicare_hi", "transportation_trust", "general_fund", "reserves"],
     "senior_claim": "net-interest",
-    "required_outputs": ["target_net_cost_by_lane", "receipt_share_by_lane", "assigned_base_rate_by_lane", "fund_balance_by_year", "primary_balance", "net_interest", "debt_path", "reserve_path", "explicit_deficit_gap", "distributional_effect"],
+    "required_outputs": ["target_net_cost_by_lane", "all_receipt_funding_share_by_lane", "residual_general_fund_requirement_share_by_lane", "assigned_base_rate_by_lane", "fund_balance_by_year", "primary_balance", "net_interest", "debt_path", "reserve_path", "explicit_deficit_gap", "rounding_line", "distributional_effect"],
     "iteration_rule": "Recompute receipts, GDP-sensitive bases, debt, and net interest until the fiscal path converges; do not hold interest fixed after changing the primary balance.",
     "rounding_rule": "Reconcile with unrounded values and apply any public rounding residual to an explicit rounding line, never silently to a program lane."
   },

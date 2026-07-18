@@ -1,0 +1,82 @@
+{
+  "record_id": "rate-design:fiscal-accounting-rate-definitions:v1",
+  "record_family": "fiscal_accounting_rate_definitions",
+  "schema_version": "v1.draft",
+  "as_of_date": "2026-07-18",
+  "purpose": "Freeze the accounting signs, fiscal identities, reserve treatment, and rate denominator names required before building the integrated solver.",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "source_paths": {
+    "balance_guardrail": "docs/research/2026-06-23-balance-rule-guardrail-spec.md",
+    "rate_adjustment": "docs/research/2026-06-24-rate-adjustment-operating-model.md",
+    "rate_model": "data/derived/program_lane_rate_model/program_lane_rate_model.fy2025.omb-fy2027-v1.draft.jsonl"
+  },
+  "quantity_definitions": {
+    "all_receipt_funding_share": {
+      "formula": "gross_program_cost / total_funded_federal_cost",
+      "numerator": "gross_program_cost",
+      "denominator": "total_funded_federal_cost",
+      "public_label": "all-receipt funding share",
+      "description": "The share of the fully funded federal cost before subtracting lane dedicated receipts.",
+      "share_of_every_tax_dollar_allowed": true
+    },
+    "residual_general_fund_requirement_share": {
+      "formula": "residual_general_fund_need / total_residual_general_fund_need",
+      "numerator": "residual_general_fund_need",
+      "denominator": "total_residual_general_fund_need",
+      "public_label": "residual general-fund requirement share",
+      "description": "The share of the remaining general-fund need after dedicated receipts and credited offsets are applied.",
+      "share_of_every_tax_dollar_allowed": false
+    }
+  },
+  "prohibited_language": [
+    {
+      "condition": "calculated_after_subtracting_dedicated_receipts",
+      "prohibited_phrase": "share of every tax dollar",
+      "required_replacement": "residual general-fund requirement share"
+    }
+  ],
+  "sign_conventions": {
+    "outlays": "positive",
+    "implementation_costs": "positive_outlays",
+    "receipts": "positive",
+    "offsetting_collections": "positive_offsets",
+    "deficit": "positive_financing_need",
+    "surplus": "positive_excess_receipts"
+  },
+  "identities": {
+    "primary_outlays": "gross_program_outlays + implementation_outlays",
+    "net_cash_requirement": "primary_outlays - credited_offsetting_collections",
+    "fund_balance_change": "dedicated_receipts + explicit_general_fund_transfer + other_scored_fund_income - net_cash_requirement",
+    "primary_balance": "total_federal_receipts - primary_outlays",
+    "deficit": "primary_outlays + net_interest - total_federal_receipts",
+    "debt_t": "debt_t_minus_1 + deficit_t + explicit_other_financing_t"
+  },
+  "reserve_accounting": {
+    "contributions": "Positive outlays recorded as reserve contribution lines after the reserve rule is parameterized.",
+    "withdrawals": "Positive financing resources recorded separately from receipts and only under the defined reserve withdrawal rule.",
+    "caps": "Reserve caps must be explicit numeric or formula fields before reserve contributions can be solver-eligible.",
+    "emergency_overrides": "Emergency overrides must disclose the authorizing rule, amount, payback schedule, and fund affected.",
+    "initial_numeric_parameters": null,
+    "status": "definition_frozen_numeric_parameters_blocked"
+  },
+  "rounding_treatment": {
+    "solver_values": "unrounded",
+    "public_values": "rounded_only_for_display",
+    "public_rounding_residual_rule": "Any public rounding residual must go to an explicit rounding line and must never be silently assigned to a program lane, trust fund, receipt source, or offset row."
+  },
+  "solver_boundary": {
+    "current_law_ready": false,
+    "central_reform_ready": false,
+    "stress_ready": false,
+    "balanced_rates_ready": false,
+    "blockers": [
+      "annual_current_law_paths",
+      "reserve_numeric_parameters",
+      "dedicated_receipt_bases",
+      "general_fund_residual_requirements",
+      "endogenous_net_interest_solver",
+      "distributional_effects"
+    ]
+  },
+  "status": "draft_definition_freeze_solver_not_built"
+}

@@ -34,5 +34,16 @@ The solver must keep major trust funds separate, recompute net interest after
 each primary-balance change, expose any deficit gap, and reconcile using
 unrounded values.
 
+Pulse 72 freezes two separate share quantities:
+
+- `all_receipt_funding_share` = gross program cost / total funded federal cost;
+- `residual_general_fund_requirement_share` = residual general-fund need / total
+  residual general-fund need.
+
+A value calculated after subtracting dedicated receipts is not a "share of every
+tax dollar." Reserve rules and public rounding residual treatment are governed
+by `fiscal_accounting_rate_definitions.v1.draft.json`; any public rounding
+residual must be shown on an explicit rounding line.
+
 This is a proposed-reform design contract. It is not a legal dedication, a
 statutory rate, a savings score, or a claim that peer spending is efficient.

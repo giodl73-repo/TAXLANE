@@ -19,12 +19,16 @@ For every lane, it now names:
 4. the translation from all-government peer data to the federal budget;
 5. the receipt base and ten-year solver treatment still required.
 
-## The Two Rates
+## The Rate And Share Quantities
 
 | Public question | Calculation | Reconciliation rule |
 |---|---|---|
-| Where does a funded tax dollar go? | lane target net cost / all lane target net costs | Shares sum to 100 percent after explicit offsets. |
+| Where does fully funded federal cost go before dedicated receipts? | gross program cost / total funded federal cost | This is the all-receipt funding share. |
+| Which residual general-fund needs remain after dedicated receipts and offsets? | residual general-fund need / total residual general-fund need | This is the residual general-fund requirement share. |
 | What rate funds the lane? | lane required revenue / behaviorally adjusted assigned base | Revenue equals cost; statutory rates do not need to sum to 100 percent. |
+
+A value calculated after subtracting dedicated receipts is not "share of every
+tax dollar." It must be labeled as a residual general-fund requirement share.
 
 The central accounting identity is:
 
@@ -35,6 +39,10 @@ program outlays + net interest + reserves
 
 The deficit gap is never hidden. Net interest is recomputed after changes to the
 primary balance rather than held fixed.
+
+Pulse 72 also freezes the sign conventions and identities in
+`data/derived/breadth_benchmark_matrix/fiscal_accounting_rate_definitions.v1.draft.json`.
+Public rounded views must put any residual on an explicit rounding line.
 
 ## Why The Contract Does Not Publish New Numbers Yet
 

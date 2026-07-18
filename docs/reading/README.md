@@ -38,7 +38,8 @@ explainers. They should keep three labels visible:
 | `placeholder-receipt-display-packet.md` | Static display handoff that pairs the placeholder receipt charts with required explanatory copy and role-review gate. |
 | `program-lane-system.md` | Assembled citizen explainer: the balanced-budget story, where each dollar goes and who pays, how rates move, and why it holds (reform proposal). |
 | `program-lane-rate-cards.md` | Per-lane rate cards: the rate, who funds it, the four-anchor argument for the level, and how it moves up or down (reform proposal). |
-| `program-lane-target-cost-contract.md` | Readiness bridge from the 15 analytical comparison lanes to target costs, receipt shares, assigned-base rates, and the ten-year balance solver. |
+| `program-lane-target-cost-contract.md` | Readiness bridge from the 15 analytical comparison lanes to target costs, all-receipt funding shares, residual general-fund shares, assigned-base rates, and the ten-year balance solver. |
+| `fiscal-accounting-rate-definitions.md` | Frozen accounting signs, denominator names, reserve placeholders, and public rounding-line rule needed before an integrated solver can calculate rates. |
 | `rate-change-worked-examples.md` | Three end-to-end examples of the rate-adjustment operating model (defense up, health down, Social Security cap lift). |
 | `budget-area-funding-explainer.md` | Lay distillation of the six panel-reviewed research papers: where the US over-funds (health), under-funds (family), funds by strategy (defense), runs a broken base (Social Security), and under-collects overall (revenue). Points to `docs/papers/`. |
 | `where-federal-money-goes.md` | Spending-side packet showing the largest FY2025 outlay categories, financing context, and safe accountability questions. |
