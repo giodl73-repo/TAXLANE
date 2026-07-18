@@ -60,6 +60,11 @@ scenario contract. It requires implementation, training, cybersecurity,
 privacy, fallback, service-risk, phase-in, measured-productivity, and stress
 fields before any lower target cost or rate effect can be considered.
 
+`public_rate_card_v2_contract.v1.draft.json` defines the future public-card
+shape for valid and blocked rates. It treats `not_calculated` and `blocked` as
+first-class outcomes and keeps statutory-rate language unavailable until
+publication gates pass.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is

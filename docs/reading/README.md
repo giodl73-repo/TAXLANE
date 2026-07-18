@@ -309,6 +309,8 @@ It is the bounded public surface, not a performance or savings report.
 81. Read `technology-transition-operating-model.md` before treating
     modernization, automation, AI, or other technology changes as a lower target
     cost, lower rate, savings score, or department-cut basis.
+82. Read `public-rate-card-v2-contract.md` before drafting public rate-card
+    displays. It requires blocked and not-calculated values to stay explicit.
 
 ## Public-Use Guardrail
 

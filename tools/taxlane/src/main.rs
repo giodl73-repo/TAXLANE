@@ -326,6 +326,12 @@ const TECHNOLOGY_TRANSITION_OPERATING_MODEL_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/technology_transition_operating_model.schema.md";
 const TECHNOLOGY_TRANSITION_OPERATING_MODEL_READER_PATH: &str =
     "docs/reading/technology-transition-operating-model.md";
+const PUBLIC_RATE_CARD_V2_CONTRACT_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/public_rate_card_v2_contract.v1.draft.json";
+const PUBLIC_RATE_CARD_V2_CONTRACT_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/public_rate_card_v2_contract.schema.md";
+const PUBLIC_RATE_CARD_V2_CONTRACT_READER_PATH: &str =
+    "docs/reading/public-rate-card-v2-contract.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10832,6 +10838,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_adaptive_rate_system_contract(root)?;
     validate_overspending_risk_taxonomy(root)?;
     validate_technology_transition_operating_model(root)?;
+    validate_public_rate_card_v2_contract(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -13364,6 +13371,240 @@ fn validate_technology_transition_operating_model(root: &Path) -> Result<(), Str
     Ok(())
 }
 
+fn validate_public_rate_card_v2_contract(root: &Path) -> Result<(), String> {
+    for path in [
+        PUBLIC_RATE_CARD_V2_CONTRACT_JSON_PATH,
+        PUBLIC_RATE_CARD_V2_CONTRACT_SCHEMA_PATH,
+        PUBLIC_RATE_CARD_V2_CONTRACT_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing public-rate-card v2 artifact: {path}"));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(PUBLIC_RATE_CARD_V2_CONTRACT_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let contract: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&contract, "record_id")? != "public-rate-card-v2-contract:v1"
+        || string_field(&contract, "record_family")? != "public_rate_card_v2_contract"
+        || int_field(&contract, "pulse")? != 85
+        || string_field(&contract, "adaptive_rate_system_contract_path")?
+            != ADAPTIVE_RATE_SYSTEM_CONTRACT_JSON_PATH
+        || string_field(&contract, "overspending_risk_taxonomy_path")?
+            != OVERSPENDING_RISK_TAXONOMY_JSON_PATH
+        || string_field(&contract, "technology_transition_operating_model_path")?
+            != TECHNOLOGY_TRANSITION_OPERATING_MODEL_JSON_PATH
+        || string_field(&contract, "phase_plan_path")?
+            != "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md"
+    {
+        return Err("public-rate-card v2 identity or governing paths failed".to_string());
+    }
+    if !string_field(&contract, "source_custody_status")?.contains("no_new_external_request") {
+        return Err(
+            "public-rate-card v2 custody status must prohibit external requests".to_string(),
+        );
+    }
+    let boundary = string_field(&contract, "non_claim_boundary")?;
+    for required in [
+        "public rate-card v2 contract, not a published public rate card",
+        "statutory-rate proposal",
+        "effective-rate publication",
+        "department-cut instruction",
+        "balanced-budget claim",
+        "Not calculated and blocked are first-class public outcomes",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!("public-rate-card v2 boundary missing {required}"));
+        }
+    }
+
+    let statuses = contract
+        .get("card_status_values")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("public-rate-card v2 status values")?;
+    let observed_statuses = statuses
+        .iter()
+        .map(|row| string_field(row, "status_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    for required in [
+        "not_calculated",
+        "blocked",
+        "valid_internal_only",
+        "publishable_after_role_review",
+    ] {
+        if !observed_statuses.contains(required) {
+            return Err(format!("public-rate-card v2 status missing {required}"));
+        }
+    }
+    for status in statuses {
+        let status_id = string_field(status, "status_id")?;
+        let display_allowed = status
+            .get("public_display_allowed")
+            .and_then(serde_json::Value::as_bool)
+            .ok_or("public-rate-card v2 status display flag")?;
+        if (status_id == "not_calculated" || status_id == "blocked") && !display_allowed {
+            return Err("not_calculated and blocked must be displayable outcomes".to_string());
+        }
+        if (status_id == "valid_internal_only" || status_id == "publishable_after_role_review")
+            && display_allowed
+        {
+            return Err(
+                "unpublished internal/publishable statuses must not display yet".to_string(),
+            );
+        }
+    }
+
+    let fields = contract
+        .get("required_card_fields")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("public-rate-card v2 required fields")?;
+    let observed_fields = fields
+        .iter()
+        .map(|row| string_field(row, "field_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_fields = BTreeSet::from([
+        "lane_or_budget_row".to_string(),
+        "current_law_cost".to_string(),
+        "current_law_receipts_and_fund_treatment".to_string(),
+        "target_cost_if_valid".to_string(),
+        "assigned_base".to_string(),
+        "effective_rate_if_valid".to_string(),
+        "all_receipt_funding_share".to_string(),
+        "residual_general_fund_requirement_share".to_string(),
+        "burden".to_string(),
+        "distribution_by_income".to_string(),
+        "why_rate_changed".to_string(),
+        "outcome_floors".to_string(),
+        "technology_transition_status".to_string(),
+        "overspending_risk_classification".to_string(),
+        "evidence_grade".to_string(),
+        "blockers".to_string(),
+        "public_claim_status".to_string(),
+    ]);
+    if observed_fields != expected_fields {
+        return Err("public-rate-card v2 required field set failed".to_string());
+    }
+    for field in fields {
+        if field.get("required").and_then(serde_json::Value::as_bool) != Some(true)
+            || !["not_calculated", "blocked"]
+                .contains(&string_field(field, "initial_status")?.as_str())
+            || !field.get("value").is_some_and(serde_json::Value::is_null)
+        {
+            return Err("public-rate-card v2 fields must be required and null".to_string());
+        }
+    }
+
+    let gates = contract
+        .get("publication_gates")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("public-rate-card v2 publication gates")?;
+    if gates
+        .iter()
+        .any(|(_, value)| value.as_bool() != Some(false))
+    {
+        return Err("public-rate-card v2 publication gates must all remain false".to_string());
+    }
+    for required in [
+        "rate_calculation_gate_open",
+        "rate_publication_gate_open",
+        "role_review_complete",
+        "public_language_review_complete",
+        "statutory_rate_language_allowed",
+        "effective_rate_language_allowed",
+        "public_card_publishable",
+    ] {
+        if !gates.contains_key(required) {
+            return Err(format!("public-rate-card v2 gate missing {required}"));
+        }
+    }
+
+    let statutory_rule = string_field(&contract, "statutory_language_rule")?;
+    for required in [
+        "Avoid statutory-rate language",
+        "rate-publication gate",
+        "role review",
+        "assigned-base model",
+        "incidence model",
+        "distribution model",
+        "behavior model",
+        "administration model",
+        "interaction scoring",
+    ] {
+        if !statutory_rule.contains(required) {
+            return Err(format!(
+                "public-rate-card v2 statutory rule missing {required}"
+            ));
+        }
+    }
+
+    let display = contract
+        .get("display_rules")
+        .ok_or("public-rate-card v2 display rules")?;
+    if string_field(display, "null_display_label")? != "not calculated"
+        || string_field(display, "false_gate_display_label")? != "blocked"
+        || !string_field(display, "missing_values_rule")?.contains("instead of filling a zero")
+        || !string_field(display, "denominator_boundary")?.contains("not share of every tax dollar")
+        || !string_field(display, "risk_language_boundary")?
+            .contains("must not be described as waste")
+        || !string_field(display, "technology_language_boundary")?
+            .contains("must not be described as savings")
+    {
+        return Err("public-rate-card v2 display rules failed".to_string());
+    }
+
+    let outputs = contract
+        .get("output_placeholders")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("public-rate-card v2 outputs")?;
+    for (field, value) in outputs {
+        if !value.is_null() {
+            return Err(format!(
+                "public-rate-card v2 output {field} must remain null"
+            ));
+        }
+    }
+    let claims = contract
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("public-rate-card v2 claim booleans")?;
+    if claims
+        .iter()
+        .any(|(_, value)| value.as_bool() != Some(false))
+    {
+        return Err("public-rate-card v2 claim booleans must all remain false".to_string());
+    }
+
+    let reader = fs::read_to_string(root.join(PUBLIC_RATE_CARD_V2_CONTRACT_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        PUBLIC_RATE_CARD_V2_CONTRACT_JSON_PATH,
+        "This is a public rate-card v2 contract, not a published public rate card",
+        "statutory-rate proposal",
+        "effective-rate publication",
+        "technology-savings claim",
+        "balanced-budget claim",
+        "\"not calculated\" and \"blocked\" first-class public outcomes",
+        "Missing values remain null and blocked gates remain false",
+        "current-law cost",
+        "target cost if valid",
+        "assigned base",
+        "effective rate if valid",
+        "all-receipt funding share",
+        "residual general-fund requirement share",
+        "technology-transition status",
+        "overspending-risk classification",
+        "Avoid statutory-rate language unless",
+        "All published public-rate-card",
+        "Every claim boolean remains false.",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("public-rate-card v2 reader missing {required}"));
+        }
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -13438,6 +13679,12 @@ mod global_country_comparison_tests {
     fn technology_transition_operating_model_blocks_automatic_cuts() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_technology_transition_operating_model(&root).unwrap();
+    }
+
+    #[test]
+    fn public_rate_card_v2_contract_preserves_blocked_public_outcomes() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_public_rate_card_v2_contract(&root).unwrap();
     }
 
     #[test]

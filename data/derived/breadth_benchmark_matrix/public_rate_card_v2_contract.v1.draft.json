@@ -1,0 +1,93 @@
+{
+  "record_id": "public-rate-card-v2-contract:v1",
+  "record_family": "public_rate_card_v2_contract",
+  "version": "v1.draft",
+  "status": "draft_contract_no_public_rate_cards",
+  "pulse": 85,
+  "adaptive_rate_system_contract_path": "data/derived/breadth_benchmark_matrix/adaptive_rate_system_contract.v1.draft.json",
+  "overspending_risk_taxonomy_path": "data/derived/breadth_benchmark_matrix/overspending_risk_taxonomy.v1.draft.json",
+  "technology_transition_operating_model_path": "data/derived/breadth_benchmark_matrix/technology_transition_operating_model.v1.draft.json",
+  "phase_plan_path": "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md",
+  "source_custody_status": "derived_from_existing_repo_custodied_records_no_new_external_request",
+  "non_claim_boundary": "This is a public rate-card v2 contract, not a published public rate card, statutory-rate proposal, tax proposal, effective-rate publication, savings estimate, waste finding, fraud finding, department-cut instruction, technology-savings claim, or balanced-budget claim. Not calculated and blocked are first-class public outcomes.",
+  "card_status_values": [
+    {
+      "status_id": "not_calculated",
+      "meaning": "The field is intentionally null because prerequisite evidence or model work has not been completed.",
+      "public_display_allowed": true
+    },
+    {
+      "status_id": "blocked",
+      "meaning": "The field remains null or false because a named gate failed or is incomplete.",
+      "public_display_allowed": true
+    },
+    {
+      "status_id": "valid_internal_only",
+      "meaning": "An internal calculation may exist, but publication gates have not passed.",
+      "public_display_allowed": false
+    },
+    {
+      "status_id": "publishable_after_role_review",
+      "meaning": "The card may publish only after rate-publication, role-review, and public-language gates pass.",
+      "public_display_allowed": false
+    }
+  ],
+  "required_card_fields": [
+    {"field_id": "lane_or_budget_row", "required": true, "initial_status": "not_calculated", "value": null},
+    {"field_id": "current_law_cost", "required": true, "initial_status": "not_calculated", "value": null},
+    {"field_id": "current_law_receipts_and_fund_treatment", "required": true, "initial_status": "not_calculated", "value": null},
+    {"field_id": "target_cost_if_valid", "required": true, "initial_status": "blocked", "value": null},
+    {"field_id": "assigned_base", "required": true, "initial_status": "blocked", "value": null},
+    {"field_id": "effective_rate_if_valid", "required": true, "initial_status": "blocked", "value": null},
+    {"field_id": "all_receipt_funding_share", "required": true, "initial_status": "blocked", "value": null},
+    {"field_id": "residual_general_fund_requirement_share", "required": true, "initial_status": "blocked", "value": null},
+    {"field_id": "burden", "required": true, "initial_status": "blocked", "value": null},
+    {"field_id": "distribution_by_income", "required": true, "initial_status": "blocked", "value": null},
+    {"field_id": "why_rate_changed", "required": true, "initial_status": "blocked", "value": null},
+    {"field_id": "outcome_floors", "required": true, "initial_status": "blocked", "value": null},
+    {"field_id": "technology_transition_status", "required": true, "initial_status": "blocked", "value": null},
+    {"field_id": "overspending_risk_classification", "required": true, "initial_status": "blocked", "value": null},
+    {"field_id": "evidence_grade", "required": true, "initial_status": "not_calculated", "value": null},
+    {"field_id": "blockers", "required": true, "initial_status": "blocked", "value": null},
+    {"field_id": "public_claim_status", "required": true, "initial_status": "blocked", "value": null}
+  ],
+  "publication_gates": {
+    "rate_calculation_gate_open": false,
+    "rate_publication_gate_open": false,
+    "role_review_complete": false,
+    "public_language_review_complete": false,
+    "statutory_rate_language_allowed": false,
+    "effective_rate_language_allowed": false,
+    "public_card_publishable": false
+  },
+  "statutory_language_rule": "Avoid statutory-rate language unless the rate-publication gate, role review, public-language review, assigned-base model, incidence model, distribution model, behavior model, administration model, and interaction scoring all pass.",
+  "display_rules": {
+    "null_display_label": "not calculated",
+    "false_gate_display_label": "blocked",
+    "missing_values_rule": "Missing values remain null and blocked gates remain false; public cards must display not calculated or blocked instead of filling a zero.",
+    "denominator_boundary": "All-receipt funding share and residual general-fund requirement share must be labeled separately. A residual share is not share of every tax dollar.",
+    "risk_language_boundary": "Overspending-risk classifications must not be described as waste, fraud, recoverable savings, causal savings, budget savings, or a department cut unless separate positive evidence and publication gates pass.",
+    "technology_language_boundary": "Technology-transition status must not be described as savings, a target-cost reduction, a lower rate, or a department cut unless transition-cost, measured-productivity, stress, score-provenance, and outcome-floor gates pass."
+  },
+  "output_placeholders": {
+    "published_public_rate_cards": null,
+    "statutory_rates": null,
+    "effective_rates": null,
+    "all_receipt_funding_shares": null,
+    "residual_general_fund_requirement_shares": null,
+    "target_costs": null,
+    "savings_estimates": null,
+    "department_cut_instructions": null
+  },
+  "claim_booleans": {
+    "public_rate_card_published": false,
+    "statutory_rate_published": false,
+    "effective_rate_published": false,
+    "tax_proposal_published": false,
+    "savings_claim_published": false,
+    "waste_finding_published": false,
+    "fraud_finding_published": false,
+    "department_cut_instruction_published": false,
+    "balanced_budget_claim_published": false
+  }
+}
