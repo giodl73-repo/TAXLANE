@@ -387,6 +387,10 @@ const TRANSPORTATION_PILOT_FY2025_ANCHOR_CUSTODY_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/transportation_pilot_fy2025_anchor_custody.schema.md";
 const TRANSPORTATION_PILOT_FY2025_ANCHOR_CUSTODY_READER_PATH: &str =
     "docs/reading/transportation-pilot-fy2025-anchor-custody.md";
+const TRANSPORTATION_PILOT_PARTIAL_FEDERAL_OUTLAY_PATH_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/transportation_pilot_partial_federal_outlay_path.v1.draft.json";
+const TRANSPORTATION_PILOT_PARTIAL_FEDERAL_OUTLAY_PATH_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/transportation_pilot_partial_federal_outlay_path.schema.md";
+const TRANSPORTATION_PILOT_PARTIAL_FEDERAL_OUTLAY_PATH_READER_PATH: &str =
+    "docs/reading/transportation-pilot-partial-federal-outlay-path.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10904,6 +10908,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_transportation_pilot_modernization_path_contract(root)?;
     validate_transportation_pilot_stress_path_contract(root)?;
     validate_transportation_pilot_fy2025_anchor_custody(root)?;
+    validate_transportation_pilot_partial_federal_outlay_path(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -16704,6 +16709,295 @@ fn validate_transportation_pilot_fy2025_anchor_custody(root: &Path) -> Result<()
     Ok(())
 }
 
+fn validate_transportation_pilot_partial_federal_outlay_path(root: &Path) -> Result<(), String> {
+    for path in [
+        TRANSPORTATION_PILOT_PARTIAL_FEDERAL_OUTLAY_PATH_JSON_PATH,
+        TRANSPORTATION_PILOT_PARTIAL_FEDERAL_OUTLAY_PATH_SCHEMA_PATH,
+        TRANSPORTATION_PILOT_PARTIAL_FEDERAL_OUTLAY_PATH_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing transportation partial federal outlay path artifact: {path}"
+            ));
+        }
+    }
+
+    let text =
+        fs::read_to_string(root.join(TRANSPORTATION_PILOT_PARTIAL_FEDERAL_OUTLAY_PATH_JSON_PATH))
+            .map_err(|e| e.to_string())?;
+    let path_record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&path_record, "record_id")?
+        != "transportation-pilot-partial-federal-outlay-path:v1"
+        || string_field(&path_record, "record_family")?
+            != "transportation_pilot_partial_federal_outlay_path"
+        || int_field(&path_record, "pulse")? != 96
+        || string_field(&path_record, "source_plan_path")?
+            != TRANSPORTATION_PILOT_SOURCE_PLAN_JSON_PATH
+        || string_field(&path_record, "baseline_path_contract_path")?
+            != TRANSPORTATION_PILOT_BASELINE_PATH_CONTRACT_JSON_PATH
+        || string_field(&path_record, "fy2025_anchor_custody_path")?
+            != TRANSPORTATION_PILOT_FY2025_ANCHOR_CUSTODY_JSON_PATH
+    {
+        return Err("transportation partial federal path identity failed".to_string());
+    }
+
+    let source = path_record
+        .get("source_custody")
+        .ok_or("transportation partial source custody")?;
+    if string_field(source, "source_id")? != "SRC-OMB-PBD-OUTLAYS-FY2027"
+        || string_field(source, "publisher")? != "Office of Management and Budget"
+        || string_field(source, "retrieval_date")? != "2026-07-13"
+        || int_field(source, "raw_byte_count")? != 2144756
+        || string_field(source, "raw_sha256")?
+            != "d892f2247e6c1aed68414d3e4168f8b4ab97bcfc7acf82a6a449a3fcb1addb07"
+        || source
+            .get("raw_bytes_already_present_in_repo")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || source
+            .get("new_external_request_submitted")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || source
+            .get("custody_complete_for_partial_federal_net_outlay_path")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || source
+            .get("custody_complete_for_full_baseline_path")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("transportation partial source custody fields failed".to_string());
+    }
+
+    let raw_path = root.join(string_field(source, "local_raw_path")?);
+    let bytes = fs::read(&raw_path).map_err(|e| e.to_string())?;
+    if bytes.len() as i64 != int_field(source, "raw_byte_count")? {
+        return Err("transportation partial raw byte count mismatch".to_string());
+    }
+    let mut hasher = Sha256::new();
+    hasher.update(&bytes);
+    if format!("{:x}", hasher.finalize()) != string_field(source, "raw_sha256")? {
+        return Err("transportation partial raw SHA mismatch".to_string());
+    }
+
+    let scope = path_record
+        .get("scope")
+        .ok_or("transportation partial scope")?;
+    if string_field(scope, "lane_id")? != "transportation-infrastructure"
+        || string_field(scope, "period")? != "FY2025-FY2031"
+        || string_field(scope, "unit")? != "millions_usd"
+        || string_field(scope, "raw_workbook_unit")? != "thousands_usd"
+        || !string_field(scope, "conversion_formula")?.contains("/ 1000")
+        || !scope
+            .get("federal_state_local_translation_status")
+            .is_some_and(serde_json::Value::is_null)
+        || !scope
+            .get("trust_fund_reconciliation_status")
+            .is_some_and(serde_json::Value::is_null)
+        || !scope
+            .get("gross_to_net_reconciliation_status")
+            .is_some_and(serde_json::Value::is_null)
+        || scope
+            .get("baseline_path_complete")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || scope
+            .get("simulator_ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("transportation partial scope failed".to_string());
+    }
+
+    let rows = path_record
+        .get("annual_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("transportation partial annual rows")?;
+    if rows.len() != 7 {
+        return Err("transportation partial path must contain seven annual rows".to_string());
+    }
+    let observed_years = rows
+        .iter()
+        .map(|row| int_field(row, "fiscal_year"))
+        .collect::<Result<Vec<_>, _>>()?;
+    if observed_years != vec![2025, 2026, 2027, 2028, 2029, 2030, 2031] {
+        return Err("transportation partial annual years failed".to_string());
+    }
+    let expected_totals = BTreeMap::from([
+        (2025, 145320),
+        (2026, 150277),
+        (2027, 166475),
+        (2028, 175618),
+        (2029, 168833),
+        (2030, 157618),
+        (2031, 152268),
+    ]);
+    for row in rows {
+        let year = int_field(row, "fiscal_year")?;
+        let component_sum = int_field(row, "ground_transportation_millions")?
+            + int_field(row, "air_transportation_millions")?
+            + int_field(row, "water_transportation_millions")?
+            + int_field(row, "other_transportation_millions")?;
+        if component_sum != int_field(row, "component_sum_millions")?
+            || component_sum != int_field(row, "total_transportation_millions")?
+            || int_field(row, "difference_millions")? != 0
+            || int_field(row, "current_law_reform_delta_millions")? != 0
+            || expected_totals.get(&year).copied()
+                != Some(int_field(row, "total_transportation_millions")?)
+        {
+            return Err(format!("transportation partial row {year} failed"));
+        }
+        if year == 2025
+            && row
+                .get("matches_fy2025_anchor_custody")
+                .and_then(serde_json::Value::as_bool)
+                != Some(true)
+        {
+            return Err("transportation partial FY2025 must match anchor custody".to_string());
+        }
+    }
+
+    let anchor_text =
+        fs::read_to_string(root.join(TRANSPORTATION_PILOT_FY2025_ANCHOR_CUSTODY_JSON_PATH))
+            .map_err(|e| e.to_string())?;
+    let anchor: serde_json::Value =
+        serde_json::from_str(&anchor_text).map_err(|e| e.to_string())?;
+    let anchor_total = int_field(
+        anchor
+            .get("fy2025_anchor_reconciliation")
+            .ok_or("transportation partial anchor reconciliation")?,
+        "total_outlays_millions",
+    )?;
+    if anchor_total != 145320 {
+        return Err("transportation partial anchor total failed".to_string());
+    }
+
+    let missing = path_record
+        .get("missing_year_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("transportation partial missing rows")?;
+    if missing.len() != 4 {
+        return Err("transportation partial missing rows length failed".to_string());
+    }
+    for (row, year) in missing.iter().zip([2032, 2033, 2034, 2035]) {
+        if int_field(row, "fiscal_year")? != year
+            || !row
+                .get("total_transportation_millions")
+                .is_some_and(serde_json::Value::is_null)
+            || !string_field(row, "reason")?.contains("not_available")
+        {
+            return Err(format!("transportation partial missing row {year} failed"));
+        }
+    }
+
+    let still_missing = path_record
+        .get("still_missing_for_full_baseline_path")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("transportation partial still missing")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    for required in [
+        "fy2032_fy2035_official_annual_rows",
+        "gross_program_outlays_series",
+        "credited_offsetting_collections_series",
+        "dedicated_receipts_series",
+        "explicit_general_fund_transfer_series",
+        "trust_fund_reconciliation",
+        "federal_state_local_translation",
+    ] {
+        if !still_missing.contains(required) {
+            return Err(format!(
+                "transportation partial missing blocker absent {required}"
+            ));
+        }
+    }
+
+    let outputs = path_record
+        .get("output_placeholders")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation partial outputs")?;
+    for (field, value) in outputs {
+        if !value.is_null() {
+            return Err(format!(
+                "transportation partial output {field} must remain null"
+            ));
+        }
+    }
+    let claims = path_record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation partial claims")?;
+    for (field, value) in claims {
+        let observed = value
+            .as_bool()
+            .ok_or("transportation partial claim must be bool")?;
+        if field == "partial_federal_net_outlay_path_published" {
+            if !observed {
+                return Err("transportation partial publish flag must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!(
+                "transportation partial public claim {field} must be false"
+            ));
+        }
+    }
+
+    let boundary = string_field(&path_record, "non_claim_boundary")?;
+    for required in [
+        "partial FY2025-FY2031 federal net-outlay path",
+        "not a completed FY2025-FY2035 baseline path",
+        "trust-fund reconciliation",
+        "federal-state-local translation",
+        "simulator run",
+        "target-cost selection",
+        "rate calculation",
+        "savings estimate",
+        "waste finding",
+        "fraud finding",
+        "balanced-budget claim",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!(
+                "transportation partial boundary missing {required}"
+            ));
+        }
+    }
+
+    let reader =
+        fs::read_to_string(root.join(TRANSPORTATION_PILOT_PARTIAL_FEDERAL_OUTLAY_PATH_READER_PATH))
+            .map_err(|e| e.to_string())?;
+    for required in [
+        TRANSPORTATION_PILOT_PARTIAL_FEDERAL_OUTLAY_PATH_JSON_PATH,
+        "FY2025-FY2031",
+        "No new external request was submitted",
+        "FY2032-FY2035 remain missing",
+        "not interpolated",
+        "FY2025: $145.320B",
+        "FY2028: $175.618B",
+        "FY2031: $152.268B",
+        "zero reform delta",
+        "not a completed FY2025-FY2035 baseline path",
+        "trust-fund reconciliation",
+        "federal-state-local translation",
+        "simulator run",
+        "target-cost selection",
+        "rate calculation",
+        "savings estimate",
+        "waste finding",
+        "fraud finding",
+        "technology-savings claim",
+        "balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("transportation partial reader missing {required}"));
+        }
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -16844,6 +17138,12 @@ mod global_country_comparison_tests {
     fn transportation_pilot_fy2025_anchor_custody_recomputes_hash_and_sum() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_transportation_pilot_fy2025_anchor_custody(&root).unwrap();
+    }
+
+    #[test]
+    fn transportation_pilot_partial_federal_outlay_path_keeps_missing_years_null() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_transportation_pilot_partial_federal_outlay_path(&root).unwrap();
     }
 
     #[test]

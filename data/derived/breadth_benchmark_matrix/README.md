@@ -129,6 +129,12 @@ full FY2025-FY2035 baseline path, trust-fund reconciliation, floors,
 modernization, stress, simulator, rate, savings, and balanced-budget claims
 blocked.
 
+`transportation_pilot_partial_federal_outlay_path.v1.draft.json` adds the
+already-local OMB Public Budget Database transportation federal net-outlay path
+for FY2025-FY2031. FY2032-FY2035 remain explicit null missing rows; the record
+does not complete trust-fund, offset, transfer, federal/state/local, simulator,
+target-cost, rate, savings, or balanced-budget work.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is
