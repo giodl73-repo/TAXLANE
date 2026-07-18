@@ -16,10 +16,11 @@ Custody and text inspection support only the attributed statement. They do not
 verify an underlying payment, HHS or Minnesota action, payment accuracy,
 misconduct, fraud, debt, collection, prevention, recovery, or savings.
 
-The $1.9 million is source-stated exact, not a bound, but the source does not
-state its period. The preceding unnamed-daycare sentence has a 2025 amount;
-that date is not assigned to Quality Learing Center. The atom remains not
-summable, with unresolved overlap, empty lineage, no corroboration or
+The $1.9 million is source-stated exact, not a bound, and the testimony
+introduces the visited providers' amounts as funding received in 2025. The
+source does not disclose the amount's data cutoff, whether it is year-to-date
+as of the December 16 visit narrative, or its calculation basis. The atom
+remains not summable, with unresolved overlap, empty lineage, no corroboration or
 counterevidence, and no recorded response from the named organization. Every
 attributed and substantive public gate remains false.
 
@@ -31,6 +32,6 @@ four-row inventory record.
 
 ## Next bounded action
 
-Seek an independently owned, period-specific CCAP payment record and a response
+Seek an independently owned, cutoff-specific CY2025 CCAP payment record and a response
 from the named organization or responsible program office. Do not strengthen
 the claim by rereading or recirculating the same testimony.

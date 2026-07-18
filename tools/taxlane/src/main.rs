@@ -16,7 +16,8 @@ use taxlane_core::{
     DisasterMitigationProjectProbeRecord, EfficiencyPressureRecord,
     ExternalAccountabilityClaimIntakeRecord, ExternalClaimAmountDerivation,
     ExternalClaimAmountSemantic, ExternalClaimCustodyStatus, ExternalClaimEvidenceRelation,
-    ExternalClaimPublicationKind, ExternalClaimReviewStatus, ExternalClaimStatus,
+    ExternalClaimLegalOrAdministrativeStatus, ExternalClaimPublicationKind,
+    ExternalClaimResponseRequestStatus, ExternalClaimReviewStatus, ExternalClaimStatus,
     ExternalClaimType, HeadlineBasisRecord, HealthAdminSimplificationProbeRecord,
     HealthPriceDisciplineProbeRecord, PERFORMANCE_DEMAND_RESPONSE_INTAKE_USE_RULE,
     PUBLIC_CLAIM_ALLOWED_LABEL, PUBLIC_CLAIM_BLOCKED_LABEL,
@@ -169,6 +170,58 @@ const HOUSE_SHIRLEY_TESTIMONY_REVIEW_PATH: &str =
 const HOUSE_SHIRLEY_TESTIMONY_BYTES: u64 = 60_433;
 const HOUSE_SHIRLEY_TESTIMONY_SHA256: &str =
     "e90266a876dcb6882593a1a63df70646270c7f9a037f6ba49d20f9e310c040c5";
+const MN_DCYF_CCAP_PROVIDER_RAW_PATH: &str = "data/raw/minnesota-house/SRC-MN-HOUSE-DCYF-CCAP-PROVIDER-DATA-2026-04-22/2026-07-14/dcyf-ccap-provider-data.pdf";
+const MN_DCYF_CCAP_PROVIDER_METADATA_PATH: &str =
+    "data/metadata/SRC-MN-HOUSE-DCYF-CCAP-PROVIDER-DATA-2026-04-22.2026-07-14.metadata.md";
+const MN_DCYF_CCAP_PROVIDER_REVIEW_PATH: &str =
+    "reviews/2026-07-14-mn-house-dcyf-quality-learning-center-payment-context-role-review.md";
+const PULSE_55_QUALITY_LEARNING_CENTER_OFFICIAL_CONTEXT_PATH: &str = "context/waves/2026-07-12-breadth-depth-benchmark-matrix/pulses/pulse-55-quality-learning-center-official-context.md";
+const MN_DCYF_CCAP_PROVIDER_CLOSURE_REVIEW_PATH: &str = "reviews/2026-07-14-mn-house-dcyf-quality-learning-center-license-closure-context-role-review.md";
+const PULSE_56_QUALITY_LEARNING_CENTER_LICENSE_CLOSURE_CONTEXT_PATH: &str = "context/waves/2026-07-12-breadth-depth-benchmark-matrix/pulses/pulse-56-quality-learning-center-license-closure-context.md";
+const QUALITY_LEARNING_CENTER_CY2025_PERIOD_CORRECTION_REVIEW_PATH: &str =
+    "reviews/2026-07-14-quality-learning-center-cy2025-period-correction-role-review.md";
+const PULSE_57_QUALITY_LEARNING_CENTER_CY2025_PERIOD_CORRECTION_PATH: &str = "context/waves/2026-07-12-breadth-depth-benchmark-matrix/pulses/pulse-57-quality-learning-center-cy2025-period-correction.md";
+const MN_CCAP_CY2025_REQUEST_SPEC_PATH: &str = "data/derived/accountability_evidence/minnesota-ccap-quality-learning-center-cy2025-existing-records-request-specification.v1.draft.json";
+const MN_CCAP_CY2025_REQUEST_READER_PATH: &str = "data/derived/accountability_evidence/minnesota-ccap-quality-learning-center-cy2025-existing-records-request-specification.md";
+const MN_CCAP_CY2025_REQUEST_TEMPLATE_PATH: &str =
+    "docs/requests/minnesota-ccap-quality-learning-center-cy2025-data-request.md";
+const MN_CCAP_CY2025_REQUEST_REVIEW_PATH: &str = "reviews/2026-07-15-minnesota-ccap-quality-learning-center-cy2025-existing-records-request-specification-role-review.md";
+const PULSE_58_MN_CCAP_CY2025_REQUEST_SPEC_PATH: &str = "context/waves/2026-07-12-breadth-depth-benchmark-matrix/pulses/pulse-58-minnesota-ccap-quality-learning-center-cy2025-request-specification.md";
+const MN_DCYF_DATA_REQUESTS_SOURCE_ID: &str = "SRC-MN-DCYF-DATA-REQUESTS";
+const MN_DCYF_DATA_REQUESTS_RAW_PATH: &str =
+    "data/raw/minnesota-dcyf/SRC-MN-DCYF-DATA-REQUESTS/2026-07-15/data-requests.html";
+const MN_DCYF_DATA_REQUESTS_METADATA_PATH: &str =
+    "data/metadata/SRC-MN-DCYF-DATA-REQUESTS.2026-07-15.metadata.md";
+const MN_DCYF_DATA_REQUESTS_BYTES: u64 = 70_406;
+const MN_DCYF_DATA_REQUESTS_SHA256: &str =
+    "374baf99e073640d920526b0d033713bdeb63eeb11e6ccdc6cd917cefcaf027c";
+const MN_DCYF_PUBLIC_DATA_GUIDE_SOURCE_ID: &str = "SRC-MN-DCYF-PUBLIC-DATA-GUIDE";
+const MN_DCYF_PUBLIC_DATA_GUIDE_RAW_PATH: &str =
+    "data/raw/minnesota-dcyf/SRC-MN-DCYF-PUBLIC-DATA-GUIDE/2026-07-15/dcyf-public-data-guide.pdf";
+const MN_DCYF_PUBLIC_DATA_GUIDE_METADATA_PATH: &str =
+    "data/metadata/SRC-MN-DCYF-PUBLIC-DATA-GUIDE.2026-07-15.metadata.md";
+const MN_DCYF_PUBLIC_DATA_GUIDE_BYTES: u64 = 395_594;
+const MN_DCYF_PUBLIC_DATA_GUIDE_SHA256: &str =
+    "93f3bfe68e7835a70c3308c57a59efbd62cb75685e6ebf3b72af5b5572a370fc";
+const MN_STAT_13_03_SOURCE_ID: &str = "SRC-MN-STAT-13-03-2025";
+const MN_STAT_13_03_RAW_PATH: &str =
+    "data/raw/minnesota-revisor/SRC-MN-STAT-13-03-2025/2026-07-15/mn-statute-13-03.pdf";
+const MN_STAT_13_03_METADATA_PATH: &str =
+    "data/metadata/SRC-MN-STAT-13-03-2025.2026-07-15.metadata.md";
+const MN_STAT_13_03_BYTES: u64 = 310_898;
+const MN_STAT_13_03_SHA256: &str =
+    "af9a6751dca8770f98144fa39ad700a1b379e65f2612788098534a6ecd57b69d";
+const MN_STAT_142E_02_SOURCE_ID: &str = "SRC-MN-STAT-142E-02-2025";
+const MN_STAT_142E_02_RAW_PATH: &str =
+    "data/raw/minnesota-revisor/SRC-MN-STAT-142E-02-2025/2026-07-15/mn-statute-142e-02.pdf";
+const MN_STAT_142E_02_METADATA_PATH: &str =
+    "data/metadata/SRC-MN-STAT-142E-02-2025.2026-07-15.metadata.md";
+const MN_STAT_142E_02_BYTES: u64 = 360_390;
+const MN_STAT_142E_02_SHA256: &str =
+    "e54bd41260c89a77370e996c2aba8f3207e417a5a87ea7d989e8a0097144f02d";
+const MN_DCYF_CCAP_PROVIDER_BYTES: u64 = 1_277_757;
+const MN_DCYF_CCAP_PROVIDER_SHA256: &str =
+    "e7068e1198d8dce851907b60fc4a2a16fedd5de7a1d41afcd2b02dcaabf3dec1";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_LOG_APPLIED_EXAMPLE_JSONL_PATH: &str =
     "data/derived/accountability_evidence/performance-demand-response-log.applied-example.jsonl";
 const ACCOUNTABILITY_PERFORMANCE_DEMAND_RESPONSE_STATUS_APPLIED_EXAMPLE_PATH: &str =
@@ -4235,6 +4288,90 @@ const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: MN_DCYF_CCAP_PROVIDER_METADATA_PATH,
+        role: "Minnesota DCYF CCAP provider table source metadata",
+        grain: "source custody metadata",
+        kind: "markdown",
+        canonical: "source",
+    },
+    Artifact {
+        path: MN_DCYF_CCAP_PROVIDER_REVIEW_PATH,
+        role: "Minnesota DCYF Quality Learning Center payment context role review",
+        grain: "review",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: MN_DCYF_CCAP_PROVIDER_CLOSURE_REVIEW_PATH,
+        role: "Minnesota DCYF Quality Learning Center license closure context role review",
+        grain: "review",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: QUALITY_LEARNING_CENTER_CY2025_PERIOD_CORRECTION_REVIEW_PATH,
+        role: "Quality Learning Center CY2025 period correction role review",
+        grain: "review",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: MN_DCYF_DATA_REQUESTS_METADATA_PATH,
+        role: "Minnesota DCYF data-request route source metadata",
+        grain: "source custody metadata",
+        kind: "markdown",
+        canonical: "source",
+    },
+    Artifact {
+        path: MN_DCYF_PUBLIC_DATA_GUIDE_METADATA_PATH,
+        role: "Minnesota DCYF public-data guide source metadata",
+        grain: "source custody metadata",
+        kind: "markdown",
+        canonical: "source",
+    },
+    Artifact {
+        path: MN_STAT_13_03_METADATA_PATH,
+        role: "Minnesota Statutes section 13.03 source metadata",
+        grain: "source custody metadata",
+        kind: "markdown",
+        canonical: "source",
+    },
+    Artifact {
+        path: MN_STAT_142E_02_METADATA_PATH,
+        role: "Minnesota Statutes section 142E.02 source metadata",
+        grain: "source custody metadata",
+        kind: "markdown",
+        canonical: "source",
+    },
+    Artifact {
+        path: MN_CCAP_CY2025_REQUEST_SPEC_PATH,
+        role: "Minnesota CCAP Quality Learning Center CY2025 existing-records request specification",
+        grain: "request specification",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: MN_CCAP_CY2025_REQUEST_READER_PATH,
+        role: "Minnesota CCAP CY2025 existing-records request internal reader",
+        grain: "documentation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: MN_CCAP_CY2025_REQUEST_TEMPLATE_PATH,
+        role: "Minnesota CCAP CY2025 draft unsent data request",
+        grain: "request template",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: MN_CCAP_CY2025_REQUEST_REVIEW_PATH,
+        role: "Minnesota CCAP CY2025 existing-records request role review",
+        grain: "review",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "data/derived/accountability_evidence/performance-demand-response-log.applied-example.jsonl",
         role: "Accountability performance demand response log applied example rows",
         grain: "response log row",
@@ -5010,6 +5147,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = check_external_accountability_claim_intake(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = check_mn_ccap_cy2025_request_specification(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -30768,8 +30910,8 @@ fn check_external_accountability_claim_intake(root: &Path) -> Result<(), String>
             }
         }
     }
-    if record_ids.len() != 5 || group_ids.len() != 5 || publication_source_ids.len() != 12 {
-        return Err("external claim intake requires 5 unique records/groups and 12 unique publication source IDs".to_string());
+    if record_ids.len() != 5 || group_ids.len() != 5 || publication_source_ids.len() != 13 {
+        return Err("external claim intake requires 5 unique records/groups and 13 unique publication source IDs".to_string());
     }
 
     struct ExpectedPublication<'a> {
@@ -30956,21 +31098,33 @@ fn check_external_accountability_claim_intake(root: &Path) -> Result<(), String>
             record_id: "external-claim:nick-shirley:2026:house-testimony-quality-learing-center:amount:01",
             claim_group_id: "external-claim-group:nick-shirley:2026:house-testimony-quality-learing-center",
             claim_type: ExternalClaimType::PaymentOrBilling,
-            paraphrase: "In House-hosted written testimony, Nick Shirley claims that downtown Minneapolis's Quality Learing Center received $1.9 million in Child Care Assistance Program funding.",
+            paraphrase: "In House-hosted written testimony, Nick Shirley claims that downtown Minneapolis's Quality Learing Center received $1.9 million in Child Care Assistance Program funding for calendar year 2025.",
             value: 1.9,
             unit: "millions",
             semantic: ExternalClaimAmountSemantic::PaidAmount,
             derivation: ExternalClaimAmountDerivation::SourceStatedExact,
-            publications: &[ExpectedPublication {
-                source_id: "SRC-HOUSE-JUDICIARY-SHIRLEY-TESTIMONY-2026",
-                source_url: "https://judiciary.house.gov/sites/evo-subsites/republicans-judiciary.house.gov/files/evo-media-document/shirley-testimony.pdf",
-                publisher: "U.S. House Committee on the Judiciary",
-                ledger_publisher: "U.S. House Committee on the Judiciary",
-                published_date: None,
-                observed_date: "2026-07-14",
-                publication_kind: ExternalClaimPublicationKind::WrittenTestimony,
-                evidence_relation: ExternalClaimEvidenceRelation::ClaimOrigin,
-            }],
+            publications: &[
+                ExpectedPublication {
+                    source_id: "SRC-HOUSE-JUDICIARY-SHIRLEY-TESTIMONY-2026",
+                    source_url: "https://judiciary.house.gov/sites/evo-subsites/republicans-judiciary.house.gov/files/evo-media-document/shirley-testimony.pdf",
+                    publisher: "U.S. House Committee on the Judiciary",
+                    ledger_publisher: "U.S. House Committee on the Judiciary",
+                    published_date: None,
+                    observed_date: "2026-07-14",
+                    publication_kind: ExternalClaimPublicationKind::WrittenTestimony,
+                    evidence_relation: ExternalClaimEvidenceRelation::ClaimOrigin,
+                },
+                ExpectedPublication {
+                    source_id: "SRC-MN-HOUSE-DCYF-CCAP-PROVIDER-DATA-2026-04-22",
+                    source_url: "https://www.house.mn.gov/comm/docs/oyZeI7aBIUu8IIo8wDk6qw.pdf",
+                    publisher: "Minnesota Department of Children, Youth, and Families",
+                    ledger_publisher: "Minnesota Department of Children, Youth, and Families",
+                    published_date: None,
+                    observed_date: "2026-07-14",
+                    publication_kind: ExternalClaimPublicationKind::Dataset,
+                    evidence_relation: ExternalClaimEvidenceRelation::SuppliesContext,
+                },
+            ],
         },
     ];
 
@@ -31060,12 +31214,24 @@ fn check_external_accountability_claim_intake(root: &Path) -> Result<(), String>
         || house_publication.custody_path.as_deref() != Some(HOUSE_SHIRLEY_TESTIMONY_RAW_PATH)
         || house_publication.sha256.as_deref() != Some(HOUSE_SHIRLEY_TESTIMONY_SHA256)
         || house_record.claim_atom.object != "Child Care Assistance Program funding"
-        || house_record.claim_atom.coverage_period != "source_defined_undetermined"
-        || house_record.amount_assertion.period != "source_defined_undetermined"
+        || house_record.claim_atom.coverage_period != "calendar_year_2025"
+        || house_record.amount_assertion.period != "calendar_year_2025"
         || house_record.amount_assertion.overlap_group
-            != "house-testimony-quality-learing-center-ccap-undetermined"
+            != "house-testimony-quality-learing-center-ccap-cy2025"
         || house_record.comparison_basis
-            != "Checksum-verified House-hosted testimony supports only that Shirley made the attributed CCAP payment assertion. The testimony does not state a period for this amount. No period-specific CCAP payment record, HHS or Minnesota agency record, recipient response, program-universe reconciliation, or overlap mapping is attached."
+            != "Checksum-verified House-hosted testimony supports only that Shirley made the attributed CCAP payment assertion for calendar year 2025. A separately owned DCYF provider table identifies Quality Learning Center Inc, license 1087038 at 1411 Nicollet Ave, and reports full-CY2025 CCAP payments of $2,150,964. Shirley's source-stated CY2025 $1.9 million does not equal that annual value, but the testimony follows a December 16 visit narrative and does not disclose whether its amount is year-to-date, its data cutoff, or its calculation basis. The table therefore supplies identity and payment context only; it does not corroborate or counter the exact amount, establish impropriety, or record a recipient response. The same table records the license status as Closed with a license inactive date of 1/6/2026, but does not state who initiated closure, the authority or reason, or any causal relationship among closure, CCAP payments, complaints, violations, the assessed and repaid overpayment, or the testimony."
+        || !house_record
+            .due_process_caveat
+            .contains("December 16/year-to-date cutoff")
+        || !house_record
+            .due_process_caveat
+            .contains("calculation basis remain undisclosed")
+        || !house_record
+            .due_process_caveat
+            .contains("exact amount is correct or incorrect")
+        || !house_record
+            .due_process_caveat
+            .contains("that closure is related to the testimony or payments")
     {
         return Err("House testimony claim atom custody/status configuration mismatch".to_string());
     }
@@ -31118,6 +31284,89 @@ fn check_external_accountability_claim_intake(root: &Path) -> Result<(), String>
         }
     }
 
+    let dcyf_publication = house_record
+        .publications
+        .get(1)
+        .ok_or("Quality Learing Center atom missing DCYF context publication")?;
+    if dcyf_publication.custody_status != ExternalClaimCustodyStatus::OfficialCopyCaptured
+        || dcyf_publication.custody_path.as_deref() != Some(MN_DCYF_CCAP_PROVIDER_RAW_PATH)
+        || dcyf_publication.sha256.as_deref() != Some(MN_DCYF_CCAP_PROVIDER_SHA256)
+        || dcyf_publication.evidence_relation != ExternalClaimEvidenceRelation::SuppliesContext
+        || !house_record.corroborating_source_ids.is_empty()
+        || !house_record.counterevidence_source_ids.is_empty()
+        || !house_record
+            .official_response
+            .response_source_ids
+            .is_empty()
+        || house_record.official_response.requested_at.is_some()
+        || house_record.legal_or_administrative_status
+            != ExternalClaimLegalOrAdministrativeStatus::NoneEstablished
+        || !house_record.claim_gates.all_false()
+    {
+        return Err(
+            "DCYF provider table must remain captured context with no claim-status transition"
+                .to_string(),
+        );
+    }
+    let dcyf_raw_path = root.join(MN_DCYF_CCAP_PROVIDER_RAW_PATH);
+    let dcyf_raw_bytes = fs::metadata(&dcyf_raw_path)
+        .map_err(|err| format!("failed to inspect {MN_DCYF_CCAP_PROVIDER_RAW_PATH}: {err}"))?
+        .len();
+    let dcyf_raw_sha256 = sha256_file(&dcyf_raw_path)?;
+    if dcyf_raw_bytes != MN_DCYF_CCAP_PROVIDER_BYTES
+        || dcyf_raw_sha256 != MN_DCYF_CCAP_PROVIDER_SHA256
+    {
+        return Err("DCYF provider table raw PDF bytes or SHA-256 mismatch".to_string());
+    }
+    let dcyf_metadata = fs::read_to_string(root.join(MN_DCYF_CCAP_PROVIDER_METADATA_PATH))
+        .map_err(|err| format!("failed to read {MN_DCYF_CCAP_PROVIDER_METADATA_PATH}: {err}"))?;
+    for required in [
+        "`SRC-MN-HOUSE-DCYF-CCAP-PROVIDER-DATA-2026-04-22`",
+        "Minnesota Department of Children, Youth, and Families",
+        "<https://www.house.mn.gov/comm/docs/oyZeI7aBIUu8IIo8wDk6qw.pdf>",
+        MN_DCYF_CCAP_PROVIDER_RAW_PATH,
+        "`1277757`",
+        "`E7068E1198D8DCE851907B60FC4A2A16FEDD5DE7A1D41AFCD2B02DCAABF3DEC1`",
+        "7 PDF file pages.",
+        "`secret_scan`",
+        "`published_date` | Not established by the captured PDF.",
+        "production/document date, not an independently verified House posting or publication date",
+        "support entity identity and the reported",
+        "annual payment totals",
+        "cannot establish the testimony's data cutoff",
+        "calculation basis",
+        "`License Status` as `Closed`",
+        "`License Inactive Date` of 1/6/2026",
+        "does not state who",
+        "initiated closure, the authority or reason",
+        "Treat the closed status and inactive date as license context only",
+    ] {
+        if !dcyf_metadata.contains(required) {
+            return Err(format!(
+                "DCYF provider table metadata missing token: {required}"
+            ));
+        }
+    }
+    let dcyf_ledger_row = source_ledger
+        .lines()
+        .find(|line| line.starts_with("| `SRC-MN-HOUSE-DCYF-CCAP-PROVIDER-DATA-2026-04-22` |"))
+        .ok_or("DCYF provider table source ledger row missing")?;
+    for required in [
+        "official PDF captured and checksum-verified",
+        "1,277,757 bytes",
+        "E7068E1198D8DCE851907B60FC4A2A16FEDD5DE7A1D41AFCD2B02DCAABF3DEC1",
+        "identity, annual-payment, and license-status context only",
+        "not corroboration, counterevidence",
+        "records the license as Closed with a 1/6/2026 inactive date",
+        "does not state the closure initiator, authority, reason",
+    ] {
+        if !dcyf_ledger_row.contains(required) {
+            return Err(format!(
+                "DCYF provider table source ledger row missing token: {required}"
+            ));
+        }
+    }
+
     for (path, required_tokens) in [
         (
             "data/derived/accountability_evidence/README.md",
@@ -31163,6 +31412,84 @@ fn check_external_accountability_claim_intake(root: &Path) -> Result<(), String>
             HOUSE_SHIRLEY_TESTIMONY_REVIEW_PATH,
             vec!["$1.9 million", "All twelve claim gates remain false"],
         ),
+        (
+            PULSE_55_QUALITY_LEARNING_CENTER_OFFICIAL_CONTEXT_PATH,
+            vec!["WP-TAX-073", "EVID-TAX-073", "VAL-TAX-073"],
+        ),
+        ("docs/vtrace/WORK_PACKAGES.md", vec!["WP-TAX-073"]),
+        ("docs/vtrace/TRACE.md", vec!["WP-TAX-073", "EVID-TAX-073"]),
+        ("docs/vtrace/VERIFICATION.md", vec!["EVID-TAX-073"]),
+        (
+            "docs/vtrace/VALIDATION.md",
+            vec!["VAL-TAX-073", "EVID-TAX-073"],
+        ),
+        ("docs/vtrace/EVIDENCE.md", vec!["EVID-TAX-073"]),
+        (
+            "context/waves/2026-07-12-breadth-depth-benchmark-matrix/WAVE.md",
+            vec!["pulse-55-quality-learning-center-official-context.md"],
+        ),
+        (
+            MN_DCYF_CCAP_PROVIDER_REVIEW_PATH,
+            vec![
+                "All twelve claim gates remain false",
+                "`supplies_context`",
+                "Internal quarantine use only",
+            ],
+        ),
+        (
+            PULSE_56_QUALITY_LEARNING_CENTER_LICENSE_CLOSURE_CONTEXT_PATH,
+            vec!["WP-TAX-074", "EVID-TAX-074", "VAL-TAX-074"],
+        ),
+        ("docs/vtrace/WORK_PACKAGES.md", vec!["WP-TAX-074"]),
+        ("docs/vtrace/TRACE.md", vec!["WP-TAX-074", "EVID-TAX-074"]),
+        ("docs/vtrace/VERIFICATION.md", vec!["EVID-TAX-074"]),
+        (
+            "docs/vtrace/VALIDATION.md",
+            vec!["VAL-TAX-074", "EVID-TAX-074"],
+        ),
+        ("docs/vtrace/EVIDENCE.md", vec!["EVID-TAX-074"]),
+        (
+            "context/waves/2026-07-12-breadth-depth-benchmark-matrix/WAVE.md",
+            vec!["pulse-56-quality-learning-center-license-closure-context.md"],
+        ),
+        (
+            MN_DCYF_CCAP_PROVIDER_CLOSURE_REVIEW_PATH,
+            vec![
+                "All twelve claim",
+                "gates remain false",
+                "`none_established`",
+                "Internal quarantine use only",
+            ],
+        ),
+        (
+            PULSE_57_QUALITY_LEARNING_CENTER_CY2025_PERIOD_CORRECTION_PATH,
+            vec!["WP-TAX-075", "EVID-TAX-075", "VAL-TAX-075"],
+        ),
+        ("docs/vtrace/WORK_PACKAGES.md", vec!["WP-TAX-075"]),
+        ("docs/vtrace/TRACE.md", vec!["WP-TAX-075", "EVID-TAX-075"]),
+        ("docs/vtrace/VERIFICATION.md", vec!["EVID-TAX-075"]),
+        (
+            "docs/vtrace/VALIDATION.md",
+            vec!["VAL-TAX-075", "EVID-TAX-075"],
+        ),
+        ("docs/vtrace/EVIDENCE.md", vec!["EVID-TAX-075"]),
+        (
+            "context/waves/2026-07-12-breadth-depth-benchmark-matrix/WAVE.md",
+            vec!["pulse-57-quality-learning-center-cy2025-period-correction.md"],
+        ),
+        (
+            QUALITY_LEARNING_CENTER_CY2025_PERIOD_CORRECTION_REVIEW_PATH,
+            vec![
+                "calendar_year_2025",
+                "`published_date` null",
+                "unresolved December",
+                "16/year-to-date cutoff",
+                "calculation basis",
+                "All twelve claim",
+                "gates remain false",
+                "Internal quarantine use only",
+            ],
+        ),
     ] {
         let text = fs::read_to_string(root.join(path))
             .map_err(|err| format!("failed to read {path}: {err}"))?;
@@ -31172,6 +31499,79 @@ fn check_external_accountability_claim_intake(root: &Path) -> Result<(), String>
                     "external claim integration {path} missing {required}"
                 ));
             }
+        }
+    }
+
+    let trace = fs::read_to_string(root.join("docs/vtrace/TRACE.md"))
+        .map_err(|err| format!("failed to read docs/vtrace/TRACE.md: {err}"))?;
+    for required in [
+        "| REQ-TAX-004 | SPEC-TAX-004 | WP-TAX-073 | EVID-TAX-073 | current |",
+        "| REQ-TAX-006 | SPEC-TAX-006 | WP-TAX-073 | EVID-TAX-073 | current |",
+    ] {
+        if !trace.lines().any(|line| line == required) {
+            return Err(format!("Pulse 55 trace binding missing: {required}"));
+        }
+    }
+    let verification = fs::read_to_string(root.join("docs/vtrace/VERIFICATION.md"))
+        .map_err(|err| format!("failed to read docs/vtrace/VERIFICATION.md: {err}"))?;
+    for requirement in ["REQ-TAX-004", "REQ-TAX-006"] {
+        if !verification.lines().any(|line| {
+            line.starts_with(&format!("| {requirement} |")) && line.contains("EVID-TAX-073")
+        }) {
+            return Err(format!(
+                "Pulse 55 verification binding missing: {requirement} / EVID-TAX-073"
+            ));
+        }
+    }
+
+    for required in [
+        "| REQ-TAX-004 | SPEC-TAX-004 | WP-TAX-074 | EVID-TAX-074 | current |",
+        "| REQ-TAX-006 | SPEC-TAX-006 | WP-TAX-074 | EVID-TAX-074 | current |",
+    ] {
+        if !trace.lines().any(|line| line == required) {
+            return Err(format!("Pulse 56 trace binding missing: {required}"));
+        }
+    }
+    for requirement in ["REQ-TAX-004", "REQ-TAX-006"] {
+        if !verification.lines().any(|line| {
+            line.starts_with(&format!("| {requirement} |")) && line.contains("EVID-TAX-074")
+        }) {
+            return Err(format!(
+                "Pulse 56 verification binding missing: {requirement} / EVID-TAX-074"
+            ));
+        }
+    }
+
+    for required in [
+        "| REQ-TAX-004 | SPEC-TAX-004 | WP-TAX-075 | EVID-TAX-075 | current |",
+        "| REQ-TAX-006 | SPEC-TAX-006 | WP-TAX-075 | EVID-TAX-075 | current |",
+    ] {
+        if !trace.lines().any(|line| line == required) {
+            return Err(format!("Pulse 57 trace binding missing: {required}"));
+        }
+    }
+    for requirement in ["REQ-TAX-004", "REQ-TAX-006"] {
+        if !verification.lines().any(|line| {
+            line.starts_with(&format!("| {requirement} |"))
+                && line.ends_with("| current | EVID-TAX-075 |")
+        }) {
+            return Err(format!(
+                "Pulse 57 verification binding/status missing: {requirement} / EVID-TAX-075"
+            ));
+        }
+    }
+    for (path, id, terminal) in [
+        ("docs/vtrace/WORK_PACKAGES.md", "WP-TAX-075", "| complete |"),
+        ("docs/vtrace/VALIDATION.md", "VAL-TAX-075", "| current |"),
+        ("docs/vtrace/EVIDENCE.md", "EVID-TAX-075", "| passed |"),
+    ] {
+        let text = fs::read_to_string(root.join(path))
+            .map_err(|err| format!("failed to read {path}: {err}"))?;
+        if !text
+            .lines()
+            .any(|line| line.starts_with(&format!("| {id} |")) && line.ends_with(terminal))
+        {
+            return Err(format!("Pulse 57 VTRACE status missing: {id} / {terminal}"));
         }
     }
 
@@ -31193,6 +31593,623 @@ fn check_external_accountability_claim_intake(root: &Path) -> Result<(), String>
     }
 
     println!("validated external accountability claim intake");
+    Ok(())
+}
+
+fn check_mn_ccap_cy2025_request_specification(root: &Path) -> Result<(), String> {
+    let spec_text = fs::read_to_string(root.join(MN_CCAP_CY2025_REQUEST_SPEC_PATH))
+        .map_err(|err| format!("failed to read {MN_CCAP_CY2025_REQUEST_SPEC_PATH}: {err}"))?;
+    let spec: serde_json::Value = serde_json::from_str(&spec_text)
+        .map_err(|err| format!("failed to parse {MN_CCAP_CY2025_REQUEST_SPEC_PATH}: {err}"))?;
+    if string_field(&spec, "record_id")?
+        != "external-claim-existing-records-request-specification:mn-dcyf:quality-learning-center:license-1087038:cy2025"
+        || string_field(&spec, "record_family")?
+            != "minnesota_ccap_provider_payment_existing_records_request_specification"
+        || string_field(&spec, "status")?
+            != "draft_not_submitted_existing_records_only_privacy_aware_request_specification"
+        || string_field(&spec, "submission_status")?
+            != "draft_not_submitted_owner_authorization_required"
+        || string_field(&spec, "schema_version")? != "v1"
+        || string_field(&spec, "upstream_claim_record_id")?
+            != "external-claim:nick-shirley:2026:house-testimony-quality-learing-center:amount:01"
+        || string_field(&spec, "period")? != "calendar_year_2025"
+    {
+        return Err("Minnesota CCAP request identity/submission boundary failed".to_string());
+    }
+    let provider = spec
+        .get("provider")
+        .ok_or("Minnesota CCAP request provider")?;
+    if string_field(provider, "official_name")? != "Quality Learning Center Inc"
+        || string_field(provider, "license_number")? != "1087038"
+        || !string_field(provider, "site_address")?.contains("1411 Nicollet Ave")
+    {
+        return Err("Minnesota CCAP request provider identity failed".to_string());
+    }
+    let source_ids = spec
+        .get("source_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Minnesota CCAP request source IDs")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    if source_ids
+        != BTreeSet::from([
+            MN_DCYF_DATA_REQUESTS_SOURCE_ID,
+            MN_DCYF_PUBLIC_DATA_GUIDE_SOURCE_ID,
+            MN_STAT_13_03_SOURCE_ID,
+            MN_STAT_142E_02_SOURCE_ID,
+        ])
+    {
+        return Err("Minnesota CCAP request source set failed".to_string());
+    }
+    let source_references = spec
+        .get("source_references")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Minnesota CCAP request source references")?;
+    let expected_references = [
+        (
+            MN_DCYF_DATA_REQUESTS_SOURCE_ID,
+            "Minnesota Department of Children, Youth, and Families",
+            "https://dcyf.mn.gov/about-us/data-requests",
+            "submission route",
+        ),
+        (
+            MN_DCYF_PUBLIC_DATA_GUIDE_SOURCE_ID,
+            "Minnesota Department of Children, Youth, and Families",
+            "https://dcyf.mn.gov/sites/default/files/2024-06/DCYF%20Guide%20for%20Requesting%20Public%20Data.pdf",
+            "response boundaries",
+        ),
+        (
+            MN_STAT_13_03_SOURCE_ID,
+            "Minnesota Office of the Revisor of Statutes",
+            "https://www.revisor.mn.gov/statutes/cite/13.03",
+            "electronic form",
+        ),
+        (
+            MN_STAT_142E_02_SOURCE_ID,
+            "Minnesota Office of the Revisor of Statutes",
+            "https://www.revisor.mn.gov/statutes/cite/142E.02",
+            "without asserting",
+        ),
+    ];
+    if source_references.len() != expected_references.len() {
+        return Err("Minnesota CCAP request requires four source references".to_string());
+    }
+    let mut referenced_ids = BTreeSet::new();
+    for (source_id, publisher, url, use_token) in expected_references {
+        let reference = source_references
+            .iter()
+            .find(|value| {
+                value.get("source_id").and_then(serde_json::Value::as_str) == Some(source_id)
+            })
+            .ok_or_else(|| {
+                format!("Minnesota CCAP request source reference missing: {source_id}")
+            })?;
+        if !referenced_ids.insert(source_id)
+            || string_field(reference, "publisher")? != publisher
+            || string_field(reference, "source_url")? != url
+            || !string_field(reference, "use")?.contains(use_token)
+        {
+            return Err(format!(
+                "Minnesota CCAP request source reference drift: {source_id}"
+            ));
+        }
+    }
+    let gap = spec
+        .get("evidence_gap")
+        .ok_or("Minnesota CCAP request evidence gap")?;
+    if int_field(gap, "source_stated_amount_usd")? != 1_900_000
+        || int_field(gap, "official_full_calendar_year_amount_usd")? != 2_150_964
+        || string_field(gap, "testimony_visit_narrative_date")? != "2025-12-16"
+        || !string_field(gap, "comparison_result")?
+            .contains("neither_corroboration_nor_counterevidence")
+    {
+        return Err("Minnesota CCAP request evidence-gap boundary failed".to_string());
+    }
+    let route = spec
+        .get("filing_route")
+        .ok_or("Minnesota CCAP request filing route")?;
+    if string_field(route, "request_law")? != "Minnesota Government Data Practices Act"
+        || string_field(route, "email")? != "dcyf.datarequest@state.mn.us"
+        || !string_field(route, "mailing_address")?.contains("444 Lafayette Rd")
+        || route
+            .get("written_request_required")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || route
+            .get("specific_form_required")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || route
+            .get("one_channel_only")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || !route
+            .get("route_selected")
+            .is_some_and(serde_json::Value::is_null)
+    {
+        return Err("Minnesota CCAP request filing-route gate failed".to_string());
+    }
+    let scope = spec
+        .get("existing_records_only_scope")
+        .ok_or("Minnesota CCAP request existing-records scope")?;
+    if string_field(scope, "date_start")? != "2025-01-01"
+        || string_field(scope, "date_end")? != "2025-12-31"
+    {
+        return Err("Minnesota CCAP request period scope failed".to_string());
+    }
+    for field in [
+        "records_only_not_questions",
+        "no_new_record_creation",
+        "no_new_query_or_custom_export_required",
+        "no_new_reconciliation_or_calculation",
+        "no_research_or_narrative_answer_required",
+        "no_request_to_calculate_1900000",
+        "component_records_accepted_if_no_single_reconciliation_exists",
+    ] {
+        if scope.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("Minnesota CCAP request scope gate failed: {field}"));
+        }
+    }
+    let record_types = scope
+        .get("requested_existing_record_types")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Minnesota CCAP request record types")?;
+    let requested_fields = scope
+        .get("requested_existing_fields")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Minnesota CCAP request fields")?;
+    if record_types.len() != 5
+        || requested_fields.len() != 8
+        || !record_types.iter().any(|value| {
+            value
+                .as_str()
+                .is_some_and(|text| text.contains("full-CY2025 provider total of $2,150,964"))
+        })
+        || !requested_fields.iter().any(|value| {
+            value
+                .as_str()
+                .is_some_and(|text| text.contains("reversal, void, cancellation, or reissue"))
+        })
+    {
+        return Err("Minnesota CCAP request record/field scope failed".to_string());
+    }
+    let privacy = spec
+        .get("privacy_and_classification_boundary")
+        .ok_or("Minnesota CCAP request privacy boundary")?;
+    for field in [
+        "provider_level_aggregate_accepted",
+        "redacted_or_deidentified_transaction_rows_accepted",
+        "stable_non_person_keys_only_if_already_maintained",
+        "lawful_redaction_accepted",
+    ] {
+        if privacy.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "Minnesota CCAP request privacy gate failed: {field}"
+            ));
+        }
+    }
+    for field in ["classification_prediction_made", "release_prediction_made"] {
+        if privacy.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Minnesota CCAP request privacy prediction failed: {field}"
+            ));
+        }
+    }
+    let exclusions = privacy
+        .get("exclude")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Minnesota CCAP request privacy exclusions")?;
+    let exclusion_text = exclusions
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<Vec<_>>()
+        .join(" ");
+    if exclusions.len() < 6
+        || !exclusion_text.contains("child, parent, guardian, caregiver, or recipient")
+        || !exclusion_text.contains("Social Security")
+        || !exclusion_text.contains("attendance")
+        || !exclusion_text.contains("free text")
+        || !exclusion_text.contains("bank account")
+        || !exclusion_text.contains("staff personal information")
+    {
+        return Err("Minnesota CCAP request privacy exclusions incomplete".to_string());
+    }
+    let cost = spec
+        .get("format_and_cost")
+        .ok_or("Minnesota CCAP request format/cost")?;
+    if string_field(cost, "access_requested")? != "electronic copies"
+        || !cost
+            .get("copy_fee_cap_usd")
+            .is_some_and(serde_json::Value::is_null)
+        || string_field(cost, "copy_fee_cap_status")? != "required_missing_owner_approval"
+        || cost
+            .get("advance_notice_before_costs_exceed_cap_required")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || cost
+            .get("fee_commitment_executed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("Minnesota CCAP request format/cost gate failed".to_string());
+    }
+    let preflight = spec
+        .get("preflight")
+        .ok_or("Minnesota CCAP request preflight")?;
+    for field in [
+        "owner_authorization",
+        "requester_name",
+        "requester_contact_method",
+        "request_date",
+        "single_submission_channel",
+        "copy_fee_cap_usd",
+        "final_scope_review",
+        "privacy_review",
+    ] {
+        if string_field(preflight, field)? != "required_missing" {
+            return Err(format!(
+                "Minnesota CCAP request preflight must remain missing: {field}"
+            ));
+        }
+    }
+    if preflight
+        .get("all_preflight_gates_passed")
+        .and_then(serde_json::Value::as_bool)
+        != Some(false)
+    {
+        return Err("Minnesota CCAP request preflight must remain blocked".to_string());
+    }
+    if string_field(preflight, "public_duplicate_check")? != "required_before_submission" {
+        return Err("Minnesota CCAP request public-duplicate preflight missing".to_string());
+    }
+    let state = spec
+        .get("internal_state")
+        .ok_or("Minnesota CCAP request internal state")?;
+    if string_field(state, "template_path")? != MN_CCAP_CY2025_REQUEST_TEMPLATE_PATH
+        || state
+            .get("draft_created")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("Minnesota CCAP request draft state failed".to_string());
+    }
+    for field in [
+        "owner_authorization_obtained",
+        "request_submitted",
+        "external_message_sent",
+        "portal_or_email_opened_for_submission",
+        "fee_commitment_made",
+        "outbound_state_changed",
+    ] {
+        if state.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Minnesota CCAP outbound state must remain false: {field}"
+            ));
+        }
+    }
+    let guardrails = spec
+        .get("guardrails")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Minnesota CCAP request guardrails")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<Vec<_>>()
+        .join(" ");
+    for token in [
+        "internal draft, not a submitted request",
+        "targets existing records only",
+        "not evidence that responsive records exist",
+        "no-records response would establish only",
+        "administrative event, not evidence",
+        "separate evidence adoption",
+        "No fraud, waste, debt",
+    ] {
+        if !guardrails.contains(token) {
+            return Err(format!("Minnesota CCAP request guardrail missing: {token}"));
+        }
+    }
+    let preservation = spec
+        .get("claim_state_preservation")
+        .ok_or("Minnesota CCAP request claim-state preservation")?;
+    if string_field(preservation, "official_response_request_status")? != "not_recorded"
+        || string_field(preservation, "claim_status")? != "attributed_claim_supported"
+        || string_field(preservation, "review_status")? != "source-reviewed"
+        || string_field(preservation, "legal_or_administrative_status")? != "none_established"
+        || string_field(preservation, "summability")? != "not_summable"
+        || preservation
+            .get("all_claim_gates_false")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("Minnesota CCAP request claim-state preservation failed".to_string());
+    }
+    for field in [
+        "response_source_ids",
+        "corroborating_source_ids",
+        "counterevidence_source_ids",
+    ] {
+        if preservation
+            .get(field)
+            .and_then(serde_json::Value::as_array)
+            .is_none_or(|items| !items.is_empty())
+        {
+            return Err(format!("Minnesota CCAP request must keep {field} empty"));
+        }
+    }
+    let impact = spec
+        .get("evidence_impact")
+        .ok_or("Minnesota CCAP request evidence impact")?;
+    for field in [
+        "responsive_records_received",
+        "new_evidence_adopted",
+        "claim_status_changed",
+        "response_state_changed",
+        "field_or_component_closed",
+    ] {
+        if impact.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Minnesota CCAP request evidence impact must remain false: {field}"
+            ));
+        }
+    }
+    for field in [
+        "public_claim_allowed",
+        "underlying_factual_claim_allowed",
+        "misconduct_signal_claim_allowed",
+        "official_finding_claim_allowed",
+        "performance_claim_allowed",
+        "fraud_claim_allowed",
+        "waste_claim_allowed",
+        "debt_claim_allowed",
+        "collectibility_claim_allowed",
+        "recovery_claim_allowed",
+        "prevention_claim_allowed",
+        "savings_estimate_allowed",
+    ] {
+        if spec.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("Minnesota CCAP request must keep {field} false"));
+        }
+    }
+    for (raw_path, bytes, checksum) in [
+        (
+            MN_DCYF_DATA_REQUESTS_RAW_PATH,
+            MN_DCYF_DATA_REQUESTS_BYTES,
+            MN_DCYF_DATA_REQUESTS_SHA256,
+        ),
+        (
+            MN_DCYF_PUBLIC_DATA_GUIDE_RAW_PATH,
+            MN_DCYF_PUBLIC_DATA_GUIDE_BYTES,
+            MN_DCYF_PUBLIC_DATA_GUIDE_SHA256,
+        ),
+        (
+            MN_STAT_13_03_RAW_PATH,
+            MN_STAT_13_03_BYTES,
+            MN_STAT_13_03_SHA256,
+        ),
+        (
+            MN_STAT_142E_02_RAW_PATH,
+            MN_STAT_142E_02_BYTES,
+            MN_STAT_142E_02_SHA256,
+        ),
+    ] {
+        let raw = root.join(raw_path);
+        if fs::metadata(&raw)
+            .map_err(|err| format!("failed to inspect {raw_path}: {err}"))?
+            .len()
+            != bytes
+            || sha256_file(&raw)? != checksum
+        {
+            return Err(format!(
+                "Minnesota CCAP request source custody failed: {raw_path}"
+            ));
+        }
+    }
+    for (metadata_path, source_id, raw_path, bytes, checksum, required) in [
+        (
+            MN_DCYF_DATA_REQUESTS_METADATA_PATH,
+            MN_DCYF_DATA_REQUESTS_SOURCE_ID,
+            MN_DCYF_DATA_REQUESTS_RAW_PATH,
+            MN_DCYF_DATA_REQUESTS_BYTES,
+            MN_DCYF_DATA_REQUESTS_SHA256,
+            "dcyf.datarequest@state.mn.us",
+        ),
+        (
+            MN_DCYF_PUBLIC_DATA_GUIDE_METADATA_PATH,
+            MN_DCYF_PUBLIC_DATA_GUIDE_SOURCE_ID,
+            MN_DCYF_PUBLIC_DATA_GUIDE_RAW_PATH,
+            MN_DCYF_PUBLIC_DATA_GUIDE_BYTES,
+            MN_DCYF_PUBLIC_DATA_GUIDE_SHA256,
+            "three general",
+        ),
+        (
+            MN_STAT_13_03_METADATA_PATH,
+            MN_STAT_13_03_SOURCE_ID,
+            MN_STAT_13_03_RAW_PATH,
+            MN_STAT_13_03_BYTES,
+            MN_STAT_13_03_SHA256,
+            "electronic form",
+        ),
+        (
+            MN_STAT_142E_02_METADATA_PATH,
+            MN_STAT_142E_02_SOURCE_ID,
+            MN_STAT_142E_02_RAW_PATH,
+            MN_STAT_142E_02_BYTES,
+            MN_STAT_142E_02_SHA256,
+            "specific assistance recipient",
+        ),
+    ] {
+        let metadata = fs::read_to_string(root.join(metadata_path))
+            .map_err(|err| format!("failed to read {metadata_path}: {err}"))?;
+        for token in [
+            format!("| `source_id` | `{source_id}` |"),
+            format!("| `raw_path` | `{raw_path}` |"),
+            format!("| `bytes` | `{bytes}` |"),
+            format!(
+                "| `checksum_sha256` | `{}` |",
+                checksum.to_ascii_uppercase()
+            ),
+            "`source-reviewed`".to_string(),
+            "No credential, token, private-key, password, or authorization-header patterns found"
+                .to_string(),
+            required.to_string(),
+        ] {
+            if !metadata.contains(&token) {
+                return Err(format!(
+                    "Minnesota CCAP request metadata {metadata_path} missing {token}"
+                ));
+            }
+        }
+    }
+    let ledger = fs::read_to_string(root.join("docs/sources/source-version-ledger.md"))
+        .map_err(|err| format!("failed to read source ledger: {err}"))?;
+    for (source_id, required) in [
+        (MN_DCYF_DATA_REQUESTS_SOURCE_ID, "no request was submitted"),
+        (MN_DCYF_PUBLIC_DATA_GUIDE_SOURCE_ID, "no response, fee"),
+        (MN_STAT_13_03_SOURCE_ID, "new record or format"),
+        (
+            MN_STAT_142E_02_SOURCE_ID,
+            "provider-public/recipient-private boundary",
+        ),
+    ] {
+        let marker = format!("| `{source_id}` |");
+        let row = ledger
+            .lines()
+            .find(|line| line.starts_with(&marker))
+            .ok_or_else(|| format!("Minnesota CCAP request ledger row missing: {source_id}"))?;
+        if !row.contains(required) {
+            return Err(format!(
+                "Minnesota CCAP request ledger row {source_id} missing {required}"
+            ));
+        }
+    }
+    for (path, tokens) in [
+        (
+            MN_CCAP_CY2025_REQUEST_TEMPLATE_PATH,
+            vec![
+                "# DRAFT — NOT SUBMITTED",
+                "Explicit owner authorization is required",
+                "[OWNER-APPROVED COPY FEE CAP]",
+                "existing records only",
+                "does not ask DCYF to answer",
+                "questions, create a record",
+                "No fee commitment is made by this draft.",
+                "Internal Preflight — Must Not Accompany Submission",
+            ],
+        ),
+        (
+            MN_CCAP_CY2025_REQUEST_READER_PATH,
+            vec![
+                MN_CCAP_CY2025_REQUEST_SPEC_PATH,
+                MN_CCAP_CY2025_REQUEST_TEMPLATE_PATH,
+                "not_recorded",
+                "all twelve claim gates remain unchanged",
+                "Internal quarantine use only",
+            ],
+        ),
+        (
+            MN_CCAP_CY2025_REQUEST_REVIEW_PATH,
+            vec![
+                "All twelve",
+                "claim gates remain false",
+                "owner must explicitly authorize submission",
+                "outbound_state_changed` remain false",
+            ],
+        ),
+        (
+            PULSE_58_MN_CCAP_CY2025_REQUEST_SPEC_PATH,
+            vec!["WP-TAX-076", "EVID-TAX-076", "VAL-TAX-076", "Do not submit"],
+        ),
+        (
+            "context/waves/2026-07-12-breadth-depth-benchmark-matrix/WAVE.md",
+            vec!["pulse-58-minnesota-ccap-quality-learning-center-cy2025-request-specification.md"],
+        ),
+        ("docs/vtrace/WORK_PACKAGES.md", vec!["WP-TAX-076"]),
+        ("docs/vtrace/TRACE.md", vec!["WP-TAX-076", "EVID-TAX-076"]),
+        ("docs/vtrace/VERIFICATION.md", vec!["EVID-TAX-076"]),
+        (
+            "docs/vtrace/VALIDATION.md",
+            vec!["VAL-TAX-076", "EVID-TAX-076"],
+        ),
+        ("docs/vtrace/EVIDENCE.md", vec!["EVID-TAX-076"]),
+    ] {
+        let text = fs::read_to_string(root.join(path))
+            .map_err(|err| format!("failed to read {path}: {err}"))?;
+        for token in tokens {
+            if !text.contains(token) {
+                return Err(format!(
+                    "Minnesota CCAP request integration {path} missing {token}"
+                ));
+            }
+        }
+    }
+    let trace = fs::read_to_string(root.join("docs/vtrace/TRACE.md"))
+        .map_err(|err| format!("failed to read TRACE: {err}"))?;
+    for row in [
+        "| REQ-TAX-004 | SPEC-TAX-004 | WP-TAX-076 | EVID-TAX-076 | current |",
+        "| REQ-TAX-006 | SPEC-TAX-006 | WP-TAX-076 | EVID-TAX-076 | current |",
+    ] {
+        if !trace.lines().any(|line| line == row) {
+            return Err(format!("Pulse 58 trace binding missing: {row}"));
+        }
+    }
+    for (path, id, terminal) in [
+        ("docs/vtrace/WORK_PACKAGES.md", "WP-TAX-076", "| complete |"),
+        ("docs/vtrace/VALIDATION.md", "VAL-TAX-076", "| current |"),
+        ("docs/vtrace/EVIDENCE.md", "EVID-TAX-076", "| passed |"),
+    ] {
+        let text = fs::read_to_string(root.join(path))
+            .map_err(|err| format!("failed to read {path}: {err}"))?;
+        if !text
+            .lines()
+            .any(|line| line.starts_with(&format!("| {id} |")) && line.ends_with(terminal))
+        {
+            return Err(format!("Pulse 58 VTRACE status missing: {id} / {terminal}"));
+        }
+    }
+    let verification = fs::read_to_string(root.join("docs/vtrace/VERIFICATION.md"))
+        .map_err(|err| format!("failed to read VERIFICATION: {err}"))?;
+    for requirement in ["REQ-TAX-004", "REQ-TAX-006"] {
+        if !verification.lines().any(|line| {
+            line.starts_with(&format!("| {requirement} |"))
+                && line.ends_with("| current | EVID-TAX-076 |")
+        }) {
+            return Err(format!(
+                "Pulse 58 verification binding missing: {requirement}"
+            ));
+        }
+    }
+    let claim_text = fs::read_to_string(root.join(EXTERNAL_ACCOUNTABILITY_CLAIM_INTAKE_JSONL_PATH))
+        .map_err(|err| format!("failed to read external-claim intake: {err}"))?;
+    let claim = claim_text
+        .lines()
+        .filter_map(|line| serde_json::from_str::<ExternalAccountabilityClaimIntakeRecord>(line).ok())
+        .find(|record| record.record_id == "external-claim:nick-shirley:2026:house-testimony-quality-learing-center:amount:01")
+        .ok_or("Minnesota CCAP upstream claim missing")?;
+    if claim.official_response.request_status != ExternalClaimResponseRequestStatus::NotRecorded
+        || claim.official_response.requested_at.is_some()
+        || !claim.official_response.response_source_ids.is_empty()
+        || !claim.corroborating_source_ids.is_empty()
+        || !claim.counterevidence_source_ids.is_empty()
+        || !claim.amount_assertion.lineage_ids.is_empty()
+        || claim.legal_or_administrative_status
+            != ExternalClaimLegalOrAdministrativeStatus::NoneEstablished
+        || !claim.claim_gates.all_false()
+    {
+        return Err("Minnesota CCAP request draft changed upstream claim state".to_string());
+    }
+    for path in ["README.md", "docs/reading/README.md"] {
+        let text = fs::read_to_string(root.join(path))
+            .map_err(|err| format!("failed to read {path}: {err}"))?;
+        if text.contains(
+            "minnesota-ccap-quality-learning-center-cy2025-existing-records-request-specification",
+        ) {
+            return Err(format!(
+                "Minnesota CCAP internal request must not be routed from {path}"
+            ));
+        }
+    }
+    println!("validated Minnesota CCAP CY2025 existing-records request specification");
     Ok(())
 }
 
