@@ -56,6 +56,8 @@ anchors, and no numeric target may be carried into this rate model until its
 outcome, transferability, federal-scope, scoring, and aggregate-balance gates
 pass.
 
+The `health_efficiency_scenarios.fy2025.draft.jsonl` file is legacy illustrative only. Its flat 10/20/30% federal arithmetic is retained as a historical example, and the `$395.046B` flat 20% federal result must not enter any solver or savings output.
+
 ## Solvency context (carried on every row)
 
 | Measure | FY2025 ($M) |

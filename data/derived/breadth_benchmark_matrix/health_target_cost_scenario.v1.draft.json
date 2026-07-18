@@ -1,0 +1,173 @@
+{
+  "record_id": "depth-card:health-target-cost-scenario:v1",
+  "record_family": "health_target_cost_scenario",
+  "lane_id": "health-medicare",
+  "schema_version": "v1.draft",
+  "as_of_date": "2026-07-18",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "rubric_path": "data/derived/breadth_benchmark_matrix/international_comparator_target_rubric.v1.draft.json",
+  "comparison_grade": "C_directional_cross_source",
+  "source_ids": [
+    "SRC-CMS-NHE-TABLES-2024",
+    "SRC-RAND-HOSPITAL-PRICES-R5-1",
+    "SRC-MILLIMAN-COMMERCIAL-REIMBURSEMENT-2023",
+    "SRC-MEDPAC-MARCH-2026",
+    "SRC-OECD-HEALTH-2025"
+  ],
+  "source_custody_status": {
+    "status": "derived_from_public_sources",
+    "custody_note": "This scenario preserves the public-source sensitivity chain and does not introduce new raw custody.",
+    "evidence_chain": [
+      "data/derived/breadth_benchmark_matrix/health_cost_decomposition.v1.draft.json",
+      "data/derived/breadth_benchmark_matrix/health_service_price_volume_bridge.cy2024.v1.draft.json",
+      "data/derived/breadth_benchmark_matrix/health_category_benchmark_ladder.v1.draft.json",
+      "data/derived/breadth_benchmark_matrix/health_target_admissibility.v1.draft.json",
+      "data/derived/breadth_benchmark_matrix/health_medicare_relative_scenarios.v1.draft.json",
+      "data/derived/breadth_benchmark_matrix/health_commercial_sample_sensitivity.v1.draft.json",
+      "data/derived/breadth_benchmark_matrix/health_national_phi_sensitivity.v1.draft.json"
+    ]
+  },
+  "category_bases": [
+    {
+      "category": "hospital care",
+      "reference_period": "2022 claims",
+      "current_reference_percent_medicare": 253,
+      "phi_payments_usd_billions": 558.9,
+      "formula": "mechanical_phi_payment_change = phi_payments_usd_billions * (target_percent_medicare / current_reference_percent_medicare - 1)",
+      "payment_paths": [
+        {
+          "scenario": "current_reference",
+          "label": "current reference",
+          "target_percent_medicare": 253,
+          "mechanical_phi_payment_change_usd_billions": 0
+        },
+        {
+          "scenario": "modest_sensitivity",
+          "label": "modest sensitivity",
+          "target_percent_medicare": 225,
+          "mechanical_phi_payment_change_usd_billions": -61.854545
+        },
+        {
+          "scenario": "central_sensitivity",
+          "label": "central sensitivity",
+          "target_percent_medicare": 200,
+          "mechanical_phi_payment_change_usd_billions": -117.081818
+        },
+        {
+          "scenario": "aggressive_sensitivity",
+          "label": "aggressive sensitivity",
+          "target_percent_medicare": 175,
+          "mechanical_phi_payment_change_usd_billions": -172.309091
+        }
+      ]
+    },
+    {
+      "category": "physician and clinical services",
+      "reference_period": "2023 valuation using 2021 claims trended forward",
+      "current_reference_percent_medicare": 139,
+      "phi_payments_usd_billions": 505.1,
+      "formula": "mechanical_phi_payment_change = phi_payments_usd_billions * (target_percent_medicare / current_reference_percent_medicare - 1)",
+      "payment_paths": [
+        {
+          "scenario": "current_reference",
+          "label": "current reference",
+          "target_percent_medicare": 139,
+          "mechanical_phi_payment_change_usd_billions": 0
+        },
+        {
+          "scenario": "modest_sensitivity",
+          "label": "modest sensitivity",
+          "target_percent_medicare": 135,
+          "mechanical_phi_payment_change_usd_billions": -14.535252
+        },
+        {
+          "scenario": "central_sensitivity",
+          "label": "central sensitivity",
+          "target_percent_medicare": 130,
+          "mechanical_phi_payment_change_usd_billions": -32.704317
+        },
+        {
+          "scenario": "aggressive_sensitivity",
+          "label": "aggressive sensitivity",
+          "target_percent_medicare": 125,
+          "mechanical_phi_payment_change_usd_billions": -50.873381
+        }
+      ]
+    }
+  ],
+  "exact_formulas": [
+    "hospital change = 558.9 * (target / 253 - 1)",
+    "professional change = 505.1 * (target / 139 - 1)",
+    "combined change = hospital change + professional change",
+    "covered share = 1064.0 / 1644.6"
+  ],
+  "category_reconciliation": {
+    "total_private_health_insurance_usd_billions": 1644.6,
+    "covered_phi_payments_usd_billions": 1064.0,
+    "covered_share_phi_percent": 64.696583,
+    "mechanical_change_totals_usd_billions": {
+      "current_reference": 0,
+      "modest_sensitivity": -76.389797,
+      "central_sensitivity": -149.786135,
+      "aggressive_sensitivity": -223.182472
+    },
+    "category_sum_equals_combined": true
+  },
+  "perimeter": {
+    "comparison_grade": "C_directional_cross_source",
+    "base_period": "CY2024",
+    "scope": "CMS NHE private health insurance source-of-funds payments; excludes separately reported out-of-pocket spending and is not total commercial allowed spending.",
+    "allowed_use": "National private-insurance payer-payment sensitivity only.",
+    "scope_gaps": [
+      "NHE insurer payments exclude separately reported patient out-of-pocket amounts",
+      "hospital reference uses 2022 claims while base is 2024",
+      "professional reference is a 2023 valuation using earlier claims",
+      "NHE service categories do not exactly match repriced-claims categories",
+      "no service, provider, geography, case-mix, quality, or access segmentation",
+      "no volume, coding, site-of-care, network, consolidation, premium, benefit-design, wage, or incidence response"
+    ]
+  },
+  "behavior": null,
+  "transition_cost": null,
+  "incidence": null,
+  "federal_translation": null,
+  "federal_target_cost_usd_billions": null,
+  "federal_effect_usd_billions": null,
+  "gross_savings_usd_billions": null,
+  "net_savings_usd_billions": null,
+  "balanced_rate_percent": null,
+  "outcome_floor_statuses": {
+    "access": false,
+    "quality": false,
+    "equity": false,
+    "adequacy_resilience": false,
+    "delivery_feasibility": false
+  },
+  "admissibility_gates": {
+    "A1_source_custody": false,
+    "A2_category_reconciliation": false,
+    "A3_perimeter_match": false,
+    "A4_behavior_transition_incidence": false,
+    "A5_outcome_floors": false,
+    "A6_federal_translation": false,
+    "A7_target_cost_or_rate_readiness": false
+  },
+  "explicit_blockers": [
+    "The $149.786 billion result is a mechanical CY2024 private-insurance payer-payment sensitivity. It is not gross savings, net savings, a premium forecast, provider revenue forecast, federal budget effect, or target for Medicare or Medicaid.",
+    "Aggressive sensitivity is not fiscal solver stress.",
+    "No behavioral, transition-cost, incidence, or federal translation model exists yet.",
+    "PHI values cannot populate federal target-cost fields.",
+    "Outcome floors remain blocked."
+  ],
+  "public_warning_phrases": [
+    "The $149.786 billion result is a mechanical CY2024 private-insurance payer-payment sensitivity. It is not gross savings, net savings, a premium forecast, provider revenue forecast, federal budget effect, or target for Medicare or Medicaid.",
+    "aggressive sensitivity != fiscal stress"
+  ],
+  "target_cost_ready": false,
+  "federal_effect_ready": false,
+  "gross_savings_ready": false,
+  "net_savings_ready": false,
+  "balanced_rate_ready": false,
+  "status": "draft_sensitivity_boundary_no_target",
+  "next_gate": "Attach claim-level commercial allowed-spending custody, then model behavior, transition cost, incidence, access, quality, adequacy, and delivery-feasibility floors before any federal translation."
+}

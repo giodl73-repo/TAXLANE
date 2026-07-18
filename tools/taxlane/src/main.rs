@@ -284,6 +284,15 @@ const HEALTH_SAMPLE_SENSITIVITY_READER_PATH: &str =
 const HEALTH_NATIONAL_PHI_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/health_national_phi_sensitivity.v1.draft.json";
 const HEALTH_NATIONAL_PHI_READER_PATH: &str = "docs/reading/health-national-phi-sensitivity.md";
+const HEALTH_TARGET_COST_SCENARIO_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/health_target_cost_scenario.v1.draft.json";
+const HEALTH_TARGET_COST_SCENARIO_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/health_target_cost_scenario.schema.md";
+const HEALTH_TARGET_COST_SCENARIO_READER_PATH: &str = "docs/reading/health-target-cost-scenario.md";
+const HEALTH_EFFICIENCY_SCENARIOS_JSONL_PATH: &str =
+    "data/derived/program_lane_rate_model/health_efficiency_scenarios.fy2025.draft.jsonl";
+const HEALTH_EFFICIENCY_SCENARIOS_README_PATH: &str =
+    "data/derived/program_lane_rate_model/README.md";
 const FISCAL_PATH_SCENARIOS_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/fiscal_path_scenarios.v1.draft.json";
 const FISCAL_PATH_SCENARIOS_READER_PATH: &str = "docs/reading/fiscal-path-scenarios.md";
@@ -10194,6 +10203,35 @@ fn validate_program_lane_target_cost_contract(root: &Path) -> Result<(), String>
         ));
     }
 
+    let legacy_rows = read_jsonl(root.join(HEALTH_EFFICIENCY_SCENARIOS_JSONL_PATH))?;
+    if legacy_rows.len() != 1 {
+        return Err("health efficiency scenarios legacy file must contain one row".to_string());
+    }
+    let legacy = &legacy_rows[0];
+    if string_field(legacy, "status")? != "legacy-illustrative"
+        || !string_field(legacy, "notes")?.contains("legacy illustrative only")
+        || !string_field(legacy, "notes")?.contains("flat 10/20/30% federal arithmetic")
+        || !string_field(legacy, "notes")?.contains("$395.046B")
+    {
+        return Err("health efficiency scenarios legacy guard failed".to_string());
+    }
+    let legacy_reader = fs::read_to_string(root.join(HEALTH_EFFICIENCY_SCENARIOS_README_PATH))
+        .map_err(|err| {
+            format!("failed to read {HEALTH_EFFICIENCY_SCENARIOS_README_PATH}: {err}")
+        })?;
+    for required in [
+        "legacy illustrative only",
+        "flat 10/20/30% federal arithmetic",
+        "$395.046B",
+        "must not enter any solver or savings output",
+    ] {
+        if !legacy_reader.contains(required) {
+            return Err(format!(
+                "health efficiency scenarios README missing {required}"
+            ));
+        }
+    }
+
     let boundary = contract
         .get("aggregate_boundary")
         .ok_or("program lane target-cost contract needs aggregate_boundary")?;
@@ -12223,6 +12261,38 @@ mod global_country_comparison_tests {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_program_lane_target_cost_contract(&root).unwrap();
     }
+
+    #[test]
+    fn health_target_cost_scenario_preserves_boundary_and_null_translation() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_health_target_cost_scenario(&root).unwrap();
+
+        let text = fs::read_to_string(root.join(HEALTH_TARGET_COST_SCENARIO_JSON_PATH))
+            .expect("health target-cost scenario must be readable");
+        let mut record: serde_json::Value =
+            serde_json::from_str(&text).expect("health target-cost scenario must parse");
+
+        record["source_custody_status"]["status"] =
+            serde_json::Value::String("missing".to_string());
+        assert!(!health_target_cost_source_custody_gate(&record).unwrap());
+        assert!(
+            !record["admissibility_gates"]["A1_source_custody"]
+                .as_bool()
+                .expect("A1 gate must be boolean")
+        );
+
+        record["perimeter"]["scope"] = serde_json::Value::String("scope mismatch".to_string());
+        assert_eq!(
+            health_target_cost_federal_effect_field(&record).unwrap(),
+            None
+        );
+
+        assert!(record["federal_target_cost_usd_billions"].is_null());
+        assert!(record["federal_effect_usd_billions"].is_null());
+        assert!(record["gross_savings_usd_billions"].is_null());
+        assert!(record["net_savings_usd_billions"].is_null());
+        assert!(record["balanced_rate_percent"].is_null());
+    }
 }
 
 fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
@@ -12418,6 +12488,7 @@ fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
     validate_health_scenarios(root)?;
     validate_health_sample_sensitivity(root)?;
     validate_health_national_phi_sensitivity(root)?;
+    validate_health_target_cost_scenario(root)?;
     validate_fiscal_path_scenarios(root)?;
     validate_fiscal_debt_dynamics(root)?;
     validate_fiscal_policy_baskets(root)?;
@@ -12810,6 +12881,306 @@ fn validate_health_national_phi_sensitivity(root: &Path) -> Result<(), String> {
     ] {
         if !reader.contains(required) {
             return Err(format!("health national PHI reader missing {required}"));
+        }
+    }
+    Ok(())
+}
+
+fn health_target_cost_source_custody_gate(record: &serde_json::Value) -> Result<bool, String> {
+    let custody = record
+        .get("source_custody_status")
+        .and_then(|value| value.as_object())
+        .ok_or("health target cost scenario needs source_custody_status")?;
+    let status = custody
+        .get("status")
+        .and_then(|value| value.as_str())
+        .unwrap_or("");
+    let evidence_chain = custody
+        .get("evidence_chain")
+        .and_then(|value| value.as_array())
+        .ok_or("health target cost scenario needs evidence_chain")?;
+    Ok(status == "verified_public_custody" && evidence_chain.len() == 7)
+}
+
+fn health_target_cost_federal_effect_field(
+    record: &serde_json::Value,
+) -> Result<Option<f64>, String> {
+    let perimeter = record
+        .get("perimeter")
+        .and_then(|value| value.as_object())
+        .ok_or("health target cost scenario needs perimeter")?;
+    let scope = perimeter
+        .get("scope")
+        .and_then(|value| value.as_str())
+        .unwrap_or("");
+    let federal_translation = record
+        .get("federal_translation")
+        .ok_or("health target cost scenario needs federal_translation")?;
+    if !scope.contains("federal") || federal_translation.is_null() {
+        return Ok(None);
+    }
+    Ok(record
+        .get("federal_effect_usd_billions")
+        .and_then(|value| value.as_f64())
+        .ok_or("health target cost scenario federal_effect_usd_billions must be numeric or null")
+        .map(Some)?)
+}
+
+fn validate_health_target_cost_scenario(root: &Path) -> Result<(), String> {
+    let text = fs::read_to_string(root.join(HEALTH_TARGET_COST_SCENARIO_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")? != "depth-card:health-target-cost-scenario:v1"
+        || string_field(&record, "record_family")? != "health_target_cost_scenario"
+        || string_field(&record, "lane_id")? != "health-medicare"
+        || string_field(&record, "schema_version")? != "v1.draft"
+        || string_field(&record, "as_of_date")? != "2026-07-18"
+        || string_field(&record, "contract_path")?
+            != "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json"
+        || string_field(&record, "rubric_path")?
+            != "data/derived/breadth_benchmark_matrix/international_comparator_target_rubric.v1.draft.json"
+        || string_field(&record, "status")? != "draft_sensitivity_boundary_no_target"
+        || string_field(&record, "comparison_grade")? != "C_directional_cross_source"
+    {
+        return Err("health target cost scenario identity or perimeter failed".to_string());
+    }
+
+    let source_custody = record
+        .get("source_custody_status")
+        .and_then(|value| value.as_object())
+        .ok_or("health target cost scenario needs source_custody_status")?;
+    if object_string_field(source_custody, "status")? != "derived_from_public_sources" {
+        return Err("health target cost scenario source custody failed".to_string());
+    }
+    let perimeter = record
+        .get("perimeter")
+        .and_then(|value| value.as_object())
+        .ok_or("health target cost scenario needs perimeter")?;
+    if object_string_field(perimeter, "comparison_grade")? != "C_directional_cross_source"
+        || object_string_field(perimeter, "base_period")? != "CY2024"
+    {
+        return Err("health target cost scenario perimeter failed".to_string());
+    }
+    let evidence_chain = source_custody
+        .get("evidence_chain")
+        .and_then(|value| value.as_array())
+        .ok_or("health target cost scenario needs evidence_chain")?;
+    if evidence_chain.len() != 7 {
+        return Err(
+            "health target cost scenario evidence chain must contain seven files".to_string(),
+        );
+    }
+    for required in [
+        "health_cost_decomposition.v1.draft.json",
+        "health_service_price_volume_bridge.cy2024.v1.draft.json",
+        "health_category_benchmark_ladder.v1.draft.json",
+        "health_target_admissibility.v1.draft.json",
+        "health_medicare_relative_scenarios.v1.draft.json",
+        "health_commercial_sample_sensitivity.v1.draft.json",
+        "health_national_phi_sensitivity.v1.draft.json",
+    ] {
+        if !text.contains(required) {
+            return Err(format!(
+                "health target cost scenario missing evidence chain marker {required}"
+            ));
+        }
+    }
+
+    if !root.join(HEALTH_TARGET_COST_SCENARIO_SCHEMA_PATH).exists() {
+        return Err("health target cost scenario schema is missing".to_string());
+    }
+
+    let categories = record
+        .get("category_bases")
+        .and_then(|value| value.as_array())
+        .ok_or("health target cost scenario needs category_bases")?;
+    if categories.len() != 2 {
+        return Err("health target cost scenario needs two categories".to_string());
+    }
+    let mut category_total = 0.0;
+    for category in categories {
+        let category_name = string_field(category, "category")?;
+        let current = number_field(category, "current_reference_percent_medicare")?;
+        let base = number_field(category, "phi_payments_usd_billions")?;
+        category_total += base;
+        let scenarios = category
+            .get("payment_paths")
+            .and_then(|value| value.as_array())
+            .ok_or("health target cost scenario needs payment_paths")?;
+        if scenarios.len() != 4 {
+            return Err(format!(
+                "{category_name} target-cost scenario must contain four payment paths"
+            ));
+        }
+        for path in scenarios {
+            let target = number_field(path, "target_percent_medicare")?;
+            let change = number_field(path, "mechanical_phi_payment_change_usd_billions")?;
+            let expected = base * (target / current - 1.0);
+            if (change - expected).abs() > 0.001 {
+                return Err(format!(
+                    "health target cost scenario {category_name} payment path does not reconcile"
+                ));
+            }
+        }
+    }
+    if (category_total - 1064.0).abs() > 0.001 {
+        return Err(
+            "health target cost scenario category totals do not sum to covered payments"
+                .to_string(),
+        );
+    }
+
+    let reconciliation = record
+        .get("category_reconciliation")
+        .and_then(|value| value.as_object())
+        .ok_or("health target cost scenario needs category_reconciliation")?;
+    if (object_number_field(
+        reconciliation,
+        "total_private_health_insurance_usd_billions",
+    )? - 1644.6)
+        .abs()
+        > 0.001
+        || (object_number_field(reconciliation, "covered_phi_payments_usd_billions")? - 1064.0)
+            .abs()
+            > 0.001
+        || (object_number_field(reconciliation, "covered_share_phi_percent")? - 64.696583).abs()
+            > 0.000001
+        || !object_bool_field(reconciliation, "category_sum_equals_combined")?
+    {
+        return Err("health target cost scenario reconciliation failed".to_string());
+    }
+    let totals = reconciliation
+        .get("mechanical_change_totals_usd_billions")
+        .and_then(|value| value.as_object())
+        .ok_or("health target cost scenario needs mechanical_change_totals_usd_billions")?;
+    for (field, expected) in [
+        ("current_reference", 0.0),
+        ("modest_sensitivity", -76.389797),
+        ("central_sensitivity", -149.786135),
+        ("aggressive_sensitivity", -223.182472),
+    ] {
+        if (object_number_field(totals, field)? - expected).abs() > 0.001 {
+            return Err(format!("health target cost scenario {field} total failed"));
+        }
+    }
+
+    let exact_formulas = record
+        .get("exact_formulas")
+        .and_then(|value| value.as_array())
+        .ok_or("health target cost scenario needs exact_formulas")?;
+    if exact_formulas.len() != 4
+        || !text.contains("hospital change = 558.9 * (target / 253 - 1)")
+        || !text.contains("professional change = 505.1 * (target / 139 - 1)")
+        || !text.contains("combined change = hospital change + professional change")
+        || !text.contains("covered share = 1064.0 / 1644.6")
+    {
+        return Err("health target cost scenario formulas failed".to_string());
+    }
+
+    let outcome_floors = record
+        .get("outcome_floor_statuses")
+        .and_then(|value| value.as_object())
+        .ok_or("health target cost scenario needs outcome_floor_statuses")?;
+    for field in [
+        "access",
+        "quality",
+        "equity",
+        "adequacy_resilience",
+        "delivery_feasibility",
+    ] {
+        if object_bool_field(outcome_floors, field)? {
+            return Err(format!(
+                "health target cost scenario floor {field} must be false"
+            ));
+        }
+    }
+
+    let gates = record
+        .get("admissibility_gates")
+        .and_then(|value| value.as_object())
+        .ok_or("health target cost scenario needs admissibility_gates")?;
+    for field in [
+        "A1_source_custody",
+        "A2_category_reconciliation",
+        "A3_perimeter_match",
+        "A4_behavior_transition_incidence",
+        "A5_outcome_floors",
+        "A6_federal_translation",
+        "A7_target_cost_or_rate_readiness",
+    ] {
+        if object_bool_field(gates, field)? {
+            return Err(format!(
+                "health target cost scenario gate {field} must be false"
+            ));
+        }
+    }
+
+    for field in [
+        "behavior",
+        "transition_cost",
+        "incidence",
+        "federal_translation",
+        "federal_target_cost_usd_billions",
+        "federal_effect_usd_billions",
+        "gross_savings_usd_billions",
+        "net_savings_usd_billions",
+        "balanced_rate_percent",
+    ] {
+        if !record.get(field).is_some_and(serde_json::Value::is_null) {
+            return Err(format!(
+                "health target cost scenario {field} must remain null"
+            ));
+        }
+    }
+
+    let booleans = [
+        "target_cost_ready",
+        "federal_effect_ready",
+        "gross_savings_ready",
+        "net_savings_ready",
+        "balanced_rate_ready",
+    ];
+    for field in booleans {
+        if !bool_field(&record, field)? {
+            continue;
+        }
+        return Err(format!("health target cost scenario {field} must be false"));
+    }
+
+    let warning_phrases = record
+        .get("public_warning_phrases")
+        .and_then(|value| value.as_array())
+        .ok_or("health target cost scenario needs public_warning_phrases")?;
+    if !warning_phrases
+        .iter()
+        .any(|value| value.as_str() == Some("The $149.786 billion result is a mechanical CY2024 private-insurance payer-payment sensitivity. It is not gross savings, net savings, a premium forecast, provider revenue forecast, federal budget effect, or target for Medicare or Medicaid."))
+        || !warning_phrases
+            .iter()
+            .any(|value| value.as_str() == Some("aggressive sensitivity != fiscal stress"))
+    {
+        return Err("health target cost scenario warning phrases failed".to_string());
+    }
+
+    if health_target_cost_source_custody_gate(&record)?
+        != object_bool_field(gates, "A1_source_custody")?
+        || health_target_cost_federal_effect_field(&record)?.is_some()
+    {
+        return Err("health target cost scenario derived gates failed".to_string());
+    }
+
+    let reader = fs::read_to_string(root.join(HEALTH_TARGET_COST_SCENARIO_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        HEALTH_TARGET_COST_SCENARIO_JSON_PATH,
+        HEALTH_TARGET_COST_SCENARIO_SCHEMA_PATH,
+        "The $149.786 billion result is a mechanical CY2024 private-insurance payer-payment sensitivity. It is not gross savings, net savings, a premium forecast, provider revenue forecast, federal budget effect, or target for Medicare or Medicaid.",
+        "aggressive sensitivity != fiscal stress",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!(
+                "health target cost scenario reader missing {required}"
+            ));
         }
     }
     Ok(())
@@ -35098,6 +35469,40 @@ fn number_field(row: &serde_json::Value, field: &str) -> Result<f64, String> {
     row.get(field)
         .and_then(serde_json::Value::as_f64)
         .ok_or_else(|| format!("missing number field {field}"))
+}
+
+fn bool_field(row: &serde_json::Value, field: &str) -> Result<bool, String> {
+    row.get(field)
+        .and_then(serde_json::Value::as_bool)
+        .ok_or_else(|| format!("missing boolean field {field}"))
+}
+
+fn object_string_field(
+    row: &serde_json::Map<String, serde_json::Value>,
+    field: &str,
+) -> Result<String, String> {
+    row.get(field)
+        .and_then(serde_json::Value::as_str)
+        .map(ToString::to_string)
+        .ok_or_else(|| format!("missing string field {field}"))
+}
+
+fn object_number_field(
+    row: &serde_json::Map<String, serde_json::Value>,
+    field: &str,
+) -> Result<f64, String> {
+    row.get(field)
+        .and_then(serde_json::Value::as_f64)
+        .ok_or_else(|| format!("missing number field {field}"))
+}
+
+fn object_bool_field(
+    row: &serde_json::Map<String, serde_json::Value>,
+    field: &str,
+) -> Result<bool, String> {
+    row.get(field)
+        .and_then(serde_json::Value::as_bool)
+        .ok_or_else(|| format!("missing boolean field {field}"))
 }
 
 fn string_field(row: &serde_json::Value, field: &str) -> Result<String, String> {
