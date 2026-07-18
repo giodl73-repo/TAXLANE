@@ -32,6 +32,12 @@ offset rows. Every lane declares a target-cost method, policy levers, outcome
 floors, federal translation, financing bases, and ten-year solver treatment.
 All numeric target and balanced-rate gates remain false.
 
+`veterans_scenario_gate.v1.draft.json` freezes the FY2025 federal veterans
+current-law context at $377.163B and blocks target-cost, federal-effect,
+savings, solver, and balanced-rate use until eligible cohorts, statutory service
+package, service-continuity/access/health/housing/claims floors, behavior,
+incidence, distribution, and policy-specific score provenance exist.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is

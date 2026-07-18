@@ -310,6 +310,11 @@ const BUDGET_BALLOT_V2_READER_PATH: &str =
 const VETERANS_DEPTH_CARD_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/veterans_depth_card.fy2025.v1.draft.json";
 const VETERANS_DEPTH_CARD_READER_PATH: &str = "docs/reading/veterans-depth-card.md";
+const VETERANS_SCENARIO_GATE_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/veterans_scenario_gate.v1.draft.json";
+const VETERANS_SCENARIO_GATE_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/veterans_scenario_gate.schema.md";
+const VETERANS_SCENARIO_GATE_READER_PATH: &str = "docs/reading/veterans-scenario-gate.md";
 const TRANSPORTATION_DEPTH_CARD_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/transportation_depth_card.fy2025.v1.draft.json";
 const TRANSPORTATION_DEPTH_CARD_READER_PATH: &str = "docs/reading/transportation-depth-card.md";
@@ -10798,6 +10803,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_socx_oldage_family_country_panel(root)?;
     validate_pension_replacement_country_panel(root)?;
     validate_age_relative_poverty_country_panel(root)?;
+    validate_veterans_scenario_gate(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -12166,6 +12172,420 @@ fn validate_age_relative_poverty_country_panel(root: &Path) -> Result<(), String
     Ok(())
 }
 
+fn validate_veterans_scenario_gate(root: &Path) -> Result<(), String> {
+    for path in [
+        VETERANS_SCENARIO_GATE_JSON_PATH,
+        VETERANS_SCENARIO_GATE_SCHEMA_PATH,
+        VETERANS_SCENARIO_GATE_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing veterans scenario gate artifact: {path}"));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(VETERANS_SCENARIO_GATE_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let gate: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+    let string_array_set =
+        |row: &serde_json::Value, field: &str| -> Result<BTreeSet<String>, String> {
+            row.get(field)
+                .and_then(serde_json::Value::as_array)
+                .ok_or_else(|| format!("veterans {field} array missing"))?
+                .iter()
+                .map(|value| {
+                    value
+                        .as_str()
+                        .map(str::to_string)
+                        .ok_or_else(|| format!("veterans {field} value not string"))
+                })
+                .collect()
+        };
+
+    if string_field(&gate, "record_id")? != "veterans-scenario-gate:fy2025:v1"
+        || string_field(&gate, "record_family")? != "veterans_scenario_gate"
+        || int_field(&gate, "pulse")? != 79
+        || string_field(&gate, "lane_id")? != "veterans"
+        || string_field(&gate, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&gate, "rubric_path")? != INTERNATIONAL_COMPARATOR_TARGET_RUBRIC_JSON_PATH
+        || string_field(&gate, "coverage_contract_path")? != GLOBAL_COUNTRY_COMPARISON_JSON_PATH
+        || string_field(&gate, "rate_model_path")?
+            != "data/derived/program_lane_rate_model/program_lane_rate_model.fy2025.omb-fy2027-v1.draft.jsonl"
+    {
+        return Err("veterans scenario gate identity or governing paths failed".to_string());
+    }
+
+    let custody_status = string_field(&gate, "source_custody_status")?;
+    if !custody_status.contains("repo_custodied")
+        || !custody_status.contains("no_new_external_request")
+    {
+        return Err("veterans source custody status boundary failed".to_string());
+    }
+    let custody_paths = gate
+        .get("source_custody")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("veterans source custody")?
+        .iter()
+        .map(|row| string_field(row, "path"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_custody = BTreeSet::from([
+        VETERANS_DEPTH_CARD_JSON_PATH.to_string(),
+        VA_PLTSS_PAYMENT_TYPE_COMPOSITION_BRIDGE_JSON_PATH.to_string(),
+        VA_PLTSS_DOCUMENTATION_RECOVERABILITY_BOUNDARY_JSON_PATH.to_string(),
+        VA_PLTSS_SAME_COHORT_LINEAGE_CEILING_JSON_PATH.to_string(),
+    ]);
+    if custody_paths != expected_custody {
+        return Err("veterans evidence custody path set failed".to_string());
+    }
+    for path in &custody_paths {
+        if !root.join(path).exists() {
+            return Err(format!("veterans custody path missing: {path}"));
+        }
+    }
+
+    let boundary = string_field(&gate, "non_claim_boundary")?;
+    for required in [
+        "readiness gate, not a veterans policy plan",
+        "Veterans obligations are service commitments, not a discretionary trim target",
+        "$377.163B",
+        "unscored and solver-ineligible",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!("veterans boundary text missing {required}"));
+        }
+    }
+
+    let context = gate
+        .get("current_law_context")
+        .ok_or("veterans current-law context")?;
+    if int_field(context, "fiscal_year")? != 2025
+        || string_field(context, "year_basis")? != "fiscal_year"
+        || string_array_set(context, "omb_function_codes")? != BTreeSet::from(["700".to_string()])
+        || number_field(context, "gross_program_cost_musd")? != 377_163.0
+        || number_field(context, "implementation_admin_outlays_musd")? != 0.0
+        || number_field(context, "credited_offsetting_collections_musd")? != 0.0
+        || number_field(context, "residual_general_fund_need_musd")? != 377_163.0
+        || number_field(context, "current_cost_share_of_outlays_percent")? != 5.3795
+        || string_field(context, "current_financing")? != "general-fund"
+        || number_field(context, "deltas_from_current_law_musd")? != 0.0
+    {
+        return Err("veterans current-law values failed".to_string());
+    }
+
+    let categories = gate
+        .get("category_bases")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("veterans category bases")?;
+    let expected_categories = [
+        ("701", "income_security_for_veterans", 200_631.0),
+        ("702", "education_training_and_rehabilitation", 16_379.0),
+        ("703", "hospital_and_medical_care", 148_835.0),
+        ("704", "veterans_housing", 981.0),
+        ("705", "other_veterans_benefits_and_services", 10_337.0),
+    ];
+    if categories.len() != expected_categories.len() {
+        return Err("veterans category count failed".to_string());
+    }
+    let mut category_sum = 0.0;
+    for (row, expected) in categories.iter().zip(expected_categories) {
+        category_sum += number_field(row, "amount_musd")?;
+        if string_field(row, "subfunction_code")? != expected.0
+            || string_field(row, "category_id")? != expected.1
+            || number_field(row, "amount_musd")? != expected.2
+            || string_field(row, "reference_period")? != "FY2025"
+            || string_field(row, "reconciliation_status")? != "matches_veterans_depth_card"
+            || string_field(row, "formula")?.is_empty()
+        {
+            return Err("veterans category basis failed".to_string());
+        }
+    }
+    let reconciliation = gate
+        .get("category_reconciliation")
+        .ok_or("veterans category reconciliation")?;
+    if category_sum != 377_163.0
+        || number_field(reconciliation, "computed_sum_musd")? != category_sum
+        || reconciliation
+            .get("matches_current_law_gross_program_cost")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || reconciliation
+            .get("missing_values_remain_null")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("veterans category reconciliation failed".to_string());
+    }
+
+    let perimeter = gate.get("perimeter").ok_or("veterans perimeter")?;
+    if string_field(perimeter, "comparison_grade")? != "not_graded_for_target_cost"
+        || perimeter
+            .get("matched_international_expected_spending_available")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || perimeter
+            .get("perimeter_match_for_federal_effect")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || perimeter
+            .get("international_spending_differences_are_savings")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("veterans perimeter gates failed".to_string());
+    }
+
+    let required_inputs = gate
+        .get("required_model_inputs")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("veterans required model inputs")?;
+    let input_ids = required_inputs
+        .iter()
+        .map(|row| string_field(row, "input_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    for expected in [
+        "eligible_cohort_by_component",
+        "statutory_service_package",
+        "benefit_formula_and_service_continuity_rules",
+        "access_floor_threshold",
+        "health_floor_threshold",
+        "housing_floor_threshold",
+        "claims_timeliness_floor_threshold",
+        "statutory_continuity_floor_threshold",
+        "behavior_transition_and_administration_cost_model",
+        "incidence_and_distribution_by_cohort_income_disability_geography",
+        "policy_specific_score_provenance",
+    ] {
+        if !input_ids.contains(expected) {
+            return Err(format!("veterans required input missing {expected}"));
+        }
+    }
+    for row in required_inputs {
+        if string_field(row, "status")? != "missing"
+            || !row.get("value").is_some_and(serde_json::Value::is_null)
+        {
+            return Err("veterans missing required inputs must stay null".to_string());
+        }
+    }
+
+    for object_name in ["behavior_transition_incidence", "federal_translation"] {
+        let object = gate.get(object_name).ok_or(object_name)?;
+        for (field, value) in object
+            .as_object()
+            .ok_or_else(|| format!("{object_name} object"))?
+        {
+            if field == "perimeter_mismatch_forces_federal_effect_null" {
+                if value.as_bool() != Some(true) {
+                    return Err("veterans perimeter mismatch null rule failed".to_string());
+                }
+            } else if !value.is_null() {
+                return Err(format!("veterans {object_name}.{field} must be null"));
+            }
+        }
+    }
+
+    let floors = gate
+        .get("outcome_floor_statuses")
+        .ok_or("veterans outcome floors")?;
+    for field in [
+        "statutory_continuity",
+        "access",
+        "health",
+        "housing",
+        "claims_timeliness",
+        "adequacy_resilience",
+        "delivery_feasibility",
+    ] {
+        if floors.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("veterans floor {field} must remain false"));
+        }
+    }
+    let gates = gate
+        .get("admissibility_gates")
+        .ok_or("veterans admissibility gates")?;
+    if gates
+        .get("A1_source_custody_complete")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("veterans custody should support A1 only".to_string());
+    }
+    for field in [
+        "A2_perimeter_match",
+        "A3_policy_instrument_defined",
+        "A4_behavior_and_transition_modeled",
+        "A5_incidence_and_distribution_modeled",
+        "A6_outcome_floors_passed",
+        "A7_federal_score_provenance_available",
+    ] {
+        if gates.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("veterans gate {field} must remain false"));
+        }
+    }
+
+    let scenarios = gate
+        .get("scenarios")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("veterans scenarios")?;
+    let scenario_ids = scenarios
+        .iter()
+        .map(|row| string_field(row, "scenario_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if scenario_ids
+        != BTreeSet::from([
+            "central_reform".to_string(),
+            "current_law".to_string(),
+            "stress".to_string(),
+        ])
+    {
+        return Err("veterans scenario set failed".to_string());
+    }
+    for scenario in scenarios {
+        if scenario
+            .get("solver_eligible")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err("veterans scenarios must be solver-ineligible".to_string());
+        }
+        match string_field(scenario, "scenario_id")?.as_str() {
+            "current_law" => {
+                if number_field(scenario, "gross_program_cost_musd")? != 377_163.0
+                    || number_field(scenario, "reform_delta_musd")? != 0.0
+                    || number_field(scenario, "federal_cash_flow_delta_musd")? != 0.0
+                    || !scenario
+                        .get("target_cost_musd")
+                        .is_some_and(serde_json::Value::is_null)
+                {
+                    return Err("veterans current-law scenario failed".to_string());
+                }
+            }
+            "central_reform" => {
+                for field in [
+                    "policy_instrument",
+                    "service_package",
+                    "eligible_cohort",
+                    "phase_in",
+                    "service_continuity_effect",
+                    "access_effect",
+                    "health_effect",
+                    "housing_effect",
+                    "claims_timeliness_effect",
+                    "administration_and_transition_cost_musd",
+                    "distributional_effect",
+                    "federal_cash_flow_delta_musd",
+                    "target_cost_musd",
+                ] {
+                    if !scenario.get(field).is_some_and(serde_json::Value::is_null) {
+                        return Err(format!("veterans central {field} must be null"));
+                    }
+                }
+            }
+            "stress" => {
+                if scenario
+                    .get("same_policy_as_central")
+                    .and_then(serde_json::Value::as_bool)
+                    != Some(false)
+                {
+                    return Err("veterans stress must not claim same policy yet".to_string());
+                }
+                for field in [
+                    "weaker_service_effect",
+                    "higher_take_up_or_claims_volume",
+                    "higher_health_or_provider_cost",
+                    "higher_implementation_cost",
+                    "access_remediation",
+                    "weaker_receipts",
+                    "federal_cash_flow_delta_musd",
+                    "target_cost_musd",
+                ] {
+                    if !scenario.get(field).is_some_and(serde_json::Value::is_null) {
+                        return Err(format!("veterans stress {field} must be null"));
+                    }
+                }
+            }
+            _ => return Err("unexpected veterans scenario".to_string()),
+        }
+        if let Some(scenario_floors) = scenario.get("outcome_floor_statuses") {
+            for field in [
+                "statutory_continuity",
+                "access",
+                "health",
+                "housing",
+                "claims_timeliness",
+                "adequacy_resilience",
+                "delivery_feasibility",
+            ] {
+                if scenario_floors
+                    .get(field)
+                    .and_then(serde_json::Value::as_bool)
+                    != Some(false)
+                {
+                    return Err(format!("veterans scenario floor {field} must remain false"));
+                }
+            }
+        }
+    }
+
+    let blockers = string_array_set(&gate, "explicit_blockers")?;
+    for required in [
+        "eligible_cohort_by_component_missing",
+        "statutory_service_package_not_selected",
+        "statutory_continuity_access_health_housing_claims_timeliness_floor_thresholds_missing",
+        "central_and_stress_solver_cash_flows_null",
+        "balanced_rate_fields_blocked",
+    ] {
+        if !blockers.contains(required) {
+            return Err(format!("veterans blocker missing {required}"));
+        }
+    }
+    let claims = gate
+        .get("claim_booleans")
+        .ok_or("veterans claim booleans")?;
+    if claims
+        .as_object()
+        .ok_or("veterans claim object")?
+        .iter()
+        .any(|(_, value)| value.as_bool() != Some(false))
+    {
+        return Err("veterans claim booleans must all remain false".to_string());
+    }
+    let readiness = gate.get("readiness").ok_or("veterans readiness")?;
+    if readiness
+        .get("current_law_context_available")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("veterans current-law readiness should be true".to_string());
+    }
+    for field in [
+        "target_cost_ready",
+        "federal_effect_ready",
+        "central_reform_ready",
+        "stress_ready",
+        "solver_eligible",
+        "balanced_rate_ready",
+    ] {
+        if readiness.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("veterans readiness {field} must remain false"));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(VETERANS_SCENARIO_GATE_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        VETERANS_SCENARIO_GATE_JSON_PATH,
+        "This is a readiness gate, not a veterans policy plan.",
+        "$377.163B",
+        "Veterans obligations are service commitments, not a discretionary trim target.",
+        "central and stress veterans scenarios remain unscored and solver-ineligible",
+        "No target cost, gross savings, net savings, federal budget effect, or balanced rate is published",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("veterans reader missing {required}"));
+        }
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -12210,6 +12630,12 @@ mod global_country_comparison_tests {
     fn age_relative_poverty_panel_preserves_source_years_values_and_boundaries() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_age_relative_poverty_country_panel(&root).unwrap();
+    }
+
+    #[test]
+    fn veterans_scenario_gate_blocks_unscored_policy_and_solver_use() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_veterans_scenario_gate(&root).unwrap();
     }
 
     #[test]

@@ -1,0 +1,295 @@
+{
+  "record_id": "veterans-scenario-gate:fy2025:v1",
+  "record_family": "veterans_scenario_gate",
+  "version": "v1.draft",
+  "status": "draft_blocked_readiness_gate",
+  "pulse": 79,
+  "lane_id": "veterans",
+  "public_label": "Veterans and Service Commitments",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "rubric_path": "data/derived/breadth_benchmark_matrix/international_comparator_target_rubric.v1.draft.json",
+  "coverage_contract_path": "data/derived/breadth_benchmark_matrix/global_country_comparison_coverage.v1.draft.json",
+  "rate_model_path": "data/derived/program_lane_rate_model/program_lane_rate_model.fy2025.omb-fy2027-v1.draft.jsonl",
+  "source_custody_status": "derived_from_existing_repo_custodied_records_no_new_external_request",
+  "source_custody": [
+    {
+      "path": "data/derived/breadth_benchmark_matrix/veterans_depth_card.fy2025.v1.draft.json",
+      "custody_status": "repo_custodied_existing_record"
+    },
+    {
+      "path": "data/derived/breadth_benchmark_matrix/va_pltss_payment_type_composition_bridge.fy2025.v1.draft.json",
+      "custody_status": "repo_custodied_existing_payment_integrity_record"
+    },
+    {
+      "path": "data/derived/breadth_benchmark_matrix/va_pltss_documentation_recoverability_boundary.fy2025.v1.draft.json",
+      "custody_status": "repo_custodied_existing_payment_integrity_record"
+    },
+    {
+      "path": "data/derived/breadth_benchmark_matrix/va_pltss_same_cohort_debt_collection_lineage_evidence_ceiling.fy2024-q4-2025.v1.draft.json",
+      "custody_status": "repo_custodied_existing_payment_integrity_record"
+    }
+  ],
+  "non_claim_boundary": "This is a readiness gate, not a veterans policy plan. Veterans obligations are service commitments, not a discretionary trim target. Current-law federal FY2025 outlays are $377.163B; central and stress veterans scenarios remain unscored and solver-ineligible.",
+  "current_law_context": {
+    "fiscal_year": 2025,
+    "year_basis": "fiscal_year",
+    "omb_function_codes": [
+      "700"
+    ],
+    "gross_program_cost_musd": 377163,
+    "implementation_admin_outlays_musd": 0,
+    "credited_offsetting_collections_musd": 0,
+    "residual_general_fund_need_musd": 377163,
+    "current_cost_share_of_outlays_percent": 5.3795,
+    "current_financing": "general-fund",
+    "score_source_vintage": "program_lane_rate_model.fy2025.omb-fy2027-v1.draft",
+    "unrounded_values": true,
+    "deltas_from_current_law_musd": 0
+  },
+  "category_bases": [
+    {
+      "category_id": "income_security_for_veterans",
+      "subfunction_code": "701",
+      "label": "Income security for veterans",
+      "reference_period": "FY2025",
+      "amount_musd": 200631,
+      "formula": "OMB function 700 subfunction 701 outlays",
+      "reconciliation_status": "matches_veterans_depth_card"
+    },
+    {
+      "category_id": "education_training_and_rehabilitation",
+      "subfunction_code": "702",
+      "label": "Veterans education, training, and rehabilitation",
+      "reference_period": "FY2025",
+      "amount_musd": 16379,
+      "formula": "OMB function 700 subfunction 702 outlays",
+      "reconciliation_status": "matches_veterans_depth_card"
+    },
+    {
+      "category_id": "hospital_and_medical_care",
+      "subfunction_code": "703",
+      "label": "Hospital and medical care for veterans",
+      "reference_period": "FY2025",
+      "amount_musd": 148835,
+      "formula": "OMB function 700 subfunction 703 outlays",
+      "reconciliation_status": "matches_veterans_depth_card"
+    },
+    {
+      "category_id": "veterans_housing",
+      "subfunction_code": "704",
+      "label": "Veterans housing",
+      "reference_period": "FY2025",
+      "amount_musd": 981,
+      "formula": "OMB function 700 subfunction 704 outlays",
+      "reconciliation_status": "matches_veterans_depth_card"
+    },
+    {
+      "category_id": "other_veterans_benefits_and_services",
+      "subfunction_code": "705",
+      "label": "Other veterans benefits and services",
+      "reference_period": "FY2025",
+      "amount_musd": 10337,
+      "formula": "OMB function 700 subfunction 705 outlays",
+      "reconciliation_status": "matches_veterans_depth_card"
+    }
+  ],
+  "category_reconciliation": {
+    "formula": "200631 + 16379 + 148835 + 981 + 10337",
+    "computed_sum_musd": 377163,
+    "matches_current_law_gross_program_cost": true,
+    "missing_values_remain_null": true
+  },
+  "perimeter": {
+    "federal_budget_perimeter": "OMB federal function 700 current-law outlays only",
+    "service_commitment_perimeter": "veteran eligibility, disability compensation, health care, education, housing, and other commitments must remain explicitly modeled by component",
+    "comparison_grade": "not_graded_for_target_cost",
+    "matched_international_expected_spending_available": false,
+    "perimeter_match_for_federal_effect": false,
+    "international_spending_differences_are_savings": false
+  },
+  "required_model_inputs": [
+    {
+      "input_id": "eligible_cohort_by_component",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "input_id": "statutory_service_package",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "input_id": "benefit_formula_and_service_continuity_rules",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "input_id": "access_floor_threshold",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "input_id": "health_floor_threshold",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "input_id": "housing_floor_threshold",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "input_id": "claims_timeliness_floor_threshold",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "input_id": "statutory_continuity_floor_threshold",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "input_id": "behavior_transition_and_administration_cost_model",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "input_id": "incidence_and_distribution_by_cohort_income_disability_geography",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "input_id": "policy_specific_score_provenance",
+      "status": "missing",
+      "value": null
+    }
+  ],
+  "behavior_transition_incidence": {
+    "enrollment_or_take_up_response": null,
+    "claims_filing_response": null,
+    "provider_network_response": null,
+    "appeals_or_backlog_response": null,
+    "transition_cost_musd": null,
+    "administration_cost_musd": null,
+    "incidence_distribution": null
+  },
+  "federal_translation": {
+    "matched_federal_policy_instrument": null,
+    "gross_federal_outlay_delta_musd": null,
+    "receipt_effect_musd": null,
+    "net_federal_budget_effect_musd": null,
+    "solver_target_cost_musd": null,
+    "perimeter_mismatch_forces_federal_effect_null": true
+  },
+  "outcome_floor_statuses": {
+    "statutory_continuity": false,
+    "access": false,
+    "health": false,
+    "housing": false,
+    "claims_timeliness": false,
+    "adequacy_resilience": false,
+    "delivery_feasibility": false
+  },
+  "admissibility_gates": {
+    "A1_source_custody_complete": true,
+    "A2_perimeter_match": false,
+    "A3_policy_instrument_defined": false,
+    "A4_behavior_and_transition_modeled": false,
+    "A5_incidence_and_distribution_modeled": false,
+    "A6_outcome_floors_passed": false,
+    "A7_federal_score_provenance_available": false
+  },
+  "scenarios": [
+    {
+      "scenario_id": "current_law",
+      "description": "Official current-law federal baseline context with zero reform delta.",
+      "gross_program_cost_musd": 377163,
+      "reform_delta_musd": 0,
+      "federal_cash_flow_delta_musd": 0,
+      "target_cost_musd": null,
+      "solver_eligible": false
+    },
+    {
+      "scenario_id": "central_reform",
+      "description": "Placeholder only; no veterans policy package has been selected or scored.",
+      "policy_instrument": null,
+      "service_package": null,
+      "eligible_cohort": null,
+      "phase_in": null,
+      "service_continuity_effect": null,
+      "access_effect": null,
+      "health_effect": null,
+      "housing_effect": null,
+      "claims_timeliness_effect": null,
+      "administration_and_transition_cost_musd": null,
+      "distributional_effect": null,
+      "federal_cash_flow_delta_musd": null,
+      "target_cost_musd": null,
+      "outcome_floor_statuses": {
+        "statutory_continuity": false,
+        "access": false,
+        "health": false,
+        "housing": false,
+        "claims_timeliness": false,
+        "adequacy_resilience": false,
+        "delivery_feasibility": false
+      },
+      "solver_eligible": false
+    },
+    {
+      "scenario_id": "stress",
+      "description": "Placeholder only; stress must later be the same selected veterans policy under adverse realization, not an unrelated service reduction.",
+      "same_policy_as_central": false,
+      "weaker_service_effect": null,
+      "higher_take_up_or_claims_volume": null,
+      "higher_health_or_provider_cost": null,
+      "higher_implementation_cost": null,
+      "access_remediation": null,
+      "weaker_receipts": null,
+      "federal_cash_flow_delta_musd": null,
+      "target_cost_musd": null,
+      "outcome_floor_statuses": {
+        "statutory_continuity": false,
+        "access": false,
+        "health": false,
+        "housing": false,
+        "claims_timeliness": false,
+        "adequacy_resilience": false,
+        "delivery_feasibility": false
+      },
+      "solver_eligible": false
+    }
+  ],
+  "explicit_blockers": [
+    "eligible_cohort_by_component_missing",
+    "statutory_service_package_not_selected",
+    "statutory_continuity_access_health_housing_claims_timeliness_floor_thresholds_missing",
+    "behavior_transition_and_administration_cost_models_missing",
+    "incidence_and_distribution_model_missing",
+    "policy_specific_score_provenance_missing",
+    "central_and_stress_solver_cash_flows_null",
+    "balanced_rate_fields_blocked"
+  ],
+  "claim_booleans": {
+    "target_cost_published": false,
+    "federal_effect_published": false,
+    "gross_savings_published": false,
+    "net_savings_published": false,
+    "veterans_policy_package_selected": false,
+    "statutory_continuity_result_published": false,
+    "access_result_published": false,
+    "health_result_published": false,
+    "housing_result_published": false,
+    "claims_timeliness_result_published": false,
+    "balanced_rate_published": false
+  },
+  "readiness": {
+    "current_law_context_available": true,
+    "target_cost_ready": false,
+    "federal_effect_ready": false,
+    "central_reform_ready": false,
+    "stress_ready": false,
+    "solver_eligible": false,
+    "balanced_rate_ready": false
+  }
+}

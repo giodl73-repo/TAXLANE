@@ -18,6 +18,7 @@ explainers. They should keep three labels visible:
 | `payment-integrity-bounded-factual-examples.md` | Public payment-integrity handoff: exact FY2024 reconciliation, four program cards, seven source-labeled examples, and required claim boundaries. |
 | `headline-number-selection-guide.md` | Selection guide reconciling the valid health, defense, and interest headline measures and their incompatible scopes. |
 | `veterans-depth-card.md` | Complete FY2025 veterans function and five-component breakdown with current service probes and benchmark gates. |
+| `veterans-scenario-gate.md` | Pulse 79 readiness gate: freezes the $377.163B FY2025 veterans federal context and blocks target-cost, federal-effect, savings, solver, and balanced-rate claims. |
 | `transportation-depth-card.md` | Complete FY2025 transportation function and four-component breakdown with federalism and outcome benchmark gates. |
 | `education-depth-card.md` | Complete FY2025 education-work-social-services function with the negative higher-education net-entry caveat and federalism gates. |
 | `disaster-depth-card.md` | FY2025 disaster subfunction with parent-function, event, declaration, mitigation, and savings boundaries. |
