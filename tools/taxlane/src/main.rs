@@ -372,6 +372,10 @@ const TRANSPORTATION_PILOT_FLOOR_INDICATOR_CONTRACT_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/transportation_pilot_floor_indicator_contract.schema.md";
 const TRANSPORTATION_PILOT_FLOOR_INDICATOR_CONTRACT_READER_PATH: &str =
     "docs/reading/transportation-pilot-floor-indicator-contract.md";
+const TRANSPORTATION_PILOT_MODERNIZATION_PATH_CONTRACT_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/transportation_pilot_modernization_path_contract.v1.draft.json";
+const TRANSPORTATION_PILOT_MODERNIZATION_PATH_CONTRACT_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/transportation_pilot_modernization_path_contract.schema.md";
+const TRANSPORTATION_PILOT_MODERNIZATION_PATH_CONTRACT_READER_PATH: &str =
+    "docs/reading/transportation-pilot-modernization-path-contract.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10886,6 +10890,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_transportation_pilot_source_plan(root)?;
     validate_transportation_pilot_baseline_path_contract(root)?;
     validate_transportation_pilot_floor_indicator_contract(root)?;
+    validate_transportation_pilot_modernization_path_contract(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -15724,6 +15729,373 @@ fn validate_transportation_pilot_floor_indicator_contract(root: &Path) -> Result
     Ok(())
 }
 
+fn validate_transportation_pilot_modernization_path_contract(root: &Path) -> Result<(), String> {
+    for path in [
+        TRANSPORTATION_PILOT_MODERNIZATION_PATH_CONTRACT_JSON_PATH,
+        TRANSPORTATION_PILOT_MODERNIZATION_PATH_CONTRACT_SCHEMA_PATH,
+        TRANSPORTATION_PILOT_MODERNIZATION_PATH_CONTRACT_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing transportation modernization contract artifact: {path}"
+            ));
+        }
+    }
+
+    let text =
+        fs::read_to_string(root.join(TRANSPORTATION_PILOT_MODERNIZATION_PATH_CONTRACT_JSON_PATH))
+            .map_err(|e| e.to_string())?;
+    let contract: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&contract, "record_id")?
+        != "transportation-pilot-modernization-path-contract:v1"
+        || string_field(&contract, "record_family")?
+            != "transportation_pilot_modernization_path_contract"
+        || int_field(&contract, "pulse")? != 93
+        || string_field(&contract, "selected_pilot_decision_path")?
+            != PILOT_LANE_SELECTION_DECISION_JSON_PATH
+        || string_field(&contract, "source_plan_path")?
+            != TRANSPORTATION_PILOT_SOURCE_PLAN_JSON_PATH
+        || string_field(&contract, "baseline_path_contract_path")?
+            != TRANSPORTATION_PILOT_BASELINE_PATH_CONTRACT_JSON_PATH
+        || string_field(&contract, "floor_indicator_contract_path")?
+            != TRANSPORTATION_PILOT_FLOOR_INDICATOR_CONTRACT_JSON_PATH
+        || string_field(&contract, "technology_transition_operating_model_path")?
+            != TECHNOLOGY_TRANSITION_OPERATING_MODEL_JSON_PATH
+        || string_field(&contract, "program_lane_target_cost_contract_path")?
+            != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(
+            &contract,
+            "deterministic_annual_update_simulator_contract_path",
+        )? != DETERMINISTIC_ANNUAL_UPDATE_SIMULATOR_CONTRACT_JSON_PATH
+        || string_field(&contract, "phase_plan_path")?
+            != "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md"
+    {
+        return Err(
+            "transportation modernization contract identity or governing paths failed".to_string(),
+        );
+    }
+    if !string_field(&contract, "source_custody_status")?.contains("no_new_source_bytes_captured") {
+        return Err("transportation modernization source custody status failed".to_string());
+    }
+
+    let selected = contract
+        .get("selected_pilot")
+        .ok_or("transportation modernization selected pilot")?;
+    if string_field(selected, "candidate_id")? != "transportation_asset_maintenance_and_safety"
+        || string_field(selected, "lane_id")? != "transportation-infrastructure"
+    {
+        return Err("transportation modernization selected pilot failed".to_string());
+    }
+
+    let boundary = string_field(&contract, "non_claim_boundary")?;
+    for required in [
+        "transportation pilot modernization path contract",
+        "not a modernization result",
+        "technology-savings claim",
+        "productivity finding",
+        "completed baseline path",
+        "floor pass finding",
+        "simulator run",
+        "target-cost selection",
+        "rate calculation",
+        "rate publication",
+        "public rate card",
+        "tax proposal",
+        "savings estimate",
+        "waste finding",
+        "fraud finding",
+        "department-cut instruction",
+        "solver result",
+        "stress path",
+        "balanced-budget claim",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!(
+                "transportation modernization boundary missing {required}"
+            ));
+        }
+    }
+
+    let policy = contract
+        .get("modernization_policy")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation modernization policy")?;
+    for flag in [
+        "technology_is_transition_path_not_automatic_cut",
+        "productivity_credit_requires_same_service_or_better",
+        "floor_pass_required_before_lower_cost_use",
+        "transition_costs_positive_outlays",
+        "implementation_admin_costs_positive_outlays",
+        "no_headcount_or_department_cut_instruction",
+        "no_savings_without_measured_net_effect",
+        "missing_values_remain_null",
+        "blocked_gates_remain_false",
+    ] {
+        if policy.get(flag).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "transportation modernization policy flag {flag} failed"
+            ));
+        }
+    }
+
+    let technology_text =
+        fs::read_to_string(root.join(TECHNOLOGY_TRANSITION_OPERATING_MODEL_JSON_PATH))
+            .map_err(|e| e.to_string())?;
+    let technology: serde_json::Value =
+        serde_json::from_str(&technology_text).map_err(|e| e.to_string())?;
+    let technology_boundary = string_field(&technology, "non_claim_boundary")?;
+    if !technology_boundary.contains("not a technology-savings claim")
+        || !technology_boundary.contains("department-cut instruction")
+    {
+        return Err("technology transition model boundary must remain linked".to_string());
+    }
+
+    let segments = contract
+        .get("required_intervention_segments")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("transportation modernization segments")?;
+    let observed_segments = segments
+        .iter()
+        .map(|row| string_field(row, "segment_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_segments = BTreeSet::from([
+        "asset_inventory_and_condition_data".to_string(),
+        "project_delivery_and_permitting_controls".to_string(),
+        "predictive_maintenance_and_operations".to_string(),
+        "safety_targeting_and_network_design".to_string(),
+    ]);
+    if observed_segments != expected_segments {
+        return Err("transportation modernization segment set failed".to_string());
+    }
+    for segment in segments {
+        if string_field(segment, "public_label")?.is_empty()
+            || string_field(segment, "purpose")?.is_empty()
+            || string_field(segment, "status")? != "planned_not_scored"
+            || !segment
+                .get("central_effect_millions")
+                .is_some_and(serde_json::Value::is_null)
+            || !segment
+                .get("transition_cost_millions")
+                .is_some_and(serde_json::Value::is_null)
+            || !segment
+                .get("net_effect_millions")
+                .is_some_and(serde_json::Value::is_null)
+            || segment
+                .get("productivity_credit_allowed")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+        {
+            return Err(
+                "transportation modernization segment values must remain blocked".to_string(),
+            );
+        }
+        if segment
+            .get("required_cost_fields")
+            .and_then(serde_json::Value::as_array)
+            .is_none_or(|items| items.is_empty())
+            || segment
+                .get("required_effect_fields")
+                .and_then(serde_json::Value::as_array)
+                .is_none_or(|items| items.is_empty())
+        {
+            return Err(
+                "transportation modernization segment cost/effect fields missing".to_string(),
+            );
+        }
+    }
+
+    let requirements = contract
+        .get("required_modernization_record_fields")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("transportation modernization record requirements")?;
+    let observed_requirements = requirements
+        .iter()
+        .map(|row| string_field(row, "field_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    for required in [
+        "segment_id",
+        "fiscal_year",
+        "policy_instrument",
+        "implementation_admin_outlays_millions",
+        "transition_cost_millions",
+        "monitoring_enforcement_cost_millions",
+        "gross_effect_millions",
+        "net_effect_millions",
+        "utilization_or_volume_response",
+        "vendor_or_procurement_response",
+        "workforce_transition_effect",
+        "service_level_effect",
+        "floor_pass_link",
+        "source_id",
+        "raw_source_path",
+        "raw_byte_count",
+        "raw_sha256",
+    ] {
+        if !observed_requirements.contains(required) {
+            return Err(format!(
+                "transportation modernization field missing {required}"
+            ));
+        }
+    }
+    for requirement in requirements {
+        if requirement
+            .get("required")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+            || !requirement
+                .get("initial_value")
+                .is_some_and(serde_json::Value::is_null)
+        {
+            return Err(
+                "transportation modernization requirements must be required and null".to_string(),
+            );
+        }
+    }
+
+    let scenario = contract
+        .get("scenario_linkage")
+        .ok_or("transportation modernization scenario linkage")?;
+    for field in [
+        "current_law_modernization_delta_millions",
+        "central_modernization_effect_millions",
+        "stress_modernization_effect_millions",
+    ] {
+        if !scenario.get(field).is_some_and(serde_json::Value::is_null) {
+            return Err(format!(
+                "transportation modernization scenario field {field} must remain null"
+            ));
+        }
+    }
+    for flag in [
+        "stress_path_contract_required",
+        "stress_must_be_adverse_realization_of_same_policy",
+        "aggressive_price_reduction_is_not_stress",
+    ] {
+        if scenario.get(flag).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "transportation modernization scenario flag {flag} failed"
+            ));
+        }
+    }
+
+    let gates = contract
+        .get("blocked_gates")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation modernization blocked gates")?;
+    if gates
+        .iter()
+        .any(|(_, value)| value.as_bool() != Some(false))
+    {
+        return Err("transportation modernization blocked gates must be false".to_string());
+    }
+
+    if contract
+        .get("modernization_records")
+        .and_then(serde_json::Value::as_array)
+        .is_none_or(|rows| !rows.is_empty())
+    {
+        return Err("transportation modernization records must remain empty".to_string());
+    }
+
+    let blockers = contract
+        .get("blocking_conditions")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("transportation modernization blockers")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    for required in [
+        "source_bytes_not_captured",
+        "source_metadata_missing",
+        "sha256_missing",
+        "baseline_path_incomplete",
+        "floor_thresholds_not_set",
+        "floor_passes_not_recorded",
+        "modernization_records_missing",
+        "transition_costs_missing",
+        "behavior_and_procurement_response_missing",
+        "same_service_or_better_not_verified",
+        "stress_path_missing",
+        "simulator_not_run",
+    ] {
+        if !blockers.contains(required) {
+            return Err(format!(
+                "transportation modernization blocker missing {required}"
+            ));
+        }
+    }
+
+    let outputs = contract
+        .get("output_placeholders")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation modernization outputs")?;
+    for (field, value) in outputs {
+        if !value.is_null() {
+            return Err(format!(
+                "transportation modernization output {field} must remain null"
+            ));
+        }
+    }
+
+    let claims = contract
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation modernization claims")?;
+    for (field, value) in claims {
+        let observed = value
+            .as_bool()
+            .ok_or("transportation modernization claim boolean must be bool")?;
+        if field == "modernization_contract_published" {
+            if !observed {
+                return Err("transportation modernization contract flag must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!(
+                "transportation modernization public claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader =
+        fs::read_to_string(root.join(TRANSPORTATION_PILOT_MODERNIZATION_PATH_CONTRACT_READER_PATH))
+            .map_err(|e| e.to_string())?;
+    for required in [
+        TRANSPORTATION_PILOT_MODERNIZATION_PATH_CONTRACT_JSON_PATH,
+        "not a modernization result",
+        "technology-savings claim",
+        "productivity finding",
+        "simulator run",
+        "target-cost selection",
+        "rate calculation",
+        "savings estimate",
+        "waste finding",
+        "fraud finding",
+        "department-cut instruction",
+        "stress path",
+        "balanced-budget claim",
+        "Technology is a transition path, not an automatic cut",
+        "Productivity credit requires same service or better",
+        "asset inventory and condition data",
+        "project delivery and permitting controls",
+        "predictive maintenance and operations",
+        "safety targeting and network design",
+        "Central effect, transition cost, and net effect remain null",
+        "Productivity credit remains false",
+        "raw byte count, and raw SHA-256",
+        "Stress must later be an adverse realization of the same policy",
+        "not an aggressive price reduction",
+        "Only the modernization contract is published",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!(
+                "transportation modernization reader missing {required}"
+            ));
+        }
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -15846,6 +16218,12 @@ mod global_country_comparison_tests {
     fn transportation_pilot_floor_indicator_contract_keeps_thresholds_and_claims_blocked() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_transportation_pilot_floor_indicator_contract(&root).unwrap();
+    }
+
+    #[test]
+    fn transportation_pilot_modernization_path_contract_blocks_productivity_credit() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_transportation_pilot_modernization_path_contract(&root).unwrap();
     }
 
     #[test]

@@ -107,6 +107,14 @@ source custody and threshold decisions exist, and leaves simulator, target-cost,
 rate, savings, waste, fraud, technology-savings, solver, and balanced-budget
 claims blocked.
 
+`transportation_pilot_modernization_path_contract.v1.draft.json` defines the
+modernization-path requirements for the transportation pilot. It treats
+technology as a transition path rather than an automatic cut, keeps all
+productivity and fiscal effects null, requires transition/admin/monitoring
+costs and same-service-or-better evidence before credit, and leaves simulator,
+target-cost, rate, savings, waste, fraud, technology-savings, solver, stress,
+and balanced-budget claims blocked.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is
