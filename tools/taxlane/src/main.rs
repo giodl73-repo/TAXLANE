@@ -367,6 +367,11 @@ const TRANSPORTATION_PILOT_BASELINE_PATH_CONTRACT_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/transportation_pilot_baseline_path_contract.schema.md";
 const TRANSPORTATION_PILOT_BASELINE_PATH_CONTRACT_READER_PATH: &str =
     "docs/reading/transportation-pilot-baseline-path-contract.md";
+const TRANSPORTATION_PILOT_FLOOR_INDICATOR_CONTRACT_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/transportation_pilot_floor_indicator_contract.v1.draft.json";
+const TRANSPORTATION_PILOT_FLOOR_INDICATOR_CONTRACT_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/transportation_pilot_floor_indicator_contract.schema.md";
+const TRANSPORTATION_PILOT_FLOOR_INDICATOR_CONTRACT_READER_PATH: &str =
+    "docs/reading/transportation-pilot-floor-indicator-contract.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10880,6 +10885,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_pilot_lane_selection_decision(root)?;
     validate_transportation_pilot_source_plan(root)?;
     validate_transportation_pilot_baseline_path_contract(root)?;
+    validate_transportation_pilot_floor_indicator_contract(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -15373,6 +15379,351 @@ fn validate_transportation_pilot_baseline_path_contract(root: &Path) -> Result<(
     Ok(())
 }
 
+fn validate_transportation_pilot_floor_indicator_contract(root: &Path) -> Result<(), String> {
+    for path in [
+        TRANSPORTATION_PILOT_FLOOR_INDICATOR_CONTRACT_JSON_PATH,
+        TRANSPORTATION_PILOT_FLOOR_INDICATOR_CONTRACT_SCHEMA_PATH,
+        TRANSPORTATION_PILOT_FLOOR_INDICATOR_CONTRACT_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing transportation floor indicator contract artifact: {path}"
+            ));
+        }
+    }
+
+    let text =
+        fs::read_to_string(root.join(TRANSPORTATION_PILOT_FLOOR_INDICATOR_CONTRACT_JSON_PATH))
+            .map_err(|e| e.to_string())?;
+    let contract: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&contract, "record_id")? != "transportation-pilot-floor-indicator-contract:v1"
+        || string_field(&contract, "record_family")?
+            != "transportation_pilot_floor_indicator_contract"
+        || int_field(&contract, "pulse")? != 92
+        || string_field(&contract, "selected_pilot_decision_path")?
+            != PILOT_LANE_SELECTION_DECISION_JSON_PATH
+        || string_field(&contract, "source_plan_path")?
+            != TRANSPORTATION_PILOT_SOURCE_PLAN_JSON_PATH
+        || string_field(&contract, "baseline_path_contract_path")?
+            != TRANSPORTATION_PILOT_BASELINE_PATH_CONTRACT_JSON_PATH
+        || string_field(&contract, "transportation_depth_card_path")?
+            != TRANSPORTATION_DEPTH_CARD_JSON_PATH
+        || string_field(&contract, "program_lane_target_cost_contract_path")?
+            != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&contract, "international_comparator_target_rubric_path")?
+            != INTERNATIONAL_COMPARATOR_TARGET_RUBRIC_JSON_PATH
+        || string_field(
+            &contract,
+            "deterministic_annual_update_simulator_contract_path",
+        )? != DETERMINISTIC_ANNUAL_UPDATE_SIMULATOR_CONTRACT_JSON_PATH
+        || string_field(&contract, "phase_plan_path")?
+            != "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md"
+    {
+        return Err("transportation floor contract identity or governing paths failed".to_string());
+    }
+    if !string_field(&contract, "source_custody_status")?.contains("no_new_source_bytes_captured") {
+        return Err("transportation floor source custody status failed".to_string());
+    }
+
+    let selected = contract
+        .get("selected_pilot")
+        .ok_or("transportation floor selected pilot")?;
+    if string_field(selected, "candidate_id")? != "transportation_asset_maintenance_and_safety"
+        || string_field(selected, "lane_id")? != "transportation-infrastructure"
+    {
+        return Err("transportation floor selected pilot failed".to_string());
+    }
+
+    let boundary = string_field(&contract, "non_claim_boundary")?;
+    for required in [
+        "transportation pilot floor indicator contract",
+        "not a floor threshold decision",
+        "floor pass finding",
+        "completed baseline path",
+        "simulator run",
+        "target-cost selection",
+        "rate calculation",
+        "rate publication",
+        "public rate card",
+        "tax proposal",
+        "savings estimate",
+        "waste finding",
+        "fraud finding",
+        "department-cut instruction",
+        "technology-savings claim",
+        "solver result",
+        "modernization path",
+        "stress path",
+        "balanced-budget claim",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!("transportation floor boundary missing {required}"));
+        }
+    }
+
+    let policy = contract
+        .get("floor_policy")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation floor policy")?;
+    for flag in [
+        "all_lower_cost_scenarios_must_pass_floors",
+        "floor_failure_blocks_target_cost",
+        "missing_values_remain_null",
+        "blocked_gates_remain_false",
+        "international_differences_not_savings",
+        "no_fraud_inference",
+        "federal_state_local_translation_required",
+    ] {
+        if policy.get(flag).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("transportation floor policy flag {flag} failed"));
+        }
+    }
+    for flag in ["thresholds_set", "floor_passes_recorded"] {
+        if policy.get(flag).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "transportation floor policy flag {flag} must remain false"
+            ));
+        }
+    }
+
+    let families = contract
+        .get("required_floor_families")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("transportation floor families")?;
+    let observed_families = families
+        .iter()
+        .map(|row| string_field(row, "floor_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_families = BTreeSet::from([
+        "access_coverage".to_string(),
+        "quality_safety".to_string(),
+        "equity_distribution".to_string(),
+        "adequacy_resilience".to_string(),
+        "delivery_feasibility".to_string(),
+        "asset_condition_lane_specific".to_string(),
+    ]);
+    if observed_families != expected_families {
+        return Err("transportation floor family set failed".to_string());
+    }
+    for family in families {
+        if string_field(family, "public_label")?.is_empty()
+            || string_field(family, "purpose")?.is_empty()
+            || string_field(family, "status")? != "planned_not_thresholded"
+            || !family
+                .get("threshold_value")
+                .is_some_and(serde_json::Value::is_null)
+            || !family
+                .get("observed_value")
+                .is_some_and(serde_json::Value::is_null)
+            || family.get("passed").and_then(serde_json::Value::as_bool) != Some(false)
+        {
+            return Err("transportation floor family values must remain blocked".to_string());
+        }
+        if family
+            .get("planned_indicators")
+            .and_then(serde_json::Value::as_array)
+            .is_none_or(|items| items.is_empty())
+            || family
+                .get("required_source_families")
+                .and_then(serde_json::Value::as_array)
+                .is_none_or(|items| items.is_empty())
+        {
+            return Err(
+                "transportation floor family indicators or source families missing".to_string(),
+            );
+        }
+    }
+
+    let source_plan_text =
+        fs::read_to_string(root.join(TRANSPORTATION_PILOT_SOURCE_PLAN_JSON_PATH))
+            .map_err(|e| e.to_string())?;
+    let source_plan: serde_json::Value =
+        serde_json::from_str(&source_plan_text).map_err(|e| e.to_string())?;
+    let source_plan_floors = source_plan
+        .get("floor_indicator_families_planned")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("transportation source plan floor families")?
+        .iter()
+        .map(|row| string_field(row, "floor_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    for required in [
+        "access",
+        "quality_safety",
+        "equity",
+        "adequacy_resilience",
+        "delivery_feasibility",
+        "asset_condition_lane_specific",
+    ] {
+        if !source_plan_floors.contains(required) {
+            return Err(format!(
+                "transportation source plan floor family missing {required}"
+            ));
+        }
+    }
+
+    let requirements = contract
+        .get("indicator_record_requirements")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("transportation floor indicator requirements")?;
+    let observed_requirements = requirements
+        .iter()
+        .map(|row| string_field(row, "field_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    for required in [
+        "floor_id",
+        "indicator_id",
+        "source_family_id",
+        "source_id",
+        "retrieval_date",
+        "raw_source_path",
+        "raw_byte_count",
+        "raw_sha256",
+        "period",
+        "unit",
+        "perimeter",
+        "observed_value",
+        "threshold_value",
+        "comparison_direction",
+        "passed",
+        "missingness_reason",
+        "federal_state_local_translation_status",
+    ] {
+        if !observed_requirements.contains(required) {
+            return Err(format!(
+                "transportation floor indicator field missing {required}"
+            ));
+        }
+    }
+    for requirement in requirements {
+        if requirement
+            .get("required")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+            || !requirement
+                .get("initial_value")
+                .is_some_and(serde_json::Value::is_null)
+        {
+            return Err(
+                "transportation floor indicator requirements must be required and null".to_string(),
+            );
+        }
+    }
+
+    let gates = contract
+        .get("blocked_gates")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation floor blocked gates")?;
+    if gates
+        .iter()
+        .any(|(_, value)| value.as_bool() != Some(false))
+    {
+        return Err("transportation floor blocked gates must be false".to_string());
+    }
+
+    if contract
+        .get("indicator_records")
+        .and_then(serde_json::Value::as_array)
+        .is_none_or(|rows| !rows.is_empty())
+    {
+        return Err("transportation floor indicator records must remain empty".to_string());
+    }
+
+    let blockers = contract
+        .get("blocking_conditions")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("transportation floor blockers")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    for required in [
+        "source_bytes_not_captured",
+        "source_metadata_missing",
+        "sha256_missing",
+        "indicator_records_missing",
+        "thresholds_not_set",
+        "floor_passes_not_recorded",
+        "federal_state_local_translation_missing",
+        "baseline_path_incomplete",
+        "modernization_path_missing",
+        "stress_path_missing",
+        "simulator_not_run",
+    ] {
+        if !blockers.contains(required) {
+            return Err(format!("transportation floor blocker missing {required}"));
+        }
+    }
+
+    let outputs = contract
+        .get("output_placeholders")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation floor outputs")?;
+    for (field, value) in outputs {
+        if !value.is_null() {
+            return Err(format!(
+                "transportation floor output {field} must remain null"
+            ));
+        }
+    }
+
+    let claims = contract
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation floor claims")?;
+    for (field, value) in claims {
+        let observed = value
+            .as_bool()
+            .ok_or("transportation floor claim boolean must be bool")?;
+        if field == "floor_indicator_contract_published" {
+            if !observed {
+                return Err("transportation floor contract flag must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!(
+                "transportation floor public claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader =
+        fs::read_to_string(root.join(TRANSPORTATION_PILOT_FLOOR_INDICATOR_CONTRACT_READER_PATH))
+            .map_err(|e| e.to_string())?;
+    for required in [
+        TRANSPORTATION_PILOT_FLOOR_INDICATOR_CONTRACT_JSON_PATH,
+        "not a floor threshold decision",
+        "floor pass finding",
+        "simulator run",
+        "target-cost selection",
+        "rate calculation",
+        "savings estimate",
+        "waste finding",
+        "fraud finding",
+        "technology-savings claim",
+        "balanced-budget claim",
+        "transportation asset maintenance and safety",
+        "Every lower-cost scenario must pass",
+        "access and coverage",
+        "quality and safety",
+        "equity and distribution",
+        "adequacy and resilience",
+        "delivery feasibility",
+        "transportation asset condition",
+        "No thresholds are set here",
+        "No floor pass finding is made here",
+        "Missing values remain null and blocked gates remain false",
+        "raw byte count, raw SHA-256",
+        "federal/state/local translation status",
+        "International transportation differences are not savings",
+        "No fraud inference is allowed",
+        "Only the floor indicator contract is published",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("transportation floor reader missing {required}"));
+        }
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -15489,6 +15840,12 @@ mod global_country_comparison_tests {
     fn transportation_pilot_baseline_path_contract_keeps_rows_empty_and_claims_blocked() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_transportation_pilot_baseline_path_contract(&root).unwrap();
+    }
+
+    #[test]
+    fn transportation_pilot_floor_indicator_contract_keeps_thresholds_and_claims_blocked() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_transportation_pilot_floor_indicator_contract(&root).unwrap();
     }
 
     #[test]

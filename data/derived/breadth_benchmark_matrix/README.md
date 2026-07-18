@@ -100,6 +100,13 @@ baseline rows empty until source custody is captured, and leaves simulator,
 target-cost, rate, savings, waste, fraud, technology-savings, solver, floor, and
 balanced-budget claims blocked.
 
+`transportation_pilot_floor_indicator_contract.v1.draft.json` defines the
+required outcome-floor indicator families for the transportation pilot. It sets
+no floor thresholds, records no floor passes, keeps indicator rows empty until
+source custody and threshold decisions exist, and leaves simulator, target-cost,
+rate, savings, waste, fraud, technology-savings, solver, and balanced-budget
+claims blocked.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is
