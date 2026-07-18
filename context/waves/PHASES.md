@@ -4,6 +4,7 @@ Work is organized into small waves and pulses.
 
 ## Active wave
 
+- `2026-07-18-adaptive-rate-performance-system` (next-phase plan reviewed; contract-building phase ready)
 - `2026-07-12-breadth-depth-benchmark-matrix` (breadth closed at 17/17; prioritized depth and benchmark work active)
 - `2026-06-28-efficiency-pressure-system` (pulses 01-04 done; attach reviewed evidence one lever at a time)
 - `2026-06-28-contribution-benefit-alignment` (pulses 01-12 done; source remaining lane-specific denominators before adding amounts)
