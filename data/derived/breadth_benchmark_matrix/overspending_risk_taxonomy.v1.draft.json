@@ -1,0 +1,210 @@
+{
+  "record_id": "overspending-risk-taxonomy:v1",
+  "record_family": "overspending_risk_taxonomy",
+  "version": "v1.draft",
+  "status": "draft_taxonomy_no_findings",
+  "pulse": 83,
+  "adaptive_rate_system_contract_path": "data/derived/breadth_benchmark_matrix/adaptive_rate_system_contract.v1.draft.json",
+  "phase_plan_path": "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md",
+  "source_custody_status": "derived_from_existing_repo_custodied_records_no_new_external_request",
+  "non_claim_boundary": "This is an overspending-risk taxonomy, not a waste finding, fraud finding, recoverable-savings estimate, causal-savings estimate, budget score, or department-cut instruction. Overspending risk means review needed, not proven waste.",
+  "signal_families": [
+    {
+      "signal_id": "cost_growth",
+      "description": "Cost growth above historical, baseline, or matched peer range.",
+      "allowed_initial_class": "descriptive_anomaly",
+      "disallowed_inference": "Does not prove waste, fraud, recoverability, or savings."
+    },
+    {
+      "signal_id": "unit_cost",
+      "description": "Unit cost rises without matched service-volume or complexity explanation.",
+      "allowed_initial_class": "efficiency_pressure",
+      "disallowed_inference": "Does not prove a lower target cost without service-floor and causal evidence."
+    },
+    {
+      "signal_id": "outcome_mismatch",
+      "description": "Spending rises while matched outcome, access, quality, or timeliness measures are flat or worse.",
+      "allowed_initial_class": "efficiency_pressure",
+      "disallowed_inference": "Does not prove agency fault or savings."
+    },
+    {
+      "signal_id": "administrative_load",
+      "description": "High manual processing, overhead, or administrative burden relative to a matched delivery task.",
+      "allowed_initial_class": "operations_review_candidate",
+      "disallowed_inference": "Does not prove automation savings before transition costs and floors are modeled."
+    },
+    {
+      "signal_id": "procurement_control",
+      "description": "Delay, overrun, cancellation, rebaseline, or delivery-risk pattern.",
+      "allowed_initial_class": "control_weakness",
+      "disallowed_inference": "Does not prove recoverable savings without contract, schedule, and remedy lineage."
+    },
+    {
+      "signal_id": "payment_integrity",
+      "description": "Improper-payment estimate, methodology gap, overpayment sample, or corrective-action gap.",
+      "allowed_initial_class": "control_weakness",
+      "disallowed_inference": "Never infer fraud or savings from an improper-payment estimate alone."
+    },
+    {
+      "signal_id": "technology_gap",
+      "description": "Manual or legacy workflow where validated modernization may improve productivity.",
+      "allowed_initial_class": "technology_transition_candidate",
+      "disallowed_inference": "Does not prove a cut or savings until implementation cost, adoption, security, fallback, measured productivity, and floors pass."
+    }
+  ],
+  "allowed_classes": [
+    {
+      "class_id": "descriptive_anomaly",
+      "public_label": "Descriptive anomaly",
+      "claim_permission": "internal_or_public_context_only",
+      "required_evidence": [
+        "source_custody",
+        "matched_period",
+        "matched_measure_definition",
+        "comparison_or_baseline_documented"
+      ],
+      "public_claim_allowed": false
+    },
+    {
+      "class_id": "efficiency_pressure",
+      "public_label": "Efficiency pressure",
+      "claim_permission": "review_needed_not_savings",
+      "required_evidence": [
+        "source_custody",
+        "matched_cost_or_unit_measure",
+        "matched_output_or_outcome_measure",
+        "service_floor_relevance_documented"
+      ],
+      "public_claim_allowed": false
+    },
+    {
+      "class_id": "operations_review_candidate",
+      "public_label": "Operations review candidate",
+      "claim_permission": "workflow_review_needed",
+      "required_evidence": [
+        "source_custody",
+        "workflow_boundary",
+        "manual_workload_or_admin_cost_measure",
+        "technology_or_process_comparator"
+      ],
+      "public_claim_allowed": false
+    },
+    {
+      "class_id": "control_weakness",
+      "public_label": "Control weakness",
+      "claim_permission": "control_review_needed",
+      "required_evidence": [
+        "source_custody",
+        "control_requirement",
+        "observed_gap_or_methodology_gap",
+        "period_and_program_scope"
+      ],
+      "public_claim_allowed": false
+    },
+    {
+      "class_id": "recoverability_candidate",
+      "public_label": "Recoverability candidate",
+      "claim_permission": "not_recoverable_savings_until_same_cohort_collection_lineage",
+      "required_evidence": [
+        "source_custody",
+        "same_cohort_payment_or_contract_lineage",
+        "debt_or_remedy_authority",
+        "appeal_or_dispute_status",
+        "collection_or_remedy_status",
+        "administrative_cost"
+      ],
+      "public_claim_allowed": false
+    },
+    {
+      "class_id": "causal_savings_candidate",
+      "public_label": "Causal savings candidate",
+      "claim_permission": "not_budget_savings_until_policy_score",
+      "required_evidence": [
+        "source_custody",
+        "specific_policy_instrument",
+        "causal_prevention_or_behavior_model",
+        "implementation_cost",
+        "outcome_floors_passed",
+        "policy_specific_score_provenance"
+      ],
+      "public_claim_allowed": false
+    },
+    {
+      "class_id": "blocked_no_claim",
+      "public_label": "Blocked / no claim",
+      "claim_permission": "no_public_substantive_claim",
+      "required_evidence": [],
+      "public_claim_allowed": false
+    }
+  ],
+  "transition_rules": [
+    {
+      "from_class": "descriptive_anomaly",
+      "to_class": "efficiency_pressure",
+      "required_closures": [
+        "matched_cost_or_unit_measure",
+        "matched_output_or_outcome_measure"
+      ]
+    },
+    {
+      "from_class": "efficiency_pressure",
+      "to_class": "causal_savings_candidate",
+      "required_closures": [
+        "specific_policy_instrument",
+        "behavior_model",
+        "implementation_cost",
+        "outcome_floors_passed",
+        "policy_specific_score_provenance"
+      ]
+    },
+    {
+      "from_class": "control_weakness",
+      "to_class": "recoverability_candidate",
+      "required_closures": [
+        "same_cohort_lineage",
+        "debt_or_remedy_authority",
+        "appeal_status",
+        "collection_or_remedy_status",
+        "administrative_cost"
+      ]
+    },
+    {
+      "from_class": "operations_review_candidate",
+      "to_class": "causal_savings_candidate",
+      "required_closures": [
+        "technology_transition_contract",
+        "measured_productivity",
+        "implementation_cost",
+        "security_privacy_fallback_plan",
+        "outcome_floors_passed",
+        "policy_specific_score_provenance"
+      ]
+    }
+  ],
+  "hard_prohibitions": {
+    "fraud_from_international_comparison": false,
+    "fraud_from_improper_payment_estimate": false,
+    "savings_from_improper_payment_estimate_alone": false,
+    "savings_from_peer_gap_alone": false,
+    "recoverable_savings_without_same_cohort_collection_lineage": false,
+    "technology_savings_without_transition_costs_and_floor_results": false,
+    "department_cut_from_risk_signal": false
+  },
+  "output_placeholders": {
+    "published_waste_findings": null,
+    "published_fraud_findings": null,
+    "published_recoverable_savings": null,
+    "published_causal_savings": null,
+    "budget_score": null,
+    "department_cut_instruction": null
+  },
+  "claim_booleans": {
+    "waste_finding_published": false,
+    "fraud_finding_published": false,
+    "recoverable_savings_published": false,
+    "causal_savings_published": false,
+    "budget_score_published": false,
+    "department_cut_instruction_published": false,
+    "public_rate_effect_published": false
+  }
+}

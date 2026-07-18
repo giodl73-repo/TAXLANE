@@ -315,6 +315,11 @@ const ADAPTIVE_RATE_SYSTEM_CONTRACT_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/adaptive_rate_system_contract.schema.md";
 const ADAPTIVE_RATE_SYSTEM_CONTRACT_READER_PATH: &str =
     "docs/reading/adaptive-rate-system-contract.md";
+const OVERSPENDING_RISK_TAXONOMY_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/overspending_risk_taxonomy.v1.draft.json";
+const OVERSPENDING_RISK_TAXONOMY_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/overspending_risk_taxonomy.schema.md";
+const OVERSPENDING_RISK_TAXONOMY_READER_PATH: &str = "docs/reading/overspending-risk-taxonomy.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10819,6 +10824,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_balanced_rate_readiness_gate(root)?;
     validate_final_closure_readiness_gate(root)?;
     validate_adaptive_rate_system_contract(root)?;
+    validate_overspending_risk_taxonomy(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -12902,6 +12908,194 @@ fn validate_adaptive_rate_system_contract(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_overspending_risk_taxonomy(root: &Path) -> Result<(), String> {
+    for path in [
+        OVERSPENDING_RISK_TAXONOMY_JSON_PATH,
+        OVERSPENDING_RISK_TAXONOMY_SCHEMA_PATH,
+        OVERSPENDING_RISK_TAXONOMY_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing overspending-risk artifact: {path}"));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(OVERSPENDING_RISK_TAXONOMY_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let taxonomy: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+    if string_field(&taxonomy, "record_id")? != "overspending-risk-taxonomy:v1"
+        || string_field(&taxonomy, "record_family")? != "overspending_risk_taxonomy"
+        || int_field(&taxonomy, "pulse")? != 83
+        || string_field(&taxonomy, "adaptive_rate_system_contract_path")?
+            != ADAPTIVE_RATE_SYSTEM_CONTRACT_JSON_PATH
+        || string_field(&taxonomy, "phase_plan_path")?
+            != "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md"
+    {
+        return Err("overspending-risk identity or governing paths failed".to_string());
+    }
+    if !root.join(ADAPTIVE_RATE_SYSTEM_CONTRACT_JSON_PATH).exists() {
+        return Err("overspending-risk taxonomy must link Pulse 82 contract".to_string());
+    }
+    if !string_field(&taxonomy, "source_custody_status")?.contains("no_new_external_request") {
+        return Err("overspending-risk custody status must prohibit external requests".to_string());
+    }
+    let boundary = string_field(&taxonomy, "non_claim_boundary")?;
+    for required in [
+        "overspending-risk taxonomy, not a waste finding",
+        "fraud finding",
+        "recoverable-savings estimate",
+        "budget score",
+        "Overspending risk means review needed, not proven waste",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!("overspending-risk boundary missing {required}"));
+        }
+    }
+
+    let signals = taxonomy
+        .get("signal_families")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("overspending-risk signal families")?;
+    let observed_signals = signals
+        .iter()
+        .map(|row| string_field(row, "signal_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_signals = BTreeSet::from([
+        "cost_growth".to_string(),
+        "unit_cost".to_string(),
+        "outcome_mismatch".to_string(),
+        "administrative_load".to_string(),
+        "procurement_control".to_string(),
+        "payment_integrity".to_string(),
+        "technology_gap".to_string(),
+    ]);
+    if observed_signals != expected_signals {
+        return Err("overspending-risk signal family set failed".to_string());
+    }
+    for signal in signals {
+        if string_field(signal, "description")?.is_empty()
+            || string_field(signal, "allowed_initial_class")?.is_empty()
+            || !string_field(signal, "disallowed_inference")?.contains("Does not")
+                && !string_field(signal, "disallowed_inference")?.contains("Never")
+        {
+            return Err("overspending-risk signal boundary failed".to_string());
+        }
+    }
+
+    let classes = taxonomy
+        .get("allowed_classes")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("overspending-risk classes")?;
+    let observed_classes = classes
+        .iter()
+        .map(|row| string_field(row, "class_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_classes = BTreeSet::from([
+        "descriptive_anomaly".to_string(),
+        "efficiency_pressure".to_string(),
+        "operations_review_candidate".to_string(),
+        "control_weakness".to_string(),
+        "recoverability_candidate".to_string(),
+        "causal_savings_candidate".to_string(),
+        "blocked_no_claim".to_string(),
+    ]);
+    if observed_classes != expected_classes {
+        return Err("overspending-risk class set failed".to_string());
+    }
+    for class in classes {
+        if class
+            .get("public_claim_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+            || string_field(class, "claim_permission")?.is_empty()
+        {
+            return Err("overspending-risk class public claim gate failed".to_string());
+        }
+    }
+
+    let transitions = taxonomy
+        .get("transition_rules")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("overspending-risk transition rules")?;
+    if transitions.len() < 4 {
+        return Err("overspending-risk transition rules incomplete".to_string());
+    }
+    for transition in transitions {
+        let closures = transition
+            .get("required_closures")
+            .and_then(serde_json::Value::as_array)
+            .ok_or("overspending-risk transition closures")?;
+        if string_field(transition, "from_class")?.is_empty()
+            || string_field(transition, "to_class")?.is_empty()
+            || closures.is_empty()
+        {
+            return Err("overspending-risk transition rule failed".to_string());
+        }
+    }
+
+    let prohibitions = taxonomy
+        .get("hard_prohibitions")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("overspending-risk hard prohibitions")?;
+    for required in [
+        "fraud_from_international_comparison",
+        "fraud_from_improper_payment_estimate",
+        "savings_from_improper_payment_estimate_alone",
+        "savings_from_peer_gap_alone",
+        "recoverable_savings_without_same_cohort_collection_lineage",
+        "technology_savings_without_transition_costs_and_floor_results",
+        "department_cut_from_risk_signal",
+    ] {
+        if prohibitions
+            .get(required)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "overspending-risk prohibition {required} must be false"
+            ));
+        }
+    }
+
+    let outputs = taxonomy
+        .get("output_placeholders")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("overspending-risk outputs")?;
+    for (field, value) in outputs {
+        if !value.is_null() {
+            return Err(format!("overspending-risk output {field} must remain null"));
+        }
+    }
+    let claims = taxonomy
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("overspending-risk claim booleans")?;
+    if claims
+        .iter()
+        .any(|(_, value)| value.as_bool() != Some(false))
+    {
+        return Err("overspending-risk claim booleans must all remain false".to_string());
+    }
+
+    let reader = fs::read_to_string(root.join(OVERSPENDING_RISK_TAXONOMY_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        OVERSPENDING_RISK_TAXONOMY_JSON_PATH,
+        "This is an overspending-risk taxonomy, not a waste finding, fraud finding, recoverable-savings estimate, causal-savings estimate, budget score, or department-cut instruction.",
+        "Overspending risk means review needed, not proven waste.",
+        "no fraud inference from an international comparison",
+        "no savings credit from an improper-payment estimate alone",
+        "no recoverable-savings claim without same-cohort collection lineage",
+        "no technology-savings claim without transition costs and floor results",
+        "All public finding, score, savings, and department-cut outputs remain null.",
+        "Every claim boolean remains false.",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("overspending-risk reader missing {required}"));
+        }
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -12964,6 +13158,12 @@ mod global_country_comparison_tests {
     fn adaptive_rate_system_contract_blocks_unready_rate_outputs() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_adaptive_rate_system_contract(&root).unwrap();
+    }
+
+    #[test]
+    fn overspending_risk_taxonomy_blocks_waste_fraud_and_savings_shortcuts() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_overspending_risk_taxonomy(&root).unwrap();
     }
 
     #[test]

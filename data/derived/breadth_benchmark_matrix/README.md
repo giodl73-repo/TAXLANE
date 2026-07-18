@@ -49,6 +49,12 @@ defining the annual update lifecycle, assigned-base requirements, denominator
 definitions, and separate rate-calculation and rate-publication gates. Every
 rate output remains null and every public claim gate remains false.
 
+`overspending_risk_taxonomy.v1.draft.json` defines safe review-needed signal
+classes for cost growth, unit cost, outcomes, administration, procurement,
+payment integrity, and technology gaps. It blocks waste, fraud, recoverability,
+savings, budget-score, and department-cut claims unless separate positive
+evidence exists.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is
