@@ -43,6 +43,11 @@ explainers. They should keep three labels visible:
 | `final-closure-readiness-gate.md` | Pulse 81 no-closure gate: blocks final public closure until distributional, behavioral, macro, interaction, reserve, review, language, and rate-card work exists. |
 | `adaptive-rate-system-contract.md` | Pulse 82 contract: separates rate calculation from publication and keeps adaptive-rate outputs blocked until assigned-base, distributional, behavioral, macro, interaction, and review gates pass. |
 | `overspending-risk-taxonomy.md` | Pulse 83 taxonomy: classifies review-needed overspending risk while blocking waste, fraud, recoverability, savings, budget-score, and department-cut claims. |
+| `technology-transition-operating-model.md` | Pulse 84 contract: treats modernization as a transition path with implementation, training, cybersecurity, privacy, fallback, service-risk, measured-productivity, stress, and floor gates. |
+| `public-rate-card-v2-contract.md` | Pulse 85 contract: defines valid and blocked public-card fields while keeping statutory-rate and effective-rate publication blocked. |
+| `pilot-lane-selection-gate.md` | Pulse 86 gate: lists initial simulator candidates while keeping final pilot selection blocked pending role review. |
+| `deterministic-annual-update-simulator-contract.md` | Pulse 87 contract: requires baseline, modernization, and stress paths; prohibits optimization; and keeps simulator outputs null. |
+| `public-thesis-packet.md` | Pulse 88 packet: role-reviewed public explanation of what the adaptive-rate system can and cannot claim. |
 | `rate-change-worked-examples.md` | Three end-to-end examples of the rate-adjustment operating model (defense up, health down, Social Security cap lift). |
 | `budget-area-funding-explainer.md` | Lay distillation of the six panel-reviewed research papers: where the US over-funds (health), under-funds (family), funds by strategy (defense), runs a broken base (Social Security), and under-collects overall (revenue). Points to `docs/papers/`. |
 | `where-federal-money-goes.md` | Spending-side packet showing the largest FY2025 outlay categories, financing context, and safe accountability questions. |

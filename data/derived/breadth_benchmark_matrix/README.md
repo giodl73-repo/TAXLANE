@@ -74,6 +74,13 @@ narrow annual-update simulator contract. It requires baseline, modernization,
 and stress paths, prohibits optimization, keeps funds separate, and blocks
 lower-rate recognition unless all floors pass.
 
+`public_thesis_packet.v1.draft.json` defines the role-reviewed public thesis
+packet for the adaptive-rate phase. It permits explanatory design language only:
+overspending risk rather than unsupported waste, technology transition rather
+than automatic cuts, blocked rates as valid outcomes, and no statutory-rate,
+effective-rate, savings, waste, fraud, department-cut, technology-savings, pilot,
+solver, public-card, or balanced-budget claim.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is

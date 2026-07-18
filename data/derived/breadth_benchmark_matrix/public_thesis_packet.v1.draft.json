@@ -1,0 +1,153 @@
+{
+  "record_id": "public-thesis-packet:v1",
+  "record_family": "public_thesis_packet",
+  "version": "v1.draft",
+  "status": "draft_role_reviewed_public_language_packet_no_public_claims",
+  "pulse": 88,
+  "adaptive_rate_system_contract_path": "data/derived/breadth_benchmark_matrix/adaptive_rate_system_contract.v1.draft.json",
+  "overspending_risk_taxonomy_path": "data/derived/breadth_benchmark_matrix/overspending_risk_taxonomy.v1.draft.json",
+  "technology_transition_operating_model_path": "data/derived/breadth_benchmark_matrix/technology_transition_operating_model.v1.draft.json",
+  "public_rate_card_v2_contract_path": "data/derived/breadth_benchmark_matrix/public_rate_card_v2_contract.v1.draft.json",
+  "pilot_lane_selection_gate_path": "data/derived/breadth_benchmark_matrix/pilot_lane_selection_gate.v1.draft.json",
+  "deterministic_annual_update_simulator_contract_path": "data/derived/breadth_benchmark_matrix/deterministic_annual_update_simulator_contract.v1.draft.json",
+  "role_review_path": "reviews/2026-07-18-public-thesis-packet-role-review.md",
+  "phase_plan_path": "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md",
+  "source_custody_status": "derived_from_existing_repo_custodied_records_no_new_external_request",
+  "public_thesis": "TAXLANE can build a transparent fiscal operating model that calculates effective funding rates only after assigned bases, behavior, incidence, distribution, administration, interactions, outcome floors, fund accounting, reserves, emergencies, and endogenous net interest reconcile. Before those gates pass, the system can publish what is known, what is blocked, and what evidence is still needed.",
+  "non_claim_boundary": "This is a role-reviewed public thesis packet, not a statutory-rate proposal, effective-rate publication, public rate card, tax proposal, savings estimate, waste finding, fraud finding, department-cut instruction, technology-savings claim, solver result, pilot selection, or balanced-budget claim. It explains the operating-system thesis and blockers only.",
+  "public_language_rules": [
+    {
+      "rule_id": "overspending_risk_not_waste",
+      "required_phrase": "overspending risk",
+      "prohibited_phrase": "waste",
+      "rule": "Use overspending risk, review-needed signal, or blocked/no-claim language unless separate positive evidence supports a stronger finding."
+    },
+    {
+      "rule_id": "improper_payment_not_fraud",
+      "required_phrase": "improper-payment or methodology gap",
+      "prohibited_phrase": "fraud",
+      "rule": "Never infer fraud from an international comparison, benchmark gap, or improper-payment estimate."
+    },
+    {
+      "rule_id": "technology_transition_timing",
+      "required_phrase": "technology is a transition path",
+      "prohibited_phrase": "automatic cut",
+      "rule": "Technology modernization begins with implementation, training, cybersecurity, privacy, fallback, and service-risk costs. Lower funding may be recognized only after measured productivity and floors pass."
+    },
+    {
+      "rule_id": "blocked_rates_are_valid_output",
+      "required_phrase": "blocked rates",
+      "prohibited_phrase": "failed model",
+      "rule": "Explain that not calculated and blocked are first-class outcomes when assigned-base, scoring, distribution, or floor evidence is missing."
+    },
+    {
+      "rule_id": "fairness_requires_distribution",
+      "required_phrase": "fairness requires burden and distribution analysis",
+      "prohibited_phrase": "fair because it balances",
+      "rule": "Fair rates require legal and economic perimeter, incidence, burden, distribution by income, compliance load, and beneficiary floor protection."
+    },
+    {
+      "rule_id": "balanced_budget_blocked",
+      "required_phrase": "balanced-budget claim remains blocked",
+      "prohibited_phrase": "balanced budget achieved",
+      "rule": "Do not claim balance until every budget row, fund, offset, reserve, emergency rule, interaction score, distribution score, macro feedback, endogenous interest path, and unrounded deficit gap reconcile."
+    }
+  ],
+  "public_packet_sections": [
+    {
+      "section_id": "what_taxlane_can_show_now",
+      "claim_level": "explanatory_design",
+      "allowed_content": [
+        "current boundaries and blockers",
+        "why effective rates require assigned bases and reconciliation",
+        "why overspending risk signals are review screens",
+        "why modernization is modeled as a transition path",
+        "why some lanes remain not calculated or blocked"
+      ],
+      "numeric_outputs_allowed": false
+    },
+    {
+      "section_id": "what_taxlane_cannot_claim_yet",
+      "claim_level": "blocked_public_claims",
+      "allowed_content": [
+        "no statutory rates",
+        "no effective-rate publication",
+        "no public rate cards",
+        "no savings estimate",
+        "no waste or fraud finding",
+        "no department cut",
+        "no technology-savings credit",
+        "no balanced-budget claim"
+      ],
+      "numeric_outputs_allowed": false
+    },
+    {
+      "section_id": "how_rates_eventually_update",
+      "claim_level": "operating_protocol",
+      "allowed_content": [
+        "annual baseline freeze",
+        "official cost, receipt, debt, and fund updates",
+        "outcome and performance updates",
+        "overspending-risk screens",
+        "technology-transition updates",
+        "distribution, behavior, macro, and interaction scoring",
+        "endogenous net-interest recomputation",
+        "fund, reserve, offset, emergency, deficit-gap, and rounding reconciliation",
+        "role-reviewed public rate cards only where gates pass"
+      ],
+      "numeric_outputs_allowed": false
+    }
+  ],
+  "role_review_summary": [
+    {"role_id": "T-1 Taxpayer Advocate", "result": "pass_with_guardrail", "finding": "Public thesis keeps taxpayer fairness tied to burden, distribution, compliance, and service floors."},
+    {"role_id": "T-2 Budget Accountant", "result": "pass_with_guardrail", "finding": "Public thesis preserves all-receipt and residual-general-fund denominators, fund separateness, offsets, and explicit deficit-gap treatment."},
+    {"role_id": "T-3 Source Custodian", "result": "pass_with_p1_blocker", "finding": "No rate, risk, technology, savings, or balanced-budget claim may publish without custody, matched period, and evidence grade."},
+    {"role_id": "T-4 Public Goods Steward", "result": "pass_with_guardrail", "finding": "Public thesis distinguishes public goods, transfers, financing costs, service commitments, and modernization costs."},
+    {"role_id": "T-5 Program Beneficiary", "result": "pass_with_p1_blocker", "finding": "Any lower-cost or lower-rate recognition remains blocked unless access, quality, equity, adequacy/resilience, delivery feasibility, and lane-specific floors pass."},
+    {"role_id": "T-6 Compliance Burden", "result": "pass_with_p1_blocker", "finding": "Assigned-base rates remain blocked until taxpayer, employer, agency, filing, withholding, avoidance, and compliance effects are modeled."},
+    {"role_id": "T-7 Fiscal Sustainability", "result": "pass_with_p1_blocker", "finding": "Balanced-budget language remains blocked until endogenous interest, reserves, emergencies, macro feedback, interaction scoring, and the unrounded deficit gap reconcile."},
+    {"role_id": "T-8 Reform Skeptic", "result": "pass_with_p1_blocker", "finding": "The packet demotes proof rhetoric into an auditable thesis and forces blocked/no-claim outcomes to remain visible."}
+  ],
+  "blocking_conditions": [
+    "assigned_base_models_missing",
+    "behavior_incidence_distribution_administration_missing",
+    "interaction_scoring_missing",
+    "macro_feedback_missing",
+    "official_source_custody_missing_for_future_claims",
+    "outcome_floors_missing_or_false",
+    "pilot_lane_not_selected",
+    "simulator_not_run",
+    "fund_reserve_emergency_interest_reconciliation_missing",
+    "public_rate_cards_not_role_reviewed",
+    "unrounded_deficit_gap_not_zero"
+  ],
+  "output_placeholders": {
+    "statutory_rate": null,
+    "effective_rate": null,
+    "public_rate_card": null,
+    "target_cost": null,
+    "gross_savings": null,
+    "net_savings": null,
+    "waste_finding": null,
+    "fraud_finding": null,
+    "department_cut": null,
+    "technology_savings": null,
+    "balanced_budget_result": null,
+    "pilot_lane": null,
+    "simulator_result": null
+  },
+  "claim_booleans": {
+    "statutory_rate_published": false,
+    "effective_rate_published": false,
+    "tax_proposal_published": false,
+    "public_rate_card_published": false,
+    "savings_claim_published": false,
+    "waste_finding_published": false,
+    "fraud_finding_published": false,
+    "department_cut_instruction_published": false,
+    "technology_savings_claim_published": false,
+    "pilot_selected": false,
+    "simulator_run_published": false,
+    "balanced_budget_claim_published": false
+  }
+}

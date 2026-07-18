@@ -341,6 +341,13 @@ const DETERMINISTIC_ANNUAL_UPDATE_SIMULATOR_CONTRACT_JSON_PATH: &str = "data/der
 const DETERMINISTIC_ANNUAL_UPDATE_SIMULATOR_CONTRACT_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/deterministic_annual_update_simulator_contract.schema.md";
 const DETERMINISTIC_ANNUAL_UPDATE_SIMULATOR_CONTRACT_READER_PATH: &str =
     "docs/reading/deterministic-annual-update-simulator-contract.md";
+const PUBLIC_THESIS_PACKET_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/public_thesis_packet.v1.draft.json";
+const PUBLIC_THESIS_PACKET_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/public_thesis_packet.schema.md";
+const PUBLIC_THESIS_PACKET_READER_PATH: &str = "docs/reading/public-thesis-packet.md";
+const PUBLIC_THESIS_PACKET_ROLE_REVIEW_PATH: &str =
+    "reviews/2026-07-18-public-thesis-packet-role-review.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10850,6 +10857,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_public_rate_card_v2_contract(root)?;
     validate_pilot_lane_selection_gate(root)?;
     validate_deterministic_annual_update_simulator_contract(root)?;
+    validate_public_thesis_packet(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -14116,6 +14124,264 @@ fn validate_deterministic_annual_update_simulator_contract(root: &Path) -> Resul
     Ok(())
 }
 
+fn validate_public_thesis_packet(root: &Path) -> Result<(), String> {
+    for path in [
+        PUBLIC_THESIS_PACKET_JSON_PATH,
+        PUBLIC_THESIS_PACKET_SCHEMA_PATH,
+        PUBLIC_THESIS_PACKET_READER_PATH,
+        PUBLIC_THESIS_PACKET_ROLE_REVIEW_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing public thesis packet artifact: {path}"));
+        }
+    }
+
+    let text =
+        fs::read_to_string(root.join(PUBLIC_THESIS_PACKET_JSON_PATH)).map_err(|e| e.to_string())?;
+    let packet: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&packet, "record_id")? != "public-thesis-packet:v1"
+        || string_field(&packet, "record_family")? != "public_thesis_packet"
+        || int_field(&packet, "pulse")? != 88
+        || string_field(&packet, "adaptive_rate_system_contract_path")?
+            != ADAPTIVE_RATE_SYSTEM_CONTRACT_JSON_PATH
+        || string_field(&packet, "overspending_risk_taxonomy_path")?
+            != OVERSPENDING_RISK_TAXONOMY_JSON_PATH
+        || string_field(&packet, "technology_transition_operating_model_path")?
+            != TECHNOLOGY_TRANSITION_OPERATING_MODEL_JSON_PATH
+        || string_field(&packet, "public_rate_card_v2_contract_path")?
+            != PUBLIC_RATE_CARD_V2_CONTRACT_JSON_PATH
+        || string_field(&packet, "pilot_lane_selection_gate_path")?
+            != PILOT_LANE_SELECTION_GATE_JSON_PATH
+        || string_field(
+            &packet,
+            "deterministic_annual_update_simulator_contract_path",
+        )? != DETERMINISTIC_ANNUAL_UPDATE_SIMULATOR_CONTRACT_JSON_PATH
+        || string_field(&packet, "role_review_path")? != PUBLIC_THESIS_PACKET_ROLE_REVIEW_PATH
+        || string_field(&packet, "phase_plan_path")?
+            != "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md"
+    {
+        return Err("public thesis packet identity or governing paths failed".to_string());
+    }
+    if !string_field(&packet, "source_custody_status")?.contains("no_new_external_request") {
+        return Err(
+            "public thesis packet custody status must prohibit external requests".to_string(),
+        );
+    }
+
+    let thesis = string_field(&packet, "public_thesis")?;
+    for required in [
+        "calculates effective funding rates only after",
+        "assigned bases",
+        "behavior",
+        "incidence",
+        "distribution",
+        "administration",
+        "interactions",
+        "outcome floors",
+        "endogenous net interest",
+        "what is blocked",
+    ] {
+        if !thesis.contains(required) {
+            return Err(format!("public thesis missing {required}"));
+        }
+    }
+
+    let boundary = string_field(&packet, "non_claim_boundary")?;
+    for required in [
+        "role-reviewed public thesis packet",
+        "statutory-rate proposal",
+        "effective-rate publication",
+        "public rate card",
+        "tax proposal",
+        "savings estimate",
+        "waste finding",
+        "fraud finding",
+        "department-cut instruction",
+        "technology-savings claim",
+        "solver result",
+        "pilot selection",
+        "balanced-budget claim",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!("public thesis boundary missing {required}"));
+        }
+    }
+
+    let rules = packet
+        .get("public_language_rules")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("public thesis language rules")?;
+    let observed_rules = rules
+        .iter()
+        .map(|row| string_field(row, "rule_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_rules = BTreeSet::from([
+        "overspending_risk_not_waste".to_string(),
+        "improper_payment_not_fraud".to_string(),
+        "technology_transition_timing".to_string(),
+        "blocked_rates_are_valid_output".to_string(),
+        "fairness_requires_distribution".to_string(),
+        "balanced_budget_blocked".to_string(),
+    ]);
+    if observed_rules != expected_rules {
+        return Err("public thesis language rule set failed".to_string());
+    }
+    for rule in rules {
+        if string_field(rule, "required_phrase")?.is_empty()
+            || string_field(rule, "prohibited_phrase")?.is_empty()
+            || string_field(rule, "rule")?.is_empty()
+        {
+            return Err("public thesis language rule fields missing".to_string());
+        }
+    }
+
+    let sections = packet
+        .get("public_packet_sections")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("public thesis sections")?;
+    let observed_sections = sections
+        .iter()
+        .map(|row| string_field(row, "section_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    for required in [
+        "what_taxlane_can_show_now",
+        "what_taxlane_cannot_claim_yet",
+        "how_rates_eventually_update",
+    ] {
+        if !observed_sections.contains(required) {
+            return Err(format!("public thesis section missing {required}"));
+        }
+    }
+    for section in sections {
+        if section
+            .get("numeric_outputs_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err("public thesis sections must prohibit numeric outputs".to_string());
+        }
+    }
+
+    let review = packet
+        .get("role_review_summary")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("public thesis role review")?;
+    if review.len() != 8 {
+        return Err("public thesis role review must cover eight roles".to_string());
+    }
+    let observed_roles = review
+        .iter()
+        .map(|row| string_field(row, "role_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    for required in [
+        "T-1 Taxpayer Advocate",
+        "T-2 Budget Accountant",
+        "T-3 Source Custodian",
+        "T-4 Public Goods Steward",
+        "T-5 Program Beneficiary",
+        "T-6 Compliance Burden",
+        "T-7 Fiscal Sustainability",
+        "T-8 Reform Skeptic",
+    ] {
+        if !observed_roles.contains(required) {
+            return Err(format!("public thesis role missing {required}"));
+        }
+    }
+    for row in review {
+        let result = string_field(row, "result")?;
+        if !result.starts_with("pass_with_") || string_field(row, "finding")?.is_empty() {
+            return Err("public thesis role review must pass with guardrails/blockers".to_string());
+        }
+    }
+
+    let blockers = packet
+        .get("blocking_conditions")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("public thesis blockers")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    for required in [
+        "assigned_base_models_missing",
+        "behavior_incidence_distribution_administration_missing",
+        "outcome_floors_missing_or_false",
+        "pilot_lane_not_selected",
+        "simulator_not_run",
+        "public_rate_cards_not_role_reviewed",
+        "fund_reserve_emergency_interest_reconciliation_missing",
+        "unrounded_deficit_gap_not_zero",
+    ] {
+        if !blockers.contains(required) {
+            return Err(format!("public thesis blocker missing {required}"));
+        }
+    }
+
+    let outputs = packet
+        .get("output_placeholders")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("public thesis outputs")?;
+    for (field, value) in outputs {
+        if !value.is_null() {
+            return Err(format!("public thesis output {field} must remain null"));
+        }
+    }
+    let claims = packet
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("public thesis claim booleans")?;
+    if claims
+        .iter()
+        .any(|(_, value)| value.as_bool() != Some(false))
+    {
+        return Err("public thesis claim booleans must all remain false".to_string());
+    }
+
+    let reader = fs::read_to_string(root.join(PUBLIC_THESIS_PACKET_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        PUBLIC_THESIS_PACKET_JSON_PATH,
+        "calculates effective funding rates only after",
+        "This is a role-reviewed public thesis packet, not a statutory-rate proposal",
+        "overspending risk",
+        "improper-payment or methodology gap is not fraud",
+        "Technology is a transition path, not an automatic cut.",
+        "Blocked rates and not-calculated values are first-class public outcomes.",
+        "Fairness requires burden and distribution analysis",
+        "balanced-budget claim remains blocked",
+        "eight-role review passes this packet only as explanatory design",
+        "Every output placeholder remains null. Every claim boolean remains false.",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("public thesis reader missing {required}"));
+        }
+    }
+
+    let role_review = fs::read_to_string(root.join(PUBLIC_THESIS_PACKET_ROLE_REVIEW_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        "Approved as explanatory public-language design.",
+        "Not approved for statutory rates",
+        "T-1 Taxpayer Advocate",
+        "T-2 Budget Accountant",
+        "T-3 Source Custodian",
+        "T-4 Public Goods Steward",
+        "T-5 Program Beneficiary",
+        "T-6 Compliance Burden",
+        "T-7 Fiscal Sustainability",
+        "T-8 Reform Skeptic",
+        "Use \"overspending risk\" rather than unsupported \"waste.\"",
+        "Do not infer fraud",
+        "technology is a transition path",
+        "balanced-budget claim remains blocked",
+    ] {
+        if !role_review.contains(required) {
+            return Err(format!("public thesis role review missing {required}"));
+        }
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -14208,6 +14474,12 @@ mod global_country_comparison_tests {
     fn deterministic_annual_update_simulator_contract_blocks_unselected_runs() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_deterministic_annual_update_simulator_contract(&root).unwrap();
+    }
+
+    #[test]
+    fn public_thesis_packet_survives_role_review_without_public_claims() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_public_thesis_packet(&root).unwrap();
     }
 
     #[test]
