@@ -537,6 +537,14 @@ floor, transferability, and stability tests; sustained leaders are examples to
 study. Best-country and small-panel P85 targets are prohibited, and no existing
 ranking, efficiency, fraud, or savings gate opens.
 
+Pulse 70 (`pulses/pulse-70-program-lane-target-cost-contract.md`) defines the
+missing bridge from the 15 analytical comparison lanes to the 17-row FY2025
+budget-rate model. Each lane now declares its target-cost method, policy levers,
+outcome floors, federal translation, financing bases, and ten-year solver
+treatment. Revenue-solvency and payment integrity remain non-additive overlays;
+the two offset rows remain in final reconciliation. Every numeric target,
+balanced-rate, statutory-rate, and savings gate remains false.
+
 ## Design rules
 
 - Never invent an expected value for a policy-dependent lane.
@@ -556,5 +564,5 @@ git diff --check
 
 ## Current pulse
 
-`pulses/pulse-69-international-comparator-target-rubric.md` records the latest
+`pulses/pulse-70-program-lane-target-cost-contract.md` records the latest
 bounded slice and next decision gate.

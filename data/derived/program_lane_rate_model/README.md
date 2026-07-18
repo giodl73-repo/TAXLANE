@@ -48,6 +48,14 @@ the international evidence: `international-norm` for Health and Medicare (US spe
 otherwise. v1 does not yet quantify the adjusted target costs; it records the
 basis and direction.
 
+These June 2026 anchor labels predate the metric-specific comparator rubric and
+must not be read as approved targets. The governing bridge is now
+`data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json`:
+peer medians describe context, favorable quartiles are conditional scenario
+anchors, and no numeric target may be carried into this rate model until its
+outcome, transferability, federal-scope, scoring, and aggregate-balance gates
+pass.
+
 ## Solvency context (carried on every row)
 
 | Measure | FY2025 ($M) |

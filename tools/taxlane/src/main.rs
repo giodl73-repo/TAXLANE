@@ -740,6 +740,8 @@ const GLOBAL_COUNTRY_COMPARISON_READER_PATH: &str =
     "docs/reading/global-country-comparison-coverage.md";
 const INTERNATIONAL_COMPARATOR_TARGET_RUBRIC_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/international_comparator_target_rubric.v1.draft.json";
+const PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json";
 const OECD_COFOG_PANEL_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/oecd_cofog_country_panel.data2022.v1.draft.json";
 const OECD_COFOG_PANEL_SCHEMA_PATH: &str =
@@ -10097,6 +10099,443 @@ fn validate_international_comparator_target_rubric(root: &Path) -> Result<(), St
     Ok(())
 }
 
+fn validate_program_lane_target_cost_contract(root: &Path) -> Result<(), String> {
+    let text = fs::read_to_string(root.join(PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH)).map_err(
+        |err| format!("failed to read {PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH}: {err}"),
+    )?;
+    let contract: serde_json::Value = serde_json::from_str(&text).map_err(|err| {
+        format!("failed to parse {PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH}: {err}")
+    })?;
+
+    if string_field(&contract, "record_id")? != "rate-design:program-lane-target-cost-contract:v1"
+        || string_field(&contract, "record_family")? != "program_lane_target_cost_contract"
+        || string_field(&contract, "schema_version")? != "v1.draft"
+        || string_field(&contract, "as_of_date")? != "2026-07-17"
+        || number_field(&contract, "baseline_fiscal_year")? != 2025.0
+        || number_field(&contract, "comparison_lane_count")? != 15.0
+        || string_field(&contract, "status")? != "draft_design_contract_no_numeric_targets"
+    {
+        return Err(
+            "program lane target-cost contract identity, date, count, or status failed".to_string(),
+        );
+    }
+
+    let input_paths = contract
+        .get("input_paths")
+        .and_then(|value| value.as_object())
+        .ok_or("program lane target-cost contract needs input_paths")?;
+    let expected_input_paths = BTreeMap::from([
+        ("comparison_coverage", GLOBAL_COUNTRY_COMPARISON_JSON_PATH),
+        (
+            "target_rubric",
+            INTERNATIONAL_COMPARATOR_TARGET_RUBRIC_JSON_PATH,
+        ),
+        (
+            "rate_model",
+            "data/derived/program_lane_rate_model/program_lane_rate_model.fy2025.omb-fy2027-v1.draft.jsonl",
+        ),
+        (
+            "balance_guardrail",
+            "docs/research/2026-06-23-balance-rule-guardrail-spec.md",
+        ),
+        (
+            "rate_adjustment",
+            "docs/research/2026-06-24-rate-adjustment-operating-model.md",
+        ),
+    ]);
+    if input_paths.len() != expected_input_paths.len() {
+        return Err("program lane target-cost contract exact input path set failed".to_string());
+    }
+    for (field, expected_path) in &expected_input_paths {
+        let path = input_paths
+            .get(*field)
+            .and_then(|value| value.as_str())
+            .ok_or_else(|| format!("target-cost input path {field} must be a string"))?;
+        if path != *expected_path || !root.join(path).exists() {
+            return Err(format!(
+                "target-cost input path {field} is missing or does not match {expected_path}"
+            ));
+        }
+    }
+
+    let coverage_text = fs::read_to_string(root.join(GLOBAL_COUNTRY_COMPARISON_JSON_PATH))
+        .map_err(|err| format!("failed to read {GLOBAL_COUNTRY_COMPARISON_JSON_PATH}: {err}"))?;
+    let coverage: serde_json::Value = serde_json::from_str(&coverage_text)
+        .map_err(|err| format!("failed to parse {GLOBAL_COUNTRY_COMPARISON_JSON_PATH}: {err}"))?;
+    if string_field(&coverage, "rate_target_contract")?
+        != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+    {
+        return Err(
+            "global country comparison contract must link the program lane target-cost contract"
+                .to_string(),
+        );
+    }
+    let coverage_lane_ids: BTreeSet<String> = coverage
+        .get("lanes")
+        .and_then(|value| value.as_array())
+        .ok_or("global country comparison contract needs lanes")?
+        .iter()
+        .map(|lane| string_field(lane, "lane_id"))
+        .collect::<Result<_, _>>()?;
+
+    let rate_model_path = expected_input_paths["rate_model"];
+    let rate_rows = read_jsonl(root.join(rate_model_path))?;
+    let mut rate_row_ids = BTreeSet::new();
+    for row in &rate_rows {
+        let lane_id = string_field(row, "lane_id")?;
+        if !rate_row_ids.insert(lane_id.clone()) {
+            return Err(format!("duplicate program lane rate-model row {lane_id}"));
+        }
+    }
+    if rate_rows.len() != 17 || rate_row_ids.len() != 17 {
+        return Err(format!(
+            "program lane target-cost rate model must contain 17 unique rows, got {}",
+            rate_rows.len()
+        ));
+    }
+
+    let boundary = contract
+        .get("aggregate_boundary")
+        .ok_or("program lane target-cost contract needs aggregate_boundary")?;
+    if number_field(boundary, "analytic_lane_count")? != 15.0
+        || number_field(boundary, "budget_row_count")? != 17.0
+        || string_field(boundary, "balanced_status")? != "blocked"
+        || string_field(boundary, "mapping_rule")?.is_empty()
+    {
+        return Err("program lane target-cost aggregate boundary failed".to_string());
+    }
+    let string_set = |row: &serde_json::Value, field: &str| -> Result<BTreeSet<String>, String> {
+        row.get(field)
+            .and_then(|value| value.as_array())
+            .ok_or_else(|| format!("{field} must be an array"))?
+            .iter()
+            .map(|value| {
+                value
+                    .as_str()
+                    .filter(|text| !text.is_empty())
+                    .map(str::to_string)
+                    .ok_or_else(|| format!("{field} values must be nonempty strings"))
+            })
+            .collect()
+    };
+    let expected_omitted = BTreeSet::from([
+        "commerce-housing-credit".to_string(),
+        "undistributed-offsetting-receipts".to_string(),
+    ]);
+    if boundary
+        .get("omitted_budget_rows")
+        .and_then(|value| value.as_array())
+        .map(Vec::len)
+        != Some(2)
+        || boundary
+            .get("non_additive_analytic_lanes")
+            .and_then(|value| value.as_array())
+            .map(Vec::len)
+            != Some(2)
+        || string_set(boundary, "omitted_budget_rows")? != expected_omitted
+        || string_set(boundary, "non_additive_analytic_lanes")?
+            != BTreeSet::from([
+                "payment-integrity".to_string(),
+                "revenue-solvency".to_string(),
+            ])
+    {
+        return Err("program lane target-cost omitted or non-additive boundary failed".to_string());
+    }
+    if !expected_omitted.is_subset(&rate_row_ids) {
+        return Err(
+            "program lane target-cost omitted rows must resolve to rate-model rows".to_string(),
+        );
+    }
+
+    let expected_scenarios = BTreeSet::from([
+        "central_reform".to_string(),
+        "current_law".to_string(),
+        "stress".to_string(),
+    ]);
+    if contract
+        .get("required_scenarios")
+        .and_then(|value| value.as_array())
+        .map(Vec::len)
+        != Some(3)
+        || string_set(&contract, "required_scenarios")? != expected_scenarios
+    {
+        return Err("program lane target-cost exact scenario set failed".to_string());
+    }
+    let expected_floor_classes = BTreeSet::from([
+        "access_coverage".to_string(),
+        "adequacy_resilience".to_string(),
+        "equity_distribution".to_string(),
+        "fiscal_delivery_feasibility".to_string(),
+        "quality_safety".to_string(),
+    ]);
+    if contract
+        .get("mandatory_floor_classes")
+        .and_then(|value| value.as_array())
+        .map(Vec::len)
+        != Some(5)
+        || string_set(&contract, "mandatory_floor_classes")? != expected_floor_classes
+    {
+        return Err("program lane target-cost exact mandatory floor classes failed".to_string());
+    }
+    for field in ["common_rate_gates"] {
+        if string_set(&contract, field)?.is_empty() {
+            return Err(format!("program lane target-cost {field} must be nonempty"));
+        }
+    }
+    for field in [
+        "target_net_cost",
+        "receipt_share",
+        "statutory_or_effective_rate",
+        "balance_identity",
+    ] {
+        if string_field(
+            contract
+                .get("rate_definitions")
+                .ok_or("program lane target-cost needs rate_definitions")?,
+            field,
+        )?
+        .is_empty()
+        {
+            return Err(format!(
+                "program lane target-cost definition {field} is required"
+            ));
+        }
+    }
+
+    let expected_components: BTreeMap<&str, &[&str]> = BTreeMap::from([
+        ("agriculture", &["agriculture"][..]),
+        (
+            "disaster-resilience",
+            &["community-regional-development"][..],
+        ),
+        (
+            "education-workforce",
+            &["education-training-employment-social-services"][..],
+        ),
+        ("health-medicare", &["health", "medicare"][..]),
+        ("income-security-family", &["income-security"][..]),
+        ("international-affairs", &["international-affairs"][..]),
+        (
+            "justice-courts-public-safety",
+            &["justice-general-government"][..],
+        ),
+        ("national-defense", &["national-defense"][..]),
+        ("net-interest", &["net-interest"][..]),
+        ("payment-integrity", &[][..]),
+        ("revenue-solvency", &[][..]),
+        (
+            "science-energy-environment",
+            &[
+                "environment-energy-natural-resources",
+                "science-space-technology",
+            ][..],
+        ),
+        ("social-security", &["social-security"][..]),
+        ("transportation-infrastructure", &["transportation"][..]),
+        ("veterans", &["veterans"][..]),
+    ]);
+    let lanes = contract
+        .get("lanes")
+        .and_then(|value| value.as_array())
+        .ok_or("program lane target-cost contract needs lanes")?;
+    if lanes.len() != 15 {
+        return Err(format!(
+            "program lane target-cost contract must contain 15 lanes, got {}",
+            lanes.len()
+        ));
+    }
+    let mut observed_lane_ids = BTreeSet::new();
+    let mut mapped_rate_rows = BTreeSet::new();
+    for lane in lanes {
+        let lane_id = string_field(lane, "lane_id")?;
+        if !observed_lane_ids.insert(lane_id.clone()) {
+            return Err(format!("duplicate program lane target-cost lane {lane_id}"));
+        }
+        let components = string_set(lane, "rate_components")?;
+        let expected: BTreeSet<String> = expected_components
+            .get(lane_id.as_str())
+            .ok_or_else(|| format!("unexpected program lane target-cost lane {lane_id}"))?
+            .iter()
+            .map(|value| (*value).to_string())
+            .collect();
+        let component_count = lane
+            .get("rate_components")
+            .and_then(|value| value.as_array())
+            .map(Vec::len)
+            .ok_or_else(|| format!("{lane_id}: rate_components must be an array"))?;
+        if component_count != expected.len() || components != expected {
+            return Err(format!("{lane_id}: exact rate-component mapping failed"));
+        }
+        for component in &components {
+            if !rate_row_ids.contains(component) {
+                return Err(format!(
+                    "{lane_id}: rate component {component} does not resolve"
+                ));
+            }
+            if !mapped_rate_rows.insert(component.clone()) {
+                return Err(format!(
+                    "rate-model row {component} is mapped by more than one analytic lane"
+                ));
+            }
+        }
+
+        let role = string_field(lane, "budget_role")?;
+        if components.is_empty() {
+            let expected_role = match lane_id.as_str() {
+                "revenue-solvency" => "revenue",
+                "payment-integrity" => "cross_cutting_control",
+                _ => {
+                    return Err(format!(
+                        "{lane_id}: only revenue-solvency and payment-integrity may omit rate components"
+                    ));
+                }
+            };
+            if role != expected_role
+                || !string_set(boundary, "non_additive_analytic_lanes")?.contains(&lane_id)
+            {
+                return Err(format!(
+                    "{lane_id}: empty mapping must be a non-additive role"
+                ));
+            }
+        } else if role != "primary_outlay" && role != "financing_cost" {
+            return Err(format!(
+                "{lane_id}: mapped lane has unsupported budget role {role}"
+            ));
+        }
+
+        for field in [
+            "target_cost_method",
+            "comparator_role",
+            "directionality",
+            "federal_translation",
+            "solver_treatment",
+            "readiness_status",
+        ] {
+            if string_field(lane, field)?.is_empty() {
+                return Err(format!("{lane_id}: {field} must be nonempty"));
+            }
+        }
+        for field in ["policy_levers", "outcome_floors", "financing_bases"] {
+            if string_set(lane, field)?.is_empty() {
+                return Err(format!("{lane_id}: {field} must contain nonempty values"));
+            }
+        }
+        for field in ["target_cost_ready", "balanced_rate_ready"] {
+            if lane.get(field).and_then(|value| value.as_bool()) != Some(false) {
+                return Err(format!("{lane_id}: {field} must remain false"));
+            }
+        }
+    }
+    if observed_lane_ids != coverage_lane_ids {
+        return Err(
+            "program lane target-cost lane IDs must exactly match global coverage".to_string(),
+        );
+    }
+    let expected_mapped: BTreeSet<String> = rate_row_ids
+        .difference(&expected_omitted)
+        .cloned()
+        .collect();
+    if mapped_rate_rows != expected_mapped {
+        return Err(
+            "program lane target-cost mapped and omitted rate rows do not reconcile".to_string(),
+        );
+    }
+
+    let lane = |id: &str| {
+        lanes
+            .iter()
+            .find(|row| row.get("lane_id").and_then(|value| value.as_str()) == Some(id))
+            .ok_or_else(|| format!("missing program lane target-cost lane {id}"))
+    };
+    let interest = lane("net-interest")?;
+    if string_field(interest, "target_cost_method")?
+        != "endogenous_debt_stock_times_maturity_specific_rate_path"
+        || string_field(interest, "directionality")? != "endogenous_senior_claim"
+        || string_field(interest, "solver_treatment")?
+            != "recomputed_after_every_primary_balance_iteration"
+    {
+        return Err("net-interest must remain an endogenous senior financing claim".to_string());
+    }
+    let payment = lane("payment-integrity")?;
+    if string_field(payment, "directionality")? != "no_international_percentile_target"
+        || string_field(payment, "solver_treatment")?
+            != "no_savings_credit_without_causal_and_collection_lineage"
+        || !string_field(payment, "readiness_status")?.contains("savings_basis_blocked")
+    {
+        return Err("payment-integrity no-target and no-savings boundary failed".to_string());
+    }
+
+    let aggregate_readiness = contract
+        .get("aggregate_readiness")
+        .ok_or("program lane target-cost contract needs aggregate_readiness")?;
+    if aggregate_readiness
+        .get("current_cost_reconciled")
+        .and_then(|value| value.as_bool())
+        != Some(true)
+    {
+        return Err("program lane target-cost current costs must be reconciled".to_string());
+    }
+    for field in [
+        "target_outlays_reconciled",
+        "revenue_package_scored",
+        "interaction_score_available",
+        "distribution_score_available",
+        "macro_feedback_available",
+        "reserve_and_emergency_rules_parameterized",
+        "net_interest_endogenous",
+        "balanced_budget_claim_allowed",
+    ] {
+        if aggregate_readiness
+            .get(field)
+            .and_then(|value| value.as_bool())
+            != Some(false)
+        {
+            return Err(format!(
+                "program lane target-cost aggregate readiness {field} must remain false"
+            ));
+        }
+    }
+    if string_set(aggregate_readiness, "blockers")?.is_empty() {
+        return Err("program lane target-cost aggregate blockers must be nonempty".to_string());
+    }
+
+    let claim_gates = contract
+        .get("claim_gates")
+        .ok_or("program lane target-cost contract needs claim_gates")?;
+    for field in [
+        "numeric_target_costs_publicly_claimable",
+        "balanced_receipt_shares_publicly_claimable",
+        "statutory_rates_publicly_claimable",
+        "savings_publicly_claimable",
+    ] {
+        if claim_gates.get(field).and_then(|value| value.as_bool()) != Some(false) {
+            return Err(format!(
+                "program lane target-cost numeric claim gate {field} must remain false"
+            ));
+        }
+    }
+    if !string_field(claim_gates, "unlock_rule")?
+        .contains("a country spending gap alone cannot unlock a rate or savings claim")
+    {
+        return Err("program lane target-cost unlock boundary failed".to_string());
+    }
+
+    let solver = contract
+        .get("aggregate_solver")
+        .ok_or("program lane target-cost contract needs aggregate_solver")?;
+    if number_field(solver, "horizon_years")? != 10.0
+        || string_field(solver, "senior_claim")? != "net-interest"
+        || string_set(solver, "funds_kept_separate")?.is_empty()
+        || string_set(solver, "required_outputs")?.is_empty()
+        || string_field(solver, "iteration_rule")?.is_empty()
+        || string_field(solver, "rounding_rule")?.is_empty()
+    {
+        return Err("program lane target-cost aggregate solver boundary failed".to_string());
+    }
+
+    Ok(())
+}
+
 fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String> {
     let text = fs::read_to_string(root.join(GLOBAL_COUNTRY_COMPARISON_JSON_PATH))
         .map_err(|err| format!("failed to read {GLOBAL_COUNTRY_COMPARISON_JSON_PATH}: {err}"))?;
@@ -10360,6 +10799,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_pension_replacement_country_panel(root)?;
     validate_age_relative_poverty_country_panel(root)?;
     validate_international_comparator_target_rubric(root)?;
+    validate_program_lane_target_cost_contract(root)?;
 
     println!("validated {} global country comparison lanes", lanes.len());
     Ok(())
@@ -11776,6 +12216,12 @@ mod global_country_comparison_tests {
     fn international_comparator_rubric_preserves_selection_and_claim_boundaries() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_international_comparator_target_rubric(&root).unwrap();
+    }
+
+    #[test]
+    fn program_lane_target_cost_contract_preserves_mapping_and_claim_boundaries() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_program_lane_target_cost_contract(&root).unwrap();
     }
 }
 

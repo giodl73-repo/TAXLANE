@@ -24,6 +24,14 @@ favorable quartile only after outcome and transferability gates, and sustained
 high performers as examples rather than automatic targets. It blocks best-
 country and small-panel P85 targeting and preserves the causal savings firewall.
 
+`program_lane_target_cost_contract.v1.draft.json` defines the next bridge from
+comparison evidence to balanced rates across all 15 analytical lanes. It maps
+those lanes to the existing 17-row FY2025 rate model without treating revenue-
+solvency or payment integrity as additive spending and without dropping the two
+offset rows. Every lane declares a target-cost method, policy levers, outcome
+floors, federal translation, financing bases, and ten-year solver treatment.
+All numeric target and balanced-rate gates remain false.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is
@@ -343,4 +351,3 @@ measurement periods, the confirmed-fraud definition, the agency-recovery scope,
 and preserved nulls. It permits bounded source-labeled factual reporting only.
 Zero methodology components and fields close, program counts remain unchanged,
 and every scoring and claim gate stays blocked.
-
