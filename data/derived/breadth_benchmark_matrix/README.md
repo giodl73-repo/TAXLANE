@@ -87,6 +87,12 @@ work only. It does not run the simulator, set target costs, calculate rates,
 publish a public card, estimate savings, find waste or fraud, set floor
 thresholds, or make a balanced-budget claim.
 
+`transportation_pilot_source_plan.v1.draft.json` names official source families
+and custody requirements for the transportation pilot. It captures no source
+bytes, closes no custody, creates no baseline or floor thresholds, and keeps all
+target-cost, rate, savings, waste, fraud, technology-savings, simulator, solver,
+and balanced-budget claims blocked.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is

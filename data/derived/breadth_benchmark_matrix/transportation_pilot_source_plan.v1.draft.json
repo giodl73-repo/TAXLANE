@@ -1,0 +1,188 @@
+{
+  "record_id": "transportation-pilot-source-plan:v1",
+  "record_family": "transportation_pilot_source_plan",
+  "version": "v1.draft",
+  "status": "draft_source_plan_no_source_bytes_captured",
+  "pulse": 90,
+  "selected_pilot_decision_path": "data/derived/breadth_benchmark_matrix/pilot_lane_selection_decision.v1.draft.json",
+  "transportation_depth_card_path": "data/derived/breadth_benchmark_matrix/transportation_depth_card.fy2025.v1.draft.json",
+  "program_lane_target_cost_contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "deterministic_annual_update_simulator_contract_path": "data/derived/breadth_benchmark_matrix/deterministic_annual_update_simulator_contract.v1.draft.json",
+  "technology_transition_operating_model_path": "data/derived/breadth_benchmark_matrix/technology_transition_operating_model.v1.draft.json",
+  "phase_plan_path": "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md",
+  "source_custody_status": "source_plan_only_no_new_external_request_no_source_bytes_captured",
+  "selected_pilot": {
+    "candidate_id": "transportation_asset_maintenance_and_safety",
+    "lane_id": "transportation-infrastructure",
+    "scope": "transportation asset maintenance and safety pilot scaffold",
+    "source_plan_status": "planned_not_captured"
+  },
+  "non_claim_boundary": "This is a transportation pilot source plan, not captured source evidence, source custody closure, baseline path, floor threshold, modernization path, stress path, simulator run, target-cost selection, rate calculation, rate publication, public rate card, tax proposal, savings estimate, waste finding, fraud finding, department-cut instruction, technology-savings claim, solver result, or balanced-budget claim.",
+  "custody_requirements": {
+    "retrieval_date_required": true,
+    "source_url_required": true,
+    "publisher_required": true,
+    "vintage_required": true,
+    "raw_bytes_required": true,
+    "byte_count_required": true,
+    "sha256_required": true,
+    "local_raw_path_required": true,
+    "metadata_record_required": true,
+    "matched_period_unit_perimeter_required": true,
+    "missingness_disclosure_required": true,
+    "no_interpolation_without_model": true,
+    "custody_complete": false
+  },
+  "source_families": [
+    {
+      "family_id": "omb_federal_outlay_baseline",
+      "publisher_family": "Office of Management and Budget",
+      "planned_use": "Federal transportation function and subfunction current-law outlay baseline.",
+      "required_scope": ["function_400_transportation", "subfunction_401_ground", "subfunction_402_air", "subfunction_403_water", "subfunction_407_other"],
+      "matched_period_requirement": "fiscal_year",
+      "unit_requirement": "millions_of_dollars_unrounded_when_available",
+      "custody_status": "planned_not_captured",
+      "value_fields_initially_null": true
+    },
+    {
+      "family_id": "treasury_trust_fund_receipts_and_balances",
+      "publisher_family": "Department of the Treasury",
+      "planned_use": "Transportation trust-fund receipts, balances, outlays, transfers, and financing reconciliation.",
+      "required_scope": ["highway_trust_fund", "airport_and_airway_trust_fund", "explicit_general_fund_transfers", "offsets_or_collections"],
+      "matched_period_requirement": "fiscal_year",
+      "unit_requirement": "millions_of_dollars_unrounded_when_available",
+      "custody_status": "planned_not_captured",
+      "value_fields_initially_null": true
+    },
+    {
+      "family_id": "dot_budget_and_performance",
+      "publisher_family": "Department of Transportation",
+      "planned_use": "Program budget, performance, asset, safety, grant, project-delivery, and implementation context.",
+      "required_scope": ["fhwa", "fta", "faa", "fra", "marad", "ost"],
+      "matched_period_requirement": "fiscal_year_or_reported_program_year_with_mapping",
+      "unit_requirement": "program_reported_units_with_documented_conversion",
+      "custody_status": "planned_not_captured",
+      "value_fields_initially_null": true
+    },
+    {
+      "family_id": "fhwa_conditions_performance_and_bridge_pavement",
+      "publisher_family": "Federal Highway Administration",
+      "planned_use": "Highway, bridge, pavement, condition, performance, travel, safety exposure, and investment need context.",
+      "required_scope": ["asset_condition", "maintenance_backlog_or_need", "travel_exposure", "federal_aid_highway_scope"],
+      "matched_period_requirement": "reported_year_with_fiscal_mapping",
+      "unit_requirement": "asset_or_exposure_unit_native_to_source",
+      "custody_status": "planned_not_captured",
+      "value_fields_initially_null": true
+    },
+    {
+      "family_id": "nhtsa_and_bts_safety_reliability_access",
+      "publisher_family": "National Highway Traffic Safety Administration and Bureau of Transportation Statistics",
+      "planned_use": "Fatalities, injuries, exposure, reliability, mobility, access, and service-context indicators.",
+      "required_scope": ["fatalities", "injuries", "vehicle_miles_or_exposure", "reliability", "access_or_mobility"],
+      "matched_period_requirement": "calendar_year_or_reported_year_with_fiscal_mapping",
+      "unit_requirement": "native_count_rate_or_index_with_denominator",
+      "custody_status": "planned_not_captured",
+      "value_fields_initially_null": true
+    },
+    {
+      "family_id": "census_state_local_finance",
+      "publisher_family": "Census Bureau",
+      "planned_use": "State and local transportation capital, maintenance, operations, and own-source/user-financed context.",
+      "required_scope": ["state_government", "local_government", "transportation_or_highway_spending", "capital_current_split_when_available"],
+      "matched_period_requirement": "fiscal_year_or_census_finance_year_with_mapping",
+      "unit_requirement": "dollars_with_government_level_and_function_definition",
+      "custody_status": "planned_not_captured",
+      "value_fields_initially_null": true
+    },
+    {
+      "family_id": "gao_oig_project_delivery_controls",
+      "publisher_family": "Government Accountability Office and Department of Transportation Inspector General",
+      "planned_use": "Project delivery, oversight, schedule, cost-control, grant-management, and modernization risk context.",
+      "required_scope": ["project_delivery", "cost_control", "schedule_control", "oversight_recommendations", "implementation_risk"],
+      "matched_period_requirement": "report_date_and_review_period",
+      "unit_requirement": "finding_or_recommendation_metadata_not_savings",
+      "custody_status": "planned_not_captured",
+      "value_fields_initially_null": true
+    },
+    {
+      "family_id": "international_transport_forum_oecd_context",
+      "publisher_family": "International Transport Forum and OECD",
+      "planned_use": "International all-government transportation investment, maintenance, safety, reliability, and modal context only after scope matching.",
+      "required_scope": ["investment", "maintenance_if_available", "safety", "reliability_or_modal_context", "country_scope_definition"],
+      "matched_period_requirement": "calendar_year_or_source_period",
+      "unit_requirement": "percent_gdp_ppp_or_native_indicator_with_scope",
+      "custody_status": "planned_not_captured",
+      "value_fields_initially_null": true
+    }
+  ],
+  "matching_rules": {
+    "federal_state_local_translation_required": true,
+    "trust_funds_remain_separate": true,
+    "explicit_general_fund_transfers_required": true,
+    "credited_offsetting_collections_required": true,
+    "state_local_private_user_financed_activity_kept_contextual_until_translated": true,
+    "international_differences_not_savings": true,
+    "missing_values_remain_null": true,
+    "blocked_gates_remain_false": true
+  },
+  "floor_indicator_families_planned": [
+    {"floor_id": "access", "status": "planned_not_thresholded", "value": null, "passed": false},
+    {"floor_id": "quality_safety", "status": "planned_not_thresholded", "value": null, "passed": false},
+    {"floor_id": "equity", "status": "planned_not_thresholded", "value": null, "passed": false},
+    {"floor_id": "adequacy_resilience", "status": "planned_not_thresholded", "value": null, "passed": false},
+    {"floor_id": "delivery_feasibility", "status": "planned_not_thresholded", "value": null, "passed": false},
+    {"floor_id": "asset_condition_lane_specific", "status": "planned_not_thresholded", "value": null, "passed": false}
+  ],
+  "planned_downstream_contracts": [
+    {"contract_id": "baseline_path_contract", "path": null, "status": "not_created"},
+    {"contract_id": "floor_indicator_contract", "path": null, "status": "not_created"},
+    {"contract_id": "modernization_path_contract", "path": null, "status": "not_created"},
+    {"contract_id": "stress_path_contract", "path": null, "status": "not_created"}
+  ],
+  "blocking_conditions": [
+    "source_bytes_not_captured",
+    "source_metadata_missing",
+    "sha256_missing",
+    "matched_period_unit_perimeter_missing",
+    "federal_state_local_translation_missing",
+    "trust_fund_reconciliation_missing",
+    "baseline_path_missing",
+    "floor_thresholds_not_set",
+    "modernization_path_missing",
+    "stress_path_missing",
+    "simulator_not_run"
+  ],
+  "output_placeholders": {
+    "captured_source_manifest": null,
+    "baseline_path": null,
+    "floor_indicator_contract": null,
+    "modernization_path": null,
+    "stress_path": null,
+    "target_cost": null,
+    "effective_rate": null,
+    "savings_estimate": null,
+    "solver_result": null,
+    "balanced_budget_result": null
+  },
+  "claim_booleans": {
+    "source_plan_published": true,
+    "source_bytes_captured": false,
+    "source_custody_complete": false,
+    "baseline_path_published": false,
+    "floor_thresholds_set": false,
+    "modernization_path_published": false,
+    "stress_path_published": false,
+    "simulator_run_published": false,
+    "target_cost_published": false,
+    "statutory_rate_published": false,
+    "effective_rate_published": false,
+    "public_rate_card_published": false,
+    "tax_proposal_published": false,
+    "savings_claim_published": false,
+    "waste_finding_published": false,
+    "fraud_finding_published": false,
+    "department_cut_instruction_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  }
+}

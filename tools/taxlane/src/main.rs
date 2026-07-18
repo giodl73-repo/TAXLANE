@@ -356,6 +356,12 @@ const PILOT_LANE_SELECTION_DECISION_READER_PATH: &str =
     "docs/reading/pilot-lane-selection-decision.md";
 const PILOT_LANE_SELECTION_DECISION_ROLE_REVIEW_PATH: &str =
     "reviews/2026-07-18-pilot-lane-selection-decision-role-review.md";
+const TRANSPORTATION_PILOT_SOURCE_PLAN_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/transportation_pilot_source_plan.v1.draft.json";
+const TRANSPORTATION_PILOT_SOURCE_PLAN_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/transportation_pilot_source_plan.schema.md";
+const TRANSPORTATION_PILOT_SOURCE_PLAN_READER_PATH: &str =
+    "docs/reading/transportation-pilot-source-plan.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10867,6 +10873,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_deterministic_annual_update_simulator_contract(root)?;
     validate_public_thesis_packet(root)?;
     validate_pilot_lane_selection_decision(root)?;
+    validate_transportation_pilot_source_plan(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -14707,6 +14714,320 @@ fn validate_pilot_lane_selection_decision(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_transportation_pilot_source_plan(root: &Path) -> Result<(), String> {
+    for path in [
+        TRANSPORTATION_PILOT_SOURCE_PLAN_JSON_PATH,
+        TRANSPORTATION_PILOT_SOURCE_PLAN_SCHEMA_PATH,
+        TRANSPORTATION_PILOT_SOURCE_PLAN_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing transportation pilot source plan artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(TRANSPORTATION_PILOT_SOURCE_PLAN_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let plan: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&plan, "record_id")? != "transportation-pilot-source-plan:v1"
+        || string_field(&plan, "record_family")? != "transportation_pilot_source_plan"
+        || int_field(&plan, "pulse")? != 90
+        || string_field(&plan, "selected_pilot_decision_path")?
+            != PILOT_LANE_SELECTION_DECISION_JSON_PATH
+        || string_field(&plan, "transportation_depth_card_path")?
+            != TRANSPORTATION_DEPTH_CARD_JSON_PATH
+        || string_field(&plan, "program_lane_target_cost_contract_path")?
+            != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&plan, "deterministic_annual_update_simulator_contract_path")?
+            != DETERMINISTIC_ANNUAL_UPDATE_SIMULATOR_CONTRACT_JSON_PATH
+        || string_field(&plan, "technology_transition_operating_model_path")?
+            != TECHNOLOGY_TRANSITION_OPERATING_MODEL_JSON_PATH
+        || string_field(&plan, "phase_plan_path")?
+            != "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md"
+    {
+        return Err("transportation source plan identity or governing paths failed".to_string());
+    }
+    let custody_status = string_field(&plan, "source_custody_status")?;
+    if !custody_status.contains("no_new_external_request")
+        || !custody_status.contains("no_source_bytes_captured")
+    {
+        return Err("transportation source plan custody status failed".to_string());
+    }
+
+    let selected = plan
+        .get("selected_pilot")
+        .ok_or("transportation source plan selected pilot")?;
+    if string_field(selected, "candidate_id")? != "transportation_asset_maintenance_and_safety"
+        || string_field(selected, "lane_id")? != "transportation-infrastructure"
+        || string_field(selected, "source_plan_status")? != "planned_not_captured"
+    {
+        return Err("transportation source plan selected pilot failed".to_string());
+    }
+
+    let boundary = string_field(&plan, "non_claim_boundary")?;
+    for required in [
+        "transportation pilot source plan",
+        "not captured source evidence",
+        "source custody closure",
+        "baseline path",
+        "floor threshold",
+        "modernization path",
+        "stress path",
+        "simulator run",
+        "target-cost selection",
+        "rate calculation",
+        "rate publication",
+        "public rate card",
+        "tax proposal",
+        "savings estimate",
+        "waste finding",
+        "fraud finding",
+        "department-cut instruction",
+        "technology-savings claim",
+        "solver result",
+        "balanced-budget claim",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!(
+                "transportation source plan boundary missing {required}"
+            ));
+        }
+    }
+
+    let custody = plan
+        .get("custody_requirements")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation source plan custody requirements")?;
+    for flag in [
+        "retrieval_date_required",
+        "source_url_required",
+        "publisher_required",
+        "vintage_required",
+        "raw_bytes_required",
+        "byte_count_required",
+        "sha256_required",
+        "local_raw_path_required",
+        "metadata_record_required",
+        "matched_period_unit_perimeter_required",
+        "missingness_disclosure_required",
+        "no_interpolation_without_model",
+    ] {
+        if custody.get(flag).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "transportation source plan custody flag {flag} must be true"
+            ));
+        }
+    }
+    if custody
+        .get("custody_complete")
+        .and_then(serde_json::Value::as_bool)
+        != Some(false)
+    {
+        return Err("transportation source plan custody must remain incomplete".to_string());
+    }
+
+    let families = plan
+        .get("source_families")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("transportation source families")?;
+    let observed_families = families
+        .iter()
+        .map(|row| string_field(row, "family_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_families = BTreeSet::from([
+        "omb_federal_outlay_baseline".to_string(),
+        "treasury_trust_fund_receipts_and_balances".to_string(),
+        "dot_budget_and_performance".to_string(),
+        "fhwa_conditions_performance_and_bridge_pavement".to_string(),
+        "nhtsa_and_bts_safety_reliability_access".to_string(),
+        "census_state_local_finance".to_string(),
+        "gao_oig_project_delivery_controls".to_string(),
+        "international_transport_forum_oecd_context".to_string(),
+    ]);
+    if observed_families != expected_families {
+        return Err("transportation source family set failed".to_string());
+    }
+    for family in families {
+        if string_field(family, "publisher_family")?.is_empty()
+            || string_field(family, "planned_use")?.is_empty()
+            || string_field(family, "matched_period_requirement")?.is_empty()
+            || string_field(family, "unit_requirement")?.is_empty()
+            || string_field(family, "custody_status")? != "planned_not_captured"
+            || family
+                .get("value_fields_initially_null")
+                .and_then(serde_json::Value::as_bool)
+                != Some(true)
+        {
+            return Err("transportation source family fields failed".to_string());
+        }
+        if family
+            .get("required_scope")
+            .and_then(serde_json::Value::as_array)
+            .is_none_or(|scope| scope.is_empty())
+        {
+            return Err("transportation source family required scope missing".to_string());
+        }
+    }
+
+    let matching = plan
+        .get("matching_rules")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation source matching rules")?;
+    for flag in [
+        "federal_state_local_translation_required",
+        "trust_funds_remain_separate",
+        "explicit_general_fund_transfers_required",
+        "credited_offsetting_collections_required",
+        "state_local_private_user_financed_activity_kept_contextual_until_translated",
+        "international_differences_not_savings",
+        "missing_values_remain_null",
+        "blocked_gates_remain_false",
+    ] {
+        if matching.get(flag).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "transportation source matching flag {flag} must be true"
+            ));
+        }
+    }
+
+    let floors = plan
+        .get("floor_indicator_families_planned")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("transportation source planned floors")?;
+    let observed_floors = floors
+        .iter()
+        .map(|row| string_field(row, "floor_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    for required in [
+        "access",
+        "quality_safety",
+        "equity",
+        "adequacy_resilience",
+        "delivery_feasibility",
+        "asset_condition_lane_specific",
+    ] {
+        if !observed_floors.contains(required) {
+            return Err(format!("transportation source floor missing {required}"));
+        }
+    }
+    for floor in floors {
+        if string_field(floor, "status")? != "planned_not_thresholded"
+            || !floor.get("value").is_some_and(serde_json::Value::is_null)
+            || floor.get("passed").and_then(serde_json::Value::as_bool) != Some(false)
+        {
+            return Err("transportation source floors must remain null/false".to_string());
+        }
+    }
+
+    let downstream = plan
+        .get("planned_downstream_contracts")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("transportation source downstream contracts")?;
+    for contract in downstream {
+        if !contract.get("path").is_some_and(serde_json::Value::is_null)
+            || string_field(contract, "status")? != "not_created"
+        {
+            return Err("transportation source downstream paths must remain null".to_string());
+        }
+    }
+
+    let blockers = plan
+        .get("blocking_conditions")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("transportation source blockers")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    for required in [
+        "source_bytes_not_captured",
+        "source_metadata_missing",
+        "sha256_missing",
+        "matched_period_unit_perimeter_missing",
+        "federal_state_local_translation_missing",
+        "trust_fund_reconciliation_missing",
+        "baseline_path_missing",
+        "floor_thresholds_not_set",
+        "modernization_path_missing",
+        "stress_path_missing",
+        "simulator_not_run",
+    ] {
+        if !blockers.contains(required) {
+            return Err(format!("transportation source blocker missing {required}"));
+        }
+    }
+
+    let outputs = plan
+        .get("output_placeholders")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation source outputs")?;
+    for (field, value) in outputs {
+        if !value.is_null() {
+            return Err(format!(
+                "transportation source output {field} must remain null"
+            ));
+        }
+    }
+
+    let claims = plan
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation source claims")?;
+    for (field, value) in claims {
+        let observed = value
+            .as_bool()
+            .ok_or("transportation source claim boolean must be bool")?;
+        if field == "source_plan_published" {
+            if !observed {
+                return Err("transportation source plan published flag must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!(
+                "transportation source public claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(TRANSPORTATION_PILOT_SOURCE_PLAN_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        TRANSPORTATION_PILOT_SOURCE_PLAN_JSON_PATH,
+        "does not capture source bytes or close source custody",
+        "transportation asset maintenance and safety",
+        "transportation-infrastructure",
+        "not captured source evidence",
+        "baseline path",
+        "floor threshold",
+        "simulator run",
+        "target-cost selection",
+        "rate calculation",
+        "savings estimate",
+        "waste finding",
+        "fraud finding",
+        "balanced-budget claim",
+        "OMB federal transportation outlay baseline",
+        "Treasury trust-fund receipts",
+        "DOT budget, performance",
+        "FHWA condition",
+        "NHTSA and BTS safety",
+        "Census state and local finance",
+        "GAO and DOT Inspector General",
+        "International Transport Forum and OECD",
+        "retrieval date, source URL, publisher",
+        "raw bytes, byte count, SHA-256",
+        "Trust funds remain separate",
+        "International transportation differences are not savings",
+        "values remain null and their pass flags remain false",
+        "Only the source plan is published",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("transportation source reader missing {required}"));
+        }
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -14811,6 +15132,12 @@ mod global_country_comparison_tests {
     fn pilot_lane_selection_decision_selects_transportation_scaffold_only() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_pilot_lane_selection_decision(&root).unwrap();
+    }
+
+    #[test]
+    fn transportation_pilot_source_plan_keeps_custody_and_claims_blocked() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_transportation_pilot_source_plan(&root).unwrap();
     }
 
     #[test]
