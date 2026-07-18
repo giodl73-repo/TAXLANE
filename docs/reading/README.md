@@ -20,6 +20,7 @@ explainers. They should keep three labels visible:
 | `veterans-depth-card.md` | Complete FY2025 veterans function and five-component breakdown with current service probes and benchmark gates. |
 | `transportation-depth-card.md` | Complete FY2025 transportation function and four-component breakdown with federalism and outcome benchmark gates. |
 | `education-depth-card.md` | Complete FY2025 education-work-social-services function with the negative higher-education net-entry caveat and federalism gates. |
+| `education-workforce-scenario-gate.md` | Pulse 78 readiness gate: freezes the $72.042B FY2025 federal context and blocks education/workforce target-cost, federal-effect, savings, solver, and balanced-rate claims. |
 | `disaster-depth-card.md` | FY2025 disaster subfunction with parent-function, event, declaration, mitigation, and savings boundaries. |
 | `justice-depth-card.md` | Complete FY2025 federal justice function with four components and state/local, outcome, and rights gates. |
 | `science-energy-environment-depth-card.md` | Three-function FY2025 orientation that preserves separate science, energy, and environmental outcome surfaces. |

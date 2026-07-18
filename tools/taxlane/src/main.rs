@@ -833,6 +833,12 @@ const TRAINING_EMPLOYMENT_BRIDGE_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/training_employment_account_bridge.fy2025.v1.draft.json";
 const TRAINING_EMPLOYMENT_BRIDGE_READER_PATH: &str =
     "docs/reading/training-employment-account-bridge.md";
+const EDUCATION_WORKFORCE_SCENARIO_GATE_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/education_workforce_scenario_gate.v1.draft.json";
+const EDUCATION_WORKFORCE_SCENARIO_GATE_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/education_workforce_scenario_gate.schema.md";
+const EDUCATION_WORKFORCE_SCENARIO_GATE_READER_PATH: &str =
+    "docs/reading/education-workforce-scenario-gate.md";
 const WIA_GOLD_STANDARD_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/wia_gold_standard_impact_evidence.2011-2013.v1.draft.json";
 const WIA_GOLD_STANDARD_READER_PATH: &str = "docs/reading/wia-gold-standard-impact-evidence.md";
 const DISASTER_DEPTH_CARD_JSON_PATH: &str =
@@ -10798,6 +10804,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_socx_oldage_family_country_panel(root)?;
     validate_pension_replacement_country_panel(root)?;
     validate_age_relative_poverty_country_panel(root)?;
+    validate_education_workforce_scenario_gate(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -12166,6 +12173,458 @@ fn validate_age_relative_poverty_country_panel(root: &Path) -> Result<(), String
     Ok(())
 }
 
+fn validate_education_workforce_scenario_gate(root: &Path) -> Result<(), String> {
+    for path in [
+        EDUCATION_WORKFORCE_SCENARIO_GATE_JSON_PATH,
+        EDUCATION_WORKFORCE_SCENARIO_GATE_SCHEMA_PATH,
+        EDUCATION_WORKFORCE_SCENARIO_GATE_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing education/workforce scenario gate artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(EDUCATION_WORKFORCE_SCENARIO_GATE_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let gate: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+    let string_array_set =
+        |row: &serde_json::Value, field: &str| -> Result<BTreeSet<String>, String> {
+            row.get(field)
+                .and_then(serde_json::Value::as_array)
+                .ok_or_else(|| format!("education/workforce {field} array missing"))?
+                .iter()
+                .map(|value| {
+                    value
+                        .as_str()
+                        .map(str::to_string)
+                        .ok_or_else(|| format!("education/workforce {field} value not string"))
+                })
+                .collect()
+        };
+
+    if string_field(&gate, "record_id")? != "education-workforce-scenario-gate:fy2025:v1"
+        || string_field(&gate, "record_family")? != "education_workforce_scenario_gate"
+        || int_field(&gate, "pulse")? != 78
+        || string_field(&gate, "lane_id")? != "education-training-employment-social-services"
+        || string_field(&gate, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&gate, "rubric_path")? != INTERNATIONAL_COMPARATOR_TARGET_RUBRIC_JSON_PATH
+        || string_field(&gate, "coverage_contract_path")? != GLOBAL_COUNTRY_COMPARISON_JSON_PATH
+        || string_field(&gate, "rate_model_path")?
+            != "data/derived/program_lane_rate_model/program_lane_rate_model.fy2025.omb-fy2027-v1.draft.jsonl"
+    {
+        return Err(
+            "education/workforce scenario gate identity or governing paths failed".to_string(),
+        );
+    }
+
+    let custody_status = string_field(&gate, "source_custody_status")?;
+    if !custody_status.contains("repo_custodied")
+        || !custody_status.contains("no_new_external_request")
+    {
+        return Err("education/workforce source custody status boundary failed".to_string());
+    }
+    let custody_paths = gate
+        .get("source_custody")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("education/workforce source custody")?
+        .iter()
+        .map(|row| string_field(row, "path"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_custody = BTreeSet::from([
+        EDUCATION_DEPTH_CARD_JSON_PATH.to_string(),
+        HIGHER_EDUCATION_BRIDGE_JSON_PATH.to_string(),
+        TRAINING_EMPLOYMENT_BRIDGE_JSON_PATH.to_string(),
+        CPS_EDUCATION_ACCESS_TRANSITION_JSON_PATH.to_string(),
+        BLS_CPS_WORKER_BASELINE_JSON_PATH.to_string(),
+        WIOA_OUTCOME_BASELINE_JSON_PATH.to_string(),
+    ]);
+    if custody_paths != expected_custody {
+        return Err("education/workforce evidence custody path set failed".to_string());
+    }
+    for path in &custody_paths {
+        if !root.join(path).exists() {
+            return Err(format!("education/workforce custody path missing: {path}"));
+        }
+    }
+
+    let boundary = string_field(&gate, "non_claim_boundary")?;
+    for required in [
+        "readiness gate, not an education or workforce policy plan",
+        "Federal spending is not the full education/workforce system",
+        "$72.042B",
+        "unscored and solver-ineligible",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!(
+                "education/workforce boundary text missing {required}"
+            ));
+        }
+    }
+
+    let context = gate
+        .get("current_law_context")
+        .ok_or("education/workforce current-law context")?;
+    if int_field(context, "fiscal_year")? != 2025
+        || string_field(context, "year_basis")? != "fiscal_year"
+        || string_array_set(context, "omb_function_codes")? != BTreeSet::from(["500".to_string()])
+        || number_field(context, "gross_program_cost_musd")? != 72_042.0
+        || number_field(context, "implementation_admin_outlays_musd")? != 0.0
+        || number_field(context, "credited_offsetting_collections_musd")? != 0.0
+        || number_field(context, "residual_general_fund_need_musd")? != 72_042.0
+        || number_field(context, "current_cost_share_of_outlays_percent")? != 1.0275
+        || string_field(context, "current_financing")? != "general-fund"
+        || number_field(context, "deltas_from_current_law_musd")? != 0.0
+    {
+        return Err("education/workforce current-law values failed".to_string());
+    }
+
+    let categories = gate
+        .get("category_bases")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("education/workforce category bases")?;
+    let federal_category_sum: f64 = categories
+        .iter()
+        .filter(|row| {
+            row.get("category_id").and_then(serde_json::Value::as_str)
+                == Some("federal_function_500")
+        })
+        .map(|row| number_field(row, "amount_musd"))
+        .collect::<Result<Vec<_>, _>>()?
+        .into_iter()
+        .sum();
+    if federal_category_sum != number_field(context, "gross_program_cost_musd")? {
+        return Err("education/workforce category sum must equal current-law cost".to_string());
+    }
+    for row in categories {
+        let amount = row
+            .get("amount_musd")
+            .ok_or("education/workforce category amount")?;
+        if string_field(row, "category_id")? != "federal_function_500" && !amount.is_null() {
+            return Err(
+                "education/workforce context-only category amounts must remain null".to_string(),
+            );
+        }
+        if string_field(row, "formula")?.is_empty()
+            || string_field(row, "reference_period")?.is_empty()
+            || string_field(row, "reconciliation_status")?.is_empty()
+        {
+            return Err(
+                "education/workforce category formula or reconciliation missing".to_string(),
+            );
+        }
+    }
+    let reconciliation = gate
+        .get("category_reconciliation")
+        .ok_or("education/workforce category reconciliation")?;
+    if number_field(reconciliation, "computed_sum_musd")? != 72_042.0
+        || reconciliation
+            .get("matches_current_law_gross_program_cost")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || reconciliation
+            .get("missing_or_context_only_values_remain_null")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("education/workforce category reconciliation failed".to_string());
+    }
+
+    let perimeter = gate
+        .get("perimeter")
+        .ok_or("education/workforce perimeter")?;
+    if string_field(perimeter, "comparison_grade")? != "not_graded_for_target_cost"
+        || perimeter
+            .get("perimeter_match_for_federal_effect")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || perimeter
+            .get("international_spending_differences_are_savings")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("education/workforce perimeter gates failed".to_string());
+    }
+
+    let required_inputs = gate
+        .get("required_model_inputs")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("education/workforce required model inputs")?;
+    let input_ids = required_inputs
+        .iter()
+        .map(|row| string_field(row, "input_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    for expected in [
+        "federal_state_local_translation",
+        "learner_and_worker_population_model",
+        "benefit_or_service_package_model",
+        "attainment_floor_threshold",
+        "completion_floor_threshold",
+        "access_floor_threshold",
+        "employment_floor_threshold",
+        "equity_floor_threshold",
+        "distribution_by_income_race_geography_age",
+        "administration_and_transition_cost_model",
+        "policy_specific_score_provenance",
+    ] {
+        if !input_ids.contains(expected) {
+            return Err(format!(
+                "education/workforce required input missing {expected}"
+            ));
+        }
+    }
+    for row in required_inputs {
+        if string_field(row, "status")? != "missing"
+            || !row.get("value").is_some_and(serde_json::Value::is_null)
+        {
+            return Err("education/workforce missing required inputs must stay null".to_string());
+        }
+    }
+
+    let federal_translation = gate
+        .get("federal_translation")
+        .ok_or("education/workforce federal translation")?;
+    for field in [
+        "matched_federal_policy_instrument",
+        "gross_federal_outlay_delta_musd",
+        "receipt_effect_musd",
+        "net_federal_budget_effect_musd",
+        "solver_target_cost_musd",
+    ] {
+        if !federal_translation
+            .get(field)
+            .is_some_and(serde_json::Value::is_null)
+        {
+            return Err(format!(
+                "education/workforce federal translation {field} must be null"
+            ));
+        }
+    }
+    if federal_translation
+        .get("perimeter_mismatch_forces_federal_effect_null")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("education/workforce perimeter mismatch null rule failed".to_string());
+    }
+
+    let floors = gate
+        .get("outcome_floor_statuses")
+        .ok_or("education/workforce outcome floors")?;
+    for field in [
+        "attainment",
+        "completion",
+        "access",
+        "employment",
+        "equity",
+        "adequacy_resilience",
+        "delivery_feasibility",
+    ] {
+        if floors.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "education/workforce floor {field} must remain false"
+            ));
+        }
+    }
+    let gates = gate
+        .get("admissibility_gates")
+        .ok_or("education/workforce admissibility gates")?;
+    if gates
+        .get("A1_source_custody_complete")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("education/workforce custody should support A1 only".to_string());
+    }
+    for field in [
+        "A2_perimeter_match",
+        "A3_policy_instrument_defined",
+        "A4_behavior_and_transition_modeled",
+        "A5_incidence_and_distribution_modeled",
+        "A6_outcome_floors_passed",
+        "A7_federal_score_provenance_available",
+    ] {
+        if gates.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "education/workforce gate {field} must remain false"
+            ));
+        }
+    }
+
+    let scenarios = gate
+        .get("scenarios")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("education/workforce scenarios")?;
+    let scenario_ids = scenarios
+        .iter()
+        .map(|row| string_field(row, "scenario_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if scenario_ids
+        != BTreeSet::from([
+            "central_reform".to_string(),
+            "current_law".to_string(),
+            "stress".to_string(),
+        ])
+    {
+        return Err("education/workforce scenario set failed".to_string());
+    }
+    for scenario in scenarios {
+        if scenario
+            .get("solver_eligible")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err("education/workforce scenarios must be solver-ineligible".to_string());
+        }
+        match string_field(scenario, "scenario_id")?.as_str() {
+            "current_law" => {
+                if number_field(scenario, "gross_program_cost_musd")? != 72_042.0
+                    || number_field(scenario, "reform_delta_musd")? != 0.0
+                    || number_field(scenario, "federal_cash_flow_delta_musd")? != 0.0
+                    || !scenario
+                        .get("target_cost_musd")
+                        .is_some_and(serde_json::Value::is_null)
+                {
+                    return Err("education/workforce current-law scenario failed".to_string());
+                }
+            }
+            "central_reform" => {
+                for field in [
+                    "policy_instrument",
+                    "service_package",
+                    "federal_state_local_translation",
+                    "phase_in",
+                    "participation_response",
+                    "attainment_effect",
+                    "completion_effect",
+                    "employment_effect",
+                    "administration_and_transition_cost_musd",
+                    "distributional_effect",
+                    "federal_cash_flow_delta_musd",
+                    "target_cost_musd",
+                ] {
+                    if !scenario.get(field).is_some_and(serde_json::Value::is_null) {
+                        return Err(format!("education/workforce central {field} must be null"));
+                    }
+                }
+            }
+            "stress" => {
+                if scenario
+                    .get("same_policy_as_central")
+                    .and_then(serde_json::Value::as_bool)
+                    != Some(false)
+                {
+                    return Err(
+                        "education/workforce stress must not claim same policy yet".to_string()
+                    );
+                }
+                for field in [
+                    "weaker_attainment_or_completion_effect",
+                    "weaker_employment_effect",
+                    "higher_participation_or_take_up",
+                    "higher_unit_cost",
+                    "higher_implementation_cost",
+                    "access_remediation",
+                    "weaker_receipts",
+                    "federal_cash_flow_delta_musd",
+                    "target_cost_musd",
+                ] {
+                    if !scenario.get(field).is_some_and(serde_json::Value::is_null) {
+                        return Err(format!("education/workforce stress {field} must be null"));
+                    }
+                }
+            }
+            _ => return Err("unexpected education/workforce scenario".to_string()),
+        }
+        if let Some(scenario_floors) = scenario.get("outcome_floor_statuses") {
+            for field in [
+                "attainment",
+                "completion",
+                "access",
+                "employment",
+                "equity",
+                "adequacy_resilience",
+                "delivery_feasibility",
+            ] {
+                if scenario_floors
+                    .get(field)
+                    .and_then(serde_json::Value::as_bool)
+                    != Some(false)
+                {
+                    return Err(format!(
+                        "education/workforce scenario floor {field} must remain false"
+                    ));
+                }
+            }
+        }
+    }
+
+    let blockers = string_array_set(&gate, "explicit_blockers")?;
+    for required in [
+        "federal_state_local_translation_missing",
+        "policy_package_not_selected",
+        "attainment_completion_access_employment_equity_floor_thresholds_missing",
+        "central_and_stress_solver_cash_flows_null",
+        "balanced_rate_fields_blocked",
+    ] {
+        if !blockers.contains(required) {
+            return Err(format!("education/workforce blocker missing {required}"));
+        }
+    }
+    let claims = gate
+        .get("claim_booleans")
+        .ok_or("education/workforce claim booleans")?;
+    if claims
+        .as_object()
+        .ok_or("education/workforce claim object")?
+        .iter()
+        .any(|(_, value)| value.as_bool() != Some(false))
+    {
+        return Err("education/workforce claim booleans must all remain false".to_string());
+    }
+    let readiness = gate
+        .get("readiness")
+        .ok_or("education/workforce readiness")?;
+    if readiness
+        .get("current_law_context_available")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("education/workforce current-law readiness should be true".to_string());
+    }
+    for field in [
+        "target_cost_ready",
+        "federal_effect_ready",
+        "central_reform_ready",
+        "stress_ready",
+        "solver_eligible",
+        "balanced_rate_ready",
+    ] {
+        if readiness.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "education/workforce readiness {field} must remain false"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(EDUCATION_WORKFORCE_SCENARIO_GATE_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        EDUCATION_WORKFORCE_SCENARIO_GATE_JSON_PATH,
+        "This is a readiness gate, not an education or workforce policy plan.",
+        "$72.042B",
+        "Federal spending is not the full education/workforce system because state, local, household, and employer financing must be translated.",
+        "central and stress education/workforce scenarios remain unscored and solver-ineligible",
+        "No target cost, gross savings, net savings, federal budget effect, or balanced rate",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("education/workforce reader missing {required}"));
+        }
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -12210,6 +12669,12 @@ mod global_country_comparison_tests {
     fn age_relative_poverty_panel_preserves_source_years_values_and_boundaries() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_age_relative_poverty_country_panel(&root).unwrap();
+    }
+
+    #[test]
+    fn education_workforce_scenario_gate_blocks_unscored_policy_and_solver_use() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_education_workforce_scenario_gate(&root).unwrap();
     }
 
     #[test]

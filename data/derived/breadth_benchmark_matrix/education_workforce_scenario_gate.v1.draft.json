@@ -1,0 +1,285 @@
+{
+  "record_id": "education-workforce-scenario-gate:fy2025:v1",
+  "record_family": "education_workforce_scenario_gate",
+  "version": "v1.draft",
+  "status": "draft_blocked_readiness_gate",
+  "pulse": 78,
+  "lane_id": "education-training-employment-social-services",
+  "public_label": "Education, Work, and Social Services",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "rubric_path": "data/derived/breadth_benchmark_matrix/international_comparator_target_rubric.v1.draft.json",
+  "coverage_contract_path": "data/derived/breadth_benchmark_matrix/global_country_comparison_coverage.v1.draft.json",
+  "rate_model_path": "data/derived/program_lane_rate_model/program_lane_rate_model.fy2025.omb-fy2027-v1.draft.jsonl",
+  "source_custody_status": "derived_from_existing_checksum_verified_and_repo_custodied_records_no_new_external_request",
+  "source_custody": [
+    {
+      "path": "data/derived/breadth_benchmark_matrix/education_depth_card.fy2025.v1.draft.json",
+      "custody_status": "repo_custodied_existing_record"
+    },
+    {
+      "path": "data/derived/breadth_benchmark_matrix/higher_education_account_bridge.fy2025.v1.draft.json",
+      "custody_status": "repo_custodied_existing_record"
+    },
+    {
+      "path": "data/derived/breadth_benchmark_matrix/training_employment_account_bridge.fy2025.v1.draft.json",
+      "custody_status": "repo_custodied_existing_record"
+    },
+    {
+      "path": "data/derived/breadth_benchmark_matrix/census_cps_education_access_transition_baseline.oct2024.v1.draft.json",
+      "custody_status": "repo_custodied_existing_record"
+    },
+    {
+      "path": "data/derived/breadth_benchmark_matrix/bls_cps_worker_baseline.cy2024.v1.draft.json",
+      "custody_status": "repo_custodied_existing_record"
+    },
+    {
+      "path": "data/derived/breadth_benchmark_matrix/wioa_national_outcome_baseline.py2024.v1.draft.json",
+      "custody_status": "repo_custodied_existing_record"
+    }
+  ],
+  "non_claim_boundary": "This is a readiness gate, not an education or workforce policy plan. Federal spending is not the full education/workforce system because state, local, household, and employer financing must be translated. Current-law federal FY2025 outlays are $72.042B; central and stress education/workforce scenarios remain unscored and solver-ineligible.",
+  "current_law_context": {
+    "fiscal_year": 2025,
+    "year_basis": "fiscal_year",
+    "omb_function_codes": [
+      "500"
+    ],
+    "gross_program_cost_musd": 72042,
+    "implementation_admin_outlays_musd": 0,
+    "credited_offsetting_collections_musd": 0,
+    "residual_general_fund_need_musd": 72042,
+    "current_cost_share_of_outlays_percent": 1.0275,
+    "current_financing": "general-fund",
+    "score_source_vintage": "program_lane_rate_model.fy2025.omb-fy2027-v1.draft",
+    "unrounded_values": true,
+    "deltas_from_current_law_musd": 0
+  },
+  "category_bases": [
+    {
+      "category_id": "federal_function_500",
+      "label": "Education, training, employment, and social services federal function",
+      "basis": "OMB FY2025 function 500 outlays in the existing program-lane rate model",
+      "reference_period": "FY2025",
+      "amount_musd": 72042,
+      "formula": "gross_program_cost_musd = function_500_current_cost_amount_musd",
+      "reconciliation_status": "matches_program_lane_rate_model"
+    },
+    {
+      "category_id": "higher_education_net_accounting",
+      "label": "Higher-education account bridge",
+      "basis": "Existing higher-education bridge preserves negative net account entries and cash-collection caveats",
+      "reference_period": "FY2025",
+      "amount_musd": null,
+      "formula": "not_additive_here; retained as component custody and reconciliation evidence",
+      "reconciliation_status": "component_context_only"
+    },
+    {
+      "category_id": "workforce_training_context",
+      "label": "Training and employment account bridge",
+      "basis": "Existing account bridge and worker baseline context",
+      "reference_period": "FY2025/CY2024/PY2024 as source-specific",
+      "amount_musd": null,
+      "formula": "not_additive_here; must be translated into a policy package before scoring",
+      "reconciliation_status": "component_context_only"
+    }
+  ],
+  "category_reconciliation": {
+    "formula": "current_law_context.gross_program_cost_musd = sum(category_bases where category_id == 'federal_function_500')",
+    "computed_sum_musd": 72042,
+    "matches_current_law_gross_program_cost": true,
+    "missing_or_context_only_values_remain_null": true
+  },
+  "perimeter": {
+    "federal_budget_perimeter": "OMB federal function 500 current-law outlays only",
+    "education_system_perimeter": "state, local, household, employer, institution, and federal financing not yet translated into one matched perimeter",
+    "comparison_grade": "not_graded_for_target_cost",
+    "perimeter_match_for_federal_effect": false,
+    "international_spending_differences_are_savings": false
+  },
+  "required_model_inputs": [
+    {
+      "input_id": "federal_state_local_translation",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "input_id": "learner_and_worker_population_model",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "input_id": "benefit_or_service_package_model",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "input_id": "attainment_floor_threshold",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "input_id": "completion_floor_threshold",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "input_id": "access_floor_threshold",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "input_id": "employment_floor_threshold",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "input_id": "equity_floor_threshold",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "input_id": "distribution_by_income_race_geography_age",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "input_id": "administration_and_transition_cost_model",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "input_id": "policy_specific_score_provenance",
+      "status": "missing",
+      "value": null
+    }
+  ],
+  "behavior_transition_incidence": {
+    "participation_response": null,
+    "provider_or_institution_response": null,
+    "employer_response": null,
+    "state_local_substitution_response": null,
+    "transition_cost_musd": null,
+    "tax_incidence_or_receipt_interaction": null
+  },
+  "federal_translation": {
+    "matched_federal_policy_instrument": null,
+    "gross_federal_outlay_delta_musd": null,
+    "receipt_effect_musd": null,
+    "net_federal_budget_effect_musd": null,
+    "solver_target_cost_musd": null,
+    "perimeter_mismatch_forces_federal_effect_null": true
+  },
+  "outcome_floor_statuses": {
+    "attainment": false,
+    "completion": false,
+    "access": false,
+    "employment": false,
+    "equity": false,
+    "adequacy_resilience": false,
+    "delivery_feasibility": false
+  },
+  "admissibility_gates": {
+    "A1_source_custody_complete": true,
+    "A2_perimeter_match": false,
+    "A3_policy_instrument_defined": false,
+    "A4_behavior_and_transition_modeled": false,
+    "A5_incidence_and_distribution_modeled": false,
+    "A6_outcome_floors_passed": false,
+    "A7_federal_score_provenance_available": false
+  },
+  "scenarios": [
+    {
+      "scenario_id": "current_law",
+      "description": "Official current-law federal baseline context with zero reform delta.",
+      "gross_program_cost_musd": 72042,
+      "reform_delta_musd": 0,
+      "federal_cash_flow_delta_musd": 0,
+      "target_cost_musd": null,
+      "solver_eligible": false
+    },
+    {
+      "scenario_id": "central_reform",
+      "description": "Placeholder only; no education/workforce policy package has been selected or scored.",
+      "policy_instrument": null,
+      "service_package": null,
+      "federal_state_local_translation": null,
+      "phase_in": null,
+      "participation_response": null,
+      "attainment_effect": null,
+      "completion_effect": null,
+      "employment_effect": null,
+      "administration_and_transition_cost_musd": null,
+      "distributional_effect": null,
+      "federal_cash_flow_delta_musd": null,
+      "target_cost_musd": null,
+      "outcome_floor_statuses": {
+        "attainment": false,
+        "completion": false,
+        "access": false,
+        "employment": false,
+        "equity": false,
+        "adequacy_resilience": false,
+        "delivery_feasibility": false
+      },
+      "solver_eligible": false
+    },
+    {
+      "scenario_id": "stress",
+      "description": "Placeholder only; stress must later be the same selected policy under adverse realization, not an unrelated aggressive cut.",
+      "same_policy_as_central": false,
+      "weaker_attainment_or_completion_effect": null,
+      "weaker_employment_effect": null,
+      "higher_participation_or_take_up": null,
+      "higher_unit_cost": null,
+      "higher_implementation_cost": null,
+      "access_remediation": null,
+      "weaker_receipts": null,
+      "federal_cash_flow_delta_musd": null,
+      "target_cost_musd": null,
+      "outcome_floor_statuses": {
+        "attainment": false,
+        "completion": false,
+        "access": false,
+        "employment": false,
+        "equity": false,
+        "adequacy_resilience": false,
+        "delivery_feasibility": false
+      },
+      "solver_eligible": false
+    }
+  ],
+  "explicit_blockers": [
+    "federal_state_local_translation_missing",
+    "policy_package_not_selected",
+    "learner_and_worker_population_model_missing",
+    "attainment_completion_access_employment_equity_floor_thresholds_missing",
+    "behavior_transition_and_incidence_models_missing",
+    "distributional_effects_missing",
+    "policy_specific_score_provenance_missing",
+    "central_and_stress_solver_cash_flows_null",
+    "balanced_rate_fields_blocked"
+  ],
+  "claim_booleans": {
+    "target_cost_published": false,
+    "federal_effect_published": false,
+    "gross_savings_published": false,
+    "net_savings_published": false,
+    "education_package_selected": false,
+    "workforce_package_selected": false,
+    "attainment_result_published": false,
+    "completion_result_published": false,
+    "access_result_published": false,
+    "employment_result_published": false,
+    "equity_result_published": false,
+    "balanced_rate_published": false
+  },
+  "readiness": {
+    "current_law_context_available": true,
+    "target_cost_ready": false,
+    "federal_effect_ready": false,
+    "central_reform_ready": false,
+    "stress_ready": false,
+    "solver_eligible": false,
+    "balanced_rate_ready": false
+  }
+}
