@@ -8711,6 +8711,27 @@ mod tests {
         record
     }
 
+    fn captured_attributed_claim_with_context_fixture() -> ExternalAccountabilityClaimIntakeRecord {
+        let mut record = captured_attributed_claim_fixture();
+        record
+            .publications
+            .push(ExternalAccountabilityClaimPublication {
+                publication_kind: ExternalClaimPublicationKind::Dataset,
+                publisher: "Independent Official Publisher".to_string(),
+                published_date: Some("2026-04-22".to_string()),
+                observed_date: "2026-07-14".to_string(),
+                source_id: "SRC-OFFICIAL-CONTEXT".to_string(),
+                source_url: "https://example.test/official-context.pdf".to_string(),
+                custody_path: Some("data/raw/example/official-context.pdf".to_string()),
+                sha256: Some(
+                    "abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789".to_string(),
+                ),
+                custody_status: ExternalClaimCustodyStatus::OfficialCopyCaptured,
+                evidence_relation: ExternalClaimEvidenceRelation::SuppliesContext,
+            });
+        record
+    }
+
     fn breadth_benchmark_fixture() -> BreadthBenchmarkRecord {
         BreadthBenchmarkRecord {
             record_id: "breadth:test".to_string(),
@@ -9514,6 +9535,31 @@ mod tests {
     #[test]
     fn validates_captured_attributed_claim_record() {
         assert_eq!(captured_attributed_claim_fixture().validate(), Ok(()));
+    }
+
+    #[test]
+    fn validates_captured_official_context_without_corroboration() {
+        let record = captured_attributed_claim_with_context_fixture();
+        assert_eq!(
+            record.claim_status,
+            ExternalClaimStatus::AttributedClaimSupported
+        );
+        assert_eq!(
+            record.legal_or_administrative_status,
+            ExternalClaimLegalOrAdministrativeStatus::NoneEstablished
+        );
+        assert!(record.corroborating_source_ids.is_empty());
+        assert!(record.counterevidence_source_ids.is_empty());
+        assert!(record.official_response.response_source_ids.is_empty());
+        assert!(record.claim_gates.all_false());
+        assert_eq!(record.validate(), Ok(()));
+    }
+
+    #[test]
+    fn blocks_context_source_misclassified_as_corroboration() {
+        let mut record = captured_attributed_claim_with_context_fixture();
+        record.corroborating_source_ids = vec!["SRC-OFFICIAL-CONTEXT".to_string()];
+        assert!(record.validate().is_err());
     }
 
     #[test]

@@ -10,9 +10,11 @@ claims.
 
 | Artifact | Grain | Status |
 |---|---|---|
-| `external-accountability-claim-intake.v1.draft.jsonl` | one externally published amount claim per quarantine row | Internal five-row inventory; four originating claims remain URL-observed and one House testimony atom is custody-backed, but none is corroborated or public-claim eligible. |
+| `external-accountability-claim-intake.v1.draft.jsonl` | one externally published amount claim per quarantine row | Internal five-row inventory; four originating claims remain URL-observed, while one House testimony atom and its separately owned DCYF identity/payment context are custody-backed; the exact testimony amount and period remain uncorroborated and no row is public-claim eligible. |
 | `external-accountability-claim-intake.schema.md` | external claim intake contract | Documents atomization, custody, lifecycle, amount semantics, evidence relations, and independent public gates. |
 | `external-accountability-claim-intake.md` | internal review reader | Quarantine-only explanation; intentionally not routed from the root public README. |
+| `minnesota-ccap-quality-learning-center-cy2025-existing-records-request-specification.v1.draft.json` | authorization-gated existing-records acquisition plan | Internal, unsent Minnesota DCYF request specification for provider license 1087038 CY2025 cutoff, calculation, transaction, and adjustment records; creates no response or evidence state. |
+| `minnesota-ccap-quality-learning-center-cy2025-existing-records-request-specification.md` | internal request-specification reader | Explains the existing-records scope, privacy boundary, owner gate, and unchanged fifth-atom state; intentionally not routed from public reading surfaces. |
 | `accountability_evidence.omb-fy2027-v1.2026-06-23.draft.jsonl` | reviewed and draft evidence records | Draft; source-custody and baseline-gap bootstrap only. |
 | `readiness-report.md` | one generated readiness and next-action summary | Generated from draft evidence records. |
 | `action-queue.md` | one generated reviewer action queue | Groups draft records by the next evidence or review task. |
@@ -59,6 +61,15 @@ custody, attribution, underlying facts, and every substantive claim remain
 unverified and blocked. Attributed reporting has its own gate and cannot open a
 fraud, waste, performance, debt, collectibility, recovery, prevention, or
 savings gate.
+
+The Minnesota CCAP Quality Learning Center CY2025 request specification turns
+one fifth-atom evidence gap into an internal acquisition plan. Its linked
+template at
+`docs/requests/minnesota-ccap-quality-learning-center-cy2025-data-request.md`
+is a draft only and has not been submitted. It requires explicit owner
+authorization, a single selected channel, requester contact information, and
+an approved copy-fee cap before any outbound action. Drafting it records no
+official response and changes no evidence array, claim status, or gate.
 
 These records are not fraud findings, waste findings, abuse findings, or
 performance scores. Public wording must preserve `allegation_status`,

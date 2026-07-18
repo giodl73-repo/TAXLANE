@@ -415,14 +415,56 @@ substantive gate remains false. A dedicated typed core contract and manifest-
 covered validator enforce the quarantine boundary; no root public route or
 finding is created.
 
-Pulse 54 uses the captured House-hosted testimony to create a fifth, narrower
-claim-origin atom: Shirley's page-1 assertion that downtown Minneapolis's
-`Quality Learing Center` received $1.9 million in CCAP funding. The source does
-not state a period for this amount; the preceding unnamed-daycare sentence's
-2025 period is not carried forward. Custody supports only the attribution, not the payment or its accuracy. The testimony
+Pulse 54 (`pulses/pulse-54-house-testimony-quality-learing-center-claim-atom.md`)
+uses the captured House-hosted testimony to create a fifth, narrower claim-origin
+atom: Shirley's page-1 assertion that downtown Minneapolis's
+`Quality Learing Center` received $1.9 million in CY2025 CCAP funding. The
+testimony introduces the visited providers' amounts as 2025 funding, but does
+not disclose the named amount's data cutoff, whether it is year-to-date as of
+the December 16 visit narrative, or its calculation basis. Custody supports
+only the attribution, not the payment or its accuracy. The testimony
 is removed from the separate broad Minnesota row; the new amount remains not
 summable with unresolved overlap, no corroboration, no counterevidence, no
 recorded response, and every claim gate false.
+
+Pulse 55 (`pulses/pulse-55-quality-learning-center-official-context.md`) adds
+the official Minnesota DCYF provider table hosted by the Minnesota House. It
+resolves the provider as `Quality Learning Center Inc`,
+license `1087038`, at 1411 Nicollet Avenue and reports calendar-year CCAP
+payments of $1,730,115 in 2024 and $2,150,964 in 2025. Neither annual amount
+equals the testimony's source-stated CY2025 $1.9 million. Because its December
+16/year-to-date cutoff and calculation basis remain unresolved, the official
+source `supplies_context` only: corroboration and counterevidence remain empty, no
+response or legal status is inferred, and all gates remain false. The table's
+$69,365 assessed-and-repaid overpayment total lacks a disclosed basis and
+period and cannot be used to characterize all payments as improper or infer
+fraud, recovery, or savings.
+
+Pulse 56 (`pulses/pulse-56-quality-learning-center-license-closure-context.md`)
+extracts the same official row's `Closed` license status and 1/6/2026 license
+inactive date. Those fields supply license context only. The table does not
+identify who initiated closure, the authority or reason, or any causal link
+among closure, payments, complaints, violations, the $69,365 assessed and
+repaid overpayment, or the testimony. The fifth atom's legal status, evidence
+arrays, response state, and all claim gates remain unchanged.
+
+Pulse 57 (`pulses/pulse-57-quality-learning-center-cy2025-period-correction.md`)
+corrects the fifth atom's period to `calendar_year_2025`, makes CY2025 explicit
+in the neutral paraphrase, and narrows its overlap group accordingly. It
+compares the source-stated $1.9 million with DCYF's full-CY2025 $2,150,964
+while preserving the unresolved December 16/year-to-date cutoff and
+calculation basis. The mismatch is neither corroboration nor counterevidence;
+arrays, status, non-summability, and all claim gates remain unchanged.
+
+Pulse 58 (`pulses/pulse-58-minnesota-ccap-quality-learning-center-cy2025-request-specification.md`)
+converts the remaining cutoff, calculation, and transaction-lineage gap into an
+internal Minnesota DCYF existing-records request specification and unsent
+template. The target is limited to records already maintained for license
+1087038 and CY2025, with direct-person identifiers excluded and aggregates or
+redacted or deidentified transaction rows accepted. Owner authorization,
+requester contact, one channel, fee cap, scope review, and privacy review remain
+missing; no outbound action, fee commitment, response state, evidence array,
+status, or claim gate changes.
 
 Pulse 59 (`pulses/pulse-59-global-country-comparison-coverage.md`) defines the
 multi-country acquisition contract for all 15 unique fiscal lane IDs. It sets

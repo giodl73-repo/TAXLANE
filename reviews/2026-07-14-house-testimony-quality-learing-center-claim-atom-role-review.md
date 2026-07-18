@@ -20,11 +20,12 @@ verified publication timestamp.
 
 Pass. The testimony is removed from the more-than-$110-million row and becomes
 the origin of one $1.9 million `paid_amount` assertion. The record preserves
-source-stated-exact derivation, an undetermined source period, no bounds,
+source-stated-exact derivation, a source-stated `CY2025` period, no bounds,
 unresolved overlap, empty lineage, non-summability, and no corroborating or
-counterevidence sources. The preceding unnamed-daycare amount is explicitly
-described as 2025 in the testimony; that period does not carry forward to the
-separate Quality Learing Center sentence.
+counterevidence sources. The testimony introduces the visited providers'
+amounts as 2025 funding before the Quality Learing Center sentence. It does not
+disclose the amount's data cutoff, whether it is year-to-date as of the
+December 16 visit narrative, or its calculation basis.
 
 ## Privacy and Due Process Reviewer
 

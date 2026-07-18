@@ -1,0 +1,188 @@
+{
+  "record_id": "external-claim-existing-records-request-specification:mn-dcyf:quality-learning-center:license-1087038:cy2025",
+  "record_family": "minnesota_ccap_provider_payment_existing_records_request_specification",
+  "schema_version": "v1",
+  "status": "draft_not_submitted_existing_records_only_privacy_aware_request_specification",
+  "submission_status": "draft_not_submitted_owner_authorization_required",
+  "upstream_claim_record_id": "external-claim:nick-shirley:2026:house-testimony-quality-learing-center:amount:01",
+  "agency": "Minnesota Department of Children, Youth, and Families",
+  "program": "Child Care Assistance Program",
+  "provider": {
+    "official_name": "Quality Learning Center Inc",
+    "license_number": "1087038",
+    "site_address": "1411 Nicollet Ave, Minneapolis, Minnesota 55403"
+  },
+  "period": "calendar_year_2025",
+  "evidence_gap": {
+    "source_stated_amount_usd": 1900000,
+    "official_full_calendar_year_amount_usd": 2150964,
+    "testimony_visit_narrative_date": "2025-12-16",
+    "unresolved": [
+      "whether the testimony amount is year-to-date as of the visit narrative",
+      "the testimony amount's exact data cutoff",
+      "the testimony amount's calculation basis",
+      "transaction and adjustment lineage connecting any cutoff snapshot to the full-CY2025 total"
+    ],
+    "comparison_result": "unequal_values_with_unresolved_cutoff_and_calculation_basis_are_neither_corroboration_nor_counterevidence"
+  },
+  "source_ids": [
+    "SRC-MN-DCYF-DATA-REQUESTS",
+    "SRC-MN-DCYF-PUBLIC-DATA-GUIDE",
+    "SRC-MN-STAT-13-03-2025",
+    "SRC-MN-STAT-142E-02-2025"
+  ],
+  "source_references": [
+    {
+      "source_id": "SRC-MN-DCYF-DATA-REQUESTS",
+      "publisher": "Minnesota Department of Children, Youth, and Families",
+      "source_url": "https://dcyf.mn.gov/about-us/data-requests",
+      "use": "written-request requirements, submission route, and responsible authority"
+    },
+    {
+      "source_id": "SRC-MN-DCYF-PUBLIC-DATA-GUIDE",
+      "publisher": "Minnesota Department of Children, Youth, and Families",
+      "source_url": "https://dcyf.mn.gov/sites/default/files/2024-06/DCYF%20Guide%20for%20Requesting%20Public%20Data.pdf",
+      "use": "public-data request process, access format, fees, classification, and response boundaries"
+    },
+    {
+      "source_id": "SRC-MN-STAT-13-03-2025",
+      "publisher": "Minnesota Office of the Revisor of Statutes",
+      "source_url": "https://www.revisor.mn.gov/statutes/cite/13.03",
+      "use": "access to government data, copies, electronic form, and actual-cost boundaries"
+    },
+    {
+      "source_id": "SRC-MN-STAT-142E-02-2025",
+      "publisher": "Minnesota Office of the Revisor of Statutes",
+      "source_url": "https://www.revisor.mn.gov/statutes/cite/142E.02",
+      "use": "CCAP program administration context without asserting that every requested field is public"
+    }
+  ],
+  "filing_route": {
+    "request_law": "Minnesota Government Data Practices Act",
+    "recipient": "Minnesota Department of Children, Youth, and Families, Attention: Data Request",
+    "email": "dcyf.datarequest@state.mn.us",
+    "mailing_address": "444 Lafayette Rd, St Paul, MN 55155",
+    "written_request_required": true,
+    "specific_form_required": false,
+    "one_channel_only": true,
+    "route_selected": null,
+    "route_boundary": "Choose exactly one route only after explicit owner authorization; no route has been used."
+  },
+  "existing_records_only_scope": {
+    "date_start": "2025-01-01",
+    "date_end": "2025-12-31",
+    "requested_existing_record_types": [
+      "existing provider-level transaction or payment ledger, export, report, or query output for license 1087038 covering CY2025",
+      "existing data dictionary or field definitions for any released transaction, payment, adjustment, or aggregate record",
+      "existing report, query output, worksheet, or calculation record used to produce the full-CY2025 provider total of $2,150,964",
+      "existing provider-level snapshot, report, ledger, or export with a cutoff on or before 2025-12-16, if maintained",
+      "existing reconciliation, crosswalk, or adjustment record linking a cutoff snapshot to the full-CY2025 total, if maintained"
+    ],
+    "requested_existing_fields": [
+      "provider license number and provider identifier already maintained",
+      "service month or service period",
+      "payment, issue, posting, adjustment, reversal, void, cancellation, or reissue date",
+      "gross, adjustment, and net amount fields already maintained",
+      "transaction type and transaction status",
+      "extract, report, or as-of cutoff date",
+      "existing inclusion, exclusion, adjustment, reversal, duplicate, and aggregation rules",
+      "stable non-person transaction key if already maintained and safely releasable"
+    ],
+    "records_only_not_questions": true,
+    "no_new_record_creation": true,
+    "no_new_query_or_custom_export_required": true,
+    "no_new_reconciliation_or_calculation": true,
+    "no_research_or_narrative_answer_required": true,
+    "no_request_to_calculate_1900000": true,
+    "component_records_accepted_if_no_single_reconciliation_exists": true,
+    "public_duplicate_treatment": "If an exact responsive record is already public, provide its stable URL instead of a duplicate copy."
+  },
+  "privacy_and_classification_boundary": {
+    "exclude": [
+      "child, parent, guardian, caregiver, or recipient names and direct identifiers",
+      "Social Security, taxpayer, case, eligibility, and benefit identifiers",
+      "child-level attendance, schedule, or service details",
+      "personal addresses, phone numbers, email addresses, and free text",
+      "bank account, payment instrument, and electronic funds transfer data",
+      "staff personal information and credentials"
+    ],
+    "provider_level_aggregate_accepted": true,
+    "redacted_or_deidentified_transaction_rows_accepted": true,
+    "stable_non_person_keys_only_if_already_maintained": true,
+    "lawful_redaction_accepted": true,
+    "classification_prediction_made": false,
+    "release_prediction_made": false,
+    "boundary": "The request does not assert that any particular record or field is public and accepts the agency's cited classification and reasonably provided public portions."
+  },
+  "format_and_cost": {
+    "access_requested": "electronic copies",
+    "preferred_format": "native electronic format as maintained; otherwise searchable PDF or an existing export format",
+    "rolling_release_accepted": true,
+    "inspection_alternative_accepted": true,
+    "copy_fee_cap_usd": null,
+    "copy_fee_cap_status": "required_missing_owner_approval",
+    "advance_notice_before_costs_exceed_cap_required": true,
+    "fee_commitment_executed": false
+  },
+  "preflight": {
+    "owner_authorization": "required_missing",
+    "requester_name": "required_missing",
+    "requester_contact_method": "required_missing",
+    "request_date": "required_missing",
+    "single_submission_channel": "required_missing",
+    "copy_fee_cap_usd": "required_missing",
+    "final_scope_review": "required_missing",
+    "privacy_review": "required_missing",
+    "public_duplicate_check": "required_before_submission",
+    "all_preflight_gates_passed": false
+  },
+  "internal_state": {
+    "template_path": "docs/requests/minnesota-ccap-quality-learning-center-cy2025-data-request.md",
+    "draft_created": true,
+    "owner_authorization_obtained": false,
+    "request_submitted": false,
+    "external_message_sent": false,
+    "portal_or_email_opened_for_submission": false,
+    "fee_commitment_made": false,
+    "outbound_state_changed": false
+  },
+  "claim_state_preservation": {
+    "official_response_request_status": "not_recorded",
+    "response_source_ids": [],
+    "corroborating_source_ids": [],
+    "counterevidence_source_ids": [],
+    "claim_status": "attributed_claim_supported",
+    "review_status": "source-reviewed",
+    "legal_or_administrative_status": "none_established",
+    "summability": "not_summable",
+    "all_claim_gates_false": true
+  },
+  "evidence_impact": {
+    "responsive_records_received": false,
+    "new_evidence_adopted": false,
+    "claim_status_changed": false,
+    "response_state_changed": false,
+    "field_or_component_closed": false
+  },
+  "guardrails": [
+    "This is an internal draft, not a submitted request, legal advice, or authorization to contact DCYF or any other party.",
+    "The request targets existing records only and does not ask DCYF to answer questions, create records, run a new query, calculate $1.9 million, or construct a reconciliation.",
+    "Drafting a request is not evidence that responsive records exist, are public, or will be released.",
+    "An agency no-records response would establish only the result of the described search, not zero payments or adjustments.",
+    "A denial, classification, redaction, cost estimate, or clarification request would be an administrative event, not evidence for or against the attributed amount.",
+    "Any future production requires custody, privacy review, transaction and period reconciliation, recipient-response review, and separate evidence adoption before changing a claim field or gate.",
+    "No fraud, waste, debt, collectibility, recovery, prevention, performance, or savings claim follows from this draft or any future administrative event."
+  ],
+  "public_claim_allowed": false,
+  "underlying_factual_claim_allowed": false,
+  "misconduct_signal_claim_allowed": false,
+  "official_finding_claim_allowed": false,
+  "performance_claim_allowed": false,
+  "fraud_claim_allowed": false,
+  "waste_claim_allowed": false,
+  "debt_claim_allowed": false,
+  "collectibility_claim_allowed": false,
+  "recovery_claim_allowed": false,
+  "prevention_claim_allowed": false,
+  "savings_estimate_allowed": false
+}
