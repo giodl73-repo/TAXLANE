@@ -376,6 +376,12 @@ const TRANSPORTATION_PILOT_MODERNIZATION_PATH_CONTRACT_JSON_PATH: &str = "data/d
 const TRANSPORTATION_PILOT_MODERNIZATION_PATH_CONTRACT_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/transportation_pilot_modernization_path_contract.schema.md";
 const TRANSPORTATION_PILOT_MODERNIZATION_PATH_CONTRACT_READER_PATH: &str =
     "docs/reading/transportation-pilot-modernization-path-contract.md";
+const TRANSPORTATION_PILOT_STRESS_PATH_CONTRACT_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/transportation_pilot_stress_path_contract.v1.draft.json";
+const TRANSPORTATION_PILOT_STRESS_PATH_CONTRACT_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/transportation_pilot_stress_path_contract.schema.md";
+const TRANSPORTATION_PILOT_STRESS_PATH_CONTRACT_READER_PATH: &str =
+    "docs/reading/transportation-pilot-stress-path-contract.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10891,6 +10897,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_transportation_pilot_baseline_path_contract(root)?;
     validate_transportation_pilot_floor_indicator_contract(root)?;
     validate_transportation_pilot_modernization_path_contract(root)?;
+    validate_transportation_pilot_stress_path_contract(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -16096,6 +16103,316 @@ fn validate_transportation_pilot_modernization_path_contract(root: &Path) -> Res
     Ok(())
 }
 
+fn validate_transportation_pilot_stress_path_contract(root: &Path) -> Result<(), String> {
+    for path in [
+        TRANSPORTATION_PILOT_STRESS_PATH_CONTRACT_JSON_PATH,
+        TRANSPORTATION_PILOT_STRESS_PATH_CONTRACT_SCHEMA_PATH,
+        TRANSPORTATION_PILOT_STRESS_PATH_CONTRACT_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing transportation stress contract artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(TRANSPORTATION_PILOT_STRESS_PATH_CONTRACT_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let contract: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&contract, "record_id")? != "transportation-pilot-stress-path-contract:v1"
+        || string_field(&contract, "record_family")? != "transportation_pilot_stress_path_contract"
+        || int_field(&contract, "pulse")? != 94
+        || string_field(&contract, "selected_pilot_decision_path")?
+            != PILOT_LANE_SELECTION_DECISION_JSON_PATH
+        || string_field(&contract, "source_plan_path")?
+            != TRANSPORTATION_PILOT_SOURCE_PLAN_JSON_PATH
+        || string_field(&contract, "baseline_path_contract_path")?
+            != TRANSPORTATION_PILOT_BASELINE_PATH_CONTRACT_JSON_PATH
+        || string_field(&contract, "floor_indicator_contract_path")?
+            != TRANSPORTATION_PILOT_FLOOR_INDICATOR_CONTRACT_JSON_PATH
+        || string_field(&contract, "modernization_path_contract_path")?
+            != TRANSPORTATION_PILOT_MODERNIZATION_PATH_CONTRACT_JSON_PATH
+        || string_field(&contract, "program_lane_target_cost_contract_path")?
+            != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(
+            &contract,
+            "deterministic_annual_update_simulator_contract_path",
+        )? != DETERMINISTIC_ANNUAL_UPDATE_SIMULATOR_CONTRACT_JSON_PATH
+        || string_field(&contract, "phase_plan_path")?
+            != "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md"
+    {
+        return Err(
+            "transportation stress contract identity or governing paths failed".to_string(),
+        );
+    }
+    if !string_field(&contract, "source_custody_status")?.contains("no_new_source_bytes_captured") {
+        return Err("transportation stress source custody status failed".to_string());
+    }
+
+    let selected = contract
+        .get("selected_pilot")
+        .ok_or("transportation stress selected pilot")?;
+    if string_field(selected, "candidate_id")? != "transportation_asset_maintenance_and_safety"
+        || string_field(selected, "lane_id")? != "transportation-infrastructure"
+    {
+        return Err("transportation stress selected pilot failed".to_string());
+    }
+
+    let boundary = string_field(&contract, "non_claim_boundary")?;
+    for required in [
+        "transportation pilot stress path contract",
+        "not a stress result",
+        "aggressive cut scenario",
+        "modernization result",
+        "productivity finding",
+        "completed baseline path",
+        "floor pass finding",
+        "simulator run",
+        "target-cost selection",
+        "rate calculation",
+        "rate publication",
+        "public rate card",
+        "tax proposal",
+        "savings estimate",
+        "waste finding",
+        "fraud finding",
+        "department-cut instruction",
+        "technology-savings claim",
+        "solver result",
+        "balanced-budget claim",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!("transportation stress boundary missing {required}"));
+        }
+    }
+
+    let policy = contract
+        .get("stress_policy")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation stress policy")?;
+    for flag in [
+        "stress_is_adverse_realization_of_same_policy",
+        "aggressive_cut_is_not_stress",
+        "same_policy_instrument_required",
+        "higher_implementation_cost_allowed_as_stress_dimension",
+        "weaker_productivity_effect_allowed_as_stress_dimension",
+        "access_remediation_required_when_floors_at_risk",
+        "weaker_receipts_or_higher_interest_context_allowed",
+        "floor_failure_blocks_target_cost",
+        "missing_values_remain_null",
+        "blocked_gates_remain_false",
+    ] {
+        if policy.get(flag).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("transportation stress policy flag {flag} failed"));
+        }
+    }
+
+    let dimensions = contract
+        .get("required_stress_dimensions")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("transportation stress dimensions")?;
+    let observed_dimensions = dimensions
+        .iter()
+        .map(|row| string_field(row, "dimension_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_dimensions = BTreeSet::from([
+        "weaker_modernization_effect".to_string(),
+        "higher_implementation_cost".to_string(),
+        "higher_utilization_or_volume".to_string(),
+        "access_quality_or_equity_remediation".to_string(),
+        "weaker_receipt_or_fund_balance_context".to_string(),
+        "higher_interest_context".to_string(),
+    ]);
+    if observed_dimensions != expected_dimensions {
+        return Err("transportation stress dimension set failed".to_string());
+    }
+    for dimension in dimensions {
+        if string_field(dimension, "public_label")?.is_empty()
+            || string_field(dimension, "purpose")?.is_empty()
+            || string_field(dimension, "status")? != "planned_not_scored"
+            || !dimension
+                .get("central_value")
+                .is_some_and(serde_json::Value::is_null)
+            || !dimension
+                .get("stress_value")
+                .is_some_and(serde_json::Value::is_null)
+            || !dimension
+                .get("delta_value")
+                .is_some_and(serde_json::Value::is_null)
+        {
+            return Err("transportation stress dimensions must remain unscored".to_string());
+        }
+    }
+
+    let requirements = contract
+        .get("required_stress_record_fields")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("transportation stress record requirements")?;
+    let observed_requirements = requirements
+        .iter()
+        .map(|row| string_field(row, "field_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    for required in [
+        "fiscal_year",
+        "policy_instrument",
+        "same_policy_as_central",
+        "stress_dimension_id",
+        "central_value",
+        "stress_value",
+        "delta_value",
+        "implementation_admin_outlays_millions",
+        "access_remediation_outlays_millions",
+        "floor_impact_link",
+        "fund_balance_context",
+        "source_id",
+        "raw_source_path",
+        "raw_byte_count",
+        "raw_sha256",
+    ] {
+        if !observed_requirements.contains(required) {
+            return Err(format!("transportation stress field missing {required}"));
+        }
+    }
+    for requirement in requirements {
+        if requirement
+            .get("required")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+            || !requirement
+                .get("initial_value")
+                .is_some_and(serde_json::Value::is_null)
+        {
+            return Err("transportation stress requirements must be required and null".to_string());
+        }
+    }
+
+    let scenario = contract
+        .get("scenario_values")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation stress scenario values")?;
+    for (field, value) in scenario {
+        if !value.is_null() {
+            return Err(format!(
+                "transportation stress scenario value {field} must remain null"
+            ));
+        }
+    }
+
+    let gates = contract
+        .get("blocked_gates")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation stress blocked gates")?;
+    if gates
+        .iter()
+        .any(|(_, value)| value.as_bool() != Some(false))
+    {
+        return Err("transportation stress blocked gates must be false".to_string());
+    }
+
+    if contract
+        .get("stress_records")
+        .and_then(serde_json::Value::as_array)
+        .is_none_or(|rows| !rows.is_empty())
+    {
+        return Err("transportation stress records must remain empty".to_string());
+    }
+
+    let blockers = contract
+        .get("blocking_conditions")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("transportation stress blockers")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    for required in [
+        "source_bytes_not_captured",
+        "source_metadata_missing",
+        "sha256_missing",
+        "baseline_path_incomplete",
+        "floor_thresholds_not_set",
+        "floor_passes_not_recorded",
+        "modernization_path_incomplete",
+        "central_policy_not_scored",
+        "stress_records_missing",
+        "same_policy_adverse_realization_missing",
+        "simulator_not_run",
+    ] {
+        if !blockers.contains(required) {
+            return Err(format!("transportation stress blocker missing {required}"));
+        }
+    }
+
+    let outputs = contract
+        .get("output_placeholders")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation stress outputs")?;
+    for (field, value) in outputs {
+        if !value.is_null() {
+            return Err(format!(
+                "transportation stress output {field} must remain null"
+            ));
+        }
+    }
+
+    let claims = contract
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation stress claims")?;
+    for (field, value) in claims {
+        let observed = value
+            .as_bool()
+            .ok_or("transportation stress claim boolean must be bool")?;
+        if field == "stress_contract_published" {
+            if !observed {
+                return Err("transportation stress contract flag must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!(
+                "transportation stress public claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader =
+        fs::read_to_string(root.join(TRANSPORTATION_PILOT_STRESS_PATH_CONTRACT_READER_PATH))
+            .map_err(|e| e.to_string())?;
+    for required in [
+        TRANSPORTATION_PILOT_STRESS_PATH_CONTRACT_JSON_PATH,
+        "bad-case version of the same transportation pilot policy",
+        "does not mean choosing a harsher cut",
+        "not a stress result",
+        "aggressive cut scenario",
+        "simulator run",
+        "target-cost selection",
+        "rate calculation",
+        "savings estimate",
+        "waste finding",
+        "fraud finding",
+        "department-cut instruction",
+        "technology-savings claim",
+        "balanced-budget claim",
+        "Stress is an adverse realization of the same policy",
+        "An aggressive cut is not stress",
+        "weaker modernization effect",
+        "higher implementation cost",
+        "higher utilization or volume",
+        "access, quality, or equity remediation",
+        "weaker receipt or fund-balance context",
+        "higher interest context",
+        "All central values, stress values, deltas, target costs",
+        "remain null",
+        "raw byte count, and raw SHA-256",
+        "Stress records remain empty",
+        "Only the stress contract is published",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("transportation stress reader missing {required}"));
+        }
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -16224,6 +16541,12 @@ mod global_country_comparison_tests {
     fn transportation_pilot_modernization_path_contract_blocks_productivity_credit() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_transportation_pilot_modernization_path_contract(&root).unwrap();
+    }
+
+    #[test]
+    fn transportation_pilot_stress_path_contract_blocks_aggressive_cut_shortcut() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_transportation_pilot_stress_path_contract(&root).unwrap();
     }
 
     #[test]

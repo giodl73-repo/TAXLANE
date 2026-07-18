@@ -1,0 +1,169 @@
+{
+  "record_id": "transportation-pilot-stress-path-contract:v1",
+  "record_family": "transportation_pilot_stress_path_contract",
+  "version": "v1.draft",
+  "status": "draft_stress_contract_no_stress_values_scored",
+  "pulse": 94,
+  "selected_pilot_decision_path": "data/derived/breadth_benchmark_matrix/pilot_lane_selection_decision.v1.draft.json",
+  "source_plan_path": "data/derived/breadth_benchmark_matrix/transportation_pilot_source_plan.v1.draft.json",
+  "baseline_path_contract_path": "data/derived/breadth_benchmark_matrix/transportation_pilot_baseline_path_contract.v1.draft.json",
+  "floor_indicator_contract_path": "data/derived/breadth_benchmark_matrix/transportation_pilot_floor_indicator_contract.v1.draft.json",
+  "modernization_path_contract_path": "data/derived/breadth_benchmark_matrix/transportation_pilot_modernization_path_contract.v1.draft.json",
+  "program_lane_target_cost_contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "deterministic_annual_update_simulator_contract_path": "data/derived/breadth_benchmark_matrix/deterministic_annual_update_simulator_contract.v1.draft.json",
+  "phase_plan_path": "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md",
+  "source_custody_status": "stress_contract_only_no_new_source_bytes_captured",
+  "selected_pilot": {
+    "candidate_id": "transportation_asset_maintenance_and_safety",
+    "lane_id": "transportation-infrastructure",
+    "scope": "transportation asset maintenance and safety pilot scaffold"
+  },
+  "non_claim_boundary": "This is a transportation pilot stress path contract, not a stress result, aggressive cut scenario, modernization result, productivity finding, completed baseline path, floor pass finding, simulator run, target-cost selection, rate calculation, rate publication, public rate card, tax proposal, savings estimate, waste finding, fraud finding, department-cut instruction, technology-savings claim, solver result, or balanced-budget claim.",
+  "stress_policy": {
+    "stress_is_adverse_realization_of_same_policy": true,
+    "aggressive_cut_is_not_stress": true,
+    "same_policy_instrument_required": true,
+    "higher_implementation_cost_allowed_as_stress_dimension": true,
+    "weaker_productivity_effect_allowed_as_stress_dimension": true,
+    "access_remediation_required_when_floors_at_risk": true,
+    "weaker_receipts_or_higher_interest_context_allowed": true,
+    "floor_failure_blocks_target_cost": true,
+    "missing_values_remain_null": true,
+    "blocked_gates_remain_false": true
+  },
+  "required_stress_dimensions": [
+    {
+      "dimension_id": "weaker_modernization_effect",
+      "public_label": "Weaker modernization effect",
+      "purpose": "Model the same policy delivering less productivity or service improvement than the central case.",
+      "central_value": null,
+      "stress_value": null,
+      "delta_value": null,
+      "status": "planned_not_scored"
+    },
+    {
+      "dimension_id": "higher_implementation_cost",
+      "public_label": "Higher implementation cost",
+      "purpose": "Model technology, procurement, training, monitoring, enforcement, and administration costing more than expected.",
+      "central_value": null,
+      "stress_value": null,
+      "delta_value": null,
+      "status": "planned_not_scored"
+    },
+    {
+      "dimension_id": "higher_utilization_or_volume",
+      "public_label": "Higher utilization or volume",
+      "purpose": "Model travel demand, asset wear, or service use increasing the cost of maintaining the same service standard.",
+      "central_value": null,
+      "stress_value": null,
+      "delta_value": null,
+      "status": "planned_not_scored"
+    },
+    {
+      "dimension_id": "access_quality_or_equity_remediation",
+      "public_label": "Access, quality, or equity remediation",
+      "purpose": "Model added costs required when floors would otherwise be at risk.",
+      "central_value": null,
+      "stress_value": null,
+      "delta_value": null,
+      "status": "planned_not_scored"
+    },
+    {
+      "dimension_id": "weaker_receipt_or_fund_balance_context",
+      "public_label": "Weaker receipt or fund-balance context",
+      "purpose": "Model weaker dedicated receipts, transfers, or fund balances without turning the stress path into a rate calculation.",
+      "central_value": null,
+      "stress_value": null,
+      "delta_value": null,
+      "status": "planned_not_scored"
+    },
+    {
+      "dimension_id": "higher_interest_context",
+      "public_label": "Higher interest context",
+      "purpose": "Preserve that net interest is endogenous and can only be recomputed by the integrated solver later.",
+      "central_value": null,
+      "stress_value": null,
+      "delta_value": null,
+      "status": "planned_not_scored"
+    }
+  ],
+  "required_stress_record_fields": [
+    {"field_id": "fiscal_year", "required": true, "initial_value": null},
+    {"field_id": "policy_instrument", "required": true, "initial_value": null},
+    {"field_id": "same_policy_as_central", "required": true, "initial_value": null},
+    {"field_id": "stress_dimension_id", "required": true, "initial_value": null},
+    {"field_id": "central_value", "required": true, "initial_value": null},
+    {"field_id": "stress_value", "required": true, "initial_value": null},
+    {"field_id": "delta_value", "required": true, "initial_value": null},
+    {"field_id": "implementation_admin_outlays_millions", "required": true, "initial_value": null},
+    {"field_id": "access_remediation_outlays_millions", "required": true, "initial_value": null},
+    {"field_id": "floor_impact_link", "required": true, "initial_value": null},
+    {"field_id": "fund_balance_context", "required": true, "initial_value": null},
+    {"field_id": "source_id", "required": true, "initial_value": null},
+    {"field_id": "raw_source_path", "required": true, "initial_value": null},
+    {"field_id": "raw_byte_count", "required": true, "initial_value": null},
+    {"field_id": "raw_sha256", "required": true, "initial_value": null}
+  ],
+  "scenario_values": {
+    "central_target_cost_millions": null,
+    "stress_target_cost_millions": null,
+    "stress_net_effect_millions": null,
+    "stress_federal_cash_flow_millions": null,
+    "stress_rate_effect": null,
+    "stress_solver_effect": null
+  },
+  "blocked_gates": {
+    "source_custody_complete": false,
+    "baseline_path_complete": false,
+    "floor_thresholds_set": false,
+    "all_floors_passed": false,
+    "modernization_path_complete": false,
+    "stress_records_complete": false,
+    "stress_values_scored": false,
+    "simulator_ready": false
+  },
+  "stress_records": [],
+  "blocking_conditions": [
+    "source_bytes_not_captured",
+    "source_metadata_missing",
+    "sha256_missing",
+    "baseline_path_incomplete",
+    "floor_thresholds_not_set",
+    "floor_passes_not_recorded",
+    "modernization_path_incomplete",
+    "central_policy_not_scored",
+    "stress_records_missing",
+    "same_policy_adverse_realization_missing",
+    "simulator_not_run"
+  ],
+  "output_placeholders": {
+    "stress_path": null,
+    "stress_records_manifest": null,
+    "floor_impact_report": null,
+    "simulator_result": null,
+    "target_cost": null,
+    "effective_rate": null,
+    "savings_estimate": null,
+    "balanced_budget_result": null
+  },
+  "claim_booleans": {
+    "stress_contract_published": true,
+    "source_bytes_captured": false,
+    "source_custody_complete": false,
+    "stress_path_published": false,
+    "stress_values_scored": false,
+    "simulator_ready": false,
+    "simulator_run_published": false,
+    "target_cost_published": false,
+    "statutory_rate_published": false,
+    "effective_rate_published": false,
+    "public_rate_card_published": false,
+    "tax_proposal_published": false,
+    "savings_claim_published": false,
+    "waste_finding_published": false,
+    "fraud_finding_published": false,
+    "department_cut_instruction_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  }
+}

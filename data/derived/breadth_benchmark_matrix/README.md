@@ -115,6 +115,13 @@ costs and same-service-or-better evidence before credit, and leaves simulator,
 target-cost, rate, savings, waste, fraud, technology-savings, solver, stress,
 and balanced-budget claims blocked.
 
+`transportation_pilot_stress_path_contract.v1.draft.json` defines the stress
+path requirements for the transportation pilot. Stress is an adverse
+realization of the same policy, not a harsher cut; all stress values remain
+null, stress rows remain empty, and simulator, target-cost, rate, savings,
+waste, fraud, technology-savings, solver, and balanced-budget claims remain
+blocked.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is
