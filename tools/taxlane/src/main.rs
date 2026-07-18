@@ -348,6 +348,14 @@ const PUBLIC_THESIS_PACKET_SCHEMA_PATH: &str =
 const PUBLIC_THESIS_PACKET_READER_PATH: &str = "docs/reading/public-thesis-packet.md";
 const PUBLIC_THESIS_PACKET_ROLE_REVIEW_PATH: &str =
     "reviews/2026-07-18-public-thesis-packet-role-review.md";
+const PILOT_LANE_SELECTION_DECISION_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/pilot_lane_selection_decision.v1.draft.json";
+const PILOT_LANE_SELECTION_DECISION_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/pilot_lane_selection_decision.schema.md";
+const PILOT_LANE_SELECTION_DECISION_READER_PATH: &str =
+    "docs/reading/pilot-lane-selection-decision.md";
+const PILOT_LANE_SELECTION_DECISION_ROLE_REVIEW_PATH: &str =
+    "reviews/2026-07-18-pilot-lane-selection-decision-role-review.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10858,6 +10866,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_pilot_lane_selection_gate(root)?;
     validate_deterministic_annual_update_simulator_contract(root)?;
     validate_public_thesis_packet(root)?;
+    validate_pilot_lane_selection_decision(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -14382,6 +14391,322 @@ fn validate_public_thesis_packet(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_pilot_lane_selection_decision(root: &Path) -> Result<(), String> {
+    for path in [
+        PILOT_LANE_SELECTION_DECISION_JSON_PATH,
+        PILOT_LANE_SELECTION_DECISION_SCHEMA_PATH,
+        PILOT_LANE_SELECTION_DECISION_READER_PATH,
+        PILOT_LANE_SELECTION_DECISION_ROLE_REVIEW_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing pilot selection decision artifact: {path}"));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(PILOT_LANE_SELECTION_DECISION_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let decision: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&decision, "record_id")? != "pilot-lane-selection-decision:v1"
+        || string_field(&decision, "record_family")? != "pilot_lane_selection_decision"
+        || int_field(&decision, "pulse")? != 89
+        || string_field(&decision, "selection_gate_path")? != PILOT_LANE_SELECTION_GATE_JSON_PATH
+        || string_field(
+            &decision,
+            "deterministic_annual_update_simulator_contract_path",
+        )? != DETERMINISTIC_ANNUAL_UPDATE_SIMULATOR_CONTRACT_JSON_PATH
+        || string_field(&decision, "public_thesis_packet_path")? != PUBLIC_THESIS_PACKET_JSON_PATH
+        || string_field(&decision, "adaptive_rate_system_contract_path")?
+            != ADAPTIVE_RATE_SYSTEM_CONTRACT_JSON_PATH
+        || string_field(&decision, "technology_transition_operating_model_path")?
+            != TECHNOLOGY_TRANSITION_OPERATING_MODEL_JSON_PATH
+        || string_field(&decision, "role_review_path")?
+            != PILOT_LANE_SELECTION_DECISION_ROLE_REVIEW_PATH
+        || string_field(&decision, "phase_plan_path")?
+            != "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md"
+    {
+        return Err("pilot selection decision identity or governing paths failed".to_string());
+    }
+    if !string_field(&decision, "source_custody_status")?.contains("no_new_external_request") {
+        return Err(
+            "pilot selection decision custody status must prohibit external requests".to_string(),
+        );
+    }
+
+    let boundary = string_field(&decision, "decision_boundary")?;
+    for required in [
+        "scaffold work only",
+        "not a simulator run",
+        "target-cost selection",
+        "rate calculation",
+        "rate publication",
+        "public rate card",
+        "tax proposal",
+        "savings estimate",
+        "waste finding",
+        "fraud finding",
+        "department-cut instruction",
+        "technology-savings claim",
+        "solver result",
+        "outcome-floor threshold decision",
+        "balanced-budget claim",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!("pilot selection boundary missing {required}"));
+        }
+    }
+
+    let selected = decision
+        .get("selected_pilot")
+        .ok_or("pilot selection selected_pilot")?;
+    if string_field(selected, "selected_candidate_id")?
+        != "transportation_asset_maintenance_and_safety"
+        || string_field(selected, "selected_lane_id")? != "transportation-infrastructure"
+        || string_field(selected, "selection_status")? != "selected_for_scaffold_only"
+        || selected
+            .get("simulator_ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || selected
+            .get("public_claim_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("pilot selection must select transportation for scaffold only".to_string());
+    }
+    for required in [
+        "narrow",
+        "trust-fund",
+        "state/local",
+        "observable",
+        "avoids immediate tax-distribution",
+        "fraud/savings choices",
+    ] {
+        if !string_field(selected, "selection_rationale")?.contains(required) {
+            return Err(format!("pilot selection rationale missing {required}"));
+        }
+    }
+
+    let criteria = decision
+        .get("criteria_results")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("pilot selection criteria")?;
+    let observed_criteria = criteria
+        .iter()
+        .map(|row| string_field(row, "criterion_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_criteria = BTreeSet::from([
+        "narrow_scope".to_string(),
+        "low_normative_distribution_risk".to_string(),
+        "official_source_feasibility".to_string(),
+        "floor_observability".to_string(),
+        "technology_transition_fit".to_string(),
+        "solver_containment".to_string(),
+        "public_language_safety".to_string(),
+    ]);
+    if observed_criteria != expected_criteria {
+        return Err("pilot selection criteria result set failed".to_string());
+    }
+    for criterion in criteria {
+        let result = string_field(criterion, "result")?;
+        if !result.contains("pass") || string_field(criterion, "reason")?.is_empty() {
+            return Err("pilot selection criteria must pass for scaffold".to_string());
+        }
+    }
+
+    let deferred = decision
+        .get("non_selected_candidates")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("pilot selection deferred candidates")?;
+    let observed_deferred = deferred
+        .iter()
+        .map(|row| string_field(row, "candidate_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    for required in [
+        "disaster_administration_and_mitigation_reserve_operations",
+        "claims_processing_modernization",
+    ] {
+        if !observed_deferred.contains(required) {
+            return Err(format!(
+                "pilot selection deferred candidate missing {required}"
+            ));
+        }
+    }
+    for row in deferred {
+        if string_field(row, "status")? != "deferred_not_rejected" {
+            return Err("pilot selection non-selected candidates must be deferred".to_string());
+        }
+    }
+
+    let exclusions = decision
+        .get("excluded_first_pilots_preserved")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("pilot selection exclusions")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    for required in [
+        "social-security",
+        "medicare",
+        "health-medicare",
+        "veterans",
+        "any_immediate_normative_distribution_choice",
+    ] {
+        if !exclusions.contains(required) {
+            return Err(format!("pilot selection exclusion missing {required}"));
+        }
+    }
+
+    let review = decision
+        .get("role_review_summary")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("pilot selection role review")?;
+    if review.len() != 8 {
+        return Err("pilot selection role review must cover eight roles".to_string());
+    }
+    let observed_roles = review
+        .iter()
+        .map(|row| string_field(row, "role_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    for required in [
+        "T-1 Taxpayer Advocate",
+        "T-2 Budget Accountant",
+        "T-3 Source Custodian",
+        "T-4 Public Goods Steward",
+        "T-5 Program Beneficiary",
+        "T-6 Compliance Burden",
+        "T-7 Fiscal Sustainability",
+        "T-8 Reform Skeptic",
+    ] {
+        if !observed_roles.contains(required) {
+            return Err(format!("pilot selection role missing {required}"));
+        }
+    }
+
+    let next = decision
+        .get("next_required_artifacts")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("pilot selection next artifacts")?;
+    let observed_next = next
+        .iter()
+        .map(|row| string_field(row, "artifact_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    for required in [
+        "pilot_source_plan",
+        "baseline_path_contract",
+        "floor_indicator_contract",
+        "modernization_path_contract",
+    ] {
+        if !observed_next.contains(required) {
+            return Err(format!("pilot selection next artifact missing {required}"));
+        }
+    }
+    for row in next {
+        if row.get("required").and_then(serde_json::Value::as_bool) != Some(true)
+            || !row.get("path").is_some_and(serde_json::Value::is_null)
+        {
+            return Err("pilot selection next artifact paths must remain null".to_string());
+        }
+    }
+
+    let blockers = decision
+        .get("blocking_conditions")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("pilot selection blockers")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    for required in [
+        "official_source_custody_missing",
+        "baseline_path_missing",
+        "floor_indicator_contract_missing",
+        "floor_thresholds_not_set",
+        "modernization_path_missing",
+        "stress_path_missing",
+        "measured_productivity_missing",
+        "federal_state_local_translation_missing",
+        "assigned_base_model_missing",
+        "simulator_not_run",
+    ] {
+        if !blockers.contains(required) {
+            return Err(format!("pilot selection blocker missing {required}"));
+        }
+    }
+
+    let outputs = decision
+        .get("output_placeholders")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("pilot selection outputs")?;
+    for (field, value) in outputs {
+        if !value.is_null() {
+            return Err(format!("pilot selection output {field} must remain null"));
+        }
+    }
+
+    let claims = decision
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("pilot selection claim booleans")?;
+    for (field, value) in claims {
+        let observed = value
+            .as_bool()
+            .ok_or("pilot selection claim boolean must be bool")?;
+        if field == "pilot_selected_for_scaffold" {
+            if !observed {
+                return Err("pilot_selected_for_scaffold must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!(
+                "pilot selection public claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(PILOT_LANE_SELECTION_DECISION_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        PILOT_LANE_SELECTION_DECISION_JSON_PATH,
+        "transportation asset maintenance and safety",
+        "transportation-infrastructure",
+        "scaffold work only",
+        "not a simulator run",
+        "target-cost selection",
+        "rate calculation",
+        "savings estimate",
+        "waste finding",
+        "fraud finding",
+        "outcome-floor threshold",
+        "balanced-budget claim",
+        "Disaster reserve operations and claims-processing modernization remain deferred",
+        "Social Security, Medicare, broad health, veterans statutory commitments",
+        "Simulator readiness remains false. Public-claim allowance remains false.",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("pilot selection reader missing {required}"));
+        }
+    }
+
+    let role_review = fs::read_to_string(root.join(PILOT_LANE_SELECTION_DECISION_ROLE_REVIEW_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        "Approved to select transportation asset maintenance and safety",
+        "scaffold work only",
+        "Not approved for simulator execution",
+        "No normative target is chosen.",
+        "No tax distribution is chosen.",
+        "No outcome-floor threshold is chosen.",
+        "No causal evidence is interpreted.",
+        "No public savings, efficiency, balanced-budget, or statutory-rate claim",
+        "Official source custody.",
+        "Current-law baseline path.",
+    ] {
+        if !role_review.contains(required) {
+            return Err(format!("pilot selection role review missing {required}"));
+        }
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -14480,6 +14805,12 @@ mod global_country_comparison_tests {
     fn public_thesis_packet_survives_role_review_without_public_claims() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_public_thesis_packet(&root).unwrap();
+    }
+
+    #[test]
+    fn pilot_lane_selection_decision_selects_transportation_scaffold_only() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_pilot_lane_selection_decision(&root).unwrap();
     }
 
     #[test]

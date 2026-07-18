@@ -81,6 +81,12 @@ than automatic cuts, blocked rates as valid outcomes, and no statutory-rate,
 effective-rate, savings, waste, fraud, department-cut, technology-savings, pilot,
 solver, public-card, or balanced-budget claim.
 
+`pilot_lane_selection_decision.v1.draft.json` selects transportation asset
+maintenance and safety under the transportation-infrastructure lane for scaffold
+work only. It does not run the simulator, set target costs, calculate rates,
+publish a public card, estimate savings, find waste or fraud, set floor
+thresholds, or make a balanced-budget claim.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is

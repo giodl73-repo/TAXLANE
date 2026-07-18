@@ -48,6 +48,7 @@ explainers. They should keep three labels visible:
 | `pilot-lane-selection-gate.md` | Pulse 86 gate: lists initial simulator candidates while keeping final pilot selection blocked pending role review. |
 | `deterministic-annual-update-simulator-contract.md` | Pulse 87 contract: requires baseline, modernization, and stress paths; prohibits optimization; and keeps simulator outputs null. |
 | `public-thesis-packet.md` | Pulse 88 packet: role-reviewed public explanation of what the adaptive-rate system can and cannot claim. |
+| `pilot-lane-selection-decision.md` | Pulse 89 decision: selects transportation asset maintenance and safety for scaffold work only while keeping simulator, rate, savings, floor-threshold, and balanced-budget claims blocked. |
 | `rate-change-worked-examples.md` | Three end-to-end examples of the rate-adjustment operating model (defense up, health down, Social Security cap lift). |
 | `budget-area-funding-explainer.md` | Lay distillation of the six panel-reviewed research papers: where the US over-funds (health), under-funds (family), funds by strategy (defense), runs a broken base (Social Security), and under-collects overall (revenue). Points to `docs/papers/`. |
 | `where-federal-money-goes.md` | Spending-side packet showing the largest FY2025 outlay categories, financing context, and safe accountability questions. |

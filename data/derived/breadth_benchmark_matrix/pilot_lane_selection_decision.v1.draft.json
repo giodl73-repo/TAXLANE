@@ -1,0 +1,164 @@
+{
+  "record_id": "pilot-lane-selection-decision:v1",
+  "record_family": "pilot_lane_selection_decision",
+  "version": "v1.draft",
+  "status": "draft_role_reviewed_pilot_selected_for_scaffold_only",
+  "pulse": 89,
+  "selection_gate_path": "data/derived/breadth_benchmark_matrix/pilot_lane_selection_gate.v1.draft.json",
+  "deterministic_annual_update_simulator_contract_path": "data/derived/breadth_benchmark_matrix/deterministic_annual_update_simulator_contract.v1.draft.json",
+  "public_thesis_packet_path": "data/derived/breadth_benchmark_matrix/public_thesis_packet.v1.draft.json",
+  "adaptive_rate_system_contract_path": "data/derived/breadth_benchmark_matrix/adaptive_rate_system_contract.v1.draft.json",
+  "technology_transition_operating_model_path": "data/derived/breadth_benchmark_matrix/technology_transition_operating_model.v1.draft.json",
+  "role_review_path": "reviews/2026-07-18-pilot-lane-selection-decision-role-review.md",
+  "phase_plan_path": "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md",
+  "source_custody_status": "derived_from_existing_repo_custodied_records_no_new_external_request",
+  "decision_boundary": "This record selects a bounded pilot lane for future scaffold work only. It is not a simulator run, target-cost selection, rate calculation, rate publication, public rate card, tax proposal, savings estimate, waste finding, fraud finding, department-cut instruction, technology-savings claim, solver result, outcome-floor threshold decision, or balanced-budget claim.",
+  "selected_pilot": {
+    "selected_candidate_id": "transportation_asset_maintenance_and_safety",
+    "selected_lane_id": "transportation-infrastructure",
+    "selected_scope": "transportation asset maintenance and safety pilot scaffold",
+    "selection_rationale": "The transportation asset-maintenance and safety candidate is narrow, has existing trust-fund/accounting boundaries, can keep federal grants and state/local delivery separate, has observable safety and asset-condition floor families, and avoids immediate tax-distribution, benefit-adequacy, statutory-continuity, health-incidence, or fraud/savings choices.",
+    "selection_status": "selected_for_scaffold_only",
+    "simulator_ready": false,
+    "public_claim_allowed": false
+  },
+  "criteria_results": [
+    {
+      "criterion_id": "narrow_scope",
+      "result": "pass_for_scaffold",
+      "reason": "Asset maintenance and safety can be scoped below the full transportation lane."
+    },
+    {
+      "criterion_id": "low_normative_distribution_risk",
+      "result": "pass_for_scaffold",
+      "reason": "The selection does not choose a tax distribution, benefit adequacy rule, statutory continuity rule, or target level."
+    },
+    {
+      "criterion_id": "official_source_feasibility",
+      "result": "provisional_pass_for_source_plan",
+      "reason": "Prior transportation depth work indicates plausible official-source families, but this decision does not capture new source bytes or close custody."
+    },
+    {
+      "criterion_id": "floor_observability",
+      "result": "provisional_pass_for_scaffold",
+      "reason": "Safety, asset condition, access, reliability, equity, resilience, and delivery-feasibility families can be specified without setting thresholds in this pulse."
+    },
+    {
+      "criterion_id": "technology_transition_fit",
+      "result": "pass_for_scaffold",
+      "reason": "Maintenance planning, project delivery, inspection, and asset-inventory modernization can be modeled as transition paths with implementation cost and stress cases."
+    },
+    {
+      "criterion_id": "solver_containment",
+      "result": "pass_for_scaffold",
+      "reason": "The pilot can remain deterministic and narrow without revenue-package optimization."
+    },
+    {
+      "criterion_id": "public_language_safety",
+      "result": "pass_with_guardrail",
+      "reason": "The pilot can be described as asset-maintenance and safety readiness, not waste, fraud, recoverable savings, causal savings, or a department cut."
+    }
+  ],
+  "non_selected_candidates": [
+    {
+      "candidate_id": "disaster_administration_and_mitigation_reserve_operations",
+      "lane_id": "disaster-resilience",
+      "status": "deferred_not_rejected",
+      "reason": "Reserve rules and avoided-loss boundaries are more exposed to emergency and stress-parameter choices, so this remains a later candidate."
+    },
+    {
+      "candidate_id": "claims_processing_modernization",
+      "lane_id": "payment-integrity",
+      "status": "deferred_not_rejected",
+      "reason": "Claims modernization remains useful, but payment-integrity language has higher fraud, recoverability, and causal-savings confusion risk for the first simulator."
+    }
+  ],
+  "excluded_first_pilots_preserved": [
+    "social-security",
+    "medicare",
+    "health-medicare",
+    "veterans",
+    "any_immediate_normative_distribution_choice"
+  ],
+  "role_review_summary": [
+    {"role_id": "T-1 Taxpayer Advocate", "result": "pass_with_guardrail", "finding": "Selection does not publish a rate, burden, or taxpayer allocation and keeps future fairness analysis blocked."},
+    {"role_id": "T-2 Budget Accountant", "result": "pass_with_guardrail", "finding": "Selection preserves transportation trust-fund, general-fund, state/local, offset, and reconciliation boundaries."},
+    {"role_id": "T-3 Source Custodian", "result": "pass_with_p1_blocker", "finding": "Future simulator inputs require official source custody, matched period, byte count, SHA-256, and metadata; no new source is captured here."},
+    {"role_id": "T-4 Public Goods Steward", "result": "pass_with_guardrail", "finding": "Selection keeps maintenance, safety, access, resilience, project delivery, and public-good service floors separate from rate claims."},
+    {"role_id": "T-5 Program Beneficiary", "result": "pass_with_p1_blocker", "finding": "No lower-cost recognition is allowed until access, quality/safety, equity, adequacy/resilience, delivery feasibility, and lane-specific floors pass."},
+    {"role_id": "T-6 Compliance Burden", "result": "pass_with_guardrail", "finding": "Selection does not create a filing, withholding, fee, user-charge, employer, taxpayer, or agency compliance burden."},
+    {"role_id": "T-7 Fiscal Sustainability", "result": "pass_with_p1_blocker", "finding": "Selection does not alter fund balances, reserves, debt, net interest, deficit gap, or balanced-budget status."},
+    {"role_id": "T-8 Reform Skeptic", "result": "pass_with_guardrail", "finding": "Selection is narrow and falsifiable; it avoids proof rhetoric, savings language, waste language, and technology-cut shortcuts."}
+  ],
+  "next_required_artifacts": [
+    {
+      "artifact_id": "pilot_source_plan",
+      "required": true,
+      "path": null,
+      "purpose": "Name official source families, retrieval metadata requirements, custody fields, and matched period/unit/perimeter needs."
+    },
+    {
+      "artifact_id": "baseline_path_contract",
+      "required": true,
+      "path": null,
+      "purpose": "Define the current-law transportation asset-maintenance and safety baseline without reform deltas."
+    },
+    {
+      "artifact_id": "floor_indicator_contract",
+      "required": true,
+      "path": null,
+      "purpose": "Define access, quality/safety, equity, adequacy/resilience, delivery-feasibility, and lane-specific floor indicators without setting thresholds yet."
+    },
+    {
+      "artifact_id": "modernization_path_contract",
+      "required": true,
+      "path": null,
+      "purpose": "Define transition-cost, measured-productivity, implementation-risk, fallback, and stress fields before any technology effect."
+    }
+  ],
+  "blocking_conditions": [
+    "official_source_custody_missing",
+    "baseline_path_missing",
+    "floor_indicator_contract_missing",
+    "floor_thresholds_not_set",
+    "modernization_path_missing",
+    "stress_path_missing",
+    "transition_costs_missing",
+    "measured_productivity_missing",
+    "federal_state_local_translation_missing",
+    "fund_reserve_interest_reconciliation_missing",
+    "assigned_base_model_missing",
+    "distribution_behavior_macro_interaction_missing",
+    "simulator_not_run"
+  ],
+  "output_placeholders": {
+    "baseline_path": null,
+    "modernization_path": null,
+    "stress_path": null,
+    "target_cost": null,
+    "effective_rate": null,
+    "all_receipt_funding_share": null,
+    "residual_general_fund_requirement_share": null,
+    "public_rate_card": null,
+    "gross_savings": null,
+    "net_savings": null,
+    "solver_result": null,
+    "balanced_budget_result": null
+  },
+  "claim_booleans": {
+    "pilot_selected_for_scaffold": true,
+    "simulator_ready": false,
+    "simulator_run_published": false,
+    "target_cost_published": false,
+    "statutory_rate_published": false,
+    "effective_rate_published": false,
+    "public_rate_card_published": false,
+    "tax_proposal_published": false,
+    "savings_claim_published": false,
+    "waste_finding_published": false,
+    "fraud_finding_published": false,
+    "department_cut_instruction_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  }
+}
