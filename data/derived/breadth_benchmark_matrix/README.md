@@ -168,6 +168,12 @@ withdrawal, cap, emergency override, payback, and rounding fields before any
 solver run may use reserve accounting. It sets no numeric parameters and keeps
 solver/rate/savings claims blocked.
 
+`reserve_parameter_readiness_gate.v1.draft.json` names the parameter decisions
+that remain blocked before reserves can enter a deterministic solver:
+contribution formula, withdrawal rule, balance series, cap formula, emergency
+override threshold, emergency deferral cap, future-year payback, rounding
+residual, source vintage, and role review. Every value remains null.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is

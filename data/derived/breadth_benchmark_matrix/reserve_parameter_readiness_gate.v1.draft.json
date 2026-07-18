@@ -1,0 +1,63 @@
+{
+  "record_id": "reserve-parameter-readiness-gate:v1",
+  "record_family": "reserve_parameter_readiness_gate",
+  "version": "v1.draft",
+  "status": "draft_gate_parameters_blocked",
+  "pulse": 103,
+  "reserve_rule_contract_path": "data/derived/breadth_benchmark_matrix/reserve_rule_contract.v1.draft.json",
+  "solver_input_inventory_path": "data/derived/breadth_benchmark_matrix/solver_input_inventory.v1.draft.json",
+  "program_lane_target_cost_contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "balance_guardrail_path": "docs/research/2026-06-23-balance-rule-guardrail-spec.md",
+  "rate_adjustment_operating_model_path": "docs/research/2026-06-24-rate-adjustment-operating-model.md",
+  "purpose": "Define the evidence and review gates required before reserve parameters may enter a deterministic solver or public balanced-rate output.",
+  "required_parameter_decisions": [
+    {"decision_id": "reserve_contribution_formula", "required": true, "ready": false, "current_value": null, "blockers": ["official annual baseline path", "reserve policy objective", "role review"]},
+    {"decision_id": "reserve_withdrawal_rule", "required": true, "ready": false, "current_value": null, "blockers": ["cyclical shortfall definition", "fund-specific draw ordering", "role review"]},
+    {"decision_id": "reserve_balance_series", "required": true, "ready": false, "current_value": null, "blockers": ["baseline year balance", "annual contribution series", "annual withdrawal series"]},
+    {"decision_id": "reserve_cap_formula", "required": true, "ready": false, "current_value": null, "blockers": ["cap basis", "emergency override interaction", "role review"]},
+    {"decision_id": "emergency_override_threshold", "required": true, "ready": false, "current_value": null, "blockers": ["emergency trigger definition", "deferral cap", "public disclosure rule"]},
+    {"decision_id": "emergency_deferral_cap", "required": true, "ready": false, "current_value": null, "blockers": ["maximum deferred contribution", "future-year payback rule", "role review"]},
+    {"decision_id": "future_year_payback_schedule", "required": true, "ready": false, "current_value": null, "blockers": ["payback horizon", "interest treatment", "fund balance treatment"]},
+    {"decision_id": "public_rounding_residual_line", "required": true, "ready": false, "current_value": null, "blockers": ["unrounded solver output", "public rounding convention", "explicit rounding line"]},
+    {"decision_id": "source_vintage_binding", "required": true, "ready": false, "current_value": null, "blockers": ["official source vintage", "retrieval metadata", "hash custody"]},
+    {"decision_id": "role_review_of_parameter_choices", "required": true, "ready": false, "current_value": null, "blockers": ["normative parameter memo", "eight-role review", "public-language review"]}
+  ],
+  "accounting_invariants": {
+    "missing_values_remain_null": true,
+    "reserves_do_not_create_savings": true,
+    "reserve_contributions_are_positive_outlays": true,
+    "reserve_withdrawals_are_explicit_financing_sources": true,
+    "emergency_overrides_require_explicit_rule": true,
+    "future_year_payback_required": true,
+    "public_rounding_residual_must_be_explicit": true,
+    "trust_funds_remain_separate": true,
+    "net_interest_remains_endogenous": true
+  },
+  "gate_status": {
+    "reserve_parameters_ready": false,
+    "reserve_path_ready": false,
+    "emergency_override_ready": false,
+    "future_year_payback_ready": false,
+    "source_custody_ready": false,
+    "role_review_complete": false,
+    "solver_ready": false,
+    "balanced_budget_claim_allowed": false
+  },
+  "claim_booleans": {
+    "reserve_parameter_readiness_gate_published": true,
+    "reserve_parameters_published": false,
+    "solver_ready": false,
+    "target_cost_published": false,
+    "statutory_rate_published": false,
+    "effective_rate_published": false,
+    "public_rate_card_published": false,
+    "tax_proposal_published": false,
+    "savings_claim_published": false,
+    "waste_finding_published": false,
+    "fraud_finding_published": false,
+    "department_cut_instruction_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "non_claim_boundary": "This is a reserve-parameter readiness gate, not reserve parameters, not a solver run, not target-cost selection, not rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+}

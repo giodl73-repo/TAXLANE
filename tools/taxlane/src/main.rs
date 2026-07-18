@@ -421,6 +421,12 @@ const RESERVE_RULE_CONTRACT_JSON_PATH: &str =
 const RESERVE_RULE_CONTRACT_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/reserve_rule_contract.schema.md";
 const RESERVE_RULE_CONTRACT_READER_PATH: &str = "docs/reading/reserve-rule-contract.md";
+const RESERVE_PARAMETER_READINESS_GATE_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/reserve_parameter_readiness_gate.v1.draft.json";
+const RESERVE_PARAMETER_READINESS_GATE_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/reserve_parameter_readiness_gate.schema.md";
+const RESERVE_PARAMETER_READINESS_GATE_READER_PATH: &str =
+    "docs/reading/reserve-parameter-readiness-gate.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10945,6 +10951,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_solver_accounting_readiness_gate(root)?;
     validate_solver_input_inventory(root)?;
     validate_reserve_rule_contract(root)?;
+    validate_reserve_parameter_readiness_gate(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -18364,6 +18371,194 @@ fn validate_reserve_rule_contract(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_reserve_parameter_readiness_gate(root: &Path) -> Result<(), String> {
+    for path in [
+        RESERVE_PARAMETER_READINESS_GATE_JSON_PATH,
+        RESERVE_PARAMETER_READINESS_GATE_SCHEMA_PATH,
+        RESERVE_PARAMETER_READINESS_GATE_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing reserve parameter readiness artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(RESERVE_PARAMETER_READINESS_GATE_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let gate: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&gate, "record_id")? != "reserve-parameter-readiness-gate:v1"
+        || string_field(&gate, "record_family")? != "reserve_parameter_readiness_gate"
+        || int_field(&gate, "pulse")? != 103
+        || string_field(&gate, "reserve_rule_contract_path")? != RESERVE_RULE_CONTRACT_JSON_PATH
+        || string_field(&gate, "solver_input_inventory_path")? != SOLVER_INPUT_INVENTORY_JSON_PATH
+        || string_field(&gate, "program_lane_target_cost_contract_path")?
+            != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&gate, "balance_guardrail_path")?
+            != "docs/research/2026-06-23-balance-rule-guardrail-spec.md"
+        || string_field(&gate, "rate_adjustment_operating_model_path")?
+            != "docs/research/2026-06-24-rate-adjustment-operating-model.md"
+    {
+        return Err("reserve parameter readiness identity failed".to_string());
+    }
+
+    let decisions = gate
+        .get("required_parameter_decisions")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("reserve parameter decisions")?;
+    let observed = decisions
+        .iter()
+        .map(|row| string_field(row, "decision_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected = [
+        "reserve_contribution_formula",
+        "reserve_withdrawal_rule",
+        "reserve_balance_series",
+        "reserve_cap_formula",
+        "emergency_override_threshold",
+        "emergency_deferral_cap",
+        "future_year_payback_schedule",
+        "public_rounding_residual_line",
+        "source_vintage_binding",
+        "role_review_of_parameter_choices",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    if observed != expected || decisions.len() != expected.len() {
+        return Err("reserve parameter decision set failed".to_string());
+    }
+    for row in decisions {
+        if row.get("required").and_then(serde_json::Value::as_bool) != Some(true)
+            || row.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+            || !row
+                .get("current_value")
+                .is_some_and(serde_json::Value::is_null)
+        {
+            return Err("reserve parameter decisions must be required/false/null".to_string());
+        }
+        let blockers = row
+            .get("blockers")
+            .and_then(serde_json::Value::as_array)
+            .ok_or("reserve parameter blockers")?;
+        if blockers.is_empty() {
+            return Err("reserve parameter decisions must name blockers".to_string());
+        }
+    }
+
+    let invariants = gate
+        .get("accounting_invariants")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("reserve parameter invariants")?;
+    for required in [
+        "missing_values_remain_null",
+        "reserves_do_not_create_savings",
+        "reserve_contributions_are_positive_outlays",
+        "reserve_withdrawals_are_explicit_financing_sources",
+        "emergency_overrides_require_explicit_rule",
+        "future_year_payback_required",
+        "public_rounding_residual_must_be_explicit",
+        "trust_funds_remain_separate",
+        "net_interest_remains_endogenous",
+    ] {
+        if invariants
+            .get(required)
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        {
+            return Err(format!("reserve parameter invariant failed {required}"));
+        }
+    }
+
+    let gate_status = gate
+        .get("gate_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("reserve parameter gate status")?;
+    for (field, value) in gate_status {
+        if value.as_bool() != Some(false) {
+            return Err(format!(
+                "reserve parameter gate status {field} must be false"
+            ));
+        }
+    }
+
+    let claims = gate
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("reserve parameter claims")?;
+    for (field, value) in claims {
+        let observed = value.as_bool().ok_or("reserve parameter claim bool")?;
+        if field == "reserve_parameter_readiness_gate_published" {
+            if !observed {
+                return Err("reserve parameter readiness publish flag must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!(
+                "reserve parameter public claim {field} must be false"
+            ));
+        }
+    }
+
+    let boundary = string_field(&gate, "non_claim_boundary")?;
+    for required in [
+        "reserve-parameter readiness gate",
+        "not reserve parameters",
+        "not a solver run",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!("reserve parameter boundary missing {required}"));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(RESERVE_PARAMETER_READINESS_GATE_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        RESERVE_PARAMETER_READINESS_GATE_JSON_PATH,
+        "does not choose numeric reserve parameters",
+        "reserve contribution formula",
+        "reserve withdrawal rule",
+        "reserve balance series",
+        "reserve cap formula",
+        "emergency override threshold",
+        "emergency deferral cap",
+        "future-year payback schedule",
+        "public rounding residual line",
+        "source vintage binding",
+        "role review of parameter choices",
+        "Reserve contributions are positive outlays",
+        "Reserve withdrawals are explicit financing sources",
+        "Trust funds remain separate",
+        "Net interest remains endogenous",
+        "not reserve parameters",
+        "not a solver run",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("reserve parameter reader missing {required}"));
+        }
+    }
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -18546,6 +18741,12 @@ mod global_country_comparison_tests {
     fn reserve_rule_contract_keeps_parameters_null() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_reserve_rule_contract(&root).unwrap();
+    }
+
+    #[test]
+    fn reserve_parameter_readiness_gate_keeps_parameters_null() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_reserve_parameter_readiness_gate(&root).unwrap();
     }
 
     #[test]
