@@ -1,0 +1,228 @@
+{
+  "record_id": "balanced-rate-readiness-gate:fy2025:v1",
+  "record_family": "balanced_rate_readiness_gate",
+  "version": "v1.draft",
+  "status": "draft_blocked_no_rates_calculated",
+  "pulse": 80,
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "rubric_path": "data/derived/breadth_benchmark_matrix/international_comparator_target_rubric.v1.draft.json",
+  "coverage_contract_path": "data/derived/breadth_benchmark_matrix/global_country_comparison_coverage.v1.draft.json",
+  "rate_model_path": "data/derived/program_lane_rate_model/program_lane_rate_model.fy2025.omb-fy2027-v1.draft.jsonl",
+  "source_custody_status": "derived_from_existing_repo_custodied_records_no_new_external_request",
+  "non_claim_boundary": "This is a balanced-rate readiness gate, not a rate card, tax proposal, savings estimate, or balanced-budget claim. A value calculated after subtracting dedicated receipts is not share of every tax dollar. No statutory rate, effective rate, target cost, or balanced-budget result is published by this gate.",
+  "calculation_status": {
+    "all_receipt_funding_shares_calculated": false,
+    "residual_general_fund_requirement_shares_calculated": false,
+    "effective_rates_on_assigned_bases_calculated": false,
+    "rates_publishable": false,
+    "balanced_budget_claim_allowed": false
+  },
+  "denominator_definitions": {
+    "all_receipt_funding_share": {
+      "formula": "gross program cost / total funded federal cost",
+      "status": "definition_frozen_no_rate_calculated",
+      "value": null
+    },
+    "residual_general_fund_requirement_share": {
+      "formula": "residual general-fund need / total residual general-fund need",
+      "status": "definition_frozen_no_rate_calculated",
+      "value": null
+    },
+    "assigned_base_effective_rate": {
+      "formula": "reform yield required from assigned base / matched assigned base amount after elasticity, avoidance, compliance, and interaction modeling",
+      "status": "blocked_until_every_assigned_base_requirement_is_complete",
+      "value": null
+    }
+  },
+  "sign_conventions": {
+    "outlays": "positive",
+    "implementation_costs": "positive_outlays",
+    "receipts": "positive",
+    "offsetting_collections": "positive_offsets",
+    "deficit": "positive_financing_need",
+    "surplus": "positive_excess_receipts"
+  },
+  "fy2025_budget_row_ledger": {
+    "row_count": 17,
+    "total_outlays_musd": 7011105,
+    "includes_negative_offset_rows": true,
+    "rows": [
+      {
+        "lane_id": "social-security",
+        "current_cost_amount_musd": 1580673
+      },
+      {
+        "lane_id": "medicare",
+        "current_cost_amount_musd": 996718
+      },
+      {
+        "lane_id": "health",
+        "current_cost_amount_musd": 978511
+      },
+      {
+        "lane_id": "net-interest",
+        "current_cost_amount_musd": 970065
+      },
+      {
+        "lane_id": "national-defense",
+        "current_cost_amount_musd": 916140
+      },
+      {
+        "lane_id": "income-security",
+        "current_cost_amount_musd": 701609
+      },
+      {
+        "lane_id": "veterans",
+        "current_cost_amount_musd": 377163
+      },
+      {
+        "lane_id": "transportation",
+        "current_cost_amount_musd": 145320
+      },
+      {
+        "lane_id": "justice-general-government",
+        "current_cost_amount_musd": 123692
+      },
+      {
+        "lane_id": "environment-energy-natural-resources",
+        "current_cost_amount_musd": 110599
+      },
+      {
+        "lane_id": "community-regional-development",
+        "current_cost_amount_musd": 82374
+      },
+      {
+        "lane_id": "education-training-employment-social-services",
+        "current_cost_amount_musd": 72042
+      },
+      {
+        "lane_id": "agriculture",
+        "current_cost_amount_musd": 47447
+      },
+      {
+        "lane_id": "international-affairs",
+        "current_cost_amount_musd": 45171
+      },
+      {
+        "lane_id": "science-space-technology",
+        "current_cost_amount_musd": 41966
+      },
+      {
+        "lane_id": "commerce-housing-credit",
+        "current_cost_amount_musd": -28131
+      },
+      {
+        "lane_id": "undistributed-offsetting-receipts",
+        "current_cost_amount_musd": -150254
+      }
+    ]
+  },
+  "analytical_lane_boundary": {
+    "analytical_lane_count": 15,
+    "budget_row_count": 17,
+    "fifteen_analytical_lanes_are_not_the_same_as_seventeen_budget_rows": true,
+    "revenue_solvency_overlay_additive": false,
+    "payment_integrity_overlay_additive": false,
+    "commerce_housing_credit_kept_in_fiscal_reconciliation": true,
+    "undistributed_offsetting_receipts_kept_in_fiscal_reconciliation": true
+  },
+  "assigned_base_requirements": [
+    {
+      "requirement_id": "matched_year",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "requirement_id": "legal_perimeter",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "requirement_id": "economic_perimeter",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "requirement_id": "baseline_amount",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "requirement_id": "elasticity",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "requirement_id": "avoidance_and_compliance",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "requirement_id": "employer_taxpayer_agency_burden",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "requirement_id": "distribution_by_income",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "requirement_id": "interaction_with_other_taxes",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "requirement_id": "current_law_yield",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "requirement_id": "reform_yield",
+      "status": "missing",
+      "value": null
+    }
+  ],
+  "solver_prerequisites": {
+    "all_target_paths_reconcile": false,
+    "every_budget_row_included_once": false,
+    "all_funds_reconcile": false,
+    "target_outlays_and_receipts_jointly_scored": false,
+    "offsets_explicit": false,
+    "net_interest_endogenous": false,
+    "reserves_and_emergencies_parameterized": false,
+    "distribution_and_macro_effects_present": false,
+    "deficit_gap_zero_under_unrounded_arithmetic": false
+  },
+  "rate_outputs": {
+    "all_receipt_funding_shares": null,
+    "residual_general_fund_requirement_shares": null,
+    "assigned_base_effective_rates": null,
+    "resulting_revenues_reconcile_to_funded_requirements": false,
+    "rounding_line": null,
+    "public_rate_cards": null
+  },
+  "explicit_blockers": [
+    "target_paths_not_reconciled",
+    "integrated_solver_not_available_on_origin_main",
+    "assigned_bases_missing",
+    "elasticities_missing",
+    "avoidance_and_compliance_missing",
+    "distribution_by_income_missing",
+    "tax_interactions_missing",
+    "current_law_and_reform_yields_missing",
+    "net_interest_endogeneity_not_available_on_origin_main",
+    "deficit_gap_not_zero_under_unrounded_arithmetic"
+  ],
+  "claim_booleans": {
+    "statutory_rate_published": false,
+    "effective_rate_published": false,
+    "all_receipt_share_published": false,
+    "residual_general_fund_share_published": false,
+    "target_cost_published": false,
+    "gross_savings_published": false,
+    "net_savings_published": false,
+    "balanced_budget_claim_published": false,
+    "public_rate_cards_published": false
+  }
+}

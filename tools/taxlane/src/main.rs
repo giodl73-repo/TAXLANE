@@ -297,6 +297,12 @@ const FISCAL_POLICY_DISTRIBUTION_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/fiscal_policy_distribution_screen.v1.draft.json";
 const FISCAL_POLICY_DISTRIBUTION_READER_PATH: &str =
     "docs/reading/fiscal-policy-distribution-screen.md";
+const BALANCED_RATE_READINESS_GATE_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/balanced_rate_readiness_gate.v1.draft.json";
+const BALANCED_RATE_READINESS_GATE_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/balanced_rate_readiness_gate.schema.md";
+const BALANCED_RATE_READINESS_GATE_READER_PATH: &str =
+    "docs/reading/balanced-rate-readiness-gate.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10798,6 +10804,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_socx_oldage_family_country_panel(root)?;
     validate_pension_replacement_country_panel(root)?;
     validate_age_relative_poverty_country_panel(root)?;
+    validate_balanced_rate_readiness_gate(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -12166,6 +12173,308 @@ fn validate_age_relative_poverty_country_panel(root: &Path) -> Result<(), String
     Ok(())
 }
 
+fn validate_balanced_rate_readiness_gate(root: &Path) -> Result<(), String> {
+    for path in [
+        BALANCED_RATE_READINESS_GATE_JSON_PATH,
+        BALANCED_RATE_READINESS_GATE_SCHEMA_PATH,
+        BALANCED_RATE_READINESS_GATE_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing balanced-rate readiness artifact: {path}"));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(BALANCED_RATE_READINESS_GATE_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let gate: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+    let string_array_set =
+        |row: &serde_json::Value, field: &str| -> Result<BTreeSet<String>, String> {
+            row.get(field)
+                .and_then(serde_json::Value::as_array)
+                .ok_or_else(|| format!("balanced-rate {field} array missing"))?
+                .iter()
+                .map(|value| {
+                    value
+                        .as_str()
+                        .map(str::to_string)
+                        .ok_or_else(|| format!("balanced-rate {field} value not string"))
+                })
+                .collect()
+        };
+
+    if string_field(&gate, "record_id")? != "balanced-rate-readiness-gate:fy2025:v1"
+        || string_field(&gate, "record_family")? != "balanced_rate_readiness_gate"
+        || int_field(&gate, "pulse")? != 80
+        || string_field(&gate, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&gate, "rubric_path")? != INTERNATIONAL_COMPARATOR_TARGET_RUBRIC_JSON_PATH
+        || string_field(&gate, "coverage_contract_path")? != GLOBAL_COUNTRY_COMPARISON_JSON_PATH
+        || string_field(&gate, "rate_model_path")?
+            != "data/derived/program_lane_rate_model/program_lane_rate_model.fy2025.omb-fy2027-v1.draft.jsonl"
+    {
+        return Err("balanced-rate readiness identity or governing paths failed".to_string());
+    }
+    let custody_status = string_field(&gate, "source_custody_status")?;
+    if !custody_status.contains("repo_custodied")
+        || !custody_status.contains("no_new_external_request")
+    {
+        return Err("balanced-rate custody status boundary failed".to_string());
+    }
+    let boundary = string_field(&gate, "non_claim_boundary")?;
+    for required in [
+        "balanced-rate readiness gate, not a rate card",
+        "not share of every tax dollar",
+        "No statutory rate, effective rate, target cost, or balanced-budget result",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!("balanced-rate boundary missing {required}"));
+        }
+    }
+
+    let calculation = gate
+        .get("calculation_status")
+        .ok_or("balanced-rate calculation status")?;
+    for field in [
+        "all_receipt_funding_shares_calculated",
+        "residual_general_fund_requirement_shares_calculated",
+        "effective_rates_on_assigned_bases_calculated",
+        "rates_publishable",
+        "balanced_budget_claim_allowed",
+    ] {
+        if calculation.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "balanced-rate calculation status {field} must be false"
+            ));
+        }
+    }
+
+    let denominators = gate
+        .get("denominator_definitions")
+        .ok_or("balanced-rate denominator definitions")?;
+    let all_receipt = denominators
+        .get("all_receipt_funding_share")
+        .ok_or("all-receipt funding share definition")?;
+    let residual = denominators
+        .get("residual_general_fund_requirement_share")
+        .ok_or("residual general-fund definition")?;
+    if string_field(all_receipt, "formula")? != "gross program cost / total funded federal cost"
+        || string_field(residual, "formula")?
+            != "residual general-fund need / total residual general-fund need"
+        || !all_receipt
+            .get("value")
+            .is_some_and(serde_json::Value::is_null)
+        || !residual
+            .get("value")
+            .is_some_and(serde_json::Value::is_null)
+    {
+        return Err("balanced-rate denominator definitions failed".to_string());
+    }
+    let assigned_rate = denominators
+        .get("assigned_base_effective_rate")
+        .ok_or("assigned-base effective-rate definition")?;
+    if !string_field(assigned_rate, "formula")?.contains("elasticity")
+        || !assigned_rate
+            .get("value")
+            .is_some_and(serde_json::Value::is_null)
+    {
+        return Err("balanced-rate assigned-base definition failed".to_string());
+    }
+
+    let sign_conventions = gate
+        .get("sign_conventions")
+        .ok_or("balanced-rate sign conventions")?;
+    for (field, expected) in [
+        ("outlays", "positive"),
+        ("implementation_costs", "positive_outlays"),
+        ("receipts", "positive"),
+        ("offsetting_collections", "positive_offsets"),
+        ("deficit", "positive_financing_need"),
+        ("surplus", "positive_excess_receipts"),
+    ] {
+        if string_field(sign_conventions, field)? != expected {
+            return Err(format!("balanced-rate sign convention {field} failed"));
+        }
+    }
+
+    let ledger = gate
+        .get("fy2025_budget_row_ledger")
+        .ok_or("balanced-rate FY2025 ledger")?;
+    let rows = ledger
+        .get("rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("balanced-rate ledger rows")?;
+    if int_field(ledger, "row_count")? != 17
+        || rows.len() != 17
+        || number_field(ledger, "total_outlays_musd")? != 7_011_105.0
+        || ledger
+            .get("includes_negative_offset_rows")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("balanced-rate ledger header failed".to_string());
+    }
+    let mut ledger_sum = 0.0;
+    let mut lane_ids = BTreeSet::new();
+    let mut negative_rows = BTreeSet::new();
+    for row in rows {
+        let lane_id = string_field(row, "lane_id")?;
+        let amount = number_field(row, "current_cost_amount_musd")?;
+        ledger_sum += amount;
+        if !lane_ids.insert(lane_id.clone()) {
+            return Err(format!("duplicate balanced-rate ledger row {lane_id}"));
+        }
+        if amount < 0.0 {
+            negative_rows.insert(lane_id);
+        }
+    }
+    if ledger_sum != 7_011_105.0
+        || negative_rows
+            != BTreeSet::from([
+                "commerce-housing-credit".to_string(),
+                "undistributed-offsetting-receipts".to_string(),
+            ])
+    {
+        return Err("balanced-rate 17-row ledger reconciliation failed".to_string());
+    }
+
+    let boundary = gate
+        .get("analytical_lane_boundary")
+        .ok_or("balanced-rate analytical lane boundary")?;
+    if int_field(boundary, "analytical_lane_count")? != 15
+        || int_field(boundary, "budget_row_count")? != 17
+        || boundary
+            .get("fifteen_analytical_lanes_are_not_the_same_as_seventeen_budget_rows")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || boundary
+            .get("revenue_solvency_overlay_additive")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || boundary
+            .get("payment_integrity_overlay_additive")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || boundary
+            .get("commerce_housing_credit_kept_in_fiscal_reconciliation")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || boundary
+            .get("undistributed_offsetting_receipts_kept_in_fiscal_reconciliation")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("balanced-rate analytical lane boundary failed".to_string());
+    }
+
+    let assigned_base_requirements = gate
+        .get("assigned_base_requirements")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("balanced-rate assigned-base requirements")?;
+    let required_ids = assigned_base_requirements
+        .iter()
+        .map(|row| string_field(row, "requirement_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    for expected in [
+        "matched_year",
+        "legal_perimeter",
+        "economic_perimeter",
+        "baseline_amount",
+        "elasticity",
+        "avoidance_and_compliance",
+        "employer_taxpayer_agency_burden",
+        "distribution_by_income",
+        "interaction_with_other_taxes",
+        "current_law_yield",
+        "reform_yield",
+    ] {
+        if !required_ids.contains(expected) {
+            return Err(format!(
+                "balanced-rate assigned-base requirement missing {expected}"
+            ));
+        }
+    }
+    for row in assigned_base_requirements {
+        if string_field(row, "status")? != "missing"
+            || !row.get("value").is_some_and(serde_json::Value::is_null)
+        {
+            return Err("balanced-rate assigned-base requirements must remain null".to_string());
+        }
+    }
+
+    let solver = gate
+        .get("solver_prerequisites")
+        .ok_or("balanced-rate solver prerequisites")?;
+    if solver
+        .as_object()
+        .ok_or("balanced-rate solver prerequisite object")?
+        .iter()
+        .any(|(_, value)| value.as_bool() != Some(false))
+    {
+        return Err("balanced-rate solver prerequisites must all remain false".to_string());
+    }
+
+    let outputs = gate.get("rate_outputs").ok_or("balanced-rate outputs")?;
+    for field in [
+        "all_receipt_funding_shares",
+        "residual_general_fund_requirement_shares",
+        "assigned_base_effective_rates",
+        "rounding_line",
+        "public_rate_cards",
+    ] {
+        if !outputs.get(field).is_some_and(serde_json::Value::is_null) {
+            return Err(format!("balanced-rate output {field} must remain null"));
+        }
+    }
+    if outputs
+        .get("resulting_revenues_reconcile_to_funded_requirements")
+        .and_then(serde_json::Value::as_bool)
+        != Some(false)
+    {
+        return Err("balanced-rate revenue reconciliation must remain false".to_string());
+    }
+
+    let blockers = string_array_set(&gate, "explicit_blockers")?;
+    for required in [
+        "target_paths_not_reconciled",
+        "assigned_bases_missing",
+        "elasticities_missing",
+        "distribution_by_income_missing",
+        "deficit_gap_not_zero_under_unrounded_arithmetic",
+    ] {
+        if !blockers.contains(required) {
+            return Err(format!("balanced-rate blocker missing {required}"));
+        }
+    }
+    let claims = gate
+        .get("claim_booleans")
+        .ok_or("balanced-rate claim booleans")?;
+    if claims
+        .as_object()
+        .ok_or("balanced-rate claim object")?
+        .iter()
+        .any(|(_, value)| value.as_bool() != Some(false))
+    {
+        return Err("balanced-rate claim booleans must all remain false".to_string());
+    }
+
+    let reader = fs::read_to_string(root.join(BALANCED_RATE_READINESS_GATE_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        BALANCED_RATE_READINESS_GATE_JSON_PATH,
+        "This is a balanced-rate readiness gate, not a rate card, tax proposal, savings estimate, or balanced-budget claim.",
+        "all-receipt funding share = gross program cost / total funded federal cost",
+        "residual general-fund requirement share = residual general-fund need / total residual general-fund need",
+        "A value calculated after subtracting dedicated receipts is not share of every tax dollar.",
+        "17-row budget ledger totaling $7,011.105B",
+        "Fifteen analytical lanes are not the same as the 17 budget rows.",
+        "No statutory rate, effective rate, target cost, gross savings, net savings, public rate card, or balanced-budget result",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("balanced-rate reader missing {required}"));
+        }
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -12210,6 +12519,12 @@ mod global_country_comparison_tests {
     fn age_relative_poverty_panel_preserves_source_years_values_and_boundaries() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_age_relative_poverty_country_panel(&root).unwrap();
+    }
+
+    #[test]
+    fn balanced_rate_readiness_gate_blocks_rate_and_budget_claims() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_balanced_rate_readiness_gate(&root).unwrap();
     }
 
     #[test]

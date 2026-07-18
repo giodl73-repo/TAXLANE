@@ -32,6 +32,12 @@ offset rows. Every lane declares a target-cost method, policy levers, outcome
 floors, federal translation, financing bases, and ten-year solver treatment.
 All numeric target and balanced-rate gates remain false.
 
+`balanced_rate_readiness_gate.v1.draft.json` freezes the Pulse 80 no-rate
+boundary: all-receipt funding shares, residual general-fund requirement shares,
+and assigned-base effective rates remain uncalculated until target paths,
+assigned bases, the integrated solver, endogenous interest, and a zero
+unrounded deficit gap all reconcile.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is
