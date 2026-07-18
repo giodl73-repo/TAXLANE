@@ -1,0 +1,65 @@
+{
+  "record_id": "net-interest-formula-contract:v1",
+  "record_family": "net_interest_formula_contract",
+  "version": "v1.draft",
+  "status": "draft_contract_formula_inputs_blocked",
+  "pulse": 104,
+  "solver_input_inventory_path": "data/derived/breadth_benchmark_matrix/solver_input_inventory.v1.draft.json",
+  "program_lane_target_cost_contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "solver_accounting_readiness_gate_path": "data/derived/breadth_benchmark_matrix/solver_accounting_readiness_gate.v1.draft.json",
+  "balance_guardrail_path": "docs/research/2026-06-23-balance-rule-guardrail-spec.md",
+  "rate_adjustment_operating_model_path": "docs/research/2026-06-24-rate-adjustment-operating-model.md",
+  "purpose": "Define the endogenous net-interest formula contract required before the deterministic solver may publish debt, interest, rate, or balanced-budget outputs.",
+  "formula_identity": {
+    "primary_balance": "total_federal_receipts - primary_outlays",
+    "deficit": "primary_outlays + net_interest - total_federal_receipts",
+    "debt_t": "debt_t_minus_1 + deficit_t + explicit_other_financing_t",
+    "net_interest_t": "sum_over_maturity_buckets(debt_stock_bucket_t_minus_1 * effective_rate_bucket_t) + new_borrowing_interest_t - interest_receipts_t",
+    "iteration_rule": "After any primary-balance change, recompute deficit, debt, maturity-bucket debt stock, and subsequent net interest before any solver output is eligible."
+  },
+  "required_inputs": [
+    {"input_id": "baseline_debt_stock", "required": true, "ready": false, "value": null, "blockers": ["official baseline debt stock", "source vintage", "hash custody"]},
+    {"input_id": "baseline_net_interest", "required": true, "ready": false, "value": null, "blockers": ["official baseline net interest", "source vintage", "hash custody"]},
+    {"input_id": "maturity_bucket_schedule", "required": true, "ready": false, "value": null, "blockers": ["Treasury maturity buckets", "rollover rule", "annual horizon"]},
+    {"input_id": "effective_rate_path_by_bucket", "required": true, "ready": false, "value": null, "blockers": ["rate source", "bucket mapping", "stress-rate rule"]},
+    {"input_id": "new_borrowing_timing_rule", "required": true, "ready": false, "value": null, "blockers": ["within-year timing", "deficit financing rule", "rounding treatment"]},
+    {"input_id": "interest_receipts_treatment", "required": true, "ready": false, "value": null, "blockers": ["gross-to-net bridge", "credited receipts", "source custody"]},
+    {"input_id": "explicit_other_financing_series", "required": true, "ready": false, "value": null, "blockers": ["financing item inventory", "annual values", "fund mapping"]},
+    {"input_id": "primary_balance_feedback_test_fixture", "required": true, "ready": false, "value": null, "blockers": ["test baseline", "primary-change shock", "expected debt and interest movement"]}
+  ],
+  "contract_rules": {
+    "net_interest_is_endogenous": true,
+    "net_interest_cannot_be_cut_directly": true,
+    "primary_change_must_change_subsequent_debt": true,
+    "primary_change_must_change_subsequent_interest": true,
+    "maturity_and_rate_paths_must_be_explicit": true,
+    "interest_receipts_must_be_explicit": true,
+    "explicit_other_financing_must_be_explicit": true,
+    "missing_values_remain_null": true,
+    "solver_ready": false
+  },
+  "regression_test_contract": {
+    "required": true,
+    "ready": false,
+    "test_name": "primary_balance_change_recomputes_debt_and_interest",
+    "test_fixture_path": null,
+    "blocked_until": ["baseline_debt_stock", "maturity_bucket_schedule", "effective_rate_path_by_bucket", "primary_balance_feedback_test_fixture"]
+  },
+  "claim_booleans": {
+    "net_interest_formula_contract_published": true,
+    "net_interest_path_published": false,
+    "solver_ready": false,
+    "target_cost_published": false,
+    "statutory_rate_published": false,
+    "effective_rate_published": false,
+    "public_rate_card_published": false,
+    "tax_proposal_published": false,
+    "savings_claim_published": false,
+    "waste_finding_published": false,
+    "fraud_finding_published": false,
+    "department_cut_instruction_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "non_claim_boundary": "This is a net-interest formula contract, not a net-interest path, not a solver run, not target-cost selection, not rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+}

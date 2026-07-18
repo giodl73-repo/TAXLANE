@@ -427,6 +427,12 @@ const RESERVE_PARAMETER_READINESS_GATE_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/reserve_parameter_readiness_gate.schema.md";
 const RESERVE_PARAMETER_READINESS_GATE_READER_PATH: &str =
     "docs/reading/reserve-parameter-readiness-gate.md";
+const NET_INTEREST_FORMULA_CONTRACT_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/net_interest_formula_contract.v1.draft.json";
+const NET_INTEREST_FORMULA_CONTRACT_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/net_interest_formula_contract.schema.md";
+const NET_INTEREST_FORMULA_CONTRACT_READER_PATH: &str =
+    "docs/reading/net-interest-formula-contract.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10952,6 +10958,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_solver_input_inventory(root)?;
     validate_reserve_rule_contract(root)?;
     validate_reserve_parameter_readiness_gate(root)?;
+    validate_net_interest_formula_contract(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -18559,6 +18566,253 @@ fn validate_reserve_parameter_readiness_gate(root: &Path) -> Result<(), String> 
     Ok(())
 }
 
+fn validate_net_interest_formula_contract(root: &Path) -> Result<(), String> {
+    for path in [
+        NET_INTEREST_FORMULA_CONTRACT_JSON_PATH,
+        NET_INTEREST_FORMULA_CONTRACT_SCHEMA_PATH,
+        NET_INTEREST_FORMULA_CONTRACT_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing net-interest formula artifact: {path}"));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(NET_INTEREST_FORMULA_CONTRACT_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let contract: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&contract, "record_id")? != "net-interest-formula-contract:v1"
+        || string_field(&contract, "record_family")? != "net_interest_formula_contract"
+        || int_field(&contract, "pulse")? != 104
+        || string_field(&contract, "solver_input_inventory_path")?
+            != SOLVER_INPUT_INVENTORY_JSON_PATH
+        || string_field(&contract, "program_lane_target_cost_contract_path")?
+            != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&contract, "solver_accounting_readiness_gate_path")?
+            != SOLVER_ACCOUNTING_READINESS_GATE_JSON_PATH
+        || string_field(&contract, "balance_guardrail_path")?
+            != "docs/research/2026-06-23-balance-rule-guardrail-spec.md"
+        || string_field(&contract, "rate_adjustment_operating_model_path")?
+            != "docs/research/2026-06-24-rate-adjustment-operating-model.md"
+    {
+        return Err("net-interest formula identity failed".to_string());
+    }
+
+    let formula = contract
+        .get("formula_identity")
+        .ok_or("net-interest formula identity")?;
+    for required in [
+        (
+            "primary_balance",
+            "total_federal_receipts - primary_outlays",
+        ),
+        (
+            "deficit",
+            "primary_outlays + net_interest - total_federal_receipts",
+        ),
+        (
+            "debt_t",
+            "debt_t_minus_1 + deficit_t + explicit_other_financing_t",
+        ),
+    ] {
+        if string_field(formula, required.0)? != required.1 {
+            return Err(format!("net-interest formula {} failed", required.0));
+        }
+    }
+    for required in [
+        "sum_over_maturity_buckets",
+        "debt_stock_bucket_t_minus_1",
+        "effective_rate_bucket_t",
+        "interest_receipts_t",
+        "After any primary-balance change",
+        "recompute deficit, debt, maturity-bucket debt stock, and subsequent net interest",
+    ] {
+        let formula_text = format!(
+            "{} {}",
+            string_field(formula, "net_interest_t")?,
+            string_field(formula, "iteration_rule")?
+        );
+        if !formula_text.contains(required) {
+            return Err(format!("net-interest formula text missing {required}"));
+        }
+    }
+
+    let inputs = contract
+        .get("required_inputs")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("net-interest required inputs")?;
+    let observed = inputs
+        .iter()
+        .map(|row| string_field(row, "input_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected = [
+        "baseline_debt_stock",
+        "baseline_net_interest",
+        "maturity_bucket_schedule",
+        "effective_rate_path_by_bucket",
+        "new_borrowing_timing_rule",
+        "interest_receipts_treatment",
+        "explicit_other_financing_series",
+        "primary_balance_feedback_test_fixture",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    if observed != expected || inputs.len() != expected.len() {
+        return Err("net-interest input set failed".to_string());
+    }
+    for row in inputs {
+        if row.get("required").and_then(serde_json::Value::as_bool) != Some(true)
+            || row.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+            || !row.get("value").is_some_and(serde_json::Value::is_null)
+        {
+            return Err("net-interest inputs must be required/false/null".to_string());
+        }
+        let blockers = row
+            .get("blockers")
+            .and_then(serde_json::Value::as_array)
+            .ok_or("net-interest blockers")?;
+        if blockers.is_empty() {
+            return Err("net-interest inputs must name blockers".to_string());
+        }
+    }
+
+    let rules = contract
+        .get("contract_rules")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("net-interest rules")?;
+    for required in [
+        "net_interest_is_endogenous",
+        "net_interest_cannot_be_cut_directly",
+        "primary_change_must_change_subsequent_debt",
+        "primary_change_must_change_subsequent_interest",
+        "maturity_and_rate_paths_must_be_explicit",
+        "interest_receipts_must_be_explicit",
+        "explicit_other_financing_must_be_explicit",
+        "missing_values_remain_null",
+    ] {
+        if rules.get(required).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("net-interest rule failed {required}"));
+        }
+    }
+    if rules
+        .get("solver_ready")
+        .and_then(serde_json::Value::as_bool)
+        != Some(false)
+    {
+        return Err("net-interest solver_ready must be false".to_string());
+    }
+
+    let regression = contract
+        .get("regression_test_contract")
+        .ok_or("net-interest regression contract")?;
+    if regression
+        .get("required")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+        || regression.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+        || string_field(regression, "test_name")?
+            != "primary_balance_change_recomputes_debt_and_interest"
+        || !regression
+            .get("test_fixture_path")
+            .is_some_and(serde_json::Value::is_null)
+    {
+        return Err("net-interest regression contract failed".to_string());
+    }
+    let blocked = regression
+        .get("blocked_until")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("net-interest regression blockers")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    for required in [
+        "baseline_debt_stock",
+        "maturity_bucket_schedule",
+        "effective_rate_path_by_bucket",
+        "primary_balance_feedback_test_fixture",
+    ] {
+        if !blocked.contains(required) {
+            return Err(format!(
+                "net-interest regression blocker missing {required}"
+            ));
+        }
+    }
+
+    let claims = contract
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("net-interest claims")?;
+    for (field, value) in claims {
+        let observed = value.as_bool().ok_or("net-interest claim bool")?;
+        if field == "net_interest_formula_contract_published" {
+            if !observed {
+                return Err("net-interest formula publish flag must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!("net-interest public claim {field} must be false"));
+        }
+    }
+
+    let boundary = string_field(&contract, "non_claim_boundary")?;
+    for required in [
+        "net-interest formula contract",
+        "not a net-interest path",
+        "not a solver run",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!("net-interest boundary missing {required}"));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(NET_INTEREST_FORMULA_CONTRACT_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        NET_INTEREST_FORMULA_CONTRACT_JSON_PATH,
+        "does not publish a debt path",
+        "baseline debt stock",
+        "baseline net interest",
+        "maturity bucket schedule",
+        "effective rate path by bucket",
+        "new borrowing timing rule",
+        "interest receipts treatment",
+        "explicit other financing series",
+        "primary-balance feedback test fixture",
+        "Net interest is endogenous",
+        "Net interest cannot be cut directly",
+        "After any primary-balance change",
+        "recompute deficit, debt, maturity-bucket debt stock, and subsequent net interest",
+        "primary_balance_change_recomputes_debt_and_interest",
+        "fixture path is still null",
+        "not a net-interest path",
+        "not a solver run",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("net-interest reader missing {required}"));
+        }
+    }
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -18747,6 +19001,12 @@ mod global_country_comparison_tests {
     fn reserve_parameter_readiness_gate_keeps_parameters_null() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_reserve_parameter_readiness_gate(&root).unwrap();
+    }
+
+    #[test]
+    fn net_interest_formula_contract_blocks_direct_cut_and_paths() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_net_interest_formula_contract(&root).unwrap();
     }
 
     #[test]

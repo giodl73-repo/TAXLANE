@@ -174,6 +174,11 @@ contribution formula, withdrawal rule, balance series, cap formula, emergency
 override threshold, emergency deferral cap, future-year payback, rounding
 residual, source vintage, and role review. Every value remains null.
 
+`net_interest_formula_contract.v1.draft.json` defines the endogenous
+net-interest formula boundary for the future solver. Debt stock, maturity,
+rate, timing, interest-receipt, other-financing, and feedback-test inputs remain
+null; net interest cannot be cut directly and no path or rate claim is opened.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is
