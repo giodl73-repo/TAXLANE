@@ -405,6 +405,12 @@ const FUND_GROUP_FY2025_RECONCILIATION_FIXTURE_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/fund_group_fy2025_reconciliation_fixture.schema.md";
 const FUND_GROUP_FY2025_RECONCILIATION_FIXTURE_READER_PATH: &str =
     "docs/reading/fund-group-fy2025-reconciliation-fixture.md";
+const SOLVER_ACCOUNTING_READINESS_GATE_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/solver_accounting_readiness_gate.v1.draft.json";
+const SOLVER_ACCOUNTING_READINESS_GATE_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/solver_accounting_readiness_gate.schema.md";
+const SOLVER_ACCOUNTING_READINESS_GATE_READER_PATH: &str =
+    "docs/reading/solver-accounting-readiness-gate.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10926,6 +10932,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_transportation_pilot_trust_fund_source_custody(root)?;
     validate_transportation_pilot_trust_fund_accounting_boundary(root)?;
     validate_fund_group_fy2025_reconciliation_fixture(root)?;
+    validate_solver_accounting_readiness_gate(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -17751,6 +17758,221 @@ fn validate_fund_group_fy2025_reconciliation_fixture(root: &Path) -> Result<(), 
     Ok(())
 }
 
+fn validate_solver_accounting_readiness_gate(root: &Path) -> Result<(), String> {
+    for path in [
+        SOLVER_ACCOUNTING_READINESS_GATE_JSON_PATH,
+        SOLVER_ACCOUNTING_READINESS_GATE_SCHEMA_PATH,
+        SOLVER_ACCOUNTING_READINESS_GATE_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing solver accounting gate artifact: {path}"));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(SOLVER_ACCOUNTING_READINESS_GATE_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let gate: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&gate, "record_id")? != "solver-accounting-readiness-gate:v1"
+        || string_field(&gate, "record_family")? != "solver_accounting_readiness_gate"
+        || int_field(&gate, "pulse")? != 100
+        || string_field(&gate, "program_lane_target_cost_contract_path")?
+            != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&gate, "deterministic_annual_update_simulator_contract_path")?
+            != DETERMINISTIC_ANNUAL_UPDATE_SIMULATOR_CONTRACT_JSON_PATH
+        || string_field(&gate, "fund_group_fy2025_reconciliation_fixture_path")?
+            != FUND_GROUP_FY2025_RECONCILIATION_FIXTURE_JSON_PATH
+        || string_field(&gate, "transportation_partial_federal_outlay_path")?
+            != TRANSPORTATION_PILOT_PARTIAL_FEDERAL_OUTLAY_PATH_JSON_PATH
+        || string_field(&gate, "transportation_trust_fund_accounting_boundary_path")?
+            != TRANSPORTATION_PILOT_TRUST_FUND_ACCOUNTING_BOUNDARY_JSON_PATH
+    {
+        return Err("solver accounting gate identity failed".to_string());
+    }
+
+    let summary = gate
+        .get("readiness_summary")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("solver accounting readiness summary")?;
+    for true_flag in [
+        "aggregate_accounting_fixture_available",
+        "aggregate_fixture_may_seed_rounding_tests",
+        "aggregate_fixture_may_seed_deficit_sign_tests",
+        "aggregate_fixture_may_seed_fund_balance_tests",
+    ] {
+        if summary.get(true_flag).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("solver accounting true flag {true_flag} failed"));
+        }
+    }
+    for false_flag in [
+        "deterministic_solver_ready",
+        "transportation_solver_ready",
+        "balanced_rate_ready",
+        "balanced_budget_claim_allowed",
+    ] {
+        if summary.get(false_flag).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("solver accounting false flag {false_flag} failed"));
+        }
+    }
+
+    let inputs = gate
+        .get("required_solver_inputs")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("solver accounting required inputs")?;
+    let observed_inputs = inputs
+        .iter()
+        .map(|row| string_field(row, "input_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    for required in [
+        "full_17_row_fy2025_ledger",
+        "ten_year_plus_baseline_horizon",
+        "oasdi_fund_path",
+        "medicare_hi_fund_path",
+        "transportation_trust_fund_path",
+        "general_fund_path",
+        "reserves_path",
+        "explicit_interfund_transfers",
+        "credited_offsetting_collections",
+        "net_interest_formula",
+        "assigned_receipt_bases",
+        "distributional_effect_placeholder",
+    ] {
+        if !observed_inputs.contains(required) {
+            return Err(format!("solver accounting input missing {required}"));
+        }
+    }
+    for row in inputs {
+        if row.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+            || !row.get("value").is_some_and(serde_json::Value::is_null)
+        {
+            return Err("solver accounting inputs must remain false/null".to_string());
+        }
+    }
+
+    let allowed = gate
+        .get("allowed_uses")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("solver accounting allowed uses")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    for required in [
+        "unit_test_public_rounding_residual_line",
+        "unit_test_deficit_positive_financing_need_sign",
+        "unit_test_trust_fund_group_balance_arithmetic",
+        "document_aggregate_federal_fund_trust_fund_context",
+    ] {
+        if !allowed.contains(required) {
+            return Err(format!("solver accounting allowed use missing {required}"));
+        }
+    }
+
+    let prohibited = gate
+        .get("prohibited_uses")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("solver accounting prohibited uses")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    for required in [
+        "populate_transportation_trust_fund_values",
+        "populate_lane_target_cost",
+        "populate_rate_fields",
+        "populate_savings_fields",
+        "run_solver",
+        "claim_balanced_budget",
+        "infer_waste",
+        "infer_fraud",
+        "infer_department_cut",
+        "infer_technology_savings",
+    ] {
+        if !prohibited.contains(required) {
+            return Err(format!(
+                "solver accounting prohibited use missing {required}"
+            ));
+        }
+    }
+
+    let outputs = gate
+        .get("output_placeholders")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("solver accounting outputs")?;
+    for (field, value) in outputs {
+        if !value.is_null() {
+            return Err(format!("solver accounting output {field} must remain null"));
+        }
+    }
+
+    let claims = gate
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("solver accounting claims")?;
+    for (field, value) in claims {
+        let observed = value.as_bool().ok_or("solver accounting claim bool")?;
+        if field == "solver_accounting_readiness_gate_published" {
+            if !observed {
+                return Err("solver accounting gate publish flag must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!(
+                "solver accounting public claim {field} must be false"
+            ));
+        }
+    }
+
+    let boundary = string_field(&gate, "non_claim_boundary")?;
+    for required in [
+        "solver accounting readiness gate",
+        "not a solver run",
+        "not transportation trust-fund values",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!("solver accounting boundary missing {required}"));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(SOLVER_ACCOUNTING_READINESS_GATE_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        SOLVER_ACCOUNTING_READINESS_GATE_JSON_PATH,
+        "can be used for accounting tests",
+        "cannot run the solver",
+        "test the public rounding residual line",
+        "deficit is recorded as positive financing need",
+        "aggregate trust-fund group balance arithmetic",
+        "transportation trust-fund values",
+        "solver run",
+        "target-cost selection",
+        "rate calculation",
+        "public rate card",
+        "tax proposal",
+        "savings estimate",
+        "waste finding",
+        "fraud finding",
+        "department-cut instruction",
+        "technology-savings claim",
+        "balanced-budget claim",
+        "OASDI, Medicare HI, transportation trust, general fund",
+        "endogenous net interest",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("solver accounting reader missing {required}"));
+        }
+    }
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -17915,6 +18137,12 @@ mod global_country_comparison_tests {
     fn fund_group_fy2025_reconciliation_fixture_exposes_rounding_line() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_fund_group_fy2025_reconciliation_fixture(&root).unwrap();
+    }
+
+    #[test]
+    fn solver_accounting_readiness_gate_blocks_solver_outputs() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_solver_accounting_readiness_gate(&root).unwrap();
     }
 
     #[test]

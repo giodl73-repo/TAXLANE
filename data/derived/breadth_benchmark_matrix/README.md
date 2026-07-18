@@ -153,6 +153,11 @@ including an explicit public rounding line. It is not transportation-specific
 trust-fund data and does not open baseline, rate, savings, or balanced-budget
 claims.
 
+`solver_accounting_readiness_gate.v1.draft.json` states the only allowed solver
+uses of the aggregate fund-group fixture: rounding, deficit-sign, and aggregate
+fund-balance tests. It keeps solver readiness, transportation readiness, rates,
+savings, and balanced-budget claims blocked.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is
