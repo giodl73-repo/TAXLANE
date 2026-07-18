@@ -309,6 +309,12 @@ const FINAL_CLOSURE_READINESS_GATE_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/final_closure_readiness_gate.schema.md";
 const FINAL_CLOSURE_READINESS_GATE_READER_PATH: &str =
     "docs/reading/final-closure-readiness-gate.md";
+const ADAPTIVE_RATE_SYSTEM_CONTRACT_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/adaptive_rate_system_contract.v1.draft.json";
+const ADAPTIVE_RATE_SYSTEM_CONTRACT_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/adaptive_rate_system_contract.schema.md";
+const ADAPTIVE_RATE_SYSTEM_CONTRACT_READER_PATH: &str =
+    "docs/reading/adaptive-rate-system-contract.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10812,6 +10818,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_age_relative_poverty_country_panel(root)?;
     validate_balanced_rate_readiness_gate(root)?;
     validate_final_closure_readiness_gate(root)?;
+    validate_adaptive_rate_system_contract(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -12690,6 +12697,211 @@ fn validate_final_closure_readiness_gate(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_adaptive_rate_system_contract(root: &Path) -> Result<(), String> {
+    for path in [
+        ADAPTIVE_RATE_SYSTEM_CONTRACT_JSON_PATH,
+        ADAPTIVE_RATE_SYSTEM_CONTRACT_SCHEMA_PATH,
+        ADAPTIVE_RATE_SYSTEM_CONTRACT_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing adaptive-rate system artifact: {path}"));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(ADAPTIVE_RATE_SYSTEM_CONTRACT_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let contract: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&contract, "record_id")? != "adaptive-rate-system-contract:v1"
+        || string_field(&contract, "record_family")? != "adaptive_rate_system_contract"
+        || int_field(&contract, "pulse")? != 82
+        || string_field(&contract, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&contract, "rubric_path")?
+            != INTERNATIONAL_COMPARATOR_TARGET_RUBRIC_JSON_PATH
+        || string_field(&contract, "coverage_contract_path")? != GLOBAL_COUNTRY_COMPARISON_JSON_PATH
+        || string_field(&contract, "balanced_rate_readiness_gate_path")?
+            != BALANCED_RATE_READINESS_GATE_JSON_PATH
+        || string_field(&contract, "final_closure_readiness_gate_path")?
+            != FINAL_CLOSURE_READINESS_GATE_JSON_PATH
+        || string_field(&contract, "phase_plan_path")?
+            != "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md"
+    {
+        return Err("adaptive-rate system identity or governing paths failed".to_string());
+    }
+    for path in [
+        BALANCED_RATE_READINESS_GATE_JSON_PATH,
+        FINAL_CLOSURE_READINESS_GATE_JSON_PATH,
+        "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md",
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("adaptive-rate linked artifact missing {path}"));
+        }
+    }
+    if !string_field(&contract, "source_custody_status")?.contains("no_new_external_request") {
+        return Err("adaptive-rate custody status must prohibit external requests".to_string());
+    }
+    let boundary = string_field(&contract, "non_claim_boundary")?;
+    for required in [
+        "adaptive rate system contract, not a rate card",
+        "Rate calculation and rate publication are separate gates",
+        "All rate outputs remain null",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!("adaptive-rate boundary missing {required}"));
+        }
+    }
+
+    let lifecycle = contract
+        .get("annual_update_lifecycle")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("adaptive-rate lifecycle")?;
+    if lifecycle.len() != 14 {
+        return Err("adaptive-rate lifecycle must contain 14 steps".to_string());
+    }
+    for (index, step) in lifecycle.iter().enumerate() {
+        if int_field(step, "step")? != (index + 1) as i64
+            || string_field(step, "step_id")?.is_empty()
+        {
+            return Err("adaptive-rate lifecycle order failed".to_string());
+        }
+    }
+
+    let gates = contract
+        .get("rate_gate_sequence")
+        .ok_or("adaptive-rate gate sequence")?;
+    for gate_name in [
+        "rate_calculation_gate",
+        "rate_publication_gate",
+        "balanced_budget_claim_gate",
+    ] {
+        let gate = gates
+            .get(gate_name)
+            .ok_or_else(|| format!("adaptive-rate missing {gate_name}"))?;
+        if gate
+            .get("currently_open")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+            || string_field(gate, "description")?.is_empty()
+        {
+            return Err(format!("adaptive-rate gate {gate_name} must remain closed"));
+        }
+    }
+
+    let denominators = contract
+        .get("denominator_definitions")
+        .ok_or("adaptive-rate denominator definitions")?;
+    let all_receipt = denominators
+        .get("all_receipt_funding_share")
+        .ok_or("adaptive-rate all-receipt definition")?;
+    let residual = denominators
+        .get("residual_general_fund_requirement_share")
+        .ok_or("adaptive-rate residual definition")?;
+    if string_field(all_receipt, "formula")? != "gross program cost / total funded federal cost"
+        || string_field(residual, "formula")?
+            != "residual general-fund need / total residual general-fund need"
+        || !all_receipt
+            .get("value")
+            .is_some_and(serde_json::Value::is_null)
+        || !residual
+            .get("value")
+            .is_some_and(serde_json::Value::is_null)
+        || !string_field(denominators, "denominator_boundary")?
+            .contains("not share of every tax dollar")
+    {
+        return Err("adaptive-rate denominator boundary failed".to_string());
+    }
+
+    let assigned = contract
+        .get("assigned_base_required_fields")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("adaptive-rate assigned-base fields")?;
+    let observed = assigned
+        .iter()
+        .map(|row| string_field(row, "field_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected = BTreeSet::from([
+        "matched_year".to_string(),
+        "legal_perimeter".to_string(),
+        "economic_perimeter".to_string(),
+        "baseline_amount".to_string(),
+        "elasticity".to_string(),
+        "avoidance_and_compliance".to_string(),
+        "employer_taxpayer_agency_burden".to_string(),
+        "distribution_by_income".to_string(),
+        "interaction_with_other_taxes".to_string(),
+        "current_law_yield".to_string(),
+        "reform_yield".to_string(),
+    ]);
+    if observed != expected {
+        return Err("adaptive-rate assigned-base field set failed".to_string());
+    }
+    for row in assigned {
+        if string_field(row, "status")? != "missing"
+            || !row.get("value").is_some_and(serde_json::Value::is_null)
+        {
+            return Err("adaptive-rate assigned-base fields must remain missing/null".to_string());
+        }
+    }
+
+    let outputs = contract
+        .get("output_placeholders")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("adaptive-rate outputs")?;
+    for (field, value) in outputs {
+        if !value.is_null() {
+            return Err(format!("adaptive-rate output {field} must remain null"));
+        }
+    }
+    let guardrails = contract
+        .get("guardrail_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("adaptive-rate guardrail booleans")?;
+    if guardrails
+        .iter()
+        .any(|(_, value)| value.as_bool() != Some(false))
+    {
+        return Err("adaptive-rate guardrail booleans must all remain false".to_string());
+    }
+
+    let blockers = contract
+        .get("explicit_blockers")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("adaptive-rate blockers")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    for required in [
+        "assigned_base_fields_missing",
+        "distributional_analysis_missing",
+        "behavioral_sensitivity_missing",
+        "macro_feedback_missing",
+        "role_review_missing_for_public_rate_cards",
+        "zero_unrounded_deficit_gap_not_demonstrated",
+    ] {
+        if !blockers.contains(required) {
+            return Err(format!("adaptive-rate blocker missing {required}"));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(ADAPTIVE_RATE_SYSTEM_CONTRACT_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        ADAPTIVE_RATE_SYSTEM_CONTRACT_JSON_PATH,
+        "This is an adaptive rate system contract, not a rate card, statutory-rate proposal, tax proposal, spending-cut order, waste finding, fraud finding, savings estimate, or balanced-budget claim.",
+        "The contract separates rate calculation from rate publication.",
+        "all-receipt funding share = gross program cost / total funded federal cost",
+        "residual general-fund requirement share = residual general-fund need / total residual general-fund need",
+        "A value calculated after subtracting dedicated receipts is not share of every tax dollar.",
+        "All rate outputs remain null.",
+        "No statutory rate, effective rate, public rate card, savings claim, waste finding, fraud finding, technology-savings claim, or balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("adaptive-rate reader missing {required}"));
+        }
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -12746,6 +12958,12 @@ mod global_country_comparison_tests {
     fn final_closure_readiness_gate_blocks_public_closure_claims() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_final_closure_readiness_gate(&root).unwrap();
+    }
+
+    #[test]
+    fn adaptive_rate_system_contract_blocks_unready_rate_outputs() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_adaptive_rate_system_contract(&root).unwrap();
     }
 
     #[test]

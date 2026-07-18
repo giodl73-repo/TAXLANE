@@ -1,0 +1,201 @@
+{
+  "record_id": "adaptive-rate-system-contract:v1",
+  "record_family": "adaptive_rate_system_contract",
+  "version": "v1.draft",
+  "status": "draft_contract_no_rates_calculated",
+  "pulse": 82,
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "rubric_path": "data/derived/breadth_benchmark_matrix/international_comparator_target_rubric.v1.draft.json",
+  "coverage_contract_path": "data/derived/breadth_benchmark_matrix/global_country_comparison_coverage.v1.draft.json",
+  "rate_model_path": "data/derived/program_lane_rate_model/program_lane_rate_model.fy2025.omb-fy2027-v1.draft.jsonl",
+  "balanced_rate_readiness_gate_path": "data/derived/breadth_benchmark_matrix/balanced_rate_readiness_gate.v1.draft.json",
+  "final_closure_readiness_gate_path": "data/derived/breadth_benchmark_matrix/final_closure_readiness_gate.v1.draft.json",
+  "phase_plan_path": "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md",
+  "source_custody_status": "derived_from_existing_repo_custodied_records_no_new_external_request",
+  "non_claim_boundary": "This is an adaptive rate system contract, not a rate card, statutory-rate proposal, tax proposal, spending-cut order, waste finding, fraud finding, savings estimate, or balanced-budget claim. Rate calculation and rate publication are separate gates. All rate outputs remain null.",
+  "annual_update_lifecycle": [
+    {
+      "step": 1,
+      "step_id": "freeze_current_law_baseline",
+      "required_before_rate_calculation": true
+    },
+    {
+      "step": 2,
+      "step_id": "update_official_cost_receipt_debt_and_fund_data",
+      "required_before_rate_calculation": true
+    },
+    {
+      "step": 3,
+      "step_id": "update_outcome_and_performance_indicators",
+      "required_before_rate_calculation": true
+    },
+    {
+      "step": 4,
+      "step_id": "run_overspending_risk_screens",
+      "required_before_rate_calculation": false
+    },
+    {
+      "step": 5,
+      "step_id": "run_technology_transition_scenarios",
+      "required_before_rate_calculation": false
+    },
+    {
+      "step": 6,
+      "step_id": "run_distributional_analysis",
+      "required_before_rate_publication": true
+    },
+    {
+      "step": 7,
+      "step_id": "run_behavioral_sensitivity",
+      "required_before_rate_publication": true
+    },
+    {
+      "step": 8,
+      "step_id": "run_macro_feedback",
+      "required_before_rate_publication": true
+    },
+    {
+      "step": 9,
+      "step_id": "run_interaction_scoring",
+      "required_before_rate_publication": true
+    },
+    {
+      "step": 10,
+      "step_id": "recompute_net_interest_endogenously",
+      "required_before_balanced_budget_claim": true
+    },
+    {
+      "step": 11,
+      "step_id": "reconcile_funds_reserves_offsets_and_emergencies",
+      "required_before_balanced_budget_claim": true
+    },
+    {
+      "step": 12,
+      "step_id": "calculate_proposed_rates_only_where_gates_pass",
+      "required_before_rate_publication": true
+    },
+    {
+      "step": 13,
+      "step_id": "role_review_public_rate_cards",
+      "required_before_rate_publication": true
+    },
+    {
+      "step": 14,
+      "step_id": "publish_valid_rates_and_name_blocked_lanes",
+      "required_before_rate_publication": true
+    }
+  ],
+  "rate_gate_sequence": {
+    "rate_calculation_gate": {
+      "description": "Internal calculation may occur only after baseline, official data, assigned base, behavior, incidence, and solver prerequisites are complete.",
+      "currently_open": false
+    },
+    "rate_publication_gate": {
+      "description": "Publication requires distributional, behavioral, macro, interaction, role-review, public-language, and public-card gates.",
+      "currently_open": false
+    },
+    "balanced_budget_claim_gate": {
+      "description": "Balanced-budget claims require all rows once, all funds reconciled, jointly scored outlays and receipts, explicit offsets, endogenous net interest, parameterized reserves/emergencies, distribution and macro effects, and zero unrounded deficit gap.",
+      "currently_open": false
+    }
+  },
+  "denominator_definitions": {
+    "all_receipt_funding_share": {
+      "formula": "gross program cost / total funded federal cost",
+      "value": null
+    },
+    "residual_general_fund_requirement_share": {
+      "formula": "residual general-fund need / total residual general-fund need",
+      "value": null
+    },
+    "denominator_boundary": "A value calculated after subtracting dedicated receipts is not share of every tax dollar."
+  },
+  "assigned_base_required_fields": [
+    {
+      "field_id": "matched_year",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "field_id": "legal_perimeter",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "field_id": "economic_perimeter",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "field_id": "baseline_amount",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "field_id": "elasticity",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "field_id": "avoidance_and_compliance",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "field_id": "employer_taxpayer_agency_burden",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "field_id": "distribution_by_income",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "field_id": "interaction_with_other_taxes",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "field_id": "current_law_yield",
+      "status": "missing",
+      "value": null
+    },
+    {
+      "field_id": "reform_yield",
+      "status": "missing",
+      "value": null
+    }
+  ],
+  "output_placeholders": {
+    "all_receipt_funding_shares": null,
+    "residual_general_fund_requirement_shares": null,
+    "assigned_base_effective_rates": null,
+    "public_rate_cards": null,
+    "deficit_gap_unrounded_musd": null,
+    "rounding_line_musd": null
+  },
+  "guardrail_booleans": {
+    "rate_calculated": false,
+    "rate_published": false,
+    "statutory_rate_published": false,
+    "effective_rate_published": false,
+    "public_rate_card_published": false,
+    "balanced_budget_claim_published": false,
+    "savings_claim_published": false,
+    "waste_finding_published": false,
+    "fraud_finding_published": false,
+    "technology_savings_claim_published": false
+  },
+  "explicit_blockers": [
+    "assigned_base_fields_missing",
+    "distributional_analysis_missing",
+    "behavioral_sensitivity_missing",
+    "macro_feedback_missing",
+    "interaction_scoring_missing",
+    "role_review_missing_for_public_rate_cards",
+    "net_interest_endogeneity_not_in_final_solver",
+    "fund_reserve_offset_emergency_reconciliation_missing",
+    "zero_unrounded_deficit_gap_not_demonstrated"
+  ]
+}

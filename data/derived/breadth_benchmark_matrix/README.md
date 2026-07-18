@@ -44,6 +44,11 @@ interaction scoring, reserve/emergency stress tests, eight-role review,
 public-language review, public rate cards, and a zero unrounded deficit gap all
 remain required before any final public closure claim.
 
+`adaptive_rate_system_contract.v1.draft.json` starts the adaptive-rate phase by
+defining the annual update lifecycle, assigned-base requirements, denominator
+definitions, and separate rate-calculation and rate-publication gates. Every
+rate output remains null and every public claim gate remains false.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is

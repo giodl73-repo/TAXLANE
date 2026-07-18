@@ -41,6 +41,7 @@ explainers. They should keep three labels visible:
 | `program-lane-target-cost-contract.md` | Readiness bridge from the 15 analytical comparison lanes to target costs, receipt shares, assigned-base rates, and the ten-year balance solver. |
 | `balanced-rate-readiness-gate.md` | Pulse 80 no-rate gate: preserves denominator definitions and blocks statutory rates, effective rates, public cards, and balanced-budget claims. |
 | `final-closure-readiness-gate.md` | Pulse 81 no-closure gate: blocks final public closure until distributional, behavioral, macro, interaction, reserve, review, language, and rate-card work exists. |
+| `adaptive-rate-system-contract.md` | Pulse 82 contract: separates rate calculation from publication and keeps adaptive-rate outputs blocked until assigned-base, distributional, behavioral, macro, interaction, and review gates pass. |
 | `rate-change-worked-examples.md` | Three end-to-end examples of the rate-adjustment operating model (defense up, health down, Social Security cap lift). |
 | `budget-area-funding-explainer.md` | Lay distillation of the six panel-reviewed research papers: where the US over-funds (health), under-funds (family), funds by strategy (defense), runs a broken base (Social Security), and under-collects overall (revenue). Points to `docs/papers/`. |
 | `where-federal-money-goes.md` | Spending-side packet showing the largest FY2025 outlay categories, financing context, and safe accountability questions. |
