@@ -391,6 +391,10 @@ const TRANSPORTATION_PILOT_PARTIAL_FEDERAL_OUTLAY_PATH_JSON_PATH: &str = "data/d
 const TRANSPORTATION_PILOT_PARTIAL_FEDERAL_OUTLAY_PATH_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/transportation_pilot_partial_federal_outlay_path.schema.md";
 const TRANSPORTATION_PILOT_PARTIAL_FEDERAL_OUTLAY_PATH_READER_PATH: &str =
     "docs/reading/transportation-pilot-partial-federal-outlay-path.md";
+const TRANSPORTATION_PILOT_TRUST_FUND_SOURCE_CUSTODY_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/transportation_pilot_trust_fund_source_custody.v1.draft.json";
+const TRANSPORTATION_PILOT_TRUST_FUND_SOURCE_CUSTODY_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/transportation_pilot_trust_fund_source_custody.schema.md";
+const TRANSPORTATION_PILOT_TRUST_FUND_SOURCE_CUSTODY_READER_PATH: &str =
+    "docs/reading/transportation-pilot-trust-fund-source-custody.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10909,6 +10913,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_transportation_pilot_stress_path_contract(root)?;
     validate_transportation_pilot_fy2025_anchor_custody(root)?;
     validate_transportation_pilot_partial_federal_outlay_path(root)?;
+    validate_transportation_pilot_trust_fund_source_custody(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -16998,6 +17003,264 @@ fn validate_transportation_pilot_partial_federal_outlay_path(root: &Path) -> Res
     Ok(())
 }
 
+fn validate_transportation_pilot_trust_fund_source_custody(root: &Path) -> Result<(), String> {
+    for path in [
+        TRANSPORTATION_PILOT_TRUST_FUND_SOURCE_CUSTODY_JSON_PATH,
+        TRANSPORTATION_PILOT_TRUST_FUND_SOURCE_CUSTODY_SCHEMA_PATH,
+        TRANSPORTATION_PILOT_TRUST_FUND_SOURCE_CUSTODY_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing transportation trust-fund source custody artifact: {path}"
+            ));
+        }
+    }
+
+    let text =
+        fs::read_to_string(root.join(TRANSPORTATION_PILOT_TRUST_FUND_SOURCE_CUSTODY_JSON_PATH))
+            .map_err(|e| e.to_string())?;
+    let custody: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&custody, "record_id")? != "transportation-pilot-trust-fund-source-custody:v1"
+        || string_field(&custody, "record_family")?
+            != "transportation_pilot_trust_fund_source_custody"
+        || int_field(&custody, "pulse")? != 97
+        || string_field(&custody, "source_plan_path")? != TRANSPORTATION_PILOT_SOURCE_PLAN_JSON_PATH
+        || string_field(&custody, "baseline_path_contract_path")?
+            != TRANSPORTATION_PILOT_BASELINE_PATH_CONTRACT_JSON_PATH
+        || string_field(&custody, "partial_federal_outlay_path")?
+            != TRANSPORTATION_PILOT_PARTIAL_FEDERAL_OUTLAY_PATH_JSON_PATH
+        || string_field(&custody, "program_lane_target_cost_contract_path")?
+            != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+    {
+        return Err("transportation trust-fund custody identity failed".to_string());
+    }
+
+    let source = custody
+        .get("source_custody")
+        .ok_or("transportation trust-fund source custody")?;
+    if string_field(source, "source_id")? != "SRC-OMB-AP-13-FUNDS-FY2027"
+        || string_field(source, "publisher")? != "Office of Management and Budget"
+        || string_field(source, "retrieval_date")? != "2026-06-21"
+        || int_field(source, "raw_byte_count")? != 296958
+        || string_field(source, "raw_sha256")?
+            != "6a332e8291db7f8e6a4252c79e444c782f5cf2d369cae4b738fe63b7dc0d4437"
+        || source
+            .get("raw_bytes_already_present_in_repo")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || source
+            .get("new_external_request_submitted")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || source
+            .get("custody_complete_for_local_fund_source")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || source
+            .get("custody_complete_for_trust_fund_reconciliation")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("transportation trust-fund source fields failed".to_string());
+    }
+
+    let raw_path = root.join(string_field(source, "local_raw_path")?);
+    let bytes = fs::read(&raw_path).map_err(|e| e.to_string())?;
+    if bytes.len() as i64 != int_field(source, "raw_byte_count")? {
+        return Err("transportation trust-fund raw byte count mismatch".to_string());
+    }
+    let mut hasher = Sha256::new();
+    hasher.update(&bytes);
+    if format!("{:x}", hasher.finalize()) != string_field(source, "raw_sha256")? {
+        return Err("transportation trust-fund raw SHA mismatch".to_string());
+    }
+
+    let anchors = custody
+        .get("text_scope_anchors")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("transportation trust-fund text anchors")?;
+    let anchor_ids = anchors
+        .iter()
+        .map(|row| string_field(row, "anchor_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    for required in ["highway_trust_fund", "airport_and_airway_context"] {
+        if !anchor_ids.contains(required) {
+            return Err(format!(
+                "transportation trust-fund anchor missing {required}"
+            ));
+        }
+    }
+    for anchor in anchors {
+        if anchor
+            .get("observed_in_local_text")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        {
+            return Err("transportation trust-fund anchors must be observed".to_string());
+        }
+    }
+
+    let scope = custody
+        .get("scope")
+        .ok_or("transportation trust-fund scope")?;
+    if string_field(scope, "lane_id")? != "transportation-infrastructure"
+        || string_field(scope, "source_family_id")? != "treasury_trust_fund_receipts_and_balances"
+        || string_field(scope, "actual_source_family")? != "omb_funds_appendix_local_custody"
+        || !scope.get("period").is_some_and(serde_json::Value::is_null)
+        || !scope.get("unit").is_some_and(serde_json::Value::is_null)
+        || !string_field(scope, "perimeter")?.contains("source custody only")
+        || scope
+            .get("trust_funds_remain_separate")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || scope
+            .get("explicit_general_fund_transfers_required")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || scope
+            .get("credited_offsetting_collections_required")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || !scope
+            .get("trust_fund_reconciliation_status")
+            .is_some_and(serde_json::Value::is_null)
+        || scope
+            .get("baseline_path_complete")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || scope
+            .get("simulator_ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("transportation trust-fund scope failed".to_string());
+    }
+
+    if custody
+        .get("extracted_values")
+        .and_then(serde_json::Value::as_array)
+        .is_none_or(|rows| !rows.is_empty())
+    {
+        return Err("transportation trust-fund extracted values must remain empty".to_string());
+    }
+
+    let missing = custody
+        .get("still_missing_for_trust_fund_reconciliation")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("transportation trust-fund missing list")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    for required in [
+        "annual_highway_trust_fund_receipts",
+        "annual_highway_trust_fund_outlays",
+        "annual_highway_trust_fund_balances",
+        "annual_airport_and_airway_trust_fund_receipts",
+        "annual_airport_and_airway_trust_fund_outlays",
+        "annual_airport_and_airway_trust_fund_balances",
+        "explicit_general_fund_transfer_amounts",
+        "credited_offsetting_collections",
+        "fund_balance_change_identity",
+        "mapping_to_partial_federal_outlay_path",
+    ] {
+        if !missing.contains(required) {
+            return Err(format!(
+                "transportation trust-fund missing blocker absent {required}"
+            ));
+        }
+    }
+
+    let outputs = custody
+        .get("output_placeholders")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation trust-fund outputs")?;
+    for (field, value) in outputs {
+        if !value.is_null() {
+            return Err(format!(
+                "transportation trust-fund output {field} must remain null"
+            ));
+        }
+    }
+
+    let claims = custody
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation trust-fund claims")?;
+    for (field, value) in claims {
+        let observed = value
+            .as_bool()
+            .ok_or("transportation trust-fund claim must be bool")?;
+        if field == "local_source_custody_published" {
+            if !observed {
+                return Err("transportation trust-fund publish flag must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!(
+                "transportation trust-fund public claim {field} must be false"
+            ));
+        }
+    }
+
+    let boundary = string_field(&custody, "non_claim_boundary")?;
+    for required in [
+        "local OMB funds-appendix source custody",
+        "not a trust-fund reconciliation",
+        "fund-balance path",
+        "dedicated-receipt path",
+        "explicit transfer path",
+        "completed baseline path",
+        "simulator run",
+        "target-cost selection",
+        "rate calculation",
+        "savings estimate",
+        "waste finding",
+        "fraud finding",
+        "technology-savings claim",
+        "balanced-budget claim",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!(
+                "transportation trust-fund boundary missing {required}"
+            ));
+        }
+    }
+
+    let reader =
+        fs::read_to_string(root.join(TRANSPORTATION_PILOT_TRUST_FUND_SOURCE_CUSTODY_READER_PATH))
+            .map_err(|e| e.to_string())?;
+    for required in [
+        TRANSPORTATION_PILOT_TRUST_FUND_SOURCE_CUSTODY_JSON_PATH,
+        "No new external request was submitted",
+        "Highway Trust Fund",
+        "airport and airway",
+        "not enough to publish annual trust-fund receipts",
+        "trust-fund reconciliation",
+        "fund-balance path",
+        "dedicated-receipt path",
+        "explicit transfer path",
+        "completed baseline path",
+        "simulator run",
+        "target-cost selection",
+        "rate calculation",
+        "savings estimate",
+        "waste finding",
+        "fraud finding",
+        "technology-savings claim",
+        "balanced-budget claim",
+        "Trust funds remain separate",
+        "Missing annual values remain null, not zero",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!(
+                "transportation trust-fund reader missing {required}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -17144,6 +17407,12 @@ mod global_country_comparison_tests {
     fn transportation_pilot_partial_federal_outlay_path_keeps_missing_years_null() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_transportation_pilot_partial_federal_outlay_path(&root).unwrap();
+    }
+
+    #[test]
+    fn transportation_pilot_trust_fund_source_custody_blocks_reconciliation_claims() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_transportation_pilot_trust_fund_source_custody(&root).unwrap();
     }
 
     #[test]

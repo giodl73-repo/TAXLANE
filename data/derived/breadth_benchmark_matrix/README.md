@@ -135,6 +135,12 @@ for FY2025-FY2031. FY2032-FY2035 remain explicit null missing rows; the record
 does not complete trust-fund, offset, transfer, federal/state/local, simulator,
 target-cost, rate, savings, or balanced-budget work.
 
+`transportation_pilot_trust_fund_source_custody.v1.draft.json` locks custody for
+the already-local OMB Appendix Chapter 13 funds PDF used by the transportation
+trust-fund work. It extracts no annual values and is not a trust-fund
+reconciliation, fund-balance path, baseline, rate, savings, or balanced-budget
+claim.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is
