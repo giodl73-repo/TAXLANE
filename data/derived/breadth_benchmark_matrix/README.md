@@ -69,6 +69,11 @@ publication gates pass.
 deterministic simulator pilot and keeps the final pilot lane unselected until
 role review clears normative and source conflicts.
 
+`deterministic_annual_update_simulator_contract.v1.draft.json` defines the
+narrow annual-update simulator contract. It requires baseline, modernization,
+and stress paths, prohibits optimization, keeps funds separate, and blocks
+lower-rate recognition unless all floors pass.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is

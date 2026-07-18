@@ -1,0 +1,120 @@
+{
+  "record_id": "deterministic-annual-update-simulator-contract:v1",
+  "record_family": "deterministic_annual_update_simulator_contract",
+  "version": "v1.draft",
+  "status": "draft_contract_no_simulator_run",
+  "pulse": 87,
+  "pilot_lane_selection_gate_path": "data/derived/breadth_benchmark_matrix/pilot_lane_selection_gate.v1.draft.json",
+  "adaptive_rate_system_contract_path": "data/derived/breadth_benchmark_matrix/adaptive_rate_system_contract.v1.draft.json",
+  "technology_transition_operating_model_path": "data/derived/breadth_benchmark_matrix/technology_transition_operating_model.v1.draft.json",
+  "public_rate_card_v2_contract_path": "data/derived/breadth_benchmark_matrix/public_rate_card_v2_contract.v1.draft.json",
+  "phase_plan_path": "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md",
+  "source_custody_status": "derived_from_existing_repo_custodied_records_no_new_external_request",
+  "non_claim_boundary": "This is a deterministic annual update simulator contract, not a simulator run, optimization result, selected pilot lane, public rate card, statutory-rate proposal, effective-rate publication, savings estimate, waste finding, fraud finding, department-cut instruction, technology-savings claim, or balanced-budget claim. No pilot lane is selected and all simulator outputs remain null.",
+  "simulator_scope": {
+    "horizon_years": 10,
+    "includes_baseline_year": true,
+    "optimization_allowed": false,
+    "pilot_lane_id": null,
+    "pilot_candidate_id": null,
+    "run_status": "blocked_until_pilot_selected_and_role_reviewed"
+  },
+  "required_paths": [
+    {
+      "path_id": "baseline",
+      "description": "Current-law baseline with zero reform delta.",
+      "required": true,
+      "value": null
+    },
+    {
+      "path_id": "modernization",
+      "description": "Selected modernization path with implementation, transition, measured-productivity, and floor monitoring.",
+      "required": true,
+      "value": null
+    },
+    {
+      "path_id": "stress",
+      "description": "Same modernization path under adverse realization: delay, higher implementation cost, degraded access or quality response, fallback cost, and remediation cost.",
+      "required": true,
+      "value": null
+    }
+  ],
+  "deterministic_equations": {
+    "primary_outlays": "gross_program_outlays + implementation_outlays",
+    "net_cash_requirement": "primary_outlays - credited_offsetting_collections",
+    "fund_balance_change": "dedicated_receipts + explicit_general_fund_transfer + other_scored_fund_income - net_cash_requirement",
+    "primary_balance": "total_federal_receipts - primary_outlays",
+    "deficit": "primary_outlays + net_interest - total_federal_receipts",
+    "debt": "debt_prior_year + deficit + explicit_other_financing",
+    "net_interest_rule": "Net interest must be recomputed after every primary-balance change and cannot be cut directly.",
+    "rounding_rule": "Unrounded arithmetic controls; public rounding residuals go to an explicit rounding line."
+  },
+  "fund_treatment": {
+    "separate_funds_required": [
+      "oasdi",
+      "medicare_hi",
+      "transportation_trust",
+      "general_fund",
+      "reserves"
+    ],
+    "explicit_interfund_transfers_required": true,
+    "trust_funds_remain_separate": true,
+    "net_interest_endogenous": true
+  },
+  "floor_gate": {
+    "lower_rate_recognition_allowed": false,
+    "rule": "A lower funding requirement, target cost, or rate effect is blocked unless access, quality, equity, adequacy/resilience, delivery-feasibility, lane-specific floors, measured productivity, transition cost, stress case, and score provenance pass.",
+    "floor_statuses": [
+      {"floor_id": "access", "status": "missing", "passed": false, "value": null},
+      {"floor_id": "quality", "status": "missing", "passed": false, "value": null},
+      {"floor_id": "equity", "status": "missing", "passed": false, "value": null},
+      {"floor_id": "adequacy_resilience", "status": "missing", "passed": false, "value": null},
+      {"floor_id": "delivery_feasibility", "status": "missing", "passed": false, "value": null},
+      {"floor_id": "lane_specific_floor", "status": "missing", "passed": false, "value": null}
+    ]
+  },
+  "blocking_conditions": [
+    "pilot_lane_not_selected",
+    "role_review_incomplete",
+    "baseline_path_missing",
+    "modernization_path_missing",
+    "stress_path_missing",
+    "official_source_custody_missing",
+    "outcome_floors_missing_or_false",
+    "measured_productivity_missing",
+    "assigned_base_model_missing",
+    "distribution_behavior_macro_interaction_missing",
+    "fund_reserve_interest_reconciliation_missing"
+  ],
+  "output_placeholders": {
+    "baseline_path": null,
+    "modernization_path": null,
+    "stress_path": null,
+    "target_cost_effect": null,
+    "assigned_base_rate_effect": null,
+    "all_receipt_funding_share_effect": null,
+    "residual_general_fund_share_effect": null,
+    "fund_balance_path": null,
+    "net_interest_path": null,
+    "debt_path": null,
+    "reserve_path": null,
+    "deficit_gap": null,
+    "rounding_line": null,
+    "public_rate_card": null
+  },
+  "claim_booleans": {
+    "simulator_run_published": false,
+    "optimization_performed": false,
+    "pilot_selected": false,
+    "solver_eligible": false,
+    "lower_rate_recognized": false,
+    "public_rate_card_published": false,
+    "statutory_rate_published": false,
+    "effective_rate_published": false,
+    "savings_claim_published": false,
+    "waste_finding_published": false,
+    "fraud_finding_published": false,
+    "department_cut_instruction_published": false,
+    "balanced_budget_claim_published": false
+  }
+}

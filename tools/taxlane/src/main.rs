@@ -337,6 +337,10 @@ const PILOT_LANE_SELECTION_GATE_JSON_PATH: &str =
 const PILOT_LANE_SELECTION_GATE_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/pilot_lane_selection_gate.schema.md";
 const PILOT_LANE_SELECTION_GATE_READER_PATH: &str = "docs/reading/pilot-lane-selection-gate.md";
+const DETERMINISTIC_ANNUAL_UPDATE_SIMULATOR_CONTRACT_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/deterministic_annual_update_simulator_contract.v1.draft.json";
+const DETERMINISTIC_ANNUAL_UPDATE_SIMULATOR_CONTRACT_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/deterministic_annual_update_simulator_contract.schema.md";
+const DETERMINISTIC_ANNUAL_UPDATE_SIMULATOR_CONTRACT_READER_PATH: &str =
+    "docs/reading/deterministic-annual-update-simulator-contract.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10845,6 +10849,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_technology_transition_operating_model(root)?;
     validate_public_rate_card_v2_contract(root)?;
     validate_pilot_lane_selection_gate(root)?;
+    validate_deterministic_annual_update_simulator_contract(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -13852,6 +13857,265 @@ fn validate_pilot_lane_selection_gate(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_deterministic_annual_update_simulator_contract(root: &Path) -> Result<(), String> {
+    for path in [
+        DETERMINISTIC_ANNUAL_UPDATE_SIMULATOR_CONTRACT_JSON_PATH,
+        DETERMINISTIC_ANNUAL_UPDATE_SIMULATOR_CONTRACT_SCHEMA_PATH,
+        DETERMINISTIC_ANNUAL_UPDATE_SIMULATOR_CONTRACT_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing deterministic simulator artifact: {path}"));
+        }
+    }
+
+    let text =
+        fs::read_to_string(root.join(DETERMINISTIC_ANNUAL_UPDATE_SIMULATOR_CONTRACT_JSON_PATH))
+            .map_err(|e| e.to_string())?;
+    let contract: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&contract, "record_id")? != "deterministic-annual-update-simulator-contract:v1"
+        || string_field(&contract, "record_family")?
+            != "deterministic_annual_update_simulator_contract"
+        || int_field(&contract, "pulse")? != 87
+        || string_field(&contract, "pilot_lane_selection_gate_path")?
+            != PILOT_LANE_SELECTION_GATE_JSON_PATH
+        || string_field(&contract, "adaptive_rate_system_contract_path")?
+            != ADAPTIVE_RATE_SYSTEM_CONTRACT_JSON_PATH
+        || string_field(&contract, "technology_transition_operating_model_path")?
+            != TECHNOLOGY_TRANSITION_OPERATING_MODEL_JSON_PATH
+        || string_field(&contract, "public_rate_card_v2_contract_path")?
+            != PUBLIC_RATE_CARD_V2_CONTRACT_JSON_PATH
+        || string_field(&contract, "phase_plan_path")?
+            != "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md"
+    {
+        return Err("deterministic simulator identity or governing paths failed".to_string());
+    }
+    if !string_field(&contract, "source_custody_status")?.contains("no_new_external_request") {
+        return Err(
+            "deterministic simulator custody status must prohibit external requests".to_string(),
+        );
+    }
+    let boundary = string_field(&contract, "non_claim_boundary")?;
+    for required in [
+        "deterministic annual update simulator contract, not a simulator run",
+        "optimization result",
+        "selected pilot lane",
+        "statutory-rate proposal",
+        "department-cut instruction",
+        "balanced-budget claim",
+        "No pilot lane is selected and all simulator outputs remain null",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!(
+                "deterministic simulator boundary missing {required}"
+            ));
+        }
+    }
+
+    let scope = contract
+        .get("simulator_scope")
+        .ok_or("deterministic simulator scope")?;
+    if int_field(scope, "horizon_years")? != 10
+        || scope
+            .get("includes_baseline_year")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || scope
+            .get("optimization_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || !scope
+            .get("pilot_lane_id")
+            .is_some_and(serde_json::Value::is_null)
+        || !scope
+            .get("pilot_candidate_id")
+            .is_some_and(serde_json::Value::is_null)
+        || string_field(scope, "run_status")? != "blocked_until_pilot_selected_and_role_reviewed"
+    {
+        return Err("deterministic simulator scope must remain blocked".to_string());
+    }
+
+    let paths = contract
+        .get("required_paths")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("deterministic simulator required paths")?;
+    let observed_paths = paths
+        .iter()
+        .map(|row| string_field(row, "path_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_paths = BTreeSet::from([
+        "baseline".to_string(),
+        "modernization".to_string(),
+        "stress".to_string(),
+    ]);
+    if observed_paths != expected_paths {
+        return Err(
+            "deterministic simulator must require baseline/modernization/stress".to_string(),
+        );
+    }
+    for path in paths {
+        if path.get("required").and_then(serde_json::Value::as_bool) != Some(true)
+            || !path.get("value").is_some_and(serde_json::Value::is_null)
+        {
+            return Err("deterministic simulator paths must be required/null".to_string());
+        }
+    }
+
+    let equations = contract
+        .get("deterministic_equations")
+        .ok_or("deterministic simulator equations")?;
+    for required in [
+        "primary_outlays",
+        "net_cash_requirement",
+        "fund_balance_change",
+        "primary_balance",
+        "deficit",
+        "debt",
+        "net_interest_rule",
+        "rounding_rule",
+    ] {
+        if string_field(equations, required)?.is_empty() {
+            return Err(format!(
+                "deterministic simulator equation missing {required}"
+            ));
+        }
+    }
+    if !string_field(equations, "net_interest_rule")?
+        .contains("recomputed after every primary-balance change")
+        || !string_field(equations, "rounding_rule")?.contains("explicit rounding line")
+    {
+        return Err("deterministic simulator interest or rounding rule failed".to_string());
+    }
+
+    let funds = contract
+        .get("fund_treatment")
+        .ok_or("deterministic simulator fund treatment")?;
+    let observed_funds = funds
+        .get("separate_funds_required")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("deterministic simulator separate funds")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    for required in [
+        "oasdi",
+        "medicare_hi",
+        "transportation_trust",
+        "general_fund",
+        "reserves",
+    ] {
+        if !observed_funds.contains(required) {
+            return Err(format!("deterministic simulator fund missing {required}"));
+        }
+    }
+    for flag in [
+        "explicit_interfund_transfers_required",
+        "trust_funds_remain_separate",
+        "net_interest_endogenous",
+    ] {
+        if funds.get(flag).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "deterministic simulator fund flag {flag} must be true"
+            ));
+        }
+    }
+
+    let floor_gate = contract
+        .get("floor_gate")
+        .ok_or("deterministic simulator floor gate")?;
+    if floor_gate
+        .get("lower_rate_recognition_allowed")
+        .and_then(serde_json::Value::as_bool)
+        != Some(false)
+        || !string_field(floor_gate, "rule")?.contains("blocked unless")
+    {
+        return Err("deterministic simulator floor gate must block lower rates".to_string());
+    }
+    let floor_statuses = floor_gate
+        .get("floor_statuses")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("deterministic simulator floor statuses")?;
+    for floor in floor_statuses {
+        if string_field(floor, "status")? != "missing"
+            || floor.get("passed").and_then(serde_json::Value::as_bool) != Some(false)
+            || !floor.get("value").is_some_and(serde_json::Value::is_null)
+        {
+            return Err(
+                "deterministic simulator floors must remain missing/false/null".to_string(),
+            );
+        }
+    }
+
+    let blockers = contract
+        .get("blocking_conditions")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("deterministic simulator blockers")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    for required in [
+        "pilot_lane_not_selected",
+        "role_review_incomplete",
+        "baseline_path_missing",
+        "modernization_path_missing",
+        "stress_path_missing",
+        "outcome_floors_missing_or_false",
+        "fund_reserve_interest_reconciliation_missing",
+    ] {
+        if !blockers.contains(required) {
+            return Err(format!(
+                "deterministic simulator blocker missing {required}"
+            ));
+        }
+    }
+
+    let outputs = contract
+        .get("output_placeholders")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("deterministic simulator outputs")?;
+    for (field, value) in outputs {
+        if !value.is_null() {
+            return Err(format!(
+                "deterministic simulator output {field} must remain null"
+            ));
+        }
+    }
+    let claims = contract
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("deterministic simulator claim booleans")?;
+    if claims
+        .iter()
+        .any(|(_, value)| value.as_bool() != Some(false))
+    {
+        return Err("deterministic simulator claim booleans must all remain false".to_string());
+    }
+
+    let reader =
+        fs::read_to_string(root.join(DETERMINISTIC_ANNUAL_UPDATE_SIMULATOR_CONTRACT_READER_PATH))
+            .map_err(|e| e.to_string())?;
+    for required in [
+        DETERMINISTIC_ANNUAL_UPDATE_SIMULATOR_CONTRACT_JSON_PATH,
+        "This is a deterministic annual update simulator contract, not a simulator run",
+        "optimization result",
+        "selected pilot lane",
+        "balanced-budget claim",
+        "No pilot lane is selected and all simulator outputs remain null.",
+        "baseline, modernization, and stress paths",
+        "optimization is not allowed",
+        "Net interest must be recomputed after every primary-balance change",
+        "OASDI, Medicare HI, transportation trust, general fund, and",
+        "Lower-rate recognition remains blocked unless",
+        "All target-cost, assigned-base-rate, funding-share",
+        "Every claim boolean remains false.",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("deterministic simulator reader missing {required}"));
+        }
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -13938,6 +14202,12 @@ mod global_country_comparison_tests {
     fn pilot_lane_selection_gate_blocks_final_pilot_choice() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_pilot_lane_selection_gate(&root).unwrap();
+    }
+
+    #[test]
+    fn deterministic_annual_update_simulator_contract_blocks_unselected_runs() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_deterministic_annual_update_simulator_contract(&root).unwrap();
     }
 
     #[test]

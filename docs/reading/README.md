@@ -314,6 +314,9 @@ It is the bounded public surface, not a performance or savings report.
 83. Read `pilot-lane-selection-gate.md` before choosing the first annual-update
     simulator pilot. It lists candidates but keeps final selection blocked
     pending role review.
+84. Read `deterministic-annual-update-simulator-contract.md` before building or
+    running a pilot simulator. It prohibits optimization and keeps simulator
+    outputs null until a pilot is selected and gates pass.
 
 ## Public-Use Guardrail
 
