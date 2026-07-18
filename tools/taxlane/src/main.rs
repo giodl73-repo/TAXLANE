@@ -362,6 +362,11 @@ const TRANSPORTATION_PILOT_SOURCE_PLAN_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/transportation_pilot_source_plan.schema.md";
 const TRANSPORTATION_PILOT_SOURCE_PLAN_READER_PATH: &str =
     "docs/reading/transportation-pilot-source-plan.md";
+const TRANSPORTATION_PILOT_BASELINE_PATH_CONTRACT_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/transportation_pilot_baseline_path_contract.v1.draft.json";
+const TRANSPORTATION_PILOT_BASELINE_PATH_CONTRACT_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/transportation_pilot_baseline_path_contract.schema.md";
+const TRANSPORTATION_PILOT_BASELINE_PATH_CONTRACT_READER_PATH: &str =
+    "docs/reading/transportation-pilot-baseline-path-contract.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10874,6 +10879,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_public_thesis_packet(root)?;
     validate_pilot_lane_selection_decision(root)?;
     validate_transportation_pilot_source_plan(root)?;
+    validate_transportation_pilot_baseline_path_contract(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -15028,6 +15034,345 @@ fn validate_transportation_pilot_source_plan(root: &Path) -> Result<(), String> 
     Ok(())
 }
 
+fn validate_transportation_pilot_baseline_path_contract(root: &Path) -> Result<(), String> {
+    for path in [
+        TRANSPORTATION_PILOT_BASELINE_PATH_CONTRACT_JSON_PATH,
+        TRANSPORTATION_PILOT_BASELINE_PATH_CONTRACT_SCHEMA_PATH,
+        TRANSPORTATION_PILOT_BASELINE_PATH_CONTRACT_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing transportation baseline contract artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(TRANSPORTATION_PILOT_BASELINE_PATH_CONTRACT_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let contract: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&contract, "record_id")? != "transportation-pilot-baseline-path-contract:v1"
+        || string_field(&contract, "record_family")?
+            != "transportation_pilot_baseline_path_contract"
+        || int_field(&contract, "pulse")? != 91
+        || string_field(&contract, "selected_pilot_decision_path")?
+            != PILOT_LANE_SELECTION_DECISION_JSON_PATH
+        || string_field(&contract, "source_plan_path")?
+            != TRANSPORTATION_PILOT_SOURCE_PLAN_JSON_PATH
+        || string_field(&contract, "transportation_depth_card_path")?
+            != TRANSPORTATION_DEPTH_CARD_JSON_PATH
+        || string_field(
+            &contract,
+            "deterministic_annual_update_simulator_contract_path",
+        )? != DETERMINISTIC_ANNUAL_UPDATE_SIMULATOR_CONTRACT_JSON_PATH
+        || string_field(&contract, "program_lane_target_cost_contract_path")?
+            != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&contract, "phase_plan_path")?
+            != "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md"
+    {
+        return Err(
+            "transportation baseline contract identity or governing paths failed".to_string(),
+        );
+    }
+    if !string_field(&contract, "source_custody_status")?.contains("no_new_source_bytes_captured") {
+        return Err("transportation baseline source custody status failed".to_string());
+    }
+
+    let selected = contract
+        .get("selected_pilot")
+        .ok_or("transportation baseline selected pilot")?;
+    if string_field(selected, "candidate_id")? != "transportation_asset_maintenance_and_safety"
+        || string_field(selected, "lane_id")? != "transportation-infrastructure"
+    {
+        return Err("transportation baseline selected pilot failed".to_string());
+    }
+
+    let boundary = string_field(&contract, "non_claim_boundary")?;
+    for required in [
+        "transportation pilot baseline path contract",
+        "not a completed baseline path",
+        "simulator run",
+        "target-cost selection",
+        "rate calculation",
+        "rate publication",
+        "public rate card",
+        "tax proposal",
+        "savings estimate",
+        "waste finding",
+        "fraud finding",
+        "department-cut instruction",
+        "technology-savings claim",
+        "solver result",
+        "modernization path",
+        "stress path",
+        "floor threshold decision",
+        "balanced-budget claim",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!(
+                "transportation baseline boundary missing {required}"
+            ));
+        }
+    }
+
+    let horizon = contract
+        .get("baseline_horizon")
+        .ok_or("transportation baseline horizon")?;
+    if int_field(horizon, "start_fiscal_year")? != 2025
+        || int_field(horizon, "end_fiscal_year")? != 2035
+        || int_field(horizon, "annual_rows_required")? != 11
+        || horizon
+            .get("includes_baseline_year")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || horizon
+            .get("current_law_zero_reform_delta_required")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || horizon
+            .get("baseline_complete")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || horizon
+            .get("simulator_ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("transportation baseline horizon must remain incomplete".to_string());
+    }
+
+    let anchor = contract
+        .get("fy2025_anchor")
+        .ok_or("transportation baseline fy2025 anchor")?;
+    if string_field(anchor, "source_record_path")? != TRANSPORTATION_DEPTH_CARD_JSON_PATH
+        || string_field(anchor, "source_id")? != "SRC-OMB-HIST-3-2-FY2027"
+        || int_field(anchor, "fiscal_year")? != 2025
+        || string_field(anchor, "function_code")? != "400"
+        || int_field(anchor, "total_outlays_millions")? != 145320
+        || int_field(anchor, "reform_delta_millions")? != 0
+        || !string_field(anchor, "anchor_status")?.contains("not_multiyear_baseline")
+    {
+        return Err("transportation baseline FY2025 anchor identity failed".to_string());
+    }
+    let components = anchor
+        .get("components")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("transportation baseline anchor components")?;
+    let component_sum = components
+        .iter()
+        .map(|row| int_field(row, "outlays_millions"))
+        .collect::<Result<Vec<_>, _>>()?
+        .into_iter()
+        .sum::<i64>();
+    if component_sum != int_field(anchor, "component_sum_millions")?
+        || component_sum != int_field(anchor, "total_outlays_millions")?
+    {
+        return Err("transportation baseline FY2025 component sum failed".to_string());
+    }
+
+    let depth_text = fs::read_to_string(root.join(TRANSPORTATION_DEPTH_CARD_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let depth: serde_json::Value = serde_json::from_str(&depth_text).map_err(|e| e.to_string())?;
+    if int_field(&depth, "total_outlays_millions")? != int_field(anchor, "total_outlays_millions")?
+    {
+        return Err("transportation baseline anchor must match depth card".to_string());
+    }
+
+    let fields = contract
+        .get("required_annual_fields")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("transportation baseline required fields")?;
+    let observed_fields = fields
+        .iter()
+        .map(|row| string_field(row, "field_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    for required in [
+        "fiscal_year",
+        "gross_program_outlays_millions",
+        "implementation_admin_outlays_millions",
+        "credited_offsetting_collections_millions",
+        "dedicated_receipts_millions",
+        "explicit_general_fund_transfer_millions",
+        "other_scored_fund_income_millions",
+        "reserve_contribution_millions",
+        "net_cash_requirement_millions",
+        "fund_balance_change_millions",
+        "federal_state_local_translation_status",
+        "score_source_id",
+        "source_vintage",
+        "raw_source_path",
+        "raw_byte_count",
+        "raw_sha256",
+        "unrounded_value_status",
+        "current_law_reform_delta_millions",
+    ] {
+        if !observed_fields.contains(required) {
+            return Err(format!("transportation baseline field missing {required}"));
+        }
+    }
+    for field in fields {
+        if field.get("required").and_then(serde_json::Value::as_bool) != Some(true)
+            || !field
+                .get("initial_value")
+                .is_some_and(serde_json::Value::is_null)
+        {
+            return Err("transportation baseline required fields must be null".to_string());
+        }
+    }
+
+    let identities = contract
+        .get("accounting_identities")
+        .ok_or("transportation baseline accounting identities")?;
+    for required in [
+        "primary_outlays",
+        "net_cash_requirement",
+        "fund_balance_change",
+        "reform_delta_rule",
+        "rounding_rule",
+    ] {
+        if string_field(identities, required)?.is_empty() {
+            return Err(format!(
+                "transportation baseline identity missing {required}"
+            ));
+        }
+    }
+    if !string_field(identities, "reform_delta_rule")?.contains("zero reform delta")
+        || !string_field(identities, "rounding_rule")?.contains("explicit rounding line")
+    {
+        return Err("transportation baseline reform delta or rounding rule failed".to_string());
+    }
+
+    let funds = contract
+        .get("fund_treatment")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation baseline fund treatment")?;
+    for flag in [
+        "transportation_trust_fund_required",
+        "general_fund_required",
+        "explicit_interfund_transfers_required",
+        "credited_offsetting_collections_required",
+        "state_local_private_user_financed_context_separate",
+        "trust_funds_remain_separate",
+    ] {
+        if funds.get(flag).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("transportation baseline fund flag {flag} failed"));
+        }
+    }
+
+    if contract
+        .get("baseline_rows")
+        .and_then(serde_json::Value::as_array)
+        .is_none_or(|rows| !rows.is_empty())
+    {
+        return Err("transportation baseline rows must remain empty".to_string());
+    }
+
+    let gates = contract
+        .get("blocked_gates")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation baseline blocked gates")?;
+    if gates
+        .iter()
+        .any(|(_, value)| value.as_bool() != Some(false))
+    {
+        return Err("transportation baseline blocked gates must be false".to_string());
+    }
+
+    let blockers = contract
+        .get("blocking_conditions")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("transportation baseline blockers")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    for required in [
+        "annual_rows_missing",
+        "source_bytes_not_captured",
+        "source_metadata_missing",
+        "sha256_missing",
+        "trust_fund_reconciliation_missing",
+        "explicit_general_fund_transfer_series_missing",
+        "credited_offsetting_collection_series_missing",
+        "federal_state_local_translation_missing",
+        "unrounded_values_missing",
+        "floor_indicator_contract_missing",
+        "modernization_path_missing",
+        "stress_path_missing",
+        "simulator_not_run",
+    ] {
+        if !blockers.contains(required) {
+            return Err(format!(
+                "transportation baseline blocker missing {required}"
+            ));
+        }
+    }
+
+    let outputs = contract
+        .get("output_placeholders")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation baseline outputs")?;
+    for (field, value) in outputs {
+        if !value.is_null() {
+            return Err(format!(
+                "transportation baseline output {field} must remain null"
+            ));
+        }
+    }
+
+    let claims = contract
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation baseline claims")?;
+    for (field, value) in claims {
+        let observed = value
+            .as_bool()
+            .ok_or("transportation baseline claim boolean must be bool")?;
+        if field == "baseline_contract_published" {
+            if !observed {
+                return Err("transportation baseline contract flag must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!(
+                "transportation baseline public claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader =
+        fs::read_to_string(root.join(TRANSPORTATION_PILOT_BASELINE_PATH_CONTRACT_READER_PATH))
+            .map_err(|e| e.to_string())?;
+    for required in [
+        TRANSPORTATION_PILOT_BASELINE_PATH_CONTRACT_JSON_PATH,
+        "not a completed baseline path",
+        "simulator run",
+        "target-cost selection",
+        "rate calculation",
+        "savings estimate",
+        "waste finding",
+        "fraud finding",
+        "floor threshold decision",
+        "balanced-budget claim",
+        "transportation asset maintenance and safety",
+        "FY2025 through FY2035",
+        "zero reform delta",
+        "total transportation outlays: $145.320B",
+        "The component sum equals $145.320B",
+        "not a multi-year baseline",
+        "gross program outlays",
+        "credited offsetting collections",
+        "explicit general-fund transfer",
+        "byte count, SHA-256",
+        "Transportation trust funds remain separate",
+        "Baseline rows remain empty",
+        "Only the baseline contract is published",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("transportation baseline reader missing {required}"));
+        }
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -15138,6 +15483,12 @@ mod global_country_comparison_tests {
     fn transportation_pilot_source_plan_keeps_custody_and_claims_blocked() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_transportation_pilot_source_plan(&root).unwrap();
+    }
+
+    #[test]
+    fn transportation_pilot_baseline_path_contract_keeps_rows_empty_and_claims_blocked() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_transportation_pilot_baseline_path_contract(&root).unwrap();
     }
 
     #[test]

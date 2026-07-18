@@ -93,6 +93,13 @@ bytes, closes no custody, creates no baseline or floor thresholds, and keeps all
 target-cost, rate, savings, waste, fraud, technology-savings, simulator, solver,
 and balanced-budget claims blocked.
 
+`transportation_pilot_baseline_path_contract.v1.draft.json` defines the
+FY2025-FY2035 current-law baseline row requirements for the transportation
+pilot. It reuses the existing FY2025 transportation depth-card anchor, keeps
+baseline rows empty until source custody is captured, and leaves simulator,
+target-cost, rate, savings, waste, fraud, technology-savings, solver, floor, and
+balanced-budget claims blocked.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is
