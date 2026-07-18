@@ -75,6 +75,12 @@ adds a single forward-looking OECD model scenario for 11 peers. The
 adds actual older-person and child income outcomes with explicit country years.
 Neither is divided into spending to manufacture an efficiency ranking.
 
+The [program-lane target-cost contract](program-lane-target-cost-contract.md)
+defines what must happen next before any comparison can change a rate. It keeps
+the 15 analytical lanes distinct from the 17 budget rows and requires a costed
+mechanism, outcome floors, federal-scope translation, an assigned receipt base,
+and ten-year fiscal reconciliation. Every numeric rate gate remains blocked.
+
 ```text
 comparison design != observed country result != efficiency != fraud != savings
 ```

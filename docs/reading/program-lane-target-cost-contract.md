@@ -1,0 +1,58 @@
+# From Country Comparisons To Balanced Lane Rates
+
+Machine record:
+`data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json`.
+
+## What This Adds
+
+Taxlane already knows today's FY2025 lane costs and can make them sum to 100
+percent of a fully funded tax dollar. That arithmetic does not establish what a
+lane *should* cost. The target-cost contract defines the missing step for all 15
+comparison lanes.
+
+For every lane, it now names:
+
+1. the service, population, asset, policy band, or endogenous fiscal quantity
+   that determines target cost;
+2. the policy mechanism that could move the United States toward that target;
+3. the outcome and adequacy floors that block a false efficiency cut;
+4. the translation from all-government peer data to the federal budget;
+5. the receipt base and ten-year solver treatment still required.
+
+## The Two Rates
+
+| Public question | Calculation | Reconciliation rule |
+|---|---|---|
+| Where does a funded tax dollar go? | lane target net cost / all lane target net costs | Shares sum to 100 percent after explicit offsets. |
+| What rate funds the lane? | lane required revenue / behaviorally adjusted assigned base | Revenue equals cost; statutory rates do not need to sum to 100 percent. |
+
+The central accounting identity is:
+
+```text
+program outlays + net interest + reserves
+  = dedicated receipts + general receipts + offsets + explicit deficit gap
+```
+
+The deficit gap is never hidden. Net interest is recomputed after changes to the
+primary balance rather than held fixed.
+
+## Why The Contract Does Not Publish New Numbers Yet
+
+A peer median can describe normal practice. A favorable quartile can anchor a
+scenario only after outcome, adequacy, transferability, and stability tests. It
+cannot directly turn a spending difference into a federal cut.
+
+Health is closest to numeric calibration because Taxlane already has price,
+volume, Medicare-relative, access, and scenario artifacts. Net interest must be
+solved endogenously. Defense and disaster use policy or exposure bands.
+Payment integrity and veterans use structured cases. Other lanes still require
+an explicit service package, federal-share translation, or outcome bridge.
+
+## Required Scenario Set
+
+- `current_law`: the unchanged policy path;
+- `central_reform`: the highest evidence-supported attainable path;
+- `stress`: adverse demographics, utilization, exposure, revenue, or interest.
+
+No numeric target cost, balanced receipt share, statutory rate, or savings claim
+is opened by this design artifact.

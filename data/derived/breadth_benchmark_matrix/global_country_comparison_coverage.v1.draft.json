@@ -4,6 +4,7 @@
   "as_of_date": "2026-07-15",
   "reference_country": "USA",
   "benchmark_selection_rubric": "data/derived/breadth_benchmark_matrix/international_comparator_target_rubric.v1.draft.json",
+  "rate_target_contract": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
   "default_panel": {
     "europe": ["DEU", "FRA", "GBR", "SWE", "NLD", "POL"],
     "asia": ["JPN", "KOR"],
