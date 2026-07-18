@@ -68,6 +68,14 @@ child relative-income-poverty observations with every country year exposed.
 The measure uses each country's own median-income threshold and remains separate
 from spending and modeled pension entitlements.
 
+`social_security_scenario_gate.v1.draft.json` starts the Social Security lane
+scenario gate. It preserves FY2025 current-law cost and dedicated-receipt
+context, requires a demographic and 75-year OASDI trust-fund path before any
+target-cost scenario, keeps wage-base, rate, eligibility-age, and benefit-formula
+levers unselected, and blocks savings, solvency, and balanced-rate claims until
+adequacy, old-age-poverty, disability/survivor, distribution, administration,
+and transition-cost floors are modeled.
+
 The health depth phase begins with
 `health_cost_decomposition.v1.draft.json`, which separates price, volume and
 intensity, administration, coverage and case mix, and outcomes without treating

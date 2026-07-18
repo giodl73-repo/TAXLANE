@@ -1,0 +1,128 @@
+{
+  "record_id": "target-cost:social-security-scenario-gate:v1",
+  "record_family": "social_security_scenario_gate",
+  "schema_version": "v1.draft",
+  "as_of_date": "2026-07-17",
+  "lane_id": "social-security",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "rubric_path": "data/derived/breadth_benchmark_matrix/international_comparator_target_rubric.v1.draft.json",
+  "rate_model_path": "data/derived/program_lane_rate_model/program_lane_rate_model.fy2025.omb-fy2027-v1.draft.jsonl",
+  "allocation_model_path": "data/derived/program_lane_rate_model/receipts_to_lane_allocation.fy2025.draft.jsonl",
+  "evidence_context_paths": [
+    "data/derived/breadth_benchmark_matrix/socx_oldage_family_country_panel.data2022.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/pension_replacement_country_panel.model2024.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/age_relative_poverty_country_panel.v1.draft.json",
+    "docs/research/2026-06-29-social-security-denominators.md"
+  ],
+  "purpose": "Gate Social Security target-cost scenarios until a demographic and 75-year OASDI trust-fund path, explicit levers, and adequacy floors are modeled.",
+  "non_claim_boundary": "No Social Security target cost, solvency reform, benefit formula, wage-base policy, tax rate, eligibility age, federal transfer, balanced rate, or savings claim is selected or scored.",
+  "fy2025_current_law_context": {
+    "source_rows": ["lane-rate:social-security:fy2025:omb-fy2027-v1", "receipts-to-lane:social-security:fy2025"],
+    "gross_program_cost_musd": 1580673,
+    "dedicated_oasdi_receipts_musd": 1283736,
+    "residual_trust_fund_drawdown_or_general_pool_gap_musd": 296937,
+    "current_oasdi_rate_percent": 12.4,
+    "current_taxable_wage_base_usd": 184500,
+    "baseline_year_basis": "fiscal_year",
+    "trust_fund_status": "separate_fund_required"
+  },
+  "required_model_inputs": [
+    {"input_id": "demographic_path", "status": "missing", "value": null},
+    {"input_id": "seventy_five_year_trust_fund_path", "status": "missing", "value": null},
+    {"input_id": "taxable_wage_base_lever", "status": "not_selected", "value": null},
+    {"input_id": "oasdi_rate_lever", "status": "not_selected", "value": null},
+    {"input_id": "eligibility_age_lever", "status": "not_selected", "value": null},
+    {"input_id": "benefit_formula_lever", "status": "not_selected", "value": null},
+    {"input_id": "adequacy_floor", "status": "missing", "value": null},
+    {"input_id": "old_age_poverty_floor", "status": "missing", "value": null},
+    {"input_id": "disability_survivor_protection_floor", "status": "missing", "value": null},
+    {"input_id": "distribution_by_income_and_birth_cohort", "status": "missing", "value": null},
+    {"input_id": "administration_and_transition_cost", "status": "missing", "value": null},
+    {"input_id": "policy_specific_score_provenance", "status": "missing", "value": null}
+  ],
+  "scenarios": [
+    {
+      "scenario_id": "current_law",
+      "scenario_role": "baseline_current_law_context",
+      "gross_program_cost_musd": 1580673,
+      "dedicated_receipts_musd": 1283736,
+      "explicit_general_fund_transfer_musd": null,
+      "trust_fund_balance_path": null,
+      "reform_delta_musd": 0,
+      "solver_eligible": false
+    },
+    {
+      "scenario_id": "central_reform",
+      "scenario_role": "selected_policy_expected_realization",
+      "taxable_wage_base_policy": null,
+      "oasdi_rate_policy": null,
+      "eligibility_age_policy": null,
+      "benefit_formula_policy": null,
+      "gross_program_cost_delta_musd": null,
+      "dedicated_receipt_delta_musd": null,
+      "explicit_general_fund_transfer_delta_musd": null,
+      "trust_fund_balance_delta_musd": null,
+      "administration_transition_cost_musd": null,
+      "outcome_floor_statuses": {
+        "replacement_adequacy": false,
+        "old_age_poverty": false,
+        "disability_survivor_protection": false,
+        "delivery_feasibility": false
+      },
+      "solver_eligible": false,
+      "target_cost_ready": false,
+      "balanced_rate_ready": false
+    },
+    {
+      "scenario_id": "stress",
+      "scenario_role": "same_policy_adverse_realization",
+      "same_policy_as_central": false,
+      "weaker_receipts": null,
+      "higher_benefit_claiming": null,
+      "slower_wage_growth": null,
+      "longer_life_expectancy": null,
+      "higher_administration_transition_cost": null,
+      "trust_fund_balance_delta_musd": null,
+      "outcome_floor_statuses": {
+        "replacement_adequacy": false,
+        "old_age_poverty": false,
+        "disability_survivor_protection": false,
+        "delivery_feasibility": false
+      },
+      "solver_eligible": false,
+      "target_cost_ready": false,
+      "balanced_rate_ready": false
+    }
+  ],
+  "claim_booleans": {
+    "target_cost_published": false,
+    "federal_effect_published": false,
+    "solvency_reform_selected": false,
+    "benefit_cut_selected": false,
+    "tax_rate_selected": false,
+    "wage_base_policy_selected": false,
+    "balanced_rate_published": false,
+    "savings_published": false
+  },
+  "explicit_blockers": [
+    "demographic_path_missing",
+    "seventy_five_year_trust_fund_path_missing",
+    "policy_levers_not_selected",
+    "adequacy_floor_missing",
+    "old_age_poverty_floor_missing",
+    "distribution_by_income_and_birth_cohort_missing",
+    "administration_and_transition_cost_missing",
+    "policy_specific_score_provenance_missing",
+    "central_and_stress_solver_eligible_false"
+  ],
+  "readiness": {
+    "current_law_context_available": true,
+    "target_path_reconciled": false,
+    "trust_fund_path_reconciled": false,
+    "central_reform_scored": false,
+    "stress_scored": false,
+    "solver_integration_ready": false,
+    "public_rate_claim_allowed": false,
+    "public_savings_claim_allowed": false
+  }
+}

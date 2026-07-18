@@ -818,6 +818,12 @@ const PENSION_REPLACEMENT_GROSS_RAW_SHA256: &str =
 const PENSION_REPLACEMENT_NET_RAW_PATH: &str = "data/raw/oecd/SRC-OECD-PAG-PENSION-REPLACEMENT-PANEL-2024/2026-07-15/oecd-pag-net-replacement-average-earner-mandatory-2024.csv";
 const PENSION_REPLACEMENT_NET_RAW_SHA256: &str =
     "cd2f6dba48e44ebea7d7005c000557bef02a5466d233011d6f9fba4d19c30698";
+const SOCIAL_SECURITY_SCENARIO_GATE_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/social_security_scenario_gate.v1.draft.json";
+const SOCIAL_SECURITY_SCENARIO_GATE_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/social_security_scenario_gate.schema.md";
+const SOCIAL_SECURITY_SCENARIO_GATE_READER_PATH: &str =
+    "docs/reading/social-security-scenario-gate.md";
 const K12_OECD_RESOURCE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/k12_oecd_resource_comparison.eag2025-data2022.v1.draft.json";
 const K12_OECD_RESOURCE_READER_PATH: &str = "docs/reading/k12-oecd-resource-comparison.md";
 const CPS_EDUCATION_ACCESS_TRANSITION_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/census_cps_education_access_transition_baseline.oct2024.v1.draft.json";
@@ -10798,10 +10804,323 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_socx_oldage_family_country_panel(root)?;
     validate_pension_replacement_country_panel(root)?;
     validate_age_relative_poverty_country_panel(root)?;
+    validate_social_security_scenario_gate(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
     println!("validated {} global country comparison lanes", lanes.len());
+    Ok(())
+}
+
+fn validate_social_security_scenario_gate(root: &Path) -> Result<(), String> {
+    let text = fs::read_to_string(root.join(SOCIAL_SECURITY_SCENARIO_GATE_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let gate: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+    let string_set = |row: &serde_json::Value, field: &str| -> Result<BTreeSet<String>, String> {
+        Ok(row
+            .get(field)
+            .and_then(|value| value.as_array())
+            .ok_or_else(|| format!("social security scenario gate missing array {field}"))?
+            .iter()
+            .map(|value| {
+                value
+                    .as_str()
+                    .map(str::to_string)
+                    .ok_or_else(|| format!("social security scenario gate non-string {field}"))
+            })
+            .collect::<Result<BTreeSet<_>, _>>()?)
+    };
+
+    if string_field(&gate, "record_family")? != "social_security_scenario_gate"
+        || string_field(&gate, "lane_id")? != "social-security"
+        || string_field(&gate, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&gate, "rubric_path")? != INTERNATIONAL_COMPARATOR_TARGET_RUBRIC_JSON_PATH
+    {
+        return Err("social security scenario gate identity failed".to_string());
+    }
+    for path in [
+        SOCIAL_SECURITY_SCENARIO_GATE_SCHEMA_PATH,
+        SOCIAL_SECURITY_SCENARIO_GATE_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("social security scenario gate missing {path}"));
+        }
+    }
+
+    let evidence_paths = string_set(&gate, "evidence_context_paths")?;
+    for required in [
+        SOCX_OLDAGE_FAMILY_PANEL_JSON_PATH,
+        PENSION_REPLACEMENT_PANEL_JSON_PATH,
+        AGE_RELATIVE_POVERTY_PANEL_JSON_PATH,
+        "docs/research/2026-06-29-social-security-denominators.md",
+    ] {
+        if !evidence_paths.contains(required) {
+            return Err(format!(
+                "social security scenario gate missing evidence path {required}"
+            ));
+        }
+    }
+    if !string_field(&gate, "non_claim_boundary")?.contains("No Social Security target cost")
+        || !string_field(&gate, "non_claim_boundary")?.contains("wage-base policy")
+        || !string_field(&gate, "non_claim_boundary")?.contains("balanced rate")
+    {
+        return Err("social security scenario gate claim boundary failed".to_string());
+    }
+
+    let context = gate
+        .get("fy2025_current_law_context")
+        .ok_or("social security scenario gate FY2025 context")?;
+    if number_field(context, "gross_program_cost_musd")? != 1_580_673.0
+        || number_field(context, "dedicated_oasdi_receipts_musd")? != 1_283_736.0
+        || number_field(
+            context,
+            "residual_trust_fund_drawdown_or_general_pool_gap_musd",
+        )? != 296_937.0
+        || number_field(context, "current_oasdi_rate_percent")? != 12.4
+        || number_field(context, "current_taxable_wage_base_usd")? != 184_500.0
+        || string_field(context, "trust_fund_status")? != "separate_fund_required"
+    {
+        return Err("social security scenario gate FY2025 values failed".to_string());
+    }
+    let gap = number_field(context, "gross_program_cost_musd")?
+        - number_field(context, "dedicated_oasdi_receipts_musd")?;
+    if (gap
+        - number_field(
+            context,
+            "residual_trust_fund_drawdown_or_general_pool_gap_musd",
+        )?)
+    .abs()
+        > 0.000001
+    {
+        return Err("social security scenario gate FY2025 gap does not reconcile".to_string());
+    }
+
+    let inputs = gate
+        .get("required_model_inputs")
+        .and_then(|value| value.as_array())
+        .ok_or("social security scenario gate required inputs")?;
+    let expected_inputs: BTreeSet<String> = [
+        "demographic_path",
+        "seventy_five_year_trust_fund_path",
+        "taxable_wage_base_lever",
+        "oasdi_rate_lever",
+        "eligibility_age_lever",
+        "benefit_formula_lever",
+        "adequacy_floor",
+        "old_age_poverty_floor",
+        "disability_survivor_protection_floor",
+        "distribution_by_income_and_birth_cohort",
+        "administration_and_transition_cost",
+        "policy_specific_score_provenance",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect();
+    let mut observed_inputs = BTreeSet::<String>::new();
+    for input in inputs {
+        let id = string_field(input, "input_id")?;
+        observed_inputs.insert(id.clone());
+        let status = string_field(input, "status")?;
+        if !["missing", "not_selected"].contains(&status.as_str())
+            || !input.get("value").is_some_and(serde_json::Value::is_null)
+        {
+            return Err(format!(
+                "social security scenario gate input {id} must remain missing/not_selected and null"
+            ));
+        }
+    }
+    if observed_inputs != expected_inputs {
+        return Err("social security scenario gate required input set changed".to_string());
+    }
+
+    let scenarios = gate
+        .get("scenarios")
+        .and_then(|value| value.as_array())
+        .ok_or("social security scenario gate scenarios")?;
+    let mut scenario_ids = BTreeSet::<String>::new();
+    for scenario in scenarios {
+        let id = string_field(scenario, "scenario_id")?;
+        scenario_ids.insert(id.clone());
+        if scenario
+            .get("solver_eligible")
+            .and_then(|value| value.as_bool())
+            != Some(false)
+        {
+            return Err(format!(
+                "social security scenario gate scenario {id} must remain solver-ineligible"
+            ));
+        }
+        if id == "current_law" {
+            if number_field(scenario, "gross_program_cost_musd")? != 1_580_673.0
+                || number_field(scenario, "dedicated_receipts_musd")? != 1_283_736.0
+                || number_field(scenario, "reform_delta_musd")? != 0.0
+                || !scenario
+                    .get("explicit_general_fund_transfer_musd")
+                    .is_some_and(serde_json::Value::is_null)
+                || !scenario
+                    .get("trust_fund_balance_path")
+                    .is_some_and(serde_json::Value::is_null)
+            {
+                return Err("social security current-law scenario failed".to_string());
+            }
+        } else {
+            for field in ["target_cost_ready", "balanced_rate_ready"] {
+                if scenario.get(field).and_then(|value| value.as_bool()) != Some(false) {
+                    return Err(format!(
+                        "social security scenario gate {id} field {field} must be false"
+                    ));
+                }
+            }
+            let floors = scenario
+                .get("outcome_floor_statuses")
+                .ok_or("social security scenario gate floors")?;
+            for field in [
+                "replacement_adequacy",
+                "old_age_poverty",
+                "disability_survivor_protection",
+                "delivery_feasibility",
+            ] {
+                if floors.get(field).and_then(|value| value.as_bool()) != Some(false) {
+                    return Err(format!(
+                        "social security scenario gate floor {field} must remain false"
+                    ));
+                }
+            }
+        }
+    }
+    let expected_scenarios: BTreeSet<String> = ["current_law", "central_reform", "stress"]
+        .into_iter()
+        .map(str::to_string)
+        .collect();
+    if scenario_ids != expected_scenarios {
+        return Err("social security scenario gate scenario set changed".to_string());
+    }
+
+    let central = scenarios
+        .iter()
+        .find(|scenario| {
+            string_field(scenario, "scenario_id").ok().as_deref() == Some("central_reform")
+        })
+        .ok_or("social security central scenario")?;
+    for field in [
+        "taxable_wage_base_policy",
+        "oasdi_rate_policy",
+        "eligibility_age_policy",
+        "benefit_formula_policy",
+        "gross_program_cost_delta_musd",
+        "dedicated_receipt_delta_musd",
+        "explicit_general_fund_transfer_delta_musd",
+        "trust_fund_balance_delta_musd",
+        "administration_transition_cost_musd",
+    ] {
+        if !central.get(field).is_some_and(serde_json::Value::is_null) {
+            return Err(format!(
+                "social security central scenario field {field} must remain null"
+            ));
+        }
+    }
+
+    let stress = scenarios
+        .iter()
+        .find(|scenario| string_field(scenario, "scenario_id").ok().as_deref() == Some("stress"))
+        .ok_or("social security stress scenario")?;
+    if string_field(stress, "scenario_role")? != "same_policy_adverse_realization"
+        || stress
+            .get("same_policy_as_central")
+            .and_then(|value| value.as_bool())
+            != Some(false)
+    {
+        return Err("social security stress scenario must remain unselected".to_string());
+    }
+    for field in [
+        "weaker_receipts",
+        "higher_benefit_claiming",
+        "slower_wage_growth",
+        "longer_life_expectancy",
+        "higher_administration_transition_cost",
+        "trust_fund_balance_delta_musd",
+    ] {
+        if !stress.get(field).is_some_and(serde_json::Value::is_null) {
+            return Err(format!(
+                "social security stress scenario field {field} must remain null"
+            ));
+        }
+    }
+
+    let claims = gate
+        .get("claim_booleans")
+        .ok_or("social security claim booleans")?;
+    for field in [
+        "target_cost_published",
+        "federal_effect_published",
+        "solvency_reform_selected",
+        "benefit_cut_selected",
+        "tax_rate_selected",
+        "wage_base_policy_selected",
+        "balanced_rate_published",
+        "savings_published",
+    ] {
+        if claims.get(field).and_then(|value| value.as_bool()) != Some(false) {
+            return Err(format!(
+                "social security scenario gate claim {field} must remain false"
+            ));
+        }
+    }
+    let blockers = string_set(&gate, "explicit_blockers")?;
+    for required in [
+        "demographic_path_missing",
+        "seventy_five_year_trust_fund_path_missing",
+        "policy_levers_not_selected",
+        "adequacy_floor_missing",
+        "old_age_poverty_floor_missing",
+        "central_and_stress_solver_eligible_false",
+    ] {
+        if !blockers.contains(required) {
+            return Err(format!(
+                "social security scenario gate blocker missing {required}"
+            ));
+        }
+    }
+    let readiness = gate.get("readiness").ok_or("social security readiness")?;
+    if readiness
+        .get("current_law_context_available")
+        .and_then(|value| value.as_bool())
+        != Some(true)
+    {
+        return Err("social security current-law readiness must be true".to_string());
+    }
+    for field in [
+        "target_path_reconciled",
+        "trust_fund_path_reconciled",
+        "central_reform_scored",
+        "stress_scored",
+        "solver_integration_ready",
+        "public_rate_claim_allowed",
+        "public_savings_claim_allowed",
+    ] {
+        if readiness.get(field).and_then(|value| value.as_bool()) != Some(false) {
+            return Err(format!(
+                "social security scenario gate readiness {field} must remain false"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(SOCIAL_SECURITY_SCENARIO_GATE_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        SOCIAL_SECURITY_SCENARIO_GATE_JSON_PATH,
+        "This is a readiness gate, not a Social Security reform plan.",
+        "$296.937B residual trust-fund-drawdown or general-pool gap",
+        "Public old-age spending comparisons are context, not a Social Security target.",
+        "central and stress Social Security scenarios remain unscored and solver-ineligible",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!(
+                "social security scenario gate reader missing {required}"
+            ));
+        }
+    }
+
     Ok(())
 }
 
@@ -12210,6 +12529,12 @@ mod global_country_comparison_tests {
     fn age_relative_poverty_panel_preserves_source_years_values_and_boundaries() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_age_relative_poverty_country_panel(&root).unwrap();
+    }
+
+    #[test]
+    fn social_security_scenario_gate_blocks_unselected_levers_and_claims() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_social_security_scenario_gate(&root).unwrap();
     }
 
     #[test]
