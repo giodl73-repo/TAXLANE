@@ -1,0 +1,592 @@
+{
+  "record_id": "country-comparison:fiscal-panel:2022",
+  "record_family": "fiscal_country_comparison",
+  "data_year": 2022,
+  "source_ids": [
+    "SRC-IMF-FM-OCT2025-FISCAL-PANEL-2022",
+    "SRC-OECD-REVSTATS-PANEL-2022",
+    "SRC-OECD-GOV-INTEREST-PANEL-2022",
+    "SRC-OECD-GOV-NET-INTEREST-PANEL-2022"
+  ],
+  "country_count": 12,
+  "country_records": [
+    {
+      "country_code": "USA",
+      "country_name": "United States",
+      "region": "north_america",
+      "year": 2022,
+      "tax_revenue_percent_gdp": 27.606753,
+      "general_government_revenue_percent_gdp": 33.0696230224221,
+      "overall_balance_percent_gdp": -3.72031810121821,
+      "primary_balance_percent_gdp": -0.987253690327236,
+      "direct_interest_expense_percent_gdp": 3.661409672,
+      "direct_interest_expense_percent_revenue": 11.071821622,
+      "direct_interest_status": "observed_oecd_d41",
+      "net_interest_spending_percent_gdp": 3.31,
+      "net_interest_status": "observed_oecd_ggintn",
+      "gross_debt_percent_gdp": 119.104446047915,
+      "net_debt_percent_gdp": 91.9796465883184,
+      "tax_mix": [
+        {
+          "category_code": "T_6000",
+          "category": "other_taxes",
+          "share_total_tax_revenue_percent": 0.0
+        },
+        {
+          "category_code": "T_2000",
+          "category": "social_security_contributions",
+          "share_total_tax_revenue_percent": 21.902789
+        },
+        {
+          "category_code": "T_3000",
+          "category": "payroll_and_workforce",
+          "share_total_tax_revenue_percent": 0.051128
+        },
+        {
+          "category_code": "T_4000",
+          "category": "property",
+          "share_total_tax_revenue_percent": 10.367752
+        },
+        {
+          "category_code": "T_5000",
+          "category": "goods_and_services",
+          "share_total_tax_revenue_percent": 16.252822
+        },
+        {
+          "category_code": "T_1000",
+          "category": "income_profits_and_capital_gains",
+          "share_total_tax_revenue_percent": 51.425509
+        }
+      ],
+      "observation_status": "complete"
+    },
+    {
+      "country_code": "DEU",
+      "country_name": "Germany",
+      "region": "europe",
+      "year": 2022,
+      "tax_revenue_percent_gdp": 39.647158,
+      "general_government_revenue_percent_gdp": 46.700623403578,
+      "overall_balance_percent_gdp": -1.90851232895255,
+      "primary_balance_percent_gdp": -1.34845346521065,
+      "direct_interest_expense_percent_gdp": 0.702312885,
+      "direct_interest_expense_percent_revenue": 1.503861905,
+      "direct_interest_status": "observed_oecd_d41",
+      "net_interest_spending_percent_gdp": 0.5,
+      "net_interest_status": "observed_oecd_ggintn",
+      "gross_debt_percent_gdp": 64.4421076906495,
+      "net_debt_percent_gdp": 45.8936579276531,
+      "tax_mix": [
+        {
+          "category_code": "T_3000",
+          "category": "payroll_and_workforce",
+          "share_total_tax_revenue_percent": 0.0
+        },
+        {
+          "category_code": "T_6000",
+          "category": "other_taxes",
+          "share_total_tax_revenue_percent": 0.023291
+        },
+        {
+          "category_code": "T_2000",
+          "category": "social_security_contributions",
+          "share_total_tax_revenue_percent": 36.894365
+        },
+        {
+          "category_code": "T_4000",
+          "category": "property",
+          "share_total_tax_revenue_percent": 2.81345
+        },
+        {
+          "category_code": "T_5000",
+          "category": "goods_and_services",
+          "share_total_tax_revenue_percent": 27.34767
+        },
+        {
+          "category_code": "T_1000",
+          "category": "income_profits_and_capital_gains",
+          "share_total_tax_revenue_percent": 32.921222
+        }
+      ],
+      "observation_status": "complete"
+    },
+    {
+      "country_code": "FRA",
+      "country_name": "France",
+      "region": "europe",
+      "year": 2022,
+      "tax_revenue_percent_gdp": 45.774383,
+      "general_government_revenue_percent_gdp": 53.6914510453478,
+      "overall_balance_percent_gdp": -4.73740173783166,
+      "primary_balance_percent_gdp": -2.8608359391514,
+      "direct_interest_expense_percent_gdp": 1.919142944,
+      "direct_interest_expense_percent_revenue": 3.574392025,
+      "direct_interest_status": "observed_oecd_d41",
+      "net_interest_spending_percent_gdp": 1.87,
+      "net_interest_status": "observed_oecd_ggintn",
+      "gross_debt_percent_gdp": 111.365574264025,
+      "net_debt_percent_gdp": 101.077732943933,
+      "tax_mix": [
+        {
+          "category_code": "T_6000",
+          "category": "other_taxes",
+          "share_total_tax_revenue_percent": 1.793287
+        },
+        {
+          "category_code": "T_2000",
+          "category": "social_security_contributions",
+          "share_total_tax_revenue_percent": 32.355051
+        },
+        {
+          "category_code": "T_4000",
+          "category": "property",
+          "share_total_tax_revenue_percent": 8.08674
+        },
+        {
+          "category_code": "T_5000",
+          "category": "goods_and_services",
+          "share_total_tax_revenue_percent": 26.096385
+        },
+        {
+          "category_code": "T_1000",
+          "category": "income_profits_and_capital_gains",
+          "share_total_tax_revenue_percent": 27.401421
+        },
+        {
+          "category_code": "T_3000",
+          "category": "payroll_and_workforce",
+          "share_total_tax_revenue_percent": 4.267116
+        }
+      ],
+      "observation_status": "complete"
+    },
+    {
+      "country_code": "GBR",
+      "country_name": "United Kingdom",
+      "region": "europe",
+      "year": 2022,
+      "tax_revenue_percent_gdp": 35.420163,
+      "general_government_revenue_percent_gdp": 39.5429040526783,
+      "overall_balance_percent_gdp": -4.55560182201907,
+      "primary_balance_percent_gdp": -0.912434472702171,
+      "direct_interest_expense_percent_gdp": 4.194038704,
+      "direct_interest_expense_percent_revenue": 10.60629917,
+      "direct_interest_status": "observed_oecd_d41",
+      "net_interest_spending_percent_gdp": 3.95,
+      "net_interest_status": "observed_oecd_ggintn",
+      "gross_debt_percent_gdp": 99.6141983860217,
+      "net_debt_percent_gdp": 89.8105150829551,
+      "tax_mix": [
+        {
+          "category_code": "T_6000",
+          "category": "other_taxes",
+          "share_total_tax_revenue_percent": 0.0
+        },
+        {
+          "category_code": "T_1000",
+          "category": "income_profits_and_capital_gains",
+          "share_total_tax_revenue_percent": 37.765327
+        },
+        {
+          "category_code": "T_5000",
+          "category": "goods_and_services",
+          "share_total_tax_revenue_percent": 30.570088
+        },
+        {
+          "category_code": "T_3000",
+          "category": "payroll_and_workforce",
+          "share_total_tax_revenue_percent": 0.396565
+        },
+        {
+          "category_code": "T_4000",
+          "category": "property",
+          "share_total_tax_revenue_percent": 11.332632
+        },
+        {
+          "category_code": "T_2000",
+          "category": "social_security_contributions",
+          "share_total_tax_revenue_percent": 19.935388
+        }
+      ],
+      "observation_status": "complete"
+    },
+    {
+      "country_code": "SWE",
+      "country_name": "Sweden",
+      "region": "europe",
+      "year": 2022,
+      "tax_revenue_percent_gdp": 42.511859,
+      "general_government_revenue_percent_gdp": 49.3170105640674,
+      "overall_balance_percent_gdp": 1.00278264188508,
+      "primary_balance_percent_gdp": 1.1928997501038,
+      "direct_interest_expense_percent_gdp": 0.511156786,
+      "direct_interest_expense_percent_revenue": 1.036471555,
+      "direct_interest_status": "observed_oecd_d41",
+      "net_interest_spending_percent_gdp": 0.09,
+      "net_interest_status": "observed_oecd_ggintn",
+      "gross_debt_percent_gdp": 33.91114629888,
+      "net_debt_percent_gdp": 9.00155852015374,
+      "tax_mix": [
+        {
+          "category_code": "T_1000",
+          "category": "income_profits_and_capital_gains",
+          "share_total_tax_revenue_percent": 36.010092
+        },
+        {
+          "category_code": "T_5000",
+          "category": "goods_and_services",
+          "share_total_tax_revenue_percent": 28.775285
+        },
+        {
+          "category_code": "T_2000",
+          "category": "social_security_contributions",
+          "share_total_tax_revenue_percent": 20.792322
+        },
+        {
+          "category_code": "T_4000",
+          "category": "property",
+          "share_total_tax_revenue_percent": 2.206088
+        },
+        {
+          "category_code": "T_3000",
+          "category": "payroll_and_workforce",
+          "share_total_tax_revenue_percent": 12.084109
+        },
+        {
+          "category_code": "T_6000",
+          "category": "other_taxes",
+          "share_total_tax_revenue_percent": 0.132104
+        }
+      ],
+      "observation_status": "complete"
+    },
+    {
+      "country_code": "NLD",
+      "country_name": "Netherlands",
+      "region": "europe",
+      "year": 2022,
+      "tax_revenue_percent_gdp": 38.065746,
+      "general_government_revenue_percent_gdp": 43.2679962166187,
+      "overall_balance_percent_gdp": 0.00221368054577288,
+      "primary_balance_percent_gdp": 0.426636614276227,
+      "direct_interest_expense_percent_gdp": 0.568513413,
+      "direct_interest_expense_percent_revenue": 1.313935154,
+      "direct_interest_status": "observed_oecd_d41",
+      "net_interest_spending_percent_gdp": 0.42,
+      "net_interest_status": "observed_oecd_ggintn",
+      "gross_debt_percent_gdp": 48.4136966452678,
+      "net_debt_percent_gdp": 39.901753962294,
+      "tax_mix": [
+        {
+          "category_code": "T_3000",
+          "category": "payroll_and_workforce",
+          "share_total_tax_revenue_percent": 0.0
+        },
+        {
+          "category_code": "T_6000",
+          "category": "other_taxes",
+          "share_total_tax_revenue_percent": 0.31694
+        },
+        {
+          "category_code": "T_1000",
+          "category": "income_profits_and_capital_gains",
+          "share_total_tax_revenue_percent": 32.732319
+        },
+        {
+          "category_code": "T_2000",
+          "category": "social_security_contributions",
+          "share_total_tax_revenue_percent": 32.900173
+        },
+        {
+          "category_code": "T_4000",
+          "category": "property",
+          "share_total_tax_revenue_percent": 3.906372
+        },
+        {
+          "category_code": "T_5000",
+          "category": "goods_and_services",
+          "share_total_tax_revenue_percent": 30.144196
+        }
+      ],
+      "observation_status": "complete"
+    },
+    {
+      "country_code": "POL",
+      "country_name": "Poland",
+      "region": "europe",
+      "year": 2022,
+      "tax_revenue_percent_gdp": 34.379917,
+      "general_government_revenue_percent_gdp": 39.8106338523513,
+      "overall_balance_percent_gdp": -3.43728343638949,
+      "primary_balance_percent_gdp": -1.91008923069769,
+      "direct_interest_expense_percent_gdp": 1.527194156,
+      "direct_interest_expense_percent_revenue": 3.836146297,
+      "direct_interest_status": "observed_oecd_d41",
+      "net_interest_spending_percent_gdp": 0.98,
+      "net_interest_status": "observed_oecd_ggintn",
+      "gross_debt_percent_gdp": 48.7870115867266,
+      "net_debt_percent_gdp": 36.848058978927,
+      "tax_mix": [
+        {
+          "category_code": "T_5000",
+          "category": "goods_and_services",
+          "share_total_tax_revenue_percent": 36.523721
+        },
+        {
+          "category_code": "T_6000",
+          "category": "other_taxes",
+          "share_total_tax_revenue_percent": 0.143693
+        },
+        {
+          "category_code": "T_4000",
+          "category": "property",
+          "share_total_tax_revenue_percent": 3.386109
+        },
+        {
+          "category_code": "T_1000",
+          "category": "income_profits_and_capital_gains",
+          "share_total_tax_revenue_percent": 21.191963
+        },
+        {
+          "category_code": "T_3000",
+          "category": "payroll_and_workforce",
+          "share_total_tax_revenue_percent": 1.622722
+        },
+        {
+          "category_code": "T_2000",
+          "category": "social_security_contributions",
+          "share_total_tax_revenue_percent": 37.131792
+        }
+      ],
+      "observation_status": "complete"
+    },
+    {
+      "country_code": "JPN",
+      "country_name": "Japan",
+      "region": "asia",
+      "year": 2022,
+      "tax_revenue_percent_gdp": 34.440871,
+      "general_government_revenue_percent_gdp": 37.5365697425415,
+      "overall_balance_percent_gdp": -4.21470436948832,
+      "primary_balance_percent_gdp": -3.80980389466362,
+      "direct_interest_expense_percent_gdp": 1.309538749,
+      "direct_interest_expense_percent_revenue": 3.488701173,
+      "direct_interest_status": "observed_oecd_d41",
+      "net_interest_spending_percent_gdp": 0.28,
+      "net_interest_status": "observed_oecd_ggintn",
+      "gross_debt_percent_gdp": 248.245999112747,
+      "net_debt_percent_gdp": 149.483390232978,
+      "tax_mix": [
+        {
+          "category_code": "T_3000",
+          "category": "payroll_and_workforce",
+          "share_total_tax_revenue_percent": 0.0
+        },
+        {
+          "category_code": "T_6000",
+          "category": "other_taxes",
+          "share_total_tax_revenue_percent": 0.244657
+        },
+        {
+          "category_code": "T_1000",
+          "category": "income_profits_and_capital_gains",
+          "share_total_tax_revenue_percent": 32.509529
+        },
+        {
+          "category_code": "T_5000",
+          "category": "goods_and_services",
+          "share_total_tax_revenue_percent": 20.846304
+        },
+        {
+          "category_code": "T_2000",
+          "category": "social_security_contributions",
+          "share_total_tax_revenue_percent": 38.528891
+        },
+        {
+          "category_code": "T_4000",
+          "category": "property",
+          "share_total_tax_revenue_percent": 7.870619
+        }
+      ],
+      "observation_status": "complete"
+    },
+    {
+      "country_code": "KOR",
+      "country_name": "South Korea",
+      "region": "asia",
+      "year": 2022,
+      "tax_revenue_percent_gdp": 31.976378,
+      "general_government_revenue_percent_gdp": 25.1884686581562,
+      "overall_balance_percent_gdp": -1.49174948282575,
+      "primary_balance_percent_gdp": -1.72924794818439,
+      "direct_interest_expense_percent_gdp": 1.104591804,
+      "direct_interest_expense_percent_revenue": 4.385307497,
+      "direct_interest_status": "observed_oecd_d41",
+      "net_interest_spending_percent_gdp": -0.05,
+      "net_interest_status": "observed_oecd_ggintn",
+      "gross_debt_percent_gdp": 49.7978572263026,
+      "net_debt_percent_gdp": 6.17920739735907,
+      "tax_mix": [
+        {
+          "category_code": "T_5000",
+          "category": "goods_and_services",
+          "share_total_tax_revenue_percent": 22.680132
+        },
+        {
+          "category_code": "T_6000",
+          "category": "other_taxes",
+          "share_total_tax_revenue_percent": 2.241135
+        },
+        {
+          "category_code": "T_3000",
+          "category": "payroll_and_workforce",
+          "share_total_tax_revenue_percent": 0.286724
+        },
+        {
+          "category_code": "T_2000",
+          "category": "social_security_contributions",
+          "share_total_tax_revenue_percent": 25.568927
+        },
+        {
+          "category_code": "T_4000",
+          "category": "property",
+          "share_total_tax_revenue_percent": 11.871851
+        },
+        {
+          "category_code": "T_1000",
+          "category": "income_profits_and_capital_gains",
+          "share_total_tax_revenue_percent": 37.351231
+        }
+      ],
+      "observation_status": "complete"
+    },
+    {
+      "country_code": "CAN",
+      "country_name": "Canada",
+      "region": "north_america",
+      "year": 2022,
+      "tax_revenue_percent_gdp": 33.831547,
+      "general_government_revenue_percent_gdp": 41.1893270289799,
+      "overall_balance_percent_gdp": 0.555641297256343,
+      "primary_balance_percent_gdp": 0.172399278834349,
+      "direct_interest_expense_percent_gdp": 2.668427277,
+      "direct_interest_expense_percent_revenue": 6.478443493,
+      "direct_interest_status": "observed_oecd_d41",
+      "net_interest_spending_percent_gdp": 1.62,
+      "net_interest_status": "observed_oecd_ggintn",
+      "gross_debt_percent_gdp": 104.207384231166,
+      "net_debt_percent_gdp": 13.6195079517633,
+      "tax_mix": [
+        {
+          "category_code": "T_2000",
+          "category": "social_security_contributions",
+          "share_total_tax_revenue_percent": 14.034523
+        },
+        {
+          "category_code": "T_4000",
+          "category": "property",
+          "share_total_tax_revenue_percent": 10.353242
+        },
+        {
+          "category_code": "T_5000",
+          "category": "goods_and_services",
+          "share_total_tax_revenue_percent": 21.744979
+        },
+        {
+          "category_code": "T_3000",
+          "category": "payroll_and_workforce",
+          "share_total_tax_revenue_percent": 2.174559
+        },
+        {
+          "category_code": "T_1000",
+          "category": "income_profits_and_capital_gains",
+          "share_total_tax_revenue_percent": 51.582062
+        },
+        {
+          "category_code": "T_6000",
+          "category": "other_taxes",
+          "share_total_tax_revenue_percent": 0.110635
+        }
+      ],
+      "observation_status": "complete"
+    },
+    {
+      "country_code": "AUS",
+      "country_name": "Australia",
+      "region": "oceania",
+      "year": 2022,
+      "tax_revenue_percent_gdp": 29.397567,
+      "general_government_revenue_percent_gdp": 35.3478556643979,
+      "overall_balance_percent_gdp": -2.21331023035713,
+      "primary_balance_percent_gdp": -1.46574609200833,
+      "direct_interest_expense_percent_gdp": 1.92878344,
+      "direct_interest_expense_percent_revenue": 5.456578353,
+      "direct_interest_status": "observed_oecd_d41",
+      "net_interest_spending_percent_gdp": 1.33,
+      "net_interest_status": "observed_oecd_ggintn",
+      "gross_debt_percent_gdp": 50.2132675365727,
+      "net_debt_percent_gdp": 31.4765967576085,
+      "tax_mix": [
+        {
+          "category_code": "T_6000",
+          "category": "other_taxes",
+          "share_total_tax_revenue_percent": 0.0
+        },
+        {
+          "category_code": "T_2000",
+          "category": "social_security_contributions",
+          "share_total_tax_revenue_percent": 0.0
+        },
+        {
+          "category_code": "T_5000",
+          "category": "goods_and_services",
+          "share_total_tax_revenue_percent": 23.779961
+        },
+        {
+          "category_code": "T_4000",
+          "category": "property",
+          "share_total_tax_revenue_percent": 9.281021
+        },
+        {
+          "category_code": "T_3000",
+          "category": "payroll_and_workforce",
+          "share_total_tax_revenue_percent": 4.687909
+        },
+        {
+          "category_code": "T_1000",
+          "category": "income_profits_and_capital_gains",
+          "share_total_tax_revenue_percent": 62.25111
+        }
+      ],
+      "observation_status": "complete"
+    },
+    {
+      "country_code": "SGP",
+      "country_name": "Singapore",
+      "region": "asia",
+      "year": 2022,
+      "tax_revenue_percent_gdp": null,
+      "general_government_revenue_percent_gdp": 16.1786360581556,
+      "overall_balance_percent_gdp": 1.20827327198105,
+      "primary_balance_percent_gdp": null,
+      "direct_interest_expense_percent_gdp": null,
+      "direct_interest_expense_percent_revenue": null,
+      "direct_interest_status": "blocked_no_direct_series",
+      "net_interest_spending_percent_gdp": null,
+      "net_interest_status": "blocked_no_direct_series",
+      "gross_debt_percent_gdp": 154.302658811155,
+      "net_debt_percent_gdp": null,
+      "tax_mix": [],
+      "observation_status": "partial_missing_tax_primary_net_debt_and_interest"
+    }
+  ],
+  "interest_boundary": "OECD annual government accounts D.41 interest payable is observed directly for the eleven core peers and divided by the captured OECD GDP denominator. Interest as a share of revenue uses the separately labeled IMF general-government revenue denominator. A separate pinned OECD Government at a Glance series supplies net interest spending percent GDP. Gross and net interest are never substituted. Singapore remains missing. Primary minus overall balance is never used as interest.",
+  "tax_boundary": "OECD tax revenue is narrower than IMF total general-government revenue",
+  "debt_boundary": "Gross and net debt are parallel measures and are never substituted for each other",
+  "target_status": "descriptive_context_not_policy_target",
+  "ranking_status": "blocked",
+  "efficiency_status": "not_causal_efficiency",
+  "savings_status": "blocked_not_scored",
+  "observed_date": "2026-07-15",
+  "status": "draft-source-captured"
+}

@@ -1,0 +1,38 @@
+{
+  "record_id": "country-comparison:pension-replacement:model-2024",
+  "record_family": "pension_replacement_country_comparison",
+  "model_entry_year": 2024,
+  "source_ids": ["SRC-OECD-PAG-PENSION-REPLACEMENT-PANEL-2024"],
+  "scenario": {
+    "sex": "male",
+    "entry_age": 22,
+    "career": "full_uninterrupted_to_country_normal_retirement_age",
+    "earnings": "100_percent_national_average_worker_earnings",
+    "scheme_scope": "mandatory_public_and_private",
+    "policy_basis": "legislated_rules_under_oecd_baseline_assumptions"
+  },
+  "country_count": 12,
+  "country_records": [
+    {"country_code":"USA","country_name":"United States","region":"north_america","gross_replacement_rate_percent":39.7,"net_replacement_rate_percent":51.3,"observation_status":"modeled"},
+    {"country_code":"DEU","country_name":"Germany","region":"europe","gross_replacement_rate_percent":42.1,"net_replacement_rate_percent":53.3,"observation_status":"modeled"},
+    {"country_code":"FRA","country_name":"France","region":"europe","gross_replacement_rate_percent":56.6,"net_replacement_rate_percent":70.0,"observation_status":"modeled"},
+    {"country_code":"GBR","country_name":"United Kingdom","region":"europe","gross_replacement_rate_percent":44.7,"net_replacement_rate_percent":54.2,"observation_status":"modeled"},
+    {"country_code":"SWE","country_name":"Sweden","region":"europe","gross_replacement_rate_percent":63.7,"net_replacement_rate_percent":66.3,"observation_status":"modeled"},
+    {"country_code":"NLD","country_name":"Netherlands","region":"europe","gross_replacement_rate_percent":74.7,"net_replacement_rate_percent":96.0,"observation_status":"modeled"},
+    {"country_code":"POL","country_name":"Poland","region":"europe","gross_replacement_rate_percent":28.6,"net_replacement_rate_percent":40.6,"observation_status":"modeled"},
+    {"country_code":"JPN","country_name":"Japan","region":"asia","gross_replacement_rate_percent":36.5,"net_replacement_rate_percent":42.4,"observation_status":"modeled"},
+    {"country_code":"KOR","country_name":"South Korea","region":"asia","gross_replacement_rate_percent":33.4,"net_replacement_rate_percent":38.9,"observation_status":"modeled"},
+    {"country_code":"CAN","country_name":"Canada","region":"north_america","gross_replacement_rate_percent":37.1,"net_replacement_rate_percent":45.1,"observation_status":"modeled"},
+    {"country_code":"AUS","country_name":"Australia","region":"oceania","gross_replacement_rate_percent":40.8,"net_replacement_rate_percent":53.0,"observation_status":"modeled"},
+    {"country_code":"SGP","country_name":"Singapore","region":"asia","gross_replacement_rate_percent":null,"net_replacement_rate_percent":null,"observation_status":"country_absent_from_source"}
+  ],
+  "model_boundary": "These are theoretical future entitlements for a worker entering at age 22 in 2024, not observed benefits or incomes of current retirees. Career lengths differ with country normal retirement ages.",
+  "scope_boundary": "Mandatory public and private schemes are included; voluntary schemes are excluded. Gross and net rates have different earnings denominators and are never subtracted as a fiscal saving.",
+  "spending_boundary": "The model is not contemporaneous with the 2022 SOCX spending panel and no spending-to-replacement efficiency ratio is calculated.",
+  "target_status": "descriptive_modeled_system_design_not_policy_target",
+  "ranking_status": "blocked",
+  "efficiency_status": "not_causal_efficiency",
+  "savings_status": "blocked_not_scored",
+  "observed_date": "2026-07-15",
+  "status": "draft-source-captured"
+}

@@ -1,0 +1,98 @@
+{
+  "record_id": "comparison-coverage:global-country-panel:v1",
+  "record_family": "global_country_comparison_coverage",
+  "as_of_date": "2026-07-15",
+  "reference_country": "USA",
+  "benchmark_selection_rubric": "data/derived/breadth_benchmark_matrix/international_comparator_target_rubric.v1.draft.json",
+  "default_panel": {
+    "europe": ["DEU", "FRA", "GBR", "SWE", "NLD", "POL"],
+    "asia": ["JPN", "KOR"],
+    "other_peers": ["CAN", "AUS"],
+    "supplemental_when_definition_matched": ["SGP"]
+  },
+  "panel_rule": "Display at least three comparator countries and include at least one European and one Asian peer whenever a matched official series exists. Country membership may vary by lane; missing observations remain missing.",
+  "common_basis_rule": "Prefer calendar-year general-government measures, percent of GDP or PPP per person, and the same source vintage. Never compare a United States federal-only function directly with a peer all-government total.",
+  "source_status": "harmonized_spending_and_first_fiscal_specialist_batches_captured",
+  "observed_batches": [
+    {
+      "artifact": "data/derived/breadth_benchmark_matrix/oecd_cofog_country_panel.data2022.v1.draft.json",
+      "source_id": "SRC-OECD-COFOG-GLOBAL-PANEL-2022",
+      "coverage": "2022 general-government COFOG divisions GF01-GF10 for ten observed countries plus explicit Canadian and United States GF05 missingness",
+      "claim_status": "observed_values_source_captured_not_yet_lane_outcome_reviewed"
+    },
+    {
+      "artifact": "data/derived/breadth_benchmark_matrix/hybrid_cofog_country_panel.data2022.v1.draft.json",
+      "source_id": "SRC-IMF-GFS-COFOG-GLOBAL-PANEL-2022",
+      "coverage": "IMF fills Canada's ten OECD-missing cells; Korea stays OECD and United States GF05 stays missing",
+      "claim_status": "source_reconciled_gap_fill_not_blended_rank_or_efficiency_claim"
+    },
+    {
+      "artifact": "data/derived/breadth_benchmark_matrix/fiscal_country_panel.data2022.v1.draft.json",
+      "source_id": "SRC-IMF-FM-OCT2025-FISCAL-PANEL-2022",
+      "coverage": "2022 tax revenue, tax mix, total revenue, overall and primary balances, and gross and net debt for the global panel",
+      "claim_status": "descriptive_fiscal_context_not_target_or_savings_score"
+    },
+    {
+      "artifact": "data/derived/breadth_benchmark_matrix/fiscal_country_panel.data2022.v1.draft.json",
+      "source_id": "SRC-OECD-GOV-INTEREST-PANEL-2022",
+      "coverage": "2022 direct general-government D.41 interest payable for eleven core peers, expressed as percent GDP and percent revenue; Singapore remains missing",
+      "claim_status": "gross_interest_pressure_context_not_net_interest_rank_or_target"
+    },
+    {
+      "artifact": "data/derived/breadth_benchmark_matrix/fiscal_country_panel.data2022.v1.draft.json",
+      "source_id": "SRC-OECD-GOV-NET-INTEREST-PANEL-2022",
+      "coverage": "2022 general-government net interest spending percent GDP for eleven core peers; Singapore remains missing",
+      "claim_status": "net_interest_pressure_context_not_federal_measure_rank_or_target"
+    },
+    {
+      "artifact": "data/derived/breadth_benchmark_matrix/qpsd_maturity_country_panel.2022q4.v1.draft.json",
+      "source_id": "SRC-WB-IMF-QPSD-MATURITY-PANEL-2022Q4",
+      "coverage": "2022Q4 general-government short-term original-maturity debt for ten peers and long-term-original debt due within one year for six peers",
+      "claim_status": "partial_maturity_pressure_context_not_projected_refinancing_rank_or_target"
+    },
+    {
+      "artifact": "data/derived/breadth_benchmark_matrix/socx_oldage_family_country_panel.data2022.v1.draft.json",
+      "source_id": "SRC-OECD-SOCX-OLDAGE-FAMILY-PANEL-2022",
+      "coverage": "2022 public old-age/survivors and family-benefit totals, cash, and services for seven countries with five explicit gaps",
+      "claim_status": "social_spending_composition_not_system_adequacy_efficiency_or_target"
+    },
+    {
+      "artifact": "data/derived/breadth_benchmark_matrix/pension_replacement_country_panel.model2024.v1.draft.json",
+      "source_id": "SRC-OECD-PAG-PENSION-REPLACEMENT-PANEL-2024",
+      "coverage": "modeled gross and net mandatory-scheme replacement rates for an average-earning male entrant in all eleven core peers",
+      "claim_status": "future_entitlement_model_not_current_retiree_outcome_efficiency_or_target"
+    },
+    {
+      "artifact": "data/derived/breadth_benchmark_matrix/age_relative_poverty_country_panel.v1.draft.json",
+      "source_id": "SRC-OECD-IDD-AGE-POVERTY-PANELS",
+      "coverage": "actual older-person relative poverty with explicit 2020-2024 country years and child relative poverty centered on 2021 for eleven peers",
+      "claim_status": "relative_income_outcome_not_absolute_threshold_causality_or_efficiency"
+    }
+  ],
+  "lanes": [
+    {"lane_id":"health-medicare","comparison_mode":"harmonized_system_spending_and_outcomes","countries":["DEU","FRA","GBR","SWE","NLD","JPN","KOR","CAN","AUS","SGP"],"metrics":["current_health_expenditure_percent_gdp","current_health_expenditure_ppp_per_person","government_compulsory_financing_share","life_expectancy_and_avoidable_mortality"],"official_source_families":["OECD Health Statistics and System of Health Accounts","WHO Global Health Expenditure Database"],"boundary":"Compare whole health systems; Medicare is not equivalent to another country's national system."},
+    {"lane_id":"social-security","comparison_mode":"harmonized_pension_spending_with_system_context","countries":["DEU","FRA","GBR","SWE","NLD","POL","JPN","KOR","CAN","AUS"],"metrics":["public_old_age_and_survivor_spending_percent_gdp","gross_and_net_replacement_rate","old_age_poverty_rate","old_age_dependency_ratio"],"official_source_families":["OECD Social Expenditure Database","OECD Pensions at a Glance","ILO World Social Protection Database"],"boundary":"Public spending alone is incomplete where mandatory occupational or funded pensions are large."},
+    {"lane_id":"national-defense","comparison_mode":"policy_context_not_efficiency_target","countries":["DEU","FRA","GBR","SWE","POL","JPN","KOR","AUS","CAN","SGP"],"metrics":["common_definition_defense_spending_percent_gdp","real_spending_per_capita","personnel_equipment_infrastructure_mix"],"official_source_families":["NATO Defence Expenditure","SIPRI Military Expenditure Database"],"boundary":"Threat exposure, alliances, conscription, and procurement cycles prevent an automatic efficient-spending target."},
+    {"lane_id":"income-security-family","comparison_mode":"harmonized_family_support_and_outcomes","countries":["DEU","FRA","GBR","SWE","NLD","POL","JPN","KOR","CAN","AUS"],"metrics":["public_family_benefits_percent_gdp","cash_services_tax_break_composition","child_poverty_rate","formal_childcare_participation"],"official_source_families":["OECD Social Expenditure Database and Family Database","Eurostat ESSPROS","ILO World Social Protection Database"],"boundary":"Cash, in-kind services, refundable credits, parental leave, and housing support must be displayed separately."},
+    {"lane_id":"revenue-solvency","comparison_mode":"harmonized_fiscal_context_not_target","countries":["DEU","FRA","GBR","SWE","NLD","POL","JPN","KOR","CAN","AUS","SGP"],"metrics":["all_government_tax_revenue_percent_gdp","tax_mix","general_government_primary_balance_percent_gdp","gross_and_net_debt_percent_gdp"],"official_source_families":["OECD Revenue Statistics","IMF Government Finance Statistics and Fiscal Monitor","Eurostat government finance statistics"],"boundary":"Peer averages are context, not required tax, deficit, or debt targets; federal receipts are not all-government revenue."},
+    {"lane_id":"net-interest","comparison_mode":"harmonized_fiscal_pressure_context","countries":["DEU","FRA","GBR","SWE","NLD","POL","JPN","KOR","CAN","AUS","SGP"],"metrics":["general_government_interest_percent_gdp","interest_percent_revenue","gross_and_net_debt_percent_gdp","effective_rate_and_maturity"],"official_source_families":["OECD Annual Government Accounts","IMF Government Finance Statistics","Eurostat ESA D.41"],"boundary":"Gross Treasury interest is not consolidated general-government interest; assets, inflation, currency, maturity, and central-bank holdings matter."},
+    {"lane_id":"payment-integrity","comparison_mode":"structured_case_comparison_only","countries":["GBR","IRL","SWE","NLD","JPN","KOR","SGP","AUS"],"metrics":["audited_payment_universe_and_coverage","sampled_error_rate_with_uncertainty_when_available","findings_corrections_and_recoveries_kept_separate","recommendation_implementation_rate"],"official_source_families":["National audit institutions and program statistical releases","European Court of Auditors for EU-budget context only"],"boundary":"There is no harmonized international improper-payment or fraud rate. Do not rank raw findings or treat error as fraud or recoverable savings."},
+    {"lane_id":"veterans","comparison_mode":"structured_eligibility_and_service_case_comparison_only","countries":["GBR","FRA","KOR","AUS"],"metrics":["program_spending_per_eligible_beneficiary","service_attributable_disability_and_pension_scope","claims_timeliness_and_appeal_outcomes","veteran_health_employment_and_housing_outcomes"],"official_source_families":["National veterans ministries and military pension accounts"],"boundary":"Conflict history, conscription, eligibility, dependent coverage, pensions, and health-system placement differ too much for a naive spending rank."},
+    {"lane_id":"transportation-infrastructure","comparison_mode":"harmonized_all_government_inputs_and_outcomes","countries":["DEU","FRA","GBR","SWE","NLD","POL","JPN","KOR","CAN","AUS","SGP"],"metrics":["transport_investment_percent_gdp","maintenance_percent_gdp","investment_by_mode","fatalities_reliability_congestion_and_asset_condition"],"official_source_families":["OECD International Transport Forum infrastructure investment","OECD and IMF COFOG","Eurostat transport statistics"],"boundary":"Match all government levels, user-financed investment, capital versus maintenance, geography, network age, and modal mix."},
+    {"lane_id":"education-workforce","comparison_mode":"harmonized_resources_services_and_outcomes","countries":["DEU","FRA","GBR","SWE","NLD","POL","JPN","KOR","CAN","AUS","SGP"],"metrics":["all_government_education_spending_percent_gdp","ppp_spending_per_student_by_level","pisa_attainment_completion_and_neet","active_labor_market_spending_and_employment_outcomes"],"official_source_families":["OECD Education at a Glance and PISA","UNESCO Institute for Statistics","OECD and ILO labor-market statistics"],"boundary":"The United States federal function is only part of national education and workforce spending; PISA is not a causal efficiency measure."},
+    {"lane_id":"disaster-resilience","comparison_mode":"exposure_normalized_multiyear_context","countries":["DEU","FRA","GBR","SWE","NLD","POL","JPN","KOR","AUS","SGP"],"metrics":["ten_to_twenty_year_disaster_losses_percent_gdp","deaths_and_affected_population_rate","insurance_protection_gap","mitigation_warning_and_civil_protection_capacity"],"official_source_families":["UNDRR Sendai Framework Monitor","European Environment Agency","national disaster agencies"],"boundary":"Hazard and exposure dominate annual spending. Use multiyear, hazard-specific, exposure-normalized comparisons rather than one-year relief outlays."},
+    {"lane_id":"justice-courts-public-safety","comparison_mode":"harmonized_spending_with_process_and_outcomes","countries":["DEU","FRA","GBR","SWE","NLD","POL","JPN","KOR","CAN","AUS","SGP"],"metrics":["general_government_public_order_and_safety_percent_gdp","police_judges_and_corrections_staff_per_capita","court_clearance_and_disposition_time","homicide_victimization_and_prison_outcomes"],"official_source_families":["OECD or IMF COFOG","Eurostat","Council of Europe CEPEJ and SPACE","UNODC"],"boundary":"Legal systems, offense definitions, reporting, due-process protections, and government scope differ; avoid raw recorded-crime rankings."},
+    {"lane_id":"science-energy-environment","comparison_mode":"split_function_comparisons_no_composite_rank","countries":["DEU","FRA","GBR","SWE","NLD","POL","JPN","KOR","CAN","AUS","SGP"],"metrics":["government_rd_budget_and_total_rd_percent_gdp","energy_rd_reliability_affordability_and_import_dependence","environmental_protection_spending_percent_gdp","emissions_air_quality_and_ecosystem_outcomes"],"official_source_families":["OECD Main Science and Technology Indicators","IEA official statistics","OECD or IMF COFOG","UNFCCC and EEA"],"boundary":"Science, energy, and environment remain separate. Total R&D includes business spending and energy prices embed different taxes and subsidies."},
+    {"lane_id":"agriculture","comparison_mode":"harmonized_support_and_outcomes_not_budget_only","countries":["DEU","FRA","GBR","NLD","POL","JPN","KOR","CAN","AUS"],"metrics":["producer_support_estimate_percent_farm_receipts","total_support_estimate_percent_gdp","general_services_support_and_agricultural_rd","productivity_emissions_and_land_outcomes"],"official_source_families":["OECD Producer and Consumer Support Estimates","FAOSTAT Government Expenditure"],"boundary":"Market-price support is not budget expenditure; EU common agricultural policy treatment and nutrition-program exclusions must be explicit."},
+    {"lane_id":"international-affairs","comparison_mode":"component_comparisons_no_function_total_rank","countries":["DEU","FRA","GBR","SWE","NLD","JPN","KOR","CAN","AUS"],"metrics":["official_development_assistance_percent_gni","bilateral_multilateral_and_humanitarian_mix","diplomacy_spending_separate","peacekeeping_security_assistance_and_export_finance_separate"],"official_source_families":["OECD Development Assistance Committee statistics","UN peacekeeping contribution data","national foreign-ministry accounts"],"boundary":"ODA is only one component; diplomacy, export finance, military aid, arms sales, and financial instruments cannot be added without reconciliation."}
+  ],
+  "claim_guardrails": {
+    "country_values_publicly_claimable": false,
+    "rankings_publicly_claimable": false,
+    "efficiency_publicly_claimable": false,
+    "fraud_publicly_claimable": false,
+    "savings_publicly_claimable": false,
+    "unlock_rule": "A lane-specific result requires captured official source bytes, source metadata and checksum, matched year/unit/perimeter, missingness disclosure, comparability review, metric-specific application of the international comparator target rubric, and separate service or outcome interpretation before its claim gate can change."
+  },
+  "status": "draft-design-reviewed"
+}

@@ -679,6 +679,90 @@ const K12_OUTCOME_BASELINE_READER_PATH: &str = "docs/reading/k12-outcome-baselin
 const K12_PISA_PEER_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/k12_pisa2022_peer_comparison.v1.draft.json";
 const K12_PISA_PEER_READER_PATH: &str = "docs/reading/k12-pisa-2022-peer-comparison.md";
+const GLOBAL_COUNTRY_COMPARISON_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/global_country_comparison_coverage.v1.draft.json";
+const GLOBAL_COUNTRY_COMPARISON_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/global_country_comparison_coverage.schema.md";
+const GLOBAL_COUNTRY_COMPARISON_READER_PATH: &str =
+    "docs/reading/global-country-comparison-coverage.md";
+const INTERNATIONAL_COMPARATOR_TARGET_RUBRIC_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/international_comparator_target_rubric.v1.draft.json";
+const OECD_COFOG_PANEL_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/oecd_cofog_country_panel.data2022.v1.draft.json";
+const OECD_COFOG_PANEL_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/oecd_cofog_country_panel.schema.md";
+const OECD_COFOG_PANEL_READER_PATH: &str = "docs/reading/oecd-cofog-country-panel-2022.md";
+const OECD_COFOG_PANEL_METADATA_PATH: &str =
+    "data/metadata/SRC-OECD-COFOG-GLOBAL-PANEL-2022.2026-07-15.metadata.md";
+const OECD_COFOG_RAW_PATH: &str =
+    "data/raw/oecd/SRC-OECD-COFOG-GLOBAL-PANEL-2022/2026-07-15/oecd-cofog-panel-2022.csv";
+const OECD_GDP_RAW_PATH: &str =
+    "data/raw/oecd/SRC-OECD-COFOG-GLOBAL-PANEL-2022/2026-07-15/oecd-gdp-panel-2022.csv";
+const OECD_COFOG_RAW_SHA256: &str =
+    "66d0af19fea30a0390240e6ef558148f83eec9285acb8c8bce75b243c0817fd6";
+const OECD_GDP_RAW_SHA256: &str =
+    "5ad56a019e9d2a03423604f1c5fe6292c4df73548ac1fb1f36da4613acc960c5";
+const HYBRID_COFOG_PANEL_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/hybrid_cofog_country_panel.data2022.v1.draft.json";
+const IMF_COFOG_RAW_PATH: &str =
+    "data/raw/imf/SRC-IMF-GFS-COFOG-GLOBAL-PANEL-2022/2026-07-15/imf-gfs-cofog-panel-2022.csv";
+const IMF_COFOG_RAW_SHA256: &str =
+    "11526dcb1a140dc6b211ce3c5a4b24f6b223bdc21b8cce3e79f6591295f80a5b";
+const FISCAL_COUNTRY_PANEL_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/fiscal_country_panel.data2022.v1.draft.json";
+const IMF_FISCAL_PANEL_RAW_PATH: &str =
+    "data/raw/imf/SRC-IMF-FM-OCT2025-FISCAL-PANEL-2022/2026-07-15/imf-fm-oct2025-fiscal-panel.csv";
+const IMF_FISCAL_PANEL_RAW_SHA256: &str =
+    "704ce9ab5ebe519471e099abf9cd820acdbd344fa84f85e61431d36345ba80b7";
+const OECD_TOTAL_TAX_REVENUE_RAW_PATH: &str =
+    "data/raw/oecd/SRC-OECD-REVSTATS-PANEL-2022/2026-07-15/oecd-total-tax-revenue-panel-2022.csv";
+const OECD_TOTAL_TAX_REVENUE_RAW_SHA256: &str =
+    "02f0748155de38c01229679dc60ea1d745cecd33428d9370ecd2022fe871127a";
+const OECD_TAX_MIX_RAW_PATH: &str =
+    "data/raw/oecd/SRC-OECD-REVSTATS-PANEL-2022/2026-07-15/oecd-tax-mix-panel-2022.csv";
+const OECD_TAX_MIX_RAW_SHA256: &str =
+    "b1541a72eec61758d68c3c0968b76537646f1fd8508e9deeedb153f9a105f87c";
+const OECD_GOV_INTEREST_RAW_PATH: &str = "data/raw/oecd/SRC-OECD-GOV-INTEREST-PANEL-2022/2026-07-15/oecd-general-government-interest-payable-panel-2022.csv";
+const OECD_GOV_INTEREST_RAW_SHA256: &str =
+    "ec3fb87302ddec5a24bf0c737078477acf73f9c8fdd95c0feee3972388f9fd54";
+const OECD_GOV_NET_INTEREST_RAW_PATH: &str = "data/raw/oecd/SRC-OECD-GOV-NET-INTEREST-PANEL-2022/2026-07-15/oecd-general-government-net-interest-panel-2022.csv";
+const OECD_GOV_NET_INTEREST_RAW_SHA256: &str =
+    "e6dc8722de87a47cc737c0cb5c815cfb6830f54abec59461230447bb12c582f4";
+const QPSD_MATURITY_PANEL_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/qpsd_maturity_country_panel.2022q4.v1.draft.json";
+const QPSD_SHORT_ORIGINAL_RAW_PATH: &str = "data/raw/world_bank/SRC-WB-IMF-QPSD-MATURITY-PANEL-2022Q4/2026-07-15/short-original-2022q4.json";
+const QPSD_SHORT_ORIGINAL_RAW_SHA256: &str =
+    "9b5129bad20e691deb2c0a43345e224abed15f352e6d4770fd1b64365b8af9b6";
+const QPSD_LONG_DUE_WITHIN_ONE_YEAR_RAW_PATH: &str = "data/raw/world_bank/SRC-WB-IMF-QPSD-MATURITY-PANEL-2022Q4/2026-07-15/long-due-within-one-year-2022q4.json";
+const QPSD_LONG_DUE_WITHIN_ONE_YEAR_RAW_SHA256: &str =
+    "892805fe0d6fcd19c89912a9a14487348bb488a5fcfeeccf830eaac4a9828630";
+const QPSD_LONG_DUE_OVER_ONE_YEAR_RAW_PATH: &str = "data/raw/world_bank/SRC-WB-IMF-QPSD-MATURITY-PANEL-2022Q4/2026-07-15/long-due-over-one-year-2022q4.json";
+const QPSD_LONG_DUE_OVER_ONE_YEAR_RAW_SHA256: &str =
+    "8c1c1b48c854f4b0744c081a9754f63ca1e4444b02a5c4199b56aa643a4dd603";
+const QPSD_LONG_ORIGINAL_TOTAL_RAW_PATH: &str = "data/raw/world_bank/SRC-WB-IMF-QPSD-MATURITY-PANEL-2022Q4/2026-07-15/long-original-total-2022q4.json";
+const QPSD_LONG_ORIGINAL_TOTAL_RAW_SHA256: &str =
+    "b256bd9d7457f5d0999377d4f02f64e38e91c4e5fed80c8796e0157980e64226";
+const SOCX_OLDAGE_FAMILY_PANEL_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/socx_oldage_family_country_panel.data2022.v1.draft.json";
+const SOCX_OLDAGE_FAMILY_RAW_PATH: &str = "data/raw/oecd/SRC-OECD-SOCX-OLDAGE-FAMILY-PANEL-2022/2026-07-15/oecd-socx-oldage-family-panel-2022.csv";
+const SOCX_OLDAGE_FAMILY_RAW_SHA256: &str =
+    "0f138dc4e1dd3424890357cdbf4610645dd1d00bd3848d19509fe24860e8c253";
+const AGE_RELATIVE_POVERTY_PANEL_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/age_relative_poverty_country_panel.v1.draft.json";
+const IDD_OLD_AGE_POVERTY_RAW_PATH: &str = "data/raw/oecd/SRC-OECD-IDD-AGE-POVERTY-PANELS/2026-07-15/oecd-idd-old-age-poverty-2020-2024.csv";
+const IDD_OLD_AGE_POVERTY_RAW_SHA256: &str =
+    "910f741388bfa1c35cb9b68ac1588b6d51f08b016555a4209b784a905fb5e351";
+const IDD_CHILD_POVERTY_RAW_PATH: &str =
+    "data/raw/oecd/SRC-OECD-IDD-AGE-POVERTY-PANELS/2026-07-15/oecd-idd-child-poverty-2020-2021.csv";
+const IDD_CHILD_POVERTY_RAW_SHA256: &str =
+    "3ec2eaa896abf855ffa75067b99aaac340fbb9061a4f8e0b3f70333c77b33d08";
+const PENSION_REPLACEMENT_PANEL_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/pension_replacement_country_panel.model2024.v1.draft.json";
+const PENSION_REPLACEMENT_GROSS_RAW_PATH: &str = "data/raw/oecd/SRC-OECD-PAG-PENSION-REPLACEMENT-PANEL-2024/2026-07-15/oecd-pag-gross-replacement-average-earner-mandatory-2024.csv";
+const PENSION_REPLACEMENT_GROSS_RAW_SHA256: &str =
+    "ec19bf44a336d484afc67115e07367ec6f601698d94f0034d7dc616a3ccfc85f";
+const PENSION_REPLACEMENT_NET_RAW_PATH: &str = "data/raw/oecd/SRC-OECD-PAG-PENSION-REPLACEMENT-PANEL-2024/2026-07-15/oecd-pag-net-replacement-average-earner-mandatory-2024.csv";
+const PENSION_REPLACEMENT_NET_RAW_SHA256: &str =
+    "cd2f6dba48e44ebea7d7005c000557bef02a5466d233011d6f9fba4d19c30698";
 const K12_OECD_RESOURCE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/k12_oecd_resource_comparison.eag2025-data2022.v1.draft.json";
 const K12_OECD_RESOURCE_READER_PATH: &str = "docs/reading/k12-oecd-resource-comparison.md";
 const CPS_EDUCATION_ACCESS_TRANSITION_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/census_cps_education_access_transition_baseline.oct2024.v1.draft.json";
@@ -4761,6 +4845,11 @@ fn run_income_tax_outlay_validation() -> ExitCode {
     }
 
     if let Err(err) = validate_spend_category_map(&root) {
+        eprintln!("{err}");
+        return ExitCode::from(1);
+    }
+
+    if let Err(err) = validate_global_country_comparison_coverage(&root) {
         eprintln!("{err}");
         return ExitCode::from(1);
     }
@@ -9539,6 +9628,2013 @@ fn validate_spend_category_map(root: &Path) -> Result<(), String> {
 
     println!("validated {} spend category map rows", rows.len());
     Ok(())
+}
+
+fn validate_international_comparator_target_rubric(root: &Path) -> Result<(), String> {
+    let text = fs::read_to_string(root.join(INTERNATIONAL_COMPARATOR_TARGET_RUBRIC_JSON_PATH))
+        .map_err(|err| {
+            format!("failed to read {INTERNATIONAL_COMPARATOR_TARGET_RUBRIC_JSON_PATH}: {err}")
+        })?;
+    let rubric: serde_json::Value = serde_json::from_str(&text).map_err(|err| {
+        format!("failed to parse {INTERNATIONAL_COMPARATOR_TARGET_RUBRIC_JSON_PATH}: {err}")
+    })?;
+
+    if string_field(&rubric, "record_id")?
+        != "comparison-method:international-comparator-target-rubric:v1"
+        || string_field(&rubric, "record_family")? != "international_comparator_target_rubric"
+        || string_field(&rubric, "as_of_date")? != "2026-07-17"
+        || string_field(&rubric, "reference_country")? != "USA"
+        || string_field(&rubric, "public_rule")?
+            != "Taxlane treats the peer median as the typical benchmark, the favorable quartile as an attainable performance reference only when comparability and outcomes support it, and sustained high performers as examples to study. It does not assume the best country, the 85th percentile, or the OECD average is the right United States target."
+    {
+        return Err(
+            "international comparator rubric identity, date, or public rule failed".to_string(),
+        );
+    }
+
+    let universes = rubric
+        .get("comparator_universes")
+        .and_then(|value| value.as_array())
+        .ok_or("international comparator rubric needs comparator_universes")?;
+    let expected_universes: BTreeSet<String> = [
+        "broad_reference_panel",
+        "core_display_panel",
+        "outcome_qualified_panel",
+        "policy_commitment_group",
+        "structural_transfer_panel",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect();
+    let mut observed_universes = BTreeSet::new();
+    for universe in universes {
+        let universe_id = string_field(universe, "universe_id")?;
+        if !observed_universes.insert(universe_id.clone()) {
+            return Err(format!("duplicate comparator universe {universe_id}"));
+        }
+        if string_field(universe, "rule")?.is_empty() {
+            return Err(format!("{universe_id}: universe rule is required"));
+        }
+    }
+    if universes.len() != 5 || observed_universes != expected_universes {
+        return Err("international comparator rubric exact universe set failed".to_string());
+    }
+    let broad = universes
+        .iter()
+        .find(|row| string_field(row, "universe_id").as_deref() == Ok("broad_reference_panel"))
+        .ok_or("international comparator rubric needs broad_reference_panel")?;
+    if !string_field(broad, "rule")?.contains("exclude it from the peer statistic")
+        || string_field(broad, "weighting")? != "equal_country_default"
+    {
+        return Err(
+            "broad reference panel must exclude the United States and use equal-country weighting"
+                .to_string(),
+        );
+    }
+
+    let sample = rubric
+        .get("sample_rules")
+        .ok_or("international comparator rubric needs sample_rules")?;
+    for (field, expected) in [
+        ("display_only_minimum_n", 3.0),
+        ("median_claim_minimum_n", 8.0),
+        ("quartile_claim_minimum_n", 10.0),
+        ("p85_or_frontier_minimum_n", 20.0),
+        ("minimum_eligible_universe_coverage_rate", 0.70),
+        ("p85_minimum_eligible_universe_coverage_rate", 0.80),
+    ] {
+        if (number_field(sample, field)? - expected).abs() > f64::EPSILON {
+            return Err(format!(
+                "international comparator sample rule {field} failed"
+            ));
+        }
+    }
+    for field in [
+        "no_imputation_for_rank_or_percentile",
+        "reference_country_excluded_from_peer_statistic",
+    ] {
+        if sample.get(field).and_then(|value| value.as_bool()) != Some(true) {
+            return Err(format!(
+                "international comparator sample rule {field} must be true"
+            ));
+        }
+    }
+
+    let expected_roles = BTreeMap::from([
+        ("best_observed_country", "target_prohibited"),
+        ("context_median_iqr", "default_descriptive_reference"),
+        ("favorable_quartile", "conditional_scenario_anchor"),
+        ("matched_peer_range", "separate_context_reference"),
+        ("p85_stretch", "normally_blocked"),
+        ("policy_band", "policy_context_only"),
+        ("sustained_exemplar", "conditional_case_anchor"),
+    ]);
+    let roles = rubric
+        .get("statistic_roles")
+        .and_then(|value| value.as_array())
+        .ok_or("international comparator rubric needs statistic_roles")?;
+    let observed_roles: BTreeMap<&str, &str> = roles
+        .iter()
+        .map(|row| {
+            Ok((
+                row.get("role")
+                    .and_then(|value| value.as_str())
+                    .ok_or("statistic role needs role")?,
+                row.get("status")
+                    .and_then(|value| value.as_str())
+                    .ok_or("statistic role needs status")?,
+            ))
+        })
+        .collect::<Result<_, &str>>()?;
+    if roles.len() != 7 || observed_roles != expected_roles {
+        return Err(
+            "international comparator exact statistic roles or status boundaries failed"
+                .to_string(),
+        );
+    }
+
+    let quantiles = rubric
+        .get("quantile_rules")
+        .ok_or("international comparator rubric needs quantile_rules")?;
+    if string_field(quantiles, "default_method")? != "linear_interpolation_type_7"
+        || string_field(quantiles, "required_sensitivity_method")? != "nearest_rank"
+        || !string_field(quantiles, "small_sample_rule")?.contains("leave-one-country-out")
+        || !string_field(quantiles, "small_sample_rule")?.contains("indeterminate")
+        || !string_field(quantiles, "ties_rule")?.contains("rank bands")
+    {
+        return Err(
+            "international comparator quantile methods or sensitivities failed".to_string(),
+        );
+    }
+
+    let directionality = rubric
+        .get("directionality_classes")
+        .and_then(|value| value.as_array())
+        .ok_or("international comparator rubric needs directionality_classes")?;
+    let expected_directions = BTreeSet::from([
+        "definition_fragmented",
+        "higher_beneficial",
+        "input_no_inherent_direction",
+        "lower_beneficial_with_floors",
+        "target_band_or_non_monotonic",
+    ]);
+    let observed_directions: BTreeSet<&str> = directionality
+        .iter()
+        .map(|row| {
+            row.get("class")
+                .and_then(|value| value.as_str())
+                .ok_or("directionality class needs class")
+        })
+        .collect::<Result<_, _>>()?;
+    if directionality.len() != 5 || observed_directions != expected_directions {
+        return Err("international comparator exact directionality classes failed".to_string());
+    }
+
+    let gates = rubric
+        .get("admissibility_gates")
+        .and_then(|value| value.as_array())
+        .ok_or("international comparator rubric needs admissibility_gates")?;
+    let expected_gates: BTreeSet<String> = (1..=7).map(|n| format!("A{n}")).collect();
+    let mut observed_gates = BTreeSet::new();
+    for gate in gates {
+        let gate_id = string_field(gate, "gate")?;
+        let prefix = gate_id.split('_').next().unwrap_or_default().to_string();
+        if !observed_gates.insert(prefix) {
+            return Err(format!("duplicate admissibility gate {gate_id}"));
+        }
+        let requires = gate
+            .get("requires")
+            .and_then(|value| value.as_array())
+            .ok_or_else(|| format!("{gate_id}: requires must be an array"))?;
+        if requires.is_empty() || requires.iter().any(|value| value.as_str().is_none()) {
+            return Err(format!("{gate_id}: requirements must be nonempty strings"));
+        }
+    }
+    if gates.len() != 7 || observed_gates != expected_gates {
+        return Err("international comparator exact A1-A7 gate sequence failed".to_string());
+    }
+
+    let claims = rubric
+        .get("claim_ladder")
+        .and_then(|value| value.as_array())
+        .ok_or("international comparator rubric needs claim_ladder")?;
+    let expected_claims: BTreeSet<String> = (0..=6).map(|n| format!("G{n}")).collect();
+    let observed_claims: BTreeSet<String> = claims
+        .iter()
+        .map(|row| string_field(row, "claim_gate"))
+        .collect::<Result<_, _>>()?;
+    if claims.len() != 7 || observed_claims != expected_claims {
+        return Err("international comparator exact G0-G6 claim ladder failed".to_string());
+    }
+    let g6 = claims
+        .iter()
+        .find(|row| string_field(row, "claim_gate").as_deref() == Ok("G6"))
+        .ok_or("international comparator rubric needs G6")?;
+    if string_field(g6, "label")? != "efficiency_or_savings"
+        || !string_field(g6, "maximum_claim")?
+            .contains("country comparisons alone can never open this gate")
+    {
+        return Err("international comparator G6 closing boundary failed".to_string());
+    }
+
+    let expected_lanes = BTreeSet::from([
+        "agriculture",
+        "disaster-resilience",
+        "education-workforce",
+        "health-medicare",
+        "income-security-family",
+        "international-affairs",
+        "justice-courts-public-safety",
+        "national-defense",
+        "net-interest",
+        "payment-integrity",
+        "revenue-solvency",
+        "science-energy-environment",
+        "social-security",
+        "transportation-infrastructure",
+        "veterans",
+    ]);
+    let lanes = rubric
+        .get("lane_rules")
+        .and_then(|value| value.as_array())
+        .ok_or("international comparator rubric needs lane_rules")?;
+    let observed_lanes: BTreeSet<&str> = lanes
+        .iter()
+        .map(|row| {
+            row.get("lane_id")
+                .and_then(|value| value.as_str())
+                .ok_or("lane rule needs lane_id")
+        })
+        .collect::<Result<_, _>>()?;
+    if lanes.len() != 15 || observed_lanes != expected_lanes {
+        return Err("international comparator exact 15 lane IDs failed".to_string());
+    }
+    let lane = |id: &str| {
+        lanes
+            .iter()
+            .find(|row| row.get("lane_id").and_then(|value| value.as_str()) == Some(id))
+            .ok_or_else(|| format!("missing international comparator lane {id}"))
+    };
+    for id in ["payment-integrity", "veterans"] {
+        if string_field(lane(id)?, "default_role")? != "structured_case_only"
+            || string_field(lane(id)?, "directionality")? != "definition_fragmented"
+        {
+            return Err(format!(
+                "{id}: must remain structured-case-only and definition-fragmented"
+            ));
+        }
+    }
+    if string_field(lane("national-defense")?, "default_role")? != "policy_band" {
+        return Err("national-defense must use policy-band context".to_string());
+    }
+    for id in [
+        "agriculture",
+        "international-affairs",
+        "science-energy-environment",
+    ] {
+        if string_field(lane(id)?, "default_role")? != "component_scorecards" {
+            return Err(format!("{id}: must preserve component scorecards"));
+        }
+    }
+    if !string_field(lane("health-medicare")?, "rule")?
+        .contains("No spending divided by one outcome as efficiency")
+        || !string_field(lane("education-workforce")?, "rule")?
+            .contains("No PISA-only champion or spending/test-score efficiency ratio")
+    {
+        return Err(
+            "international comparator spending-efficiency lane boundaries failed".to_string(),
+        );
+    }
+
+    let expected_prohibited = BTreeSet::from([
+        "calling_the_oecd_mean_optimal",
+        "changing_metric_direction_after_viewing_results",
+        "collapsing_unlike_components_into_an_opaque_composite",
+        "converting_cross_country_gaps_into_waste_fraud_or_recoverable_savings",
+        "copying_the_best_country_as_a_target",
+        "dividing_spending_by_one_outcome_and_calling_it_efficiency",
+        "hiding_mixed_years_or_provisional_values",
+        "mixing_us_federal_scope_with_peer_general_government_scope",
+        "selecting_good_countries_after_viewing_the_focal_result",
+        "selecting_high_performers_on_the_same_single_outcome_used_to_validate_them",
+        "treating_missing_as_zero_or_imputing_a_rank",
+        "using_p85_on_ten_or_eleven_peers",
+    ]);
+    let prohibited: BTreeSet<&str> = rubric
+        .get("prohibited_patterns")
+        .and_then(|value| value.as_array())
+        .ok_or("international comparator rubric needs prohibited_patterns")?
+        .iter()
+        .map(|value| value.as_str().ok_or("prohibited pattern must be a string"))
+        .collect::<Result<_, _>>()?;
+    if prohibited != expected_prohibited {
+        return Err("international comparator exact prohibited patterns failed".to_string());
+    }
+
+    for (field, expected) in [
+        (
+            "comparability_status",
+            "method_defined_no_existing_claim_gate_opened",
+        ),
+        (
+            "ranking_status",
+            "blocked_until_metric_specific_application",
+        ),
+        ("efficiency_status", "not_causal_from_country_comparisons"),
+        ("fraud_status", "not_measured_not_inferred"),
+        ("savings_status", "blocked_not_scored"),
+        ("status", "draft-method-reviewed"),
+    ] {
+        if string_field(&rubric, field)? != expected {
+            return Err(format!(
+                "international comparator closing gate {field} failed"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
+fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String> {
+    let text = fs::read_to_string(root.join(GLOBAL_COUNTRY_COMPARISON_JSON_PATH))
+        .map_err(|err| format!("failed to read {GLOBAL_COUNTRY_COMPARISON_JSON_PATH}: {err}"))?;
+    let contract: serde_json::Value = serde_json::from_str(&text)
+        .map_err(|err| format!("failed to parse {GLOBAL_COUNTRY_COMPARISON_JSON_PATH}: {err}"))?;
+
+    if string_field(&contract, "record_family")? != "global_country_comparison_coverage"
+        || string_field(&contract, "source_status")?
+            != "harmonized_spending_and_first_fiscal_specialist_batches_captured"
+        || string_field(&contract, "status")? != "draft-design-reviewed"
+    {
+        return Err("global country comparison contract identity or status failed".to_string());
+    }
+    if string_field(&contract, "benchmark_selection_rubric")?
+        != INTERNATIONAL_COMPARATOR_TARGET_RUBRIC_JSON_PATH
+    {
+        return Err(
+            "global country comparison contract must link the international comparator rubric"
+                .to_string(),
+        );
+    }
+
+    let panel = contract
+        .get("default_panel")
+        .ok_or("global country comparison contract needs default_panel")?;
+    let europe: BTreeSet<&str> = panel
+        .get("europe")
+        .and_then(|value| value.as_array())
+        .ok_or("global country comparison contract needs European panel")?
+        .iter()
+        .map(|value| {
+            value
+                .as_str()
+                .ok_or("European panel country must be a string")
+        })
+        .collect::<Result<_, _>>()?;
+    let asia: BTreeSet<&str> = panel
+        .get("asia")
+        .and_then(|value| value.as_array())
+        .ok_or("global country comparison contract needs Asian panel")?
+        .iter()
+        .map(|value| value.as_str().ok_or("Asian panel country must be a string"))
+        .collect::<Result<_, _>>()?;
+    if europe.len() < 4
+        || !europe.contains("DEU")
+        || !europe.contains("FRA")
+        || asia != BTreeSet::from(["JPN", "KOR"])
+    {
+        return Err("global country comparison regional panel failed".to_string());
+    }
+
+    let expected_lanes: BTreeSet<String> = [
+        "agriculture",
+        "disaster-resilience",
+        "education-workforce",
+        "health-medicare",
+        "income-security-family",
+        "international-affairs",
+        "justice-courts-public-safety",
+        "national-defense",
+        "net-interest",
+        "payment-integrity",
+        "revenue-solvency",
+        "science-energy-environment",
+        "social-security",
+        "transportation-infrastructure",
+        "veterans",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect();
+    let lanes = contract
+        .get("lanes")
+        .and_then(|value| value.as_array())
+        .ok_or("global country comparison contract needs lanes")?;
+    if lanes.len() != expected_lanes.len() {
+        return Err(format!(
+            "global country comparison contract must contain 15 lanes, got {}",
+            lanes.len()
+        ));
+    }
+    let mut observed_lanes = BTreeSet::new();
+    for lane in lanes {
+        let lane_id = string_field(lane, "lane_id")?;
+        if !observed_lanes.insert(lane_id.clone()) {
+            return Err(format!("duplicate global comparison lane {lane_id}"));
+        }
+        let countries = lane
+            .get("countries")
+            .and_then(|value| value.as_array())
+            .ok_or_else(|| format!("{lane_id}: countries must be an array"))?;
+        let country_codes: BTreeSet<&str> = countries
+            .iter()
+            .map(|value| value.as_str().ok_or("country code must be a string"))
+            .collect::<Result<_, _>>()?;
+        if country_codes.len() < 3
+            || country_codes.is_disjoint(&europe)
+            || country_codes.is_disjoint(&asia)
+        {
+            return Err(format!(
+                "{lane_id}: comparison needs at least three countries plus European and Asian coverage"
+            ));
+        }
+        for required_array in ["metrics", "official_source_families"] {
+            let values = lane
+                .get(required_array)
+                .and_then(|value| value.as_array())
+                .ok_or_else(|| format!("{lane_id}: {required_array} must be an array"))?;
+            if values.is_empty() || values.iter().any(|value| value.as_str().is_none()) {
+                return Err(format!("{lane_id}: {required_array} must contain strings"));
+            }
+        }
+        if string_field(lane, "comparison_mode")?.is_empty()
+            || string_field(lane, "boundary")?.is_empty()
+        {
+            return Err(format!(
+                "{lane_id}: comparison mode and boundary are required"
+            ));
+        }
+    }
+    if observed_lanes != expected_lanes {
+        return Err("global country comparison lane IDs do not match breadth matrix".to_string());
+    }
+
+    let guardrails = contract
+        .get("claim_guardrails")
+        .ok_or("global country comparison contract needs claim_guardrails")?;
+    for gate in [
+        "country_values_publicly_claimable",
+        "rankings_publicly_claimable",
+        "efficiency_publicly_claimable",
+        "fraud_publicly_claimable",
+        "savings_publicly_claimable",
+    ] {
+        if guardrails.get(gate).and_then(|value| value.as_bool()) != Some(false) {
+            return Err(format!(
+                "global country comparison gate {gate} must remain false"
+            ));
+        }
+    }
+    if string_field(guardrails, "unlock_rule")?
+        != "A lane-specific result requires captured official source bytes, source metadata and checksum, matched year/unit/perimeter, missingness disclosure, comparability review, metric-specific application of the international comparator target rubric, and separate service or outcome interpretation before its claim gate can change."
+    {
+        return Err("global country comparison rubric unlock rule failed".to_string());
+    }
+
+    for path in [
+        GLOBAL_COUNTRY_COMPARISON_SCHEMA_PATH,
+        GLOBAL_COUNTRY_COMPARISON_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing global country comparison artifact: {path}"
+            ));
+        }
+    }
+    let reader = fs::read_to_string(root.join(GLOBAL_COUNTRY_COMPARISON_READER_PATH))
+        .map_err(|err| format!("failed to read {GLOBAL_COUNTRY_COMPARISON_READER_PATH}: {err}"))?;
+    if !reader.contains(GLOBAL_COUNTRY_COMPARISON_JSON_PATH)
+        || !reader.contains(
+            "comparison design != observed country result != efficiency != fraud != savings",
+        )
+    {
+        return Err("global country comparison reader linkage or boundary failed".to_string());
+    }
+
+    for (path, checksum) in [
+        (OECD_COFOG_RAW_PATH, OECD_COFOG_RAW_SHA256),
+        (OECD_GDP_RAW_PATH, OECD_GDP_RAW_SHA256),
+    ] {
+        let raw = root.join(path);
+        if !raw.exists() || sha256_file(&raw)? != checksum {
+            return Err(format!("OECD COFOG panel raw custody failed: {path}"));
+        }
+    }
+    for path in [
+        OECD_COFOG_PANEL_SCHEMA_PATH,
+        OECD_COFOG_PANEL_READER_PATH,
+        OECD_COFOG_PANEL_METADATA_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing OECD COFOG panel artifact: {path}"));
+        }
+    }
+    let panel_text = fs::read_to_string(root.join(OECD_COFOG_PANEL_JSON_PATH))
+        .map_err(|err| format!("failed to read {OECD_COFOG_PANEL_JSON_PATH}: {err}"))?;
+    let country_panel: serde_json::Value = serde_json::from_str(&panel_text)
+        .map_err(|err| format!("failed to parse {OECD_COFOG_PANEL_JSON_PATH}: {err}"))?;
+    if string_field(&country_panel, "record_family")? != "observed_country_function_comparison"
+        || number_field(&country_panel, "data_year")? != 2022.0
+        || number_field(&country_panel, "observation_count")? != 99.0
+        || number_field(&country_panel, "missing_count")? != 11.0
+        || string_field(&country_panel, "ranking_status")? != "blocked"
+        || string_field(&country_panel, "savings_status")? != "blocked_not_scored"
+    {
+        return Err("OECD COFOG panel identity, counts, or gates failed".to_string());
+    }
+    let observations = country_panel
+        .get("observations")
+        .and_then(|value| value.as_array())
+        .ok_or("OECD COFOG panel needs observations")?;
+    if observations.len() != 110 {
+        return Err(format!(
+            "OECD COFOG panel must contain 110 country/function cells, got {}",
+            observations.len()
+        ));
+    }
+    let mut observed = 0usize;
+    let mut missing = 0usize;
+    for row in observations {
+        let country = string_field(row, "country_code")?;
+        let function = string_field(row, "cofog_code")?;
+        match string_field(row, "observation_status")?.as_str() {
+            "observed" => {
+                observed += 1;
+                let spending = number_field(row, "spending_national_currency_millions")?;
+                let gdp = number_field(row, "gdp_national_currency_millions")?;
+                let percent = number_field(row, "spending_percent_gdp")?;
+                if (percent - (100.0 * spending / gdp)).abs() > 0.000001 {
+                    return Err(format!(
+                        "{country}/{function}: percent-GDP derivation failed"
+                    ));
+                }
+            }
+            "missing_not_imputed" => {
+                missing += 1;
+                if country != "CAN" && !(country == "USA" && function == "GF05") {
+                    return Err(format!(
+                        "unexpected missing COFOG cell {country}/{function}"
+                    ));
+                }
+                if row
+                    .get("spending_percent_gdp")
+                    .and_then(|value| value.as_f64())
+                    .is_some()
+                {
+                    return Err(format!(
+                        "missing COFOG cell must remain null: {country}/{function}"
+                    ));
+                }
+            }
+            status => return Err(format!("unsupported COFOG observation status {status}")),
+        }
+    }
+    if observed != 99 || missing != 11 {
+        return Err("OECD COFOG panel observed/missing reconciliation failed".to_string());
+    }
+    let panel_reader = fs::read_to_string(root.join(OECD_COFOG_PANEL_READER_PATH))
+        .map_err(|err| format!("failed to read {OECD_COFOG_PANEL_READER_PATH}: {err}"))?;
+    if !panel_reader.contains(OECD_COFOG_PANEL_JSON_PATH)
+        || !panel_reader
+            .contains("observed spending difference != service difference != efficiency != savings")
+    {
+        return Err("OECD COFOG panel reader linkage or boundary failed".to_string());
+    }
+
+    validate_hybrid_cofog_country_panel(root)?;
+    validate_fiscal_country_panel(root)?;
+    validate_qpsd_maturity_country_panel(root)?;
+    validate_socx_oldage_family_country_panel(root)?;
+    validate_pension_replacement_country_panel(root)?;
+    validate_age_relative_poverty_country_panel(root)?;
+    validate_international_comparator_target_rubric(root)?;
+
+    println!("validated {} global country comparison lanes", lanes.len());
+    Ok(())
+}
+
+fn validate_hybrid_cofog_country_panel(root: &Path) -> Result<(), String> {
+    let raw = root.join(IMF_COFOG_RAW_PATH);
+    if !raw.exists() || sha256_file(&raw)? != IMF_COFOG_RAW_SHA256 {
+        return Err(format!(
+            "IMF COFOG panel raw custody failed: {IMF_COFOG_RAW_PATH}"
+        ));
+    }
+
+    let text = fs::read_to_string(root.join(HYBRID_COFOG_PANEL_JSON_PATH))
+        .map_err(|err| format!("failed to read {HYBRID_COFOG_PANEL_JSON_PATH}: {err}"))?;
+    let panel: serde_json::Value = serde_json::from_str(&text)
+        .map_err(|err| format!("failed to parse {HYBRID_COFOG_PANEL_JSON_PATH}: {err}"))?;
+    if string_field(&panel, "record_family")? != "hybrid_observed_country_function_comparison"
+        || number_field(&panel, "data_year")? != 2022.0
+        || number_field(&panel, "observation_count")? != 109.0
+        || number_field(&panel, "missing_count")? != 1.0
+        || string_field(&panel, "ranking_status")? != "blocked"
+        || string_field(&panel, "savings_status")? != "blocked_not_scored"
+    {
+        return Err("hybrid COFOG panel identity, counts, or gates failed".to_string());
+    }
+
+    let overlap = panel
+        .get("overlap_reconciliation")
+        .ok_or("hybrid COFOG panel needs overlap_reconciliation")?;
+    for (field, expected) in [
+        ("comparable_cell_count", 89.0),
+        ("within_0_05_percentage_points", 69.0),
+        ("within_0_10_percentage_points", 75.0),
+    ] {
+        if number_field(overlap, field)? != expected {
+            return Err(format!("hybrid COFOG overlap {field} must be {expected}"));
+        }
+    }
+
+    let observations = panel
+        .get("observations")
+        .and_then(|value| value.as_array())
+        .ok_or("hybrid COFOG panel needs observations")?;
+    if observations.len() != 110 {
+        return Err(format!(
+            "hybrid COFOG panel must contain 110 country/function cells, got {}",
+            observations.len()
+        ));
+    }
+
+    let countries = [
+        "USA", "DEU", "FRA", "GBR", "SWE", "NLD", "POL", "JPN", "KOR", "CAN", "AUS",
+    ];
+    let expected_cells: BTreeSet<String> = countries
+        .iter()
+        .flat_map(|country| (1..=10).map(move |function| format!("{country}/GF{function:02}")))
+        .collect();
+    let mut cells = BTreeSet::new();
+    let mut oecd_count = 0usize;
+    let mut imf_count = 0usize;
+    let mut missing_count = 0usize;
+    for row in observations {
+        let country = string_field(row, "country_code")?;
+        let function = string_field(row, "cofog_code")?;
+        let cell = format!("{country}/{function}");
+        if !cells.insert(cell.clone()) {
+            return Err(format!("duplicate hybrid COFOG cell {cell}"));
+        }
+        if number_field(row, "year")? != 2022.0 {
+            return Err(format!("hybrid COFOG cell {cell} must use data year 2022"));
+        }
+
+        match string_field(row, "selection_status")?.as_str() {
+            "observed_primary_oecd" => {
+                oecd_count += 1;
+                if country == "CAN"
+                    || string_field(row, "selected_source_id")?
+                        != "SRC-OECD-COFOG-GLOBAL-PANEL-2022"
+                    || row
+                        .get("spending_percent_gdp")
+                        .and_then(|value| value.as_f64())
+                        .is_none()
+                {
+                    return Err(format!("invalid OECD-selected hybrid COFOG cell {cell}"));
+                }
+            }
+            "observed_imf_gap_fill" => {
+                imf_count += 1;
+                if country != "CAN"
+                    || string_field(row, "selected_source_id")?
+                        != "SRC-IMF-GFS-COFOG-GLOBAL-PANEL-2022"
+                    || row
+                        .get("spending_percent_gdp")
+                        .and_then(|value| value.as_f64())
+                        .is_none()
+                {
+                    return Err(format!("invalid IMF-selected hybrid COFOG cell {cell}"));
+                }
+            }
+            "missing_not_imputed" => {
+                missing_count += 1;
+                if cell != "USA/GF05"
+                    || !row
+                        .get("spending_percent_gdp")
+                        .is_some_and(serde_json::Value::is_null)
+                    || !row
+                        .get("selected_source_id")
+                        .is_some_and(serde_json::Value::is_null)
+                {
+                    return Err(format!("invalid missing hybrid COFOG cell {cell}"));
+                }
+            }
+            status => {
+                return Err(format!(
+                    "unsupported hybrid COFOG selection status {status}"
+                ));
+            }
+        }
+    }
+    if cells != expected_cells {
+        return Err(
+            "hybrid COFOG panel does not contain the exact 11-country by 10-function grid"
+                .to_string(),
+        );
+    }
+    if oecd_count != 99 || imf_count != 10 || missing_count != 1 {
+        return Err(format!(
+            "hybrid COFOG source reconciliation failed: OECD={oecd_count}, IMF={imf_count}, missing={missing_count}"
+        ));
+    }
+
+    Ok(())
+}
+
+fn validate_fiscal_country_panel(root: &Path) -> Result<(), String> {
+    for (path, checksum) in [
+        (IMF_FISCAL_PANEL_RAW_PATH, IMF_FISCAL_PANEL_RAW_SHA256),
+        (
+            OECD_TOTAL_TAX_REVENUE_RAW_PATH,
+            OECD_TOTAL_TAX_REVENUE_RAW_SHA256,
+        ),
+        (OECD_TAX_MIX_RAW_PATH, OECD_TAX_MIX_RAW_SHA256),
+        (OECD_GDP_RAW_PATH, OECD_GDP_RAW_SHA256),
+        (OECD_GOV_INTEREST_RAW_PATH, OECD_GOV_INTEREST_RAW_SHA256),
+        (
+            OECD_GOV_NET_INTEREST_RAW_PATH,
+            OECD_GOV_NET_INTEREST_RAW_SHA256,
+        ),
+    ] {
+        let raw = root.join(path);
+        if !raw.exists() || sha256_file(&raw)? != checksum {
+            return Err(format!("fiscal country panel raw custody failed: {path}"));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(FISCAL_COUNTRY_PANEL_JSON_PATH))
+        .map_err(|err| format!("failed to read {FISCAL_COUNTRY_PANEL_JSON_PATH}: {err}"))?;
+    let panel: serde_json::Value = serde_json::from_str(&text)
+        .map_err(|err| format!("failed to parse {FISCAL_COUNTRY_PANEL_JSON_PATH}: {err}"))?;
+    if string_field(&panel, "record_family")? != "fiscal_country_comparison"
+        || number_field(&panel, "data_year")? != 2022.0
+        || number_field(&panel, "country_count")? != 12.0
+        || !string_field(&panel, "interest_boundary")?
+            .contains("Primary minus overall balance is never used as interest")
+        || !string_field(&panel, "interest_boundary")?
+            .contains("Gross and net interest are never substituted")
+        || string_field(&panel, "debt_boundary")?
+            != "Gross and net debt are parallel measures and are never substituted for each other"
+        || string_field(&panel, "ranking_status")? != "blocked"
+        || string_field(&panel, "savings_status")? != "blocked_not_scored"
+    {
+        return Err("fiscal country panel identity, debt boundary, or gates failed".to_string());
+    }
+    let source_ids: BTreeSet<String> = panel
+        .get("source_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("fiscal country panel needs source_ids")?
+        .iter()
+        .map(|value| {
+            value
+                .as_str()
+                .map(str::to_string)
+                .ok_or_else(|| "fiscal country panel source_id must be a string".to_string())
+        })
+        .collect::<Result<_, _>>()?;
+    let required_source_ids: BTreeSet<String> = [
+        "SRC-IMF-FM-OCT2025-FISCAL-PANEL-2022".to_string(),
+        "SRC-OECD-REVSTATS-PANEL-2022".to_string(),
+        "SRC-OECD-GOV-INTEREST-PANEL-2022".to_string(),
+        "SRC-OECD-GOV-NET-INTEREST-PANEL-2022".to_string(),
+    ]
+    .into_iter()
+    .collect();
+    if source_ids != required_source_ids {
+        return Err("fiscal country panel required source set failed".to_string());
+    }
+
+    let records = panel
+        .get("country_records")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("fiscal country panel needs country_records")?;
+    if records.len() != 12 {
+        return Err(format!(
+            "fiscal country panel must contain 12 records, got {}",
+            records.len()
+        ));
+    }
+
+    let expected_countries: BTreeSet<String> = [
+        "USA", "DEU", "FRA", "GBR", "SWE", "NLD", "POL", "JPN", "KOR", "CAN", "AUS", "SGP",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect();
+    let core_countries: BTreeSet<String> = expected_countries
+        .iter()
+        .filter(|country| country.as_str() != "SGP")
+        .cloned()
+        .collect();
+
+    let mut gdp_by_country = BTreeMap::new();
+    let mut gdp_reader = csv::Reader::from_path(root.join(OECD_GDP_RAW_PATH))
+        .map_err(|err| format!("failed to read {OECD_GDP_RAW_PATH}: {err}"))?;
+    for result in gdp_reader.deserialize::<BTreeMap<String, String>>() {
+        let row = result.map_err(|err| format!("failed to parse {OECD_GDP_RAW_PATH}: {err}"))?;
+        let country = row
+            .get("REF_AREA")
+            .ok_or("OECD GDP raw row needs REF_AREA")?
+            .to_string();
+        if row.get("TRANSACTION").map(String::as_str) != Some("B1GQ")
+            || row.get("TIME_PERIOD").map(String::as_str) != Some("2022")
+            || row.get("UNIT_MEASURE").map(String::as_str) != Some("XDC")
+            || row.get("UNIT_MULT").map(String::as_str) != Some("6")
+        {
+            return Err(format!("invalid OECD GDP denominator row for {country}"));
+        }
+        let value = row
+            .get("OBS_VALUE")
+            .ok_or_else(|| format!("OECD GDP row {country} needs OBS_VALUE"))?
+            .parse::<f64>()
+            .map_err(|err| format!("OECD GDP row {country} value failed to parse: {err}"))?;
+        if gdp_by_country.insert(country.clone(), value).is_some() {
+            return Err(format!("duplicate OECD GDP row for {country}"));
+        }
+    }
+    if gdp_by_country.keys().cloned().collect::<BTreeSet<_>>() != core_countries {
+        return Err("OECD GDP denominator must contain the exact 11 core countries".to_string());
+    }
+
+    let mut interest_by_country = BTreeMap::new();
+    let mut interest_reader = csv::Reader::from_path(root.join(OECD_GOV_INTEREST_RAW_PATH))
+        .map_err(|err| format!("failed to read {OECD_GOV_INTEREST_RAW_PATH}: {err}"))?;
+    for result in interest_reader.deserialize::<BTreeMap<String, String>>() {
+        let row =
+            result.map_err(|err| format!("failed to parse {OECD_GOV_INTEREST_RAW_PATH}: {err}"))?;
+        let country = row
+            .get("REF_AREA")
+            .ok_or("OECD interest raw row needs REF_AREA")?
+            .to_string();
+        if row.get("TRANSACTION").map(String::as_str) != Some("D41")
+            || row.get("SECTOR").map(String::as_str) != Some("S13")
+            || row.get("ACCOUNTING_ENTRY").map(String::as_str) != Some("D")
+            || row.get("TIME_PERIOD").map(String::as_str) != Some("2022")
+            || row.get("UNIT_MEASURE").map(String::as_str) != Some("XDC")
+            || row.get("UNIT_MULT").map(String::as_str) != Some("6")
+        {
+            return Err(format!("invalid OECD D41 interest row for {country}"));
+        }
+        let value = row
+            .get("OBS_VALUE")
+            .ok_or_else(|| format!("OECD interest row {country} needs OBS_VALUE"))?
+            .parse::<f64>()
+            .map_err(|err| format!("OECD interest row {country} value failed to parse: {err}"))?;
+        if interest_by_country.insert(country.clone(), value).is_some() {
+            return Err(format!("duplicate OECD D41 interest row for {country}"));
+        }
+    }
+    if interest_by_country.keys().cloned().collect::<BTreeSet<_>>() != core_countries {
+        return Err("OECD D41 interest raw must contain the exact 11 core rows".to_string());
+    }
+
+    let mut net_interest_by_country = BTreeMap::new();
+    let mut net_interest_reader = csv::Reader::from_path(root.join(OECD_GOV_NET_INTEREST_RAW_PATH))
+        .map_err(|err| format!("failed to read {OECD_GOV_NET_INTEREST_RAW_PATH}: {err}"))?;
+    for result in net_interest_reader.deserialize::<BTreeMap<String, String>>() {
+        let row = result
+            .map_err(|err| format!("failed to parse {OECD_GOV_NET_INTEREST_RAW_PATH}: {err}"))?;
+        let country = row
+            .get("REF_AREA")
+            .ok_or("OECD net-interest raw row needs REF_AREA")?
+            .to_string();
+        if row.get("MEASURE").map(String::as_str) != Some("GGINTN")
+            || row.get("UNIT_MEASURE").map(String::as_str) != Some("PT_B1GQ")
+            || row.get("SECTOR").map(String::as_str) != Some("S13")
+            || row.get("TIME_PERIOD").map(String::as_str) != Some("2022")
+        {
+            return Err(format!(
+                "invalid OECD GGINTN net-interest row for {country}"
+            ));
+        }
+        let value = row
+            .get("OBS_VALUE")
+            .ok_or_else(|| format!("OECD net-interest row {country} needs OBS_VALUE"))?
+            .parse::<f64>()
+            .map_err(|err| {
+                format!("OECD net-interest row {country} value failed to parse: {err}")
+            })?;
+        if net_interest_by_country
+            .insert(country.clone(), value)
+            .is_some()
+        {
+            return Err(format!(
+                "duplicate OECD GGINTN net-interest row for {country}"
+            ));
+        }
+    }
+    if net_interest_by_country
+        .keys()
+        .cloned()
+        .collect::<BTreeSet<_>>()
+        != core_countries
+        || net_interest_by_country.get("KOR") != Some(&-0.05)
+    {
+        return Err(
+            "OECD GGINTN net-interest raw must contain the exact 11 core rows and preserve KOR -0.05"
+                .to_string(),
+        );
+    }
+
+    let expected_tax_categories: BTreeSet<String> =
+        ["T_1000", "T_2000", "T_3000", "T_4000", "T_5000", "T_6000"]
+            .into_iter()
+            .map(str::to_string)
+            .collect();
+    let mut countries = BTreeSet::new();
+    let mut tax_total_count = 0usize;
+    let mut tax_mix_count = 0usize;
+    for record in records {
+        let country = string_field(record, "country_code")?;
+        if !countries.insert(country.clone()) {
+            return Err(format!("duplicate fiscal country record {country}"));
+        }
+        if number_field(record, "year")? != 2022.0 {
+            return Err(format!(
+                "fiscal country record {country} must use data year 2022"
+            ));
+        }
+        let tax_mix = record
+            .get("tax_mix")
+            .and_then(serde_json::Value::as_array)
+            .ok_or_else(|| format!("fiscal country record {country} needs tax_mix"))?;
+
+        let revenue_percent_gdp = number_field(record, "general_government_revenue_percent_gdp")?;
+        number_field(record, "overall_balance_percent_gdp")?;
+        number_field(record, "gross_debt_percent_gdp")?;
+        if record.get("derived_interest_expense_percent_gdp").is_some()
+            || record.get("interest_derivation_status").is_some()
+        {
+            return Err(format!(
+                "{country} must not infer interest from primary and overall balances"
+            ));
+        }
+
+        if country == "SGP" {
+            for field in [
+                "tax_revenue_percent_gdp",
+                "primary_balance_percent_gdp",
+                "net_debt_percent_gdp",
+            ] {
+                if !record.get(field).is_some_and(serde_json::Value::is_null) {
+                    return Err(format!("SGP fiscal field {field} must remain missing"));
+                }
+            }
+            if !record
+                .get("direct_interest_expense_percent_gdp")
+                .is_some_and(serde_json::Value::is_null)
+                || !record
+                    .get("direct_interest_expense_percent_revenue")
+                    .is_some_and(serde_json::Value::is_null)
+                || string_field(record, "direct_interest_status")? != "blocked_no_direct_series"
+                || !record
+                    .get("net_interest_spending_percent_gdp")
+                    .is_some_and(serde_json::Value::is_null)
+                || string_field(record, "net_interest_status")? != "blocked_no_direct_series"
+                || string_field(record, "observation_status")?
+                    != "partial_missing_tax_primary_net_debt_and_interest"
+                || !tax_mix.is_empty()
+            {
+                return Err("SGP tax and direct-interest fields must remain blocked".to_string());
+            }
+        } else {
+            number_field(record, "tax_revenue_percent_gdp")?;
+            number_field(record, "primary_balance_percent_gdp")?;
+            number_field(record, "net_debt_percent_gdp")?;
+            let interest_percent_gdp = number_field(record, "direct_interest_expense_percent_gdp")?;
+            let interest_percent_revenue =
+                number_field(record, "direct_interest_expense_percent_revenue")?;
+            let net_interest_percent_gdp =
+                number_field(record, "net_interest_spending_percent_gdp")?;
+            let interest_value = interest_by_country
+                .get(&country)
+                .ok_or_else(|| format!("missing OECD D41 interest row for {country}"))?;
+            let gdp_value = gdp_by_country
+                .get(&country)
+                .ok_or_else(|| format!("missing OECD GDP denominator for {country}"))?;
+            let expected_percent_gdp = 100.0 * interest_value / gdp_value;
+            let expected_percent_revenue = 100.0 * interest_percent_gdp / revenue_percent_gdp;
+            let expected_net_interest_percent_gdp = net_interest_by_country
+                .get(&country)
+                .ok_or_else(|| format!("missing OECD GGINTN net-interest row for {country}"))?;
+            if (interest_percent_gdp - expected_percent_gdp).abs() > 0.00000001
+                || (interest_percent_revenue - expected_percent_revenue).abs() > 0.00000001
+                || net_interest_percent_gdp != *expected_net_interest_percent_gdp
+                || string_field(record, "direct_interest_status")? != "observed_oecd_d41"
+                || string_field(record, "net_interest_status")? != "observed_oecd_ggintn"
+                || string_field(record, "observation_status")? != "complete"
+            {
+                return Err(format!(
+                    "{country} OECD D41 direct-interest derivation or status failed"
+                ));
+            }
+            tax_total_count += 1;
+            tax_mix_count += tax_mix.len();
+            let categories: BTreeSet<String> = tax_mix
+                .iter()
+                .map(|item| string_field(item, "category_code"))
+                .collect::<Result<_, _>>()?;
+            if tax_mix.len() != 6 || categories != expected_tax_categories {
+                return Err(format!(
+                    "fiscal country record {country} must contain the exact six tax-mix categories"
+                ));
+            }
+            for item in tax_mix {
+                number_field(item, "share_total_tax_revenue_percent")?;
+            }
+        }
+    }
+
+    if countries != expected_countries {
+        return Err("fiscal country panel does not contain the exact 12-country set".to_string());
+    }
+    if tax_total_count != 11 || tax_mix_count != 66 {
+        return Err(format!(
+            "fiscal country panel counts failed: tax totals={tax_total_count}, tax mix={tax_mix_count}"
+        ));
+    }
+
+    Ok(())
+}
+
+fn read_qpsd_component(
+    root: &Path,
+    path: &str,
+    indicator_id: &str,
+    indicator_label: &str,
+) -> Result<BTreeMap<String, Option<f64>>, String> {
+    let text = fs::read_to_string(root.join(path))
+        .map_err(|err| format!("failed to read {path}: {err}"))?;
+    let payload: serde_json::Value =
+        serde_json::from_str(&text).map_err(|err| format!("failed to parse {path}: {err}"))?;
+    let envelope = payload
+        .as_array()
+        .ok_or_else(|| format!("{path} must be a World Bank API array"))?;
+    if envelope.len() != 2
+        || envelope[0]
+            .get("sourceid")
+            .and_then(serde_json::Value::as_str)
+            != Some("20")
+        || envelope[0].get("total").and_then(serde_json::Value::as_u64) != Some(11)
+    {
+        return Err(format!("{path} QPSD API envelope failed"));
+    }
+    let rows = envelope[1]
+        .as_array()
+        .ok_or_else(|| format!("{path} QPSD observations must be an array"))?;
+    if rows.len() != 11 {
+        return Err(format!("{path} must contain 11 source rows"));
+    }
+
+    let expected_countries: BTreeSet<String> = [
+        "USA", "DEU", "FRA", "GBR", "SWE", "NLD", "POL", "JPN", "KOR", "CAN", "AUS",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect();
+    let mut values = BTreeMap::new();
+    for row in rows {
+        let country = string_field(row, "countryiso3code")?;
+        let indicator = row
+            .get("indicator")
+            .ok_or_else(|| format!("{path} row {country} needs indicator"))?;
+        if string_field(indicator, "id")? != indicator_id
+            || string_field(indicator, "value")? != indicator_label
+            || string_field(row, "date")? != "2022Q4"
+            || !indicator_label.contains("General Gov.")
+            || !indicator_label.contains("Nominal Value, % of GDP")
+        {
+            return Err(format!("{path} indicator semantics failed for {country}"));
+        }
+        let value =
+            match row.get("value") {
+                Some(value) if value.is_null() => None,
+                Some(value) => Some(value.as_f64().ok_or_else(|| {
+                    format!("{path} row {country} value must be numeric or null")
+                })?),
+                None => return Err(format!("{path} row {country} needs value")),
+            };
+        if values.insert(country.clone(), value).is_some() {
+            return Err(format!("{path} has duplicate country {country}"));
+        }
+    }
+    if values.keys().cloned().collect::<BTreeSet<_>>() != expected_countries
+        || values.get("CAN") != Some(&None)
+        || values.contains_key("SGP")
+    {
+        return Err(format!(
+            "{path} must contain the exact 11-country source set with CAN null and SGP absent"
+        ));
+    }
+    Ok(values)
+}
+
+fn validate_qpsd_maturity_country_panel(root: &Path) -> Result<(), String> {
+    for (path, checksum) in [
+        (QPSD_SHORT_ORIGINAL_RAW_PATH, QPSD_SHORT_ORIGINAL_RAW_SHA256),
+        (
+            QPSD_LONG_DUE_WITHIN_ONE_YEAR_RAW_PATH,
+            QPSD_LONG_DUE_WITHIN_ONE_YEAR_RAW_SHA256,
+        ),
+        (
+            QPSD_LONG_DUE_OVER_ONE_YEAR_RAW_PATH,
+            QPSD_LONG_DUE_OVER_ONE_YEAR_RAW_SHA256,
+        ),
+        (
+            QPSD_LONG_ORIGINAL_TOTAL_RAW_PATH,
+            QPSD_LONG_ORIGINAL_TOTAL_RAW_SHA256,
+        ),
+    ] {
+        let raw = root.join(path);
+        if !raw.exists() || sha256_file(&raw)? != checksum {
+            return Err(format!("QPSD maturity raw custody failed: {path}"));
+        }
+    }
+
+    let short = read_qpsd_component(
+        root,
+        QPSD_SHORT_ORIGINAL_RAW_PATH,
+        "DP.DOD.DSTC.CR.GG.Z1",
+        "Gross PSD, General Gov., Short-term, All instruments, Nominal Value, % of GDP",
+    )?;
+    let long_due = read_qpsd_component(
+        root,
+        QPSD_LONG_DUE_WITHIN_ONE_YEAR_RAW_PATH,
+        "DP.DOD.DLTC.CR.L1.GG.Z1",
+        "Gross PSD, General Gov., Long-term, With payment due in one year or less, All instruments, Nominal Value, % of GDP",
+    )?;
+    let long_over = read_qpsd_component(
+        root,
+        QPSD_LONG_DUE_OVER_ONE_YEAR_RAW_PATH,
+        "DP.DOD.DLTC.CR.M1.GG.Z1",
+        "Gross PSD, General Gov., Long-term, With payment due in more than one year, All instruments, Nominal Value, % of GDP",
+    )?;
+    let long_total = read_qpsd_component(
+        root,
+        QPSD_LONG_ORIGINAL_TOTAL_RAW_PATH,
+        "DP.DOD.DLTC.CR.GG.Z1",
+        "Gross PSD, General Gov., Long-term, All instruments, Nominal Value, % of GDP",
+    )?;
+
+    if short.values().filter(|value| value.is_some()).count() != 10
+        || long_due.values().filter(|value| value.is_some()).count() != 6
+        || long_due.get("JPN") != Some(&Some(0.0))
+    {
+        return Err("QPSD observed component counts or Japan source zero failed".to_string());
+    }
+
+    let text = fs::read_to_string(root.join(QPSD_MATURITY_PANEL_JSON_PATH))
+        .map_err(|err| format!("failed to read {QPSD_MATURITY_PANEL_JSON_PATH}: {err}"))?;
+    let panel: serde_json::Value = serde_json::from_str(&text)
+        .map_err(|err| format!("failed to parse {QPSD_MATURITY_PANEL_JSON_PATH}: {err}"))?;
+    if string_field(&panel, "record_family")? != "debt_maturity_country_comparison"
+        || string_field(&panel, "reference_period")? != "2022Q4"
+        || number_field(&panel, "country_count")? != 12.0
+        || string_field(&panel, "ranking_status")? != "blocked"
+        || string_field(&panel, "savings_status")? != "blocked_not_scored"
+        || string_field(&panel, "target_status")?
+            != "descriptive_maturity_pressure_not_policy_target"
+        || !string_field(&panel, "maturity_boundary")?
+            .contains("Short-term original maturity is not debt maturing within one year")
+        || !string_field(&panel, "maturity_boundary")?
+            .contains("missing remaining-maturity component is never treated as zero")
+        || !string_field(&panel, "perimeter_boundary")?
+            .contains("It is not projected redemptions, gross financing needs, average maturity")
+    {
+        return Err("QPSD maturity panel identity, boundaries, or gates failed".to_string());
+    }
+
+    let expected_countries: BTreeSet<String> = [
+        "USA", "DEU", "FRA", "GBR", "SWE", "NLD", "POL", "JPN", "KOR", "CAN", "AUS", "SGP",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect();
+    let combined_countries: BTreeSet<String> = ["DEU", "GBR", "SWE", "JPN", "KOR", "AUS"]
+        .into_iter()
+        .map(str::to_string)
+        .collect();
+    let records = panel
+        .get("country_records")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("QPSD maturity panel needs country_records")?;
+    if records.len() != 12 {
+        return Err(format!(
+            "QPSD maturity panel must contain 12 records, got {}",
+            records.len()
+        ));
+    }
+
+    let mut countries = BTreeSet::new();
+    let mut combined_observed = BTreeSet::new();
+    for record in records {
+        let country = string_field(record, "country_code")?;
+        if !countries.insert(country.clone()) {
+            return Err(format!("duplicate QPSD maturity country record {country}"));
+        }
+        let short_derived = record
+            .get("short_term_original_maturity_percent_gdp")
+            .and_then(serde_json::Value::as_f64);
+        let long_due_derived = record
+            .get("long_term_original_due_within_one_year_percent_gdp")
+            .and_then(serde_json::Value::as_f64);
+        let combined = record
+            .get("combined_due_within_one_year_percent_gdp")
+            .and_then(serde_json::Value::as_f64);
+
+        if country == "SGP" {
+            for field in [
+                "short_term_original_maturity_percent_gdp",
+                "long_term_original_due_within_one_year_percent_gdp",
+                "combined_due_within_one_year_percent_gdp",
+                "long_term_original_due_over_one_year_percent_gdp",
+                "long_term_original_total_percent_gdp",
+            ] {
+                if !record.get(field).is_some_and(serde_json::Value::is_null) {
+                    return Err(format!("SGP QPSD maturity field {field} must remain null"));
+                }
+            }
+            if string_field(record, "observation_status")? != "country_absent_from_source" {
+                return Err("SGP QPSD maturity status must preserve source absence".to_string());
+            }
+            continue;
+        }
+
+        if short_derived
+            != *short
+                .get(&country)
+                .ok_or_else(|| format!("QPSD short-original source row missing for {country}"))?
+            || long_due_derived
+                != *long_due
+                    .get(&country)
+                    .ok_or_else(|| format!("QPSD long-due source row missing for {country}"))?
+        {
+            return Err(format!(
+                "{country} QPSD derived component does not match source"
+            ));
+        }
+        let long_over_derived = record
+            .get("long_term_original_due_over_one_year_percent_gdp")
+            .and_then(serde_json::Value::as_f64);
+        let long_total_derived = record
+            .get("long_term_original_total_percent_gdp")
+            .and_then(serde_json::Value::as_f64);
+        if long_over_derived
+            != *long_over
+                .get(&country)
+                .ok_or_else(|| format!("QPSD long-over source row missing for {country}"))?
+            || long_total_derived
+                != *long_total
+                    .get(&country)
+                    .ok_or_else(|| format!("QPSD long-total source row missing for {country}"))?
+        {
+            return Err(format!(
+                "{country} QPSD long-term component does not match source"
+            ));
+        }
+
+        if country == "CAN" {
+            if combined.is_some()
+                || string_field(record, "observation_status")? != "source_row_null"
+            {
+                return Err("CAN QPSD maturity values must preserve source nulls".to_string());
+            }
+        } else if combined_countries.contains(&country) {
+            let expected = short_derived
+                .ok_or_else(|| format!("{country} needs short component"))?
+                + long_due_derived.ok_or_else(|| format!("{country} needs long-due component"))?;
+            let observed = combined
+                .ok_or_else(|| format!("{country} needs combined due-within-one-year value"))?;
+            if (observed - expected).abs() > 0.000000000001 {
+                return Err(format!("{country} QPSD combined maturity sum failed"));
+            }
+            combined_observed.insert(country.clone());
+        } else if combined.is_some() || long_due_derived.is_some() {
+            return Err(format!(
+                "{country} missing remaining-maturity component must stay null and uncombined"
+            ));
+        }
+    }
+    if countries != expected_countries || combined_observed != combined_countries {
+        return Err("QPSD maturity exact country or combined-country set failed".to_string());
+    }
+    Ok(())
+}
+
+fn validate_socx_oldage_family_country_panel(root: &Path) -> Result<(), String> {
+    let raw_path = root.join(SOCX_OLDAGE_FAMILY_RAW_PATH);
+    if !raw_path.exists() || sha256_file(&raw_path)? != SOCX_OLDAGE_FAMILY_RAW_SHA256 {
+        return Err(format!(
+            "SOCX old-age/family raw custody failed: {SOCX_OLDAGE_FAMILY_RAW_PATH}"
+        ));
+    }
+
+    let observed_countries: BTreeSet<String> = ["USA", "FRA", "GBR", "JPN", "KOR", "CAN", "AUS"]
+        .into_iter()
+        .map(str::to_string)
+        .collect();
+    let expected_raw_cells: BTreeSet<(String, String, String)> = observed_countries
+        .iter()
+        .flat_map(|country| {
+            ["TP01", "TP51"].into_iter().flat_map(move |programme| {
+                ["_T", "C", "K"].into_iter().map(move |spending| {
+                    (country.clone(), programme.to_string(), spending.to_string())
+                })
+            })
+        })
+        .collect();
+    let mut raw_values: BTreeMap<(String, String, String), Option<f64>> = BTreeMap::new();
+    let mut reader = csv::Reader::from_path(&raw_path)
+        .map_err(|err| format!("failed to read {SOCX_OLDAGE_FAMILY_RAW_PATH}: {err}"))?;
+    for result in reader.deserialize::<BTreeMap<String, String>>() {
+        let row = result
+            .map_err(|err| format!("failed to parse {SOCX_OLDAGE_FAMILY_RAW_PATH}: {err}"))?;
+        let country = row
+            .get("REF_AREA")
+            .ok_or("SOCX raw row needs REF_AREA")?
+            .to_string();
+        let programme = row
+            .get("PROGRAMME_TYPE")
+            .ok_or_else(|| format!("SOCX raw row {country} needs PROGRAMME_TYPE"))?
+            .to_string();
+        let spending = row
+            .get("SPENDING_TYPE")
+            .ok_or_else(|| format!("SOCX raw row {country}/{programme} needs SPENDING_TYPE"))?
+            .to_string();
+        let cell = (country.clone(), programme.clone(), spending.clone());
+        if row.get("DATAFLOW").map(String::as_str)
+            != Some("OECD.ELS.SPD:DSD_SOCX_AGG@DF_SOCX_AGG(1.0)")
+            || row.get("FREQ").map(String::as_str) != Some("A")
+            || row.get("MEASURE").map(String::as_str) != Some("SOCX")
+            || row.get("UNIT_MEASURE").map(String::as_str) != Some("PT_B1GQ")
+            || row.get("EXPEND_SOURCE").map(String::as_str) != Some("ES10")
+            || row.get("PRICE_BASE").map(String::as_str) != Some("_Z")
+            || row.get("TIME_PERIOD").map(String::as_str) != Some("2022")
+            || row.get("OBS_STATUS").map(String::as_str) != Some("A")
+            || row.get("UNIT_MULT").map(String::as_str) != Some("0")
+            || !expected_raw_cells.contains(&cell)
+        {
+            return Err(format!(
+                "invalid SOCX raw dimensions for {country}/{programme}/{spending}"
+            ));
+        }
+        let observation = match row.get("OBS_VALUE").map(String::as_str) {
+            Some("") => None,
+            Some(value) => Some(value.parse::<f64>().map_err(|err| {
+                format!("SOCX raw value {country}/{programme}/{spending} failed: {err}")
+            })?),
+            None => {
+                return Err(format!(
+                    "SOCX raw cell {country}/{programme}/{spending} needs OBS_VALUE"
+                ));
+            }
+        };
+        if raw_values.insert(cell, observation).is_some() {
+            return Err(format!(
+                "duplicate SOCX raw cell {country}/{programme}/{spending}"
+            ));
+        }
+    }
+    if raw_values.len() != 42
+        || raw_values.keys().cloned().collect::<BTreeSet<_>>() != expected_raw_cells
+        || raw_values.get(&("CAN".to_string(), "TP01".to_string(), "K".to_string())) != Some(&None)
+        || raw_values.values().filter(|value| value.is_none()).count() != 1
+    {
+        return Err(
+            "SOCX raw must contain the exact 42 cells with only CAN/TP01/K blank".to_string(),
+        );
+    }
+
+    let text = fs::read_to_string(root.join(SOCX_OLDAGE_FAMILY_PANEL_JSON_PATH))
+        .map_err(|err| format!("failed to read {SOCX_OLDAGE_FAMILY_PANEL_JSON_PATH}: {err}"))?;
+    let panel: serde_json::Value = serde_json::from_str(&text)
+        .map_err(|err| format!("failed to parse {SOCX_OLDAGE_FAMILY_PANEL_JSON_PATH}: {err}"))?;
+    if string_field(&panel, "record_family")? != "social_expenditure_country_comparison"
+        || number_field(&panel, "data_year")? != 2022.0
+        || number_field(&panel, "country_count")? != 12.0
+        || panel.get("source_ids")
+            != Some(&serde_json::json!([
+                "SRC-OECD-SOCX-OLDAGE-FAMILY-PANEL-2022"
+            ]))
+        || string_field(&panel, "target_status")? != "descriptive_social_spending_not_policy_target"
+        || string_field(&panel, "ranking_status")? != "blocked"
+        || string_field(&panel, "efficiency_status")? != "not_causal_efficiency"
+        || string_field(&panel, "savings_status")? != "blocked_not_scored"
+        || !string_field(&panel, "old_age_boundary")?
+            .contains("TP01 combines public old-age and survivors spending")
+        || !string_field(&panel, "family_boundary")?
+            .contains("Tax breaks for social purposes are not components")
+        || !string_field(&panel, "outcome_boundary")?
+            .contains("Spending levels do not establish benefit adequacy")
+    {
+        return Err("SOCX panel identity, boundaries, or gates failed".to_string());
+    }
+
+    let expected_countries: BTreeSet<String> = [
+        "USA", "DEU", "FRA", "GBR", "SWE", "NLD", "POL", "JPN", "KOR", "CAN", "AUS", "SGP",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect();
+    let missing_countries: BTreeSet<String> = ["DEU", "SWE", "NLD", "POL", "SGP"]
+        .into_iter()
+        .map(str::to_string)
+        .collect();
+    let fields = [
+        ("old_age_survivors_total_percent_gdp", "TP01", "_T"),
+        ("old_age_survivors_cash_percent_gdp", "TP01", "C"),
+        ("old_age_survivors_services_percent_gdp", "TP01", "K"),
+        ("family_total_percent_gdp", "TP51", "_T"),
+        ("family_cash_percent_gdp", "TP51", "C"),
+        ("family_services_percent_gdp", "TP51", "K"),
+    ];
+    let records = panel
+        .get("country_records")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("SOCX panel needs country_records")?;
+    if records.len() != 12 {
+        return Err(format!(
+            "SOCX panel must contain 12 country records, got {}",
+            records.len()
+        ));
+    }
+    let mut countries = BTreeSet::new();
+    let mut missing = BTreeSet::new();
+    for record in records {
+        let country = string_field(record, "country_code")?;
+        if !countries.insert(country.clone()) {
+            return Err(format!("duplicate SOCX country record {country}"));
+        }
+        if missing_countries.contains(&country) {
+            missing.insert(country.clone());
+            for (field, _, _) in fields {
+                if !record.get(field).is_some_and(serde_json::Value::is_null) {
+                    return Err(format!(
+                        "missing SOCX country {country} field {field} must be null"
+                    ));
+                }
+            }
+            let expected_status = if country == "SGP" {
+                "country_absent_from_source"
+            } else {
+                "no_2022_observation"
+            };
+            if string_field(record, "observation_status")? != expected_status {
+                return Err(format!("SOCX missing-country status failed for {country}"));
+            }
+            continue;
+        }
+
+        for (field, programme, spending) in fields {
+            let source_value = raw_values
+                .get(&(country.clone(), programme.to_string(), spending.to_string()))
+                .ok_or_else(|| format!("missing SOCX raw cell {country}/{programme}/{spending}"))?;
+            let derived_value = record.get(field).and_then(serde_json::Value::as_f64);
+            if derived_value != *source_value {
+                return Err(format!(
+                    "SOCX derived field {country}/{field} does not match raw"
+                ));
+            }
+        }
+        let old_total = number_field(record, "old_age_survivors_total_percent_gdp")?;
+        let old_cash = number_field(record, "old_age_survivors_cash_percent_gdp")?;
+        let old_services = record
+            .get("old_age_survivors_services_percent_gdp")
+            .and_then(serde_json::Value::as_f64);
+        let family_total = number_field(record, "family_total_percent_gdp")?;
+        let family_cash = number_field(record, "family_cash_percent_gdp")?;
+        let family_services = number_field(record, "family_services_percent_gdp")?;
+        if (family_total - family_cash - family_services).abs() > 0.0010000001
+            || old_services
+                .is_some_and(|services| (old_total - old_cash - services).abs() > 0.0010000001)
+        {
+            return Err(format!(
+                "SOCX rounded component reconciliation failed for {country}"
+            ));
+        }
+        if country == "CAN" {
+            if old_services.is_some()
+                || string_field(record, "observation_status")? != "partial_old_age_services_blank"
+            {
+                return Err("CAN SOCX TP01/K blank must remain null and labeled".to_string());
+            }
+        } else if !matches!(
+            string_field(record, "observation_status")?.as_str(),
+            "complete" | "complete_rounded_components"
+        ) {
+            return Err(format!("SOCX observed-country status failed for {country}"));
+        }
+    }
+    if countries != expected_countries || missing != missing_countries {
+        return Err("SOCX exact country or missing-country set failed".to_string());
+    }
+    Ok(())
+}
+
+fn read_pension_replacement_component(
+    root: &Path,
+    path: &str,
+    measure: &str,
+    unit: &str,
+) -> Result<BTreeMap<String, f64>, String> {
+    let expected_countries: BTreeSet<String> = [
+        "USA", "DEU", "FRA", "GBR", "SWE", "NLD", "POL", "JPN", "KOR", "CAN", "AUS",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect();
+    let mut values = BTreeMap::new();
+    let mut reader = csv::Reader::from_path(root.join(path))
+        .map_err(|err| format!("failed to read {path}: {err}"))?;
+    for result in reader.deserialize::<BTreeMap<String, String>>() {
+        let row = result.map_err(|err| format!("failed to parse {path}: {err}"))?;
+        let country = row
+            .get("REF_AREA")
+            .ok_or_else(|| format!("{path} row needs REF_AREA"))?
+            .to_string();
+        for (field, expected) in [
+            ("DATAFLOW", "OECD.ELS.SPD:DSD_PAG@DF_PRR(1.0)"),
+            ("FREQ", "A"),
+            ("MEASURE", measure),
+            ("UNIT_MEASURE", unit),
+            ("SEX", "M"),
+            ("AGE", "_Z"),
+            ("OPTIONALITY", "M"),
+            ("TIME_PERIOD", "2024"),
+            ("OBS_STATUS", "A"),
+            ("UNIT_MULT", "0"),
+            ("DECIMALS", "1"),
+        ] {
+            if row.get(field).map(String::as_str) != Some(expected) {
+                return Err(format!(
+                    "{path} row {country} field {field} must be {expected}"
+                ));
+            }
+        }
+        let value = row
+            .get("OBS_VALUE")
+            .ok_or_else(|| format!("{path} row {country} needs OBS_VALUE"))?
+            .parse::<f64>()
+            .map_err(|err| format!("{path} row {country} value failed to parse: {err}"))?;
+        if values.insert(country.clone(), value).is_some() {
+            return Err(format!("{path} has duplicate country {country}"));
+        }
+    }
+    if values.len() != 11
+        || values.keys().cloned().collect::<BTreeSet<_>>() != expected_countries
+        || values.contains_key("SGP")
+    {
+        return Err(format!(
+            "{path} must contain the exact 11-country OECD pension panel"
+        ));
+    }
+    Ok(values)
+}
+
+fn validate_pension_replacement_country_panel(root: &Path) -> Result<(), String> {
+    for (path, checksum) in [
+        (
+            PENSION_REPLACEMENT_GROSS_RAW_PATH,
+            PENSION_REPLACEMENT_GROSS_RAW_SHA256,
+        ),
+        (
+            PENSION_REPLACEMENT_NET_RAW_PATH,
+            PENSION_REPLACEMENT_NET_RAW_SHA256,
+        ),
+    ] {
+        let raw = root.join(path);
+        if !raw.exists() || sha256_file(&raw)? != checksum {
+            return Err(format!("pension replacement raw custody failed: {path}"));
+        }
+    }
+
+    let gross = read_pension_replacement_component(
+        root,
+        PENSION_REPLACEMENT_GROSS_RAW_PATH,
+        "GPRR100",
+        "PT_EARN_G_PRE_RET_INC",
+    )?;
+    let net = read_pension_replacement_component(
+        root,
+        PENSION_REPLACEMENT_NET_RAW_PATH,
+        "NPRR100",
+        "PT_EARN_N_PRE_RET_INC",
+    )?;
+    if gross.keys().collect::<BTreeSet<_>>() != net.keys().collect::<BTreeSet<_>>() {
+        return Err("gross and net pension replacement source countries differ".to_string());
+    }
+
+    let text = fs::read_to_string(root.join(PENSION_REPLACEMENT_PANEL_JSON_PATH))
+        .map_err(|err| format!("failed to read {PENSION_REPLACEMENT_PANEL_JSON_PATH}: {err}"))?;
+    let panel: serde_json::Value = serde_json::from_str(&text)
+        .map_err(|err| format!("failed to parse {PENSION_REPLACEMENT_PANEL_JSON_PATH}: {err}"))?;
+    if string_field(&panel, "record_family")? != "pension_replacement_country_comparison"
+        || number_field(&panel, "model_entry_year")? != 2024.0
+        || number_field(&panel, "country_count")? != 12.0
+        || string_field(&panel, "target_status")?
+            != "descriptive_modeled_system_design_not_policy_target"
+        || string_field(&panel, "ranking_status")? != "blocked"
+        || string_field(&panel, "efficiency_status")? != "not_causal_efficiency"
+        || string_field(&panel, "savings_status")? != "blocked_not_scored"
+        || !string_field(&panel, "model_boundary")?
+            .contains("theoretical future entitlements for a worker entering at age 22 in 2024")
+        || !string_field(&panel, "scope_boundary")?
+            .contains("Gross and net rates have different earnings denominators")
+        || !string_field(&panel, "scope_boundary")?.contains("never subtracted as a fiscal saving")
+        || !string_field(&panel, "spending_boundary")?
+            .contains("no spending-to-replacement efficiency ratio is calculated")
+    {
+        return Err("pension replacement panel identity, boundaries, or gates failed".to_string());
+    }
+    let scenario = panel
+        .get("scenario")
+        .ok_or("pension replacement panel needs scenario")?;
+    if string_field(scenario, "sex")? != "male"
+        || number_field(scenario, "entry_age")? != 22.0
+        || string_field(scenario, "career")?
+            != "full_uninterrupted_to_country_normal_retirement_age"
+        || string_field(scenario, "earnings")? != "100_percent_national_average_worker_earnings"
+        || string_field(scenario, "scheme_scope")? != "mandatory_public_and_private"
+        || string_field(scenario, "policy_basis")?
+            != "legislated_rules_under_oecd_baseline_assumptions"
+    {
+        return Err("pension replacement scenario failed".to_string());
+    }
+    for forbidden in [
+        "spending_percent_gdp",
+        "spending_to_replacement_ratio",
+        "efficiency_ratio",
+        "fiscal_savings",
+    ] {
+        if panel.get(forbidden).is_some() {
+            return Err(format!(
+                "pension replacement panel must not contain {forbidden}"
+            ));
+        }
+    }
+
+    let expected_countries: BTreeSet<String> = [
+        "USA", "DEU", "FRA", "GBR", "SWE", "NLD", "POL", "JPN", "KOR", "CAN", "AUS", "SGP",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect();
+    let records = panel
+        .get("country_records")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("pension replacement panel needs country_records")?;
+    if records.len() != 12 {
+        return Err(format!(
+            "pension replacement panel must contain 12 records, got {}",
+            records.len()
+        ));
+    }
+    let mut countries = BTreeSet::new();
+    for record in records {
+        let country = string_field(record, "country_code")?;
+        if !countries.insert(country.clone()) {
+            return Err(format!(
+                "duplicate pension replacement country record {country}"
+            ));
+        }
+        if country == "SGP" {
+            if !record
+                .get("gross_replacement_rate_percent")
+                .is_some_and(serde_json::Value::is_null)
+                || !record
+                    .get("net_replacement_rate_percent")
+                    .is_some_and(serde_json::Value::is_null)
+                || string_field(record, "observation_status")? != "country_absent_from_source"
+            {
+                return Err(
+                    "SGP pension replacement values must remain source-absent nulls".to_string(),
+                );
+            }
+        } else {
+            let gross_value = number_field(record, "gross_replacement_rate_percent")?;
+            let net_value = number_field(record, "net_replacement_rate_percent")?;
+            if gross.get(&country) != Some(&gross_value)
+                || net.get(&country) != Some(&net_value)
+                || string_field(record, "observation_status")? != "modeled"
+            {
+                return Err(format!(
+                    "{country} pension replacement source reconciliation failed"
+                ));
+            }
+        }
+    }
+    if countries != expected_countries {
+        return Err("pension replacement panel exact 12-country set failed".to_string());
+    }
+    Ok(())
+}
+
+fn read_idd_age_poverty_raw(
+    root: &Path,
+    path: &str,
+    age: &str,
+    expected_cells: &BTreeSet<(String, u16)>,
+) -> Result<BTreeMap<(String, u16), (f64, String)>, String> {
+    let mut values = BTreeMap::new();
+    let mut reader = csv::Reader::from_path(root.join(path))
+        .map_err(|err| format!("failed to read {path}: {err}"))?;
+    for result in reader.deserialize::<BTreeMap<String, String>>() {
+        let row = result.map_err(|err| format!("failed to parse {path}: {err}"))?;
+        let country = row
+            .get("REF_AREA")
+            .ok_or("IDD row needs REF_AREA")?
+            .to_string();
+        let year = row
+            .get("TIME_PERIOD")
+            .ok_or_else(|| format!("IDD row {country} needs TIME_PERIOD"))?
+            .parse::<u16>()
+            .map_err(|err| format!("IDD row {country} year failed: {err}"))?;
+        let cell = (country.clone(), year);
+        let status = row
+            .get("OBS_STATUS")
+            .ok_or_else(|| format!("IDD row {country}/{year} needs OBS_STATUS"))?
+            .to_string();
+        for (field, expected) in [
+            ("DATAFLOW", "OECD.WISE.INE:DSD_WISE_IDD@DF_IDD(1.0)"),
+            ("FREQ", "A"),
+            ("MEASURE", "PR_INC_DISP"),
+            ("STATISTICAL_OPERATION", "_Z"),
+            ("UNIT_MEASURE", "PT_POP"),
+            ("AGE", age),
+            ("METHODOLOGY", "METH2012"),
+            ("DEFINITION", "D_CUR"),
+            ("POVERTY_LINE", "PL_50"),
+        ] {
+            if row.get(field).map(String::as_str) != Some(expected) {
+                return Err(format!(
+                    "IDD row {country}/{year} field {field} must be {expected}"
+                ));
+            }
+        }
+        if !expected_cells.contains(&cell) || !matches!(status.as_str(), "A" | "P") {
+            return Err(format!(
+                "unexpected IDD poverty cell or status {country}/{year}"
+            ));
+        }
+        let value = row
+            .get("OBS_VALUE")
+            .ok_or_else(|| format!("IDD row {country}/{year} needs OBS_VALUE"))?
+            .parse::<f64>()
+            .map_err(|err| format!("IDD row {country}/{year} value failed: {err}"))?;
+        if values.insert(cell, (value, status)).is_some() {
+            return Err(format!("duplicate IDD poverty row {country}/{year}"));
+        }
+    }
+    if values.keys().cloned().collect::<BTreeSet<_>>() != *expected_cells {
+        return Err(format!(
+            "{path} does not contain its exact country/year range"
+        ));
+    }
+    Ok(values)
+}
+
+fn validate_age_relative_poverty_country_panel(root: &Path) -> Result<(), String> {
+    for (path, checksum) in [
+        (IDD_OLD_AGE_POVERTY_RAW_PATH, IDD_OLD_AGE_POVERTY_RAW_SHA256),
+        (IDD_CHILD_POVERTY_RAW_PATH, IDD_CHILD_POVERTY_RAW_SHA256),
+    ] {
+        let raw = root.join(path);
+        if !raw.exists() || sha256_file(&raw)? != checksum {
+            return Err(format!("IDD age-poverty raw custody failed: {path}"));
+        }
+    }
+    let peers: BTreeSet<String> = [
+        "USA", "DEU", "FRA", "GBR", "SWE", "NLD", "POL", "JPN", "KOR", "CAN", "AUS",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect();
+    let without = |excluded: &[&str]| -> BTreeSet<String> {
+        peers
+            .iter()
+            .filter(|country| !excluded.contains(&country.as_str()))
+            .cloned()
+            .collect()
+    };
+    let no_jpn = without(&["JPN"]);
+    let no_aus = without(&["AUS"]);
+    let no_aus_jpn = without(&["AUS", "JPN"]);
+    let mut old_cells = BTreeSet::new();
+    for (year, countries) in [
+        (2020, &no_jpn),
+        (2021, &no_aus),
+        (2022, &no_aus_jpn),
+        (2023, &no_aus_jpn),
+    ] {
+        old_cells.extend(countries.iter().cloned().map(|country| (country, year)));
+    }
+    old_cells.extend(["NLD", "SWE"].into_iter().map(|c| (c.to_string(), 2024)));
+    let child_cells: BTreeSet<(String, u16)> = no_jpn
+        .iter()
+        .cloned()
+        .map(|country| (country, 2020))
+        .chain(no_aus.iter().cloned().map(|country| (country, 2021)))
+        .collect();
+    let old_values =
+        read_idd_age_poverty_raw(root, IDD_OLD_AGE_POVERTY_RAW_PATH, "Y_GT65", &old_cells)?;
+    let child_values =
+        read_idd_age_poverty_raw(root, IDD_CHILD_POVERTY_RAW_PATH, "Y_LT18", &child_cells)?;
+    if old_values.len() != 40
+        || child_values.len() != 20
+        || old_values
+            .iter()
+            .filter(|(_, (_, status))| status == "P")
+            .map(|(cell, _)| cell.clone())
+            .collect::<BTreeSet<_>>()
+            != BTreeSet::from([("NLD".to_string(), 2024)])
+        || child_values.values().any(|(_, status)| status != "A")
+    {
+        return Err("IDD age-poverty raw counts or statuses failed".to_string());
+    }
+
+    let text = fs::read_to_string(root.join(AGE_RELATIVE_POVERTY_PANEL_JSON_PATH))
+        .map_err(|err| format!("failed to read {AGE_RELATIVE_POVERTY_PANEL_JSON_PATH}: {err}"))?;
+    let panel: serde_json::Value = serde_json::from_str(&text)
+        .map_err(|err| format!("failed to parse {AGE_RELATIVE_POVERTY_PANEL_JSON_PATH}: {err}"))?;
+    if string_field(&panel, "record_family")? != "age_relative_income_poverty_country_comparison"
+        || number_field(&panel, "country_count")? != 12.0
+        || panel.get("source_ids") != Some(&serde_json::json!(["SRC-OECD-IDD-AGE-POVERTY-PANELS"]))
+        || !string_field(&panel, "poverty_definition")?
+            .contains("below 50 percent of the national median")
+        || !string_field(&panel, "older_people_period_boundary")?
+            .contains("No common actual year covers all eleven OECD peers")
+        || !string_field(&panel, "older_people_period_boundary")?
+            .contains("Netherlands 2024 value is provisional")
+        || !string_field(&panel, "child_period_boundary")?
+            .contains("2021 for ten peers and Australia's 2020 fallback")
+        || !string_field(&panel, "interpretation_boundary")?
+            .contains("not an absolute deprivation threshold")
+        || !string_field(&panel, "spending_boundary")?
+            .contains("not divided into SOCX spending or modeled pension replacement rates")
+        || string_field(&panel, "target_status")? != "descriptive_income_outcome_not_policy_target"
+        || string_field(&panel, "ranking_status")? != "blocked"
+        || string_field(&panel, "efficiency_status")? != "not_causal_efficiency"
+        || string_field(&panel, "savings_status")? != "blocked_not_scored"
+    {
+        return Err("age-relative poverty panel identity, boundaries, or gates failed".to_string());
+    }
+    let expected_countries: BTreeSet<String> = peers
+        .iter()
+        .cloned()
+        .chain(std::iter::once("SGP".to_string()))
+        .collect();
+    let records = panel
+        .get("country_records")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("age-relative poverty panel needs country_records")?;
+    if records.len() != 12 {
+        return Err(format!(
+            "age-relative poverty panel needs 12 records, got {}",
+            records.len()
+        ));
+    }
+    let mut countries = BTreeSet::new();
+    for record in records {
+        let country = string_field(record, "country_code")?;
+        if !countries.insert(country.clone()) {
+            return Err(format!("duplicate age-relative poverty country {country}"));
+        }
+        if string_field(record, "older_people_age_group")? != "over_65"
+            || string_field(record, "child_age_group")? != "under_18"
+        {
+            return Err(format!(
+                "age-relative poverty age label failed for {country}"
+            ));
+        }
+        if country == "SGP" {
+            for field in [
+                "older_people_reference_year",
+                "older_people_poverty_percent",
+                "child_reference_year",
+                "child_poverty_percent",
+            ] {
+                if !record.get(field).is_some_and(serde_json::Value::is_null) {
+                    return Err(format!(
+                        "SGP age-relative poverty field {field} must be null"
+                    ));
+                }
+            }
+            if string_field(record, "older_people_observation_status")?
+                != "country_absent_from_source"
+                || string_field(record, "child_observation_status")? != "country_absent_from_source"
+            {
+                return Err("SGP age-relative poverty status failed".to_string());
+            }
+            continue;
+        }
+        let ((_, old_year), (old_value, raw_old_status)) = old_values
+            .iter()
+            .filter(|((source_country, _), _)| source_country == &country)
+            .max_by_key(|((_, year), _)| *year)
+            .ok_or_else(|| format!("missing older poverty source for {country}"))?;
+        let child_year = if country == "AUS" { 2020 } else { 2021 };
+        let (child_value, raw_child_status) = child_values
+            .get(&(country.clone(), child_year))
+            .ok_or_else(|| format!("missing child poverty source for {country}/{child_year}"))?;
+        if number_field(record, "older_people_reference_year")? != f64::from(*old_year)
+            || number_field(record, "older_people_poverty_percent")? != *old_value
+            || number_field(record, "child_reference_year")? != f64::from(child_year)
+            || number_field(record, "child_poverty_percent")? != *child_value
+            || (country == "NLD" && raw_old_status != "P")
+            || (country != "NLD" && raw_old_status != "A")
+            || raw_child_status != "A"
+        {
+            return Err(format!(
+                "age-relative poverty source selection failed for {country}"
+            ));
+        }
+        let old_status = if country == "NLD" {
+            "provisional"
+        } else {
+            "actual"
+        };
+        let child_status = if country == "AUS" {
+            "fallback_2020_no_2021_observation"
+        } else {
+            "actual"
+        };
+        if string_field(record, "older_people_observation_status")? != old_status
+            || string_field(record, "child_observation_status")? != child_status
+        {
+            return Err(format!(
+                "age-relative poverty derived status failed for {country}"
+            ));
+        }
+    }
+    if countries != expected_countries {
+        return Err("age-relative poverty exact country set failed".to_string());
+    }
+    Ok(())
+}
+
+#[cfg(test)]
+mod global_country_comparison_tests {
+    use super::*;
+
+    #[test]
+    fn global_country_comparison_contract_covers_every_lane() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_global_country_comparison_coverage(&root).unwrap();
+    }
+
+    #[test]
+    fn hybrid_country_panel_reconciles_oecd_and_imf_sources() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_hybrid_cofog_country_panel(&root).unwrap();
+    }
+
+    #[test]
+    fn fiscal_country_panel_preserves_source_and_measurement_boundaries() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_fiscal_country_panel(&root).unwrap();
+    }
+
+    #[test]
+    fn qpsd_maturity_panel_preserves_missingness_and_maturity_boundaries() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_qpsd_maturity_country_panel(&root).unwrap();
+    }
+
+    #[test]
+    fn socx_panel_preserves_source_values_missingness_and_scope_boundaries() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_socx_oldage_family_country_panel(&root).unwrap();
+    }
+
+    #[test]
+    fn pension_replacement_panel_preserves_model_and_spending_boundaries() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_pension_replacement_country_panel(&root).unwrap();
+    }
+
+    #[test]
+    fn age_relative_poverty_panel_preserves_source_years_values_and_boundaries() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_age_relative_poverty_country_panel(&root).unwrap();
+    }
+
+    #[test]
+    fn international_comparator_rubric_preserves_selection_and_claim_boundaries() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_international_comparator_target_rubric(&root).unwrap();
+    }
 }
 
 fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {

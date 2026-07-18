@@ -1,0 +1,173 @@
+{
+  "record_id": "comparison-method:international-comparator-target-rubric:v1",
+  "record_family": "international_comparator_target_rubric",
+  "as_of_date": "2026-07-17",
+  "reference_country": "USA",
+  "public_rule": "Taxlane treats the peer median as the typical benchmark, the favorable quartile as an attainable performance reference only when comparability and outcomes support it, and sustained high performers as examples to study. It does not assume the best country, the 85th percentile, or the OECD average is the right United States target.",
+  "selection_sequence": [
+    "predeclare_metric_and_directionality",
+    "define_eligible_universe_before_viewing_results",
+    "apply_scope_period_unit_and_source_screens",
+    "publish_exclusions_missingness_and_observation_status",
+    "compute_descriptive_reference",
+    "test_outcomes_floors_transferability_and_stability",
+    "open_only_the_highest_supported_claim_gate"
+  ],
+  "comparator_universes": [
+    {
+      "universe_id": "broad_reference_panel",
+      "purpose": "where_the_us_sits",
+      "rule": "Use all OECD members with an official definition-matched observation unless a predeclared substantive restriction is necessary. Display the United States but exclude it from the peer statistic.",
+      "weighting": "equal_country_default",
+      "alternate_weighting": "population_or_gdp_weighting_only_for_an_explicit_average_resident_or_aggregate_share_question",
+      "exclusion_rule": "Every excluded country and reason must be logged before results are interpreted."
+    },
+    {
+      "universe_id": "core_display_panel",
+      "purpose": "readable_named_country_display",
+      "rule": "Use the named European, Asian, Canadian, and Australian Taxlane peers for display. This panel does not replace the broad reference statistic when broader matched data exist.",
+      "weighting": "equal_country"
+    },
+    {
+      "universe_id": "structural_transfer_panel",
+      "purpose": "us_transferability_sensitivity",
+      "rule": "Select peers before viewing the focal result using lane-relevant structure such as demographics, income, geography, density, federalism, financing model, hazard exposure, threat exposure, or system design.",
+      "weighting": "equal_country",
+      "minimum_country_count": 5
+    },
+    {
+      "universe_id": "outcome_qualified_panel",
+      "purpose": "identify_sustained_examples_to_study",
+      "rule": "Select countries using preregistered service, adequacy, quality, equity, safety, or resilience outcomes independent of the spending measure. Never define good countries as those spending least.",
+      "minimum_country_count": 4
+    },
+    {
+      "universe_id": "policy_commitment_group",
+      "purpose": "normative_or_treaty_context",
+      "rule": "Use only when an explicit legal, alliance, statutory, or negotiated commitment supplies the reference class. It is a policy band, not an empirical efficiency frontier."
+    }
+  ],
+  "sample_rules": {
+    "display_only_minimum_n": 3,
+    "display_panel_region_rule": "Include at least one European and one Asian comparator whenever a matched official series exists.",
+    "median_claim_minimum_n": 8,
+    "quartile_claim_minimum_n": 10,
+    "p85_or_frontier_minimum_n": 20,
+    "minimum_eligible_universe_coverage_rate": 0.70,
+    "p85_minimum_eligible_universe_coverage_rate": 0.80,
+    "no_imputation_for_rank_or_percentile": true,
+    "reference_country_excluded_from_peer_statistic": true
+  },
+  "statistic_roles": [
+    {
+      "role": "context_median_iqr",
+      "label": "typical_eligible_oecd_peer",
+      "status": "default_descriptive_reference",
+      "rule": "Report the equal-country median, interquartile range, N, countries, periods, missingness, scope, and unit. Report the unweighted mean only as a secondary statistic."
+    },
+    {
+      "role": "matched_peer_range",
+      "label": "structural_sensitivity",
+      "status": "separate_context_reference",
+      "rule": "Show the structural transfer panel separately; do not replace or silently blend it with the broad panel."
+    },
+    {
+      "role": "favorable_quartile",
+      "label": "attainable_ambition",
+      "status": "conditional_scenario_anchor",
+      "rule": "Use P75 when higher is beneficial and P25 when lower is beneficial, only with at least ten peers, meaningful directionality, matched outcomes, transferability review, and no floor failure. Input spending alone cannot unlock this role."
+    },
+    {
+      "role": "sustained_exemplar",
+      "label": "policy_example_to_study",
+      "status": "conditional_case_anchor",
+      "rule": "Name a country only when it remains in the favorable outcome quartile in at least three of the latest five comparable periods, has no material counter-outcome floor failure, and has an identified transferable mechanism."
+    },
+    {
+      "role": "p85_stretch",
+      "label": "stretch_scenario_not_default_target",
+      "status": "normally_blocked",
+      "rule": "Require at least twenty peers, 80 percent eligible-universe coverage, at least three comparable periods, declared quantile method, leave-one-country-out and alternate-panel sensitivity, and no floor failure. Never use P85 by default on the Taxlane core panel."
+    },
+    {
+      "role": "best_observed_country",
+      "label": "diagnostic_case_only",
+      "status": "target_prohibited",
+      "rule": "The minimum or maximum country may be described and studied but is never an automatic numeric target."
+    },
+    {
+      "role": "policy_band",
+      "label": "explicit_normative_reference",
+      "status": "policy_context_only",
+      "rule": "Use for explicit commitments or non-monotonic fiscal and strategic measures. Disclose the value judgment and do not call the band an empirical optimum."
+    }
+  ],
+  "quantile_rules": {
+    "default_method": "linear_interpolation_type_7",
+    "required_sensitivity_method": "nearest_rank",
+    "small_sample_rule": "If the United States conclusion changes under the required method or leave-one-country-out sensitivity, label the comparison indeterminate.",
+    "ties_rule": "Report ties and rank bands rather than false precision."
+  },
+  "directionality_classes": [
+    {"class":"higher_beneficial","examples":["coverage","completion","reliability","healthy_life_outcome"],"favorable_quartile":"P75"},
+    {"class":"lower_beneficial_with_floors","examples":["avoidable_mortality","poverty","fatalities_per_exposure","court_delay"],"favorable_quartile":"P25"},
+    {"class":"input_no_inherent_direction","examples":["spending_percent_gdp","staffing","tax_revenue"],"favorable_quartile":"not_allowed_without_outcome_pairing"},
+    {"class":"target_band_or_non_monotonic","examples":["defense_effort","primary_balance","debt","pension_replacement","reserve_capacity"],"favorable_quartile":"not_automatic"},
+    {"class":"definition_fragmented","examples":["improper_payment_rate","fraud_rate","veteran_program_spending"],"favorable_quartile":"prohibited"}
+  ],
+  "admissibility_gates": [
+    {"gate":"A1_source_and_measure","requires":["official_source_custody","checksum_and_metadata","matched_scope_unit_period","missingness_and_status_disclosed","comparability_grade_A_or_B"]},
+    {"gate":"A2_universe_and_statistic","requires":["eligible_universe_predeclared","exclusion_log","weighting_declared","minimum_n_and_coverage_met","quantile_method_declared"]},
+    {"gate":"A3_outcome_and_direction","requires":["directionality_predeclared","at_least_one_matched_service_or_outcome","balanced_counter_outcomes_where_material","input_not_treated_as_intrinsically_good_or_bad"]},
+    {"gate":"A4_floors","requires":["access_floor","quality_or_safety_floor","equity_floor","adequacy_or_resilience_floor","fiscal_or_delivery_feasibility_floor"]},
+    {"gate":"A5_transferability","requires":["institutional_perimeter_review","financing_and_governance_review","demographic_geographic_or_exposure_adjustment","implementation_horizon","identified_mechanism"]},
+    {"gate":"A6_stability_and_uncertainty","requires":["source_uncertainty_or_temporal_window","leave_one_country_out_test","alternate_panel_test","provisional_and_fallback_sensitivity","no_material_floor_failure"]},
+    {"gate":"A7_causal_and_fiscal","requires":["separate_program_mechanism","causal_or_policy_scored_evidence","behavioral_response","transition_and_admin_cost","federal_state_private_incidence","gross_to_net_savings_bridge"]}
+  ],
+  "claim_ladder": [
+    {"claim_gate":"G0","label":"design_only","maximum_claim":"planned comparison; no country result"},
+    {"claim_gate":"G1","label":"observed_descriptive","maximum_claim":"United States value versus peer median and range"},
+    {"claim_gate":"G2","label":"robust_comparative","maximum_claim":"United States is above or below a stable favorable quartile; no causal claim"},
+    {"claim_gate":"G3","label":"performance_pattern","maximum_claim":"input and outcome pattern is associated across peers; not causal efficiency"},
+    {"claim_gate":"G4","label":"transferable_exemplar","maximum_claim":"named sustained performer and mechanism are plausible examples to study"},
+    {"claim_gate":"G5","label":"policy_scenario","maximum_claim":"explicit value-based scenario with floors, implementation horizon, and monitoring"},
+    {"claim_gate":"G6","label":"efficiency_or_savings","maximum_claim":"requires separate causal and fiscal scoring; country comparisons alone can never open this gate"}
+  ],
+  "lane_rules": [
+    {"lane_id":"health-medicare","reference_class":"broad_system_peers_plus_financing_model_sensitivity","directionality":"input_no_inherent_direction","default_role":"context_median_iqr","conditional_role":"favorable_quartile_outcome_dashboard","rule":"Pair whole-system spending with access, avoidable mortality, quality, coverage, and price-volume composition. No spending divided by one outcome as efficiency."},
+    {"lane_id":"social-security","reference_class":"demographically_and_pillar_matched_peers","directionality":"target_band_or_non_monotonic","default_role":"context_median_iqr","conditional_role":"sustained_exemplar","rule":"Assess public and mandatory private pillars, replacement, poverty, dependency, adequacy, and sustainability together. Highest spending or replacement is not automatically best."},
+    {"lane_id":"national-defense","reference_class":"alliance_threat_and_commitment_group","directionality":"target_band_or_non_monotonic","default_role":"policy_band","conditional_role":"sustained_exemplar_case","rule":"Use readiness, threat, alliance obligations, conscription, and procurement mix. Do not infer an efficiency target from a spending percentile."},
+    {"lane_id":"income-security-family","reference_class":"demographic_labor_market_and_service_model_peers","directionality":"input_no_inherent_direction","default_role":"context_median_iqr","conditional_role":"favorable_quartile_outcomes","rule":"Pair cash, services, tax support, poverty, childcare, and labor participation. More or less spending alone is not the goal."},
+    {"lane_id":"revenue-solvency","reference_class":"broad_fiscal_peers_plus_structural_sensitivity","directionality":"target_band_or_non_monotonic","default_role":"context_median_iqr","conditional_role":"policy_scenario","rule":"Tax, balance, and debt distributions are context and stress-test inputs, not optimal fiscal targets."},
+    {"lane_id":"net-interest","reference_class":"debt_currency_maturity_and_asset_matched_peers","directionality":"lower_beneficial_with_floors","default_role":"context_median_iqr","conditional_role":"policy_scenario","rule":"Pair gross and net interest with debt, assets, maturity, inflation, currency, and revenue. Lower observed interest is not automatically reproducible savings."},
+    {"lane_id":"payment-integrity","reference_class":"methodology_matched_program_cases","directionality":"definition_fragmented","default_role":"structured_case_only","conditional_role":"none","rule":"No international percentile or fraud league table. Compare audit universe, sampling, uncertainty, corrections, and recoveries as structured cases."},
+    {"lane_id":"veterans","reference_class":"eligibility_conflict_history_and_system_matched_cases","directionality":"definition_fragmented","default_role":"structured_case_only","conditional_role":"none","rule":"No universal spending percentile. Compare eligibility, service placement, timeliness, appeals, and veteran outcomes through cases."},
+    {"lane_id":"transportation-infrastructure","reference_class":"geography_density_network_age_and_mode_matched_peers","directionality":"input_no_inherent_direction","default_role":"context_median_iqr","conditional_role":"favorable_quartile_outcomes","rule":"Pair investment and maintenance with exposure-adjusted fatalities, reliability, congestion, delivery, and asset condition."},
+    {"lane_id":"education-workforce","reference_class":"demographic_federalism_and_student_mix_sensitivity","directionality":"input_no_inherent_direction","default_role":"context_median_iqr","conditional_role":"favorable_quartile_outcome_dashboard","rule":"Pair resources with attainment, completion, NEET, equity, and employment. No PISA-only champion or spending/test-score efficiency ratio."},
+    {"lane_id":"disaster-resilience","reference_class":"hazard_exposure_income_and_insurance_matched_peers","directionality":"lower_beneficial_with_floors","default_role":"matched_peer_range","conditional_role":"sustained_exemplar","rule":"Use multiyear hazard-specific exposure-normalized loss, mortality, protection-gap, mitigation, and warning capacity; no annual loss rank."},
+    {"lane_id":"justice-courts-public-safety","reference_class":"legal_system_demography_and_reporting_matched_peers","directionality":"lower_beneficial_with_floors","default_role":"context_median_iqr","conditional_role":"favorable_quartile_balanced_outcomes","rule":"Balance process time, access, victimization, safety, corrections, and rights. Do not rank raw recorded crime alone."},
+    {"lane_id":"science-energy-environment","reference_class":"component_specific_structural_peers","directionality":"target_band_or_non_monotonic","default_role":"component_scorecards","conditional_role":"component_specific_exemplars","rule":"Keep R&D, energy reliability and affordability, emissions, air, and ecosystems separate. No composite champion."},
+    {"lane_id":"agriculture","reference_class":"farm_structure_land_climate_and_trade_matched_peers","directionality":"target_band_or_non_monotonic","default_role":"component_scorecards","conditional_role":"sustained_exemplar","rule":"Separate budget support, market-price support, general services, productivity, emissions, resilience, and land outcomes."},
+    {"lane_id":"international-affairs","reference_class":"income_role_alliance_and_donor_model_peers","directionality":"target_band_or_non_monotonic","default_role":"component_scorecards","conditional_role":"policy_commitment_group","rule":"Keep development, humanitarian, diplomacy, peacekeeping, security assistance, export finance, and instruments separate. No composite rank."}
+  ],
+  "prohibited_patterns": [
+    "calling_the_oecd_mean_optimal",
+    "selecting_good_countries_after_viewing_the_focal_result",
+    "using_p85_on_ten_or_eleven_peers",
+    "copying_the_best_country_as_a_target",
+    "mixing_us_federal_scope_with_peer_general_government_scope",
+    "hiding_mixed_years_or_provisional_values",
+    "treating_missing_as_zero_or_imputing_a_rank",
+    "changing_metric_direction_after_viewing_results",
+    "selecting_high_performers_on_the_same_single_outcome_used_to_validate_them",
+    "collapsing_unlike_components_into_an_opaque_composite",
+    "dividing_spending_by_one_outcome_and_calling_it_efficiency",
+    "converting_cross_country_gaps_into_waste_fraud_or_recoverable_savings"
+  ],
+  "comparability_status": "method_defined_no_existing_claim_gate_opened",
+  "ranking_status": "blocked_until_metric_specific_application",
+  "efficiency_status": "not_causal_from_country_comparisons",
+  "fraud_status": "not_measured_not_inferred",
+  "savings_status": "blocked_not_scored",
+  "status": "draft-method-reviewed"
+}

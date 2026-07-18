@@ -3,7 +3,7 @@
 ## Headline
 
 TAXLANE now has a sourced current-state top line for every question in the
-breadth matrix: **17 questions across 13 policy lanes, with zero open breadth
+breadth matrix: **17 questions across 15 policy lanes, with zero open breadth
 gaps**. Five questions (29.4%) have a matched benchmark; 12 (70.6%) have a
 federal top line but still need a scope- and outcome-matched expected value.
 
@@ -13,6 +13,14 @@ then estimate any addressable opportunity.
 
 Machine rows:
 `data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.v1.draft.jsonl`.
+
+The reviewed multi-country acquisition design for all 15 lanes is in
+`data/derived/breadth_benchmark_matrix/global_country_comparison_coverage.v1.draft.json`.
+It does not yet promote the 12 topline-only rows to observed comparisons.
+The first country-level spending batch is the
+`data/derived/breadth_benchmark_matrix/oecd_cofog_country_panel.data2022.v1.draft.json`
+panel: 99 observed cells and 11 explicit missing cells across 11 countries and
+ten all-government functions.
 
 ## Comparable Top Lines
 
