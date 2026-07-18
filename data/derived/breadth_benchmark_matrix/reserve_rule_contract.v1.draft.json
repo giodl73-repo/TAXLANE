@@ -1,0 +1,71 @@
+{
+  "record_id": "reserve-rule-contract:v1",
+  "record_family": "reserve_rule_contract",
+  "version": "v1.draft",
+  "status": "draft_contract_no_parameters",
+  "pulse": 102,
+  "program_lane_target_cost_contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "balance_guardrail_path": "docs/research/2026-06-23-balance-rule-guardrail-spec.md",
+  "rate_adjustment_operating_model_path": "docs/research/2026-06-24-rate-adjustment-operating-model.md",
+  "solver_input_inventory_path": "data/derived/breadth_benchmark_matrix/solver_input_inventory.v1.draft.json",
+  "purpose": "Define required reserve fields before any deterministic solver run or balanced-rate output may use reserve accounting.",
+  "required_fields": [
+    {"field_id": "reserve_contribution", "required": true, "initial_value": null},
+    {"field_id": "reserve_withdrawal", "required": true, "initial_value": null},
+    {"field_id": "reserve_balance", "required": true, "initial_value": null},
+    {"field_id": "reserve_cap", "required": true, "initial_value": null},
+    {"field_id": "emergency_override_rule", "required": true, "initial_value": null},
+    {"field_id": "cyclical_shortfall_draw_rule", "required": true, "initial_value": null},
+    {"field_id": "surplus_routing_rule", "required": true, "initial_value": null},
+    {"field_id": "future_year_payback_rule", "required": true, "initial_value": null},
+    {"field_id": "public_rounding_residual_line", "required": true, "initial_value": null}
+  ],
+  "contract_rules": {
+    "over_the_cycle_reserve_required": true,
+    "cyclical_shortfall_draws_reserve_before_rate_increase_or_benefit_cut": true,
+    "surplus_routes_to_reserve_then_debt_before_discretionary_rate_cut": true,
+    "emergency_override_requires_explicit_rule": true,
+    "emergency_deferral_cap_required": true,
+    "future_year_payback_required": true,
+    "rounding_residual_must_be_explicit": true,
+    "missing_values_remain_null": true,
+    "solver_ready": false
+  },
+  "parameter_placeholders": {
+    "reserve_contribution_path": null,
+    "reserve_withdrawal_path": null,
+    "reserve_balance_path": null,
+    "reserve_cap_amount": null,
+    "reserve_cap_formula": null,
+    "emergency_override_threshold": null,
+    "future_year_payback_schedule": null,
+    "rounding_line": null
+  },
+  "blocked_until": [
+    "reserve_contribution_series",
+    "reserve_withdrawal_series",
+    "reserve_balance_series",
+    "reserve_cap_formula",
+    "emergency_override_rule",
+    "future_year_payback_schedule",
+    "public_rounding_residual_line",
+    "role_review_of_parameter_choices"
+  ],
+  "claim_booleans": {
+    "reserve_rule_contract_published": true,
+    "reserve_parameters_published": false,
+    "solver_ready": false,
+    "target_cost_published": false,
+    "statutory_rate_published": false,
+    "effective_rate_published": false,
+    "public_rate_card_published": false,
+    "tax_proposal_published": false,
+    "savings_claim_published": false,
+    "waste_finding_published": false,
+    "fraud_finding_published": false,
+    "department_cut_instruction_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "non_claim_boundary": "This is a reserve rule contract, not reserve parameters, not a solver run, not target-cost selection, not rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+}

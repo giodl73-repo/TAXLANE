@@ -163,6 +163,11 @@ input, any current partial/context artifact, and the missing evidence. Every row
 remains not ready with a null value; no solver, rate, savings, or
 balanced-budget claim is opened.
 
+`reserve_rule_contract.v1.draft.json` defines the required reserve contribution,
+withdrawal, cap, emergency override, payback, and rounding fields before any
+solver run may use reserve accounting. It sets no numeric parameters and keeps
+solver/rate/savings claims blocked.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is

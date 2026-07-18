@@ -416,6 +416,11 @@ const SOLVER_INPUT_INVENTORY_JSON_PATH: &str =
 const SOLVER_INPUT_INVENTORY_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_inventory.schema.md";
 const SOLVER_INPUT_INVENTORY_READER_PATH: &str = "docs/reading/solver-input-inventory.md";
+const RESERVE_RULE_CONTRACT_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/reserve_rule_contract.v1.draft.json";
+const RESERVE_RULE_CONTRACT_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/reserve_rule_contract.schema.md";
+const RESERVE_RULE_CONTRACT_READER_PATH: &str = "docs/reading/reserve-rule-contract.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10939,6 +10944,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_fund_group_fy2025_reconciliation_fixture(root)?;
     validate_solver_accounting_readiness_gate(root)?;
     validate_solver_input_inventory(root)?;
+    validate_reserve_rule_contract(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -18169,6 +18175,195 @@ fn validate_solver_input_inventory(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_reserve_rule_contract(root: &Path) -> Result<(), String> {
+    for path in [
+        RESERVE_RULE_CONTRACT_JSON_PATH,
+        RESERVE_RULE_CONTRACT_SCHEMA_PATH,
+        RESERVE_RULE_CONTRACT_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing reserve rule contract artifact: {path}"));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(RESERVE_RULE_CONTRACT_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let contract: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&contract, "record_id")? != "reserve-rule-contract:v1"
+        || string_field(&contract, "record_family")? != "reserve_rule_contract"
+        || int_field(&contract, "pulse")? != 102
+        || string_field(&contract, "program_lane_target_cost_contract_path")?
+            != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&contract, "balance_guardrail_path")?
+            != "docs/research/2026-06-23-balance-rule-guardrail-spec.md"
+        || string_field(&contract, "rate_adjustment_operating_model_path")?
+            != "docs/research/2026-06-24-rate-adjustment-operating-model.md"
+        || string_field(&contract, "solver_input_inventory_path")?
+            != SOLVER_INPUT_INVENTORY_JSON_PATH
+    {
+        return Err("reserve rule contract identity failed".to_string());
+    }
+
+    let required_fields = contract
+        .get("required_fields")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("reserve required fields")?;
+    let observed = required_fields
+        .iter()
+        .map(|row| string_field(row, "field_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    for required in [
+        "reserve_contribution",
+        "reserve_withdrawal",
+        "reserve_balance",
+        "reserve_cap",
+        "emergency_override_rule",
+        "cyclical_shortfall_draw_rule",
+        "surplus_routing_rule",
+        "future_year_payback_rule",
+        "public_rounding_residual_line",
+    ] {
+        if !observed.contains(required) {
+            return Err(format!("reserve required field missing {required}"));
+        }
+    }
+    for row in required_fields {
+        if row.get("required").and_then(serde_json::Value::as_bool) != Some(true)
+            || !row
+                .get("initial_value")
+                .is_some_and(serde_json::Value::is_null)
+        {
+            return Err("reserve required fields must be required/null".to_string());
+        }
+    }
+
+    let rules = contract
+        .get("contract_rules")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("reserve contract rules")?;
+    for true_flag in [
+        "over_the_cycle_reserve_required",
+        "cyclical_shortfall_draws_reserve_before_rate_increase_or_benefit_cut",
+        "surplus_routes_to_reserve_then_debt_before_discretionary_rate_cut",
+        "emergency_override_requires_explicit_rule",
+        "emergency_deferral_cap_required",
+        "future_year_payback_required",
+        "rounding_residual_must_be_explicit",
+        "missing_values_remain_null",
+    ] {
+        if rules.get(true_flag).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("reserve rule true flag failed {true_flag}"));
+        }
+    }
+    if rules
+        .get("solver_ready")
+        .and_then(serde_json::Value::as_bool)
+        != Some(false)
+    {
+        return Err("reserve rule solver_ready must be false".to_string());
+    }
+
+    let placeholders = contract
+        .get("parameter_placeholders")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("reserve parameter placeholders")?;
+    for (field, value) in placeholders {
+        if !value.is_null() {
+            return Err(format!("reserve placeholder {field} must remain null"));
+        }
+    }
+
+    let blocked = contract
+        .get("blocked_until")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("reserve blockers")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    for required in [
+        "reserve_contribution_series",
+        "reserve_withdrawal_series",
+        "reserve_balance_series",
+        "reserve_cap_formula",
+        "emergency_override_rule",
+        "future_year_payback_schedule",
+        "public_rounding_residual_line",
+        "role_review_of_parameter_choices",
+    ] {
+        if !blocked.contains(required) {
+            return Err(format!("reserve blocker missing {required}"));
+        }
+    }
+
+    let claims = contract
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("reserve claims")?;
+    for (field, value) in claims {
+        let observed = value.as_bool().ok_or("reserve claim bool")?;
+        if field == "reserve_rule_contract_published" {
+            if !observed {
+                return Err("reserve contract publish flag must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!("reserve public claim {field} must be false"));
+        }
+    }
+
+    let boundary = string_field(&contract, "non_claim_boundary")?;
+    for required in [
+        "reserve rule contract",
+        "not reserve parameters",
+        "not a solver run",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!("reserve boundary missing {required}"));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(RESERVE_RULE_CONTRACT_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        RESERVE_RULE_CONTRACT_JSON_PATH,
+        "does not choose numeric reserve parameters",
+        "reserve contribution",
+        "reserve withdrawal",
+        "reserve balance",
+        "reserve cap",
+        "emergency override rule",
+        "future-year payback rule",
+        "public rounding residual line",
+        "cyclical shortfall draws the reserve before any rate increase or benefit cut",
+        "not reserve parameters",
+        "not a solver run",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("reserve reader missing {required}"));
+        }
+    }
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -18345,6 +18540,12 @@ mod global_country_comparison_tests {
     fn solver_input_inventory_keeps_every_required_input_blocked() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_solver_input_inventory(&root).unwrap();
+    }
+
+    #[test]
+    fn reserve_rule_contract_keeps_parameters_null() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_reserve_rule_contract(&root).unwrap();
     }
 
     #[test]
