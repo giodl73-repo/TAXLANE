@@ -1,0 +1,136 @@
+{
+  "record_id": "administration-compliance-burden-source-gap:v1",
+  "record_family": "administration_compliance_burden_source_gap",
+  "schema_version": "v1.draft",
+  "pulse": 130,
+  "as_of_date": "2026-07-19",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "distribution_incidence_source_gap_path": "data/derived/breadth_benchmark_matrix/distribution_incidence_source_gap.v1.draft.json",
+  "assigned_receipt_base_source_gap_path": "data/derived/breadth_benchmark_matrix/assigned_receipt_base_source_gap.v1.draft.json",
+  "public_rate_card_v2_contract_path": "data/derived/breadth_benchmark_matrix/public_rate_card_v2_contract.v1.draft.json",
+  "rate_adjustment_operating_model_path": "docs/research/2026-06-24-rate-adjustment-operating-model.md",
+  "source_custody_status": {
+    "official_sources_only": true,
+    "no_external_request_submitted_this_pulse": true,
+    "no_agency_or_person_contacted": true,
+    "agency_administration_cost_source_ready": false,
+    "taxpayer_time_burden_source_ready": false,
+    "taxpayer_money_burden_source_ready": false,
+    "employer_withholding_burden_source_ready": false,
+    "compliance_avoidance_elasticity_source_ready": false,
+    "implementation_transition_cost_source_ready": false,
+    "technology_shift_cost_source_ready": false,
+    "solver_inputs_ready": false
+  },
+  "required_source_families": [
+    {
+      "source_family_id": "agency_administration_cost",
+      "needed_for": ["agency_budget_cost", "collection_system_operation", "enforcement_and_service_capacity"],
+      "status": "missing_source_custody",
+      "value": null,
+      "ready": false
+    },
+    {
+      "source_family_id": "taxpayer_time_burden",
+      "needed_for": ["household_filing_time", "business_filing_time", "recordkeeping_time"],
+      "status": "missing_source_custody",
+      "value": null,
+      "ready": false
+    },
+    {
+      "source_family_id": "taxpayer_money_burden",
+      "needed_for": ["preparer_cost", "software_cost", "professional_advice_cost"],
+      "status": "missing_source_custody",
+      "value": null,
+      "ready": false
+    },
+    {
+      "source_family_id": "employer_withholding_and_reporting_burden",
+      "needed_for": ["withholding_system_change", "payroll_provider_update", "information_reporting_change"],
+      "status": "missing_source_custody",
+      "value": null,
+      "ready": false
+    },
+    {
+      "source_family_id": "avoidance_compliance_response",
+      "needed_for": ["avoidance_behavior", "compliance_response", "base_erosion_risk"],
+      "status": "missing_behavior_model",
+      "value": null,
+      "ready": false
+    },
+    {
+      "source_family_id": "implementation_transition_cost",
+      "needed_for": ["agency_transition_cost", "taxpayer_transition_cost", "effective_date_feasibility"],
+      "status": "missing_transition_model",
+      "value": null,
+      "ready": false
+    },
+    {
+      "source_family_id": "technology_shift_cost_and_productivity",
+      "needed_for": ["modernization_cost", "training_cost", "fallback_service_risk", "measured_productivity"],
+      "status": "missing_technology_shift_model",
+      "value": null,
+      "ready": false
+    }
+  ],
+  "blocked_outputs": {
+    "agency_administration_burden": null,
+    "taxpayer_time_burden": null,
+    "taxpayer_money_burden": null,
+    "employer_withholding_burden": null,
+    "avoidance_behavior": null,
+    "compliance_response": null,
+    "implementation_transition_costs": null,
+    "technology_shift_costs": null,
+    "technology_productivity_credit": null,
+    "effective_date_feasibility": null,
+    "rate_change_compliance_impact": null,
+    "solver_input_rows": null,
+    "assigned_base_rates": null,
+    "public_rate_cards": null,
+    "tax_proposal_fields": null,
+    "technology_savings_fields": null,
+    "balanced_budget_fields": null
+  },
+  "gate_rules": {
+    "administration_required_before_rate_publication": true,
+    "taxpayer_burden_required_before_rate_publication": true,
+    "employer_burden_required_before_withholding_change": true,
+    "avoidance_and_compliance_required_before_assigned_base_rate": true,
+    "implementation_transition_required_before_policy_score": true,
+    "technology_productivity_requires_measured_same_service_output": true,
+    "missing_values_remain_null": true,
+    "rate_ready": false,
+    "solver_ready": false
+  },
+  "public_warning_phrases": [
+    "Administration and compliance burden remain source gaps, not completed analyses.",
+    "No agency burden, taxpayer burden, employer burden, avoidance, compliance, transition-cost, technology-productivity, rate, or solver value is populated.",
+    "Rate publication remains blocked until administration, taxpayer burden, employer burden, avoidance, compliance, transition, distribution, incidence, interaction, and macro feedback are modeled.",
+    "Technology can support a future transition plan, but no technology savings or productivity credit is booked here.",
+    "No external request was submitted and no agency or person was contacted.",
+    "This record is not solver input, not a solver run, not a target-cost selection, not a rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+  ],
+  "claim_booleans": {
+    "source_gap_published": true,
+    "administration_analysis_published": false,
+    "taxpayer_burden_analysis_published": false,
+    "employer_burden_analysis_published": false,
+    "avoidance_compliance_model_published": false,
+    "transition_cost_model_published": false,
+    "technology_shift_model_published": false,
+    "solver_inputs_ready": false,
+    "statutory_rate_claim": false,
+    "effective_rate_claim": false,
+    "public_rate_card_claim": false,
+    "tax_proposal_claim": false,
+    "balanced_budget_claim": false,
+    "target_cost_claim": false,
+    "federal_effect_claim": false,
+    "gross_savings_claim": false,
+    "net_savings_claim": false,
+    "waste_finding_claim": false,
+    "fraud_finding_claim": false,
+    "technology_savings_claim": false
+  }
+}

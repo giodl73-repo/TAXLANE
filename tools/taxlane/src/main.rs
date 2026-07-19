@@ -457,6 +457,11 @@ const DISTRIBUTION_INCIDENCE_SOURCE_GAP_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/distribution_incidence_source_gap.schema.md";
 const DISTRIBUTION_INCIDENCE_SOURCE_GAP_READER_PATH: &str =
     "docs/reading/distribution-incidence-source-gap.md";
+const ADMINISTRATION_COMPLIANCE_BURDEN_SOURCE_GAP_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/administration_compliance_burden_source_gap.v1.draft.json";
+const ADMINISTRATION_COMPLIANCE_BURDEN_SOURCE_GAP_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/administration_compliance_burden_source_gap.schema.md";
+const ADMINISTRATION_COMPLIANCE_BURDEN_SOURCE_GAP_READER_PATH: &str =
+    "docs/reading/administration-compliance-burden-source-gap.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11102,6 +11107,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_assigned_receipt_base_source_gap(root)?;
     validate_distributional_effect_placeholder(root)?;
     validate_distribution_incidence_source_gap(root)?;
+    validate_administration_compliance_burden_source_gap(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -19917,6 +19923,245 @@ fn validate_distribution_incidence_source_gap(root: &Path) -> Result<(), String>
     Ok(())
 }
 
+fn validate_administration_compliance_burden_source_gap(root: &Path) -> Result<(), String> {
+    for path in [
+        ADMINISTRATION_COMPLIANCE_BURDEN_SOURCE_GAP_JSON_PATH,
+        ADMINISTRATION_COMPLIANCE_BURDEN_SOURCE_GAP_SCHEMA_PATH,
+        ADMINISTRATION_COMPLIANCE_BURDEN_SOURCE_GAP_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing administration compliance burden source gap artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(ADMINISTRATION_COMPLIANCE_BURDEN_SOURCE_GAP_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let gap: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&gap, "record_id")? != "administration-compliance-burden-source-gap:v1"
+        || string_field(&gap, "record_family")? != "administration_compliance_burden_source_gap"
+        || int_field(&gap, "pulse")? != 130
+        || string_field(&gap, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&gap, "distribution_incidence_source_gap_path")?
+            != DISTRIBUTION_INCIDENCE_SOURCE_GAP_JSON_PATH
+        || string_field(&gap, "assigned_receipt_base_source_gap_path")?
+            != ASSIGNED_RECEIPT_BASE_SOURCE_GAP_JSON_PATH
+        || string_field(&gap, "public_rate_card_v2_contract_path")?
+            != PUBLIC_RATE_CARD_V2_CONTRACT_JSON_PATH
+        || string_field(&gap, "rate_adjustment_operating_model_path")?
+            != "docs/research/2026-06-24-rate-adjustment-operating-model.md"
+    {
+        return Err("administration compliance source gap identity failed".to_string());
+    }
+
+    for path in [
+        string_field(&gap, "contract_path")?,
+        string_field(&gap, "distribution_incidence_source_gap_path")?,
+        string_field(&gap, "assigned_receipt_base_source_gap_path")?,
+        string_field(&gap, "public_rate_card_v2_contract_path")?,
+        string_field(&gap, "rate_adjustment_operating_model_path")?,
+    ] {
+        if !root.join(&path).exists() {
+            return Err(format!(
+                "administration compliance referenced path missing: {path}"
+            ));
+        }
+    }
+
+    let status = gap
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("administration compliance custody status")?;
+    for field in [
+        "official_sources_only",
+        "no_external_request_submitted_this_pulse",
+        "no_agency_or_person_contacted",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "administration compliance status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "agency_administration_cost_source_ready",
+        "taxpayer_time_burden_source_ready",
+        "taxpayer_money_burden_source_ready",
+        "employer_withholding_burden_source_ready",
+        "compliance_avoidance_elasticity_source_ready",
+        "implementation_transition_cost_source_ready",
+        "technology_shift_cost_source_ready",
+        "solver_inputs_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "administration compliance status {field} must be false"
+            ));
+        }
+    }
+
+    let families = gap
+        .get("required_source_families")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("administration compliance source families")?;
+    let expected = [
+        "agency_administration_cost",
+        "taxpayer_time_burden",
+        "taxpayer_money_burden",
+        "employer_withholding_and_reporting_burden",
+        "avoidance_compliance_response",
+        "implementation_transition_cost",
+        "technology_shift_cost_and_productivity",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let observed = families
+        .iter()
+        .map(|row| string_field(row, "source_family_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if observed != expected {
+        return Err("administration compliance source family set failed".to_string());
+    }
+    for row in families {
+        if row.get("value") != Some(&serde_json::Value::Null)
+            || row.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+        {
+            return Err("administration compliance family values must stay null/false".to_string());
+        }
+    }
+
+    let blocked = gap
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("administration compliance blocked outputs")?;
+    for field in [
+        "agency_administration_burden",
+        "taxpayer_time_burden",
+        "taxpayer_money_burden",
+        "employer_withholding_burden",
+        "avoidance_behavior",
+        "compliance_response",
+        "implementation_transition_costs",
+        "technology_shift_costs",
+        "technology_productivity_credit",
+        "effective_date_feasibility",
+        "rate_change_compliance_impact",
+        "solver_input_rows",
+        "assigned_base_rates",
+        "public_rate_cards",
+        "tax_proposal_fields",
+        "technology_savings_fields",
+        "balanced_budget_fields",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "administration compliance blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let rules = gap
+        .get("gate_rules")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("administration compliance gate rules")?;
+    for field in [
+        "administration_required_before_rate_publication",
+        "taxpayer_burden_required_before_rate_publication",
+        "employer_burden_required_before_withholding_change",
+        "avoidance_and_compliance_required_before_assigned_base_rate",
+        "implementation_transition_required_before_policy_score",
+        "technology_productivity_requires_measured_same_service_output",
+        "missing_values_remain_null",
+    ] {
+        if rules.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "administration compliance gate rule {field} must be true"
+            ));
+        }
+    }
+    for field in ["rate_ready", "solver_ready"] {
+        if rules.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "administration compliance gate rule {field} must be false"
+            ));
+        }
+    }
+
+    let claims = gap
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("administration compliance claims")?;
+    if claims
+        .get("source_gap_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("administration compliance source_gap_published must be true".to_string());
+    }
+    for field in [
+        "administration_analysis_published",
+        "taxpayer_burden_analysis_published",
+        "employer_burden_analysis_published",
+        "avoidance_compliance_model_published",
+        "transition_cost_model_published",
+        "technology_shift_model_published",
+        "solver_inputs_ready",
+        "statutory_rate_claim",
+        "effective_rate_claim",
+        "public_rate_card_claim",
+        "tax_proposal_claim",
+        "balanced_budget_claim",
+        "target_cost_claim",
+        "federal_effect_claim",
+        "gross_savings_claim",
+        "net_savings_claim",
+        "waste_finding_claim",
+        "fraud_finding_claim",
+        "technology_savings_claim",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "administration compliance claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader =
+        fs::read_to_string(root.join(ADMINISTRATION_COMPLIANCE_BURDEN_SOURCE_GAP_READER_PATH))
+            .map_err(|e| e.to_string())?;
+    for phrase in [
+        ADMINISTRATION_COMPLIANCE_BURDEN_SOURCE_GAP_JSON_PATH,
+        "Administration and compliance burden remain source gaps, not completed analyses.",
+        "No agency burden, taxpayer burden, employer burden, avoidance, compliance, transition-cost, technology-productivity, rate, or solver value is populated.",
+        "Rate publication remains blocked until administration, taxpayer burden, employer burden, avoidance, compliance, transition, distribution, incidence, interaction, and macro feedback are modeled.",
+        "Technology can support a future transition plan, but no technology savings or productivity credit is booked here.",
+        "No external request was submitted and no agency or person was contacted.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "administration compliance reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -25859,6 +26104,12 @@ mod global_country_comparison_tests {
     fn distribution_incidence_source_gap_blocks_rate_and_solver_values() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_distribution_incidence_source_gap(&root).unwrap();
+    }
+
+    #[test]
+    fn administration_compliance_burden_source_gap_blocks_rate_and_solver_values() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_administration_compliance_burden_source_gap(&root).unwrap();
     }
 
     #[test]

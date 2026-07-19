@@ -648,3 +648,11 @@ and model gaps for distribution, incidence, administration burden, benefit and
 service valuation, interaction scoring, and macro feedback. It keeps all
 distributional values, solver inputs, rates, public rate cards, tax proposals,
 and balanced-budget claims blocked.
+
+`administration_compliance_burden_source_gap.v1.draft.json` documents the
+remaining source and model gaps for agency administration cost, taxpayer burden,
+employer withholding/reporting burden, avoidance/compliance response,
+implementation transition cost, and technology shift/productivity evidence. It
+keeps all administration, compliance, transition, technology-productivity, rate,
+solver, public-rate-card, tax-proposal, savings, and balanced-budget values
+blocked.
