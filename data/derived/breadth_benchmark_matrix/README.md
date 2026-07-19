@@ -700,3 +700,8 @@ taxable-payroll context, and FHWA transportation highway-user receipt and
 legal-rate context. It extracts guarded context values only and keeps matched
 assigned bases, rates, solver inputs, public rate cards, tax proposals, savings,
 and balanced-budget outputs blocked.
+
+`receipt_base_reconciliation_gap.v1.draft.json` reconciles captured IRS, CMS,
+FHWA, and blocked SSA source context against matched assigned-base requirements.
+It explains why each work item remains not ready and keeps rates, solver inputs,
+public rate cards, tax proposals, savings, and balanced-budget outputs blocked.

@@ -1,0 +1,168 @@
+{
+  "record_id": "receipt-base-reconciliation-gap:v1",
+  "record_family": "receipt_base_reconciliation_gap",
+  "schema_version": "v1.draft",
+  "pulse": 138,
+  "as_of_date": "2026-07-19",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "receipt_base_official_source_capture_path": "data/derived/breadth_benchmark_matrix/receipt_base_official_source_capture.v1.draft.json",
+  "rate_publication_readiness_rollup_path": "data/derived/breadth_benchmark_matrix/rate_publication_readiness_rollup.v1.draft.json",
+  "source_custody_status": {
+    "official_sources_only": true,
+    "used_existing_captured_sources_only": true,
+    "no_foia_or_records_request_submitted": true,
+    "no_agency_or_person_contacted": true,
+    "source_capture_available_for_three_work_items": true,
+    "matched_receipt_bases_ready": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false
+  },
+  "reconciliation_rows": [
+    {
+      "work_item_id": "capture-irs-soi-pub-1304-individual-income-base",
+      "base_ids": ["individual_income_agi", "individual_income_taxable_income"],
+      "captured_source_id": "SRC-IRS-SOI-PUB1304-TABLE-1-1-TY2023",
+      "captured_year": "TY2023",
+      "required_match": "FY2025 or explicit tax-year-to-fiscal-year bridge",
+      "captured_context_values_musd": {
+        "individual_income_agi": 15286017.359,
+        "individual_income_taxable_income": 11625278.987,
+        "individual_income_tax_after_credits_yield_context": 2108587.001
+      },
+      "readiness_status": "source_captured_context_only_year_mismatch",
+      "blocking_reasons": [
+        "tax_year_2023_not_matched_to_fy2025",
+        "no_tax_year_to_fiscal_year_bridge",
+        "no_elasticity",
+        "no_incidence_distribution_or_administration_model",
+        "no_current_law_yield_matched_to_solver"
+      ],
+      "ready_for_assigned_base": false,
+      "ready_for_rate_publication": false,
+      "ready_for_solver": false
+    },
+    {
+      "work_item_id": "capture-ssa-oasdi-taxable-payroll-base",
+      "base_ids": ["oasdi_taxable_payroll"],
+      "captured_source_id": null,
+      "captured_year": null,
+      "required_match": "source-custodied OASDI taxable payroll with wage-base perimeter",
+      "captured_context_values_musd": null,
+      "readiness_status": "raw_source_custody_blocked",
+      "blocking_reasons": [
+        "official_ssa_site_returned_http_403_to_direct_raw_download",
+        "no_raw_artifact",
+        "no_byte_count",
+        "no_sha256",
+        "no_source_custodied_oasdi_taxable_payroll_amount"
+      ],
+      "ready_for_assigned_base": false,
+      "ready_for_rate_publication": false,
+      "ready_for_solver": false
+    },
+    {
+      "work_item_id": "capture-medicare-hi-taxable-payroll-base",
+      "base_ids": ["medicare_hi_taxable_payroll"],
+      "captured_source_id": "SRC-CMS-MEDICARE-TRUSTEES-2026",
+      "captured_year": "FY2025",
+      "required_match": "FY2025 HI taxable payroll plus legal perimeter, current-law yield reconciliation, elasticity, incidence, distribution, and administration",
+      "captured_context_values_musd": {
+        "medicare_hi_taxable_payroll": 13277000,
+        "medicare_hi_payroll_tax_yield_context": 400622.16
+      },
+      "readiness_status": "source_captured_year_matched_but_model_gates_blocked",
+      "blocking_reasons": [
+        "legal_and_economic_perimeter_not_fully_crosswalked",
+        "payroll_tax_yield_not_reconciled_to_omb_hi_anchor",
+        "no_elasticity",
+        "no_incidence_distribution_or_administration_model",
+        "no_reform_yield"
+      ],
+      "ready_for_assigned_base": false,
+      "ready_for_rate_publication": false,
+      "ready_for_solver": false
+    },
+    {
+      "work_item_id": "capture-transportation-excise-user-fee-base",
+      "base_ids": ["transportation_excises_and_user_fees"],
+      "captured_source_id": "SRC-FHWA-HIGHWAY-STATISTICS-2024-FE9",
+      "captured_year": "FY2024",
+      "required_match": "FY2025 transportation legal and economic base by tax or fee type with crediting rule and yield bridge",
+      "captured_context_values_musd": {
+        "fhwa_fe9_total_receipt_yield": 37512.192,
+        "gasoline": 20898.59,
+        "special_fuels": 8351.088,
+        "motor_fuel_total": 29249.678,
+        "other_federal_use_tax": 1459.656,
+        "trucks_and_trailers": 6054.649,
+        "tires": 748.209
+      },
+      "readiness_status": "source_captured_receipt_yield_and_legal_rate_context_only",
+      "blocking_reasons": [
+        "fy2024_not_matched_to_fy2025",
+        "receipt_yield_is_not_economic_base",
+        "no_complete_legal_and_economic_fee_base_by_type",
+        "no_elasticity",
+        "no_distribution_or_administration_model"
+      ],
+      "ready_for_assigned_base": false,
+      "ready_for_rate_publication": false,
+      "ready_for_solver": false
+    }
+  ],
+  "summary": {
+    "reconciliation_row_count": 4,
+    "source_captured_context_row_count": 3,
+    "raw_custody_blocked_row_count": 1,
+    "year_matched_context_row_count": 1,
+    "assigned_base_ready_count": 0,
+    "matched_receipt_bases_ready": false,
+    "rate_publication_ready": false,
+    "solver_ready": false
+  },
+  "blocked_outputs": {
+    "legal_receipt_base_amounts": null,
+    "economic_receipt_base_amounts": null,
+    "matched_receipt_bases": null,
+    "assigned_base_rates": null,
+    "behavioral_elasticities": null,
+    "avoidance_and_compliance": null,
+    "administration_burden": null,
+    "distribution_by_income": null,
+    "current_law_yields_matched_to_solver": null,
+    "reform_yields": null,
+    "public_rate_cards": null,
+    "solver_input_rows": null,
+    "tax_proposal_fields": null,
+    "balanced_budget_fields": null
+  },
+  "public_warning_phrases": [
+    "Captured context values are not matched assigned receipt bases.",
+    "Medicare HI has FY2025 source context, but rate and solver gates remain blocked.",
+    "IRS TY2023 values require a tax-year-to-fiscal-year bridge before FY2025 use.",
+    "FHWA FY2024 receipt-yield context is not a FY2025 legal or economic transportation base.",
+    "SSA OASDI raw source custody remains blocked.",
+    "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+    "No rate, public rate card, solver input, tax proposal, or balanced-budget value is populated.",
+    "This record is not solver input, not a solver run, not a target-cost selection, not a rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+  ],
+  "claim_booleans": {
+    "reconciliation_gap_published": true,
+    "assigned_receipt_base_published": false,
+    "matched_receipt_bases_ready": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false,
+    "statutory_rate_claim": false,
+    "effective_rate_claim": false,
+    "public_rate_card_claim": false,
+    "tax_proposal_claim": false,
+    "balanced_budget_claim": false,
+    "target_cost_claim": false,
+    "federal_effect_claim": false,
+    "gross_savings_claim": false,
+    "net_savings_claim": false,
+    "waste_finding_claim": false,
+    "fraud_finding_claim": false,
+    "technology_savings_claim": false
+  }
+}

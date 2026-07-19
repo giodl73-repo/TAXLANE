@@ -502,6 +502,12 @@ const RECEIPT_BASE_OFFICIAL_SOURCE_CAPTURE_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/receipt_base_official_source_capture.schema.md";
 const RECEIPT_BASE_OFFICIAL_SOURCE_CAPTURE_READER_PATH: &str =
     "docs/reading/receipt-base-official-source-capture.md";
+const RECEIPT_BASE_RECONCILIATION_GAP_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/receipt_base_reconciliation_gap.v1.draft.json";
+const RECEIPT_BASE_RECONCILIATION_GAP_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/receipt_base_reconciliation_gap.schema.md";
+const RECEIPT_BASE_RECONCILIATION_GAP_READER_PATH: &str =
+    "docs/reading/receipt-base-reconciliation-gap.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11155,6 +11161,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_receipt_base_work_item_completion(root)?;
     validate_transportation_receipt_base_work_item_progress(root)?;
     validate_receipt_base_official_source_capture(root)?;
+    validate_receipt_base_reconciliation_gap(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -22071,6 +22078,250 @@ fn validate_receipt_base_official_source_capture(root: &Path) -> Result<(), Stri
     Ok(())
 }
 
+fn validate_receipt_base_reconciliation_gap(root: &Path) -> Result<(), String> {
+    for path in [
+        RECEIPT_BASE_RECONCILIATION_GAP_JSON_PATH,
+        RECEIPT_BASE_RECONCILIATION_GAP_SCHEMA_PATH,
+        RECEIPT_BASE_RECONCILIATION_GAP_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing receipt base reconciliation gap artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(RECEIPT_BASE_RECONCILIATION_GAP_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let gap: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&gap, "record_id")? != "receipt-base-reconciliation-gap:v1"
+        || string_field(&gap, "record_family")? != "receipt_base_reconciliation_gap"
+        || int_field(&gap, "pulse")? != 138
+        || string_field(&gap, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&gap, "receipt_base_official_source_capture_path")?
+            != RECEIPT_BASE_OFFICIAL_SOURCE_CAPTURE_JSON_PATH
+        || string_field(&gap, "rate_publication_readiness_rollup_path")?
+            != RATE_PUBLICATION_READINESS_ROLLUP_JSON_PATH
+    {
+        return Err("receipt base reconciliation gap identity failed".to_string());
+    }
+
+    for path in [
+        string_field(&gap, "contract_path")?,
+        string_field(&gap, "receipt_base_official_source_capture_path")?,
+        string_field(&gap, "rate_publication_readiness_rollup_path")?,
+    ] {
+        if !root.join(&path).exists() {
+            return Err(format!(
+                "receipt base reconciliation gap referenced path missing: {path}"
+            ));
+        }
+    }
+
+    let status = gap
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("receipt base reconciliation status")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_captured_sources_only",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "source_capture_available_for_three_work_items",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "receipt base reconciliation status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "receipt base reconciliation status {field} must be false"
+            ));
+        }
+    }
+
+    let rows = gap
+        .get("reconciliation_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("receipt base reconciliation rows")?;
+    if rows.len() != 4 {
+        return Err("receipt base reconciliation row count failed".to_string());
+    }
+    let mut statuses = BTreeMap::new();
+    for row in rows {
+        let work_item_id = string_field(row, "work_item_id")?;
+        statuses.insert(work_item_id.clone(), string_field(row, "readiness_status")?);
+        for field in [
+            "ready_for_assigned_base",
+            "ready_for_rate_publication",
+            "ready_for_solver",
+        ] {
+            if row.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+                return Err(format!(
+                    "receipt base reconciliation row {work_item_id} {field} must be false"
+                ));
+            }
+        }
+    }
+    for (work_item, expected_status) in [
+        (
+            "capture-irs-soi-pub-1304-individual-income-base",
+            "source_captured_context_only_year_mismatch",
+        ),
+        (
+            "capture-ssa-oasdi-taxable-payroll-base",
+            "raw_source_custody_blocked",
+        ),
+        (
+            "capture-medicare-hi-taxable-payroll-base",
+            "source_captured_year_matched_but_model_gates_blocked",
+        ),
+        (
+            "capture-transportation-excise-user-fee-base",
+            "source_captured_receipt_yield_and_legal_rate_context_only",
+        ),
+    ] {
+        if statuses.get(work_item).map(String::as_str) != Some(expected_status) {
+            return Err(format!(
+                "receipt base reconciliation status mismatch for {work_item}"
+            ));
+        }
+    }
+
+    let summary = gap
+        .get("summary")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("receipt base reconciliation summary")?;
+    for (field, expected) in [
+        ("reconciliation_row_count", 4),
+        ("source_captured_context_row_count", 3),
+        ("raw_custody_blocked_row_count", 1),
+        ("year_matched_context_row_count", 1),
+        ("assigned_base_ready_count", 0),
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_i64) != Some(expected) {
+            return Err(format!(
+                "receipt base reconciliation summary {field} failed"
+            ));
+        }
+    }
+    for field in [
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_ready",
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "receipt base reconciliation summary {field} must be false"
+            ));
+        }
+    }
+
+    let blocked = gap
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("receipt base reconciliation blocked outputs")?;
+    for field in [
+        "legal_receipt_base_amounts",
+        "economic_receipt_base_amounts",
+        "matched_receipt_bases",
+        "assigned_base_rates",
+        "behavioral_elasticities",
+        "avoidance_and_compliance",
+        "administration_burden",
+        "distribution_by_income",
+        "current_law_yields_matched_to_solver",
+        "reform_yields",
+        "public_rate_cards",
+        "solver_input_rows",
+        "tax_proposal_fields",
+        "balanced_budget_fields",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "receipt base reconciliation blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let claims = gap
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("receipt base reconciliation claims")?;
+    if claims
+        .get("reconciliation_gap_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("receipt base reconciliation published flag must be true".to_string());
+    }
+    for field in [
+        "assigned_receipt_base_published",
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+        "statutory_rate_claim",
+        "effective_rate_claim",
+        "public_rate_card_claim",
+        "tax_proposal_claim",
+        "balanced_budget_claim",
+        "target_cost_claim",
+        "federal_effect_claim",
+        "gross_savings_claim",
+        "net_savings_claim",
+        "waste_finding_claim",
+        "fraud_finding_claim",
+        "technology_savings_claim",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "receipt base reconciliation claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(RECEIPT_BASE_RECONCILIATION_GAP_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for phrase in [
+        RECEIPT_BASE_RECONCILIATION_GAP_JSON_PATH,
+        "Captured context values are not matched assigned receipt bases.",
+        "Medicare HI has FY2025 source context, but rate and solver gates remain blocked.",
+        "IRS TY2023 values require a tax-year-to-fiscal-year bridge before FY2025 use.",
+        "FHWA FY2024 receipt-yield context is not a FY2025 legal or economic transportation base.",
+        "SSA OASDI raw source custody remains blocked.",
+        "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+        "No rate, public rate card, solver input, tax proposal, or balanced-budget value is populated.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "receipt base reconciliation reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -28061,6 +28312,12 @@ mod global_country_comparison_tests {
     fn receipt_base_official_source_capture_hashes_context_and_blocks_rates() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_receipt_base_official_source_capture(&root).unwrap();
+    }
+
+    #[test]
+    fn receipt_base_reconciliation_gap_keeps_context_out_of_rates() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_receipt_base_reconciliation_gap(&root).unwrap();
     }
 
     #[test]
