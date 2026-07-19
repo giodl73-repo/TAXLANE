@@ -705,3 +705,9 @@ and balanced-budget outputs blocked.
 FHWA, and blocked SSA source context against matched assigned-base requirements.
 It explains why each work item remains not ready and keeps rates, solver inputs,
 public rate cards, tax proposals, savings, and balanced-budget outputs blocked.
+
+`medicare_hi_receipt_base_reconciliation.v1.draft.json` reconciles captured
+FY2025 CMS Medicare HI taxable-payroll and payroll-tax-yield context against the
+OMB Hospital Insurance receipt anchor. It publishes diagnostic reconciliation
+context only, not a statutory rate, effective rate, solver input, public rate
+card, tax proposal, savings estimate, or balanced-budget claim.

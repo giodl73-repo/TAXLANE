@@ -508,6 +508,12 @@ const RECEIPT_BASE_RECONCILIATION_GAP_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/receipt_base_reconciliation_gap.schema.md";
 const RECEIPT_BASE_RECONCILIATION_GAP_READER_PATH: &str =
     "docs/reading/receipt-base-reconciliation-gap.md";
+const MEDICARE_HI_RECEIPT_BASE_RECONCILIATION_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/medicare_hi_receipt_base_reconciliation.v1.draft.json";
+const MEDICARE_HI_RECEIPT_BASE_RECONCILIATION_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/medicare_hi_receipt_base_reconciliation.schema.md";
+const MEDICARE_HI_RECEIPT_BASE_RECONCILIATION_READER_PATH: &str =
+    "docs/reading/medicare-hi-receipt-base-reconciliation.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11162,6 +11168,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_transportation_receipt_base_work_item_progress(root)?;
     validate_receipt_base_official_source_capture(root)?;
     validate_receipt_base_reconciliation_gap(root)?;
+    validate_medicare_hi_receipt_base_reconciliation(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -22322,6 +22329,240 @@ fn validate_receipt_base_reconciliation_gap(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_medicare_hi_receipt_base_reconciliation(root: &Path) -> Result<(), String> {
+    for path in [
+        MEDICARE_HI_RECEIPT_BASE_RECONCILIATION_JSON_PATH,
+        MEDICARE_HI_RECEIPT_BASE_RECONCILIATION_SCHEMA_PATH,
+        MEDICARE_HI_RECEIPT_BASE_RECONCILIATION_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing Medicare HI receipt base reconciliation artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(MEDICARE_HI_RECEIPT_BASE_RECONCILIATION_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")? != "medicare-hi-receipt-base-reconciliation:v1"
+        || string_field(&record, "record_family")? != "medicare_hi_receipt_base_reconciliation"
+        || int_field(&record, "pulse")? != 139
+        || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&record, "receipt_base_official_source_capture_path")?
+            != RECEIPT_BASE_OFFICIAL_SOURCE_CAPTURE_JSON_PATH
+        || string_field(&record, "receipt_base_reconciliation_gap_path")?
+            != RECEIPT_BASE_RECONCILIATION_GAP_JSON_PATH
+        || string_field(&record, "current_law_fy2025_dedicated_receipt_anchors_path")?
+            != CURRENT_LAW_FY2025_DEDICATED_RECEIPT_ANCHORS_JSON_PATH
+        || string_field(&record, "rate_publication_readiness_rollup_path")?
+            != RATE_PUBLICATION_READINESS_ROLLUP_JSON_PATH
+    {
+        return Err("Medicare HI receipt base reconciliation identity failed".to_string());
+    }
+
+    let status = record
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI receipt base reconciliation status")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_captured_sources_only",
+        "cms_medicare_trustees_raw_custody_ready",
+        "omb_hi_anchor_raw_custody_ready",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "reconciliation_context_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "Medicare HI receipt base reconciliation status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "assigned_base_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI receipt base reconciliation status {field} must be false"
+            ));
+        }
+    }
+
+    let context = record
+        .get("source_context")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI source context")?;
+    let taxable_payroll = context
+        .get("cms_hi_taxable_payroll_musd")
+        .and_then(serde_json::Value::as_f64)
+        .ok_or("cms_hi_taxable_payroll_musd")?;
+    let cms_yield = context
+        .get("cms_hi_payroll_tax_yield_context_musd")
+        .and_then(serde_json::Value::as_f64)
+        .ok_or("cms_hi_payroll_tax_yield_context_musd")?;
+    let omb_anchor = context
+        .get("omb_hospital_insurance_receipt_anchor_musd")
+        .and_then(serde_json::Value::as_f64)
+        .ok_or("omb_hospital_insurance_receipt_anchor_musd")?;
+    if (taxable_payroll - 13_277_000.0).abs() > 0.001
+        || (cms_yield - 400_622.16).abs() > 0.001
+        || (omb_anchor - 395_350.0).abs() > 0.001
+    {
+        return Err("Medicare HI source context values failed".to_string());
+    }
+    let ratio = cms_yield / taxable_payroll;
+    let recorded_ratio = context
+        .get("source_yield_to_payroll_context_ratio")
+        .and_then(serde_json::Value::as_f64)
+        .ok_or("source_yield_to_payroll_context_ratio")?;
+    let recorded_percent = context
+        .get("source_yield_to_payroll_context_percent")
+        .and_then(serde_json::Value::as_f64)
+        .ok_or("source_yield_to_payroll_context_percent")?;
+    if (ratio - recorded_ratio).abs() > 0.000001
+        || ((ratio * 100.0) - recorded_percent).abs() > 0.0001
+        || !string_field(
+            record.get("source_context").ok_or("source_context")?,
+            "ratio_role",
+        )?
+        .contains("not_statutory_rate_not_effective_rate")
+    {
+        return Err("Medicare HI diagnostic ratio failed".to_string());
+    }
+
+    let reconciliation = record
+        .get("reconciliation")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI reconciliation")?;
+    let difference = cms_yield - omb_anchor;
+    for field in [
+        "cms_payroll_tax_yield_minus_omb_hi_anchor_musd",
+        "absolute_difference_musd",
+    ] {
+        let observed = reconciliation
+            .get(field)
+            .and_then(serde_json::Value::as_f64)
+            .ok_or(field)?;
+        if (observed - difference).abs() > 0.001 {
+            return Err(format!("Medicare HI reconciliation {field} failed"));
+        }
+    }
+    let share_cms = reconciliation
+        .get("difference_as_share_of_cms_payroll_tax_yield_percent")
+        .and_then(serde_json::Value::as_f64)
+        .ok_or("difference_as_share_of_cms_payroll_tax_yield_percent")?;
+    let share_omb = reconciliation
+        .get("difference_as_share_of_omb_hi_anchor_percent")
+        .and_then(serde_json::Value::as_f64)
+        .ok_or("difference_as_share_of_omb_hi_anchor_percent")?;
+    if ((difference / cms_yield * 100.0) - share_cms).abs() > 0.0001
+        || ((difference / omb_anchor * 100.0) - share_omb).abs() > 0.0001
+        || string_field(
+            record.get("reconciliation").ok_or("reconciliation")?,
+            "reconciliation_status",
+        )? != "values_are_close_but_not_interchangeable_without_source_perimeter_bridge"
+    {
+        return Err("Medicare HI reconciliation shares failed".to_string());
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI blocked outputs")?;
+    for field in [
+        "legal_receipt_base_amount",
+        "economic_receipt_base_amount",
+        "matched_receipt_base",
+        "assigned_base_rate",
+        "statutory_rate",
+        "effective_rate",
+        "behavioral_elasticity",
+        "avoidance_and_compliance",
+        "administration_burden",
+        "distribution_by_income",
+        "current_law_yield_matched_to_solver",
+        "reform_yield",
+        "public_rate_card",
+        "solver_input_row",
+        "tax_proposal_fields",
+        "balanced_budget_fields",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!("Medicare HI blocked output {field} must be null"));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI claims")?;
+    if claims
+        .get("medicare_hi_reconciliation_context_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("Medicare HI published flag must be true".to_string());
+    }
+    for field in [
+        "assigned_receipt_base_published",
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+        "statutory_rate_claim",
+        "effective_rate_claim",
+        "public_rate_card_claim",
+        "tax_proposal_claim",
+        "balanced_budget_claim",
+        "target_cost_claim",
+        "federal_effect_claim",
+        "gross_savings_claim",
+        "net_savings_claim",
+        "waste_finding_claim",
+        "fraud_finding_claim",
+        "technology_savings_claim",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("Medicare HI claim {field} must be false"));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(MEDICARE_HI_RECEIPT_BASE_RECONCILIATION_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for phrase in [
+        MEDICARE_HI_RECEIPT_BASE_RECONCILIATION_JSON_PATH,
+        "The Medicare HI source reconciliation ratio is a diagnostic context ratio, not a statutory rate or effective rate.",
+        "CMS payroll-tax yield context and the OMB Hospital Insurance receipt anchor are not interchangeable without a perimeter bridge.",
+        "Medicare HI remains a separate trust-fund path; it is not combined Medicare financing.",
+        "No Medicare HI assigned base, rate, solver input, public rate card, tax proposal, or balanced-budget value is populated.",
+        "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "Medicare HI receipt base reconciliation reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -28318,6 +28559,12 @@ mod global_country_comparison_tests {
     fn receipt_base_reconciliation_gap_keeps_context_out_of_rates() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_receipt_base_reconciliation_gap(&root).unwrap();
+    }
+
+    #[test]
+    fn medicare_hi_receipt_base_reconciliation_blocks_rate_publication() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_medicare_hi_receipt_base_reconciliation(&root).unwrap();
     }
 
     #[test]
