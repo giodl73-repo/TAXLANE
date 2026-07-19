@@ -433,6 +433,12 @@ const NET_INTEREST_FORMULA_CONTRACT_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/net_interest_formula_contract.schema.md";
 const NET_INTEREST_FORMULA_CONTRACT_READER_PATH: &str =
     "docs/reading/net-interest-formula-contract.md";
+const ASSIGNED_RECEIPT_BASE_INVENTORY_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/assigned_receipt_base_inventory.v1.draft.json";
+const ASSIGNED_RECEIPT_BASE_INVENTORY_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/assigned_receipt_base_inventory.schema.md";
+const ASSIGNED_RECEIPT_BASE_INVENTORY_READER_PATH: &str =
+    "docs/reading/assigned-receipt-base-inventory.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10959,6 +10965,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_reserve_rule_contract(root)?;
     validate_reserve_parameter_readiness_gate(root)?;
     validate_net_interest_formula_contract(root)?;
+    validate_assigned_receipt_base_inventory(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -18813,6 +18820,229 @@ fn validate_net_interest_formula_contract(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_assigned_receipt_base_inventory(root: &Path) -> Result<(), String> {
+    for path in [
+        ASSIGNED_RECEIPT_BASE_INVENTORY_JSON_PATH,
+        ASSIGNED_RECEIPT_BASE_INVENTORY_SCHEMA_PATH,
+        ASSIGNED_RECEIPT_BASE_INVENTORY_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing assigned receipt-base inventory artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(ASSIGNED_RECEIPT_BASE_INVENTORY_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let inventory: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&inventory, "record_id")? != "assigned-receipt-base-inventory:v1"
+        || string_field(&inventory, "record_family")? != "assigned_receipt_base_inventory"
+        || int_field(&inventory, "pulse")? != 105
+        || string_field(&inventory, "solver_input_inventory_path")?
+            != SOLVER_INPUT_INVENTORY_JSON_PATH
+        || string_field(&inventory, "program_lane_target_cost_contract_path")?
+            != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&inventory, "balanced_rate_readiness_gate_path")?
+            != BALANCED_RATE_READINESS_GATE_JSON_PATH
+        || string_field(&inventory, "rate_adjustment_operating_model_path")?
+            != "docs/research/2026-06-24-rate-adjustment-operating-model.md"
+    {
+        return Err("assigned receipt-base inventory identity failed".to_string());
+    }
+
+    let required_fields = inventory
+        .get("required_base_fields")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("assigned receipt-base required fields")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    for required in [
+        "matched_year",
+        "legal_perimeter",
+        "economic_perimeter",
+        "baseline_amount",
+        "elasticity",
+        "avoidance_and_compliance",
+        "employer_taxpayer_agency_burden",
+        "distribution_by_income",
+        "interaction_with_other_taxes",
+        "current_law_yield",
+        "reform_yield",
+    ] {
+        if !required_fields.contains(required) {
+            return Err(format!(
+                "assigned receipt-base required field missing {required}"
+            ));
+        }
+    }
+
+    let rows = inventory
+        .get("base_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("assigned receipt-base rows")?;
+    let observed = rows
+        .iter()
+        .map(|row| string_field(row, "base_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected = [
+        "individual_income",
+        "oasdi_taxable_payroll",
+        "medicare_hi_taxable_payroll",
+        "corporate_income",
+        "excise_and_customs",
+        "transportation_excises_and_user_fees",
+        "general_receipts",
+        "premiums",
+        "other_receipts",
+        "program_fees",
+        "fees_and_royalties",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    if observed != expected || rows.len() != expected.len() {
+        return Err("assigned receipt-base row set failed".to_string());
+    }
+    for row in rows {
+        let lanes = row
+            .get("candidate_lanes")
+            .and_then(serde_json::Value::as_array)
+            .ok_or("assigned receipt-base candidate lanes")?;
+        if lanes.is_empty() {
+            return Err("assigned receipt-base rows must name candidate lanes".to_string());
+        }
+        for field in [
+            "matched_year",
+            "legal_perimeter",
+            "economic_perimeter",
+            "baseline_amount_musd",
+            "elasticity",
+            "avoidance_and_compliance",
+            "employer_taxpayer_agency_burden",
+            "distribution_by_income",
+            "interaction_with_other_taxes",
+            "current_law_yield_musd",
+            "reform_yield_musd",
+        ] {
+            if !row.get(field).is_some_and(serde_json::Value::is_null) {
+                return Err(format!(
+                    "assigned receipt-base field {field} must remain null"
+                ));
+            }
+        }
+        if row.get("rate_ready").and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err("assigned receipt-base rows must not be rate ready".to_string());
+        }
+    }
+
+    let rules = inventory
+        .get("inventory_rules")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("assigned receipt-base rules")?;
+    for required in [
+        "rates_do_not_need_to_sum_to_100_percent",
+        "revenues_must_reconcile_to_funded_requirements",
+        "matched_year_required_before_rate",
+        "legal_and_economic_perimeters_required_before_rate",
+        "behavior_distribution_and_administration_required_before_rate",
+        "missing_values_remain_null",
+        "statutory_rates_blocked",
+        "effective_rates_blocked",
+    ] {
+        if rules.get(required).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("assigned receipt-base rule failed {required}"));
+        }
+    }
+    if rules
+        .get("solver_ready")
+        .and_then(serde_json::Value::as_bool)
+        != Some(false)
+    {
+        return Err("assigned receipt-base solver_ready must be false".to_string());
+    }
+
+    let claims = inventory
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("assigned receipt-base claims")?;
+    for (field, value) in claims {
+        let observed = value.as_bool().ok_or("assigned receipt-base claim bool")?;
+        if field == "assigned_receipt_base_inventory_published" {
+            if !observed {
+                return Err("assigned receipt-base publish flag must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!(
+                "assigned receipt-base public claim {field} must be false"
+            ));
+        }
+    }
+
+    let boundary = string_field(&inventory, "non_claim_boundary")?;
+    for required in [
+        "assigned receipt-base inventory",
+        "not receipt-base amounts",
+        "not a statutory-rate calculation",
+        "not an effective-rate calculation",
+        "not a solver run",
+        "not target-cost selection",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!("assigned receipt-base boundary missing {required}"));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(ASSIGNED_RECEIPT_BASE_INVENTORY_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        ASSIGNED_RECEIPT_BASE_INVENTORY_JSON_PATH,
+        "does not publish receipt-base amounts",
+        "matched year",
+        "legal perimeter",
+        "economic perimeter",
+        "baseline amount",
+        "elasticity",
+        "avoidance and compliance",
+        "employer, taxpayer, and agency burden",
+        "distribution by income",
+        "interaction with other taxes",
+        "current-law yield",
+        "reform yield",
+        "Rates do not need to sum to 100 percent",
+        "resulting revenues must reconcile to funded requirements",
+        "not receipt-base amounts",
+        "not a statutory-rate calculation",
+        "not an effective-rate calculation",
+        "not a solver run",
+        "not target-cost selection",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("assigned receipt-base reader missing {required}"));
+        }
+    }
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -19007,6 +19237,12 @@ mod global_country_comparison_tests {
     fn net_interest_formula_contract_blocks_direct_cut_and_paths() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_net_interest_formula_contract(&root).unwrap();
+    }
+
+    #[test]
+    fn assigned_receipt_base_inventory_keeps_amounts_and_rates_null() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_assigned_receipt_base_inventory(&root).unwrap();
     }
 
     #[test]

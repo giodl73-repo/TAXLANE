@@ -179,6 +179,11 @@ net-interest formula boundary for the future solver. Debt stock, maturity,
 rate, timing, interest-receipt, other-financing, and feedback-test inputs remain
 null; net interest cannot be cut directly and no path or rate claim is opened.
 
+`assigned_receipt_base_inventory.v1.draft.json` lists candidate receipt bases
+and the required matched-year, perimeter, amount, elasticity, burden,
+distribution, interaction, and yield fields. Every base value remains null and
+statutory/effective rates remain blocked.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is
