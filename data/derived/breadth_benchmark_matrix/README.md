@@ -225,6 +225,12 @@ Education and workforce, and Veterans while keeping final depth completion,
 solver, target-cost, rate, savings, waste, fraud, technology-savings, and
 balanced-budget claims blocked.
 
+`wave3_public_goods_lane_depth_packets.v1.draft.json` executes the third scaled
+lane-depth explainability scaffold for Disaster and resilience, Justice/courts
+public safety, and Science/energy/environment while keeping final depth
+completion, solver, target-cost, rate, savings, waste, fraud,
+technology-savings, and balanced-budget claims blocked.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is

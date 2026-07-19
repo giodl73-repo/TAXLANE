@@ -73,6 +73,7 @@ explainers. They should keep three labels visible:
 | `lane-agent-work-order-plan.md` | Pulse 111 plan: defines one-lane-per-agent work orders, wave sequencing, and integration review while keeping lane claims blocked. |
 | `wave1-public-topline-lane-depth-packets.md` | Pulse 112 Wave 1 scaffold: Health, Social Security, and Defense explainability packets with all rate/savings/claim gates blocked. |
 | `wave2-human-services-lane-depth-packets.md` | Pulse 113 Wave 2 scaffold: Income security/family, Education/workforce, and Veterans explainability packets with all rate/savings/claim gates blocked. |
+| `wave3-public-goods-lane-depth-packets.md` | Pulse 114 Wave 3 scaffold: Disaster, Justice, and Science/energy/environment explainability packets with all rate/savings/claim gates blocked. |
 | `rate-change-worked-examples.md` | Three end-to-end examples of the rate-adjustment operating model (defense up, health down, Social Security cap lift). |
 | `budget-area-funding-explainer.md` | Lay distillation of the six panel-reviewed research papers: where the US over-funds (health), under-funds (family), funds by strategy (defense), runs a broken base (Social Security), and under-collects overall (revenue). Points to `docs/papers/`. |
 | `where-federal-money-goes.md` | Spending-side packet showing the largest FY2025 outlay categories, financing context, and safe accountability questions. |
