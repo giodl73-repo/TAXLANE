@@ -479,6 +479,12 @@ const WAVE1_PUBLIC_TOPLINE_LANE_DEPTH_PACKETS_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/wave1_public_topline_lane_depth_packets.schema.md";
 const WAVE1_PUBLIC_TOPLINE_LANE_DEPTH_PACKETS_READER_PATH: &str =
     "docs/reading/wave1-public-topline-lane-depth-packets.md";
+const WAVE2_HUMAN_SERVICES_LANE_DEPTH_PACKETS_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/wave2_human_services_lane_depth_packets.v1.draft.json";
+const WAVE2_HUMAN_SERVICES_LANE_DEPTH_PACKETS_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/wave2_human_services_lane_depth_packets.schema.md";
+const WAVE2_HUMAN_SERVICES_LANE_DEPTH_PACKETS_READER_PATH: &str =
+    "docs/reading/wave2-human-services-lane-depth-packets.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -11013,6 +11019,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_lane_depth_explainability_tracker(root)?;
     validate_lane_agent_work_order_plan(root)?;
     validate_wave1_public_topline_lane_depth_packets(root)?;
+    validate_wave2_human_services_lane_depth_packets(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -20729,6 +20736,307 @@ fn validate_wave1_public_topline_lane_depth_packets(root: &Path) -> Result<(), S
     Ok(())
 }
 
+fn validate_wave2_human_services_lane_depth_packets(root: &Path) -> Result<(), String> {
+    for path in [
+        WAVE2_HUMAN_SERVICES_LANE_DEPTH_PACKETS_JSON_PATH,
+        WAVE2_HUMAN_SERVICES_LANE_DEPTH_PACKETS_SCHEMA_PATH,
+        WAVE2_HUMAN_SERVICES_LANE_DEPTH_PACKETS_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing wave2 lane-depth packet artifact: {path}"));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(WAVE2_HUMAN_SERVICES_LANE_DEPTH_PACKETS_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let wave: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&wave, "record_id")? != "wave2-human-services-lane-depth-packets:v1"
+        || string_field(&wave, "record_family")? != "wave2_human_services_lane_depth_packets"
+        || int_field(&wave, "pulse")? != 113
+        || string_field(&wave, "lane_agent_work_order_plan_path")?
+            != LANE_AGENT_WORK_ORDER_PLAN_JSON_PATH
+        || string_field(&wave, "lane_depth_explainability_tracker_path")?
+            != LANE_DEPTH_EXPLAINABILITY_TRACKER_JSON_PATH
+        || string_field(&wave, "program_lane_target_cost_contract_path")?
+            != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+    {
+        return Err("wave2 lane-depth packet identity failed".to_string());
+    }
+
+    let wave_meta = wave.get("wave").ok_or("wave2 metadata")?;
+    if string_field(wave_meta, "wave_id")? != "wave_2_human_services"
+        || wave_meta
+            .get("integration_review_required")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || wave_meta
+            .get("lane_depth_complete_after_wave")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || wave_meta
+            .get("public_explainability_complete_after_wave")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || wave_meta
+            .get("solver_ready_after_wave")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("wave2 metadata must keep completion and solver blocked".to_string());
+    }
+    let expected = ["income-security-family", "education-workforce", "veterans"]
+        .into_iter()
+        .map(str::to_string)
+        .collect::<BTreeSet<_>>();
+    let wave_lanes = wave_meta
+        .get("lane_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("wave2 lane ids")?
+        .iter()
+        .map(|value| {
+            value
+                .as_str()
+                .map(str::to_string)
+                .ok_or("wave2 lane id string")
+        })
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if wave_lanes != expected {
+        return Err("wave2 lane id set failed".to_string());
+    }
+
+    let packets = wave
+        .get("lane_packets")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("wave2 lane packets")?;
+    if packets.len() != 3 {
+        return Err("wave2 must contain exactly three lane packets".to_string());
+    }
+    let observed = packets
+        .iter()
+        .map(|row| string_field(row, "lane_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if observed != expected {
+        return Err("wave2 packet lane set failed".to_string());
+    }
+    for packet in packets {
+        for field in [
+            "public_label",
+            "what_it_does",
+            "who_is_served_or_protected",
+            "overspending_underfunding_boundary",
+            "technology_transition_boundary",
+        ] {
+            if string_field(packet, field)?.is_empty() {
+                return Err(format!("wave2 packet field empty: {field}"));
+            }
+        }
+        let pay_now = packet
+            .get("what_taxpayers_pay_now")
+            .ok_or("wave2 taxpayers pay now")?;
+        if !pay_now.get("value").is_some_and(serde_json::Value::is_null) {
+            return Err("wave2 pay-now value must remain null".to_string());
+        }
+        let outcomes = packet
+            .get("outcomes_that_matter")
+            .and_then(serde_json::Value::as_array)
+            .ok_or("wave2 outcomes")?;
+        if outcomes.is_empty() {
+            return Err("wave2 outcomes must be populated".to_string());
+        }
+        let blockers = packet
+            .get("blocked_evidence")
+            .and_then(serde_json::Value::as_array)
+            .ok_or("wave2 blockers")?;
+        if blockers.len() < 8 {
+            return Err("wave2 blocker list too short".to_string());
+        }
+        let claims = packet
+            .get("claim_booleans")
+            .and_then(serde_json::Value::as_object)
+            .ok_or("wave2 lane claims")?;
+        for (field, value) in claims {
+            let observed = value.as_bool().ok_or("wave2 lane claim bool")?;
+            if field == "lane_depth_packet_published" {
+                if !observed {
+                    return Err("wave2 lane packet publish flag must be true".to_string());
+                }
+            } else if observed {
+                return Err(format!("wave2 lane public claim {field} must be false"));
+            }
+        }
+    }
+
+    let by_lane = packets
+        .iter()
+        .map(|packet| Ok((string_field(packet, "lane_id")?, packet)))
+        .collect::<Result<BTreeMap<_, _>, String>>()?;
+    let income = by_lane
+        .get("income-security-family")
+        .ok_or("wave2 income packet")?;
+    let components = income
+        .get("package_components")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("wave2 income package components")?
+        .iter()
+        .map(|value| {
+            value
+                .as_str()
+                .map(str::to_string)
+                .ok_or("wave2 income package component string")
+        })
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    for required in [
+        "cash_income_support",
+        "nutrition_support",
+        "housing_support",
+        "child_and_family_tax_support",
+        "childcare_and_family_services",
+        "work_transition_support",
+    ] {
+        if !components.contains(required) {
+            return Err(format!("wave2 income component missing {required}"));
+        }
+    }
+    if !string_field(income, "comparison_boundary")?
+        .contains("International spending differences are not savings")
+    {
+        return Err("wave2 income comparison boundary missing".to_string());
+    }
+
+    let education = by_lane
+        .get("education-workforce")
+        .ok_or("wave2 education packet")?;
+    let education_context = education
+        .get("fy2025_function_500_context")
+        .ok_or("wave2 education context")?;
+    if int_field(education_context, "total_outlays_millions")? != 72042
+        || int_field(education_context, "higher_education_net_outlays_millions")? != -35005
+        || int_field(education_context, "component_sum_millions")? != 72042
+        || !string_field(education, "higher_education_negative_entry_boundary")?
+            .contains("not cash savings")
+    {
+        return Err("wave2 education context failed".to_string());
+    }
+
+    let veterans = by_lane.get("veterans").ok_or("wave2 veterans packet")?;
+    let veterans_context = veterans
+        .get("fy2025_function_700_context")
+        .ok_or("wave2 veterans context")?;
+    if int_field(veterans_context, "total_outlays_millions")? != 377163
+        || int_field(veterans_context, "component_sum_millions")? != 377163
+        || !string_field(veterans, "statutory_continuity_boundary")?
+            .contains("earned statutory obligations")
+        || !string_field(veterans, "service_probe_boundary")?.contains("review signals only")
+    {
+        return Err("wave2 veterans context failed".to_string());
+    }
+
+    let integration = wave
+        .get("integration_review")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("wave2 integration review")?;
+    for required in [
+        "all_wave_lanes_present_once",
+        "fifteen_analytical_lanes_not_budget_rows",
+        "missing_values_remain_null",
+        "blocked_gates_remain_false",
+        "trust_funds_remain_separate",
+        "international_differences_are_not_savings",
+        "improper_payment_estimates_do_not_imply_fraud",
+        "technology_changes_are_transition_paths_not_automatic_savings",
+    ] {
+        if integration
+            .get(required)
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        {
+            return Err(format!("wave2 integration rule failed: {required}"));
+        }
+    }
+
+    let claims = wave
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("wave2 aggregate claims")?;
+    for (field, value) in claims {
+        let observed = value.as_bool().ok_or("wave2 aggregate claim bool")?;
+        if field == "wave2_human_services_lane_depth_packets_published" {
+            if !observed {
+                return Err("wave2 aggregate publish flag must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!(
+                "wave2 aggregate public claim {field} must be false"
+            ));
+        }
+    }
+
+    let status = string_field(&wave, "plain_english_status")?;
+    for required in [
+        "Income security and family",
+        "Education and workforce",
+        "Veterans",
+        "do not complete lane depth",
+        "calculate rates",
+        "publish target costs",
+        "claim savings",
+        "identify waste or fraud",
+        "direct department cuts",
+        "claim technology savings",
+        "run the solver",
+        "claim a balanced budget",
+    ] {
+        if !status.contains(required) {
+            return Err(format!("wave2 status missing {required}"));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(WAVE2_HUMAN_SERVICES_LANE_DEPTH_PACKETS_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        WAVE2_HUMAN_SERVICES_LANE_DEPTH_PACKETS_JSON_PATH,
+        "Wave 2 covers Income security and family, Education and workforce, and Veterans",
+        "International spending differences are not savings",
+        "Spending level alone is not overspending",
+        "A review signal is not a department-cut instruction",
+        "Technology modernization is not an automatic savings claim",
+        "Function 500 was $72.042B",
+        "not negative education",
+        "not cash savings",
+        "not waste",
+        "not fraud",
+        "not a target cost",
+        "not a tax rate",
+        "not a solver result",
+        "Missing values remain missing",
+        "FY2025 veterans benefits and services were $377.163B",
+        "earned statutory obligations",
+        "Annual denominators are still missing",
+        "statutory continuity",
+        "claims timeliness",
+        "housing stability",
+        "review signals only",
+        "the 15 analytical lanes separate from the 17 budget rows",
+        "technology changes as transition paths not automatic savings",
+        "not a solver run",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("wave2 reader missing {required}"));
+        }
+    }
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -20971,6 +21279,12 @@ mod global_country_comparison_tests {
     fn wave1_public_topline_lane_depth_packets_keep_claims_blocked() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_wave1_public_topline_lane_depth_packets(&root).unwrap();
+    }
+
+    #[test]
+    fn wave2_human_services_lane_depth_packets_keep_claims_blocked() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_wave2_human_services_lane_depth_packets(&root).unwrap();
     }
 
     #[test]

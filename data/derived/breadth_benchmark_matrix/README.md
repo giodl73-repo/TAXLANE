@@ -219,6 +219,12 @@ Security, and National defense while keeping final depth completion, solver,
 target-cost, rate, savings, waste, fraud, technology-savings, and
 balanced-budget claims blocked.
 
+`wave2_human_services_lane_depth_packets.v1.draft.json` executes the second
+scaled lane-depth explainability scaffold for Income security and family,
+Education and workforce, and Veterans while keeping final depth completion,
+solver, target-cost, rate, savings, waste, fraud, technology-savings, and
+balanced-budget claims blocked.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is
