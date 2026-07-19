@@ -486,6 +486,12 @@ const OMB_RECEIPT_CATEGORY_CONTEXT_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/omb_receipt_category_context.schema.md";
 const OMB_RECEIPT_CATEGORY_CONTEXT_READER_PATH: &str =
     "docs/reading/omb-receipt-category-context.md";
+const RECEIPT_BASE_WORK_ITEM_COMPLETION_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/receipt_base_work_item_completion.v1.draft.json";
+const RECEIPT_BASE_WORK_ITEM_COMPLETION_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/receipt_base_work_item_completion.schema.md";
+const RECEIPT_BASE_WORK_ITEM_COMPLETION_READER_PATH: &str =
+    "docs/reading/receipt-base-work-item-completion.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11136,6 +11142,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_receipt_base_local_source_inventory(root)?;
     validate_receipt_base_source_work_queue(root)?;
     validate_omb_receipt_category_context(root)?;
+    validate_receipt_base_work_item_completion(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -21155,6 +21162,248 @@ fn validate_omb_receipt_category_context(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_receipt_base_work_item_completion(root: &Path) -> Result<(), String> {
+    for path in [
+        RECEIPT_BASE_WORK_ITEM_COMPLETION_JSON_PATH,
+        RECEIPT_BASE_WORK_ITEM_COMPLETION_SCHEMA_PATH,
+        RECEIPT_BASE_WORK_ITEM_COMPLETION_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing receipt base work item completion artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(RECEIPT_BASE_WORK_ITEM_COMPLETION_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let completion: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&completion, "record_id")? != "receipt-base-work-item-completion:v1"
+        || string_field(&completion, "record_family")? != "receipt_base_work_item_completion"
+        || int_field(&completion, "pulse")? != 135
+        || string_field(&completion, "contract_path")?
+            != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&completion, "receipt_base_source_work_queue_path")?
+            != RECEIPT_BASE_SOURCE_WORK_QUEUE_JSON_PATH
+        || string_field(&completion, "omb_receipt_category_context_path")?
+            != OMB_RECEIPT_CATEGORY_CONTEXT_JSON_PATH
+        || string_field(&completion, "rate_publication_readiness_rollup_path")?
+            != RATE_PUBLICATION_READINESS_ROLLUP_JSON_PATH
+    {
+        return Err("receipt base work item completion identity failed".to_string());
+    }
+
+    for path in [
+        string_field(&completion, "contract_path")?,
+        string_field(&completion, "receipt_base_source_work_queue_path")?,
+        string_field(&completion, "omb_receipt_category_context_path")?,
+        string_field(&completion, "rate_publication_readiness_rollup_path")?,
+    ] {
+        if !root.join(&path).exists() {
+            return Err(format!(
+                "receipt base work item completion referenced path missing: {path}"
+            ));
+        }
+    }
+
+    let completed = completion
+        .get("completed_work_items")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("receipt base completed work items")?;
+    if completed.len() != 1 {
+        return Err("receipt base completed work item count failed".to_string());
+    }
+    let item = &completed[0];
+    if string_field(item, "work_item_id")? != "extract-omb-receipt-category-reconciliation"
+        || string_field(item, "completion_status")?
+            != "context_extraction_complete_not_assigned_base"
+        || string_field(item, "completion_artifact_path")? != OMB_RECEIPT_CATEGORY_CONTEXT_JSON_PATH
+        || string_field(item, "source_id")? != "SRC-OMB-HIST-2-4-FY2027"
+    {
+        return Err("receipt base completed work item identity failed".to_string());
+    }
+    for field in [
+        "ready_for_assigned_base",
+        "ready_for_rate_publication",
+        "ready_for_solver",
+    ] {
+        if item.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("receipt base completed item {field} must be false"));
+        }
+    }
+
+    let remaining = completion
+        .get("remaining_work_items")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("receipt base remaining work items")?;
+    let observed_remaining = remaining
+        .iter()
+        .map(|row| {
+            row.as_str()
+                .map(str::to_string)
+                .ok_or("remaining work item must be string".to_string())
+        })
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_remaining = [
+        "capture-irs-soi-pub-1304-individual-income-base",
+        "capture-ssa-oasdi-taxable-payroll-base",
+        "capture-medicare-hi-taxable-payroll-base",
+        "capture-transportation-excise-user-fee-base",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    if observed_remaining != expected_remaining {
+        return Err("receipt base remaining work item set failed".to_string());
+    }
+
+    let summary = completion
+        .get("summary")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("receipt base completion summary")?;
+    for (field, expected) in [
+        ("work_item_count", 5),
+        ("context_complete_count", 1),
+        ("assigned_base_ready_count", 0),
+        ("remaining_work_item_count", 4),
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_i64) != Some(expected) {
+            return Err(format!("receipt base completion summary {field} failed"));
+        }
+    }
+    for field in [
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_ready",
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "receipt base completion summary {field} must be false"
+            ));
+        }
+    }
+
+    let status = completion
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("receipt base completion source custody status")?;
+    for field in [
+        "official_sources_only",
+        "no_external_request_submitted_this_pulse",
+        "no_agency_or_person_contacted",
+        "completion_record_only",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "receipt base completion status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "receipt base completion status {field} must be false"
+            ));
+        }
+    }
+
+    let blocked = completion
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("receipt base completion blocked outputs")?;
+    for field in [
+        "legal_receipt_base_amounts",
+        "economic_receipt_base_amounts",
+        "matched_receipt_bases",
+        "assigned_base_rates",
+        "behavioral_elasticities",
+        "current_law_yields",
+        "reform_yields",
+        "public_rate_cards",
+        "solver_input_rows",
+        "tax_proposal_fields",
+        "balanced_budget_fields",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "receipt base completion blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let claims = completion
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("receipt base completion claims")?;
+    if claims
+        .get("work_item_completion_record_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("receipt base completion published flag must be true".to_string());
+    }
+    for field in [
+        "assigned_receipt_base_published",
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+        "statutory_rate_claim",
+        "effective_rate_claim",
+        "public_rate_card_claim",
+        "tax_proposal_claim",
+        "balanced_budget_claim",
+        "target_cost_claim",
+        "federal_effect_claim",
+        "gross_savings_claim",
+        "net_savings_claim",
+        "waste_finding_claim",
+        "fraud_finding_claim",
+        "technology_savings_claim",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "receipt base completion claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(RECEIPT_BASE_WORK_ITEM_COMPLETION_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for phrase in [
+        RECEIPT_BASE_WORK_ITEM_COMPLETION_JSON_PATH,
+        "One receipt-base work item has context extraction complete, but no assigned receipt base is ready.",
+        "OMB receipt-category context is not a legal or economic assigned receipt base.",
+        "Four receipt-base source work items remain open.",
+        "No rate, public rate card, solver input, tax proposal, or balanced-budget value is populated.",
+        "No external request was submitted and no agency or person was contacted.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "receipt base completion reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -27127,6 +27376,12 @@ mod global_country_comparison_tests {
     fn omb_receipt_category_context_recomputes_without_base_or_rate_claims() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_omb_receipt_category_context(&root).unwrap();
+    }
+
+    #[test]
+    fn receipt_base_work_item_completion_keeps_assigned_bases_blocked() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_receipt_base_work_item_completion(&root).unwrap();
     }
 
     #[test]

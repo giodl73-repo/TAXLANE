@@ -682,3 +682,8 @@ OMB Historical Table 2.4 workbook. It treats receipt categories as fiscal
 context only, not legal or economic assigned receipt bases, and keeps rates,
 solver inputs, public rate cards, tax proposals, savings, and balanced-budget
 outputs blocked.
+
+`receipt_base_work_item_completion.v1.draft.json` marks the OMB receipt-category
+reconciliation work item as context-complete while preserving the boundary that
+no assigned receipt base, rate, solver input, public rate card, tax proposal,
+savings, or balanced-budget output is ready.

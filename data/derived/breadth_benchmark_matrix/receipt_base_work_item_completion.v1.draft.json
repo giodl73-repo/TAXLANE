@@ -1,0 +1,88 @@
+{
+  "record_id": "receipt-base-work-item-completion:v1",
+  "record_family": "receipt_base_work_item_completion",
+  "schema_version": "v1.draft",
+  "pulse": 135,
+  "as_of_date": "2026-07-19",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "receipt_base_source_work_queue_path": "data/derived/breadth_benchmark_matrix/receipt_base_source_work_queue.v1.draft.json",
+  "omb_receipt_category_context_path": "data/derived/breadth_benchmark_matrix/omb_receipt_category_context.fy2025.v1.draft.json",
+  "rate_publication_readiness_rollup_path": "data/derived/breadth_benchmark_matrix/rate_publication_readiness_rollup.v1.draft.json",
+  "completed_work_items": [
+    {
+      "work_item_id": "extract-omb-receipt-category-reconciliation",
+      "completion_status": "context_extraction_complete_not_assigned_base",
+      "completion_artifact_path": "data/derived/breadth_benchmark_matrix/omb_receipt_category_context.fy2025.v1.draft.json",
+      "source_id": "SRC-OMB-HIST-2-4-FY2027",
+      "completed_fields": ["receipt_category", "fiscal_year", "receipt_amount", "perimeter_note", "not_a_legal_or_economic_base_flag"],
+      "not_completed_fields": ["legal_receipt_base_amount", "economic_receipt_base_amount", "assigned_base_rate", "behavioral_elasticity", "current_law_yield", "reform_yield"],
+      "ready_for_assigned_base": false,
+      "ready_for_rate_publication": false,
+      "ready_for_solver": false
+    }
+  ],
+  "remaining_work_items": [
+    "capture-irs-soi-pub-1304-individual-income-base",
+    "capture-ssa-oasdi-taxable-payroll-base",
+    "capture-medicare-hi-taxable-payroll-base",
+    "capture-transportation-excise-user-fee-base"
+  ],
+  "summary": {
+    "work_item_count": 5,
+    "context_complete_count": 1,
+    "assigned_base_ready_count": 0,
+    "remaining_work_item_count": 4,
+    "matched_receipt_bases_ready": false,
+    "rate_publication_ready": false,
+    "solver_ready": false
+  },
+  "source_custody_status": {
+    "official_sources_only": true,
+    "no_external_request_submitted_this_pulse": true,
+    "no_agency_or_person_contacted": true,
+    "completion_record_only": true,
+    "matched_receipt_bases_ready": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false
+  },
+  "blocked_outputs": {
+    "legal_receipt_base_amounts": null,
+    "economic_receipt_base_amounts": null,
+    "matched_receipt_bases": null,
+    "assigned_base_rates": null,
+    "behavioral_elasticities": null,
+    "current_law_yields": null,
+    "reform_yields": null,
+    "public_rate_cards": null,
+    "solver_input_rows": null,
+    "tax_proposal_fields": null,
+    "balanced_budget_fields": null
+  },
+  "public_warning_phrases": [
+    "One receipt-base work item has context extraction complete, but no assigned receipt base is ready.",
+    "OMB receipt-category context is not a legal or economic assigned receipt base.",
+    "Four receipt-base source work items remain open.",
+    "No rate, public rate card, solver input, tax proposal, or balanced-budget value is populated.",
+    "No external request was submitted and no agency or person was contacted.",
+    "This record is not solver input, not a solver run, not a target-cost selection, not a rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+  ],
+  "claim_booleans": {
+    "work_item_completion_record_published": true,
+    "assigned_receipt_base_published": false,
+    "matched_receipt_bases_ready": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false,
+    "statutory_rate_claim": false,
+    "effective_rate_claim": false,
+    "public_rate_card_claim": false,
+    "tax_proposal_claim": false,
+    "balanced_budget_claim": false,
+    "target_cost_claim": false,
+    "federal_effect_claim": false,
+    "gross_savings_claim": false,
+    "net_savings_claim": false,
+    "waste_finding_claim": false,
+    "fraud_finding_claim": false,
+    "technology_savings_claim": false
+  }
+}
