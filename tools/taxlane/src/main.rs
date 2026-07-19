@@ -496,6 +496,12 @@ const TRANSPORTATION_RECEIPT_BASE_WORK_ITEM_PROGRESS_JSON_PATH: &str = "data/der
 const TRANSPORTATION_RECEIPT_BASE_WORK_ITEM_PROGRESS_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/transportation_receipt_base_work_item_progress.schema.md";
 const TRANSPORTATION_RECEIPT_BASE_WORK_ITEM_PROGRESS_READER_PATH: &str =
     "docs/reading/transportation-receipt-base-work-item-progress.md";
+const RECEIPT_BASE_OFFICIAL_SOURCE_CAPTURE_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/receipt_base_official_source_capture.v1.draft.json";
+const RECEIPT_BASE_OFFICIAL_SOURCE_CAPTURE_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/receipt_base_official_source_capture.schema.md";
+const RECEIPT_BASE_OFFICIAL_SOURCE_CAPTURE_READER_PATH: &str =
+    "docs/reading/receipt-base-official-source-capture.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11148,6 +11154,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_omb_receipt_category_context(root)?;
     validate_receipt_base_work_item_completion(root)?;
     validate_transportation_receipt_base_work_item_progress(root)?;
+    validate_receipt_base_official_source_capture(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -21720,6 +21727,350 @@ fn validate_transportation_receipt_base_work_item_progress(root: &Path) -> Resul
     Ok(())
 }
 
+fn validate_receipt_base_official_source_capture(root: &Path) -> Result<(), String> {
+    for path in [
+        RECEIPT_BASE_OFFICIAL_SOURCE_CAPTURE_JSON_PATH,
+        RECEIPT_BASE_OFFICIAL_SOURCE_CAPTURE_SCHEMA_PATH,
+        RECEIPT_BASE_OFFICIAL_SOURCE_CAPTURE_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing receipt base official source capture artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(RECEIPT_BASE_OFFICIAL_SOURCE_CAPTURE_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let capture: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&capture, "record_id")? != "receipt-base-official-source-capture:v1"
+        || string_field(&capture, "record_family")? != "receipt_base_official_source_capture"
+        || int_field(&capture, "pulse")? != 137
+        || string_field(&capture, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&capture, "receipt_base_source_work_queue_path")?
+            != RECEIPT_BASE_SOURCE_WORK_QUEUE_JSON_PATH
+        || string_field(&capture, "receipt_base_work_item_completion_path")?
+            != RECEIPT_BASE_WORK_ITEM_COMPLETION_JSON_PATH
+        || string_field(
+            &capture,
+            "transportation_receipt_base_work_item_progress_path",
+        )? != TRANSPORTATION_RECEIPT_BASE_WORK_ITEM_PROGRESS_JSON_PATH
+        || string_field(&capture, "rate_publication_readiness_rollup_path")?
+            != RATE_PUBLICATION_READINESS_ROLLUP_JSON_PATH
+    {
+        return Err("receipt base official source capture identity failed".to_string());
+    }
+
+    let status = capture
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("receipt base official source capture status")?;
+    for field in [
+        "official_sources_only",
+        "official_public_files_downloaded",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "irs_pub_1304_table_1_1_raw_custody_ready",
+        "cms_medicare_trustees_raw_custody_ready",
+        "fhwa_highway_statistics_raw_custody_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "receipt base official source capture status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "ssa_trustees_raw_custody_ready",
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "receipt base official source capture status {field} must be false"
+            ));
+        }
+    }
+
+    let packets = capture
+        .get("captured_source_packets")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("receipt base official source capture packets")?;
+    if packets.len() != 6 {
+        return Err("receipt base official source capture packet count failed".to_string());
+    }
+    for packet in packets {
+        let raw_path = string_field(packet, "raw_artifact_path")?;
+        let metadata_path = string_field(packet, "metadata_path")?;
+        let full_raw = root.join(&raw_path);
+        if !full_raw.exists() || !root.join(&metadata_path).exists() {
+            return Err(format!(
+                "receipt base source packet paths missing: {raw_path}"
+            ));
+        }
+        let byte_count = fs::metadata(&full_raw).map_err(|e| e.to_string())?.len() as i64;
+        if packet
+            .get("raw_byte_count")
+            .and_then(serde_json::Value::as_i64)
+            != Some(byte_count)
+        {
+            return Err(format!(
+                "receipt base source packet byte count mismatch: {raw_path}"
+            ));
+        }
+        if sha256_file(&full_raw)? != string_field(packet, "raw_sha256")? {
+            return Err(format!(
+                "receipt base source packet hash mismatch: {raw_path}"
+            ));
+        }
+        if packet
+            .get("custody_ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        {
+            return Err("receipt base source packet custody must be true".to_string());
+        }
+    }
+
+    let blocked_sources = capture
+        .get("blocked_source_packets")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("receipt base official source blocked packets")?;
+    if blocked_sources.len() != 1 {
+        return Err("receipt base official source blocked packet count failed".to_string());
+    }
+    let blocked_ssa = &blocked_sources[0];
+    if string_field(blocked_ssa, "work_item_id")? != "capture-ssa-oasdi-taxable-payroll-base"
+        || string_field(blocked_ssa, "source_id")? != "SRC-SSA-TRUSTEES-2026"
+        || string_field(blocked_ssa, "block_status")?
+            != "official_site_returned_http_403_to_direct_raw_download"
+        || blocked_ssa.get("raw_artifact_path") != Some(&serde_json::Value::Null)
+        || blocked_ssa.get("raw_byte_count") != Some(&serde_json::Value::Null)
+        || blocked_ssa.get("raw_sha256") != Some(&serde_json::Value::Null)
+        || blocked_ssa
+            .get("custody_ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("receipt base official source blocked SSA packet failed".to_string());
+    }
+
+    let rows = capture
+        .get("extracted_context_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("receipt base official source context rows")?;
+    if rows.len() != 6 {
+        return Err("receipt base official source context row count failed".to_string());
+    }
+    let mut values = BTreeMap::new();
+    for row in rows {
+        for field in [
+            "ready_for_assigned_base",
+            "ready_for_rate_publication",
+            "ready_for_solver",
+        ] {
+            if row.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+                return Err(format!(
+                    "receipt base official source context {field} must be false"
+                ));
+            }
+        }
+        values.insert(
+            string_field(row, "base_id")?,
+            row.get("amount_musd")
+                .and_then(serde_json::Value::as_f64)
+                .ok_or("amount_musd")?,
+        );
+    }
+    for (base_id, expected) in [
+        ("individual_income_agi", 15_286_017.359),
+        ("individual_income_taxable_income", 11_625_278.987),
+        (
+            "individual_income_tax_after_credits_yield_context",
+            2_108_587.001,
+        ),
+        ("medicare_hi_taxable_payroll", 13_277_000.0),
+        ("medicare_hi_payroll_tax_yield_context", 400_622.16),
+        (
+            "transportation_highway_user_receipt_yield_context",
+            37_512.192,
+        ),
+    ] {
+        let observed = values
+            .get(base_id)
+            .ok_or_else(|| format!("missing receipt base source value: {base_id}"))?;
+        if (observed - expected).abs() > 0.0001 {
+            return Err(format!(
+                "receipt base source value mismatch for {base_id}: {observed} != {expected}"
+            ));
+        }
+    }
+
+    let transportation = rows
+        .iter()
+        .find(|row| {
+            row.get("base_id").and_then(serde_json::Value::as_str)
+                == Some("transportation_highway_user_receipt_yield_context")
+        })
+        .ok_or("transportation highway user context row")?;
+    let components = transportation
+        .get("component_values_musd")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation component values")?;
+    let component_sum: f64 = [
+        "motor_fuel_total",
+        "other_federal_use_tax",
+        "trucks_and_trailers",
+        "tires",
+    ]
+    .iter()
+    .map(|field| {
+        components
+            .get(*field)
+            .and_then(serde_json::Value::as_f64)
+            .ok_or_else(|| format!("transportation component missing: {field}"))
+    })
+    .collect::<Result<Vec<_>, _>>()?
+    .iter()
+    .sum();
+    if (component_sum - 37_512.192).abs() > 0.0001 {
+        return Err("transportation FHWA FE-9 component sum failed".to_string());
+    }
+
+    let summary = capture
+        .get("summary")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("receipt base official source capture summary")?;
+    if summary
+        .get("source_packets_captured")
+        .and_then(serde_json::Value::as_i64)
+        != Some(6)
+        || summary
+            .get("blocked_source_packets")
+            .and_then(serde_json::Value::as_i64)
+            != Some(1)
+        || summary
+            .get("extracted_context_rows")
+            .and_then(serde_json::Value::as_i64)
+            != Some(6)
+        || summary
+            .get("assigned_base_ready_count")
+            .and_then(serde_json::Value::as_i64)
+            != Some(0)
+    {
+        return Err("receipt base official source capture summary counts failed".to_string());
+    }
+    for field in [
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_ready",
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "receipt base official source capture summary {field} must be false"
+            ));
+        }
+    }
+
+    let blocked_outputs = capture
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("receipt base official source capture blocked outputs")?;
+    for field in [
+        "legal_receipt_base_amounts",
+        "economic_receipt_base_amounts",
+        "matched_receipt_bases",
+        "assigned_base_rates",
+        "behavioral_elasticities",
+        "avoidance_and_compliance",
+        "administration_burden",
+        "distribution_by_income",
+        "current_law_yields_matched_to_solver",
+        "reform_yields",
+        "public_rate_cards",
+        "solver_input_rows",
+        "tax_proposal_fields",
+        "balanced_budget_fields",
+    ] {
+        if blocked_outputs.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "receipt base official source capture blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let claims = capture
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("receipt base official source capture claims")?;
+    if claims
+        .get("official_source_capture_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("official source capture published flag must be true".to_string());
+    }
+    for field in [
+        "assigned_receipt_base_published",
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+        "statutory_rate_claim",
+        "effective_rate_claim",
+        "public_rate_card_claim",
+        "tax_proposal_claim",
+        "balanced_budget_claim",
+        "target_cost_claim",
+        "federal_effect_claim",
+        "gross_savings_claim",
+        "net_savings_claim",
+        "waste_finding_claim",
+        "fraud_finding_claim",
+        "technology_savings_claim",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "receipt base official source capture claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(RECEIPT_BASE_OFFICIAL_SOURCE_CAPTURE_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for phrase in [
+        RECEIPT_BASE_OFFICIAL_SOURCE_CAPTURE_JSON_PATH,
+        "Pulse 137 captured official public source files and guarded context values; it did not publish assigned receipt bases.",
+        "TY2023 IRS SOI values are not FY2025 matched assigned bases.",
+        "CMS Medicare HI taxable payroll context is not a public rate calculation.",
+        "FHWA highway-user receipt and legal-rate context is not a complete economic transportation fee base.",
+        "SSA OASDI raw source custody remains blocked in this environment because the official site returned HTTP 403 to direct raw download.",
+        "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+        "No rate, public rate card, solver input, tax proposal, or balanced-budget value is populated.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "receipt base official source capture reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -27704,6 +28055,12 @@ mod global_country_comparison_tests {
     fn transportation_receipt_base_progress_recomputes_context_only() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_transportation_receipt_base_work_item_progress(&root).unwrap();
+    }
+
+    #[test]
+    fn receipt_base_official_source_capture_hashes_context_and_blocks_rates() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_receipt_base_official_source_capture(&root).unwrap();
     }
 
     #[test]

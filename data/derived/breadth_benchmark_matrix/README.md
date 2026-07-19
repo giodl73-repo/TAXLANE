@@ -693,3 +693,10 @@ transportation and airport-and-airway excise receipt-yield context from existing
 local OMB custody. It is not a legal or economic assigned receipt base and keeps
 rates, solver inputs, public rate cards, tax proposals, savings, and
 balanced-budget outputs blocked.
+
+`receipt_base_official_source_capture.v1.draft.json` captures official public
+source files for IRS TY2023 individual-income context, CMS Medicare HI
+taxable-payroll context, and FHWA transportation highway-user receipt and
+legal-rate context. It extracts guarded context values only and keeps matched
+assigned bases, rates, solver inputs, public rate cards, tax proposals, savings,
+and balanced-budget outputs blocked.
