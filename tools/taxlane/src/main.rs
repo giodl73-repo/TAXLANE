@@ -540,6 +540,12 @@ const CURRENT_LAW_BASELINE_RECEIPTS_DEFICIT_PATH_PARTIAL_JSON_PATH: &str = "data
 const CURRENT_LAW_BASELINE_RECEIPTS_DEFICIT_PATH_PARTIAL_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/current_law_baseline_receipts_deficit_path_partial.schema.md";
 const CURRENT_LAW_BASELINE_RECEIPTS_DEFICIT_PATH_PARTIAL_READER_PATH: &str =
     "docs/reading/current-law-baseline-receipts-deficit-path-partial.md";
+const CURRENT_LAW_FY2025_FUND_GROUP_PATH_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/current_law_fy2025_fund_group_path.v1.draft.json";
+const CURRENT_LAW_FY2025_FUND_GROUP_PATH_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/current_law_fy2025_fund_group_path.schema.md";
+const CURRENT_LAW_FY2025_FUND_GROUP_PATH_READER_PATH: &str =
+    "docs/reading/current-law-fy2025-fund-group-path.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -11085,6 +11091,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_current_law_fy2025_17_row_ledger_custody(root)?;
     validate_current_law_baseline_annual_path_partial(root)?;
     validate_current_law_baseline_receipts_deficit_path_partial(root)?;
+    validate_current_law_fy2025_fund_group_path(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -23959,6 +23966,323 @@ fn validate_current_law_baseline_receipts_deficit_path_partial(root: &Path) -> R
     Ok(())
 }
 
+fn validate_current_law_fy2025_fund_group_path(root: &Path) -> Result<(), String> {
+    for path in [
+        CURRENT_LAW_FY2025_FUND_GROUP_PATH_JSON_PATH,
+        CURRENT_LAW_FY2025_FUND_GROUP_PATH_SCHEMA_PATH,
+        CURRENT_LAW_FY2025_FUND_GROUP_PATH_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing FY2025 fund-group artifact: {path}"));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(CURRENT_LAW_FY2025_FUND_GROUP_PATH_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let path: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&path, "record_id")? != "current-law-fy2025-fund-group-path:v1"
+        || string_field(&path, "record_family")? != "current_law_fy2025_fund_group_path"
+        || int_field(&path, "pulse")? != 124
+        || string_field(
+            &path,
+            "current_law_baseline_receipts_deficit_path_partial_path",
+        )? != CURRENT_LAW_BASELINE_RECEIPTS_DEFICIT_PATH_PARTIAL_JSON_PATH
+        || string_field(&path, "current_law_path_inventory_path")?
+            != CURRENT_LAW_PATH_INVENTORY_JSON_PATH
+        || string_field(&path, "current_law_source_custody_batch_plan_path")?
+            != CURRENT_LAW_SOURCE_CUSTODY_BATCH_PLAN_JSON_PATH
+        || string_field(&path, "current_law_source_custody_packet_template_path")?
+            != CURRENT_LAW_SOURCE_CUSTODY_PACKET_TEMPLATE_JSON_PATH
+        || int_field(&path, "fiscal_year")? != 2025
+        || string_field(&path, "year_basis")? != "fiscal_year"
+        || string_field(&path, "unit")? != "millions_of_dollars"
+    {
+        return Err("FY2025 fund-group identity failed".to_string());
+    }
+
+    let expected_paths = [
+        "general_fund_path",
+        "oasdi_fund_path",
+        "medicare_hi_fund_path",
+        "transportation_trust_fund_path",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let observed_paths = path
+        .get("path_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FY2025 fund-group path ids")?
+        .iter()
+        .map(|value| {
+            value
+                .as_str()
+                .map(str::to_string)
+                .ok_or("FY2025 fund-group path id string")
+        })
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if observed_paths != expected_paths {
+        return Err("FY2025 fund-group path id set failed".to_string());
+    }
+
+    let status = path
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("FY2025 fund-group custody status")?;
+    for field in [
+        "official_sources_only",
+        "no_external_request_submitted_this_pulse",
+        "no_agency_or_person_contacted",
+        "source_custody_ready",
+        "fy2025_fund_group_values_may_be_populated",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("FY2025 fund-group status {field} must be true"));
+        }
+    }
+    for field in [
+        "general_fund_specific_values_ready",
+        "named_trust_fund_values_ready",
+        "forward_annual_fund_values_ready",
+        "solver_inputs_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("FY2025 fund-group status {field} must be false"));
+        }
+    }
+
+    let packet = path
+        .get("source_packet")
+        .ok_or("FY2025 fund-group source packet")?;
+    if string_field(packet, "source_id")? != "SRC-OMB-HIST-1-4-FY2027"
+        || string_field(packet, "official_host_or_publisher")? != "Office of Management and Budget"
+        || string_field(packet, "retrieval_date")? != "2026-06-21"
+        || string_field(packet, "review_status")? != "source_metadata_present_and_hash_matched"
+        || packet
+            .get("custody_ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || packet
+            .get("values_may_be_populated")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("FY2025 fund-group source packet identity failed".to_string());
+    }
+    for (path_field, hash_field, byte_field) in [
+        ("raw_artifact_path", "raw_sha256", Some("raw_byte_count")),
+        ("metadata_path", "metadata_sha256", None),
+        ("extracted_artifact_path", "extracted_artifact_sha256", None),
+    ] {
+        let artifact_path = string_field(packet, path_field)?;
+        let artifact_file = root.join(&artifact_path);
+        if !artifact_file.exists() {
+            return Err(format!(
+                "FY2025 fund-group source file missing: {artifact_path}"
+            ));
+        }
+        if let Some(byte_field) = byte_field {
+            if fs::metadata(&artifact_file)
+                .map_err(|e| e.to_string())?
+                .len() as i64
+                != int_field(packet, byte_field)?
+            {
+                return Err(format!(
+                    "FY2025 fund-group byte count failed for {artifact_path}"
+                ));
+            }
+        }
+        if sha256_file(&artifact_file)? != string_field(packet, hash_field)? {
+            return Err(format!("FY2025 fund-group hash failed for {artifact_path}"));
+        }
+    }
+    let years = packet
+        .get("annual_years_covered")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FY2025 fund-group annual years")?;
+    if years.len() != 1 || years[0].as_i64() != Some(2025) {
+        return Err("FY2025 fund-group source packet must cover only FY2025".to_string());
+    }
+
+    let rows = path
+        .get("fy2025_fund_group_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FY2025 fund-group rows")?;
+    if rows.len() != 4 {
+        return Err("FY2025 fund-group must contain four rows".to_string());
+    }
+    let expected = [
+        ("total", 5_236_421, 7_011_105, -1_774_684, Some(1_774_684)),
+        (
+            "federal-funds",
+            3_413_497,
+            5_284_502,
+            -1_871_005,
+            Some(1_871_005),
+        ),
+        ("trust-funds", 3_009_025, 2_912_704, 96_321, None),
+        ("interfund-transactions", -1_186_101, -1_186_101, 0, None),
+    ]
+    .into_iter()
+    .map(|(group, receipts, outlays, surplus, deficit)| {
+        (group.to_string(), (receipts, outlays, surplus, deficit))
+    })
+    .collect::<BTreeMap<_, _>>();
+    let mut observed_groups = BTreeSet::new();
+    for row in rows {
+        let group = string_field(row, "fund_group")?;
+        observed_groups.insert(group.clone());
+        let (receipts, outlays, surplus, deficit) = expected
+            .get(&group)
+            .ok_or_else(|| format!("unexpected FY2025 fund group {group}"))?;
+        if int_field(row, "receipts_musd")? != *receipts
+            || int_field(row, "outlays_musd")? != *outlays
+        {
+            return Err(format!("FY2025 fund-group value failed for {group}"));
+        }
+        if group == "interfund-transactions" {
+            if !row
+                .get("surplus_deficit_musd")
+                .is_some_and(serde_json::Value::is_null)
+            {
+                return Err("interfund surplus/deficit must remain null".to_string());
+            }
+        } else if int_field(row, "surplus_deficit_musd")? != *surplus {
+            return Err(format!("FY2025 fund-group surplus failed for {group}"));
+        }
+        match deficit {
+            Some(deficit) => {
+                if int_field(row, "deficit_musd")? != *deficit {
+                    return Err(format!("FY2025 fund-group deficit failed for {group}"));
+                }
+            }
+            None => {
+                if !row
+                    .get("deficit_musd")
+                    .is_some_and(serde_json::Value::is_null)
+                {
+                    return Err(format!(
+                        "FY2025 fund-group deficit must be null for {group}"
+                    ));
+                }
+            }
+        }
+    }
+    if observed_groups != expected.keys().cloned().collect::<BTreeSet<_>>() {
+        return Err("FY2025 fund-group row set failed".to_string());
+    }
+
+    let reconciliation = path
+        .get("reconciliation")
+        .ok_or("FY2025 fund reconciliation")?;
+    if int_field(reconciliation, "total_receipts_musd")? != 5_236_421
+        || int_field(reconciliation, "total_outlays_musd")? != 7_011_105
+        || int_field(reconciliation, "total_surplus_deficit_musd")? != -1_774_684
+        || int_field(reconciliation, "total_deficit_musd")? != 1_774_684
+        || int_field(
+            reconciliation,
+            "federal_funds_receipts_plus_trust_funds_receipts_plus_interfund_receipts_musd",
+        )? != 5_236_421
+        || int_field(
+            reconciliation,
+            "federal_funds_outlays_plus_trust_funds_outlays_plus_interfund_outlays_musd",
+        )? != 7_011_105
+        || int_field(
+            reconciliation,
+            "federal_funds_surplus_deficit_plus_trust_funds_surplus_deficit_musd",
+        )? != -1_774_684
+        || reconciliation
+            .get("reconciles_to_pulse_123_fy2025")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || reconciliation
+            .get("interfund_transactions_preserved")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || reconciliation
+            .get("federal_funds_not_general_fund")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || reconciliation
+            .get("trust_funds_not_split_by_named_fund")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("FY2025 fund-group reconciliation failed".to_string());
+    }
+
+    let blocked = path
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("FY2025 fund-group blocked outputs")?;
+    for (field, value) in blocked {
+        if !value.is_null() {
+            return Err(format!(
+                "FY2025 fund-group blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let claims = path
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("FY2025 fund-group claims")?;
+    for (field, value) in claims {
+        let observed = value.as_bool().ok_or("FY2025 fund-group claim bool")?;
+        if matches!(
+            field.as_str(),
+            "source_custody_packet_published"
+                | "source_custody_ready"
+                | "fy2025_fund_group_values_published"
+        ) {
+            if !observed {
+                return Err(format!("FY2025 fund-group claim {field} must be true"));
+            }
+        } else if observed {
+            return Err(format!("FY2025 fund-group claim {field} must be false"));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(CURRENT_LAW_FY2025_FUND_GROUP_PATH_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    let reader_words = reader.split_whitespace().collect::<Vec<_>>().join(" ");
+    for required in [
+        CURRENT_LAW_FY2025_FUND_GROUP_PATH_JSON_PATH,
+        "FY2025 OMB fund-group actuals",
+        "$5,236.421B",
+        "$7,011.105B",
+        "$1,774.684B",
+        "No external request was submitted and no agency or person was contacted",
+        "Federal funds are not the same as the general fund.",
+        "Trust funds remain separate",
+        "does not split OASDI, Medicare HI, or transportation trust funds",
+        "Interfund transactions remain explicit",
+        "not general-fund path values",
+        "not named trust-fund path values",
+        "not forward annual fund values",
+        "not an explicit interfund transfer schedule",
+        "not solver inputs",
+        "not a solver run",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader_words.contains(required) {
+            return Err(format!("FY2025 fund-group reader missing {required}"));
+        }
+    }
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -24267,6 +24591,12 @@ mod global_country_comparison_tests {
     fn current_law_baseline_receipts_deficit_path_partial_recomputes_deficits() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_current_law_baseline_receipts_deficit_path_partial(&root).unwrap();
+    }
+
+    #[test]
+    fn current_law_fy2025_fund_group_path_preserves_fund_boundaries() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_current_law_fy2025_fund_group_path(&root).unwrap();
     }
 
     #[test]

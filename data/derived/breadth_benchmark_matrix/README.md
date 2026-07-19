@@ -610,3 +610,9 @@ official current-law baseline data gap by adding OMB Historical Table 2.1 total
 receipts and explicit deficit gaps for FY2025-FY2031. It leaves FY2032-FY2035
 null, does not split funds or receipt bases, and keeps solver, target-cost, rate,
 and public fiscal claims blocked.
+
+`current_law_fy2025_fund_group_path.v1.draft.json` publishes source-custodied
+FY2025 OMB fund-group actuals for total, federal funds, trust funds, and
+interfund transactions. It does not relabel federal funds as the general fund,
+does not split named trust funds, and keeps forward fund paths and solver/rate
+claims blocked.
