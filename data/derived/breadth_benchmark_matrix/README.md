@@ -669,3 +669,9 @@ HT23 supports rate/bracket context only, derived denominator context cannot
 replace raw source custody, and all assigned base amounts, yields, rates,
 solver inputs, public rate cards, tax proposals, and balanced-budget outputs
 remain blocked.
+
+`receipt_base_source_work_queue.v1.draft.json` converts the local source
+inventory into explicit source-capture and extraction tasks for assigned receipt
+bases. It keeps every work item not started, not ready, and external-contact
+blocked while all base amounts, yields, rates, solver inputs, public rate cards,
+tax proposals, savings, and balanced-budget outputs remain null.

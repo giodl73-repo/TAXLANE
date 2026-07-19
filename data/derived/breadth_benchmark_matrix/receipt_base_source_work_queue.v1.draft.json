@@ -1,0 +1,131 @@
+{
+  "record_id": "receipt-base-source-work-queue:v1",
+  "record_family": "receipt_base_source_work_queue",
+  "schema_version": "v1.draft",
+  "pulse": 133,
+  "as_of_date": "2026-07-19",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "receipt_base_local_source_inventory_path": "data/derived/breadth_benchmark_matrix/receipt_base_local_source_inventory.v1.draft.json",
+  "assigned_receipt_base_source_gap_path": "data/derived/breadth_benchmark_matrix/assigned_receipt_base_source_gap.v1.draft.json",
+  "rate_publication_readiness_rollup_path": "data/derived/breadth_benchmark_matrix/rate_publication_readiness_rollup.v1.draft.json",
+  "source_custody_status": {
+    "official_sources_only": true,
+    "work_queue_only": true,
+    "no_external_request_submitted_this_pulse": true,
+    "no_agency_or_person_contacted": true,
+    "matched_receipt_bases_ready": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false
+  },
+  "work_queue_rows": [
+    {
+      "work_item_id": "capture-irs-soi-pub-1304-individual-income-base",
+      "base_ids": ["individual_income_agi", "individual_income_taxable_income"],
+      "required_source_family": "IRS SOI Publication 1304 or equivalent official aggregate individual income tax base source",
+      "required_artifacts": ["raw_official_file", "metadata", "byte_count", "sha256", "retrieval_date", "field_crosswalk"],
+      "required_fields": ["matched_tax_year", "legal_perimeter", "economic_perimeter", "agi_amount", "taxable_income_amount", "current_law_yield"],
+      "allowed_next_action": "capture_or_locate_existing_official_public_source_artifact_only",
+      "external_contact_allowed": false,
+      "status": "not_started_no_external_request",
+      "value": null,
+      "ready": false
+    },
+    {
+      "work_item_id": "capture-ssa-oasdi-taxable-payroll-base",
+      "base_ids": ["oasdi_taxable_payroll"],
+      "required_source_family": "SSA Trustees or SSA statistical official taxable payroll source",
+      "required_artifacts": ["raw_official_file", "metadata", "byte_count", "sha256", "retrieval_date", "table_or_section_crosswalk"],
+      "required_fields": ["matched_calendar_or_fiscal_year", "covered_wage_perimeter", "taxable_payroll_amount", "current_law_yield"],
+      "allowed_next_action": "capture_or_locate_existing_official_public_source_artifact_only",
+      "external_contact_allowed": false,
+      "status": "not_started_no_external_request",
+      "value": null,
+      "ready": false
+    },
+    {
+      "work_item_id": "capture-medicare-hi-taxable-payroll-base",
+      "base_ids": ["medicare_hi_taxable_payroll"],
+      "required_source_family": "Medicare Trustees, SSA, Treasury, or CMS official HI taxable payroll source",
+      "required_artifacts": ["raw_official_file", "metadata", "byte_count", "sha256", "retrieval_date", "table_or_section_crosswalk"],
+      "required_fields": ["matched_calendar_or_fiscal_year", "hi_taxable_payroll_perimeter", "taxable_payroll_amount", "current_law_yield"],
+      "allowed_next_action": "capture_or_locate_existing_official_public_source_artifact_only",
+      "external_contact_allowed": false,
+      "status": "not_started_no_external_request",
+      "value": null,
+      "ready": false
+    },
+    {
+      "work_item_id": "extract-omb-receipt-category-reconciliation",
+      "base_ids": ["general_receipts_context", "excise_and_customs_context"],
+      "required_source_family": "OMB historical receipts and Treasury reconciliation context",
+      "required_artifacts": ["existing_local_raw_omb_receipt_file", "existing_local_metadata", "field_crosswalk"],
+      "required_fields": ["receipt_category", "fiscal_year", "receipt_amount", "perimeter_note", "not_a_legal_or_economic_base_flag"],
+      "allowed_next_action": "extract_context_from_existing_local_custodied_omb_file",
+      "external_contact_allowed": false,
+      "status": "not_started_no_external_request",
+      "value": null,
+      "ready": false
+    },
+    {
+      "work_item_id": "capture-transportation-excise-user-fee-base",
+      "base_ids": ["transportation_excises_and_user_fees"],
+      "required_source_family": "Treasury, IRS SOI, FHWA, FAA, or official trust-fund receipt base source",
+      "required_artifacts": ["raw_official_file", "metadata", "byte_count", "sha256", "retrieval_date", "legal_and_economic_perimeter_crosswalk"],
+      "required_fields": ["matched_year", "tax_or_fee_type", "legal_base", "economic_base", "receipt_yield", "trust_fund_crediting_rule"],
+      "allowed_next_action": "capture_or_locate_existing_official_public_source_artifact_only",
+      "external_contact_allowed": false,
+      "status": "not_started_no_external_request",
+      "value": null,
+      "ready": false
+    }
+  ],
+  "summary": {
+    "work_item_count": 5,
+    "ready_count": 0,
+    "blocked_count": 5,
+    "external_contact_allowed_count": 0,
+    "matched_receipt_bases_ready": false,
+    "rate_publication_ready": false,
+    "solver_ready": false
+  },
+  "blocked_outputs": {
+    "captured_new_sources": null,
+    "assigned_base_amounts": null,
+    "matched_receipt_bases": null,
+    "behavioral_elasticities": null,
+    "current_law_yields": null,
+    "reform_yields": null,
+    "assigned_base_rates": null,
+    "public_rate_cards": null,
+    "solver_input_rows": null,
+    "tax_proposal_fields": null,
+    "balanced_budget_fields": null
+  },
+  "public_warning_phrases": [
+    "This is a receipt-base source work queue, not source capture or receipt-base extraction.",
+    "No external request was submitted and no agency or person was contacted.",
+    "Every work item remains not started, not ready, and external contact is false.",
+    "No assigned base amount, elasticity, yield, rate, public rate card, solver input, tax proposal, or balanced-budget value is populated.",
+    "Source work may use only existing local artifacts or official public source capture; it may not contact an agency or person.",
+    "This record is not solver input, not a solver run, not a target-cost selection, not a rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+  ],
+  "claim_booleans": {
+    "work_queue_published": true,
+    "source_capture_completed": false,
+    "matched_receipt_bases_ready": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false,
+    "statutory_rate_claim": false,
+    "effective_rate_claim": false,
+    "public_rate_card_claim": false,
+    "tax_proposal_claim": false,
+    "balanced_budget_claim": false,
+    "target_cost_claim": false,
+    "federal_effect_claim": false,
+    "gross_savings_claim": false,
+    "net_savings_claim": false,
+    "waste_finding_claim": false,
+    "fraud_finding_claim": false,
+    "technology_savings_claim": false
+  }
+}

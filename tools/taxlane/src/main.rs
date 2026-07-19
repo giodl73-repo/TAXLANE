@@ -474,6 +474,12 @@ const RECEIPT_BASE_LOCAL_SOURCE_INVENTORY_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/receipt_base_local_source_inventory.schema.md";
 const RECEIPT_BASE_LOCAL_SOURCE_INVENTORY_READER_PATH: &str =
     "docs/reading/receipt-base-local-source-inventory.md";
+const RECEIPT_BASE_SOURCE_WORK_QUEUE_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/receipt_base_source_work_queue.v1.draft.json";
+const RECEIPT_BASE_SOURCE_WORK_QUEUE_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/receipt_base_source_work_queue.schema.md";
+const RECEIPT_BASE_SOURCE_WORK_QUEUE_READER_PATH: &str =
+    "docs/reading/receipt-base-source-work-queue.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11122,6 +11128,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_administration_compliance_burden_source_gap(root)?;
     validate_rate_publication_readiness_rollup(root)?;
     validate_receipt_base_local_source_inventory(root)?;
+    validate_receipt_base_source_work_queue(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -20619,6 +20626,239 @@ fn validate_receipt_base_local_source_inventory(root: &Path) -> Result<(), Strin
     Ok(())
 }
 
+fn validate_receipt_base_source_work_queue(root: &Path) -> Result<(), String> {
+    for path in [
+        RECEIPT_BASE_SOURCE_WORK_QUEUE_JSON_PATH,
+        RECEIPT_BASE_SOURCE_WORK_QUEUE_SCHEMA_PATH,
+        RECEIPT_BASE_SOURCE_WORK_QUEUE_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing receipt base source work queue artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(RECEIPT_BASE_SOURCE_WORK_QUEUE_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let queue: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&queue, "record_id")? != "receipt-base-source-work-queue:v1"
+        || string_field(&queue, "record_family")? != "receipt_base_source_work_queue"
+        || int_field(&queue, "pulse")? != 133
+        || string_field(&queue, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&queue, "receipt_base_local_source_inventory_path")?
+            != RECEIPT_BASE_LOCAL_SOURCE_INVENTORY_JSON_PATH
+        || string_field(&queue, "assigned_receipt_base_source_gap_path")?
+            != ASSIGNED_RECEIPT_BASE_SOURCE_GAP_JSON_PATH
+        || string_field(&queue, "rate_publication_readiness_rollup_path")?
+            != RATE_PUBLICATION_READINESS_ROLLUP_JSON_PATH
+    {
+        return Err("receipt base source work queue identity failed".to_string());
+    }
+
+    for path in [
+        string_field(&queue, "contract_path")?,
+        string_field(&queue, "receipt_base_local_source_inventory_path")?,
+        string_field(&queue, "assigned_receipt_base_source_gap_path")?,
+        string_field(&queue, "rate_publication_readiness_rollup_path")?,
+    ] {
+        if !root.join(&path).exists() {
+            return Err(format!(
+                "receipt base source work queue referenced path missing: {path}"
+            ));
+        }
+    }
+
+    let status = queue
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("receipt base source work queue custody status")?;
+    for field in [
+        "official_sources_only",
+        "work_queue_only",
+        "no_external_request_submitted_this_pulse",
+        "no_agency_or_person_contacted",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "receipt base source work queue status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "receipt base source work queue status {field} must be false"
+            ));
+        }
+    }
+
+    let rows = queue
+        .get("work_queue_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("receipt base source work queue rows")?;
+    let expected = [
+        "capture-irs-soi-pub-1304-individual-income-base",
+        "capture-ssa-oasdi-taxable-payroll-base",
+        "capture-medicare-hi-taxable-payroll-base",
+        "extract-omb-receipt-category-reconciliation",
+        "capture-transportation-excise-user-fee-base",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let observed = rows
+        .iter()
+        .map(|row| string_field(row, "work_item_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if observed != expected {
+        return Err("receipt base source work queue row set failed".to_string());
+    }
+    for row in rows {
+        if string_field(row, "status")? != "not_started_no_external_request"
+            || row
+                .get("external_contact_allowed")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+            || row.get("value") != Some(&serde_json::Value::Null)
+            || row.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+        {
+            return Err("receipt base source work queue rows must stay blocked".to_string());
+        }
+    }
+
+    let summary = queue
+        .get("summary")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("receipt base source work queue summary")?;
+    if summary
+        .get("work_item_count")
+        .and_then(serde_json::Value::as_i64)
+        != Some(5)
+        || summary
+            .get("ready_count")
+            .and_then(serde_json::Value::as_i64)
+            != Some(0)
+        || summary
+            .get("blocked_count")
+            .and_then(serde_json::Value::as_i64)
+            != Some(5)
+        || summary
+            .get("external_contact_allowed_count")
+            .and_then(serde_json::Value::as_i64)
+            != Some(0)
+    {
+        return Err("receipt base source work queue summary counts failed".to_string());
+    }
+    for field in [
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_ready",
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "receipt base source work queue summary {field} must be false"
+            ));
+        }
+    }
+
+    let blocked = queue
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("receipt base source work queue blocked outputs")?;
+    for field in [
+        "captured_new_sources",
+        "assigned_base_amounts",
+        "matched_receipt_bases",
+        "behavioral_elasticities",
+        "current_law_yields",
+        "reform_yields",
+        "assigned_base_rates",
+        "public_rate_cards",
+        "solver_input_rows",
+        "tax_proposal_fields",
+        "balanced_budget_fields",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "receipt base source work queue blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let claims = queue
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("receipt base source work queue claims")?;
+    if claims
+        .get("work_queue_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("receipt base source work queue published flag must be true".to_string());
+    }
+    for field in [
+        "source_capture_completed",
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+        "statutory_rate_claim",
+        "effective_rate_claim",
+        "public_rate_card_claim",
+        "tax_proposal_claim",
+        "balanced_budget_claim",
+        "target_cost_claim",
+        "federal_effect_claim",
+        "gross_savings_claim",
+        "net_savings_claim",
+        "waste_finding_claim",
+        "fraud_finding_claim",
+        "technology_savings_claim",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "receipt base source work queue claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(RECEIPT_BASE_SOURCE_WORK_QUEUE_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for phrase in [
+        RECEIPT_BASE_SOURCE_WORK_QUEUE_JSON_PATH,
+        "This is a receipt-base source work queue, not source capture or receipt-base extraction.",
+        "No external request was submitted and no agency or person was contacted.",
+        "Every work item remains not started, not ready, and external contact is false.",
+        "No assigned base amount, elasticity, yield, rate, public rate card, solver input, tax proposal, or balanced-budget value is populated.",
+        "Source work may use only existing local artifacts or official public source capture; it may not contact an agency or person.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "receipt base source work queue reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -26579,6 +26819,12 @@ mod global_country_comparison_tests {
     fn receipt_base_local_source_inventory_keeps_base_amounts_blocked() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_receipt_base_local_source_inventory(&root).unwrap();
+    }
+
+    #[test]
+    fn receipt_base_source_work_queue_blocks_values_and_external_contact() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_receipt_base_source_work_queue(&root).unwrap();
     }
 
     #[test]
