@@ -451,6 +451,11 @@ const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.schema.md";
 const SOLVER_INPUT_READINESS_ROLLUP_READER_PATH: &str =
     "docs/reading/solver-input-readiness-rollup.md";
+const CURRENT_LAW_PATH_INVENTORY_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/current_law_path_inventory.v1.draft.json";
+const CURRENT_LAW_PATH_INVENTORY_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/current_law_path_inventory.schema.md";
+const CURRENT_LAW_PATH_INVENTORY_READER_PATH: &str = "docs/reading/current-law-path-inventory.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10980,6 +10985,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_assigned_receipt_base_inventory(root)?;
     validate_distributional_effect_placeholder(root)?;
     validate_solver_input_readiness_rollup(root)?;
+    validate_current_law_path_inventory(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -19485,6 +19491,234 @@ fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_current_law_path_inventory(root: &Path) -> Result<(), String> {
+    for path in [
+        CURRENT_LAW_PATH_INVENTORY_JSON_PATH,
+        CURRENT_LAW_PATH_INVENTORY_SCHEMA_PATH,
+        CURRENT_LAW_PATH_INVENTORY_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing current-law path inventory artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(CURRENT_LAW_PATH_INVENTORY_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let inventory: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&inventory, "record_id")? != "current-law-path-inventory:v1"
+        || string_field(&inventory, "record_family")? != "current_law_path_inventory"
+        || int_field(&inventory, "pulse")? != 108
+        || string_field(&inventory, "solver_input_inventory_path")?
+            != SOLVER_INPUT_INVENTORY_JSON_PATH
+        || string_field(&inventory, "solver_input_readiness_rollup_path")?
+            != SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH
+        || string_field(&inventory, "program_lane_target_cost_contract_path")?
+            != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+    {
+        return Err("current-law path inventory identity failed".to_string());
+    }
+
+    let horizon = inventory
+        .get("horizon_requirement")
+        .ok_or("current-law horizon requirement")?;
+    if int_field(horizon, "baseline_year")? != 2025
+        || int_field(horizon, "required_forward_years")? != 10
+        || horizon
+            .get("interpolation_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || horizon
+            .get("missing_values_remain_null")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("current-law horizon requirement failed".to_string());
+    }
+    let required_years = horizon
+        .get("required_years")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("current-law required years")?
+        .iter()
+        .map(|value| value.as_i64().ok_or("current-law required year int"))
+        .collect::<Result<Vec<_>, _>>()?;
+    if required_years != (2025..=2035).map(i64::from).collect::<Vec<_>>() {
+        return Err("current-law required years must be FY2025-FY2035".to_string());
+    }
+
+    let rows = inventory
+        .get("path_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("current-law path rows")?;
+    let observed = rows
+        .iter()
+        .map(|row| string_field(row, "path_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected = [
+        "full_17_row_fy2025_ledger",
+        "baseline_plus_ten_year_horizon",
+        "oasdi_fund_path",
+        "medicare_hi_fund_path",
+        "transportation_trust_fund_path",
+        "general_fund_path",
+        "health_fiscal_current_law_path",
+        "net_interest_current_law_path",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    if observed != expected || rows.len() != expected.len() {
+        return Err("current-law path row set failed".to_string());
+    }
+    for row in rows {
+        if row.get("required").and_then(serde_json::Value::as_bool) != Some(true)
+            || row.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+            || !row.get("value").is_some_and(serde_json::Value::is_null)
+        {
+            return Err("current-law path rows must be required/false/null".to_string());
+        }
+        let missing_years = row
+            .get("missing_years")
+            .and_then(serde_json::Value::as_array)
+            .ok_or("current-law missing years")?;
+        if missing_years.is_empty() {
+            return Err("current-law rows must retain missing years".to_string());
+        }
+        if string_field(row, "official_source_family")?.is_empty() {
+            return Err("current-law rows must name official source family".to_string());
+        }
+    }
+
+    let rows_by_id = rows
+        .iter()
+        .map(|row| Ok((string_field(row, "path_id")?, row)))
+        .collect::<Result<BTreeMap<_, _>, String>>()?;
+    for (path_id, status) in [
+        ("baseline_plus_ten_year_horizon", "missing_unified_horizon"),
+        ("oasdi_fund_path", "missing_official_annual_path"),
+        ("medicare_hi_fund_path", "missing_official_annual_path"),
+        (
+            "transportation_trust_fund_path",
+            "accounting_boundary_only_no_annual_values",
+        ),
+        (
+            "health_fiscal_current_law_path",
+            "missing_component_annual_path",
+        ),
+        (
+            "net_interest_current_law_path",
+            "formula_contract_only_values_missing",
+        ),
+    ] {
+        if string_field(
+            rows_by_id
+                .get(path_id)
+                .ok_or("current-law path row lookup")?,
+            "coverage_status",
+        )? != status
+        {
+            return Err(format!("current-law path status failed {path_id}"));
+        }
+    }
+
+    let rules = inventory
+        .get("inventory_rules")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("current-law rules")?;
+    for required in [
+        "official_sources_only",
+        "raw_bytes_metadata_retrieval_date_byte_count_and_sha256_required",
+        "no_interpolation_without_explicit_model",
+        "missing_values_remain_null",
+        "trust_funds_remain_separate",
+        "medicare_hi_must_remain_separate",
+        "current_law_zero_reform_delta_required",
+    ] {
+        if rules.get(required).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("current-law rule failed {required}"));
+        }
+    }
+    if rules
+        .get("solver_ready")
+        .and_then(serde_json::Value::as_bool)
+        != Some(false)
+    {
+        return Err("current-law solver_ready must be false".to_string());
+    }
+
+    let claims = inventory
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("current-law claims")?;
+    for (field, value) in claims {
+        let observed = value.as_bool().ok_or("current-law claim bool")?;
+        if field == "current_law_path_inventory_published" {
+            if !observed {
+                return Err("current-law inventory publish flag must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!("current-law public claim {field} must be false"));
+        }
+    }
+
+    let boundary = string_field(&inventory, "non_claim_boundary")?;
+    for required in [
+        "current-law path inventory",
+        "not current-law path values",
+        "not a solver run",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!("current-law boundary missing {required}"));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(CURRENT_LAW_PATH_INVENTORY_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        CURRENT_LAW_PATH_INVENTORY_JSON_PATH,
+        "does not publish current-law path values",
+        "Required years: FY2025 through FY2035",
+        "OASDI annual fund path",
+        "Medicare HI annual fund path",
+        "transportation trust-fund annual values",
+        "health fiscal current-law path",
+        "net interest current-law path",
+        "raw bytes, metadata, retrieval date, byte count, and SHA-256",
+        "Interpolation is not allowed without an explicit model",
+        "Missing values remain null",
+        "Trust funds remain separate",
+        "Medicare HI remains separate",
+        "not current-law path values",
+        "not a solver run",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("current-law reader missing {required}"));
+        }
+    }
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -19697,6 +19931,12 @@ mod global_country_comparison_tests {
     fn solver_input_readiness_rollup_keeps_all_inputs_blocked() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_solver_input_readiness_rollup(&root).unwrap();
+    }
+
+    #[test]
+    fn current_law_path_inventory_keeps_annual_values_null() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_current_law_path_inventory(&root).unwrap();
     }
 
     #[test]

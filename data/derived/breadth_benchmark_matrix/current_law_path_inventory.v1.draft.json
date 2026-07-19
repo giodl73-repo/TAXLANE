@@ -1,0 +1,56 @@
+{
+  "record_id": "current-law-path-inventory:v1",
+  "record_family": "current_law_path_inventory",
+  "version": "v1.draft",
+  "status": "draft_inventory_annual_values_blocked",
+  "pulse": 108,
+  "solver_input_inventory_path": "data/derived/breadth_benchmark_matrix/solver_input_inventory.v1.draft.json",
+  "solver_input_readiness_rollup_path": "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json",
+  "program_lane_target_cost_contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "purpose": "Inventory the official current-law annual paths required before the baseline year plus ten-year deterministic solver horizon can be assembled.",
+  "horizon_requirement": {
+    "baseline_year": 2025,
+    "required_forward_years": 10,
+    "required_years": [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035],
+    "interpolation_allowed": false,
+    "missing_values_remain_null": true
+  },
+  "path_rows": [
+    {"path_id": "full_17_row_fy2025_ledger", "required": true, "current_artifact_path": "data/derived/income_tax_outlay_model/fy2025_function_rows.v1.draft.jsonl", "coverage_status": "baseline_year_context_only_not_solver_bound", "required_years_present": [2025], "missing_years": [2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035], "official_source_family": "OMB", "value": null, "ready": false},
+    {"path_id": "baseline_plus_ten_year_horizon", "required": true, "current_artifact_path": null, "coverage_status": "missing_unified_horizon", "required_years_present": [], "missing_years": [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035], "official_source_family": "CBO_OMB_or_agency_official", "value": null, "ready": false},
+    {"path_id": "oasdi_fund_path", "required": true, "current_artifact_path": null, "coverage_status": "missing_official_annual_path", "required_years_present": [], "missing_years": [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035], "official_source_family": "Social_Security_Trustees_or_Treasury", "value": null, "ready": false},
+    {"path_id": "medicare_hi_fund_path", "required": true, "current_artifact_path": null, "coverage_status": "missing_official_annual_path", "required_years_present": [], "missing_years": [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035], "official_source_family": "Medicare_Trustees_CMS_or_Treasury", "value": null, "ready": false},
+    {"path_id": "transportation_trust_fund_path", "required": true, "current_artifact_path": "data/derived/breadth_benchmark_matrix/transportation_pilot_trust_fund_accounting_boundary.v1.draft.json", "coverage_status": "accounting_boundary_only_no_annual_values", "required_years_present": [], "missing_years": [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035], "official_source_family": "OMB_Treasury_or_DOT", "value": null, "ready": false},
+    {"path_id": "general_fund_path", "required": true, "current_artifact_path": "data/derived/breadth_benchmark_matrix/fund_group_fy2025_reconciliation_fixture.v1.draft.json", "coverage_status": "aggregate_fy2025_context_only", "required_years_present": [2025], "missing_years": [2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035], "official_source_family": "OMB_or_Treasury", "value": null, "ready": false},
+    {"path_id": "health_fiscal_current_law_path", "required": true, "current_artifact_path": null, "coverage_status": "missing_component_annual_path", "required_years_present": [], "missing_years": [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035], "official_source_family": "CMS_OMB_Treasury_or_CBO", "value": null, "ready": false},
+    {"path_id": "net_interest_current_law_path", "required": true, "current_artifact_path": "data/derived/breadth_benchmark_matrix/net_interest_formula_contract.v1.draft.json", "coverage_status": "formula_contract_only_values_missing", "required_years_present": [], "missing_years": [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035], "official_source_family": "CBO_OMB_or_Treasury", "value": null, "ready": false}
+  ],
+  "inventory_rules": {
+    "official_sources_only": true,
+    "raw_bytes_metadata_retrieval_date_byte_count_and_sha256_required": true,
+    "no_interpolation_without_explicit_model": true,
+    "missing_values_remain_null": true,
+    "trust_funds_remain_separate": true,
+    "medicare_hi_must_remain_separate": true,
+    "current_law_zero_reform_delta_required": true,
+    "solver_ready": false
+  },
+  "claim_booleans": {
+    "current_law_path_inventory_published": true,
+    "current_law_path_values_published": false,
+    "solver_ready": false,
+    "solver_run_published": false,
+    "target_cost_published": false,
+    "statutory_rate_published": false,
+    "effective_rate_published": false,
+    "public_rate_card_published": false,
+    "tax_proposal_published": false,
+    "savings_claim_published": false,
+    "waste_finding_published": false,
+    "fraud_finding_published": false,
+    "department_cut_instruction_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "non_claim_boundary": "This is a current-law path inventory, not current-law path values, not a solver run, not target-cost selection, not rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+}

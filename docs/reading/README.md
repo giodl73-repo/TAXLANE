@@ -67,6 +67,7 @@ explainers. They should keep three labels visible:
 | `assigned-receipt-base-inventory.md` | Pulse 105 inventory: lists candidate receipt bases and required evidence fields while keeping amounts and rates null. |
 | `distributional-effect-placeholder.md` | Pulse 106 placeholder: defines distribution/incidence fields while keeping all values and public claims null/blocked. |
 | `solver-input-readiness-rollup.md` | Pulse 107 rollup: summarizes all twelve deterministic solver inputs while keeping every input not ready/null. |
+| `current-law-path-inventory.md` | Pulse 108 inventory: names required FY2025-FY2035 official annual current-law paths while keeping values null. |
 | `rate-change-worked-examples.md` | Three end-to-end examples of the rate-adjustment operating model (defense up, health down, Social Security cap lift). |
 | `budget-area-funding-explainer.md` | Lay distillation of the six panel-reviewed research papers: where the US over-funds (health), under-funds (family), funds by strategy (defense), runs a broken base (Social Security), and under-collects overall (revenue). Points to `docs/papers/`. |
 | `where-federal-money-goes.md` | Spending-side packet showing the largest FY2025 outlay categories, financing context, and safe accountability questions. |
