@@ -1,0 +1,130 @@
+{
+  "record_id": "distribution-incidence-source-gap:v1",
+  "record_family": "distribution_incidence_source_gap",
+  "schema_version": "v1.draft",
+  "pulse": 129,
+  "as_of_date": "2026-07-19",
+  "distributional_effect_placeholder_path": "data/derived/breadth_benchmark_matrix/distributional_effect_placeholder.v1.draft.json",
+  "assigned_receipt_base_source_gap_path": "data/derived/breadth_benchmark_matrix/assigned_receipt_base_source_gap.v1.draft.json",
+  "assigned_receipt_base_inventory_path": "data/derived/breadth_benchmark_matrix/assigned_receipt_base_inventory.v1.draft.json",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "source_custody_status": {
+    "official_sources_only": true,
+    "no_external_request_submitted_this_pulse": true,
+    "no_agency_or_person_contacted": true,
+    "distribution_source_custody_ready": false,
+    "incidence_source_custody_ready": false,
+    "benefit_service_value_source_custody_ready": false,
+    "macro_feedback_source_custody_ready": false,
+    "interaction_scoring_source_custody_ready": false,
+    "solver_inputs_ready": false
+  },
+  "required_source_families": [
+    {
+      "source_family_id": "tax_unit_income_distribution",
+      "needed_for": ["income_group_definition", "tax_unit_definition", "baseline_income_measure"],
+      "status": "missing_source_custody",
+      "value": null,
+      "ready": false
+    },
+    {
+      "source_family_id": "current_law_tax_burden_distribution",
+      "needed_for": ["current_law_tax_burden", "distribution_by_income"],
+      "status": "missing_source_custody",
+      "value": null,
+      "ready": false
+    },
+    {
+      "source_family_id": "reform_tax_burden_distribution",
+      "needed_for": ["reform_tax_burden", "reform_yield_by_income"],
+      "status": "blocked_until_policy_and_base_exist",
+      "value": null,
+      "ready": false
+    },
+    {
+      "source_family_id": "employer_household_incidence",
+      "needed_for": ["employer_incidence", "household_incidence"],
+      "status": "missing_incidence_model",
+      "value": null,
+      "ready": false
+    },
+    {
+      "source_family_id": "benefit_service_value_distribution",
+      "needed_for": ["current_law_benefit_or_service_value", "reform_benefit_or_service_value", "equity_floor_result"],
+      "status": "missing_service_valuation_model",
+      "value": null,
+      "ready": false
+    },
+    {
+      "source_family_id": "administration_and_compliance_burden",
+      "needed_for": ["agency_administration_burden", "employer_taxpayer_agency_burden"],
+      "status": "missing_administration_model",
+      "value": null,
+      "ready": false
+    },
+    {
+      "source_family_id": "interaction_and_macro_feedback",
+      "needed_for": ["interaction_with_other_taxes_and_transfers", "macro_feedback_placeholder"],
+      "status": "missing_interaction_and_macro_model",
+      "value": null,
+      "ready": false
+    }
+  ],
+  "blocked_outputs": {
+    "income_group_definitions": null,
+    "tax_unit_definitions": null,
+    "baseline_income_measures": null,
+    "current_law_tax_burdens": null,
+    "reform_tax_burdens": null,
+    "employer_incidence": null,
+    "household_incidence": null,
+    "benefit_service_values": null,
+    "administration_burdens": null,
+    "interaction_scores": null,
+    "macro_feedback": null,
+    "equity_floor_results": null,
+    "solver_input_rows": null,
+    "statutory_rate_fields": null,
+    "effective_rate_fields": null,
+    "public_rate_cards": null,
+    "tax_proposal_fields": null,
+    "balanced_budget_fields": null
+  },
+  "gate_rules": {
+    "distribution_required_before_public_rate_card": true,
+    "incidence_required_before_rate_publication": true,
+    "benefit_and_service_effects_required_before_budget_claim": true,
+    "interaction_scoring_required_before_solver": true,
+    "macro_feedback_required_before_balanced_budget_claim": true,
+    "missing_values_remain_null": true,
+    "rate_ready": false,
+    "solver_ready": false
+  },
+  "public_warning_phrases": [
+    "Distribution and incidence remain source gaps, not completed analyses.",
+    "No burden, incidence, benefit, macro, interaction, rate, or solver value is populated.",
+    "Rate publication remains blocked until distribution, incidence, administration, interaction, and macro feedback are modeled.",
+    "No external request was submitted and no agency or person was contacted.",
+    "This record is not solver input, not a solver run, not a target-cost selection, not a rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+  ],
+  "claim_booleans": {
+    "source_gap_published": true,
+    "distributional_analysis_published": false,
+    "incidence_analysis_published": false,
+    "macro_feedback_published": false,
+    "interaction_scoring_published": false,
+    "solver_inputs_ready": false,
+    "statutory_rate_claim": false,
+    "effective_rate_claim": false,
+    "public_rate_card_claim": false,
+    "tax_proposal_claim": false,
+    "balanced_budget_claim": false,
+    "target_cost_claim": false,
+    "federal_effect_claim": false,
+    "gross_savings_claim": false,
+    "net_savings_claim": false,
+    "waste_finding_claim": false,
+    "fraud_finding_claim": false,
+    "technology_savings_claim": false
+  }
+}

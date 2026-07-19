@@ -414,6 +414,9 @@ It is the bounded public surface, not a performance or savings report.
     illustrative statutory-rate file. HT23 is not an aggregate base source, and
     the illustrative file cannot feed solver inputs, rate outputs, public rate
     cards, tax proposals, or balanced-budget claims.
+98. Read `distribution-incidence-source-gap.md` before publishing any burden,
+    incidence, benefit/service, macro, interaction, rate, solver, public rate
+    card, tax proposal, or balanced-budget output.
 
 ## Public-Use Guardrail
 

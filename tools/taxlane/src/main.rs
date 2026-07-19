@@ -451,6 +451,12 @@ const DISTRIBUTIONAL_EFFECT_PLACEHOLDER_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/distributional_effect_placeholder.schema.md";
 const DISTRIBUTIONAL_EFFECT_PLACEHOLDER_READER_PATH: &str =
     "docs/reading/distributional-effect-placeholder.md";
+const DISTRIBUTION_INCIDENCE_SOURCE_GAP_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/distribution_incidence_source_gap.v1.draft.json";
+const DISTRIBUTION_INCIDENCE_SOURCE_GAP_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/distribution_incidence_source_gap.schema.md";
+const DISTRIBUTION_INCIDENCE_SOURCE_GAP_READER_PATH: &str =
+    "docs/reading/distribution-incidence-source-gap.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11095,6 +11101,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_assigned_receipt_base_inventory(root)?;
     validate_assigned_receipt_base_source_gap(root)?;
     validate_distributional_effect_placeholder(root)?;
+    validate_distribution_incidence_source_gap(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -19681,6 +19688,235 @@ fn validate_distributional_effect_placeholder(root: &Path) -> Result<(), String>
     Ok(())
 }
 
+fn validate_distribution_incidence_source_gap(root: &Path) -> Result<(), String> {
+    for path in [
+        DISTRIBUTION_INCIDENCE_SOURCE_GAP_JSON_PATH,
+        DISTRIBUTION_INCIDENCE_SOURCE_GAP_SCHEMA_PATH,
+        DISTRIBUTION_INCIDENCE_SOURCE_GAP_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing distribution incidence source gap artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(DISTRIBUTION_INCIDENCE_SOURCE_GAP_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let gap: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&gap, "record_id")? != "distribution-incidence-source-gap:v1"
+        || string_field(&gap, "record_family")? != "distribution_incidence_source_gap"
+        || int_field(&gap, "pulse")? != 129
+        || string_field(&gap, "distributional_effect_placeholder_path")?
+            != DISTRIBUTIONAL_EFFECT_PLACEHOLDER_JSON_PATH
+        || string_field(&gap, "assigned_receipt_base_source_gap_path")?
+            != ASSIGNED_RECEIPT_BASE_SOURCE_GAP_JSON_PATH
+        || string_field(&gap, "assigned_receipt_base_inventory_path")?
+            != ASSIGNED_RECEIPT_BASE_INVENTORY_JSON_PATH
+        || string_field(&gap, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+    {
+        return Err("distribution incidence source gap identity failed".to_string());
+    }
+
+    for path in [
+        string_field(&gap, "distributional_effect_placeholder_path")?,
+        string_field(&gap, "assigned_receipt_base_source_gap_path")?,
+        string_field(&gap, "assigned_receipt_base_inventory_path")?,
+    ] {
+        if !root.join(&path).exists() {
+            return Err(format!(
+                "distribution incidence referenced path missing: {path}"
+            ));
+        }
+    }
+
+    let status = gap
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("distribution incidence custody status")?;
+    for field in [
+        "official_sources_only",
+        "no_external_request_submitted_this_pulse",
+        "no_agency_or_person_contacted",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "distribution incidence status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "distribution_source_custody_ready",
+        "incidence_source_custody_ready",
+        "benefit_service_value_source_custody_ready",
+        "macro_feedback_source_custody_ready",
+        "interaction_scoring_source_custody_ready",
+        "solver_inputs_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "distribution incidence status {field} must be false"
+            ));
+        }
+    }
+
+    let families = gap
+        .get("required_source_families")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("required distribution source families")?;
+    let expected = [
+        "tax_unit_income_distribution",
+        "current_law_tax_burden_distribution",
+        "reform_tax_burden_distribution",
+        "employer_household_incidence",
+        "benefit_service_value_distribution",
+        "administration_and_compliance_burden",
+        "interaction_and_macro_feedback",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let observed = families
+        .iter()
+        .map(|row| string_field(row, "source_family_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if observed != expected {
+        return Err("distribution incidence source family set failed".to_string());
+    }
+    for row in families {
+        if row.get("value") != Some(&serde_json::Value::Null)
+            || row.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+        {
+            return Err("distribution incidence family values must stay null/false".to_string());
+        }
+    }
+
+    let blocked = gap
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("distribution incidence blocked outputs")?;
+    for field in [
+        "income_group_definitions",
+        "tax_unit_definitions",
+        "baseline_income_measures",
+        "current_law_tax_burdens",
+        "reform_tax_burdens",
+        "employer_incidence",
+        "household_incidence",
+        "benefit_service_values",
+        "administration_burdens",
+        "interaction_scores",
+        "macro_feedback",
+        "equity_floor_results",
+        "solver_input_rows",
+        "statutory_rate_fields",
+        "effective_rate_fields",
+        "public_rate_cards",
+        "tax_proposal_fields",
+        "balanced_budget_fields",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "distribution incidence blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let rules = gap
+        .get("gate_rules")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("distribution incidence gate rules")?;
+    for field in [
+        "distribution_required_before_public_rate_card",
+        "incidence_required_before_rate_publication",
+        "benefit_and_service_effects_required_before_budget_claim",
+        "interaction_scoring_required_before_solver",
+        "macro_feedback_required_before_balanced_budget_claim",
+        "missing_values_remain_null",
+    ] {
+        if rules.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "distribution incidence gate rule {field} must be true"
+            ));
+        }
+    }
+    for field in ["rate_ready", "solver_ready"] {
+        if rules.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "distribution incidence gate rule {field} must be false"
+            ));
+        }
+    }
+
+    let claims = gap
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("distribution incidence claims")?;
+    if claims
+        .get("source_gap_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("distribution incidence source_gap_published must be true".to_string());
+    }
+    for field in [
+        "distributional_analysis_published",
+        "incidence_analysis_published",
+        "macro_feedback_published",
+        "interaction_scoring_published",
+        "solver_inputs_ready",
+        "statutory_rate_claim",
+        "effective_rate_claim",
+        "public_rate_card_claim",
+        "tax_proposal_claim",
+        "balanced_budget_claim",
+        "target_cost_claim",
+        "federal_effect_claim",
+        "gross_savings_claim",
+        "net_savings_claim",
+        "waste_finding_claim",
+        "fraud_finding_claim",
+        "technology_savings_claim",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "distribution incidence claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(DISTRIBUTION_INCIDENCE_SOURCE_GAP_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for phrase in [
+        DISTRIBUTION_INCIDENCE_SOURCE_GAP_JSON_PATH,
+        "Distribution and incidence remain source gaps, not completed analyses.",
+        "No burden, incidence, benefit, macro, interaction, rate, or solver value is populated.",
+        "Rate publication remains blocked until distribution, incidence, administration, interaction, and macro feedback are modeled.",
+        "No external request was submitted and no agency or person was contacted.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "distribution incidence reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -25617,6 +25853,12 @@ mod global_country_comparison_tests {
     fn distributional_effect_placeholder_keeps_values_null() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_distributional_effect_placeholder(&root).unwrap();
+    }
+
+    #[test]
+    fn distribution_incidence_source_gap_blocks_rate_and_solver_values() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_distribution_incidence_source_gap(&root).unwrap();
     }
 
     #[test]

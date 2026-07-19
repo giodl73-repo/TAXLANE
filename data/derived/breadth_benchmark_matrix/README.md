@@ -642,3 +642,9 @@ custody supports rate/bracket source context only, not AGI, taxable-income,
 taxable-payroll, or transportation fee base amounts. It quarantines the TY2022
 illustrative statutory-rate file from solvers, rate outputs, public rate cards,
 tax proposals, and balanced-budget claims.
+
+`distribution_incidence_source_gap.v1.draft.json` documents the remaining source
+and model gaps for distribution, incidence, administration burden, benefit and
+service valuation, interaction scoring, and macro feedback. It keeps all
+distributional values, solver inputs, rates, public rate cards, tax proposals,
+and balanced-budget claims blocked.
