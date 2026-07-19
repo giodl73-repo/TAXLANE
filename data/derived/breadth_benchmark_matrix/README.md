@@ -208,6 +208,11 @@ marks every lane incomplete for full depth and public explainability, and blocks
 solver, target-cost, rate, savings, waste, fraud, technology-savings, and
 balanced-budget claims.
 
+`lane_agent_work_order_plan.v1.draft.json` defines the safe scaled-agent work
+order for lane-depth packets: one lane per clean worktree, common deliverables,
+wave-level integration review, and the same solver/rate/savings/waste/fraud
+claim firewall.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is

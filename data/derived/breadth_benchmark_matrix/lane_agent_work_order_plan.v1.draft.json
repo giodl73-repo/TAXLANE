@@ -1,0 +1,107 @@
+{
+  "record_id": "lane-agent-work-order-plan:v1",
+  "record_family": "lane_agent_work_order_plan",
+  "version": "v1.draft",
+  "status": "draft_orchestration_plan_no_lane_work_executed",
+  "pulse": 111,
+  "lane_depth_explainability_tracker_path": "data/derived/breadth_benchmark_matrix/lane_depth_explainability_tracker.v1.draft.json",
+  "program_lane_target_cost_contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "international_comparator_target_rubric_path": "data/derived/breadth_benchmark_matrix/international_comparator_target_rubric.v1.draft.json",
+  "purpose": "Define how parallel lane agents may produce lane-depth and public-explainability packets without making rates, savings, target-cost, solver, waste, fraud, technology-savings, or balanced-budget claims.",
+  "parallelization_rules": {
+    "one_lane_per_agent": true,
+    "one_clean_worktree_per_lane": true,
+    "agents_may_not_share_edit_targets": true,
+    "integration_agent_required_after_each_wave": true,
+    "merge_order": "lane_branch_then_integration_pointer",
+    "normative_target_choices_require_review": true,
+    "policy_mechanism_design_requires_review": true,
+    "outcome_floor_threshold_choices_require_review": true,
+    "external_requests_allowed": false,
+    "public_claims_allowed": false
+  },
+  "standard_agent_work_order": {
+    "required_inputs_to_read": [
+      "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+      "data/derived/breadth_benchmark_matrix/international_comparator_target_rubric.v1.draft.json",
+      "data/derived/breadth_benchmark_matrix/global_country_comparison_coverage.v1.draft.json",
+      "data/derived/breadth_benchmark_matrix/lane_depth_explainability_tracker.v1.draft.json",
+      "docs/research/2026-06-23-balance-rule-guardrail-spec.md",
+      "docs/research/2026-06-24-rate-adjustment-operating-model.md"
+    ],
+    "required_outputs_per_lane": [
+      "lane_depth_card_or_overlay_card",
+      "schema",
+      "public_reader",
+      "lane_readiness_row_update",
+      "explicit_blockers",
+      "rust_validator",
+      "focused_test",
+      "pulse_note"
+    ],
+    "required_public_questions": [
+      "What does this lane do?",
+      "What are taxpayers paying now?",
+      "Who is served or protected?",
+      "What outcomes matter before any lower-cost scenario is admissible?",
+      "What would count as overspending, underfunding, or only a review-needed signal?",
+      "What can technology change, and what transition risks must be paid for?",
+      "What evidence is still missing?",
+      "What claims are blocked?"
+    ],
+    "required_claim_firewall": [
+      "not_a_solver_run",
+      "not_target_cost_selection",
+      "not_rate_calculation",
+      "not_public_rate_card",
+      "not_tax_proposal",
+      "not_savings_estimate",
+      "not_waste_finding",
+      "not_fraud_finding",
+      "not_department_cut_instruction",
+      "not_technology_savings_claim",
+      "not_balanced_budget_claim"
+    ]
+  },
+  "assignment_waves": [
+    {"wave_id": "wave_1_public_topline", "max_parallel_agents": 3, "lane_ids": ["health-medicare", "social-security", "national-defense"], "integration_required": true, "rationale": "Highest public salience and largest risk of premature claims."},
+    {"wave_id": "wave_2_human_services", "max_parallel_agents": 3, "lane_ids": ["income-security-family", "education-workforce", "veterans"], "integration_required": true, "rationale": "Human-service lanes need clear served-population and floor language."},
+    {"wave_id": "wave_3_public_goods", "max_parallel_agents": 3, "lane_ids": ["disaster-resilience", "justice-courts-public-safety", "science-energy-environment"], "integration_required": true, "rationale": "Public-good lanes require federalism, resilience, and component-separation boundaries."},
+    {"wave_id": "wave_4_component_and_pilot", "max_parallel_agents": 3, "lane_ids": ["agriculture", "international-affairs", "transportation-infrastructure"], "integration_required": true, "rationale": "Component-heavy lanes and the transportation pilot need consistency checks before deeper modeling."},
+    {"wave_id": "wave_5_overlays", "max_parallel_agents": 3, "lane_ids": ["revenue-solvency", "payment-integrity", "net-interest"], "integration_required": true, "rationale": "Overlays are non-additive or endogenous and must be checked last against lane outputs."}
+  ],
+  "integration_review_checklist": [
+    "all_15_analytical_lanes_present_once",
+    "17_budget_rows_not_confused_with_15_analytical_lanes",
+    "revenue_solvency_and_payment_integrity_remain_non_additive_overlays",
+    "net_interest_remains_endogenous_and_not_directly_cuttable",
+    "trust_funds_remain_separate",
+    "missing_values_remain_null",
+    "blocked_gates_remain_false",
+    "technology_changes_are_transition_paths_not_automatic_savings",
+    "international_differences_are_not_savings",
+    "improper_payment_estimates_do_not_imply_fraud",
+    "public_reader_is_plain_language",
+    "validator_and_focused_test_added"
+  ],
+  "claim_booleans": {
+    "lane_agent_work_order_plan_published": true,
+    "lane_agents_executed": false,
+    "lane_depth_complete": false,
+    "public_explainability_complete": false,
+    "solver_ready": false,
+    "solver_run_published": false,
+    "target_cost_published": false,
+    "statutory_rate_published": false,
+    "effective_rate_published": false,
+    "public_rate_card_published": false,
+    "tax_proposal_published": false,
+    "savings_claim_published": false,
+    "waste_finding_published": false,
+    "fraud_finding_published": false,
+    "department_cut_instruction_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "plain_english_status": "Agents can scale the lane-depth work by taking one lane each in clean worktrees, using the same work order, and then passing an integration review. This plan does not execute lane agents, complete lane depth, calculate rates, publish target costs, claim savings, identify waste or fraud, direct department cuts, claim technology savings, or claim a balanced budget."
+}

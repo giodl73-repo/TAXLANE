@@ -468,6 +468,11 @@ const LANE_DEPTH_EXPLAINABILITY_TRACKER_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/lane_depth_explainability_tracker.schema.md";
 const LANE_DEPTH_EXPLAINABILITY_TRACKER_READER_PATH: &str =
     "docs/reading/lane-depth-explainability-tracker.md";
+const LANE_AGENT_WORK_ORDER_PLAN_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/lane_agent_work_order_plan.v1.draft.json";
+const LANE_AGENT_WORK_ORDER_PLAN_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/lane_agent_work_order_plan.schema.md";
+const LANE_AGENT_WORK_ORDER_PLAN_READER_PATH: &str = "docs/reading/lane-agent-work-order-plan.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -11000,6 +11005,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
     validate_lane_depth_explainability_tracker(root)?;
+    validate_lane_agent_work_order_plan(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -20207,6 +20213,246 @@ fn validate_lane_depth_explainability_tracker(root: &Path) -> Result<(), String>
     Ok(())
 }
 
+fn validate_lane_agent_work_order_plan(root: &Path) -> Result<(), String> {
+    for path in [
+        LANE_AGENT_WORK_ORDER_PLAN_JSON_PATH,
+        LANE_AGENT_WORK_ORDER_PLAN_SCHEMA_PATH,
+        LANE_AGENT_WORK_ORDER_PLAN_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing lane agent work-order artifact: {path}"));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(LANE_AGENT_WORK_ORDER_PLAN_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let plan: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&plan, "record_id")? != "lane-agent-work-order-plan:v1"
+        || string_field(&plan, "record_family")? != "lane_agent_work_order_plan"
+        || int_field(&plan, "pulse")? != 111
+        || string_field(&plan, "lane_depth_explainability_tracker_path")?
+            != LANE_DEPTH_EXPLAINABILITY_TRACKER_JSON_PATH
+        || string_field(&plan, "program_lane_target_cost_contract_path")?
+            != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&plan, "international_comparator_target_rubric_path")?
+            != INTERNATIONAL_COMPARATOR_TARGET_RUBRIC_JSON_PATH
+    {
+        return Err("lane agent work-order identity failed".to_string());
+    }
+
+    let rules = plan
+        .get("parallelization_rules")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("lane agent parallelization rules")?;
+    for required_true in [
+        "one_lane_per_agent",
+        "one_clean_worktree_per_lane",
+        "agents_may_not_share_edit_targets",
+        "integration_agent_required_after_each_wave",
+        "normative_target_choices_require_review",
+        "policy_mechanism_design_requires_review",
+        "outcome_floor_threshold_choices_require_review",
+    ] {
+        if rules
+            .get(required_true)
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        {
+            return Err(format!("lane agent rule must be true: {required_true}"));
+        }
+    }
+    for required_false in ["external_requests_allowed", "public_claims_allowed"] {
+        if rules
+            .get(required_false)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!("lane agent rule must be false: {required_false}"));
+        }
+    }
+
+    let work_order = plan
+        .get("standard_agent_work_order")
+        .ok_or("lane agent standard work order")?;
+    for field in [
+        "required_inputs_to_read",
+        "required_outputs_per_lane",
+        "required_public_questions",
+        "required_claim_firewall",
+    ] {
+        let values = work_order
+            .get(field)
+            .and_then(serde_json::Value::as_array)
+            .ok_or("lane agent work order list")?;
+        if values.len() < 6 {
+            return Err(format!("lane agent work-order list too short: {field}"));
+        }
+    }
+
+    let waves = plan
+        .get("assignment_waves")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("lane agent assignment waves")?;
+    if waves.len() != 5 {
+        return Err("lane agent wave count failed".to_string());
+    }
+    let mut lane_ids = BTreeSet::new();
+    for wave in waves {
+        if int_field(wave, "max_parallel_agents")? > 3
+            || wave
+                .get("integration_required")
+                .and_then(serde_json::Value::as_bool)
+                != Some(true)
+            || string_field(wave, "wave_id")?.is_empty()
+            || string_field(wave, "rationale")?.is_empty()
+        {
+            return Err("lane agent wave rules failed".to_string());
+        }
+        let lanes = wave
+            .get("lane_ids")
+            .and_then(serde_json::Value::as_array)
+            .ok_or("lane agent wave lanes")?;
+        if lanes.len() != 3 {
+            return Err("lane agent waves must contain three lanes each".to_string());
+        }
+        for lane in lanes {
+            let lane = lane.as_str().ok_or("lane agent lane id string")?;
+            if !lane_ids.insert(lane.to_string()) {
+                return Err(format!("lane agent duplicate lane: {lane}"));
+            }
+        }
+    }
+    let expected = [
+        "health-medicare",
+        "social-security",
+        "national-defense",
+        "income-security-family",
+        "revenue-solvency",
+        "net-interest",
+        "payment-integrity",
+        "veterans",
+        "transportation-infrastructure",
+        "education-workforce",
+        "disaster-resilience",
+        "justice-courts-public-safety",
+        "science-energy-environment",
+        "agriculture",
+        "international-affairs",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    if lane_ids != expected {
+        return Err("lane agent assignment must cover all 15 analytical lanes".to_string());
+    }
+
+    let integration = plan
+        .get("integration_review_checklist")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("lane agent integration checklist")?
+        .iter()
+        .map(|value| {
+            value
+                .as_str()
+                .map(str::to_string)
+                .ok_or("lane agent integration checklist string")
+        })
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    for required in [
+        "all_15_analytical_lanes_present_once",
+        "17_budget_rows_not_confused_with_15_analytical_lanes",
+        "revenue_solvency_and_payment_integrity_remain_non_additive_overlays",
+        "net_interest_remains_endogenous_and_not_directly_cuttable",
+        "trust_funds_remain_separate",
+        "missing_values_remain_null",
+        "blocked_gates_remain_false",
+        "technology_changes_are_transition_paths_not_automatic_savings",
+        "international_differences_are_not_savings",
+        "improper_payment_estimates_do_not_imply_fraud",
+        "public_reader_is_plain_language",
+        "validator_and_focused_test_added",
+    ] {
+        if !integration.contains(required) {
+            return Err(format!(
+                "lane agent integration checklist missing {required}"
+            ));
+        }
+    }
+
+    let claims = plan
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("lane agent claims")?;
+    for (field, value) in claims {
+        let observed = value.as_bool().ok_or("lane agent claim bool")?;
+        if field == "lane_agent_work_order_plan_published" {
+            if !observed {
+                return Err("lane agent work-order publish flag must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!("lane agent public claim {field} must be false"));
+        }
+    }
+
+    let status = string_field(&plan, "plain_english_status")?;
+    for required in [
+        "Agents can scale",
+        "one lane each",
+        "clean worktrees",
+        "integration review",
+        "does not execute lane agents",
+        "complete lane depth",
+        "calculate rates",
+        "publish target costs",
+        "claim savings",
+        "identify waste or fraud",
+        "direct department cuts",
+        "claim technology savings",
+        "claim a balanced budget",
+    ] {
+        if !status.contains(required) {
+            return Err(format!("lane agent status missing {required}"));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(LANE_AGENT_WORK_ORDER_PLAN_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        LANE_AGENT_WORK_ORDER_PLAN_JSON_PATH,
+        "one lane per agent",
+        "one clean worktree per lane",
+        "one integration review after each wave",
+        "Health, Social Security, and Defense",
+        "Revenue-solvency, Payment-integrity, and Net-interest overlays",
+        "all 15 analytical lanes appear once",
+        "the 15 analytical lanes are not confused with the 17 budget rows",
+        "revenue-solvency and payment-integrity remain non-additive overlays",
+        "net interest remains endogenous",
+        "trust funds remain separate",
+        "missing values remain null",
+        "blocked gates remain false",
+        "technology changes are transition paths not automatic savings",
+        "international differences are not savings",
+        "improper-payment estimates do not imply fraud",
+        "not a solver run",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("lane agent reader missing {required}"));
+        }
+    }
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -20437,6 +20683,12 @@ mod global_country_comparison_tests {
     fn lane_depth_explainability_tracker_keeps_every_lane_incomplete() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_lane_depth_explainability_tracker(&root).unwrap();
+    }
+
+    #[test]
+    fn lane_agent_work_order_plan_covers_lanes_without_claims() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_lane_agent_work_order_plan(&root).unwrap();
     }
 
     #[test]
