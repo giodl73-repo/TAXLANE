@@ -514,6 +514,12 @@ const MEDICARE_HI_RECEIPT_BASE_RECONCILIATION_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/medicare_hi_receipt_base_reconciliation.schema.md";
 const MEDICARE_HI_RECEIPT_BASE_RECONCILIATION_READER_PATH: &str =
     "docs/reading/medicare-hi-receipt-base-reconciliation.md";
+const MEDICARE_HI_PERIMETER_BRIDGE_REQUIREMENTS_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/medicare_hi_perimeter_bridge_requirements.v1.draft.json";
+const MEDICARE_HI_PERIMETER_BRIDGE_REQUIREMENTS_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/medicare_hi_perimeter_bridge_requirements.schema.md";
+const MEDICARE_HI_PERIMETER_BRIDGE_REQUIREMENTS_READER_PATH: &str =
+    "docs/reading/medicare-hi-perimeter-bridge-requirements.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11169,6 +11175,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_receipt_base_official_source_capture(root)?;
     validate_receipt_base_reconciliation_gap(root)?;
     validate_medicare_hi_receipt_base_reconciliation(root)?;
+    validate_medicare_hi_perimeter_bridge_requirements(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -22563,6 +22570,273 @@ fn validate_medicare_hi_receipt_base_reconciliation(root: &Path) -> Result<(), S
     Ok(())
 }
 
+fn validate_medicare_hi_perimeter_bridge_requirements(root: &Path) -> Result<(), String> {
+    for path in [
+        MEDICARE_HI_PERIMETER_BRIDGE_REQUIREMENTS_JSON_PATH,
+        MEDICARE_HI_PERIMETER_BRIDGE_REQUIREMENTS_SCHEMA_PATH,
+        MEDICARE_HI_PERIMETER_BRIDGE_REQUIREMENTS_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing Medicare HI perimeter bridge requirements artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(MEDICARE_HI_PERIMETER_BRIDGE_REQUIREMENTS_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")? != "medicare-hi-perimeter-bridge-requirements:v1"
+        || string_field(&record, "record_family")? != "medicare_hi_perimeter_bridge_requirements"
+        || int_field(&record, "pulse")? != 140
+        || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&record, "medicare_hi_receipt_base_reconciliation_path")?
+            != MEDICARE_HI_RECEIPT_BASE_RECONCILIATION_JSON_PATH
+        || string_field(&record, "receipt_base_reconciliation_gap_path")?
+            != RECEIPT_BASE_RECONCILIATION_GAP_JSON_PATH
+        || string_field(&record, "rate_publication_readiness_rollup_path")?
+            != RATE_PUBLICATION_READINESS_ROLLUP_JSON_PATH
+    {
+        return Err("Medicare HI perimeter bridge requirements identity failed".to_string());
+    }
+
+    let status = record
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI perimeter bridge status")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_captured_sources_only",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "bridge_requirements_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "Medicare HI perimeter bridge status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "perimeter_bridge_complete",
+        "assigned_base_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI perimeter bridge status {field} must be false"
+            ));
+        }
+    }
+
+    let scope = record
+        .get("bridge_scope")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI bridge scope")?;
+    for field in [
+        "trust_fund_separation_required",
+        "combined_medicare_prohibited",
+    ] {
+        if scope.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("Medicare HI bridge scope {field} must be true"));
+        }
+    }
+    if scope
+        .get("diagnostic_ratio_publishable_as_rate")
+        .and_then(serde_json::Value::as_bool)
+        != Some(false)
+    {
+        return Err("Medicare HI diagnostic ratio must not be publishable as rate".to_string());
+    }
+    let cms_values = scope
+        .get("cms_context_values_musd")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI CMS context values")?;
+    let omb_values = scope
+        .get("omb_context_values_musd")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI OMB context values")?;
+    if cms_values
+        .get("hi_taxable_payroll")
+        .and_then(serde_json::Value::as_f64)
+        != Some(13_277_000.0)
+        || cms_values
+            .get("hi_payroll_tax_yield_context")
+            .and_then(serde_json::Value::as_f64)
+            != Some(400_622.16)
+        || omb_values
+            .get("hospital_insurance_receipt_anchor")
+            .and_then(serde_json::Value::as_f64)
+            != Some(395_350.0)
+    {
+        return Err("Medicare HI bridge scope values failed".to_string());
+    }
+    let difference = scope
+        .get("unreconciled_difference_musd")
+        .and_then(serde_json::Value::as_f64)
+        .ok_or("unreconciled_difference_musd")?;
+    if (difference - 5_272.16).abs() > 0.001 {
+        return Err("Medicare HI bridge difference failed".to_string());
+    }
+
+    let components = record
+        .get("required_bridge_components")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Medicare HI bridge components")?;
+    if components.len() != 6 {
+        return Err("Medicare HI bridge component count failed".to_string());
+    }
+    let expected_components = [
+        "payroll_tax_yield_perimeter",
+        "taxation_of_benefits_and_other_income_split",
+        "legal_base_definition",
+        "economic_base_definition",
+        "solver_yield_mapping",
+        "behavior_and_reform_yield",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let observed_components = components
+        .iter()
+        .map(|row| string_field(row, "component_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if observed_components != expected_components {
+        return Err("Medicare HI bridge component set failed".to_string());
+    }
+    for row in components {
+        if string_field(row, "status")? != "required_not_complete"
+            || row.get("value") != Some(&serde_json::Value::Null)
+            || row.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+        {
+            return Err("Medicare HI bridge component readiness failed".to_string());
+        }
+    }
+
+    let summary = record
+        .get("summary")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI bridge summary")?;
+    for (field, expected) in [
+        ("bridge_component_count", 6),
+        ("ready_component_count", 0),
+        ("blocked_component_count", 6),
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_i64) != Some(expected) {
+            return Err(format!("Medicare HI bridge summary {field} failed"));
+        }
+    }
+    for field in [
+        "perimeter_bridge_complete",
+        "assigned_base_ready",
+        "rate_publication_ready",
+        "solver_ready",
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("Medicare HI bridge summary {field} must be false"));
+        }
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI bridge blocked outputs")?;
+    for field in [
+        "perimeter_bridge_value",
+        "legal_receipt_base_amount",
+        "economic_receipt_base_amount",
+        "matched_receipt_base",
+        "assigned_base_rate",
+        "statutory_rate",
+        "effective_rate",
+        "behavioral_elasticity",
+        "avoidance_and_compliance",
+        "administration_burden",
+        "distribution_by_income",
+        "current_law_yield_matched_to_solver",
+        "reform_yield",
+        "public_rate_card",
+        "solver_input_row",
+        "tax_proposal_fields",
+        "balanced_budget_fields",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "Medicare HI bridge blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI bridge claims")?;
+    if claims
+        .get("medicare_hi_bridge_requirements_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("Medicare HI bridge published flag must be true".to_string());
+    }
+    for field in [
+        "perimeter_bridge_complete",
+        "assigned_receipt_base_published",
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+        "statutory_rate_claim",
+        "effective_rate_claim",
+        "public_rate_card_claim",
+        "tax_proposal_claim",
+        "balanced_budget_claim",
+        "target_cost_claim",
+        "federal_effect_claim",
+        "gross_savings_claim",
+        "net_savings_claim",
+        "waste_finding_claim",
+        "fraud_finding_claim",
+        "technology_savings_claim",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("Medicare HI bridge claim {field} must be false"));
+        }
+    }
+
+    let reader =
+        fs::read_to_string(root.join(MEDICARE_HI_PERIMETER_BRIDGE_REQUIREMENTS_READER_PATH))
+            .map_err(|e| e.to_string())?;
+    for phrase in [
+        MEDICARE_HI_PERIMETER_BRIDGE_REQUIREMENTS_JSON_PATH,
+        "These are Medicare HI perimeter-bridge requirements, not a completed perimeter bridge.",
+        "The Medicare HI diagnostic ratio remains blocked from statutory-rate and effective-rate publication.",
+        "Medicare HI trust-fund separation remains required; combined Medicare financing is prohibited for this bridge.",
+        "No Medicare HI assigned base, rate, solver input, public rate card, tax proposal, or balanced-budget value is populated.",
+        "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "Medicare HI perimeter bridge reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -28565,6 +28839,12 @@ mod global_country_comparison_tests {
     fn medicare_hi_receipt_base_reconciliation_blocks_rate_publication() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_medicare_hi_receipt_base_reconciliation(&root).unwrap();
+    }
+
+    #[test]
+    fn medicare_hi_perimeter_bridge_requirements_keep_values_blocked() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_medicare_hi_perimeter_bridge_requirements(&root).unwrap();
     }
 
     #[test]

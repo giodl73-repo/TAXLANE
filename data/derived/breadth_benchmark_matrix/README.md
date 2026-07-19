@@ -711,3 +711,9 @@ FY2025 CMS Medicare HI taxable-payroll and payroll-tax-yield context against the
 OMB Hospital Insurance receipt anchor. It publishes diagnostic reconciliation
 context only, not a statutory rate, effective rate, solver input, public rate
 card, tax proposal, savings estimate, or balanced-budget claim.
+
+`medicare_hi_perimeter_bridge_requirements.v1.draft.json` defines the evidence
+and modeling requirements needed before Medicare HI payroll context can become a
+matched assigned receipt base. It keeps the diagnostic ratio, assigned base,
+rates, solver inputs, public rate cards, tax proposals, savings, and
+balanced-budget outputs blocked.

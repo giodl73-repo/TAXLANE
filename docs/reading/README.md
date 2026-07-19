@@ -76,6 +76,7 @@ explainers. They should keep three labels visible:
 | `receipt-base-official-source-capture.md` | Pulse 137 source capture: records IRS, CMS, and FHWA official public source custody and guarded context values while keeping assigned bases, rates, solver inputs, and public claims blocked. |
 | `receipt-base-reconciliation-gap.md` | Pulse 138 reconciliation gap: explains why captured IRS, CMS, FHWA, and blocked SSA source context still cannot publish assigned bases, rates, solver inputs, or public claims. |
 | `medicare-hi-receipt-base-reconciliation.md` | Pulse 139 reconciliation: compares CMS Medicare HI payroll context with the OMB HI receipt anchor while keeping rates, solver inputs, and public claims blocked. |
+| `medicare-hi-perimeter-bridge-requirements.md` | Pulse 140 requirements: defines the Medicare HI perimeter bridge required before assigned-base/rate use while keeping values and public claims blocked. |
 | `solver-input-readiness-rollup.md` | Pulse 107 rollup: summarizes all twelve deterministic solver inputs while keeping every input not ready/null. |
 | `current-law-path-inventory.md` | Pulse 108 inventory: names required FY2025-FY2035 official annual current-law paths while keeping values null. |
 | `current-law-source-custody-preflight.md` | Pulse 109 preflight: defines current-law source custody packet requirements while keeping all source and value fields null. |
