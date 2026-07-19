@@ -202,6 +202,12 @@ packet required before current-law annual path values may be populated. It
 submits no external request, captures no source values, and leaves all custody
 fields null.
 
+`lane_depth_explainability_tracker.v1.draft.json` answers whether the lane-depth
+and public explainability layer is complete. It records all 15 analytical lanes,
+marks every lane incomplete for full depth and public explainability, and blocks
+solver, target-cost, rate, savings, waste, fraud, technology-savings, and
+balanced-budget claims.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is

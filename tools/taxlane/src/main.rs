@@ -462,6 +462,12 @@ const CURRENT_LAW_SOURCE_CUSTODY_PREFLIGHT_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/current_law_source_custody_preflight.schema.md";
 const CURRENT_LAW_SOURCE_CUSTODY_PREFLIGHT_READER_PATH: &str =
     "docs/reading/current-law-source-custody-preflight.md";
+const LANE_DEPTH_EXPLAINABILITY_TRACKER_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/lane_depth_explainability_tracker.v1.draft.json";
+const LANE_DEPTH_EXPLAINABILITY_TRACKER_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/lane_depth_explainability_tracker.schema.md";
+const LANE_DEPTH_EXPLAINABILITY_TRACKER_READER_PATH: &str =
+    "docs/reading/lane-depth-explainability-tracker.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10993,6 +10999,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
+    validate_lane_depth_explainability_tracker(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -19975,6 +19982,231 @@ fn validate_current_law_source_custody_preflight(root: &Path) -> Result<(), Stri
     Ok(())
 }
 
+fn validate_lane_depth_explainability_tracker(root: &Path) -> Result<(), String> {
+    for path in [
+        LANE_DEPTH_EXPLAINABILITY_TRACKER_JSON_PATH,
+        LANE_DEPTH_EXPLAINABILITY_TRACKER_SCHEMA_PATH,
+        LANE_DEPTH_EXPLAINABILITY_TRACKER_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing lane depth explainability tracker artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(LANE_DEPTH_EXPLAINABILITY_TRACKER_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let tracker: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&tracker, "record_id")? != "lane-depth-explainability-tracker:v1"
+        || string_field(&tracker, "record_family")? != "lane_depth_explainability_tracker"
+        || int_field(&tracker, "pulse")? != 110
+        || string_field(&tracker, "program_lane_target_cost_contract_path")?
+            != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&tracker, "international_comparator_target_rubric_path")?
+            != INTERNATIONAL_COMPARATOR_TARGET_RUBRIC_JSON_PATH
+        || string_field(&tracker, "solver_input_readiness_rollup_path")?
+            != SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH
+        || string_field(&tracker, "current_law_source_custody_preflight_path")?
+            != CURRENT_LAW_SOURCE_CUSTODY_PREFLIGHT_JSON_PATH
+    {
+        return Err("lane depth explainability tracker identity failed".to_string());
+    }
+
+    let completion = tracker
+        .get("completion_definition")
+        .ok_or("lane depth completion definition")?;
+    for field in [
+        "lane_depth_complete_requires",
+        "public_explainability_complete_requires",
+    ] {
+        let values = completion
+            .get(field)
+            .and_then(serde_json::Value::as_array)
+            .ok_or("lane depth completion list")?;
+        if values.len() < 8 {
+            return Err(format!("lane depth completion list too short: {field}"));
+        }
+    }
+    if completion
+        .get("missing_values_remain_null")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+        || completion
+            .get("blocked_statuses_remain_false")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("lane depth completion null/false rules failed".to_string());
+    }
+
+    let aggregate = tracker
+        .get("aggregate_status")
+        .ok_or("lane depth aggregate status")?;
+    if int_field(aggregate, "lane_count")? != 15
+        || int_field(aggregate, "lanes_depth_complete")? != 0
+        || int_field(aggregate, "lanes_public_explainability_complete")? != 0
+        || aggregate
+            .get("every_lane_defensible_for_public_rates")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || aggregate
+            .get("solver_ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || aggregate
+            .get("balanced_rate_ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("lane depth aggregate status must remain incomplete".to_string());
+    }
+
+    let rows = tracker
+        .get("lane_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("lane depth rows")?;
+    let observed = rows
+        .iter()
+        .map(|row| string_field(row, "lane_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected = [
+        "health-medicare",
+        "social-security",
+        "national-defense",
+        "income-security-family",
+        "revenue-solvency",
+        "net-interest",
+        "payment-integrity",
+        "veterans",
+        "transportation-infrastructure",
+        "education-workforce",
+        "disaster-resilience",
+        "justice-courts-public-safety",
+        "science-energy-environment",
+        "agriculture",
+        "international-affairs",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    if observed != expected || rows.len() != expected.len() {
+        return Err("lane depth row set failed".to_string());
+    }
+
+    for row in rows {
+        for field in [
+            "public_label",
+            "current_law_baseline_status",
+            "source_custody_status",
+            "policy_scenario_status",
+            "outcome_floor_status",
+            "modernization_transition_status",
+            "public_explainer_status",
+            "solver_mapping_status",
+            "next_work",
+        ] {
+            if string_field(row, field)?.is_empty() {
+                return Err(format!("lane depth field empty: {field}"));
+            }
+        }
+        if row
+            .get("depth_artifact_paths")
+            .and_then(serde_json::Value::as_array)
+            .is_none()
+        {
+            return Err("lane depth artifact paths must be an array".to_string());
+        }
+        if row
+            .get("lane_depth_complete")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+            || row
+                .get("public_explainability_complete")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+        {
+            return Err("lane depth completion booleans must remain false".to_string());
+        }
+    }
+
+    let questions = tracker
+        .get("public_questions_required_for_each_lane")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("lane depth public questions")?;
+    if questions.len() != 8 {
+        return Err("lane depth public question count failed".to_string());
+    }
+
+    let claims = tracker
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("lane depth claims")?;
+    for (field, value) in claims {
+        let observed = value.as_bool().ok_or("lane depth claim bool")?;
+        if field == "lane_depth_explainability_tracker_published" {
+            if !observed {
+                return Err("lane depth tracker publish flag must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!("lane depth public claim {field} must be false"));
+        }
+    }
+
+    let status = string_field(&tracker, "plain_english_status")?;
+    for required in [
+        "We are not done",
+        "Transportation is the deepest pilot",
+        "every lane remains blocked",
+        "public rates",
+        "target costs",
+        "solver output",
+        "savings claims",
+        "waste claims",
+        "fraud claims",
+        "department-cut instructions",
+        "technology-savings claims",
+        "balanced-budget claims",
+    ] {
+        if !status.contains(required) {
+            return Err(format!("lane depth status missing {required}"));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(LANE_DEPTH_EXPLAINABILITY_TRACKER_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        LANE_DEPTH_EXPLAINABILITY_TRACKER_JSON_PATH,
+        "we are not done filling out the depth of each lane or the public explainability layer",
+        "Transportation is the deepest pilot",
+        "Every lane still has missing baseline, source-custody, scenario, outcome-floor",
+        "What does this lane do?",
+        "What are taxpayers paying now?",
+        "Who is served or protected?",
+        "What outcomes matter before any lower-cost scenario is admissible?",
+        "What would count as overspending, underfunding, or only a review-needed signal?",
+        "What can technology change, and what transition risks must be paid for?",
+        "What evidence is still missing?",
+        "What claims are blocked?",
+        "not a solver run",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("lane depth reader missing {required}"));
+        }
+    }
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -20199,6 +20431,12 @@ mod global_country_comparison_tests {
     fn current_law_source_custody_preflight_keeps_sources_null() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_current_law_source_custody_preflight(&root).unwrap();
+    }
+
+    #[test]
+    fn lane_depth_explainability_tracker_keeps_every_lane_incomplete() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_lane_depth_explainability_tracker(&root).unwrap();
     }
 
     #[test]
