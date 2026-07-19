@@ -406,6 +406,10 @@ It is the bounded public surface, not a performance or savings report.
     complete trust-fund path, transportation trust-fund path, solver input,
     rate calculation, target-cost selection, savings estimate, or
     balanced-budget claim.
+96. Read `current-law-named-fund-balance-transfer-gap.md` before treating FY2025
+    receipt and outlay anchors as fund paths. Fund balances, explicit transfers,
+    transportation reconciliation, solver inputs, rates, savings estimates, and
+    balanced-budget claims remain blocked.
 
 ## Public-Use Guardrail
 

@@ -1,0 +1,114 @@
+{
+  "record_id": "current-law-named-fund-balance-transfer-gap:v1",
+  "record_family": "current_law_named_fund_balance_transfer_gap",
+  "schema_version": "v1.draft",
+  "pulse": 127,
+  "as_of_date": "2026-07-19",
+  "year_basis": "fiscal_year",
+  "baseline_fiscal_year": 2025,
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "rubric_path": "data/derived/breadth_benchmark_matrix/international_comparator_target_rubric.v1.draft.json",
+  "current_law_fy2025_fund_group_path": "data/derived/breadth_benchmark_matrix/current_law_fy2025_fund_group_path.v1.draft.json",
+  "current_law_fy2025_dedicated_receipt_anchors_path": "data/derived/breadth_benchmark_matrix/current_law_fy2025_dedicated_receipt_anchors.v1.draft.json",
+  "current_law_fy2025_named_trust_fund_outlay_anchors_path": "data/derived/breadth_benchmark_matrix/current_law_fy2025_named_trust_fund_outlay_anchors.v1.draft.json",
+  "source_custody_status": {
+    "official_sources_only": true,
+    "no_external_request_submitted_this_pulse": true,
+    "no_agency_or_person_contacted": true,
+    "available_anchor_sources_reviewed": true,
+    "balance_source_custody_ready": false,
+    "transfer_source_custody_ready": false,
+    "fund_path_reconciliation_ready": false,
+    "solver_inputs_ready": false
+  },
+  "available_anchor_evidence": [
+    {
+      "evidence_id": "fund_group_actuals",
+      "path": "data/derived/breadth_benchmark_matrix/current_law_fy2025_fund_group_path.v1.draft.json",
+      "usable_for": ["FY2025 total federal funds", "FY2025 total trust funds", "FY2025 interfund transactions"],
+      "not_usable_for": ["general fund path", "OASDI fund balance", "Medicare HI fund balance", "transportation trust fund balance", "explicit transfer schedule"]
+    },
+    {
+      "evidence_id": "dedicated_receipt_anchors",
+      "path": "data/derived/breadth_benchmark_matrix/current_law_fy2025_dedicated_receipt_anchors.v1.draft.json",
+      "usable_for": ["FY2025 OASI receipt anchor", "FY2025 DI receipt anchor", "FY2025 Medicare HI receipt anchor", "FY2025 selected transportation and airport trust-fund excise receipt anchors"],
+      "not_usable_for": ["fund balance", "transfer schedule", "complete transportation trust-fund path", "solver input"]
+    },
+    {
+      "evidence_id": "named_trust_fund_outlay_anchors",
+      "path": "data/derived/breadth_benchmark_matrix/current_law_fy2025_named_trust_fund_outlay_anchors.v1.draft.json",
+      "usable_for": ["FY2025 OASI outlay anchor", "FY2025 DI outlay anchor", "FY2025 OASDI outlay anchor sum", "FY2025 Medicare HI outlay anchor"],
+      "not_usable_for": ["fund balance", "transfer schedule", "complete transportation trust-fund path", "solver input"]
+    }
+  ],
+  "missing_required_sources": [
+    {
+      "path_id": "oasdi_fund_path",
+      "missing_items": ["OASI beginning fund balance", "OASI ending fund balance", "DI beginning fund balance", "DI ending fund balance", "interest credited to each fund", "explicit interfund or general-fund transfers if any", "annual balance-change reconciliation"],
+      "reason_blocked": "Receipt and outlay anchors do not establish beginning or ending balances, interest crediting, or transfer accounting."
+    },
+    {
+      "path_id": "medicare_hi_fund_path",
+      "missing_items": ["Medicare HI beginning fund balance", "Medicare HI ending fund balance", "interest credited to HI", "general-fund or other transfers if any", "annual balance-change reconciliation"],
+      "reason_blocked": "Hospital-insurance receipt and outlay anchors do not establish HI trust-fund balance movement."
+    },
+    {
+      "path_id": "transportation_trust_fund_path",
+      "missing_items": ["highway account opening and closing balances", "mass transit account opening and closing balances", "airport-and-airway opening and closing balances", "interest and offset account treatment", "general-fund transfers", "complete account-level outlay and receipt reconciliation"],
+      "reason_blocked": "Available transportation rows are fragmented across highway, mass transit, airport, interest, and offset accounts."
+    },
+    {
+      "path_id": "general_fund_path",
+      "missing_items": ["general fund-specific receipts", "general fund-specific outlays", "explicit transfers to named trust funds", "general fund balance treatment"],
+      "reason_blocked": "Federal-funds actuals are broader than the general fund and cannot be relabeled as a general-fund path."
+    }
+  ],
+  "blocked_formula": {
+    "fund_balance_change_identity": "dedicated receipts + explicit general-fund transfer + other scored fund income - net cash requirement",
+    "status": "not_computable",
+    "blocked_terms": ["beginning fund balance", "ending fund balance", "explicit general-fund transfer", "other scored fund income", "credited offsetting collections by named fund"]
+  },
+  "blocked_outputs": {
+    "oasdi_fund_balance_path": null,
+    "oasi_fund_balance_path": null,
+    "di_fund_balance_path": null,
+    "medicare_hi_fund_balance_path": null,
+    "transportation_trust_fund_balance_path": null,
+    "general_fund_path": null,
+    "explicit_interfund_transfer_schedule": null,
+    "credited_offsetting_collections_by_named_fund": null,
+    "fund_balance_change_values": null,
+    "solver_input_rows": null,
+    "target_cost_fields": null,
+    "federal_effect_fields": null,
+    "gross_savings_fields": null,
+    "net_savings_fields": null,
+    "balanced_rate_fields": null
+  },
+  "public_warning_phrases": [
+    "Receipt and outlay anchors are not complete named trust-fund paths.",
+    "Fund balances and explicit transfers remain missing and must stay null.",
+    "Federal funds are broader than the general fund and cannot be relabeled as a general-fund path.",
+    "Transportation remains blocked until highway, mass transit, airport, interest, offset, and transfer rows reconcile.",
+    "No external request was submitted and no agency or person was contacted.",
+    "This record is not solver input, not a solver run, not a target-cost selection, not a rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+  ],
+  "claim_booleans": {
+    "source_gap_published": true,
+    "balance_source_custody_ready": false,
+    "transfer_source_custody_ready": false,
+    "fund_path_reconciliation_ready": false,
+    "solver_inputs_ready": false,
+    "target_cost_claim": false,
+    "federal_effect_claim": false,
+    "gross_savings_claim": false,
+    "net_savings_claim": false,
+    "balanced_rate_claim": false,
+    "public_rate_card_claim": false,
+    "tax_proposal_claim": false,
+    "waste_finding_claim": false,
+    "fraud_finding_claim": false,
+    "technology_savings_claim": false,
+    "balanced_budget_claim": false
+  }
+}

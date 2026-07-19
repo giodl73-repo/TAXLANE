@@ -630,3 +630,9 @@ the OMB Public Budget Database. It is an outlay-anchor packet only, not a
 complete trust-fund path, transportation trust-fund path, solver input,
 target-cost selection, rate calculation, savings estimate, or balanced-budget
 claim.
+
+`current_law_named_fund_balance_transfer_gap.v1.draft.json` documents the
+remaining named-fund balance and explicit-transfer source gap after the FY2025
+receipt and outlay anchors. It keeps all fund-balance paths, transfer schedules,
+transportation reconciliation, solver inputs, target-costs, rates, savings, and
+balanced-budget claims blocked.

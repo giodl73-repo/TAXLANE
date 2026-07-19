@@ -555,6 +555,11 @@ const CURRENT_LAW_FY2025_NAMED_TRUST_FUND_OUTLAY_ANCHORS_JSON_PATH: &str = "data
 const CURRENT_LAW_FY2025_NAMED_TRUST_FUND_OUTLAY_ANCHORS_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/current_law_fy2025_named_trust_fund_outlay_anchors.schema.md";
 const CURRENT_LAW_FY2025_NAMED_TRUST_FUND_OUTLAY_ANCHORS_READER_PATH: &str =
     "docs/reading/current-law-fy2025-named-trust-fund-outlay-anchors.md";
+const CURRENT_LAW_NAMED_FUND_BALANCE_TRANSFER_GAP_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/current_law_named_fund_balance_transfer_gap.v1.draft.json";
+const CURRENT_LAW_NAMED_FUND_BALANCE_TRANSFER_GAP_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/current_law_named_fund_balance_transfer_gap.schema.md";
+const CURRENT_LAW_NAMED_FUND_BALANCE_TRANSFER_GAP_READER_PATH: &str =
+    "docs/reading/current-law-named-fund-balance-transfer-gap.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -11103,6 +11108,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_current_law_fy2025_fund_group_path(root)?;
     validate_current_law_fy2025_dedicated_receipt_anchors(root)?;
     validate_current_law_fy2025_named_trust_fund_outlay_anchors(root)?;
+    validate_current_law_named_fund_balance_transfer_gap(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -24912,6 +24918,223 @@ fn validate_current_law_fy2025_named_trust_fund_outlay_anchors(root: &Path) -> R
     Ok(())
 }
 
+fn validate_current_law_named_fund_balance_transfer_gap(root: &Path) -> Result<(), String> {
+    for path in [
+        CURRENT_LAW_NAMED_FUND_BALANCE_TRANSFER_GAP_JSON_PATH,
+        CURRENT_LAW_NAMED_FUND_BALANCE_TRANSFER_GAP_SCHEMA_PATH,
+        CURRENT_LAW_NAMED_FUND_BALANCE_TRANSFER_GAP_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing named fund balance-transfer gap artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(CURRENT_LAW_NAMED_FUND_BALANCE_TRANSFER_GAP_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let gap: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&gap, "record_id")? != "current-law-named-fund-balance-transfer-gap:v1"
+        || string_field(&gap, "record_family")? != "current_law_named_fund_balance_transfer_gap"
+        || int_field(&gap, "pulse")? != 127
+        || int_field(&gap, "baseline_fiscal_year")? != 2025
+        || string_field(&gap, "year_basis")? != "fiscal_year"
+        || string_field(&gap, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&gap, "rubric_path")? != INTERNATIONAL_COMPARATOR_TARGET_RUBRIC_JSON_PATH
+        || string_field(&gap, "current_law_fy2025_fund_group_path")?
+            != CURRENT_LAW_FY2025_FUND_GROUP_PATH_JSON_PATH
+        || string_field(&gap, "current_law_fy2025_dedicated_receipt_anchors_path")?
+            != CURRENT_LAW_FY2025_DEDICATED_RECEIPT_ANCHORS_JSON_PATH
+        || string_field(
+            &gap,
+            "current_law_fy2025_named_trust_fund_outlay_anchors_path",
+        )? != CURRENT_LAW_FY2025_NAMED_TRUST_FUND_OUTLAY_ANCHORS_JSON_PATH
+    {
+        return Err("named fund balance-transfer gap identity failed".to_string());
+    }
+
+    for path in [
+        string_field(&gap, "current_law_fy2025_fund_group_path")?,
+        string_field(&gap, "current_law_fy2025_dedicated_receipt_anchors_path")?,
+        string_field(
+            &gap,
+            "current_law_fy2025_named_trust_fund_outlay_anchors_path",
+        )?,
+    ] {
+        if !root.join(&path).exists() {
+            return Err(format!("named fund gap referenced path missing: {path}"));
+        }
+    }
+
+    let status = gap
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("named fund gap source custody status")?;
+    for field in [
+        "official_sources_only",
+        "no_external_request_submitted_this_pulse",
+        "no_agency_or_person_contacted",
+        "available_anchor_sources_reviewed",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("named fund gap status {field} must be true"));
+        }
+    }
+    for field in [
+        "balance_source_custody_ready",
+        "transfer_source_custody_ready",
+        "fund_path_reconciliation_ready",
+        "solver_inputs_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("named fund gap status {field} must be false"));
+        }
+    }
+
+    let available = gap
+        .get("available_anchor_evidence")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("named fund gap available evidence")?;
+    if available.len() != 3 {
+        return Err("named fund gap must cite three available anchor packets".to_string());
+    }
+    let missing = gap
+        .get("missing_required_sources")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("named fund gap missing source list")?;
+    let expected_paths = [
+        "oasdi_fund_path",
+        "medicare_hi_fund_path",
+        "transportation_trust_fund_path",
+        "general_fund_path",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let observed_paths = missing
+        .iter()
+        .map(|row| string_field(row, "path_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if observed_paths != expected_paths {
+        return Err("named fund gap missing source paths failed".to_string());
+    }
+    for row in missing {
+        let items = row
+            .get("missing_items")
+            .and_then(serde_json::Value::as_array)
+            .ok_or("named fund gap missing items")?;
+        if items.is_empty() || string_field(row, "reason_blocked")?.is_empty() {
+            return Err("named fund gap missing item detail failed".to_string());
+        }
+    }
+
+    let formula = gap
+        .get("blocked_formula")
+        .ok_or("named fund blocked formula")?;
+    if string_field(formula, "status")? != "not_computable" {
+        return Err("named fund gap formula must be not computable".to_string());
+    }
+    let blocked_terms = formula
+        .get("blocked_terms")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("named fund blocked terms")?;
+    if blocked_terms.len() != 5 {
+        return Err("named fund gap blocked term count failed".to_string());
+    }
+
+    let blocked = gap
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("named fund gap blocked outputs")?;
+    for field in [
+        "oasdi_fund_balance_path",
+        "oasi_fund_balance_path",
+        "di_fund_balance_path",
+        "medicare_hi_fund_balance_path",
+        "transportation_trust_fund_balance_path",
+        "general_fund_path",
+        "explicit_interfund_transfer_schedule",
+        "credited_offsetting_collections_by_named_fund",
+        "fund_balance_change_values",
+        "solver_input_rows",
+        "target_cost_fields",
+        "federal_effect_fields",
+        "gross_savings_fields",
+        "net_savings_fields",
+        "balanced_rate_fields",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "named fund gap blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let claims = gap
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("named fund gap claim booleans")?;
+    if claims
+        .get("source_gap_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("named fund gap source_gap_published must be true".to_string());
+    }
+    for field in [
+        "balance_source_custody_ready",
+        "transfer_source_custody_ready",
+        "fund_path_reconciliation_ready",
+        "solver_inputs_ready",
+        "target_cost_claim",
+        "federal_effect_claim",
+        "gross_savings_claim",
+        "net_savings_claim",
+        "balanced_rate_claim",
+        "public_rate_card_claim",
+        "tax_proposal_claim",
+        "waste_finding_claim",
+        "fraud_finding_claim",
+        "technology_savings_claim",
+        "balanced_budget_claim",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("named fund gap claim {field} must be false"));
+        }
+    }
+
+    let reader =
+        fs::read_to_string(root.join(CURRENT_LAW_NAMED_FUND_BALANCE_TRANSFER_GAP_READER_PATH))
+            .map_err(|e| e.to_string())?;
+    for phrase in [
+        CURRENT_LAW_NAMED_FUND_BALANCE_TRANSFER_GAP_JSON_PATH,
+        "Receipt and outlay anchors are not complete named trust-fund paths.",
+        "Fund balances and explicit transfers remain missing and must stay null.",
+        "Federal funds are broader than the general fund and cannot be relabeled as a general-fund path.",
+        "Transportation remains blocked until highway, mass transit, airport, interest, offset, and transfer rows reconcile.",
+        "No external request was submitted and no agency or person was contacted.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!("named fund gap reader missing phrase: {phrase}"));
+        }
+    }
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -25238,6 +25461,12 @@ mod global_country_comparison_tests {
     fn current_law_fy2025_named_trust_fund_outlay_anchors_recompute_without_solver_claims() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_current_law_fy2025_named_trust_fund_outlay_anchors(&root).unwrap();
+    }
+
+    #[test]
+    fn current_law_named_fund_balance_transfer_gap_keeps_solver_blocked() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_current_law_named_fund_balance_transfer_gap(&root).unwrap();
     }
 
     #[test]
