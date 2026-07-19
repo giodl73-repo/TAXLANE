@@ -546,6 +546,11 @@ const CURRENT_LAW_FY2025_FUND_GROUP_PATH_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/current_law_fy2025_fund_group_path.schema.md";
 const CURRENT_LAW_FY2025_FUND_GROUP_PATH_READER_PATH: &str =
     "docs/reading/current-law-fy2025-fund-group-path.md";
+const CURRENT_LAW_FY2025_DEDICATED_RECEIPT_ANCHORS_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/current_law_fy2025_dedicated_receipt_anchors.v1.draft.json";
+const CURRENT_LAW_FY2025_DEDICATED_RECEIPT_ANCHORS_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/current_law_fy2025_dedicated_receipt_anchors.schema.md";
+const CURRENT_LAW_FY2025_DEDICATED_RECEIPT_ANCHORS_READER_PATH: &str =
+    "docs/reading/current-law-fy2025-dedicated-receipt-anchors.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -11092,6 +11097,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_current_law_baseline_annual_path_partial(root)?;
     validate_current_law_baseline_receipts_deficit_path_partial(root)?;
     validate_current_law_fy2025_fund_group_path(root)?;
+    validate_current_law_fy2025_dedicated_receipt_anchors(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -24283,6 +24289,315 @@ fn validate_current_law_fy2025_fund_group_path(root: &Path) -> Result<(), String
     Ok(())
 }
 
+fn validate_current_law_fy2025_dedicated_receipt_anchors(root: &Path) -> Result<(), String> {
+    for path in [
+        CURRENT_LAW_FY2025_DEDICATED_RECEIPT_ANCHORS_JSON_PATH,
+        CURRENT_LAW_FY2025_DEDICATED_RECEIPT_ANCHORS_SCHEMA_PATH,
+        CURRENT_LAW_FY2025_DEDICATED_RECEIPT_ANCHORS_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing dedicated receipt anchor artifact: {path}"));
+        }
+    }
+
+    let text =
+        fs::read_to_string(root.join(CURRENT_LAW_FY2025_DEDICATED_RECEIPT_ANCHORS_JSON_PATH))
+            .map_err(|e| e.to_string())?;
+    let anchors: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&anchors, "record_id")? != "current-law-fy2025-dedicated-receipt-anchors:v1"
+        || string_field(&anchors, "record_family")?
+            != "current_law_fy2025_dedicated_receipt_anchors"
+        || int_field(&anchors, "pulse")? != 125
+        || int_field(&anchors, "fiscal_year")? != 2025
+        || string_field(&anchors, "year_basis")? != "fiscal_year"
+        || string_field(&anchors, "unit")? != "millions_of_dollars"
+        || string_field(&anchors, "current_law_fy2025_fund_group_path")?
+            != CURRENT_LAW_FY2025_FUND_GROUP_PATH_JSON_PATH
+        || string_field(&anchors, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&anchors, "rubric_path")?
+            != INTERNATIONAL_COMPARATOR_TARGET_RUBRIC_JSON_PATH
+    {
+        return Err("dedicated receipt anchor identity failed".to_string());
+    }
+
+    let status = anchors
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("dedicated receipt source custody status")?;
+    for field in [
+        "official_sources_only",
+        "no_external_request_submitted_this_pulse",
+        "no_agency_or_person_contacted",
+        "source_custody_ready",
+        "dedicated_receipt_anchors_may_be_populated",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("dedicated receipt status {field} must be true"));
+        }
+    }
+    for field in [
+        "named_trust_fund_outlays_ready",
+        "named_trust_fund_balances_ready",
+        "explicit_transfer_schedule_ready",
+        "solver_inputs_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("dedicated receipt status {field} must be false"));
+        }
+    }
+
+    let packets = anchors
+        .get("source_packets")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("dedicated receipt source packets")?;
+    if packets.len() != 2 {
+        return Err("dedicated receipt anchors require two source packets".to_string());
+    }
+    let mut observed_packet_ids = BTreeSet::new();
+    for packet in packets {
+        observed_packet_ids.insert(string_field(packet, "source_id")?);
+        for (path_field, hash_field, byte_field) in [
+            ("raw_artifact_path", "raw_sha256", "raw_byte_count"),
+            ("metadata_path", "metadata_sha256", "metadata_byte_count"),
+        ] {
+            let artifact_path = string_field(packet, path_field)?;
+            let artifact_file = root.join(&artifact_path);
+            if !artifact_file.exists() {
+                return Err(format!(
+                    "dedicated receipt source file missing: {artifact_path}"
+                ));
+            }
+            if fs::metadata(&artifact_file)
+                .map_err(|e| e.to_string())?
+                .len() as i64
+                != int_field(packet, byte_field)?
+            {
+                return Err(format!(
+                    "dedicated receipt byte count failed for {artifact_path}"
+                ));
+            }
+            if sha256_file(&artifact_file)? != string_field(packet, hash_field)? {
+                return Err(format!("dedicated receipt hash failed for {artifact_path}"));
+            }
+        }
+        if packet.get("extracted_artifact_path").is_some() {
+            let artifact_path = string_field(packet, "extracted_artifact_path")?;
+            let artifact_file = root.join(&artifact_path);
+            if !artifact_file.exists() {
+                return Err(format!(
+                    "dedicated receipt extracted file missing: {artifact_path}"
+                ));
+            }
+            if fs::metadata(&artifact_file)
+                .map_err(|e| e.to_string())?
+                .len() as i64
+                != int_field(packet, "extracted_artifact_byte_count")?
+            {
+                return Err(format!(
+                    "dedicated receipt extracted byte count failed for {artifact_path}"
+                ));
+            }
+            if sha256_file(&artifact_file)? != string_field(packet, "extracted_artifact_sha256")? {
+                return Err(format!(
+                    "dedicated receipt extracted hash failed for {artifact_path}"
+                ));
+            }
+        }
+        if packet
+            .get("values_may_be_populated")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        {
+            return Err("dedicated receipt source packet must allow anchor values".to_string());
+        }
+    }
+    let expected_packet_ids = ["SRC-OMB-HIST-2-4-FY2027", "SRC-OMB-AP-13-FUNDS-FY2027"]
+        .into_iter()
+        .map(str::to_string)
+        .collect::<BTreeSet<_>>();
+    if observed_packet_ids != expected_packet_ids {
+        return Err("dedicated receipt source packet ids failed".to_string());
+    }
+
+    let rows = anchors
+        .get("receipt_anchor_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("dedicated receipt anchor rows")?;
+    let expected_rows = [
+        ("oasi_trust_funds_off_budget", "oasdi_fund_path", 1_097_382),
+        ("di_off_budget", "oasdi_fund_path", 186_354),
+        ("oasdi_receipt_anchor_sum", "oasdi_fund_path", 1_283_736),
+        (
+            "medicare_hi_hospital_insurance",
+            "medicare_hi_fund_path",
+            395_350,
+        ),
+        (
+            "transportation_trust_fund_excise",
+            "transportation_trust_fund_path",
+            43_768,
+        ),
+        (
+            "airport_and_airway_trust_fund_excise_context",
+            "transportation_trust_fund_path",
+            23_118,
+        ),
+    ]
+    .into_iter()
+    .map(|(id, path, amount)| (id.to_string(), (path.to_string(), amount)))
+    .collect::<BTreeMap<_, _>>();
+    if rows.len() != expected_rows.len() {
+        return Err("dedicated receipt anchor row count failed".to_string());
+    }
+    let mut observed_rows = BTreeMap::new();
+    for row in rows {
+        let anchor_id = string_field(row, "anchor_id")?;
+        let path_id = string_field(row, "path_id")?;
+        let amount = int_field(row, "amount_musd")?;
+        if string_field(row, "fund_group")? != "trust-funds"
+            || row
+                .get("may_populate_solver")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+        {
+            return Err(format!(
+                "dedicated receipt anchor {anchor_id} must stay trust-fund and solver-blocked"
+            ));
+        }
+        observed_rows.insert(anchor_id, (path_id, amount));
+    }
+    if observed_rows != expected_rows {
+        return Err("dedicated receipt anchor values failed".to_string());
+    }
+
+    let recon = anchors
+        .get("reconciliation")
+        .ok_or("dedicated receipt reconciliation")?;
+    if int_field(recon, "oasi_plus_di_musd")? != 1_097_382 + 186_354
+        || int_field(recon, "covered_named_anchor_sum_musd")?
+            != 1_283_736 + 395_350 + 43_768 + 23_118
+        || int_field(recon, "social_insurance_total_source_row_24_musd")? != 1_748_294
+        || int_field(recon, "trust_fund_excise_total_source_row_53_musd")? != 73_372
+        || int_field(recon, "total_excise_source_row_54_musd")? != 105_937
+        || int_field(recon, "transportation_plus_airport_airway_musd")? != 43_768 + 23_118
+        || string_field(recon, "category_reconciliation_status")?
+            != "partial_anchor_only_not_full_fund_path"
+    {
+        return Err("dedicated receipt reconciliation failed".to_string());
+    }
+
+    let blocked = anchors
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("dedicated receipt blocked outputs")?;
+    for field in [
+        "oasdi_outlays_musd",
+        "oasdi_fund_balance_musd",
+        "medicare_hi_outlays_musd",
+        "medicare_hi_fund_balance_musd",
+        "transportation_trust_outlays_musd",
+        "transportation_trust_fund_balance_musd",
+        "explicit_general_fund_transfers_musd",
+        "credited_offsetting_collections_musd",
+        "reserve_contributions_musd",
+        "solver_input_rows",
+        "target_cost_fields",
+        "federal_effect_fields",
+        "gross_savings_fields",
+        "net_savings_fields",
+        "balanced_rate_fields",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "dedicated receipt blocked field {field} must be null"
+            ));
+        }
+    }
+
+    let claim_booleans = anchors
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("dedicated receipt claim booleans")?;
+    for field in [
+        "source_custody_ready",
+        "dedicated_receipt_anchors_published",
+    ] {
+        if claim_booleans
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        {
+            return Err(format!(
+                "dedicated receipt claim boolean {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "named_trust_fund_paths_complete",
+        "solver_inputs_ready",
+        "target_cost_claim",
+        "federal_effect_claim",
+        "gross_savings_claim",
+        "net_savings_claim",
+        "balanced_rate_claim",
+        "public_rate_card_claim",
+        "tax_proposal_claim",
+        "waste_finding_claim",
+        "fraud_finding_claim",
+        "technology_savings_claim",
+        "balanced_budget_claim",
+    ] {
+        if claim_booleans
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "dedicated receipt claim boolean {field} must be false"
+            ));
+        }
+    }
+
+    let reader =
+        fs::read_to_string(root.join(CURRENT_LAW_FY2025_DEDICATED_RECEIPT_ANCHORS_READER_PATH))
+            .map_err(|e| e.to_string())?;
+    for phrase in [
+        CURRENT_LAW_FY2025_DEDICATED_RECEIPT_ANCHORS_JSON_PATH,
+        "$1,097.382B",
+        "$186.354B",
+        "$1,283.736B",
+        "$395.350B",
+        "$43.768B",
+        "$23.118B",
+        "These are FY2025 current-law dedicated-receipt anchors, not complete trust-fund paths.",
+        "OASI and DI are summed only as an OASDI receipt anchor",
+        "Hospital insurance is a Medicare HI receipt anchor, not combined Medicare financing.",
+        "Transportation and airport-and-airway excise rows remain source-labeled",
+        "No external request was submitted and no agency or person was contacted.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "dedicated receipt reader missing required phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -24597,6 +24912,12 @@ mod global_country_comparison_tests {
     fn current_law_fy2025_fund_group_path_preserves_fund_boundaries() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_current_law_fy2025_fund_group_path(&root).unwrap();
+    }
+
+    #[test]
+    fn current_law_fy2025_dedicated_receipt_anchors_recompute_without_solver_claims() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_current_law_fy2025_dedicated_receipt_anchors(&root).unwrap();
     }
 
     #[test]

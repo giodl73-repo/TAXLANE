@@ -616,3 +616,10 @@ FY2025 OMB fund-group actuals for total, federal funds, trust funds, and
 interfund transactions. It does not relabel federal funds as the general fund,
 does not split named trust funds, and keeps forward fund paths and solver/rate
 claims blocked.
+
+`current_law_fy2025_dedicated_receipt_anchors.v1.draft.json` publishes
+source-custodied FY2025 dedicated-receipt anchors for OASI, DI, Medicare HI,
+transportation trust-fund excise receipts, and airport-and-airway excise
+receipts. It is a receipt-anchor packet only, not a complete named trust-fund
+path, solver input, target-cost selection, rate calculation, savings estimate,
+or balanced-budget claim.

@@ -396,6 +396,11 @@ It is the bounded public surface, not a performance or savings report.
     totals. It separates federal funds, trust funds, and interfund transactions,
     but it is not a general-fund path, named trust-fund path, solver input, rate
     calculation, target-cost selection, or balanced-budget claim.
+94. Read `current-law-fy2025-dedicated-receipt-anchors.md` when using FY2025
+    dedicated receipt anchors for OASDI, Medicare HI, transportation, or
+    airport-and-airway rows. It is not a complete trust-fund path, solver input,
+    target-cost selection, rate calculation, savings estimate, or
+    balanced-budget claim.
 
 ## Public-Use Guardrail
 
