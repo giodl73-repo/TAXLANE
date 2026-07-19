@@ -1,0 +1,140 @@
+{
+  "record_id": "assigned-receipt-base-source-gap:v1",
+  "record_family": "assigned_receipt_base_source_gap",
+  "schema_version": "v1.draft",
+  "pulse": 128,
+  "as_of_date": "2026-07-19",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "assigned_receipt_base_inventory_path": "data/derived/breadth_benchmark_matrix/assigned_receipt_base_inventory.v1.draft.json",
+  "legacy_illustrative_rate_path": "data/derived/program_lane_rate_model/program_lane_statutory_rate.ty2022-illustrative.draft.jsonl",
+  "source_custody_status": {
+    "official_sources_only": true,
+    "no_external_request_submitted_this_pulse": true,
+    "no_agency_or_person_contacted": true,
+    "ht23_source_custody_ready": true,
+    "ht23_may_populate_rate_base_amounts": false,
+    "pub_1304_raw_custody_ready": false,
+    "payroll_base_source_custody_ready": false,
+    "matched_receipt_bases_ready": false,
+    "statutory_or_effective_rates_ready": false,
+    "solver_inputs_ready": false
+  },
+  "available_source_packets": [
+    {
+      "source_id": "SRC-IRS-SOI-HT23",
+      "official_host_or_publisher": "Internal Revenue Service, Statistics of Income",
+      "source_description": "Historical Table 23 individual income tax rates and brackets",
+      "retrieval_date": "2026-06-21",
+      "raw_artifact_path": "data/raw/irs/SRC-IRS-SOI-HT23/2026-06-21/histab23.xls",
+      "raw_byte_count": 99840,
+      "raw_sha256": "57aed4c02ac6c6dcd39d0fea18ca231ebe22085acedf098b3b993fb154399557",
+      "metadata_path": "data/metadata/SRC-IRS-SOI-HT23.2026-06-21.metadata.md",
+      "metadata_byte_count": 1251,
+      "metadata_sha256": "6e2325743d8b2683b1aa6a839fe9f0fd65aeb154364b320526c27af860c4e5e1",
+      "usable_for": ["current-law rate and bracket source custody", "tax-year semantics for rate/bracket extraction"],
+      "not_usable_for": ["AGI base amount", "taxable income base amount", "taxable payroll base", "behavioral elasticity", "incidence", "distribution", "administration cost", "solver input", "new statutory or effective rate"]
+    }
+  ],
+  "blocked_base_rows": [
+    {
+      "base_id": "individual_income_agi",
+      "needed_for": ["general_receipts", "revenue-solvency"],
+      "missing_source": "source-custodied IRS SOI aggregate AGI amount for matched year",
+      "baseline_amount_musd": null,
+      "matched_year": null,
+      "rate_ready": false
+    },
+    {
+      "base_id": "individual_income_taxable_income",
+      "needed_for": ["general_receipts", "revenue-solvency"],
+      "missing_source": "source-custodied IRS SOI aggregate taxable-income amount for matched year",
+      "baseline_amount_musd": null,
+      "matched_year": null,
+      "rate_ready": false
+    },
+    {
+      "base_id": "oasdi_taxable_payroll",
+      "needed_for": ["social-security"],
+      "missing_source": "source-custodied SSA taxable payroll base and wage-base perimeter",
+      "baseline_amount_musd": null,
+      "matched_year": null,
+      "rate_ready": false
+    },
+    {
+      "base_id": "medicare_hi_taxable_payroll",
+      "needed_for": ["health-medicare"],
+      "missing_source": "source-custodied Medicare HI taxable payroll base and perimeter",
+      "baseline_amount_musd": null,
+      "matched_year": null,
+      "rate_ready": false
+    },
+    {
+      "base_id": "transportation_excises_and_user_fees",
+      "needed_for": ["transportation-infrastructure"],
+      "missing_source": "complete source-custodied transportation excise and user-fee base with legal and economic perimeter",
+      "baseline_amount_musd": null,
+      "matched_year": null,
+      "rate_ready": false
+    }
+  ],
+  "legacy_quarantine": {
+    "legacy_path": "data/derived/program_lane_rate_model/program_lane_statutory_rate.ty2022-illustrative.draft.jsonl",
+    "status": "legacy_illustrative_only_solver_and_rate_output_blocked",
+    "reason": "The file mixes TY2022 illustrative SOI base values with FY2025 lane cost structure and does not have current local raw Pub 1304 custody in this repo state.",
+    "prohibited_uses": ["solver input", "public rate card", "statutory rate", "effective rate", "tax proposal", "balanced-budget claim"]
+  },
+  "required_before_rates": [
+    "matched year",
+    "legal perimeter",
+    "economic perimeter",
+    "baseline amount",
+    "elasticity",
+    "avoidance and compliance",
+    "employer taxpayer agency burden",
+    "distribution by income",
+    "interaction with other taxes",
+    "current-law yield",
+    "reform yield",
+    "administration model"
+  ],
+  "blocked_outputs": {
+    "assigned_base_amounts": null,
+    "behavioral_elasticities": null,
+    "incidence_fields": null,
+    "distribution_fields": null,
+    "administration_cost_fields": null,
+    "current_law_yields": null,
+    "reform_yields": null,
+    "solver_input_rows": null,
+    "statutory_rate_fields": null,
+    "effective_rate_fields": null,
+    "public_rate_cards": null,
+    "tax_proposal_fields": null,
+    "balanced_budget_fields": null
+  },
+  "public_warning_phrases": [
+    "HT23 is a current-law rate and bracket source, not an AGI or taxable-income base source.",
+    "The TY2022 illustrative statutory-rate file is legacy illustrative only and cannot enter any solver, rate output, public rate card, tax proposal, or balanced-budget claim.",
+    "Matched receipt bases remain blocked until source custody, legal perimeter, economic perimeter, baseline amount, elasticity, incidence, distribution, administration, and yield fields are modeled.",
+    "No external request was submitted and no agency or person was contacted.",
+    "This record is not solver input, not a solver run, not a target-cost selection, not a rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+  ],
+  "claim_booleans": {
+    "source_gap_published": true,
+    "ht23_source_custody_ready": true,
+    "matched_receipt_bases_ready": false,
+    "solver_inputs_ready": false,
+    "statutory_rate_claim": false,
+    "effective_rate_claim": false,
+    "public_rate_card_claim": false,
+    "tax_proposal_claim": false,
+    "balanced_budget_claim": false,
+    "target_cost_claim": false,
+    "federal_effect_claim": false,
+    "gross_savings_claim": false,
+    "net_savings_claim": false,
+    "waste_finding_claim": false,
+    "fraud_finding_claim": false,
+    "technology_savings_claim": false
+  }
+}

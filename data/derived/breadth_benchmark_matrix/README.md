@@ -636,3 +636,9 @@ remaining named-fund balance and explicit-transfer source gap after the FY2025
 receipt and outlay anchors. It keeps all fund-balance paths, transfer schedules,
 transportation reconciliation, solver inputs, target-costs, rates, savings, and
 balanced-budget claims blocked.
+
+`assigned_receipt_base_source_gap.v1.draft.json` documents that local IRS HT23
+custody supports rate/bracket source context only, not AGI, taxable-income,
+taxable-payroll, or transportation fee base amounts. It quarantines the TY2022
+illustrative statutory-rate file from solvers, rate outputs, public rate cards,
+tax proposals, and balanced-budget claims.

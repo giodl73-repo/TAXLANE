@@ -439,6 +439,12 @@ const ASSIGNED_RECEIPT_BASE_INVENTORY_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/assigned_receipt_base_inventory.schema.md";
 const ASSIGNED_RECEIPT_BASE_INVENTORY_READER_PATH: &str =
     "docs/reading/assigned-receipt-base-inventory.md";
+const ASSIGNED_RECEIPT_BASE_SOURCE_GAP_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/assigned_receipt_base_source_gap.v1.draft.json";
+const ASSIGNED_RECEIPT_BASE_SOURCE_GAP_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/assigned_receipt_base_source_gap.schema.md";
+const ASSIGNED_RECEIPT_BASE_SOURCE_GAP_READER_PATH: &str =
+    "docs/reading/assigned-receipt-base-source-gap.md";
 const DISTRIBUTIONAL_EFFECT_PLACEHOLDER_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/distributional_effect_placeholder.v1.draft.json";
 const DISTRIBUTIONAL_EFFECT_PLACEHOLDER_SCHEMA_PATH: &str =
@@ -11087,6 +11093,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_reserve_parameter_readiness_gate(root)?;
     validate_net_interest_formula_contract(root)?;
     validate_assigned_receipt_base_inventory(root)?;
+    validate_assigned_receipt_base_source_gap(root)?;
     validate_distributional_effect_placeholder(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
@@ -19186,6 +19193,269 @@ fn validate_assigned_receipt_base_inventory(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_assigned_receipt_base_source_gap(root: &Path) -> Result<(), String> {
+    for path in [
+        ASSIGNED_RECEIPT_BASE_SOURCE_GAP_JSON_PATH,
+        ASSIGNED_RECEIPT_BASE_SOURCE_GAP_SCHEMA_PATH,
+        ASSIGNED_RECEIPT_BASE_SOURCE_GAP_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing assigned receipt base source gap artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(ASSIGNED_RECEIPT_BASE_SOURCE_GAP_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let gap: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&gap, "record_id")? != "assigned-receipt-base-source-gap:v1"
+        || string_field(&gap, "record_family")? != "assigned_receipt_base_source_gap"
+        || int_field(&gap, "pulse")? != 128
+        || string_field(&gap, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&gap, "assigned_receipt_base_inventory_path")?
+            != ASSIGNED_RECEIPT_BASE_INVENTORY_JSON_PATH
+        || string_field(&gap, "legacy_illustrative_rate_path")?
+            != "data/derived/program_lane_rate_model/program_lane_statutory_rate.ty2022-illustrative.draft.jsonl"
+    {
+        return Err("assigned receipt base source gap identity failed".to_string());
+    }
+
+    for path in [
+        string_field(&gap, "assigned_receipt_base_inventory_path")?,
+        string_field(&gap, "legacy_illustrative_rate_path")?,
+    ] {
+        if !root.join(&path).exists() {
+            return Err(format!(
+                "assigned receipt base source gap referenced path missing: {path}"
+            ));
+        }
+    }
+
+    let status = gap
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("assigned receipt base source custody status")?;
+    for field in [
+        "official_sources_only",
+        "no_external_request_submitted_this_pulse",
+        "no_agency_or_person_contacted",
+        "ht23_source_custody_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("assigned receipt base status {field} must be true"));
+        }
+    }
+    for field in [
+        "ht23_may_populate_rate_base_amounts",
+        "pub_1304_raw_custody_ready",
+        "payroll_base_source_custody_ready",
+        "matched_receipt_bases_ready",
+        "statutory_or_effective_rates_ready",
+        "solver_inputs_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "assigned receipt base status {field} must be false"
+            ));
+        }
+    }
+
+    let packets = gap
+        .get("available_source_packets")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("assigned receipt base source packets")?;
+    if packets.len() != 1 {
+        return Err("assigned receipt base source gap must include one HT23 packet".to_string());
+    }
+    let packet = &packets[0];
+    if string_field(packet, "source_id")? != "SRC-IRS-SOI-HT23" {
+        return Err("assigned receipt base source packet id failed".to_string());
+    }
+    for (path_field, hash_field, byte_field) in [
+        ("raw_artifact_path", "raw_sha256", "raw_byte_count"),
+        ("metadata_path", "metadata_sha256", "metadata_byte_count"),
+    ] {
+        let artifact_path = string_field(packet, path_field)?;
+        let artifact_file = root.join(&artifact_path);
+        if !artifact_file.exists() {
+            return Err(format!(
+                "assigned receipt base source file missing: {artifact_path}"
+            ));
+        }
+        if fs::metadata(&artifact_file)
+            .map_err(|e| e.to_string())?
+            .len() as i64
+            != int_field(packet, byte_field)?
+        {
+            return Err(format!(
+                "assigned receipt base byte count failed for {artifact_path}"
+            ));
+        }
+        if sha256_file(&artifact_file)? != string_field(packet, hash_field)? {
+            return Err(format!(
+                "assigned receipt base hash failed for {artifact_path}"
+            ));
+        }
+    }
+    let not_usable = packet
+        .get("not_usable_for")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("assigned receipt base not usable list")?;
+    for required in [
+        "AGI base amount",
+        "taxable income base amount",
+        "taxable payroll base",
+        "solver input",
+        "new statutory or effective rate",
+    ] {
+        if !not_usable
+            .iter()
+            .any(|value| value.as_str() == Some(required))
+        {
+            return Err(format!(
+                "assigned receipt base HT23 not_usable missing {required}"
+            ));
+        }
+    }
+
+    let blocked_rows = gap
+        .get("blocked_base_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("assigned receipt base blocked rows")?;
+    let expected_bases = [
+        "individual_income_agi",
+        "individual_income_taxable_income",
+        "oasdi_taxable_payroll",
+        "medicare_hi_taxable_payroll",
+        "transportation_excises_and_user_fees",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let observed_bases = blocked_rows
+        .iter()
+        .map(|row| string_field(row, "base_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if observed_bases != expected_bases {
+        return Err("assigned receipt base blocked base ids failed".to_string());
+    }
+    for row in blocked_rows {
+        for field in ["baseline_amount_musd", "matched_year"] {
+            if row.get(field) != Some(&serde_json::Value::Null) {
+                return Err(format!("assigned receipt base {field} must be null"));
+            }
+        }
+        if row.get("rate_ready").and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err("assigned receipt base rate_ready must be false".to_string());
+        }
+    }
+
+    let quarantine = gap.get("legacy_quarantine").ok_or("legacy quarantine")?;
+    if string_field(quarantine, "status")?
+        != "legacy_illustrative_only_solver_and_rate_output_blocked"
+        || !string_field(quarantine, "reason")?
+            .contains("does not have current local raw Pub 1304 custody")
+    {
+        return Err("assigned receipt base legacy quarantine failed".to_string());
+    }
+
+    let required = gap
+        .get("required_before_rates")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("required before rates")?;
+    if required.len() != 12 {
+        return Err("assigned receipt base required-before-rates count failed".to_string());
+    }
+
+    let blocked = gap
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("assigned receipt base blocked outputs")?;
+    for field in [
+        "assigned_base_amounts",
+        "behavioral_elasticities",
+        "incidence_fields",
+        "distribution_fields",
+        "administration_cost_fields",
+        "current_law_yields",
+        "reform_yields",
+        "solver_input_rows",
+        "statutory_rate_fields",
+        "effective_rate_fields",
+        "public_rate_cards",
+        "tax_proposal_fields",
+        "balanced_budget_fields",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "assigned receipt base blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let claims = gap
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("assigned receipt base claim booleans")?;
+    for field in ["source_gap_published", "ht23_source_custody_ready"] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("assigned receipt base claim {field} must be true"));
+        }
+    }
+    for field in [
+        "matched_receipt_bases_ready",
+        "solver_inputs_ready",
+        "statutory_rate_claim",
+        "effective_rate_claim",
+        "public_rate_card_claim",
+        "tax_proposal_claim",
+        "balanced_budget_claim",
+        "target_cost_claim",
+        "federal_effect_claim",
+        "gross_savings_claim",
+        "net_savings_claim",
+        "waste_finding_claim",
+        "fraud_finding_claim",
+        "technology_savings_claim",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("assigned receipt base claim {field} must be false"));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(ASSIGNED_RECEIPT_BASE_SOURCE_GAP_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for phrase in [
+        ASSIGNED_RECEIPT_BASE_SOURCE_GAP_JSON_PATH,
+        "HT23 is a current-law rate and bracket source, not an AGI or taxable-income base source.",
+        "The TY2022 illustrative statutory-rate file is legacy illustrative only and cannot enter any solver, rate output, public rate card, tax proposal, or balanced-budget claim.",
+        "Matched receipt bases remain blocked until source custody, legal perimeter, economic perimeter, baseline amount, elasticity, incidence, distribution, administration, and yield fields are modeled.",
+        "No external request was submitted and no agency or person was contacted.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "assigned receipt base reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_distributional_effect_placeholder(root: &Path) -> Result<(), String> {
     for path in [
         DISTRIBUTIONAL_EFFECT_PLACEHOLDER_JSON_PATH,
@@ -25335,6 +25605,12 @@ mod global_country_comparison_tests {
     fn assigned_receipt_base_inventory_keeps_amounts_and_rates_null() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_assigned_receipt_base_inventory(&root).unwrap();
+    }
+
+    #[test]
+    fn assigned_receipt_base_source_gap_quarantines_illustrative_rates() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_assigned_receipt_base_source_gap(&root).unwrap();
     }
 
     #[test]

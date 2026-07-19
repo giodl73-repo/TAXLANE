@@ -410,6 +410,10 @@ It is the bounded public surface, not a performance or savings report.
     receipt and outlay anchors as fund paths. Fund balances, explicit transfers,
     transportation reconciliation, solver inputs, rates, savings estimates, and
     balanced-budget claims remain blocked.
+97. Read `assigned-receipt-base-source-gap.md` before using HT23 or the TY2022
+    illustrative statutory-rate file. HT23 is not an aggregate base source, and
+    the illustrative file cannot feed solver inputs, rate outputs, public rate
+    cards, tax proposals, or balanced-budget claims.
 
 ## Public-Use Guardrail
 
