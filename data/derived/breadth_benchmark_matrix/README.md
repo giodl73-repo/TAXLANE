@@ -656,3 +656,9 @@ implementation transition cost, and technology shift/productivity evidence. It
 keeps all administration, compliance, transition, technology-productivity, rate,
 solver, public-rate-card, tax-proposal, savings, and balanced-budget values
 blocked.
+
+`rate_publication_readiness_rollup.v1.draft.json` summarizes the current hard
+rate-publication blockers across assigned receipt bases, distribution/incidence,
+administration/compliance burden, interaction/macro feedback, and public review.
+It keeps statutory rates, effective rates, assigned-base rates, public rate
+cards, tax proposals, solver inputs, savings, and balanced-budget values blocked.

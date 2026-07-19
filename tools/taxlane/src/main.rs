@@ -462,6 +462,12 @@ const ADMINISTRATION_COMPLIANCE_BURDEN_SOURCE_GAP_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/administration_compliance_burden_source_gap.schema.md";
 const ADMINISTRATION_COMPLIANCE_BURDEN_SOURCE_GAP_READER_PATH: &str =
     "docs/reading/administration-compliance-burden-source-gap.md";
+const RATE_PUBLICATION_READINESS_ROLLUP_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/rate_publication_readiness_rollup.v1.draft.json";
+const RATE_PUBLICATION_READINESS_ROLLUP_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/rate_publication_readiness_rollup.schema.md";
+const RATE_PUBLICATION_READINESS_ROLLUP_READER_PATH: &str =
+    "docs/reading/rate-publication-readiness-rollup.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11108,6 +11114,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_distributional_effect_placeholder(root)?;
     validate_distribution_incidence_source_gap(root)?;
     validate_administration_compliance_burden_source_gap(root)?;
+    validate_rate_publication_readiness_rollup(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -20162,6 +20169,219 @@ fn validate_administration_compliance_burden_source_gap(root: &Path) -> Result<(
     Ok(())
 }
 
+fn validate_rate_publication_readiness_rollup(root: &Path) -> Result<(), String> {
+    for path in [
+        RATE_PUBLICATION_READINESS_ROLLUP_JSON_PATH,
+        RATE_PUBLICATION_READINESS_ROLLUP_SCHEMA_PATH,
+        RATE_PUBLICATION_READINESS_ROLLUP_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing rate publication readiness artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(RATE_PUBLICATION_READINESS_ROLLUP_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let rollup: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&rollup, "record_id")? != "rate-publication-readiness-rollup:v1"
+        || string_field(&rollup, "record_family")? != "rate_publication_readiness_rollup"
+        || int_field(&rollup, "pulse")? != 131
+        || string_field(&rollup, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&rollup, "public_rate_card_v2_contract_path")?
+            != PUBLIC_RATE_CARD_V2_CONTRACT_JSON_PATH
+        || string_field(&rollup, "assigned_receipt_base_source_gap_path")?
+            != ASSIGNED_RECEIPT_BASE_SOURCE_GAP_JSON_PATH
+        || string_field(&rollup, "distribution_incidence_source_gap_path")?
+            != DISTRIBUTION_INCIDENCE_SOURCE_GAP_JSON_PATH
+        || string_field(&rollup, "administration_compliance_burden_source_gap_path")?
+            != ADMINISTRATION_COMPLIANCE_BURDEN_SOURCE_GAP_JSON_PATH
+    {
+        return Err("rate publication readiness rollup identity failed".to_string());
+    }
+
+    for path in [
+        string_field(&rollup, "contract_path")?,
+        string_field(&rollup, "public_rate_card_v2_contract_path")?,
+        string_field(&rollup, "assigned_receipt_base_source_gap_path")?,
+        string_field(&rollup, "distribution_incidence_source_gap_path")?,
+        string_field(&rollup, "administration_compliance_burden_source_gap_path")?,
+    ] {
+        if !root.join(&path).exists() {
+            return Err(format!("rate publication referenced path missing: {path}"));
+        }
+    }
+
+    let status = rollup
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("rate publication custody status")?;
+    for field in [
+        "official_sources_only",
+        "no_external_request_submitted_this_pulse",
+        "no_agency_or_person_contacted",
+        "source_gap_rollup_only",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("rate publication status {field} must be true"));
+        }
+    }
+    for field in ["rate_publication_ready", "solver_inputs_ready"] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("rate publication status {field} must be false"));
+        }
+    }
+
+    let rows = rollup
+        .get("readiness_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("rate publication readiness rows")?;
+    let expected = [
+        "matched_assigned_receipt_bases",
+        "distribution_and_incidence",
+        "administration_and_compliance_burden",
+        "interaction_and_macro_feedback",
+        "public_rate_card_review",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let observed = rows
+        .iter()
+        .map(|row| string_field(row, "gate_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if observed != expected {
+        return Err("rate publication readiness row set failed".to_string());
+    }
+    for row in rows {
+        if string_field(row, "status")? != "blocked"
+            || row.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+            || row.get("value") != Some(&serde_json::Value::Null)
+        {
+            return Err("rate publication readiness rows must stay blocked/null".to_string());
+        }
+        if !root.join(string_field(row, "source_path")?).exists() {
+            return Err("rate publication readiness row source path missing".to_string());
+        }
+    }
+
+    let summary = rollup
+        .get("summary")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("rate publication summary")?;
+    if summary
+        .get("gate_count")
+        .and_then(serde_json::Value::as_i64)
+        != Some(5)
+        || summary
+            .get("ready_count")
+            .and_then(serde_json::Value::as_i64)
+            != Some(0)
+        || summary
+            .get("blocked_count")
+            .and_then(serde_json::Value::as_i64)
+            != Some(5)
+    {
+        return Err("rate publication summary counts failed".to_string());
+    }
+    for field in [
+        "rate_publication_ready",
+        "statutory_rate_language_allowed",
+        "effective_rate_language_allowed",
+        "public_rate_card_publishable",
+        "solver_ready",
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("rate publication summary {field} must be false"));
+        }
+    }
+
+    let blocked = rollup
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("rate publication blocked outputs")?;
+    for field in [
+        "statutory_rates",
+        "effective_rates",
+        "assigned_base_rates",
+        "all_receipt_funding_shares",
+        "residual_general_fund_requirement_shares",
+        "public_rate_cards",
+        "tax_proposal_fields",
+        "solver_input_rows",
+        "balanced_budget_fields",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "rate publication blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let claims = rollup
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("rate publication claims")?;
+    if claims
+        .get("source_gap_rollup_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("rate publication rollup published flag must be true".to_string());
+    }
+    for field in [
+        "rate_publication_ready",
+        "solver_inputs_ready",
+        "statutory_rate_claim",
+        "effective_rate_claim",
+        "public_rate_card_claim",
+        "tax_proposal_claim",
+        "balanced_budget_claim",
+        "target_cost_claim",
+        "federal_effect_claim",
+        "gross_savings_claim",
+        "net_savings_claim",
+        "waste_finding_claim",
+        "fraud_finding_claim",
+        "technology_savings_claim",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("rate publication claim {field} must be false"));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(RATE_PUBLICATION_READINESS_ROLLUP_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for phrase in [
+        RATE_PUBLICATION_READINESS_ROLLUP_JSON_PATH,
+        "Rate publication readiness is blocked across receipt bases, distribution/incidence, administration/compliance burden, interaction/macro feedback, and public review.",
+        "No statutory rate, effective rate, assigned-base rate, public rate card, tax proposal, solver input, or balanced-budget value is populated.",
+        "A value calculated after subtracting dedicated receipts is not share of every tax dollar.",
+        "Missing values remain null and blocked gates remain false.",
+        "No external request was submitted and no agency or person was contacted.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!("rate publication reader missing phrase: {phrase}"));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -26110,6 +26330,12 @@ mod global_country_comparison_tests {
     fn administration_compliance_burden_source_gap_blocks_rate_and_solver_values() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_administration_compliance_burden_source_gap(&root).unwrap();
+    }
+
+    #[test]
+    fn rate_publication_readiness_rollup_blocks_every_public_rate_output() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_rate_publication_readiness_rollup(&root).unwrap();
     }
 
     #[test]

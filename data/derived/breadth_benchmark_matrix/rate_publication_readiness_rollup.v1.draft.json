@@ -1,0 +1,108 @@
+{
+  "record_id": "rate-publication-readiness-rollup:v1",
+  "record_family": "rate_publication_readiness_rollup",
+  "schema_version": "v1.draft",
+  "pulse": 131,
+  "as_of_date": "2026-07-19",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "public_rate_card_v2_contract_path": "data/derived/breadth_benchmark_matrix/public_rate_card_v2_contract.v1.draft.json",
+  "assigned_receipt_base_source_gap_path": "data/derived/breadth_benchmark_matrix/assigned_receipt_base_source_gap.v1.draft.json",
+  "distribution_incidence_source_gap_path": "data/derived/breadth_benchmark_matrix/distribution_incidence_source_gap.v1.draft.json",
+  "administration_compliance_burden_source_gap_path": "data/derived/breadth_benchmark_matrix/administration_compliance_burden_source_gap.v1.draft.json",
+  "source_custody_status": {
+    "official_sources_only": true,
+    "no_external_request_submitted_this_pulse": true,
+    "no_agency_or_person_contacted": true,
+    "source_gap_rollup_only": true,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false
+  },
+  "readiness_rows": [
+    {
+      "gate_id": "matched_assigned_receipt_bases",
+      "source_path": "data/derived/breadth_benchmark_matrix/assigned_receipt_base_source_gap.v1.draft.json",
+      "required_before_public_rate": ["matched_year", "legal_perimeter", "economic_perimeter", "baseline_amount", "elasticity", "current_law_yield", "reform_yield"],
+      "status": "blocked",
+      "ready": false,
+      "value": null
+    },
+    {
+      "gate_id": "distribution_and_incidence",
+      "source_path": "data/derived/breadth_benchmark_matrix/distribution_incidence_source_gap.v1.draft.json",
+      "required_before_public_rate": ["income_distribution", "current_law_tax_burden", "reform_tax_burden", "employer_incidence", "household_incidence", "benefit_service_value"],
+      "status": "blocked",
+      "ready": false,
+      "value": null
+    },
+    {
+      "gate_id": "administration_and_compliance_burden",
+      "source_path": "data/derived/breadth_benchmark_matrix/administration_compliance_burden_source_gap.v1.draft.json",
+      "required_before_public_rate": ["agency_administration_cost", "taxpayer_time_burden", "taxpayer_money_burden", "employer_withholding_burden", "avoidance_compliance_response", "transition_cost"],
+      "status": "blocked",
+      "ready": false,
+      "value": null
+    },
+    {
+      "gate_id": "interaction_and_macro_feedback",
+      "source_path": "data/derived/breadth_benchmark_matrix/distribution_incidence_source_gap.v1.draft.json",
+      "required_before_public_rate": ["interaction_with_other_taxes", "interaction_with_transfers", "macro_feedback", "distribution_macro_consistency"],
+      "status": "blocked",
+      "ready": false,
+      "value": null
+    },
+    {
+      "gate_id": "public_rate_card_review",
+      "source_path": "data/derived/breadth_benchmark_matrix/public_rate_card_v2_contract.v1.draft.json",
+      "required_before_public_rate": ["rate_calculation_gate", "rate_publication_gate", "role_review", "public_language_review"],
+      "status": "blocked",
+      "ready": false,
+      "value": null
+    }
+  ],
+  "summary": {
+    "gate_count": 5,
+    "ready_count": 0,
+    "blocked_count": 5,
+    "rate_publication_ready": false,
+    "statutory_rate_language_allowed": false,
+    "effective_rate_language_allowed": false,
+    "public_rate_card_publishable": false,
+    "solver_ready": false
+  },
+  "blocked_outputs": {
+    "statutory_rates": null,
+    "effective_rates": null,
+    "assigned_base_rates": null,
+    "all_receipt_funding_shares": null,
+    "residual_general_fund_requirement_shares": null,
+    "public_rate_cards": null,
+    "tax_proposal_fields": null,
+    "solver_input_rows": null,
+    "balanced_budget_fields": null
+  },
+  "public_warning_phrases": [
+    "Rate publication readiness is blocked across receipt bases, distribution/incidence, administration/compliance burden, interaction/macro feedback, and public review.",
+    "No statutory rate, effective rate, assigned-base rate, public rate card, tax proposal, solver input, or balanced-budget value is populated.",
+    "A value calculated after subtracting dedicated receipts is not share of every tax dollar.",
+    "Missing values remain null and blocked gates remain false.",
+    "No external request was submitted and no agency or person was contacted.",
+    "This record is not solver input, not a solver run, not a target-cost selection, not a rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+  ],
+  "claim_booleans": {
+    "source_gap_rollup_published": true,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false,
+    "statutory_rate_claim": false,
+    "effective_rate_claim": false,
+    "public_rate_card_claim": false,
+    "tax_proposal_claim": false,
+    "balanced_budget_claim": false,
+    "target_cost_claim": false,
+    "federal_effect_claim": false,
+    "gross_savings_claim": false,
+    "net_savings_claim": false,
+    "waste_finding_claim": false,
+    "fraud_finding_claim": false,
+    "technology_savings_claim": false
+  }
+}
