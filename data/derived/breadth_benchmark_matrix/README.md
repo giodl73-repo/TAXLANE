@@ -717,3 +717,9 @@ and modeling requirements needed before Medicare HI payroll context can become a
 matched assigned receipt base. It keeps the diagnostic ratio, assigned base,
 rates, solver inputs, public rate cards, tax proposals, savings, and
 balanced-budget outputs blocked.
+
+`medicare_hi_payroll_tax_perimeter_bridge.v1.draft.json` partially evidences the
+CMS Medicare HI payroll-tax-yield perimeter while preserving the unresolved OMB
+Hospital Insurance anchor bridge. It separates taxation of OASDI benefits from
+payroll taxes and keeps assigned bases, rates, solver inputs, public rate cards,
+tax proposals, savings, and balanced-budget outputs blocked.

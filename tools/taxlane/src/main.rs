@@ -520,6 +520,12 @@ const MEDICARE_HI_PERIMETER_BRIDGE_REQUIREMENTS_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/medicare_hi_perimeter_bridge_requirements.schema.md";
 const MEDICARE_HI_PERIMETER_BRIDGE_REQUIREMENTS_READER_PATH: &str =
     "docs/reading/medicare-hi-perimeter-bridge-requirements.md";
+const MEDICARE_HI_PAYROLL_TAX_PERIMETER_BRIDGE_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/medicare_hi_payroll_tax_perimeter_bridge.v1.draft.json";
+const MEDICARE_HI_PAYROLL_TAX_PERIMETER_BRIDGE_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/medicare_hi_payroll_tax_perimeter_bridge.schema.md";
+const MEDICARE_HI_PAYROLL_TAX_PERIMETER_BRIDGE_READER_PATH: &str =
+    "docs/reading/medicare-hi-payroll-tax-perimeter-bridge.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11176,6 +11182,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_receipt_base_reconciliation_gap(root)?;
     validate_medicare_hi_receipt_base_reconciliation(root)?;
     validate_medicare_hi_perimeter_bridge_requirements(root)?;
+    validate_medicare_hi_payroll_tax_perimeter_bridge(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -22837,6 +22844,313 @@ fn validate_medicare_hi_perimeter_bridge_requirements(root: &Path) -> Result<(),
     Ok(())
 }
 
+fn validate_medicare_hi_payroll_tax_perimeter_bridge(root: &Path) -> Result<(), String> {
+    for path in [
+        MEDICARE_HI_PAYROLL_TAX_PERIMETER_BRIDGE_JSON_PATH,
+        MEDICARE_HI_PAYROLL_TAX_PERIMETER_BRIDGE_SCHEMA_PATH,
+        MEDICARE_HI_PAYROLL_TAX_PERIMETER_BRIDGE_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing Medicare HI payroll tax perimeter bridge artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(MEDICARE_HI_PAYROLL_TAX_PERIMETER_BRIDGE_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")? != "medicare-hi-payroll-tax-perimeter-bridge:v1"
+        || string_field(&record, "record_family")? != "medicare_hi_payroll_tax_perimeter_bridge"
+        || int_field(&record, "pulse")? != 141
+        || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&record, "medicare_hi_perimeter_bridge_requirements_path")?
+            != MEDICARE_HI_PERIMETER_BRIDGE_REQUIREMENTS_JSON_PATH
+        || string_field(&record, "medicare_hi_receipt_base_reconciliation_path")?
+            != MEDICARE_HI_RECEIPT_BASE_RECONCILIATION_JSON_PATH
+        || string_field(&record, "rate_publication_readiness_rollup_path")?
+            != RATE_PUBLICATION_READINESS_ROLLUP_JSON_PATH
+        || string_field(&record, "component_id")? != "payroll_tax_yield_perimeter"
+    {
+        return Err("Medicare HI payroll tax perimeter bridge identity failed".to_string());
+    }
+
+    let status = record
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI payroll tax perimeter bridge status")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_captured_sources_only",
+        "cms_medicare_trustees_raw_custody_ready",
+        "omb_hi_anchor_raw_custody_ready",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "payroll_tax_yield_perimeter_partially_evidenced",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "Medicare HI payroll tax perimeter bridge status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "payroll_tax_yield_perimeter_complete",
+        "perimeter_bridge_complete",
+        "assigned_base_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI payroll tax perimeter bridge status {field} must be false"
+            ));
+        }
+    }
+
+    let rows = record
+        .get("cms_evidence_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Medicare HI payroll tax perimeter bridge CMS rows")?;
+    if rows.len() != 3 {
+        return Err("Medicare HI payroll tax perimeter bridge CMS row count failed".to_string());
+    }
+    let payroll = rows
+        .iter()
+        .find(|row| string_field(row, "field").ok().as_deref() == Some("payroll_taxes"))
+        .ok_or("Medicare HI payroll taxes row missing")?;
+    if string_field(payroll, "period")? != "FY2025"
+        || payroll
+            .get("source_value_usd")
+            .and_then(serde_json::Value::as_i64)
+            != Some(400_622_160_000)
+        || payroll
+            .get("amount_musd")
+            .and_then(serde_json::Value::as_f64)
+            != Some(400_622.16)
+        || payroll
+            .get("included_in_component")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("Medicare HI payroll taxes row failed".to_string());
+    }
+    let oasdi_benefits = rows
+        .iter()
+        .find(|row| {
+            string_field(row, "field").ok().as_deref()
+                == Some("income_from_taxation_of_oasdi_benefits")
+        })
+        .ok_or("Medicare HI OASDI benefits taxation row missing")?;
+    if oasdi_benefits
+        .get("source_value_usd")
+        .and_then(serde_json::Value::as_i64)
+        != Some(41_054_000_000)
+        || oasdi_benefits
+            .get("amount_musd")
+            .and_then(serde_json::Value::as_f64)
+            != Some(41_054.0)
+        || oasdi_benefits
+            .get("included_in_payroll_tax_yield_component")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("Medicare HI OASDI benefits taxation row failed".to_string());
+    }
+    let definition = rows
+        .iter()
+        .find(|row| {
+            string_field(row, "field").ok().as_deref() == Some("taxable_payroll_definition")
+        })
+        .ok_or("Medicare HI taxable payroll definition row missing")?;
+    if definition.get("value") != Some(&serde_json::Value::Null)
+        || !string_field(definition, "plain_meaning")?
+            .contains("taxable wages and taxable self-employment income")
+        || definition
+            .get("included_in_component")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("Medicare HI taxable payroll definition row failed".to_string());
+    }
+
+    let omb = record
+        .get("omb_anchor_context")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI payroll tax perimeter bridge OMB anchor")?;
+    if omb.get("amount_musd").and_then(serde_json::Value::as_f64) != Some(395_350.0)
+        || omb
+            .get("payroll_tax_only_perimeter_confirmed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("Medicare HI payroll tax perimeter bridge OMB anchor failed".to_string());
+    }
+
+    let reconciliation = record
+        .get("reconciliation")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI payroll tax perimeter bridge reconciliation")?;
+    for (field, expected) in [
+        ("cms_payroll_taxes_musd", 400_622.16),
+        ("omb_hospital_insurance_anchor_musd", 395_350.0),
+        ("cms_minus_omb_musd", 5_272.16),
+        (
+            "cms_payroll_tax_yield_to_hi_taxable_payroll_percent",
+            3.0175,
+        ),
+    ] {
+        let observed = reconciliation
+            .get(field)
+            .and_then(serde_json::Value::as_f64)
+            .ok_or(format!("Medicare HI reconciliation {field} missing"))?;
+        if (observed - expected).abs() > 0.001 {
+            return Err(format!("Medicare HI reconciliation {field} failed"));
+        }
+    }
+    let observed_difference = reconciliation
+        .get("cms_minus_omb_musd")
+        .and_then(serde_json::Value::as_f64)
+        .ok_or("cms_minus_omb_musd")?;
+    let recomputed_difference = reconciliation
+        .get("cms_payroll_taxes_musd")
+        .and_then(serde_json::Value::as_f64)
+        .ok_or("cms payroll taxes")?
+        - reconciliation
+            .get("omb_hospital_insurance_anchor_musd")
+            .and_then(serde_json::Value::as_f64)
+            .ok_or("omb hospital insurance anchor")?;
+    if (observed_difference - recomputed_difference).abs() > 0.001 {
+        return Err("Medicare HI CMS minus OMB formula failed".to_string());
+    }
+    if string_field(
+        &serde_json::Value::Object(reconciliation.clone()),
+        "component_status",
+    )? != "partial_cms_payroll_tax_perimeter_evidenced_omb_perimeter_bridge_incomplete"
+        || reconciliation
+            .get("component_ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || reconciliation
+            .get("perimeter_bridge_complete")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("Medicare HI reconciliation status failed".to_string());
+    }
+
+    let still_required = record
+        .get("still_required")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Medicare HI payroll tax perimeter still required")?;
+    if still_required.len() != 5 {
+        return Err("Medicare HI payroll tax perimeter still-required count failed".to_string());
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI payroll tax perimeter blocked outputs")?;
+    for field in [
+        "completed_payroll_tax_yield_perimeter",
+        "perimeter_bridge_value",
+        "legal_receipt_base_amount",
+        "economic_receipt_base_amount",
+        "matched_receipt_base",
+        "assigned_base_rate",
+        "statutory_rate",
+        "effective_rate",
+        "behavioral_elasticity",
+        "avoidance_and_compliance",
+        "administration_burden",
+        "distribution_by_income",
+        "current_law_yield_matched_to_solver",
+        "reform_yield",
+        "public_rate_card",
+        "solver_input_row",
+        "tax_proposal_fields",
+        "balanced_budget_fields",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "Medicare HI payroll tax perimeter blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI payroll tax perimeter claims")?;
+    if claims
+        .get("medicare_hi_payroll_tax_perimeter_partial_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("Medicare HI payroll tax perimeter partial flag must be true".to_string());
+    }
+    for field in [
+        "payroll_tax_yield_perimeter_complete",
+        "perimeter_bridge_complete",
+        "assigned_receipt_base_published",
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+        "statutory_rate_claim",
+        "effective_rate_claim",
+        "public_rate_card_claim",
+        "tax_proposal_claim",
+        "balanced_budget_claim",
+        "target_cost_claim",
+        "federal_effect_claim",
+        "gross_savings_claim",
+        "net_savings_claim",
+        "waste_finding_claim",
+        "fraud_finding_claim",
+        "technology_savings_claim",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI payroll tax perimeter claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader =
+        fs::read_to_string(root.join(MEDICARE_HI_PAYROLL_TAX_PERIMETER_BRIDGE_READER_PATH))
+            .map_err(|e| e.to_string())?;
+    for phrase in [
+        MEDICARE_HI_PAYROLL_TAX_PERIMETER_BRIDGE_JSON_PATH,
+        "The CMS payroll-tax-yield perimeter is partially evidenced, but the OMB Hospital Insurance anchor perimeter is not bridged.",
+        "The Medicare HI diagnostic ratio remains blocked from statutory-rate and effective-rate publication.",
+        "Taxation of OASDI benefits is identified separately and is not part of the payroll-tax-yield component.",
+        "Medicare HI trust-fund separation remains required; combined Medicare financing is prohibited.",
+        "No Medicare HI assigned base, rate, solver input, public rate card, tax proposal, or balanced-budget value is populated.",
+        "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "Medicare HI payroll tax perimeter reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -28845,6 +29159,12 @@ mod global_country_comparison_tests {
     fn medicare_hi_perimeter_bridge_requirements_keep_values_blocked() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_medicare_hi_perimeter_bridge_requirements(&root).unwrap();
+    }
+
+    #[test]
+    fn medicare_hi_payroll_tax_perimeter_bridge_keeps_omb_bridge_blocked() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_medicare_hi_payroll_tax_perimeter_bridge(&root).unwrap();
     }
 
     #[test]
