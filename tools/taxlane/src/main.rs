@@ -513,6 +513,12 @@ const POST_ROLLUP_READINESS_WORK_QUEUE_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/post_rollup_readiness_work_queue.schema.md";
 const POST_ROLLUP_READINESS_WORK_QUEUE_READER_PATH: &str =
     "docs/reading/post-rollup-readiness-work-queue.md";
+const CURRENT_LAW_SOURCE_CUSTODY_BATCH_PLAN_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/current_law_source_custody_batch_plan.v1.draft.json";
+const CURRENT_LAW_SOURCE_CUSTODY_BATCH_PLAN_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/current_law_source_custody_batch_plan.schema.md";
+const CURRENT_LAW_SOURCE_CUSTODY_BATCH_PLAN_READER_PATH: &str =
+    "docs/reading/current-law-source-custody-batch-plan.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -11053,6 +11059,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_wave5_fiscal_control_overlay_depth_packets(root)?;
     validate_wave_lane_depth_scaffold_rollup(root)?;
     validate_post_rollup_readiness_work_queue(root)?;
+    validate_current_law_source_custody_batch_plan(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -22447,6 +22454,230 @@ fn validate_post_rollup_readiness_work_queue(root: &Path) -> Result<(), String> 
     Ok(())
 }
 
+fn validate_current_law_source_custody_batch_plan(root: &Path) -> Result<(), String> {
+    for path in [
+        CURRENT_LAW_SOURCE_CUSTODY_BATCH_PLAN_JSON_PATH,
+        CURRENT_LAW_SOURCE_CUSTODY_BATCH_PLAN_SCHEMA_PATH,
+        CURRENT_LAW_SOURCE_CUSTODY_BATCH_PLAN_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing current-law custody batch artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(CURRENT_LAW_SOURCE_CUSTODY_BATCH_PLAN_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let plan: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&plan, "record_id")? != "current-law-source-custody-batch-plan:v1"
+        || string_field(&plan, "record_family")? != "current_law_source_custody_batch_plan"
+        || int_field(&plan, "pulse")? != 119
+        || string_field(&plan, "post_rollup_readiness_work_queue_path")?
+            != POST_ROLLUP_READINESS_WORK_QUEUE_JSON_PATH
+        || string_field(&plan, "current_law_source_custody_preflight_path")?
+            != CURRENT_LAW_SOURCE_CUSTODY_PREFLIGHT_JSON_PATH
+        || string_field(&plan, "current_law_path_inventory_path")?
+            != CURRENT_LAW_PATH_INVENTORY_JSON_PATH
+    {
+        return Err("current-law custody batch plan identity failed".to_string());
+    }
+
+    let rules = plan
+        .get("batch_rules")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("current-law custody batch rules")?;
+    for required in [
+        "no_external_request_submitted",
+        "no_agency_or_person_contacted",
+        "no_source_values_captured",
+        "official_sources_only_for_future_capture",
+        "raw_bytes_metadata_retrieval_date_byte_count_and_sha256_required_before_values",
+        "review_required_before_values",
+        "current_law_zero_reform_delta_required",
+        "no_interpolation_without_explicit_model",
+        "missing_values_remain_null",
+        "blocked_gates_remain_false",
+    ] {
+        if rules.get(required).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("current-law custody batch rule failed: {required}"));
+        }
+    }
+
+    let expected_paths = [
+        "full_17_row_fy2025_ledger",
+        "baseline_plus_ten_year_horizon",
+        "general_fund_path",
+        "oasdi_fund_path",
+        "medicare_hi_fund_path",
+        "transportation_trust_fund_path",
+        "health_fiscal_current_law_path",
+        "net_interest_current_law_path",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let covered = plan
+        .get("covered_path_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("current-law custody covered paths")?
+        .iter()
+        .map(|value| {
+            value
+                .as_str()
+                .map(str::to_string)
+                .ok_or("current-law custody path string")
+        })
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if covered != expected_paths {
+        return Err("current-law custody covered path set failed".to_string());
+    }
+
+    let batches = plan
+        .get("custody_batches")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("current-law custody batches")?;
+    if batches.len() != 4 {
+        return Err("current-law custody plan must contain four batches".to_string());
+    }
+    let mut observed_paths = BTreeSet::new();
+    for (index, batch) in batches.iter().enumerate() {
+        if int_field(batch, "rank")? != (index as i64) + 1
+            || string_field(batch, "batch_id")?.is_empty()
+            || string_field(batch, "capture_status")? != "not_started"
+            || !batch
+                .get("source_ids")
+                .is_some_and(serde_json::Value::is_null)
+            || !batch
+                .get("raw_artifact_paths")
+                .is_some_and(serde_json::Value::is_null)
+            || !batch
+                .get("metadata_paths")
+                .is_some_and(serde_json::Value::is_null)
+            || !batch.get("values").is_some_and(serde_json::Value::is_null)
+            || batch
+                .get("custody_ready")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+            || batch
+                .get("values_may_be_populated")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+        {
+            return Err(format!(
+                "current-law custody batch failed at rank {}",
+                index + 1
+            ));
+        }
+        let path_ids = batch
+            .get("path_ids")
+            .and_then(serde_json::Value::as_array)
+            .ok_or("current-law custody batch path ids")?;
+        if path_ids.is_empty() {
+            return Err("current-law custody batch path ids empty".to_string());
+        }
+        for id in path_ids {
+            observed_paths.insert(
+                id.as_str()
+                    .ok_or("current-law custody batch path id string")?
+                    .to_string(),
+            );
+        }
+        let source_families = batch
+            .get("future_official_source_families")
+            .and_then(serde_json::Value::as_array)
+            .ok_or("current-law custody source families")?;
+        if source_families.is_empty() {
+            return Err("current-law custody source families empty".to_string());
+        }
+    }
+    if observed_paths != expected_paths {
+        return Err("current-law custody batch path coverage failed".to_string());
+    }
+
+    let summary = plan
+        .get("aggregate_status")
+        .ok_or("current-law custody aggregate status")?;
+    if int_field(summary, "batches")? != 4
+        || int_field(summary, "path_ids_covered")? != 8
+        || int_field(summary, "source_custody_ready_count")? != 0
+        || int_field(summary, "values_may_be_populated_count")? != 0
+        || summary
+            .get("current_law_values_published")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || summary
+            .get("solver_inputs_ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || summary
+            .get("rates_ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("current-law custody aggregate status failed".to_string());
+    }
+
+    let claims = plan
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("current-law custody claims")?;
+    for (field, value) in claims {
+        let observed = value.as_bool().ok_or("current-law custody claim bool")?;
+        if field == "current_law_source_custody_batch_plan_published" {
+            if !observed {
+                return Err("current-law custody publish flag must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!(
+                "current-law custody public claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(CURRENT_LAW_SOURCE_CUSTODY_BATCH_PLAN_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    let reader_words = reader.split_whitespace().collect::<Vec<_>>().join(" ");
+    for required in [
+        CURRENT_LAW_SOURCE_CUSTODY_BATCH_PLAN_JSON_PATH,
+        "This is a batch plan for future source-custody work.",
+        "It does not capture sources or publish current-law values.",
+        "Federal baseline, unified horizon, general fund, and 17-row ledger.",
+        "OASDI, Medicare HI, and transportation trust-fund paths.",
+        "Health current-law component paths.",
+        "Net-interest and debt path custody.",
+        "No external request was submitted and no agency or person was contacted.",
+        "Future capture must use official sources only",
+        "raw bytes, metadata, retrieval date, byte count, SHA-256",
+        "Trust funds remain separate.",
+        "Medicare HI remains separate.",
+        "Current-law paths must have zero reform delta.",
+        "No interpolation is allowed without an explicit model.",
+        "Missing values remain null and blocked gates remain false.",
+        "not source custody",
+        "not current-law path values",
+        "not solver inputs",
+        "not a solver run",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader_words.contains(required) {
+            return Err(format!("current-law custody reader missing {required}"));
+        }
+    }
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -22725,6 +22956,12 @@ mod global_country_comparison_tests {
     fn post_rollup_readiness_work_queue_orders_work_without_outputs() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_post_rollup_readiness_work_queue(&root).unwrap();
+    }
+
+    #[test]
+    fn current_law_source_custody_batch_plan_blocks_values_and_claims() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_current_law_source_custody_batch_plan(&root).unwrap();
     }
 
     #[test]

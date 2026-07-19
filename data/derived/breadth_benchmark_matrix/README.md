@@ -579,3 +579,10 @@ lineage, net-interest feedback, and finally a deterministic solver dry run. It
 publishes no values, rates, solver outputs, savings, waste/fraud findings,
 department-cut instructions, technology-savings claims, or balanced-budget
 claim.
+
+`current_law_source_custody_batch_plan.v1.draft.json` breaks the first
+post-rollup work item into future source-custody capture batches for the federal
+baseline, trust funds, health components, and net-interest/debt paths. It
+captures no sources, populates no values, contacts no agency or person, and
+keeps all solver, rate, savings, waste/fraud, department-cut,
+technology-savings, and balanced-budget claims blocked.
