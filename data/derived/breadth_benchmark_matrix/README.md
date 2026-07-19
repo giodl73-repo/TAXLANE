@@ -564,3 +564,10 @@ and net interest. Revenue-solvency and payment integrity remain non-additive
 overlays. Net interest remains endogenous and cannot be cut directly. The packet
 opens no rate, tax, solver, target-cost, savings, waste/fraud, department-cut,
 technology-savings, or balanced-budget claim.
+
+`wave_lane_depth_scaffold_rollup.v1.draft.json` audits Waves 1-5 after all 15
+analytical lanes have scaffolded public explainability packets. It confirms
+that all 15 lanes are scaffolded, zero lanes are complete, zero lanes are
+solver-ready, zero lanes are rate-ready, and no solver, rate, target-cost,
+savings, waste/fraud, department-cut, technology-savings, or balanced-budget
+claim is open.

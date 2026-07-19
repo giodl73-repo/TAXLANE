@@ -501,6 +501,12 @@ const WAVE5_FISCAL_CONTROL_OVERLAY_DEPTH_PACKETS_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/wave5_fiscal_control_overlay_depth_packets.schema.md";
 const WAVE5_FISCAL_CONTROL_OVERLAY_DEPTH_PACKETS_READER_PATH: &str =
     "docs/reading/wave5-fiscal-control-overlay-depth-packets.md";
+const WAVE_LANE_DEPTH_SCAFFOLD_ROLLUP_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/wave_lane_depth_scaffold_rollup.v1.draft.json";
+const WAVE_LANE_DEPTH_SCAFFOLD_ROLLUP_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/wave_lane_depth_scaffold_rollup.schema.md";
+const WAVE_LANE_DEPTH_SCAFFOLD_ROLLUP_READER_PATH: &str =
+    "docs/reading/wave-lane-depth-scaffold-rollup.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -11039,6 +11045,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_wave3_public_goods_lane_depth_packets(root)?;
     validate_wave4_component_and_pilot_lane_depth_packets(root)?;
     validate_wave5_fiscal_control_overlay_depth_packets(root)?;
+    validate_wave_lane_depth_scaffold_rollup(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -21984,6 +21991,260 @@ fn validate_wave5_fiscal_control_overlay_depth_packets(root: &Path) -> Result<()
     Ok(())
 }
 
+fn validate_wave_lane_depth_scaffold_rollup(root: &Path) -> Result<(), String> {
+    for path in [
+        WAVE_LANE_DEPTH_SCAFFOLD_ROLLUP_JSON_PATH,
+        WAVE_LANE_DEPTH_SCAFFOLD_ROLLUP_SCHEMA_PATH,
+        WAVE_LANE_DEPTH_SCAFFOLD_ROLLUP_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing wave scaffold rollup artifact: {path}"));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(WAVE_LANE_DEPTH_SCAFFOLD_ROLLUP_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let rollup: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&rollup, "record_id")? != "wave-lane-depth-scaffold-rollup:v1"
+        || string_field(&rollup, "record_family")? != "wave_lane_depth_scaffold_rollup"
+        || int_field(&rollup, "pulse")? != 117
+        || string_field(&rollup, "lane_agent_work_order_plan_path")?
+            != LANE_AGENT_WORK_ORDER_PLAN_JSON_PATH
+        || string_field(&rollup, "lane_depth_explainability_tracker_path")?
+            != LANE_DEPTH_EXPLAINABILITY_TRACKER_JSON_PATH
+        || string_field(&rollup, "solver_input_readiness_rollup_path")?
+            != SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH
+        || string_field(&rollup, "balanced_rate_readiness_gate_path")?
+            != BALANCED_RATE_READINESS_GATE_JSON_PATH
+        || string_field(&rollup, "public_rate_card_v2_contract_path")?
+            != PUBLIC_RATE_CARD_V2_CONTRACT_JSON_PATH
+    {
+        return Err("wave scaffold rollup identity failed".to_string());
+    }
+
+    let expected_wave_paths = [
+        WAVE1_PUBLIC_TOPLINE_LANE_DEPTH_PACKETS_JSON_PATH,
+        WAVE2_HUMAN_SERVICES_LANE_DEPTH_PACKETS_JSON_PATH,
+        WAVE3_PUBLIC_GOODS_LANE_DEPTH_PACKETS_JSON_PATH,
+        WAVE4_COMPONENT_AND_PILOT_LANE_DEPTH_PACKETS_JSON_PATH,
+        WAVE5_FISCAL_CONTROL_OVERLAY_DEPTH_PACKETS_JSON_PATH,
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let wave_paths = rollup
+        .get("wave_packet_paths")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("wave scaffold rollup packet paths")?
+        .iter()
+        .map(|value| {
+            let path = value.as_str().ok_or("wave packet path string")?;
+            if !root.join(path).exists() {
+                return Err("referenced wave packet missing");
+            }
+            Ok(path.to_string())
+        })
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if wave_paths != expected_wave_paths {
+        return Err("wave scaffold rollup packet path set failed".to_string());
+    }
+
+    let summary = rollup
+        .get("coverage_summary")
+        .ok_or("wave scaffold coverage summary")?;
+    if int_field(summary, "analytical_lane_count")? != 15
+        || int_field(summary, "budget_row_count")? != 17
+        || int_field(summary, "waves_audited")? != 5
+        || int_field(summary, "lane_or_overlay_packets_published")? != 15
+        || int_field(summary, "lane_depth_complete_count")? != 0
+        || int_field(summary, "public_explainability_complete_count")? != 0
+        || int_field(summary, "solver_ready_count")? != 0
+        || int_field(summary, "rate_ready_count")? != 0
+        || summary
+            .get("public_explainability_scaffold_present_for_all_15_lanes")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || summary
+            .get("all_15_lanes_scaffolded")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || summary
+            .get("all_15_lanes_defensible_for_public_rates")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || summary
+            .get("all_15_lanes_defensible_for_solver")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || summary
+            .get("balanced_budget_claim_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("wave scaffold coverage summary failed".to_string());
+    }
+
+    let expected_lanes = [
+        "health-medicare",
+        "social-security",
+        "national-defense",
+        "income-security-family",
+        "education-workforce",
+        "veterans",
+        "disaster-resilience",
+        "justice-courts-public-safety",
+        "science-energy-environment",
+        "agriculture",
+        "international-affairs",
+        "transportation-infrastructure",
+        "revenue-solvency",
+        "payment-integrity",
+        "net-interest",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let all_lanes = rollup
+        .get("all_analytical_lane_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("wave scaffold all lane ids")?
+        .iter()
+        .map(|value| {
+            value
+                .as_str()
+                .map(str::to_string)
+                .ok_or("wave scaffold lane id string")
+        })
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if all_lanes != expected_lanes {
+        return Err("wave scaffold all lane id set failed".to_string());
+    }
+
+    let covered_rows = rollup
+        .get("covered_ids_by_wave")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("wave scaffold covered ids")?;
+    if covered_rows.len() != 5 {
+        return Err("wave scaffold must have five covered-id rows".to_string());
+    }
+    let mut covered = BTreeSet::new();
+    for row in covered_rows {
+        let ids = row
+            .get("ids")
+            .and_then(serde_json::Value::as_array)
+            .ok_or("wave scaffold covered row ids")?;
+        if ids.len() != 3 {
+            return Err("each wave scaffold row must list three ids".to_string());
+        }
+        for id in ids {
+            covered.insert(
+                id.as_str()
+                    .ok_or("wave scaffold covered id string")?
+                    .to_string(),
+            );
+        }
+    }
+    if covered != expected_lanes {
+        return Err("wave scaffold covered lane set failed".to_string());
+    }
+
+    let gates = rollup
+        .get("remaining_completion_gates")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("wave scaffold remaining gates")?;
+    if gates.len() < 10 {
+        return Err("wave scaffold remaining gates too short".to_string());
+    }
+    for gate in gates {
+        if string_field(gate, "status")? != "incomplete"
+            || !gate.get("value").is_some_and(serde_json::Value::is_null)
+        {
+            return Err("wave scaffold gates must remain incomplete/null".to_string());
+        }
+    }
+
+    let integration = rollup
+        .get("integration_review")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("wave scaffold integration review")?;
+    for required in [
+        "all_five_wave_packets_exist",
+        "all_15_analytical_lanes_present_once",
+        "seventeen_budget_rows_not_confused_with_fifteen_analytical_lanes",
+        "revenue_solvency_and_payment_integrity_remain_non_additive_overlays",
+        "net_interest_remains_endogenous_and_not_directly_cuttable",
+        "trust_funds_remain_separate",
+        "missing_values_remain_null",
+        "blocked_gates_remain_false",
+        "international_differences_are_not_savings",
+        "improper_payment_estimates_do_not_imply_fraud",
+        "technology_changes_are_transition_paths_not_automatic_savings",
+    ] {
+        if integration
+            .get(required)
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        {
+            return Err(format!("wave scaffold integration rule failed: {required}"));
+        }
+    }
+
+    let claims = rollup
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("wave scaffold aggregate claims")?;
+    for (field, value) in claims {
+        let observed = value.as_bool().ok_or("wave scaffold claim bool")?;
+        if field == "wave_lane_depth_scaffold_rollup_published"
+            || field == "all_lane_scaffolds_present"
+        {
+            if !observed {
+                return Err(format!("wave scaffold allowed flag {field} must be true"));
+            }
+        } else if observed {
+            return Err(format!("wave scaffold public claim {field} must be false"));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(WAVE_LANE_DEPTH_SCAFFOLD_ROLLUP_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    let reader_words = reader.split_whitespace().collect::<Vec<_>>().join(" ");
+    for required in [
+        WAVE_LANE_DEPTH_SCAFFOLD_ROLLUP_JSON_PATH,
+        "The five scaled waves now cover all 15 analytical lanes",
+        "every analytical lane has a defensible public boundary",
+        "It does not mean lane depth is complete.",
+        "It does not mean public explainability is complete.",
+        "It does not mean every lane is defensible for public rates.",
+        "The 15 analytical lanes are not the same as the 17 budget rows.",
+        "Revenue-solvency and payment integrity remain non-additive overlays.",
+        "Net interest remains endogenous and cannot be cut directly.",
+        "Trust funds remain separate.",
+        "Missing values remain null and blocked gates remain false.",
+        "International spending differences are not savings.",
+        "Improper-payment estimates do not imply fraud.",
+        "Technology changes are transition paths, not automatic savings.",
+        "not a solver run",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader_words.contains(required) {
+            return Err(format!("wave scaffold reader missing {required}"));
+        }
+    }
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -22250,6 +22511,12 @@ mod global_country_comparison_tests {
     fn wave5_fiscal_control_overlay_depth_packets_keep_claims_blocked() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_wave5_fiscal_control_overlay_depth_packets(&root).unwrap();
+    }
+
+    #[test]
+    fn wave_lane_depth_scaffold_rollup_covers_all_lanes_without_claims() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_wave_lane_depth_scaffold_rollup(&root).unwrap();
     }
 
     #[test]

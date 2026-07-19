@@ -76,6 +76,7 @@ explainers. They should keep three labels visible:
 | `wave3-public-goods-lane-depth-packets.md` | Pulse 114 Wave 3 scaffold: Disaster, Justice, and Science/energy/environment explainability packets with all rate/savings/claim gates blocked. |
 | `wave4-component-and-pilot-lane-depth-packets.md` | Pulse 115 Wave 4 scaffold: Agriculture, International affairs, and Transportation/infrastructure explainability packets with all rate/savings/claim gates blocked. |
 | `wave5-fiscal-control-overlay-depth-packets.md` | Pulse 116 Wave 5 scaffold: revenue-solvency, payment-integrity, and net-interest overlay explainability packets with all rate/savings/claim gates blocked. |
+| `wave-lane-depth-scaffold-rollup.md` | Pulse 117 rollup: all 15 analytical lanes have scaffolded explainability packets, but zero lanes are complete, solver-ready, rate-ready, or claim-ready. |
 | `rate-change-worked-examples.md` | Three end-to-end examples of the rate-adjustment operating model (defense up, health down, Social Security cap lift). |
 | `budget-area-funding-explainer.md` | Lay distillation of the six panel-reviewed research papers: where the US over-funds (health), under-funds (family), funds by strategy (defense), runs a broken base (Social Security), and under-collects overall (revenue). Points to `docs/papers/`. |
 | `where-federal-money-goes.md` | Spending-side packet showing the largest FY2025 outlay categories, financing context, and safe accountability questions. |
@@ -354,6 +355,11 @@ It is the bounded public surface, not a performance or savings report.
     revenue-solvency, payment integrity, or net interest as rate, savings,
     fraud, solver, department-cut, technology-savings, or balanced-budget
     outputs.
+86. Read `wave-lane-depth-scaffold-rollup.md` before saying lane-depth
+    scaffolding is complete across the 15 analytical lanes. The rollup allows
+    the scaffold coverage statement only; it still blocks completion, rates,
+    solver use, target costs, savings, waste/fraud, department-cut,
+    technology-savings, and balanced-budget claims.
 
 ## Public-Use Guardrail
 
