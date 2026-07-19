@@ -492,6 +492,10 @@ const RECEIPT_BASE_WORK_ITEM_COMPLETION_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/receipt_base_work_item_completion.schema.md";
 const RECEIPT_BASE_WORK_ITEM_COMPLETION_READER_PATH: &str =
     "docs/reading/receipt-base-work-item-completion.md";
+const TRANSPORTATION_RECEIPT_BASE_WORK_ITEM_PROGRESS_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/transportation_receipt_base_work_item_progress.v1.draft.json";
+const TRANSPORTATION_RECEIPT_BASE_WORK_ITEM_PROGRESS_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/transportation_receipt_base_work_item_progress.schema.md";
+const TRANSPORTATION_RECEIPT_BASE_WORK_ITEM_PROGRESS_READER_PATH: &str =
+    "docs/reading/transportation-receipt-base-work-item-progress.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11143,6 +11147,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_receipt_base_source_work_queue(root)?;
     validate_omb_receipt_category_context(root)?;
     validate_receipt_base_work_item_completion(root)?;
+    validate_transportation_receipt_base_work_item_progress(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -21404,6 +21409,317 @@ fn validate_receipt_base_work_item_completion(root: &Path) -> Result<(), String>
     Ok(())
 }
 
+fn validate_transportation_receipt_base_work_item_progress(root: &Path) -> Result<(), String> {
+    for path in [
+        TRANSPORTATION_RECEIPT_BASE_WORK_ITEM_PROGRESS_JSON_PATH,
+        TRANSPORTATION_RECEIPT_BASE_WORK_ITEM_PROGRESS_SCHEMA_PATH,
+        TRANSPORTATION_RECEIPT_BASE_WORK_ITEM_PROGRESS_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing transportation receipt base progress artifact: {path}"
+            ));
+        }
+    }
+
+    let text =
+        fs::read_to_string(root.join(TRANSPORTATION_RECEIPT_BASE_WORK_ITEM_PROGRESS_JSON_PATH))
+            .map_err(|e| e.to_string())?;
+    let progress: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&progress, "record_id")? != "transportation-receipt-base-work-item-progress:v1"
+        || string_field(&progress, "record_family")?
+            != "transportation_receipt_base_work_item_progress"
+        || int_field(&progress, "pulse")? != 136
+        || string_field(&progress, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&progress, "receipt_base_source_work_queue_path")?
+            != RECEIPT_BASE_SOURCE_WORK_QUEUE_JSON_PATH
+        || string_field(&progress, "receipt_base_work_item_completion_path")?
+            != RECEIPT_BASE_WORK_ITEM_COMPLETION_JSON_PATH
+        || string_field(
+            &progress,
+            "current_law_fy2025_dedicated_receipt_anchors_path",
+        )? != CURRENT_LAW_FY2025_DEDICATED_RECEIPT_ANCHORS_JSON_PATH
+        || string_field(&progress, "rate_publication_readiness_rollup_path")?
+            != RATE_PUBLICATION_READINESS_ROLLUP_JSON_PATH
+        || string_field(&progress, "work_item_id")? != "capture-transportation-excise-user-fee-base"
+    {
+        return Err("transportation receipt base progress identity failed".to_string());
+    }
+
+    for path in [
+        string_field(&progress, "contract_path")?,
+        string_field(&progress, "receipt_base_source_work_queue_path")?,
+        string_field(&progress, "receipt_base_work_item_completion_path")?,
+        string_field(
+            &progress,
+            "current_law_fy2025_dedicated_receipt_anchors_path",
+        )?,
+        string_field(&progress, "rate_publication_readiness_rollup_path")?,
+    ] {
+        if !root.join(&path).exists() {
+            return Err(format!(
+                "transportation receipt base progress referenced path missing: {path}"
+            ));
+        }
+    }
+
+    let status = progress
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation receipt base progress source custody status")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_local_custody_only",
+        "no_external_request_submitted_this_pulse",
+        "no_agency_or_person_contacted",
+        "transportation_receipt_yield_context_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "transportation receipt base progress status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "legal_receipt_base_ready",
+        "economic_receipt_base_ready",
+        "matched_receipt_base_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "transportation receipt base progress status {field} must be false"
+            ));
+        }
+    }
+
+    let rows = progress
+        .get("progress_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("transportation receipt base progress rows")?;
+    if rows.len() != 2 {
+        return Err("transportation receipt base progress row count failed".to_string());
+    }
+
+    let mut receipts = BTreeMap::new();
+    for row in rows {
+        if string_field(row, "source_id")? != "SRC-OMB-HIST-2-4-FY2027"
+            || int_field(row, "fiscal_year")? != 2025
+            || row.get("legal_base") != Some(&serde_json::Value::Null)
+            || row.get("economic_base") != Some(&serde_json::Value::Null)
+            || row.get("assigned_base_rate") != Some(&serde_json::Value::Null)
+            || row
+                .get("ready_for_assigned_base")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+            || row
+                .get("ready_for_rate_publication")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+            || row
+                .get("ready_for_solver")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+        {
+            return Err("transportation receipt base progress row guard failed".to_string());
+        }
+        receipts.insert(
+            string_field(row, "anchor_id")?,
+            int_field(row, "receipt_yield_musd")?,
+        );
+    }
+    if receipts.get("transportation_trust_fund_excise") != Some(&43_768)
+        || receipts.get("airport_and_airway_trust_fund_excise_context") != Some(&23_118)
+    {
+        return Err("transportation receipt base progress receipt values failed".to_string());
+    }
+
+    let reconciliation = progress
+        .get("reconciliation")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation receipt base progress reconciliation")?;
+    let transportation = reconciliation
+        .get("transportation_trust_fund_excise_musd")
+        .and_then(serde_json::Value::as_i64)
+        .ok_or("transportation trust fund excise amount")?;
+    let airport = reconciliation
+        .get("airport_and_airway_excise_musd")
+        .and_then(serde_json::Value::as_i64)
+        .ok_or("airport and airway excise amount")?;
+    let combined = reconciliation
+        .get("combined_context_receipt_yield_musd")
+        .and_then(serde_json::Value::as_i64)
+        .ok_or("combined transportation receipt context amount")?;
+    if transportation + airport != combined || combined != 66_886 {
+        return Err("transportation receipt base progress reconciliation failed".to_string());
+    }
+    for field in [
+        "matches_current_law_dedicated_receipt_anchor_formula",
+        "context_only_not_assigned_base",
+    ] {
+        if reconciliation
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        {
+            return Err(format!(
+                "transportation receipt base progress reconciliation {field} must be true"
+            ));
+        }
+    }
+
+    let anchors_text =
+        fs::read_to_string(root.join(CURRENT_LAW_FY2025_DEDICATED_RECEIPT_ANCHORS_JSON_PATH))
+            .map_err(|e| e.to_string())?;
+    let anchors: serde_json::Value =
+        serde_json::from_str(&anchors_text).map_err(|e| e.to_string())?;
+    let anchor_rows = anchors
+        .get("receipt_anchor_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("current law receipt anchor rows")?;
+    let mut anchor_receipts = BTreeMap::new();
+    for row in anchor_rows {
+        let anchor_id = string_field(row, "anchor_id")?;
+        if anchor_id == "transportation_trust_fund_excise"
+            || anchor_id == "airport_and_airway_trust_fund_excise_context"
+        {
+            anchor_receipts.insert(anchor_id, int_field(row, "amount_musd")?);
+        }
+    }
+    if anchor_receipts != receipts {
+        return Err("transportation progress does not match dedicated receipt anchors".to_string());
+    }
+
+    let summary = progress
+        .get("summary")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation receipt base progress summary")?;
+    if summary
+        .get("receipt_yield_context_rows")
+        .and_then(serde_json::Value::as_i64)
+        != Some(2)
+        || summary
+            .get("receipt_yield_context_complete")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || summary
+            .get("assigned_base_ready_count")
+            .and_then(serde_json::Value::as_i64)
+            != Some(0)
+        || summary
+            .get("remaining_receipt_base_work_item_count")
+            .and_then(serde_json::Value::as_i64)
+            != Some(4)
+    {
+        return Err("transportation receipt base progress summary failed".to_string());
+    }
+    for field in [
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_ready",
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "transportation receipt base progress summary {field} must be false"
+            ));
+        }
+    }
+
+    let blocked = progress
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation receipt base progress blocked outputs")?;
+    for field in [
+        "legal_receipt_base_amounts",
+        "economic_receipt_base_amounts",
+        "matched_receipt_bases",
+        "assigned_base_rates",
+        "behavioral_elasticities",
+        "current_law_yields_by_tax_or_fee_type",
+        "reform_yields",
+        "public_rate_cards",
+        "solver_input_rows",
+        "tax_proposal_fields",
+        "balanced_budget_fields",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "transportation receipt base progress blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let claims = progress
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("transportation receipt base progress claims")?;
+    if claims
+        .get("transportation_receipt_yield_context_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("transportation receipt base progress published flag must be true".to_string());
+    }
+    for field in [
+        "assigned_receipt_base_published",
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+        "statutory_rate_claim",
+        "effective_rate_claim",
+        "public_rate_card_claim",
+        "tax_proposal_claim",
+        "balanced_budget_claim",
+        "target_cost_claim",
+        "federal_effect_claim",
+        "gross_savings_claim",
+        "net_savings_claim",
+        "waste_finding_claim",
+        "fraud_finding_claim",
+        "technology_savings_claim",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "transportation receipt base progress claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader =
+        fs::read_to_string(root.join(TRANSPORTATION_RECEIPT_BASE_WORK_ITEM_PROGRESS_READER_PATH))
+            .map_err(|e| e.to_string())?;
+    for phrase in [
+        TRANSPORTATION_RECEIPT_BASE_WORK_ITEM_PROGRESS_JSON_PATH,
+        "Transportation receipt-yield context is now source-custodied, but it is not a legal or economic assigned receipt base.",
+        "OMB trust-fund excise receipt rows are receipt-yield context, not statutory-rate denominators.",
+        "Transportation legal bases, economic bases, elasticities, burdens, distribution, current-law yield by tax or fee type, reform yield, rates, and solver inputs remain blocked.",
+        "No rate, public rate card, solver input, tax proposal, or balanced-budget value is populated.",
+        "No external request was submitted and no agency or person was contacted.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "transportation receipt base progress reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -27382,6 +27698,12 @@ mod global_country_comparison_tests {
     fn receipt_base_work_item_completion_keeps_assigned_bases_blocked() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_receipt_base_work_item_completion(&root).unwrap();
+    }
+
+    #[test]
+    fn transportation_receipt_base_progress_recomputes_context_only() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_transportation_receipt_base_work_item_progress(&root).unwrap();
     }
 
     #[test]

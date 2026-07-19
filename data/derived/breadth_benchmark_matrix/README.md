@@ -687,3 +687,9 @@ outputs blocked.
 reconciliation work item as context-complete while preserving the boundary that
 no assigned receipt base, rate, solver input, public rate card, tax proposal,
 savings, or balanced-budget output is ready.
+
+`transportation_receipt_base_work_item_progress.v1.draft.json` records FY2025
+transportation and airport-and-airway excise receipt-yield context from existing
+local OMB custody. It is not a legal or economic assigned receipt base and keeps
+rates, solver inputs, public rate cards, tax proposals, savings, and
+balanced-budget outputs blocked.
