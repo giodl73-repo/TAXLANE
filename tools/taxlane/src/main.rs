@@ -473,6 +473,12 @@ const LANE_AGENT_WORK_ORDER_PLAN_JSON_PATH: &str =
 const LANE_AGENT_WORK_ORDER_PLAN_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/lane_agent_work_order_plan.schema.md";
 const LANE_AGENT_WORK_ORDER_PLAN_READER_PATH: &str = "docs/reading/lane-agent-work-order-plan.md";
+const WAVE1_PUBLIC_TOPLINE_LANE_DEPTH_PACKETS_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/wave1_public_topline_lane_depth_packets.v1.draft.json";
+const WAVE1_PUBLIC_TOPLINE_LANE_DEPTH_PACKETS_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/wave1_public_topline_lane_depth_packets.schema.md";
+const WAVE1_PUBLIC_TOPLINE_LANE_DEPTH_PACKETS_READER_PATH: &str =
+    "docs/reading/wave1-public-topline-lane-depth-packets.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -11006,6 +11012,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_current_law_source_custody_preflight(root)?;
     validate_lane_depth_explainability_tracker(root)?;
     validate_lane_agent_work_order_plan(root)?;
+    validate_wave1_public_topline_lane_depth_packets(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -20453,6 +20460,275 @@ fn validate_lane_agent_work_order_plan(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_wave1_public_topline_lane_depth_packets(root: &Path) -> Result<(), String> {
+    for path in [
+        WAVE1_PUBLIC_TOPLINE_LANE_DEPTH_PACKETS_JSON_PATH,
+        WAVE1_PUBLIC_TOPLINE_LANE_DEPTH_PACKETS_SCHEMA_PATH,
+        WAVE1_PUBLIC_TOPLINE_LANE_DEPTH_PACKETS_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing wave1 lane-depth packet artifact: {path}"));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(WAVE1_PUBLIC_TOPLINE_LANE_DEPTH_PACKETS_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let wave: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&wave, "record_id")? != "wave1-public-topline-lane-depth-packets:v1"
+        || string_field(&wave, "record_family")? != "wave1_public_topline_lane_depth_packets"
+        || int_field(&wave, "pulse")? != 112
+        || string_field(&wave, "lane_agent_work_order_plan_path")?
+            != LANE_AGENT_WORK_ORDER_PLAN_JSON_PATH
+        || string_field(&wave, "lane_depth_explainability_tracker_path")?
+            != LANE_DEPTH_EXPLAINABILITY_TRACKER_JSON_PATH
+        || string_field(&wave, "program_lane_target_cost_contract_path")?
+            != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+    {
+        return Err("wave1 lane-depth packet identity failed".to_string());
+    }
+
+    let wave_meta = wave.get("wave").ok_or("wave1 metadata")?;
+    if string_field(wave_meta, "wave_id")? != "wave_1_public_topline"
+        || wave_meta
+            .get("integration_review_required")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || wave_meta
+            .get("lane_depth_complete_after_wave")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || wave_meta
+            .get("public_explainability_complete_after_wave")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || wave_meta
+            .get("solver_ready_after_wave")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("wave1 metadata must keep completion and solver blocked".to_string());
+    }
+    let wave_lanes = wave_meta
+        .get("lane_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("wave1 lane ids")?
+        .iter()
+        .map(|value| {
+            value
+                .as_str()
+                .map(str::to_string)
+                .ok_or("wave1 lane id string")
+        })
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected = ["health-medicare", "social-security", "national-defense"]
+        .into_iter()
+        .map(str::to_string)
+        .collect::<BTreeSet<_>>();
+    if wave_lanes != expected {
+        return Err("wave1 lane id set failed".to_string());
+    }
+
+    let packets = wave
+        .get("lane_packets")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("wave1 lane packets")?;
+    if packets.len() != 3 {
+        return Err("wave1 must contain exactly three lane packets".to_string());
+    }
+    let observed = packets
+        .iter()
+        .map(|row| string_field(row, "lane_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if observed != expected {
+        return Err("wave1 packet lane set failed".to_string());
+    }
+    for packet in packets {
+        for field in [
+            "public_label",
+            "what_it_does",
+            "who_is_served_or_protected",
+            "overspending_underfunding_boundary",
+            "technology_transition_boundary",
+        ] {
+            if string_field(packet, field)?.is_empty() {
+                return Err(format!("wave1 packet field empty: {field}"));
+            }
+        }
+        let pay_now = packet
+            .get("what_taxpayers_pay_now")
+            .ok_or("wave1 taxpayers pay now")?;
+        if !pay_now.get("value").is_some_and(serde_json::Value::is_null) {
+            return Err("wave1 pay-now value must remain null".to_string());
+        }
+        let outcomes = packet
+            .get("outcomes_that_matter")
+            .and_then(serde_json::Value::as_array)
+            .ok_or("wave1 outcomes")?;
+        if outcomes.is_empty() {
+            return Err("wave1 outcomes must be populated".to_string());
+        }
+        let blockers = packet
+            .get("blocked_evidence")
+            .and_then(serde_json::Value::as_array)
+            .ok_or("wave1 blockers")?;
+        if blockers.len() < 5 {
+            return Err("wave1 blocker list too short".to_string());
+        }
+        let claims = packet
+            .get("claim_booleans")
+            .and_then(serde_json::Value::as_object)
+            .ok_or("wave1 lane claims")?;
+        for (field, value) in claims {
+            let observed = value.as_bool().ok_or("wave1 lane claim bool")?;
+            if field == "lane_depth_packet_published" {
+                if !observed {
+                    return Err("wave1 lane packet publish flag must be true".to_string());
+                }
+            } else if observed {
+                return Err(format!("wave1 lane public claim {field} must be false"));
+            }
+        }
+    }
+
+    let by_lane = packets
+        .iter()
+        .map(|packet| Ok((string_field(packet, "lane_id")?, packet)))
+        .collect::<Result<BTreeMap<_, _>, String>>()?;
+    if !string_field(
+        by_lane
+            .get("health-medicare")
+            .ok_or("wave1 health packet")?,
+        "strongest_numeric_boundary",
+    )?
+    .contains("The $149.786 billion result is a mechanical CY2024 private-insurance payer-payment sensitivity")
+    {
+        return Err("wave1 health warning missing".to_string());
+    }
+    let social = by_lane
+        .get("social-security")
+        .ok_or("wave1 social security packet")?
+        .get("trust_fund_boundary")
+        .ok_or("wave1 social trust fund boundary")?;
+    for required in [
+        "social_security_kept_separate_from_medicare",
+        "oasdi_trust_fund_accounting_remains_separate",
+        "general_fund_transfer_requires_explicit_row",
+    ] {
+        if social.get(required).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("wave1 social trust rule failed: {required}"));
+        }
+    }
+    if !string_field(
+        by_lane
+            .get("national-defense")
+            .ok_or("wave1 defense packet")?,
+        "control_probe_boundary",
+    )?
+    .contains("Control probes are review queues, not cut lists")
+    {
+        return Err("wave1 defense control-probe boundary missing".to_string());
+    }
+
+    let integration = wave
+        .get("integration_review")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("wave1 integration review")?;
+    for required in [
+        "all_wave_lanes_present_once",
+        "fifteen_analytical_lanes_not_budget_rows",
+        "missing_values_remain_null",
+        "blocked_gates_remain_false",
+        "trust_funds_remain_separate",
+        "international_differences_are_not_savings",
+        "improper_payment_estimates_do_not_imply_fraud",
+        "technology_changes_are_transition_paths_not_automatic_savings",
+    ] {
+        if integration
+            .get(required)
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        {
+            return Err(format!("wave1 integration rule failed: {required}"));
+        }
+    }
+
+    let claims = wave
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("wave1 aggregate claims")?;
+    for (field, value) in claims {
+        let observed = value.as_bool().ok_or("wave1 aggregate claim bool")?;
+        if field == "wave1_public_topline_lane_depth_packets_published" {
+            if !observed {
+                return Err("wave1 aggregate publish flag must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!(
+                "wave1 aggregate public claim {field} must be false"
+            ));
+        }
+    }
+
+    let status = string_field(&wave, "plain_english_status")?;
+    for required in [
+        "Health and Medicare",
+        "Social Security",
+        "National defense",
+        "do not complete lane depth",
+        "calculate rates",
+        "publish target costs",
+        "claim savings",
+        "identify waste or fraud",
+        "direct department cuts",
+        "claim technology savings",
+        "run the solver",
+        "claim a balanced budget",
+    ] {
+        if !status.contains(required) {
+            return Err(format!("wave1 status missing {required}"));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(WAVE1_PUBLIC_TOPLINE_LANE_DEPTH_PACKETS_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        WAVE1_PUBLIC_TOPLINE_LANE_DEPTH_PACKETS_JSON_PATH,
+        "Wave 1 covers Health and Medicare, Social Security, and National defense",
+        "The $149.786 billion result is a mechanical CY2024 private-insurance payer-payment sensitivity",
+        "not gross savings",
+        "not net savings",
+        "not a premium forecast",
+        "not a provider revenue forecast",
+        "federal budget effect",
+        "target for Medicare or Medicaid",
+        "Social Security is kept separate from Medicare",
+        "OASDI trust-fund accounting remains separate",
+        "Missing values remain null",
+        "Control probes are review queues, not cut lists",
+        "International defense spending differences are not savings",
+        "A GDP band is a policy commitment context, not an efficiency frontier",
+        "Technology changes require transition costs and mission-continuity review before any savings claim",
+        "the 15 analytical lanes separate from the 17 budget rows",
+        "technology changes as transition paths not automatic savings",
+        "not a solver run",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("wave1 reader missing {required}"));
+        }
+    }
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -20689,6 +20965,12 @@ mod global_country_comparison_tests {
     fn lane_agent_work_order_plan_covers_lanes_without_claims() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_lane_agent_work_order_plan(&root).unwrap();
+    }
+
+    #[test]
+    fn wave1_public_topline_lane_depth_packets_keep_claims_blocked() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_wave1_public_topline_lane_depth_packets(&root).unwrap();
     }
 
     #[test]

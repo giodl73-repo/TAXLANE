@@ -213,6 +213,12 @@ order for lane-depth packets: one lane per clean worktree, common deliverables,
 wave-level integration review, and the same solver/rate/savings/waste/fraud
 claim firewall.
 
+`wave1_public_topline_lane_depth_packets.v1.draft.json` executes the first
+scaled lane-depth explainability scaffold for Health and Medicare, Social
+Security, and National defense while keeping final depth completion, solver,
+target-cost, rate, savings, waste, fraud, technology-savings, and
+balanced-budget claims blocked.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is
