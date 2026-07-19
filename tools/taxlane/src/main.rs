@@ -468,6 +468,12 @@ const RATE_PUBLICATION_READINESS_ROLLUP_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/rate_publication_readiness_rollup.schema.md";
 const RATE_PUBLICATION_READINESS_ROLLUP_READER_PATH: &str =
     "docs/reading/rate-publication-readiness-rollup.md";
+const RECEIPT_BASE_LOCAL_SOURCE_INVENTORY_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/receipt_base_local_source_inventory.v1.draft.json";
+const RECEIPT_BASE_LOCAL_SOURCE_INVENTORY_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/receipt_base_local_source_inventory.schema.md";
+const RECEIPT_BASE_LOCAL_SOURCE_INVENTORY_READER_PATH: &str =
+    "docs/reading/receipt-base-local-source-inventory.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11115,6 +11121,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_distribution_incidence_source_gap(root)?;
     validate_administration_compliance_burden_source_gap(root)?;
     validate_rate_publication_readiness_rollup(root)?;
+    validate_receipt_base_local_source_inventory(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -20382,6 +20389,236 @@ fn validate_rate_publication_readiness_rollup(root: &Path) -> Result<(), String>
     Ok(())
 }
 
+fn validate_receipt_base_local_source_inventory(root: &Path) -> Result<(), String> {
+    for path in [
+        RECEIPT_BASE_LOCAL_SOURCE_INVENTORY_JSON_PATH,
+        RECEIPT_BASE_LOCAL_SOURCE_INVENTORY_SCHEMA_PATH,
+        RECEIPT_BASE_LOCAL_SOURCE_INVENTORY_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing receipt base local inventory artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(RECEIPT_BASE_LOCAL_SOURCE_INVENTORY_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let inventory: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&inventory, "record_id")? != "receipt-base-local-source-inventory:v1"
+        || string_field(&inventory, "record_family")? != "receipt_base_local_source_inventory"
+        || int_field(&inventory, "pulse")? != 132
+        || string_field(&inventory, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&inventory, "assigned_receipt_base_source_gap_path")?
+            != ASSIGNED_RECEIPT_BASE_SOURCE_GAP_JSON_PATH
+        || string_field(&inventory, "rate_publication_readiness_rollup_path")?
+            != RATE_PUBLICATION_READINESS_ROLLUP_JSON_PATH
+    {
+        return Err("receipt base local inventory identity failed".to_string());
+    }
+
+    for path in [
+        string_field(&inventory, "contract_path")?,
+        string_field(&inventory, "assigned_receipt_base_source_gap_path")?,
+        string_field(&inventory, "rate_publication_readiness_rollup_path")?,
+    ] {
+        if !root.join(&path).exists() {
+            return Err(format!(
+                "receipt base local inventory referenced path missing: {path}"
+            ));
+        }
+    }
+
+    let status = inventory
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("receipt base local inventory custody status")?;
+    for field in [
+        "official_sources_only",
+        "local_repo_inventory_only",
+        "no_external_request_submitted_this_pulse",
+        "no_agency_or_person_contacted",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "receipt base local inventory status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "receipt base local inventory status {field} must be false"
+            ));
+        }
+    }
+
+    let local_rows = inventory
+        .get("local_source_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("receipt base local source rows")?;
+    let expected_sources = [
+        "SRC-IRS-SOI-HT23",
+        "SRC-IRS-SOI-1304",
+        "SRC-SSA-TRUSTEES-2026",
+        "SRC-OMB-HIST-2-4-FY2027",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let observed_sources = local_rows
+        .iter()
+        .map(|row| string_field(row, "source_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if observed_sources != expected_sources {
+        return Err("receipt base local source set failed".to_string());
+    }
+    for row in local_rows {
+        if row.get("baseline_amount_musd") != Some(&serde_json::Value::Null)
+            || row.get("matched_year") != Some(&serde_json::Value::Null)
+            || row.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+        {
+            return Err("receipt base local source rows must keep values null/false".to_string());
+        }
+        if row.get("local_artifact_path") != Some(&serde_json::Value::Null) {
+            let path = string_field(row, "local_artifact_path")?;
+            if !root.join(&path).exists() {
+                return Err(format!("receipt base local artifact missing: {path}"));
+            }
+        }
+        if row.get("metadata_path") != Some(&serde_json::Value::Null) {
+            let path = string_field(row, "metadata_path")?;
+            if !root.join(&path).exists() {
+                return Err(format!("receipt base metadata artifact missing: {path}"));
+            }
+        }
+    }
+
+    let blocked_rows = inventory
+        .get("blocked_base_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("receipt base blocked rows")?;
+    let expected_bases = [
+        "individual_income_agi",
+        "individual_income_taxable_income",
+        "oasdi_taxable_payroll",
+        "medicare_hi_taxable_payroll",
+        "transportation_excises_and_user_fees",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let observed_bases = blocked_rows
+        .iter()
+        .map(|row| string_field(row, "base_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if observed_bases != expected_bases {
+        return Err("receipt base blocked row set failed".to_string());
+    }
+    for row in blocked_rows {
+        if row.get("baseline_amount_musd") != Some(&serde_json::Value::Null)
+            || row.get("matched_year") != Some(&serde_json::Value::Null)
+            || row.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+        {
+            return Err("receipt base blocked rows must keep values null/false".to_string());
+        }
+    }
+
+    let blocked = inventory
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("receipt base local inventory blocked outputs")?;
+    for field in [
+        "assigned_base_amounts",
+        "matched_receipt_bases",
+        "behavioral_elasticities",
+        "current_law_yields",
+        "reform_yields",
+        "assigned_base_rates",
+        "public_rate_cards",
+        "solver_input_rows",
+        "tax_proposal_fields",
+        "balanced_budget_fields",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "receipt base local inventory blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let claims = inventory
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("receipt base local inventory claims")?;
+    if claims
+        .get("local_source_inventory_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("receipt base local inventory published flag must be true".to_string());
+    }
+    for field in [
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+        "statutory_rate_claim",
+        "effective_rate_claim",
+        "public_rate_card_claim",
+        "tax_proposal_claim",
+        "balanced_budget_claim",
+        "target_cost_claim",
+        "federal_effect_claim",
+        "gross_savings_claim",
+        "net_savings_claim",
+        "waste_finding_claim",
+        "fraud_finding_claim",
+        "technology_savings_claim",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "receipt base local inventory claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(RECEIPT_BASE_LOCAL_SOURCE_INVENTORY_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for phrase in [
+        RECEIPT_BASE_LOCAL_SOURCE_INVENTORY_JSON_PATH,
+        "This is a local source inventory, not a receipt-base extraction.",
+        "Local HT23 custody supports rate and bracket context only, not AGI, taxable-income, payroll, or fee base amounts.",
+        "Derived denominator context cannot substitute for raw source custody of assigned receipt bases.",
+        "No assigned base amount, elasticity, yield, rate, public rate card, solver input, tax proposal, or balanced-budget value is populated.",
+        "No external request was submitted and no agency or person was contacted.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "receipt base local inventory reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -26336,6 +26573,12 @@ mod global_country_comparison_tests {
     fn rate_publication_readiness_rollup_blocks_every_public_rate_output() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_rate_publication_readiness_rollup(&root).unwrap();
+    }
+
+    #[test]
+    fn receipt_base_local_source_inventory_keeps_base_amounts_blocked() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_receipt_base_local_source_inventory(&root).unwrap();
     }
 
     #[test]

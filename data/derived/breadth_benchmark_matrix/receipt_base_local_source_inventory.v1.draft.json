@@ -1,0 +1,140 @@
+{
+  "record_id": "receipt-base-local-source-inventory:v1",
+  "record_family": "receipt_base_local_source_inventory",
+  "schema_version": "v1.draft",
+  "pulse": 132,
+  "as_of_date": "2026-07-19",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "assigned_receipt_base_source_gap_path": "data/derived/breadth_benchmark_matrix/assigned_receipt_base_source_gap.v1.draft.json",
+  "rate_publication_readiness_rollup_path": "data/derived/breadth_benchmark_matrix/rate_publication_readiness_rollup.v1.draft.json",
+  "source_custody_status": {
+    "official_sources_only": true,
+    "local_repo_inventory_only": true,
+    "no_external_request_submitted_this_pulse": true,
+    "no_agency_or_person_contacted": true,
+    "matched_receipt_bases_ready": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false
+  },
+  "local_source_rows": [
+    {
+      "source_id": "SRC-IRS-SOI-HT23",
+      "local_artifact_path": "data/raw/irs/SRC-IRS-SOI-HT23/2026-06-21/histab23.xls",
+      "metadata_path": "data/metadata/SRC-IRS-SOI-HT23.2026-06-21.metadata.md",
+      "custody_status": "raw_and_metadata_present",
+      "usable_for": ["rate_and_bracket_context", "tax_year_semantics"],
+      "not_usable_for": ["agi_base_amount", "taxable_income_base_amount", "taxable_payroll_base", "transportation_fee_base", "elasticity", "incidence", "distribution", "administration_cost", "assigned_base_rate", "solver_input"],
+      "baseline_amount_musd": null,
+      "matched_year": null,
+      "ready": false
+    },
+    {
+      "source_id": "SRC-IRS-SOI-1304",
+      "local_artifact_path": null,
+      "metadata_path": null,
+      "custody_status": "derived_denominator_context_only_no_local_raw_or_metadata",
+      "usable_for": ["legacy_ty2022_return_count_context_if_caveated"],
+      "not_usable_for": ["agi_base_amount", "taxable_income_base_amount", "current_law_yield", "reform_yield", "assigned_base_rate", "public_rate_card", "solver_input"],
+      "baseline_amount_musd": null,
+      "matched_year": null,
+      "ready": false
+    },
+    {
+      "source_id": "SRC-SSA-TRUSTEES-2026",
+      "local_artifact_path": null,
+      "metadata_path": null,
+      "custody_status": "derived_denominator_context_only_no_local_raw_or_metadata",
+      "usable_for": ["rounded_cy2025_oasdi_worker_and_beneficiary_context_if_caveated"],
+      "not_usable_for": ["oasdi_taxable_payroll_base_amount", "medicare_hi_taxable_payroll_base_amount", "matched_fy2025_assigned_base_rate", "public_rate_card", "solver_input"],
+      "baseline_amount_musd": null,
+      "matched_year": null,
+      "ready": false
+    },
+    {
+      "source_id": "SRC-OMB-HIST-2-4-FY2027",
+      "local_artifact_path": "data/raw/omb/SRC-OMB-HIST-2-4-FY2027/2026-06-21/hist02z4_fy2027.xlsx",
+      "metadata_path": "data/metadata/SRC-OMB-HIST-2-4-FY2027.2026-06-21.metadata.md",
+      "custody_status": "raw_and_metadata_present",
+      "usable_for": ["receipt_category_context", "fiscal_year_receipt_reconciliation_context"],
+      "not_usable_for": ["legal_receipt_base_amount", "economic_receipt_base_amount", "taxpayer_incidence", "assigned_base_rate", "public_rate_card", "solver_input"],
+      "baseline_amount_musd": null,
+      "matched_year": null,
+      "ready": false
+    }
+  ],
+  "blocked_base_rows": [
+    {
+      "base_id": "individual_income_agi",
+      "local_status": "no_local_raw_pub_1304_or_equivalent_source_custody_for_base_amount",
+      "baseline_amount_musd": null,
+      "matched_year": null,
+      "ready": false
+    },
+    {
+      "base_id": "individual_income_taxable_income",
+      "local_status": "no_local_raw_pub_1304_or_equivalent_source_custody_for_base_amount",
+      "baseline_amount_musd": null,
+      "matched_year": null,
+      "ready": false
+    },
+    {
+      "base_id": "oasdi_taxable_payroll",
+      "local_status": "no_local_raw_ssa_trustees_or_equivalent_source_custody_for_taxable_payroll_base_amount",
+      "baseline_amount_musd": null,
+      "matched_year": null,
+      "ready": false
+    },
+    {
+      "base_id": "medicare_hi_taxable_payroll",
+      "local_status": "no_local_raw_cms_or_ssa_trustees_source_custody_for_hi_taxable_payroll_base_amount",
+      "baseline_amount_musd": null,
+      "matched_year": null,
+      "ready": false
+    },
+    {
+      "base_id": "transportation_excises_and_user_fees",
+      "local_status": "omb_receipt_context_exists_but_legal_and_economic_fee_base_amounts_are_not_source_custodied",
+      "baseline_amount_musd": null,
+      "matched_year": null,
+      "ready": false
+    }
+  ],
+  "blocked_outputs": {
+    "assigned_base_amounts": null,
+    "matched_receipt_bases": null,
+    "behavioral_elasticities": null,
+    "current_law_yields": null,
+    "reform_yields": null,
+    "assigned_base_rates": null,
+    "public_rate_cards": null,
+    "solver_input_rows": null,
+    "tax_proposal_fields": null,
+    "balanced_budget_fields": null
+  },
+  "public_warning_phrases": [
+    "This is a local source inventory, not a receipt-base extraction.",
+    "Local HT23 custody supports rate and bracket context only, not AGI, taxable-income, payroll, or fee base amounts.",
+    "Derived denominator context cannot substitute for raw source custody of assigned receipt bases.",
+    "No assigned base amount, elasticity, yield, rate, public rate card, solver input, tax proposal, or balanced-budget value is populated.",
+    "No external request was submitted and no agency or person was contacted.",
+    "This record is not solver input, not a solver run, not a target-cost selection, not a rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+  ],
+  "claim_booleans": {
+    "local_source_inventory_published": true,
+    "matched_receipt_bases_ready": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false,
+    "statutory_rate_claim": false,
+    "effective_rate_claim": false,
+    "public_rate_card_claim": false,
+    "tax_proposal_claim": false,
+    "balanced_budget_claim": false,
+    "target_cost_claim": false,
+    "federal_effect_claim": false,
+    "gross_savings_claim": false,
+    "net_savings_claim": false,
+    "waste_finding_claim": false,
+    "fraud_finding_claim": false,
+    "technology_savings_claim": false
+  }
+}

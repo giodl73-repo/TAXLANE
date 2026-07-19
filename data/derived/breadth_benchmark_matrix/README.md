@@ -662,3 +662,10 @@ rate-publication blockers across assigned receipt bases, distribution/incidence,
 administration/compliance burden, interaction/macro feedback, and public review.
 It keeps statutory rates, effective rates, assigned-base rates, public rate
 cards, tax proposals, solver inputs, savings, and balanced-budget values blocked.
+
+`receipt_base_local_source_inventory.v1.draft.json` inventories already-local
+official source custody relevant to assigned receipt-base work. It records that
+HT23 supports rate/bracket context only, derived denominator context cannot
+replace raw source custody, and all assigned base amounts, yields, rates,
+solver inputs, public rate cards, tax proposals, and balanced-budget outputs
+remain blocked.
