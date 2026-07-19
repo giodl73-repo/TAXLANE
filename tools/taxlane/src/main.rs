@@ -524,6 +524,12 @@ const CURRENT_LAW_SOURCE_CUSTODY_PACKET_TEMPLATE_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/current_law_source_custody_packet_template.schema.md";
 const CURRENT_LAW_SOURCE_CUSTODY_PACKET_TEMPLATE_READER_PATH: &str =
     "docs/reading/current-law-source-custody-packet-template.md";
+const CURRENT_LAW_FY2025_17_ROW_LEDGER_CUSTODY_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/current_law_fy2025_17_row_ledger_custody.v1.draft.json";
+const CURRENT_LAW_FY2025_17_ROW_LEDGER_CUSTODY_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/current_law_fy2025_17_row_ledger_custody.schema.md";
+const CURRENT_LAW_FY2025_17_ROW_LEDGER_CUSTODY_READER_PATH: &str =
+    "docs/reading/current-law-fy2025-17-row-ledger-custody.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -11066,6 +11072,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_post_rollup_readiness_work_queue(root)?;
     validate_current_law_source_custody_batch_plan(root)?;
     validate_current_law_source_custody_packet_template(root)?;
+    validate_current_law_fy2025_17_row_ledger_custody(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -22961,6 +22968,300 @@ fn validate_current_law_source_custody_packet_template(root: &Path) -> Result<()
     Ok(())
 }
 
+fn validate_current_law_fy2025_17_row_ledger_custody(root: &Path) -> Result<(), String> {
+    for path in [
+        CURRENT_LAW_FY2025_17_ROW_LEDGER_CUSTODY_JSON_PATH,
+        CURRENT_LAW_FY2025_17_ROW_LEDGER_CUSTODY_SCHEMA_PATH,
+        CURRENT_LAW_FY2025_17_ROW_LEDGER_CUSTODY_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing FY2025 ledger custody artifact: {path}"));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(CURRENT_LAW_FY2025_17_ROW_LEDGER_CUSTODY_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let custody: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&custody, "record_id")? != "current-law-fy2025-17-row-ledger-custody:v1"
+        || string_field(&custody, "record_family")? != "current_law_fy2025_17_row_ledger_custody"
+        || int_field(&custody, "pulse")? != 121
+        || string_field(&custody, "current_law_source_custody_packet_template_path")?
+            != CURRENT_LAW_SOURCE_CUSTODY_PACKET_TEMPLATE_JSON_PATH
+        || string_field(&custody, "current_law_source_custody_batch_plan_path")?
+            != CURRENT_LAW_SOURCE_CUSTODY_BATCH_PLAN_JSON_PATH
+        || string_field(&custody, "current_law_path_inventory_path")?
+            != CURRENT_LAW_PATH_INVENTORY_JSON_PATH
+        || string_field(&custody, "path_id")? != "full_17_row_fy2025_ledger"
+        || string_field(&custody, "batch_id")? != "batch_1_federal_baseline_and_17_row_ledger"
+        || int_field(&custody, "fiscal_year")? != 2025
+        || string_field(&custody, "unit")? != "millions_of_dollars"
+    {
+        return Err("FY2025 ledger custody identity failed".to_string());
+    }
+
+    let status = custody
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("FY2025 ledger source custody status")?;
+    for field in [
+        "official_sources_only",
+        "no_external_request_submitted_this_pulse",
+        "no_agency_or_person_contacted",
+        "source_custody_ready",
+        "values_may_be_populated_for_baseline_year_only",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("FY2025 ledger custody status {field} must be true"));
+        }
+    }
+    for field in [
+        "baseline_plus_ten_year_horizon_ready",
+        "general_fund_path_ready",
+        "solver_inputs_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "FY2025 ledger custody status {field} must be false"
+            ));
+        }
+    }
+
+    let source_packets = custody
+        .get("source_packets")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FY2025 ledger source packets")?;
+    if source_packets.len() != 2 {
+        return Err("FY2025 ledger custody must contain two source packets".to_string());
+    }
+    let mut source_ids = BTreeSet::new();
+    for packet in source_packets {
+        if string_field(packet, "path_id")? != "full_17_row_fy2025_ledger"
+            || string_field(packet, "batch_id")? != "batch_1_federal_baseline_and_17_row_ledger"
+            || string_field(packet, "official_host_or_publisher")?
+                != "Office of Management and Budget"
+            || string_field(packet, "retrieval_date")? != "2026-06-21"
+            || string_field(packet, "review_status")? != "source_metadata_present_and_hash_matched"
+            || packet
+                .get("custody_ready")
+                .and_then(serde_json::Value::as_bool)
+                != Some(true)
+            || packet
+                .get("values_may_be_populated")
+                .and_then(serde_json::Value::as_bool)
+                != Some(true)
+        {
+            return Err("FY2025 ledger source packet identity/gates failed".to_string());
+        }
+        let years = packet
+            .get("annual_years_covered")
+            .and_then(serde_json::Value::as_array)
+            .ok_or("FY2025 ledger annual years")?;
+        if years.len() != 1 || years[0].as_i64() != Some(2025) {
+            return Err("FY2025 ledger source packet must cover FY2025 only".to_string());
+        }
+        let raw_path = string_field(packet, "raw_artifact_path")?;
+        let metadata_path = string_field(packet, "metadata_path")?;
+        let raw_file = root.join(&raw_path);
+        let metadata_file = root.join(&metadata_path);
+        if !raw_file.exists() || !metadata_file.exists() {
+            return Err(format!(
+                "FY2025 ledger source packet missing file for {raw_path}"
+            ));
+        }
+        if fs::metadata(&raw_file).map_err(|e| e.to_string())?.len() as i64
+            != int_field(packet, "raw_byte_count")?
+        {
+            return Err(format!("FY2025 ledger byte count failed for {raw_path}"));
+        }
+        if sha256_file(&raw_file)? != string_field(packet, "raw_sha256")? {
+            return Err(format!("FY2025 ledger raw hash failed for {raw_path}"));
+        }
+        if sha256_file(&metadata_file)? != string_field(packet, "metadata_sha256")? {
+            return Err(format!(
+                "FY2025 ledger metadata hash failed for {metadata_path}"
+            ));
+        }
+        source_ids.insert(string_field(packet, "source_id")?.to_string());
+
+        let claims = packet
+            .get("claim_booleans")
+            .and_then(serde_json::Value::as_object)
+            .ok_or("FY2025 ledger packet claims")?;
+        for (field, value) in claims {
+            let observed = value.as_bool().ok_or("FY2025 ledger packet claim bool")?;
+            if matches!(
+                field.as_str(),
+                "source_custody_packet_published"
+                    | "source_custody_ready"
+                    | "current_law_path_values_published"
+            ) {
+                if !observed {
+                    return Err(format!("FY2025 ledger packet claim {field} must be true"));
+                }
+            } else if observed {
+                return Err(format!("FY2025 ledger packet claim {field} must be false"));
+            }
+        }
+    }
+    let expected_sources = ["SRC-OMB-HIST-1-1-FY2027", "SRC-OMB-HIST-3-2-FY2027"]
+        .into_iter()
+        .map(str::to_string)
+        .collect::<BTreeSet<_>>();
+    if source_ids != expected_sources {
+        return Err("FY2025 ledger source IDs failed".to_string());
+    }
+
+    let lineage = custody
+        .get("source_value_lineage")
+        .ok_or("FY2025 ledger value lineage")?;
+    let value_artifact_path = string_field(lineage, "existing_local_value_artifact_path")?;
+    let value_artifact = root.join(value_artifact_path);
+    if !value_artifact.exists()
+        || sha256_file(&value_artifact)?
+            != string_field(lineage, "existing_local_value_artifact_sha256")?
+        || int_field(lineage, "row_count")? != 17
+    {
+        return Err("FY2025 ledger value lineage failed".to_string());
+    }
+
+    let rows = custody
+        .get("ledger_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("FY2025 ledger rows")?;
+    if rows.len() != 17 {
+        return Err("FY2025 ledger must contain 17 rows".to_string());
+    }
+    let mut row_ids = BTreeSet::new();
+    let mut sum = 0i64;
+    let mut positive = 0usize;
+    let mut negative = 0usize;
+    for row in rows {
+        let row_id = string_field(row, "row_id")?.to_string();
+        if !row_ids.insert(row_id.clone()) {
+            return Err(format!("FY2025 ledger duplicate row {row_id}"));
+        }
+        let amount = int_field(row, "current_law_outlays_musd")?;
+        sum += amount;
+        if amount >= 0 {
+            positive += 1;
+        } else {
+            negative += 1;
+        }
+        if int_field(row, "current_law_zero_reform_delta_musd")? != 0 {
+            return Err(format!(
+                "FY2025 ledger row {row_id} reform delta must be zero"
+            ));
+        }
+    }
+    for required in [
+        "commerce-housing-credit",
+        "undistributed-offsetting-receipts",
+        "net-interest",
+    ] {
+        if !row_ids.contains(required) {
+            return Err(format!("FY2025 ledger missing required row {required}"));
+        }
+    }
+    if sum != 7_011_105 || positive != 15 || negative != 2 {
+        return Err("FY2025 ledger row sum or sign counts failed".to_string());
+    }
+
+    let reconciliation = custody
+        .get("reconciliation")
+        .ok_or("FY2025 reconciliation")?;
+    if int_field(reconciliation, "row_count")? != 17
+        || int_field(reconciliation, "positive_row_count")? != 15
+        || int_field(reconciliation, "negative_offset_row_count")? != 2
+        || int_field(reconciliation, "sum_current_law_outlays_musd")? != sum
+        || int_field(reconciliation, "required_total_outlays_musd")? != 7_011_105
+        || int_field(reconciliation, "rounding_residual_musd")? != 0
+        || int_field(reconciliation, "total_receipts_musd")? != 5_236_421
+        || int_field(reconciliation, "deficit_musd")? != 1_774_684
+        || int_field(reconciliation, "net_interest_musd")? != 970_065
+        || reconciliation
+            .get("commerce_housing_credit_kept_in_fiscal_reconciliation")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || reconciliation
+            .get("undistributed_offsetting_receipts_kept_in_fiscal_reconciliation")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || reconciliation
+            .get("net_interest_direct_cut_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("FY2025 ledger reconciliation failed".to_string());
+    }
+
+    let blocked = custody
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("FY2025 ledger blocked outputs")?;
+    for (field, value) in blocked {
+        if !value.is_null() {
+            return Err(format!("FY2025 ledger blocked output {field} must be null"));
+        }
+    }
+
+    let claims = custody
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("FY2025 ledger claims")?;
+    for (field, value) in claims {
+        let observed = value.as_bool().ok_or("FY2025 ledger claim bool")?;
+        if matches!(
+            field.as_str(),
+            "source_custody_packet_published"
+                | "source_custody_ready"
+                | "current_law_path_values_published"
+        ) {
+            if !observed {
+                return Err(format!("FY2025 ledger claim {field} must be true"));
+            }
+        } else if observed {
+            return Err(format!("FY2025 ledger claim {field} must be false"));
+        }
+    }
+
+    let reader =
+        fs::read_to_string(root.join(CURRENT_LAW_FY2025_17_ROW_LEDGER_CUSTODY_READER_PATH))
+            .map_err(|e| e.to_string())?;
+    let reader_words = reader.split_whitespace().collect::<Vec<_>>().join(" ");
+    for required in [
+        CURRENT_LAW_FY2025_17_ROW_LEDGER_CUSTODY_JSON_PATH,
+        "FY2025 current-law 17-row federal ledger reconciles to `$7,011.105B`",
+        "No external request was submitted and no agency or person was contacted",
+        "fifteen positive budget rows plus two negative fiscal reconciliation rows",
+        "Commerce/housing credit and undistributed offsetting receipts remain in fiscal reconciliation.",
+        "Net interest remains visible and cannot be cut directly.",
+        "not a ten-year baseline path",
+        "not general-fund path values",
+        "not trust-fund path values",
+        "not health component path values",
+        "not net-interest/debt path values",
+        "not solver inputs",
+        "not a solver run",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader_words.contains(required) {
+            return Err(format!("FY2025 ledger reader missing {required}"));
+        }
+    }
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -23251,6 +23552,12 @@ mod global_country_comparison_tests {
     fn current_law_source_custody_packet_template_blocks_capture_values_and_claims() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_current_law_source_custody_packet_template(&root).unwrap();
+    }
+
+    #[test]
+    fn current_law_fy2025_17_row_ledger_reconciles_with_source_custody() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_current_law_fy2025_17_row_ledger_custody(&root).unwrap();
     }
 
     #[test]

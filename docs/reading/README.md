@@ -80,6 +80,7 @@ explainers. They should keep three labels visible:
 | `post-rollup-readiness-work-queue.md` | Pulse 118 queue: ordered next work after scaffold coverage, with all values/rates/solver/claim outputs still blocked. |
 | `current-law-source-custody-batch-plan.md` | Pulse 119 plan: future custody batches for current-law source capture, with no sources, values, solver inputs, rates, or public claims populated. |
 | `current-law-source-custody-packet-template.md` | Pulse 120 template: exact future source-custody packet fields/checks, with no sources, values, solver inputs, rates, or public claims populated. |
+| `current-law-fy2025-17-row-ledger-custody.md` | Pulse 121 data packet: source-custodied FY2025 current-law 17-row ledger, baseline-year only, with solver/rate/public-claim gates blocked. |
 | `rate-change-worked-examples.md` | Three end-to-end examples of the rate-adjustment operating model (defense up, health down, Social Security cap lift). |
 | `budget-area-funding-explainer.md` | Lay distillation of the six panel-reviewed research papers: where the US over-funds (health), under-funds (family), funds by strategy (defense), runs a broken base (Social Security), and under-collects overall (revenue). Points to `docs/papers/`. |
 | `where-federal-money-goes.md` | Spending-side packet showing the largest FY2025 outlay categories, financing context, and safe accountability questions. |
@@ -376,6 +377,10 @@ It is the bounded public surface, not a performance or savings report.
     future current-law custody packet. It defines the required fields and
     readiness checks while keeping all capture data, values, solver inputs,
     rates, and public claims blocked.
+90. Read `current-law-fy2025-17-row-ledger-custody.md` when using the FY2025
+    baseline-year 17-row ledger. It is current-law data, not a ten-year path,
+    solver input, rate calculation, target cost, savings estimate, or balanced
+    budget claim.
 
 ## Public-Use Guardrail
 

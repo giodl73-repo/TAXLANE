@@ -592,3 +592,9 @@ future custody packet shape and readiness checks required before current-law
 annual values may be populated. It captures no source, publishes no values, and
 keeps all solver, rate, savings, waste/fraud, department-cut,
 technology-savings, and balanced-budget claims blocked.
+
+`current_law_fy2025_17_row_ledger_custody.v1.draft.json` is the first
+data-bearing current-law custody packet. It records existing local OMB Historical
+Table custody and publishes the FY2025 baseline-year 17-row ledger, including
+the two negative fiscal reconciliation rows, while keeping ten-year paths,
+solver inputs, target costs, rates, and public fiscal claims blocked.
