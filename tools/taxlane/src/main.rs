@@ -496,6 +496,11 @@ const WAVE4_COMPONENT_AND_PILOT_LANE_DEPTH_PACKETS_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/wave4_component_and_pilot_lane_depth_packets.schema.md";
 const WAVE4_COMPONENT_AND_PILOT_LANE_DEPTH_PACKETS_READER_PATH: &str =
     "docs/reading/wave4-component-and-pilot-lane-depth-packets.md";
+const WAVE5_FISCAL_CONTROL_OVERLAY_DEPTH_PACKETS_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/wave5_fiscal_control_overlay_depth_packets.v1.draft.json";
+const WAVE5_FISCAL_CONTROL_OVERLAY_DEPTH_PACKETS_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/wave5_fiscal_control_overlay_depth_packets.schema.md";
+const WAVE5_FISCAL_CONTROL_OVERLAY_DEPTH_PACKETS_READER_PATH: &str =
+    "docs/reading/wave5-fiscal-control-overlay-depth-packets.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -11033,6 +11038,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_wave2_human_services_lane_depth_packets(root)?;
     validate_wave3_public_goods_lane_depth_packets(root)?;
     validate_wave4_component_and_pilot_lane_depth_packets(root)?;
+    validate_wave5_fiscal_control_overlay_depth_packets(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -21680,6 +21686,304 @@ fn validate_wave4_component_and_pilot_lane_depth_packets(root: &Path) -> Result<
     Ok(())
 }
 
+fn validate_wave5_fiscal_control_overlay_depth_packets(root: &Path) -> Result<(), String> {
+    for path in [
+        WAVE5_FISCAL_CONTROL_OVERLAY_DEPTH_PACKETS_JSON_PATH,
+        WAVE5_FISCAL_CONTROL_OVERLAY_DEPTH_PACKETS_SCHEMA_PATH,
+        WAVE5_FISCAL_CONTROL_OVERLAY_DEPTH_PACKETS_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing wave5 overlay packet artifact: {path}"));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(WAVE5_FISCAL_CONTROL_OVERLAY_DEPTH_PACKETS_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let wave: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&wave, "record_id")? != "wave5-fiscal-control-overlay-depth-packets:v1"
+        || string_field(&wave, "record_family")? != "wave5_fiscal_control_overlay_depth_packets"
+        || int_field(&wave, "pulse")? != 116
+        || string_field(&wave, "lane_agent_work_order_plan_path")?
+            != LANE_AGENT_WORK_ORDER_PLAN_JSON_PATH
+        || string_field(&wave, "lane_depth_explainability_tracker_path")?
+            != LANE_DEPTH_EXPLAINABILITY_TRACKER_JSON_PATH
+        || string_field(&wave, "program_lane_target_cost_contract_path")?
+            != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&wave, "assigned_receipt_base_inventory_path")?
+            != ASSIGNED_RECEIPT_BASE_INVENTORY_JSON_PATH
+        || string_field(&wave, "balanced_rate_readiness_gate_path")?
+            != BALANCED_RATE_READINESS_GATE_JSON_PATH
+        || string_field(&wave, "payment_integrity_depth_card_path")?
+            != "data/derived/breadth_benchmark_matrix/payment_integrity_depth_card.fy2024.v1.draft.json"
+        || string_field(&wave, "net_interest_formula_contract_path")?
+            != NET_INTEREST_FORMULA_CONTRACT_JSON_PATH
+    {
+        return Err("wave5 overlay packet identity failed".to_string());
+    }
+
+    let wave_meta = wave.get("wave").ok_or("wave5 metadata")?;
+    if string_field(wave_meta, "wave_id")? != "wave_5_fiscal_control_overlays"
+        || wave_meta
+            .get("integration_review_required")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || wave_meta
+            .get("overlay_depth_complete_after_wave")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || wave_meta
+            .get("public_explainability_complete_after_wave")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || wave_meta
+            .get("solver_ready_after_wave")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("wave5 metadata must keep overlays incomplete and solver blocked".to_string());
+    }
+
+    let expected = ["revenue-solvency", "payment-integrity", "net-interest"]
+        .into_iter()
+        .map(str::to_string)
+        .collect::<BTreeSet<_>>();
+    let overlay_ids = wave_meta
+        .get("overlay_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("wave5 overlay ids")?
+        .iter()
+        .map(|value| {
+            value
+                .as_str()
+                .map(str::to_string)
+                .ok_or("wave5 overlay id string")
+        })
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if overlay_ids != expected {
+        return Err("wave5 overlay id set failed".to_string());
+    }
+
+    let packets = wave
+        .get("overlay_packets")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("wave5 overlay packets")?;
+    if packets.len() != 3 {
+        return Err("wave5 must contain exactly three overlay packets".to_string());
+    }
+    let observed = packets
+        .iter()
+        .map(|row| string_field(row, "overlay_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if observed != expected {
+        return Err("wave5 packet overlay set failed".to_string());
+    }
+
+    for packet in packets {
+        for field in [
+            "public_label",
+            "what_it_does",
+            "who_is_affected",
+            "overspending_underfunding_boundary",
+            "technology_transition_boundary",
+        ] {
+            if string_field(packet, field)?.is_empty() {
+                return Err(format!("wave5 packet field empty: {field}"));
+            }
+        }
+        let pay_now = packet
+            .get("what_taxpayers_pay_now")
+            .ok_or("wave5 taxpayers pay now")?;
+        if !pay_now.get("value").is_some_and(serde_json::Value::is_null) {
+            return Err("wave5 pay-now value must remain null".to_string());
+        }
+        let blockers = packet
+            .get("blocked_evidence")
+            .and_then(serde_json::Value::as_array)
+            .ok_or("wave5 blockers")?;
+        if blockers.len() < 10 {
+            return Err("wave5 blocker list too short".to_string());
+        }
+        let claims = packet
+            .get("claim_booleans")
+            .and_then(serde_json::Value::as_object)
+            .ok_or("wave5 packet claims")?;
+        for (field, value) in claims {
+            let observed = value.as_bool().ok_or("wave5 packet claim bool")?;
+            if field == "overlay_depth_packet_published" {
+                if !observed {
+                    return Err("wave5 overlay packet publish flag must be true".to_string());
+                }
+            } else if observed {
+                return Err(format!("wave5 overlay public claim {field} must be false"));
+            }
+        }
+    }
+
+    let by_overlay = packets
+        .iter()
+        .map(|packet| Ok((string_field(packet, "overlay_id")?, packet)))
+        .collect::<Result<BTreeMap<_, _>, String>>()?;
+
+    let revenue = by_overlay
+        .get("revenue-solvency")
+        .ok_or("wave5 revenue overlay")?;
+    if !string_field(revenue, "overspending_underfunding_boundary")?.contains("not additive")
+        || !string_field(revenue, "rate_publication_boundary")?
+            .contains("Statutory rates cannot be published")
+    {
+        return Err("wave5 revenue overlay boundary failed".to_string());
+    }
+    let required_base_fields = revenue
+        .get("required_base_fields")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("wave5 revenue required base fields")?;
+    for required in [
+        "matched_year",
+        "legal_perimeter",
+        "economic_perimeter",
+        "baseline_amount",
+        "elasticity",
+        "avoidance_and_compliance",
+        "employer_taxpayer_agency_burden",
+        "distribution_by_income",
+        "interaction_with_other_taxes",
+        "current_law_yield",
+        "reform_yield",
+    ] {
+        if !required_base_fields
+            .iter()
+            .any(|value| value.as_str() == Some(required))
+        {
+            return Err(format!("wave5 revenue missing base field {required}"));
+        }
+    }
+
+    let payment = by_overlay
+        .get("payment-integrity")
+        .ok_or("wave5 payment overlay")?;
+    if !string_field(payment, "overspending_underfunding_boundary")?
+        .contains("non-additive overlay")
+        || !string_field(payment, "scoring_boundary")?
+            .contains("causal prevention or same-cohort collection lineage")
+        || !string_field(payment, "scoring_boundary")?.contains("Never infer fraud")
+        || !string_field(payment, "methodology_boundary")?
+            .contains("improper payments != overpayments")
+    {
+        return Err("wave5 payment-integrity boundary failed".to_string());
+    }
+
+    let interest = by_overlay
+        .get("net-interest")
+        .ok_or("wave5 net-interest overlay")?;
+    if !string_field(interest, "overspending_underfunding_boundary")?
+        .contains("cannot be cut directly")
+        || !string_field(interest, "required_recompute_rule")?
+            .contains("After any primary-balance change")
+    {
+        return Err("wave5 net-interest boundary failed".to_string());
+    }
+    let formula = interest
+        .get("formula_identity")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("wave5 net-interest formula")?;
+    for required_formula in ["primary_balance", "deficit", "debt_t", "net_interest_t"] {
+        if !formula.contains_key(required_formula) {
+            return Err(format!(
+                "wave5 net-interest formula missing {required_formula}"
+            ));
+        }
+    }
+
+    let integration = wave
+        .get("integration_review")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("wave5 integration review")?;
+    for required in [
+        "all_wave_overlays_present_once",
+        "fifteen_analytical_lanes_not_budget_rows",
+        "revenue_solvency_is_non_additive_overlay",
+        "payment_integrity_is_non_additive_overlay",
+        "net_interest_is_endogenous",
+        "net_interest_cannot_be_cut_directly",
+        "missing_values_remain_null",
+        "blocked_gates_remain_false",
+        "trust_funds_remain_separate",
+        "statutory_rates_blocked_until_base_behavior_incidence_distribution_admin",
+        "improper_payment_estimates_do_not_imply_fraud",
+        "payment_integrity_savings_require_causal_prevention_or_same_cohort_collection_lineage",
+        "technology_changes_are_transition_paths_not_automatic_savings",
+    ] {
+        if integration
+            .get(required)
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        {
+            return Err(format!("wave5 integration rule failed: {required}"));
+        }
+    }
+
+    let claims = wave
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("wave5 aggregate claims")?;
+    for (field, value) in claims {
+        let observed = value.as_bool().ok_or("wave5 aggregate claim bool")?;
+        if field == "wave5_fiscal_control_overlay_depth_packets_published" {
+            if !observed {
+                return Err("wave5 aggregate publish flag must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!(
+                "wave5 aggregate public claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader =
+        fs::read_to_string(root.join(WAVE5_FISCAL_CONTROL_OVERLAY_DEPTH_PACKETS_READER_PATH))
+            .map_err(|e| e.to_string())?;
+    let reader_words = reader.split_whitespace().collect::<Vec<_>>().join(" ");
+    for required in [
+        WAVE5_FISCAL_CONTROL_OVERLAY_DEPTH_PACKETS_JSON_PATH,
+        "Wave 5 covers the fiscal-control overlays: revenue-solvency, payment integrity",
+        "Revenue-solvency is not a program-spending lane and is not additive to lane costs.",
+        "Statutory rates cannot be",
+        "published before matched receipt bases, behavior, incidence, distribution, and",
+        "administration are modeled",
+        "A value calculated after subtracting dedicated receipts is not share of every tax dollar.",
+        "Payment integrity is a non-additive overlay.",
+        "Improper-payment estimates are not savings.",
+        "No payment-integrity savings credit is allowed without causal prevention or same-cohort collection lineage.",
+        "Never infer fraud from an improper-payment estimate.",
+        "improper payments != overpayments != confirmed fraud != recoverable dollars != collected recoveries != net savings",
+        "Net interest is endogenous.",
+        "Net interest cannot be cut directly.",
+        "After any primary-balance change, the solver must recompute deficit, debt, maturity-bucket debt stock, and subsequent net interest",
+        "not a net-interest path",
+        "Trust funds remain separate.",
+        "Missing values remain null and blocked gates remain false.",
+        "Technology changes are transition paths, not automatic savings.",
+        "not a solver run",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader_words.contains(required) {
+            return Err(format!("wave5 reader missing {required}"));
+        }
+    }
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -21940,6 +22244,12 @@ mod global_country_comparison_tests {
     fn wave4_component_and_pilot_lane_depth_packets_keep_claims_blocked() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_wave4_component_and_pilot_lane_depth_packets(&root).unwrap();
+    }
+
+    #[test]
+    fn wave5_fiscal_control_overlay_depth_packets_keep_claims_blocked() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_wave5_fiscal_control_overlay_depth_packets(&root).unwrap();
     }
 
     #[test]

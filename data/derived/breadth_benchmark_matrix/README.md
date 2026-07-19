@@ -557,3 +557,10 @@ measurement periods, the confirmed-fraud definition, the agency-recovery scope,
 and preserved nulls. It permits bounded source-labeled factual reporting only.
 Zero methodology components and fields close, program counts remain unchanged,
 and every scoring and claim gate stays blocked.
+
+`wave5_fiscal_control_overlay_depth_packets.v1.draft.json` publishes the Wave 5
+fiscal-control overlay depth scaffolds for revenue-solvency, payment integrity,
+and net interest. Revenue-solvency and payment integrity remain non-additive
+overlays. Net interest remains endogenous and cannot be cut directly. The packet
+opens no rate, tax, solver, target-cost, savings, waste/fraud, department-cut,
+technology-savings, or balanced-budget claim.
