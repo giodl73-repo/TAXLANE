@@ -491,6 +491,11 @@ const WAVE3_PUBLIC_GOODS_LANE_DEPTH_PACKETS_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/wave3_public_goods_lane_depth_packets.schema.md";
 const WAVE3_PUBLIC_GOODS_LANE_DEPTH_PACKETS_READER_PATH: &str =
     "docs/reading/wave3-public-goods-lane-depth-packets.md";
+const WAVE4_COMPONENT_AND_PILOT_LANE_DEPTH_PACKETS_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/wave4_component_and_pilot_lane_depth_packets.v1.draft.json";
+const WAVE4_COMPONENT_AND_PILOT_LANE_DEPTH_PACKETS_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/wave4_component_and_pilot_lane_depth_packets.schema.md";
+const WAVE4_COMPONENT_AND_PILOT_LANE_DEPTH_PACKETS_READER_PATH: &str =
+    "docs/reading/wave4-component-and-pilot-lane-depth-packets.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -11027,6 +11032,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_wave1_public_topline_lane_depth_packets(root)?;
     validate_wave2_human_services_lane_depth_packets(root)?;
     validate_wave3_public_goods_lane_depth_packets(root)?;
+    validate_wave4_component_and_pilot_lane_depth_packets(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -21336,6 +21342,344 @@ fn validate_wave3_public_goods_lane_depth_packets(root: &Path) -> Result<(), Str
     Ok(())
 }
 
+fn validate_wave4_component_and_pilot_lane_depth_packets(root: &Path) -> Result<(), String> {
+    for path in [
+        WAVE4_COMPONENT_AND_PILOT_LANE_DEPTH_PACKETS_JSON_PATH,
+        WAVE4_COMPONENT_AND_PILOT_LANE_DEPTH_PACKETS_SCHEMA_PATH,
+        WAVE4_COMPONENT_AND_PILOT_LANE_DEPTH_PACKETS_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing wave4 lane-depth packet artifact: {path}"));
+        }
+    }
+
+    let text =
+        fs::read_to_string(root.join(WAVE4_COMPONENT_AND_PILOT_LANE_DEPTH_PACKETS_JSON_PATH))
+            .map_err(|e| e.to_string())?;
+    let wave: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&wave, "record_id")? != "wave4-component-and-pilot-lane-depth-packets:v1"
+        || string_field(&wave, "record_family")? != "wave4_component_and_pilot_lane_depth_packets"
+        || int_field(&wave, "pulse")? != 115
+        || string_field(&wave, "lane_agent_work_order_plan_path")?
+            != LANE_AGENT_WORK_ORDER_PLAN_JSON_PATH
+        || string_field(&wave, "lane_depth_explainability_tracker_path")?
+            != LANE_DEPTH_EXPLAINABILITY_TRACKER_JSON_PATH
+        || string_field(&wave, "program_lane_target_cost_contract_path")?
+            != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+    {
+        return Err("wave4 lane-depth packet identity failed".to_string());
+    }
+
+    let wave_meta = wave.get("wave").ok_or("wave4 metadata")?;
+    if string_field(wave_meta, "wave_id")? != "wave_4_component_and_pilot"
+        || wave_meta
+            .get("integration_review_required")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || wave_meta
+            .get("lane_depth_complete_after_wave")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || wave_meta
+            .get("public_explainability_complete_after_wave")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || wave_meta
+            .get("solver_ready_after_wave")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("wave4 metadata must keep completion and solver blocked".to_string());
+    }
+    let expected = [
+        "agriculture",
+        "international-affairs",
+        "transportation-infrastructure",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let wave_lanes = wave_meta
+        .get("lane_ids")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("wave4 lane ids")?
+        .iter()
+        .map(|value| {
+            value
+                .as_str()
+                .map(str::to_string)
+                .ok_or("wave4 lane id string")
+        })
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if wave_lanes != expected {
+        return Err("wave4 lane id set failed".to_string());
+    }
+
+    let packets = wave
+        .get("lane_packets")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("wave4 lane packets")?;
+    if packets.len() != 3 {
+        return Err("wave4 must contain exactly three lane packets".to_string());
+    }
+    let observed = packets
+        .iter()
+        .map(|row| string_field(row, "lane_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if observed != expected {
+        return Err("wave4 packet lane set failed".to_string());
+    }
+    for packet in packets {
+        for field in [
+            "public_label",
+            "what_it_does",
+            "who_is_served_or_protected",
+            "overspending_underfunding_boundary",
+            "technology_transition_boundary",
+        ] {
+            if string_field(packet, field)?.is_empty() {
+                return Err(format!("wave4 packet field empty: {field}"));
+            }
+        }
+        let pay_now = packet
+            .get("what_taxpayers_pay_now")
+            .ok_or("wave4 taxpayers pay now")?;
+        if !pay_now.get("value").is_some_and(serde_json::Value::is_null) {
+            return Err("wave4 pay-now value must remain null".to_string());
+        }
+        let blockers = packet
+            .get("blocked_evidence")
+            .and_then(serde_json::Value::as_array)
+            .ok_or("wave4 blockers")?;
+        if blockers.len() < 8 {
+            return Err("wave4 blocker list too short".to_string());
+        }
+        let claims = packet
+            .get("claim_booleans")
+            .and_then(serde_json::Value::as_object)
+            .ok_or("wave4 lane claims")?;
+        for (field, value) in claims {
+            let observed = value.as_bool().ok_or("wave4 lane claim bool")?;
+            if field == "lane_depth_packet_published" {
+                if !observed {
+                    return Err("wave4 lane packet publish flag must be true".to_string());
+                }
+            } else if observed {
+                return Err(format!("wave4 lane public claim {field} must be false"));
+            }
+        }
+    }
+
+    let by_lane = packets
+        .iter()
+        .map(|packet| Ok((string_field(packet, "lane_id")?, packet)))
+        .collect::<Result<BTreeMap<_, _>, String>>()?;
+    let agriculture = by_lane
+        .get("agriculture")
+        .ok_or("wave4 agriculture packet")?;
+    let agriculture_context = agriculture
+        .get("fy2025_function_350_context")
+        .ok_or("wave4 agriculture context")?;
+    if int_field(agriculture_context, "total_outlays_millions")? != 47447
+        || int_field(agriculture_context, "farm_income_stabilization_millions")?
+            + int_field(
+                agriculture_context,
+                "agricultural_research_and_services_millions",
+            )?
+            != 47447
+        || !string_field(agriculture, "scope_boundary")?
+            .contains("Food and nutrition assistance is function 600")
+        || !string_field(agriculture, "payment_integrity_boundary")?
+            .contains("improper-payment facts do not prove fraud")
+    {
+        return Err("wave4 agriculture context failed".to_string());
+    }
+
+    let international = by_lane
+        .get("international-affairs")
+        .ok_or("wave4 international packet")?;
+    let international_context = international
+        .get("fy2025_function_150_context")
+        .ok_or("wave4 international context")?;
+    if int_field(international_context, "total_outlays_millions")? != 45171
+        || int_field(international_context, "development_humanitarian_millions")?
+            + int_field(international_context, "security_assistance_millions")?
+            + int_field(international_context, "conduct_foreign_affairs_millions")?
+            + int_field(
+                international_context,
+                "foreign_information_exchange_millions",
+            )?
+            + int_field(
+                international_context,
+                "international_financial_programs_millions",
+            )?
+            != 45171
+        || int_field(
+            international_context,
+            "international_financial_programs_millions",
+        )? != -14936
+        || int_field(international_context, "component_sum_millions")? != 45171
+        || !string_field(international, "component_separation_boundary")?
+            .contains("no composite target")
+        || !string_field(international, "negative_financial_program_boundary")?
+            .contains("not negative diplomacy")
+    {
+        return Err("wave4 international context failed".to_string());
+    }
+
+    let transportation = by_lane
+        .get("transportation-infrastructure")
+        .ok_or("wave4 transportation packet")?;
+    let transportation_context = transportation
+        .get("fy2025_function_400_context")
+        .ok_or("wave4 transportation context")?;
+    if int_field(transportation_context, "total_outlays_millions")? != 145320
+        || int_field(transportation_context, "ground_transportation_millions")?
+            + int_field(transportation_context, "air_transportation_millions")?
+            + int_field(transportation_context, "water_transportation_millions")?
+            + int_field(transportation_context, "other_transportation_millions")?
+            != 145320
+        || !string_field(transportation, "trust_fund_boundary")?.contains("must remain separate")
+    {
+        return Err("wave4 transportation context failed".to_string());
+    }
+    let pilot = transportation
+        .get("pilot_status")
+        .ok_or("wave4 pilot status")?;
+    let partial_years = pilot
+        .get("baseline_partial_years")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("wave4 partial years")?
+        .iter()
+        .map(|value| value.as_i64().ok_or("wave4 partial year int"))
+        .collect::<Result<Vec<_>, _>>()?;
+    if partial_years != [2025, 2026, 2027, 2028, 2029, 2030, 2031] {
+        return Err("wave4 partial years failed".to_string());
+    }
+    let missing_years = pilot
+        .get("missing_years")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("wave4 missing years")?
+        .iter()
+        .map(|value| value.as_i64().ok_or("wave4 missing year int"))
+        .collect::<Result<Vec<_>, _>>()?;
+    if missing_years != [2032, 2033, 2034, 2035] {
+        return Err("wave4 missing years failed".to_string());
+    }
+    let pilot = pilot
+        .as_object()
+        .ok_or("wave4 transportation pilot status")?;
+    if pilot
+        .get("deepest_pilot_lane")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("wave4 transportation deepest pilot flag failed".to_string());
+    }
+    for required_false in [
+        "trust_fund_annual_values_published",
+        "floor_thresholds_set",
+        "all_floors_passed",
+        "simulator_ready",
+    ] {
+        if pilot
+            .get(required_false)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "wave4 transportation pilot false failed: {required_false}"
+            ));
+        }
+    }
+
+    let integration = wave
+        .get("integration_review")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("wave4 integration review")?;
+    for required in [
+        "all_wave_lanes_present_once",
+        "fifteen_analytical_lanes_not_budget_rows",
+        "component_heavy_lanes_stay_separate",
+        "trust_funds_remain_separate",
+        "missing_values_remain_null",
+        "blocked_gates_remain_false",
+        "international_differences_are_not_savings",
+        "improper_payment_estimates_do_not_imply_fraud",
+        "technology_changes_are_transition_paths_not_automatic_savings",
+        "transportation_deepest_pilot_but_incomplete",
+    ] {
+        if integration
+            .get(required)
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        {
+            return Err(format!("wave4 integration rule failed: {required}"));
+        }
+    }
+
+    let claims = wave
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("wave4 aggregate claims")?;
+    for (field, value) in claims {
+        let observed = value.as_bool().ok_or("wave4 aggregate claim bool")?;
+        if field == "wave4_component_and_pilot_lane_depth_packets_published" {
+            if !observed {
+                return Err("wave4 aggregate publish flag must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!(
+                "wave4 aggregate public claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader =
+        fs::read_to_string(root.join(WAVE4_COMPONENT_AND_PILOT_LANE_DEPTH_PACKETS_READER_PATH))
+            .map_err(|e| e.to_string())?;
+    for required in [
+        WAVE4_COMPONENT_AND_PILOT_LANE_DEPTH_PACKETS_JSON_PATH,
+        "Wave 4 covers Agriculture, International affairs, and Transportation/infrastructure",
+        "FY2025 Function 350 agriculture was $47.447B",
+        "Food and nutrition assistance is function 600 income security, not function 350 agriculture",
+        "Budget support, insurance, general services, and market-price support must be distinguished",
+        "Crop-insurance improper-payment facts do not prove fraud",
+        "without causal prevention or same-cohort collection lineage",
+        "FY2025 Function 150 international affairs was $45.171B",
+        "International spending differences are not savings",
+        "not negative diplomacy, aid, fraud recovery, or automatic savings",
+        "FY2025 Function 400 transportation was $145.320B",
+        "Transportation remains the deepest pilot lane, but it is still incomplete",
+        "FY2032-FY2035 remain missing",
+        "Annual Highway Trust Fund and Airport and Airway Trust Fund values are still missing",
+        "Federal/state/local translation is still missing",
+        "Highway Trust Fund and Airport and Airway Trust Fund values must remain separate",
+        "General-fund transfers must be explicit",
+        "not trust-fund reconciliation",
+        "not simulator readiness",
+        "This is not technology savings",
+        "the 15 analytical lanes separate from the 17 budget rows",
+        "technology changes as transition paths not automatic savings",
+        "not a solver run",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("wave4 reader missing {required}"));
+        }
+    }
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -21590,6 +21934,12 @@ mod global_country_comparison_tests {
     fn wave3_public_goods_lane_depth_packets_keep_claims_blocked() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_wave3_public_goods_lane_depth_packets(&root).unwrap();
+    }
+
+    #[test]
+    fn wave4_component_and_pilot_lane_depth_packets_keep_claims_blocked() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_wave4_component_and_pilot_lane_depth_packets(&root).unwrap();
     }
 
     #[test]

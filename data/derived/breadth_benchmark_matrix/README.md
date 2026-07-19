@@ -231,6 +231,13 @@ public safety, and Science/energy/environment while keeping final depth
 completion, solver, target-cost, rate, savings, waste, fraud,
 technology-savings, and balanced-budget claims blocked.
 
+`wave4_component_and_pilot_lane_depth_packets.v1.draft.json` executes the
+fourth scaled lane-depth explainability scaffold for Agriculture,
+International affairs, and Transportation/infrastructure while keeping
+component-heavy lanes separate, preserving trust-fund boundaries, and keeping
+final depth completion, solver, target-cost, rate, savings, waste, fraud,
+technology-savings, and balanced-budget claims blocked.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is
