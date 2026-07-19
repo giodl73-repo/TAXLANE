@@ -184,6 +184,11 @@ and the required matched-year, perimeter, amount, elasticity, burden,
 distribution, interaction, and yield fields. Every base value remains null and
 statutory/effective rates remain blocked.
 
+`distributional_effect_placeholder.v1.draft.json` defines the income-group,
+incidence, benefit/service, interaction, macro-feedback, equity-floor, and
+public-language fields required before any solver output, public rate card, tax
+proposal, or balanced-budget claim. Every distribution value remains null.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is

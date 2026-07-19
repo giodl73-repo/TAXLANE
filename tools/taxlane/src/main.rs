@@ -439,6 +439,12 @@ const ASSIGNED_RECEIPT_BASE_INVENTORY_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/assigned_receipt_base_inventory.schema.md";
 const ASSIGNED_RECEIPT_BASE_INVENTORY_READER_PATH: &str =
     "docs/reading/assigned-receipt-base-inventory.md";
+const DISTRIBUTIONAL_EFFECT_PLACEHOLDER_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/distributional_effect_placeholder.v1.draft.json";
+const DISTRIBUTIONAL_EFFECT_PLACEHOLDER_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/distributional_effect_placeholder.schema.md";
+const DISTRIBUTIONAL_EFFECT_PLACEHOLDER_READER_PATH: &str =
+    "docs/reading/distributional-effect-placeholder.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10966,6 +10972,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_reserve_parameter_readiness_gate(root)?;
     validate_net_interest_formula_contract(root)?;
     validate_assigned_receipt_base_inventory(root)?;
+    validate_distributional_effect_placeholder(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -19043,6 +19050,231 @@ fn validate_assigned_receipt_base_inventory(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_distributional_effect_placeholder(root: &Path) -> Result<(), String> {
+    for path in [
+        DISTRIBUTIONAL_EFFECT_PLACEHOLDER_JSON_PATH,
+        DISTRIBUTIONAL_EFFECT_PLACEHOLDER_SCHEMA_PATH,
+        DISTRIBUTIONAL_EFFECT_PLACEHOLDER_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing distributional-effect placeholder artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(DISTRIBUTIONAL_EFFECT_PLACEHOLDER_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let placeholder: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&placeholder, "record_id")? != "distributional-effect-placeholder:v1"
+        || string_field(&placeholder, "record_family")? != "distributional_effect_placeholder"
+        || int_field(&placeholder, "pulse")? != 106
+        || string_field(&placeholder, "solver_input_inventory_path")?
+            != SOLVER_INPUT_INVENTORY_JSON_PATH
+        || string_field(&placeholder, "assigned_receipt_base_inventory_path")?
+            != ASSIGNED_RECEIPT_BASE_INVENTORY_JSON_PATH
+        || string_field(&placeholder, "program_lane_target_cost_contract_path")?
+            != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&placeholder, "balanced_rate_readiness_gate_path")?
+            != BALANCED_RATE_READINESS_GATE_JSON_PATH
+    {
+        return Err("distributional-effect placeholder identity failed".to_string());
+    }
+
+    let required_fields = placeholder
+        .get("required_distribution_fields")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("distributional-effect required fields")?
+        .iter()
+        .filter_map(serde_json::Value::as_str)
+        .collect::<BTreeSet<_>>();
+    for required in [
+        "income_group_definition",
+        "tax_unit_definition",
+        "baseline_income_measure",
+        "current_law_tax_burden",
+        "reform_tax_burden",
+        "current_law_benefit_or_service_value",
+        "reform_benefit_or_service_value",
+        "employer_incidence",
+        "household_incidence",
+        "agency_administration_burden",
+        "interaction_with_other_taxes_and_transfers",
+        "macro_feedback_placeholder",
+        "equity_floor_result",
+        "public_summary_language",
+    ] {
+        if !required_fields.contains(required) {
+            return Err(format!(
+                "distributional-effect required field missing {required}"
+            ));
+        }
+    }
+
+    let rows = placeholder
+        .get("placeholder_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("distributional-effect rows")?;
+    let observed = rows
+        .iter()
+        .map(|row| string_field(row, "row_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected = [
+        "bottom_quintile",
+        "second_quintile",
+        "middle_quintile",
+        "fourth_quintile",
+        "top_quintile",
+        "top_one_percent",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    if observed != expected || rows.len() != expected.len() {
+        return Err("distributional-effect row set failed".to_string());
+    }
+    for row in rows {
+        for field in [
+            "income_group_definition",
+            "tax_unit_definition",
+            "baseline_income_measure",
+            "current_law_tax_burden_musd",
+            "reform_tax_burden_musd",
+            "current_law_benefit_or_service_value_musd",
+            "reform_benefit_or_service_value_musd",
+            "employer_incidence",
+            "household_incidence",
+            "agency_administration_burden",
+            "interaction_with_other_taxes_and_transfers",
+            "macro_feedback_placeholder",
+            "equity_floor_result",
+            "public_summary_language",
+        ] {
+            if !row.get(field).is_some_and(serde_json::Value::is_null) {
+                return Err(format!(
+                    "distributional-effect field {field} must remain null"
+                ));
+            }
+        }
+        if row.get("ready").and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err("distributional-effect rows must not be ready".to_string());
+        }
+    }
+
+    let rules = placeholder
+        .get("placeholder_rules")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("distributional-effect rules")?;
+    for required in [
+        "distribution_required_before_public_rate_card",
+        "incidence_required_before_rate_publication",
+        "benefit_and_service_effects_required_before_budget_claim",
+        "macro_feedback_must_be_explicit",
+        "interaction_scoring_must_be_explicit",
+        "equity_floor_result_required",
+        "missing_values_remain_null",
+    ] {
+        if rules.get(required).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("distributional-effect rule failed {required}"));
+        }
+    }
+    if rules
+        .get("solver_ready")
+        .and_then(serde_json::Value::as_bool)
+        != Some(false)
+    {
+        return Err("distributional-effect solver_ready must be false".to_string());
+    }
+
+    let claims = placeholder
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("distributional-effect claims")?;
+    for (field, value) in claims {
+        let observed = value.as_bool().ok_or("distributional-effect claim bool")?;
+        if field == "distributional_effect_placeholder_published" {
+            if !observed {
+                return Err("distributional-effect publish flag must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!(
+                "distributional-effect public claim {field} must be false"
+            ));
+        }
+    }
+
+    let boundary = string_field(&placeholder, "non_claim_boundary")?;
+    for required in [
+        "distributional-effect placeholder",
+        "not distributional analysis",
+        "not incidence analysis",
+        "not macro feedback",
+        "not interaction scoring",
+        "not a solver run",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!("distributional-effect boundary missing {required}"));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(DISTRIBUTIONAL_EFFECT_PLACEHOLDER_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        DISTRIBUTIONAL_EFFECT_PLACEHOLDER_JSON_PATH,
+        "does not publish distributional analysis",
+        "income group definition",
+        "tax unit definition",
+        "baseline income measure",
+        "current-law tax burden",
+        "reform tax burden",
+        "current-law benefit or service value",
+        "reform benefit or service value",
+        "employer incidence",
+        "household incidence",
+        "agency administration burden",
+        "interaction with other taxes and transfers",
+        "macro feedback placeholder",
+        "equity floor result",
+        "public summary language",
+        "Distribution is required before a public rate card",
+        "Incidence is required before rate publication",
+        "Benefit and service effects are required before a budget claim",
+        "Missing values remain null",
+        "not distributional analysis",
+        "not incidence analysis",
+        "not macro feedback",
+        "not interaction scoring",
+        "not a solver run",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("distributional-effect reader missing {required}"));
+        }
+    }
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -19243,6 +19475,12 @@ mod global_country_comparison_tests {
     fn assigned_receipt_base_inventory_keeps_amounts_and_rates_null() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_assigned_receipt_base_inventory(&root).unwrap();
+    }
+
+    #[test]
+    fn distributional_effect_placeholder_keeps_values_null() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_distributional_effect_placeholder(&root).unwrap();
     }
 
     #[test]
