@@ -623,3 +623,10 @@ transportation trust-fund excise receipts, and airport-and-airway excise
 receipts. It is a receipt-anchor packet only, not a complete named trust-fund
 path, solver input, target-cost selection, rate calculation, savings estimate,
 or balanced-budget claim.
+
+`current_law_fy2025_named_trust_fund_outlay_anchors.v1.draft.json` publishes
+source-custodied FY2025 OASI, DI, OASDI-sum, and Medicare HI outlay anchors from
+the OMB Public Budget Database. It is an outlay-anchor packet only, not a
+complete trust-fund path, transportation trust-fund path, solver input,
+target-cost selection, rate calculation, savings estimate, or balanced-budget
+claim.

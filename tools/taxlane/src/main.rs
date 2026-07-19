@@ -551,6 +551,10 @@ const CURRENT_LAW_FY2025_DEDICATED_RECEIPT_ANCHORS_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/current_law_fy2025_dedicated_receipt_anchors.schema.md";
 const CURRENT_LAW_FY2025_DEDICATED_RECEIPT_ANCHORS_READER_PATH: &str =
     "docs/reading/current-law-fy2025-dedicated-receipt-anchors.md";
+const CURRENT_LAW_FY2025_NAMED_TRUST_FUND_OUTLAY_ANCHORS_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/current_law_fy2025_named_trust_fund_outlay_anchors.v1.draft.json";
+const CURRENT_LAW_FY2025_NAMED_TRUST_FUND_OUTLAY_ANCHORS_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/current_law_fy2025_named_trust_fund_outlay_anchors.schema.md";
+const CURRENT_LAW_FY2025_NAMED_TRUST_FUND_OUTLAY_ANCHORS_READER_PATH: &str =
+    "docs/reading/current-law-fy2025-named-trust-fund-outlay-anchors.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -11098,6 +11102,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_current_law_baseline_receipts_deficit_path_partial(root)?;
     validate_current_law_fy2025_fund_group_path(root)?;
     validate_current_law_fy2025_dedicated_receipt_anchors(root)?;
+    validate_current_law_fy2025_named_trust_fund_outlay_anchors(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -24598,6 +24603,315 @@ fn validate_current_law_fy2025_dedicated_receipt_anchors(root: &Path) -> Result<
     Ok(())
 }
 
+fn validate_current_law_fy2025_named_trust_fund_outlay_anchors(root: &Path) -> Result<(), String> {
+    for path in [
+        CURRENT_LAW_FY2025_NAMED_TRUST_FUND_OUTLAY_ANCHORS_JSON_PATH,
+        CURRENT_LAW_FY2025_NAMED_TRUST_FUND_OUTLAY_ANCHORS_SCHEMA_PATH,
+        CURRENT_LAW_FY2025_NAMED_TRUST_FUND_OUTLAY_ANCHORS_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing named trust-fund outlay artifact: {path}"));
+        }
+    }
+
+    let text =
+        fs::read_to_string(root.join(CURRENT_LAW_FY2025_NAMED_TRUST_FUND_OUTLAY_ANCHORS_JSON_PATH))
+            .map_err(|e| e.to_string())?;
+    let anchors: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&anchors, "record_id")?
+        != "current-law-fy2025-named-trust-fund-outlay-anchors:v1"
+        || string_field(&anchors, "record_family")?
+            != "current_law_fy2025_named_trust_fund_outlay_anchors"
+        || int_field(&anchors, "pulse")? != 126
+        || int_field(&anchors, "fiscal_year")? != 2025
+        || string_field(&anchors, "year_basis")? != "fiscal_year"
+        || string_field(&anchors, "unit")? != "millions_of_dollars"
+        || string_field(&anchors, "input_unit_from_source")? != "thousands_of_dollars"
+        || string_field(&anchors, "conversion_formula")?
+            != "amount_musd = source_amount_thousands_usd / 1000"
+        || string_field(
+            &anchors,
+            "current_law_fy2025_dedicated_receipt_anchors_path",
+        )? != CURRENT_LAW_FY2025_DEDICATED_RECEIPT_ANCHORS_JSON_PATH
+        || string_field(&anchors, "current_law_fy2025_fund_group_path")?
+            != CURRENT_LAW_FY2025_FUND_GROUP_PATH_JSON_PATH
+        || string_field(&anchors, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&anchors, "rubric_path")?
+            != INTERNATIONAL_COMPARATOR_TARGET_RUBRIC_JSON_PATH
+    {
+        return Err("named trust-fund outlay identity failed".to_string());
+    }
+
+    let status = anchors
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("named trust-fund outlay custody status")?;
+    for field in [
+        "official_sources_only",
+        "no_external_request_submitted_this_pulse",
+        "no_agency_or_person_contacted",
+        "source_custody_ready",
+        "named_trust_fund_outlay_anchors_may_be_populated",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "named trust-fund outlay status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "named_trust_fund_balances_ready",
+        "transportation_trust_fund_path_complete",
+        "explicit_transfer_schedule_ready",
+        "solver_inputs_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "named trust-fund outlay status {field} must be false"
+            ));
+        }
+    }
+
+    let packet = anchors
+        .get("source_packet")
+        .ok_or("named trust-fund outlay source packet")?;
+    if string_field(packet, "source_id")? != "SRC-OMB-PBD-OUTLAYS-FY2027"
+        || string_field(packet, "official_host_or_publisher")? != "Office of Management and Budget"
+        || string_field(packet, "source_table")? != "Public Budget Database outlays FY2027"
+        || string_field(packet, "retrieval_date")? != "2026-07-13"
+        || packet
+            .get("values_may_be_populated")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("named trust-fund outlay source packet identity failed".to_string());
+    }
+    for (path_field, hash_field, byte_field) in [
+        ("raw_artifact_path", "raw_sha256", "raw_byte_count"),
+        ("metadata_path", "metadata_sha256", "metadata_byte_count"),
+    ] {
+        let artifact_path = string_field(packet, path_field)?;
+        let artifact_file = root.join(&artifact_path);
+        if !artifact_file.exists() {
+            return Err(format!(
+                "named trust-fund outlay source file missing: {artifact_path}"
+            ));
+        }
+        if fs::metadata(&artifact_file)
+            .map_err(|e| e.to_string())?
+            .len() as i64
+            != int_field(packet, byte_field)?
+        {
+            return Err(format!(
+                "named trust-fund outlay byte count failed for {artifact_path}"
+            ));
+        }
+        if sha256_file(&artifact_file)? != string_field(packet, hash_field)? {
+            return Err(format!(
+                "named trust-fund outlay hash failed for {artifact_path}"
+            ));
+        }
+    }
+
+    let rows = anchors
+        .get("outlay_anchor_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("named trust-fund outlay anchor rows")?;
+    let expected_rows = [
+        ("oasi_discretionary_outlay_anchor", "oasdi_fund_path", 3_732),
+        ("oasi_mandatory_outlay_anchor", "oasdi_fund_path", 1_417_859),
+        ("oasi_outlay_anchor_sum", "oasdi_fund_path", 1_421_591),
+        ("di_discretionary_outlay_anchor", "oasdi_fund_path", 2_648),
+        ("di_mandatory_outlay_anchor", "oasdi_fund_path", 157_551),
+        ("di_outlay_anchor_sum", "oasdi_fund_path", 160_199),
+        ("oasdi_outlay_anchor_sum", "oasdi_fund_path", 1_581_790),
+        (
+            "medicare_hi_discretionary_outlay_anchor",
+            "medicare_hi_fund_path",
+            3_153,
+        ),
+        (
+            "medicare_hi_mandatory_outlay_anchor",
+            "medicare_hi_fund_path",
+            441_679,
+        ),
+        (
+            "medicare_hi_outlay_anchor_sum",
+            "medicare_hi_fund_path",
+            444_832,
+        ),
+    ]
+    .into_iter()
+    .map(|(id, path, amount)| (id.to_string(), (path.to_string(), amount)))
+    .collect::<BTreeMap<_, _>>();
+    if rows.len() != expected_rows.len() {
+        return Err("named trust-fund outlay anchor row count failed".to_string());
+    }
+    let mut observed_rows = BTreeMap::new();
+    for row in rows {
+        let anchor_id = string_field(row, "anchor_id")?;
+        let path_id = string_field(row, "path_id")?;
+        let amount = int_field(row, "amount_musd")?;
+        if row
+            .get("may_populate_solver")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "named trust-fund outlay anchor {anchor_id} must be solver-blocked"
+            ));
+        }
+        if let Some(source_amount) = row.get("source_amount_thousands_usd") {
+            if source_amount
+                .as_i64()
+                .ok_or("source amount must be integer")?
+                / 1000
+                != amount
+            {
+                return Err(format!(
+                    "named trust-fund outlay unit conversion failed for {anchor_id}"
+                ));
+            }
+        }
+        observed_rows.insert(anchor_id, (path_id, amount));
+    }
+    if observed_rows != expected_rows {
+        return Err("named trust-fund outlay anchor values failed".to_string());
+    }
+
+    let recon = anchors
+        .get("reconciliation")
+        .ok_or("named trust-fund outlay reconciliation")?;
+    if int_field(recon, "pbd_fy2025_total_outlays_source_sum_thousands_usd")? != 7_011_105_000
+        || int_field(recon, "pbd_fy2025_total_outlays_source_sum_musd")? != 7_011_105
+        || int_field(recon, "current_law_total_outlays_musd")? != 7_011_105
+        || int_field(recon, "oasi_outlay_anchor_sum_musd")? != 3_732 + 1_417_859
+        || int_field(recon, "di_outlay_anchor_sum_musd")? != 2_648 + 157_551
+        || int_field(recon, "oasdi_outlay_anchor_sum_musd")? != 1_421_591 + 160_199
+        || int_field(recon, "medicare_hi_outlay_anchor_sum_musd")? != 3_153 + 441_679
+        || string_field(recon, "receipt_anchor_comparison_status")?
+            != "receipt_and_outlay_anchors_present_but_fund_balance_and_transfer_reconciliation_blocked"
+    {
+        return Err("named trust-fund outlay reconciliation failed".to_string());
+    }
+    if !string_field(recon, "transportation_status")?
+        .contains("complete transportation_trust_fund_path remains blocked")
+    {
+        return Err("named trust-fund outlay transportation boundary failed".to_string());
+    }
+
+    let blocked = anchors
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("named trust-fund outlay blocked outputs")?;
+    for field in [
+        "oasdi_fund_balance_musd",
+        "oasi_fund_balance_musd",
+        "di_fund_balance_musd",
+        "medicare_hi_fund_balance_musd",
+        "transportation_trust_outlays_musd",
+        "transportation_trust_fund_balance_musd",
+        "explicit_general_fund_transfers_musd",
+        "credited_offsetting_collections_musd",
+        "reserve_contributions_musd",
+        "solver_input_rows",
+        "target_cost_fields",
+        "federal_effect_fields",
+        "gross_savings_fields",
+        "net_savings_fields",
+        "balanced_rate_fields",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "named trust-fund outlay blocked field {field} must be null"
+            ));
+        }
+    }
+
+    let claim_booleans = anchors
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("named trust-fund outlay claim booleans")?;
+    for field in [
+        "source_custody_ready",
+        "named_trust_fund_outlay_anchors_published",
+    ] {
+        if claim_booleans
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        {
+            return Err(format!(
+                "named trust-fund outlay claim boolean {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "named_trust_fund_paths_complete",
+        "transportation_trust_fund_path_complete",
+        "solver_inputs_ready",
+        "target_cost_claim",
+        "federal_effect_claim",
+        "gross_savings_claim",
+        "net_savings_claim",
+        "balanced_rate_claim",
+        "public_rate_card_claim",
+        "tax_proposal_claim",
+        "waste_finding_claim",
+        "fraud_finding_claim",
+        "technology_savings_claim",
+        "balanced_budget_claim",
+    ] {
+        if claim_booleans
+            .get(field)
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(format!(
+                "named trust-fund outlay claim boolean {field} must be false"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(
+        root.join(CURRENT_LAW_FY2025_NAMED_TRUST_FUND_OUTLAY_ANCHORS_READER_PATH),
+    )
+    .map_err(|e| e.to_string())?;
+    for phrase in [
+        CURRENT_LAW_FY2025_NAMED_TRUST_FUND_OUTLAY_ANCHORS_JSON_PATH,
+        "$1,421.591B",
+        "$160.199B",
+        "$1,581.790B",
+        "$444.832B",
+        "These are FY2025 current-law named trust-fund outlay anchors, not complete trust-fund paths.",
+        "OASI and DI are summed only as an OASDI outlay anchor; their fund accounting remains separate until fund-balance and transfer sources are captured.",
+        "Medicare HI remains separate from SMI and other Medicare.",
+        "Transportation remains blocked because the available PBD rows are fragmented across highway, mass transit, airport, interest, and offset accounts.",
+        "No external request was submitted and no agency or person was contacted.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "named trust-fund outlay reader missing required phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -24918,6 +25232,12 @@ mod global_country_comparison_tests {
     fn current_law_fy2025_dedicated_receipt_anchors_recompute_without_solver_claims() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_current_law_fy2025_dedicated_receipt_anchors(&root).unwrap();
+    }
+
+    #[test]
+    fn current_law_fy2025_named_trust_fund_outlay_anchors_recompute_without_solver_claims() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_current_law_fy2025_named_trust_fund_outlay_anchors(&root).unwrap();
     }
 
     #[test]

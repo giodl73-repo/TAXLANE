@@ -401,6 +401,11 @@ It is the bounded public surface, not a performance or savings report.
     airport-and-airway rows. It is not a complete trust-fund path, solver input,
     target-cost selection, rate calculation, savings estimate, or
     balanced-budget claim.
+95. Read `current-law-fy2025-named-trust-fund-outlay-anchors.md` when using
+    FY2025 OASI, DI, OASDI-sum, or Medicare HI outlay anchors. It is not a
+    complete trust-fund path, transportation trust-fund path, solver input,
+    rate calculation, target-cost selection, savings estimate, or
+    balanced-budget claim.
 
 ## Public-Use Guardrail
 
