@@ -571,3 +571,11 @@ that all 15 lanes are scaffolded, zero lanes are complete, zero lanes are
 solver-ready, zero lanes are rate-ready, and no solver, rate, target-cost,
 savings, waste/fraud, department-cut, technology-savings, or balanced-budget
 claim is open.
+
+`post_rollup_readiness_work_queue.v1.draft.json` orders the next work after the
+scaffold rollup: source custody, current-law paths, fund reconciliation, outcome
+floors, policy-specific scores, receipt-base modeling, payment-integrity
+lineage, net-interest feedback, and finally a deterministic solver dry run. It
+publishes no values, rates, solver outputs, savings, waste/fraud findings,
+department-cut instructions, technology-savings claims, or balanced-budget
+claim.

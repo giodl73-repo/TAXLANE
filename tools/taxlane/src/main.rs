@@ -507,6 +507,12 @@ const WAVE_LANE_DEPTH_SCAFFOLD_ROLLUP_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/wave_lane_depth_scaffold_rollup.schema.md";
 const WAVE_LANE_DEPTH_SCAFFOLD_ROLLUP_READER_PATH: &str =
     "docs/reading/wave-lane-depth-scaffold-rollup.md";
+const POST_ROLLUP_READINESS_WORK_QUEUE_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/post_rollup_readiness_work_queue.v1.draft.json";
+const POST_ROLLUP_READINESS_WORK_QUEUE_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/post_rollup_readiness_work_queue.schema.md";
+const POST_ROLLUP_READINESS_WORK_QUEUE_READER_PATH: &str =
+    "docs/reading/post-rollup-readiness-work-queue.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -11046,6 +11052,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_wave4_component_and_pilot_lane_depth_packets(root)?;
     validate_wave5_fiscal_control_overlay_depth_packets(root)?;
     validate_wave_lane_depth_scaffold_rollup(root)?;
+    validate_post_rollup_readiness_work_queue(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -22245,6 +22252,201 @@ fn validate_wave_lane_depth_scaffold_rollup(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_post_rollup_readiness_work_queue(root: &Path) -> Result<(), String> {
+    for path in [
+        POST_ROLLUP_READINESS_WORK_QUEUE_JSON_PATH,
+        POST_ROLLUP_READINESS_WORK_QUEUE_SCHEMA_PATH,
+        POST_ROLLUP_READINESS_WORK_QUEUE_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing post-rollup work queue artifact: {path}"));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(POST_ROLLUP_READINESS_WORK_QUEUE_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let queue: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&queue, "record_id")? != "post-rollup-readiness-work-queue:v1"
+        || string_field(&queue, "record_family")? != "post_rollup_readiness_work_queue"
+        || int_field(&queue, "pulse")? != 118
+        || string_field(&queue, "wave_lane_depth_scaffold_rollup_path")?
+            != WAVE_LANE_DEPTH_SCAFFOLD_ROLLUP_JSON_PATH
+        || string_field(&queue, "current_law_source_custody_preflight_path")?
+            != CURRENT_LAW_SOURCE_CUSTODY_PREFLIGHT_JSON_PATH
+        || string_field(&queue, "current_law_path_inventory_path")?
+            != CURRENT_LAW_PATH_INVENTORY_JSON_PATH
+        || string_field(&queue, "solver_input_readiness_rollup_path")?
+            != SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH
+        || string_field(&queue, "balanced_rate_readiness_gate_path")?
+            != BALANCED_RATE_READINESS_GATE_JSON_PATH
+    {
+        return Err("post-rollup work queue identity failed".to_string());
+    }
+
+    let rules = queue
+        .get("sequence_rules")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("post-rollup sequence rules")?;
+    for required in [
+        "source_custody_before_values",
+        "current_law_paths_before_policy_scenarios",
+        "outcome_floors_before_lower_cost_scenarios",
+        "policy_specific_scores_before_federal_effects",
+        "receipt_base_model_before_rates",
+        "payment_integrity_lineage_before_savings_credit",
+        "net_interest_feedback_before_solver_outputs",
+        "missing_values_remain_null",
+        "blocked_gates_remain_false",
+    ] {
+        if rules.get(required).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("post-rollup sequence rule failed: {required}"));
+        }
+    }
+
+    let work_queue = queue
+        .get("work_queue")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("post-rollup work queue")?;
+    if work_queue.len() != 8 {
+        return Err("post-rollup work queue must contain eight items".to_string());
+    }
+    let expected_ids = [
+        "source_custody_and_current_law_paths",
+        "trust_fund_and_fund_group_reconciliation",
+        "outcome_floor_thresholds",
+        "policy_specific_scored_scenarios",
+        "receipt_base_distribution_and_rate_model",
+        "payment_integrity_scoring_lineage",
+        "net_interest_feedback_fixture",
+        "deterministic_solver_dry_run",
+    ];
+    for (index, item) in work_queue.iter().enumerate() {
+        if int_field(item, "rank")? != (index as i64) + 1
+            || string_field(item, "work_id")? != expected_ids[index]
+            || !item.get("value").is_some_and(serde_json::Value::is_null)
+            || item.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+        {
+            return Err(format!(
+                "post-rollup work item failed at rank {}",
+                index + 1
+            ));
+        }
+        for field in [
+            "title",
+            "status",
+            "why_first",
+            "why_second",
+            "why_third",
+            "why_fourth",
+            "why_fifth",
+            "why_sixth",
+            "why_seventh",
+            "why_eighth",
+        ] {
+            if item.get(field).is_some() && string_field(item, field)?.is_empty() {
+                return Err(format!("post-rollup item empty field: {field}"));
+            }
+        }
+        let required_artifacts = item
+            .get("required_artifacts_before_complete")
+            .and_then(serde_json::Value::as_array)
+            .ok_or("post-rollup required artifacts")?;
+        let blocked_outputs = item
+            .get("blocked_outputs")
+            .and_then(serde_json::Value::as_array)
+            .ok_or("post-rollup blocked outputs")?;
+        if required_artifacts.len() < 6 || blocked_outputs.len() < 4 {
+            return Err("post-rollup item needs artifacts and blocked outputs".to_string());
+        }
+    }
+
+    let summary = queue
+        .get("aggregate_status")
+        .ok_or("post-rollup aggregate status")?;
+    if int_field(summary, "work_items")? != 8
+        || int_field(summary, "ready_items")? != 0
+        || summary
+            .get("current_law_values_populated")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || summary
+            .get("solver_inputs_ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || summary
+            .get("policy_scenarios_ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || summary
+            .get("rates_ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || summary
+            .get("public_claims_ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("post-rollup aggregate status failed".to_string());
+    }
+
+    let claims = queue
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("post-rollup claims")?;
+    for (field, value) in claims {
+        let observed = value.as_bool().ok_or("post-rollup claim bool")?;
+        if field == "post_rollup_readiness_work_queue_published" {
+            if !observed {
+                return Err("post-rollup publish flag must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!("post-rollup public claim {field} must be false"));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(POST_ROLLUP_READINESS_WORK_QUEUE_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    let reader_words = reader.split_whitespace().collect::<Vec<_>>().join(" ");
+    for required in [
+        POST_ROLLUP_READINESS_WORK_QUEUE_JSON_PATH,
+        "The next phase is ordered, not ready.",
+        "Capture source custody and official current-law paths.",
+        "Reconcile trust funds and the general fund.",
+        "Set outcome-floor thresholds and pass/fail evidence.",
+        "Build policy-specific scored scenarios.",
+        "Model receipt bases, distribution, incidence, administration, and rates.",
+        "Establish payment-integrity causal prevention or same-cohort collection lineage.",
+        "Add the net-interest feedback fixture.",
+        "Only then attempt a deterministic solver dry run.",
+        "Source custody comes before values.",
+        "Current-law paths come before policy scenarios.",
+        "Receipt-base modeling comes before rates.",
+        "Payment-integrity lineage comes before savings credit.",
+        "Net-interest feedback comes before solver outputs.",
+        "Every work item is still blocked.",
+        "Values remain null and readiness gates remain false.",
+        "not current-law values",
+        "not a solver run",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader_words.contains(required) {
+            return Err(format!("post-rollup reader missing {required}"));
+        }
+    }
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -22517,6 +22719,12 @@ mod global_country_comparison_tests {
     fn wave_lane_depth_scaffold_rollup_covers_all_lanes_without_claims() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_wave_lane_depth_scaffold_rollup(&root).unwrap();
+    }
+
+    #[test]
+    fn post_rollup_readiness_work_queue_orders_work_without_outputs() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_post_rollup_readiness_work_queue(&root).unwrap();
     }
 
     #[test]

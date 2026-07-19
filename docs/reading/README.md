@@ -77,6 +77,7 @@ explainers. They should keep three labels visible:
 | `wave4-component-and-pilot-lane-depth-packets.md` | Pulse 115 Wave 4 scaffold: Agriculture, International affairs, and Transportation/infrastructure explainability packets with all rate/savings/claim gates blocked. |
 | `wave5-fiscal-control-overlay-depth-packets.md` | Pulse 116 Wave 5 scaffold: revenue-solvency, payment-integrity, and net-interest overlay explainability packets with all rate/savings/claim gates blocked. |
 | `wave-lane-depth-scaffold-rollup.md` | Pulse 117 rollup: all 15 analytical lanes have scaffolded explainability packets, but zero lanes are complete, solver-ready, rate-ready, or claim-ready. |
+| `post-rollup-readiness-work-queue.md` | Pulse 118 queue: ordered next work after scaffold coverage, with all values/rates/solver/claim outputs still blocked. |
 | `rate-change-worked-examples.md` | Three end-to-end examples of the rate-adjustment operating model (defense up, health down, Social Security cap lift). |
 | `budget-area-funding-explainer.md` | Lay distillation of the six panel-reviewed research papers: where the US over-funds (health), under-funds (family), funds by strategy (defense), runs a broken base (Social Security), and under-collects overall (revenue). Points to `docs/papers/`. |
 | `where-federal-money-goes.md` | Spending-side packet showing the largest FY2025 outlay categories, financing context, and safe accountability questions. |
@@ -360,6 +361,11 @@ It is the bounded public surface, not a performance or savings report.
     the scaffold coverage statement only; it still blocks completion, rates,
     solver use, target costs, savings, waste/fraud, department-cut,
     technology-savings, and balanced-budget claims.
+87. Read `post-rollup-readiness-work-queue.md` before starting post-scaffold
+    implementation. It fixes source custody and current-law paths as the first
+    work, and keeps values, policy scores, rates, solver outputs, savings,
+    waste/fraud findings, department cuts, technology savings, and
+    balanced-budget claims blocked.
 
 ## Public-Use Guardrail
 

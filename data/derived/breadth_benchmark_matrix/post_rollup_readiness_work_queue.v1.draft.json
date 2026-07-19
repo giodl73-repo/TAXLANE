@@ -1,0 +1,142 @@
+{
+  "record_id": "post-rollup-readiness-work-queue:v1",
+  "record_family": "post_rollup_readiness_work_queue",
+  "version": "v1.draft",
+  "status": "draft_sequence_after_scaffold_rollup_no_inputs_populated",
+  "pulse": 118,
+  "wave_lane_depth_scaffold_rollup_path": "data/derived/breadth_benchmark_matrix/wave_lane_depth_scaffold_rollup.v1.draft.json",
+  "current_law_source_custody_preflight_path": "data/derived/breadth_benchmark_matrix/current_law_source_custody_preflight.v1.draft.json",
+  "current_law_path_inventory_path": "data/derived/breadth_benchmark_matrix/current_law_path_inventory.v1.draft.json",
+  "solver_input_readiness_rollup_path": "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json",
+  "balanced_rate_readiness_gate_path": "data/derived/breadth_benchmark_matrix/balanced_rate_readiness_gate.v1.draft.json",
+  "purpose": "Turn the post-Waves 1-5 scaffold rollup into a strict next-work queue that prevents solver, rate, savings, waste/fraud, department-cut, technology-savings, or balanced-budget claims before required evidence is ready.",
+  "sequence_rules": {
+    "source_custody_before_values": true,
+    "current_law_paths_before_policy_scenarios": true,
+    "outcome_floors_before_lower_cost_scenarios": true,
+    "policy_specific_scores_before_federal_effects": true,
+    "receipt_base_model_before_rates": true,
+    "payment_integrity_lineage_before_savings_credit": true,
+    "net_interest_feedback_before_solver_outputs": true,
+    "missing_values_remain_null": true,
+    "blocked_gates_remain_false": true
+  },
+  "work_queue": [
+    {
+      "rank": 1,
+      "work_id": "source_custody_and_current_law_paths",
+      "title": "Source custody and official current-law paths",
+      "status": "blocked_not_started",
+      "why_first": "No solver input, policy delta, or public rate can be trusted until official annual source custody and current-law paths exist.",
+      "required_artifacts_before_complete": ["raw bytes", "metadata", "retrieval date", "byte count", "sha256", "review status", "annual years covered", "component mapping"],
+      "blocked_outputs": ["current_law_path_values", "solver_inputs", "policy_deltas", "rates", "public_rate_cards"],
+      "value": null,
+      "ready": false
+    },
+    {
+      "rank": 2,
+      "work_id": "trust_fund_and_fund_group_reconciliation",
+      "title": "Trust-fund and general-fund annual reconciliation",
+      "status": "blocked_until_current_law_custody",
+      "why_second": "OASDI, Medicare HI, transportation trust funds, the general fund, reserves, and explicit interfund transfers must reconcile before any integrated solver output.",
+      "required_artifacts_before_complete": ["OASDI annual path", "Medicare HI annual path", "transportation trust-fund annual values", "general-fund annual path", "explicit transfers", "credited offsets", "rounding line"],
+      "blocked_outputs": ["fund_balances", "debt_path", "deficit_gap", "balanced_budget_claim"],
+      "value": null,
+      "ready": false
+    },
+    {
+      "rank": 3,
+      "work_id": "outcome_floor_thresholds",
+      "title": "Outcome-floor thresholds and pass/fail evidence",
+      "status": "blocked_until_lane_specific_evidence",
+      "why_third": "Every lower-cost scenario must pass access, quality, equity, adequacy/resilience, and delivery-feasibility floors.",
+      "required_artifacts_before_complete": ["lane-specific floor definitions", "threshold rationale", "baseline floor values", "policy floor values", "stress floor values", "review status"],
+      "blocked_outputs": ["lower_cost_scenario_admissibility", "target_costs", "department_cut_instructions", "technology_savings_claims"],
+      "value": null,
+      "ready": false
+    },
+    {
+      "rank": 4,
+      "work_id": "policy_specific_scored_scenarios",
+      "title": "Policy-specific scored scenarios",
+      "status": "blocked_until_current_law_and_floors",
+      "why_fourth": "Federal effects require actual policy instruments, behavior, transition cost, incidence, administration, and floor passage, not sensitivity arithmetic.",
+      "required_artifacts_before_complete": ["policy instrument", "service/provider or program segmentation", "phase-in", "behavior response", "transition/admin cost", "incidence", "score provenance", "floor pass results"],
+      "blocked_outputs": ["federal_effects", "gross_savings", "net_savings", "solver_values", "target_costs"],
+      "value": null,
+      "ready": false
+    },
+    {
+      "rank": 5,
+      "work_id": "receipt_base_distribution_and_rate_model",
+      "title": "Receipt-base, distribution, and rate model",
+      "status": "blocked_until_target_requirements_and_receipt_bases",
+      "why_fifth": "Statutory and effective rates cannot be published before matched receipt bases, behavior, incidence, distribution, administration, and interactions are modeled.",
+      "required_artifacts_before_complete": ["matched year", "legal perimeter", "economic perimeter", "baseline amount", "elasticity", "avoidance/compliance", "burden", "distribution by income", "tax interactions", "current-law yield", "reform yield"],
+      "blocked_outputs": ["statutory_rates", "effective_rates", "public_rate_cards", "tax_proposal", "balanced_rate_claim"],
+      "value": null,
+      "ready": false
+    },
+    {
+      "rank": 6,
+      "work_id": "payment_integrity_scoring_lineage",
+      "title": "Payment-integrity scoring lineage",
+      "status": "blocked_until_causal_or_same_cohort_lineage",
+      "why_sixth": "Payment integrity is non-additive and cannot produce savings credit without causal prevention or same-cohort debt-to-collection lineage.",
+      "required_artifacts_before_complete": ["sampled-payment lineage", "final classification", "established debt", "appeals/reversals", "collectibility", "cash collections", "write-offs", "prevention attribution", "control cost", "access and false-positive floors"],
+      "blocked_outputs": ["recoverable_savings", "net_savings", "fraud_claims", "waste_claims", "solver_savings_credit"],
+      "value": null,
+      "ready": false
+    },
+    {
+      "rank": 7,
+      "work_id": "net_interest_feedback_fixture",
+      "title": "Net-interest feedback fixture",
+      "status": "blocked_until_debt_maturity_rate_inputs",
+      "why_seventh": "Net interest is endogenous; primary-balance changes must recompute deficit, debt, maturity-bucket debt stock, and future interest before solver outputs.",
+      "required_artifacts_before_complete": ["baseline debt stock", "baseline net interest", "maturity bucket schedule", "effective rate path", "new borrowing timing", "interest receipts", "explicit other financing", "primary-balance shock fixture", "expected debt and interest movement"],
+      "blocked_outputs": ["net_interest_path", "debt_path", "solver_outputs", "balanced_budget_claim"],
+      "value": null,
+      "ready": false
+    },
+    {
+      "rank": 8,
+      "work_id": "deterministic_solver_dry_run",
+      "title": "Deterministic solver dry run",
+      "status": "blocked_until_all_required_inputs_ready",
+      "why_eighth": "Only after current-law paths, fund reconciliation, floors, policy scores, receipt bases, payment-integrity lineage, and net-interest feedback exist can a narrow deterministic solver run.",
+      "required_artifacts_before_complete": ["all required solver inputs ready", "baseline plus ten-year horizon", "explicit deficit gap", "rounding line", "distribution placeholder", "fund balances", "reserve path", "debt path"],
+      "blocked_outputs": ["solver_run", "target_costs", "rates", "public_rate_cards", "balanced_budget_claim"],
+      "value": null,
+      "ready": false
+    }
+  ],
+  "aggregate_status": {
+    "work_items": 8,
+    "ready_items": 0,
+    "current_law_values_populated": false,
+    "solver_inputs_ready": false,
+    "policy_scenarios_ready": false,
+    "rates_ready": false,
+    "public_claims_ready": false
+  },
+  "claim_booleans": {
+    "post_rollup_readiness_work_queue_published": true,
+    "work_item_completed": false,
+    "current_law_path_values_published": false,
+    "solver_inputs_ready": false,
+    "solver_run_published": false,
+    "target_cost_published": false,
+    "statutory_rate_published": false,
+    "effective_rate_published": false,
+    "public_rate_card_published": false,
+    "tax_proposal_published": false,
+    "savings_claim_published": false,
+    "waste_finding_published": false,
+    "fraud_finding_published": false,
+    "department_cut_instruction_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "plain_english_status": "The next phase is ordered, not ready. First capture official source custody and current-law annual paths. Then reconcile funds, set outcome floors, build policy-specific scores, model receipt bases and distribution, establish payment-integrity lineage, add net-interest feedback, and only then attempt a deterministic solver dry run. This queue publishes no values, rates, savings, waste/fraud findings, department cuts, technology savings, solver outputs, or balanced-budget claim."
+}
