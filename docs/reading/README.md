@@ -70,6 +70,7 @@ explainers. They should keep three labels visible:
 | `rate-publication-readiness-rollup.md` | Pulse 131 rollup: ties assigned-base, distribution/incidence, administration/compliance, interaction/macro, and public-review blockers together with all rate outputs still null. |
 | `receipt-base-local-source-inventory.md` | Pulse 132 inventory: records already-local receipt-base source custody and gaps while keeping assigned base amounts, yields, rates, solver inputs, and public claims blocked. |
 | `receipt-base-source-work-queue.md` | Pulse 133 queue: names source-capture and extraction tasks required for assigned receipt bases while keeping source capture, values, rates, solver inputs, and public claims blocked. |
+| `omb-receipt-category-context.md` | Pulse 134 context: extracts FY2025 OMB Table 2.4 receipt-category context while keeping legal/economic assigned bases, rates, solver inputs, and public claims blocked. |
 | `solver-input-readiness-rollup.md` | Pulse 107 rollup: summarizes all twelve deterministic solver inputs while keeping every input not ready/null. |
 | `current-law-path-inventory.md` | Pulse 108 inventory: names required FY2025-FY2035 official annual current-law paths while keeping values null. |
 | `current-law-source-custody-preflight.md` | Pulse 109 preflight: defines current-law source custody packet requirements while keeping all source and value fields null. |

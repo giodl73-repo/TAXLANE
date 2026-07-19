@@ -675,3 +675,10 @@ inventory into explicit source-capture and extraction tasks for assigned receipt
 bases. It keeps every work item not started, not ready, and external-contact
 blocked while all base amounts, yields, rates, solver inputs, public rate cards,
 tax proposals, savings, and balanced-budget outputs remain null.
+
+`omb_receipt_category_context.fy2025.v1.draft.json` extracts FY2025 social
+insurance, retirement, and excise receipt-category context from the already-local
+OMB Historical Table 2.4 workbook. It treats receipt categories as fiscal
+context only, not legal or economic assigned receipt bases, and keeps rates,
+solver inputs, public rate cards, tax proposals, savings, and balanced-budget
+outputs blocked.

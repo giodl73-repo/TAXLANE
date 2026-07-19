@@ -480,6 +480,12 @@ const RECEIPT_BASE_SOURCE_WORK_QUEUE_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/receipt_base_source_work_queue.schema.md";
 const RECEIPT_BASE_SOURCE_WORK_QUEUE_READER_PATH: &str =
     "docs/reading/receipt-base-source-work-queue.md";
+const OMB_RECEIPT_CATEGORY_CONTEXT_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/omb_receipt_category_context.fy2025.v1.draft.json";
+const OMB_RECEIPT_CATEGORY_CONTEXT_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/omb_receipt_category_context.schema.md";
+const OMB_RECEIPT_CATEGORY_CONTEXT_READER_PATH: &str =
+    "docs/reading/omb-receipt-category-context.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11129,6 +11135,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_rate_publication_readiness_rollup(root)?;
     validate_receipt_base_local_source_inventory(root)?;
     validate_receipt_base_source_work_queue(root)?;
+    validate_omb_receipt_category_context(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -20859,6 +20866,295 @@ fn validate_receipt_base_source_work_queue(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_omb_receipt_category_context(root: &Path) -> Result<(), String> {
+    for path in [
+        OMB_RECEIPT_CATEGORY_CONTEXT_JSON_PATH,
+        OMB_RECEIPT_CATEGORY_CONTEXT_SCHEMA_PATH,
+        OMB_RECEIPT_CATEGORY_CONTEXT_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing OMB receipt category context artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(OMB_RECEIPT_CATEGORY_CONTEXT_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let context: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&context, "record_id")? != "omb-receipt-category-context:fy2025:v1"
+        || string_field(&context, "record_family")? != "omb_receipt_category_context"
+        || int_field(&context, "pulse")? != 134
+        || int_field(&context, "fiscal_year")? != 2025
+        || string_field(&context, "year_basis")? != "fiscal_year"
+        || string_field(&context, "unit")? != "millions_of_dollars"
+        || string_field(&context, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&context, "receipt_base_source_work_queue_path")?
+            != RECEIPT_BASE_SOURCE_WORK_QUEUE_JSON_PATH
+        || string_field(&context, "receipt_base_local_source_inventory_path")?
+            != RECEIPT_BASE_LOCAL_SOURCE_INVENTORY_JSON_PATH
+    {
+        return Err("OMB receipt category context identity failed".to_string());
+    }
+
+    for path in [
+        string_field(&context, "contract_path")?,
+        string_field(&context, "receipt_base_source_work_queue_path")?,
+        string_field(&context, "receipt_base_local_source_inventory_path")?,
+    ] {
+        if !root.join(&path).exists() {
+            return Err(format!(
+                "OMB receipt category referenced path missing: {path}"
+            ));
+        }
+    }
+
+    let custody = context
+        .get("source_custody")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("OMB receipt category source custody")?;
+    if custody.get("source_id").and_then(serde_json::Value::as_str)
+        != Some("SRC-OMB-HIST-2-4-FY2027")
+        || custody
+            .get("raw_byte_count")
+            .and_then(serde_json::Value::as_i64)
+            != Some(26752)
+        || custody
+            .get("metadata_byte_count")
+            .and_then(serde_json::Value::as_i64)
+            != Some(909)
+        || custody
+            .get("raw_sha256")
+            .and_then(serde_json::Value::as_str)
+            != Some("21d071576d5627a18c3f62de86bfc7faeced1a68265f2db87b4f737b2773c5bd")
+        || custody
+            .get("metadata_sha256")
+            .and_then(serde_json::Value::as_str)
+            != Some("939d86fcbe66a7c289b7e23a4a7979fbdcac030fd138cdfe0107b1aa1cfeac46")
+    {
+        return Err("OMB receipt category custody metadata failed".to_string());
+    }
+    for field in [
+        "official_sources_only",
+        "no_external_request_submitted_this_pulse",
+        "no_agency_or_person_contacted",
+    ] {
+        if custody.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("OMB receipt category custody {field} must be true"));
+        }
+    }
+    for path_field in ["raw_artifact_path", "metadata_path"] {
+        let path = custody
+            .get(path_field)
+            .and_then(serde_json::Value::as_str)
+            .ok_or("OMB receipt category custody path")?;
+        if !root.join(path).exists() {
+            return Err(format!("OMB receipt category custody path missing: {path}"));
+        }
+    }
+
+    let extraction = context
+        .get("extraction")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("OMB receipt category extraction")?;
+    if extraction
+        .get("source_column_year")
+        .and_then(serde_json::Value::as_str)
+        != Some("2025")
+        || extraction
+            .get("source_column_index")
+            .and_then(serde_json::Value::as_i64)
+            != Some(88)
+        || extraction
+            .get("extracted_rows_are_receipt_category_context")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || extraction
+            .get("extracted_rows_are_assigned_receipt_bases")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("OMB receipt category extraction flags failed".to_string());
+    }
+
+    let rows = context
+        .get("receipt_category_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("OMB receipt category rows")?;
+    if rows.len() != 34 {
+        return Err("OMB receipt category row count failed".to_string());
+    }
+    let mut amounts = BTreeMap::new();
+    for row in rows {
+        amounts.insert(string_field(row, "row_id")?, int_field(row, "amount_musd")?);
+    }
+
+    let employment = amounts["oas_trust_funds_off_budget"]
+        + amounts["di_off_budget"]
+        + amounts["hospital_insurance"]
+        + amounts["railroad_retirement_trust_funds"]
+        + amounts["railroad_social_security_equivalent_account"];
+    let social = amounts["employment_general_retirement_total"]
+        + amounts["unemployment_insurance_total"]
+        + amounts["other_retirement_total"];
+    let excise_federal = amounts["alcohol_excise_federal_funds"]
+        + amounts["tobacco_excise_federal_funds"]
+        + amounts["telephone_excise_federal_funds"]
+        + amounts["transportation_fuels_excise_federal_funds"]
+        + amounts["corporate_stock_repurchases_excise_federal_funds"]
+        + amounts["indoor_tanning_services_excise_federal_funds"]
+        + amounts["other_excise_federal_funds"];
+    let excise_trust = amounts["transportation_excise_trust_funds"]
+        + amounts["airport_airway_excise_trust_funds"]
+        + amounts["black_lung_disability_excise_trust_funds"]
+        + amounts["inland_waterway_excise_trust_funds"]
+        + amounts["hazardous_substance_superfund_excise_trust_funds"]
+        + amounts["oil_spill_liability_excise_trust_funds"]
+        + amounts["aquatic_resources_excise_trust_funds"]
+        + amounts["leaking_underground_storage_tank_excise_trust_funds"]
+        + amounts["tobacco_assessments_excise_trust_funds"]
+        + amounts["vaccine_injury_compensation_excise_trust_funds"]
+        + amounts["supplementary_medical_insurance_excise_trust_funds"]
+        + amounts["patient_centered_outcomes_research_excise_trust_funds"];
+    let excise = amounts["excise_federal_funds_total"] + amounts["excise_trust_funds_total"];
+    let context_total =
+        amounts["social_insurance_retirement_total"] + amounts["excise_taxes_total"];
+
+    let checks = context
+        .get("reconciliation_checks")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("OMB receipt category checks")?;
+    for (field, value) in [
+        (
+            "employment_general_retirement_components_sum_musd",
+            employment,
+        ),
+        (
+            "employment_general_retirement_total_musd",
+            amounts["employment_general_retirement_total"],
+        ),
+        ("social_insurance_retirement_components_sum_musd", social),
+        (
+            "social_insurance_retirement_total_musd",
+            amounts["social_insurance_retirement_total"],
+        ),
+        ("excise_federal_funds_components_sum_musd", excise_federal),
+        (
+            "excise_federal_funds_total_musd",
+            amounts["excise_federal_funds_total"],
+        ),
+        ("excise_trust_funds_components_sum_musd", excise_trust),
+        (
+            "excise_trust_funds_total_musd",
+            amounts["excise_trust_funds_total"],
+        ),
+        ("excise_components_sum_musd", excise),
+        ("excise_total_musd", amounts["excise_taxes_total"]),
+        ("context_total_musd", context_total),
+    ] {
+        if checks.get(field).and_then(serde_json::Value::as_i64) != Some(value) {
+            return Err(format!("OMB receipt category check {field} failed"));
+        }
+    }
+    if employment != amounts["employment_general_retirement_total"]
+        || social != amounts["social_insurance_retirement_total"]
+        || excise_federal != amounts["excise_federal_funds_total"]
+        || excise_trust != amounts["excise_trust_funds_total"]
+        || excise != amounts["excise_taxes_total"]
+        || context_total != 1_854_231
+    {
+        return Err("OMB receipt category recomputation failed".to_string());
+    }
+
+    let blocked = context
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("OMB receipt category blocked outputs")?;
+    for field in [
+        "legal_receipt_base_amounts",
+        "economic_receipt_base_amounts",
+        "assigned_base_rates",
+        "behavioral_elasticities",
+        "current_law_yields",
+        "reform_yields",
+        "public_rate_cards",
+        "solver_input_rows",
+        "tax_proposal_fields",
+        "balanced_budget_fields",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "OMB receipt category blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let claims = context
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("OMB receipt category claims")?;
+    if claims
+        .get("receipt_category_context_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("OMB receipt category context published flag must be true".to_string());
+    }
+    for field in [
+        "assigned_receipt_base_published",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+        "statutory_rate_claim",
+        "effective_rate_claim",
+        "public_rate_card_claim",
+        "tax_proposal_claim",
+        "balanced_budget_claim",
+        "target_cost_claim",
+        "federal_effect_claim",
+        "gross_savings_claim",
+        "net_savings_claim",
+        "waste_finding_claim",
+        "fraud_finding_claim",
+        "technology_savings_claim",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("OMB receipt category claim {field} must be false"));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(OMB_RECEIPT_CATEGORY_CONTEXT_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for phrase in [
+        OMB_RECEIPT_CATEGORY_CONTEXT_JSON_PATH,
+        "OMB receipt categories are fiscal receipt context, not legal or economic assigned receipt bases.",
+        "The extracted FY2025 values do not authorize statutory rates, effective rates, public rate cards, solver inputs, tax proposals, or balanced-budget claims.",
+        "A receipt category amount is not the denominator for an effective tax rate.",
+        "Missing source-display rows remain omitted or null, never zero-filled.",
+        "No external request was submitted and no agency or person was contacted.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "OMB receipt category reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -26825,6 +27121,12 @@ mod global_country_comparison_tests {
     fn receipt_base_source_work_queue_blocks_values_and_external_contact() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_receipt_base_source_work_queue(&root).unwrap();
+    }
+
+    #[test]
+    fn omb_receipt_category_context_recomputes_without_base_or_rate_claims() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_omb_receipt_category_context(&root).unwrap();
     }
 
     #[test]
