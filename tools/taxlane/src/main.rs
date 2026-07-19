@@ -456,6 +456,12 @@ const CURRENT_LAW_PATH_INVENTORY_JSON_PATH: &str =
 const CURRENT_LAW_PATH_INVENTORY_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/current_law_path_inventory.schema.md";
 const CURRENT_LAW_PATH_INVENTORY_READER_PATH: &str = "docs/reading/current-law-path-inventory.md";
+const CURRENT_LAW_SOURCE_CUSTODY_PREFLIGHT_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/current_law_source_custody_preflight.v1.draft.json";
+const CURRENT_LAW_SOURCE_CUSTODY_PREFLIGHT_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/current_law_source_custody_preflight.schema.md";
+const CURRENT_LAW_SOURCE_CUSTODY_PREFLIGHT_READER_PATH: &str =
+    "docs/reading/current-law-source-custody-preflight.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -10986,6 +10992,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_distributional_effect_placeholder(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
+    validate_current_law_source_custody_preflight(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -19719,6 +19726,255 @@ fn validate_current_law_path_inventory(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_current_law_source_custody_preflight(root: &Path) -> Result<(), String> {
+    for path in [
+        CURRENT_LAW_SOURCE_CUSTODY_PREFLIGHT_JSON_PATH,
+        CURRENT_LAW_SOURCE_CUSTODY_PREFLIGHT_SCHEMA_PATH,
+        CURRENT_LAW_SOURCE_CUSTODY_PREFLIGHT_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing current-law source-custody preflight artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(CURRENT_LAW_SOURCE_CUSTODY_PREFLIGHT_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let preflight: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&preflight, "record_id")? != "current-law-source-custody-preflight:v1"
+        || string_field(&preflight, "record_family")? != "current_law_source_custody_preflight"
+        || int_field(&preflight, "pulse")? != 109
+        || string_field(&preflight, "current_law_path_inventory_path")?
+            != CURRENT_LAW_PATH_INVENTORY_JSON_PATH
+        || string_field(&preflight, "solver_input_readiness_rollup_path")?
+            != SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH
+        || string_field(&preflight, "program_lane_target_cost_contract_path")?
+            != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+    {
+        return Err("current-law source-custody preflight identity failed".to_string());
+    }
+
+    let requirements = preflight
+        .get("custody_packet_requirements")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("current-law source-custody requirements")?
+        .iter()
+        .map(|value| {
+            value
+                .as_str()
+                .map(str::to_string)
+                .ok_or("current-law source-custody requirement string")
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+    if requirements
+        != [
+            "source_id",
+            "official_host_or_publisher",
+            "source_vintage",
+            "retrieval_date",
+            "raw_artifact_path",
+            "raw_byte_count",
+            "raw_sha256",
+            "metadata_path",
+            "extraction_method",
+            "annual_years_covered",
+            "component_mapping",
+            "review_status",
+        ]
+        .into_iter()
+        .map(str::to_string)
+        .collect::<Vec<_>>()
+    {
+        return Err("current-law source-custody requirement list changed".to_string());
+    }
+
+    let rows = preflight
+        .get("preflight_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("current-law source-custody rows")?;
+    let observed = rows
+        .iter()
+        .map(|row| string_field(row, "path_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected = [
+        "full_17_row_fy2025_ledger",
+        "baseline_plus_ten_year_horizon",
+        "oasdi_fund_path",
+        "medicare_hi_fund_path",
+        "transportation_trust_fund_path",
+        "general_fund_path",
+        "health_fiscal_current_law_path",
+        "net_interest_current_law_path",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    if observed != expected || rows.len() != expected.len() {
+        return Err("current-law source-custody row set failed".to_string());
+    }
+
+    let nullable_fields = [
+        "source_id",
+        "official_host_or_publisher",
+        "source_vintage",
+        "retrieval_date",
+        "raw_artifact_path",
+        "raw_byte_count",
+        "raw_sha256",
+        "metadata_path",
+        "extraction_method",
+        "annual_years_covered",
+        "component_mapping",
+        "review_status",
+    ];
+    for row in rows {
+        if row.get("required").and_then(serde_json::Value::as_bool) != Some(true)
+            || row
+                .get("custody_ready")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+            || row
+                .get("values_may_be_populated")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+        {
+            return Err("current-law source-custody rows must be required/false/false".to_string());
+        }
+        if string_field(row, "candidate_official_source_family")?.is_empty() {
+            return Err("current-law source-custody rows must name source family".to_string());
+        }
+        for field in nullable_fields {
+            if !row.get(field).is_some_and(serde_json::Value::is_null) {
+                return Err(format!(
+                    "current-law source-custody field {field} must remain null"
+                ));
+            }
+        }
+        let blockers = row
+            .get("remaining_blockers")
+            .and_then(serde_json::Value::as_array)
+            .ok_or("current-law source-custody blockers")?;
+        if blockers.is_empty() {
+            return Err("current-law source-custody rows need blockers".to_string());
+        }
+    }
+
+    let rules = preflight
+        .get("preflight_rules")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("current-law source-custody rules")?;
+    for required in [
+        "no_external_request_submitted",
+        "no_source_values_captured",
+        "raw_bytes_required_before_value",
+        "metadata_required_before_value",
+        "retrieval_date_required_before_value",
+        "byte_count_required_before_value",
+        "sha256_required_before_value",
+        "review_required_before_value",
+        "missing_values_remain_null",
+    ] {
+        if rules.get(required).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("current-law source-custody rule failed {required}"));
+        }
+    }
+    if rules
+        .get("solver_ready")
+        .and_then(serde_json::Value::as_bool)
+        != Some(false)
+    {
+        return Err("current-law source-custody solver_ready must be false".to_string());
+    }
+
+    let claims = preflight
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("current-law source-custody claims")?;
+    for (field, value) in claims {
+        let observed = value
+            .as_bool()
+            .ok_or("current-law source-custody claim bool")?;
+        if field == "current_law_source_custody_preflight_published" {
+            if !observed {
+                return Err("current-law source-custody publish flag must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!(
+                "current-law source-custody public claim {field} must be false"
+            ));
+        }
+    }
+
+    let boundary = string_field(&preflight, "non_claim_boundary")?;
+    for required in [
+        "current-law source-custody preflight",
+        "not source custody",
+        "not current-law path values",
+        "not a solver run",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !boundary.contains(required) {
+            return Err(format!(
+                "current-law source-custody boundary missing {required}"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(CURRENT_LAW_SOURCE_CUSTODY_PREFLIGHT_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        CURRENT_LAW_SOURCE_CUSTODY_PREFLIGHT_JSON_PATH,
+        "does not publish source custody",
+        "does not publish current-law path values",
+        "No external request was submitted",
+        "No source values were captured",
+        "raw bytes",
+        "metadata",
+        "retrieval date",
+        "byte count",
+        "SHA-256",
+        "review",
+        "full 17-row FY2025 ledger",
+        "baseline plus ten-year unified horizon",
+        "OASDI annual fund path",
+        "Medicare HI annual fund path",
+        "transportation trust-fund annual values",
+        "general fund annual path",
+        "health fiscal current-law path",
+        "net interest current-law path",
+        "not source custody",
+        "not current-law path values",
+        "not a solver run",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!(
+                "current-law source-custody reader missing {required}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -19937,6 +20193,12 @@ mod global_country_comparison_tests {
     fn current_law_path_inventory_keeps_annual_values_null() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_current_law_path_inventory(&root).unwrap();
+    }
+
+    #[test]
+    fn current_law_source_custody_preflight_keeps_sources_null() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_current_law_source_custody_preflight(&root).unwrap();
     }
 
     #[test]

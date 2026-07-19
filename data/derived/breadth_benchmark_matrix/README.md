@@ -197,6 +197,11 @@ contracts. Every input remains not ready with a null value.
 current-law paths required for the FY2025-through-FY2035 solver horizon. It
 adds no annual values, allows no interpolation, and keeps trust funds separate.
 
+`current_law_source_custody_preflight.v1.draft.json` defines the source-custody
+packet required before current-law annual path values may be populated. It
+submits no external request, captures no source values, and leaves all custody
+fields null.
+
 `oecd_cofog_country_panel.data2022.v1.draft.json` is the first observed batch:
 99 captured 2022 country/function observations and 11 explicit missing cells
 across 11 countries and ten COFOG divisions. Its reader is
