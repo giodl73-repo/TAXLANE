@@ -598,3 +598,9 @@ data-bearing current-law custody packet. It records existing local OMB Historica
 Table custody and publishes the FY2025 baseline-year 17-row ledger, including
 the two negative fiscal reconciliation rows, while keeping ten-year paths,
 solver inputs, target costs, rates, and public fiscal claims blocked.
+
+`current_law_baseline_annual_path_partial.v1.draft.json` extends the data-bearing
+current-law baseline with official OMB Public Budget Database outlay totals for
+FY2025-FY2031. It leaves FY2032-FY2035, forward receipts, and forward deficits
+null, prohibits interpolation, and keeps complete-horizon, solver, target-cost,
+rate, and public fiscal claims blocked.
