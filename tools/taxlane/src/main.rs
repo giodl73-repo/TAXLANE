@@ -519,6 +519,11 @@ const CURRENT_LAW_SOURCE_CUSTODY_BATCH_PLAN_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/current_law_source_custody_batch_plan.schema.md";
 const CURRENT_LAW_SOURCE_CUSTODY_BATCH_PLAN_READER_PATH: &str =
     "docs/reading/current-law-source-custody-batch-plan.md";
+const CURRENT_LAW_SOURCE_CUSTODY_PACKET_TEMPLATE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/current_law_source_custody_packet_template.v1.draft.json";
+const CURRENT_LAW_SOURCE_CUSTODY_PACKET_TEMPLATE_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/current_law_source_custody_packet_template.schema.md";
+const CURRENT_LAW_SOURCE_CUSTODY_PACKET_TEMPLATE_READER_PATH: &str =
+    "docs/reading/current-law-source-custody-packet-template.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -11060,6 +11065,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_wave_lane_depth_scaffold_rollup(root)?;
     validate_post_rollup_readiness_work_queue(root)?;
     validate_current_law_source_custody_batch_plan(root)?;
+    validate_current_law_source_custody_packet_template(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -22678,6 +22684,283 @@ fn validate_current_law_source_custody_batch_plan(root: &Path) -> Result<(), Str
     Ok(())
 }
 
+fn validate_current_law_source_custody_packet_template(root: &Path) -> Result<(), String> {
+    for path in [
+        CURRENT_LAW_SOURCE_CUSTODY_PACKET_TEMPLATE_JSON_PATH,
+        CURRENT_LAW_SOURCE_CUSTODY_PACKET_TEMPLATE_SCHEMA_PATH,
+        CURRENT_LAW_SOURCE_CUSTODY_PACKET_TEMPLATE_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing current-law custody packet template artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(CURRENT_LAW_SOURCE_CUSTODY_PACKET_TEMPLATE_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let template: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&template, "record_id")? != "current-law-source-custody-packet-template:v1"
+        || string_field(&template, "record_family")? != "current_law_source_custody_packet_template"
+        || int_field(&template, "pulse")? != 120
+        || string_field(&template, "current_law_source_custody_batch_plan_path")?
+            != CURRENT_LAW_SOURCE_CUSTODY_BATCH_PLAN_JSON_PATH
+        || string_field(&template, "current_law_source_custody_preflight_path")?
+            != CURRENT_LAW_SOURCE_CUSTODY_PREFLIGHT_JSON_PATH
+        || string_field(&template, "current_law_path_inventory_path")?
+            != CURRENT_LAW_PATH_INVENTORY_JSON_PATH
+    {
+        return Err("current-law custody packet template identity failed".to_string());
+    }
+
+    let rules = template
+        .get("template_rules")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("current-law custody packet template rules")?;
+    for required in [
+        "template_only_no_capture",
+        "no_external_request_submitted",
+        "no_agency_or_person_contacted",
+        "official_sources_only",
+        "raw_bytes_required_before_value",
+        "metadata_required_before_value",
+        "retrieval_date_required_before_value",
+        "byte_count_required_before_value",
+        "sha256_required_before_value",
+        "review_required_before_value",
+        "component_mapping_required_before_value",
+        "annual_years_covered_required_before_value",
+        "missing_values_remain_null",
+        "blocked_gates_remain_false",
+    ] {
+        if rules.get(required).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "current-law custody packet template rule failed: {required}"
+            ));
+        }
+    }
+
+    let expected_fields = [
+        "packet_id",
+        "path_id",
+        "batch_id",
+        "source_id",
+        "official_host_or_publisher",
+        "source_vintage",
+        "retrieval_date",
+        "raw_artifact_path",
+        "raw_byte_count",
+        "raw_sha256",
+        "metadata_path",
+        "extraction_method",
+        "annual_years_covered",
+        "component_mapping",
+        "review_status",
+        "custody_ready",
+        "values_may_be_populated",
+        "claim_booleans",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let observed_fields = template
+        .get("required_packet_fields")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("current-law custody packet template required fields")?
+        .iter()
+        .map(|value| {
+            value
+                .as_str()
+                .map(str::to_string)
+                .ok_or("current-law custody packet template field string")
+        })
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if observed_fields != expected_fields {
+        return Err("current-law custody packet template required field set failed".to_string());
+    }
+
+    let packet = template
+        .get("packet_template")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("current-law custody packet template object")?;
+    for field in [
+        "packet_id",
+        "path_id",
+        "batch_id",
+        "source_id",
+        "official_host_or_publisher",
+        "source_vintage",
+        "retrieval_date",
+        "raw_artifact_path",
+        "raw_byte_count",
+        "raw_sha256",
+        "metadata_path",
+        "extraction_method",
+        "annual_years_covered",
+        "component_mapping",
+        "review_status",
+    ] {
+        if !packet.get(field).is_some_and(serde_json::Value::is_null) {
+            return Err(format!(
+                "current-law custody packet template field {field} must be null"
+            ));
+        }
+    }
+    if packet
+        .get("custody_ready")
+        .and_then(serde_json::Value::as_bool)
+        != Some(false)
+        || packet
+            .get("values_may_be_populated")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("current-law custody packet template gates must be false".to_string());
+    }
+    let packet_claims = packet
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("current-law custody packet template packet claims")?;
+    for (field, value) in packet_claims {
+        if value.as_bool() != Some(false) {
+            return Err(format!(
+                "current-law custody packet template packet claim {field} must be false"
+            ));
+        }
+    }
+
+    let expected_checks = [
+        "official_source",
+        "raw_artifact_path_exists",
+        "raw_byte_count_matches_file",
+        "raw_sha256_matches_file",
+        "metadata_path_exists",
+        "retrieval_date_present",
+        "source_vintage_present",
+        "extraction_method_present",
+        "annual_years_covered_match_required_horizon_or_declared_scope",
+        "component_mapping_reviewed",
+        "review_status_passed",
+        "no_values_populated_before_all_checks_pass",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let checks = template
+        .get("readiness_checks")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("current-law custody packet template readiness checks")?;
+    if checks.len() != expected_checks.len() {
+        return Err("current-law custody packet template readiness count failed".to_string());
+    }
+    let mut observed_checks = BTreeSet::new();
+    for check in checks {
+        observed_checks.insert(string_field(check, "check_id")?.to_string());
+        if check.get("required").and_then(serde_json::Value::as_bool) != Some(true)
+            || check.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+            || !check.get("value").is_some_and(serde_json::Value::is_null)
+        {
+            return Err("current-law custody packet template readiness gate failed".to_string());
+        }
+    }
+    if observed_checks != expected_checks {
+        return Err("current-law custody packet template readiness check set failed".to_string());
+    }
+
+    let blocked = template
+        .get("blocked_output_fields")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("current-law custody packet template blocked outputs")?;
+    let expected_blocked = [
+        "captured_packets",
+        "current_law_path_values",
+        "solver_inputs",
+        "policy_deltas",
+        "target_costs",
+        "rates",
+        "public_rate_cards",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    if blocked.keys().cloned().collect::<BTreeSet<_>>() != expected_blocked {
+        return Err("current-law custody packet template blocked output set failed".to_string());
+    }
+    for (field, value) in blocked {
+        if !value.is_null() {
+            return Err(format!(
+                "current-law custody packet template blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let claims = template
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("current-law custody packet template claims")?;
+    for (field, value) in claims {
+        let observed = value
+            .as_bool()
+            .ok_or("current-law custody packet template claim bool")?;
+        if field == "current_law_source_custody_packet_template_published" {
+            if !observed {
+                return Err(
+                    "current-law custody packet template publish flag must be true".to_string(),
+                );
+            }
+        } else if observed {
+            return Err(format!(
+                "current-law custody packet template public claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader =
+        fs::read_to_string(root.join(CURRENT_LAW_SOURCE_CUSTODY_PACKET_TEMPLATE_READER_PATH))
+            .map_err(|e| e.to_string())?;
+    let reader_words = reader.split_whitespace().collect::<Vec<_>>().join(" ");
+    for required in [
+        CURRENT_LAW_SOURCE_CUSTODY_PACKET_TEMPLATE_JSON_PATH,
+        "This is a template for future source-custody packets.",
+        "It captures no source and publishes no current-law value.",
+        "Future custody packets must identify the path, batch, source ID, official host or publisher, source vintage, retrieval date, raw artifact path, raw byte count, raw SHA-256, metadata path, extraction method, annual years covered, component mapping, review status, custody readiness, and whether values may be populated.",
+        "Before any values can be populated",
+        "raw artifact must exist",
+        "byte count must match",
+        "SHA-256 must match",
+        "metadata must exist",
+        "retrieval date and source vintage must be present",
+        "extraction method must be present",
+        "annual coverage and component mapping must be reviewed",
+        "review status must pass",
+        "No external request was submitted and no agency or person was contacted.",
+        "Missing values remain null and blocked gates remain false.",
+        "not source custody",
+        "not current-law path values",
+        "not solver inputs",
+        "not a solver run",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader_words.contains(required) {
+            return Err(format!(
+                "current-law custody packet template reader missing {required}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -22962,6 +23245,12 @@ mod global_country_comparison_tests {
     fn current_law_source_custody_batch_plan_blocks_values_and_claims() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_current_law_source_custody_batch_plan(&root).unwrap();
+    }
+
+    #[test]
+    fn current_law_source_custody_packet_template_blocks_capture_values_and_claims() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_current_law_source_custody_packet_template(&root).unwrap();
     }
 
     #[test]

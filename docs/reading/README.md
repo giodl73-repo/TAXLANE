@@ -79,6 +79,7 @@ explainers. They should keep three labels visible:
 | `wave-lane-depth-scaffold-rollup.md` | Pulse 117 rollup: all 15 analytical lanes have scaffolded explainability packets, but zero lanes are complete, solver-ready, rate-ready, or claim-ready. |
 | `post-rollup-readiness-work-queue.md` | Pulse 118 queue: ordered next work after scaffold coverage, with all values/rates/solver/claim outputs still blocked. |
 | `current-law-source-custody-batch-plan.md` | Pulse 119 plan: future custody batches for current-law source capture, with no sources, values, solver inputs, rates, or public claims populated. |
+| `current-law-source-custody-packet-template.md` | Pulse 120 template: exact future source-custody packet fields/checks, with no sources, values, solver inputs, rates, or public claims populated. |
 | `rate-change-worked-examples.md` | Three end-to-end examples of the rate-adjustment operating model (defense up, health down, Social Security cap lift). |
 | `budget-area-funding-explainer.md` | Lay distillation of the six panel-reviewed research papers: where the US over-funds (health), under-funds (family), funds by strategy (defense), runs a broken base (Social Security), and under-collects overall (revenue). Points to `docs/papers/`. |
 | `where-federal-money-goes.md` | Spending-side packet showing the largest FY2025 outlay categories, financing context, and safe accountability questions. |
@@ -371,6 +372,10 @@ It is the bounded public surface, not a performance or savings report.
     capture. It orders custody batches but captures no source values and
     preserves the no-contact, official-source, raw-byte, metadata, hash, and
     review gates.
+89. Read `current-law-source-custody-packet-template.md` before authoring any
+    future current-law custody packet. It defines the required fields and
+    readiness checks while keeping all capture data, values, solver inputs,
+    rates, and public claims blocked.
 
 ## Public-Use Guardrail
 

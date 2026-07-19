@@ -586,3 +586,9 @@ baseline, trust funds, health components, and net-interest/debt paths. It
 captures no sources, populates no values, contacts no agency or person, and
 keeps all solver, rate, savings, waste/fraud, department-cut,
 technology-savings, and balanced-budget claims blocked.
+
+`current_law_source_custody_packet_template.v1.draft.json` defines the exact
+future custody packet shape and readiness checks required before current-law
+annual values may be populated. It captures no source, publishes no values, and
+keeps all solver, rate, savings, waste/fraud, department-cut,
+technology-savings, and balanced-budget claims blocked.
