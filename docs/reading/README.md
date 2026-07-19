@@ -82,6 +82,7 @@ explainers. They should keep three labels visible:
 | `current-law-source-custody-packet-template.md` | Pulse 120 template: exact future source-custody packet fields/checks, with no sources, values, solver inputs, rates, or public claims populated. |
 | `current-law-fy2025-17-row-ledger-custody.md` | Pulse 121 data packet: source-custodied FY2025 current-law 17-row ledger, baseline-year only, with solver/rate/public-claim gates blocked. |
 | `current-law-baseline-annual-path-partial.md` | Pulse 122 data packet: partial official current-law outlay path for FY2025-FY2031, with FY2032-FY2035 and forward receipts/deficits still null. |
+| `current-law-baseline-receipts-deficit-path-partial.md` | Pulse 123 data packet: partial official current-law receipts and deficit path for FY2025-FY2031, with FY2032-FY2035 and fund/solver paths still blocked. |
 | `rate-change-worked-examples.md` | Three end-to-end examples of the rate-adjustment operating model (defense up, health down, Social Security cap lift). |
 | `budget-area-funding-explainer.md` | Lay distillation of the six panel-reviewed research papers: where the US over-funds (health), under-funds (family), funds by strategy (defense), runs a broken base (Social Security), and under-collects overall (revenue). Points to `docs/papers/`. |
 | `where-federal-money-goes.md` | Spending-side packet showing the largest FY2025 outlay categories, financing context, and safe accountability questions. |
@@ -386,6 +387,10 @@ It is the bounded public surface, not a performance or savings report.
     current-law outlay totals. It covers FY2025-FY2031 only and is not complete
     baseline, fund path, solver input, rate, target-cost, or balanced-budget
     evidence.
+92. Read `current-law-baseline-receipts-deficit-path-partial.md` when using
+    forward-year current-law receipts or deficit values. It covers FY2025-FY2031
+    only and is not a fund split, solver input, rate calculation, target-cost
+    selection, tax proposal, or balanced-budget claim.
 
 ## Public-Use Guardrail
 

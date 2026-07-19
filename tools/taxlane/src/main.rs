@@ -536,6 +536,10 @@ const CURRENT_LAW_BASELINE_ANNUAL_PATH_PARTIAL_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/current_law_baseline_annual_path_partial.schema.md";
 const CURRENT_LAW_BASELINE_ANNUAL_PATH_PARTIAL_READER_PATH: &str =
     "docs/reading/current-law-baseline-annual-path-partial.md";
+const CURRENT_LAW_BASELINE_RECEIPTS_DEFICIT_PATH_PARTIAL_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/current_law_baseline_receipts_deficit_path_partial.v1.draft.json";
+const CURRENT_LAW_BASELINE_RECEIPTS_DEFICIT_PATH_PARTIAL_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/current_law_baseline_receipts_deficit_path_partial.schema.md";
+const CURRENT_LAW_BASELINE_RECEIPTS_DEFICIT_PATH_PARTIAL_READER_PATH: &str =
+    "docs/reading/current-law-baseline-receipts-deficit-path-partial.md";
 const BUDGET_BALLOT_CONFIG_PATH: &str = "experiments/annual-budget-ballot/config.v1.json";
 const BUDGET_BALLOT_OUTPUT_PATH: &str =
     "experiments/annual-budget-ballot/outputs/synthetic-run.v1.json";
@@ -11080,6 +11084,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_current_law_source_custody_packet_template(root)?;
     validate_current_law_fy2025_17_row_ledger_custody(root)?;
     validate_current_law_baseline_annual_path_partial(root)?;
+    validate_current_law_baseline_receipts_deficit_path_partial(root)?;
     validate_international_comparator_target_rubric(root)?;
     validate_program_lane_target_cost_contract(root)?;
 
@@ -23601,6 +23606,359 @@ fn validate_current_law_baseline_annual_path_partial(root: &Path) -> Result<(), 
     Ok(())
 }
 
+fn validate_current_law_baseline_receipts_deficit_path_partial(root: &Path) -> Result<(), String> {
+    for path in [
+        CURRENT_LAW_BASELINE_RECEIPTS_DEFICIT_PATH_PARTIAL_JSON_PATH,
+        CURRENT_LAW_BASELINE_RECEIPTS_DEFICIT_PATH_PARTIAL_SCHEMA_PATH,
+        CURRENT_LAW_BASELINE_RECEIPTS_DEFICIT_PATH_PARTIAL_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing current-law receipts/deficit path artifact: {path}"
+            ));
+        }
+    }
+
+    let text =
+        fs::read_to_string(root.join(CURRENT_LAW_BASELINE_RECEIPTS_DEFICIT_PATH_PARTIAL_JSON_PATH))
+            .map_err(|e| e.to_string())?;
+    let path: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&path, "record_id")? != "current-law-baseline-receipts-deficit-path-partial:v1"
+        || string_field(&path, "record_family")?
+            != "current_law_baseline_receipts_deficit_path_partial"
+        || int_field(&path, "pulse")? != 123
+        || string_field(&path, "current_law_baseline_annual_path_partial_path")?
+            != CURRENT_LAW_BASELINE_ANNUAL_PATH_PARTIAL_JSON_PATH
+        || string_field(&path, "current_law_source_custody_batch_plan_path")?
+            != CURRENT_LAW_SOURCE_CUSTODY_BATCH_PLAN_JSON_PATH
+        || string_field(&path, "current_law_source_custody_packet_template_path")?
+            != CURRENT_LAW_SOURCE_CUSTODY_PACKET_TEMPLATE_JSON_PATH
+        || string_field(&path, "current_law_path_inventory_path")?
+            != CURRENT_LAW_PATH_INVENTORY_JSON_PATH
+        || string_field(&path, "path_id")? != "baseline_plus_ten_year_horizon"
+        || string_field(&path, "batch_id")? != "batch_1_federal_baseline_and_17_row_ledger"
+        || int_field(&path, "baseline_year")? != 2025
+        || string_field(&path, "unit")? != "millions_of_dollars"
+        || path
+            .get("interpolation_used")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("current-law receipts/deficit path identity failed".to_string());
+    }
+
+    let required_years = path
+        .get("required_years")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("current-law receipts/deficit required years")?
+        .iter()
+        .map(|value| value.as_i64().ok_or("required year integer"))
+        .collect::<Result<Vec<_>, _>>()?;
+    if required_years != (2025..=2035).collect::<Vec<_>>() {
+        return Err("current-law receipts/deficit required years failed".to_string());
+    }
+    let populated_years = path
+        .get("populated_years")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("current-law receipts/deficit populated years")?
+        .iter()
+        .map(|value| value.as_i64().ok_or("populated year integer"))
+        .collect::<Result<Vec<_>, _>>()?;
+    if populated_years != (2025..=2031).collect::<Vec<_>>() {
+        return Err("current-law receipts/deficit populated years failed".to_string());
+    }
+    let missing_years = path
+        .get("missing_years")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("current-law receipts/deficit missing years")?
+        .iter()
+        .map(|value| value.as_i64().ok_or("missing year integer"))
+        .collect::<Result<Vec<_>, _>>()?;
+    if missing_years != (2032..=2035).collect::<Vec<_>>() {
+        return Err("current-law receipts/deficit missing years failed".to_string());
+    }
+
+    let status = path
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("current-law receipts/deficit source custody status")?;
+    for field in [
+        "official_sources_only",
+        "no_external_request_submitted_this_pulse",
+        "no_agency_or_person_contacted",
+        "source_custody_ready",
+        "outlay_receipt_and_deficit_values_may_be_populated_for_2025_2031",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "current-law receipts/deficit status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "complete_required_horizon_ready",
+        "fund_paths_ready",
+        "solver_inputs_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "current-law receipts/deficit status {field} must be false"
+            ));
+        }
+    }
+
+    let packets = path
+        .get("source_packets")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("current-law receipts/deficit source packets")?;
+    if packets.len() != 2 {
+        return Err("current-law receipts/deficit needs two source packets".to_string());
+    }
+    let mut packet_sources = BTreeSet::new();
+    for packet in packets {
+        if string_field(packet, "path_id")? != "baseline_plus_ten_year_horizon"
+            || string_field(packet, "batch_id")? != "batch_1_federal_baseline_and_17_row_ledger"
+            || packet
+                .get("custody_ready")
+                .and_then(serde_json::Value::as_bool)
+                != Some(true)
+            || packet
+                .get("values_may_be_populated")
+                .and_then(serde_json::Value::as_bool)
+                != Some(true)
+        {
+            return Err("current-law receipts/deficit source packet gates failed".to_string());
+        }
+        let raw_path = string_field(packet, "raw_artifact_path")?;
+        let raw_file = root.join(&raw_path);
+        if !raw_file.exists() {
+            return Err(format!(
+                "current-law receipts/deficit missing file {raw_path}"
+            ));
+        }
+        if fs::metadata(&raw_file).map_err(|e| e.to_string())?.len() as i64
+            != int_field(packet, "raw_byte_count")?
+        {
+            return Err(format!(
+                "current-law receipts/deficit byte count failed for {raw_path}"
+            ));
+        }
+        if sha256_file(&raw_file)? != string_field(packet, "raw_sha256")? {
+            return Err(format!(
+                "current-law receipts/deficit raw hash failed for {raw_path}"
+            ));
+        }
+        if let Some(metadata_path) = packet
+            .get("metadata_path")
+            .and_then(serde_json::Value::as_str)
+        {
+            let metadata_file = root.join(metadata_path);
+            if !metadata_file.exists()
+                || sha256_file(&metadata_file)? != string_field(packet, "metadata_sha256")?
+            {
+                return Err(format!(
+                    "current-law receipts/deficit metadata hash failed for {metadata_path}"
+                ));
+            }
+        } else if !packet
+            .get("metadata_sha256")
+            .is_some_and(serde_json::Value::is_null)
+        {
+            return Err("current-law receipts/deficit null metadata hash gate failed".to_string());
+        }
+        packet_sources.insert(string_field(packet, "source_id")?.to_string());
+    }
+    let expected_sources = [
+        "SRC-OMB-HIST-2-1-FY2027",
+        "current-law-baseline-annual-path-partial:v1",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    if packet_sources != expected_sources {
+        return Err("current-law receipts/deficit source set failed".to_string());
+    }
+
+    let rows = path
+        .get("annual_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("current-law receipts/deficit annual rows")?;
+    if rows.len() != 11 {
+        return Err("current-law receipts/deficit must contain 11 annual rows".to_string());
+    }
+    let expected = [
+        (2025, 7_011_105, 5_236_421, 1_774_684, "actual"),
+        (2026, 7_540_434, 5_475_705, 2_064_729, "estimate"),
+        (2027, 8_092_860, 5_920_951, 2_171_909, "estimate"),
+        (2028, 8_445_361, 6_288_407, 2_156_954, "estimate"),
+        (2029, 8_653_223, 6_660_321, 1_992_902, "estimate"),
+        (2030, 8_996_290, 7_137_281, 1_859_009, "estimate"),
+        (2031, 9_279_779, 7_559_389, 1_720_390, "estimate"),
+    ]
+    .into_iter()
+    .map(|(year, outlays, receipts, deficit, status)| (year, (outlays, receipts, deficit, status)))
+    .collect::<BTreeMap<_, _>>();
+    let mut seen_years = BTreeSet::new();
+    for row in rows {
+        let year = int_field(row, "fiscal_year")?;
+        seen_years.insert(year);
+        if let Some((outlays, receipts, deficit, status)) = expected.get(&year) {
+            if int_field(row, "total_outlays_musd")? != *outlays
+                || int_field(row, "total_receipts_musd")? != *receipts
+                || int_field(row, "deficit_musd")? != *deficit
+                || *outlays - *receipts != *deficit
+                || string_field(row, "actual_or_projection")? != *status
+                || string_field(row, "deficit_formula")?
+                    != "total_outlays_musd - total_receipts_musd"
+                || !row
+                    .get("missing_reason")
+                    .is_some_and(serde_json::Value::is_null)
+            {
+                return Err(format!(
+                    "current-law receipts/deficit annual value failed for FY{year}"
+                ));
+            }
+        } else if (2032..=2035).contains(&year) {
+            for field in [
+                "actual_or_projection",
+                "total_outlays_musd",
+                "total_receipts_musd",
+                "deficit_musd",
+                "deficit_formula",
+            ] {
+                if !row.get(field).is_some_and(serde_json::Value::is_null) {
+                    return Err(format!(
+                        "current-law receipts/deficit missing-year field {field} must be null for FY{year}"
+                    ));
+                }
+            }
+            let source_ids = row
+                .get("source_ids")
+                .and_then(serde_json::Value::as_array)
+                .ok_or("current-law receipts/deficit missing-year source ids")?;
+            if !source_ids.is_empty()
+                || string_field(row, "missing_reason")?
+                    != "no local official captured annual value; interpolation prohibited"
+            {
+                return Err(format!(
+                    "current-law receipts/deficit missing-year gate failed for FY{year}"
+                ));
+            }
+        } else {
+            return Err(format!(
+                "current-law receipts/deficit unexpected year FY{year}"
+            ));
+        }
+    }
+    if seen_years != (2025..=2035).collect::<BTreeSet<_>>() {
+        return Err("current-law receipts/deficit annual year set failed".to_string());
+    }
+
+    let reconciliation = path
+        .get("reconciliation")
+        .ok_or("current-law receipts/deficit reconciliation")?;
+    if int_field(reconciliation, "fy2025_total_receipts_musd")? != 5_236_421
+        || int_field(reconciliation, "fy2025_total_outlays_musd")? != 7_011_105
+        || int_field(reconciliation, "fy2025_deficit_musd")? != 1_774_684
+        || int_field(reconciliation, "populated_receipt_deficit_year_count")? != 7
+        || int_field(reconciliation, "required_year_count")? != 11
+        || int_field(reconciliation, "missing_year_count")? != 4
+        || reconciliation
+            .get("complete_horizon_ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || reconciliation
+            .get("fund_split_ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || reconciliation
+            .get("solver_ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("current-law receipts/deficit reconciliation failed".to_string());
+    }
+
+    let blocked = path
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("current-law receipts/deficit blocked outputs")?;
+    for (field, value) in blocked {
+        if !value.is_null() {
+            return Err(format!(
+                "current-law receipts/deficit blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let claims = path
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("current-law receipts/deficit claims")?;
+    for (field, value) in claims {
+        let observed = value
+            .as_bool()
+            .ok_or("current-law receipts/deficit claim bool")?;
+        if matches!(
+            field.as_str(),
+            "source_custody_packet_published"
+                | "source_custody_ready"
+                | "partial_current_law_receipts_deficit_path_published"
+        ) {
+            if !observed {
+                return Err(format!(
+                    "current-law receipts/deficit claim {field} must be true"
+                ));
+            }
+        } else if observed {
+            return Err(format!(
+                "current-law receipts/deficit claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(
+        root.join(CURRENT_LAW_BASELINE_RECEIPTS_DEFICIT_PATH_PARTIAL_READER_PATH),
+    )
+    .map_err(|e| e.to_string())?;
+    let reader_words = reader.split_whitespace().collect::<Vec<_>>().join(" ");
+    for required in [
+        CURRENT_LAW_BASELINE_RECEIPTS_DEFICIT_PATH_PARTIAL_JSON_PATH,
+        "partial official current-law receipts and deficit path for FY2025 through FY2031",
+        "deficit is calculated as total outlays minus total receipts",
+        "No external request was submitted and no agency or person was contacted",
+        "FY2032 through FY2035 remain null",
+        "Missing values remain null and interpolation is prohibited.",
+        "not a complete ten-year baseline path",
+        "not a fund split",
+        "not general-fund path values",
+        "not trust-fund path values",
+        "not health component path values",
+        "not net-interest/debt path values",
+        "not solver inputs",
+        "not a solver run",
+        "not target-cost selection",
+        "not rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader_words.contains(required) {
+            return Err(format!(
+                "current-law receipts/deficit reader missing {required}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 #[cfg(test)]
 mod global_country_comparison_tests {
     use super::*;
@@ -23903,6 +24261,12 @@ mod global_country_comparison_tests {
     fn current_law_baseline_annual_path_partial_keeps_missing_years_null() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_current_law_baseline_annual_path_partial(&root).unwrap();
+    }
+
+    #[test]
+    fn current_law_baseline_receipts_deficit_path_partial_recomputes_deficits() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_current_law_baseline_receipts_deficit_path_partial(&root).unwrap();
     }
 
     #[test]

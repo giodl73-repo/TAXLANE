@@ -604,3 +604,9 @@ current-law baseline with official OMB Public Budget Database outlay totals for
 FY2025-FY2031. It leaves FY2032-FY2035, forward receipts, and forward deficits
 null, prohibits interpolation, and keeps complete-horizon, solver, target-cost,
 rate, and public fiscal claims blocked.
+
+`current_law_baseline_receipts_deficit_path_partial.v1.draft.json` fills the next
+official current-law baseline data gap by adding OMB Historical Table 2.1 total
+receipts and explicit deficit gaps for FY2025-FY2031. It leaves FY2032-FY2035
+null, does not split funds or receipt bases, and keeps solver, target-cost, rate,
+and public fiscal claims blocked.
