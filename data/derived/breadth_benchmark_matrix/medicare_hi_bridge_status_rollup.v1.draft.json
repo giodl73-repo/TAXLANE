@@ -1,0 +1,144 @@
+{
+  "record_id": "medicare-hi-bridge-status-rollup:v1",
+  "record_family": "medicare_hi_bridge_status_rollup",
+  "schema_version": "v1.draft",
+  "pulse": 147,
+  "as_of_date": "2026-07-19",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "medicare_hi_perimeter_bridge_requirements_path": "data/derived/breadth_benchmark_matrix/medicare_hi_perimeter_bridge_requirements.v1.draft.json",
+  "component_record_paths": {
+    "payroll_tax_yield_perimeter": "data/derived/breadth_benchmark_matrix/medicare_hi_payroll_tax_perimeter_bridge.v1.draft.json",
+    "taxation_of_benefits_and_other_income_split": "data/derived/breadth_benchmark_matrix/medicare_hi_benefits_tax_income_split.v1.draft.json",
+    "legal_base_definition": "data/derived/breadth_benchmark_matrix/medicare_hi_legal_base_definition_gap.v1.draft.json",
+    "economic_base_definition": "data/derived/breadth_benchmark_matrix/medicare_hi_economic_base_definition_gap.v1.draft.json",
+    "solver_yield_mapping": "data/derived/breadth_benchmark_matrix/medicare_hi_solver_yield_mapping_gap.v1.draft.json",
+    "behavior_and_reform_yield": "data/derived/breadth_benchmark_matrix/medicare_hi_behavior_reform_yield_gap.v1.draft.json"
+  },
+  "source_custody_status": {
+    "official_sources_only": true,
+    "used_existing_captured_sources_only": true,
+    "no_foia_or_records_request_submitted": true,
+    "no_agency_or_person_contacted": true,
+    "rollup_published": true,
+    "all_component_records_present": true,
+    "perimeter_bridge_complete": false,
+    "assigned_base_ready": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false
+  },
+  "component_status_rows": [
+    {
+      "component_id": "payroll_tax_yield_perimeter",
+      "component_record_path": "data/derived/breadth_benchmark_matrix/medicare_hi_payroll_tax_perimeter_bridge.v1.draft.json",
+      "status": "partial_context_evidenced_not_complete",
+      "ready": false,
+      "value": null,
+      "remaining_blocker": "OMB Hospital Insurance receipt-row perimeter bridge remains incomplete."
+    },
+    {
+      "component_id": "taxation_of_benefits_and_other_income_split",
+      "component_record_path": "data/derived/breadth_benchmark_matrix/medicare_hi_benefits_tax_income_split.v1.draft.json",
+      "status": "partial_context_evidenced_not_complete",
+      "ready": false,
+      "value": null,
+      "remaining_blocker": "CMS HI income categories are split, but OMB receipt-row mapping remains incomplete."
+    },
+    {
+      "component_id": "legal_base_definition",
+      "component_record_path": "data/derived/breadth_benchmark_matrix/medicare_hi_legal_base_definition_gap.v1.draft.json",
+      "status": "gap_defined_not_complete",
+      "ready": false,
+      "value": null,
+      "remaining_blocker": "A legal receipt base has not been selected or reconciled to additional Medicare tax treatment."
+    },
+    {
+      "component_id": "economic_base_definition",
+      "component_record_path": "data/derived/breadth_benchmark_matrix/medicare_hi_economic_base_definition_gap.v1.draft.json",
+      "status": "gap_defined_not_complete",
+      "ready": false,
+      "value": null,
+      "remaining_blocker": "Incidence, distribution, administration, avoidance, and compliance models remain missing."
+    },
+    {
+      "component_id": "solver_yield_mapping",
+      "component_record_path": "data/derived/breadth_benchmark_matrix/medicare_hi_solver_yield_mapping_gap.v1.draft.json",
+      "status": "gap_defined_not_complete",
+      "ready": false,
+      "value": null,
+      "remaining_blocker": "Current-law yield, trust-fund accounting, transfers, fund balances, timing/rounding, and solver-row contract remain unmapped."
+    },
+    {
+      "component_id": "behavior_and_reform_yield",
+      "component_record_path": "data/derived/breadth_benchmark_matrix/medicare_hi_behavior_reform_yield_gap.v1.draft.json",
+      "status": "gap_defined_not_complete",
+      "ready": false,
+      "value": null,
+      "remaining_blocker": "No policy instrument, elasticity, avoidance, compliance, administration, incidence, distribution, or reform-yield model is selected."
+    }
+  ],
+  "summary": {
+    "bridge_component_count": 6,
+    "component_record_count": 6,
+    "ready_component_count": 0,
+    "blocked_component_count": 6,
+    "partial_context_component_count": 2,
+    "gap_component_count": 4,
+    "perimeter_bridge_complete": false,
+    "assigned_base_ready": false,
+    "rate_publication_ready": false,
+    "solver_ready": false,
+    "public_claim_ready": false
+  },
+  "blocked_outputs": {
+    "perimeter_bridge_value": null,
+    "legal_receipt_base_amount": null,
+    "economic_receipt_base_amount": null,
+    "matched_receipt_base": null,
+    "assigned_base_rate": null,
+    "statutory_rate": null,
+    "effective_rate": null,
+    "behavioral_elasticity": null,
+    "avoidance_and_compliance": null,
+    "administration_burden": null,
+    "distribution_by_income": null,
+    "current_law_yield_matched_to_solver": null,
+    "reform_yield": null,
+    "solver_input_row": null,
+    "public_rate_card": null,
+    "tax_proposal_fields": null,
+    "balanced_budget_fields": null,
+    "target_cost": null,
+    "federal_effect": null,
+    "gross_savings": null,
+    "net_savings": null
+  },
+  "public_warning_phrases": [
+    "The Medicare HI bridge is not complete.",
+    "All six Medicare HI bridge components remain not ready for assigned-base, rate, or solver use.",
+    "Partial CMS context is not a matched receipt base, reform yield, assigned-base rate, or solver input.",
+    "The Medicare HI diagnostic ratio remains blocked from statutory-rate and effective-rate publication.",
+    "No Medicare HI assigned base, rate, reform yield, solver row, public rate card, tax proposal, savings estimate, or balanced-budget value is populated.",
+    "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+    "This record is not solver input, not a solver run, not a target-cost selection, not a rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+  ],
+  "claim_booleans": {
+    "medicare_hi_bridge_rollup_published": true,
+    "perimeter_bridge_complete": false,
+    "assigned_receipt_base_published": false,
+    "matched_receipt_bases_ready": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false,
+    "statutory_rate_claim": false,
+    "effective_rate_claim": false,
+    "public_rate_card_claim": false,
+    "tax_proposal_claim": false,
+    "balanced_budget_claim": false,
+    "target_cost_claim": false,
+    "federal_effect_claim": false,
+    "gross_savings_claim": false,
+    "net_savings_claim": false,
+    "waste_finding_claim": false,
+    "fraud_finding_claim": false,
+    "technology_savings_claim": false
+  }
+}

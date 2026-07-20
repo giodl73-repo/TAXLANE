@@ -753,3 +753,9 @@ behavior and reform yield are not modeled. It blocks using current-law CMS or
 OMB receipt context as reform yield and keeps elasticity, avoidance,
 compliance, administration, incidence, distribution, solver inputs, rates,
 public rate cards, tax proposals, savings, and balanced-budget outputs blocked.
+
+`medicare_hi_bridge_status_rollup.v1.draft.json` summarizes all six Medicare HI
+bridge components. It records two partial-context rows and four explicit gap
+rows, with zero components ready, and keeps assigned bases, rates, reform yield,
+solver rows, public rate cards, tax proposals, savings, and balanced-budget
+outputs blocked.

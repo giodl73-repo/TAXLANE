@@ -556,6 +556,12 @@ const MEDICARE_HI_BEHAVIOR_REFORM_YIELD_GAP_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/medicare_hi_behavior_reform_yield_gap.schema.md";
 const MEDICARE_HI_BEHAVIOR_REFORM_YIELD_GAP_READER_PATH: &str =
     "docs/reading/medicare-hi-behavior-reform-yield-gap.md";
+const MEDICARE_HI_BRIDGE_STATUS_ROLLUP_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/medicare_hi_bridge_status_rollup.v1.draft.json";
+const MEDICARE_HI_BRIDGE_STATUS_ROLLUP_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/medicare_hi_bridge_status_rollup.schema.md";
+const MEDICARE_HI_BRIDGE_STATUS_ROLLUP_READER_PATH: &str =
+    "docs/reading/medicare-hi-bridge-status-rollup.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11218,6 +11224,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_medicare_hi_economic_base_definition_gap(root)?;
     validate_medicare_hi_solver_yield_mapping_gap(root)?;
     validate_medicare_hi_behavior_reform_yield_gap(root)?;
+    validate_medicare_hi_bridge_status_rollup(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -24573,6 +24580,288 @@ fn validate_medicare_hi_behavior_reform_yield_gap(root: &Path) -> Result<(), Str
     Ok(())
 }
 
+fn validate_medicare_hi_bridge_status_rollup(root: &Path) -> Result<(), String> {
+    for path in [
+        MEDICARE_HI_BRIDGE_STATUS_ROLLUP_JSON_PATH,
+        MEDICARE_HI_BRIDGE_STATUS_ROLLUP_SCHEMA_PATH,
+        MEDICARE_HI_BRIDGE_STATUS_ROLLUP_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing Medicare HI bridge rollup artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(MEDICARE_HI_BRIDGE_STATUS_ROLLUP_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")? != "medicare-hi-bridge-status-rollup:v1"
+        || string_field(&record, "record_family")? != "medicare_hi_bridge_status_rollup"
+        || int_field(&record, "pulse")? != 147
+        || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&record, "medicare_hi_perimeter_bridge_requirements_path")?
+            != MEDICARE_HI_PERIMETER_BRIDGE_REQUIREMENTS_JSON_PATH
+    {
+        return Err("Medicare HI bridge rollup identity failed".to_string());
+    }
+
+    let paths = record
+        .get("component_record_paths")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI bridge rollup paths")?;
+    let expected_paths = [
+        (
+            "payroll_tax_yield_perimeter",
+            MEDICARE_HI_PAYROLL_TAX_PERIMETER_BRIDGE_JSON_PATH,
+        ),
+        (
+            "taxation_of_benefits_and_other_income_split",
+            MEDICARE_HI_BENEFITS_TAX_INCOME_SPLIT_JSON_PATH,
+        ),
+        (
+            "legal_base_definition",
+            MEDICARE_HI_LEGAL_BASE_DEFINITION_GAP_JSON_PATH,
+        ),
+        (
+            "economic_base_definition",
+            MEDICARE_HI_ECONOMIC_BASE_DEFINITION_GAP_JSON_PATH,
+        ),
+        (
+            "solver_yield_mapping",
+            MEDICARE_HI_SOLVER_YIELD_MAPPING_GAP_JSON_PATH,
+        ),
+        (
+            "behavior_and_reform_yield",
+            MEDICARE_HI_BEHAVIOR_REFORM_YIELD_GAP_JSON_PATH,
+        ),
+    ];
+    for (field, expected) in expected_paths {
+        if paths.get(field).and_then(serde_json::Value::as_str) != Some(expected) {
+            return Err(format!("Medicare HI bridge rollup path {field} failed"));
+        }
+        if !root.join(expected).exists() {
+            return Err(format!(
+                "Medicare HI bridge rollup source record missing: {expected}"
+            ));
+        }
+    }
+
+    let status = record
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI bridge rollup status")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_captured_sources_only",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "rollup_published",
+        "all_component_records_present",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "Medicare HI bridge rollup status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "perimeter_bridge_complete",
+        "assigned_base_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI bridge rollup status {field} must be false"
+            ));
+        }
+    }
+
+    let rows = record
+        .get("component_status_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Medicare HI bridge rollup rows")?;
+    if rows.len() != 6 {
+        return Err("Medicare HI bridge rollup row count failed".to_string());
+    }
+    let expected_components = [
+        "payroll_tax_yield_perimeter",
+        "taxation_of_benefits_and_other_income_split",
+        "legal_base_definition",
+        "economic_base_definition",
+        "solver_yield_mapping",
+        "behavior_and_reform_yield",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let observed_components = rows
+        .iter()
+        .map(|row| string_field(row, "component_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if observed_components != expected_components {
+        return Err("Medicare HI bridge rollup component set failed".to_string());
+    }
+    let mut partial_count = 0;
+    let mut gap_count = 0;
+    for row in rows {
+        let status_text = string_field(row, "status")?;
+        if status_text == "partial_context_evidenced_not_complete" {
+            partial_count += 1;
+        } else if status_text == "gap_defined_not_complete" {
+            gap_count += 1;
+        } else {
+            return Err(format!(
+                "Medicare HI bridge rollup unexpected row status: {status_text}"
+            ));
+        }
+        if row.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+            || row.get("value") != Some(&serde_json::Value::Null)
+            || string_field(row, "remaining_blocker")?.is_empty()
+        {
+            return Err("Medicare HI bridge rollup row readiness failed".to_string());
+        }
+    }
+    if partial_count != 2 || gap_count != 4 {
+        return Err("Medicare HI bridge rollup row status counts failed".to_string());
+    }
+
+    let summary = record
+        .get("summary")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI bridge rollup summary")?;
+    for (field, expected) in [
+        ("bridge_component_count", 6),
+        ("component_record_count", 6),
+        ("ready_component_count", 0),
+        ("blocked_component_count", 6),
+        ("partial_context_component_count", 2),
+        ("gap_component_count", 4),
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_i64) != Some(expected) {
+            return Err(format!("Medicare HI bridge rollup summary {field} failed"));
+        }
+    }
+    for field in [
+        "perimeter_bridge_complete",
+        "assigned_base_ready",
+        "rate_publication_ready",
+        "solver_ready",
+        "public_claim_ready",
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI bridge rollup summary {field} must be false"
+            ));
+        }
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI bridge rollup blocked outputs")?;
+    for field in [
+        "perimeter_bridge_value",
+        "legal_receipt_base_amount",
+        "economic_receipt_base_amount",
+        "matched_receipt_base",
+        "assigned_base_rate",
+        "statutory_rate",
+        "effective_rate",
+        "behavioral_elasticity",
+        "avoidance_and_compliance",
+        "administration_burden",
+        "distribution_by_income",
+        "current_law_yield_matched_to_solver",
+        "reform_yield",
+        "solver_input_row",
+        "public_rate_card",
+        "tax_proposal_fields",
+        "balanced_budget_fields",
+        "target_cost",
+        "federal_effect",
+        "gross_savings",
+        "net_savings",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "Medicare HI bridge rollup blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI bridge rollup claims")?;
+    if claims
+        .get("medicare_hi_bridge_rollup_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("Medicare HI bridge rollup published flag must be true".to_string());
+    }
+    for field in [
+        "perimeter_bridge_complete",
+        "assigned_receipt_base_published",
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+        "statutory_rate_claim",
+        "effective_rate_claim",
+        "public_rate_card_claim",
+        "tax_proposal_claim",
+        "balanced_budget_claim",
+        "target_cost_claim",
+        "federal_effect_claim",
+        "gross_savings_claim",
+        "net_savings_claim",
+        "waste_finding_claim",
+        "fraud_finding_claim",
+        "technology_savings_claim",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI bridge rollup claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(MEDICARE_HI_BRIDGE_STATUS_ROLLUP_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for phrase in [
+        MEDICARE_HI_BRIDGE_STATUS_ROLLUP_JSON_PATH,
+        "The Medicare HI bridge is not complete.",
+        "All six Medicare HI bridge components remain not ready for assigned-base, rate, or solver use.",
+        "Partial CMS context is not a matched receipt base, reform yield, assigned-base rate, or solver input.",
+        "The Medicare HI diagnostic ratio remains blocked from statutory-rate and effective-rate publication.",
+        "No Medicare HI assigned base, rate, reform yield, solver row, public rate card, tax proposal, savings estimate, or balanced-budget value is populated.",
+        "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "Medicare HI bridge rollup reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -30617,6 +30906,12 @@ mod global_country_comparison_tests {
     fn medicare_hi_behavior_reform_yield_gap_blocks_reform_yield() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_medicare_hi_behavior_reform_yield_gap(&root).unwrap();
+    }
+
+    #[test]
+    fn medicare_hi_bridge_status_rollup_keeps_all_components_blocked() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_medicare_hi_bridge_status_rollup(&root).unwrap();
     }
 
     #[test]
