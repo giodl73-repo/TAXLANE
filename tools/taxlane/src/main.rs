@@ -572,6 +572,11 @@ const MEDICARE_HI_OMB_CMS_RECEIPT_ROW_PERIMETER_EVIDENCE_JSON_PATH: &str = "data
 const MEDICARE_HI_OMB_CMS_RECEIPT_ROW_PERIMETER_EVIDENCE_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/medicare_hi_omb_cms_receipt_row_perimeter_evidence.schema.md";
 const MEDICARE_HI_OMB_CMS_RECEIPT_ROW_PERIMETER_EVIDENCE_READER_PATH: &str =
     "docs/reading/medicare-hi-omb-cms-receipt-row-perimeter-evidence.md";
+const MEDICARE_HI_INCOME_CATEGORY_OMB_MAPPING_GAP_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/medicare_hi_income_category_omb_mapping_gap.v1.draft.json";
+const MEDICARE_HI_INCOME_CATEGORY_OMB_MAPPING_GAP_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/medicare_hi_income_category_omb_mapping_gap.schema.md";
+const MEDICARE_HI_INCOME_CATEGORY_OMB_MAPPING_GAP_READER_PATH: &str =
+    "docs/reading/medicare-hi-income-category-omb-mapping-gap.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11237,6 +11242,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_medicare_hi_bridge_status_rollup(root)?;
     validate_medicare_hi_bridge_closure_work_queue(root)?;
     validate_medicare_hi_omb_cms_receipt_row_perimeter_evidence(root)?;
+    validate_medicare_hi_income_category_omb_mapping_gap(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -25445,6 +25451,304 @@ fn validate_medicare_hi_omb_cms_receipt_row_perimeter_evidence(root: &Path) -> R
     Ok(())
 }
 
+fn validate_medicare_hi_income_category_omb_mapping_gap(root: &Path) -> Result<(), String> {
+    for path in [
+        MEDICARE_HI_INCOME_CATEGORY_OMB_MAPPING_GAP_JSON_PATH,
+        MEDICARE_HI_INCOME_CATEGORY_OMB_MAPPING_GAP_SCHEMA_PATH,
+        MEDICARE_HI_INCOME_CATEGORY_OMB_MAPPING_GAP_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing Medicare HI income category OMB mapping gap artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(MEDICARE_HI_INCOME_CATEGORY_OMB_MAPPING_GAP_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")? != "medicare-hi-income-category-omb-mapping-gap:v1"
+        || string_field(&record, "record_family")? != "medicare_hi_income_category_omb_mapping_gap"
+        || int_field(&record, "pulse")? != 150
+        || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&record, "medicare_hi_bridge_closure_work_queue_path")?
+            != MEDICARE_HI_BRIDGE_CLOSURE_WORK_QUEUE_JSON_PATH
+        || string_field(&record, "medicare_hi_benefits_tax_income_split_path")?
+            != MEDICARE_HI_BENEFITS_TAX_INCOME_SPLIT_JSON_PATH
+        || string_field(
+            &record,
+            "medicare_hi_omb_cms_receipt_row_perimeter_evidence_path",
+        )? != MEDICARE_HI_OMB_CMS_RECEIPT_ROW_PERIMETER_EVIDENCE_JSON_PATH
+    {
+        return Err("Medicare HI income category OMB mapping gap identity failed".to_string());
+    }
+
+    let status = record
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI income category OMB mapping status")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_captured_sources_only",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "cms_hi_income_split_evidenced",
+        "income_category_omb_mapping_gap_published",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "Medicare HI income category OMB mapping status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "new_external_download_performed",
+        "payroll_tax_omb_mapping_complete",
+        "benefit_taxation_omb_mapping_complete",
+        "other_income_omb_mapping_complete",
+        "omb_cms_crosswalk_complete",
+        "residual_explanation_complete",
+        "component_ready",
+        "perimeter_bridge_complete",
+        "assigned_base_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI income category OMB mapping status {field} must be false"
+            ));
+        }
+    }
+
+    let item = record
+        .get("work_queue_item")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI income category OMB mapping work item")?;
+    if item.get("rank").and_then(serde_json::Value::as_i64) != Some(2)
+        || item.get("work_id").and_then(serde_json::Value::as_str)
+            != Some("hi_income_category_split_to_omb_rows")
+        || item.get("component_id").and_then(serde_json::Value::as_str)
+            != Some("taxation_of_benefits_and_other_income_split")
+        || item.get("completed").and_then(serde_json::Value::as_bool) != Some(false)
+        || item.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+        || item.get("value") != Some(&serde_json::Value::Null)
+    {
+        return Err("Medicare HI income category OMB mapping work item failed".to_string());
+    }
+
+    let context = record
+        .get("cms_income_category_context_musd")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI income category context")?;
+    let payroll = context
+        .get("payroll_taxes")
+        .and_then(serde_json::Value::as_f64)
+        .ok_or("Medicare HI payroll context")?;
+    let benefits = context
+        .get("income_from_taxation_of_oasdi_benefits")
+        .and_then(serde_json::Value::as_f64)
+        .ok_or("Medicare HI benefits taxation context")?;
+    let other = context
+        .get("other_non_payroll_income")
+        .and_then(serde_json::Value::as_f64)
+        .ok_or("Medicare HI other income context")?;
+    let non_payroll = context
+        .get("total_non_payroll_income")
+        .and_then(serde_json::Value::as_f64)
+        .ok_or("Medicare HI non-payroll context")?;
+    let total = context
+        .get("total_revenue")
+        .and_then(serde_json::Value::as_f64)
+        .ok_or("Medicare HI total revenue context")?;
+    if (payroll - 400622.16).abs() > 0.001
+        || (benefits - 41054.0).abs() > 0.001
+        || (other - 17096.437).abs() > 0.001
+        || (non_payroll - (benefits + other)).abs() > 0.001
+        || (total - (payroll + non_payroll)).abs() > 0.001
+        || (total - 458772.597).abs() > 0.001
+    {
+        return Err("Medicare HI income category arithmetic failed".to_string());
+    }
+
+    let groups = record
+        .get("cms_income_category_groups")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Medicare HI income category groups")?;
+    if groups.len() != 3 {
+        return Err("Medicare HI income category group count failed".to_string());
+    }
+    for group in groups {
+        if group.get("omb_row_mapping") != Some(&serde_json::Value::Null)
+            || group.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+        {
+            return Err("Medicare HI income category group readiness failed".to_string());
+        }
+    }
+
+    let reqs = record
+        .get("mapping_requirements")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Medicare HI income category mapping requirements")?;
+    if reqs.len() != 6
+        || reqs
+            .iter()
+            .any(|row| row.get("ready").and_then(serde_json::Value::as_bool) != Some(false))
+        || reqs
+            .iter()
+            .any(|row| row.get("value") != Some(&serde_json::Value::Null))
+    {
+        return Err("Medicare HI income category mapping requirements failed".to_string());
+    }
+
+    let summary = record
+        .get("summary")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI income category summary")?;
+    for (field, expected) in [
+        ("cms_income_category_groups", 3),
+        ("mapping_requirements", 6),
+        ("ready_mapping_requirements", 0),
+        ("blocked_mapping_requirements", 6),
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_i64) != Some(expected) {
+            return Err(format!(
+                "Medicare HI income category summary {field} failed"
+            ));
+        }
+    }
+    for field in [
+        "work_queue_item_completed",
+        "component_ready",
+        "perimeter_bridge_complete",
+        "assigned_base_ready",
+        "rate_publication_ready",
+        "solver_ready",
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI income category summary {field} must be false"
+            ));
+        }
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI income category blocked outputs")?;
+    for field in [
+        "completed_income_category_omb_mapping",
+        "omb_receipt_row_mapping",
+        "payroll_tax_omb_mapping",
+        "benefit_taxation_omb_mapping",
+        "other_income_omb_mapping",
+        "excluded_categories",
+        "omb_cms_crosswalk",
+        "residual_explanation",
+        "perimeter_bridge_value",
+        "legal_receipt_base_amount",
+        "economic_receipt_base_amount",
+        "matched_receipt_base",
+        "assigned_base_rate",
+        "statutory_rate",
+        "effective_rate",
+        "current_law_yield_matched_to_solver",
+        "reform_yield",
+        "solver_input_row",
+        "public_rate_card",
+        "tax_proposal_fields",
+        "balanced_budget_fields",
+        "target_cost",
+        "federal_effect",
+        "gross_savings",
+        "net_savings",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "Medicare HI income category blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI income category claims")?;
+    if claims
+        .get("medicare_hi_income_category_omb_mapping_gap_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("Medicare HI income category published flag failed".to_string());
+    }
+    for field in [
+        "work_item_completed",
+        "payroll_tax_omb_mapping_complete",
+        "benefit_taxation_omb_mapping_complete",
+        "other_income_omb_mapping_complete",
+        "omb_cms_crosswalk_complete",
+        "residual_explanation_complete",
+        "component_ready",
+        "perimeter_bridge_complete",
+        "assigned_receipt_base_published",
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+        "statutory_rate_claim",
+        "effective_rate_claim",
+        "public_rate_card_claim",
+        "tax_proposal_claim",
+        "balanced_budget_claim",
+        "target_cost_claim",
+        "federal_effect_claim",
+        "gross_savings_claim",
+        "net_savings_claim",
+        "waste_finding_claim",
+        "fraud_finding_claim",
+        "technology_savings_claim",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI income category claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader =
+        fs::read_to_string(root.join(MEDICARE_HI_INCOME_CATEGORY_OMB_MAPPING_GAP_READER_PATH))
+            .map_err(|e| e.to_string())?;
+    for phrase in [
+        MEDICARE_HI_INCOME_CATEGORY_OMB_MAPPING_GAP_JSON_PATH,
+        "The CMS HI income categories are evidenced, but mapping them to OMB Hospital Insurance receipt rows remains incomplete.",
+        "Income from taxation of OASDI benefits is non-payroll income and must not be folded into the payroll-tax-yield component.",
+        "General-fund transfers, interfund interest, premiums, reimbursements, and fraud-and-abuse-control receipts are trust-fund income categories, not assigned receipt bases.",
+        "No OMB/CMS income-category crosswalk, excluded-category list, or residual explanation is complete.",
+        "No Medicare HI assigned base, rate, reform yield, solver row, public rate card, tax proposal, savings estimate, or balanced-budget value is populated.",
+        "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "Medicare HI income category reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -31507,6 +31811,12 @@ mod global_country_comparison_tests {
     fn medicare_hi_omb_cms_perimeter_evidence_keeps_bridge_incomplete() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_medicare_hi_omb_cms_receipt_row_perimeter_evidence(&root).unwrap();
+    }
+
+    #[test]
+    fn medicare_hi_income_category_omb_mapping_gap_blocks_crosswalk() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_medicare_hi_income_category_omb_mapping_gap(&root).unwrap();
     }
 
     #[test]

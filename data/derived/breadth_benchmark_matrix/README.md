@@ -772,3 +772,9 @@ source custody only. It recomputes the CMS/OMB difference and keeps OMB
 included/excluded receipt types, source-row crosswalk, timing/rounding, assigned
 bases, rates, reform yield, solver rows, savings, and balanced-budget outputs
 blocked.
+
+`medicare_hi_income_category_omb_mapping_gap.v1.draft.json` publishes the
+Medicare HI closure item 2 gap: CMS income categories are evidenced, but mapping
+them to OMB Hospital Insurance receipt rows remains incomplete. It keeps the
+OMB/CMS crosswalk, excluded-category list, residual explanation, assigned bases,
+rates, reform yield, solver rows, savings, and balanced-budget outputs blocked.
