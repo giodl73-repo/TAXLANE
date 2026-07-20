@@ -95,6 +95,7 @@ explainers. They should keep three labels visible:
 | `medicare-hi-closure-series-rollup.md` | Pulse 156 rollup: summarizes seven Medicare HI closure blocker packets while keeping every bridge item, rate, solver input, and public claim blocked. |
 | `post-medicare-hi-next-readiness-queue.md` | Pulse 157 queue: orders next readiness work after the Medicare HI closure blocker series while keeping values, rates, solver outputs, savings, and public claims blocked. |
 | `source-custody-current-law-paths-gap.md` | Pulse 158 gap: preserves source-custody and current-law annual path blockers while keeping values, solver inputs, rates, and public claims blocked. |
+| `trust-fund-fund-group-reconciliation-gap.md` | Pulse 159 gap: preserves trust-fund and fund-group reconciliation blockers while keeping named fund paths, transfers, solver inputs, rates, and public claims blocked. |
 | `solver-input-readiness-rollup.md` | Pulse 107 rollup: summarizes all twelve deterministic solver inputs while keeping every input not ready/null. |
 | `current-law-path-inventory.md` | Pulse 108 inventory: names required FY2025-FY2035 official annual current-law paths while keeping values null. |
 | `current-law-source-custody-preflight.md` | Pulse 109 preflight: defines current-law source custody packet requirements while keeping all source and value fields null. |

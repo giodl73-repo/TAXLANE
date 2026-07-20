@@ -619,6 +619,12 @@ const SOURCE_CUSTODY_CURRENT_LAW_PATHS_GAP_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/source_custody_current_law_paths_gap.schema.md";
 const SOURCE_CUSTODY_CURRENT_LAW_PATHS_GAP_READER_PATH: &str =
     "docs/reading/source-custody-current-law-paths-gap.md";
+const TRUST_FUND_FUND_GROUP_RECONCILIATION_GAP_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/trust_fund_fund_group_reconciliation_gap.v1.draft.json";
+const TRUST_FUND_FUND_GROUP_RECONCILIATION_GAP_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/trust_fund_fund_group_reconciliation_gap.schema.md";
+const TRUST_FUND_FUND_GROUP_RECONCILIATION_GAP_READER_PATH: &str =
+    "docs/reading/trust-fund-fund-group-reconciliation-gap.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11293,6 +11299,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_medicare_hi_closure_series_rollup(root)?;
     validate_post_medicare_hi_next_readiness_queue(root)?;
     validate_source_custody_current_law_paths_gap(root)?;
+    validate_trust_fund_fund_group_reconciliation_gap(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -28291,6 +28298,360 @@ fn validate_source_custody_current_law_paths_gap(root: &Path) -> Result<(), Stri
     Ok(())
 }
 
+fn validate_trust_fund_fund_group_reconciliation_gap(root: &Path) -> Result<(), String> {
+    for path in [
+        TRUST_FUND_FUND_GROUP_RECONCILIATION_GAP_JSON_PATH,
+        TRUST_FUND_FUND_GROUP_RECONCILIATION_GAP_SCHEMA_PATH,
+        TRUST_FUND_FUND_GROUP_RECONCILIATION_GAP_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing trust-fund fund-group reconciliation gap artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(TRUST_FUND_FUND_GROUP_RECONCILIATION_GAP_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")? != "trust-fund-fund-group-reconciliation-gap:v1"
+        || string_field(&record, "record_family")? != "trust_fund_fund_group_reconciliation_gap"
+        || int_field(&record, "pulse")? != 159
+        || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&record, "post_medicare_hi_next_readiness_queue_path")?
+            != POST_MEDICARE_HI_NEXT_READINESS_QUEUE_JSON_PATH
+        || string_field(&record, "source_custody_current_law_paths_gap_path")?
+            != SOURCE_CUSTODY_CURRENT_LAW_PATHS_GAP_JSON_PATH
+        || string_field(&record, "current_law_fy2025_fund_group_path")?
+            != CURRENT_LAW_FY2025_FUND_GROUP_PATH_JSON_PATH
+        || string_field(&record, "current_law_named_fund_balance_transfer_gap_path")?
+            != CURRENT_LAW_NAMED_FUND_BALANCE_TRANSFER_GAP_JSON_PATH
+    {
+        return Err("trust-fund fund-group reconciliation gap identity failed".to_string());
+    }
+
+    let status = record
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("trust-fund fund-group reconciliation status")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_captured_sources_only",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "trust_fund_fund_group_reconciliation_gap_published",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("trust-fund fund-group status {field} must be true"));
+        }
+    }
+    for field in [
+        "new_external_download_performed",
+        "source_custody_complete",
+        "annual_fund_paths_complete",
+        "named_trust_fund_balances_ready",
+        "explicit_transfer_schedule_ready",
+        "general_fund_specific_path_ready",
+        "fund_group_reconciliation_ready",
+        "solver_inputs_ready",
+        "balanced_budget_claim_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "trust-fund fund-group status {field} must be false"
+            ));
+        }
+    }
+
+    let item = record
+        .get("work_queue_item")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("trust-fund fund-group work item")?;
+    if item.get("rank").and_then(serde_json::Value::as_i64) != Some(2)
+        || item.get("work_id").and_then(serde_json::Value::as_str)
+            != Some("trust_fund_and_fund_group_reconciliation")
+        || item.get("completed").and_then(serde_json::Value::as_bool) != Some(false)
+        || item.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+        || item.get("value") != Some(&serde_json::Value::Null)
+    {
+        return Err("trust-fund fund-group work item failed".to_string());
+    }
+
+    let context = record
+        .get("available_context")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("trust-fund fund-group available context")?;
+    if context
+        .get("fy2025_omb_fund_group_actuals_available")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+        || context
+            .get("fy2025_total_receipts_musd")
+            .and_then(serde_json::Value::as_i64)
+            != Some(5_236_421)
+        || context
+            .get("fy2025_total_outlays_musd")
+            .and_then(serde_json::Value::as_i64)
+            != Some(7_011_105)
+        || context
+            .get("fy2025_total_deficit_musd")
+            .and_then(serde_json::Value::as_i64)
+            != Some(1_774_684)
+        || context
+            .get("fy2025_federal_funds_receipts_musd")
+            .and_then(serde_json::Value::as_i64)
+            != Some(3_413_497)
+        || context
+            .get("fy2025_federal_funds_outlays_musd")
+            .and_then(serde_json::Value::as_i64)
+            != Some(5_284_502)
+        || context
+            .get("fy2025_trust_funds_receipts_musd")
+            .and_then(serde_json::Value::as_i64)
+            != Some(3_009_025)
+        || context
+            .get("fy2025_trust_funds_outlays_musd")
+            .and_then(serde_json::Value::as_i64)
+            != Some(2_912_704)
+        || context
+            .get("fy2025_interfund_transactions_receipts_musd")
+            .and_then(serde_json::Value::as_i64)
+            != Some(-1_186_101)
+        || context
+            .get("fy2025_interfund_transactions_outlays_musd")
+            .and_then(serde_json::Value::as_i64)
+            != Some(-1_186_101)
+    {
+        return Err("trust-fund fund-group FY2025 context failed".to_string());
+    }
+    for field in [
+        "federal_funds_can_substitute_for_general_fund",
+        "aggregate_trust_funds_can_substitute_for_named_trust_funds",
+        "fy2025_context_can_supply_forward_annual_path",
+    ] {
+        if context.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "trust-fund fund-group context {field} must be false"
+            ));
+        }
+    }
+
+    let reqs = record
+        .get("reconciliation_requirements")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("trust-fund fund-group reconciliation requirements")?;
+    if reqs.len() != 8
+        || reqs
+            .iter()
+            .any(|row| row.get("ready").and_then(serde_json::Value::as_bool) != Some(false))
+        || reqs
+            .iter()
+            .any(|row| row.get("value") != Some(&serde_json::Value::Null))
+    {
+        return Err(
+            "trust-fund fund-group reconciliation requirements must stay blocked".to_string(),
+        );
+    }
+    let observed_reqs = reqs
+        .iter()
+        .map(|row| string_field(row, "required_artifact"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_reqs = [
+        "OASDI annual fund path",
+        "Medicare HI annual fund path",
+        "transportation trust-fund annual values",
+        "general-fund-specific annual path",
+        "explicit interfund transfer schedule",
+        "credited offsetting collections by named fund",
+        "beginning and ending fund balances",
+        "rounding line",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    if observed_reqs != expected_reqs {
+        return Err("trust-fund fund-group reconciliation requirement set failed".to_string());
+    }
+
+    let paths = record
+        .get("fund_path_status")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("trust-fund fund path status")?;
+    if paths.len() != 4
+        || paths
+            .iter()
+            .any(|row| row.get("ready").and_then(serde_json::Value::as_bool) != Some(false))
+        || paths
+            .iter()
+            .any(|row| row.get("value") != Some(&serde_json::Value::Null))
+    {
+        return Err("trust-fund fund path status must stay blocked".to_string());
+    }
+    let observed_paths = paths
+        .iter()
+        .map(|row| string_field(row, "path_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_paths = [
+        "oasdi_fund_path",
+        "medicare_hi_fund_path",
+        "transportation_trust_fund_path",
+        "general_fund_path",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    if observed_paths != expected_paths {
+        return Err("trust-fund fund path status set failed".to_string());
+    }
+
+    let formula = record
+        .get("blocked_formula")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("trust-fund fund-group blocked formula")?;
+    if formula.get("status").and_then(serde_json::Value::as_str) != Some("not_computable") {
+        return Err("trust-fund fund-group formula must be not computable".to_string());
+    }
+    let blocked_terms = formula
+        .get("blocked_terms")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("trust-fund fund-group formula blocked terms")?;
+    if blocked_terms.len() != 6 {
+        return Err("trust-fund fund-group blocked term count failed".to_string());
+    }
+
+    let summary = record
+        .get("summary")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("trust-fund fund-group summary")?;
+    for (field, expected) in [
+        ("reconciliation_requirements", 8),
+        ("ready_requirements", 0),
+        ("blocked_requirements", 8),
+        ("fund_paths_required", 4),
+        ("fund_paths_ready", 0),
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_i64) != Some(expected) {
+            return Err(format!("trust-fund fund-group summary {field} failed"));
+        }
+    }
+    for field in [
+        "work_queue_item_completed",
+        "fund_group_reconciliation_ready",
+        "solver_inputs_ready",
+        "balanced_budget_claim_ready",
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "trust-fund fund-group summary {field} must be false"
+            ));
+        }
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("trust-fund fund-group blocked outputs")?;
+    for field in [
+        "oasdi_fund_balance_path",
+        "oasi_fund_balance_path",
+        "di_fund_balance_path",
+        "medicare_hi_fund_balance_path",
+        "transportation_trust_fund_balance_path",
+        "general_fund_path",
+        "explicit_interfund_transfer_schedule",
+        "credited_offsetting_collections_by_named_fund",
+        "fund_balance_change_values",
+        "rounding_line",
+        "solver_input_rows",
+        "debt_path",
+        "deficit_gap",
+        "target_cost_fields",
+        "federal_effect_fields",
+        "gross_savings_fields",
+        "net_savings_fields",
+        "balanced_rate_fields",
+        "balanced_budget_claim",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "trust-fund fund-group blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("trust-fund fund-group claims")?;
+    if claims
+        .get("trust_fund_fund_group_reconciliation_gap_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("trust-fund fund-group published claim failed".to_string());
+    }
+    for field in [
+        "work_item_completed",
+        "fund_group_reconciliation_ready",
+        "named_trust_fund_balances_ready",
+        "explicit_transfer_schedule_ready",
+        "general_fund_specific_path_ready",
+        "current_law_path_values_published",
+        "solver_inputs_ready",
+        "solver_run_published",
+        "target_cost_published",
+        "statutory_rate_published",
+        "effective_rate_published",
+        "public_rate_card_published",
+        "tax_proposal_published",
+        "savings_claim_published",
+        "waste_finding_published",
+        "fraud_finding_published",
+        "department_cut_instruction_published",
+        "technology_savings_claim_published",
+        "balanced_budget_claim_published",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("trust-fund fund-group claim {field} must be false"));
+        }
+    }
+
+    let reader =
+        fs::read_to_string(root.join(TRUST_FUND_FUND_GROUP_RECONCILIATION_GAP_READER_PATH))
+            .map_err(|e| e.to_string())?;
+    for phrase in [
+        TRUST_FUND_FUND_GROUP_RECONCILIATION_GAP_JSON_PATH,
+        "The trust-fund and fund-group reconciliation gap is published, but no annual named-fund reconciliation is complete.",
+        "FY2025 aggregate OMB fund-group context cannot substitute for OASDI, Medicare HI, transportation trust-fund, or general-fund annual paths.",
+        "Federal funds are broader than the general fund and cannot be relabeled as a general-fund path.",
+        "Fund balances, explicit transfers, credited offsetting collections by named fund, and rounding line remain missing and must stay null.",
+        "No solver input, solver run, fund-balance path, debt path, deficit gap, rate, savings estimate, or balanced-budget claim is populated.",
+        "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+        "not fund reconciliation",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "trust-fund fund-group reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -34407,6 +34768,12 @@ mod global_country_comparison_tests {
     fn source_custody_current_law_paths_gap_keeps_values_blocked() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_source_custody_current_law_paths_gap(&root).unwrap();
+    }
+
+    #[test]
+    fn trust_fund_fund_group_reconciliation_gap_keeps_fund_paths_blocked() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_trust_fund_fund_group_reconciliation_gap(&root).unwrap();
     }
 
     #[test]

@@ -825,3 +825,9 @@ claims blocked.
 source-custody and official current-law path blocker after the Medicare HI
 closure series. It keeps all required annual path values, the 2025-2035
 horizon, solver inputs, rates, savings, and balanced-budget claims blocked.
+
+`trust_fund_fund_group_reconciliation_gap.v1.draft.json` publishes the rank-2
+trust-fund and fund-group reconciliation blocker. It preserves FY2025 aggregate
+fund-group context while keeping named trust-fund balances, explicit transfers,
+general-fund-specific paths, forward annual paths, solver inputs, rates, and
+balanced-budget claims blocked.
