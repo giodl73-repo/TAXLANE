@@ -791,3 +791,9 @@ closure item 4: economic base, incidence, distribution, administration,
 avoidance, compliance, and tax-interaction components remain missing. It blocks
 using CMS taxable payroll or the unselected legal base as the economic burden
 base and keeps rates, solver rows, savings, and balanced-budget outputs blocked.
+
+`medicare_hi_trust_fund_solver_yield_closure_gap.v1.draft.json` publishes
+Medicare HI closure item 5: current-law yield selection, trust-fund income
+fields, explicit transfers, fund-balance path, timing bridge, rounding line,
+and solver-row contract remain missing. It keeps solver rows, rates, savings,
+and balanced-budget outputs blocked.

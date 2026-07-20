@@ -89,6 +89,7 @@ explainers. They should keep three labels visible:
 | `medicare-hi-income-category-omb-mapping-gap.md` | Pulse 150 gap: preserves CMS Medicare HI income categories while keeping OMB row mapping, rates, and solver claims blocked. |
 | `medicare-hi-legal-base-closure-gap.md` | Pulse 151 gap: preserves Medicare HI legal-base candidate terms while keeping legal-base selection, rates, and solver claims blocked. |
 | `medicare-hi-economic-base-closure-gap.md` | Pulse 152 gap: preserves Medicare HI economic-base blockers while keeping incidence, distribution, rates, and solver claims blocked. |
+| `medicare-hi-trust-fund-solver-yield-closure-gap.md` | Pulse 153 gap: preserves Medicare HI trust-fund solver-yield blockers while keeping solver rows, rates, and public claims blocked. |
 | `solver-input-readiness-rollup.md` | Pulse 107 rollup: summarizes all twelve deterministic solver inputs while keeping every input not ready/null. |
 | `current-law-path-inventory.md` | Pulse 108 inventory: names required FY2025-FY2035 official annual current-law paths while keeping values null. |
 | `current-law-source-custody-preflight.md` | Pulse 109 preflight: defines current-law source custody packet requirements while keeping all source and value fields null. |

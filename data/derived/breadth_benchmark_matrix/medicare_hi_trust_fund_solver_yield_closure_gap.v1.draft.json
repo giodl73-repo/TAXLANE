@@ -1,0 +1,171 @@
+{
+  "record_id": "medicare-hi-trust-fund-solver-yield-closure-gap:v1",
+  "record_family": "medicare_hi_trust_fund_solver_yield_closure_gap",
+  "schema_version": "v1.draft",
+  "pulse": 153,
+  "as_of_date": "2026-07-20",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "medicare_hi_bridge_closure_work_queue_path": "data/derived/breadth_benchmark_matrix/medicare_hi_bridge_closure_work_queue.v1.draft.json",
+  "medicare_hi_solver_yield_mapping_gap_path": "data/derived/breadth_benchmark_matrix/medicare_hi_solver_yield_mapping_gap.v1.draft.json",
+  "medicare_hi_economic_base_closure_gap_path": "data/derived/breadth_benchmark_matrix/medicare_hi_economic_base_closure_gap.v1.draft.json",
+  "source_custody_status": {
+    "official_sources_only": true,
+    "used_existing_captured_sources_only": true,
+    "new_external_download_performed": false,
+    "no_foia_or_records_request_submitted": true,
+    "no_agency_or_person_contacted": true,
+    "trust_fund_solver_yield_closure_gap_published": true,
+    "current_law_yield_selection_ready": false,
+    "trust_fund_income_fields_ready": false,
+    "explicit_general_fund_transfers_ready": false,
+    "interfund_transfers_ready": false,
+    "fund_balance_path_ready": false,
+    "timing_bridge_ready": false,
+    "rounding_line_ready": false,
+    "solver_row_contract_ready": false,
+    "solver_yield_mapping_complete": false,
+    "assigned_base_ready": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false
+  },
+  "work_queue_item": {
+    "rank": 5,
+    "work_id": "trust_fund_solver_yield_mapping",
+    "component_id": "solver_yield_mapping",
+    "completed": false,
+    "ready": false,
+    "value": null
+  },
+  "current_law_context": {
+    "cms_payroll_taxes_musd": 400622.16,
+    "omb_hospital_insurance_anchor_musd": 395350,
+    "cms_minus_omb_musd": 5272.16,
+    "cms_total_hi_revenue_musd": 458772.597,
+    "cms_non_payroll_income_musd": 58150.437,
+    "diagnostic_ratio_percent": 3.0175,
+    "cms_payroll_tax_yield_can_substitute_for_solver_yield": false,
+    "cms_total_hi_revenue_can_substitute_for_solver_yield": false,
+    "omb_anchor_can_substitute_for_solver_yield": false
+  },
+  "solver_yield_requirements": [
+    {
+      "required_artifact": "current-law yield selection",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "trust-fund income fields",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "explicit general-fund transfers",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "interfund transfers",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "fund balance path",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "timing bridge",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "rounding line",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "solver row contract",
+      "ready": false,
+      "value": null
+    }
+  ],
+  "blocked_solver_fields": {
+    "current_law_yield_matched_to_solver": null,
+    "trust_fund_income_fields": null,
+    "explicit_general_fund_transfer": null,
+    "interfund_transfer_schedule": null,
+    "fund_balance_path": null,
+    "timing_bridge": null,
+    "rounding_line": null,
+    "solver_row_contract": null
+  },
+  "summary": {
+    "solver_yield_requirements": 8,
+    "ready_requirements": 0,
+    "blocked_requirements": 8,
+    "work_queue_item_completed": false,
+    "solver_yield_mapping_complete": false,
+    "assigned_base_ready": false,
+    "rate_publication_ready": false,
+    "solver_ready": false
+  },
+  "blocked_outputs": {
+    "completed_solver_yield_mapping": null,
+    "current_law_yield_matched_to_solver": null,
+    "trust_fund_income_fields": null,
+    "explicit_general_fund_transfer": null,
+    "interfund_transfer_schedule": null,
+    "fund_balance_path": null,
+    "timing_bridge": null,
+    "rounding_line": null,
+    "solver_row_contract": null,
+    "solver_input_row": null,
+    "assigned_base_rate": null,
+    "statutory_rate": null,
+    "effective_rate": null,
+    "public_rate_card": null,
+    "tax_proposal_fields": null,
+    "balanced_budget_fields": null,
+    "target_cost": null,
+    "federal_effect": null,
+    "gross_savings": null,
+    "net_savings": null
+  },
+  "public_warning_phrases": [
+    "The Medicare HI trust-fund solver-yield closure gap is published, but no solver-yield mapping is complete.",
+    "CMS payroll-tax yield, CMS total HI revenue, and the OMB Hospital Insurance anchor remain different perimeters and cannot be substituted for solver yield.",
+    "Medicare HI must remain a separate trust fund with explicit transfers, fund balances, timing bridge, and rounding line before solver use.",
+    "No Medicare HI solver row, assigned base, rate, public rate card, tax proposal, savings estimate, or balanced-budget value is populated.",
+    "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+    "This record is not solver input, not a solver run, not a target-cost selection, not a rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+  ],
+  "claim_booleans": {
+    "medicare_hi_trust_fund_solver_yield_closure_gap_published": true,
+    "work_item_completed": false,
+    "solver_yield_mapping_complete": false,
+    "current_law_yield_selection_ready": false,
+    "trust_fund_income_fields_ready": false,
+    "explicit_general_fund_transfers_ready": false,
+    "interfund_transfers_ready": false,
+    "fund_balance_path_ready": false,
+    "timing_bridge_ready": false,
+    "rounding_line_ready": false,
+    "solver_row_contract_ready": false,
+    "assigned_receipt_base_published": false,
+    "matched_receipt_bases_ready": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false,
+    "statutory_rate_claim": false,
+    "effective_rate_claim": false,
+    "public_rate_card_claim": false,
+    "tax_proposal_claim": false,
+    "balanced_budget_claim": false,
+    "target_cost_claim": false,
+    "federal_effect_claim": false,
+    "gross_savings_claim": false,
+    "net_savings_claim": false,
+    "waste_finding_claim": false,
+    "fraud_finding_claim": false,
+    "technology_savings_claim": false
+  }
+}
