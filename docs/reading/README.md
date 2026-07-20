@@ -452,6 +452,11 @@ It is the bounded public surface, not a performance or savings report.
     lower-cost scenario as admissible. The packet defines floor concepts only;
     thresholds, pass/fail findings, target costs, federal effects, savings,
     solver inputs, rates, and balanced-budget claims remain blocked.
+100. Read `social-security-outcome-floor-definition-packet.md` before treating
+     any Social Security solvency or lower-cost scenario as admissible. The
+     packet defines floor concepts only; trust-fund paths, thresholds,
+     pass/fail findings, rates, savings, solver inputs, and balanced-budget
+     claims remain blocked.
 
 ## Public-Use Guardrail
 

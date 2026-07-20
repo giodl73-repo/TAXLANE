@@ -843,3 +843,10 @@ lane-specific floor definition packet. It defines health/Medicare floor classes
 and health-specific floor concepts while keeping threshold values, observed
 values, pass/fail findings, target costs, federal effects, solver inputs,
 savings, rates, technology-savings claims, and balanced-budget claims blocked.
+
+`social_security_outcome_floor_definition_packet.v1.draft.json` extends the
+floor definition packet pattern to Social Security. It defines replacement
+adequacy, old-age poverty, disability/survivor protection, trust-fund
+continuity, and administration/transition feasibility floors while keeping
+threshold values, pass/fail findings, demographic scores, trust-fund solvency
+scores, rates, solver inputs, savings, and balanced-budget claims blocked.
