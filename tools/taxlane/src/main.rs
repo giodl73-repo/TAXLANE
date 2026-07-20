@@ -593,6 +593,10 @@ const MEDICARE_HI_TRUST_FUND_SOLVER_YIELD_CLOSURE_GAP_JSON_PATH: &str = "data/de
 const MEDICARE_HI_TRUST_FUND_SOLVER_YIELD_CLOSURE_GAP_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/medicare_hi_trust_fund_solver_yield_closure_gap.schema.md";
 const MEDICARE_HI_TRUST_FUND_SOLVER_YIELD_CLOSURE_GAP_READER_PATH: &str =
     "docs/reading/medicare-hi-trust-fund-solver-yield-closure-gap.md";
+const MEDICARE_HI_POLICY_BEHAVIOR_REFORM_YIELD_CLOSURE_GAP_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/medicare_hi_policy_behavior_reform_yield_closure_gap.v1.draft.json";
+const MEDICARE_HI_POLICY_BEHAVIOR_REFORM_YIELD_CLOSURE_GAP_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/medicare_hi_policy_behavior_reform_yield_closure_gap.schema.md";
+const MEDICARE_HI_POLICY_BEHAVIOR_REFORM_YIELD_CLOSURE_GAP_READER_PATH: &str =
+    "docs/reading/medicare-hi-policy-behavior-reform-yield-closure-gap.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11262,6 +11266,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_medicare_hi_legal_base_closure_gap(root)?;
     validate_medicare_hi_economic_base_closure_gap(root)?;
     validate_medicare_hi_trust_fund_solver_yield_closure_gap(root)?;
+    validate_medicare_hi_policy_behavior_reform_yield_closure_gap(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -26738,6 +26743,371 @@ fn validate_medicare_hi_trust_fund_solver_yield_closure_gap(root: &Path) -> Resu
     Ok(())
 }
 
+fn validate_medicare_hi_policy_behavior_reform_yield_closure_gap(
+    root: &Path,
+) -> Result<(), String> {
+    for path in [
+        MEDICARE_HI_POLICY_BEHAVIOR_REFORM_YIELD_CLOSURE_GAP_JSON_PATH,
+        MEDICARE_HI_POLICY_BEHAVIOR_REFORM_YIELD_CLOSURE_GAP_SCHEMA_PATH,
+        MEDICARE_HI_POLICY_BEHAVIOR_REFORM_YIELD_CLOSURE_GAP_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing Medicare HI policy-behavior reform-yield closure gap artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(
+        root.join(MEDICARE_HI_POLICY_BEHAVIOR_REFORM_YIELD_CLOSURE_GAP_JSON_PATH),
+    )
+    .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")?
+        != "medicare-hi-policy-behavior-reform-yield-closure-gap:v1"
+        || string_field(&record, "record_family")?
+            != "medicare_hi_policy_behavior_reform_yield_closure_gap"
+        || int_field(&record, "pulse")? != 154
+        || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&record, "medicare_hi_bridge_closure_work_queue_path")?
+            != MEDICARE_HI_BRIDGE_CLOSURE_WORK_QUEUE_JSON_PATH
+        || string_field(&record, "medicare_hi_behavior_reform_yield_gap_path")?
+            != MEDICARE_HI_BEHAVIOR_REFORM_YIELD_GAP_JSON_PATH
+        || string_field(
+            &record,
+            "medicare_hi_trust_fund_solver_yield_closure_gap_path",
+        )? != MEDICARE_HI_TRUST_FUND_SOLVER_YIELD_CLOSURE_GAP_JSON_PATH
+    {
+        return Err(
+            "Medicare HI policy-behavior reform-yield closure gap identity failed".to_string(),
+        );
+    }
+
+    let status = record
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI policy-behavior reform-yield closure status")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_captured_sources_only",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "policy_behavior_reform_yield_closure_gap_published",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "Medicare HI policy-behavior reform-yield status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "new_external_download_performed",
+        "policy_instrument_selected",
+        "phase_in_ready",
+        "matched_base_ready",
+        "elasticity_ready",
+        "avoidance_response_ready",
+        "compliance_response_ready",
+        "administration_cost_ready",
+        "incidence_distribution_ready",
+        "trust_fund_reform_delta_ready",
+        "reform_yield_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI policy-behavior reform-yield status {field} must be false"
+            ));
+        }
+    }
+
+    let item = record
+        .get("work_queue_item")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI policy-behavior reform-yield work item")?;
+    if item.get("rank").and_then(serde_json::Value::as_i64) != Some(6)
+        || item.get("work_id").and_then(serde_json::Value::as_str)
+            != Some("policy_behavior_reform_yield_model")
+        || item.get("component_id").and_then(serde_json::Value::as_str)
+            != Some("behavior_and_reform_yield")
+        || item.get("completed").and_then(serde_json::Value::as_bool) != Some(false)
+        || item.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+        || item.get("value") != Some(&serde_json::Value::Null)
+    {
+        return Err("Medicare HI policy-behavior reform-yield work item failed".to_string());
+    }
+
+    let context = record
+        .get("current_law_context")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI policy-behavior reform-yield current-law context")?;
+    for (field, expected) in [
+        ("cms_payroll_taxes_musd", 400622.16),
+        ("omb_hospital_insurance_anchor_musd", 395350.0),
+        ("cms_minus_omb_musd", 5272.16),
+        ("cms_total_hi_revenue_musd", 458772.597),
+        ("diagnostic_ratio_percent", 3.0175),
+    ] {
+        let observed = context
+            .get(field)
+            .and_then(serde_json::Value::as_f64)
+            .ok_or_else(|| format!("Medicare HI policy-behavior context {field}"))?;
+        if (observed - expected).abs() > 0.001 {
+            return Err(format!(
+                "Medicare HI policy-behavior context {field} failed"
+            ));
+        }
+    }
+    for field in [
+        "current_law_context_can_supply_policy_instrument",
+        "current_law_context_can_supply_reform_yield",
+        "current_law_context_can_supply_elasticity",
+        "current_law_context_can_supply_avoidance_or_compliance",
+        "phi_sensitivity_can_supply_reform_yield",
+    ] {
+        if context.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI policy-behavior context {field} must be false"
+            ));
+        }
+    }
+
+    let reqs = record
+        .get("reform_yield_requirements")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Medicare HI policy-behavior reform-yield requirements")?;
+    if reqs.len() != 9
+        || reqs
+            .iter()
+            .any(|row| row.get("ready").and_then(serde_json::Value::as_bool) != Some(false))
+        || reqs
+            .iter()
+            .any(|row| row.get("value") != Some(&serde_json::Value::Null))
+    {
+        return Err(
+            "Medicare HI policy-behavior reform-yield requirements must remain blocked".to_string(),
+        );
+    }
+    let observed_requirements = reqs
+        .iter()
+        .map(|row| string_field(row, "required_artifact"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_requirements = [
+        "specific Medicare HI policy instrument",
+        "annual phase-in and effective-date schedule",
+        "matched legal and economic receipt base",
+        "elasticity model with source provenance",
+        "avoidance and reclassification response",
+        "compliance and enforcement response",
+        "administration, employer, and taxpayer burden cost",
+        "incidence and distribution by income",
+        "trust-fund reform delta and solver-row mapping",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    if observed_requirements != expected_requirements {
+        return Err("Medicare HI policy-behavior reform-yield requirement set failed".to_string());
+    }
+
+    let blocked_model = record
+        .get("blocked_model_fields")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI policy-behavior blocked model fields")?;
+    for field in [
+        "policy_instrument",
+        "phase_in_schedule",
+        "matched_legal_base",
+        "matched_economic_base",
+        "behavioral_elasticity",
+        "avoidance_response",
+        "compliance_response",
+        "administration_cost",
+        "employer_burden",
+        "taxpayer_burden",
+        "agency_burden",
+        "incidence_distribution",
+        "trust_fund_reform_delta",
+        "reform_yield",
+    ] {
+        if blocked_model.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "Medicare HI policy-behavior blocked model field {field} must be null"
+            ));
+        }
+    }
+
+    let summary = record
+        .get("summary")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI policy-behavior reform-yield summary")?;
+    for (field, expected) in [
+        ("reform_yield_requirements", 9),
+        ("ready_requirements", 0),
+        ("blocked_requirements", 9),
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_i64) != Some(expected) {
+            return Err(format!(
+                "Medicare HI policy-behavior reform-yield summary {field} failed"
+            ));
+        }
+    }
+    for field in [
+        "work_queue_item_completed",
+        "policy_behavior_reform_yield_model_complete",
+        "reform_yield_ready",
+        "assigned_base_ready",
+        "rate_publication_ready",
+        "solver_ready",
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI policy-behavior reform-yield summary {field} must be false"
+            ));
+        }
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI policy-behavior reform-yield blocked outputs")?;
+    for field in [
+        "completed_policy_behavior_reform_yield_model",
+        "policy_instrument",
+        "phase_in_schedule",
+        "matched_receipt_base",
+        "behavioral_elasticity",
+        "avoidance_response",
+        "compliance_response",
+        "administration_cost",
+        "incidence_distribution",
+        "trust_fund_reform_delta",
+        "reform_yield",
+        "reform_delta",
+        "solver_input_row",
+        "assigned_base_rate",
+        "statutory_rate",
+        "effective_rate",
+        "public_rate_card",
+        "tax_proposal_fields",
+        "balanced_budget_fields",
+        "target_cost",
+        "federal_effect",
+        "gross_savings",
+        "net_savings",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "Medicare HI policy-behavior reform-yield blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI policy-behavior reform-yield claims")?;
+    if claims
+        .get("medicare_hi_policy_behavior_reform_yield_closure_gap_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("Medicare HI policy-behavior reform-yield published flag failed".to_string());
+    }
+    for field in [
+        "work_item_completed",
+        "policy_behavior_reform_yield_model_complete",
+        "policy_instrument_selected",
+        "phase_in_ready",
+        "matched_receipt_bases_ready",
+        "elasticity_ready",
+        "avoidance_response_ready",
+        "compliance_response_ready",
+        "administration_cost_ready",
+        "incidence_distribution_ready",
+        "trust_fund_reform_delta_ready",
+        "reform_yield_ready",
+        "assigned_receipt_base_published",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+        "statutory_rate_claim",
+        "effective_rate_claim",
+        "public_rate_card_claim",
+        "tax_proposal_claim",
+        "balanced_budget_claim",
+        "target_cost_claim",
+        "federal_effect_claim",
+        "gross_savings_claim",
+        "net_savings_claim",
+        "waste_finding_claim",
+        "fraud_finding_claim",
+        "technology_savings_claim",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI policy-behavior reform-yield claim {field} must be false"
+            ));
+        }
+    }
+
+    let warnings = record
+        .get("public_warning_phrases")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Medicare HI policy-behavior reform-yield warnings")?;
+    for phrase in [
+        "The Medicare HI policy-behavior reform-yield closure gap is published, but no policy instrument or reform-yield model is complete.",
+        "No reform-yield value may be inferred from current-law CMS payroll-tax yield, CMS total HI revenue, the OMB Hospital Insurance anchor, or private-insurance payment sensitivity.",
+        "Policy instrument, phase-in, matched base, elasticity, avoidance, compliance, administration, incidence, distribution, and trust-fund reform-delta mapping must be completed before reform-yield use.",
+        "No Medicare HI reform yield, solver row, assigned base, rate, public rate card, tax proposal, savings estimate, or balanced-budget value is populated.",
+        "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+        "This record is not solver input, not a solver run, not a target-cost selection, not a rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim.",
+    ] {
+        if !warnings
+            .iter()
+            .any(|warning| warning.as_str() == Some(phrase))
+        {
+            return Err(format!(
+                "Medicare HI policy-behavior reform-yield warning missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(
+        root.join(MEDICARE_HI_POLICY_BEHAVIOR_REFORM_YIELD_CLOSURE_GAP_READER_PATH),
+    )
+    .map_err(|e| e.to_string())?;
+    for phrase in [
+        MEDICARE_HI_POLICY_BEHAVIOR_REFORM_YIELD_CLOSURE_GAP_JSON_PATH,
+        "The Medicare HI policy-behavior reform-yield closure gap is published, but no policy instrument or reform-yield model is complete.",
+        "No reform-yield value may be inferred from current-law CMS payroll-tax yield, CMS total HI revenue, the OMB Hospital Insurance anchor, or private-insurance payment sensitivity.",
+        "Policy instrument, phase-in, matched base, elasticity, avoidance, compliance, administration, incidence, distribution, and trust-fund reform-delta mapping must be completed before reform-yield use.",
+        "No Medicare HI reform yield, solver row, assigned base, rate, public rate card, tax proposal, savings estimate, or balanced-budget value is populated.",
+        "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "Medicare HI policy-behavior reform-yield reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -32824,6 +33194,12 @@ mod global_country_comparison_tests {
     fn medicare_hi_trust_fund_solver_yield_closure_gap_blocks_solver_row() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_medicare_hi_trust_fund_solver_yield_closure_gap(&root).unwrap();
+    }
+
+    #[test]
+    fn medicare_hi_policy_behavior_reform_yield_closure_gap_blocks_reform_yield() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_medicare_hi_policy_behavior_reform_yield_closure_gap(&root).unwrap();
     }
 
     #[test]

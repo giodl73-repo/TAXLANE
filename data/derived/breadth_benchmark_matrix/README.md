@@ -797,3 +797,9 @@ Medicare HI closure item 5: current-law yield selection, trust-fund income
 fields, explicit transfers, fund-balance path, timing bridge, rounding line,
 and solver-row contract remain missing. It keeps solver rows, rates, savings,
 and balanced-budget outputs blocked.
+
+`medicare_hi_policy_behavior_reform_yield_closure_gap.v1.draft.json` publishes
+Medicare HI closure item 6: policy instrument, phase-in, matched base,
+elasticity, avoidance, compliance, administration, incidence, distribution, and
+trust-fund reform-delta mapping remain missing. It keeps reform yield, solver
+rows, rates, savings, and balanced-budget outputs blocked.

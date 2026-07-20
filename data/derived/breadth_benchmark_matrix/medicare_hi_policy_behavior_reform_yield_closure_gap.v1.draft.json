@@ -1,0 +1,188 @@
+{
+  "record_id": "medicare-hi-policy-behavior-reform-yield-closure-gap:v1",
+  "record_family": "medicare_hi_policy_behavior_reform_yield_closure_gap",
+  "schema_version": "v1.draft",
+  "pulse": 154,
+  "as_of_date": "2026-07-20",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "medicare_hi_bridge_closure_work_queue_path": "data/derived/breadth_benchmark_matrix/medicare_hi_bridge_closure_work_queue.v1.draft.json",
+  "medicare_hi_behavior_reform_yield_gap_path": "data/derived/breadth_benchmark_matrix/medicare_hi_behavior_reform_yield_gap.v1.draft.json",
+  "medicare_hi_trust_fund_solver_yield_closure_gap_path": "data/derived/breadth_benchmark_matrix/medicare_hi_trust_fund_solver_yield_closure_gap.v1.draft.json",
+  "source_custody_status": {
+    "official_sources_only": true,
+    "used_existing_captured_sources_only": true,
+    "new_external_download_performed": false,
+    "no_foia_or_records_request_submitted": true,
+    "no_agency_or_person_contacted": true,
+    "policy_behavior_reform_yield_closure_gap_published": true,
+    "policy_instrument_selected": false,
+    "phase_in_ready": false,
+    "matched_base_ready": false,
+    "elasticity_ready": false,
+    "avoidance_response_ready": false,
+    "compliance_response_ready": false,
+    "administration_cost_ready": false,
+    "incidence_distribution_ready": false,
+    "trust_fund_reform_delta_ready": false,
+    "reform_yield_ready": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false
+  },
+  "work_queue_item": {
+    "rank": 6,
+    "work_id": "policy_behavior_reform_yield_model",
+    "component_id": "behavior_and_reform_yield",
+    "completed": false,
+    "ready": false,
+    "value": null
+  },
+  "current_law_context": {
+    "cms_payroll_taxes_musd": 400622.16,
+    "omb_hospital_insurance_anchor_musd": 395350,
+    "cms_minus_omb_musd": 5272.16,
+    "cms_total_hi_revenue_musd": 458772.597,
+    "diagnostic_ratio_percent": 3.0175,
+    "current_law_context_can_supply_policy_instrument": false,
+    "current_law_context_can_supply_reform_yield": false,
+    "current_law_context_can_supply_elasticity": false,
+    "current_law_context_can_supply_avoidance_or_compliance": false,
+    "phi_sensitivity_can_supply_reform_yield": false
+  },
+  "reform_yield_requirements": [
+    {
+      "required_artifact": "specific Medicare HI policy instrument",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "annual phase-in and effective-date schedule",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "matched legal and economic receipt base",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "elasticity model with source provenance",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "avoidance and reclassification response",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "compliance and enforcement response",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "administration, employer, and taxpayer burden cost",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "incidence and distribution by income",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "trust-fund reform delta and solver-row mapping",
+      "ready": false,
+      "value": null
+    }
+  ],
+  "blocked_model_fields": {
+    "policy_instrument": null,
+    "phase_in_schedule": null,
+    "matched_legal_base": null,
+    "matched_economic_base": null,
+    "behavioral_elasticity": null,
+    "avoidance_response": null,
+    "compliance_response": null,
+    "administration_cost": null,
+    "employer_burden": null,
+    "taxpayer_burden": null,
+    "agency_burden": null,
+    "incidence_distribution": null,
+    "trust_fund_reform_delta": null,
+    "reform_yield": null
+  },
+  "summary": {
+    "reform_yield_requirements": 9,
+    "ready_requirements": 0,
+    "blocked_requirements": 9,
+    "work_queue_item_completed": false,
+    "policy_behavior_reform_yield_model_complete": false,
+    "reform_yield_ready": false,
+    "assigned_base_ready": false,
+    "rate_publication_ready": false,
+    "solver_ready": false
+  },
+  "blocked_outputs": {
+    "completed_policy_behavior_reform_yield_model": null,
+    "policy_instrument": null,
+    "phase_in_schedule": null,
+    "matched_receipt_base": null,
+    "behavioral_elasticity": null,
+    "avoidance_response": null,
+    "compliance_response": null,
+    "administration_cost": null,
+    "incidence_distribution": null,
+    "trust_fund_reform_delta": null,
+    "reform_yield": null,
+    "reform_delta": null,
+    "solver_input_row": null,
+    "assigned_base_rate": null,
+    "statutory_rate": null,
+    "effective_rate": null,
+    "public_rate_card": null,
+    "tax_proposal_fields": null,
+    "balanced_budget_fields": null,
+    "target_cost": null,
+    "federal_effect": null,
+    "gross_savings": null,
+    "net_savings": null
+  },
+  "public_warning_phrases": [
+    "The Medicare HI policy-behavior reform-yield closure gap is published, but no policy instrument or reform-yield model is complete.",
+    "No reform-yield value may be inferred from current-law CMS payroll-tax yield, CMS total HI revenue, the OMB Hospital Insurance anchor, or private-insurance payment sensitivity.",
+    "Policy instrument, phase-in, matched base, elasticity, avoidance, compliance, administration, incidence, distribution, and trust-fund reform-delta mapping must be completed before reform-yield use.",
+    "No Medicare HI reform yield, solver row, assigned base, rate, public rate card, tax proposal, savings estimate, or balanced-budget value is populated.",
+    "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+    "This record is not solver input, not a solver run, not a target-cost selection, not a rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+  ],
+  "claim_booleans": {
+    "medicare_hi_policy_behavior_reform_yield_closure_gap_published": true,
+    "work_item_completed": false,
+    "policy_behavior_reform_yield_model_complete": false,
+    "policy_instrument_selected": false,
+    "phase_in_ready": false,
+    "matched_receipt_bases_ready": false,
+    "elasticity_ready": false,
+    "avoidance_response_ready": false,
+    "compliance_response_ready": false,
+    "administration_cost_ready": false,
+    "incidence_distribution_ready": false,
+    "trust_fund_reform_delta_ready": false,
+    "reform_yield_ready": false,
+    "assigned_receipt_base_published": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false,
+    "statutory_rate_claim": false,
+    "effective_rate_claim": false,
+    "public_rate_card_claim": false,
+    "tax_proposal_claim": false,
+    "balanced_budget_claim": false,
+    "target_cost_claim": false,
+    "federal_effect_claim": false,
+    "gross_savings_claim": false,
+    "net_savings_claim": false,
+    "waste_finding_claim": false,
+    "fraud_finding_claim": false,
+    "technology_savings_claim": false
+  }
+}
