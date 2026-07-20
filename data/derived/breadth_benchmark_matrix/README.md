@@ -809,3 +809,8 @@ Medicare HI closure item 7: the final rate and solver readiness review remains
 blocked because zero of six prerequisite bridge items are ready. It keeps rate
 publication, solver inputs, public rate cards, tax proposals, savings, and
 balanced-budget outputs blocked.
+
+`medicare_hi_closure_series_rollup.v1.draft.json` summarizes the Medicare HI
+closure series: seven blocker packets are published, but zero bridge items are
+complete or ready. It keeps assigned bases, rates, reform yield, solver rows,
+public rate cards, tax proposals, savings, and balanced-budget outputs blocked.

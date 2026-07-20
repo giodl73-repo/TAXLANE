@@ -601,6 +601,12 @@ const MEDICARE_HI_RATE_SOLVER_READINESS_REVIEW_CLOSURE_GAP_JSON_PATH: &str = "da
 const MEDICARE_HI_RATE_SOLVER_READINESS_REVIEW_CLOSURE_GAP_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/medicare_hi_rate_solver_readiness_review_closure_gap.schema.md";
 const MEDICARE_HI_RATE_SOLVER_READINESS_REVIEW_CLOSURE_GAP_READER_PATH: &str =
     "docs/reading/medicare-hi-rate-solver-readiness-review-closure-gap.md";
+const MEDICARE_HI_CLOSURE_SERIES_ROLLUP_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/medicare_hi_closure_series_rollup.v1.draft.json";
+const MEDICARE_HI_CLOSURE_SERIES_ROLLUP_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/medicare_hi_closure_series_rollup.schema.md";
+const MEDICARE_HI_CLOSURE_SERIES_ROLLUP_READER_PATH: &str =
+    "docs/reading/medicare-hi-closure-series-rollup.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11272,6 +11278,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_medicare_hi_trust_fund_solver_yield_closure_gap(root)?;
     validate_medicare_hi_policy_behavior_reform_yield_closure_gap(root)?;
     validate_medicare_hi_rate_solver_readiness_review_closure_gap(root)?;
+    validate_medicare_hi_closure_series_rollup(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -27431,6 +27438,276 @@ fn validate_medicare_hi_rate_solver_readiness_review_closure_gap(
     Ok(())
 }
 
+fn validate_medicare_hi_closure_series_rollup(root: &Path) -> Result<(), String> {
+    for path in [
+        MEDICARE_HI_CLOSURE_SERIES_ROLLUP_JSON_PATH,
+        MEDICARE_HI_CLOSURE_SERIES_ROLLUP_SCHEMA_PATH,
+        MEDICARE_HI_CLOSURE_SERIES_ROLLUP_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing Medicare HI closure series rollup artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(MEDICARE_HI_CLOSURE_SERIES_ROLLUP_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")? != "medicare-hi-closure-series-rollup:v1"
+        || string_field(&record, "record_family")? != "medicare_hi_closure_series_rollup"
+        || int_field(&record, "pulse")? != 156
+        || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&record, "medicare_hi_bridge_closure_work_queue_path")?
+            != MEDICARE_HI_BRIDGE_CLOSURE_WORK_QUEUE_JSON_PATH
+    {
+        return Err("Medicare HI closure series rollup identity failed".to_string());
+    }
+
+    let paths = record
+        .get("closure_packet_paths")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Medicare HI closure packet paths")?;
+    let expected_paths = [
+        MEDICARE_HI_OMB_CMS_RECEIPT_ROW_PERIMETER_EVIDENCE_JSON_PATH,
+        MEDICARE_HI_INCOME_CATEGORY_OMB_MAPPING_GAP_JSON_PATH,
+        MEDICARE_HI_LEGAL_BASE_CLOSURE_GAP_JSON_PATH,
+        MEDICARE_HI_ECONOMIC_BASE_CLOSURE_GAP_JSON_PATH,
+        MEDICARE_HI_TRUST_FUND_SOLVER_YIELD_CLOSURE_GAP_JSON_PATH,
+        MEDICARE_HI_POLICY_BEHAVIOR_REFORM_YIELD_CLOSURE_GAP_JSON_PATH,
+        MEDICARE_HI_RATE_SOLVER_READINESS_REVIEW_CLOSURE_GAP_JSON_PATH,
+    ];
+    if paths.len() != expected_paths.len() {
+        return Err("Medicare HI closure packet path count failed".to_string());
+    }
+    for expected in expected_paths {
+        if !paths.iter().any(|path| path.as_str() == Some(expected)) {
+            return Err(format!(
+                "Medicare HI closure series missing packet path: {expected}"
+            ));
+        }
+        if !root.join(expected).exists() {
+            return Err(format!(
+                "Medicare HI closure series packet path does not exist: {expected}"
+            ));
+        }
+    }
+
+    let status = record
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI closure series status")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_captured_sources_only",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "closure_series_rollup_published",
+        "all_closure_packets_published",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "Medicare HI closure series status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "new_external_download_performed",
+        "any_bridge_item_completed",
+        "all_six_bridge_items_ready",
+        "closure_review_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+        "public_claims_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI closure series status {field} must be false"
+            ));
+        }
+    }
+
+    let rows = record
+        .get("closure_packet_status")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Medicare HI closure packet status")?;
+    if rows.len() != 7
+        || rows.iter().any(|row| {
+            row.get("packet_published")
+                .and_then(serde_json::Value::as_bool)
+                != Some(true)
+        })
+        || rows
+            .iter()
+            .any(|row| row.get("completed").and_then(serde_json::Value::as_bool) != Some(false))
+        || rows
+            .iter()
+            .any(|row| row.get("ready").and_then(serde_json::Value::as_bool) != Some(false))
+        || rows
+            .iter()
+            .any(|row| row.get("value") != Some(&serde_json::Value::Null))
+    {
+        return Err(
+            "Medicare HI closure packet rows must remain published but blocked".to_string(),
+        );
+    }
+    let observed_rows = rows
+        .iter()
+        .map(|row| Ok((int_field(row, "rank")?, string_field(row, "work_id")?)))
+        .collect::<Result<BTreeSet<_>, String>>()?;
+    let expected_rows = [
+        (1, "omb_cms_receipt_row_perimeter_bridge"),
+        (2, "hi_income_category_split_to_omb_rows"),
+        (3, "legal_receipt_base_definition"),
+        (4, "economic_base_incidence_distribution"),
+        (5, "trust_fund_solver_yield_mapping"),
+        (6, "policy_behavior_reform_yield_model"),
+        (7, "medicare_hi_rate_solver_readiness_review"),
+    ]
+    .into_iter()
+    .map(|(rank, work_id)| (rank, work_id.to_string()))
+    .collect::<BTreeSet<_>>();
+    if observed_rows != expected_rows {
+        return Err("Medicare HI closure packet status set failed".to_string());
+    }
+
+    let summary = record
+        .get("series_summary")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI closure series summary")?;
+    for (field, expected) in [
+        ("closure_packets_expected", 7),
+        ("closure_packets_published", 7),
+        ("work_items_completed", 0),
+        ("work_items_ready", 0),
+        ("required_bridge_components", 6),
+        ("ready_bridge_components", 0),
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_i64) != Some(expected) {
+            return Err(format!("Medicare HI closure series summary {field} failed"));
+        }
+    }
+    for field in [
+        "closure_review_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+        "public_claims_ready",
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI closure series summary {field} must be false"
+            ));
+        }
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI closure series blocked outputs")?;
+    for field in [
+        "perimeter_bridge_value",
+        "legal_receipt_base_amount",
+        "economic_receipt_base_amount",
+        "matched_receipt_base",
+        "current_law_yield_matched_to_solver",
+        "reform_yield",
+        "solver_input_row",
+        "assigned_base_rate",
+        "statutory_rate",
+        "effective_rate",
+        "public_rate_card",
+        "tax_proposal_fields",
+        "balanced_budget_fields",
+        "target_cost",
+        "federal_effect",
+        "gross_savings",
+        "net_savings",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "Medicare HI closure series blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI closure series claims")?;
+    for field in [
+        "medicare_hi_closure_series_rollup_published",
+        "all_closure_packets_published",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "Medicare HI closure series claim {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "work_item_completed",
+        "any_bridge_item_completed",
+        "all_six_bridge_items_ready",
+        "closure_review_ready",
+        "assigned_receipt_base_published",
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+        "public_claims_ready",
+        "statutory_rate_claim",
+        "effective_rate_claim",
+        "public_rate_card_claim",
+        "tax_proposal_claim",
+        "balanced_budget_claim",
+        "target_cost_claim",
+        "federal_effect_claim",
+        "gross_savings_claim",
+        "net_savings_claim",
+        "waste_finding_claim",
+        "fraud_finding_claim",
+        "technology_savings_claim",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI closure series claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(MEDICARE_HI_CLOSURE_SERIES_ROLLUP_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for phrase in [
+        MEDICARE_HI_CLOSURE_SERIES_ROLLUP_JSON_PATH,
+        "The Medicare HI closure series rollup is published, but it does not complete any Medicare HI bridge item.",
+        "Seven Medicare HI closure packets are published; zero bridge items are ready.",
+        "The closure packets are blocker packets, not solver inputs and not rate-publication packets.",
+        "Medicare HI remains a separate trust fund; combined Medicare financing remains prohibited.",
+        "No Medicare HI assigned base, rate, reform yield, solver row, public rate card, tax proposal, savings estimate, or balanced-budget value is populated.",
+        "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "Medicare HI closure series reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -33529,6 +33806,12 @@ mod global_country_comparison_tests {
     fn medicare_hi_rate_solver_readiness_review_closure_gap_blocks_public_rates() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_medicare_hi_rate_solver_readiness_review_closure_gap(&root).unwrap();
+    }
+
+    #[test]
+    fn medicare_hi_closure_series_rollup_keeps_bridge_items_unready() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_medicare_hi_closure_series_rollup(&root).unwrap();
     }
 
     #[test]
