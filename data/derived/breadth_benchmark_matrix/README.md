@@ -785,3 +785,9 @@ base remains unselected pending statutory perimeter text, additional Medicare
 tax treatment, fiscal-year matching, and source-custodied base amount. It keeps
 assigned bases, rates, reform yield, solver rows, savings, and balanced-budget
 outputs blocked.
+
+`medicare_hi_economic_base_closure_gap.v1.draft.json` publishes Medicare HI
+closure item 4: economic base, incidence, distribution, administration,
+avoidance, compliance, and tax-interaction components remain missing. It blocks
+using CMS taxable payroll or the unselected legal base as the economic burden
+base and keeps rates, solver rows, savings, and balanced-budget outputs blocked.

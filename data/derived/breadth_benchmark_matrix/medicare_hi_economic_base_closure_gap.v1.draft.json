@@ -1,0 +1,194 @@
+{
+  "record_id": "medicare-hi-economic-base-closure-gap:v1",
+  "record_family": "medicare_hi_economic_base_closure_gap",
+  "schema_version": "v1.draft",
+  "pulse": 152,
+  "as_of_date": "2026-07-20",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "medicare_hi_bridge_closure_work_queue_path": "data/derived/breadth_benchmark_matrix/medicare_hi_bridge_closure_work_queue.v1.draft.json",
+  "medicare_hi_economic_base_definition_gap_path": "data/derived/breadth_benchmark_matrix/medicare_hi_economic_base_definition_gap.v1.draft.json",
+  "medicare_hi_legal_base_closure_gap_path": "data/derived/breadth_benchmark_matrix/medicare_hi_legal_base_closure_gap.v1.draft.json",
+  "source_custody_status": {
+    "official_sources_only": true,
+    "used_existing_captured_sources_only": true,
+    "new_external_download_performed": false,
+    "no_foia_or_records_request_submitted": true,
+    "no_agency_or_person_contacted": true,
+    "economic_base_closure_gap_published": true,
+    "legal_base_selected": false,
+    "incidence_model_ready": false,
+    "employer_burden_model_ready": false,
+    "employee_burden_model_ready": false,
+    "household_burden_model_ready": false,
+    "distribution_by_income_ready": false,
+    "administration_compliance_ready": false,
+    "avoidance_compliance_baseline_ready": false,
+    "economic_base_definition_complete": false,
+    "assigned_base_ready": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false
+  },
+  "work_queue_item": {
+    "rank": 4,
+    "work_id": "economic_base_incidence_distribution",
+    "component_id": "economic_base_definition",
+    "completed": false,
+    "ready": false,
+    "value": null
+  },
+  "economic_base_requirements": [
+    {
+      "required_artifact": "employer incidence",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "employee incidence",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "household mapping",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "wage adjustment channel",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "distribution by income",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "administration burden",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "avoidance and compliance baseline",
+      "ready": false,
+      "value": null
+    }
+  ],
+  "model_component_gaps": [
+    {
+      "component": "employer_burden_model",
+      "value": null,
+      "ready": false
+    },
+    {
+      "component": "employee_burden_model",
+      "value": null,
+      "ready": false
+    },
+    {
+      "component": "household_burden_model",
+      "value": null,
+      "ready": false
+    },
+    {
+      "component": "distribution_by_income",
+      "value": null,
+      "ready": false
+    },
+    {
+      "component": "administration_and_compliance_burden",
+      "value": null,
+      "ready": false
+    },
+    {
+      "component": "tax_interaction_scoring",
+      "value": null,
+      "ready": false
+    }
+  ],
+  "context_values": {
+    "cms_taxable_payroll_context_musd": 13277000,
+    "cms_payroll_tax_yield_context_musd": 400622.16,
+    "diagnostic_ratio_percent": 3.0175,
+    "diagnostic_ratio_publishable_as_rate": false,
+    "cms_taxable_payroll_can_substitute_for_economic_base": false,
+    "legal_base_can_substitute_for_economic_base": false,
+    "rate_can_be_published_without_distribution": false,
+    "solver_can_use_unincidenced_base": false
+  },
+  "summary": {
+    "economic_base_requirements": 7,
+    "ready_requirements": 0,
+    "blocked_requirements": 7,
+    "model_component_gaps": 6,
+    "ready_model_components": 0,
+    "work_queue_item_completed": false,
+    "economic_base_definition_complete": false,
+    "assigned_base_ready": false,
+    "rate_publication_ready": false,
+    "solver_ready": false
+  },
+  "blocked_outputs": {
+    "completed_economic_base_definition": null,
+    "incidence_model": null,
+    "employer_burden_model": null,
+    "employee_burden_model": null,
+    "household_burden_model": null,
+    "distribution_by_income": null,
+    "administration_compliance_burden": null,
+    "avoidance_and_compliance_baseline": null,
+    "tax_interaction_scoring": null,
+    "economic_receipt_base_amount": null,
+    "matched_receipt_base": null,
+    "assigned_base_rate": null,
+    "statutory_rate": null,
+    "effective_rate": null,
+    "current_law_yield_matched_to_solver": null,
+    "reform_yield": null,
+    "solver_input_row": null,
+    "public_rate_card": null,
+    "tax_proposal_fields": null,
+    "balanced_budget_fields": null,
+    "target_cost": null,
+    "federal_effect": null,
+    "gross_savings": null,
+    "net_savings": null
+  },
+  "public_warning_phrases": [
+    "The Medicare HI economic-base closure gap is published, but the economic base remains undefined.",
+    "The Medicare HI economic base is not defined by CMS taxable payroll alone.",
+    "The legal base and economic burden base remain separate; neither may be silently substituted for the other.",
+    "No Medicare HI rate can be published without incidence, distribution, administration, avoidance, and compliance modeling.",
+    "No Medicare HI assigned base, rate, reform yield, solver row, public rate card, tax proposal, savings estimate, or balanced-budget value is populated.",
+    "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+    "This record is not solver input, not a solver run, not a target-cost selection, not a rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+  ],
+  "claim_booleans": {
+    "medicare_hi_economic_base_closure_gap_published": true,
+    "work_item_completed": false,
+    "legal_base_selected": false,
+    "economic_base_definition_complete": false,
+    "incidence_model_ready": false,
+    "employer_burden_model_ready": false,
+    "employee_burden_model_ready": false,
+    "household_burden_model_ready": false,
+    "distribution_by_income_ready": false,
+    "administration_compliance_ready": false,
+    "avoidance_compliance_baseline_ready": false,
+    "assigned_receipt_base_published": false,
+    "matched_receipt_bases_ready": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false,
+    "statutory_rate_claim": false,
+    "effective_rate_claim": false,
+    "public_rate_card_claim": false,
+    "tax_proposal_claim": false,
+    "balanced_budget_claim": false,
+    "target_cost_claim": false,
+    "federal_effect_claim": false,
+    "gross_savings_claim": false,
+    "net_savings_claim": false,
+    "waste_finding_claim": false,
+    "fraud_finding_claim": false,
+    "technology_savings_claim": false
+  }
+}

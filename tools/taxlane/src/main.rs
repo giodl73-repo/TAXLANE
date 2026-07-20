@@ -583,6 +583,12 @@ const MEDICARE_HI_LEGAL_BASE_CLOSURE_GAP_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/medicare_hi_legal_base_closure_gap.schema.md";
 const MEDICARE_HI_LEGAL_BASE_CLOSURE_GAP_READER_PATH: &str =
     "docs/reading/medicare-hi-legal-base-closure-gap.md";
+const MEDICARE_HI_ECONOMIC_BASE_CLOSURE_GAP_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/medicare_hi_economic_base_closure_gap.v1.draft.json";
+const MEDICARE_HI_ECONOMIC_BASE_CLOSURE_GAP_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/medicare_hi_economic_base_closure_gap.schema.md";
+const MEDICARE_HI_ECONOMIC_BASE_CLOSURE_GAP_READER_PATH: &str =
+    "docs/reading/medicare-hi-economic-base-closure-gap.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11250,6 +11256,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_medicare_hi_omb_cms_receipt_row_perimeter_evidence(root)?;
     validate_medicare_hi_income_category_omb_mapping_gap(root)?;
     validate_medicare_hi_legal_base_closure_gap(root)?;
+    validate_medicare_hi_economic_base_closure_gap(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -26065,6 +26072,324 @@ fn validate_medicare_hi_legal_base_closure_gap(root: &Path) -> Result<(), String
     Ok(())
 }
 
+fn validate_medicare_hi_economic_base_closure_gap(root: &Path) -> Result<(), String> {
+    for path in [
+        MEDICARE_HI_ECONOMIC_BASE_CLOSURE_GAP_JSON_PATH,
+        MEDICARE_HI_ECONOMIC_BASE_CLOSURE_GAP_SCHEMA_PATH,
+        MEDICARE_HI_ECONOMIC_BASE_CLOSURE_GAP_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing Medicare HI economic base closure gap artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(MEDICARE_HI_ECONOMIC_BASE_CLOSURE_GAP_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")? != "medicare-hi-economic-base-closure-gap:v1"
+        || string_field(&record, "record_family")? != "medicare_hi_economic_base_closure_gap"
+        || int_field(&record, "pulse")? != 152
+        || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&record, "medicare_hi_bridge_closure_work_queue_path")?
+            != MEDICARE_HI_BRIDGE_CLOSURE_WORK_QUEUE_JSON_PATH
+        || string_field(&record, "medicare_hi_economic_base_definition_gap_path")?
+            != MEDICARE_HI_ECONOMIC_BASE_DEFINITION_GAP_JSON_PATH
+        || string_field(&record, "medicare_hi_legal_base_closure_gap_path")?
+            != MEDICARE_HI_LEGAL_BASE_CLOSURE_GAP_JSON_PATH
+    {
+        return Err("Medicare HI economic base closure gap identity failed".to_string());
+    }
+
+    let status = record
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI economic base closure status")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_captured_sources_only",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "economic_base_closure_gap_published",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "Medicare HI economic base closure status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "new_external_download_performed",
+        "legal_base_selected",
+        "incidence_model_ready",
+        "employer_burden_model_ready",
+        "employee_burden_model_ready",
+        "household_burden_model_ready",
+        "distribution_by_income_ready",
+        "administration_compliance_ready",
+        "avoidance_compliance_baseline_ready",
+        "economic_base_definition_complete",
+        "assigned_base_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI economic base closure status {field} must be false"
+            ));
+        }
+    }
+
+    let item = record
+        .get("work_queue_item")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI economic base closure work item")?;
+    if item.get("rank").and_then(serde_json::Value::as_i64) != Some(4)
+        || item.get("work_id").and_then(serde_json::Value::as_str)
+            != Some("economic_base_incidence_distribution")
+        || item.get("component_id").and_then(serde_json::Value::as_str)
+            != Some("economic_base_definition")
+        || item.get("completed").and_then(serde_json::Value::as_bool) != Some(false)
+        || item.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+        || item.get("value") != Some(&serde_json::Value::Null)
+    {
+        return Err("Medicare HI economic base closure work item failed".to_string());
+    }
+
+    let reqs = record
+        .get("economic_base_requirements")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Medicare HI economic base requirements")?;
+    if reqs.len() != 7
+        || reqs
+            .iter()
+            .any(|row| row.get("ready").and_then(serde_json::Value::as_bool) != Some(false))
+        || reqs
+            .iter()
+            .any(|row| row.get("value") != Some(&serde_json::Value::Null))
+    {
+        return Err("Medicare HI economic base requirements must remain blocked".to_string());
+    }
+
+    let components = record
+        .get("model_component_gaps")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Medicare HI economic base model components")?;
+    if components.len() != 6
+        || components
+            .iter()
+            .any(|row| row.get("ready").and_then(serde_json::Value::as_bool) != Some(false))
+        || components
+            .iter()
+            .any(|row| row.get("value") != Some(&serde_json::Value::Null))
+    {
+        return Err("Medicare HI economic base model components must remain blocked".to_string());
+    }
+    let observed_components = components
+        .iter()
+        .map(|row| string_field(row, "component"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_components = [
+        "employer_burden_model",
+        "employee_burden_model",
+        "household_burden_model",
+        "distribution_by_income",
+        "administration_and_compliance_burden",
+        "tax_interaction_scoring",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    if observed_components != expected_components {
+        return Err("Medicare HI economic base component set failed".to_string());
+    }
+
+    let context = record
+        .get("context_values")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI economic base context")?;
+    if context
+        .get("cms_taxable_payroll_context_musd")
+        .and_then(serde_json::Value::as_i64)
+        != Some(13277000)
+        || (context
+            .get("cms_payroll_tax_yield_context_musd")
+            .and_then(serde_json::Value::as_f64)
+            .ok_or("Medicare HI economic payroll tax yield context")?
+            - 400622.16)
+            .abs()
+            > 0.001
+        || (context
+            .get("diagnostic_ratio_percent")
+            .and_then(serde_json::Value::as_f64)
+            .ok_or("Medicare HI economic diagnostic ratio")?
+            - 3.0175)
+            .abs()
+            > 0.001
+    {
+        return Err("Medicare HI economic base context values failed".to_string());
+    }
+    for field in [
+        "diagnostic_ratio_publishable_as_rate",
+        "cms_taxable_payroll_can_substitute_for_economic_base",
+        "legal_base_can_substitute_for_economic_base",
+        "rate_can_be_published_without_distribution",
+        "solver_can_use_unincidenced_base",
+    ] {
+        if context.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI economic base context {field} must be false"
+            ));
+        }
+    }
+
+    let summary = record
+        .get("summary")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI economic base summary")?;
+    for (field, expected) in [
+        ("economic_base_requirements", 7),
+        ("ready_requirements", 0),
+        ("blocked_requirements", 7),
+        ("model_component_gaps", 6),
+        ("ready_model_components", 0),
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_i64) != Some(expected) {
+            return Err(format!("Medicare HI economic base summary {field} failed"));
+        }
+    }
+    for field in [
+        "work_queue_item_completed",
+        "economic_base_definition_complete",
+        "assigned_base_ready",
+        "rate_publication_ready",
+        "solver_ready",
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI economic base summary {field} must be false"
+            ));
+        }
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI economic base blocked outputs")?;
+    for field in [
+        "completed_economic_base_definition",
+        "incidence_model",
+        "employer_burden_model",
+        "employee_burden_model",
+        "household_burden_model",
+        "distribution_by_income",
+        "administration_compliance_burden",
+        "avoidance_and_compliance_baseline",
+        "tax_interaction_scoring",
+        "economic_receipt_base_amount",
+        "matched_receipt_base",
+        "assigned_base_rate",
+        "statutory_rate",
+        "effective_rate",
+        "current_law_yield_matched_to_solver",
+        "reform_yield",
+        "solver_input_row",
+        "public_rate_card",
+        "tax_proposal_fields",
+        "balanced_budget_fields",
+        "target_cost",
+        "federal_effect",
+        "gross_savings",
+        "net_savings",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "Medicare HI economic base blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI economic base claims")?;
+    if claims
+        .get("medicare_hi_economic_base_closure_gap_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("Medicare HI economic base published flag failed".to_string());
+    }
+    for field in [
+        "work_item_completed",
+        "legal_base_selected",
+        "economic_base_definition_complete",
+        "incidence_model_ready",
+        "employer_burden_model_ready",
+        "employee_burden_model_ready",
+        "household_burden_model_ready",
+        "distribution_by_income_ready",
+        "administration_compliance_ready",
+        "avoidance_compliance_baseline_ready",
+        "assigned_receipt_base_published",
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+        "statutory_rate_claim",
+        "effective_rate_claim",
+        "public_rate_card_claim",
+        "tax_proposal_claim",
+        "balanced_budget_claim",
+        "target_cost_claim",
+        "federal_effect_claim",
+        "gross_savings_claim",
+        "net_savings_claim",
+        "waste_finding_claim",
+        "fraud_finding_claim",
+        "technology_savings_claim",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI economic base claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(MEDICARE_HI_ECONOMIC_BASE_CLOSURE_GAP_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for phrase in [
+        MEDICARE_HI_ECONOMIC_BASE_CLOSURE_GAP_JSON_PATH,
+        "The Medicare HI economic-base closure gap is published, but the economic base remains undefined.",
+        "The Medicare HI economic base is not defined by CMS taxable payroll alone.",
+        "The legal base and economic burden base remain separate; neither may be silently substituted for the other.",
+        "No Medicare HI rate can be published without incidence, distribution, administration, avoidance, and compliance modeling.",
+        "No Medicare HI assigned base, rate, reform yield, solver row, public rate card, tax proposal, savings estimate, or balanced-budget value is populated.",
+        "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "Medicare HI economic base reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -32139,6 +32464,12 @@ mod global_country_comparison_tests {
     fn medicare_hi_legal_base_closure_gap_keeps_base_unselected() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_medicare_hi_legal_base_closure_gap(&root).unwrap();
+    }
+
+    #[test]
+    fn medicare_hi_economic_base_closure_gap_blocks_unincidenced_base() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_medicare_hi_economic_base_closure_gap(&root).unwrap();
     }
 
     #[test]
