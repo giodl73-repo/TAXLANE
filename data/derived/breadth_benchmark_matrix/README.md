@@ -916,3 +916,11 @@ equity/unmet-need, reserve-adequacy, and exposure-normalized-loss-distribution
 delivery-feasibility floors while keeping event-normalized outlays,
 base/supplemental bridges, reserve rules, target costs, savings, solver inputs,
 and balanced-budget claims blocked.
+
+`justice_courts_public_safety_outcome_floor_definition_packet.v1.draft.json`
+extends the floor definition packet pattern to the justice/courts/public-safety
+lane. It defines due-process/court-access, public-safety/victimization,
+court-timeliness/caseload, correctional-safety/recidivism, civil-rights/equity,
+and federalism/caseload delivery-feasibility floors while keeping all-government
+translation, component policy paths, target costs, savings, solver inputs, and
+balanced-budget claims blocked.

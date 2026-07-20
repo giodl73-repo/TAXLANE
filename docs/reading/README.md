@@ -503,6 +503,11 @@ It is the bounded public surface, not a performance or savings report.
      project amounts are not outlays, and benefit-cost ratios are not realized
      savings; thresholds, pass/fail findings, reserve rules, target costs,
      savings, solver inputs, and balanced-budget claims remain blocked.
+110. Read `justice-courts-public-safety-outcome-floor-definition-packet.md`
+     before treating any justice lower-cost scenario, all-government comparison,
+     or component policy path as admissible. Federal function 750 is not the full
+     US justice system; thresholds, pass/fail findings, rights review, target
+     costs, savings, solver inputs, and balanced-budget claims remain blocked.
 
 ## Public-Use Guardrail
 

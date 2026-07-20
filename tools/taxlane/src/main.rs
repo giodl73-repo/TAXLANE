@@ -684,6 +684,10 @@ const DISASTER_RESILIENCE_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH: &str = "dat
 const DISASTER_RESILIENCE_OUTCOME_FLOOR_DEFINITION_PACKET_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/disaster_resilience_outcome_floor_definition_packet.schema.md";
 const DISASTER_RESILIENCE_OUTCOME_FLOOR_DEFINITION_PACKET_READER_PATH: &str =
     "docs/reading/disaster-resilience-outcome-floor-definition-packet.md";
+const JUSTICE_COURTS_PUBLIC_SAFETY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/justice_courts_public_safety_outcome_floor_definition_packet.v1.draft.json";
+const JUSTICE_COURTS_PUBLIC_SAFETY_OUTCOME_FLOOR_DEFINITION_PACKET_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/justice_courts_public_safety_outcome_floor_definition_packet.schema.md";
+const JUSTICE_COURTS_PUBLIC_SAFETY_OUTCOME_FLOOR_DEFINITION_PACKET_READER_PATH: &str =
+    "docs/reading/justice-courts-public-safety-outcome-floor-definition-packet.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11371,6 +11375,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_transportation_infrastructure_outcome_floor_definition_packet(root)?;
     validate_education_workforce_outcome_floor_definition_packet(root)?;
     validate_disaster_resilience_outcome_floor_definition_packet(root)?;
+    validate_justice_courts_public_safety_outcome_floor_definition_packet(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -32210,6 +32215,316 @@ fn validate_disaster_resilience_outcome_floor_definition_packet(root: &Path) -> 
     Ok(())
 }
 
+fn validate_justice_courts_public_safety_outcome_floor_definition_packet(
+    root: &Path,
+) -> Result<(), String> {
+    for path in [
+        JUSTICE_COURTS_PUBLIC_SAFETY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
+        JUSTICE_COURTS_PUBLIC_SAFETY_OUTCOME_FLOOR_DEFINITION_PACKET_SCHEMA_PATH,
+        JUSTICE_COURTS_PUBLIC_SAFETY_OUTCOME_FLOOR_DEFINITION_PACKET_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing justice/courts/public-safety outcome floor definition packet artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(
+        root.join(JUSTICE_COURTS_PUBLIC_SAFETY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH),
+    )
+    .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")?
+        != "justice-courts-public-safety-outcome-floor-definition-packet:v1"
+        || string_field(&record, "record_family")?
+            != "justice_courts_public_safety_outcome_floor_definition_packet"
+        || int_field(&record, "pulse")? != 172
+        || string_field(&record, "lane_id")? != "justice-courts-public-safety"
+        || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&record, "outcome_floor_thresholds_gap_path")?
+            != OUTCOME_FLOOR_THRESHOLDS_GAP_JSON_PATH
+        || string_field(
+            &record,
+            "disaster_resilience_outcome_floor_definition_packet_path",
+        )? != DISASTER_RESILIENCE_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH
+        || string_field(&record, "justice_depth_card_path")? != JUSTICE_DEPTH_CARD_JSON_PATH
+        || string_field(&record, "lane_depth_explainability_tracker_path")?
+            != LANE_DEPTH_EXPLAINABILITY_TRACKER_JSON_PATH
+    {
+        return Err(
+            "justice/courts/public-safety floor definition packet identity failed".to_string(),
+        );
+    }
+
+    let status = record
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("justice/courts/public-safety floor source custody status")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_captured_sources_only",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "definition_packet_published",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "justice/courts/public-safety floor status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "new_external_download_performed",
+        "federal_state_local_translation_ready",
+        "caseload_denominator_ready",
+        "rights_safety_review_ready",
+        "threshold_values_selected",
+        "baseline_values_populated",
+        "policy_values_populated",
+        "stress_values_populated",
+        "pass_fail_review_complete",
+        "target_cost_ready",
+        "solver_input_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "justice/courts/public-safety floor status {field} must be false"
+            ));
+        }
+    }
+
+    let policy = record
+        .get("definition_policy")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("justice/courts/public-safety floor definition policy")?;
+    for field in [
+        "federal_state_local_translation_required",
+        "caseload_population_denominators_required",
+        "due_process_rights_and_public_safety_floors_required",
+        "justice_components_must_remain_separate",
+        "federal_function_is_not_all_government_justice_cost",
+        "all_lower_cost_scenarios_must_pass_floors",
+        "missing_values_remain_null",
+        "blocked_gates_remain_false",
+        "named_floor_concepts_are_not_threshold_values",
+        "international_differences_not_savings",
+        "no_fraud_inference",
+    ] {
+        if policy.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "justice/courts/public-safety floor policy {field} must be true"
+            ));
+        }
+    }
+
+    let classes = record
+        .get("required_floor_classes")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("justice/courts/public-safety required floor classes")?;
+    let expected_classes = [
+        "access_coverage",
+        "quality_safety",
+        "equity_distribution",
+        "adequacy_resilience",
+        "fiscal_delivery_feasibility",
+    ];
+    if classes.len() != expected_classes.len() {
+        return Err("justice/courts/public-safety required floor class count failed".to_string());
+    }
+    let observed_classes = classes
+        .iter()
+        .map(|row| string_field(row, "floor_class"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_class_set = expected_classes
+        .into_iter()
+        .map(str::to_string)
+        .collect::<BTreeSet<_>>();
+    if observed_classes != expected_class_set {
+        return Err("justice/courts/public-safety required floor class set failed".to_string());
+    }
+    for row in classes {
+        for field in [
+            "threshold_value",
+            "baseline_value",
+            "policy_value",
+            "stress_value",
+        ] {
+            if row.get(field) != Some(&serde_json::Value::Null) {
+                return Err(format!(
+                    "justice/courts/public-safety floor class {field} must be null"
+                ));
+            }
+        }
+        if row.get("passed").and_then(serde_json::Value::as_bool) != Some(false)
+            || string_field(row, "review_status")? != "definition_only_not_thresholded"
+        {
+            return Err(
+                "justice/courts/public-safety floor class must remain unpassed".to_string(),
+            );
+        }
+    }
+
+    let lane_floors = record
+        .get("justice_courts_public_safety_specific_floor_definitions")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("justice/courts/public-safety-specific floor definitions")?;
+    let expected_lane_floors = [
+        "due_process_court_access",
+        "public_safety_victimization",
+        "court_timeliness_caseload",
+        "correctional_safety_recidivism",
+        "civil_rights_equity",
+        "federalism_caseload_delivery_feasibility",
+    ];
+    if lane_floors.len() != expected_lane_floors.len() {
+        return Err("justice/courts/public-safety-specific floor count failed".to_string());
+    }
+    let observed_lane_floors = lane_floors
+        .iter()
+        .map(|row| string_field(row, "floor_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_lane_floor_set = expected_lane_floors
+        .into_iter()
+        .map(str::to_string)
+        .collect::<BTreeSet<_>>();
+    if observed_lane_floors != expected_lane_floor_set {
+        return Err("justice/courts/public-safety-specific floor set failed".to_string());
+    }
+    for row in lane_floors {
+        if row.get("threshold_value") != Some(&serde_json::Value::Null)
+            || row.get("observed_value") != Some(&serde_json::Value::Null)
+            || row.get("passed").and_then(serde_json::Value::as_bool) != Some(false)
+        {
+            return Err(
+                "justice/courts/public-safety-specific floors must remain null and unpassed"
+                    .to_string(),
+            );
+        }
+    }
+
+    for object_name in ["blocked_inputs", "blocked_outputs"] {
+        let object = record
+            .get(object_name)
+            .and_then(serde_json::Value::as_object)
+            .ok_or(object_name)?;
+        if object
+            .values()
+            .any(|value| value != &serde_json::Value::Null)
+        {
+            return Err(format!("{object_name} must remain null"));
+        }
+    }
+
+    let summary = record
+        .get("summary")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("justice/courts/public-safety floor summary")?;
+    if summary
+        .get("floor_classes")
+        .and_then(serde_json::Value::as_i64)
+        != Some(5)
+        || summary
+            .get("justice_courts_public_safety_specific_floors")
+            .and_then(serde_json::Value::as_i64)
+            != Some(6)
+    {
+        return Err("justice/courts/public-safety floor summary counts failed".to_string());
+    }
+    for field in [
+        "threshold_values_selected",
+        "baseline_values_populated",
+        "policy_values_populated",
+        "stress_values_populated",
+        "all_floors_passed",
+        "target_cost_ready",
+        "solver_input_ready",
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "justice/courts/public-safety floor summary {field} must be false"
+            ));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("justice/courts/public-safety floor claims")?;
+    if claims
+        .get("definition_packet_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err(
+            "justice/courts/public-safety floor packet publication flag failed".to_string(),
+        );
+    }
+    for field in [
+        "all_government_justice_cost_ready",
+        "federal_state_local_translation_ready",
+        "component_specific_policy_paths_ready",
+        "caseload_denominator_ready",
+        "rights_safety_review_ready",
+        "threshold_values_selected",
+        "baseline_values_populated",
+        "policy_values_populated",
+        "stress_values_populated",
+        "pass_fail_review_complete",
+        "all_floors_passed",
+        "target_cost_published",
+        "federal_effect_published",
+        "gross_savings_published",
+        "net_savings_published",
+        "solver_input_ready",
+        "public_rate_card_published",
+        "department_cut_instruction_published",
+        "technology_savings_claim_published",
+        "balanced_budget_claim_published",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "justice/courts/public-safety floor claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(
+        root.join(JUSTICE_COURTS_PUBLIC_SAFETY_OUTCOME_FLOOR_DEFINITION_PACKET_READER_PATH),
+    )
+    .map_err(|e| e.to_string())?;
+    for phrase in [
+        JUSTICE_COURTS_PUBLIC_SAFETY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
+        "This justice/courts/public-safety floor packet defines required floor concepts, but it does not set threshold values or pass/fail findings.",
+        "The federal Administration of Justice function is not the cost of the US justice system; most policing, prosecution, courts, corrections, and public safety are state/local.",
+        "No lower-cost justice/courts/public-safety scenario is admissible until due process, public safety, court timeliness, correctional safety, civil rights/equity, federalism, caseload, adequacy/resilience, and delivery-feasibility floors are thresholded, sourced, reviewed, and passed.",
+        "No target cost, federal effect, gross savings, net savings, solver input, department-cut instruction, technology-savings claim, or balanced-budget claim is populated.",
+        "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+        "not outcome-floor passage",
+        "not an all-government justice cost",
+        "not a federal/state/local translation",
+        "not a caseload model",
+        "not a rights finding",
+        "not a federal score",
+        "not a target-cost selection",
+        "not solver input",
+        "not a rate calculation",
+        "not a savings estimate",
+        "not a fraud finding",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "justice/courts/public-safety floor reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -38404,6 +38719,12 @@ mod global_country_comparison_tests {
     fn disaster_resilience_outcome_floor_definition_packet_blocks_declaration_savings_shortcut() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_disaster_resilience_outcome_floor_definition_packet(&root).unwrap();
+    }
+
+    #[test]
+    fn justice_courts_public_safety_outcome_floor_definition_packet_blocks_federalism_shortcut() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_justice_courts_public_safety_outcome_floor_definition_packet(&root).unwrap();
     }
 
     #[test]
