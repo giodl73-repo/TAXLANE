@@ -850,3 +850,10 @@ adequacy, old-age poverty, disability/survivor protection, trust-fund
 continuity, and administration/transition feasibility floors while keeping
 threshold values, pass/fail findings, demographic scores, trust-fund solvency
 scores, rates, solver inputs, savings, and balanced-budget claims blocked.
+
+`defense_outcome_floor_definition_packet.v1.draft.json` extends the floor
+definition packet pattern to national defense. It defines treaty commitment,
+readiness, personnel-safety, strategic-reserve, and force-structure/procurement
+feasibility floors while keeping thresholds, pass/fail findings, force-structure
+plans, procurement schedules, federal scores, target costs, solver inputs,
+savings, and balanced-budget claims blocked.

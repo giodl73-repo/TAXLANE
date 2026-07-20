@@ -457,6 +457,11 @@ It is the bounded public surface, not a performance or savings report.
      packet defines floor concepts only; trust-fund paths, thresholds,
      pass/fail findings, rates, savings, solver inputs, and balanced-budget
      claims remain blocked.
+101. Read `defense-outcome-floor-definition-packet.md` before treating any GDP
+     defense band, force-structure concept, or lower-cost defense scenario as
+     admissible. The packet defines floor concepts only; thresholds, pass/fail
+     findings, procurement schedules, federal scores, savings, solver inputs,
+     and balanced-budget claims remain blocked.
 
 ## Public-Use Guardrail
 
