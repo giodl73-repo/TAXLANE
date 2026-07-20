@@ -878,3 +878,10 @@ interest is endogenous and cannot be cut directly, and it defines debt-service,
 endogenous-formula, debt/maturity/rate path, primary-balance feedback, and
 stress-resilience floors while keeping direct cuts, savings, solver inputs,
 solver runs, and balanced-budget claims blocked.
+
+`payment_integrity_outcome_floor_definition_packet.v1.draft.json` extends the
+floor definition packet pattern to the non-additive payment-integrity overlay.
+It defines due-process, timely-payment, access, false-positive, and causal
+prevention/same-cohort collection lineage floors while keeping fraud findings,
+waste findings, recoverable savings credits, solver inputs, savings, and
+balanced-budget claims blocked.

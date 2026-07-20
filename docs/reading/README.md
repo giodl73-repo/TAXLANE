@@ -476,6 +476,11 @@ It is the bounded public surface, not a performance or savings report.
      net-interest amount as cuttable or solver-ready. Net interest is endogenous;
      debt, maturity, rate, primary-balance feedback, thresholds, pass/fail
      findings, solver inputs, and balanced-budget claims remain blocked.
+105. Read `payment-integrity-outcome-floor-definition-packet.md` before treating
+     any improper-payment estimate, control concept, or collection concept as
+     savings-ready. Payment integrity is non-additive; fraud findings, causal
+     prevention lineage, same-cohort collection lineage, thresholds, pass/fail
+     findings, solver inputs, and balanced-budget claims remain blocked.
 
 ## Public-Use Guardrail
 
