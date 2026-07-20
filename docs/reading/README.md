@@ -472,6 +472,10 @@ It is the bounded public surface, not a performance or savings report.
      Revenue-solvency is non-additive; matched bases, behavior, incidence,
      distribution, administration, thresholds, pass/fail findings, solver
      inputs, and balanced-budget claims remain blocked.
+104. Read `net-interest-outcome-floor-definition-packet.md` before treating any
+     net-interest amount as cuttable or solver-ready. Net interest is endogenous;
+     debt, maturity, rate, primary-balance feedback, thresholds, pass/fail
+     findings, solver inputs, and balanced-budget claims remain blocked.
 
 ## Public-Use Guardrail
 

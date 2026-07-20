@@ -871,3 +871,10 @@ defines distributional-progressivity, revenue-stability, administrability,
 growth-sensitivity, and matched base/behavior/incidence readiness floors while
 keeping receipt bases, rates, tax proposals, solver inputs, savings, and
 balanced-budget claims blocked.
+
+`net_interest_outcome_floor_definition_packet.v1.draft.json` extends the floor
+definition packet pattern to net interest. It preserves the rule that net
+interest is endogenous and cannot be cut directly, and it defines debt-service,
+endogenous-formula, debt/maturity/rate path, primary-balance feedback, and
+stress-resilience floors while keeping direct cuts, savings, solver inputs,
+solver runs, and balanced-budget claims blocked.
