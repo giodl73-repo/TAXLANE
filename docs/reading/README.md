@@ -462,6 +462,11 @@ It is the bounded public surface, not a performance or savings report.
      admissible. The packet defines floor concepts only; thresholds, pass/fail
      findings, procurement schedules, federal scores, savings, solver inputs,
      and balanced-budget claims remain blocked.
+102. Read `income-security-family-outcome-floor-definition-packet.md` before
+     treating any income-security/family benefit concept or lower-cost scenario
+     as admissible. The packet defines floor concepts only; benefit-package
+     models, take-up models, thresholds, pass/fail findings, federal scores,
+     savings, solver inputs, and balanced-budget claims remain blocked.
 
 ## Public-Use Guardrail
 

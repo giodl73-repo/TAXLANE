@@ -857,3 +857,10 @@ readiness, personnel-safety, strategic-reserve, and force-structure/procurement
 feasibility floors while keeping thresholds, pass/fail findings, force-structure
 plans, procurement schedules, federal scores, target costs, solver inputs,
 savings, and balanced-budget claims blocked.
+
+`income_security_family_outcome_floor_definition_packet.v1.draft.json` extends
+the floor definition packet pattern to income security and family programs. It
+defines child-poverty, material-hardship, formal-childcare-access,
+work/care-transition, and benefit-package/take-up delivery-feasibility floors
+while keeping thresholds, pass/fail findings, federal scores, target costs,
+solver inputs, savings, and balanced-budget claims blocked.
