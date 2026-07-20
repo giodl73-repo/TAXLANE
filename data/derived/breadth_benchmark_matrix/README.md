@@ -820,3 +820,8 @@ work after the Medicare HI closure blocker series. It keeps source custody,
 fund reconciliation, floors, policy scores, receipt bases, payment-integrity
 lineage, net-interest feedback, solver dry run, rates, savings, and public
 claims blocked.
+
+`source_custody_current_law_paths_gap.v1.draft.json` publishes the rank-1
+source-custody and official current-law path blocker after the Medicare HI
+closure series. It keeps all required annual path values, the 2025-2035
+horizon, solver inputs, rates, savings, and balanced-budget claims blocked.
