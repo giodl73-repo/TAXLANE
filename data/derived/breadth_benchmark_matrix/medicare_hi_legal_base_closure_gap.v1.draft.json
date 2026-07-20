@@ -1,0 +1,169 @@
+{
+  "record_id": "medicare-hi-legal-base-closure-gap:v1",
+  "record_family": "medicare_hi_legal_base_closure_gap",
+  "schema_version": "v1.draft",
+  "pulse": 151,
+  "as_of_date": "2026-07-20",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "medicare_hi_bridge_closure_work_queue_path": "data/derived/breadth_benchmark_matrix/medicare_hi_bridge_closure_work_queue.v1.draft.json",
+  "medicare_hi_legal_base_definition_gap_path": "data/derived/breadth_benchmark_matrix/medicare_hi_legal_base_definition_gap.v1.draft.json",
+  "medicare_hi_income_category_omb_mapping_gap_path": "data/derived/breadth_benchmark_matrix/medicare_hi_income_category_omb_mapping_gap.v1.draft.json",
+  "source_custody_status": {
+    "official_sources_only": true,
+    "used_existing_captured_sources_only": true,
+    "new_external_download_performed": false,
+    "no_foia_or_records_request_submitted": true,
+    "no_agency_or_person_contacted": true,
+    "cms_glossary_definitions_evidenced": true,
+    "legal_base_closure_gap_published": true,
+    "official_legal_perimeter_text_ready": false,
+    "covered_earnings_definition_ready": false,
+    "self_employment_treatment_ready": false,
+    "additional_medicare_tax_treatment_ready": false,
+    "tax_year_to_fiscal_year_bridge_ready": false,
+    "source_custodied_base_amount_ready": false,
+    "legal_base_definition_complete": false,
+    "assigned_base_ready": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false
+  },
+  "work_queue_item": {
+    "rank": 3,
+    "work_id": "legal_receipt_base_definition",
+    "component_id": "legal_base_definition",
+    "completed": false,
+    "ready": false,
+    "value": null
+  },
+  "candidate_terms": [
+    "gross wages",
+    "net earnings from self-employment",
+    "taxable wages",
+    "taxable self-employment income",
+    "taxable payroll"
+  ],
+  "legal_base_requirements": [
+    {
+      "required_artifact": "legal perimeter text",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "covered earnings definition",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "self-employment treatment",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "additional Medicare tax treatment",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "matched fiscal year",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "source custody for legal base amount",
+      "ready": false,
+      "value": null
+    }
+  ],
+  "legal_base_gap": {
+    "selected_legal_base": null,
+    "legal_receipt_base_amount_musd": null,
+    "statutory_perimeter_text": null,
+    "covered_earnings_definition": null,
+    "self_employment_treatment": null,
+    "additional_medicare_tax_treatment": null,
+    "wage_cap_or_no_cap_treatment": null,
+    "tax_year_to_fiscal_year_bridge": null,
+    "ready": false
+  },
+  "context_values": {
+    "cms_taxable_payroll_context_musd": 13277000,
+    "cms_payroll_tax_yield_context_musd": 400622.16,
+    "diagnostic_ratio_percent": 3.0175,
+    "diagnostic_ratio_publishable_as_rate": false,
+    "cms_taxable_payroll_can_be_selected_as_legal_base": false,
+    "cms_payroll_tax_yield_can_define_legal_base": false,
+    "cms_glossary_can_resolve_additional_medicare_tax": false
+  },
+  "summary": {
+    "candidate_terms": 5,
+    "legal_base_requirements": 6,
+    "ready_requirements": 0,
+    "blocked_requirements": 6,
+    "work_queue_item_completed": false,
+    "legal_base_definition_complete": false,
+    "assigned_base_ready": false,
+    "rate_publication_ready": false,
+    "solver_ready": false
+  },
+  "blocked_outputs": {
+    "completed_legal_base_definition": null,
+    "selected_legal_base": null,
+    "official_legal_perimeter_text": null,
+    "covered_earnings_definition": null,
+    "self_employment_treatment": null,
+    "additional_medicare_tax_treatment": null,
+    "tax_year_to_fiscal_year_bridge": null,
+    "legal_receipt_base_amount": null,
+    "economic_receipt_base_amount": null,
+    "matched_receipt_base": null,
+    "assigned_base_rate": null,
+    "statutory_rate": null,
+    "effective_rate": null,
+    "current_law_yield_matched_to_solver": null,
+    "reform_yield": null,
+    "solver_input_row": null,
+    "public_rate_card": null,
+    "tax_proposal_fields": null,
+    "balanced_budget_fields": null,
+    "target_cost": null,
+    "federal_effect": null,
+    "gross_savings": null,
+    "net_savings": null
+  },
+  "public_warning_phrases": [
+    "The Medicare HI legal-base closure gap is published, but the legal base remains unselected.",
+    "CMS glossary terms clarify source terminology but do not complete the Medicare HI legal-base definition.",
+    "Gross wages, net self-employment earnings, taxable wages, taxable self-employment income, and taxable payroll are not interchangeable.",
+    "Additional Medicare tax treatment remains unresolved and cannot be inferred from the CMS glossary alone.",
+    "No Medicare HI assigned base, rate, reform yield, solver row, public rate card, tax proposal, savings estimate, or balanced-budget value is populated.",
+    "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+    "This record is not solver input, not a solver run, not a target-cost selection, not a rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+  ],
+  "claim_booleans": {
+    "medicare_hi_legal_base_closure_gap_published": true,
+    "work_item_completed": false,
+    "legal_base_definition_complete": false,
+    "official_legal_perimeter_text_ready": false,
+    "covered_earnings_definition_ready": false,
+    "self_employment_treatment_ready": false,
+    "additional_medicare_tax_treatment_ready": false,
+    "tax_year_to_fiscal_year_bridge_ready": false,
+    "source_custodied_base_amount_ready": false,
+    "assigned_receipt_base_published": false,
+    "matched_receipt_bases_ready": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false,
+    "statutory_rate_claim": false,
+    "effective_rate_claim": false,
+    "public_rate_card_claim": false,
+    "tax_proposal_claim": false,
+    "balanced_budget_claim": false,
+    "target_cost_claim": false,
+    "federal_effect_claim": false,
+    "gross_savings_claim": false,
+    "net_savings_claim": false,
+    "waste_finding_claim": false,
+    "fraud_finding_claim": false,
+    "technology_savings_claim": false
+  }
+}

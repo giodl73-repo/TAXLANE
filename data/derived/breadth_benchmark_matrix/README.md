@@ -778,3 +778,10 @@ Medicare HI closure item 2 gap: CMS income categories are evidenced, but mapping
 them to OMB Hospital Insurance receipt rows remains incomplete. It keeps the
 OMB/CMS crosswalk, excluded-category list, residual explanation, assigned bases,
 rates, reform yield, solver rows, savings, and balanced-budget outputs blocked.
+
+`medicare_hi_legal_base_closure_gap.v1.draft.json` publishes Medicare HI closure
+item 3: CMS terminology identifies candidate legal-base terms, but the legal
+base remains unselected pending statutory perimeter text, additional Medicare
+tax treatment, fiscal-year matching, and source-custodied base amount. It keeps
+assigned bases, rates, reform yield, solver rows, savings, and balanced-budget
+outputs blocked.
