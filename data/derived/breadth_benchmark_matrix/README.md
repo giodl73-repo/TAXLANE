@@ -837,3 +837,9 @@ threshold blocker. It records that lane-specific threshold values,
 baseline/policy/stress floor values, and reviewed pass/fail evidence remain
 missing, so lower-cost scenarios, target costs, solver inputs, savings, and
 balanced-budget claims stay blocked.
+
+`health_outcome_floor_definition_packet.v1.draft.json` is the first
+lane-specific floor definition packet. It defines health/Medicare floor classes
+and health-specific floor concepts while keeping threshold values, observed
+values, pass/fail findings, target costs, federal effects, solver inputs,
+savings, rates, technology-savings claims, and balanced-budget claims blocked.

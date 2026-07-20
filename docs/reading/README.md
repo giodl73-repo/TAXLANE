@@ -448,6 +448,10 @@ It is the bounded public surface, not a performance or savings report.
 98. Read `distribution-incidence-source-gap.md` before publishing any burden,
     incidence, benefit/service, macro, interaction, rate, solver, public rate
     card, tax proposal, or balanced-budget output.
+99. Read `health-outcome-floor-definition-packet.md` before treating any health
+    lower-cost scenario as admissible. The packet defines floor concepts only;
+    thresholds, pass/fail findings, target costs, federal effects, savings,
+    solver inputs, rates, and balanced-budget claims remain blocked.
 
 ## Public-Use Guardrail
 
