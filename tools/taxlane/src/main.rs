@@ -526,6 +526,12 @@ const MEDICARE_HI_PAYROLL_TAX_PERIMETER_BRIDGE_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/medicare_hi_payroll_tax_perimeter_bridge.schema.md";
 const MEDICARE_HI_PAYROLL_TAX_PERIMETER_BRIDGE_READER_PATH: &str =
     "docs/reading/medicare-hi-payroll-tax-perimeter-bridge.md";
+const MEDICARE_HI_BENEFITS_TAX_INCOME_SPLIT_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/medicare_hi_benefits_tax_income_split.v1.draft.json";
+const MEDICARE_HI_BENEFITS_TAX_INCOME_SPLIT_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/medicare_hi_benefits_tax_income_split.schema.md";
+const MEDICARE_HI_BENEFITS_TAX_INCOME_SPLIT_READER_PATH: &str =
+    "docs/reading/medicare-hi-benefits-tax-income-split.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11183,6 +11189,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_medicare_hi_receipt_base_reconciliation(root)?;
     validate_medicare_hi_perimeter_bridge_requirements(root)?;
     validate_medicare_hi_payroll_tax_perimeter_bridge(root)?;
+    validate_medicare_hi_benefits_tax_income_split(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -23151,6 +23158,358 @@ fn validate_medicare_hi_payroll_tax_perimeter_bridge(root: &Path) -> Result<(), 
     Ok(())
 }
 
+fn validate_medicare_hi_benefits_tax_income_split(root: &Path) -> Result<(), String> {
+    for path in [
+        MEDICARE_HI_BENEFITS_TAX_INCOME_SPLIT_JSON_PATH,
+        MEDICARE_HI_BENEFITS_TAX_INCOME_SPLIT_SCHEMA_PATH,
+        MEDICARE_HI_BENEFITS_TAX_INCOME_SPLIT_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing Medicare HI benefits tax income split artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(MEDICARE_HI_BENEFITS_TAX_INCOME_SPLIT_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")? != "medicare-hi-benefits-tax-income-split:v1"
+        || string_field(&record, "record_family")? != "medicare_hi_benefits_tax_income_split"
+        || int_field(&record, "pulse")? != 142
+        || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&record, "medicare_hi_perimeter_bridge_requirements_path")?
+            != MEDICARE_HI_PERIMETER_BRIDGE_REQUIREMENTS_JSON_PATH
+        || string_field(&record, "medicare_hi_payroll_tax_perimeter_bridge_path")?
+            != MEDICARE_HI_PAYROLL_TAX_PERIMETER_BRIDGE_JSON_PATH
+        || string_field(&record, "rate_publication_readiness_rollup_path")?
+            != RATE_PUBLICATION_READINESS_ROLLUP_JSON_PATH
+        || string_field(&record, "component_id")? != "taxation_of_benefits_and_other_income_split"
+    {
+        return Err("Medicare HI benefits tax income split identity failed".to_string());
+    }
+
+    let status = record
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI benefits tax income split status")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_captured_sources_only",
+        "cms_medicare_trustees_raw_custody_ready",
+        "omb_hi_anchor_raw_custody_ready",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "cms_hi_income_split_evidenced",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "Medicare HI benefits tax income split status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "omb_receipt_row_mapping_complete",
+        "component_ready",
+        "perimeter_bridge_complete",
+        "assigned_base_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI benefits tax income split status {field} must be false"
+            ));
+        }
+    }
+
+    let source_table = record
+        .get("source_table")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI benefits tax income split source table")?;
+    if source_table
+        .get("source_id")
+        .and_then(serde_json::Value::as_str)
+        != Some("SRC-CMS-MEDICARE-TRUSTEES-2026")
+        || source_table
+            .get("period")
+            .and_then(serde_json::Value::as_str)
+            != Some("FY2025")
+        || source_table
+            .get("total_revenue_musd")
+            .and_then(serde_json::Value::as_f64)
+            != Some(458_772.597)
+    {
+        return Err("Medicare HI benefits tax income split source table failed".to_string());
+    }
+
+    let split = record
+        .get("cms_income_split_musd")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI CMS income split")?;
+    for (field, expected) in [
+        ("payroll_taxes", 400_622.16),
+        ("income_from_taxation_of_oasdi_benefits", 41_054.0),
+        ("other_non_payroll_income", 17_096.437),
+        ("total_non_payroll_income", 58_150.437),
+        ("total_revenue", 458_772.597),
+    ] {
+        let observed = split
+            .get(field)
+            .and_then(serde_json::Value::as_f64)
+            .ok_or(format!("Medicare HI split {field} missing"))?;
+        if (observed - expected).abs() > 0.001 {
+            return Err(format!("Medicare HI split {field} failed"));
+        }
+    }
+
+    let rows = record
+        .get("cms_revenue_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Medicare HI revenue rows")?;
+    if rows.len() != 20 {
+        return Err("Medicare HI revenue row count failed".to_string());
+    }
+    let row_sum = rows
+        .iter()
+        .map(|row| {
+            row.get("amount_musd")
+                .and_then(serde_json::Value::as_f64)
+                .ok_or("Medicare HI revenue row amount")
+        })
+        .collect::<Result<Vec<_>, _>>()?
+        .into_iter()
+        .sum::<f64>();
+    if (row_sum - 458_772.597).abs() > 0.001 {
+        return Err("Medicare HI revenue row sum failed".to_string());
+    }
+    let payroll_rows = rows
+        .iter()
+        .filter(|row| {
+            row.get("payroll_tax_yield_component")
+                .and_then(serde_json::Value::as_bool)
+                == Some(true)
+        })
+        .collect::<Vec<_>>();
+    if payroll_rows.len() != 1 || string_field(payroll_rows[0], "field")? != "payroll_taxes" {
+        return Err("Medicare HI payroll component membership failed".to_string());
+    }
+    let benefit_taxation = rows
+        .iter()
+        .find(|row| {
+            string_field(row, "field").ok().as_deref()
+                == Some("income_from_taxation_of_oasdi_benefits")
+        })
+        .ok_or("Medicare HI benefit taxation row missing")?;
+    if benefit_taxation
+        .get("payroll_tax_yield_component")
+        .and_then(serde_json::Value::as_bool)
+        != Some(false)
+        || string_field(benefit_taxation, "category")? != "benefit_taxation"
+    {
+        return Err("Medicare HI benefit taxation category failed".to_string());
+    }
+    let other_non_payroll_sum = rows
+        .iter()
+        .filter(|row| {
+            string_field(row, "category").ok().as_deref() == Some("other_non_payroll_income")
+        })
+        .map(|row| {
+            row.get("amount_musd")
+                .and_then(serde_json::Value::as_f64)
+                .ok_or("Medicare HI other non-payroll row amount")
+        })
+        .collect::<Result<Vec<_>, _>>()?
+        .into_iter()
+        .sum::<f64>();
+    if (other_non_payroll_sum - 17_096.437).abs() > 0.001 {
+        return Err("Medicare HI other non-payroll sum failed".to_string());
+    }
+
+    let reconciliation = record
+        .get("reconciliation")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI benefits tax income split reconciliation")?;
+    for (field, expected) in [
+        ("row_sum_musd", 458_772.597),
+        ("published_total_revenue_musd", 458_772.597),
+        ("rounding_residual_musd", 0.0),
+        ("payroll_taxes_musd", 400_622.16),
+        ("benefit_taxation_musd", 41_054.0),
+        ("other_non_payroll_income_musd", 17_096.437),
+        ("total_non_payroll_income_musd", 58_150.437),
+        (
+            "cms_payroll_tax_yield_to_total_revenue_share_percent",
+            87.326,
+        ),
+        (
+            "cms_non_payroll_income_to_total_revenue_share_percent",
+            12.674,
+        ),
+    ] {
+        let observed = reconciliation
+            .get(field)
+            .and_then(serde_json::Value::as_f64)
+            .ok_or(format!("Medicare HI reconciliation {field} missing"))?;
+        if (observed - expected).abs() > 0.001 {
+            return Err(format!("Medicare HI reconciliation {field} failed"));
+        }
+    }
+    let total_revenue = reconciliation
+        .get("published_total_revenue_musd")
+        .and_then(serde_json::Value::as_f64)
+        .ok_or("Medicare HI total revenue")?;
+    let payroll = reconciliation
+        .get("payroll_taxes_musd")
+        .and_then(serde_json::Value::as_f64)
+        .ok_or("Medicare HI payroll taxes")?;
+    let benefit = reconciliation
+        .get("benefit_taxation_musd")
+        .and_then(serde_json::Value::as_f64)
+        .ok_or("Medicare HI benefit taxation")?;
+    let other = reconciliation
+        .get("other_non_payroll_income_musd")
+        .and_then(serde_json::Value::as_f64)
+        .ok_or("Medicare HI other income")?;
+    if ((payroll + benefit + other) - total_revenue).abs() > 0.001
+        || ((benefit + other) - 58_150.437).abs() > 0.001
+    {
+        return Err("Medicare HI split formulas failed".to_string());
+    }
+    if string_field(
+        &serde_json::Value::Object(reconciliation.clone()),
+        "component_status",
+    )? != "cms_hi_income_split_evidenced_omb_receipt_row_mapping_incomplete"
+        || reconciliation
+            .get("component_ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || reconciliation
+            .get("perimeter_bridge_complete")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("Medicare HI income split reconciliation status failed".to_string());
+    }
+
+    let still_required = record
+        .get("still_required")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Medicare HI benefits tax income split still required")?;
+    if still_required.len() != 5 {
+        return Err(
+            "Medicare HI benefits tax income split still-required count failed".to_string(),
+        );
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI benefits tax income split blocked outputs")?;
+    for field in [
+        "completed_taxation_of_benefits_and_other_income_split",
+        "omb_receipt_row_mapping",
+        "perimeter_bridge_value",
+        "legal_receipt_base_amount",
+        "economic_receipt_base_amount",
+        "matched_receipt_base",
+        "assigned_base_rate",
+        "statutory_rate",
+        "effective_rate",
+        "behavioral_elasticity",
+        "avoidance_and_compliance",
+        "administration_burden",
+        "distribution_by_income",
+        "current_law_yield_matched_to_solver",
+        "reform_yield",
+        "public_rate_card",
+        "solver_input_row",
+        "tax_proposal_fields",
+        "balanced_budget_fields",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "Medicare HI benefits tax income split blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI benefits tax income split claims")?;
+    if claims
+        .get("cms_hi_income_split_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err(
+            "Medicare HI benefits tax income split published flag must be true".to_string(),
+        );
+    }
+    for field in [
+        "omb_receipt_row_mapping_complete",
+        "component_ready",
+        "perimeter_bridge_complete",
+        "assigned_receipt_base_published",
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+        "statutory_rate_claim",
+        "effective_rate_claim",
+        "public_rate_card_claim",
+        "tax_proposal_claim",
+        "balanced_budget_claim",
+        "target_cost_claim",
+        "federal_effect_claim",
+        "gross_savings_claim",
+        "net_savings_claim",
+        "waste_finding_claim",
+        "fraud_finding_claim",
+        "technology_savings_claim",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI benefits tax income split claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(MEDICARE_HI_BENEFITS_TAX_INCOME_SPLIT_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for phrase in [
+        MEDICARE_HI_BENEFITS_TAX_INCOME_SPLIT_JSON_PATH,
+        "The CMS HI income split is evidenced, but the OMB Hospital Insurance receipt-row mapping is not complete.",
+        "Income from taxation of OASDI benefits is non-payroll income and must not be folded into the payroll-tax-yield component.",
+        "General-fund transfers, interfund interest, premiums, reimbursements, and fraud-and-abuse-control receipts are trust-fund income categories, not assigned receipt bases.",
+        "The Medicare HI diagnostic ratio remains blocked from statutory-rate and effective-rate publication.",
+        "Medicare HI trust-fund separation remains required; combined Medicare financing is prohibited.",
+        "No Medicare HI assigned base, rate, solver input, public rate card, tax proposal, or balanced-budget value is populated.",
+        "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "Medicare HI benefits tax income split reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -29165,6 +29524,12 @@ mod global_country_comparison_tests {
     fn medicare_hi_payroll_tax_perimeter_bridge_keeps_omb_bridge_blocked() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_medicare_hi_payroll_tax_perimeter_bridge(&root).unwrap();
+    }
+
+    #[test]
+    fn medicare_hi_benefits_tax_income_split_recomputes_without_rates() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_medicare_hi_benefits_tax_income_split(&root).unwrap();
     }
 
     #[test]

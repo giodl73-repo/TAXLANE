@@ -723,3 +723,9 @@ CMS Medicare HI payroll-tax-yield perimeter while preserving the unresolved OMB
 Hospital Insurance anchor bridge. It separates taxation of OASDI benefits from
 payroll taxes and keeps assigned bases, rates, solver inputs, public rate cards,
 tax proposals, savings, and balanced-budget outputs blocked.
+
+`medicare_hi_benefits_tax_income_split.v1.draft.json` uses CMS Medicare Trustees
+FY2025 HI operations to split payroll taxes, taxation of OASDI benefits, and
+other non-payroll income categories. It preserves the unresolved OMB receipt-row
+mapping and keeps assigned bases, rates, solver inputs, public rate cards, tax
+proposals, savings, and balanced-budget outputs blocked.
