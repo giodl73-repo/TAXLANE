@@ -1,0 +1,133 @@
+{
+  "record_id": "medicare-hi-legal-base-definition-gap:v1",
+  "record_family": "medicare_hi_legal_base_definition_gap",
+  "schema_version": "v1.draft",
+  "pulse": 143,
+  "as_of_date": "2026-07-19",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "medicare_hi_perimeter_bridge_requirements_path": "data/derived/breadth_benchmark_matrix/medicare_hi_perimeter_bridge_requirements.v1.draft.json",
+  "medicare_hi_payroll_tax_perimeter_bridge_path": "data/derived/breadth_benchmark_matrix/medicare_hi_payroll_tax_perimeter_bridge.v1.draft.json",
+  "medicare_hi_benefits_tax_income_split_path": "data/derived/breadth_benchmark_matrix/medicare_hi_benefits_tax_income_split.v1.draft.json",
+  "rate_publication_readiness_rollup_path": "data/derived/breadth_benchmark_matrix/rate_publication_readiness_rollup.v1.draft.json",
+  "source_custody_status": {
+    "official_sources_only": true,
+    "used_existing_captured_sources_only": true,
+    "cms_medicare_trustees_raw_custody_ready": true,
+    "no_foia_or_records_request_submitted": true,
+    "no_agency_or_person_contacted": true,
+    "cms_glossary_definitions_evidenced": true,
+    "legal_perimeter_text_custody_ready": false,
+    "additional_medicare_tax_treatment_ready": false,
+    "legal_base_definition_complete": false,
+    "economic_base_definition_complete": false,
+    "assigned_base_ready": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false
+  },
+  "component_id": "legal_base_definition",
+  "cms_definition_evidence": [
+    {
+      "source_id": "SRC-CMS-MEDICARE-TRUSTEES-2026",
+      "source_ref": "Glossary definitions",
+      "field": "payroll_taxes",
+      "plain_meaning": "Payroll taxes are taxes levied on the gross wages of employees and net earnings from self-employment.",
+      "supports_component": "source terminology only",
+      "legal_base_complete": false
+    },
+    {
+      "source_id": "SRC-CMS-MEDICARE-TRUSTEES-2026",
+      "source_ref": "Glossary definitions",
+      "field": "taxable_earnings",
+      "plain_meaning": "Taxable earnings are taxable wages and/or self-employment income.",
+      "supports_component": "source terminology only",
+      "legal_base_complete": false
+    },
+    {
+      "source_id": "SRC-CMS-MEDICARE-TRUSTEES-2026",
+      "source_ref": "Glossary definitions",
+      "field": "taxable_payroll",
+      "plain_meaning": "Taxable payroll is a weighted average of taxable wages and taxable self-employment income.",
+      "supports_component": "source terminology only",
+      "legal_base_complete": false
+    }
+  ],
+  "legal_base_gap": {
+    "candidate_terms_identified": ["gross wages", "net earnings from self-employment", "taxable wages", "taxable self-employment income", "taxable payroll"],
+    "selected_legal_base": null,
+    "legal_receipt_base_amount_musd": null,
+    "statutory_perimeter_text": null,
+    "covered_earnings_definition": null,
+    "self_employment_treatment": null,
+    "additional_medicare_tax_treatment": null,
+    "wage_cap_or_no_cap_treatment": null,
+    "tax_year_to_fiscal_year_bridge": null,
+    "ready": false
+  },
+  "boundary_findings": {
+    "cms_taxable_payroll_context_musd": 13277000,
+    "cms_payroll_tax_yield_context_musd": 400622.16,
+    "diagnostic_ratio_percent": 3.0175,
+    "diagnostic_ratio_publishable_as_rate": false,
+    "cms_definition_can_select_legal_base": false,
+    "cms_definition_can_populate_assigned_base_amount": false,
+    "cms_definition_can_populate_statutory_rate": false,
+    "cms_definition_can_populate_effective_rate": false
+  },
+  "still_required": [
+    "official legal perimeter text for Medicare HI wages and self-employment income",
+    "explicit treatment of additional Medicare tax and whether it is inside the assigned-base/yield bridge",
+    "matched tax-year to fiscal-year bridge between legal base and trust-fund receipt yield",
+    "source-custodied base amount matching the selected legal perimeter",
+    "separate economic incidence, distribution, administration, behavior, and reform-yield model"
+  ],
+  "blocked_outputs": {
+    "completed_legal_base_definition": null,
+    "selected_legal_base": null,
+    "legal_receipt_base_amount": null,
+    "economic_receipt_base_amount": null,
+    "matched_receipt_base": null,
+    "assigned_base_rate": null,
+    "statutory_rate": null,
+    "effective_rate": null,
+    "behavioral_elasticity": null,
+    "avoidance_and_compliance": null,
+    "administration_burden": null,
+    "distribution_by_income": null,
+    "current_law_yield_matched_to_solver": null,
+    "reform_yield": null,
+    "public_rate_card": null,
+    "solver_input_row": null,
+    "tax_proposal_fields": null,
+    "balanced_budget_fields": null
+  },
+  "public_warning_phrases": [
+    "CMS glossary terms clarify source terminology but do not complete the Medicare HI legal-base definition.",
+    "The legal base remains unselected; gross wages, net self-employment earnings, taxable wages, taxable self-employment income, and taxable payroll are not interchangeable.",
+    "The Medicare HI diagnostic ratio remains blocked from statutory-rate and effective-rate publication.",
+    "Additional Medicare tax treatment remains unresolved and cannot be inferred from the CMS glossary alone.",
+    "No Medicare HI assigned base, rate, solver input, public rate card, tax proposal, or balanced-budget value is populated.",
+    "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+    "This record is not solver input, not a solver run, not a target-cost selection, not a rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+  ],
+  "claim_booleans": {
+    "cms_glossary_terms_published": true,
+    "legal_base_definition_complete": false,
+    "economic_base_definition_complete": false,
+    "assigned_receipt_base_published": false,
+    "matched_receipt_bases_ready": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false,
+    "statutory_rate_claim": false,
+    "effective_rate_claim": false,
+    "public_rate_card_claim": false,
+    "tax_proposal_claim": false,
+    "balanced_budget_claim": false,
+    "target_cost_claim": false,
+    "federal_effect_claim": false,
+    "gross_savings_claim": false,
+    "net_savings_claim": false,
+    "waste_finding_claim": false,
+    "fraud_finding_claim": false,
+    "technology_savings_claim": false
+  }
+}

@@ -532,6 +532,12 @@ const MEDICARE_HI_BENEFITS_TAX_INCOME_SPLIT_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/medicare_hi_benefits_tax_income_split.schema.md";
 const MEDICARE_HI_BENEFITS_TAX_INCOME_SPLIT_READER_PATH: &str =
     "docs/reading/medicare-hi-benefits-tax-income-split.md";
+const MEDICARE_HI_LEGAL_BASE_DEFINITION_GAP_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/medicare_hi_legal_base_definition_gap.v1.draft.json";
+const MEDICARE_HI_LEGAL_BASE_DEFINITION_GAP_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/medicare_hi_legal_base_definition_gap.schema.md";
+const MEDICARE_HI_LEGAL_BASE_DEFINITION_GAP_READER_PATH: &str =
+    "docs/reading/medicare-hi-legal-base-definition-gap.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11190,6 +11196,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_medicare_hi_perimeter_bridge_requirements(root)?;
     validate_medicare_hi_payroll_tax_perimeter_bridge(root)?;
     validate_medicare_hi_benefits_tax_income_split(root)?;
+    validate_medicare_hi_legal_base_definition_gap(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -23510,6 +23517,272 @@ fn validate_medicare_hi_benefits_tax_income_split(root: &Path) -> Result<(), Str
     Ok(())
 }
 
+fn validate_medicare_hi_legal_base_definition_gap(root: &Path) -> Result<(), String> {
+    for path in [
+        MEDICARE_HI_LEGAL_BASE_DEFINITION_GAP_JSON_PATH,
+        MEDICARE_HI_LEGAL_BASE_DEFINITION_GAP_SCHEMA_PATH,
+        MEDICARE_HI_LEGAL_BASE_DEFINITION_GAP_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing Medicare HI legal base definition gap artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(MEDICARE_HI_LEGAL_BASE_DEFINITION_GAP_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")? != "medicare-hi-legal-base-definition-gap:v1"
+        || string_field(&record, "record_family")? != "medicare_hi_legal_base_definition_gap"
+        || int_field(&record, "pulse")? != 143
+        || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&record, "medicare_hi_perimeter_bridge_requirements_path")?
+            != MEDICARE_HI_PERIMETER_BRIDGE_REQUIREMENTS_JSON_PATH
+        || string_field(&record, "medicare_hi_payroll_tax_perimeter_bridge_path")?
+            != MEDICARE_HI_PAYROLL_TAX_PERIMETER_BRIDGE_JSON_PATH
+        || string_field(&record, "medicare_hi_benefits_tax_income_split_path")?
+            != MEDICARE_HI_BENEFITS_TAX_INCOME_SPLIT_JSON_PATH
+        || string_field(&record, "rate_publication_readiness_rollup_path")?
+            != RATE_PUBLICATION_READINESS_ROLLUP_JSON_PATH
+        || string_field(&record, "component_id")? != "legal_base_definition"
+    {
+        return Err("Medicare HI legal base definition gap identity failed".to_string());
+    }
+
+    let status = record
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI legal base definition gap status")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_captured_sources_only",
+        "cms_medicare_trustees_raw_custody_ready",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "cms_glossary_definitions_evidenced",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "Medicare HI legal base definition gap status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "legal_perimeter_text_custody_ready",
+        "additional_medicare_tax_treatment_ready",
+        "legal_base_definition_complete",
+        "economic_base_definition_complete",
+        "assigned_base_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI legal base definition gap status {field} must be false"
+            ));
+        }
+    }
+
+    let evidence = record
+        .get("cms_definition_evidence")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Medicare HI legal base definition evidence")?;
+    if evidence.len() != 3 {
+        return Err("Medicare HI legal base definition evidence count failed".to_string());
+    }
+    let expected_fields = ["payroll_taxes", "taxable_earnings", "taxable_payroll"]
+        .into_iter()
+        .map(str::to_string)
+        .collect::<BTreeSet<_>>();
+    let observed_fields = evidence
+        .iter()
+        .map(|row| string_field(row, "field"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if observed_fields != expected_fields {
+        return Err("Medicare HI legal base definition evidence field set failed".to_string());
+    }
+    for row in evidence {
+        if string_field(row, "source_id")? != "SRC-CMS-MEDICARE-TRUSTEES-2026"
+            || string_field(row, "supports_component")? != "source terminology only"
+            || row
+                .get("legal_base_complete")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+        {
+            return Err("Medicare HI legal base definition evidence row failed".to_string());
+        }
+    }
+
+    let gap = record
+        .get("legal_base_gap")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI legal base gap")?;
+    let terms = gap
+        .get("candidate_terms_identified")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Medicare HI candidate terms")?;
+    if terms.len() != 5 {
+        return Err("Medicare HI candidate term count failed".to_string());
+    }
+    for field in [
+        "selected_legal_base",
+        "legal_receipt_base_amount_musd",
+        "statutory_perimeter_text",
+        "covered_earnings_definition",
+        "self_employment_treatment",
+        "additional_medicare_tax_treatment",
+        "wage_cap_or_no_cap_treatment",
+        "tax_year_to_fiscal_year_bridge",
+    ] {
+        if gap.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!("Medicare HI legal base gap {field} must be null"));
+        }
+    }
+    if gap.get("ready").and_then(serde_json::Value::as_bool) != Some(false) {
+        return Err("Medicare HI legal base gap ready must be false".to_string());
+    }
+
+    let boundary = record
+        .get("boundary_findings")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI legal base boundary findings")?;
+    for (field, expected) in [
+        ("cms_taxable_payroll_context_musd", 13_277_000.0),
+        ("cms_payroll_tax_yield_context_musd", 400_622.16),
+        ("diagnostic_ratio_percent", 3.0175),
+    ] {
+        let observed = boundary
+            .get(field)
+            .and_then(serde_json::Value::as_f64)
+            .ok_or(format!("Medicare HI boundary {field} missing"))?;
+        if (observed - expected).abs() > 0.001 {
+            return Err(format!("Medicare HI boundary {field} failed"));
+        }
+    }
+    for field in [
+        "diagnostic_ratio_publishable_as_rate",
+        "cms_definition_can_select_legal_base",
+        "cms_definition_can_populate_assigned_base_amount",
+        "cms_definition_can_populate_statutory_rate",
+        "cms_definition_can_populate_effective_rate",
+    ] {
+        if boundary.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("Medicare HI boundary {field} must be false"));
+        }
+    }
+
+    let still_required = record
+        .get("still_required")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Medicare HI legal base still required")?;
+    if still_required.len() != 5 {
+        return Err("Medicare HI legal base still-required count failed".to_string());
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI legal base blocked outputs")?;
+    for field in [
+        "completed_legal_base_definition",
+        "selected_legal_base",
+        "legal_receipt_base_amount",
+        "economic_receipt_base_amount",
+        "matched_receipt_base",
+        "assigned_base_rate",
+        "statutory_rate",
+        "effective_rate",
+        "behavioral_elasticity",
+        "avoidance_and_compliance",
+        "administration_burden",
+        "distribution_by_income",
+        "current_law_yield_matched_to_solver",
+        "reform_yield",
+        "public_rate_card",
+        "solver_input_row",
+        "tax_proposal_fields",
+        "balanced_budget_fields",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "Medicare HI legal base blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI legal base claims")?;
+    if claims
+        .get("cms_glossary_terms_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("Medicare HI legal base glossary flag must be true".to_string());
+    }
+    for field in [
+        "legal_base_definition_complete",
+        "economic_base_definition_complete",
+        "assigned_receipt_base_published",
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+        "statutory_rate_claim",
+        "effective_rate_claim",
+        "public_rate_card_claim",
+        "tax_proposal_claim",
+        "balanced_budget_claim",
+        "target_cost_claim",
+        "federal_effect_claim",
+        "gross_savings_claim",
+        "net_savings_claim",
+        "waste_finding_claim",
+        "fraud_finding_claim",
+        "technology_savings_claim",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI legal base claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(MEDICARE_HI_LEGAL_BASE_DEFINITION_GAP_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for phrase in [
+        MEDICARE_HI_LEGAL_BASE_DEFINITION_GAP_JSON_PATH,
+        "CMS glossary terms clarify source terminology but do not complete the Medicare HI legal-base definition.",
+        "The legal base remains unselected; gross wages, net self-employment earnings, taxable wages, taxable self-employment income, and taxable payroll are not interchangeable.",
+        "The Medicare HI diagnostic ratio remains blocked from statutory-rate and effective-rate publication.",
+        "Additional Medicare tax treatment remains unresolved and cannot be inferred from the CMS glossary alone.",
+        "No Medicare HI assigned base, rate, solver input, public rate card, tax proposal, or balanced-budget value is populated.",
+        "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "Medicare HI legal base reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -29530,6 +29803,12 @@ mod global_country_comparison_tests {
     fn medicare_hi_benefits_tax_income_split_recomputes_without_rates() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_medicare_hi_benefits_tax_income_split(&root).unwrap();
+    }
+
+    #[test]
+    fn medicare_hi_legal_base_definition_gap_keeps_base_unselected() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_medicare_hi_legal_base_definition_gap(&root).unwrap();
     }
 
     #[test]

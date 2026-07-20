@@ -729,3 +729,9 @@ FY2025 HI operations to split payroll taxes, taxation of OASDI benefits, and
 other non-payroll income categories. It preserves the unresolved OMB receipt-row
 mapping and keeps assigned bases, rates, solver inputs, public rate cards, tax
 proposals, savings, and balanced-budget outputs blocked.
+
+`medicare_hi_legal_base_definition_gap.v1.draft.json` records that CMS Medicare
+Trustees glossary terms clarify payroll-tax and taxable-payroll terminology but
+do not select a legal receipt base. It keeps additional Medicare tax treatment,
+matched base amounts, rates, solver inputs, public rate cards, tax proposals,
+savings, and balanced-budget outputs blocked.
