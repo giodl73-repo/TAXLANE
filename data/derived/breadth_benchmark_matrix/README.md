@@ -759,3 +759,9 @@ bridge components. It records two partial-context rows and four explicit gap
 rows, with zero components ready, and keeps assigned bases, rates, reform yield,
 solver rows, public rate cards, tax proposals, savings, and balanced-budget
 outputs blocked.
+
+`medicare_hi_bridge_closure_work_queue.v1.draft.json` orders the Medicare HI
+bridge closure work from OMB/CMS receipt-row reconciliation through final
+rate/solver readiness review. It keeps all seven work items not ready and
+retains null/false blocks for assigned bases, rates, reform yield, solver rows,
+public rate cards, tax proposals, savings, and balanced-budget outputs.

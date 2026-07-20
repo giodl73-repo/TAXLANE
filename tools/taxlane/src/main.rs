@@ -562,6 +562,12 @@ const MEDICARE_HI_BRIDGE_STATUS_ROLLUP_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/medicare_hi_bridge_status_rollup.schema.md";
 const MEDICARE_HI_BRIDGE_STATUS_ROLLUP_READER_PATH: &str =
     "docs/reading/medicare-hi-bridge-status-rollup.md";
+const MEDICARE_HI_BRIDGE_CLOSURE_WORK_QUEUE_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/medicare_hi_bridge_closure_work_queue.v1.draft.json";
+const MEDICARE_HI_BRIDGE_CLOSURE_WORK_QUEUE_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/medicare_hi_bridge_closure_work_queue.schema.md";
+const MEDICARE_HI_BRIDGE_CLOSURE_WORK_QUEUE_READER_PATH: &str =
+    "docs/reading/medicare-hi-bridge-closure-work-queue.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11225,6 +11231,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_medicare_hi_solver_yield_mapping_gap(root)?;
     validate_medicare_hi_behavior_reform_yield_gap(root)?;
     validate_medicare_hi_bridge_status_rollup(root)?;
+    validate_medicare_hi_bridge_closure_work_queue(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -24862,6 +24869,240 @@ fn validate_medicare_hi_bridge_status_rollup(root: &Path) -> Result<(), String> 
     Ok(())
 }
 
+fn validate_medicare_hi_bridge_closure_work_queue(root: &Path) -> Result<(), String> {
+    for path in [
+        MEDICARE_HI_BRIDGE_CLOSURE_WORK_QUEUE_JSON_PATH,
+        MEDICARE_HI_BRIDGE_CLOSURE_WORK_QUEUE_SCHEMA_PATH,
+        MEDICARE_HI_BRIDGE_CLOSURE_WORK_QUEUE_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing Medicare HI bridge closure work queue artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(MEDICARE_HI_BRIDGE_CLOSURE_WORK_QUEUE_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let queue: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&queue, "record_id")? != "medicare-hi-bridge-closure-work-queue:v1"
+        || string_field(&queue, "record_family")? != "medicare_hi_bridge_closure_work_queue"
+        || int_field(&queue, "pulse")? != 148
+        || string_field(&queue, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&queue, "medicare_hi_bridge_status_rollup_path")?
+            != MEDICARE_HI_BRIDGE_STATUS_ROLLUP_JSON_PATH
+    {
+        return Err("Medicare HI bridge closure work queue identity failed".to_string());
+    }
+
+    let rules = queue
+        .get("sequence_rules")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI bridge closure sequence rules")?;
+    for field in [
+        "omb_cms_perimeter_bridge_before_values",
+        "legal_base_before_economic_base",
+        "economic_incidence_before_rates",
+        "trust_fund_mapping_before_solver_rows",
+        "policy_instrument_before_reform_yield",
+        "behavior_before_reform_yield",
+        "missing_values_remain_null",
+        "blocked_gates_remain_false",
+        "no_public_rate_or_solver_claim_before_all_items_ready",
+    ] {
+        if rules.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "Medicare HI bridge closure sequence rule {field} must be true"
+            ));
+        }
+    }
+
+    let rows = queue
+        .get("work_queue")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Medicare HI bridge closure work queue rows")?;
+    if rows.len() != 7 {
+        return Err("Medicare HI bridge closure work queue count failed".to_string());
+    }
+    let expected_work_ids = [
+        "omb_cms_receipt_row_perimeter_bridge",
+        "hi_income_category_split_to_omb_rows",
+        "legal_receipt_base_definition",
+        "economic_base_incidence_distribution",
+        "trust_fund_solver_yield_mapping",
+        "policy_behavior_reform_yield_model",
+        "medicare_hi_rate_solver_readiness_review",
+    ];
+    let expected_component_ids = [
+        "payroll_tax_yield_perimeter",
+        "taxation_of_benefits_and_other_income_split",
+        "legal_base_definition",
+        "economic_base_definition",
+        "solver_yield_mapping",
+        "behavior_and_reform_yield",
+        "bridge_closure_review",
+    ];
+    for (idx, row) in rows.iter().enumerate() {
+        if int_field(row, "rank")? != (idx as i64 + 1)
+            || string_field(row, "work_id")? != expected_work_ids[idx]
+            || string_field(row, "component_id")? != expected_component_ids[idx]
+            || row.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+            || row.get("value") != Some(&serde_json::Value::Null)
+            || row
+                .get("required_artifacts_before_complete")
+                .and_then(serde_json::Value::as_array)
+                .map(Vec::is_empty)
+                != Some(false)
+            || row
+                .get("blocked_outputs")
+                .and_then(serde_json::Value::as_array)
+                .map(Vec::is_empty)
+                != Some(false)
+        {
+            return Err(format!(
+                "Medicare HI bridge closure work queue row {} failed",
+                idx + 1
+            ));
+        }
+    }
+
+    let aggregate = queue
+        .get("aggregate_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI bridge closure aggregate status")?;
+    for (field, expected) in [
+        ("work_items", 7),
+        ("ready_items", 0),
+        ("required_bridge_components", 6),
+        ("ready_bridge_components", 0),
+    ] {
+        if aggregate.get(field).and_then(serde_json::Value::as_i64) != Some(expected) {
+            return Err(format!(
+                "Medicare HI bridge closure aggregate status {field} failed"
+            ));
+        }
+    }
+    for field in [
+        "closure_review_ready",
+        "perimeter_bridge_complete",
+        "assigned_base_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+        "public_claims_ready",
+    ] {
+        if aggregate.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI bridge closure aggregate status {field} must be false"
+            ));
+        }
+    }
+
+    let blocked = queue
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI bridge closure blocked outputs")?;
+    for field in [
+        "perimeter_bridge_value",
+        "legal_receipt_base_amount",
+        "economic_receipt_base_amount",
+        "matched_receipt_base",
+        "assigned_base_rate",
+        "statutory_rate",
+        "effective_rate",
+        "behavioral_elasticity",
+        "avoidance_and_compliance",
+        "administration_burden",
+        "distribution_by_income",
+        "current_law_yield_matched_to_solver",
+        "reform_yield",
+        "solver_input_row",
+        "public_rate_card",
+        "tax_proposal_fields",
+        "balanced_budget_fields",
+        "target_cost",
+        "federal_effect",
+        "gross_savings",
+        "net_savings",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "Medicare HI bridge closure blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let claims = queue
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI bridge closure claims")?;
+    if claims
+        .get("medicare_hi_bridge_closure_work_queue_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("Medicare HI bridge closure queue published flag must be true".to_string());
+    }
+    for field in [
+        "work_item_completed",
+        "perimeter_bridge_complete",
+        "assigned_receipt_base_published",
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+        "statutory_rate_claim",
+        "effective_rate_claim",
+        "public_rate_card_claim",
+        "tax_proposal_claim",
+        "balanced_budget_claim",
+        "target_cost_claim",
+        "federal_effect_claim",
+        "gross_savings_claim",
+        "net_savings_claim",
+        "waste_finding_claim",
+        "fraud_finding_claim",
+        "technology_savings_claim",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI bridge closure claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(MEDICARE_HI_BRIDGE_CLOSURE_WORK_QUEUE_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for phrase in [
+        MEDICARE_HI_BRIDGE_CLOSURE_WORK_QUEUE_JSON_PATH,
+        "The Medicare HI bridge closure queue orders work; it does not complete any bridge component.",
+        "All Medicare HI bridge closure work items remain not ready.",
+        "No work item may populate a value until its required artifacts are source-custodied and reconciled.",
+        "Medicare HI trust-fund separation remains required; combined Medicare financing is prohibited for this bridge.",
+        "No Medicare HI assigned base, rate, reform yield, solver row, public rate card, tax proposal, savings estimate, or balanced-budget value is populated.",
+        "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "Medicare HI bridge closure reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -30912,6 +31153,12 @@ mod global_country_comparison_tests {
     fn medicare_hi_bridge_status_rollup_keeps_all_components_blocked() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_medicare_hi_bridge_status_rollup(&root).unwrap();
+    }
+
+    #[test]
+    fn medicare_hi_bridge_closure_work_queue_orders_without_values() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_medicare_hi_bridge_closure_work_queue(&root).unwrap();
     }
 
     #[test]

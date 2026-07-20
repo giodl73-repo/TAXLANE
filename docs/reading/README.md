@@ -84,6 +84,7 @@ explainers. They should keep three labels visible:
 | `medicare-hi-solver-yield-mapping-gap.md` | Pulse 145 gap: records Medicare HI current-law-yield solver blockers while keeping solver rows, rates, and public claims blocked. |
 | `medicare-hi-behavior-reform-yield-gap.md` | Pulse 146 gap: records Medicare HI behavior/reform-yield blockers while keeping reform yield, rates, solver rows, and public claims blocked. |
 | `medicare-hi-bridge-status-rollup.md` | Pulse 147 rollup: summarizes all six Medicare HI bridge components while keeping every component blocked for assigned-base, rate, and solver use. |
+| `medicare-hi-bridge-closure-work-queue.md` | Pulse 148 queue: orders Medicare HI bridge closure work while keeping every work item blocked for values, rates, and solver use. |
 | `solver-input-readiness-rollup.md` | Pulse 107 rollup: summarizes all twelve deterministic solver inputs while keeping every input not ready/null. |
 | `current-law-path-inventory.md` | Pulse 108 inventory: names required FY2025-FY2035 official annual current-law paths while keeping values null. |
 | `current-law-source-custody-preflight.md` | Pulse 109 preflight: defines current-law source custody packet requirements while keeping all source and value fields null. |
