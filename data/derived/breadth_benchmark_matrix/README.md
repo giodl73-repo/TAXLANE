@@ -803,3 +803,9 @@ Medicare HI closure item 6: policy instrument, phase-in, matched base,
 elasticity, avoidance, compliance, administration, incidence, distribution, and
 trust-fund reform-delta mapping remain missing. It keeps reform yield, solver
 rows, rates, savings, and balanced-budget outputs blocked.
+
+`medicare_hi_rate_solver_readiness_review_closure_gap.v1.draft.json` publishes
+Medicare HI closure item 7: the final rate and solver readiness review remains
+blocked because zero of six prerequisite bridge items are ready. It keeps rate
+publication, solver inputs, public rate cards, tax proposals, savings, and
+balanced-budget outputs blocked.

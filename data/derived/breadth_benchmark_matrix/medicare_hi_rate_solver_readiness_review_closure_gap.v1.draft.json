@@ -1,0 +1,184 @@
+{
+  "record_id": "medicare-hi-rate-solver-readiness-review-closure-gap:v1",
+  "record_family": "medicare_hi_rate_solver_readiness_review_closure_gap",
+  "schema_version": "v1.draft",
+  "pulse": 155,
+  "as_of_date": "2026-07-20",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "medicare_hi_bridge_closure_work_queue_path": "data/derived/breadth_benchmark_matrix/medicare_hi_bridge_closure_work_queue.v1.draft.json",
+  "medicare_hi_omb_cms_receipt_row_perimeter_evidence_path": "data/derived/breadth_benchmark_matrix/medicare_hi_omb_cms_receipt_row_perimeter_evidence.v1.draft.json",
+  "medicare_hi_income_category_omb_mapping_gap_path": "data/derived/breadth_benchmark_matrix/medicare_hi_income_category_omb_mapping_gap.v1.draft.json",
+  "medicare_hi_legal_base_closure_gap_path": "data/derived/breadth_benchmark_matrix/medicare_hi_legal_base_closure_gap.v1.draft.json",
+  "medicare_hi_economic_base_closure_gap_path": "data/derived/breadth_benchmark_matrix/medicare_hi_economic_base_closure_gap.v1.draft.json",
+  "medicare_hi_trust_fund_solver_yield_closure_gap_path": "data/derived/breadth_benchmark_matrix/medicare_hi_trust_fund_solver_yield_closure_gap.v1.draft.json",
+  "medicare_hi_policy_behavior_reform_yield_closure_gap_path": "data/derived/breadth_benchmark_matrix/medicare_hi_policy_behavior_reform_yield_closure_gap.v1.draft.json",
+  "source_custody_status": {
+    "official_sources_only": true,
+    "used_existing_captured_sources_only": true,
+    "new_external_download_performed": false,
+    "no_foia_or_records_request_submitted": true,
+    "no_agency_or_person_contacted": true,
+    "rate_solver_readiness_review_closure_gap_published": true,
+    "all_six_bridge_items_ready": false,
+    "null_false_audit_passed_for_readiness": false,
+    "public_warning_review_passed": false,
+    "rate_readiness_check_passed": false,
+    "solver_readiness_check_passed": false,
+    "manifest_update_ready_for_closure": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false,
+    "public_claims_ready": false
+  },
+  "work_queue_item": {
+    "rank": 7,
+    "work_id": "medicare_hi_rate_solver_readiness_review",
+    "component_id": "bridge_closure_review",
+    "completed": false,
+    "ready": false,
+    "value": null
+  },
+  "prerequisite_bridge_items": [
+    {
+      "rank": 1,
+      "work_id": "omb_cms_receipt_row_perimeter_bridge",
+      "ready": false,
+      "value": null
+    },
+    {
+      "rank": 2,
+      "work_id": "hi_income_category_split_to_omb_rows",
+      "ready": false,
+      "value": null
+    },
+    {
+      "rank": 3,
+      "work_id": "legal_receipt_base_definition",
+      "ready": false,
+      "value": null
+    },
+    {
+      "rank": 4,
+      "work_id": "economic_base_incidence_distribution",
+      "ready": false,
+      "value": null
+    },
+    {
+      "rank": 5,
+      "work_id": "trust_fund_solver_yield_mapping",
+      "ready": false,
+      "value": null
+    },
+    {
+      "rank": 6,
+      "work_id": "policy_behavior_reform_yield_model",
+      "ready": false,
+      "value": null
+    }
+  ],
+  "readiness_review_requirements": [
+    {
+      "required_artifact": "all six bridge items ready",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "null/false audit passed",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "public warning review",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "rate readiness check",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "solver readiness check",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "manifest update",
+      "ready": false,
+      "value": null
+    }
+  ],
+  "readiness_summary": {
+    "work_queue_items": 7,
+    "prerequisite_bridge_items": 6,
+    "ready_prerequisite_bridge_items": 0,
+    "readiness_review_requirements": 6,
+    "ready_review_requirements": 0,
+    "blocked_review_requirements": 6,
+    "work_queue_item_completed": false,
+    "closure_review_ready": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false,
+    "public_claims_ready": false
+  },
+  "blocked_outputs": {
+    "completed_readiness_review": null,
+    "all_six_bridge_items_ready": null,
+    "null_false_audit": null,
+    "public_warning_review": null,
+    "rate_readiness_check": null,
+    "solver_readiness_check": null,
+    "perimeter_bridge_value": null,
+    "legal_receipt_base_amount": null,
+    "economic_receipt_base_amount": null,
+    "matched_receipt_base": null,
+    "current_law_yield_matched_to_solver": null,
+    "reform_yield": null,
+    "solver_input_row": null,
+    "assigned_base_rate": null,
+    "statutory_rate": null,
+    "effective_rate": null,
+    "public_rate_card": null,
+    "tax_proposal_fields": null,
+    "balanced_budget_fields": null,
+    "target_cost": null,
+    "federal_effect": null,
+    "gross_savings": null,
+    "net_savings": null
+  },
+  "public_warning_phrases": [
+    "The Medicare HI rate and solver readiness review gap is published, but the readiness review is not complete.",
+    "Zero of six Medicare HI prerequisite bridge items are ready.",
+    "Medicare HI cannot publish assigned-base rates, solver rows, public rate cards, tax proposals, savings estimates, or balanced-budget claims before all bridge items are complete.",
+    "Medicare HI remains a separate trust fund; combined Medicare financing is prohibited for this readiness review.",
+    "No Medicare HI rate publication, solver input, public claim, or balanced-budget value is populated.",
+    "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+    "This record is not solver input, not a solver run, not a target-cost selection, not a rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+  ],
+  "claim_booleans": {
+    "medicare_hi_rate_solver_readiness_review_closure_gap_published": true,
+    "work_item_completed": false,
+    "all_six_bridge_items_ready": false,
+    "closure_review_ready": false,
+    "null_false_audit_passed_for_readiness": false,
+    "public_warning_review_passed": false,
+    "rate_readiness_check_passed": false,
+    "solver_readiness_check_passed": false,
+    "assigned_receipt_base_published": false,
+    "matched_receipt_bases_ready": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false,
+    "public_claims_ready": false,
+    "statutory_rate_claim": false,
+    "effective_rate_claim": false,
+    "public_rate_card_claim": false,
+    "tax_proposal_claim": false,
+    "balanced_budget_claim": false,
+    "target_cost_claim": false,
+    "federal_effect_claim": false,
+    "gross_savings_claim": false,
+    "net_savings_claim": false,
+    "waste_finding_claim": false,
+    "fraud_finding_claim": false,
+    "technology_savings_claim": false
+  }
+}

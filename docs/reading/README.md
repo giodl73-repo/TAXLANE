@@ -91,6 +91,7 @@ explainers. They should keep three labels visible:
 | `medicare-hi-economic-base-closure-gap.md` | Pulse 152 gap: preserves Medicare HI economic-base blockers while keeping incidence, distribution, rates, and solver claims blocked. |
 | `medicare-hi-trust-fund-solver-yield-closure-gap.md` | Pulse 153 gap: preserves Medicare HI trust-fund solver-yield blockers while keeping solver rows, rates, and public claims blocked. |
 | `medicare-hi-policy-behavior-reform-yield-closure-gap.md` | Pulse 154 gap: preserves Medicare HI policy-behavior reform-yield blockers while keeping reform yield, rates, and solver claims blocked. |
+| `medicare-hi-rate-solver-readiness-review-closure-gap.md` | Pulse 155 gap: preserves Medicare HI final readiness-review blockers while keeping rate publication, solver inputs, and public claims blocked. |
 | `solver-input-readiness-rollup.md` | Pulse 107 rollup: summarizes all twelve deterministic solver inputs while keeping every input not ready/null. |
 | `current-law-path-inventory.md` | Pulse 108 inventory: names required FY2025-FY2035 official annual current-law paths while keeping values null. |
 | `current-law-source-custody-preflight.md` | Pulse 109 preflight: defines current-law source custody packet requirements while keeping all source and value fields null. |
