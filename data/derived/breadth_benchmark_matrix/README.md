@@ -831,3 +831,9 @@ trust-fund and fund-group reconciliation blocker. It preserves FY2025 aggregate
 fund-group context while keeping named trust-fund balances, explicit transfers,
 general-fund-specific paths, forward annual paths, solver inputs, rates, and
 balanced-budget claims blocked.
+
+`outcome_floor_thresholds_gap.v1.draft.json` publishes the rank-3 outcome-floor
+threshold blocker. It records that lane-specific threshold values,
+baseline/policy/stress floor values, and reviewed pass/fail evidence remain
+missing, so lower-cost scenarios, target costs, solver inputs, savings, and
+balanced-budget claims stay blocked.

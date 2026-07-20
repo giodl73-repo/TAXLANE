@@ -625,6 +625,12 @@ const TRUST_FUND_FUND_GROUP_RECONCILIATION_GAP_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/trust_fund_fund_group_reconciliation_gap.schema.md";
 const TRUST_FUND_FUND_GROUP_RECONCILIATION_GAP_READER_PATH: &str =
     "docs/reading/trust-fund-fund-group-reconciliation-gap.md";
+const OUTCOME_FLOOR_THRESHOLDS_GAP_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/outcome_floor_thresholds_gap.v1.draft.json";
+const OUTCOME_FLOOR_THRESHOLDS_GAP_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/outcome_floor_thresholds_gap.schema.md";
+const OUTCOME_FLOOR_THRESHOLDS_GAP_READER_PATH: &str =
+    "docs/reading/outcome-floor-thresholds-gap.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11300,6 +11306,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_post_medicare_hi_next_readiness_queue(root)?;
     validate_source_custody_current_law_paths_gap(root)?;
     validate_trust_fund_fund_group_reconciliation_gap(root)?;
+    validate_outcome_floor_thresholds_gap(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -28652,6 +28659,305 @@ fn validate_trust_fund_fund_group_reconciliation_gap(root: &Path) -> Result<(), 
     Ok(())
 }
 
+fn validate_outcome_floor_thresholds_gap(root: &Path) -> Result<(), String> {
+    for path in [
+        OUTCOME_FLOOR_THRESHOLDS_GAP_JSON_PATH,
+        OUTCOME_FLOOR_THRESHOLDS_GAP_SCHEMA_PATH,
+        OUTCOME_FLOOR_THRESHOLDS_GAP_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing outcome-floor thresholds gap artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(OUTCOME_FLOOR_THRESHOLDS_GAP_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")? != "outcome-floor-thresholds-gap:v1"
+        || string_field(&record, "record_family")? != "outcome_floor_thresholds_gap"
+        || int_field(&record, "pulse")? != 160
+        || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&record, "post_medicare_hi_next_readiness_queue_path")?
+            != POST_MEDICARE_HI_NEXT_READINESS_QUEUE_JSON_PATH
+        || string_field(&record, "trust_fund_fund_group_reconciliation_gap_path")?
+            != TRUST_FUND_FUND_GROUP_RECONCILIATION_GAP_JSON_PATH
+        || string_field(&record, "wave_lane_depth_scaffold_rollup_path")?
+            != WAVE_LANE_DEPTH_SCAFFOLD_ROLLUP_JSON_PATH
+    {
+        return Err("outcome-floor thresholds gap identity failed".to_string());
+    }
+
+    let status = record
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("outcome-floor status")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_captured_sources_only",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "outcome_floor_thresholds_gap_published",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("outcome-floor status {field} must be true"));
+        }
+    }
+    for field in [
+        "new_external_download_performed",
+        "lane_specific_floor_definitions_ready",
+        "threshold_rationale_ready",
+        "baseline_floor_values_ready",
+        "policy_floor_values_ready",
+        "stress_floor_values_ready",
+        "review_status_ready",
+        "lower_cost_scenario_admissibility_ready",
+        "target_costs_ready",
+        "solver_inputs_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("outcome-floor status {field} must be false"));
+        }
+    }
+
+    let item = record
+        .get("work_queue_item")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("outcome-floor work item")?;
+    if item.get("rank").and_then(serde_json::Value::as_i64) != Some(3)
+        || item.get("work_id").and_then(serde_json::Value::as_str)
+            != Some("outcome_floor_thresholds")
+        || item.get("completed").and_then(serde_json::Value::as_bool) != Some(false)
+        || item.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+        || item.get("value") != Some(&serde_json::Value::Null)
+    {
+        return Err("outcome-floor work item failed".to_string());
+    }
+
+    let floor_classes = record
+        .get("mandatory_floor_classes")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("mandatory floor classes")?;
+    let expected_classes = [
+        "access_coverage",
+        "quality_safety",
+        "equity_distribution",
+        "adequacy_resilience",
+        "fiscal_delivery_feasibility",
+    ];
+    if floor_classes.len() != expected_classes.len() {
+        return Err("mandatory floor class count failed".to_string());
+    }
+    for expected in expected_classes {
+        if !floor_classes
+            .iter()
+            .any(|class| class.as_str() == Some(expected))
+        {
+            return Err(format!("missing mandatory floor class: {expected}"));
+        }
+    }
+
+    let reqs = record
+        .get("floor_requirement_status")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("floor requirement status")?;
+    if reqs.len() != 6
+        || reqs
+            .iter()
+            .any(|row| row.get("ready").and_then(serde_json::Value::as_bool) != Some(false))
+        || reqs
+            .iter()
+            .any(|row| row.get("value") != Some(&serde_json::Value::Null))
+    {
+        return Err("floor requirements must remain blocked".to_string());
+    }
+    let observed_reqs = reqs
+        .iter()
+        .map(|row| string_field(row, "required_artifact"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_reqs = [
+        "lane-specific floor definitions",
+        "threshold rationale",
+        "baseline floor values",
+        "policy floor values",
+        "stress floor values",
+        "review status",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    if observed_reqs != expected_reqs {
+        return Err("floor requirement set failed".to_string());
+    }
+
+    let lanes = record
+        .get("lane_floor_status")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("lane floor status")?;
+    if lanes.len() != 15
+        || lanes.iter().any(|row| {
+            row.get("floor_thresholds_ready")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+        })
+        || lanes.iter().any(|row| {
+            row.get("pass_fail_evidence_ready")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+        })
+        || lanes
+            .iter()
+            .any(|row| row.get("value") != Some(&serde_json::Value::Null))
+    {
+        return Err("lane floor status rows must remain blocked".to_string());
+    }
+    let observed_lanes = lanes
+        .iter()
+        .map(|row| string_field(row, "lane_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_lanes = [
+        "health-medicare",
+        "social-security",
+        "national-defense",
+        "income-security-family",
+        "revenue-solvency",
+        "net-interest",
+        "payment-integrity",
+        "veterans",
+        "transportation-infrastructure",
+        "education-workforce",
+        "disaster-resilience",
+        "justice-courts-public-safety",
+        "science-energy-environment",
+        "agriculture",
+        "international-affairs",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    if observed_lanes != expected_lanes {
+        return Err("lane floor status set failed".to_string());
+    }
+
+    let summary = record
+        .get("summary")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("outcome-floor summary")?;
+    for (field, expected) in [
+        ("mandatory_floor_classes", 5),
+        ("floor_requirements", 6),
+        ("ready_floor_requirements", 0),
+        ("lane_rows", 15),
+        ("lanes_with_thresholds_ready", 0),
+        ("lanes_with_pass_fail_evidence_ready", 0),
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_i64) != Some(expected) {
+            return Err(format!("outcome-floor summary {field} failed"));
+        }
+    }
+    for field in [
+        "work_queue_item_completed",
+        "lower_cost_scenario_admissibility_ready",
+        "target_costs_ready",
+        "solver_inputs_ready",
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("outcome-floor summary {field} must be false"));
+        }
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("outcome-floor blocked outputs")?;
+    for field in [
+        "floor_thresholds",
+        "baseline_floor_values",
+        "policy_floor_values",
+        "stress_floor_values",
+        "floor_pass_fail_results",
+        "lower_cost_scenario_admissibility",
+        "target_costs",
+        "department_cut_instructions",
+        "technology_savings_claims",
+        "federal_effects",
+        "gross_savings",
+        "net_savings",
+        "solver_input_rows",
+        "solver_run",
+        "balanced_budget_claim",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!("outcome-floor blocked output {field} must be null"));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("outcome-floor claims")?;
+    if claims
+        .get("outcome_floor_thresholds_gap_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("outcome-floor published claim failed".to_string());
+    }
+    for field in [
+        "work_item_completed",
+        "lane_specific_floor_definitions_ready",
+        "threshold_rationale_ready",
+        "baseline_floor_values_ready",
+        "policy_floor_values_ready",
+        "stress_floor_values_ready",
+        "review_status_ready",
+        "lower_cost_scenario_admissibility_ready",
+        "target_cost_published",
+        "solver_inputs_ready",
+        "solver_run_published",
+        "savings_claim_published",
+        "department_cut_instruction_published",
+        "technology_savings_claim_published",
+        "balanced_budget_claim_published",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("outcome-floor claim {field} must be false"));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(OUTCOME_FLOOR_THRESHOLDS_GAP_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for phrase in [
+        OUTCOME_FLOOR_THRESHOLDS_GAP_JSON_PATH,
+        "The outcome-floor thresholds gap is published, but no lane-specific threshold or pass/fail evidence is complete.",
+        "Every lower-cost scenario remains blocked until access, quality, equity, adequacy/resilience, and delivery-feasibility floors are defined and passed.",
+        "Named outcome concepts are not threshold values and cannot admit a lower-cost scenario.",
+        "No target cost, department-cut instruction, technology-savings claim, federal effect, savings estimate, solver input, solver run, or balanced-budget claim is populated.",
+        "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+        "not outcome-floor passage",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!("outcome-floor reader missing phrase: {phrase}"));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -34774,6 +35080,12 @@ mod global_country_comparison_tests {
     fn trust_fund_fund_group_reconciliation_gap_keeps_fund_paths_blocked() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_trust_fund_fund_group_reconciliation_gap(&root).unwrap();
+    }
+
+    #[test]
+    fn outcome_floor_thresholds_gap_blocks_lower_cost_admission() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_outcome_floor_thresholds_gap(&root).unwrap();
     }
 
     #[test]
