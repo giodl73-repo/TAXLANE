@@ -568,6 +568,10 @@ const MEDICARE_HI_BRIDGE_CLOSURE_WORK_QUEUE_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/medicare_hi_bridge_closure_work_queue.schema.md";
 const MEDICARE_HI_BRIDGE_CLOSURE_WORK_QUEUE_READER_PATH: &str =
     "docs/reading/medicare-hi-bridge-closure-work-queue.md";
+const MEDICARE_HI_OMB_CMS_RECEIPT_ROW_PERIMETER_EVIDENCE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/medicare_hi_omb_cms_receipt_row_perimeter_evidence.v1.draft.json";
+const MEDICARE_HI_OMB_CMS_RECEIPT_ROW_PERIMETER_EVIDENCE_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/medicare_hi_omb_cms_receipt_row_perimeter_evidence.schema.md";
+const MEDICARE_HI_OMB_CMS_RECEIPT_ROW_PERIMETER_EVIDENCE_READER_PATH: &str =
+    "docs/reading/medicare-hi-omb-cms-receipt-row-perimeter-evidence.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11232,6 +11236,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_medicare_hi_behavior_reform_yield_gap(root)?;
     validate_medicare_hi_bridge_status_rollup(root)?;
     validate_medicare_hi_bridge_closure_work_queue(root)?;
+    validate_medicare_hi_omb_cms_receipt_row_perimeter_evidence(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -25103,6 +25108,343 @@ fn validate_medicare_hi_bridge_closure_work_queue(root: &Path) -> Result<(), Str
     Ok(())
 }
 
+fn validate_medicare_hi_omb_cms_receipt_row_perimeter_evidence(root: &Path) -> Result<(), String> {
+    for path in [
+        MEDICARE_HI_OMB_CMS_RECEIPT_ROW_PERIMETER_EVIDENCE_JSON_PATH,
+        MEDICARE_HI_OMB_CMS_RECEIPT_ROW_PERIMETER_EVIDENCE_SCHEMA_PATH,
+        MEDICARE_HI_OMB_CMS_RECEIPT_ROW_PERIMETER_EVIDENCE_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing Medicare HI OMB/CMS perimeter evidence artifact: {path}"
+            ));
+        }
+    }
+
+    let text =
+        fs::read_to_string(root.join(MEDICARE_HI_OMB_CMS_RECEIPT_ROW_PERIMETER_EVIDENCE_JSON_PATH))
+            .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")?
+        != "medicare-hi-omb-cms-receipt-row-perimeter-evidence:v1"
+        || string_field(&record, "record_family")?
+            != "medicare_hi_omb_cms_receipt_row_perimeter_evidence"
+        || int_field(&record, "pulse")? != 149
+        || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&record, "medicare_hi_bridge_closure_work_queue_path")?
+            != MEDICARE_HI_BRIDGE_CLOSURE_WORK_QUEUE_JSON_PATH
+        || string_field(&record, "medicare_hi_receipt_base_reconciliation_path")?
+            != MEDICARE_HI_RECEIPT_BASE_RECONCILIATION_JSON_PATH
+        || string_field(&record, "medicare_hi_payroll_tax_perimeter_bridge_path")?
+            != MEDICARE_HI_PAYROLL_TAX_PERIMETER_BRIDGE_JSON_PATH
+        || string_field(&record, "receipt_base_official_source_capture_path")?
+            != RECEIPT_BASE_OFFICIAL_SOURCE_CAPTURE_JSON_PATH
+    {
+        return Err("Medicare HI OMB/CMS perimeter evidence identity failed".to_string());
+    }
+
+    let status = record
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI OMB/CMS perimeter evidence status")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_captured_sources_only",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "cms_medicare_trustees_raw_custody_ready",
+        "omb_hi_anchor_raw_custody_ready",
+        "omb_cms_perimeter_evidence_published",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "Medicare HI OMB/CMS perimeter evidence status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "new_external_download_performed",
+        "omb_included_receipt_types_confirmed",
+        "omb_excluded_receipt_types_confirmed",
+        "source_row_crosswalk_complete",
+        "timing_rounding_bridge_complete",
+        "perimeter_bridge_complete",
+        "assigned_base_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI OMB/CMS perimeter evidence status {field} must be false"
+            ));
+        }
+    }
+
+    let item = record
+        .get("work_queue_item")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI OMB/CMS perimeter evidence work item")?;
+    if item.get("rank").and_then(serde_json::Value::as_i64) != Some(1)
+        || item.get("work_id").and_then(serde_json::Value::as_str)
+            != Some("omb_cms_receipt_row_perimeter_bridge")
+        || item.get("component_id").and_then(serde_json::Value::as_str)
+            != Some("payroll_tax_yield_perimeter")
+        || item.get("completed").and_then(serde_json::Value::as_bool) != Some(false)
+        || item.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+        || item.get("value") != Some(&serde_json::Value::Null)
+    {
+        return Err("Medicare HI OMB/CMS perimeter evidence work item failed".to_string());
+    }
+
+    let evidence = record
+        .get("evidence_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Medicare HI OMB/CMS perimeter evidence rows")?;
+    if evidence.len() != 3 {
+        return Err("Medicare HI OMB/CMS perimeter evidence row count failed".to_string());
+    }
+    let observed_fields = evidence
+        .iter()
+        .map(|row| string_field(row, "field"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_fields = [
+        "payroll_taxes",
+        "hospital_insurance_receipt_anchor",
+        "income_from_taxation_of_oasdi_benefits",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    if observed_fields != expected_fields {
+        return Err("Medicare HI OMB/CMS perimeter evidence field set failed".to_string());
+    }
+    for row in evidence {
+        if row
+            .get("value_ready_for_bridge")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err(
+                "Medicare HI OMB/CMS perimeter evidence row bridge readiness failed".to_string(),
+            );
+        }
+    }
+
+    let reconciliation = record
+        .get("reconciliation")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI OMB/CMS perimeter evidence reconciliation")?;
+    let cms = reconciliation
+        .get("cms_payroll_taxes_musd")
+        .and_then(serde_json::Value::as_f64)
+        .ok_or("Medicare HI OMB/CMS cms payroll taxes")?;
+    let omb = reconciliation
+        .get("omb_hospital_insurance_anchor_musd")
+        .and_then(serde_json::Value::as_f64)
+        .ok_or("Medicare HI OMB/CMS omb anchor")?;
+    let difference = reconciliation
+        .get("cms_minus_omb_musd")
+        .and_then(serde_json::Value::as_f64)
+        .ok_or("Medicare HI OMB/CMS difference")?;
+    if (cms - 400622.16).abs() > 0.001
+        || (omb - 395350.0).abs() > 0.001
+        || (difference - (cms - omb)).abs() > 0.001
+        || (difference - 5272.16).abs() > 0.001
+    {
+        return Err("Medicare HI OMB/CMS perimeter evidence arithmetic failed".to_string());
+    }
+    let cms_share = reconciliation
+        .get("difference_as_share_of_cms_payroll_tax_yield_percent")
+        .and_then(serde_json::Value::as_f64)
+        .ok_or("Medicare HI OMB/CMS cms share")?;
+    let omb_share = reconciliation
+        .get("difference_as_share_of_omb_hi_anchor_percent")
+        .and_then(serde_json::Value::as_f64)
+        .ok_or("Medicare HI OMB/CMS omb share")?;
+    if (cms_share - ((difference / cms) * 100.0)).abs() > 0.01
+        || (omb_share - ((difference / omb) * 100.0)).abs() > 0.01
+        || reconciliation
+            .get("bridge_status")
+            .and_then(serde_json::Value::as_str)
+            != Some("evidence_boundary_published_perimeter_bridge_not_complete")
+    {
+        return Err("Medicare HI OMB/CMS perimeter evidence share arithmetic failed".to_string());
+    }
+
+    let reqs = record
+        .get("perimeter_bridge_requirements_status")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Medicare HI OMB/CMS perimeter evidence requirements")?;
+    if reqs.len() != 7 {
+        return Err("Medicare HI OMB/CMS perimeter evidence requirement count failed".to_string());
+    }
+    let ready_count = reqs
+        .iter()
+        .filter(|row| row.get("ready").and_then(serde_json::Value::as_bool) == Some(true))
+        .count();
+    let blocked_count = reqs
+        .iter()
+        .filter(|row| row.get("ready").and_then(serde_json::Value::as_bool) == Some(false))
+        .count();
+    if ready_count != 2 || blocked_count != 5 {
+        return Err(
+            "Medicare HI OMB/CMS perimeter evidence requirement readiness failed".to_string(),
+        );
+    }
+    for row in reqs {
+        if row.get("ready").and_then(serde_json::Value::as_bool) == Some(false)
+            && row.get("value") != Some(&serde_json::Value::Null)
+        {
+            return Err(
+                "Medicare HI OMB/CMS perimeter evidence blocked requirement value failed"
+                    .to_string(),
+            );
+        }
+    }
+
+    let summary = record
+        .get("summary")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI OMB/CMS perimeter evidence summary")?;
+    for (field, expected) in [
+        ("evidence_rows", 3),
+        ("requirements", 7),
+        ("ready_requirements", 2),
+        ("blocked_requirements", 5),
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_i64) != Some(expected) {
+            return Err(format!(
+                "Medicare HI OMB/CMS perimeter evidence summary {field} failed"
+            ));
+        }
+    }
+    for field in [
+        "perimeter_bridge_complete",
+        "work_queue_item_completed",
+        "assigned_base_ready",
+        "rate_publication_ready",
+        "solver_ready",
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI OMB/CMS perimeter evidence summary {field} must be false"
+            ));
+        }
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI OMB/CMS perimeter evidence blocked outputs")?;
+    for field in [
+        "completed_omb_cms_receipt_row_perimeter_bridge",
+        "perimeter_bridge_value",
+        "omb_included_receipt_types",
+        "omb_excluded_receipt_types",
+        "source_row_crosswalk",
+        "timing_rounding_bridge",
+        "legal_receipt_base_amount",
+        "economic_receipt_base_amount",
+        "matched_receipt_base",
+        "assigned_base_rate",
+        "statutory_rate",
+        "effective_rate",
+        "current_law_yield_matched_to_solver",
+        "reform_yield",
+        "solver_input_row",
+        "public_rate_card",
+        "tax_proposal_fields",
+        "balanced_budget_fields",
+        "target_cost",
+        "federal_effect",
+        "gross_savings",
+        "net_savings",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "Medicare HI OMB/CMS perimeter evidence blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI OMB/CMS perimeter evidence claims")?;
+    if claims
+        .get("medicare_hi_omb_cms_perimeter_evidence_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("Medicare HI OMB/CMS perimeter evidence published flag failed".to_string());
+    }
+    for field in [
+        "work_item_completed",
+        "perimeter_bridge_complete",
+        "omb_included_receipt_types_confirmed",
+        "omb_excluded_receipt_types_confirmed",
+        "source_row_crosswalk_complete",
+        "timing_rounding_bridge_complete",
+        "assigned_receipt_base_published",
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+        "statutory_rate_claim",
+        "effective_rate_claim",
+        "public_rate_card_claim",
+        "tax_proposal_claim",
+        "balanced_budget_claim",
+        "target_cost_claim",
+        "federal_effect_claim",
+        "gross_savings_claim",
+        "net_savings_claim",
+        "waste_finding_claim",
+        "fraud_finding_claim",
+        "technology_savings_claim",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI OMB/CMS perimeter evidence claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(
+        root.join(MEDICARE_HI_OMB_CMS_RECEIPT_ROW_PERIMETER_EVIDENCE_READER_PATH),
+    )
+    .map_err(|e| e.to_string())?;
+    for phrase in [
+        MEDICARE_HI_OMB_CMS_RECEIPT_ROW_PERIMETER_EVIDENCE_JSON_PATH,
+        "The Medicare HI OMB/CMS receipt-row perimeter evidence boundary is published, but the perimeter bridge is not complete.",
+        "CMS payroll taxes and the OMB Hospital Insurance receipt anchor remain different source perimeters and cannot be substituted.",
+        "OMB included and excluded Hospital Insurance receipt types remain unconfirmed in this bridge.",
+        "The Medicare HI diagnostic ratio remains blocked from statutory-rate and effective-rate publication.",
+        "No Medicare HI assigned base, rate, reform yield, solver row, public rate card, tax proposal, savings estimate, or balanced-budget value is populated.",
+        "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "Medicare HI OMB/CMS perimeter evidence reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -31159,6 +31501,12 @@ mod global_country_comparison_tests {
     fn medicare_hi_bridge_closure_work_queue_orders_without_values() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_medicare_hi_bridge_closure_work_queue(&root).unwrap();
+    }
+
+    #[test]
+    fn medicare_hi_omb_cms_perimeter_evidence_keeps_bridge_incomplete() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_medicare_hi_omb_cms_receipt_row_perimeter_evidence(&root).unwrap();
     }
 
     #[test]

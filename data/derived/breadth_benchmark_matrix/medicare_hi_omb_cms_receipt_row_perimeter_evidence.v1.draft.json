@@ -1,0 +1,193 @@
+{
+  "record_id": "medicare-hi-omb-cms-receipt-row-perimeter-evidence:v1",
+  "record_family": "medicare_hi_omb_cms_receipt_row_perimeter_evidence",
+  "schema_version": "v1.draft",
+  "pulse": 149,
+  "as_of_date": "2026-07-20",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "medicare_hi_bridge_closure_work_queue_path": "data/derived/breadth_benchmark_matrix/medicare_hi_bridge_closure_work_queue.v1.draft.json",
+  "medicare_hi_receipt_base_reconciliation_path": "data/derived/breadth_benchmark_matrix/medicare_hi_receipt_base_reconciliation.v1.draft.json",
+  "medicare_hi_payroll_tax_perimeter_bridge_path": "data/derived/breadth_benchmark_matrix/medicare_hi_payroll_tax_perimeter_bridge.v1.draft.json",
+  "receipt_base_official_source_capture_path": "data/derived/breadth_benchmark_matrix/receipt_base_official_source_capture.v1.draft.json",
+  "source_custody_status": {
+    "official_sources_only": true,
+    "used_existing_captured_sources_only": true,
+    "new_external_download_performed": false,
+    "no_foia_or_records_request_submitted": true,
+    "no_agency_or_person_contacted": true,
+    "cms_medicare_trustees_raw_custody_ready": true,
+    "omb_hi_anchor_raw_custody_ready": true,
+    "omb_cms_perimeter_evidence_published": true,
+    "omb_included_receipt_types_confirmed": false,
+    "omb_excluded_receipt_types_confirmed": false,
+    "source_row_crosswalk_complete": false,
+    "timing_rounding_bridge_complete": false,
+    "perimeter_bridge_complete": false,
+    "assigned_base_ready": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false
+  },
+  "work_queue_item": {
+    "rank": 1,
+    "work_id": "omb_cms_receipt_row_perimeter_bridge",
+    "component_id": "payroll_tax_yield_perimeter",
+    "completed": false,
+    "ready": false,
+    "value": null
+  },
+  "evidence_rows": [
+    {
+      "source_id": "SRC-CMS-MEDICARE-TRUSTEES-2026",
+      "source_ref": "Table V.H1, Statement of Operations of the HI Trust Fund during Fiscal Year 2025",
+      "field": "payroll_taxes",
+      "period": "FY2025",
+      "amount_musd": 400622.16,
+      "perimeter_role": "cms_hi_payroll_tax_yield_context",
+      "included_in_cms_payroll_tax_yield_component": true,
+      "matched_to_omb_hospital_insurance_anchor": false,
+      "value_ready_for_bridge": false
+    },
+    {
+      "source_id": "SRC-OMB-HIST-2-4-FY2027",
+      "source_ref": "OMB Historical Table 2.4, Hospital insurance, FY2025",
+      "field": "hospital_insurance_receipt_anchor",
+      "period": "FY2025",
+      "amount_musd": 395350,
+      "perimeter_role": "omb_hi_receipt_anchor_context",
+      "included_receipt_types_known": false,
+      "excluded_receipt_types_known": false,
+      "matched_to_cms_payroll_tax_yield": false,
+      "value_ready_for_bridge": false
+    },
+    {
+      "source_id": "SRC-CMS-MEDICARE-TRUSTEES-2026",
+      "source_ref": "Table V.H1, Statement of Operations of the HI Trust Fund during Fiscal Year 2025",
+      "field": "income_from_taxation_of_oasdi_benefits",
+      "period": "FY2025",
+      "amount_musd": 41054,
+      "perimeter_role": "cms_non_payroll_hi_income_context",
+      "included_in_cms_payroll_tax_yield_component": false,
+      "requires_omb_row_mapping": true,
+      "value_ready_for_bridge": false
+    }
+  ],
+  "reconciliation": {
+    "cms_payroll_taxes_musd": 400622.16,
+    "omb_hospital_insurance_anchor_musd": 395350,
+    "cms_minus_omb_musd": 5272.16,
+    "absolute_difference_musd": 5272.16,
+    "difference_as_share_of_cms_payroll_tax_yield_percent": 1.31599,
+    "difference_as_share_of_omb_hi_anchor_percent": 1.33352,
+    "cms_payroll_tax_yield_to_hi_taxable_payroll_percent": 3.0175,
+    "difference_formula": "400622.16 - 395350 = 5272.16",
+    "cms_share_formula": "5272.16 / 400622.16 * 100 = 1.31599",
+    "omb_share_formula": "5272.16 / 395350 * 100 = 1.33352",
+    "bridge_status": "evidence_boundary_published_perimeter_bridge_not_complete"
+  },
+  "perimeter_bridge_requirements_status": [
+    {
+      "required_artifact": "OMB receipt-row source mapping",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "CMS statement-of-operations mapping",
+      "ready": true,
+      "value": "CMS HI payroll taxes and OASDI-benefit-taxation context identified"
+    },
+    {
+      "required_artifact": "included receipt types",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "excluded receipt types",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "source vintage alignment",
+      "ready": true,
+      "value": "FY2025 context from CMS 2026 Medicare Trustees and OMB FY2027 historical tables"
+    },
+    {
+      "required_artifact": "unrounded reconciliation",
+      "ready": false,
+      "value": null
+    },
+    {
+      "required_artifact": "rounding rule",
+      "ready": false,
+      "value": null
+    }
+  ],
+  "summary": {
+    "evidence_rows": 3,
+    "requirements": 7,
+    "ready_requirements": 2,
+    "blocked_requirements": 5,
+    "perimeter_bridge_complete": false,
+    "work_queue_item_completed": false,
+    "assigned_base_ready": false,
+    "rate_publication_ready": false,
+    "solver_ready": false
+  },
+  "blocked_outputs": {
+    "completed_omb_cms_receipt_row_perimeter_bridge": null,
+    "perimeter_bridge_value": null,
+    "omb_included_receipt_types": null,
+    "omb_excluded_receipt_types": null,
+    "source_row_crosswalk": null,
+    "timing_rounding_bridge": null,
+    "legal_receipt_base_amount": null,
+    "economic_receipt_base_amount": null,
+    "matched_receipt_base": null,
+    "assigned_base_rate": null,
+    "statutory_rate": null,
+    "effective_rate": null,
+    "current_law_yield_matched_to_solver": null,
+    "reform_yield": null,
+    "solver_input_row": null,
+    "public_rate_card": null,
+    "tax_proposal_fields": null,
+    "balanced_budget_fields": null,
+    "target_cost": null,
+    "federal_effect": null,
+    "gross_savings": null,
+    "net_savings": null
+  },
+  "public_warning_phrases": [
+    "The Medicare HI OMB/CMS receipt-row perimeter evidence boundary is published, but the perimeter bridge is not complete.",
+    "CMS payroll taxes and the OMB Hospital Insurance receipt anchor remain different source perimeters and cannot be substituted.",
+    "OMB included and excluded Hospital Insurance receipt types remain unconfirmed in this bridge.",
+    "The Medicare HI diagnostic ratio remains blocked from statutory-rate and effective-rate publication.",
+    "No Medicare HI assigned base, rate, reform yield, solver row, public rate card, tax proposal, savings estimate, or balanced-budget value is populated.",
+    "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+    "This record is not solver input, not a solver run, not a target-cost selection, not a rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+  ],
+  "claim_booleans": {
+    "medicare_hi_omb_cms_perimeter_evidence_published": true,
+    "work_item_completed": false,
+    "perimeter_bridge_complete": false,
+    "omb_included_receipt_types_confirmed": false,
+    "omb_excluded_receipt_types_confirmed": false,
+    "source_row_crosswalk_complete": false,
+    "timing_rounding_bridge_complete": false,
+    "assigned_receipt_base_published": false,
+    "matched_receipt_bases_ready": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false,
+    "statutory_rate_claim": false,
+    "effective_rate_claim": false,
+    "public_rate_card_claim": false,
+    "tax_proposal_claim": false,
+    "balanced_budget_claim": false,
+    "target_cost_claim": false,
+    "federal_effect_claim": false,
+    "gross_savings_claim": false,
+    "net_savings_claim": false,
+    "waste_finding_claim": false,
+    "fraud_finding_claim": false,
+    "technology_savings_claim": false
+  }
+}

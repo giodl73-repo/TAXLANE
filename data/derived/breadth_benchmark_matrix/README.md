@@ -765,3 +765,10 @@ bridge closure work from OMB/CMS receipt-row reconciliation through final
 rate/solver readiness review. It keeps all seven work items not ready and
 retains null/false blocks for assigned bases, rates, reform yield, solver rows,
 public rate cards, tax proposals, savings, and balanced-budget outputs.
+
+`medicare_hi_omb_cms_receipt_row_perimeter_evidence.v1.draft.json` publishes
+the evidence boundary for Medicare HI closure item 1 using existing official
+source custody only. It recomputes the CMS/OMB difference and keeps OMB
+included/excluded receipt types, source-row crosswalk, timing/rounding, assigned
+bases, rates, reform yield, solver rows, savings, and balanced-budget outputs
+blocked.
