@@ -653,6 +653,10 @@ const INCOME_SECURITY_FAMILY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH: &str = "
 const INCOME_SECURITY_FAMILY_OUTCOME_FLOOR_DEFINITION_PACKET_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/income_security_family_outcome_floor_definition_packet.schema.md";
 const INCOME_SECURITY_FAMILY_OUTCOME_FLOOR_DEFINITION_PACKET_READER_PATH: &str =
     "docs/reading/income-security-family-outcome-floor-definition-packet.md";
+const REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/revenue_solvency_outcome_floor_definition_packet.v1.draft.json";
+const REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/revenue_solvency_outcome_floor_definition_packet.schema.md";
+const REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_READER_PATH: &str =
+    "docs/reading/revenue-solvency-outcome-floor-definition-packet.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11333,6 +11337,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_social_security_outcome_floor_definition_packet(root)?;
     validate_defense_outcome_floor_definition_packet(root)?;
     validate_income_security_family_outcome_floor_definition_packet(root)?;
+    validate_revenue_solvency_outcome_floor_definition_packet(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -30103,6 +30108,309 @@ fn validate_income_security_family_outcome_floor_definition_packet(
     Ok(())
 }
 
+fn validate_revenue_solvency_outcome_floor_definition_packet(root: &Path) -> Result<(), String> {
+    for path in [
+        REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
+        REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_SCHEMA_PATH,
+        REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing revenue-solvency outcome floor definition packet artifact: {path}"
+            ));
+        }
+    }
+
+    let text =
+        fs::read_to_string(root.join(REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH))
+            .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")? != "revenue-solvency-outcome-floor-definition-packet:v1"
+        || string_field(&record, "record_family")?
+            != "revenue_solvency_outcome_floor_definition_packet"
+        || int_field(&record, "pulse")? != 165
+        || string_field(&record, "lane_id")? != "revenue-solvency"
+        || string_field(&record, "overlay_status")? != "non_additive_fiscal_control_overlay"
+        || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&record, "outcome_floor_thresholds_gap_path")?
+            != OUTCOME_FLOOR_THRESHOLDS_GAP_JSON_PATH
+        || string_field(
+            &record,
+            "income_security_family_outcome_floor_definition_packet_path",
+        )? != INCOME_SECURITY_FAMILY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH
+        || string_field(&record, "assigned_receipt_base_inventory_path")?
+            != ASSIGNED_RECEIPT_BASE_INVENTORY_JSON_PATH
+        || string_field(&record, "distributional_effect_placeholder_path")?
+            != DISTRIBUTIONAL_EFFECT_PLACEHOLDER_JSON_PATH
+        || string_field(&record, "lane_depth_explainability_tracker_path")?
+            != LANE_DEPTH_EXPLAINABILITY_TRACKER_JSON_PATH
+    {
+        return Err("revenue-solvency floor definition packet identity failed".to_string());
+    }
+
+    let status = record
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("revenue-solvency floor source custody status")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_captured_sources_only",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "definition_packet_published",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "revenue-solvency floor status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "new_external_download_performed",
+        "matched_receipt_bases_ready",
+        "behavior_model_ready",
+        "incidence_model_ready",
+        "distribution_model_ready",
+        "administration_model_ready",
+        "threshold_values_selected",
+        "baseline_values_populated",
+        "policy_values_populated",
+        "stress_values_populated",
+        "pass_fail_review_complete",
+        "rate_publication_ready",
+        "solver_input_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "revenue-solvency floor status {field} must be false"
+            ));
+        }
+    }
+
+    let policy = record
+        .get("definition_policy")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("revenue-solvency floor definition policy")?;
+    for field in [
+        "non_additive_overlay",
+        "statutory_rates_cannot_be_published_before_base_behavior_incidence_distribution_and_administration",
+        "all_lower_cost_scenarios_must_pass_floors",
+        "missing_values_remain_null",
+        "blocked_gates_remain_false",
+        "named_floor_concepts_are_not_threshold_values",
+        "international_differences_not_savings",
+        "no_fraud_inference",
+        "receipts_are_positive",
+        "rates_do_not_need_to_sum_to_100_percent",
+    ] {
+        if policy.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "revenue-solvency floor policy {field} must be true"
+            ));
+        }
+    }
+
+    let classes = record
+        .get("required_floor_classes")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("revenue-solvency required floor classes")?;
+    let expected_classes = [
+        "access_coverage",
+        "quality_safety",
+        "equity_distribution",
+        "adequacy_resilience",
+        "fiscal_delivery_feasibility",
+    ];
+    if classes.len() != expected_classes.len() {
+        return Err("revenue-solvency required floor class count failed".to_string());
+    }
+    let observed_classes = classes
+        .iter()
+        .map(|row| string_field(row, "floor_class"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_class_set = expected_classes
+        .into_iter()
+        .map(str::to_string)
+        .collect::<BTreeSet<_>>();
+    if observed_classes != expected_class_set {
+        return Err("revenue-solvency required floor class set failed".to_string());
+    }
+    for row in classes {
+        for field in [
+            "threshold_value",
+            "baseline_value",
+            "policy_value",
+            "stress_value",
+        ] {
+            if row.get(field) != Some(&serde_json::Value::Null) {
+                return Err(format!("revenue-solvency floor class {field} must be null"));
+            }
+        }
+        if row.get("passed").and_then(serde_json::Value::as_bool) != Some(false)
+            || string_field(row, "review_status")? != "definition_only_not_thresholded"
+        {
+            return Err("revenue-solvency floor class must remain unpassed".to_string());
+        }
+    }
+
+    let lane_floors = record
+        .get("revenue_solvency_specific_floor_definitions")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("revenue-solvency-specific floor definitions")?;
+    let expected_lane_floors = [
+        "distributional_progressivity",
+        "revenue_stability",
+        "administrability",
+        "growth_sensitivity",
+        "matched_base_behavior_incidence_readiness",
+    ];
+    if lane_floors.len() != expected_lane_floors.len() {
+        return Err("revenue-solvency-specific floor count failed".to_string());
+    }
+    let observed_lane_floors = lane_floors
+        .iter()
+        .map(|row| string_field(row, "floor_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_lane_floor_set = expected_lane_floors
+        .into_iter()
+        .map(str::to_string)
+        .collect::<BTreeSet<_>>();
+    if observed_lane_floors != expected_lane_floor_set {
+        return Err("revenue-solvency-specific floor set failed".to_string());
+    }
+    for row in lane_floors {
+        if row.get("threshold_value") != Some(&serde_json::Value::Null)
+            || row.get("observed_value") != Some(&serde_json::Value::Null)
+            || row.get("passed").and_then(serde_json::Value::as_bool) != Some(false)
+        {
+            return Err(
+                "revenue-solvency-specific floors must remain null and unpassed".to_string(),
+            );
+        }
+    }
+
+    for object_name in ["blocked_inputs", "blocked_outputs"] {
+        let object = record
+            .get(object_name)
+            .and_then(serde_json::Value::as_object)
+            .ok_or(object_name)?;
+        if object
+            .values()
+            .any(|value| value != &serde_json::Value::Null)
+        {
+            return Err(format!("{object_name} must remain null"));
+        }
+    }
+
+    let summary = record
+        .get("summary")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("revenue-solvency floor summary")?;
+    if summary
+        .get("floor_classes")
+        .and_then(serde_json::Value::as_i64)
+        != Some(5)
+        || summary
+            .get("revenue_solvency_specific_floors")
+            .and_then(serde_json::Value::as_i64)
+            != Some(5)
+    {
+        return Err("revenue-solvency floor summary counts failed".to_string());
+    }
+    for field in [
+        "threshold_values_selected",
+        "baseline_values_populated",
+        "policy_values_populated",
+        "stress_values_populated",
+        "all_floors_passed",
+        "rate_publication_ready",
+        "solver_input_ready",
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "revenue-solvency floor summary {field} must be false"
+            ));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("revenue-solvency floor claims")?;
+    if claims
+        .get("definition_packet_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("revenue-solvency floor packet publication flag failed".to_string());
+    }
+    for field in [
+        "matched_receipt_bases_ready",
+        "behavior_model_ready",
+        "incidence_model_ready",
+        "distribution_model_ready",
+        "administration_model_ready",
+        "threshold_values_selected",
+        "baseline_values_populated",
+        "policy_values_populated",
+        "stress_values_populated",
+        "pass_fail_review_complete",
+        "all_floors_passed",
+        "statutory_rate_published",
+        "effective_rate_published",
+        "assigned_base_rate_published",
+        "tax_proposal_published",
+        "federal_effect_published",
+        "gross_savings_published",
+        "net_savings_published",
+        "solver_input_ready",
+        "solver_run_published",
+        "public_rate_card_published",
+        "department_cut_instruction_published",
+        "technology_savings_claim_published",
+        "balanced_budget_claim_published",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "revenue-solvency floor claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader =
+        fs::read_to_string(root.join(REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_READER_PATH))
+            .map_err(|e| e.to_string())?;
+    for phrase in [
+        REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
+        "This revenue-solvency floor packet defines required floor concepts, but it does not set threshold values or pass/fail findings.",
+        "Revenue-solvency is a non-additive overlay, not a savings lane.",
+        "No statutory or effective rate can be published before matched receipt bases, behavior, incidence, distribution, and administration are modeled.",
+        "No tax proposal, assigned-base rate, federal effect, gross savings, net savings, solver input, department-cut instruction, technology-savings claim, or balanced-budget claim is populated.",
+        "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+        "not outcome-floor passage",
+        "not a receipt-base model",
+        "not an incidence model",
+        "not a distributional score",
+        "not a tax proposal",
+        "not a rate calculation",
+        "not solver input",
+        "not a solver run",
+        "not a savings estimate",
+        "not a fraud finding",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "revenue-solvency floor reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -36255,6 +36563,12 @@ mod global_country_comparison_tests {
     fn income_security_family_outcome_floor_definition_packet_blocks_benefit_shortcut() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_income_security_family_outcome_floor_definition_packet(&root).unwrap();
+    }
+
+    #[test]
+    fn revenue_solvency_outcome_floor_definition_packet_blocks_rate_shortcut() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_revenue_solvency_outcome_floor_definition_packet(&root).unwrap();
     }
 
     #[test]

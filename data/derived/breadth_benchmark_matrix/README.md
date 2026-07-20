@@ -864,3 +864,10 @@ defines child-poverty, material-hardship, formal-childcare-access,
 work/care-transition, and benefit-package/take-up delivery-feasibility floors
 while keeping thresholds, pass/fail findings, federal scores, target costs,
 solver inputs, savings, and balanced-budget claims blocked.
+
+`revenue_solvency_outcome_floor_definition_packet.v1.draft.json` extends the
+floor definition packet pattern to the non-additive revenue-solvency overlay. It
+defines distributional-progressivity, revenue-stability, administrability,
+growth-sensitivity, and matched base/behavior/incidence readiness floors while
+keeping receipt bases, rates, tax proposals, solver inputs, savings, and
+balanced-budget claims blocked.

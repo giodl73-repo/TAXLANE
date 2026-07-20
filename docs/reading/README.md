@@ -467,6 +467,11 @@ It is the bounded public surface, not a performance or savings report.
      as admissible. The packet defines floor concepts only; benefit-package
      models, take-up models, thresholds, pass/fail findings, federal scores,
      savings, solver inputs, and balanced-budget claims remain blocked.
+103. Read `revenue-solvency-outcome-floor-definition-packet.md` before treating
+     any receipt-base concept, revenue package, rate, or tax proposal as ready.
+     Revenue-solvency is non-additive; matched bases, behavior, incidence,
+     distribution, administration, thresholds, pass/fail findings, solver
+     inputs, and balanced-budget claims remain blocked.
 
 ## Public-Use Guardrail
 
