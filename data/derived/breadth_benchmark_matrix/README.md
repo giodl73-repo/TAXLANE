@@ -747,3 +747,9 @@ current-law yield cannot enter solver rows until OMB/CMS receipt perimeters,
 trust-fund accounting, explicit transfers, fund balances, timing/rounding, and
 solver-row contracts reconcile. It keeps solver inputs, rates, public rate
 cards, tax proposals, savings, and balanced-budget outputs blocked.
+
+`medicare_hi_behavior_reform_yield_gap.v1.draft.json` records that Medicare HI
+behavior and reform yield are not modeled. It blocks using current-law CMS or
+OMB receipt context as reform yield and keeps elasticity, avoidance,
+compliance, administration, incidence, distribution, solver inputs, rates,
+public rate cards, tax proposals, savings, and balanced-budget outputs blocked.
