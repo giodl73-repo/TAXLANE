@@ -741,3 +741,9 @@ economic-base blocker: employer, employee, household, wage-incidence,
 distribution, administration, avoidance, and compliance models remain missing.
 It keeps economic-base completion, assigned bases, rates, solver inputs, public
 rate cards, tax proposals, savings, and balanced-budget outputs blocked.
+
+`medicare_hi_solver_yield_mapping_gap.v1.draft.json` records that Medicare HI
+current-law yield cannot enter solver rows until OMB/CMS receipt perimeters,
+trust-fund accounting, explicit transfers, fund balances, timing/rounding, and
+solver-row contracts reconcile. It keeps solver inputs, rates, public rate
+cards, tax proposals, savings, and balanced-budget outputs blocked.

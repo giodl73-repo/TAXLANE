@@ -1,0 +1,146 @@
+{
+  "record_id": "medicare-hi-solver-yield-mapping-gap:v1",
+  "record_family": "medicare_hi_solver_yield_mapping_gap",
+  "schema_version": "v1.draft",
+  "pulse": 145,
+  "as_of_date": "2026-07-19",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "medicare_hi_perimeter_bridge_requirements_path": "data/derived/breadth_benchmark_matrix/medicare_hi_perimeter_bridge_requirements.v1.draft.json",
+  "medicare_hi_receipt_base_reconciliation_path": "data/derived/breadth_benchmark_matrix/medicare_hi_receipt_base_reconciliation.v1.draft.json",
+  "medicare_hi_benefits_tax_income_split_path": "data/derived/breadth_benchmark_matrix/medicare_hi_benefits_tax_income_split.v1.draft.json",
+  "current_law_named_fund_balance_transfer_gap_path": "data/derived/breadth_benchmark_matrix/current_law_named_fund_balance_transfer_gap.v1.draft.json",
+  "source_custody_status": {
+    "official_sources_only": true,
+    "used_existing_captured_sources_only": true,
+    "no_foia_or_records_request_submitted": true,
+    "no_agency_or_person_contacted": true,
+    "solver_yield_mapping_gap_defined": true,
+    "omb_receipt_row_mapping_complete": false,
+    "trust_fund_accounting_ready": false,
+    "fund_balance_path_ready": false,
+    "transfer_schedule_ready": false,
+    "current_law_yield_matched_to_solver_ready": false,
+    "solver_row_ready": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false
+  },
+  "component_id": "solver_yield_mapping",
+  "current_law_context": {
+    "cms_payroll_taxes_musd": 400622.16,
+    "omb_hospital_insurance_anchor_musd": 395350,
+    "cms_minus_omb_musd": 5272.16,
+    "cms_total_hi_revenue_musd": 458772.597,
+    "cms_non_payroll_income_musd": 58150.437,
+    "diagnostic_ratio_percent": 3.0175,
+    "diagnostic_ratio_publishable_as_rate": false,
+    "cms_payroll_tax_yield_can_substitute_for_omb_anchor": false,
+    "cms_total_hi_revenue_can_substitute_for_omb_anchor": false,
+    "omb_anchor_can_substitute_for_solver_yield": false
+  },
+  "mapping_requirements": [
+    {
+      "component": "current_law_yield_mapping",
+      "question": "Which current-law Medicare HI yield amount is matched to the solver row after OMB/CMS perimeter reconciliation?",
+      "required_inputs": ["OMB Hospital Insurance receipt-row bridge", "CMS income-category bridge", "source vintage alignment", "unrounded reconciliation"],
+      "value": null,
+      "ready": false
+    },
+    {
+      "component": "explicit_trust_fund_accounting",
+      "question": "How are Medicare HI trust-fund receipts, income categories, and credited collections represented separately from general-fund health flows?",
+      "required_inputs": ["trust-fund income categories", "offsetting collections treatment", "fund accounting convention", "ledger row mapping"],
+      "value": null,
+      "ready": false
+    },
+    {
+      "component": "fund_balance_path",
+      "question": "What is the Medicare HI fund balance path under current law before any reform delta?",
+      "required_inputs": ["annual opening balance", "annual closing balance", "income/outgo reconciliation", "timing convention"],
+      "value": null,
+      "ready": false
+    },
+    {
+      "component": "transfer_schedule",
+      "question": "What explicit general-fund or interfund transfer schedule is used, if any, and how is it scored?",
+      "required_inputs": ["explicit general-fund transfers", "interfund transfers", "score source", "current-law versus reform labels"],
+      "value": null,
+      "ready": false
+    },
+    {
+      "component": "timing_rounding_bridge",
+      "question": "How do source fiscal years, cash timing, and public rounding residuals map to the solver's unrounded annual arithmetic?",
+      "required_inputs": ["matched fiscal year", "cash timing convention", "rounding rule", "explicit rounding line"],
+      "value": null,
+      "ready": false
+    },
+    {
+      "component": "solver_row_contract",
+      "question": "What exact Medicare HI solver row contract receives current-law yield, outlay, transfer, balance, and delta fields?",
+      "required_inputs": ["row id", "fund id", "field definitions", "null/false blocked-output convention"],
+      "value": null,
+      "ready": false
+    }
+  ],
+  "blocked_outputs": {
+    "completed_solver_yield_mapping": null,
+    "current_law_yield_matched_to_solver": null,
+    "solver_input_row": null,
+    "fund_balance_path": null,
+    "transfer_schedule": null,
+    "explicit_general_fund_transfer": null,
+    "interfund_transfer_schedule": null,
+    "reserve_contribution": null,
+    "assigned_base_rate": null,
+    "statutory_rate": null,
+    "effective_rate": null,
+    "public_rate_card": null,
+    "tax_proposal_fields": null,
+    "balanced_budget_fields": null,
+    "target_cost": null,
+    "federal_effect": null,
+    "gross_savings": null,
+    "net_savings": null
+  },
+  "still_required": [
+    "OMB/CMS Hospital Insurance receipt-row perimeter reconciliation",
+    "trust-fund income, credited collections, transfers, and other income mapped as separate fields",
+    "annual Medicare HI fund-balance path before solver use",
+    "timing and rounding bridge with explicit public rounding line",
+    "solver-row contract linking current-law yield to fund accounting without substituting receipt perimeters",
+    "rate publication package with matched receipt base, behavior, incidence, distribution, and administration"
+  ],
+  "public_warning_phrases": [
+    "The Medicare HI current-law yield mapping is not solver-ready.",
+    "CMS payroll-tax yield, CMS total HI revenue, and the OMB Hospital Insurance anchor are different perimeters and cannot be substituted.",
+    "Trust-fund income, explicit general-fund transfers, interfund transfers, fund balances, and timing/rounding bridges must be mapped before solver use.",
+    "The Medicare HI diagnostic ratio remains blocked from statutory-rate and effective-rate publication.",
+    "No Medicare HI solver row, assigned base, rate, public rate card, tax proposal, savings estimate, or balanced-budget value is populated.",
+    "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+    "This record is not solver input, not a solver run, not a target-cost selection, not a rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+  ],
+  "claim_booleans": {
+    "solver_yield_mapping_gap_published": true,
+    "omb_receipt_row_mapping_complete": false,
+    "trust_fund_accounting_ready": false,
+    "fund_balance_path_ready": false,
+    "transfer_schedule_ready": false,
+    "current_law_yield_matched_to_solver_ready": false,
+    "solver_row_ready": false,
+    "assigned_receipt_base_published": false,
+    "matched_receipt_bases_ready": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false,
+    "statutory_rate_claim": false,
+    "effective_rate_claim": false,
+    "public_rate_card_claim": false,
+    "tax_proposal_claim": false,
+    "balanced_budget_claim": false,
+    "target_cost_claim": false,
+    "federal_effect_claim": false,
+    "gross_savings_claim": false,
+    "net_savings_claim": false,
+    "waste_finding_claim": false,
+    "fraud_finding_claim": false,
+    "technology_savings_claim": false
+  }
+}

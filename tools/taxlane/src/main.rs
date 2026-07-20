@@ -544,6 +544,12 @@ const MEDICARE_HI_ECONOMIC_BASE_DEFINITION_GAP_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/medicare_hi_economic_base_definition_gap.schema.md";
 const MEDICARE_HI_ECONOMIC_BASE_DEFINITION_GAP_READER_PATH: &str =
     "docs/reading/medicare-hi-economic-base-definition-gap.md";
+const MEDICARE_HI_SOLVER_YIELD_MAPPING_GAP_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/medicare_hi_solver_yield_mapping_gap.v1.draft.json";
+const MEDICARE_HI_SOLVER_YIELD_MAPPING_GAP_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/medicare_hi_solver_yield_mapping_gap.schema.md";
+const MEDICARE_HI_SOLVER_YIELD_MAPPING_GAP_READER_PATH: &str =
+    "docs/reading/medicare-hi-solver-yield-mapping-gap.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11204,6 +11210,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_medicare_hi_benefits_tax_income_split(root)?;
     validate_medicare_hi_legal_base_definition_gap(root)?;
     validate_medicare_hi_economic_base_definition_gap(root)?;
+    validate_medicare_hi_solver_yield_mapping_gap(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -24039,6 +24046,262 @@ fn validate_medicare_hi_economic_base_definition_gap(root: &Path) -> Result<(), 
     Ok(())
 }
 
+fn validate_medicare_hi_solver_yield_mapping_gap(root: &Path) -> Result<(), String> {
+    for path in [
+        MEDICARE_HI_SOLVER_YIELD_MAPPING_GAP_JSON_PATH,
+        MEDICARE_HI_SOLVER_YIELD_MAPPING_GAP_SCHEMA_PATH,
+        MEDICARE_HI_SOLVER_YIELD_MAPPING_GAP_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing Medicare HI solver yield mapping gap artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(MEDICARE_HI_SOLVER_YIELD_MAPPING_GAP_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")? != "medicare-hi-solver-yield-mapping-gap:v1"
+        || string_field(&record, "record_family")? != "medicare_hi_solver_yield_mapping_gap"
+        || int_field(&record, "pulse")? != 145
+        || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&record, "medicare_hi_perimeter_bridge_requirements_path")?
+            != MEDICARE_HI_PERIMETER_BRIDGE_REQUIREMENTS_JSON_PATH
+        || string_field(&record, "medicare_hi_receipt_base_reconciliation_path")?
+            != MEDICARE_HI_RECEIPT_BASE_RECONCILIATION_JSON_PATH
+        || string_field(&record, "medicare_hi_benefits_tax_income_split_path")?
+            != MEDICARE_HI_BENEFITS_TAX_INCOME_SPLIT_JSON_PATH
+        || string_field(&record, "current_law_named_fund_balance_transfer_gap_path")?
+            != CURRENT_LAW_NAMED_FUND_BALANCE_TRANSFER_GAP_JSON_PATH
+        || string_field(&record, "component_id")? != "solver_yield_mapping"
+    {
+        return Err("Medicare HI solver yield mapping gap identity failed".to_string());
+    }
+
+    let status = record
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI solver yield mapping gap status")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_captured_sources_only",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "solver_yield_mapping_gap_defined",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "Medicare HI solver yield mapping gap status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "omb_receipt_row_mapping_complete",
+        "trust_fund_accounting_ready",
+        "fund_balance_path_ready",
+        "transfer_schedule_ready",
+        "current_law_yield_matched_to_solver_ready",
+        "solver_row_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI solver yield mapping gap status {field} must be false"
+            ));
+        }
+    }
+
+    let context = record
+        .get("current_law_context")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI solver yield current-law context")?;
+    let expected_numbers = [
+        ("cms_payroll_taxes_musd", 400622.16),
+        ("omb_hospital_insurance_anchor_musd", 395350.0),
+        ("cms_minus_omb_musd", 5272.16),
+        ("cms_total_hi_revenue_musd", 458772.597),
+        ("cms_non_payroll_income_musd", 58150.437),
+        ("diagnostic_ratio_percent", 3.0175),
+    ];
+    for (field, expected) in expected_numbers {
+        let observed = context
+            .get(field)
+            .and_then(serde_json::Value::as_f64)
+            .ok_or_else(|| format!("Medicare HI solver yield context {field} missing"))?;
+        if (observed - expected).abs() > 0.001 {
+            return Err(format!(
+                "Medicare HI solver yield context {field} expected {expected}, observed {observed}"
+            ));
+        }
+    }
+    for field in [
+        "diagnostic_ratio_publishable_as_rate",
+        "cms_payroll_tax_yield_can_substitute_for_omb_anchor",
+        "cms_total_hi_revenue_can_substitute_for_omb_anchor",
+        "omb_anchor_can_substitute_for_solver_yield",
+    ] {
+        if context.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI solver yield context {field} must be false"
+            ));
+        }
+    }
+
+    let requirements = record
+        .get("mapping_requirements")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Medicare HI solver yield mapping requirements")?;
+    if requirements.len() != 6 {
+        return Err("Medicare HI solver yield requirement count failed".to_string());
+    }
+    let expected_requirements = [
+        "current_law_yield_mapping",
+        "explicit_trust_fund_accounting",
+        "fund_balance_path",
+        "transfer_schedule",
+        "timing_rounding_bridge",
+        "solver_row_contract",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let observed_requirements = requirements
+        .iter()
+        .map(|row| string_field(row, "component"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if observed_requirements != expected_requirements {
+        return Err("Medicare HI solver yield requirement set failed".to_string());
+    }
+    for row in requirements {
+        if row.get("value") != Some(&serde_json::Value::Null)
+            || row.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+            || row
+                .get("required_inputs")
+                .and_then(serde_json::Value::as_array)
+                .map(Vec::is_empty)
+                != Some(false)
+        {
+            return Err("Medicare HI solver yield requirement readiness failed".to_string());
+        }
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI solver yield blocked outputs")?;
+    for field in [
+        "completed_solver_yield_mapping",
+        "current_law_yield_matched_to_solver",
+        "solver_input_row",
+        "fund_balance_path",
+        "transfer_schedule",
+        "explicit_general_fund_transfer",
+        "interfund_transfer_schedule",
+        "reserve_contribution",
+        "assigned_base_rate",
+        "statutory_rate",
+        "effective_rate",
+        "public_rate_card",
+        "tax_proposal_fields",
+        "balanced_budget_fields",
+        "target_cost",
+        "federal_effect",
+        "gross_savings",
+        "net_savings",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "Medicare HI solver yield blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let still_required = record
+        .get("still_required")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Medicare HI solver yield still required")?;
+    if still_required.len() != 6 {
+        return Err("Medicare HI solver yield still-required count failed".to_string());
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI solver yield claims")?;
+    if claims
+        .get("solver_yield_mapping_gap_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("Medicare HI solver yield published flag must be true".to_string());
+    }
+    for field in [
+        "omb_receipt_row_mapping_complete",
+        "trust_fund_accounting_ready",
+        "fund_balance_path_ready",
+        "transfer_schedule_ready",
+        "current_law_yield_matched_to_solver_ready",
+        "solver_row_ready",
+        "assigned_receipt_base_published",
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+        "statutory_rate_claim",
+        "effective_rate_claim",
+        "public_rate_card_claim",
+        "tax_proposal_claim",
+        "balanced_budget_claim",
+        "target_cost_claim",
+        "federal_effect_claim",
+        "gross_savings_claim",
+        "net_savings_claim",
+        "waste_finding_claim",
+        "fraud_finding_claim",
+        "technology_savings_claim",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI solver yield claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(MEDICARE_HI_SOLVER_YIELD_MAPPING_GAP_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for phrase in [
+        MEDICARE_HI_SOLVER_YIELD_MAPPING_GAP_JSON_PATH,
+        "The Medicare HI current-law yield mapping is not solver-ready.",
+        "CMS payroll-tax yield, CMS total HI revenue, and the OMB Hospital Insurance anchor are different perimeters and cannot be substituted.",
+        "Trust-fund income, explicit general-fund transfers, interfund transfers, fund balances, and timing/rounding bridges must be mapped before solver use.",
+        "The Medicare HI diagnostic ratio remains blocked from statutory-rate and effective-rate publication.",
+        "No Medicare HI solver row, assigned base, rate, public rate card, tax proposal, savings estimate, or balanced-budget value is populated.",
+        "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "Medicare HI solver yield reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -30071,6 +30334,12 @@ mod global_country_comparison_tests {
     fn medicare_hi_economic_base_definition_gap_blocks_incidence_shortcut() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_medicare_hi_economic_base_definition_gap(&root).unwrap();
+    }
+
+    #[test]
+    fn medicare_hi_solver_yield_mapping_gap_blocks_solver_row() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_medicare_hi_solver_yield_mapping_gap(&root).unwrap();
     }
 
     #[test]
