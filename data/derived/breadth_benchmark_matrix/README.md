@@ -885,3 +885,10 @@ It defines due-process, timely-payment, access, false-positive, and causal
 prevention/same-cohort collection lineage floors while keeping fraud findings,
 waste findings, recoverable savings credits, solver inputs, savings, and
 balanced-budget claims blocked.
+
+`veterans_outcome_floor_definition_packet.v1.draft.json` extends the floor
+definition packet pattern to veterans programs. It defines earned-eligibility,
+health-access, claims-timeliness, housing/employment-outcome, and eligible
+cohort/service-package feasibility floors while keeping cohort models, service
+package models, statutory continuity findings, target costs, savings, solver
+inputs, and balanced-budget claims blocked.

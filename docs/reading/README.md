@@ -481,6 +481,11 @@ It is the bounded public surface, not a performance or savings report.
      savings-ready. Payment integrity is non-additive; fraud findings, causal
      prevention lineage, same-cohort collection lineage, thresholds, pass/fail
      findings, solver inputs, and balanced-budget claims remain blocked.
+106. Read `veterans-outcome-floor-definition-packet.md` before treating any
+     veterans cohort, service package, or lower-cost scenario as admissible.
+     Earned eligibility, statutory continuity, thresholds, pass/fail findings,
+     target costs, savings, solver inputs, and balanced-budget claims remain
+     blocked.
 
 ## Public-Use Guardrail
 
