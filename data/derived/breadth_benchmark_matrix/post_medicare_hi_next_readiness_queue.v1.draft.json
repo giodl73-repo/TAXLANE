@@ -1,0 +1,168 @@
+{
+  "record_id": "post-medicare-hi-next-readiness-queue:v1",
+  "record_family": "post_medicare_hi_next_readiness_queue",
+  "schema_version": "v1.draft",
+  "pulse": 157,
+  "as_of_date": "2026-07-20",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "post_rollup_readiness_work_queue_path": "data/derived/breadth_benchmark_matrix/post_rollup_readiness_work_queue.v1.draft.json",
+  "medicare_hi_closure_series_rollup_path": "data/derived/breadth_benchmark_matrix/medicare_hi_closure_series_rollup.v1.draft.json",
+  "purpose": "Order the next readiness work after the Medicare HI closure blocker series without populating solver, rate, savings, or public-claim values.",
+  "sequence_rules": {
+    "medicare_hi_blockers_remain_blocked": true,
+    "source_custody_before_values": true,
+    "current_law_paths_before_policy_scores": true,
+    "fund_reconciliation_before_solver": true,
+    "outcome_floors_before_lower_cost_scenarios": true,
+    "receipt_base_model_before_rates": true,
+    "payment_integrity_lineage_before_savings_credit": true,
+    "net_interest_feedback_before_solver_outputs": true,
+    "missing_values_remain_null": true,
+    "blocked_gates_remain_false": true
+  },
+  "source_custody_status": {
+    "official_sources_only": true,
+    "used_existing_captured_sources_only": true,
+    "new_external_download_performed": false,
+    "no_foia_or_records_request_submitted": true,
+    "no_agency_or_person_contacted": true,
+    "next_readiness_queue_published": true,
+    "medicare_hi_closure_series_complete": false,
+    "current_law_values_populated": false,
+    "solver_inputs_ready": false,
+    "policy_scenarios_ready": false,
+    "rates_ready": false,
+    "public_claims_ready": false
+  },
+  "work_queue": [
+    {
+      "rank": 1,
+      "work_id": "source_custody_and_current_law_paths",
+      "title": "Source custody and official current-law paths",
+      "status": "blocked_not_started",
+      "blocked_by": ["missing official annual source custody packets", "missing complete current-law paths"],
+      "value": null,
+      "ready": false
+    },
+    {
+      "rank": 2,
+      "work_id": "trust_fund_and_fund_group_reconciliation",
+      "title": "Trust-fund and general-fund annual reconciliation",
+      "status": "blocked_until_current_law_custody",
+      "blocked_by": ["OASDI path incomplete", "Medicare HI bridge items unready", "transportation trust-fund values incomplete", "general-fund path incomplete"],
+      "value": null,
+      "ready": false
+    },
+    {
+      "rank": 3,
+      "work_id": "outcome_floor_thresholds",
+      "title": "Outcome-floor thresholds and pass/fail evidence",
+      "status": "blocked_until_lane_specific_evidence",
+      "blocked_by": ["threshold rationale missing", "baseline and policy floor values missing", "review status missing"],
+      "value": null,
+      "ready": false
+    },
+    {
+      "rank": 4,
+      "work_id": "policy_specific_scored_scenarios",
+      "title": "Policy-specific scored scenarios",
+      "status": "blocked_until_current_law_and_floors",
+      "blocked_by": ["policy instruments missing", "behavior response missing", "transition and administration costs missing", "floor pass results missing"],
+      "value": null,
+      "ready": false
+    },
+    {
+      "rank": 5,
+      "work_id": "receipt_base_distribution_and_rate_model",
+      "title": "Receipt-base, distribution, and rate model",
+      "status": "blocked_until_target_requirements_and_receipt_bases",
+      "blocked_by": ["matched receipt bases missing", "elasticity missing", "incidence and distribution missing", "tax interactions missing"],
+      "value": null,
+      "ready": false
+    },
+    {
+      "rank": 6,
+      "work_id": "payment_integrity_scoring_lineage",
+      "title": "Payment-integrity scoring lineage",
+      "status": "blocked_until_causal_or_same_cohort_lineage",
+      "blocked_by": ["causal prevention lineage missing", "same-cohort collection lineage missing", "access and false-positive floors missing"],
+      "value": null,
+      "ready": false
+    },
+    {
+      "rank": 7,
+      "work_id": "net_interest_feedback_fixture",
+      "title": "Net-interest feedback fixture",
+      "status": "blocked_until_debt_maturity_rate_inputs",
+      "blocked_by": ["maturity schedule missing", "effective rate path missing", "primary-balance shock fixture missing"],
+      "value": null,
+      "ready": false
+    },
+    {
+      "rank": 8,
+      "work_id": "deterministic_solver_dry_run",
+      "title": "Deterministic solver dry run",
+      "status": "blocked_until_all_required_inputs_ready",
+      "blocked_by": ["all prior work items unready", "explicit deficit gap missing", "fund balances missing", "reserve path missing"],
+      "value": null,
+      "ready": false
+    }
+  ],
+  "aggregate_status": {
+    "work_items": 8,
+    "ready_items": 0,
+    "medicare_hi_closure_packets_published": 7,
+    "medicare_hi_bridge_items_ready": 0,
+    "current_law_values_populated": false,
+    "solver_inputs_ready": false,
+    "policy_scenarios_ready": false,
+    "rates_ready": false,
+    "public_claims_ready": false
+  },
+  "blocked_outputs": {
+    "current_law_path_values": null,
+    "fund_balances": null,
+    "outcome_floor_pass_results": null,
+    "policy_scenarios": null,
+    "federal_effects": null,
+    "matched_receipt_bases": null,
+    "statutory_rates": null,
+    "effective_rates": null,
+    "public_rate_cards": null,
+    "payment_integrity_savings_credit": null,
+    "net_interest_path": null,
+    "debt_path": null,
+    "solver_run": null,
+    "target_costs": null,
+    "gross_savings": null,
+    "net_savings": null,
+    "balanced_budget_claim": null
+  },
+  "public_warning_phrases": [
+    "The post-Medicare HI next-readiness queue is published, but no next-readiness work item is complete.",
+    "The queue orders work after the Medicare HI closure blocker series; it does not unblock Medicare HI rates or solver inputs.",
+    "No solver run, target cost, statutory rate, effective rate, public rate card, tax proposal, savings estimate, waste/fraud finding, technology-savings claim, or balanced-budget claim is populated.",
+    "Missing values remain null and blocked gates remain false.",
+    "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+    "This record is not solver input, not a solver run, not a target-cost selection, not a rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+  ],
+  "claim_booleans": {
+    "post_medicare_hi_next_readiness_queue_published": true,
+    "work_item_completed": false,
+    "medicare_hi_closure_series_complete": false,
+    "current_law_path_values_published": false,
+    "solver_inputs_ready": false,
+    "solver_run_published": false,
+    "target_cost_published": false,
+    "statutory_rate_published": false,
+    "effective_rate_published": false,
+    "public_rate_card_published": false,
+    "tax_proposal_published": false,
+    "savings_claim_published": false,
+    "waste_finding_published": false,
+    "fraud_finding_published": false,
+    "department_cut_instruction_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  }
+}

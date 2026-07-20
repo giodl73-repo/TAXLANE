@@ -607,6 +607,12 @@ const MEDICARE_HI_CLOSURE_SERIES_ROLLUP_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/medicare_hi_closure_series_rollup.schema.md";
 const MEDICARE_HI_CLOSURE_SERIES_ROLLUP_READER_PATH: &str =
     "docs/reading/medicare-hi-closure-series-rollup.md";
+const POST_MEDICARE_HI_NEXT_READINESS_QUEUE_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/post_medicare_hi_next_readiness_queue.v1.draft.json";
+const POST_MEDICARE_HI_NEXT_READINESS_QUEUE_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/post_medicare_hi_next_readiness_queue.schema.md";
+const POST_MEDICARE_HI_NEXT_READINESS_QUEUE_READER_PATH: &str =
+    "docs/reading/post-medicare-hi-next-readiness-queue.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11279,6 +11285,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_medicare_hi_policy_behavior_reform_yield_closure_gap(root)?;
     validate_medicare_hi_rate_solver_readiness_review_closure_gap(root)?;
     validate_medicare_hi_closure_series_rollup(root)?;
+    validate_post_medicare_hi_next_readiness_queue(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -27708,6 +27715,254 @@ fn validate_medicare_hi_closure_series_rollup(root: &Path) -> Result<(), String>
     Ok(())
 }
 
+fn validate_post_medicare_hi_next_readiness_queue(root: &Path) -> Result<(), String> {
+    for path in [
+        POST_MEDICARE_HI_NEXT_READINESS_QUEUE_JSON_PATH,
+        POST_MEDICARE_HI_NEXT_READINESS_QUEUE_SCHEMA_PATH,
+        POST_MEDICARE_HI_NEXT_READINESS_QUEUE_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing post-Medicare HI next-readiness queue artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(POST_MEDICARE_HI_NEXT_READINESS_QUEUE_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")? != "post-medicare-hi-next-readiness-queue:v1"
+        || string_field(&record, "record_family")? != "post_medicare_hi_next_readiness_queue"
+        || int_field(&record, "pulse")? != 157
+        || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&record, "post_rollup_readiness_work_queue_path")?
+            != POST_ROLLUP_READINESS_WORK_QUEUE_JSON_PATH
+        || string_field(&record, "medicare_hi_closure_series_rollup_path")?
+            != MEDICARE_HI_CLOSURE_SERIES_ROLLUP_JSON_PATH
+    {
+        return Err("post-Medicare HI next-readiness queue identity failed".to_string());
+    }
+
+    let rules = record
+        .get("sequence_rules")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("post-Medicare HI next-readiness sequence rules")?;
+    for field in [
+        "medicare_hi_blockers_remain_blocked",
+        "source_custody_before_values",
+        "current_law_paths_before_policy_scores",
+        "fund_reconciliation_before_solver",
+        "outcome_floors_before_lower_cost_scenarios",
+        "receipt_base_model_before_rates",
+        "payment_integrity_lineage_before_savings_credit",
+        "net_interest_feedback_before_solver_outputs",
+        "missing_values_remain_null",
+        "blocked_gates_remain_false",
+    ] {
+        if rules.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "post-Medicare HI next-readiness sequence rule {field} must be true"
+            ));
+        }
+    }
+
+    let status = record
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("post-Medicare HI next-readiness status")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_captured_sources_only",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "next_readiness_queue_published",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "post-Medicare HI next-readiness status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "new_external_download_performed",
+        "medicare_hi_closure_series_complete",
+        "current_law_values_populated",
+        "solver_inputs_ready",
+        "policy_scenarios_ready",
+        "rates_ready",
+        "public_claims_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "post-Medicare HI next-readiness status {field} must be false"
+            ));
+        }
+    }
+
+    let queue = record
+        .get("work_queue")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("post-Medicare HI next-readiness work queue")?;
+    if queue.len() != 8
+        || queue
+            .iter()
+            .any(|row| row.get("ready").and_then(serde_json::Value::as_bool) != Some(false))
+        || queue
+            .iter()
+            .any(|row| row.get("value") != Some(&serde_json::Value::Null))
+    {
+        return Err("post-Medicare HI next-readiness work queue must remain blocked".to_string());
+    }
+    let observed = queue
+        .iter()
+        .map(|row| Ok((int_field(row, "rank")?, string_field(row, "work_id")?)))
+        .collect::<Result<BTreeSet<_>, String>>()?;
+    let expected = [
+        (1, "source_custody_and_current_law_paths"),
+        (2, "trust_fund_and_fund_group_reconciliation"),
+        (3, "outcome_floor_thresholds"),
+        (4, "policy_specific_scored_scenarios"),
+        (5, "receipt_base_distribution_and_rate_model"),
+        (6, "payment_integrity_scoring_lineage"),
+        (7, "net_interest_feedback_fixture"),
+        (8, "deterministic_solver_dry_run"),
+    ]
+    .into_iter()
+    .map(|(rank, work_id)| (rank, work_id.to_string()))
+    .collect::<BTreeSet<_>>();
+    if observed != expected {
+        return Err("post-Medicare HI next-readiness work queue order failed".to_string());
+    }
+
+    let aggregate = record
+        .get("aggregate_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("post-Medicare HI next-readiness aggregate status")?;
+    for (field, expected) in [
+        ("work_items", 8),
+        ("ready_items", 0),
+        ("medicare_hi_closure_packets_published", 7),
+        ("medicare_hi_bridge_items_ready", 0),
+    ] {
+        if aggregate.get(field).and_then(serde_json::Value::as_i64) != Some(expected) {
+            return Err(format!(
+                "post-Medicare HI next-readiness aggregate {field} failed"
+            ));
+        }
+    }
+    for field in [
+        "current_law_values_populated",
+        "solver_inputs_ready",
+        "policy_scenarios_ready",
+        "rates_ready",
+        "public_claims_ready",
+    ] {
+        if aggregate.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "post-Medicare HI next-readiness aggregate {field} must be false"
+            ));
+        }
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("post-Medicare HI next-readiness blocked outputs")?;
+    for field in [
+        "current_law_path_values",
+        "fund_balances",
+        "outcome_floor_pass_results",
+        "policy_scenarios",
+        "federal_effects",
+        "matched_receipt_bases",
+        "statutory_rates",
+        "effective_rates",
+        "public_rate_cards",
+        "payment_integrity_savings_credit",
+        "net_interest_path",
+        "debt_path",
+        "solver_run",
+        "target_costs",
+        "gross_savings",
+        "net_savings",
+        "balanced_budget_claim",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "post-Medicare HI next-readiness blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("post-Medicare HI next-readiness claims")?;
+    if claims
+        .get("post_medicare_hi_next_readiness_queue_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("post-Medicare HI next-readiness published claim failed".to_string());
+    }
+    for field in [
+        "work_item_completed",
+        "medicare_hi_closure_series_complete",
+        "current_law_path_values_published",
+        "solver_inputs_ready",
+        "solver_run_published",
+        "target_cost_published",
+        "statutory_rate_published",
+        "effective_rate_published",
+        "public_rate_card_published",
+        "tax_proposal_published",
+        "savings_claim_published",
+        "waste_finding_published",
+        "fraud_finding_published",
+        "department_cut_instruction_published",
+        "technology_savings_claim_published",
+        "balanced_budget_claim_published",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "post-Medicare HI next-readiness claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(POST_MEDICARE_HI_NEXT_READINESS_QUEUE_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for phrase in [
+        POST_MEDICARE_HI_NEXT_READINESS_QUEUE_JSON_PATH,
+        "The post-Medicare HI next-readiness queue is published, but no next-readiness work item is complete.",
+        "The queue orders work after the Medicare HI closure blocker series; it does not unblock Medicare HI rates or solver inputs.",
+        "No solver run, target cost, statutory rate, effective rate, public rate card, tax proposal, savings estimate, waste/fraud finding, technology-savings claim, or balanced-budget claim is populated.",
+        "Missing values remain null and blocked gates remain false.",
+        "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "post-Medicare HI next-readiness reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -33812,6 +34067,12 @@ mod global_country_comparison_tests {
     fn medicare_hi_closure_series_rollup_keeps_bridge_items_unready() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_medicare_hi_closure_series_rollup(&root).unwrap();
+    }
+
+    #[test]
+    fn post_medicare_hi_next_readiness_queue_keeps_values_blocked() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_post_medicare_hi_next_readiness_queue(&root).unwrap();
     }
 
     #[test]

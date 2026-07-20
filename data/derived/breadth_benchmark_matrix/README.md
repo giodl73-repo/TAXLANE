@@ -814,3 +814,9 @@ balanced-budget outputs blocked.
 closure series: seven blocker packets are published, but zero bridge items are
 complete or ready. It keeps assigned bases, rates, reform yield, solver rows,
 public rate cards, tax proposals, savings, and balanced-budget outputs blocked.
+
+`post_medicare_hi_next_readiness_queue.v1.draft.json` orders the next readiness
+work after the Medicare HI closure blocker series. It keeps source custody,
+fund reconciliation, floors, policy scores, receipt bases, payment-integrity
+lineage, net-interest feedback, solver dry run, rates, savings, and public
+claims blocked.
