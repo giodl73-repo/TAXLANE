@@ -497,6 +497,12 @@ It is the bounded public surface, not a performance or savings report.
      pass/fail findings, federal/state/local translation, program-to-outlay
      allocation, target costs, savings, solver inputs, and balanced-budget claims
      remain blocked.
+109. Read `disaster-resilience-outcome-floor-definition-packet.md` before
+     treating any disaster lower-cost scenario, reserve path, mitigation result,
+     or declaration evidence as admissible. Declarations are not spending,
+     project amounts are not outlays, and benefit-cost ratios are not realized
+     savings; thresholds, pass/fail findings, reserve rules, target costs,
+     savings, solver inputs, and balanced-budget claims remain blocked.
 
 ## Public-Use Guardrail
 
