@@ -892,3 +892,11 @@ health-access, claims-timeliness, housing/employment-outcome, and eligible
 cohort/service-package feasibility floors while keeping cohort models, service
 package models, statutory continuity findings, target costs, savings, solver
 inputs, and balanced-budget claims blocked.
+
+`transportation_infrastructure_outcome_floor_definition_packet.v1.draft.json`
+extends the floor definition packet pattern to the transportation/infrastructure
+lane. It defines asset-condition, fatalities, reliability, access,
+climate-resilience, and asset-inventory/maintenance-gap delivery-feasibility
+floors while keeping asset inventories, maintenance-gap estimates,
+federal/state/local translations, simulator runs, target costs, savings, solver
+inputs, and balanced-budget claims blocked.

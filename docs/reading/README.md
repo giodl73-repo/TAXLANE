@@ -486,6 +486,11 @@ It is the bounded public surface, not a performance or savings report.
      Earned eligibility, statutory continuity, thresholds, pass/fail findings,
      target costs, savings, solver inputs, and balanced-budget claims remain
      blocked.
+107. Read `transportation-infrastructure-outcome-floor-definition-packet.md`
+     before treating any transportation pilot, asset inventory, maintenance gap,
+     or lower-cost scenario as admissible. The pilot floor contract remains
+     thresholdless; thresholds, pass/fail findings, simulator runs, target
+     costs, savings, solver inputs, and balanced-budget claims remain blocked.
 
 ## Public-Use Guardrail
 
