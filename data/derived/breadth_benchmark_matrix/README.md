@@ -900,3 +900,11 @@ climate-resilience, and asset-inventory/maintenance-gap delivery-feasibility
 floors while keeping asset inventories, maintenance-gap estimates,
 federal/state/local translations, simulator runs, target costs, savings, solver
 inputs, and balanced-budget claims blocked.
+
+`education_workforce_outcome_floor_definition_packet.v1.draft.json` extends the
+floor definition packet pattern to the education/workforce lane. It defines
+attainment, completion/persistence, access/affordability, employment/earnings
+transition, equity/distribution, and federal/state/local-translation
+delivery-feasibility floors while keeping program-to-outlay allocation, cohort
+timing, thresholds, pass/fail findings, target costs, savings, solver inputs,
+and balanced-budget claims blocked.

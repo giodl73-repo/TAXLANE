@@ -491,6 +491,12 @@ It is the bounded public surface, not a performance or savings report.
      or lower-cost scenario as admissible. The pilot floor contract remains
      thresholdless; thresholds, pass/fail findings, simulator runs, target
      costs, savings, solver inputs, and balanced-budget claims remain blocked.
+108. Read `education-workforce-outcome-floor-definition-packet.md` before
+     treating any education/workforce lower-cost scenario as admissible. The
+     negative higher-education entry is accounting, not savings; thresholds,
+     pass/fail findings, federal/state/local translation, program-to-outlay
+     allocation, target costs, savings, solver inputs, and balanced-budget claims
+     remain blocked.
 
 ## Public-Use Guardrail
 
