@@ -538,6 +538,12 @@ const MEDICARE_HI_LEGAL_BASE_DEFINITION_GAP_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/medicare_hi_legal_base_definition_gap.schema.md";
 const MEDICARE_HI_LEGAL_BASE_DEFINITION_GAP_READER_PATH: &str =
     "docs/reading/medicare-hi-legal-base-definition-gap.md";
+const MEDICARE_HI_ECONOMIC_BASE_DEFINITION_GAP_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/medicare_hi_economic_base_definition_gap.v1.draft.json";
+const MEDICARE_HI_ECONOMIC_BASE_DEFINITION_GAP_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/medicare_hi_economic_base_definition_gap.schema.md";
+const MEDICARE_HI_ECONOMIC_BASE_DEFINITION_GAP_READER_PATH: &str =
+    "docs/reading/medicare-hi-economic-base-definition-gap.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11197,6 +11203,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_medicare_hi_payroll_tax_perimeter_bridge(root)?;
     validate_medicare_hi_benefits_tax_income_split(root)?;
     validate_medicare_hi_legal_base_definition_gap(root)?;
+    validate_medicare_hi_economic_base_definition_gap(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -23783,6 +23790,255 @@ fn validate_medicare_hi_legal_base_definition_gap(root: &Path) -> Result<(), Str
     Ok(())
 }
 
+fn validate_medicare_hi_economic_base_definition_gap(root: &Path) -> Result<(), String> {
+    for path in [
+        MEDICARE_HI_ECONOMIC_BASE_DEFINITION_GAP_JSON_PATH,
+        MEDICARE_HI_ECONOMIC_BASE_DEFINITION_GAP_SCHEMA_PATH,
+        MEDICARE_HI_ECONOMIC_BASE_DEFINITION_GAP_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing Medicare HI economic base definition gap artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(MEDICARE_HI_ECONOMIC_BASE_DEFINITION_GAP_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")? != "medicare-hi-economic-base-definition-gap:v1"
+        || string_field(&record, "record_family")? != "medicare_hi_economic_base_definition_gap"
+        || int_field(&record, "pulse")? != 144
+        || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&record, "medicare_hi_perimeter_bridge_requirements_path")?
+            != MEDICARE_HI_PERIMETER_BRIDGE_REQUIREMENTS_JSON_PATH
+        || string_field(&record, "medicare_hi_legal_base_definition_gap_path")?
+            != MEDICARE_HI_LEGAL_BASE_DEFINITION_GAP_JSON_PATH
+        || string_field(&record, "distribution_incidence_source_gap_path")?
+            != DISTRIBUTION_INCIDENCE_SOURCE_GAP_JSON_PATH
+        || string_field(&record, "administration_compliance_burden_source_gap_path")?
+            != ADMINISTRATION_COMPLIANCE_BURDEN_SOURCE_GAP_JSON_PATH
+        || string_field(&record, "rate_publication_readiness_rollup_path")?
+            != RATE_PUBLICATION_READINESS_ROLLUP_JSON_PATH
+        || string_field(&record, "component_id")? != "economic_base_definition"
+    {
+        return Err("Medicare HI economic base definition gap identity failed".to_string());
+    }
+
+    let status = record
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI economic base definition gap status")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_captured_sources_only",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "economic_base_gap_defined",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "Medicare HI economic base definition gap status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "incidence_model_ready",
+        "employer_burden_model_ready",
+        "household_burden_model_ready",
+        "distribution_by_income_ready",
+        "administration_compliance_ready",
+        "economic_base_definition_complete",
+        "assigned_base_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI economic base definition gap status {field} must be false"
+            ));
+        }
+    }
+
+    let components = record
+        .get("required_model_components")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Medicare HI economic model components")?;
+    if components.len() != 5 {
+        return Err("Medicare HI economic model component count failed".to_string());
+    }
+    let expected_components = [
+        "employer_burden_model",
+        "employee_burden_model",
+        "household_burden_model",
+        "distribution_by_income",
+        "administration_and_compliance_burden",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let observed_components = components
+        .iter()
+        .map(|row| string_field(row, "component"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if observed_components != expected_components {
+        return Err("Medicare HI economic model component set failed".to_string());
+    }
+    for row in components {
+        if row.get("value") != Some(&serde_json::Value::Null)
+            || row.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+            || row
+                .get("required_inputs")
+                .and_then(serde_json::Value::as_array)
+                .map(Vec::is_empty)
+                != Some(false)
+        {
+            return Err("Medicare HI economic model component readiness failed".to_string());
+        }
+    }
+
+    let boundary = record
+        .get("boundary_findings")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI economic boundary findings")?;
+    let ratio = boundary
+        .get("diagnostic_ratio_percent")
+        .and_then(serde_json::Value::as_f64)
+        .ok_or("Medicare HI economic diagnostic ratio")?;
+    if (ratio - 3.0175).abs() > 0.001 {
+        return Err("Medicare HI economic diagnostic ratio failed".to_string());
+    }
+    for field in [
+        "legal_base_definition_complete",
+        "economic_base_definition_complete",
+        "diagnostic_ratio_publishable_as_rate",
+        "cms_taxable_payroll_can_substitute_for_economic_base",
+        "economic_base_can_be_assumed_equal_to_legal_base",
+        "rate_can_be_published_without_distribution",
+        "solver_can_use_unincidenced_base",
+    ] {
+        if boundary.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Medicare HI economic boundary {field} must be false"
+            ));
+        }
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI economic blocked outputs")?;
+    for field in [
+        "completed_economic_base_definition",
+        "incidence_model",
+        "employer_burden_model",
+        "employee_burden_model",
+        "household_burden_model",
+        "distribution_by_income",
+        "administration_compliance_burden",
+        "economic_receipt_base_amount",
+        "matched_receipt_base",
+        "assigned_base_rate",
+        "statutory_rate",
+        "effective_rate",
+        "behavioral_elasticity",
+        "avoidance_and_compliance",
+        "current_law_yield_matched_to_solver",
+        "reform_yield",
+        "public_rate_card",
+        "solver_input_row",
+        "tax_proposal_fields",
+        "balanced_budget_fields",
+    ] {
+        if blocked.get(field) != Some(&serde_json::Value::Null) {
+            return Err(format!(
+                "Medicare HI economic blocked output {field} must be null"
+            ));
+        }
+    }
+
+    let still_required = record
+        .get("still_required")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Medicare HI economic still required")?;
+    if still_required.len() != 5 {
+        return Err("Medicare HI economic still-required count failed".to_string());
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Medicare HI economic claims")?;
+    if claims
+        .get("economic_base_gap_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("Medicare HI economic gap published flag must be true".to_string());
+    }
+    for field in [
+        "legal_base_definition_complete",
+        "economic_base_definition_complete",
+        "incidence_model_ready",
+        "distribution_by_income_ready",
+        "administration_compliance_ready",
+        "assigned_receipt_base_published",
+        "matched_receipt_bases_ready",
+        "rate_publication_ready",
+        "solver_inputs_ready",
+        "statutory_rate_claim",
+        "effective_rate_claim",
+        "public_rate_card_claim",
+        "tax_proposal_claim",
+        "balanced_budget_claim",
+        "target_cost_claim",
+        "federal_effect_claim",
+        "gross_savings_claim",
+        "net_savings_claim",
+        "waste_finding_claim",
+        "fraud_finding_claim",
+        "technology_savings_claim",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("Medicare HI economic claim {field} must be false"));
+        }
+    }
+
+    let reader =
+        fs::read_to_string(root.join(MEDICARE_HI_ECONOMIC_BASE_DEFINITION_GAP_READER_PATH))
+            .map_err(|e| e.to_string())?;
+    for phrase in [
+        MEDICARE_HI_ECONOMIC_BASE_DEFINITION_GAP_JSON_PATH,
+        "The Medicare HI economic base is not defined by CMS taxable payroll alone.",
+        "The legal base and economic burden base remain separate; neither may be silently substituted for the other.",
+        "No Medicare HI rate can be published without incidence, distribution, administration, avoidance, and compliance modeling.",
+        "The Medicare HI diagnostic ratio remains blocked from statutory-rate and effective-rate publication.",
+        "No Medicare HI assigned base, rate, solver input, public rate card, tax proposal, or balanced-budget value is populated.",
+        "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+        "not solver input",
+        "not a solver run",
+        "not a target-cost selection",
+        "not a rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a savings estimate",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "Medicare HI economic base reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -29809,6 +30065,12 @@ mod global_country_comparison_tests {
     fn medicare_hi_legal_base_definition_gap_keeps_base_unselected() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_medicare_hi_legal_base_definition_gap(&root).unwrap();
+    }
+
+    #[test]
+    fn medicare_hi_economic_base_definition_gap_blocks_incidence_shortcut() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_medicare_hi_economic_base_definition_gap(&root).unwrap();
     }
 
     #[test]

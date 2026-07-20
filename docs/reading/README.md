@@ -80,6 +80,7 @@ explainers. They should keep three labels visible:
 | `medicare-hi-payroll-tax-perimeter-bridge.md` | Pulse 141 bridge: partially evidences CMS Medicare HI payroll-tax yield perimeter while keeping OMB bridge, rates, solver inputs, and public claims blocked. |
 | `medicare-hi-benefits-tax-income-split.md` | Pulse 142 split: evidences CMS Medicare HI payroll, OASDI-benefit-taxation, and other-income categories while keeping OMB mapping, rates, solver inputs, and public claims blocked. |
 | `medicare-hi-legal-base-definition-gap.md` | Pulse 143 gap: records CMS Medicare HI legal-base terminology while keeping legal-base selection, assigned bases, rates, solver inputs, and public claims blocked. |
+| `medicare-hi-economic-base-definition-gap.md` | Pulse 144 gap: records Medicare HI economic-base/incidence blockers while keeping economic-base completion, rates, solver inputs, and public claims blocked. |
 | `solver-input-readiness-rollup.md` | Pulse 107 rollup: summarizes all twelve deterministic solver inputs while keeping every input not ready/null. |
 | `current-law-path-inventory.md` | Pulse 108 inventory: names required FY2025-FY2035 official annual current-law paths while keeping values null. |
 | `current-law-source-custody-preflight.md` | Pulse 109 preflight: defines current-law source custody packet requirements while keeping all source and value fields null. |

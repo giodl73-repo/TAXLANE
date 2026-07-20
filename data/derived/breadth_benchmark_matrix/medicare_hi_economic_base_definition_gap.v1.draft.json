@@ -1,0 +1,139 @@
+{
+  "record_id": "medicare-hi-economic-base-definition-gap:v1",
+  "record_family": "medicare_hi_economic_base_definition_gap",
+  "schema_version": "v1.draft",
+  "pulse": 144,
+  "as_of_date": "2026-07-19",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "medicare_hi_perimeter_bridge_requirements_path": "data/derived/breadth_benchmark_matrix/medicare_hi_perimeter_bridge_requirements.v1.draft.json",
+  "medicare_hi_legal_base_definition_gap_path": "data/derived/breadth_benchmark_matrix/medicare_hi_legal_base_definition_gap.v1.draft.json",
+  "distribution_incidence_source_gap_path": "data/derived/breadth_benchmark_matrix/distribution_incidence_source_gap.v1.draft.json",
+  "administration_compliance_burden_source_gap_path": "data/derived/breadth_benchmark_matrix/administration_compliance_burden_source_gap.v1.draft.json",
+  "rate_publication_readiness_rollup_path": "data/derived/breadth_benchmark_matrix/rate_publication_readiness_rollup.v1.draft.json",
+  "source_custody_status": {
+    "official_sources_only": true,
+    "used_existing_captured_sources_only": true,
+    "no_foia_or_records_request_submitted": true,
+    "no_agency_or_person_contacted": true,
+    "economic_base_gap_defined": true,
+    "incidence_model_ready": false,
+    "employer_burden_model_ready": false,
+    "household_burden_model_ready": false,
+    "distribution_by_income_ready": false,
+    "administration_compliance_ready": false,
+    "economic_base_definition_complete": false,
+    "assigned_base_ready": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false
+  },
+  "component_id": "economic_base_definition",
+  "required_model_components": [
+    {
+      "component": "employer_burden_model",
+      "question": "What share of the legal employer payroll tax is shifted to wages, prices, employment margins, or owners over the relevant horizon?",
+      "required_inputs": ["incidence literature or official score", "time horizon", "wage adjustment channel", "distribution by worker income"],
+      "value": null,
+      "ready": false
+    },
+    {
+      "component": "employee_burden_model",
+      "question": "What share of employee-side Medicare HI payroll tax and additional Medicare tax burden is borne by workers or households by income group?",
+      "required_inputs": ["legal base split", "additional Medicare tax treatment", "household unit mapping", "distribution by income"],
+      "value": null,
+      "ready": false
+    },
+    {
+      "component": "household_burden_model",
+      "question": "How are employer and employee burdens assigned to households after wage, employment, and income-unit mapping?",
+      "required_inputs": ["household incidence convention", "income classifier", "benefit/service valuation interaction", "tax-unit to household bridge"],
+      "value": null,
+      "ready": false
+    },
+    {
+      "component": "distribution_by_income",
+      "question": "What is the distribution of current-law and reform burden by income group?",
+      "required_inputs": ["baseline distribution table", "reform distribution table", "incidence convention", "interaction with other taxes"],
+      "value": null,
+      "ready": false
+    },
+    {
+      "component": "administration_and_compliance_burden",
+      "question": "What employer, taxpayer, agency, avoidance, and compliance costs attach to the assigned base?",
+      "required_inputs": ["employer withholding/reporting burden", "taxpayer burden", "agency administration cost", "avoidance and compliance response"],
+      "value": null,
+      "ready": false
+    }
+  ],
+  "boundary_findings": {
+    "legal_base_definition_complete": false,
+    "economic_base_definition_complete": false,
+    "diagnostic_ratio_percent": 3.0175,
+    "diagnostic_ratio_publishable_as_rate": false,
+    "cms_taxable_payroll_can_substitute_for_economic_base": false,
+    "economic_base_can_be_assumed_equal_to_legal_base": false,
+    "rate_can_be_published_without_distribution": false,
+    "solver_can_use_unincidenced_base": false
+  },
+  "blocked_outputs": {
+    "completed_economic_base_definition": null,
+    "incidence_model": null,
+    "employer_burden_model": null,
+    "employee_burden_model": null,
+    "household_burden_model": null,
+    "distribution_by_income": null,
+    "administration_compliance_burden": null,
+    "economic_receipt_base_amount": null,
+    "matched_receipt_base": null,
+    "assigned_base_rate": null,
+    "statutory_rate": null,
+    "effective_rate": null,
+    "behavioral_elasticity": null,
+    "avoidance_and_compliance": null,
+    "current_law_yield_matched_to_solver": null,
+    "reform_yield": null,
+    "public_rate_card": null,
+    "solver_input_row": null,
+    "tax_proposal_fields": null,
+    "balanced_budget_fields": null
+  },
+  "still_required": [
+    "legal base selected and source-custodied before economic base mapping",
+    "incidence convention covering employer, employee, household, wage, and owner channels",
+    "distribution by income for current law and any reform",
+    "administration, employer, taxpayer, avoidance, and compliance burden model",
+    "interaction scoring with other taxes and trust-fund accounting"
+  ],
+  "public_warning_phrases": [
+    "The Medicare HI economic base is not defined by CMS taxable payroll alone.",
+    "The legal base and economic burden base remain separate; neither may be silently substituted for the other.",
+    "No Medicare HI rate can be published without incidence, distribution, administration, avoidance, and compliance modeling.",
+    "The Medicare HI diagnostic ratio remains blocked from statutory-rate and effective-rate publication.",
+    "No Medicare HI assigned base, rate, solver input, public rate card, tax proposal, or balanced-budget value is populated.",
+    "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+    "This record is not solver input, not a solver run, not a target-cost selection, not a rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+  ],
+  "claim_booleans": {
+    "economic_base_gap_published": true,
+    "legal_base_definition_complete": false,
+    "economic_base_definition_complete": false,
+    "incidence_model_ready": false,
+    "distribution_by_income_ready": false,
+    "administration_compliance_ready": false,
+    "assigned_receipt_base_published": false,
+    "matched_receipt_bases_ready": false,
+    "rate_publication_ready": false,
+    "solver_inputs_ready": false,
+    "statutory_rate_claim": false,
+    "effective_rate_claim": false,
+    "public_rate_card_claim": false,
+    "tax_proposal_claim": false,
+    "balanced_budget_claim": false,
+    "target_cost_claim": false,
+    "federal_effect_claim": false,
+    "gross_savings_claim": false,
+    "net_savings_claim": false,
+    "waste_finding_claim": false,
+    "fraud_finding_claim": false,
+    "technology_savings_claim": false
+  }
+}

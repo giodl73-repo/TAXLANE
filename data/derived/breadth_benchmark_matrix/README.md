@@ -735,3 +735,9 @@ Trustees glossary terms clarify payroll-tax and taxable-payroll terminology but
 do not select a legal receipt base. It keeps additional Medicare tax treatment,
 matched base amounts, rates, solver inputs, public rate cards, tax proposals,
 savings, and balanced-budget outputs blocked.
+
+`medicare_hi_economic_base_definition_gap.v1.draft.json` records the Medicare HI
+economic-base blocker: employer, employee, household, wage-incidence,
+distribution, administration, avoidance, and compliance models remain missing.
+It keeps economic-base completion, assigned bases, rates, solver inputs, public
+rate cards, tax proposals, savings, and balanced-budget outputs blocked.
