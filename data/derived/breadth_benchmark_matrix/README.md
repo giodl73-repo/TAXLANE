@@ -872,6 +872,14 @@ federal/state/local translation, solver inputs, rates, savings, department-cut
 instructions, technology-savings claims, and balanced-budget claims remain
 blocked.
 
+`income_security_family_source_capture_queue.v1.draft.json` orders the next
+official source captures for income-security/family: federal program perimeter,
+CBO baseline and take-up context, child poverty and income context, childcare
+and family-service context, food hardship and nutrition context, and
+international comparator context. Values, models, solver inputs, rates, savings,
+department-cut instructions, technology-savings claims, and balanced-budget
+claims remain blocked.
+
 `revenue_solvency_outcome_floor_definition_packet.v1.draft.json` extends the
 floor definition packet pattern to the non-additive revenue-solvency overlay. It
 defines distributional-progressivity, revenue-stability, administrability,
