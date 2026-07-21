@@ -972,3 +972,9 @@ Medicare Trustees custody for CY2025 Medicare financing and enrollment context.
 It closes that source-family context gap only; NHE, CBO baseline, quality/access
 indicator custody, thresholds, floor values, pass/fail findings, solver inputs,
 savings, rates, and balanced-budget claims remain blocked.
+
+`health_nhe_source_custody_gap.v1.draft.json` records that CMS NHE source IDs
+appear in derived health sensitivity artifacts but are not yet backed by local
+raw NHE custody in this packet. It keeps NHE source capture, floor thresholds,
+observed floor values, pass/fail findings, solver inputs, savings, rates, and
+balanced-budget claims blocked.

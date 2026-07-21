@@ -544,6 +544,11 @@ It is the bounded public surface, not a performance or savings report.
      CY2025 Medicare financing and enrollment context only; floor thresholds,
      observed floor values, pass/fail findings, solver inputs, rates, savings,
      and balanced-budget claims remain blocked.
+118. Read `health-nhe-source-custody-gap.md` before treating CMS NHE references
+     in health sensitivity artifacts as source custody. NHE source IDs are
+     referenced, but raw NHE custody, thresholds, observed floor values,
+     pass/fail findings, solver inputs, rates, savings, and balanced-budget
+     claims remain blocked.
 
 ## Public-Use Guardrail
 
