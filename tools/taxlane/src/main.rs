@@ -712,6 +712,12 @@ const LANE_FLOOR_SOURCE_WORK_QUEUE_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/lane_floor_source_work_queue.schema.md";
 const LANE_FLOOR_SOURCE_WORK_QUEUE_READER_PATH: &str =
     "docs/reading/lane-floor-source-work-queue.md";
+const HEALTH_FLOOR_SOURCE_CAPTURE_STATUS_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/health_floor_source_capture_status.v1.draft.json";
+const HEALTH_FLOOR_SOURCE_CAPTURE_STATUS_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/health_floor_source_capture_status.schema.md";
+const HEALTH_FLOOR_SOURCE_CAPTURE_STATUS_READER_PATH: &str =
+    "docs/reading/health-floor-source-capture-status.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11405,6 +11411,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_international_affairs_outcome_floor_definition_packet(root)?;
     validate_lane_floor_readiness_rollup(root)?;
     validate_lane_floor_source_work_queue(root)?;
+    validate_health_floor_source_capture_status(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -34205,6 +34212,309 @@ fn validate_lane_floor_source_work_queue(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_health_floor_source_capture_status(root: &Path) -> Result<(), String> {
+    for path in [
+        HEALTH_FLOOR_SOURCE_CAPTURE_STATUS_JSON_PATH,
+        HEALTH_FLOOR_SOURCE_CAPTURE_STATUS_SCHEMA_PATH,
+        HEALTH_FLOOR_SOURCE_CAPTURE_STATUS_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing health floor source capture artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(HEALTH_FLOOR_SOURCE_CAPTURE_STATUS_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")? != "health-floor-source-capture-status:v1"
+        || string_field(&record, "record_family")? != "health_floor_source_capture_status"
+        || int_field(&record, "pulse")? != 178
+        || string_field(&record, "lane_id")? != "health-medicare"
+        || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&record, "lane_floor_source_work_queue_path")?
+            != LANE_FLOOR_SOURCE_WORK_QUEUE_JSON_PATH
+        || string_field(&record, "lane_floor_readiness_rollup_path")?
+            != LANE_FLOOR_READINESS_ROLLUP_JSON_PATH
+        || string_field(&record, "health_outcome_floor_definition_packet_path")?
+            != HEALTH_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH
+        || string_field(&record, "current_law_fy2025_17_row_ledger_custody_path")?
+            != CURRENT_LAW_FY2025_17_ROW_LEDGER_CUSTODY_JSON_PATH
+        || string_field(&record, "current_law_fy2025_dedicated_receipt_anchors_path")?
+            != CURRENT_LAW_FY2025_DEDICATED_RECEIPT_ANCHORS_JSON_PATH
+        || string_field(&record, "health_national_phi_sensitivity_path")?
+            != HEALTH_NATIONAL_PHI_JSON_PATH
+    {
+        return Err("health floor source capture identity failed".to_string());
+    }
+
+    let custody = record
+        .get("source_custody_status")
+        .ok_or("health floor source custody")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_captured_sources_only",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "partial_fiscal_source_custody_ready",
+    ] {
+        if custody.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("health floor source custody must be true: {field}"));
+        }
+    }
+    for field in [
+        "new_external_download_performed",
+        "floor_indicator_source_custody_ready",
+        "threshold_source_custody_ready",
+        "baseline_floor_value_source_custody_ready",
+        "policy_floor_value_source_custody_ready",
+        "stress_floor_value_source_custody_ready",
+        "source_capture_complete",
+        "solver_input_ready",
+    ] {
+        if custody.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "health floor source custody must be false: {field}"
+            ));
+        }
+    }
+
+    let fiscal_sources = record
+        .get("captured_fiscal_sources")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("health captured fiscal sources")?;
+    let expected_sources = [
+        (
+            "SRC-OMB-HIST-3-2-FY2027",
+            (
+                60343,
+                "78100f3efb1a6b08d675b24af173a57359e47dce103a2f1499d905a4bbba06ce",
+            ),
+        ),
+        (
+            "SRC-OMB-HIST-2-4-FY2027",
+            (
+                26752,
+                "21d071576d5627a18c3f62de86bfc7faeced1a68265f2db87b4f737b2773c5bd",
+            ),
+        ),
+    ]
+    .into_iter()
+    .collect::<BTreeMap<_, _>>();
+    let observed_sources = fiscal_sources
+        .iter()
+        .map(|source| string_field(source, "source_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_ids = expected_sources
+        .keys()
+        .copied()
+        .map(str::to_string)
+        .collect::<BTreeSet<_>>();
+    if observed_sources != expected_ids || fiscal_sources.len() != 2 {
+        return Err("health floor fiscal source set failed".to_string());
+    }
+    for source in fiscal_sources {
+        let source_id = string_field(source, "source_id")?;
+        let (expected_bytes, expected_sha) = expected_sources
+            .get(source_id.as_str())
+            .ok_or("health expected source")?;
+        if int_field(source, "raw_byte_count")? != *expected_bytes
+            || string_field(source, "raw_sha256")? != *expected_sha
+            || source
+                .get("custody_ready")
+                .and_then(serde_json::Value::as_bool)
+                != Some(true)
+            || source
+                .get("may_populate_floor_threshold_or_pass_fail")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+        {
+            return Err(format!("health fiscal source custody failed: {source_id}"));
+        }
+        if !root
+            .join(string_field(source, "raw_artifact_path")?)
+            .exists()
+            || !root.join(string_field(source, "metadata_path")?).exists()
+        {
+            return Err(format!("health fiscal source file missing: {source_id}"));
+        }
+    }
+
+    let context = record
+        .get("current_law_context_values")
+        .ok_or("health current-law context")?;
+    if int_field(context, "medicare_current_law_outlays_musd")? != 996718
+        || int_field(context, "non_medicare_health_current_law_outlays_musd")? != 978511
+        || int_field(
+            context,
+            "combined_health_and_medicare_current_law_outlays_musd",
+        )? != 1975229
+        || int_field(context, "medicare_hi_payroll_receipt_anchor_musd")? != 395350
+        || context
+            .get("may_populate_floor_threshold_or_pass_fail")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || context
+            .get("may_populate_solver_input")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("health current-law context values failed".to_string());
+    }
+
+    let needed = record
+        .get("source_candidates_still_needed")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("health source candidates still needed")?;
+    if needed.len() != 4 {
+        return Err("health source candidate count failed".to_string());
+    }
+    for candidate in needed {
+        if string_field(candidate, "source_family")?.is_empty()
+            || candidate
+                .get("needed_for")
+                .and_then(serde_json::Value::as_array)
+                .is_none_or(|items| items.is_empty())
+        {
+            return Err("health source candidate fields missing".to_string());
+        }
+        for field in ["raw_artifact_path", "raw_byte_count", "raw_sha256"] {
+            if !candidate.get(field).is_some_and(serde_json::Value::is_null) {
+                return Err(format!(
+                    "health source candidate field must be null: {field}"
+                ));
+            }
+        }
+        if candidate
+            .get("custody_ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        {
+            return Err("health source candidate custody must be false".to_string());
+        }
+    }
+
+    let floors = record
+        .get("floor_value_status")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("health floor value status")?;
+    let observed_floors = floors
+        .iter()
+        .map(|floor| string_field(floor, "floor_class"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_floors = [
+        "access_coverage",
+        "quality_safety",
+        "equity_distribution",
+        "adequacy_resilience",
+        "fiscal_delivery_feasibility",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    if observed_floors != expected_floors || floors.len() != 5 {
+        return Err("health floor set failed".to_string());
+    }
+    for floor in floors {
+        for field in [
+            "threshold_value",
+            "baseline_value",
+            "policy_value",
+            "stress_value",
+        ] {
+            if !floor.get(field).is_some_and(serde_json::Value::is_null) {
+                return Err(format!("health floor value must be null: {field}"));
+            }
+        }
+        if floor.get("passed").and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err("health floor passed flag must be false".to_string());
+        }
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("health blocked outputs")?;
+    for (field, value) in blocked {
+        if !value.is_null() {
+            return Err(format!("health blocked output must be null: {field}"));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("health floor source claims")?;
+    for (field, value) in claims {
+        let observed = value.as_bool().ok_or("health claim bool")?;
+        if matches!(
+            field.as_str(),
+            "health_floor_source_capture_status_published" | "partial_fiscal_source_custody_ready"
+        ) {
+            if !observed {
+                return Err(format!("health source claim should be true: {field}"));
+            }
+        } else if observed {
+            return Err(format!("health source claim must be false: {field}"));
+        }
+    }
+
+    let warning = string_field(&record, "public_warning")?;
+    for required in [
+        "partial FY2025 fiscal source custody only",
+        "not health floor threshold selection",
+        "not observed floor values",
+        "not pass/fail findings",
+        "not lower-cost scenario admissibility",
+        "not a federal policy score",
+        "not target-cost selection",
+        "not gross savings",
+        "not net savings",
+        "not solver input",
+        "not rate calculation",
+        "not a public rate card",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !warning.contains(required) {
+            return Err(format!("health source warning missing: {required}"));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(HEALTH_FLOOR_SOURCE_CAPTURE_STATUS_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        HEALTH_FLOOR_SOURCE_CAPTURE_STATUS_JSON_PATH,
+        "Existing OMB FY2027 Historical Table 3.2 custody supports FY2025 Medicare",
+        "Existing OMB FY2027 Historical Table 2.4 custody supports the FY2025 Medicare HI dedicated receipt anchor.",
+        "CMS national health expenditure source bytes",
+        "CBO federal health baseline source bytes",
+        "threshold selection",
+        "observed baseline, policy, or stress floor values",
+        "not health floor threshold selection",
+        "not observed floor values",
+        "not pass/fail findings",
+        "not lower-cost scenario admissibility",
+        "not a federal policy score",
+        "not target-cost selection",
+        "not gross savings",
+        "not net savings",
+        "not solver input",
+        "not rate calculation",
+        "not a public rate card",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("health source reader missing: {required}"));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_current_law_path_inventory(root: &Path) -> Result<(), String> {
     for path in [
         CURRENT_LAW_PATH_INVENTORY_JSON_PATH,
@@ -40232,6 +40542,12 @@ mod global_country_comparison_tests {
     fn lane_floor_source_work_queue_blocks_threshold_and_value_shortcuts() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_lane_floor_source_work_queue(&root).unwrap();
+    }
+
+    #[test]
+    fn health_floor_source_capture_keeps_fiscal_custody_out_of_floor_passage() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_health_floor_source_capture_status(&root).unwrap();
     }
 
     #[test]

@@ -959,3 +959,10 @@ an official-source work queue for threshold and observed floor-value capture.
 It names source families and next capture actions for all fifteen analytical
 lanes while keeping thresholds, values, pass/fail findings, solver inputs,
 savings, rates, technology-savings claims, and balanced-budget claims blocked.
+
+`health_floor_source_capture_status.v1.draft.json` starts the source-capture
+layer for the first prioritized lane. It recognizes existing OMB FY2025 fiscal
+custody for Medicare, non-Medicare health, and the Medicare HI receipt anchor,
+but keeps health floor indicator custody, thresholds, observed floor values,
+pass/fail findings, policy scores, solver inputs, savings, rates, and balanced-
+budget claims blocked.

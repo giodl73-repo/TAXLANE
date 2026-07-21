@@ -534,6 +534,11 @@ It is the bounded public surface, not a performance or savings report.
      or observed floor values. It names official source families and next
      capture actions, but no threshold, value, pass/fail finding, solver input,
      rate, savings claim, or balanced-budget claim is populated.
+116. Read `health-floor-source-capture-status.md` before treating existing OMB
+     health fiscal custody as outcome-floor evidence. It supports FY2025 fiscal
+     context only; floor indicator custody, thresholds, observed values,
+     pass/fail findings, policy scores, solver inputs, rates, and savings remain
+     blocked.
 
 ## Public-Use Guardrail
 
