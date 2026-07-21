@@ -526,6 +526,10 @@ It is the bounded public surface, not a performance or savings report.
      humanitarian, security, exchange, and financial instruments remain separate;
      thresholds, target costs, savings, solver inputs, and balanced-budget claims
      remain blocked.
+114. Read `lane-floor-readiness-rollup.md` to answer whether floor-definition
+     packet coverage is complete. Coverage is complete across all fifteen
+     analytical lanes, but thresholds, floor passage, component policy paths,
+     solver inputs, savings, rates, and balanced-budget claims remain blocked.
 
 ## Public-Use Guardrail
 

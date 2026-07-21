@@ -947,3 +947,9 @@ diplomacy, ODA/development, humanitarian, security-assistance, financial-
 instrument/accounting, and component-commitment-outlay delivery-feasibility
 floors while keeping component policy paths, target costs, savings, solver
 inputs, and balanced-budget claims blocked.
+
+`lane_floor_readiness_rollup.v1.draft.json` summarizes post-Pulse-175 floor
+packet coverage across all fifteen analytical lanes. It records that every lane
+has an outcome-floor definition packet, but zero lanes have selected thresholds,
+sourced floor values, floor passage, component policy paths, behavior/incidence/
+transition models, solver readiness, or public-rate readiness.

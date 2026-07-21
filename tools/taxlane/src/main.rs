@@ -701,6 +701,11 @@ const INTERNATIONAL_AFFAIRS_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH: &str = "d
 const INTERNATIONAL_AFFAIRS_OUTCOME_FLOOR_DEFINITION_PACKET_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/international_affairs_outcome_floor_definition_packet.schema.md";
 const INTERNATIONAL_AFFAIRS_OUTCOME_FLOOR_DEFINITION_PACKET_READER_PATH: &str =
     "docs/reading/international-affairs-outcome-floor-definition-packet.md";
+const LANE_FLOOR_READINESS_ROLLUP_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/lane_floor_readiness_rollup.v1.draft.json";
+const LANE_FLOOR_READINESS_ROLLUP_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/lane_floor_readiness_rollup.schema.md";
+const LANE_FLOOR_READINESS_ROLLUP_READER_PATH: &str = "docs/reading/lane-floor-readiness-rollup.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11392,6 +11397,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_science_energy_environment_outcome_floor_definition_packet(root)?;
     validate_agriculture_outcome_floor_definition_packet(root)?;
     validate_international_affairs_outcome_floor_definition_packet(root)?;
+    validate_lane_floor_readiness_rollup(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -33661,6 +33667,318 @@ fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_lane_floor_readiness_rollup(root: &Path) -> Result<(), String> {
+    for path in [
+        LANE_FLOOR_READINESS_ROLLUP_JSON_PATH,
+        LANE_FLOOR_READINESS_ROLLUP_SCHEMA_PATH,
+        LANE_FLOOR_READINESS_ROLLUP_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing lane floor readiness artifact: {path}"));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(LANE_FLOOR_READINESS_ROLLUP_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let rollup: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&rollup, "record_id")? != "lane-floor-readiness-rollup:v1"
+        || string_field(&rollup, "record_family")? != "lane_floor_readiness_rollup"
+        || int_field(&rollup, "pulse")? != 176
+        || string_field(&rollup, "program_lane_target_cost_contract_path")?
+            != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&rollup, "international_comparator_target_rubric_path")?
+            != INTERNATIONAL_COMPARATOR_TARGET_RUBRIC_JSON_PATH
+        || string_field(&rollup, "global_country_comparison_coverage_path")?
+            != GLOBAL_COUNTRY_COMPARISON_JSON_PATH
+        || string_field(&rollup, "lane_depth_explainability_tracker_path")?
+            != LANE_DEPTH_EXPLAINABILITY_TRACKER_JSON_PATH
+        || string_field(&rollup, "solver_input_readiness_rollup_path")?
+            != SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH
+    {
+        return Err("lane floor readiness identity failed".to_string());
+    }
+
+    let coverage = rollup
+        .get("coverage_rule")
+        .ok_or("lane floor coverage rule")?;
+    if int_field(coverage, "analytical_lane_count")? != 15
+        || int_field(coverage, "budget_row_count")? != 17
+    {
+        return Err("lane floor coverage counts failed".to_string());
+    }
+    for field in [
+        "fifteen_lanes_are_not_seventeen_budget_rows",
+        "floor_definition_packet_coverage_is_not_floor_passage",
+        "missing_values_remain_null",
+        "blocked_gates_remain_false",
+        "international_differences_are_not_savings",
+        "revenue_solvency_and_payment_integrity_are_non_additive_overlays",
+        "net_interest_is_endogenous_not_directly_cuttable",
+    ] {
+        if coverage.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("lane floor coverage rule must be true: {field}"));
+        }
+    }
+
+    let aggregate = rollup
+        .get("aggregate_status")
+        .ok_or("lane floor aggregate status")?;
+    for (field, expected) in [
+        ("lanes_total", 15),
+        ("lanes_with_floor_definition_packet", 15),
+        ("lanes_with_threshold_values", 0),
+        ("lanes_with_sourced_baseline_floor_values", 0),
+        ("lanes_with_policy_floor_values", 0),
+        ("lanes_with_stress_floor_values", 0),
+        ("lanes_with_all_floors_passed", 0),
+        ("lanes_with_component_policy_paths", 0),
+        ("lanes_with_behavior_incidence_transition_models", 0),
+        ("lanes_solver_ready", 0),
+    ] {
+        if int_field(aggregate, field)? != expected {
+            return Err(format!("lane floor aggregate count failed: {field}"));
+        }
+    }
+    for field in [
+        "all_floor_thresholds_selected",
+        "all_floor_values_sourced",
+        "all_floors_passed",
+        "all_lanes_defensible_for_target_costs",
+        "all_lanes_defensible_for_public_rates",
+        "solver_ready",
+        "balanced_budget_ready",
+    ] {
+        if aggregate.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("lane floor aggregate must remain false: {field}"));
+        }
+    }
+    if aggregate
+        .get("floor_definition_packet_coverage_complete")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("lane floor coverage-complete flag must be true".to_string());
+    }
+
+    let rows = rollup
+        .get("lane_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("lane floor rows")?;
+    let expected_paths = [
+        (
+            "health-medicare",
+            HEALTH_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
+        ),
+        (
+            "social-security",
+            SOCIAL_SECURITY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
+        ),
+        (
+            "national-defense",
+            DEFENSE_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
+        ),
+        (
+            "income-security-family",
+            INCOME_SECURITY_FAMILY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
+        ),
+        (
+            "revenue-solvency",
+            REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
+        ),
+        (
+            "net-interest",
+            NET_INTEREST_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
+        ),
+        (
+            "payment-integrity",
+            PAYMENT_INTEGRITY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
+        ),
+        (
+            "veterans",
+            VETERANS_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
+        ),
+        (
+            "transportation-infrastructure",
+            TRANSPORTATION_INFRASTRUCTURE_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
+        ),
+        (
+            "education-workforce",
+            EDUCATION_WORKFORCE_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
+        ),
+        (
+            "disaster-resilience",
+            DISASTER_RESILIENCE_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
+        ),
+        (
+            "justice-courts-public-safety",
+            JUSTICE_COURTS_PUBLIC_SAFETY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
+        ),
+        (
+            "science-energy-environment",
+            SCIENCE_ENERGY_ENVIRONMENT_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
+        ),
+        (
+            "agriculture",
+            AGRICULTURE_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
+        ),
+        (
+            "international-affairs",
+            INTERNATIONAL_AFFAIRS_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
+        ),
+    ]
+    .into_iter()
+    .collect::<BTreeMap<_, _>>();
+    let observed = rows
+        .iter()
+        .map(|row| string_field(row, "lane_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected = expected_paths.keys().copied().map(str::to_string).collect();
+    if observed != expected || rows.len() != expected_paths.len() {
+        return Err("lane floor row set failed".to_string());
+    }
+
+    for row in rows {
+        let lane_id = string_field(row, "lane_id")?;
+        if string_field(row, "public_label")?.is_empty()
+            || string_field(row, "next_blocker")?.is_empty()
+        {
+            return Err(format!("lane floor row missing label/blocker: {lane_id}"));
+        }
+        let expected_path = expected_paths
+            .get(lane_id.as_str())
+            .ok_or("lane floor expected path")?;
+        if string_field(row, "floor_definition_packet_path")? != *expected_path {
+            return Err(format!("lane floor packet path failed: {lane_id}"));
+        }
+        if !root.join(expected_path).exists() {
+            return Err(format!("lane floor packet path missing on disk: {lane_id}"));
+        }
+        if row
+            .get("floor_definition_packet_exists")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        {
+            return Err(format!("lane floor packet existence failed: {lane_id}"));
+        }
+        for field in [
+            "threshold_values_selected",
+            "baseline_values_sourced",
+            "policy_values_sourced",
+            "stress_values_sourced",
+            "all_floors_passed",
+            "component_policy_path_ready",
+            "behavior_incidence_transition_model_ready",
+            "solver_ready",
+        ] {
+            if row.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+                return Err(format!(
+                    "lane floor row must remain false: {lane_id} {field}"
+                ));
+            }
+        }
+    }
+
+    let blocked = rollup
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("lane floor blocked outputs")?;
+    for (field, value) in blocked {
+        if !value.is_null() {
+            return Err(format!("lane floor blocked output must be null: {field}"));
+        }
+    }
+
+    let warnings = rollup
+        .get("public_warning_phrases")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("lane floor public warnings")?;
+    for required in [
+        "All fifteen analytical lanes now have outcome-floor definition packets, but no lane has passed its floors.",
+        "A floor-definition packet is not a threshold, not a pass/fail finding, not a target cost, not savings, not solver input, and not a rate.",
+        "Fifteen analytical lanes are not the same as the 17 budget rows.",
+        "Revenue-solvency and payment-integrity remain non-additive overlays.",
+        "Net interest is endogenous and cannot be cut directly.",
+        "International spending differences are not savings, and no fraud inference is allowed from comparison or improper-payment estimates.",
+        "Missing values remain null and blocked gates remain false.",
+    ] {
+        if !warnings.iter().any(|v| v.as_str() == Some(required)) {
+            return Err(format!("lane floor warning missing: {required}"));
+        }
+    }
+
+    let claims = rollup
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("lane floor claims")?;
+    for (field, value) in claims {
+        let observed = value.as_bool().ok_or("lane floor claim bool")?;
+        if matches!(
+            field.as_str(),
+            "lane_floor_readiness_rollup_published" | "floor_definition_packet_coverage_complete"
+        ) {
+            if !observed {
+                return Err(format!("lane floor claim should be true: {field}"));
+            }
+        } else if observed {
+            return Err(format!("lane floor claim must remain false: {field}"));
+        }
+    }
+
+    let status = string_field(&rollup, "plain_english_status")?;
+    for required in [
+        "completed floor-definition packet coverage",
+        "does not make the lanes defensible",
+        "target costs",
+        "rates",
+        "savings",
+        "solver outputs",
+        "technology savings",
+        "department cuts",
+        "waste findings",
+        "fraud findings",
+        "balanced-budget claim",
+    ] {
+        if !status.contains(required) {
+            return Err(format!(
+                "lane floor plain-English status missing: {required}"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(LANE_FLOOR_READINESS_ROLLUP_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        LANE_FLOOR_READINESS_ROLLUP_JSON_PATH,
+        "All fifteen analytical lanes now have outcome-floor definition packets, but no lane has passed its floors.",
+        "A floor-definition packet is not a threshold",
+        "Fifteen analytical lanes are not the same as the 17 budget rows.",
+        "Revenue-solvency and payment-integrity remain non-additive overlays.",
+        "Net interest is endogenous and cannot be cut directly.",
+        "International spending differences are not savings",
+        "Missing values remain null and blocked gates remain false.",
+        "not target-cost selection",
+        "not a federal score",
+        "not gross savings",
+        "not net savings",
+        "not solver input",
+        "not rate calculation",
+        "not a public rate card",
+        "not a tax proposal",
+        "not a waste finding",
+        "not a fraud finding",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("lane floor reader missing: {required}"));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_current_law_path_inventory(root: &Path) -> Result<(), String> {
     for path in [
         CURRENT_LAW_PATH_INVENTORY_JSON_PATH,
@@ -39676,6 +39994,12 @@ mod global_country_comparison_tests {
     fn international_affairs_outcome_floor_definition_packet_blocks_negative_financial_shortcut() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_international_affairs_outcome_floor_definition_packet(&root).unwrap();
+    }
+
+    #[test]
+    fn lane_floor_readiness_rollup_completes_coverage_without_readiness() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_lane_floor_readiness_rollup(&root).unwrap();
     }
 
     #[test]
