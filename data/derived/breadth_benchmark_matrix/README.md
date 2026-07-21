@@ -932,3 +932,11 @@ delivery-feasibility floors while preserving that the composed subtotal is not
 one OMB function, one program, one performance surface, or one composite target.
 Component scenarios, composite targets, target costs, savings, solver inputs,
 and balanced-budget claims remain blocked.
+
+`agriculture_outcome_floor_definition_packet.v1.draft.json` extends the floor
+definition packet pattern to agriculture. It defines farm-resilience,
+crop-insurance payment-integrity boundary, research/services/productivity,
+conservation/environmental crossover, nutrition-handoff, and
+component-account-denominator delivery-feasibility floors while keeping
+component paths, account crosswalks, target costs, savings, solver inputs, and
+balanced-budget claims blocked.

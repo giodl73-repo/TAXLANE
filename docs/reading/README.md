@@ -514,6 +514,12 @@ It is the bounded public surface, not a performance or savings report.
      performance surface, or one composite target; component scenarios,
      thresholds, target costs, savings, solver inputs, and balanced-budget claims
      remain blocked.
+112. Read `agriculture-outcome-floor-definition-packet.md` before treating any
+     agriculture lower-cost scenario, crop-insurance integrity estimate, account
+     crosswalk, or nutrition handoff as admissible. Nutrition belongs to income
+     security, and crop-insurance integrity context is not fraud or savings;
+     thresholds, target costs, savings, solver inputs, and balanced-budget claims
+     remain blocked.
 
 ## Public-Use Guardrail
 
