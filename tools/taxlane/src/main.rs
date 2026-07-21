@@ -728,6 +728,12 @@ const HEALTH_NHE_SOURCE_CUSTODY_GAP_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/health_nhe_source_custody_gap.schema.md";
 const HEALTH_NHE_SOURCE_CUSTODY_GAP_READER_PATH: &str =
     "docs/reading/health-nhe-source-custody-gap.md";
+const HEALTH_CBO_SOURCE_CUSTODY_GAP_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/health_cbo_source_custody_gap.v1.draft.json";
+const HEALTH_CBO_SOURCE_CUSTODY_GAP_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/health_cbo_source_custody_gap.schema.md";
+const HEALTH_CBO_SOURCE_CUSTODY_GAP_READER_PATH: &str =
+    "docs/reading/health-cbo-source-custody-gap.md";
 const MEDICARE_PART_FINANCING_CY2025_CMS_TRUSTEES_JSONL_PATH: &str = "data/derived/contribution_alignment/medicare_part_financing.cy2025.cms-trustees-2026.draft.jsonl";
 const MEDICARE_DENOMINATOR_VALUES_CY2025_CMS_TRUSTEES_JSONL_PATH: &str = "data/derived/denominator_requirements/denominator_values.cy2025.cms-medicare-trustees-2026.draft.jsonl";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
@@ -11426,6 +11432,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_health_floor_source_capture_status(root)?;
     validate_health_medicare_trustees_source_capture_status(root)?;
     validate_health_nhe_source_custody_gap(root)?;
+    validate_health_cbo_source_custody_gap(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -35082,6 +35089,227 @@ fn validate_health_nhe_source_custody_gap(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_health_cbo_source_custody_gap(root: &Path) -> Result<(), String> {
+    for path in [
+        HEALTH_CBO_SOURCE_CUSTODY_GAP_JSON_PATH,
+        HEALTH_CBO_SOURCE_CUSTODY_GAP_SCHEMA_PATH,
+        HEALTH_CBO_SOURCE_CUSTODY_GAP_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing health CBO source custody gap artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(HEALTH_CBO_SOURCE_CUSTODY_GAP_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")? != "health-cbo-source-custody-gap:v1"
+        || string_field(&record, "record_family")? != "health_cbo_source_custody_gap"
+        || int_field(&record, "pulse")? != 181
+        || string_field(&record, "lane_id")? != "health-medicare"
+        || string_field(&record, "health_floor_source_capture_status_path")?
+            != HEALTH_FLOOR_SOURCE_CAPTURE_STATUS_JSON_PATH
+        || string_field(
+            &record,
+            "health_medicare_trustees_source_capture_status_path",
+        )? != HEALTH_MEDICARE_TRUSTEES_SOURCE_CAPTURE_STATUS_JSON_PATH
+        || string_field(&record, "health_nhe_source_custody_gap_path")?
+            != HEALTH_NHE_SOURCE_CUSTODY_GAP_JSON_PATH
+        || string_field(&record, "lane_floor_source_work_queue_path")?
+            != LANE_FLOOR_SOURCE_WORK_QUEUE_JSON_PATH
+    {
+        return Err("health CBO source custody gap identity failed".to_string());
+    }
+
+    let referenced = record
+        .get("source_ids_referenced_but_not_custody_ready")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("health CBO referenced source ids")?;
+    let observed = referenced
+        .iter()
+        .map(|v| v.as_str().unwrap_or_default().to_string())
+        .collect::<BTreeSet<_>>();
+    let expected = ["SRC-CBO-LTBO", "SRC-CBO-COMMERCIAL-PROVIDER-PRICES"]
+        .into_iter()
+        .map(str::to_string)
+        .collect::<BTreeSet<_>>();
+    if observed != expected || referenced.len() != 2 {
+        return Err("health CBO referenced source set failed".to_string());
+    }
+
+    let custody = record
+        .get("source_custody_status")
+        .ok_or("health CBO custody status")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_captured_sources_only",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "cbo_source_referenced_in_derived_health_artifacts",
+    ] {
+        if custody.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("health CBO custody must be true: {field}"));
+        }
+    }
+    for field in [
+        "new_external_download_performed",
+        "cbo_raw_artifact_path_present",
+        "cbo_metadata_path_present",
+        "cbo_raw_sha256_present",
+        "cbo_source_custody_ready",
+        "cbo_values_may_populate_federal_policy_translation",
+        "cbo_values_may_populate_behavior_or_incidence",
+        "cbo_values_may_populate_solver_inputs",
+    ] {
+        if custody.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("health CBO custody must be false: {field}"));
+        }
+    }
+
+    let refs = record
+        .get("referencing_artifacts")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("health CBO referencing artifacts")?;
+    let expected_paths = [
+        "data/derived/efficiency_pressure/cost_down_source_packets.fy2025.v1.draft.jsonl",
+        "docs/reading/health-price-discipline-source-packet.md",
+        "docs/reading/health-administrative-simplification-source-packet.md",
+        HEALTH_CATEGORY_BENCHMARK_JSON_PATH,
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let observed_paths = refs
+        .iter()
+        .map(|item| string_field(item, "artifact_path"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if observed_paths != expected_paths || refs.len() != 4 {
+        return Err("health CBO referencing artifact set failed".to_string());
+    }
+    for item in refs {
+        let path = string_field(item, "artifact_path")?;
+        if !root.join(&path).exists()
+            || item
+                .get("raw_custody_ready")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+            || item
+                .get("may_populate_policy_translation_or_pass_fail")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+        {
+            return Err(format!("health CBO referencing artifact failed: {path}"));
+        }
+    }
+
+    let requirements = record
+        .get("cbo_capture_requirements")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("health CBO capture requirements")?;
+    if requirements.len() != 7 {
+        return Err("health CBO capture requirement count failed".to_string());
+    }
+    for req in requirements {
+        if string_field(req, "requirement")?.is_empty()
+            || !req.get("value").is_some_and(serde_json::Value::is_null)
+            || req.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+        {
+            return Err("health CBO capture requirement must remain null/false".to_string());
+        }
+    }
+
+    let blocked = record
+        .get("blocked_health_policy_uses")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("health CBO blocked policy uses")?;
+    for (field, value) in blocked {
+        if !value.is_null() {
+            return Err(format!("health CBO blocked use must be null: {field}"));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("health CBO claims")?;
+    for (field, value) in claims {
+        let observed = value.as_bool().ok_or("health CBO claim bool")?;
+        if matches!(
+            field.as_str(),
+            "health_cbo_source_custody_gap_published"
+                | "cbo_source_referenced_in_derived_health_artifacts"
+        ) {
+            if !observed {
+                return Err(format!("health CBO claim should be true: {field}"));
+            }
+        } else if observed {
+            return Err(format!("health CBO claim must be false: {field}"));
+        }
+    }
+
+    let warning = string_field(&record, "public_warning")?;
+    for required in [
+        "local raw CBO health baseline custody is not ready",
+        "not CBO source capture",
+        "not federal health policy translation",
+        "not behavior modeling",
+        "not incidence modeling",
+        "not pass/fail findings",
+        "not lower-cost scenario admissibility",
+        "not target-cost selection",
+        "not gross savings",
+        "not net savings",
+        "not solver input",
+        "not rate calculation",
+        "not a public rate card",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !warning.contains(required) {
+            return Err(format!("health CBO warning missing: {required}"));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(HEALTH_CBO_SOURCE_CUSTODY_GAP_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        HEALTH_CBO_SOURCE_CUSTODY_GAP_JSON_PATH,
+        "Referenced but not custody-ready",
+        "SRC-CBO-LTBO",
+        "SRC-CBO-COMMERCIAL-PROVIDER-PRICES",
+        "raw artifact path",
+        "raw byte count",
+        "raw SHA-256",
+        "metadata path",
+        "retrieval date",
+        "health baseline table lineage",
+        "behavior and incidence table lineage",
+        "not CBO source capture",
+        "not federal health policy translation",
+        "not behavior modeling",
+        "not incidence modeling",
+        "not pass/fail findings",
+        "not lower-cost scenario admissibility",
+        "not target-cost selection",
+        "not gross savings",
+        "not net savings",
+        "not solver input",
+        "not rate calculation",
+        "not a public rate card",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("health CBO reader missing: {required}"));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_current_law_path_inventory(root: &Path) -> Result<(), String> {
     for path in [
         CURRENT_LAW_PATH_INVENTORY_JSON_PATH,
@@ -41127,6 +41355,12 @@ mod global_country_comparison_tests {
     fn health_nhe_source_gap_blocks_derived_sensitivity_custody_shortcut() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_health_nhe_source_custody_gap(&root).unwrap();
+    }
+
+    #[test]
+    fn health_cbo_source_gap_blocks_policy_translation_shortcut() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_health_cbo_source_custody_gap(&root).unwrap();
     }
 
     #[test]

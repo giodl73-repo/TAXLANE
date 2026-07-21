@@ -549,6 +549,11 @@ It is the bounded public surface, not a performance or savings report.
      referenced, but raw NHE custody, thresholds, observed floor values,
      pass/fail findings, solver inputs, rates, savings, and balanced-budget
      claims remain blocked.
+119. Read `health-cbo-source-custody-gap.md` before treating CBO references in
+     health context artifacts as source custody. CBO source IDs are referenced,
+     but raw CBO health-baseline custody, federal policy translation, behavior
+     modeling, incidence modeling, pass/fail findings, solver inputs, rates,
+     savings, and balanced-budget claims remain blocked.
 
 ## Public-Use Guardrail
 

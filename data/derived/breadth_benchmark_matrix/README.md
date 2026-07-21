@@ -978,3 +978,9 @@ appear in derived health sensitivity artifacts but are not yet backed by local
 raw NHE custody in this packet. It keeps NHE source capture, floor thresholds,
 observed floor values, pass/fail findings, solver inputs, savings, rates, and
 balanced-budget claims blocked.
+
+`health_cbo_source_custody_gap.v1.draft.json` records that CBO source IDs appear
+in derived health context artifacts but are not yet backed by local raw CBO
+health-baseline custody in this packet. It keeps CBO source capture, federal
+policy translation, behavior and incidence modeling, pass/fail findings, solver
+inputs, savings, rates, and balanced-budget claims blocked.
