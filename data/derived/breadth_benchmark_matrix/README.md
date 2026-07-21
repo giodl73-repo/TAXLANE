@@ -887,6 +887,13 @@ models, take-up models, floor values, federal/state/local translation, solver
 inputs, rates, savings, department-cut instructions, technology-savings claims,
 and balanced-budget claims blocked.
 
+`income_security_family_source_capture_closure_work_queue.v1.draft.json`
+converts the open income-security/family source-capture status into ordered
+closure gates for perimeter, baseline/take-up, child poverty, childcare,
+nutrition, and comparator lineage. Closure values, lineage completion, solver
+inputs, rates, savings, department-cut instructions, technology-savings claims,
+and balanced-budget claims remain blocked.
+
 `revenue_solvency_outcome_floor_definition_packet.v1.draft.json` extends the
 floor definition packet pattern to the non-additive revenue-solvency overlay. It
 defines distributional-progressivity, revenue-stability, administrability,
