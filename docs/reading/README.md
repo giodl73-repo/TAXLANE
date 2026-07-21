@@ -559,6 +559,11 @@ It is the bounded public surface, not a performance or savings report.
      safety-net-capacity indicators as floor values. Source families are
      declared, but raw custody, thresholds, observed values, pass/fail findings,
      solver inputs, rates, savings, and balanced-budget claims remain blocked.
+121. Read `health-source-readiness-rollup.md` to understand the current
+     health/Medicare source-readiness state. OMB fiscal and CMS Medicare
+     Trustees custody are context-only ready; NHE, CBO, and quality/access
+     remain custody gaps; floor passage, solver inputs, rates, savings, and
+     balanced-budget claims remain blocked.
 
 ## Public-Use Guardrail
 

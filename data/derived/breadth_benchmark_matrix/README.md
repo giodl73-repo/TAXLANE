@@ -991,3 +991,9 @@ safety-net-capacity indicator families are needed but are not yet backed by loca
 raw source custody in this packet. It keeps thresholds, observed floor values,
 pass/fail findings, solver inputs, savings, rates, and balanced-budget claims
 blocked.
+
+`health_source_readiness_rollup.v1.draft.json` summarizes the post-Pulse-182
+health/Medicare source-custody state. It marks OMB fiscal custody and CMS
+Medicare Trustees custody as context-only ready while NHE, CBO, and
+quality/access source families remain custody gaps; floor passage, solver
+inputs, savings, rates, and balanced-budget claims remain blocked.

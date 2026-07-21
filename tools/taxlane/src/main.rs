@@ -739,6 +739,12 @@ const HEALTH_QUALITY_ACCESS_INDICATOR_SOURCE_GAP_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/health_quality_access_indicator_source_gap.schema.md";
 const HEALTH_QUALITY_ACCESS_INDICATOR_SOURCE_GAP_READER_PATH: &str =
     "docs/reading/health-quality-access-indicator-source-gap.md";
+const HEALTH_SOURCE_READINESS_ROLLUP_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/health_source_readiness_rollup.v1.draft.json";
+const HEALTH_SOURCE_READINESS_ROLLUP_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/health_source_readiness_rollup.schema.md";
+const HEALTH_SOURCE_READINESS_ROLLUP_READER_PATH: &str =
+    "docs/reading/health-source-readiness-rollup.md";
 const MEDICARE_PART_FINANCING_CY2025_CMS_TRUSTEES_JSONL_PATH: &str = "data/derived/contribution_alignment/medicare_part_financing.cy2025.cms-trustees-2026.draft.jsonl";
 const MEDICARE_DENOMINATOR_VALUES_CY2025_CMS_TRUSTEES_JSONL_PATH: &str = "data/derived/denominator_requirements/denominator_values.cy2025.cms-medicare-trustees-2026.draft.jsonl";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
@@ -11439,6 +11445,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_health_nhe_source_custody_gap(root)?;
     validate_health_cbo_source_custody_gap(root)?;
     validate_health_quality_access_indicator_source_gap(root)?;
+    validate_health_source_readiness_rollup(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -35570,6 +35577,283 @@ fn validate_health_quality_access_indicator_source_gap(root: &Path) -> Result<()
     Ok(())
 }
 
+fn validate_health_source_readiness_rollup(root: &Path) -> Result<(), String> {
+    for path in [
+        HEALTH_SOURCE_READINESS_ROLLUP_JSON_PATH,
+        HEALTH_SOURCE_READINESS_ROLLUP_SCHEMA_PATH,
+        HEALTH_SOURCE_READINESS_ROLLUP_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing health source readiness rollup artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(HEALTH_SOURCE_READINESS_ROLLUP_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")? != "health-source-readiness-rollup:v1"
+        || string_field(&record, "record_family")? != "health_source_readiness_rollup"
+        || int_field(&record, "pulse")? != 183
+        || string_field(&record, "lane_id")? != "health-medicare"
+        || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&record, "health_floor_source_capture_status_path")?
+            != HEALTH_FLOOR_SOURCE_CAPTURE_STATUS_JSON_PATH
+        || string_field(
+            &record,
+            "health_medicare_trustees_source_capture_status_path",
+        )? != HEALTH_MEDICARE_TRUSTEES_SOURCE_CAPTURE_STATUS_JSON_PATH
+        || string_field(&record, "health_nhe_source_custody_gap_path")?
+            != HEALTH_NHE_SOURCE_CUSTODY_GAP_JSON_PATH
+        || string_field(&record, "health_cbo_source_custody_gap_path")?
+            != HEALTH_CBO_SOURCE_CUSTODY_GAP_JSON_PATH
+        || string_field(&record, "health_quality_access_indicator_source_gap_path")?
+            != HEALTH_QUALITY_ACCESS_INDICATOR_SOURCE_GAP_JSON_PATH
+    {
+        return Err("health source readiness rollup identity failed".to_string());
+    }
+
+    let source_rows = record
+        .get("source_family_rollup")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("health source rollup rows")?;
+    if source_rows.len() != 5 {
+        return Err("health source rollup must have five rows".to_string());
+    }
+
+    let mut ready_context_only = 0usize;
+    let mut custody_gaps = 0usize;
+    let expected_families = [
+        "OMB FY2027 historical fiscal tables",
+        "CMS Medicare Trustees 2026",
+        "CMS national health expenditure accounts",
+        "CBO federal health baseline",
+        "CMS quality and access indicator series",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let observed_families = source_rows
+        .iter()
+        .map(|row| string_field(row, "source_family"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if observed_families != expected_families {
+        return Err("health source rollup family set failed".to_string());
+    }
+
+    for row in source_rows {
+        let family = string_field(row, "source_family")?;
+        let custody_status = string_field(row, "custody_status")?;
+        let raw_ready = row
+            .get("raw_custody_ready")
+            .and_then(serde_json::Value::as_bool)
+            .ok_or("health source raw custody bool")?;
+        if string_field(row, "source_role")?.is_empty() {
+            return Err(format!("health source role missing: {family}"));
+        }
+        if custody_status == "custody_ready_context_only" {
+            ready_context_only += 1;
+            if !matches!(
+                family.as_str(),
+                "OMB FY2027 historical fiscal tables" | "CMS Medicare Trustees 2026"
+            ) || !raw_ready
+                || row
+                    .get("may_populate_current_law_context")
+                    .and_then(serde_json::Value::as_bool)
+                    != Some(true)
+            {
+                return Err(format!("unexpected context-ready health source: {family}"));
+            }
+        } else if custody_status == "custody_gap" {
+            custody_gaps += 1;
+            if matches!(
+                family.as_str(),
+                "OMB FY2027 historical fiscal tables" | "CMS Medicare Trustees 2026"
+            ) || raw_ready
+            {
+                return Err(format!("unexpected health source custody gap: {family}"));
+            }
+        } else {
+            return Err(format!("unexpected health source custody status: {family}"));
+        }
+        for field in [
+            "may_populate_floor_threshold_or_pass_fail",
+            "may_populate_federal_policy_translation",
+            "may_populate_solver_input",
+        ] {
+            if row.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+                return Err(format!("health source row must block {field}: {family}"));
+            }
+        }
+    }
+    if ready_context_only != 2 || custody_gaps != 3 {
+        return Err("health source rollup ready/gap counts failed".to_string());
+    }
+
+    let counts = record
+        .get("readiness_counts")
+        .ok_or("health source readiness counts")?;
+    let expected_counts = [
+        ("source_family_count", 5),
+        ("custody_ready_context_only_count", 2),
+        ("custody_gap_count", 3),
+        ("floor_passage_ready_count", 0),
+        ("federal_policy_translation_ready_count", 0),
+        ("solver_input_ready_count", 0),
+        ("public_rate_ready_count", 0),
+    ];
+    for (field, expected) in expected_counts {
+        if int_field(counts, field)? != expected {
+            return Err(format!("health source readiness count failed: {field}"));
+        }
+    }
+
+    let readiness = record
+        .get("health_lane_readiness")
+        .ok_or("health lane readiness")?;
+    for field in [
+        "partial_fiscal_context_ready",
+        "medicare_financing_and_enrollment_context_ready",
+    ] {
+        if readiness.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("health lane readiness should be true: {field}"));
+        }
+    }
+    for field in [
+        "nhe_raw_custody_ready",
+        "cbo_raw_custody_ready",
+        "quality_access_raw_custody_ready",
+        "threshold_values_selected",
+        "observed_floor_values_populated",
+        "pass_fail_findings_populated",
+        "lower_cost_scenario_admissibility_ready",
+        "federal_policy_translation_ready",
+        "behavior_or_incidence_model_ready",
+        "solver_input_ready",
+        "public_rate_ready",
+    ] {
+        if readiness.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("health lane readiness must be false: {field}"));
+        }
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("health source blocked outputs")?;
+    for (field, value) in blocked {
+        if !value.is_null() {
+            return Err(format!(
+                "health source blocked output must be null: {field}"
+            ));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("health source readiness claims")?;
+    for (field, value) in claims {
+        let observed = value
+            .as_bool()
+            .ok_or("health source readiness claim bool")?;
+        if matches!(
+            field.as_str(),
+            "health_source_readiness_rollup_published"
+                | "partial_fiscal_context_ready"
+                | "medicare_financing_and_enrollment_context_ready"
+        ) {
+            if !observed {
+                return Err(format!(
+                    "health source readiness claim should be true: {field}"
+                ));
+            }
+        } else if observed {
+            return Err(format!(
+                "health source readiness claim must be false: {field}"
+            ));
+        }
+    }
+
+    let gates = record
+        .get("next_source_gates")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("health next source gates")?;
+    if gates.len() != 6 {
+        return Err("health next source gate count failed".to_string());
+    }
+    for gate in gates {
+        if string_field(gate, "gate")?.is_empty()
+            || gate.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+            || !gate.get("value").is_some_and(serde_json::Value::is_null)
+        {
+            return Err("health next source gates must remain null/false".to_string());
+        }
+    }
+
+    let warning = string_field(&record, "public_warning")?;
+    for required in [
+        "partial context custody only",
+        "not complete health source capture",
+        "not health floor threshold selection",
+        "not observed floor values",
+        "not pass/fail findings",
+        "not lower-cost scenario admissibility",
+        "not a federal policy score",
+        "not target-cost selection",
+        "not gross savings",
+        "not net savings",
+        "not solver input",
+        "not rate calculation",
+        "not a public rate card",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !warning.contains(required) {
+            return Err(format!(
+                "health source readiness warning missing: {required}"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(HEALTH_SOURCE_READINESS_ROLLUP_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        HEALTH_SOURCE_READINESS_ROLLUP_JSON_PATH,
+        "Ready, context-only",
+        "OMB FY2027 historical fiscal tables",
+        "CMS Medicare Trustees 2026",
+        "Still custody gaps",
+        "CMS national health expenditure accounts",
+        "CBO federal health baseline",
+        "CMS quality and access indicator series",
+        "not complete health source capture",
+        "not health floor threshold selection",
+        "not observed floor values",
+        "not pass/fail findings",
+        "not lower-cost scenario admissibility",
+        "not a federal policy score",
+        "not target-cost selection",
+        "not gross savings",
+        "not net savings",
+        "not solver input",
+        "not rate calculation",
+        "not a public rate card",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!(
+                "health source readiness reader missing: {required}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_current_law_path_inventory(root: &Path) -> Result<(), String> {
     for path in [
         CURRENT_LAW_PATH_INVENTORY_JSON_PATH,
@@ -41627,6 +41911,12 @@ mod global_country_comparison_tests {
     fn health_quality_access_indicator_gap_blocks_floor_passage_shortcut() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_health_quality_access_indicator_source_gap(&root).unwrap();
+    }
+
+    #[test]
+    fn health_source_readiness_rollup_keeps_context_out_of_solver() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_health_source_readiness_rollup(&root).unwrap();
     }
 
     #[test]
