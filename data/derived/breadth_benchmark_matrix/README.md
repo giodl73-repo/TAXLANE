@@ -924,3 +924,11 @@ court-timeliness/caseload, correctional-safety/recidivism, civil-rights/equity,
 and federalism/caseload delivery-feasibility floors while keeping all-government
 translation, component policy paths, target costs, savings, solver inputs, and
 balanced-budget claims blocked.
+
+`science_energy_environment_outcome_floor_definition_packet.v1.draft.json`
+extends the floor definition packet pattern to the science/energy/environment
+lane. It defines separate science, energy, environment, equity, scope, and
+delivery-feasibility floors while preserving that the composed subtotal is not
+one OMB function, one program, one performance surface, or one composite target.
+Component scenarios, composite targets, target costs, savings, solver inputs,
+and balanced-budget claims remain blocked.

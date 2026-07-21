@@ -508,6 +508,12 @@ It is the bounded public surface, not a performance or savings report.
      or component policy path as admissible. Federal function 750 is not the full
      US justice system; thresholds, pass/fail findings, rights review, target
      costs, savings, solver inputs, and balanced-budget claims remain blocked.
+111. Read `science-energy-environment-outcome-floor-definition-packet.md`
+     before treating any science, energy, environment, or combined subtotal as
+     admissible. The composed subtotal is not one OMB function, one program, one
+     performance surface, or one composite target; component scenarios,
+     thresholds, target costs, savings, solver inputs, and balanced-budget claims
+     remain blocked.
 
 ## Public-Use Guardrail
 

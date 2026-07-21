@@ -688,6 +688,10 @@ const JUSTICE_COURTS_PUBLIC_SAFETY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH: &s
 const JUSTICE_COURTS_PUBLIC_SAFETY_OUTCOME_FLOOR_DEFINITION_PACKET_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/justice_courts_public_safety_outcome_floor_definition_packet.schema.md";
 const JUSTICE_COURTS_PUBLIC_SAFETY_OUTCOME_FLOOR_DEFINITION_PACKET_READER_PATH: &str =
     "docs/reading/justice-courts-public-safety-outcome-floor-definition-packet.md";
+const SCIENCE_ENERGY_ENVIRONMENT_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/science_energy_environment_outcome_floor_definition_packet.v1.draft.json";
+const SCIENCE_ENERGY_ENVIRONMENT_OUTCOME_FLOOR_DEFINITION_PACKET_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/science_energy_environment_outcome_floor_definition_packet.schema.md";
+const SCIENCE_ENERGY_ENVIRONMENT_OUTCOME_FLOOR_DEFINITION_PACKET_READER_PATH: &str =
+    "docs/reading/science-energy-environment-outcome-floor-definition-packet.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11376,6 +11380,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_education_workforce_outcome_floor_definition_packet(root)?;
     validate_disaster_resilience_outcome_floor_definition_packet(root)?;
     validate_justice_courts_public_safety_outcome_floor_definition_packet(root)?;
+    validate_science_energy_environment_outcome_floor_definition_packet(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -32525,6 +32530,318 @@ fn validate_justice_courts_public_safety_outcome_floor_definition_packet(
     Ok(())
 }
 
+fn validate_science_energy_environment_outcome_floor_definition_packet(
+    root: &Path,
+) -> Result<(), String> {
+    for path in [
+        SCIENCE_ENERGY_ENVIRONMENT_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
+        SCIENCE_ENERGY_ENVIRONMENT_OUTCOME_FLOOR_DEFINITION_PACKET_SCHEMA_PATH,
+        SCIENCE_ENERGY_ENVIRONMENT_OUTCOME_FLOOR_DEFINITION_PACKET_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing science/energy/environment outcome floor definition packet artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(
+        root.join(SCIENCE_ENERGY_ENVIRONMENT_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH),
+    )
+    .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")?
+        != "science-energy-environment-outcome-floor-definition-packet:v1"
+        || string_field(&record, "record_family")?
+            != "science_energy_environment_outcome_floor_definition_packet"
+        || int_field(&record, "pulse")? != 173
+        || string_field(&record, "lane_id")? != "science-energy-environment"
+        || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&record, "outcome_floor_thresholds_gap_path")?
+            != OUTCOME_FLOOR_THRESHOLDS_GAP_JSON_PATH
+        || string_field(
+            &record,
+            "justice_courts_public_safety_outcome_floor_definition_packet_path",
+        )? != JUSTICE_COURTS_PUBLIC_SAFETY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH
+        || string_field(&record, "science_energy_environment_depth_card_path")?
+            != SCIENCE_DEPTH_CARD_JSON_PATH
+        || string_field(&record, "lane_depth_explainability_tracker_path")?
+            != LANE_DEPTH_EXPLAINABILITY_TRACKER_JSON_PATH
+    {
+        return Err(
+            "science/energy/environment floor definition packet identity failed".to_string(),
+        );
+    }
+
+    let status = record
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("science/energy/environment floor source custody status")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_captured_sources_only",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "definition_packet_published",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "science/energy/environment floor status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "new_external_download_performed",
+        "separate_component_scenarios_ready",
+        "composite_target_ready",
+        "state_local_tax_expenditure_scope_ready",
+        "threshold_values_selected",
+        "baseline_values_populated",
+        "policy_values_populated",
+        "stress_values_populated",
+        "pass_fail_review_complete",
+        "target_cost_ready",
+        "solver_input_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "science/energy/environment floor status {field} must be false"
+            ));
+        }
+    }
+
+    let policy = record
+        .get("definition_policy")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("science/energy/environment floor definition policy")?;
+    for field in [
+        "science_energy_environment_components_must_remain_separate",
+        "composed_subtotal_is_not_single_omb_function",
+        "no_composite_target_allowed",
+        "separate_science_energy_environment_scenarios_required_before_target_cost",
+        "all_lower_cost_scenarios_must_pass_floors",
+        "missing_values_remain_null",
+        "blocked_gates_remain_false",
+        "named_floor_concepts_are_not_threshold_values",
+        "international_differences_not_savings",
+        "no_fraud_inference",
+    ] {
+        if policy.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "science/energy/environment floor policy {field} must be true"
+            ));
+        }
+    }
+
+    let classes = record
+        .get("required_floor_classes")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("science/energy/environment required floor classes")?;
+    let expected_classes = [
+        "access_coverage",
+        "quality_safety",
+        "equity_distribution",
+        "adequacy_resilience",
+        "fiscal_delivery_feasibility",
+    ];
+    if classes.len() != expected_classes.len() {
+        return Err("science/energy/environment required floor class count failed".to_string());
+    }
+    let observed_classes = classes
+        .iter()
+        .map(|row| string_field(row, "floor_class"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_class_set = expected_classes
+        .into_iter()
+        .map(str::to_string)
+        .collect::<BTreeSet<_>>();
+    if observed_classes != expected_class_set {
+        return Err("science/energy/environment required floor class set failed".to_string());
+    }
+    for row in classes {
+        for field in [
+            "threshold_value",
+            "baseline_value",
+            "policy_value",
+            "stress_value",
+        ] {
+            if row.get(field) != Some(&serde_json::Value::Null) {
+                return Err(format!(
+                    "science/energy/environment floor class {field} must be null"
+                ));
+            }
+        }
+        if row.get("passed").and_then(serde_json::Value::as_bool) != Some(false)
+            || string_field(row, "review_status")? != "definition_only_not_thresholded"
+        {
+            return Err("science/energy/environment floor class must remain unpassed".to_string());
+        }
+    }
+
+    let lane_floors = record
+        .get("science_energy_environment_specific_floor_definitions")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("science/energy/environment-specific floor definitions")?;
+    let expected_lane_floors = [
+        "science_research_capacity",
+        "energy_reliability_affordability_security",
+        "environment_pollution_ecosystem_water",
+        "equity_environmental_justice",
+        "state_local_tax_expenditure_scope",
+        "separate_component_delivery_feasibility",
+    ];
+    if lane_floors.len() != expected_lane_floors.len() {
+        return Err("science/energy/environment-specific floor count failed".to_string());
+    }
+    let observed_lane_floors = lane_floors
+        .iter()
+        .map(|row| string_field(row, "floor_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_lane_floor_set = expected_lane_floors
+        .into_iter()
+        .map(str::to_string)
+        .collect::<BTreeSet<_>>();
+    if observed_lane_floors != expected_lane_floor_set {
+        return Err("science/energy/environment-specific floor set failed".to_string());
+    }
+    for row in lane_floors {
+        if row.get("threshold_value") != Some(&serde_json::Value::Null)
+            || row.get("observed_value") != Some(&serde_json::Value::Null)
+            || row.get("passed").and_then(serde_json::Value::as_bool) != Some(false)
+        {
+            return Err(
+                "science/energy/environment-specific floors must remain null and unpassed"
+                    .to_string(),
+            );
+        }
+    }
+
+    for object_name in ["blocked_inputs", "blocked_outputs"] {
+        let object = record
+            .get(object_name)
+            .and_then(serde_json::Value::as_object)
+            .ok_or(object_name)?;
+        if object
+            .values()
+            .any(|value| value != &serde_json::Value::Null)
+        {
+            return Err(format!("{object_name} must remain null"));
+        }
+    }
+
+    let summary = record
+        .get("summary")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("science/energy/environment floor summary")?;
+    if summary
+        .get("floor_classes")
+        .and_then(serde_json::Value::as_i64)
+        != Some(5)
+        || summary
+            .get("science_energy_environment_specific_floors")
+            .and_then(serde_json::Value::as_i64)
+            != Some(6)
+        || summary
+            .get("component_paths_required")
+            .and_then(serde_json::Value::as_i64)
+            != Some(3)
+    {
+        return Err("science/energy/environment floor summary counts failed".to_string());
+    }
+    for field in [
+        "threshold_values_selected",
+        "baseline_values_populated",
+        "policy_values_populated",
+        "stress_values_populated",
+        "all_floors_passed",
+        "composite_target_ready",
+        "target_cost_ready",
+        "solver_input_ready",
+    ] {
+        if summary.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "science/energy/environment floor summary {field} must be false"
+            ));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("science/energy/environment floor claims")?;
+    if claims
+        .get("definition_packet_published")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err("science/energy/environment floor packet publication flag failed".to_string());
+    }
+    for field in [
+        "separate_component_scenarios_ready",
+        "science_component_scenario_ready",
+        "energy_component_scenario_ready",
+        "environment_component_scenario_ready",
+        "state_local_tax_expenditure_scope_ready",
+        "composite_target_ready",
+        "threshold_values_selected",
+        "baseline_values_populated",
+        "policy_values_populated",
+        "stress_values_populated",
+        "pass_fail_review_complete",
+        "all_floors_passed",
+        "target_cost_published",
+        "federal_effect_published",
+        "gross_savings_published",
+        "net_savings_published",
+        "solver_input_ready",
+        "public_rate_card_published",
+        "department_cut_instruction_published",
+        "technology_savings_claim_published",
+        "balanced_budget_claim_published",
+    ] {
+        if claims.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "science/energy/environment floor claim {field} must be false"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(
+        root.join(SCIENCE_ENERGY_ENVIRONMENT_OUTCOME_FLOOR_DEFINITION_PACKET_READER_PATH),
+    )
+    .map_err(|e| e.to_string())?;
+    for phrase in [
+        SCIENCE_ENERGY_ENVIRONMENT_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
+        "This science/energy/environment floor packet defines required floor concepts, but it does not set threshold values or pass/fail findings.",
+        "The composed FY2025 subtotal is not one OMB function, one program, one performance surface, or one composite target.",
+        "No lower-cost science/energy/environment scenario is admissible until separate science, energy, and environment component paths and access, quality/safety, equity, adequacy/resilience, and delivery-feasibility floors are thresholded, sourced, reviewed, and passed.",
+        "No composite target, target cost, federal effect, gross savings, net savings, solver input, department-cut instruction, technology-savings claim, or balanced-budget claim is populated.",
+        "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",
+        "not outcome-floor passage",
+        "not a composite target",
+        "not a component policy path",
+        "not state/local scope",
+        "not tax-expenditure scope",
+        "not a federal score",
+        "not a target-cost selection",
+        "not solver input",
+        "not a rate calculation",
+        "not a savings estimate",
+        "not a fraud finding",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "science/energy/environment floor reader missing phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_solver_input_readiness_rollup(root: &Path) -> Result<(), String> {
     for path in [
         SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH,
@@ -38725,6 +39042,12 @@ mod global_country_comparison_tests {
     fn justice_courts_public_safety_outcome_floor_definition_packet_blocks_federalism_shortcut() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_justice_courts_public_safety_outcome_floor_definition_packet(&root).unwrap();
+    }
+
+    #[test]
+    fn science_energy_environment_outcome_floor_definition_packet_blocks_composite_target() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_science_energy_environment_outcome_floor_definition_packet(&root).unwrap();
     }
 
     #[test]
