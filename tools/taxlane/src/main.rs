@@ -701,6 +701,10 @@ const INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_QUEUE_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/income_security_family_source_capture_queue.schema.md";
 const INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_QUEUE_READER_PATH: &str =
     "docs/reading/income-security-family-source-capture-queue.md";
+const INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_STATUS_ROLLUP_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/income_security_family_source_capture_status_rollup.v1.draft.json";
+const INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_STATUS_ROLLUP_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/income_security_family_source_capture_status_rollup.schema.md";
+const INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_STATUS_ROLLUP_READER_PATH: &str =
+    "docs/reading/income-security-family-source-capture-status-rollup.md";
 const REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/revenue_solvency_outcome_floor_definition_packet.v1.draft.json";
 const REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/revenue_solvency_outcome_floor_definition_packet.schema.md";
 const REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_READER_PATH: &str =
@@ -11483,6 +11487,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_income_security_family_outcome_floor_definition_packet(root)?;
     validate_income_security_family_source_readiness_gap(root)?;
     validate_income_security_family_source_capture_queue(root)?;
+    validate_income_security_family_source_capture_status_rollup(root)?;
     validate_revenue_solvency_outcome_floor_definition_packet(root)?;
     validate_net_interest_outcome_floor_definition_packet(root)?;
     validate_payment_integrity_outcome_floor_definition_packet(root)?;
@@ -32300,6 +32305,305 @@ fn validate_income_security_family_source_capture_queue(root: &Path) -> Result<(
     Ok(())
 }
 
+fn validate_income_security_family_source_capture_status_rollup(root: &Path) -> Result<(), String> {
+    for path in [
+        INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_STATUS_ROLLUP_JSON_PATH,
+        INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_STATUS_ROLLUP_SCHEMA_PATH,
+        INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_STATUS_ROLLUP_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing income-security/family source capture status rollup artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(
+        root.join(INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_STATUS_ROLLUP_JSON_PATH),
+    )
+    .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")?
+        != "income-security-family-source-capture-status-rollup:v1"
+        || string_field(&record, "record_family")?
+            != "income_security_family_source_capture_status_rollup"
+        || int_field(&record, "pulse")? != 192
+        || string_field(&record, "lane_id")? != "income-security-family"
+        || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&record, "income_security_family_source_readiness_gap_path")?
+            != INCOME_SECURITY_FAMILY_SOURCE_READINESS_GAP_JSON_PATH
+        || string_field(&record, "income_security_family_source_capture_queue_path")?
+            != INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_QUEUE_JSON_PATH
+        || string_field(
+            &record,
+            "income_security_family_outcome_floor_definition_packet_path",
+        )? != INCOME_SECURITY_FAMILY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH
+    {
+        return Err(
+            "income-security/family source capture status rollup identity failed".to_string(),
+        );
+    }
+
+    let rows = record
+        .get("source_family_rollup")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("income-security/family source capture status rows")?;
+    if rows.len() != 6 {
+        return Err(
+            "income-security/family source capture status rollup must have six rows".to_string(),
+        );
+    }
+    let expected_families = [
+        "Federal program outlay perimeter",
+        "CBO baseline and take-up context",
+        "Child poverty and income context",
+        "Childcare and family-service context",
+        "Food hardship and nutrition context",
+        "International comparator context",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let expected_work_items = [
+        "capture-income-security-federal-program-outlay-perimeter",
+        "capture-income-security-cbo-baseline-and-takeup-context",
+        "capture-income-security-child-poverty-income-context",
+        "capture-income-security-childcare-family-service-context",
+        "capture-income-security-food-hardship-nutrition-context",
+        "capture-income-security-international-comparator-context",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let observed_families = rows
+        .iter()
+        .map(|row| string_field(row, "source_family"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let observed_work_items = rows
+        .iter()
+        .map(|row| string_field(row, "queue_work_item_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if observed_families != expected_families || observed_work_items != expected_work_items {
+        return Err(
+            "income-security/family source capture status family/work item set failed".to_string(),
+        );
+    }
+
+    for row in rows {
+        let family = string_field(row, "source_family")?;
+        if string_field(row, "source_role")?.is_empty()
+            || string_field(row, "custody_status")? != "capture_item_open"
+        {
+            return Err(format!(
+                "income-security/family source capture status row shape failed: {family}"
+            ));
+        }
+        for field in [
+            "raw_custody_ready",
+            "may_populate_context",
+            "may_populate_program_outlay_perimeter",
+            "may_populate_benefit_package_or_takeup_model",
+            "may_populate_floor_values_or_pass_fail",
+            "may_populate_solver_input",
+        ] {
+            if row.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+                return Err(format!(
+                    "income-security/family source capture status row must block {field}: {family}"
+                ));
+            }
+        }
+    }
+
+    let counts = record
+        .get("readiness_counts")
+        .ok_or("income-security/family source capture status counts")?;
+    for (field, expected) in [
+        ("source_family_count", 6),
+        ("capture_item_open_count", 6),
+        ("raw_custody_ready_count", 0),
+        ("context_ready_count", 0),
+        ("program_outlay_perimeter_ready_count", 0),
+        ("benefit_package_or_takeup_model_ready_count", 0),
+        ("floor_value_ready_count", 0),
+        ("solver_input_ready_count", 0),
+        ("public_rate_ready_count", 0),
+    ] {
+        if int_field(counts, field)? != expected {
+            return Err(format!(
+                "income-security/family source capture status count failed: {field}"
+            ));
+        }
+    }
+
+    let readiness = record
+        .get("income_security_family_lane_readiness")
+        .ok_or("income-security/family lane source capture readiness")?;
+    for field in [
+        "source_readiness_gap_published",
+        "source_capture_queue_published",
+    ] {
+        if readiness.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "income-security/family lane source capture readiness should be true: {field}"
+            ));
+        }
+    }
+    for field in [
+        "source_capture_complete",
+        "program_outlay_perimeter_ready",
+        "benefit_package_raw_custody_ready",
+        "take_up_raw_custody_ready",
+        "child_poverty_raw_custody_ready",
+        "material_hardship_raw_custody_ready",
+        "childcare_access_raw_custody_ready",
+        "work_transition_raw_custody_ready",
+        "federal_state_local_translation_ready",
+        "threshold_values_selected",
+        "observed_floor_values_populated",
+        "pass_fail_findings_populated",
+        "lower_cost_scenario_admissibility_ready",
+        "solver_input_ready",
+        "public_rate_ready",
+    ] {
+        if readiness.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "income-security/family lane source capture readiness must be false: {field}"
+            ));
+        }
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("income-security/family source capture status blocked outputs")?;
+    for (field, value) in blocked {
+        if !value.is_null() {
+            return Err(format!(
+                "income-security/family source capture status blocked output must be null: {field}"
+            ));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("income-security/family source capture status claims")?;
+    for (field, value) in claims {
+        let observed = value
+            .as_bool()
+            .ok_or("income-security/family source capture status claim bool")?;
+        if matches!(
+            field.as_str(),
+            "income_security_family_source_capture_status_rollup_published"
+                | "source_readiness_gap_published"
+                | "source_capture_queue_published"
+        ) {
+            if !observed {
+                return Err(format!(
+                    "income-security/family source capture status claim should be true: {field}"
+                ));
+            }
+        } else if observed {
+            return Err(format!(
+                "income-security/family source capture status claim must be false: {field}"
+            ));
+        }
+    }
+
+    let gates = record
+        .get("next_source_gates")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("income-security/family source capture status next gates")?;
+    if gates.len() != 6 {
+        return Err("income-security/family source capture status gate count failed".to_string());
+    }
+    for gate in gates {
+        if string_field(gate, "gate")?.is_empty()
+            || gate.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+            || !gate.get("value").is_some_and(serde_json::Value::is_null)
+        {
+            return Err(
+                "income-security/family source capture status gates must remain null/false"
+                    .to_string(),
+            );
+        }
+    }
+
+    let warning = string_field(&record, "public_warning")?;
+    for required in [
+        "summarizes open work items only",
+        "not complete source capture",
+        "not raw source custody",
+        "not a program outlay perimeter",
+        "not a benefit package model",
+        "not a take-up model",
+        "not child-poverty floor values",
+        "not material-hardship floor values",
+        "not childcare-access floor values",
+        "not a work-transition model",
+        "not federal/state/local translation",
+        "not pass/fail findings",
+        "not lower-cost scenario admissibility",
+        "not target-cost selection",
+        "not gross savings",
+        "not net savings",
+        "not solver input",
+        "not rate calculation",
+        "not a public rate card",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !warning.contains(required) {
+            return Err(format!(
+                "income-security/family source capture status warning missing: {required}"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(
+        root.join(INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_STATUS_ROLLUP_READER_PATH),
+    )
+    .map_err(|e| e.to_string())?;
+    for required in [
+        INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_STATUS_ROLLUP_JSON_PATH,
+        "All six capture families remain open",
+        "federal program outlay perimeter",
+        "CBO baseline and take-up context",
+        "child poverty and income context",
+        "childcare and family-service context",
+        "food hardship and nutrition context",
+        "international comparator context",
+        "not complete source capture",
+        "not raw source custody",
+        "not a program outlay perimeter",
+        "not a benefit package model",
+        "not a take-up model",
+        "not child-poverty floor values",
+        "not material-hardship floor values",
+        "not childcare-access floor values",
+        "not a work-transition model",
+        "not federal/state/local translation",
+        "not gross savings",
+        "not net savings",
+        "not solver input",
+        "not rate calculation",
+        "not a public rate card",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!(
+                "income-security/family source capture status reader missing: {required}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_revenue_solvency_outcome_floor_definition_packet(root: &Path) -> Result<(), String> {
     for path in [
         REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
@@ -43935,6 +44239,12 @@ mod global_country_comparison_tests {
     fn income_security_family_source_capture_queue_orders_work_without_values() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_income_security_family_source_capture_queue(&root).unwrap();
+    }
+
+    #[test]
+    fn income_security_family_source_capture_status_rollup_keeps_all_items_open() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_income_security_family_source_capture_status_rollup(&root).unwrap();
     }
 
     #[test]

@@ -880,6 +880,13 @@ international comparator context. Values, models, solver inputs, rates, savings,
 department-cut instructions, technology-savings claims, and balanced-budget
 claims remain blocked.
 
+`income_security_family_source_capture_status_rollup.v1.draft.json` summarizes
+the post-queue income-security/family source-capture status. All six source
+families remain open, with raw custody, program perimeter, benefit-package
+models, take-up models, floor values, federal/state/local translation, solver
+inputs, rates, savings, department-cut instructions, technology-savings claims,
+and balanced-budget claims blocked.
+
 `revenue_solvency_outcome_floor_definition_packet.v1.draft.json` extends the
 floor definition packet pattern to the non-additive revenue-solvency overlay. It
 defines distributional-progressivity, revenue-stability, administrability,
