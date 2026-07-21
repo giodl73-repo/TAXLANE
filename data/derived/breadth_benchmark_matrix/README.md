@@ -997,3 +997,8 @@ health/Medicare source-custody state. It marks OMB fiscal custody and CMS
 Medicare Trustees custody as context-only ready while NHE, CBO, and
 quality/access source families remain custody gaps; floor passage, solver
 inputs, savings, rates, and balanced-budget claims remain blocked.
+
+`social_security_source_readiness_gap.v1.draft.json` records existing CY2025
+derived OASDI denominator context while keeping SSA raw custody, annual OASDI
+fund paths, 75-year solvency paths, taxable payroll bases, floor values,
+solver inputs, rates, savings, and balanced-budget claims blocked.

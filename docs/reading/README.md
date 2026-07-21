@@ -564,6 +564,11 @@ It is the bounded public surface, not a performance or savings report.
      Trustees custody are context-only ready; NHE, CBO, and quality/access
      remain custody gaps; floor passage, solver inputs, rates, savings, and
      balanced-budget claims remain blocked.
+122. Read `social-security-source-readiness-gap.md` before using CY2025 OASDI
+     denominator context. The derived worker and beneficiary counts are
+     context-only; SSA raw custody, annual fund paths, 75-year solvency paths,
+     taxable payroll bases, floor values, solver inputs, rates, savings, and
+     balanced-budget claims remain blocked.
 
 ## Public-Use Guardrail
 

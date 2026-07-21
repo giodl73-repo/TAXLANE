@@ -643,6 +643,14 @@ const SOCIAL_SECURITY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH: &str = "data/de
 const SOCIAL_SECURITY_OUTCOME_FLOOR_DEFINITION_PACKET_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/social_security_outcome_floor_definition_packet.schema.md";
 const SOCIAL_SECURITY_OUTCOME_FLOOR_DEFINITION_PACKET_READER_PATH: &str =
     "docs/reading/social-security-outcome-floor-definition-packet.md";
+const SOCIAL_SECURITY_SOURCE_READINESS_GAP_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/social_security_source_readiness_gap.v1.draft.json";
+const SOCIAL_SECURITY_SOURCE_READINESS_GAP_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/social_security_source_readiness_gap.schema.md";
+const SOCIAL_SECURITY_SOURCE_READINESS_GAP_READER_PATH: &str =
+    "docs/reading/social-security-source-readiness-gap.md";
+const DENOMINATOR_VALUES_CY2025_SSA_TRUSTEES_JSONL_PATH: &str =
+    "data/derived/denominator_requirements/denominator_values.cy2025.ssa-trustees-2026.draft.jsonl";
 const DEFENSE_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/defense_outcome_floor_definition_packet.v1.draft.json";
 const DEFENSE_OUTCOME_FLOOR_DEFINITION_PACKET_SCHEMA_PATH: &str =
@@ -11425,6 +11433,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_outcome_floor_thresholds_gap(root)?;
     validate_health_outcome_floor_definition_packet(root)?;
     validate_social_security_outcome_floor_definition_packet(root)?;
+    validate_social_security_source_readiness_gap(root)?;
     validate_defense_outcome_floor_definition_packet(root)?;
     validate_income_security_family_outcome_floor_definition_packet(root)?;
     validate_revenue_solvency_outcome_floor_definition_packet(root)?;
@@ -29646,6 +29655,307 @@ fn validate_social_security_outcome_floor_definition_packet(root: &Path) -> Resu
     Ok(())
 }
 
+fn validate_social_security_source_readiness_gap(root: &Path) -> Result<(), String> {
+    for path in [
+        SOCIAL_SECURITY_SOURCE_READINESS_GAP_JSON_PATH,
+        SOCIAL_SECURITY_SOURCE_READINESS_GAP_SCHEMA_PATH,
+        SOCIAL_SECURITY_SOURCE_READINESS_GAP_READER_PATH,
+        DENOMINATOR_VALUES_CY2025_SSA_TRUSTEES_JSONL_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing Social Security source readiness artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(SOCIAL_SECURITY_SOURCE_READINESS_GAP_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")? != "social-security-source-readiness-gap:v1"
+        || string_field(&record, "record_family")? != "social_security_source_readiness_gap"
+        || int_field(&record, "pulse")? != 184
+        || string_field(&record, "lane_id")? != "social-security"
+        || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(
+            &record,
+            "social_security_outcome_floor_definition_packet_path",
+        )? != SOCIAL_SECURITY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH
+        || string_field(&record, "lane_floor_source_work_queue_path")?
+            != LANE_FLOOR_SOURCE_WORK_QUEUE_JSON_PATH
+        || string_field(&record, "lane_depth_explainability_tracker_path")?
+            != LANE_DEPTH_EXPLAINABILITY_TRACKER_JSON_PATH
+        || string_field(&record, "receipt_base_official_source_capture_path")?
+            != RECEIPT_BASE_OFFICIAL_SOURCE_CAPTURE_JSON_PATH
+        || string_field(&record, "denominator_values_path")?
+            != DENOMINATOR_VALUES_CY2025_SSA_TRUSTEES_JSONL_PATH
+    {
+        return Err("Social Security source readiness identity failed".to_string());
+    }
+
+    let custody = record
+        .get("source_custody_status")
+        .ok_or("Social Security source custody status")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_captured_sources_only",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "derived_denominator_context_present",
+    ] {
+        if custody.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "Social Security source custody should be true: {field}"
+            ));
+        }
+    }
+    for field in [
+        "new_external_download_performed",
+        "ssa_trustees_raw_artifact_path_present",
+        "ssa_trustees_metadata_path_present",
+        "ssa_trustees_raw_sha256_present",
+        "ssa_trustees_source_custody_ready",
+        "oasdi_annual_fund_path_ready",
+        "oasdi_taxable_payroll_base_ready",
+        "seventy_five_year_solvency_path_ready",
+        "adequacy_or_poverty_floor_values_ready",
+        "solver_input_ready",
+    ] {
+        if custody.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Social Security source custody must be false: {field}"
+            ));
+        }
+    }
+
+    let denom_text =
+        fs::read_to_string(root.join(DENOMINATOR_VALUES_CY2025_SSA_TRUSTEES_JSONL_PATH))
+            .map_err(|e| e.to_string())?;
+    let denom_rows = denom_text
+        .lines()
+        .filter(|line| !line.trim().is_empty())
+        .map(|line| serde_json::from_str::<serde_json::Value>(line).map_err(|e| e.to_string()))
+        .collect::<Result<Vec<_>, _>>()?;
+    if denom_rows.len() != 4 {
+        return Err("Social Security denominator JSONL row count failed".to_string());
+    }
+
+    let context_rows = record
+        .get("existing_derived_context_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Social Security derived context rows")?;
+    if context_rows.len() != 4 {
+        return Err("Social Security derived context row count failed".to_string());
+    }
+
+    let expected_values = [
+        (
+            "denominator-value:oasdi-covered-workers:cy2025:ssa-trustees-2026",
+            "oasdi_covered_workers",
+            185000000,
+        ),
+        (
+            "denominator-value:oasdi-beneficiaries:cy2025:ssa-trustees-2026",
+            "oasdi_beneficiaries",
+            70500000,
+        ),
+        (
+            "denominator-value:oasi-beneficiaries:cy2025:ssa-trustees-2026",
+            "oasi_beneficiaries",
+            62300000,
+        ),
+        (
+            "denominator-value:di-beneficiaries:cy2025:ssa-trustees-2026",
+            "di_beneficiaries",
+            8200000,
+        ),
+    ];
+    for (record_id, denominator_id, expected_value) in expected_values {
+        let row = context_rows
+            .iter()
+            .find(|item| string_field(item, "record_id").as_deref() == Ok(record_id))
+            .ok_or_else(|| format!("missing Social Security context row: {record_id}"))?;
+        let denom = denom_rows
+            .iter()
+            .find(|item| string_field(item, "record_id").as_deref() == Ok(record_id))
+            .ok_or_else(|| format!("missing Social Security denominator row: {record_id}"))?;
+        if string_field(row, "denominator_id")? != denominator_id
+            || string_field(denom, "denominator_id")? != denominator_id
+            || int_field(row, "value")? != expected_value
+            || int_field(denom, "value")? != expected_value
+            || string_field(row, "year")? != "CY2025"
+            || string_field(row, "year_basis")? != "calendar_year"
+            || string_field(row, "unit")? != "people"
+            || row
+                .get("raw_custody_ready")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+            || row
+                .get("may_populate_taxable_payroll_base")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+            || row
+                .get("may_populate_solver_input")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+        {
+            return Err(format!("Social Security context row failed: {record_id}"));
+        }
+    }
+
+    let blocked_packet = record
+        .get("blocked_source_packet")
+        .ok_or("Social Security blocked source packet")?;
+    if string_field(blocked_packet, "work_item_id")? != "capture-ssa-oasdi-taxable-payroll-base"
+        || string_field(blocked_packet, "source_id")? != "SRC-SSA-TRUSTEES-2026"
+        || string_field(blocked_packet, "prior_block_status")?
+            != "official_site_returned_http_403_to_direct_raw_download"
+        || !blocked_packet
+            .get("raw_artifact_path")
+            .is_some_and(serde_json::Value::is_null)
+        || !blocked_packet
+            .get("raw_byte_count")
+            .is_some_and(serde_json::Value::is_null)
+        || !blocked_packet
+            .get("raw_sha256")
+            .is_some_and(serde_json::Value::is_null)
+        || !blocked_packet
+            .get("metadata_path")
+            .is_some_and(serde_json::Value::is_null)
+        || blocked_packet
+            .get("custody_ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+        || !blocked_packet
+            .get("value_populated")
+            .is_some_and(serde_json::Value::is_null)
+        || blocked_packet
+            .get("ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("Social Security blocked source packet failed".to_string());
+    }
+
+    let floors = record
+        .get("floor_value_status")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Social Security floor value status")?;
+    if floors.len() != 5 {
+        return Err("Social Security floor value count failed".to_string());
+    }
+    for floor in floors {
+        if string_field(floor, "floor_class")?.is_empty()
+            || !floor
+                .get("threshold_value")
+                .is_some_and(serde_json::Value::is_null)
+            || !floor
+                .get("baseline_value")
+                .is_some_and(serde_json::Value::is_null)
+            || !floor
+                .get("policy_value")
+                .is_some_and(serde_json::Value::is_null)
+            || !floor
+                .get("stress_value")
+                .is_some_and(serde_json::Value::is_null)
+            || floor.get("passed").and_then(serde_json::Value::as_bool) != Some(false)
+        {
+            return Err("Social Security floor values must remain blocked".to_string());
+        }
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Social Security blocked outputs")?;
+    for (field, value) in blocked {
+        if !value.is_null() {
+            return Err(format!(
+                "Social Security blocked output must be null: {field}"
+            ));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Social Security source readiness claims")?;
+    for (field, value) in claims {
+        let observed = value.as_bool().ok_or("Social Security claim bool")?;
+        if matches!(
+            field.as_str(),
+            "social_security_source_readiness_gap_published"
+                | "derived_denominator_context_present"
+        ) {
+            if !observed {
+                return Err(format!("Social Security claim should be true: {field}"));
+            }
+        } else if observed {
+            return Err(format!("Social Security claim must be false: {field}"));
+        }
+    }
+
+    let warning = string_field(&record, "public_warning")?;
+    for required in [
+        "derived CY2025 OASDI denominator context only",
+        "not SSA raw source custody",
+        "not an OASDI annual fund path",
+        "not a 75-year solvency path",
+        "not a taxable payroll base",
+        "not benefit adequacy or old-age poverty floor values",
+        "not pass/fail findings",
+        "not lower-cost scenario admissibility",
+        "not target-cost selection",
+        "not gross savings",
+        "not net savings",
+        "not solver input",
+        "not rate calculation",
+        "not a public rate card",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !warning.contains(required) {
+            return Err(format!(
+                "Social Security source readiness warning missing: {required}"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(SOCIAL_SECURITY_SOURCE_READINESS_GAP_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        SOCIAL_SECURITY_SOURCE_READINESS_GAP_JSON_PATH,
+        "OASDI covered workers: 185,000,000 people",
+        "OASDI beneficiaries: 70,500,000 people",
+        "OASI beneficiaries: 62,300,000 people",
+        "DI beneficiaries: 8,200,000 people",
+        "SSA raw source custody",
+        "annual OASDI fund path",
+        "75-year solvency path",
+        "taxable payroll base",
+        "not SSA raw source custody",
+        "not an OASDI annual fund path",
+        "not a 75-year solvency path",
+        "not a taxable payroll base",
+        "not gross savings",
+        "not net savings",
+        "not solver input",
+        "not rate calculation",
+        "not a public rate card",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!(
+                "Social Security source readiness reader missing: {required}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_defense_outcome_floor_definition_packet(root: &Path) -> Result<(), String> {
     for path in [
         DEFENSE_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
@@ -41791,6 +42101,12 @@ mod global_country_comparison_tests {
     fn social_security_outcome_floor_definition_packet_blocks_trust_fund_shortcut() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_social_security_outcome_floor_definition_packet(&root).unwrap();
+    }
+
+    #[test]
+    fn social_security_source_readiness_gap_blocks_denominator_to_solver_shortcut() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_social_security_source_readiness_gap(&root).unwrap();
     }
 
     #[test]
