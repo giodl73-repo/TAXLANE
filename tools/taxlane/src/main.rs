@@ -663,6 +663,12 @@ const DEFENSE_OUTCOME_FLOOR_DEFINITION_PACKET_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/defense_outcome_floor_definition_packet.schema.md";
 const DEFENSE_OUTCOME_FLOOR_DEFINITION_PACKET_READER_PATH: &str =
     "docs/reading/defense-outcome-floor-definition-packet.md";
+const DEFENSE_SOURCE_READINESS_GAP_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/defense_source_readiness_gap.v1.draft.json";
+const DEFENSE_SOURCE_READINESS_GAP_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/defense_source_readiness_gap.schema.md";
+const DEFENSE_SOURCE_READINESS_GAP_READER_PATH: &str =
+    "docs/reading/defense-source-readiness-gap.md";
 const INCOME_SECURITY_FAMILY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/income_security_family_outcome_floor_definition_packet.v1.draft.json";
 const INCOME_SECURITY_FAMILY_OUTCOME_FLOOR_DEFINITION_PACKET_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/income_security_family_outcome_floor_definition_packet.schema.md";
 const INCOME_SECURITY_FAMILY_OUTCOME_FLOOR_DEFINITION_PACKET_READER_PATH: &str =
@@ -11442,6 +11448,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_social_security_source_readiness_gap(root)?;
     validate_social_security_source_capture_queue(root)?;
     validate_defense_outcome_floor_definition_packet(root)?;
+    validate_defense_source_readiness_gap(root)?;
     validate_income_security_family_outcome_floor_definition_packet(root)?;
     validate_revenue_solvency_outcome_floor_definition_packet(root)?;
     validate_net_interest_outcome_floor_definition_packet(root)?;
@@ -30453,6 +30460,258 @@ fn validate_defense_outcome_floor_definition_packet(root: &Path) -> Result<(), S
     Ok(())
 }
 
+fn validate_defense_source_readiness_gap(root: &Path) -> Result<(), String> {
+    for path in [
+        DEFENSE_SOURCE_READINESS_GAP_JSON_PATH,
+        DEFENSE_SOURCE_READINESS_GAP_SCHEMA_PATH,
+        DEFENSE_SOURCE_READINESS_GAP_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing defense source readiness gap artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(DEFENSE_SOURCE_READINESS_GAP_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")? != "defense-source-readiness-gap:v1"
+        || string_field(&record, "record_family")? != "defense_source_readiness_gap"
+        || int_field(&record, "pulse")? != 186
+        || string_field(&record, "lane_id")? != "national-defense"
+        || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&record, "defense_outcome_floor_definition_packet_path")?
+            != DEFENSE_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH
+        || string_field(&record, "lane_floor_source_work_queue_path")?
+            != LANE_FLOOR_SOURCE_WORK_QUEUE_JSON_PATH
+        || string_field(&record, "lane_depth_explainability_tracker_path")?
+            != LANE_DEPTH_EXPLAINABILITY_TRACKER_JSON_PATH
+    {
+        return Err("defense source readiness identity failed".to_string());
+    }
+
+    let expected_sources = [
+        "SRC-GAO-WEAPON-SYSTEMS-2025",
+        "SRC-CBO-FYDP-2025",
+        "SRC-DODIG-FY2025-AUDIT",
+        "SRC-NATO-DEFEXP-2025",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let observed_sources = record
+        .get("source_ids_referenced_but_not_custody_ready")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("defense source readiness referenced source ids")?
+        .iter()
+        .map(|value| {
+            value
+                .as_str()
+                .map(str::to_string)
+                .ok_or_else(|| "defense source id must be string".to_string())
+        })
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if observed_sources != expected_sources {
+        return Err("defense source readiness referenced source set failed".to_string());
+    }
+
+    let status = record
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("defense source readiness custody status")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_captured_sources_only",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "defense_source_references_present",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "defense source readiness status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "new_external_download_performed",
+        "force_structure_raw_custody_ready",
+        "readiness_raw_custody_ready",
+        "procurement_schedule_raw_custody_ready",
+        "fydp_raw_custody_ready",
+        "nato_or_sipri_raw_custody_ready",
+        "audit_control_raw_custody_ready",
+        "source_capture_complete",
+        "solver_input_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "defense source readiness status {field} must be false"
+            ));
+        }
+    }
+
+    let references = record
+        .get("referencing_artifacts")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("defense source readiness referencing artifacts")?;
+    if references.len() != 3 {
+        return Err("defense source readiness reference count failed".to_string());
+    }
+    let expected_reference_paths = [
+        "data/derived/efficiency_pressure/cost_down_source_packets.fy2025.v1.draft.jsonl",
+        "docs/reading/defense-procurement-control-source-packet.md",
+        DEFENSE_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let observed_reference_paths = references
+        .iter()
+        .map(|row| string_field(row, "artifact_path"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if observed_reference_paths != expected_reference_paths {
+        return Err("defense source readiness reference path set failed".to_string());
+    }
+    for row in references {
+        if row
+            .get("raw_custody_ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+            || row
+                .get("may_populate_force_structure_or_solver")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+        {
+            return Err("defense source readiness references must stay blocked".to_string());
+        }
+    }
+
+    let requirements = record
+        .get("source_capture_requirements")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("defense source capture requirements")?;
+    if requirements.len() != 10 {
+        return Err("defense source readiness requirement count failed".to_string());
+    }
+    for row in requirements {
+        if row.get("value") != Some(&serde_json::Value::Null)
+            || row.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+        {
+            return Err("defense source readiness requirements must be null/false".to_string());
+        }
+    }
+
+    let floors = record
+        .get("floor_value_status")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("defense source readiness floor value status")?;
+    if floors.len() != 5 {
+        return Err("defense source readiness floor count failed".to_string());
+    }
+    for row in floors {
+        for field in [
+            "threshold_value",
+            "baseline_value",
+            "policy_value",
+            "stress_value",
+        ] {
+            if row.get(field) != Some(&serde_json::Value::Null) {
+                return Err(format!(
+                    "defense source readiness floor {field} must be null"
+                ));
+            }
+        }
+        if row.get("passed").and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err("defense source readiness floors must remain unpassed".to_string());
+        }
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("defense source readiness blocked outputs")?;
+    if blocked
+        .values()
+        .any(|value| value != &serde_json::Value::Null)
+    {
+        return Err("defense source readiness blocked outputs must remain null".to_string());
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("defense source readiness claim booleans")?;
+    for (field, value) in claims {
+        let expected = matches!(
+            field.as_str(),
+            "defense_source_readiness_gap_published" | "defense_source_references_present"
+        );
+        if value.as_bool() != Some(expected) {
+            return Err(format!(
+                "defense source readiness claim {field} must be {expected}"
+            ));
+        }
+    }
+
+    let public_warning = string_field(&record, "public_warning")?;
+    let reader = fs::read_to_string(root.join(DEFENSE_SOURCE_READINESS_GAP_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for phrase in [
+        DEFENSE_SOURCE_READINESS_GAP_JSON_PATH,
+        "SRC-GAO-WEAPON-SYSTEMS-2025",
+        "SRC-CBO-FYDP-2025",
+        "SRC-DODIG-FY2025-AUDIT",
+        "SRC-NATO-DEFEXP-2025",
+        "raw artifact path",
+        "raw byte count",
+        "raw SHA-256",
+        "force-structure lineage",
+        "readiness indicator lineage",
+        "procurement schedule lineage",
+        "strategy and commitment lineage",
+        "audit-control lineage",
+    ] {
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "defense source readiness reader missing phrase: {phrase}"
+            ));
+        }
+    }
+    for phrase in [
+        "context references only",
+        "not defense raw source custody",
+        "not a force-structure plan",
+        "not a readiness floor value packet",
+        "not a procurement schedule",
+        "not pass/fail findings",
+        "not lower-cost scenario admissibility",
+        "not target-cost selection",
+        "not gross savings",
+        "not net savings",
+        "not solver input",
+        "not rate calculation",
+        "not a public rate card",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !public_warning.contains(phrase) {
+            return Err(format!(
+                "defense source readiness warning missing phrase: {phrase}"
+            ));
+        }
+        if !reader.contains(phrase) {
+            return Err(format!(
+                "defense source readiness reader missing warning phrase: {phrase}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_income_security_family_outcome_floor_definition_packet(
     root: &Path,
 ) -> Result<(), String> {
@@ -42343,6 +42602,12 @@ mod global_country_comparison_tests {
     fn defense_outcome_floor_definition_packet_blocks_gdp_band_shortcut() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_defense_outcome_floor_definition_packet(&root).unwrap();
+    }
+
+    #[test]
+    fn defense_source_readiness_gap_blocks_context_to_force_structure_shortcut() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_defense_source_readiness_gap(&root).unwrap();
     }
 
     #[test]

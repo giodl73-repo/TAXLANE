@@ -574,6 +574,11 @@ It is the bounded public surface, not a performance or savings report.
      75-year solvency path, taxable payroll, adequacy, poverty, and
      administration/transition source work, but all values, solver inputs,
      rates, savings, and balanced-budget claims remain blocked.
+124. Read `defense-source-readiness-gap.md` before treating defense source
+     packet references as custody or policy evidence. GAO, CBO FYDP, DoD audit,
+     and NATO references are context-only; force-structure plans, readiness
+     values, procurement schedules, solver inputs, rates, savings, and
+     balanced-budget claims remain blocked.
 
 ## Public-Use Guardrail
 

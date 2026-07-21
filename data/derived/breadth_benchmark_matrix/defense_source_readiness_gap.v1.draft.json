@@ -1,0 +1,119 @@
+{
+  "record_id": "defense-source-readiness-gap:v1",
+  "record_family": "defense_source_readiness_gap",
+  "schema_version": "v1.draft",
+  "status": "draft_defense_context_references_raw_custody_and_policy_path_blocked",
+  "pulse": 186,
+  "as_of_date": "2026-07-21",
+  "lane_id": "national-defense",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "defense_outcome_floor_definition_packet_path": "data/derived/breadth_benchmark_matrix/defense_outcome_floor_definition_packet.v1.draft.json",
+  "lane_floor_source_work_queue_path": "data/derived/breadth_benchmark_matrix/lane_floor_source_work_queue.v1.draft.json",
+  "lane_depth_explainability_tracker_path": "data/derived/breadth_benchmark_matrix/lane_depth_explainability_tracker.v1.draft.json",
+  "source_ids_referenced_but_not_custody_ready": [
+    "SRC-GAO-WEAPON-SYSTEMS-2025",
+    "SRC-CBO-FYDP-2025",
+    "SRC-DODIG-FY2025-AUDIT",
+    "SRC-NATO-DEFEXP-2025"
+  ],
+  "source_custody_status": {
+    "official_sources_only": true,
+    "used_existing_captured_sources_only": true,
+    "new_external_download_performed": false,
+    "no_foia_or_records_request_submitted": true,
+    "no_agency_or_person_contacted": true,
+    "defense_source_references_present": true,
+    "force_structure_raw_custody_ready": false,
+    "readiness_raw_custody_ready": false,
+    "procurement_schedule_raw_custody_ready": false,
+    "fydp_raw_custody_ready": false,
+    "nato_or_sipri_raw_custody_ready": false,
+    "audit_control_raw_custody_ready": false,
+    "source_capture_complete": false,
+    "solver_input_ready": false
+  },
+  "referencing_artifacts": [
+    {
+      "artifact_path": "data/derived/efficiency_pressure/cost_down_source_packets.fy2025.v1.draft.jsonl",
+      "referenced_source_ids": ["SRC-GAO-WEAPON-SYSTEMS-2025", "SRC-CBO-FYDP-2025", "SRC-DODIG-FY2025-AUDIT", "SRC-NATO-DEFEXP-2025"],
+      "allowed_use": "reviewed source-packet context only",
+      "raw_custody_ready": false,
+      "may_populate_force_structure_or_solver": false
+    },
+    {
+      "artifact_path": "docs/reading/defense-procurement-control-source-packet.md",
+      "referenced_source_ids": ["SRC-GAO-WEAPON-SYSTEMS-2025", "SRC-CBO-FYDP-2025"],
+      "allowed_use": "procurement-control context only",
+      "raw_custody_ready": false,
+      "may_populate_force_structure_or_solver": false
+    },
+    {
+      "artifact_path": "data/derived/breadth_benchmark_matrix/defense_outcome_floor_definition_packet.v1.draft.json",
+      "referenced_source_ids": [],
+      "allowed_use": "floor concept definition only",
+      "raw_custody_ready": false,
+      "may_populate_force_structure_or_solver": false
+    }
+  ],
+  "source_capture_requirements": [
+    {"requirement": "raw_artifact_path", "value": null, "ready": false},
+    {"requirement": "raw_byte_count", "value": null, "ready": false},
+    {"requirement": "raw_sha256", "value": null, "ready": false},
+    {"requirement": "metadata_path", "value": null, "ready": false},
+    {"requirement": "retrieval_date", "value": null, "ready": false},
+    {"requirement": "force_structure_lineage", "value": null, "ready": false},
+    {"requirement": "readiness_indicator_lineage", "value": null, "ready": false},
+    {"requirement": "procurement_schedule_lineage", "value": null, "ready": false},
+    {"requirement": "strategy_and_commitment_lineage", "value": null, "ready": false},
+    {"requirement": "audit_control_lineage", "value": null, "ready": false}
+  ],
+  "floor_value_status": [
+    {"floor_class": "access_coverage", "threshold_value": null, "baseline_value": null, "policy_value": null, "stress_value": null, "passed": false},
+    {"floor_class": "quality_safety", "threshold_value": null, "baseline_value": null, "policy_value": null, "stress_value": null, "passed": false},
+    {"floor_class": "equity_distribution", "threshold_value": null, "baseline_value": null, "policy_value": null, "stress_value": null, "passed": false},
+    {"floor_class": "adequacy_resilience", "threshold_value": null, "baseline_value": null, "policy_value": null, "stress_value": null, "passed": false},
+    {"floor_class": "fiscal_delivery_feasibility", "threshold_value": null, "baseline_value": null, "policy_value": null, "stress_value": null, "passed": false}
+  ],
+  "blocked_outputs": {
+    "force_structure_plan": null,
+    "readiness_floor_values": null,
+    "procurement_schedule": null,
+    "strategy_commitment_review": null,
+    "transition_cost_model": null,
+    "industrial_base_model": null,
+    "pass_fail_findings": null,
+    "lower_cost_scenario_admissibility": null,
+    "target_cost": null,
+    "federal_effect": null,
+    "gross_savings": null,
+    "net_savings": null,
+    "solver_input": null,
+    "rate_calculation": null
+  },
+  "claim_booleans": {
+    "defense_source_readiness_gap_published": true,
+    "defense_source_references_present": true,
+    "force_structure_raw_custody_ready": false,
+    "readiness_raw_custody_ready": false,
+    "procurement_schedule_raw_custody_ready": false,
+    "threshold_values_selected": false,
+    "baseline_floor_values_populated": false,
+    "policy_floor_values_populated": false,
+    "stress_floor_values_populated": false,
+    "pass_fail_findings_populated": false,
+    "lower_cost_scenario_admissibility_ready": false,
+    "force_structure_plan_published": false,
+    "procurement_schedule_published": false,
+    "target_cost_published": false,
+    "federal_effect_published": false,
+    "gross_savings_published": false,
+    "net_savings_published": false,
+    "solver_input_ready": false,
+    "rate_calculation_published": false,
+    "public_rate_card_published": false,
+    "department_cut_instruction_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "This defense source-readiness packet records context references only. It is not defense raw source custody, not a force-structure plan, not a readiness floor value packet, not a procurement schedule, not pass/fail findings, not lower-cost scenario admissibility, not target-cost selection, not gross savings, not net savings, not solver input, not rate calculation, not a public rate card, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+}

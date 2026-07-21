@@ -1008,3 +1008,9 @@ source captures for Social Security: OASDI annual fund path, 75-year solvency
 path, taxable payroll base, benefit adequacy floors, old-age poverty floors, and
 SSA administration/transition capacity. Values, solver inputs, rates, savings,
 and balanced-budget claims remain blocked.
+
+`defense_source_readiness_gap.v1.draft.json` records that defense source IDs
+appear in context/source packets but are not yet backed by local raw custody for
+force structure, readiness, procurement schedules, strategy commitments, or audit
+controls. Force-structure plans, readiness floors, procurement schedules, solver
+inputs, rates, savings, and balanced-budget claims remain blocked.
