@@ -940,3 +940,10 @@ conservation/environmental crossover, nutrition-handoff, and
 component-account-denominator delivery-feasibility floors while keeping
 component paths, account crosswalks, target costs, savings, solver inputs, and
 balanced-budget claims blocked.
+
+`international_affairs_outcome_floor_definition_packet.v1.draft.json` extends
+the floor definition packet pattern to international affairs. It defines
+diplomacy, ODA/development, humanitarian, security-assistance, financial-
+instrument/accounting, and component-commitment-outlay delivery-feasibility
+floors while keeping component policy paths, target costs, savings, solver
+inputs, and balanced-budget claims blocked.

@@ -520,6 +520,12 @@ It is the bounded public surface, not a performance or savings report.
      security, and crop-insurance integrity context is not fraud or savings;
      thresholds, target costs, savings, solver inputs, and balanced-budget claims
      remain blocked.
+113. Read `international-affairs-outcome-floor-definition-packet.md` before
+     treating any international-affairs lower-cost scenario, negative financial
+     program entry, or mixed GDP comparison as admissible. Diplomacy, ODA,
+     humanitarian, security, exchange, and financial instruments remain separate;
+     thresholds, target costs, savings, solver inputs, and balanced-budget claims
+     remain blocked.
 
 ## Public-Use Guardrail
 
