@@ -669,6 +669,12 @@ const DEFENSE_SOURCE_READINESS_GAP_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/defense_source_readiness_gap.schema.md";
 const DEFENSE_SOURCE_READINESS_GAP_READER_PATH: &str =
     "docs/reading/defense-source-readiness-gap.md";
+const DEFENSE_SOURCE_CAPTURE_QUEUE_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/defense_source_capture_queue.v1.draft.json";
+const DEFENSE_SOURCE_CAPTURE_QUEUE_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/defense_source_capture_queue.schema.md";
+const DEFENSE_SOURCE_CAPTURE_QUEUE_READER_PATH: &str =
+    "docs/reading/defense-source-capture-queue.md";
 const INCOME_SECURITY_FAMILY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/income_security_family_outcome_floor_definition_packet.v1.draft.json";
 const INCOME_SECURITY_FAMILY_OUTCOME_FLOOR_DEFINITION_PACKET_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/income_security_family_outcome_floor_definition_packet.schema.md";
 const INCOME_SECURITY_FAMILY_OUTCOME_FLOOR_DEFINITION_PACKET_READER_PATH: &str =
@@ -11449,6 +11455,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_social_security_source_capture_queue(root)?;
     validate_defense_outcome_floor_definition_packet(root)?;
     validate_defense_source_readiness_gap(root)?;
+    validate_defense_source_capture_queue(root)?;
     validate_income_security_family_outcome_floor_definition_packet(root)?;
     validate_revenue_solvency_outcome_floor_definition_packet(root)?;
     validate_net_interest_outcome_floor_definition_packet(root)?;
@@ -30712,6 +30719,227 @@ fn validate_defense_source_readiness_gap(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_defense_source_capture_queue(root: &Path) -> Result<(), String> {
+    for path in [
+        DEFENSE_SOURCE_CAPTURE_QUEUE_JSON_PATH,
+        DEFENSE_SOURCE_CAPTURE_QUEUE_SCHEMA_PATH,
+        DEFENSE_SOURCE_CAPTURE_QUEUE_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing defense source capture queue artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(DEFENSE_SOURCE_CAPTURE_QUEUE_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")? != "defense-source-capture-queue:v1"
+        || string_field(&record, "record_family")? != "defense_source_capture_queue"
+        || int_field(&record, "pulse")? != 187
+        || string_field(&record, "lane_id")? != "national-defense"
+        || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&record, "defense_source_readiness_gap_path")?
+            != DEFENSE_SOURCE_READINESS_GAP_JSON_PATH
+        || string_field(&record, "defense_outcome_floor_definition_packet_path")?
+            != DEFENSE_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH
+        || string_field(&record, "lane_floor_source_work_queue_path")?
+            != LANE_FLOOR_SOURCE_WORK_QUEUE_JSON_PATH
+    {
+        return Err("defense source capture queue identity failed".to_string());
+    }
+
+    let rules = record
+        .get("source_rules")
+        .ok_or("defense source capture rules")?;
+    for field in [
+        "official_sources_only",
+        "use_existing_captured_sources_when_available",
+        "new_external_downloads_not_performed_in_this_pulse",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "threshold_selection_requires_stronger_model_review",
+        "missing_values_remain_null",
+        "blocked_gates_remain_false",
+        "international_spending_differences_are_not_savings",
+        "no_fraud_inference_from_audit_or_comparison_context",
+    ] {
+        if rules.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("defense source rule must be true: {field}"));
+        }
+    }
+
+    let items = record
+        .get("capture_items")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("defense source capture items")?;
+    if items.len() != 6 {
+        return Err("defense source capture item count failed".to_string());
+    }
+    let expected = [
+        ("capture-defense-force-structure-baseline", 1),
+        ("capture-defense-readiness-indicators", 2),
+        ("capture-defense-procurement-schedule", 3),
+        ("capture-defense-policy-commitment-comparator-context", 4),
+        ("capture-defense-audit-control-context", 5),
+        ("capture-defense-transition-and-industrial-base-capacity", 6),
+    ];
+    for (work_item_id, priority) in expected {
+        let item = items
+            .iter()
+            .find(|item| string_field(item, "work_item_id").as_deref() == Ok(work_item_id))
+            .ok_or_else(|| format!("missing defense source capture item: {work_item_id}"))?;
+        if int_field(item, "priority")? != priority
+            || string_field(item, "official_source_family")?.is_empty()
+            || item
+                .get("needed_for")
+                .and_then(serde_json::Value::as_array)
+                .is_none_or(|values| values.is_empty())
+            || item
+                .get("required_fields")
+                .and_then(serde_json::Value::as_array)
+                .is_none_or(|values| values.is_empty())
+            || item
+                .get("referenced_context_source_ids")
+                .and_then(serde_json::Value::as_array)
+                .is_none()
+        {
+            return Err(format!(
+                "defense source capture item shape failed: {work_item_id}"
+            ));
+        }
+        for field in [
+            "raw_artifact_path",
+            "raw_byte_count",
+            "raw_sha256",
+            "metadata_path",
+            "value",
+        ] {
+            if !item.get(field).is_some_and(serde_json::Value::is_null) {
+                return Err(format!(
+                    "defense source capture item field must be null: {work_item_id}.{field}"
+                ));
+            }
+        }
+        if item.get("ready").and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "defense source capture item must not be ready: {work_item_id}"
+            ));
+        }
+    }
+
+    let counts = record
+        .get("aggregate_status")
+        .ok_or("defense source capture aggregate status")?;
+    for (field, expected) in [
+        ("capture_item_count", 6),
+        ("values_populated_count", 0),
+        ("items_ready_count", 0),
+        ("threshold_values_selected", 0),
+        ("baseline_values_populated", 0),
+        ("policy_values_populated", 0),
+        ("stress_values_populated", 0),
+        ("solver_ready_items", 0),
+        ("public_rate_ready_items", 0),
+    ] {
+        if int_field(counts, field)? != expected {
+            return Err(format!(
+                "defense source capture aggregate count failed: {field}"
+            ));
+        }
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("defense source capture blocked outputs")?;
+    for (field, value) in blocked {
+        if !value.is_null() {
+            return Err(format!(
+                "defense source capture blocked output must be null: {field}"
+            ));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("defense source capture claims")?;
+    for (field, value) in claims {
+        let observed = value.as_bool().ok_or("defense source capture claim bool")?;
+        if field == "defense_source_capture_queue_published" {
+            if !observed {
+                return Err("defense source capture queue published flag must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!(
+                "defense source capture claim must be false: {field}"
+            ));
+        }
+    }
+
+    let warning = string_field(&record, "public_warning")?;
+    for required in [
+        "names official-source work items only",
+        "not defense raw source custody",
+        "not a force-structure plan",
+        "not readiness floor values",
+        "not a procurement schedule",
+        "not a policy commitment band",
+        "not transition or industrial-base costing",
+        "not pass/fail findings",
+        "not lower-cost scenario admissibility",
+        "not target-cost selection",
+        "not gross savings",
+        "not net savings",
+        "not solver input",
+        "not rate calculation",
+        "not a public rate card",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !warning.contains(required) {
+            return Err(format!(
+                "defense source capture warning missing: {required}"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(DEFENSE_SOURCE_CAPTURE_QUEUE_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        DEFENSE_SOURCE_CAPTURE_QUEUE_JSON_PATH,
+        "Defense force-structure baseline",
+        "Defense readiness indicators",
+        "Defense procurement schedule",
+        "Defense policy-commitment and comparator context",
+        "Defense audit-control context",
+        "Defense transition and industrial-base capacity",
+        "not defense raw source custody",
+        "not a force-structure plan",
+        "not readiness floor values",
+        "not a procurement schedule",
+        "not a policy commitment band",
+        "not gross savings",
+        "not net savings",
+        "not solver input",
+        "not rate calculation",
+        "not a public rate card",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("defense source capture reader missing: {required}"));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_income_security_family_outcome_floor_definition_packet(
     root: &Path,
 ) -> Result<(), String> {
@@ -42608,6 +42836,12 @@ mod global_country_comparison_tests {
     fn defense_source_readiness_gap_blocks_context_to_force_structure_shortcut() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_defense_source_readiness_gap(&root).unwrap();
+    }
+
+    #[test]
+    fn defense_source_capture_queue_orders_work_without_values() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_defense_source_capture_queue(&root).unwrap();
     }
 
     #[test]

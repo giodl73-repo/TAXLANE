@@ -579,6 +579,12 @@ It is the bounded public surface, not a performance or savings report.
      and NATO references are context-only; force-structure plans, readiness
      values, procurement schedules, solver inputs, rates, savings, and
      balanced-budget claims remain blocked.
+125. Read `defense-source-capture-queue.md` before capturing defense solver or
+     floor sources. It orders force-structure, readiness, procurement,
+     commitment/comparator, audit-control, and transition/industrial-base
+     source work, but all values, solver inputs, rates, savings, department-cut
+     instructions, technology-savings claims, and balanced-budget claims remain
+     blocked.
 
 ## Public-Use Guardrail
 
