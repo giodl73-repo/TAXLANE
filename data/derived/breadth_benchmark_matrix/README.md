@@ -953,3 +953,9 @@ packet coverage across all fifteen analytical lanes. It records that every lane
 has an outcome-floor definition packet, but zero lanes have selected thresholds,
 sourced floor values, floor passage, component policy paths, behavior/incidence/
 transition models, solver readiness, or public-rate readiness.
+
+`lane_floor_source_work_queue.v1.draft.json` converts that coverage status into
+an official-source work queue for threshold and observed floor-value capture.
+It names source families and next capture actions for all fifteen analytical
+lanes while keeping thresholds, values, pass/fail findings, solver inputs,
+savings, rates, technology-savings claims, and balanced-budget claims blocked.

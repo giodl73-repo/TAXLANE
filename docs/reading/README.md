@@ -530,6 +530,10 @@ It is the bounded public surface, not a performance or savings report.
      packet coverage is complete. Coverage is complete across all fifteen
      analytical lanes, but thresholds, floor passage, component policy paths,
      solver inputs, savings, rates, and balanced-budget claims remain blocked.
+115. Read `lane-floor-source-work-queue.md` before capturing floor thresholds
+     or observed floor values. It names official source families and next
+     capture actions, but no threshold, value, pass/fail finding, solver input,
+     rate, savings claim, or balanced-budget claim is populated.
 
 ## Public-Use Guardrail
 

@@ -706,6 +706,12 @@ const LANE_FLOOR_READINESS_ROLLUP_JSON_PATH: &str =
 const LANE_FLOOR_READINESS_ROLLUP_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/lane_floor_readiness_rollup.schema.md";
 const LANE_FLOOR_READINESS_ROLLUP_READER_PATH: &str = "docs/reading/lane-floor-readiness-rollup.md";
+const LANE_FLOOR_SOURCE_WORK_QUEUE_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/lane_floor_source_work_queue.v1.draft.json";
+const LANE_FLOOR_SOURCE_WORK_QUEUE_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/lane_floor_source_work_queue.schema.md";
+const LANE_FLOOR_SOURCE_WORK_QUEUE_READER_PATH: &str =
+    "docs/reading/lane-floor-source-work-queue.md";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11398,6 +11404,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_agriculture_outcome_floor_definition_packet(root)?;
     validate_international_affairs_outcome_floor_definition_packet(root)?;
     validate_lane_floor_readiness_rollup(root)?;
+    validate_lane_floor_source_work_queue(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -33979,6 +33986,225 @@ fn validate_lane_floor_readiness_rollup(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_lane_floor_source_work_queue(root: &Path) -> Result<(), String> {
+    for path in [
+        LANE_FLOOR_SOURCE_WORK_QUEUE_JSON_PATH,
+        LANE_FLOOR_SOURCE_WORK_QUEUE_SCHEMA_PATH,
+        LANE_FLOOR_SOURCE_WORK_QUEUE_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing lane floor source queue artifact: {path}"));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(LANE_FLOOR_SOURCE_WORK_QUEUE_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let queue: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&queue, "record_id")? != "lane-floor-source-work-queue:v1"
+        || string_field(&queue, "record_family")? != "lane_floor_source_work_queue"
+        || int_field(&queue, "pulse")? != 177
+        || string_field(&queue, "program_lane_target_cost_contract_path")?
+            != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&queue, "international_comparator_target_rubric_path")?
+            != INTERNATIONAL_COMPARATOR_TARGET_RUBRIC_JSON_PATH
+        || string_field(&queue, "lane_depth_explainability_tracker_path")?
+            != LANE_DEPTH_EXPLAINABILITY_TRACKER_JSON_PATH
+        || string_field(&queue, "lane_floor_readiness_rollup_path")?
+            != LANE_FLOOR_READINESS_ROLLUP_JSON_PATH
+    {
+        return Err("lane floor source queue identity failed".to_string());
+    }
+
+    let rules = queue.get("source_rules").ok_or("lane floor source rules")?;
+    for field in [
+        "official_sources_only",
+        "use_existing_captured_sources_when_available",
+        "new_external_downloads_not_performed_in_this_pulse",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "threshold_selection_requires_stronger_model_review",
+        "missing_values_remain_null",
+        "blocked_gates_remain_false",
+    ] {
+        if rules.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("lane floor source rule must be true: {field}"));
+        }
+    }
+
+    let aggregate = queue
+        .get("aggregate_status")
+        .ok_or("lane floor source aggregate")?;
+    for (field, expected) in [
+        ("work_item_count", 15),
+        ("work_items_ready_for_source_capture", 15),
+        ("threshold_values_selected", 0),
+        ("baseline_values_populated", 0),
+        ("policy_values_populated", 0),
+        ("stress_values_populated", 0),
+        ("pass_fail_findings_populated", 0),
+        ("solver_ready_items", 0),
+        ("public_rate_ready_items", 0),
+    ] {
+        if int_field(aggregate, field)? != expected {
+            return Err(format!("lane floor source aggregate failed: {field}"));
+        }
+    }
+
+    let items = queue
+        .get("work_items")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("lane floor source work items")?;
+    let expected_lanes = [
+        "health-medicare",
+        "social-security",
+        "national-defense",
+        "income-security-family",
+        "revenue-solvency",
+        "net-interest",
+        "payment-integrity",
+        "veterans",
+        "transportation-infrastructure",
+        "education-workforce",
+        "disaster-resilience",
+        "justice-courts-public-safety",
+        "science-energy-environment",
+        "agriculture",
+        "international-affairs",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let observed_lanes = items
+        .iter()
+        .map(|item| string_field(item, "lane_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if observed_lanes != expected_lanes || items.len() != 15 {
+        return Err("lane floor source lane set failed".to_string());
+    }
+
+    let mut priorities = BTreeSet::new();
+    for item in items {
+        let lane_id = string_field(item, "lane_id")?;
+        let priority = int_field(item, "priority")?;
+        if !(1..=15).contains(&priority) || !priorities.insert(priority) {
+            return Err(format!("lane floor source priority failed: {lane_id}"));
+        }
+        for field in ["floor_dimensions", "official_source_families"] {
+            let values = item
+                .get(field)
+                .and_then(serde_json::Value::as_array)
+                .ok_or("lane floor source list")?;
+            if values.len() < 4 {
+                return Err(format!(
+                    "lane floor source list too short: {lane_id} {field}"
+                ));
+            }
+        }
+        if string_field(item, "next_capture")?.is_empty() {
+            return Err(format!("lane floor source next_capture empty: {lane_id}"));
+        }
+        for field in [
+            "threshold_value",
+            "baseline_value",
+            "policy_value",
+            "stress_value",
+        ] {
+            if !item.get(field).is_some_and(serde_json::Value::is_null) {
+                return Err(format!(
+                    "lane floor source value must be null: {lane_id} {field}"
+                ));
+            }
+        }
+        for field in ["pass_fail", "solver_ready"] {
+            if item.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+                return Err(format!(
+                    "lane floor source gate must be false: {lane_id} {field}"
+                ));
+            }
+        }
+    }
+
+    let blocked = queue
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("lane floor source blocked outputs")?;
+    for (field, value) in blocked {
+        if !value.is_null() {
+            return Err(format!(
+                "lane floor source blocked output must be null: {field}"
+            ));
+        }
+    }
+
+    let claims = queue
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("lane floor source claims")?;
+    for (field, value) in claims {
+        let observed = value.as_bool().ok_or("lane floor source claim bool")?;
+        if field == "lane_floor_source_work_queue_published" {
+            if !observed {
+                return Err("lane floor source publication flag must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!("lane floor source claim must be false: {field}"));
+        }
+    }
+
+    let warning = string_field(&queue, "public_warning")?;
+    for required in [
+        "official-source work queue",
+        "not threshold selection",
+        "not observed floor values",
+        "not pass/fail findings",
+        "not target-cost selection",
+        "not a federal score",
+        "not gross savings",
+        "not net savings",
+        "not solver input",
+        "not rate calculation",
+        "not a public rate card",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !warning.contains(required) {
+            return Err(format!("lane floor source warning missing: {required}"));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(LANE_FLOOR_SOURCE_WORK_QUEUE_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        LANE_FLOOR_SOURCE_WORK_QUEUE_JSON_PATH,
+        "This queue covers all fifteen analytical lanes.",
+        "It does not choose thresholds",
+        "official sources only",
+        "no FOIA request, records request, form, email, phone call, or agency/person contact",
+        "threshold selection requires stronger-model review",
+        "missing values remain null",
+        "blocked gates remain false",
+        "not threshold selection",
+        "not observed floor values",
+        "not pass/fail findings",
+        "not target-cost selection",
+        "not a federal score",
+        "not gross savings",
+        "not net savings",
+        "not solver input",
+        "not rate calculation",
+        "not a public rate card",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("lane floor source reader missing: {required}"));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_current_law_path_inventory(root: &Path) -> Result<(), String> {
     for path in [
         CURRENT_LAW_PATH_INVENTORY_JSON_PATH,
@@ -40000,6 +40226,12 @@ mod global_country_comparison_tests {
     fn lane_floor_readiness_rollup_completes_coverage_without_readiness() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_lane_floor_readiness_rollup(&root).unwrap();
+    }
+
+    #[test]
+    fn lane_floor_source_work_queue_blocks_threshold_and_value_shortcuts() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_lane_floor_source_work_queue(&root).unwrap();
     }
 
     #[test]
