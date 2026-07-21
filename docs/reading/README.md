@@ -554,6 +554,11 @@ It is the bounded public surface, not a performance or savings report.
      but raw CBO health-baseline custody, federal policy translation, behavior
      modeling, incidence modeling, pass/fail findings, solver inputs, rates,
      savings, and balanced-budget claims remain blocked.
+120. Read `health-quality-access-indicator-source-gap.md` before treating
+     health/Medicare quality, access, risk-adjusted outcome, rural-capacity, or
+     safety-net-capacity indicators as floor values. Source families are
+     declared, but raw custody, thresholds, observed values, pass/fail findings,
+     solver inputs, rates, savings, and balanced-budget claims remain blocked.
 
 ## Public-Use Guardrail
 

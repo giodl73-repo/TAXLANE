@@ -734,6 +734,11 @@ const HEALTH_CBO_SOURCE_CUSTODY_GAP_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/health_cbo_source_custody_gap.schema.md";
 const HEALTH_CBO_SOURCE_CUSTODY_GAP_READER_PATH: &str =
     "docs/reading/health-cbo-source-custody-gap.md";
+const HEALTH_QUALITY_ACCESS_INDICATOR_SOURCE_GAP_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/health_quality_access_indicator_source_gap.v1.draft.json";
+const HEALTH_QUALITY_ACCESS_INDICATOR_SOURCE_GAP_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/health_quality_access_indicator_source_gap.schema.md";
+const HEALTH_QUALITY_ACCESS_INDICATOR_SOURCE_GAP_READER_PATH: &str =
+    "docs/reading/health-quality-access-indicator-source-gap.md";
 const MEDICARE_PART_FINANCING_CY2025_CMS_TRUSTEES_JSONL_PATH: &str = "data/derived/contribution_alignment/medicare_part_financing.cy2025.cms-trustees-2026.draft.jsonl";
 const MEDICARE_DENOMINATOR_VALUES_CY2025_CMS_TRUSTEES_JSONL_PATH: &str = "data/derived/denominator_requirements/denominator_values.cy2025.cms-medicare-trustees-2026.draft.jsonl";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
@@ -11433,6 +11438,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_health_medicare_trustees_source_capture_status(root)?;
     validate_health_nhe_source_custody_gap(root)?;
     validate_health_cbo_source_custody_gap(root)?;
+    validate_health_quality_access_indicator_source_gap(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -35310,6 +35316,260 @@ fn validate_health_cbo_source_custody_gap(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_health_quality_access_indicator_source_gap(root: &Path) -> Result<(), String> {
+    for path in [
+        HEALTH_QUALITY_ACCESS_INDICATOR_SOURCE_GAP_JSON_PATH,
+        HEALTH_QUALITY_ACCESS_INDICATOR_SOURCE_GAP_SCHEMA_PATH,
+        HEALTH_QUALITY_ACCESS_INDICATOR_SOURCE_GAP_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing health quality/access indicator source gap artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(HEALTH_QUALITY_ACCESS_INDICATOR_SOURCE_GAP_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")? != "health-quality-access-indicator-source-gap:v1"
+        || string_field(&record, "record_family")? != "health_quality_access_indicator_source_gap"
+        || int_field(&record, "pulse")? != 182
+        || string_field(&record, "lane_id")? != "health-medicare"
+        || string_field(&record, "health_floor_source_capture_status_path")?
+            != HEALTH_FLOOR_SOURCE_CAPTURE_STATUS_JSON_PATH
+        || string_field(
+            &record,
+            "health_medicare_trustees_source_capture_status_path",
+        )? != HEALTH_MEDICARE_TRUSTEES_SOURCE_CAPTURE_STATUS_JSON_PATH
+        || string_field(&record, "health_nhe_source_custody_gap_path")?
+            != HEALTH_NHE_SOURCE_CUSTODY_GAP_JSON_PATH
+        || string_field(&record, "health_cbo_source_custody_gap_path")?
+            != HEALTH_CBO_SOURCE_CUSTODY_GAP_JSON_PATH
+        || string_field(&record, "health_outcome_floor_definition_packet_path")?
+            != HEALTH_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH
+    {
+        return Err("health quality/access indicator source gap identity failed".to_string());
+    }
+
+    let families = record
+        .get("source_families_needed_but_not_custody_ready")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("health quality/access source families")?;
+    let observed = families
+        .iter()
+        .map(|value| value.as_str().unwrap_or_default().to_string())
+        .collect::<BTreeSet<_>>();
+    let expected = [
+        "CMS quality and access indicator series",
+        "risk-adjusted outcome indicator series",
+        "rural and safety-net capacity indicator series",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    if observed != expected || families.len() != 3 {
+        return Err("health quality/access source family set failed".to_string());
+    }
+
+    let custody = record
+        .get("source_custody_status")
+        .ok_or("health quality/access custody status")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_captured_sources_only",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "quality_access_source_family_declared",
+    ] {
+        if custody.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "health quality/access custody must be true: {field}"
+            ));
+        }
+    }
+    for field in [
+        "new_external_download_performed",
+        "quality_access_raw_artifact_path_present",
+        "quality_access_metadata_path_present",
+        "quality_access_raw_sha256_present",
+        "quality_access_source_custody_ready",
+        "quality_access_values_may_populate_thresholds",
+        "quality_access_values_may_populate_observed_values",
+        "quality_access_values_may_populate_pass_fail",
+        "quality_access_values_may_populate_solver_inputs",
+    ] {
+        if custody.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "health quality/access custody must be false: {field}"
+            ));
+        }
+    }
+
+    let floors = record
+        .get("floor_indicator_families_blocked")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("health quality/access floor indicator families")?;
+    let expected_floors = [
+        "access_coverage",
+        "quality_safety",
+        "equity_distribution",
+        "adequacy_resilience",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let observed_floors = floors
+        .iter()
+        .map(|item| string_field(item, "floor_class"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if observed_floors != expected_floors || floors.len() != 4 {
+        return Err("health quality/access floor set failed".to_string());
+    }
+    for floor in floors {
+        if floor
+            .get("candidate_indicators")
+            .and_then(serde_json::Value::as_array)
+            .is_none_or(|indicators| indicators.is_empty())
+            || floor
+                .get("raw_custody_ready")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+            || !floor
+                .get("threshold_value")
+                .is_some_and(serde_json::Value::is_null)
+            || !floor
+                .get("baseline_value")
+                .is_some_and(serde_json::Value::is_null)
+            || !floor
+                .get("policy_value")
+                .is_some_and(serde_json::Value::is_null)
+            || !floor
+                .get("stress_value")
+                .is_some_and(serde_json::Value::is_null)
+            || floor.get("passed").and_then(serde_json::Value::as_bool) != Some(false)
+        {
+            return Err("health quality/access floor values must remain blocked".to_string());
+        }
+    }
+
+    let requirements = record
+        .get("quality_access_capture_requirements")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("health quality/access capture requirements")?;
+    if requirements.len() != 8 {
+        return Err("health quality/access capture requirement count failed".to_string());
+    }
+    for req in requirements {
+        if string_field(req, "requirement")?.is_empty()
+            || !req.get("value").is_some_and(serde_json::Value::is_null)
+            || req.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+        {
+            return Err(
+                "health quality/access capture requirement must remain null/false".to_string(),
+            );
+        }
+    }
+
+    let blocked = record
+        .get("blocked_health_floor_uses")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("health quality/access blocked floor uses")?;
+    for (field, value) in blocked {
+        if !value.is_null() {
+            return Err(format!(
+                "health quality/access blocked use must be null: {field}"
+            ));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("health quality/access claims")?;
+    for (field, value) in claims {
+        let observed = value.as_bool().ok_or("health quality/access claim bool")?;
+        if matches!(
+            field.as_str(),
+            "health_quality_access_indicator_source_gap_published"
+                | "quality_access_source_family_declared"
+        ) {
+            if !observed {
+                return Err(format!(
+                    "health quality/access claim should be true: {field}"
+                ));
+            }
+        } else if observed {
+            return Err(format!(
+                "health quality/access claim must be false: {field}"
+            ));
+        }
+    }
+
+    let warning = string_field(&record, "public_warning")?;
+    for required in [
+        "local raw quality, access, risk-adjusted outcome, rural capacity, and safety-net capacity custody is not ready",
+        "not CMS quality/access source capture",
+        "not health floor threshold selection",
+        "not observed floor values",
+        "not pass/fail findings",
+        "not lower-cost scenario admissibility",
+        "not a federal policy score",
+        "not target-cost selection",
+        "not gross savings",
+        "not net savings",
+        "not solver input",
+        "not rate calculation",
+        "not a public rate card",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !warning.contains(required) {
+            return Err(format!("health quality/access warning missing: {required}"));
+        }
+    }
+
+    let reader =
+        fs::read_to_string(root.join(HEALTH_QUALITY_ACCESS_INDICATOR_SOURCE_GAP_READER_PATH))
+            .map_err(|e| e.to_string())?;
+    for required in [
+        HEALTH_QUALITY_ACCESS_INDICATOR_SOURCE_GAP_JSON_PATH,
+        "Source families needed but not custody-ready",
+        "CMS quality and access indicator series",
+        "risk-adjusted outcome indicator series",
+        "rural and safety-net capacity indicator series",
+        "raw artifact path",
+        "raw byte count",
+        "raw SHA-256",
+        "metadata path",
+        "retrieval date",
+        "indicator definition and denominator lineage",
+        "risk adjustment and case mix lineage",
+        "rural and safety-net capacity lineage",
+        "not CMS quality/access source capture",
+        "not health floor threshold selection",
+        "not observed floor values",
+        "not pass/fail findings",
+        "not lower-cost scenario admissibility",
+        "not a federal policy score",
+        "not target-cost selection",
+        "not gross savings",
+        "not net savings",
+        "not solver input",
+        "not rate calculation",
+        "not a public rate card",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("health quality/access reader missing: {required}"));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_current_law_path_inventory(root: &Path) -> Result<(), String> {
     for path in [
         CURRENT_LAW_PATH_INVENTORY_JSON_PATH,
@@ -41361,6 +41621,12 @@ mod global_country_comparison_tests {
     fn health_cbo_source_gap_blocks_policy_translation_shortcut() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_health_cbo_source_custody_gap(&root).unwrap();
+    }
+
+    #[test]
+    fn health_quality_access_indicator_gap_blocks_floor_passage_shortcut() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_health_quality_access_indicator_source_gap(&root).unwrap();
     }
 
     #[test]

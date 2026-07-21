@@ -984,3 +984,10 @@ in derived health context artifacts but are not yet backed by local raw CBO
 health-baseline custody in this packet. It keeps CBO source capture, federal
 policy translation, behavior and incidence modeling, pass/fail findings, solver
 inputs, savings, rates, and balanced-budget claims blocked.
+
+`health_quality_access_indicator_source_gap.v1.draft.json` records that
+health/Medicare quality, access, risk-adjusted outcome, rural-capacity, and
+safety-net-capacity indicator families are needed but are not yet backed by local
+raw source custody in this packet. It keeps thresholds, observed floor values,
+pass/fail findings, solver inputs, savings, rates, and balanced-budget claims
+blocked.
