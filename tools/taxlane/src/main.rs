@@ -691,6 +691,11 @@ const INCOME_SECURITY_FAMILY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH: &str = "
 const INCOME_SECURITY_FAMILY_OUTCOME_FLOOR_DEFINITION_PACKET_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/income_security_family_outcome_floor_definition_packet.schema.md";
 const INCOME_SECURITY_FAMILY_OUTCOME_FLOOR_DEFINITION_PACKET_READER_PATH: &str =
     "docs/reading/income-security-family-outcome-floor-definition-packet.md";
+const INCOME_SECURITY_FAMILY_SOURCE_READINESS_GAP_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/income_security_family_source_readiness_gap.v1.draft.json";
+const INCOME_SECURITY_FAMILY_SOURCE_READINESS_GAP_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/income_security_family_source_readiness_gap.schema.md";
+const INCOME_SECURITY_FAMILY_SOURCE_READINESS_GAP_READER_PATH: &str =
+    "docs/reading/income-security-family-source-readiness-gap.md";
 const REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/revenue_solvency_outcome_floor_definition_packet.v1.draft.json";
 const REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/revenue_solvency_outcome_floor_definition_packet.schema.md";
 const REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_READER_PATH: &str =
@@ -11471,6 +11476,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_defense_source_capture_status_rollup(root)?;
     validate_defense_source_capture_closure_work_queue(root)?;
     validate_income_security_family_outcome_floor_definition_packet(root)?;
+    validate_income_security_family_source_readiness_gap(root)?;
     validate_revenue_solvency_outcome_floor_definition_packet(root)?;
     validate_net_interest_outcome_floor_definition_packet(root)?;
     validate_payment_integrity_outcome_floor_definition_packet(root)?;
@@ -31780,6 +31786,266 @@ fn validate_income_security_family_outcome_floor_definition_packet(
     Ok(())
 }
 
+fn validate_income_security_family_source_readiness_gap(root: &Path) -> Result<(), String> {
+    for path in [
+        INCOME_SECURITY_FAMILY_SOURCE_READINESS_GAP_JSON_PATH,
+        INCOME_SECURITY_FAMILY_SOURCE_READINESS_GAP_SCHEMA_PATH,
+        INCOME_SECURITY_FAMILY_SOURCE_READINESS_GAP_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing income-security/family source readiness gap artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(INCOME_SECURITY_FAMILY_SOURCE_READINESS_GAP_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")? != "income-security-family-source-readiness-gap:v1"
+        || string_field(&record, "record_family")? != "income_security_family_source_readiness_gap"
+        || int_field(&record, "pulse")? != 190
+        || string_field(&record, "lane_id")? != "income-security-family"
+        || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(
+            &record,
+            "income_security_family_outcome_floor_definition_packet_path",
+        )? != INCOME_SECURITY_FAMILY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH
+        || string_field(&record, "lane_floor_source_work_queue_path")?
+            != LANE_FLOOR_SOURCE_WORK_QUEUE_JSON_PATH
+        || string_field(&record, "lane_depth_explainability_tracker_path")?
+            != LANE_DEPTH_EXPLAINABILITY_TRACKER_JSON_PATH
+    {
+        return Err("income-security/family source readiness identity failed".to_string());
+    }
+
+    let status = record
+        .get("source_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("income-security/family source custody status")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_captured_sources_only",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "income_security_family_floor_definition_present",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "income-security/family source status {field} must be true"
+            ));
+        }
+    }
+    for field in [
+        "new_external_download_performed",
+        "benefit_package_raw_custody_ready",
+        "take_up_raw_custody_ready",
+        "child_poverty_raw_custody_ready",
+        "material_hardship_raw_custody_ready",
+        "childcare_access_raw_custody_ready",
+        "work_transition_raw_custody_ready",
+        "federal_state_local_translation_ready",
+        "source_capture_complete",
+        "solver_input_ready",
+    ] {
+        if status.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "income-security/family source status {field} must be false"
+            ));
+        }
+    }
+
+    let families = record
+        .get("required_source_families")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("income-security/family required source families")?;
+    if families.len() != 6 {
+        return Err("income-security/family source family count failed".to_string());
+    }
+    let expected_families = [
+        "OMB budget tables and program account materials",
+        "CBO income security and family baseline materials",
+        "Census poverty and income tables",
+        "HHS childcare, TANF, and family-service administrative series",
+        "USDA food security and nutrition assistance administrative series",
+        "OECD family, SOCX, Eurostat ESSPROS, and ILO social protection comparator context",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    let observed_families = families
+        .iter()
+        .map(|row| string_field(row, "source_family"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    if observed_families != expected_families {
+        return Err("income-security/family source family set failed".to_string());
+    }
+    for row in families {
+        if row
+            .get("needed_for")
+            .and_then(serde_json::Value::as_array)
+            .is_none_or(|values| values.is_empty())
+            || row
+                .get("raw_custody_ready")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+            || row
+                .get("may_populate_solver_input")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+        {
+            return Err("income-security/family source family must stay blocked".to_string());
+        }
+    }
+
+    let requirements = record
+        .get("source_capture_requirements")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("income-security/family source capture requirements")?;
+    if requirements.len() != 11 {
+        return Err("income-security/family source requirement count failed".to_string());
+    }
+    for row in requirements {
+        if row.get("value") != Some(&serde_json::Value::Null)
+            || row.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+        {
+            return Err(
+                "income-security/family source requirements must remain null/false".to_string(),
+            );
+        }
+    }
+
+    let floors = record
+        .get("floor_value_status")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("income-security/family source floor status")?;
+    if floors.len() != 5 {
+        return Err("income-security/family source floor count failed".to_string());
+    }
+    for row in floors {
+        for field in [
+            "threshold_value",
+            "baseline_value",
+            "policy_value",
+            "stress_value",
+        ] {
+            if row.get(field) != Some(&serde_json::Value::Null) {
+                return Err(format!(
+                    "income-security/family source floor {field} must be null"
+                ));
+            }
+        }
+        if row.get("passed").and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err("income-security/family source floors must remain unpassed".to_string());
+        }
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("income-security/family source blocked outputs")?;
+    for (field, value) in blocked {
+        if !value.is_null() {
+            return Err(format!(
+                "income-security/family source blocked output must be null: {field}"
+            ));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("income-security/family source claims")?;
+    for (field, value) in claims {
+        let observed = value
+            .as_bool()
+            .ok_or("income-security/family source claim bool")?;
+        if matches!(
+            field.as_str(),
+            "income_security_family_source_readiness_gap_published"
+                | "income_security_family_floor_definition_present"
+        ) {
+            if !observed {
+                return Err(format!(
+                    "income-security/family source claim should be true: {field}"
+                ));
+            }
+        } else if observed {
+            return Err(format!(
+                "income-security/family source claim must be false: {field}"
+            ));
+        }
+    }
+
+    let warning = string_field(&record, "public_warning")?;
+    for required in [
+        "records required source families only",
+        "not raw source custody",
+        "not a benefit package model",
+        "not a take-up model",
+        "not child-poverty floor values",
+        "not material-hardship floor values",
+        "not childcare-access floor values",
+        "not a work-transition model",
+        "not federal/state/local translation",
+        "not pass/fail findings",
+        "not lower-cost scenario admissibility",
+        "not target-cost selection",
+        "not gross savings",
+        "not net savings",
+        "not solver input",
+        "not rate calculation",
+        "not a public rate card",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !warning.contains(required) {
+            return Err(format!(
+                "income-security/family source warning missing: {required}"
+            ));
+        }
+    }
+
+    let reader =
+        fs::read_to_string(root.join(INCOME_SECURITY_FAMILY_SOURCE_READINESS_GAP_READER_PATH))
+            .map_err(|e| e.to_string())?;
+    for required in [
+        INCOME_SECURITY_FAMILY_SOURCE_READINESS_GAP_JSON_PATH,
+        "OMB budget tables and program account materials",
+        "CBO income security and family baseline materials",
+        "Census poverty and income tables",
+        "HHS childcare, TANF, and family-service administrative series",
+        "USDA food security and nutrition assistance administrative series",
+        "OECD family, SOCX, Eurostat ESSPROS, and ILO social protection comparator context",
+        "not raw source custody",
+        "not a benefit package model",
+        "not a take-up model",
+        "not child-poverty floor values",
+        "not material-hardship floor values",
+        "not childcare-access floor values",
+        "not a work-transition model",
+        "not federal/state/local translation",
+        "not gross savings",
+        "not net savings",
+        "not solver input",
+        "not rate calculation",
+        "not a public rate card",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!(
+                "income-security/family source reader missing: {required}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_revenue_solvency_outcome_floor_definition_packet(root: &Path) -> Result<(), String> {
     for path in [
         REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
@@ -43403,6 +43669,12 @@ mod global_country_comparison_tests {
     fn income_security_family_outcome_floor_definition_packet_blocks_benefit_shortcut() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_income_security_family_outcome_floor_definition_packet(&root).unwrap();
+    }
+
+    #[test]
+    fn income_security_family_source_readiness_gap_blocks_benefit_model_shortcut() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_income_security_family_source_readiness_gap(&root).unwrap();
     }
 
     #[test]

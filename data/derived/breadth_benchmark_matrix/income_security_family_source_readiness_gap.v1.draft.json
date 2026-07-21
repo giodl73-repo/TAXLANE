@@ -1,0 +1,139 @@
+{
+  "record_id": "income-security-family-source-readiness-gap:v1",
+  "record_family": "income_security_family_source_readiness_gap",
+  "schema_version": "v1.draft",
+  "status": "draft_income_security_family_raw_custody_and_policy_path_blocked",
+  "pulse": 190,
+  "as_of_date": "2026-07-21",
+  "lane_id": "income-security-family",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "income_security_family_outcome_floor_definition_packet_path": "data/derived/breadth_benchmark_matrix/income_security_family_outcome_floor_definition_packet.v1.draft.json",
+  "lane_floor_source_work_queue_path": "data/derived/breadth_benchmark_matrix/lane_floor_source_work_queue.v1.draft.json",
+  "lane_depth_explainability_tracker_path": "data/derived/breadth_benchmark_matrix/lane_depth_explainability_tracker.v1.draft.json",
+  "source_custody_status": {
+    "official_sources_only": true,
+    "used_existing_captured_sources_only": true,
+    "new_external_download_performed": false,
+    "no_foia_or_records_request_submitted": true,
+    "no_agency_or_person_contacted": true,
+    "income_security_family_floor_definition_present": true,
+    "benefit_package_raw_custody_ready": false,
+    "take_up_raw_custody_ready": false,
+    "child_poverty_raw_custody_ready": false,
+    "material_hardship_raw_custody_ready": false,
+    "childcare_access_raw_custody_ready": false,
+    "work_transition_raw_custody_ready": false,
+    "federal_state_local_translation_ready": false,
+    "source_capture_complete": false,
+    "solver_input_ready": false
+  },
+  "required_source_families": [
+    {
+      "source_family": "OMB budget tables and program account materials",
+      "needed_for": ["federal_current_law_context", "program_outlay_perimeter", "federal_state_local_translation"],
+      "raw_custody_ready": false,
+      "may_populate_solver_input": false
+    },
+    {
+      "source_family": "CBO income security and family baseline materials",
+      "needed_for": ["federal_policy_translation", "take_up_context", "behavior_and_incidence_context"],
+      "raw_custody_ready": false,
+      "may_populate_solver_input": false
+    },
+    {
+      "source_family": "Census poverty and income tables",
+      "needed_for": ["child_poverty_floor_values", "equity_distribution_floor", "baseline_family_income_context"],
+      "raw_custody_ready": false,
+      "may_populate_solver_input": false
+    },
+    {
+      "source_family": "HHS childcare, TANF, and family-service administrative series",
+      "needed_for": ["formal_childcare_access_floor", "benefit_delivery_feasibility", "work_and_care_transition_context"],
+      "raw_custody_ready": false,
+      "may_populate_solver_input": false
+    },
+    {
+      "source_family": "USDA food security and nutrition assistance administrative series",
+      "needed_for": ["material_hardship_floor_values", "food_security_floor", "benefit_package_context"],
+      "raw_custody_ready": false,
+      "may_populate_solver_input": false
+    },
+    {
+      "source_family": "OECD family, SOCX, Eurostat ESSPROS, and ILO social protection comparator context",
+      "needed_for": ["international_context_only", "cash_services_tax_credit_composition", "not_savings_context"],
+      "raw_custody_ready": false,
+      "may_populate_solver_input": false
+    }
+  ],
+  "source_capture_requirements": [
+    {"requirement": "raw_artifact_path", "value": null, "ready": false},
+    {"requirement": "raw_byte_count", "value": null, "ready": false},
+    {"requirement": "raw_sha256", "value": null, "ready": false},
+    {"requirement": "metadata_path", "value": null, "ready": false},
+    {"requirement": "retrieval_date", "value": null, "ready": false},
+    {"requirement": "benefit_package_lineage", "value": null, "ready": false},
+    {"requirement": "take_up_model_lineage", "value": null, "ready": false},
+    {"requirement": "child_poverty_lineage", "value": null, "ready": false},
+    {"requirement": "childcare_access_lineage", "value": null, "ready": false},
+    {"requirement": "work_transition_lineage", "value": null, "ready": false},
+    {"requirement": "federal_state_local_translation_lineage", "value": null, "ready": false}
+  ],
+  "floor_value_status": [
+    {"floor_class": "access_coverage", "threshold_value": null, "baseline_value": null, "policy_value": null, "stress_value": null, "passed": false},
+    {"floor_class": "quality_safety", "threshold_value": null, "baseline_value": null, "policy_value": null, "stress_value": null, "passed": false},
+    {"floor_class": "equity_distribution", "threshold_value": null, "baseline_value": null, "policy_value": null, "stress_value": null, "passed": false},
+    {"floor_class": "adequacy_resilience", "threshold_value": null, "baseline_value": null, "policy_value": null, "stress_value": null, "passed": false},
+    {"floor_class": "fiscal_delivery_feasibility", "threshold_value": null, "baseline_value": null, "policy_value": null, "stress_value": null, "passed": false}
+  ],
+  "blocked_outputs": {
+    "benefit_package_model": null,
+    "take_up_model": null,
+    "child_poverty_floor_values": null,
+    "material_hardship_floor_values": null,
+    "childcare_access_floor_values": null,
+    "work_transition_model": null,
+    "federal_state_local_translation": null,
+    "transition_cost_model": null,
+    "incidence_model": null,
+    "pass_fail_findings": null,
+    "lower_cost_scenario_admissibility": null,
+    "target_cost": null,
+    "federal_effect": null,
+    "gross_savings": null,
+    "net_savings": null,
+    "solver_input": null,
+    "rate_calculation": null,
+    "public_rate_card": null
+  },
+  "claim_booleans": {
+    "income_security_family_source_readiness_gap_published": true,
+    "income_security_family_floor_definition_present": true,
+    "source_capture_complete": false,
+    "benefit_package_raw_custody_ready": false,
+    "take_up_raw_custody_ready": false,
+    "child_poverty_raw_custody_ready": false,
+    "material_hardship_raw_custody_ready": false,
+    "childcare_access_raw_custody_ready": false,
+    "work_transition_raw_custody_ready": false,
+    "federal_state_local_translation_ready": false,
+    "threshold_values_selected": false,
+    "baseline_floor_values_populated": false,
+    "policy_floor_values_populated": false,
+    "stress_floor_values_populated": false,
+    "pass_fail_findings_populated": false,
+    "lower_cost_scenario_admissibility_ready": false,
+    "benefit_package_model_published": false,
+    "take_up_model_published": false,
+    "target_cost_published": false,
+    "federal_effect_published": false,
+    "gross_savings_published": false,
+    "net_savings_published": false,
+    "solver_input_ready": false,
+    "rate_calculation_published": false,
+    "public_rate_card_published": false,
+    "department_cut_instruction_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "This income-security/family source-readiness gap records required source families only. It is not raw source custody, not a benefit package model, not a take-up model, not child-poverty floor values, not material-hardship floor values, not childcare-access floor values, not a work-transition model, not federal/state/local translation, not pass/fail findings, not lower-cost scenario admissibility, not target-cost selection, not gross savings, not net savings, not solver input, not rate calculation, not a public rate card, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+}

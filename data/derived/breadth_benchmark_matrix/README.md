@@ -865,6 +865,13 @@ work/care-transition, and benefit-package/take-up delivery-feasibility floors
 while keeping thresholds, pass/fail findings, federal scores, target costs,
 solver inputs, savings, and balanced-budget claims blocked.
 
+`income_security_family_source_readiness_gap.v1.draft.json` records the required
+source families for income-security/family without treating them as raw custody
+or model evidence. Benefit-package models, take-up models, floor values,
+federal/state/local translation, solver inputs, rates, savings, department-cut
+instructions, technology-savings claims, and balanced-budget claims remain
+blocked.
+
 `revenue_solvency_outcome_floor_definition_packet.v1.draft.json` extends the
 floor definition packet pattern to the non-additive revenue-solvency overlay. It
 defines distributional-progressivity, revenue-stability, administrability,
