@@ -1,0 +1,113 @@
+{
+  "record_id": "health-medicare-trustees-source-capture-status:v1",
+  "record_family": "health_medicare_trustees_source_capture_status",
+  "schema_version": "v1.draft",
+  "status": "draft_cms_trustees_context_captured_floor_values_blocked",
+  "pulse": 179,
+  "as_of_date": "2026-07-20",
+  "lane_id": "health-medicare",
+  "health_floor_source_capture_status_path": "data/derived/breadth_benchmark_matrix/health_floor_source_capture_status.v1.draft.json",
+  "lane_floor_source_work_queue_path": "data/derived/breadth_benchmark_matrix/lane_floor_source_work_queue.v1.draft.json",
+  "receipt_base_official_source_capture_path": "data/derived/breadth_benchmark_matrix/receipt_base_official_source_capture.v1.draft.json",
+  "medicare_part_financing_path": "data/derived/contribution_alignment/medicare_part_financing.cy2025.cms-trustees-2026.draft.jsonl",
+  "medicare_denominator_values_path": "data/derived/denominator_requirements/denominator_values.cy2025.cms-medicare-trustees-2026.draft.jsonl",
+  "source_custody_status": {
+    "official_sources_only": true,
+    "used_existing_captured_sources_only": true,
+    "new_external_download_performed": false,
+    "no_foia_or_records_request_submitted": true,
+    "no_agency_or_person_contacted": true,
+    "cms_medicare_trustees_source_custody_ready": true,
+    "may_populate_medicare_financing_and_enrollment_context": true,
+    "may_populate_health_floor_thresholds": false,
+    "may_populate_observed_floor_values": false,
+    "may_populate_policy_or_stress_floor_values": false,
+    "may_populate_pass_fail_findings": false,
+    "may_populate_solver_inputs": false,
+    "health_floor_source_capture_complete": false
+  },
+  "captured_source": {
+    "source_id": "SRC-CMS-MEDICARE-TRUSTEES-2026",
+    "publisher": "Centers for Medicare & Medicaid Services, Office of the Actuary",
+    "source_title": "2026 Medicare Trustees Report",
+    "source_url": "https://www.cms.gov/oact/tr/2026",
+    "retrieval_date": "2026-07-19",
+    "raw_artifact_path": "data/raw/cms/SRC-CMS-MEDICARE-TRUSTEES-2026/2026-07-19/2026-medicare-trustees-report.pdf",
+    "raw_byte_count": 2844621,
+    "raw_sha256": "ffa56b9137006872300b0346149eae1613d09a172b6ba118aad48e66dfc48fa8",
+    "metadata_path": "data/metadata/SRC-CMS-MEDICARE-TRUSTEES-2026.2026-07-19.metadata.md",
+    "custody_ready": true,
+    "context_use_only": true,
+    "floor_threshold_or_pass_fail_use_allowed": false
+  },
+  "captured_context_groups": [
+    {
+      "group_id": "medicare_part_financing_cy2025",
+      "source_id": "SRC-CMS-MEDICARE-TRUSTEES-2026",
+      "derived_artifact_path": "data/derived/contribution_alignment/medicare_part_financing.cy2025.cms-trustees-2026.draft.jsonl",
+      "record_count": 3,
+      "records": ["HI", "Part B", "Part D"],
+      "allowed_use": "CY2025 Medicare part-financing context only; do not merge with FY2025 OMB outlays without a calendar-year/fiscal-year bridge.",
+      "may_populate_floor_threshold_or_pass_fail": false,
+      "may_populate_solver_input": false
+    },
+    {
+      "group_id": "medicare_enrollment_denominators_cy2025",
+      "source_id": "SRC-CMS-MEDICARE-TRUSTEES-2026",
+      "derived_artifact_path": "data/derived/denominator_requirements/denominator_values.cy2025.cms-medicare-trustees-2026.draft.jsonl",
+      "record_count": 5,
+      "records": ["Part A enrollment", "Part B enrollment", "Part D enrollment", "total beneficiaries", "private health plan enrollment"],
+      "allowed_use": "CY2025 Medicare enrollment denominator context only; do not use as health floor thresholds or total commercial coverage values.",
+      "may_populate_floor_threshold_or_pass_fail": false,
+      "may_populate_solver_input": false
+    }
+  ],
+  "remaining_health_floor_source_gaps": [
+    {"source_family": "CMS national health expenditure accounts", "gap": "NHE raw source bytes for health floor indicator context are not locally captured in this packet.", "custody_ready": false},
+    {"source_family": "CBO federal health baseline", "gap": "Federal health baseline source bytes for policy translation and behavior context are not locally captured in this packet.", "custody_ready": false},
+    {"source_family": "CMS quality and access indicator series", "gap": "Quality, access, safety-net, and risk-adjusted outcome source bytes are not locally captured in this packet.", "custody_ready": false},
+    {"source_family": "threshold review record", "gap": "No threshold rationale or stronger-model review exists for floor passage.", "custody_ready": false}
+  ],
+  "floor_value_status": [
+    {"floor_class": "access_coverage", "threshold_value": null, "baseline_value": null, "policy_value": null, "stress_value": null, "passed": false},
+    {"floor_class": "quality_safety", "threshold_value": null, "baseline_value": null, "policy_value": null, "stress_value": null, "passed": false},
+    {"floor_class": "equity_distribution", "threshold_value": null, "baseline_value": null, "policy_value": null, "stress_value": null, "passed": false},
+    {"floor_class": "adequacy_resilience", "threshold_value": null, "baseline_value": null, "policy_value": null, "stress_value": null, "passed": false},
+    {"floor_class": "fiscal_delivery_feasibility", "threshold_value": null, "baseline_value": null, "policy_value": null, "stress_value": null, "passed": false}
+  ],
+  "blocked_outputs": {
+    "health_floor_thresholds": null,
+    "observed_floor_values": null,
+    "pass_fail_findings": null,
+    "lower_cost_scenario_admissibility": null,
+    "federal_policy_score": null,
+    "target_cost": null,
+    "federal_effect": null,
+    "gross_savings": null,
+    "net_savings": null,
+    "solver_input": null,
+    "rate_calculation": null,
+    "public_rate_card": null
+  },
+  "claim_booleans": {
+    "health_medicare_trustees_source_capture_status_published": true,
+    "cms_medicare_trustees_source_custody_ready": true,
+    "medicare_financing_and_enrollment_context_ready": true,
+    "health_floor_source_capture_complete": false,
+    "threshold_values_selected": false,
+    "observed_floor_values_populated": false,
+    "pass_fail_findings_populated": false,
+    "lower_cost_scenario_admissibility_ready": false,
+    "federal_policy_score_published": false,
+    "target_cost_published": false,
+    "federal_effect_published": false,
+    "gross_savings_published": false,
+    "net_savings_published": false,
+    "solver_input_ready": false,
+    "rate_calculation_published": false,
+    "public_rate_card_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "This CMS Medicare Trustees capture supports CY2025 Medicare financing and enrollment context only. It is not health floor threshold selection, not observed floor values, not pass/fail findings, not lower-cost scenario admissibility, not a federal policy score, not target-cost selection, not gross savings, not net savings, not solver input, not rate calculation, not a public rate card, not a technology-savings claim, and not a balanced-budget claim."
+}

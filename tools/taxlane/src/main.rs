@@ -718,6 +718,12 @@ const HEALTH_FLOOR_SOURCE_CAPTURE_STATUS_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/health_floor_source_capture_status.schema.md";
 const HEALTH_FLOOR_SOURCE_CAPTURE_STATUS_READER_PATH: &str =
     "docs/reading/health-floor-source-capture-status.md";
+const HEALTH_MEDICARE_TRUSTEES_SOURCE_CAPTURE_STATUS_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/health_medicare_trustees_source_capture_status.v1.draft.json";
+const HEALTH_MEDICARE_TRUSTEES_SOURCE_CAPTURE_STATUS_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/health_medicare_trustees_source_capture_status.schema.md";
+const HEALTH_MEDICARE_TRUSTEES_SOURCE_CAPTURE_STATUS_READER_PATH: &str =
+    "docs/reading/health-medicare-trustees-source-capture-status.md";
+const MEDICARE_PART_FINANCING_CY2025_CMS_TRUSTEES_JSONL_PATH: &str = "data/derived/contribution_alignment/medicare_part_financing.cy2025.cms-trustees-2026.draft.jsonl";
+const MEDICARE_DENOMINATOR_VALUES_CY2025_CMS_TRUSTEES_JSONL_PATH: &str = "data/derived/denominator_requirements/denominator_values.cy2025.cms-medicare-trustees-2026.draft.jsonl";
 const SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json";
 const SOLVER_INPUT_READINESS_ROLLUP_SCHEMA_PATH: &str =
@@ -11412,6 +11418,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_lane_floor_readiness_rollup(root)?;
     validate_lane_floor_source_work_queue(root)?;
     validate_health_floor_source_capture_status(root)?;
+    validate_health_medicare_trustees_source_capture_status(root)?;
     validate_solver_input_readiness_rollup(root)?;
     validate_current_law_path_inventory(root)?;
     validate_current_law_source_custody_preflight(root)?;
@@ -34515,6 +34522,349 @@ fn validate_health_floor_source_capture_status(root: &Path) -> Result<(), String
     Ok(())
 }
 
+fn validate_health_medicare_trustees_source_capture_status(root: &Path) -> Result<(), String> {
+    for path in [
+        HEALTH_MEDICARE_TRUSTEES_SOURCE_CAPTURE_STATUS_JSON_PATH,
+        HEALTH_MEDICARE_TRUSTEES_SOURCE_CAPTURE_STATUS_SCHEMA_PATH,
+        HEALTH_MEDICARE_TRUSTEES_SOURCE_CAPTURE_STATUS_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing health Medicare Trustees source capture artifact: {path}"
+            ));
+        }
+    }
+
+    let text =
+        fs::read_to_string(root.join(HEALTH_MEDICARE_TRUSTEES_SOURCE_CAPTURE_STATUS_JSON_PATH))
+            .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")? != "health-medicare-trustees-source-capture-status:v1"
+        || string_field(&record, "record_family")?
+            != "health_medicare_trustees_source_capture_status"
+        || int_field(&record, "pulse")? != 179
+        || string_field(&record, "lane_id")? != "health-medicare"
+        || string_field(&record, "health_floor_source_capture_status_path")?
+            != HEALTH_FLOOR_SOURCE_CAPTURE_STATUS_JSON_PATH
+        || string_field(&record, "lane_floor_source_work_queue_path")?
+            != LANE_FLOOR_SOURCE_WORK_QUEUE_JSON_PATH
+        || string_field(&record, "receipt_base_official_source_capture_path")?
+            != RECEIPT_BASE_OFFICIAL_SOURCE_CAPTURE_JSON_PATH
+        || string_field(&record, "medicare_part_financing_path")?
+            != MEDICARE_PART_FINANCING_CY2025_CMS_TRUSTEES_JSONL_PATH
+        || string_field(&record, "medicare_denominator_values_path")?
+            != MEDICARE_DENOMINATOR_VALUES_CY2025_CMS_TRUSTEES_JSONL_PATH
+    {
+        return Err("health Medicare Trustees source capture identity failed".to_string());
+    }
+
+    let custody = record
+        .get("source_custody_status")
+        .ok_or("health Medicare Trustees custody status")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_captured_sources_only",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "cms_medicare_trustees_source_custody_ready",
+        "may_populate_medicare_financing_and_enrollment_context",
+    ] {
+        if custody.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "health Medicare Trustees custody must be true: {field}"
+            ));
+        }
+    }
+    for field in [
+        "new_external_download_performed",
+        "may_populate_health_floor_thresholds",
+        "may_populate_observed_floor_values",
+        "may_populate_policy_or_stress_floor_values",
+        "may_populate_pass_fail_findings",
+        "may_populate_solver_inputs",
+        "health_floor_source_capture_complete",
+    ] {
+        if custody.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "health Medicare Trustees custody must be false: {field}"
+            ));
+        }
+    }
+
+    let source = record
+        .get("captured_source")
+        .ok_or("health Medicare Trustees captured source")?;
+    if string_field(source, "source_id")? != "SRC-CMS-MEDICARE-TRUSTEES-2026"
+        || int_field(source, "raw_byte_count")? != 2844621
+        || string_field(source, "raw_sha256")?
+            != "ffa56b9137006872300b0346149eae1613d09a172b6ba118aad48e66dfc48fa8"
+        || source
+            .get("custody_ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || source
+            .get("context_use_only")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || source
+            .get("floor_threshold_or_pass_fail_use_allowed")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("health Medicare Trustees captured source failed".to_string());
+    }
+    if !root
+        .join(string_field(source, "raw_artifact_path")?)
+        .exists()
+        || !root.join(string_field(source, "metadata_path")?).exists()
+    {
+        return Err("health Medicare Trustees source files missing".to_string());
+    }
+
+    let financing_rows =
+        read_jsonl(root.join(MEDICARE_PART_FINANCING_CY2025_CMS_TRUSTEES_JSONL_PATH))?;
+    let financing_parts = financing_rows
+        .iter()
+        .map(|row| string_field(row, "program_part"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_financing = ["HI", "Part B", "Part D"]
+        .into_iter()
+        .map(str::to_string)
+        .collect::<BTreeSet<_>>();
+    if financing_rows.len() != 3 || financing_parts != expected_financing {
+        return Err("health Medicare Trustees financing row set failed".to_string());
+    }
+    for row in &financing_rows {
+        if string_field(row, "year_basis")? != "calendar_year"
+            || int_field(row, "calendar_year")? != 2025
+            || !row
+                .get("source_ids")
+                .and_then(serde_json::Value::as_array)
+                .is_some_and(|ids| {
+                    ids.iter()
+                        .any(|id| id.as_str() == Some("SRC-CMS-MEDICARE-TRUSTEES-2026"))
+                })
+            || {
+                let rule = string_field(row, "public_use_rule")?;
+                !rule.contains("Do not") && !rule.contains("do not")
+            }
+        {
+            return Err("health Medicare Trustees financing row boundary failed".to_string());
+        }
+    }
+
+    let denominator_rows =
+        read_jsonl(root.join(MEDICARE_DENOMINATOR_VALUES_CY2025_CMS_TRUSTEES_JSONL_PATH))?;
+    let denominator_ids = denominator_rows
+        .iter()
+        .map(|row| string_field(row, "denominator_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_denominators = [
+        "medicare_part_a_enrollment",
+        "medicare_part_b_enrollment",
+        "medicare_part_d_enrollment",
+        "medicare_total_beneficiaries",
+        "medicare_private_health_plan_enrollment",
+    ]
+    .into_iter()
+    .map(str::to_string)
+    .collect::<BTreeSet<_>>();
+    if denominator_rows.len() != 5 || denominator_ids != expected_denominators {
+        return Err("health Medicare Trustees denominator row set failed".to_string());
+    }
+    for row in &denominator_rows {
+        if string_field(row, "year_basis")? != "calendar_year"
+            || string_field(row, "year")? != "CY2025"
+            || string_field(row, "unit")? != "people"
+            || !row
+                .get("source_ids")
+                .and_then(serde_json::Value::as_array)
+                .is_some_and(|ids| {
+                    ids.iter()
+                        .any(|id| id.as_str() == Some("SRC-CMS-MEDICARE-TRUSTEES-2026"))
+                })
+            || !string_field(row, "public_use_rule")?.contains("Do not")
+        {
+            return Err("health Medicare Trustees denominator row boundary failed".to_string());
+        }
+    }
+
+    let groups = record
+        .get("captured_context_groups")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("health Medicare Trustees context groups")?;
+    if groups.len() != 2 {
+        return Err("health Medicare Trustees context group count failed".to_string());
+    }
+    for group in groups {
+        let group_id = string_field(group, "group_id")?;
+        let expected_count = match group_id.as_str() {
+            "medicare_part_financing_cy2025" => 3,
+            "medicare_enrollment_denominators_cy2025" => 5,
+            _ => {
+                return Err(format!(
+                    "unexpected health Medicare Trustees group: {group_id}"
+                ));
+            }
+        };
+        if int_field(group, "record_count")? != expected_count
+            || group
+                .get("may_populate_floor_threshold_or_pass_fail")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+            || group
+                .get("may_populate_solver_input")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+        {
+            return Err(format!(
+                "health Medicare Trustees context group failed: {group_id}"
+            ));
+        }
+    }
+
+    let gaps = record
+        .get("remaining_health_floor_source_gaps")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("health Medicare Trustees remaining gaps")?;
+    if gaps.len() != 4 {
+        return Err("health Medicare Trustees remaining gap count failed".to_string());
+    }
+    for gap in gaps {
+        if string_field(gap, "source_family")?.is_empty()
+            || string_field(gap, "gap")?.is_empty()
+            || gap
+                .get("custody_ready")
+                .and_then(serde_json::Value::as_bool)
+                != Some(false)
+        {
+            return Err("health Medicare Trustees remaining gap failed".to_string());
+        }
+    }
+
+    let floors = record
+        .get("floor_value_status")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("health Medicare Trustees floor values")?;
+    if floors.len() != 5 {
+        return Err("health Medicare Trustees floor count failed".to_string());
+    }
+    for floor in floors {
+        for field in [
+            "threshold_value",
+            "baseline_value",
+            "policy_value",
+            "stress_value",
+        ] {
+            if !floor.get(field).is_some_and(serde_json::Value::is_null) {
+                return Err(format!(
+                    "health Medicare Trustees floor value must be null: {field}"
+                ));
+            }
+        }
+        if floor.get("passed").and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err("health Medicare Trustees floor passed flag must be false".to_string());
+        }
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("health Medicare Trustees blocked outputs")?;
+    for (field, value) in blocked {
+        if !value.is_null() {
+            return Err(format!(
+                "health Medicare Trustees blocked output must be null: {field}"
+            ));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("health Medicare Trustees claims")?;
+    for (field, value) in claims {
+        let observed = value
+            .as_bool()
+            .ok_or("health Medicare Trustees claim bool")?;
+        if matches!(
+            field.as_str(),
+            "health_medicare_trustees_source_capture_status_published"
+                | "cms_medicare_trustees_source_custody_ready"
+                | "medicare_financing_and_enrollment_context_ready"
+        ) {
+            if !observed {
+                return Err(format!(
+                    "health Medicare Trustees claim should be true: {field}"
+                ));
+            }
+        } else if observed {
+            return Err(format!(
+                "health Medicare Trustees claim must be false: {field}"
+            ));
+        }
+    }
+
+    let warning = string_field(&record, "public_warning")?;
+    for required in [
+        "CY2025 Medicare financing and enrollment context only",
+        "not health floor threshold selection",
+        "not observed floor values",
+        "not pass/fail findings",
+        "not lower-cost scenario admissibility",
+        "not a federal policy score",
+        "not target-cost selection",
+        "not gross savings",
+        "not net savings",
+        "not solver input",
+        "not rate calculation",
+        "not a public rate card",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !warning.contains(required) {
+            return Err(format!(
+                "health Medicare Trustees warning missing: {required}"
+            ));
+        }
+    }
+
+    let reader =
+        fs::read_to_string(root.join(HEALTH_MEDICARE_TRUSTEES_SOURCE_CAPTURE_STATUS_READER_PATH))
+            .map_err(|e| e.to_string())?;
+    for required in [
+        HEALTH_MEDICARE_TRUSTEES_SOURCE_CAPTURE_STATUS_JSON_PATH,
+        "CMS Medicare Trustees 2026 raw PDF custody",
+        "CY2025 Medicare HI, Part B, and Part D financing context",
+        "CY2025 Medicare Part A, Part B, Part D, total beneficiary, and private-plan enrollment denominator context.",
+        "CMS NHE source bytes",
+        "CBO federal health baseline source bytes",
+        "threshold rationale and stronger-model review",
+        "not health floor threshold selection",
+        "not observed floor values",
+        "not pass/fail findings",
+        "not lower-cost scenario admissibility",
+        "not a federal policy score",
+        "not target-cost selection",
+        "not gross savings",
+        "not net savings",
+        "not solver input",
+        "not rate calculation",
+        "not a public rate card",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!(
+                "health Medicare Trustees reader missing: {required}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_current_law_path_inventory(root: &Path) -> Result<(), String> {
     for path in [
         CURRENT_LAW_PATH_INVENTORY_JSON_PATH,
@@ -40548,6 +40898,12 @@ mod global_country_comparison_tests {
     fn health_floor_source_capture_keeps_fiscal_custody_out_of_floor_passage() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_health_floor_source_capture_status(&root).unwrap();
+    }
+
+    #[test]
+    fn health_medicare_trustees_capture_stays_context_only() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_health_medicare_trustees_source_capture_status(&root).unwrap();
     }
 
     #[test]

@@ -966,3 +966,9 @@ custody for Medicare, non-Medicare health, and the Medicare HI receipt anchor,
 but keeps health floor indicator custody, thresholds, observed floor values,
 pass/fail findings, policy scores, solver inputs, savings, rates, and balanced-
 budget claims blocked.
+
+`health_medicare_trustees_source_capture_status.v1.draft.json` adds local CMS
+Medicare Trustees custody for CY2025 Medicare financing and enrollment context.
+It closes that source-family context gap only; NHE, CBO baseline, quality/access
+indicator custody, thresholds, floor values, pass/fail findings, solver inputs,
+savings, rates, and balanced-budget claims remain blocked.

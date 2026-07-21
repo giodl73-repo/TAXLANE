@@ -539,6 +539,11 @@ It is the bounded public surface, not a performance or savings report.
      context only; floor indicator custody, thresholds, observed values,
      pass/fail findings, policy scores, solver inputs, rates, and savings remain
      blocked.
+117. Read `health-medicare-trustees-source-capture-status.md` before using CMS
+     Medicare Trustees rows in the health/Medicare lane. The source supports
+     CY2025 Medicare financing and enrollment context only; floor thresholds,
+     observed floor values, pass/fail findings, solver inputs, rates, savings,
+     and balanced-budget claims remain blocked.
 
 ## Public-Use Guardrail
 
