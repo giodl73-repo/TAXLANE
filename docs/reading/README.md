@@ -569,6 +569,11 @@ It is the bounded public surface, not a performance or savings report.
      context-only; SSA raw custody, annual fund paths, 75-year solvency paths,
      taxable payroll bases, floor values, solver inputs, rates, savings, and
      balanced-budget claims remain blocked.
+123. Read `social-security-source-capture-queue.md` before capturing Social
+     Security/OASDI solver or floor sources. It orders annual fund path,
+     75-year solvency path, taxable payroll, adequacy, poverty, and
+     administration/transition source work, but all values, solver inputs,
+     rates, savings, and balanced-budget claims remain blocked.
 
 ## Public-Use Guardrail
 

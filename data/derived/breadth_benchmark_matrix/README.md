@@ -1002,3 +1002,9 @@ inputs, savings, rates, and balanced-budget claims remain blocked.
 derived OASDI denominator context while keeping SSA raw custody, annual OASDI
 fund paths, 75-year solvency paths, taxable payroll bases, floor values,
 solver inputs, rates, savings, and balanced-budget claims blocked.
+
+`social_security_source_capture_queue.v1.draft.json` orders the next official
+source captures for Social Security: OASDI annual fund path, 75-year solvency
+path, taxable payroll base, benefit adequacy floors, old-age poverty floors, and
+SSA administration/transition capacity. Values, solver inputs, rates, savings,
+and balanced-budget claims remain blocked.

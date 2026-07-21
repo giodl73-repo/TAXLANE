@@ -649,6 +649,12 @@ const SOCIAL_SECURITY_SOURCE_READINESS_GAP_SCHEMA_PATH: &str =
     "data/derived/breadth_benchmark_matrix/social_security_source_readiness_gap.schema.md";
 const SOCIAL_SECURITY_SOURCE_READINESS_GAP_READER_PATH: &str =
     "docs/reading/social-security-source-readiness-gap.md";
+const SOCIAL_SECURITY_SOURCE_CAPTURE_QUEUE_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/social_security_source_capture_queue.v1.draft.json";
+const SOCIAL_SECURITY_SOURCE_CAPTURE_QUEUE_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/social_security_source_capture_queue.schema.md";
+const SOCIAL_SECURITY_SOURCE_CAPTURE_QUEUE_READER_PATH: &str =
+    "docs/reading/social-security-source-capture-queue.md";
 const DENOMINATOR_VALUES_CY2025_SSA_TRUSTEES_JSONL_PATH: &str =
     "data/derived/denominator_requirements/denominator_values.cy2025.ssa-trustees-2026.draft.jsonl";
 const DEFENSE_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH: &str =
@@ -11434,6 +11440,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_health_outcome_floor_definition_packet(root)?;
     validate_social_security_outcome_floor_definition_packet(root)?;
     validate_social_security_source_readiness_gap(root)?;
+    validate_social_security_source_capture_queue(root)?;
     validate_defense_outcome_floor_definition_packet(root)?;
     validate_income_security_family_outcome_floor_definition_packet(root)?;
     validate_revenue_solvency_outcome_floor_definition_packet(root)?;
@@ -29956,6 +29963,223 @@ fn validate_social_security_source_readiness_gap(root: &Path) -> Result<(), Stri
     Ok(())
 }
 
+fn validate_social_security_source_capture_queue(root: &Path) -> Result<(), String> {
+    for path in [
+        SOCIAL_SECURITY_SOURCE_CAPTURE_QUEUE_JSON_PATH,
+        SOCIAL_SECURITY_SOURCE_CAPTURE_QUEUE_SCHEMA_PATH,
+        SOCIAL_SECURITY_SOURCE_CAPTURE_QUEUE_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing Social Security source capture queue artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(SOCIAL_SECURITY_SOURCE_CAPTURE_QUEUE_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")? != "social-security-source-capture-queue:v1"
+        || string_field(&record, "record_family")? != "social_security_source_capture_queue"
+        || int_field(&record, "pulse")? != 185
+        || string_field(&record, "lane_id")? != "social-security"
+        || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
+        || string_field(&record, "social_security_source_readiness_gap_path")?
+            != SOCIAL_SECURITY_SOURCE_READINESS_GAP_JSON_PATH
+        || string_field(
+            &record,
+            "social_security_outcome_floor_definition_packet_path",
+        )? != SOCIAL_SECURITY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH
+        || string_field(&record, "lane_floor_source_work_queue_path")?
+            != LANE_FLOOR_SOURCE_WORK_QUEUE_JSON_PATH
+    {
+        return Err("Social Security source capture queue identity failed".to_string());
+    }
+
+    let rules = record
+        .get("source_rules")
+        .ok_or("Social Security source capture rules")?;
+    for field in [
+        "official_sources_only",
+        "use_existing_captured_sources_when_available",
+        "new_external_downloads_not_performed_in_this_pulse",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+        "threshold_selection_requires_stronger_model_review",
+        "missing_values_remain_null",
+        "blocked_gates_remain_false",
+    ] {
+        if rules.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!("Social Security source rule must be true: {field}"));
+        }
+    }
+
+    let items = record
+        .get("capture_items")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Social Security capture items")?;
+    if items.len() != 6 {
+        return Err("Social Security capture item count failed".to_string());
+    }
+    let expected = [
+        ("capture-oasdi-annual-fund-path", 1),
+        ("capture-oasdi-75-year-solvency-path", 2),
+        ("capture-oasdi-taxable-payroll-base", 3),
+        ("capture-social-security-benefit-adequacy-floors", 4),
+        ("capture-old-age-poverty-floor-values", 5),
+        ("capture-ssa-administration-transition-capacity", 6),
+    ];
+    for (work_item_id, priority) in expected {
+        let item = items
+            .iter()
+            .find(|item| string_field(item, "work_item_id").as_deref() == Ok(work_item_id))
+            .ok_or_else(|| format!("missing Social Security capture item: {work_item_id}"))?;
+        if int_field(item, "priority")? != priority
+            || string_field(item, "official_source_family")?.is_empty()
+            || item
+                .get("needed_for")
+                .and_then(serde_json::Value::as_array)
+                .is_none_or(|values| values.is_empty())
+            || item
+                .get("required_fields")
+                .and_then(serde_json::Value::as_array)
+                .is_none_or(|values| values.is_empty())
+        {
+            return Err(format!(
+                "Social Security capture item shape failed: {work_item_id}"
+            ));
+        }
+        for field in [
+            "raw_artifact_path",
+            "raw_byte_count",
+            "raw_sha256",
+            "metadata_path",
+            "value",
+        ] {
+            if !item.get(field).is_some_and(serde_json::Value::is_null) {
+                return Err(format!(
+                    "Social Security capture item field must be null: {work_item_id}.{field}"
+                ));
+            }
+        }
+        if item.get("ready").and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "Social Security capture item must not be ready: {work_item_id}"
+            ));
+        }
+    }
+
+    let counts = record
+        .get("aggregate_status")
+        .ok_or("Social Security capture aggregate status")?;
+    for (field, expected) in [
+        ("capture_item_count", 6),
+        ("values_populated_count", 0),
+        ("items_ready_count", 0),
+        ("threshold_values_selected", 0),
+        ("baseline_values_populated", 0),
+        ("policy_values_populated", 0),
+        ("stress_values_populated", 0),
+        ("solver_ready_items", 0),
+        ("public_rate_ready_items", 0),
+    ] {
+        if int_field(counts, field)? != expected {
+            return Err(format!(
+                "Social Security capture aggregate count failed: {field}"
+            ));
+        }
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Social Security capture blocked outputs")?;
+    for (field, value) in blocked {
+        if !value.is_null() {
+            return Err(format!(
+                "Social Security capture blocked output must be null: {field}"
+            ));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Social Security capture claims")?;
+    for (field, value) in claims {
+        let observed = value
+            .as_bool()
+            .ok_or("Social Security capture claim bool")?;
+        if field == "social_security_source_capture_queue_published" {
+            if !observed {
+                return Err("Social Security capture queue published flag must be true".to_string());
+            }
+        } else if observed {
+            return Err(format!(
+                "Social Security capture claim must be false: {field}"
+            ));
+        }
+    }
+
+    let warning = string_field(&record, "public_warning")?;
+    for required in [
+        "names official-source work items only",
+        "not SSA raw source custody",
+        "not an OASDI annual fund path",
+        "not a 75-year solvency path",
+        "not a taxable payroll base",
+        "not benefit adequacy or old-age poverty floor values",
+        "not pass/fail findings",
+        "not lower-cost scenario admissibility",
+        "not target-cost selection",
+        "not gross savings",
+        "not net savings",
+        "not solver input",
+        "not rate calculation",
+        "not a public rate card",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !warning.contains(required) {
+            return Err(format!(
+                "Social Security capture warning missing: {required}"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(SOCIAL_SECURITY_SOURCE_CAPTURE_QUEUE_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        SOCIAL_SECURITY_SOURCE_CAPTURE_QUEUE_JSON_PATH,
+        "OASDI annual fund path",
+        "OASDI 75-year solvency path",
+        "OASDI taxable payroll base",
+        "Social Security benefit adequacy floors",
+        "Old-age poverty floor values",
+        "SSA administration and transition capacity",
+        "not SSA raw source custody",
+        "not an OASDI annual fund path",
+        "not a 75-year solvency path",
+        "not a taxable payroll base",
+        "not gross savings",
+        "not net savings",
+        "not solver input",
+        "not rate calculation",
+        "not a public rate card",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!(
+                "Social Security capture reader missing: {required}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_defense_outcome_floor_definition_packet(root: &Path) -> Result<(), String> {
     for path in [
         DEFENSE_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
@@ -42107,6 +42331,12 @@ mod global_country_comparison_tests {
     fn social_security_source_readiness_gap_blocks_denominator_to_solver_shortcut() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_social_security_source_readiness_gap(&root).unwrap();
+    }
+
+    #[test]
+    fn social_security_source_capture_queue_orders_work_without_values() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_social_security_source_capture_queue(&root).unwrap();
     }
 
     #[test]
