@@ -1021,3 +1021,9 @@ schedules, policy-commitment/comparator context, audit-control context, and
 transition/industrial-base capacity. Values, solver inputs, rates, savings,
 department-cut instructions, technology-savings claims, and balanced-budget
 claims remain blocked.
+
+`defense_source_capture_status_rollup.v1.draft.json` summarizes the post-queue
+defense source-capture status. All six source families remain open, with raw
+custody, context readiness, force-structure plans, readiness values, procurement
+schedules, solver inputs, rates, savings, department-cut instructions,
+technology-savings claims, and balanced-budget claims blocked.

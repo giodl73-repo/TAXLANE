@@ -585,6 +585,11 @@ It is the bounded public surface, not a performance or savings report.
      source work, but all values, solver inputs, rates, savings, department-cut
      instructions, technology-savings claims, and balanced-budget claims remain
      blocked.
+126. Read `defense-source-capture-status-rollup.md` before treating defense
+     source-capture work as complete. All six capture families remain open; raw
+     custody, force-structure plans, readiness values, procurement schedules,
+     solver inputs, rates, savings, department-cut instructions,
+     technology-savings claims, and balanced-budget claims remain blocked.
 
 ## Public-Use Guardrail
 
