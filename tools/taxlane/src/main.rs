@@ -34876,6 +34876,26 @@ fn validate_taxlane_showcase_readiness_summary(root: &Path) -> Result<(), String
         }
     }
 
+    let research_index =
+        fs::read_to_string(root.join("docs/research/README.md")).map_err(|e| e.to_string())?;
+    for required in [
+        "## Showcase Research Path",
+        "docs/reading/taxlane-showcase-readiness-summary.md",
+        "current showable research/readiness state",
+        "public-policy thesis and source trail",
+        "do not by themselves make",
+        "solver inputs, rates, savings, public rate cards",
+        "department-cut instructions",
+        "technology-savings claims",
+        "balanced-budget outputs ready",
+    ] {
+        if !research_index.contains(required) {
+            return Err(format!(
+                "Taxlane research index showcase route missing: {required}"
+            ));
+        }
+    }
+
     let contributing =
         fs::read_to_string(root.join("CONTRIBUTING.md")).map_err(|e| e.to_string())?;
     for required in [
