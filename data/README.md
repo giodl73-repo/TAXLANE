@@ -6,6 +6,15 @@ separate from `docs/data/`, which defines schemas and custody rules in prose.
 No file in this directory is public-facing explanation by itself. Public claims
 must be written in `docs/` and cite source IDs, schema files, and review status.
 
+## Showcase Custody Path
+
+For the current showable source-custody/readiness state, start with
+`docs/reading/taxlane-showcase-readiness-summary.md` and the machine record
+`data/derived/breadth_benchmark_matrix/taxlane_showcase_readiness_summary.v1.draft.json`.
+Those artifacts explain which evidence trails are demo-ready and which solver,
+rate, savings, public-card, department-cut, technology-savings, and balanced-
+budget outputs remain blocked.
+
 ## Directory Map
 
 | Directory | Purpose | Commit rule |
@@ -39,8 +48,15 @@ Use these statuses in metadata and extracted records:
 
 ## Validation
 
-The repo-level validation command remains:
+For documentation-only changes, run:
 
 ```powershell
 git diff --check
+```
+
+For data, derived records, source links, chart specs, manifests, or public
+packets, run the full guardrail:
+
+```powershell
+cargo run -p taxlane-tools -- income-tax-outlay validate
 ```

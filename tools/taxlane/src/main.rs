@@ -34788,6 +34788,24 @@ fn validate_taxlane_showcase_readiness_summary(root: &Path) -> Result<(), String
         }
     }
 
+    let data_index = fs::read_to_string(root.join("data/README.md")).map_err(|e| e.to_string())?;
+    for required in [
+        "## Showcase Custody Path",
+        "docs/reading/taxlane-showcase-readiness-summary.md",
+        "data/derived/breadth_benchmark_matrix/taxlane_showcase_readiness_summary.v1.draft.json",
+        "source-custody/readiness state",
+        "which solver,",
+        "rate, savings, public-card, department-cut, technology-savings, and balanced-",
+        "budget outputs remain blocked",
+        "cargo run -p taxlane-tools -- income-tax-outlay validate",
+    ] {
+        if !data_index.contains(required) {
+            return Err(format!(
+                "Taxlane data index showcase route missing: {required}"
+            ));
+        }
+    }
+
     let contributing =
         fs::read_to_string(root.join("CONTRIBUTING.md")).map_err(|e| e.to_string())?;
     for required in [

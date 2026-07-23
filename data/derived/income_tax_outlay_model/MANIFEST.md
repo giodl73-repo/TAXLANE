@@ -516,7 +516,7 @@ supporting views.
 | `crates/taxlane-core/Cargo.toml` | Rust Taxlane core crate manifest | tooling | n/a | supporting | `6469c9f3c3d01bc0c51783255082c93ed608c6c64c0d4f32f5cd2c08f2426fb9` |
 | `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `9e7946b1c1d60fec9fab496bf93b8907230f8daceba80b4538f485af0b3455a5` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `b910e56a20f40547ac1e4f696e84772dde163738b03915ddbcc0d0a39427719a` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `68e302c869690521a77a3ff4eae77997c0ea04350f88d8efd7811337ecd60934` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `f66b8f301cbb5b27cbfe3ec3c77ea972b0c3825c4d8cfd4a5315a06ab8759198` |
 
 ## Regeneration Order
 
