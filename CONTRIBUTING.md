@@ -14,6 +14,14 @@ legal, accounting, investment, or national-security advice.
 - Display review: check whether taxpayer-facing receipt copy labels payer base,
   beneficiary base, financing relationship, denominator, and allocation status.
 
+## Readiness First
+
+Before changing public-facing docs, start with the
+[Taxlane showcase readiness summary](docs/reading/taxlane-showcase-readiness-summary.md).
+It is the current statement of what the repo can show and what remains blocked:
+solver inputs, rates, savings, public rate cards, department-cut instructions,
+technology-savings claims, and balanced-budget claims.
+
 ## Claim Rules
 
 - Label every public allocation claim as current law, legal dedication,

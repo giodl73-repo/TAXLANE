@@ -34773,6 +34773,24 @@ fn validate_taxlane_showcase_readiness_summary(root: &Path) -> Result<(), String
         }
     }
 
+    let contributing =
+        fs::read_to_string(root.join("CONTRIBUTING.md")).map_err(|e| e.to_string())?;
+    for required in [
+        "## Readiness First",
+        "docs/reading/taxlane-showcase-readiness-summary.md",
+        "what the repo can show and what remains blocked",
+        "solver inputs, rates, savings, public rate cards",
+        "department-cut instructions",
+        "technology-savings claims",
+        "balanced-budget claims",
+    ] {
+        if !contributing.contains(required) {
+            return Err(format!(
+                "Taxlane contributing showcase route missing: {required}"
+            ));
+        }
+    }
+
     Ok(())
 }
 
