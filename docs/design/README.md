@@ -4,6 +4,14 @@ Design handoffs describe static display rules for TAXLANE artifacts. They are
 not app implementations, taxpayer calculators, legal claims, or public-release
 approvals.
 
+## Showcase Design Path
+
+Before using a design handoff in a demo, read
+`docs/reading/taxlane-showcase-readiness-summary.md`. The current showable
+surface is source-custody/readiness and claim-boundary discipline, not a
+taxpayer calculator, public rate card, solver run, savings estimate, or
+balanced-budget plan.
+
 | Spec | Purpose |
 |---|---|
 | `placeholder-receipt-placement-spec.md` | Placement rules for keeping the placeholder receipt charts, financing context, and required caveats together. |

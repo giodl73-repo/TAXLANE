@@ -34822,6 +34822,23 @@ fn validate_taxlane_showcase_readiness_summary(root: &Path) -> Result<(), String
         }
     }
 
+    let design_index =
+        fs::read_to_string(root.join("docs/design/README.md")).map_err(|e| e.to_string())?;
+    for required in [
+        "## Showcase Design Path",
+        "docs/reading/taxlane-showcase-readiness-summary.md",
+        "source-custody/readiness and claim-boundary discipline",
+        "not a",
+        "taxpayer calculator, public rate card, solver run, savings estimate, or",
+        "balanced-budget plan",
+    ] {
+        if !design_index.contains(required) {
+            return Err(format!(
+                "Taxlane design index showcase route missing: {required}"
+            ));
+        }
+    }
+
     let contributing =
         fs::read_to_string(root.join("CONTRIBUTING.md")).map_err(|e| e.to_string())?;
     for required in [

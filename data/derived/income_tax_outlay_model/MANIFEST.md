@@ -471,7 +471,7 @@ supporting views.
 | `docs/reading/placeholder-receipt-display-packet.md` | Placeholder receipt static display packet | documentation | n/a | supporting | `aa2f3fd899fa1dd763b9482c4d4aae81fcde3e77aeb8ce01b1626d10155f35f2` |
 | `reviews/2026-06-23-placeholder-display-packet-role-review.md` | Placeholder receipt display packet role review | documentation | n/a | supporting | `1a0825afa9a4db902ea1d17a0a69443e0caeb2a6ae7c805f3718282c8806fd68` |
 | `docs/design/placeholder-receipt-placement-spec.md` | Placeholder receipt static placement spec | documentation | n/a | supporting | `31202dd33c7a82f87e7a32aab4a3a726021cc02abb4814f9ebe1b740f6c6a201` |
-| `docs/design/README.md` | Design handoff index | documentation | n/a | supporting | `f4bc4bb5f9b5a602ad8dab45de2c1b0ce91825d5f26bdde80aa8df7786643d57` |
+| `docs/design/README.md` | Design handoff index | documentation | n/a | supporting | `a1bce8097139ada9ad43d8994b57a9a8cc7c1c2ab769c0b8ddf8e396e6a092ce` |
 | `reviews/2026-06-23-placeholder-placement-spec-role-review.md` | Placeholder receipt placement spec role review | documentation | n/a | supporting | `6c793e8988db21628e8fb332f06de5a4d24d64fdaa73460e7e1cac99cea6104f` |
 | `docs/design/placeholder-receipt-mockup-review-checklist.md` | Placeholder receipt mockup review checklist | documentation | n/a | supporting | `8a6fe7c31eec90739096cce0e358bd3475df86d0826c07dbab37d4f39120e7f6` |
 | `reviews/2026-06-23-placeholder-mockup-checklist-role-review.md` | Placeholder receipt mockup checklist role review | documentation | n/a | supporting | `a5ce525e2999eae057bc661a7489200192737469ea310d75a401f20e78b913d5` |
@@ -516,7 +516,7 @@ supporting views.
 | `crates/taxlane-core/Cargo.toml` | Rust Taxlane core crate manifest | tooling | n/a | supporting | `6469c9f3c3d01bc0c51783255082c93ed608c6c64c0d4f32f5cd2c08f2426fb9` |
 | `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `9e7946b1c1d60fec9fab496bf93b8907230f8daceba80b4538f485af0b3455a5` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `b910e56a20f40547ac1e4f696e84772dde163738b03915ddbcc0d0a39427719a` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `5ec5f54aa05fa9cdb39c760cdb11c91565ee9cbf1ef66f5cc67becf66e27195b` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `8914fcd2dfc47bc1a978abd07b17af7310f87e7b65fdb2af9dda077a79df164c` |
 
 ## Regeneration Order
 
