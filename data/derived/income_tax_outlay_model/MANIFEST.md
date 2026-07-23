@@ -500,13 +500,13 @@ supporting views.
 | `reviews/2026-06-23-accountability-performance-demand-dashboard-review.md` | Accountability performance demand dashboard review | documentation | n/a | supporting | `3627a2017625e607d60ea1d7708291620e6cf076dd93ceaa0b7afb9770cc01c9` |
 | `reviews/2026-06-23-rust-core-crate-architecture-review.md` | Rust core crate architecture review | documentation | n/a | supporting | `04203820d1dd05d067146fa2ca1b7f2fbe5f95346e6c0b3ccbc95d09fc8808ba` |
 | `docs/vtrace/MISSION.md` | VTRACE mission | documentation | n/a | supporting | `751833c38bcc467ffe7e2c926195397ce396106830452c0d1f9b3039d6c211a6` |
-| `docs/vtrace/REQUIREMENTS.md` | VTRACE requirements | documentation | n/a | supporting | `1a22419ccf0b3a10644391d410774e6ab290960913cf1e745431c68e28868913` |
-| `docs/vtrace/SPECIFICATION_BASELINE.md` | VTRACE specification baseline | documentation | n/a | supporting | `dfb7c1462974eeac27fffe451e989211dfe4497b145bb56df15f6a671f010678` |
-| `docs/vtrace/TRACE.md` | VTRACE trace matrix | documentation | n/a | supporting | `fdfa663974315d7abddffca570052335aa9743ce73dcc3860df09622bf522fbc` |
-| `docs/vtrace/WORK_PACKAGES.md` | VTRACE work packages | documentation | n/a | supporting | `dd341acdb6ae74fd6196f37ece77075c41e0bfea758c6bb393cb2467c93bc55a` |
-| `docs/vtrace/VERIFICATION.md` | VTRACE verification plan | documentation | n/a | supporting | `9126ac80288cfdf9ad11d5c476f553153618ea1f102b33a7b1c9b13bd462bf34` |
-| `docs/vtrace/VALIDATION.md` | VTRACE validation scenarios | documentation | n/a | supporting | `02b746a60b36634606ab573fa27461cc5ff14bd0ece614577ace7460f7c4578f` |
-| `docs/vtrace/EVIDENCE.md` | VTRACE evidence ledger | documentation | n/a | supporting | `2267f42b709cc9d72ee49cf1af5c51a030e58ddaab4ebd5753f933a9bf38b46d` |
+| `docs/vtrace/REQUIREMENTS.md` | VTRACE requirements | documentation | n/a | supporting | `9b1894762639573be5d2649cd70a599c866767e080a30441949467a0b7e4fa35` |
+| `docs/vtrace/SPECIFICATION_BASELINE.md` | VTRACE specification baseline | documentation | n/a | supporting | `6f78949bebf2bf46ce9fe14bfa097d1e8f0858d0498735666de950355d5e6177` |
+| `docs/vtrace/TRACE.md` | VTRACE trace matrix | documentation | n/a | supporting | `d784af3911641b4640613cc0019ca6274bd79176c2ea9d7ed6f88a525c081b18` |
+| `docs/vtrace/WORK_PACKAGES.md` | VTRACE work packages | documentation | n/a | supporting | `61bea3a8dc34ff8dade0803af2f9624365e52474669a66824d1310458561abca` |
+| `docs/vtrace/VERIFICATION.md` | VTRACE verification plan | documentation | n/a | supporting | `92b8dd6c63cc213af5067cd38ec79eecb3a063d20ce74f7df78d22512dc57486` |
+| `docs/vtrace/VALIDATION.md` | VTRACE validation scenarios | documentation | n/a | supporting | `138e38c4c8ab3b2b2f195c19c153718fbd921ede53b718fe3dcb6026e3618ee3` |
+| `docs/vtrace/EVIDENCE.md` | VTRACE evidence ledger | documentation | n/a | supporting | `4e142e994a080d80d588dd4b86b353e09e0fbf53d77bf2c11bd1fc34e8feb2db` |
 | `docs/vtrace/REVIEW.md` | VTRACE adoption review | documentation | n/a | supporting | `52ed83ae325229c3da170b7842dbf07d33f76be84c7e56d0a48aacb8595dd7ff` |
 | `docs/charts/taxpayer-receipt-model/README.md` | Taxpayer receipt chart set handoff note | documentation | n/a | supporting | `29b98ce16cccf88869779c079dc652d7da15583777e015a1d2b8481e9c63250d` |
 | `docs/charts/taxpayer-receipt-model/placeholder-lane-bars.vl.json` | Placeholder receipt lane bar chart spec | visualization spec | n/a | view | `f4233308571464bf6a58fb417803453a32c054fe43a2869d9ae93ffb616f3ccf` |
