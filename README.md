@@ -14,9 +14,11 @@ If you are evaluating the project, start here:
    to see the core before/after product idea.
 3. Read the [budget-area funding explainer](docs/reading/budget-area-funding-explainer.md)
    for the paper-backed public-policy thesis.
-4. Open the compiled paper set in [docs/papers](docs/papers/README.md), starting
+4. Check the active [adaptive-rate wave frontier](context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md#current-frontier)
+   to see how the repo turns the thesis into guarded machine-readable gates.
+5. Open the compiled paper set in [docs/papers](docs/papers/README.md), starting
    with `0+legible-federal-funding.pdf`.
-5. Run `cargo run -p taxlane-tools -- income-tax-outlay validate` to check the
+6. Run `cargo run -p taxlane-tools -- income-tax-outlay validate` to check the
    derived records, chart specs, public packet links, and claim guardrails.
 
 TAXLANE is ready to show as a source-backed civic research artifact, not as tax,
@@ -53,6 +55,12 @@ unknown payments and labels $161.540B as improper plus unknown.
 Use the [headline-number selection guide](docs/reading/headline-number-selection-guide.md)
 when choosing among gross/net interest, defense function/subfunction, or
 federal/system-wide health measures.
+
+The active implementation frontier is the
+[adaptive-rate wave](context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md#current-frontier).
+It shows what is already source-custodied, what remains partial, and which gates
+must close before target costs, solver inputs, rates, savings, or
+balanced-budget claims can be published.
 
 Alternative fiscal institutions live under [experiments](experiments/README.md).
 The first experiment simulates an annual computer ballot on which every voter

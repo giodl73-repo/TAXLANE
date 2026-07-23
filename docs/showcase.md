@@ -31,7 +31,12 @@ what is still only a proposal.
 5. Open [docs/papers](papers/README.md), then start with
    `0+legible-federal-funding.pdf`. Explain that the markdown papers are the
    source of truth and the PDFs are convenience renders.
-6. Run the validation command:
+6. Open the
+   [adaptive-rate wave frontier](../context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md#current-frontier).
+   Show how the repo translates the research thesis into machine-readable gates
+   that keep rates, savings, and balanced-budget claims blocked until evidence
+   closes.
+7. Run the validation command:
 
    ```powershell
    cargo run -p taxlane-tools -- income-tax-outlay validate
@@ -48,9 +53,31 @@ what is still only a proposal.
   source files.
 - Public packets for funding lanes, spending categories, payment integrity,
   cost-down evidence queues, and benchmark gaps.
+- An adaptive-rate operating frontier that names current source custody,
+  context-only artifacts, missing evidence, and active closure gates without
+  pretending a rate proposal is ready.
 - Source custody through `docs/sources/source-version-ledger.md`.
 - A Rust validation harness that checks the derived records and public artifact
   contracts.
+
+## Active Implementation Frontier
+
+The current wave is
+[Adaptive Rate and Performance System](../context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md).
+It is the best place to show how TAXLANE turns the policy thesis into guarded
+implementation work.
+
+Current frontier:
+
+- Pulses 82 through 193 have created rate, risk, modernization, public-card,
+  pilot, simulator, current-law, lane-depth, receipt-base, distribution,
+  reserve, net-interest, and closure-gate artifacts.
+- The transportation pilot has scaffold and partial source context, but no
+  publishable simulator run, rate, target cost, savings claim, or balanced-budget
+  claim.
+- The active Pulse 193 queue is income-security/family source-capture closure:
+  program perimeter, CBO baseline/take-up, child poverty/income, childcare,
+  food/nutrition, and international comparator lineage remain open.
 
 ## What To Say Carefully
 
@@ -60,6 +87,8 @@ what is still only a proposal.
 - "Improper payment, fraud, and recoverable savings are different quantities."
 - "Rate recommendations are reform proposals and value judgments, not current
   law and not personal tax advice."
+- "The adaptive-rate system is a gated implementation surface; the current
+  frontier is source lineage and readiness, not published rates."
 - "AI-simulated reviewers are review lenses, not real people or endorsements."
 
 ## What Not To Claim
@@ -69,6 +98,8 @@ what is still only a proposal.
 - Do not turn spend size into a fraud, waste, abuse, or savings finding.
 - Do not call benchmark gaps recoverable savings unless the source chain proves
   recoverability, access floors, confidence, and implementation path.
+- Do not imply the adaptive-rate wave has produced public rates, solver outputs,
+  savings, or a balanced-budget plan.
 - Do not treat the paper PDFs as separate edited publications; markdown remains
   the source tier.
 
