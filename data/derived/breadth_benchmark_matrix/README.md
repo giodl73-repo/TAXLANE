@@ -930,6 +930,13 @@ It names candidate ACF CCDF and TANF source surfaces but keeps local raw custody
 childcare access floors, work/care transition, delivery feasibility, solver
 inputs, rates, savings, and balanced-budget claims blocked.
 
+`income_security_family_food_hardship_nutrition_capture_gap.v1.draft.json`
+records the still-open USDA food hardship and nutrition source-custody gate. It
+names candidate ERS food-security and FNS SNAP source surfaces but keeps local
+raw custody, food-security measures, SNAP participation/benefit context,
+material-hardship floors, solver inputs, rates, savings, and balanced-budget
+claims blocked.
+
 `revenue_solvency_outcome_floor_definition_packet.v1.draft.json` extends the
 floor definition packet pattern to the non-additive revenue-solvency overlay. It
 defines distributional-progressivity, revenue-stability, administrability,

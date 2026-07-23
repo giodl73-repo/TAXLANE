@@ -123,6 +123,7 @@ explainers. They should keep three labels visible:
 | `income-security-family-child-relative-poverty-context-bridge.md` | Pulse 196 bridge: existing OECD child relative-poverty context for income-security/family, with Census domestic poverty custody, floor values, solver inputs, rates, and savings still blocked. |
 | `income-security-family-socx-family-benefit-comparator-bridge.md` | Pulse 197 bridge: existing OECD SOCX public family-benefit total/cash/service comparator context, with tax-credit, childcare, ESSPROS/ILO, solver, rate, and savings gates still blocked. |
 | `income-security-family-childcare-family-service-capture-gap.md` | Pulse 198 gap: HHS/ACF childcare and family-service source custody remains open; CCDF/TANF context, floors, solver inputs, rates, and savings remain blocked. |
+| `income-security-family-food-hardship-nutrition-capture-gap.md` | Pulse 199 gap: USDA food hardship and nutrition source custody remains open; ERS/FNS context, floors, solver inputs, rates, and savings remain blocked. |
 | `where-federal-money-goes.md` | Spending-side packet showing the largest FY2025 outlay categories, financing context, and safe accountability questions. |
 | `cost-down-backlog.md` | Pressure-linked levers for lowering cost over time without publishing unsupported savings claims. |
 | `cost-down-evidence-queue.md` | First-pass extraction queue for the cost-down source packets. |
@@ -523,130 +524,135 @@ It is the bounded public surface, not a performance or savings report.
      raw custody, CCDF context, TANF context, childcare-access floor values,
      work/care transition, delivery feasibility, solver inputs, rates, savings,
      and balanced-budget claims remain blocked.
-112. Read `revenue-solvency-outcome-floor-definition-packet.md` before treating
+112. Read `income-security-family-food-hardship-nutrition-capture-gap.md`
+     before treating food-hardship or nutrition context as available. USDA raw
+     custody, ERS food-security context, FNS SNAP context, material-hardship
+     floors, food-security floors, solver inputs, rates, savings, and
+     balanced-budget claims remain blocked.
+113. Read `revenue-solvency-outcome-floor-definition-packet.md` before treating
      any receipt-base concept, revenue package, rate, or tax proposal as ready.
      Revenue-solvency is non-additive; matched bases, behavior, incidence,
      distribution, administration, thresholds, pass/fail findings, solver
      inputs, and balanced-budget claims remain blocked.
-113. Read `net-interest-outcome-floor-definition-packet.md` before treating any
+114. Read `net-interest-outcome-floor-definition-packet.md` before treating any
      net-interest amount as cuttable or solver-ready. Net interest is endogenous;
      debt, maturity, rate, primary-balance feedback, thresholds, pass/fail
      findings, solver inputs, and balanced-budget claims remain blocked.
-114. Read `payment-integrity-outcome-floor-definition-packet.md` before treating
+115. Read `payment-integrity-outcome-floor-definition-packet.md` before treating
      any improper-payment estimate, control concept, or collection concept as
      savings-ready. Payment integrity is non-additive; fraud findings, causal
      prevention lineage, same-cohort collection lineage, thresholds, pass/fail
      findings, solver inputs, and balanced-budget claims remain blocked.
-115. Read `veterans-outcome-floor-definition-packet.md` before treating any
+116. Read `veterans-outcome-floor-definition-packet.md` before treating any
      veterans cohort, service package, or lower-cost scenario as admissible.
      Earned eligibility, statutory continuity, thresholds, pass/fail findings,
      target costs, savings, solver inputs, and balanced-budget claims remain
      blocked.
-116. Read `transportation-infrastructure-outcome-floor-definition-packet.md`
+117. Read `transportation-infrastructure-outcome-floor-definition-packet.md`
      before treating any transportation pilot, asset inventory, maintenance gap,
      or lower-cost scenario as admissible. The pilot floor contract remains
      thresholdless; thresholds, pass/fail findings, simulator runs, target
      costs, savings, solver inputs, and balanced-budget claims remain blocked.
-117. Read `education-workforce-outcome-floor-definition-packet.md` before
+118. Read `education-workforce-outcome-floor-definition-packet.md` before
      treating any education/workforce lower-cost scenario as admissible. The
      negative higher-education entry is accounting, not savings; thresholds,
      pass/fail findings, federal/state/local translation, program-to-outlay
      allocation, target costs, savings, solver inputs, and balanced-budget claims
      remain blocked.
-118. Read `disaster-resilience-outcome-floor-definition-packet.md` before
+119. Read `disaster-resilience-outcome-floor-definition-packet.md` before
      treating any disaster lower-cost scenario, reserve path, mitigation result,
      or declaration evidence as admissible. Declarations are not spending,
      project amounts are not outlays, and benefit-cost ratios are not realized
      savings; thresholds, pass/fail findings, reserve rules, target costs,
      savings, solver inputs, and balanced-budget claims remain blocked.
-119. Read `justice-courts-public-safety-outcome-floor-definition-packet.md`
+120. Read `justice-courts-public-safety-outcome-floor-definition-packet.md`
      before treating any justice lower-cost scenario, all-government comparison,
      or component policy path as admissible. Federal function 750 is not the full
      US justice system; thresholds, pass/fail findings, rights review, target
      costs, savings, solver inputs, and balanced-budget claims remain blocked.
-120. Read `science-energy-environment-outcome-floor-definition-packet.md`
+121. Read `science-energy-environment-outcome-floor-definition-packet.md`
      before treating any science, energy, environment, or combined subtotal as
      admissible. The composed subtotal is not one OMB function, one program, one
      performance surface, or one composite target; component scenarios,
      thresholds, target costs, savings, solver inputs, and balanced-budget claims
      remain blocked.
-121. Read `agriculture-outcome-floor-definition-packet.md` before treating any
+122. Read `agriculture-outcome-floor-definition-packet.md` before treating any
      agriculture lower-cost scenario, crop-insurance integrity estimate, account
      crosswalk, or nutrition handoff as admissible. Nutrition belongs to income
      security, and crop-insurance integrity context is not fraud or savings;
      thresholds, target costs, savings, solver inputs, and balanced-budget claims
      remain blocked.
-122. Read `international-affairs-outcome-floor-definition-packet.md` before
+123. Read `international-affairs-outcome-floor-definition-packet.md` before
      treating any international-affairs lower-cost scenario, negative financial
      program entry, or mixed GDP comparison as admissible. Diplomacy, ODA,
      humanitarian, security, exchange, and financial instruments remain separate;
      thresholds, target costs, savings, solver inputs, and balanced-budget claims
      remain blocked.
-123. Read `lane-floor-readiness-rollup.md` to answer whether floor-definition
+124. Read `lane-floor-readiness-rollup.md` to answer whether floor-definition
      packet coverage is complete. Coverage is complete across all fifteen
      analytical lanes, but thresholds, floor passage, component policy paths,
      solver inputs, savings, rates, and balanced-budget claims remain blocked.
-124. Read `lane-floor-source-work-queue.md` before capturing floor thresholds
+125. Read `lane-floor-source-work-queue.md` before capturing floor thresholds
      or observed floor values. It names official source families and next
      capture actions, but no threshold, value, pass/fail finding, solver input,
      rate, savings claim, or balanced-budget claim is populated.
-125. Read `health-floor-source-capture-status.md` before treating existing OMB
+126. Read `health-floor-source-capture-status.md` before treating existing OMB
      health fiscal custody as outcome-floor evidence. It supports FY2025 fiscal
      context only; floor indicator custody, thresholds, observed values,
      pass/fail findings, policy scores, solver inputs, rates, and savings remain
      blocked.
-126. Read `health-medicare-trustees-source-capture-status.md` before using CMS
+127. Read `health-medicare-trustees-source-capture-status.md` before using CMS
      Medicare Trustees rows in the health/Medicare lane. The source supports
      CY2025 Medicare financing and enrollment context only; floor thresholds,
      observed floor values, pass/fail findings, solver inputs, rates, savings,
      and balanced-budget claims remain blocked.
-127. Read `health-nhe-source-custody-gap.md` before treating CMS NHE references
+128. Read `health-nhe-source-custody-gap.md` before treating CMS NHE references
      in health sensitivity artifacts as source custody. NHE source IDs are
      referenced, but raw NHE custody, thresholds, observed floor values,
      pass/fail findings, solver inputs, rates, savings, and balanced-budget
      claims remain blocked.
-128. Read `health-cbo-source-custody-gap.md` before treating CBO references in
+129. Read `health-cbo-source-custody-gap.md` before treating CBO references in
      health context artifacts as source custody. CBO source IDs are referenced,
      but raw CBO health-baseline custody, federal policy translation, behavior
      modeling, incidence modeling, pass/fail findings, solver inputs, rates,
      savings, and balanced-budget claims remain blocked.
-129. Read `health-quality-access-indicator-source-gap.md` before treating
+130. Read `health-quality-access-indicator-source-gap.md` before treating
      health/Medicare quality, access, risk-adjusted outcome, rural-capacity, or
      safety-net-capacity indicators as floor values. Source families are
      declared, but raw custody, thresholds, observed values, pass/fail findings,
      solver inputs, rates, savings, and balanced-budget claims remain blocked.
-130. Read `health-source-readiness-rollup.md` to understand the current
+131. Read `health-source-readiness-rollup.md` to understand the current
      health/Medicare source-readiness state. OMB fiscal and CMS Medicare
      Trustees custody are context-only ready; NHE, CBO, and quality/access
      remain custody gaps; floor passage, solver inputs, rates, savings, and
      balanced-budget claims remain blocked.
-131. Read `social-security-source-readiness-gap.md` before using CY2025 OASDI
+132. Read `social-security-source-readiness-gap.md` before using CY2025 OASDI
      denominator context. The derived worker and beneficiary counts are
      context-only; SSA raw custody, annual fund paths, 75-year solvency paths,
      taxable payroll bases, floor values, solver inputs, rates, savings, and
      balanced-budget claims remain blocked.
-132. Read `social-security-source-capture-queue.md` before capturing Social
+133. Read `social-security-source-capture-queue.md` before capturing Social
      Security/OASDI solver or floor sources. It orders annual fund path,
      75-year solvency path, taxable payroll, adequacy, poverty, and
      administration/transition source work, but all values, solver inputs,
      rates, savings, and balanced-budget claims remain blocked.
-133. Read `defense-source-readiness-gap.md` before treating defense source
+134. Read `defense-source-readiness-gap.md` before treating defense source
      packet references as custody or policy evidence. GAO, CBO FYDP, DoD audit,
      and NATO references are context-only; force-structure plans, readiness
      values, procurement schedules, solver inputs, rates, savings, and
      balanced-budget claims remain blocked.
-134. Read `defense-source-capture-queue.md` before capturing defense solver or
+135. Read `defense-source-capture-queue.md` before capturing defense solver or
      floor sources. It orders force-structure, readiness, procurement,
      commitment/comparator, audit-control, and transition/industrial-base
      source work, but all values, solver inputs, rates, savings, department-cut
      instructions, technology-savings claims, and balanced-budget claims remain
      blocked.
-135. Read `defense-source-capture-status-rollup.md` before treating defense
+136. Read `defense-source-capture-status-rollup.md` before treating defense
      source-capture work as complete. All six capture families remain open; raw
      custody, force-structure plans, readiness values, procurement schedules,
      solver inputs, rates, savings, department-cut instructions,
      technology-savings claims, and balanced-budget claims remain blocked.
-136. Read `defense-source-capture-closure-work-queue.md` before treating
+137. Read `defense-source-capture-closure-work-queue.md` before treating
      defense source-capture closure gates as completed. It orders custody
      lineage, perimeter, audit-control, and transition/industrial-base closure
      work, but all closure values, lineage completion, solver inputs, rates,
