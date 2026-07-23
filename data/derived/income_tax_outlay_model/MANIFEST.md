@@ -63,7 +63,7 @@ supporting views.
 | `docs/reading/fiscal-policy-scale-baskets.md` | Public fiscal policy scale card | policy magnitude, arithmetic baskets, and non-additivity boundary | n/a | supporting | `221bb370656fb158c7a8a32eb2b53cb3390bcca2c86d4e73cf3024b2988f6039` |
 | `data/derived/breadth_benchmark_matrix/fiscal_policy_distribution_screen.v1.draft.json` | Fiscal policy distribution screen | incidence channels, exposed groups, and protection gates | n/a | supporting | `9389054550fc306cf03833d9f24fe9c4c6fd8745437b788e014cf353926a3ae0` |
 | `docs/reading/fiscal-policy-distribution-screen.md` | Public fiscal policy distribution card | burden channels and joint distribution-score boundary | n/a | supporting | `54ba65b1c8121ca99a5ac35158ab67828a63b8c59a3cc6c9f26b4c4b11e84a2e` |
-| `experiments/README.md` | Experiment family index | documentation | n/a | supporting | `d79510988076102cf2684afdb7f64d2e8ce83e9a174a233f028318f3e455e57e` |
+| `experiments/README.md` | Experiment family index | documentation | n/a | supporting | `fdf1f6b885242a0e6d0c09c523fffd6f96b45aa3eb02e0ec8a8110d189a432e5` |
 | `experiments/annual-budget-ballot/README.md` | Annual budget ballot experiment method | documentation | n/a | supporting | `434c1f6b43b68a4f1284f269c24fb218bd2844f4bec603bfce24d61c6c33b193` |
 | `experiments/annual-budget-ballot/ballot.schema.md` | Annual budget ballot contract | documentation | n/a | supporting | `f3b497d59931507bec33aa46d3da919146e7e9010874ea6161c1b266a76e26c2` |
 | `experiments/annual-budget-ballot/config.v1.json` | Annual budget ballot synthetic configuration | experiment configuration | n/a | supporting | `bc5950ae413f3292e2a88fac707860348007362861657eaf803f97cac11e159e` |
@@ -516,7 +516,7 @@ supporting views.
 | `crates/taxlane-core/Cargo.toml` | Rust Taxlane core crate manifest | tooling | n/a | supporting | `6469c9f3c3d01bc0c51783255082c93ed608c6c64c0d4f32f5cd2c08f2426fb9` |
 | `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `9e7946b1c1d60fec9fab496bf93b8907230f8daceba80b4538f485af0b3455a5` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `b910e56a20f40547ac1e4f696e84772dde163738b03915ddbcc0d0a39427719a` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `8914fcd2dfc47bc1a978abd07b17af7310f87e7b65fdb2af9dda077a79df164c` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `c143202f0c603a860bed3db714f801ad8aba01424b7112429e6467ff80d5bca7` |
 
 ## Regeneration Order
 
