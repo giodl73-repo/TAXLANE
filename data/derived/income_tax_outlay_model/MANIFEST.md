@@ -398,7 +398,7 @@ supporting views.
 | `docs/data/dictionary.md` | Data dictionary | documentation | n/a | supporting | `aaa1de02c4ccb013f1abe437127fea0df873cc0805200b773c2daf9d58838c97` |
 | `docs/data/accountability-evidence-schema.md` | Accountability evidence schema | documentation | n/a | supporting | `7055c188e186143f55ab688c85871413e2717e584261092fe3999304f3858608` |
 | `docs/research/2026-06-23-accountability-evidence-boundary.md` | Accountability evidence boundary note | documentation | n/a | supporting | `2c221e635642267d8594323de222a5cb14beb785fd2d776a892a74fba5311ecd` |
-| `docs/charts/README.md` | Chart catalog | documentation | n/a | supporting | `8c4b4a6b759ba6da3112836da9924c53ef5379ab0a29c431c6830f7c87880ec5` |
+| `docs/charts/README.md` | Chart catalog | documentation | n/a | supporting | `7fa8c2e53398a8fcd3fd0b5c4f78addfe560a28ea2012e2438d8fdd7f40d9942` |
 | `docs/charts/income-tax-outlay-subfunction-model/README.md` | Subfunction chart set handoff note | documentation | n/a | supporting | `e18e0744f33d7b0117fee2e7c9195be0477d529d23744f9d893068dcaf93950b` |
 | `docs/charts/income-tax-outlay-model/README.md` | Broad chart set handoff note | documentation | n/a | supporting | `0f20babf158a3e416382b32cecc1403115986391b6a02f0ab7d59372b0b7b1df` |
 | `docs/charts/income-tax-outlay-model/annual-stacked-area.vl.json` | Annual allocation chart spec | visualization spec | n/a | view | `dab4f7d15be91c7357c8595d14e8d58336048747bc7a3825cee756072dc05b54` |
@@ -516,7 +516,7 @@ supporting views.
 | `crates/taxlane-core/Cargo.toml` | Rust Taxlane core crate manifest | tooling | n/a | supporting | `6469c9f3c3d01bc0c51783255082c93ed608c6c64c0d4f32f5cd2c08f2426fb9` |
 | `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `9e7946b1c1d60fec9fab496bf93b8907230f8daceba80b4538f485af0b3455a5` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `b910e56a20f40547ac1e4f696e84772dde163738b03915ddbcc0d0a39427719a` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `f66b8f301cbb5b27cbfe3ec3c77ea972b0c3825c4d8cfd4a5315a06ab8759198` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `5ec5f54aa05fa9cdb39c760cdb11c91565ee9cbf1ef66f5cc67becf66e27195b` |
 
 ## Regeneration Order
 

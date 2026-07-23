@@ -34806,6 +34806,22 @@ fn validate_taxlane_showcase_readiness_summary(root: &Path) -> Result<(), String
         }
     }
 
+    let chart_index =
+        fs::read_to_string(root.join("docs/charts/README.md")).map_err(|e| e.to_string())?;
+    for required in [
+        "## Showcase Display Path",
+        "docs/reading/taxlane-showcase-readiness-summary.md",
+        "source-custody/readiness guardrail",
+        "not a rate, solver, savings, public-card",
+        "department-cut, technology-savings, or balanced-budget display",
+    ] {
+        if !chart_index.contains(required) {
+            return Err(format!(
+                "Taxlane chart index showcase route missing: {required}"
+            ));
+        }
+    }
+
     let contributing =
         fs::read_to_string(root.join("CONTRIBUTING.md")).map_err(|e| e.to_string())?;
     for required in [

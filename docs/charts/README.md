@@ -6,6 +6,13 @@ This catalog lists chart specifications that visualize TAXLANE data artifacts.
 The specs are handoff assets for analysis and future UI work. They do not
 change the underlying data or model methods.
 
+## Showcase Display Path
+
+Before using charts in a demo, read
+`docs/reading/taxlane-showcase-readiness-summary.md`. The current showcase is a
+source-custody/readiness guardrail, not a rate, solver, savings, public-card,
+department-cut, technology-savings, or balanced-budget display.
+
 ## Available Chart Sets
 
 | Chart set | Purpose | Data artifacts |
