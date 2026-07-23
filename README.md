@@ -10,15 +10,16 @@ program-linked taxes.
 If you are evaluating the project, start here:
 
 1. Read the [showcase guide](docs/showcase.md) for a 10-minute walkthrough.
-2. Read the [honest federal tax receipt](docs/reading/honest-federal-tax-receipt.md)
+2. Use the [demo script](docs/demo-script.md) when presenting the repo live.
+3. Read the [honest federal tax receipt](docs/reading/honest-federal-tax-receipt.md)
    to see the core before/after product idea.
-3. Read the [budget-area funding explainer](docs/reading/budget-area-funding-explainer.md)
+4. Read the [budget-area funding explainer](docs/reading/budget-area-funding-explainer.md)
    for the paper-backed public-policy thesis.
-4. Check the active [adaptive-rate wave frontier](context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md#current-frontier)
+5. Check the active [adaptive-rate wave frontier](context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md#current-frontier)
    to see how the repo turns the thesis into guarded machine-readable gates.
-5. Open the compiled paper set in [docs/papers](docs/papers/README.md), starting
+6. Open the compiled paper set in [docs/papers](docs/papers/README.md), starting
    with `0+legible-federal-funding.pdf`.
-6. Run `cargo run -p taxlane-tools -- income-tax-outlay validate` to check the
+7. Run `cargo run -p taxlane-tools -- income-tax-outlay validate` to check the
    derived records, chart specs, public packet links, and claim guardrails.
 
 TAXLANE is ready to show as a source-backed civic research artifact, not as tax,
@@ -147,8 +148,9 @@ the lane is legally dedicated, proportional, deficit-inclusive, or proposed.
 
 ## Reader packets
 
-For a curated public path, use [docs/showcase.md](docs/showcase.md). For the
-complete packet index, use [docs/reading/README.md](docs/reading/README.md).
+For a curated public path, use [docs/showcase.md](docs/showcase.md). For a live
+walkthrough, use [docs/demo-script.md](docs/demo-script.md). For the complete
+packet index, use [docs/reading/README.md](docs/reading/README.md).
 
 Start with `docs/reading/honest-federal-tax-receipt.md` for the one-page public
 case and prototype. It is the shortest route to TAXLANE's central contribution:

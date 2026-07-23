@@ -4,6 +4,8 @@ This is the short path for showing TAXLANE to a first-time reader, reviewer, or
 potential collaborator. It favors defensible public artifacts over the full
 research backlog.
 
+For a live walkthrough, use the companion [demo script](demo-script.md).
+
 ## One-Sentence Pitch
 
 TAXLANE turns the federal income-tax debate into a source-backed visibility
@@ -49,6 +51,8 @@ what is still only a proposal.
 
 - A reader-facing tax receipt standard that distinguishes current law,
   allocation models, and reform proposals.
+- A live [demo script](demo-script.md) that turns the artifact sequence into a
+  five- or fifteen-minute walkthrough.
 - Six accepted, panel-reviewed research papers with PDF renderings and markdown
   source files.
 - Public packets for funding lanes, spending categories, payment integrity,
