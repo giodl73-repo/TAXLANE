@@ -22,7 +22,7 @@ supporting views.
 
 | Path | Role | Grain | Rows | Canonical | SHA-256 |
 |---|---|---|---:|---|---|
-| `README.md` | Repository overview | documentation | n/a | supporting | `5cd57d9fca127118b8b0b3f87ee014073dda3bee90e5a63ba8dd13995775c4c9` |
+| `README.md` | Repository overview | documentation | n/a | supporting | `f353a49afec429fd0d3816298da110e88d456ea5e0c31ca9ed4ae8b80ec98c48` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.draft.jsonl` | Canonical annual model rows | fiscal year by broad category | 516 | yes | `01c0fec63836f3652fdd83b03a608159ad58f7614fc214ae6691421990f3a85e` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.decade-summary.jsonl` | Canonical decade summary rows | decade by broad category | 54 | yes | `088cb5d55cc6a37ab52dd543d8a92bf09908cda265e9c9f93324b840eb652fb3` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.annual-wide.csv` | Chart-ready annual wide view | fiscal year | 86 | no | `cbe6ec44a77b9ef4adebaef37acc4b55ac23fd5eb21916989ae9518cbd4e4c31` |
@@ -39,8 +39,8 @@ supporting views.
 | `data/derived/spend_category_map/spend-category-dashboard.md` | Spend category dashboard | documentation | n/a | supporting | `8d6021644a280e513137888054c5bb5ac0f92f9b41e2c2e136bdd63989471092` |
 | `data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.v1.draft.jsonl` | Breadth, depth, and current-versus-benchmark matrix | fiscal lane metric or explicit coverage gap | 17 | supporting | `264ee5ff5d234848bddb1eca1632e7aa0f2830c62dab58a13cca0448fde702aa` |
 | `data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.schema.md` | Breadth benchmark matrix schema | documentation | n/a | supporting | `43e37030c1cc92a5a104b4b6cb3615260b82ff9dff3a23539cbe929e7805fe64` |
-| `data/derived/breadth_benchmark_matrix/README.md` | Breadth benchmark matrix method note | documentation | n/a | supporting | `42ef751020bb583c6817fc1b2aab16709fb1618f8de2bd8ae44a06f8d4142dd1` |
-| `docs/reading/current-versus-benchmark-scoreboard.md` | Current-versus-benchmark public scoreboard | public comparison packet | n/a | supporting | `581d9bda4fd1304d1b7406d01e900fb9494a7951a260eb2e0cf2db434d03c46e` |
+| `data/derived/breadth_benchmark_matrix/README.md` | Breadth benchmark matrix method note | documentation | n/a | supporting | `f12467b3a266dfaedba2fdd1e74bda5272f0e99125d70f2e29671c214add3dc1` |
+| `docs/reading/current-versus-benchmark-scoreboard.md` | Current-versus-benchmark public scoreboard | public comparison packet | n/a | supporting | `b381aff326ef30c444e32c01734779c4dcfb9fe1798c4e39e27901062c422c6a` |
 | `data/derived/breadth_benchmark_matrix/health_cost_decomposition.v1.draft.json` | Health cost diagnostic decomposition | cross-country price, volume, administration, context, and outcome signals | n/a | supporting | `5470e94aa82b19f82b2d67bedcf773082c47c410a6e8780f95c4e96ef48df5f3` |
 | `docs/reading/health-cost-decomposition.md` | Public health cost decomposition card | public diagnostic depth card | n/a | supporting | `8fe05576200fe2ae03cff7ac47a96c07f586e49a0512bdfb2c52e72a2e69bed5` |
 | `data/derived/breadth_benchmark_matrix/health_service_price_volume_bridge.cy2024.v1.draft.json` | Health service price-volume bridge | CY2024 service-category spending, price, and residual non-price growth | n/a | supporting | `3b74fb6cfc7a51f003d46fc09ed593551bcad1599ea236b60d20dc9c10367c8b` |
@@ -466,7 +466,7 @@ supporting views.
 | `data/derived/accountability_evidence/performance-demand-checklist.schema.md` | Accountability performance demand checklist schema | documentation | n/a | supporting | `afdcb11bb20a75709acabb690655fd03ba8d3a56df522c7b09e8d4b4ffeff6d1` |
 | `data/derived/accountability_evidence/artifact-map.md` | Accountability artifact map | documentation | n/a | supporting | `f7b17b6046644a00ef117962cf60b089747c2fec1a7f91f0e13ecf9b9dd33a7b` |
 | `docs/reading/accountability-public-brief.md` | Reader-facing accountability brief | documentation | n/a | supporting | `cc225ff43f81fa0316f85a8f8ede225f5d1a51470f81d2a296e32820e7434c35` |
-| `docs/reading/README.md` | Reading packet index | documentation | n/a | supporting | `c8adb1ffcc59cab6b3ee9dd33ba964e9205c2ce4028e889aca5a8d28c2f60a66` |
+| `docs/reading/README.md` | Reading packet index | documentation | n/a | supporting | `e076f3cdb06a3a3e0c73d0e212a55d499b51943fb9894fba2ac9deacc5e8beb6` |
 | `docs/reading/placeholder-visibility-receipt.md` | Placeholder receipt reader packet | documentation | n/a | supporting | `4be976503aabb6c21ec77a553f185918190ebcb00e3300930d37e3a7a12f962e` |
 | `docs/reading/placeholder-receipt-display-packet.md` | Placeholder receipt static display packet | documentation | n/a | supporting | `aa2f3fd899fa1dd763b9482c4d4aae81fcde3e77aeb8ce01b1626d10155f35f2` |
 | `reviews/2026-06-23-placeholder-display-packet-role-review.md` | Placeholder receipt display packet role review | documentation | n/a | supporting | `1a0825afa9a4db902ea1d17a0a69443e0caeb2a6ae7c805f3718282c8806fd68` |

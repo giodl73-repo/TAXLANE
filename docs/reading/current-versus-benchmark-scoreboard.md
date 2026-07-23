@@ -87,8 +87,8 @@ outlay percentage.
 
 ## Fraud And Savings Firewall
 
-The current government-wide integrity top line is **$161.5 billion in FY2024
-reported improper plus unknown payments across covered programs**: $148.971B
+The current government-wide integrity top line is $161.5 billion in FY2024
+reported improper plus unknown payments across covered programs: $148.971B
 classified improper plus $12.570B unknown. It is not the full federal payment
 universe, not a fraud estimate, and not an automatically recoverable amount.
 

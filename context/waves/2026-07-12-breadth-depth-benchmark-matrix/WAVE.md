@@ -537,6 +537,15 @@ floor, transferability, and stability tests; sustained leaders are examples to
 study. Best-country and small-panel P85 targets are prohibited, and no existing
 ranking, efficiency, fraud, or savings gate opens.
 
+Pulse 70 (`pulses/pulse-70-family-support-target-rubric-application.md`) applies
+the rubric to family support. The current 2022 SOCX spending panel has only six
+observed non-US peers, below the median and favorable-quartile claim minimums.
+The United States is lower than all observed non-US peers on public family
+spending and higher than those peers on child relative poverty, but the measures
+stay display-only: mixed outcome years, missing spending peers, and untested
+access, quality, labor, and adequacy floors block a policy target, efficiency
+ranking, fraud, waste, or savings claim.
+
 ## Design rules
 
 - Never invent an expected value for a policy-dependent lane.
@@ -556,5 +565,5 @@ git diff --check
 
 ## Current pulse
 
-`pulses/pulse-69-international-comparator-target-rubric.md` records the latest
+`pulses/pulse-70-family-support-target-rubric-application.md` records the latest
 bounded slice and next decision gate.
