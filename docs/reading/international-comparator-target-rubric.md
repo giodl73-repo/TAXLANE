@@ -77,3 +77,11 @@ design
 
 Country comparisons can inform the first five steps. They cannot by themselves
 open an efficiency, waste, fraud, or savings claim.
+
+## First Application
+
+The first metric-specific application is
+[Family Support Target Rubric Application](family-support-target-rubric-application.md).
+It keeps family support at display-only descriptive status because the current
+bounded spending panel has six non-US peer observations, below the median and
+favorable-quartile claim minimums.

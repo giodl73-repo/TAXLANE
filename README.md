@@ -5,6 +5,26 @@ today, how it came to exist, what taxes are supposed to fund, and whether the
 single income-tax label should be replaced or explained as a set of distinct,
 program-linked taxes.
 
+## Show TAXLANE First
+
+If you are evaluating the project, start here:
+
+1. Read the [showcase guide](docs/showcase.md) for a 10-minute walkthrough.
+2. Read the [honest federal tax receipt](docs/reading/honest-federal-tax-receipt.md)
+   to see the core before/after product idea.
+3. Read the [budget-area funding explainer](docs/reading/budget-area-funding-explainer.md)
+   for the paper-backed public-policy thesis.
+4. Open the compiled paper set in [docs/papers](docs/papers/README.md), starting
+   with `0+legible-federal-funding.pdf`.
+5. Run `cargo run -p taxlane-tools -- income-tax-outlay validate` to check the
+   derived records, chart specs, public packet links, and claim guardrails.
+
+TAXLANE is ready to show as a source-backed civic research artifact, not as tax,
+legal, accounting, investment, or national-security advice. The public promise is
+legibility: show the payer base, beneficiary base, financing relationship,
+denominator, and claim status before asking a reader to trust a tax receipt,
+funding lane, or reform proposal.
+
 ## The Case In One Page
 
 A taxpayer receipt should not merely turn one income-tax payment into a tidy
@@ -119,6 +139,9 @@ the lane is legally dedicated, proportional, deficit-inclusive, or proposed.
 
 ## Reader packets
 
+For a curated public path, use [docs/showcase.md](docs/showcase.md). For the
+complete packet index, use [docs/reading/README.md](docs/reading/README.md).
+
 Start with `docs/reading/honest-federal-tax-receipt.md` for the one-page public
 case and prototype. It is the shortest route to TAXLANE's central contribution:
 every displayed amount must carry its payer base, beneficiary base, financing
@@ -173,10 +196,23 @@ value judgments, labeled as such.
 
 ## Validation
 
-This is a docs-first repo. The foundation validation command is:
+This is a docs-first repo with a Rust validator for derived artifacts. For the
+full source/derived-record guardrail run:
+
+```powershell
+cargo run -p taxlane-tools -- income-tax-outlay validate
+```
+
+For documentation-only changes, also run:
 
 ```powershell
 git diff --check
+```
+
+The compiled paper PDFs can be rebuilt with:
+
+```powershell
+pwsh docs/papers/build.ps1
 ```
 
 ## License

@@ -117,6 +117,7 @@ explainers. They should keep three labels visible:
 | `current-law-fy2025-fund-group-path.md` | Pulse 124 data packet: source-custodied FY2025 OMB fund-group actuals, with federal funds not relabeled as general fund and named trust-fund paths still blocked. |
 | `rate-change-worked-examples.md` | Three end-to-end examples of the rate-adjustment operating model (defense up, health down, Social Security cap lift). |
 | `budget-area-funding-explainer.md` | Lay distillation of the six panel-reviewed research papers: where the US over-funds (health), under-funds (family), funds by strategy (defense), runs a broken base (Social Security), and under-collects overall (revenue). Points to `docs/papers/`. |
+| `family-support-target-rubric-application.md` | First metric-specific application of the international comparator target rubric; family support remains display-only because the bounded spending panel is below the median and favorable-quartile claim minimums. |
 | `where-federal-money-goes.md` | Spending-side packet showing the largest FY2025 outlay categories, financing context, and safe accountability questions. |
 | `cost-down-backlog.md` | Pressure-linked levers for lowering cost over time without publishing unsupported savings claims. |
 | `cost-down-evidence-queue.md` | First-pass extraction queue for the cost-down source packets. |
