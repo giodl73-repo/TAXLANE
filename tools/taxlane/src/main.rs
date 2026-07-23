@@ -34736,6 +34736,24 @@ fn validate_taxlane_showcase_readiness_summary(root: &Path) -> Result<(), String
         }
     }
 
+    let reading_index =
+        fs::read_to_string(root.join(READING_INDEX_PATH)).map_err(|e| e.to_string())?;
+    for required in [
+        "## Start Here",
+        "taxlane-showcase-readiness-summary.md",
+        "../showcase.md",
+        "../demo-script.md",
+        "demo-ready as a source-custody and",
+        "not solver-ready, rate-ready, savings-ready, or",
+        "balanced-budget-ready",
+    ] {
+        if !reading_index.contains(required) {
+            return Err(format!(
+                "Taxlane showcase reading index route missing: {required}"
+            ));
+        }
+    }
+
     Ok(())
 }
 

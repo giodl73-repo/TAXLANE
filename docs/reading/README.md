@@ -9,6 +9,19 @@ explainers. They should keep three labels visible:
 - **Reform proposal**: a possible statutory or policy change that needs role
   review before advocacy.
 
+## Start Here
+
+If you are evaluating TAXLANE, start with
+[`taxlane-showcase-readiness-summary.md`](taxlane-showcase-readiness-summary.md).
+It states the current showable posture: demo-ready as a source-custody and
+readiness guardrail system, not solver-ready, rate-ready, savings-ready, or
+balanced-budget-ready.
+
+Then use [`../showcase.md`](../showcase.md) for the ten-minute path,
+[`../demo-script.md`](../demo-script.md) for a live walkthrough, and
+[`honest-federal-tax-receipt.md`](honest-federal-tax-receipt.md) for the core
+receipt standard.
+
 ## Packets
 
 | Packet | Purpose |
