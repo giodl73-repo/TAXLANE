@@ -488,11 +488,13 @@ It is the bounded public surface, not a performance or savings report.
      values, models, solver inputs, rates, savings, department-cut instructions,
      technology-savings claims, and balanced-budget claims remain blocked.
 105. Read `income-security-family-source-capture-status-rollup.md` before
-     treating income-security/family source-capture work as complete. All six
-     source families remain open; raw custody, program perimeter, benefit
-     models, floor values, federal/state/local translation, solver inputs,
-     rates, savings, department-cut instructions, technology-savings claims,
-     and balanced-budget claims remain blocked.
+     treating income-security/family source-capture work as complete. FY2025
+     federal account-perimeter custody and OECD family-benefit comparator
+     context are narrowly ready/displayable; CBO, Census, HHS/ACF, and USDA
+     capture gaps remain open. Program perimeter models, floor values,
+     federal/state/local translation, solver inputs, rates, savings,
+     department-cut instructions, technology-savings claims, and balanced-budget
+     claims remain blocked.
 106. Read `income-security-family-source-capture-closure-work-queue.md` before
      treating income-security/family source-capture closure gates as completed.
      It orders perimeter, baseline/take-up, child-poverty, childcare,

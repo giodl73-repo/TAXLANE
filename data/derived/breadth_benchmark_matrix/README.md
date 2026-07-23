@@ -881,11 +881,14 @@ department-cut instructions, technology-savings claims, and balanced-budget
 claims remain blocked.
 
 `income_security_family_source_capture_status_rollup.v1.draft.json` summarizes
-the post-queue income-security/family source-capture status. All six source
-families remain open, with raw custody, program perimeter, benefit-package
-models, take-up models, floor values, federal/state/local translation, solver
-inputs, rates, savings, department-cut instructions, technology-savings claims,
-and balanced-budget claims blocked.
+the post-Pulse-200 income-security/family source-capture status. FY2025 federal
+account-perimeter source custody and OECD family-benefit comparator context are
+narrowly ready/displayable; CBO baseline/take-up, Census child poverty/income,
+HHS/ACF childcare/family services, and USDA food/nutrition remain documented
+capture gaps. Program perimeter models, benefit-package models, take-up models,
+floor values, federal/state/local translation, solver inputs, rates, savings,
+department-cut instructions, technology-savings claims, and balanced-budget
+claims remain blocked.
 
 `income_security_family_source_capture_closure_work_queue.v1.draft.json`
 converts the open income-security/family source-capture status into ordered
