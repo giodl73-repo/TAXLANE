@@ -59,7 +59,10 @@ turned the adaptive-rate thesis into a guarded implementation surface:
 - Pulse 194 closes the narrow FY2025 federal account-perimeter source-custody
   step for OMB income-security function 600, while state/local translation,
   CBO/take-up, benefit package, floor, solver, rate, savings, and
-  balanced-budget gates remain blocked.
+  balanced-budget gates remain blocked;
+- Pulse 195 records that automated CBO SNAP selected-program baseline capture is
+  blocked by challenge HTML and that CBO open data does not expose the selected
+  SNAP PDF as a CSV, so CBO baseline/take-up values remain unpopulated.
 
 The public showable state is therefore not a rate proposal. It is a disciplined
 operating model that can show:
@@ -72,10 +75,11 @@ operating model that can show:
 
 The next useful closure work should remain narrow source lineage, not a broad
 public claim. After Pulse 194, the active frontier is the remaining Pulse 193
-closure queue: CBO baseline/take-up, child poverty/income, childcare and
-family-service, food hardship/nutrition, and international comparator lineage.
-Each should close one named source-custody gate at a time without converting it
-into savings, rates, or a benefit package model.
+closure queue: manual CBO SNAP baseline capture, then broader CBO/take-up,
+child poverty/income, childcare and family-service, food hardship/nutrition, and
+international comparator lineage. Each should close one named source-custody
+gate at a time without converting it into savings, rates, or a benefit package
+model.
 
 ## Design principles
 

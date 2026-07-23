@@ -713,6 +713,10 @@ const INCOME_SECURITY_FAMILY_FEDERAL_PROGRAM_PERIMETER_BRIDGE_JSON_PATH: &str = 
 const INCOME_SECURITY_FAMILY_FEDERAL_PROGRAM_PERIMETER_BRIDGE_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/income_security_family_federal_program_perimeter_bridge.schema.md";
 const INCOME_SECURITY_FAMILY_FEDERAL_PROGRAM_PERIMETER_BRIDGE_READER_PATH: &str =
     "docs/reading/income-security-family-federal-program-perimeter-bridge.md";
+const INCOME_SECURITY_FAMILY_CBO_BASELINE_TAKEUP_CAPTURE_GAP_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/income_security_family_cbo_baseline_takeup_capture_gap.v1.draft.json";
+const INCOME_SECURITY_FAMILY_CBO_BASELINE_TAKEUP_CAPTURE_GAP_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/income_security_family_cbo_baseline_takeup_capture_gap.schema.md";
+const INCOME_SECURITY_FAMILY_CBO_BASELINE_TAKEUP_CAPTURE_GAP_READER_PATH: &str =
+    "docs/reading/income-security-family-cbo-baseline-takeup-capture-gap.md";
 const REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/revenue_solvency_outcome_floor_definition_packet.v1.draft.json";
 const REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/revenue_solvency_outcome_floor_definition_packet.schema.md";
 const REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_READER_PATH: &str =
@@ -11498,6 +11502,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_income_security_family_source_capture_status_rollup(root)?;
     validate_income_security_family_source_capture_closure_work_queue(root)?;
     validate_income_security_family_federal_program_perimeter_bridge(root)?;
+    validate_income_security_family_cbo_baseline_takeup_capture_gap(root)?;
     validate_revenue_solvency_outcome_floor_definition_packet(root)?;
     validate_net_interest_outcome_floor_definition_packet(root)?;
     validate_payment_integrity_outcome_floor_definition_packet(root)?;
@@ -33137,6 +33142,218 @@ fn validate_income_security_family_federal_program_perimeter_bridge(
     Ok(())
 }
 
+fn validate_income_security_family_cbo_baseline_takeup_capture_gap(
+    root: &Path,
+) -> Result<(), String> {
+    for path in [
+        INCOME_SECURITY_FAMILY_CBO_BASELINE_TAKEUP_CAPTURE_GAP_JSON_PATH,
+        INCOME_SECURITY_FAMILY_CBO_BASELINE_TAKEUP_CAPTURE_GAP_SCHEMA_PATH,
+        INCOME_SECURITY_FAMILY_CBO_BASELINE_TAKEUP_CAPTURE_GAP_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing income-security/family CBO baseline take-up capture gap artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(
+        root.join(INCOME_SECURITY_FAMILY_CBO_BASELINE_TAKEUP_CAPTURE_GAP_JSON_PATH),
+    )
+    .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")?
+        != "income-security-family-cbo-baseline-takeup-capture-gap:v1"
+        || string_field(&record, "record_family")?
+            != "income_security_family_cbo_baseline_takeup_capture_gap"
+        || int_field(&record, "pulse")? != 195
+        || string_field(&record, "lane_id")? != "income-security-family"
+        || string_field(&record, "depends_on_bridge_path")?
+            != INCOME_SECURITY_FAMILY_FEDERAL_PROGRAM_PERIMETER_BRIDGE_JSON_PATH
+        || string_field(&record, "source_capture_queue_path")?
+            != INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_QUEUE_JSON_PATH
+        || string_field(&record, "source_capture_closure_work_queue_path")?
+            != INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_CLOSURE_WORK_QUEUE_JSON_PATH
+        || string_field(&record, "target_work_item_id")?
+            != "capture-income-security-cbo-baseline-and-takeup-context"
+        || string_field(&record, "target_closure_item_id")?
+            != "close-income-security-cbo-baseline-takeup-lineage"
+    {
+        return Err(
+            "income-security/family CBO baseline take-up capture gap identity failed".to_string(),
+        );
+    }
+
+    let discovery = record
+        .get("source_discovery")
+        .ok_or("income-security/family CBO source discovery")?;
+    if discovery
+        .get("official_sources_only")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+        || string_field(discovery, "selected_programs_page_url")?
+            != "https://www.cbo.gov/data/baseline-projections-selected-programs"
+        || string_field(discovery, "candidate_snap_pdf_url")?
+            != "https://www.cbo.gov/system/files/2026-01/51312-2026-02-snap.pdf"
+        || string_field(discovery, "official_cbo_open_data_repo_url")?
+            != "https://github.com/US-CBO/cbo-data"
+        || string_field(discovery, "official_cbo_open_data_repo_head")?
+            != "284a95665f9f2f74ed1f482feb629b43fce323da"
+        || discovery
+            .get("open_data_catalog_checked")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+        || discovery
+            .get("selected_program_snap_csv_found_in_open_data_catalog")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err(
+            "income-security/family CBO baseline take-up source discovery failed".to_string(),
+        );
+    }
+
+    let attempts = record
+        .get("capture_attempts")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("income-security/family CBO capture attempts")?;
+    if attempts.len() != 3 {
+        return Err("income-security/family CBO capture attempt count failed".to_string());
+    }
+    for attempt_id in [
+        "cbo-snap-pdf-powershell-invoke-webrequest",
+        "cbo-snap-pdf-curl-user-agent",
+        "cbo-open-data-catalog-search",
+    ] {
+        let attempt = attempts
+            .iter()
+            .find(|attempt| string_field(attempt, "attempt_id").as_deref() == Ok(attempt_id))
+            .ok_or_else(|| format!("missing income-security/family CBO attempt: {attempt_id}"))?;
+        if attempt
+            .get("captured_as_source")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+            || !attempt
+                .get("retained_raw_artifact_path")
+                .is_some_and(serde_json::Value::is_null)
+        {
+            return Err(format!(
+                "income-security/family CBO attempt must not be source custody: {attempt_id}"
+            ));
+        }
+    }
+    let curl_attempt = attempts
+        .iter()
+        .find(|attempt| {
+            string_field(attempt, "attempt_id").as_deref() == Ok("cbo-snap-pdf-curl-user-agent")
+        })
+        .ok_or("income-security/family CBO curl attempt")?;
+    if int_field(curl_attempt, "response_byte_count")? != 770
+        || string_field(curl_attempt, "result")? != "blocked_by_js_challenge"
+    {
+        return Err("income-security/family CBO curl attempt shape failed".to_string());
+    }
+
+    let requirements = record
+        .get("next_manual_capture_requirements")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("income-security/family CBO manual requirements")?;
+    if requirements.len() < 4 {
+        return Err("income-security/family CBO manual requirements too short".to_string());
+    }
+
+    let readiness = record
+        .get("readiness_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("income-security/family CBO readiness")?;
+    for (field, value) in readiness {
+        if value.as_bool() != Some(false) {
+            return Err(format!(
+                "income-security/family CBO readiness must be false: {field}"
+            ));
+        }
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("income-security/family CBO blocked outputs")?;
+    for (field, value) in blocked {
+        if !value.is_null() {
+            return Err(format!(
+                "income-security/family CBO blocked output must be null: {field}"
+            ));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("income-security/family CBO claims")?;
+    for (field, value) in claims {
+        let observed = value
+            .as_bool()
+            .ok_or("income-security/family CBO claim bool")?;
+        if field == "cbo_capture_gap_published" {
+            if !observed {
+                return Err(
+                    "income-security/family CBO gap publication flag must be true".to_string(),
+                );
+            }
+        } else if observed {
+            return Err(format!(
+                "income-security/family CBO downstream claim must be false: {field}"
+            ));
+        }
+    }
+
+    let warning = string_field(&record, "public_warning")?;
+    for required in [
+        "blocked source acquisition only",
+        "not raw CBO source custody",
+        "not CBO baseline values",
+        "not take-up context",
+        "not solver input",
+        "not rate calculation",
+        "not gross savings",
+        "not net savings",
+        "not a balanced-budget claim",
+    ] {
+        if !warning.contains(required) {
+            return Err(format!(
+                "income-security/family CBO warning missing: {required}"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(
+        root.join(INCOME_SECURITY_FAMILY_CBO_BASELINE_TAKEUP_CAPTURE_GAP_READER_PATH),
+    )
+    .map_err(|e| e.to_string())?;
+    for required in [
+        INCOME_SECURITY_FAMILY_CBO_BASELINE_TAKEUP_CAPTURE_GAP_JSON_PATH,
+        "JavaScript challenge HTML",
+        "770-byte",
+        "284a95665f9f2f74ed1f482feb629b43fce323da",
+        "not raw CBO source custody",
+        "not CBO baseline values",
+        "not take-up context",
+        "not solver input",
+        "not gross savings",
+        "not net savings",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!(
+                "income-security/family CBO reader missing: {required}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_revenue_solvency_outcome_floor_definition_packet(root: &Path) -> Result<(), String> {
     for path in [
         REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
@@ -44790,6 +45007,12 @@ mod global_country_comparison_tests {
     fn income_security_family_federal_program_perimeter_bridge_reconciles_without_claims() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_income_security_family_federal_program_perimeter_bridge(&root).unwrap();
+    }
+
+    #[test]
+    fn income_security_family_cbo_baseline_takeup_capture_gap_keeps_values_blocked() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_income_security_family_cbo_baseline_takeup_capture_gap(&root).unwrap();
     }
 
     #[test]

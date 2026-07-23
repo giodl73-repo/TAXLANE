@@ -902,6 +902,14 @@ outlays workbook. It reconciles $701.609B across subfunctions 601, 602, 603,
 translation, benefit packages, take-up, floor values, solver inputs, rates,
 savings, and balanced-budget claims blocked.
 
+`income_security_family_cbo_baseline_takeup_capture_gap.v1.draft.json` records
+the blocked CBO selected-program capture attempt for the next income-security
+baseline/take-up gate. The CBO SNAP PDF candidate returned JavaScript challenge
+HTML in automated requests, and the official CBO open-data catalog did not
+expose a selected-program SNAP CSV. Raw CBO custody, baseline values, take-up
+context, solver inputs, rates, savings, and balanced-budget claims remain
+blocked.
+
 `revenue_solvency_outcome_floor_definition_packet.v1.draft.json` extends the
 floor definition packet pattern to the non-additive revenue-solvency overlay. It
 defines distributional-progressivity, revenue-stability, administrability,
