@@ -894,6 +894,14 @@ nutrition, and comparator lineage. Closure values, lineage completion, solver
 inputs, rates, savings, department-cut instructions, technology-savings claims,
 and balanced-budget claims remain blocked.
 
+`income_security_family_federal_program_perimeter_bridge.fy2025.v1.draft.json`
+closes the narrow FY2025 federal account-perimeter source-custody step for OMB
+income-security function 600 using the already-captured Public Budget Database
+outlays workbook. It reconciles $701.609B across subfunctions 601, 602, 603,
+604, 605, and 609 with a zero PBD/Table 3.2 difference, but leaves state/local
+translation, benefit packages, take-up, floor values, solver inputs, rates,
+savings, and balanced-budget claims blocked.
+
 `revenue_solvency_outcome_floor_definition_packet.v1.draft.json` extends the
 floor definition packet pattern to the non-additive revenue-solvency overlay. It
 defines distributional-progressivity, revenue-stability, administrability,

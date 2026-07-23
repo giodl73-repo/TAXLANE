@@ -709,6 +709,10 @@ const INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_CLOSURE_WORK_QUEUE_JSON_PATH: &str =
 const INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_CLOSURE_WORK_QUEUE_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/income_security_family_source_capture_closure_work_queue.schema.md";
 const INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_CLOSURE_WORK_QUEUE_READER_PATH: &str =
     "docs/reading/income-security-family-source-capture-closure-work-queue.md";
+const INCOME_SECURITY_FAMILY_FEDERAL_PROGRAM_PERIMETER_BRIDGE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/income_security_family_federal_program_perimeter_bridge.fy2025.v1.draft.json";
+const INCOME_SECURITY_FAMILY_FEDERAL_PROGRAM_PERIMETER_BRIDGE_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/income_security_family_federal_program_perimeter_bridge.schema.md";
+const INCOME_SECURITY_FAMILY_FEDERAL_PROGRAM_PERIMETER_BRIDGE_READER_PATH: &str =
+    "docs/reading/income-security-family-federal-program-perimeter-bridge.md";
 const REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/revenue_solvency_outcome_floor_definition_packet.v1.draft.json";
 const REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/revenue_solvency_outcome_floor_definition_packet.schema.md";
 const REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_READER_PATH: &str =
@@ -11493,6 +11497,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_income_security_family_source_capture_queue(root)?;
     validate_income_security_family_source_capture_status_rollup(root)?;
     validate_income_security_family_source_capture_closure_work_queue(root)?;
+    validate_income_security_family_federal_program_perimeter_bridge(root)?;
     validate_revenue_solvency_outcome_floor_definition_packet(root)?;
     validate_net_interest_outcome_floor_definition_packet(root)?;
     validate_payment_integrity_outcome_floor_definition_packet(root)?;
@@ -32889,6 +32894,249 @@ fn validate_income_security_family_source_capture_closure_work_queue(
     Ok(())
 }
 
+fn validate_income_security_family_federal_program_perimeter_bridge(
+    root: &Path,
+) -> Result<(), String> {
+    for path in [
+        INCOME_SECURITY_FAMILY_FEDERAL_PROGRAM_PERIMETER_BRIDGE_JSON_PATH,
+        INCOME_SECURITY_FAMILY_FEDERAL_PROGRAM_PERIMETER_BRIDGE_SCHEMA_PATH,
+        INCOME_SECURITY_FAMILY_FEDERAL_PROGRAM_PERIMETER_BRIDGE_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing income-security/family federal program perimeter bridge artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(
+        root.join(INCOME_SECURITY_FAMILY_FEDERAL_PROGRAM_PERIMETER_BRIDGE_JSON_PATH),
+    )
+    .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")?
+        != "income-security-family-federal-program-perimeter-bridge:fy2025"
+        || string_field(&record, "record_family")?
+            != "income_security_family_federal_program_perimeter_bridge"
+        || int_field(&record, "pulse")? != 194
+        || string_field(&record, "lane_id")? != "income-security-family"
+        || int_field(&record, "fiscal_year")? != 2025
+        || string_field(&record, "function_code")? != "600"
+    {
+        return Err(
+            "income-security/family federal program perimeter bridge identity failed".to_string(),
+        );
+    }
+
+    let custody = record
+        .get("source_custody")
+        .ok_or("income-security/family federal perimeter source custody")?;
+    for field in [
+        "official_sources_only",
+        "used_existing_captured_sources_only",
+        "no_foia_or_records_request_submitted",
+        "no_agency_or_person_contacted",
+    ] {
+        if custody.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "income-security/family federal perimeter custody flag must be true: {field}"
+            ));
+        }
+    }
+    if custody
+        .get("new_external_download_performed")
+        .and_then(serde_json::Value::as_bool)
+        != Some(false)
+        || string_field(custody, "raw_artifact_path")?
+            != "data/raw/omb/SRC-OMB-PBD-OUTLAYS-FY2027/2026-07-13/outlays_fy2027.xlsx"
+        || int_field(custody, "raw_byte_count")? != 2_144_756
+        || string_field(custody, "raw_sha256")?
+            != "D892F2247E6C1AED68414D3E4168F8B4AB97BCFC7ACF82A6A449A3FCB1ADDB07"
+        || string_field(custody, "metadata_path")?
+            != "data/metadata/SRC-OMB-PBD-OUTLAYS-FY2027.2026-07-13.metadata.md"
+        || string_field(custody, "retrieval_date")? != "2026-07-13"
+        || string_field(custody, "source_unit")? != "thousands_usd"
+        || string_field(custody, "record_unit")? != "millions_usd"
+    {
+        return Err(
+            "income-security/family federal perimeter source custody values failed".to_string(),
+        );
+    }
+
+    let perimeter = record
+        .get("perimeter_definition")
+        .ok_or("income-security/family federal perimeter definition")?;
+    let included = perimeter
+        .get("included_subfunction_codes")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("income-security/family included subfunctions")?;
+    let observed: BTreeSet<_> = included
+        .iter()
+        .map(|value| value.as_str().unwrap_or_default().to_string())
+        .collect();
+    let expected: BTreeSet<_> = ["601", "602", "603", "604", "605", "609"]
+        .iter()
+        .map(|value| value.to_string())
+        .collect();
+    if observed != expected
+        || !string_field(perimeter, "federal_versus_state_local_statement")?
+            .contains("federal account outlays")
+    {
+        return Err("income-security/family federal perimeter definition failed".to_string());
+    }
+
+    let reconciliation = record
+        .get("reconciliation")
+        .ok_or("income-security/family federal perimeter reconciliation")?;
+    for (field, expected) in [
+        ("historical_table_3_2_total_musd", 701_609),
+        ("public_budget_database_total_musd", 701_609),
+        ("reconciliation_difference_musd", 0),
+        ("nonzero_account_rows", 160),
+        ("positive_account_entries_total_musd", 728_963),
+        ("negative_account_entries_total_musd", -27_354),
+    ] {
+        if int_field(reconciliation, field)? != expected {
+            return Err(format!(
+                "income-security/family federal perimeter reconciliation failed: {field}"
+            ));
+        }
+    }
+
+    let subfunctions = record
+        .get("subfunction_totals")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("income-security/family federal perimeter subfunctions")?;
+    if subfunctions.len() != 6 {
+        return Err(
+            "income-security/family federal perimeter subfunction count failed".to_string(),
+        );
+    }
+    let expected_totals = [
+        ("601", 6_663),
+        ("602", 190_234),
+        ("603", 41_771),
+        ("604", 77_989),
+        ("605", 149_631),
+        ("609", 235_321),
+    ];
+    let mut total = 0;
+    for (code, expected_total) in expected_totals {
+        let row = subfunctions
+            .iter()
+            .find(|row| string_field(row, "subfunction_code").as_deref() == Ok(code))
+            .ok_or_else(|| {
+                format!("missing income-security/family federal subfunction total: {code}")
+            })?;
+        if int_field(row, "total_musd")? != expected_total || int_field(row, "account_rows")? <= 0 {
+            return Err(format!(
+                "income-security/family federal subfunction total failed: {code}"
+            ));
+        }
+        total += expected_total;
+    }
+    if total != 701_609 {
+        return Err("income-security/family federal subfunction sum failed".to_string());
+    }
+
+    let closure = record
+        .get("closure_relationship")
+        .ok_or("income-security/family federal perimeter closure relationship")?;
+    if string_field(closure, "source_capture_queue_path")?
+        != INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_QUEUE_JSON_PATH
+        || string_field(closure, "source_capture_status_rollup_path")?
+            != INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_STATUS_ROLLUP_JSON_PATH
+        || string_field(closure, "source_capture_closure_work_queue_path")?
+            != INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_CLOSURE_WORK_QUEUE_JSON_PATH
+        || string_field(closure, "satisfies_work_item_id")?
+            != "capture-income-security-federal-program-outlay-perimeter"
+        || string_field(closure, "narrow_gate_status")?
+            != "fy2025_federal_account_perimeter_source_custody_ready"
+    {
+        return Err(
+            "income-security/family federal perimeter closure relationship failed".to_string(),
+        );
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("income-security/family federal perimeter blocked outputs")?;
+    for (field, value) in blocked {
+        if !value.is_null() {
+            return Err(format!(
+                "income-security/family federal perimeter blocked output must be null: {field}"
+            ));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("income-security/family federal perimeter claims")?;
+    for (field, value) in claims {
+        let observed = value
+            .as_bool()
+            .ok_or("income-security/family federal perimeter claim bool")?;
+        if field == "fy2025_federal_account_perimeter_source_custody_ready" {
+            if !observed {
+                return Err(
+                    "income-security/family federal perimeter custody flag must be true"
+                        .to_string(),
+                );
+            }
+        } else if observed {
+            return Err(format!(
+                "income-security/family federal perimeter downstream claim must be false: {field}"
+            ));
+        }
+    }
+
+    let warning = string_field(&record, "public_warning")?;
+    for required in [
+        "closes only FY2025 federal account-perimeter source custody",
+        "not complete source capture",
+        "not a benefit package model",
+        "not a take-up model",
+        "not federal/state/local translation",
+        "not target-cost selection",
+        "not gross savings",
+        "not net savings",
+        "not solver input",
+        "not rate calculation",
+        "not a balanced-budget claim",
+    ] {
+        if !warning.contains(required) {
+            return Err(format!(
+                "income-security/family federal perimeter warning missing: {required}"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(
+        root.join(INCOME_SECURITY_FAMILY_FEDERAL_PROGRAM_PERIMETER_BRIDGE_READER_PATH),
+    )
+    .map_err(|e| e.to_string())?;
+    for required in [
+        INCOME_SECURITY_FAMILY_FEDERAL_PROGRAM_PERIMETER_BRIDGE_JSON_PATH,
+        "$701.609B",
+        "zero reconciliation difference",
+        "federal account source custody only",
+        "not federal/state/local translation",
+        "not target-cost selection",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!(
+                "income-security/family federal perimeter reader missing: {required}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_revenue_solvency_outcome_floor_definition_packet(root: &Path) -> Result<(), String> {
     for path in [
         REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
@@ -44536,6 +44784,12 @@ mod global_country_comparison_tests {
     fn income_security_family_source_capture_closure_work_queue_keeps_gates_blocked() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_income_security_family_source_capture_closure_work_queue(&root).unwrap();
+    }
+
+    #[test]
+    fn income_security_family_federal_program_perimeter_bridge_reconciles_without_claims() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_income_security_family_federal_program_perimeter_bridge(&root).unwrap();
     }
 
     #[test]

@@ -55,7 +55,11 @@ turned the adaptive-rate thesis into a guarded implementation surface:
 - income-security and family source-capture work has reached an ordered closure
   work queue, with federal program perimeter, CBO baseline/take-up, child
   poverty/income, childcare/family-service, food/nutrition, and international
-  comparator lineage still open.
+  comparator lineage still open;
+- Pulse 194 closes the narrow FY2025 federal account-perimeter source-custody
+  step for OMB income-security function 600, while state/local translation,
+  CBO/take-up, benefit package, floor, solver, rate, savings, and
+  balanced-budget gates remain blocked.
 
 The public showable state is therefore not a rate proposal. It is a disciplined
 operating model that can show:
@@ -66,10 +70,12 @@ operating model that can show:
 - which gates must close before target costs, solver inputs, rates, savings, or
   balanced-budget claims can be published.
 
-The next useful closure work should be narrow source lineage, not a broad public
-claim. The active frontier is the Pulse 193 closure queue: finish one named
-income-security/family source-capture gate at a time, then update the rollup
-without converting it into savings, rates, or a benefit package model.
+The next useful closure work should remain narrow source lineage, not a broad
+public claim. After Pulse 194, the active frontier is the remaining Pulse 193
+closure queue: CBO baseline/take-up, child poverty/income, childcare and
+family-service, food hardship/nutrition, and international comparator lineage.
+Each should close one named source-custody gate at a time without converting it
+into savings, rates, or a benefit package model.
 
 ## Design principles
 
@@ -357,7 +363,9 @@ Acceptance:
 - No technology transition is credited as savings.
 - No rate reduction is solver-eligible without floors and score provenance.
 - No income-security/family benefit package is modeled yet.
-- No income-security/family source-capture gate is closure-ready yet.
+- Only the narrow FY2025 federal account-perimeter source-custody step is ready
+  for income-security/family; all other income-security/family source-capture
+  gates remain open.
 - No transportation simulator run is publishable until the remaining baseline,
   floor, modernization, stress, fund, solver, and review gates pass.
 

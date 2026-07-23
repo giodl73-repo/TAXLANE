@@ -118,6 +118,7 @@ explainers. They should keep three labels visible:
 | `rate-change-worked-examples.md` | Three end-to-end examples of the rate-adjustment operating model (defense up, health down, Social Security cap lift). |
 | `budget-area-funding-explainer.md` | Lay distillation of the six panel-reviewed research papers: where the US over-funds (health), under-funds (family), funds by strategy (defense), runs a broken base (Social Security), and under-collects overall (revenue). Points to `docs/papers/`. |
 | `family-support-target-rubric-application.md` | First metric-specific application of the international comparator target rubric; family support remains display-only because the bounded spending panel is below the median and favorable-quartile claim minimums. |
+| `income-security-family-federal-program-perimeter-bridge.md` | Pulse 194 bridge: source-custodied FY2025 federal account perimeter for OMB income-security function 600, with state/local translation, benefit packages, floors, solver inputs, rates, and savings still blocked. |
 | `where-federal-money-goes.md` | Spending-side packet showing the largest FY2025 outlay categories, financing context, and safe accountability questions. |
 | `cost-down-backlog.md` | Pressure-linked levers for lowering cost over time without publishing unsupported savings claims. |
 | `cost-down-evidence-queue.md` | First-pass extraction queue for the cost-down source packets. |
@@ -491,7 +492,12 @@ It is the bounded public surface, not a performance or savings report.
      nutrition, and comparator lineage work, but all closure values, lineage
      completion, solver inputs, rates, savings, department-cut instructions,
      technology-savings claims, and balanced-budget claims remain blocked.
-107. Read `revenue-solvency-outcome-floor-definition-packet.md` before treating
+107. Read `income-security-family-federal-program-perimeter-bridge.md` before
+     using the FY2025 income-security/family federal account perimeter. It
+     closes OMB/PBD source custody for function 600 only; state/local
+     translation, CBO/take-up, benefit package, floor, solver, rate, savings,
+     and balanced-budget gates remain blocked.
+108. Read `revenue-solvency-outcome-floor-definition-packet.md` before treating
      any receipt-base concept, revenue package, rate, or tax proposal as ready.
      Revenue-solvency is non-additive; matched bases, behavior, incidence,
      distribution, administration, thresholds, pass/fail findings, solver
