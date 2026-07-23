@@ -12,7 +12,20 @@ programs.
 
 - Citizens who want a plain-language map of how income tax works.
 - Researchers comparing general-revenue taxation with earmarked or
-  program-linked taxation.
+program-linked taxation.
+
+## Current showable state
+
+TAXLANE is currently showable as a source-custody and readiness guardrail
+system, not as a finished solver, rate model, savings model, public rate card,
+department-cut instruction, technology-savings claim, or balanced-budget plan.
+
+The shortest current evaluator path is
+`docs/reading/taxlane-showcase-readiness-summary.md`. It points to the
+income-security/family demo trail, where FY2025 federal account-perimeter source
+custody is narrowly ready, OECD family-benefit comparator context is
+displayable, and CBO, Census, HHS/ACF, and USDA capture gaps remain documented
+and open.
 - Policy designers exploring more legible fiscal systems.
 - Portfolio consumers that may later need source-backed civic or public-finance
   knowledge packets.

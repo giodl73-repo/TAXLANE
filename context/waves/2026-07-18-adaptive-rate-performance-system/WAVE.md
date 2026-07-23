@@ -36,7 +36,7 @@ The prior wave established the critical boundaries:
 
 ## Current frontier
 
-This wave is now past the initial contract phase. Pulses 82 through 193 have
+This wave is now past the initial contract phase. Pulses 82 through 201 have
 turned the adaptive-rate thesis into a guarded implementation surface:
 
 - rate, risk, modernization, public-card, pilot-selection, simulator, and public
@@ -52,10 +52,10 @@ turned the adaptive-rate thesis into a guarded implementation surface:
 - receipt-base, distribution, administration, incidence, interaction, macro,
   reserve, net-interest, and balanced-rate blockers are represented as explicit
   machine-readable nulls instead of placeholders;
-- income-security and family source-capture work has reached an ordered closure
-  work queue, with federal program perimeter, CBO baseline/take-up, child
-  poverty/income, childcare/family-service, food/nutrition, and international
-  comparator lineage still open;
+- income-security and family source-capture work has a post-Pulse-200 status
+  rollup: FY2025 federal account-perimeter source custody is narrowly ready,
+  OECD family-benefit comparator context is displayable, four capture gaps are
+  documented, and all solver/rate/savings gates remain blocked;
 - Pulse 194 closes the narrow FY2025 federal account-perimeter source-custody
   step for OMB income-security function 600, while state/local translation,
   CBO/take-up, benefit package, floor, solver, rate, savings, and
@@ -97,13 +97,13 @@ operating model that can show:
   balanced-budget claims can be published.
 
 The next useful closure work should remain narrow source lineage, not a broad
-public claim. The active frontier is the remaining Pulse 193 closure queue:
-manual CBO SNAP baseline capture, broader CBO/take-up, Census domestic child
-poverty/SPM child poverty and income-unit capture, manual HHS/ACF childcare and
-family-service capture, food hardship/nutrition raw custody, and the remaining
-international comparator lineage. Each should close one named source-custody
-gate at a time without converting it into savings, rates, or a benefit package
-model.
+public claim. The active frontier is the post-Pulse-201 closure set: manual CBO
+SNAP baseline capture, broader CBO/take-up, Census domestic child poverty/SPM
+child poverty and income-unit capture, manual HHS/ACF childcare and
+family-service capture, food hardship/nutrition raw custody, federal/state/local
+translation, and the remaining international comparator lineage. Each should
+close one named source-custody gate at a time without converting it into
+savings, rates, or a benefit package model.
 
 ## Design principles
 
