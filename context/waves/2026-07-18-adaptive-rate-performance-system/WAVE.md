@@ -34,6 +34,43 @@ The prior wave established the critical boundaries:
   sensitivity, macro feedback, interaction scoring, reserve/emergency stress
   tests, eight-role review, public-language review, and public rate cards exist.
 
+## Current frontier
+
+This wave is now past the initial contract phase. Pulses 82 through 193 have
+turned the adaptive-rate thesis into a guarded implementation surface:
+
+- rate, risk, modernization, public-card, pilot-selection, simulator, and public
+  thesis contracts exist;
+- transportation was selected for scaffold work and has partial FY2025-FY2031
+  federal outlay context, trust-fund accounting boundaries, floor contracts,
+  modernization contracts, stress contracts, and solver-readiness gates;
+- current-law source-custody work now separates FY2025 anchor custody from
+  incomplete forward horizons, fund paths, receipt paths, and solver inputs;
+- lane-depth packets cover the 15 analytical lanes while preserving the
+  distinction from the 17-row budget ledger and the non-additive treatment of
+  revenue-solvency and payment-integrity overlays;
+- receipt-base, distribution, administration, incidence, interaction, macro,
+  reserve, net-interest, and balanced-rate blockers are represented as explicit
+  machine-readable nulls instead of placeholders;
+- income-security and family source-capture work has reached an ordered closure
+  work queue, with federal program perimeter, CBO baseline/take-up, child
+  poverty/income, childcare/family-service, food/nutrition, and international
+  comparator lineage still open.
+
+The public showable state is therefore not a rate proposal. It is a disciplined
+operating model that can show:
+
+- what evidence is already source-custodied;
+- which artifacts are context-only, partial, or not ready;
+- why values remain null;
+- which gates must close before target costs, solver inputs, rates, savings, or
+  balanced-budget claims can be published.
+
+The next useful closure work should be narrow source lineage, not a broad public
+claim. The active frontier is the Pulse 193 closure queue: finish one named
+income-security/family source-capture gate at a time, then update the rollup
+without converting it into savings, rates, or a benefit package model.
+
 ## Design principles
 
 1. Effective rates are outputs, not slogans.
@@ -319,6 +356,10 @@ Acceptance:
 - No department is identified as wasteful.
 - No technology transition is credited as savings.
 - No rate reduction is solver-eligible without floors and score provenance.
+- No income-security/family benefit package is modeled yet.
+- No income-security/family source-capture gate is closure-ready yet.
+- No transportation simulator run is publishable until the remaining baseline,
+  floor, modernization, stress, fund, solver, and review gates pass.
 
 ## Validation posture
 
