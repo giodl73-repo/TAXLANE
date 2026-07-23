@@ -19,6 +19,14 @@ source ID, publisher, URL, observed date, coverage, and extraction rule.
 6. Keep raw downloaded data out of the repo until source custody and generated
    artifact rules are defined.
 
+## Showcase Source Path
+
+For the current showable source-custody/readiness state, start with
+`docs/reading/taxlane-showcase-readiness-summary.md`. This ledger supports the
+showcase by naming source versions and extraction boundaries, but it does not by
+itself make solver inputs, rates, savings, public rate cards, department-cut
+instructions, technology-savings claims, or balanced-budget outputs ready.
+
 ## Required source fields
 
 | Field | Meaning |

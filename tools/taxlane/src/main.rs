@@ -34857,6 +34857,25 @@ fn validate_taxlane_showcase_readiness_summary(root: &Path) -> Result<(), String
         }
     }
 
+    let source_ledger = fs::read_to_string(root.join("docs/sources/source-version-ledger.md"))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        "## Showcase Source Path",
+        "docs/reading/taxlane-showcase-readiness-summary.md",
+        "current showable source-custody/readiness state",
+        "source versions and extraction boundaries",
+        "does not by",
+        "itself make solver inputs, rates, savings, public rate cards",
+        "department-cut",
+        "instructions, technology-savings claims, or balanced-budget outputs ready",
+    ] {
+        if !source_ledger.contains(required) {
+            return Err(format!(
+                "Taxlane source ledger showcase route missing: {required}"
+            ));
+        }
+    }
+
     let contributing =
         fs::read_to_string(root.join("CONTRIBUTING.md")).map_err(|e| e.to_string())?;
     for required in [
