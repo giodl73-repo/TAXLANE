@@ -81,13 +81,13 @@ implementation work.
 
 Current frontier:
 
-- Pulses 82 through 193 created rate, risk, modernization, public-card,
+- Pulses 82 through 201 created rate, risk, modernization, public-card,
   pilot, simulator, current-law, lane-depth, receipt-base, distribution,
-  reserve, net-interest, and closure-gate artifacts.
-- Pulses 194 through 201 give the income-security/family lane a concrete demo
-  trail: FY2025 federal account-perimeter custody is narrowly ready, OECD
-  comparator context is displayable, and CBO, Census, HHS/ACF, and USDA source
-  gaps are documented.
+  reserve, net-interest, closure-gate, and showcase-readiness artifacts.
+- The income-security/family lane now gives the cleanest concrete demo trail:
+  FY2025 federal account-perimeter custody is narrowly ready, OECD comparator
+  context is displayable, and CBO, Census, HHS/ACF, and USDA source gaps are
+  documented.
 - The transportation pilot has scaffold and partial source context, but no
   publishable simulator run, rate, target cost, savings claim, or balanced-budget
   claim.
