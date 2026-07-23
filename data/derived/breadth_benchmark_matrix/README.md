@@ -924,6 +924,12 @@ tax-credit composition, childcare participation, ESSPROS/ILO context,
 child-outcome linkage, target-cost selection, solver inputs, rates, savings, or
 balanced-budget claims.
 
+`income_security_family_childcare_family_service_capture_gap.v1.draft.json`
+records the still-open HHS/ACF childcare and family-service source-custody gate.
+It names candidate ACF CCDF and TANF source surfaces but keeps local raw custody,
+childcare access floors, work/care transition, delivery feasibility, solver
+inputs, rates, savings, and balanced-budget claims blocked.
+
 `revenue_solvency_outcome_floor_definition_packet.v1.draft.json` extends the
 floor definition packet pattern to the non-additive revenue-solvency overlay. It
 defines distributional-progressivity, revenue-stability, administrability,
