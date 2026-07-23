@@ -394,7 +394,7 @@ supporting views.
 | `reviews/2026-06-22-subfunction-reader-role-review.md` | Subfunction reader role review | documentation | n/a | supporting | `50bb3107dc11b9bd68e7315333e38882d015eeb57a83126d601d5b752ec474e0` |
 | `reviews/2026-07-14-payment-integrity-fy2024-annual-extraction-role-review.md` | FY2024 PaymentAccuracy annual-extraction role review | source custody, 68/54/59 row scope, reconciliation, and bounded-use decision | n/a | supporting | `b7ca7d82abe65c6ef56669697b80c8fe194a1209710095a69cc1a105c5a830e3` |
 | `docs/research/2026-06-22-subfunction-deficit-context-note.md` | Subfunction deficit context note | documentation | n/a | supporting | `75421ddbe7808ef4f98ba06d7414c6103a71ee065524a8e328f8e8efce4049de` |
-| `docs/data/README.md` | Data documentation index | documentation | n/a | supporting | `026693344431ab4eebe2c952c5476154d4b3e122b7c57485cf6471b377d32c30` |
+| `docs/data/README.md` | Data documentation index | documentation | n/a | supporting | `be70a2b790d57c7185d661fd5e7cb38562b2a59232a19de0628fd9e09187f05f` |
 | `docs/data/dictionary.md` | Data dictionary | documentation | n/a | supporting | `aaa1de02c4ccb013f1abe437127fea0df873cc0805200b773c2daf9d58838c97` |
 | `docs/data/accountability-evidence-schema.md` | Accountability evidence schema | documentation | n/a | supporting | `7055c188e186143f55ab688c85871413e2717e584261092fe3999304f3858608` |
 | `docs/research/2026-06-23-accountability-evidence-boundary.md` | Accountability evidence boundary note | documentation | n/a | supporting | `2c221e635642267d8594323de222a5cb14beb785fd2d776a892a74fba5311ecd` |
@@ -516,7 +516,7 @@ supporting views.
 | `crates/taxlane-core/Cargo.toml` | Rust Taxlane core crate manifest | tooling | n/a | supporting | `6469c9f3c3d01bc0c51783255082c93ed608c6c64c0d4f32f5cd2c08f2426fb9` |
 | `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `9e7946b1c1d60fec9fab496bf93b8907230f8daceba80b4538f485af0b3455a5` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `b910e56a20f40547ac1e4f696e84772dde163738b03915ddbcc0d0a39427719a` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `73b32f4eb9354cd000abbd9a5f513ba4b6a420f5a6a065568234368faa588327` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `93fe595eea6e9dc84838e405ec56f5baba6fb80723bc046b48723e805b9fd068` |
 
 ## Regeneration Order
 

@@ -34896,6 +34896,26 @@ fn validate_taxlane_showcase_readiness_summary(root: &Path) -> Result<(), String
         }
     }
 
+    let docs_data_index =
+        fs::read_to_string(root.join("docs/data/README.md")).map_err(|e| e.to_string())?;
+    for required in [
+        "## Showcase Data Dictionary Path",
+        "docs/reading/taxlane-showcase-readiness-summary.md",
+        "current showable data-dictionary/readiness state",
+        "source-custody and claim-boundary discipline",
+        "do not by themselves make",
+        "solver inputs, rates, savings, public rate cards",
+        "department-cut instructions",
+        "technology-savings claims",
+        "balanced-budget outputs ready",
+    ] {
+        if !docs_data_index.contains(required) {
+            return Err(format!(
+                "Taxlane docs/data showcase route missing: {required}"
+            ));
+        }
+    }
+
     let contributing =
         fs::read_to_string(root.join("CONTRIBUTING.md")).map_err(|e| e.to_string())?;
     for required in [

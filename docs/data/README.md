@@ -4,6 +4,14 @@ TAXLANE data work starts with dictionaries, not raw imports. Raw downloaded
 spreadsheets, PDFs, or query exports should not be committed until the source
 custody rules for that source family are written and role-reviewed.
 
+## Showcase Data Dictionary Path
+
+For the current showable data-dictionary/readiness state, start with
+`docs/reading/taxlane-showcase-readiness-summary.md`. These dictionaries support
+source-custody and claim-boundary discipline, but they do not by themselves make
+solver inputs, rates, savings, public rate cards, department-cut instructions,
+technology-savings claims, or balanced-budget outputs ready.
+
 ## Files
 
 | File | Purpose |
