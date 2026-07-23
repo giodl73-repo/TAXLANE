@@ -717,6 +717,10 @@ const INCOME_SECURITY_FAMILY_CBO_BASELINE_TAKEUP_CAPTURE_GAP_JSON_PATH: &str = "
 const INCOME_SECURITY_FAMILY_CBO_BASELINE_TAKEUP_CAPTURE_GAP_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/income_security_family_cbo_baseline_takeup_capture_gap.schema.md";
 const INCOME_SECURITY_FAMILY_CBO_BASELINE_TAKEUP_CAPTURE_GAP_READER_PATH: &str =
     "docs/reading/income-security-family-cbo-baseline-takeup-capture-gap.md";
+const INCOME_SECURITY_FAMILY_CHILD_RELATIVE_POVERTY_CONTEXT_BRIDGE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/income_security_family_child_relative_poverty_context_bridge.v1.draft.json";
+const INCOME_SECURITY_FAMILY_CHILD_RELATIVE_POVERTY_CONTEXT_BRIDGE_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/income_security_family_child_relative_poverty_context_bridge.schema.md";
+const INCOME_SECURITY_FAMILY_CHILD_RELATIVE_POVERTY_CONTEXT_BRIDGE_READER_PATH: &str =
+    "docs/reading/income-security-family-child-relative-poverty-context-bridge.md";
 const REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/revenue_solvency_outcome_floor_definition_packet.v1.draft.json";
 const REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/revenue_solvency_outcome_floor_definition_packet.schema.md";
 const REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_READER_PATH: &str =
@@ -11503,6 +11507,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_income_security_family_source_capture_closure_work_queue(root)?;
     validate_income_security_family_federal_program_perimeter_bridge(root)?;
     validate_income_security_family_cbo_baseline_takeup_capture_gap(root)?;
+    validate_income_security_family_child_relative_poverty_context_bridge(root)?;
     validate_revenue_solvency_outcome_floor_definition_packet(root)?;
     validate_net_interest_outcome_floor_definition_packet(root)?;
     validate_payment_integrity_outcome_floor_definition_packet(root)?;
@@ -33354,6 +33359,236 @@ fn validate_income_security_family_cbo_baseline_takeup_capture_gap(
     Ok(())
 }
 
+fn validate_income_security_family_child_relative_poverty_context_bridge(
+    root: &Path,
+) -> Result<(), String> {
+    for path in [
+        INCOME_SECURITY_FAMILY_CHILD_RELATIVE_POVERTY_CONTEXT_BRIDGE_JSON_PATH,
+        INCOME_SECURITY_FAMILY_CHILD_RELATIVE_POVERTY_CONTEXT_BRIDGE_SCHEMA_PATH,
+        INCOME_SECURITY_FAMILY_CHILD_RELATIVE_POVERTY_CONTEXT_BRIDGE_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing income-security/family child relative poverty bridge artifact: {path}"
+            ));
+        }
+    }
+
+    let raw = root.join(IDD_CHILD_POVERTY_RAW_PATH);
+    if !raw.exists()
+        || raw.metadata().map_err(|e| e.to_string())?.len() != 2546
+        || sha256_file(&raw)? != IDD_CHILD_POVERTY_RAW_SHA256
+    {
+        return Err("income-security/family child relative poverty raw custody failed".to_string());
+    }
+
+    let panel_text = fs::read_to_string(root.join(AGE_RELATIVE_POVERTY_PANEL_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let panel: serde_json::Value = serde_json::from_str(&panel_text).map_err(|e| e.to_string())?;
+    let usa_child = panel
+        .get("country_records")
+        .and_then(serde_json::Value::as_array)
+        .and_then(|records| {
+            records
+                .iter()
+                .find(|record| string_field(record, "country_code").as_deref() == Ok("USA"))
+        })
+        .ok_or("income-security/family child poverty USA panel row")?;
+    if int_field(usa_child, "child_reference_year")? != 2021
+        || (number_field(usa_child, "child_poverty_percent")? - 13.99).abs() > 0.000001
+        || string_field(usa_child, "child_observation_status")? != "actual"
+    {
+        return Err("income-security/family child poverty source value failed".to_string());
+    }
+
+    let text = fs::read_to_string(
+        root.join(INCOME_SECURITY_FAMILY_CHILD_RELATIVE_POVERTY_CONTEXT_BRIDGE_JSON_PATH),
+    )
+    .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")?
+        != "income-security-family-child-relative-poverty-context-bridge:v1"
+        || string_field(&record, "record_family")?
+            != "income_security_family_child_relative_poverty_context_bridge"
+        || int_field(&record, "pulse")? != 196
+        || string_field(&record, "lane_id")? != "income-security-family"
+        || string_field(&record, "depends_on_capture_gap_path")?
+            != INCOME_SECURITY_FAMILY_CBO_BASELINE_TAKEUP_CAPTURE_GAP_JSON_PATH
+        || string_field(&record, "source_capture_queue_path")?
+            != INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_QUEUE_JSON_PATH
+        || string_field(&record, "source_capture_closure_work_queue_path")?
+            != INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_CLOSURE_WORK_QUEUE_JSON_PATH
+        || string_field(&record, "existing_context_artifact_path")?
+            != AGE_RELATIVE_POVERTY_PANEL_JSON_PATH
+        || string_field(&record, "target_work_item_id")?
+            != "capture-income-security-child-poverty-income-context"
+        || string_field(&record, "target_closure_item_id")?
+            != "close-income-security-child-poverty-income-lineage"
+    {
+        return Err("income-security/family child poverty bridge identity failed".to_string());
+    }
+
+    let scope = record
+        .get("closure_scope")
+        .ok_or("income-security/family child poverty bridge scope")?;
+    for field in [
+        "official_sources_only",
+        "uses_existing_captured_source",
+        "context_may_be_displayed",
+    ] {
+        if scope.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "income-security/family child poverty scope should be true: {field}"
+            ));
+        }
+    }
+    for field in [
+        "new_external_downloads_performed",
+        "closure_gate_ready",
+        "floor_values_may_be_populated",
+        "pass_fail_findings_may_be_populated",
+        "solver_inputs_may_be_populated",
+        "rates_may_be_calculated",
+    ] {
+        if scope.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "income-security/family child poverty scope should be false: {field}"
+            ));
+        }
+    }
+    if string_field(scope, "closed_component")?
+        != "international child relative-income-poverty context"
+        || string_field(scope, "unclosed_component")?
+            != "Census domestic child poverty and income-unit context"
+    {
+        return Err("income-security/family child poverty scope boundary failed".to_string());
+    }
+
+    let custody = record
+        .get("source_custody")
+        .ok_or("income-security/family child poverty source custody")?;
+    if string_field(custody, "source_id")? != "SRC-OECD-IDD-AGE-POVERTY-PANELS"
+        || string_field(custody, "raw_artifact_path")? != IDD_CHILD_POVERTY_RAW_PATH
+        || int_field(custody, "raw_byte_count")? != 2546
+        || string_field(custody, "raw_sha256")? != IDD_CHILD_POVERTY_RAW_SHA256
+        || string_field(custody, "metadata_path")?
+            != "data/metadata/SRC-OECD-IDD-AGE-POVERTY-PANELS.2026-07-15.metadata.md"
+        || custody
+            .get("custody_ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("income-security/family child poverty custody fields failed".to_string());
+    }
+
+    let values = record
+        .get("context_values")
+        .ok_or("income-security/family child poverty context values")?;
+    let us = values
+        .get("primary_us_context")
+        .ok_or("income-security/family child poverty US context")?;
+    if string_field(values, "unit")? != "percent"
+        || int_field(values, "country_count")? != 12
+        || int_field(values, "observed_country_count")? != 11
+        || string_field(us, "country_code")? != "USA"
+        || int_field(us, "reference_year")? != 2021
+        || (number_field(us, "child_relative_poverty_percent")? - 13.99).abs() > 0.000001
+        || string_field(us, "observation_status")? != "actual"
+    {
+        return Err("income-security/family child poverty context values failed".to_string());
+    }
+
+    let requirements = record
+        .get("remaining_domestic_requirements")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("income-security/family child poverty domestic requirements")?;
+    if requirements.len() != 5 {
+        return Err(
+            "income-security/family child poverty domestic requirements count failed".to_string(),
+        );
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("income-security/family child poverty blocked outputs")?;
+    for (field, value) in blocked {
+        if !value.is_null() {
+            return Err(format!(
+                "income-security/family child poverty blocked output must be null: {field}"
+            ));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("income-security/family child poverty claims")?;
+    for (field, value) in claims {
+        let observed = value
+            .as_bool()
+            .ok_or("income-security/family child poverty claim bool")?;
+        match field.as_str() {
+            "child_relative_poverty_context_bridge_published"
+            | "international_child_poverty_context_ready" => {
+                if !observed {
+                    return Err(format!(
+                        "income-security/family child poverty claim should be true: {field}"
+                    ));
+                }
+            }
+            _ if observed => {
+                return Err(format!(
+                    "income-security/family child poverty downstream claim must be false: {field}"
+                ));
+            }
+            _ => {}
+        }
+    }
+
+    let warning = string_field(&record, "public_warning")?;
+    for required in [
+        "only existing OECD international child relative-poverty context",
+        "not Census domestic child poverty custody",
+        "not child-poverty floor values",
+        "not solver input",
+        "not rate calculation",
+        "not gross savings",
+        "not net savings",
+        "not a balanced-budget claim",
+    ] {
+        if !warning.contains(required) {
+            return Err(format!(
+                "income-security/family child poverty warning missing: {required}"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(
+        root.join(INCOME_SECURITY_FAMILY_CHILD_RELATIVE_POVERTY_CONTEXT_BRIDGE_READER_PATH),
+    )
+    .map_err(|e| e.to_string())?;
+    for required in [
+        INCOME_SECURITY_FAMILY_CHILD_RELATIVE_POVERTY_CONTEXT_BRIDGE_JSON_PATH,
+        "2,546 bytes",
+        IDD_CHILD_POVERTY_RAW_SHA256,
+        "13.99 percent",
+        "international child relative-poverty context only",
+        "not Census domestic child poverty custody",
+        "not solver input",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!(
+                "income-security/family child poverty reader missing: {required}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_revenue_solvency_outcome_floor_definition_packet(root: &Path) -> Result<(), String> {
     for path in [
         REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
@@ -45013,6 +45248,12 @@ mod global_country_comparison_tests {
     fn income_security_family_cbo_baseline_takeup_capture_gap_keeps_values_blocked() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_income_security_family_cbo_baseline_takeup_capture_gap(&root).unwrap();
+    }
+
+    #[test]
+    fn income_security_family_child_relative_poverty_context_bridge_stays_context_only() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_income_security_family_child_relative_poverty_context_bridge(&root).unwrap();
     }
 
     #[test]

@@ -910,6 +910,13 @@ expose a selected-program SNAP CSV. Raw CBO custody, baseline values, take-up
 context, solver inputs, rates, savings, and balanced-budget claims remain
 blocked.
 
+`income_security_family_child_relative_poverty_context_bridge.v1.draft.json`
+reuses existing OECD IDD child relative-poverty raw custody for
+income-security/family international context. It closes only that context bridge;
+Census domestic child poverty and income-unit custody, floor values, pass/fail
+findings, target costs, solver inputs, rates, savings, and balanced-budget
+claims remain blocked.
+
 `revenue_solvency_outcome_floor_definition_packet.v1.draft.json` extends the
 floor definition packet pattern to the non-additive revenue-solvency overlay. It
 defines distributional-progressivity, revenue-stability, administrability,

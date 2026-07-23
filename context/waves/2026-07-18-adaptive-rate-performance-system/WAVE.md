@@ -62,7 +62,10 @@ turned the adaptive-rate thesis into a guarded implementation surface:
   balanced-budget gates remain blocked;
 - Pulse 195 records that automated CBO SNAP selected-program baseline capture is
   blocked by challenge HTML and that CBO open data does not expose the selected
-  SNAP PDF as a CSV, so CBO baseline/take-up values remain unpopulated.
+  SNAP PDF as a CSV, so CBO baseline/take-up values remain unpopulated;
+- Pulse 196 reuses existing OECD IDD raw custody to close international child
+  relative-poverty context for the income-security/family lane, while the Census
+  domestic child poverty and income-unit gate remains open.
 
 The public showable state is therefore not a rate proposal. It is a disciplined
 operating model that can show:
@@ -74,9 +77,9 @@ operating model that can show:
   balanced-budget claims can be published.
 
 The next useful closure work should remain narrow source lineage, not a broad
-public claim. After Pulse 194, the active frontier is the remaining Pulse 193
-closure queue: manual CBO SNAP baseline capture, then broader CBO/take-up,
-child poverty/income, childcare and family-service, food hardship/nutrition, and
+public claim. The active frontier is the remaining Pulse 193 closure queue:
+manual CBO SNAP baseline capture, broader CBO/take-up, Census domestic child
+poverty/income, childcare and family-service, food hardship/nutrition, and
 international comparator lineage. Each should close one named source-custody
 gate at a time without converting it into savings, rates, or a benefit package
 model.
