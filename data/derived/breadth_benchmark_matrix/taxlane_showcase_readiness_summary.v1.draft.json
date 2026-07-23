@@ -1,0 +1,69 @@
+{
+  "record_id": "taxlane-showcase-readiness-summary:v1",
+  "record_family": "taxlane_showcase_readiness_summary",
+  "schema_version": "v1.draft",
+  "status": "draft_demo_ready_readiness_system_rates_blocked",
+  "pulse": 201,
+  "as_of_date": "2026-07-22",
+  "primary_wave_path": "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md",
+  "income_security_family_status_rollup_path": "data/derived/breadth_benchmark_matrix/income_security_family_source_capture_status_rollup.v1.draft.json",
+  "solver_input_readiness_rollup_path": "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json",
+  "rate_publication_readiness_rollup_path": "data/derived/breadth_benchmark_matrix/rate_publication_readiness_rollup.v1.draft.json",
+  "final_closure_readiness_gate_path": "data/derived/breadth_benchmark_matrix/final_closure_readiness_gate.v1.draft.json",
+  "showcase_positioning": {
+    "one_sentence": "Taxlane is a guarded fiscal-readiness system that shows source custody, incomplete gates, and blocked claims before any rate or savings output is allowed.",
+    "demo_ready": true,
+    "solver_ready": false,
+    "rate_ready": false,
+    "savings_ready": false,
+    "balanced_budget_claim_ready": false
+  },
+  "current_showable_surfaces": [
+    {
+      "surface_id": "source_custody_and_gap_lineage",
+      "claim": "Taxlane can show which official-source evidence exists, which capture gaps remain, and why missing values stay null.",
+      "ready": true
+    },
+    {
+      "surface_id": "income_security_family_pulse_194_200_progress",
+      "claim": "Taxlane can show a concrete income-security/family readiness trail from federal perimeter custody through CBO, OECD, HHS/ACF, USDA, and Census gaps.",
+      "ready": true
+    },
+    {
+      "surface_id": "blocked_claim_controls",
+      "claim": "Taxlane can show machine-readable guardrails that block solver inputs, rates, savings, public rate cards, department-cut instructions, technology-savings claims, and balanced-budget claims.",
+      "ready": true
+    }
+  ],
+  "not_yet_showable_as_outputs": {
+    "solver_input": null,
+    "rate_calculation": null,
+    "gross_savings": null,
+    "net_savings": null,
+    "public_rate_card": null,
+    "department_cut_instruction": null,
+    "technology_savings_claim": null,
+    "balanced_budget_claim": null
+  },
+  "remaining_before_rate_or_savings": [
+    "complete source custody for remaining lane gates",
+    "populate reviewed floor values and pass/fail findings",
+    "complete federal/state/local translation where needed",
+    "populate solver input inventory from reviewed evidence",
+    "complete assigned receipt bases, distribution/incidence, administration/compliance burden, interaction, and macro feedback",
+    "run role review and public-language review"
+  ],
+  "claim_booleans": {
+    "taxlane_showcase_readiness_summary_published": true,
+    "demo_ready_as_readiness_system": true,
+    "solver_input_ready": false,
+    "rate_calculation_published": false,
+    "gross_savings_published": false,
+    "net_savings_published": false,
+    "public_rate_card_published": false,
+    "department_cut_instruction_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "This is a Taxlane showcase readiness summary, not a solver run, not rate calculation, not gross savings, not net savings, not a public rate card, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+}

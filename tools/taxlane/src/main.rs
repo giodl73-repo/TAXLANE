@@ -737,6 +737,12 @@ const INCOME_SECURITY_FAMILY_CENSUS_CHILD_POVERTY_INCOME_CAPTURE_GAP_JSON_PATH: 
 const INCOME_SECURITY_FAMILY_CENSUS_CHILD_POVERTY_INCOME_CAPTURE_GAP_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/income_security_family_census_child_poverty_income_capture_gap.schema.md";
 const INCOME_SECURITY_FAMILY_CENSUS_CHILD_POVERTY_INCOME_CAPTURE_GAP_READER_PATH: &str =
     "docs/reading/income-security-family-census-child-poverty-income-capture-gap.md";
+const TAXLANE_SHOWCASE_READINESS_SUMMARY_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/taxlane_showcase_readiness_summary.v1.draft.json";
+const TAXLANE_SHOWCASE_READINESS_SUMMARY_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/taxlane_showcase_readiness_summary.schema.md";
+const TAXLANE_SHOWCASE_READINESS_SUMMARY_READER_PATH: &str =
+    "docs/reading/taxlane-showcase-readiness-summary.md";
 const REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/revenue_solvency_outcome_floor_definition_packet.v1.draft.json";
 const REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/revenue_solvency_outcome_floor_definition_packet.schema.md";
 const REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_READER_PATH: &str =
@@ -11528,6 +11534,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_income_security_family_childcare_family_service_capture_gap(root)?;
     validate_income_security_family_food_hardship_nutrition_capture_gap(root)?;
     validate_income_security_family_census_child_poverty_income_capture_gap(root)?;
+    validate_taxlane_showcase_readiness_summary(root)?;
     validate_revenue_solvency_outcome_floor_definition_packet(root)?;
     validate_net_interest_outcome_floor_definition_packet(root)?;
     validate_payment_integrity_outcome_floor_definition_packet(root)?;
@@ -32368,7 +32375,7 @@ fn validate_income_security_family_source_capture_status_rollup(root: &Path) -> 
         != "income-security-family-source-capture-status-rollup:v1"
         || string_field(&record, "record_family")?
             != "income_security_family_source_capture_status_rollup"
-        || int_field(&record, "pulse")? != 192
+        || int_field(&record, "pulse")? != 201
         || string_field(&record, "lane_id")? != "income-security-family"
         || string_field(&record, "contract_path")? != PROGRAM_LANE_TARGET_COST_CONTRACT_JSON_PATH
         || string_field(&record, "income_security_family_source_readiness_gap_path")?
@@ -32377,12 +32384,67 @@ fn validate_income_security_family_source_capture_status_rollup(root: &Path) -> 
             != INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_QUEUE_JSON_PATH
         || string_field(
             &record,
+            "income_security_family_federal_program_perimeter_bridge_path",
+        )? != INCOME_SECURITY_FAMILY_FEDERAL_PROGRAM_PERIMETER_BRIDGE_JSON_PATH
+        || string_field(
+            &record,
+            "income_security_family_cbo_baseline_takeup_capture_gap_path",
+        )? != INCOME_SECURITY_FAMILY_CBO_BASELINE_TAKEUP_CAPTURE_GAP_JSON_PATH
+        || string_field(
+            &record,
+            "income_security_family_child_relative_poverty_context_bridge_path",
+        )? != INCOME_SECURITY_FAMILY_CHILD_RELATIVE_POVERTY_CONTEXT_BRIDGE_JSON_PATH
+        || string_field(
+            &record,
+            "income_security_family_socx_family_benefit_comparator_bridge_path",
+        )? != INCOME_SECURITY_FAMILY_SOCX_FAMILY_BENEFIT_COMPARATOR_BRIDGE_JSON_PATH
+        || string_field(
+            &record,
+            "income_security_family_childcare_family_service_capture_gap_path",
+        )? != INCOME_SECURITY_FAMILY_CHILDCARE_FAMILY_SERVICE_CAPTURE_GAP_JSON_PATH
+        || string_field(
+            &record,
+            "income_security_family_food_hardship_nutrition_capture_gap_path",
+        )? != INCOME_SECURITY_FAMILY_FOOD_HARDSHIP_NUTRITION_CAPTURE_GAP_JSON_PATH
+        || string_field(
+            &record,
+            "income_security_family_census_child_poverty_income_capture_gap_path",
+        )? != INCOME_SECURITY_FAMILY_CENSUS_CHILD_POVERTY_INCOME_CAPTURE_GAP_JSON_PATH
+        || string_field(
+            &record,
             "income_security_family_outcome_floor_definition_packet_path",
         )? != INCOME_SECURITY_FAMILY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH
     {
         return Err(
             "income-security/family source capture status rollup identity failed".to_string(),
         );
+    }
+
+    let summary = record
+        .get("post_pulse_200_summary")
+        .ok_or("income-security/family source capture post-Pulse-200 summary")?;
+    for (field, expected) in [
+        ("narrow_source_custody_or_context_complete_count", 2),
+        ("capture_gap_documented_count", 4),
+        ("remaining_closure_gate_count", 6),
+    ] {
+        if int_field(summary, field)? != expected {
+            return Err(format!(
+                "income-security/family source capture post-Pulse-200 summary count failed: {field}"
+            ));
+        }
+    }
+    for field in ["solver_ready", "rate_ready"] {
+        if summary.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "income-security/family source capture post-Pulse-200 summary must block {field}"
+            ));
+        }
+    }
+    if string_field(summary, "showcase_status")?
+        != "demo_ready_as_readiness_and_guardrail_system_not_rate_or_savings_model"
+    {
+        return Err("income-security/family source capture showcase status failed".to_string());
     }
 
     let rows = record
@@ -32432,16 +32494,66 @@ fn validate_income_security_family_source_capture_status_rollup(root: &Path) -> 
 
     for row in rows {
         let family = string_field(row, "source_family")?;
+        let custody_status = string_field(row, "custody_status")?;
         if string_field(row, "source_role")?.is_empty()
-            || string_field(row, "custody_status")? != "capture_item_open"
+            || string_field(row, "supporting_artifact_path")?.is_empty()
         {
             return Err(format!(
                 "income-security/family source capture status row shape failed: {family}"
             ));
         }
+        let (expected_status, raw_ready, context_ready) = match family.as_str() {
+            "Federal program outlay perimeter" => (
+                "narrow_fy2025_federal_account_perimeter_source_custody_ready",
+                true,
+                true,
+            ),
+            "CBO baseline and take-up context" => (
+                "capture_gap_documented_automated_cbo_capture_blocked",
+                false,
+                false,
+            ),
+            "Child poverty and income context" => (
+                "capture_gap_documented_census_domestic_source_custody_open",
+                false,
+                false,
+            ),
+            "Childcare and family-service context" => (
+                "capture_gap_documented_hhs_acf_source_custody_open",
+                false,
+                false,
+            ),
+            "Food hardship and nutrition context" => (
+                "capture_gap_documented_usda_source_custody_open",
+                false,
+                false,
+            ),
+            "International comparator context" => (
+                "partial_oecd_child_poverty_and_socx_context_ready_broader_comparator_gate_open",
+                true,
+                true,
+            ),
+            _ => {
+                return Err(format!(
+                    "income-security/family source capture status unexpected family: {family}"
+                ));
+            }
+        };
+        if custody_status != expected_status
+            || row
+                .get("raw_custody_ready")
+                .and_then(serde_json::Value::as_bool)
+                != Some(raw_ready)
+            || row
+                .get("may_populate_context")
+                .and_then(serde_json::Value::as_bool)
+                != Some(context_ready)
+        {
+            return Err(format!(
+                "income-security/family source capture status row readiness failed: {family}"
+            ));
+        }
         for field in [
-            "raw_custody_ready",
-            "may_populate_context",
             "may_populate_program_outlay_perimeter",
             "may_populate_benefit_package_or_takeup_model",
             "may_populate_floor_values_or_pass_fail",
@@ -32460,9 +32572,11 @@ fn validate_income_security_family_source_capture_status_rollup(root: &Path) -> 
         .ok_or("income-security/family source capture status counts")?;
     for (field, expected) in [
         ("source_family_count", 6),
-        ("capture_item_open_count", 6),
-        ("raw_custody_ready_count", 0),
-        ("context_ready_count", 0),
+        ("capture_item_open_count", 4),
+        ("capture_gap_documented_count", 4),
+        ("narrow_source_custody_or_context_ready_count", 2),
+        ("raw_custody_ready_count", 2),
+        ("context_ready_count", 2),
         ("program_outlay_perimeter_ready_count", 0),
         ("benefit_package_or_takeup_model_ready_count", 0),
         ("floor_value_ready_count", 0),
@@ -32482,6 +32596,9 @@ fn validate_income_security_family_source_capture_status_rollup(root: &Path) -> 
     for field in [
         "source_readiness_gap_published",
         "source_capture_queue_published",
+        "post_pulse_200_status_rollup_published",
+        "fy2025_federal_account_perimeter_source_custody_ready",
+        "socx_family_benefit_context_ready",
     ] {
         if readiness.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
             return Err(format!(
@@ -32538,6 +32655,9 @@ fn validate_income_security_family_source_capture_status_rollup(root: &Path) -> 
             "income_security_family_source_capture_status_rollup_published"
                 | "source_readiness_gap_published"
                 | "source_capture_queue_published"
+                | "post_pulse_200_status_rollup_published"
+                | "fy2025_federal_account_perimeter_source_custody_ready"
+                | "socx_family_benefit_context_ready"
         ) {
             if !observed {
                 return Err(format!(
@@ -32572,10 +32692,10 @@ fn validate_income_security_family_source_capture_status_rollup(root: &Path) -> 
 
     let warning = string_field(&record, "public_warning")?;
     for required in [
-        "summarizes open work items only",
+        "summarizes post-Pulse-200 partial source custody and documented gaps only",
         "not complete source capture",
-        "not raw source custody",
-        "not a program outlay perimeter",
+        "not full raw source custody",
+        "not a program outlay perimeter model",
         "not a benefit package model",
         "not a take-up model",
         "not child-poverty floor values",
@@ -32608,16 +32728,16 @@ fn validate_income_security_family_source_capture_status_rollup(root: &Path) -> 
     .map_err(|e| e.to_string())?;
     for required in [
         INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_STATUS_ROLLUP_JSON_PATH,
-        "All six capture families remain open",
-        "federal program outlay perimeter",
-        "CBO baseline and take-up context",
-        "child poverty and income context",
-        "childcare and family-service context",
-        "food hardship and nutrition context",
-        "international comparator context",
+        "Pulse 201 summarizes",
+        "FY2025 federal account-perimeter source custody is narrowly ready",
+        "OECD SOCX family-benefit comparator context is displayable",
+        "CBO baseline and take-up capture remains a documented gap",
+        "Census child poverty and income capture remains a documented gap",
+        "HHS/ACF childcare and family-service capture remains a documented gap",
+        "USDA food hardship and nutrition capture remains a documented gap",
         "not complete source capture",
-        "not raw source custody",
-        "not a program outlay perimeter",
+        "not full raw source custody",
+        "not a program outlay perimeter model",
         "not a benefit package model",
         "not a take-up model",
         "not child-poverty floor values",
@@ -34460,6 +34580,159 @@ fn validate_income_security_family_census_child_poverty_income_capture_gap(
             return Err(format!(
                 "income-security/family Census poverty reader missing: {required}"
             ));
+        }
+    }
+
+    Ok(())
+}
+
+fn validate_taxlane_showcase_readiness_summary(root: &Path) -> Result<(), String> {
+    for path in [
+        TAXLANE_SHOWCASE_READINESS_SUMMARY_JSON_PATH,
+        TAXLANE_SHOWCASE_READINESS_SUMMARY_SCHEMA_PATH,
+        TAXLANE_SHOWCASE_READINESS_SUMMARY_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing Taxlane showcase readiness summary artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(root.join(TAXLANE_SHOWCASE_READINESS_SUMMARY_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")? != "taxlane-showcase-readiness-summary:v1"
+        || string_field(&record, "record_family")? != "taxlane_showcase_readiness_summary"
+        || int_field(&record, "pulse")? != 201
+        || string_field(&record, "primary_wave_path")?
+            != "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md"
+        || string_field(&record, "income_security_family_status_rollup_path")?
+            != INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_STATUS_ROLLUP_JSON_PATH
+        || string_field(&record, "solver_input_readiness_rollup_path")?
+            != SOLVER_INPUT_READINESS_ROLLUP_JSON_PATH
+        || string_field(&record, "rate_publication_readiness_rollup_path")?
+            != RATE_PUBLICATION_READINESS_ROLLUP_JSON_PATH
+        || string_field(&record, "final_closure_readiness_gate_path")?
+            != FINAL_CLOSURE_READINESS_GATE_JSON_PATH
+    {
+        return Err("Taxlane showcase readiness summary identity failed".to_string());
+    }
+
+    let positioning = record
+        .get("showcase_positioning")
+        .ok_or("Taxlane showcase positioning")?;
+    if !string_field(positioning, "one_sentence")?.contains("guarded fiscal-readiness system")
+        || positioning
+            .get("demo_ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("Taxlane showcase positioning failed".to_string());
+    }
+    for field in [
+        "solver_ready",
+        "rate_ready",
+        "savings_ready",
+        "balanced_budget_claim_ready",
+    ] {
+        if positioning.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!("Taxlane showcase positioning must block {field}"));
+        }
+    }
+
+    let surfaces = record
+        .get("current_showable_surfaces")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Taxlane showcase surfaces")?;
+    if surfaces.len() != 3 {
+        return Err("Taxlane showcase must have three showable surfaces".to_string());
+    }
+    for surface in surfaces {
+        if string_field(surface, "surface_id")?.is_empty()
+            || string_field(surface, "claim")?.is_empty()
+            || surface.get("ready").and_then(serde_json::Value::as_bool) != Some(true)
+        {
+            return Err("Taxlane showcase surface shape failed".to_string());
+        }
+    }
+
+    let not_outputs = record
+        .get("not_yet_showable_as_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Taxlane showcase blocked outputs")?;
+    for (field, value) in not_outputs {
+        if !value.is_null() {
+            return Err(format!(
+                "Taxlane showcase blocked output must remain null: {field}"
+            ));
+        }
+    }
+
+    let remaining = record
+        .get("remaining_before_rate_or_savings")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("Taxlane showcase remaining work")?;
+    if remaining.len() != 6 {
+        return Err("Taxlane showcase remaining work count failed".to_string());
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("Taxlane showcase claims")?;
+    for (field, value) in claims {
+        let observed = value.as_bool().ok_or("Taxlane showcase claim bool")?;
+        if matches!(
+            field.as_str(),
+            "taxlane_showcase_readiness_summary_published" | "demo_ready_as_readiness_system"
+        ) {
+            if !observed {
+                return Err(format!("Taxlane showcase claim should be true: {field}"));
+            }
+        } else if observed {
+            return Err(format!(
+                "Taxlane showcase downstream claim must be false: {field}"
+            ));
+        }
+    }
+
+    let warning = string_field(&record, "public_warning")?;
+    for required in [
+        "Taxlane showcase readiness summary",
+        "not a solver run",
+        "not rate calculation",
+        "not gross savings",
+        "not net savings",
+        "not a public rate card",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !warning.contains(required) {
+            return Err(format!("Taxlane showcase warning missing: {required}"));
+        }
+    }
+
+    let reader = fs::read_to_string(root.join(TAXLANE_SHOWCASE_READINESS_SUMMARY_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        TAXLANE_SHOWCASE_READINESS_SUMMARY_JSON_PATH,
+        "Taxlane is showable as a guarded fiscal-readiness system",
+        "FY2025 federal account-perimeter source custody is narrowly ready",
+        "CBO baseline and take-up capture remains a documented gap",
+        "not a solver run",
+        "not rate calculation",
+        "not gross savings",
+        "not net savings",
+        "not a public rate card",
+        "not a department-cut instruction",
+        "not a technology-savings claim",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("Taxlane showcase reader missing: {required}"));
         }
     }
 
@@ -46104,7 +46377,7 @@ mod global_country_comparison_tests {
     }
 
     #[test]
-    fn income_security_family_source_capture_status_rollup_keeps_all_items_open() {
+    fn income_security_family_source_capture_status_rollup_reflects_post_pulse_200() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_income_security_family_source_capture_status_rollup(&root).unwrap();
     }
@@ -46155,6 +46428,12 @@ mod global_country_comparison_tests {
     fn income_security_family_census_child_poverty_income_capture_gap_keeps_values_blocked() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_income_security_family_census_child_poverty_income_capture_gap(&root).unwrap();
+    }
+
+    #[test]
+    fn taxlane_showcase_readiness_summary_blocks_output_claims() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_taxlane_showcase_readiness_summary(&root).unwrap();
     }
 
     #[test]

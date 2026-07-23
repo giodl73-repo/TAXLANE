@@ -943,6 +943,13 @@ gate. It names Census poverty report, Supplemental Poverty Measure, and CPS ASEC
 source surfaces but keeps raw custody, poverty values, income-unit context,
 floor values, solver inputs, rates, savings, and balanced-budget claims blocked.
 
+`taxlane_showcase_readiness_summary.v1.draft.json` gives a concise showable-state
+summary for Taxlane. It positions the project as a source-custody and readiness
+guardrail system, with income-security/family Pulses 194 through 200 as the demo
+trail, while solver inputs, rates, savings, public rate cards, department-cut
+instructions, technology-savings claims, and balanced-budget claims remain
+blocked.
+
 `revenue_solvency_outcome_floor_definition_packet.v1.draft.json` extends the
 floor definition packet pattern to the non-additive revenue-solvency overlay. It
 defines distributional-progressivity, revenue-stability, administrability,

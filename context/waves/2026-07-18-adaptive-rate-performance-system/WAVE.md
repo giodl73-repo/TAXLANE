@@ -82,6 +82,10 @@ turned the adaptive-rate thesis into a guarded implementation surface:
   naming Census poverty, SPM, and CPS ASEC source surfaces while keeping
   official/SPM/deep poverty, income-unit, floor, solver, rate, savings, and
   balanced-budget gates blocked.
+- Pulse 201 refreshes the income-security/family source-capture status rollup
+  after Pulses 194 through 200 and adds a Taxlane showcase readiness summary:
+  demo-ready as a custody/readiness guardrail system, not solver-ready,
+  rate-ready, savings-ready, or balanced-budget-ready.
 
 The public showable state is therefore not a rate proposal. It is a disciplined
 operating model that can show:
