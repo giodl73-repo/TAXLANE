@@ -1,0 +1,115 @@
+{
+  "record_id": "income-security-family-census-child-poverty-income-capture-gap:v1",
+  "record_family": "income_security_family_census_child_poverty_income_capture_gap",
+  "schema_version": "v1.draft",
+  "status": "draft_census_child_poverty_income_capture_gap_values_blocked",
+  "pulse": 200,
+  "as_of_date": "2026-07-22",
+  "lane_id": "income-security-family",
+  "depends_on_food_nutrition_gap_path": "data/derived/breadth_benchmark_matrix/income_security_family_food_hardship_nutrition_capture_gap.v1.draft.json",
+  "source_capture_queue_path": "data/derived/breadth_benchmark_matrix/income_security_family_source_capture_queue.v1.draft.json",
+  "source_capture_closure_work_queue_path": "data/derived/breadth_benchmark_matrix/income_security_family_source_capture_closure_work_queue.v1.draft.json",
+  "target_work_item_id": "capture-income-security-child-poverty-income-context",
+  "target_closure_item_id": "close-income-security-child-poverty-income-lineage",
+  "source_discovery": {
+    "official_sources_only": true,
+    "candidate_poverty_2024_report_url": "https://www.census.gov/library/publications/2025/demo/p60-287.html",
+    "candidate_poverty_2024_pdf_url": "https://www2.census.gov/library/publications/2025/demo/p60-287.pdf",
+    "candidate_spm_topic_url": "https://www.census.gov/topics/income-poverty/supplemental-poverty-measure.html",
+    "candidate_poverty_2023_report_url": "https://www.census.gov/library/publications/2024/demo/p60-283.html",
+    "required_source_families": [
+      "Census Current Population Reports poverty report and detailed tables",
+      "Census Supplemental Poverty Measure topic or table releases",
+      "CPS ASEC poverty and income definition documentation"
+    ]
+  },
+  "local_custody_status": {
+    "local_raw_census_poverty_report_path": null,
+    "local_raw_census_poverty_table_path": null,
+    "local_raw_census_spm_table_path": null,
+    "metadata_path": null,
+    "raw_byte_count": null,
+    "raw_sha256": null,
+    "retrieval_date": null,
+    "custody_ready": false,
+    "values_may_be_populated": false
+  },
+  "existing_context_not_closure": [
+    {
+      "source_id": "SRC-CENSUS-P60-280",
+      "source_role": "prior-source-ledger context for the 2021 to 2022 Supplemental Poverty Measure child-poverty episode",
+      "why_not_closure": "Not locally captured as raw source custody for this lane gate and not sufficient for current domestic child poverty/income-unit lineage."
+    },
+    {
+      "artifact_path": "data/derived/breadth_benchmark_matrix/income_security_family_child_relative_poverty_context_bridge.v1.draft.json",
+      "source_role": "OECD international child relative-poverty context",
+      "why_not_closure": "International relative-poverty context is not Census domestic poverty or income-unit custody."
+    }
+  ],
+  "next_manual_capture_requirements": [
+    "capture official Census poverty report or detailed table raw bytes for child poverty by age",
+    "capture official Census SPM table/report bytes if SPM child poverty is used separately from official poverty",
+    "record source URLs, retrieval dates, byte counts, SHA-256 hashes, and metadata paths",
+    "document official poverty measure versus Supplemental Poverty Measure, income definition, unit definition, age perimeter, and source year",
+    "review whether deep poverty, near-poverty, income distribution, and equity context require additional Census table custody"
+  ],
+  "readiness_status": {
+    "census_child_poverty_income_capture_gap_published": true,
+    "raw_census_custody_ready": false,
+    "official_child_poverty_context_ready": false,
+    "spm_child_poverty_context_ready": false,
+    "deep_poverty_or_near_poverty_context_ready": false,
+    "income_definition_ready": false,
+    "income_unit_perimeter_ready": false,
+    "child_poverty_floor_values_ready": false,
+    "solver_input_ready": false,
+    "rate_calculation_ready": false
+  },
+  "blocked_outputs": {
+    "child_poverty_income_lineage_review": null,
+    "official_child_poverty_rate": null,
+    "spm_child_poverty_rate": null,
+    "deep_poverty_or_near_poverty_context": null,
+    "income_definition": null,
+    "household_or_family_unit": null,
+    "age_perimeter": null,
+    "child_poverty_floor_values": null,
+    "equity_distribution_floor": null,
+    "baseline_family_income_context": null,
+    "pass_fail_findings": null,
+    "lower_cost_scenario_admissibility": null,
+    "target_cost": null,
+    "federal_effect": null,
+    "gross_savings": null,
+    "net_savings": null,
+    "solver_input": null,
+    "rate_calculation": null,
+    "public_rate_card": null
+  },
+  "claim_booleans": {
+    "census_child_poverty_income_capture_gap_published": true,
+    "source_capture_complete": false,
+    "raw_census_custody_ready": false,
+    "official_child_poverty_context_ready": false,
+    "spm_child_poverty_context_ready": false,
+    "deep_poverty_or_near_poverty_context_ready": false,
+    "income_definition_ready": false,
+    "income_unit_perimeter_ready": false,
+    "child_poverty_floor_values_populated": false,
+    "equity_distribution_floor_populated": false,
+    "baseline_family_income_context_published": false,
+    "pass_fail_findings_populated": false,
+    "lower_cost_scenario_admissibility_ready": false,
+    "target_cost_published": false,
+    "federal_effect_published": false,
+    "gross_savings_published": false,
+    "net_savings_published": false,
+    "solver_input_ready": false,
+    "rate_calculation_published": false,
+    "public_rate_card_published": false,
+    "department_cut_instruction_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "This record is a Census child poverty and income source-capture gap only. It is not Census raw source custody, not official child poverty context, not SPM child poverty context, not deep poverty or near-poverty context, not an income definition, not an income-unit perimeter, not child-poverty floor values, not pass/fail findings, not target-cost selection, not gross savings, not net savings, not solver input, not rate calculation, not a public rate card, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+}

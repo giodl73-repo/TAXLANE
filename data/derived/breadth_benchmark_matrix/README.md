@@ -937,6 +937,12 @@ raw custody, food-security measures, SNAP participation/benefit context,
 material-hardship floors, solver inputs, rates, savings, and balanced-budget
 claims blocked.
 
+`income_security_family_census_child_poverty_income_capture_gap.v1.draft.json`
+records the still-open Census domestic child poverty and income source-custody
+gate. It names Census poverty report, Supplemental Poverty Measure, and CPS ASEC
+source surfaces but keeps raw custody, poverty values, income-unit context,
+floor values, solver inputs, rates, savings, and balanced-budget claims blocked.
+
 `revenue_solvency_outcome_floor_definition_packet.v1.draft.json` extends the
 floor definition packet pattern to the non-additive revenue-solvency overlay. It
 defines distributional-progressivity, revenue-stability, administrability,

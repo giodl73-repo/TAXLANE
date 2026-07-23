@@ -733,6 +733,10 @@ const INCOME_SECURITY_FAMILY_FOOD_HARDSHIP_NUTRITION_CAPTURE_GAP_JSON_PATH: &str
 const INCOME_SECURITY_FAMILY_FOOD_HARDSHIP_NUTRITION_CAPTURE_GAP_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/income_security_family_food_hardship_nutrition_capture_gap.schema.md";
 const INCOME_SECURITY_FAMILY_FOOD_HARDSHIP_NUTRITION_CAPTURE_GAP_READER_PATH: &str =
     "docs/reading/income-security-family-food-hardship-nutrition-capture-gap.md";
+const INCOME_SECURITY_FAMILY_CENSUS_CHILD_POVERTY_INCOME_CAPTURE_GAP_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/income_security_family_census_child_poverty_income_capture_gap.v1.draft.json";
+const INCOME_SECURITY_FAMILY_CENSUS_CHILD_POVERTY_INCOME_CAPTURE_GAP_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/income_security_family_census_child_poverty_income_capture_gap.schema.md";
+const INCOME_SECURITY_FAMILY_CENSUS_CHILD_POVERTY_INCOME_CAPTURE_GAP_READER_PATH: &str =
+    "docs/reading/income-security-family-census-child-poverty-income-capture-gap.md";
 const REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/revenue_solvency_outcome_floor_definition_packet.v1.draft.json";
 const REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/revenue_solvency_outcome_floor_definition_packet.schema.md";
 const REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_READER_PATH: &str =
@@ -11523,6 +11527,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_income_security_family_socx_family_benefit_comparator_bridge(root)?;
     validate_income_security_family_childcare_family_service_capture_gap(root)?;
     validate_income_security_family_food_hardship_nutrition_capture_gap(root)?;
+    validate_income_security_family_census_child_poverty_income_capture_gap(root)?;
     validate_revenue_solvency_outcome_floor_definition_packet(root)?;
     validate_net_interest_outcome_floor_definition_packet(root)?;
     validate_payment_integrity_outcome_floor_definition_packet(root)?;
@@ -34247,6 +34252,220 @@ fn validate_income_security_family_food_hardship_nutrition_capture_gap(
     Ok(())
 }
 
+fn validate_income_security_family_census_child_poverty_income_capture_gap(
+    root: &Path,
+) -> Result<(), String> {
+    for path in [
+        INCOME_SECURITY_FAMILY_CENSUS_CHILD_POVERTY_INCOME_CAPTURE_GAP_JSON_PATH,
+        INCOME_SECURITY_FAMILY_CENSUS_CHILD_POVERTY_INCOME_CAPTURE_GAP_SCHEMA_PATH,
+        INCOME_SECURITY_FAMILY_CENSUS_CHILD_POVERTY_INCOME_CAPTURE_GAP_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing income-security/family Census poverty capture gap artifact: {path}"
+            ));
+        }
+    }
+
+    let text = fs::read_to_string(
+        root.join(INCOME_SECURITY_FAMILY_CENSUS_CHILD_POVERTY_INCOME_CAPTURE_GAP_JSON_PATH),
+    )
+    .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")?
+        != "income-security-family-census-child-poverty-income-capture-gap:v1"
+        || string_field(&record, "record_family")?
+            != "income_security_family_census_child_poverty_income_capture_gap"
+        || int_field(&record, "pulse")? != 200
+        || string_field(&record, "lane_id")? != "income-security-family"
+        || string_field(&record, "depends_on_food_nutrition_gap_path")?
+            != INCOME_SECURITY_FAMILY_FOOD_HARDSHIP_NUTRITION_CAPTURE_GAP_JSON_PATH
+        || string_field(&record, "source_capture_queue_path")?
+            != INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_QUEUE_JSON_PATH
+        || string_field(&record, "source_capture_closure_work_queue_path")?
+            != INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_CLOSURE_WORK_QUEUE_JSON_PATH
+        || string_field(&record, "target_work_item_id")?
+            != "capture-income-security-child-poverty-income-context"
+        || string_field(&record, "target_closure_item_id")?
+            != "close-income-security-child-poverty-income-lineage"
+    {
+        return Err("income-security/family Census poverty gap identity failed".to_string());
+    }
+
+    let discovery = record
+        .get("source_discovery")
+        .ok_or("income-security/family Census poverty source discovery")?;
+    if discovery
+        .get("official_sources_only")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+        || string_field(discovery, "candidate_poverty_2024_report_url")?
+            != "https://www.census.gov/library/publications/2025/demo/p60-287.html"
+        || string_field(discovery, "candidate_poverty_2024_pdf_url")?
+            != "https://www2.census.gov/library/publications/2025/demo/p60-287.pdf"
+        || string_field(discovery, "candidate_spm_topic_url")?
+            != "https://www.census.gov/topics/income-poverty/supplemental-poverty-measure.html"
+        || string_field(discovery, "candidate_poverty_2023_report_url")?
+            != "https://www.census.gov/library/publications/2024/demo/p60-283.html"
+    {
+        return Err("income-security/family Census poverty source discovery failed".to_string());
+    }
+    let source_families = discovery
+        .get("required_source_families")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("income-security/family Census poverty source families")?;
+    if source_families.len() != 3 {
+        return Err("income-security/family Census poverty source family count failed".to_string());
+    }
+
+    let custody = record
+        .get("local_custody_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("income-security/family Census poverty local custody status")?;
+    for field in [
+        "local_raw_census_poverty_report_path",
+        "local_raw_census_poverty_table_path",
+        "local_raw_census_spm_table_path",
+        "metadata_path",
+        "raw_byte_count",
+        "raw_sha256",
+        "retrieval_date",
+    ] {
+        if !custody.get(field).is_some_and(serde_json::Value::is_null) {
+            return Err(format!(
+                "income-security/family Census poverty custody field must be null: {field}"
+            ));
+        }
+    }
+    for field in ["custody_ready", "values_may_be_populated"] {
+        if custody.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "income-security/family Census poverty custody bool must be false: {field}"
+            ));
+        }
+    }
+
+    let existing_context = record
+        .get("existing_context_not_closure")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("income-security/family Census poverty existing context")?;
+    if existing_context.len() != 2 {
+        return Err(
+            "income-security/family Census poverty existing context count failed".to_string(),
+        );
+    }
+
+    let requirements = record
+        .get("next_manual_capture_requirements")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("income-security/family Census poverty manual requirements")?;
+    if requirements.len() != 5 {
+        return Err(
+            "income-security/family Census poverty manual requirements count failed".to_string(),
+        );
+    }
+
+    let readiness = record
+        .get("readiness_status")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("income-security/family Census poverty readiness")?;
+    for (field, value) in readiness {
+        let observed = value
+            .as_bool()
+            .ok_or("income-security/family Census poverty readiness bool")?;
+        if field == "census_child_poverty_income_capture_gap_published" {
+            if !observed {
+                return Err(
+                    "income-security/family Census poverty gap publication flag failed".to_string(),
+                );
+            }
+        } else if observed {
+            return Err(format!(
+                "income-security/family Census poverty readiness must be false: {field}"
+            ));
+        }
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("income-security/family Census poverty blocked outputs")?;
+    for (field, value) in blocked {
+        if !value.is_null() {
+            return Err(format!(
+                "income-security/family Census poverty blocked output must be null: {field}"
+            ));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("income-security/family Census poverty claims")?;
+    for (field, value) in claims {
+        let observed = value
+            .as_bool()
+            .ok_or("income-security/family Census poverty claim bool")?;
+        if field == "census_child_poverty_income_capture_gap_published" {
+            if !observed {
+                return Err(
+                    "income-security/family Census poverty claim publication flag failed"
+                        .to_string(),
+                );
+            }
+        } else if observed {
+            return Err(format!(
+                "income-security/family Census poverty downstream claim must be false: {field}"
+            ));
+        }
+    }
+
+    let warning = string_field(&record, "public_warning")?;
+    for required in [
+        "Census child poverty and income source-capture gap only",
+        "not Census raw source custody",
+        "not official child poverty context",
+        "not SPM child poverty context",
+        "not child-poverty floor values",
+        "not solver input",
+        "not rate calculation",
+        "not gross savings",
+        "not net savings",
+        "not a balanced-budget claim",
+    ] {
+        if !warning.contains(required) {
+            return Err(format!(
+                "income-security/family Census poverty warning missing: {required}"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(
+        root.join(INCOME_SECURITY_FAMILY_CENSUS_CHILD_POVERTY_INCOME_CAPTURE_GAP_READER_PATH),
+    )
+    .map_err(|e| e.to_string())?;
+    for required in [
+        INCOME_SECURITY_FAMILY_CENSUS_CHILD_POVERTY_INCOME_CAPTURE_GAP_JSON_PATH,
+        "Census Current Population Reports poverty releases",
+        "Census Supplemental Poverty Measure material",
+        "CPS ASEC poverty/income documentation",
+        "no local raw Census poverty report, Census poverty table, or Census SPM table",
+        "Census child poverty and income source-capture gap only",
+        "not Census raw source custody",
+        "not solver input",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!(
+                "income-security/family Census poverty reader missing: {required}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_revenue_solvency_outcome_floor_definition_packet(root: &Path) -> Result<(), String> {
     for path in [
         REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
@@ -45930,6 +46149,12 @@ mod global_country_comparison_tests {
     fn income_security_family_food_hardship_nutrition_capture_gap_keeps_values_blocked() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_income_security_family_food_hardship_nutrition_capture_gap(&root).unwrap();
+    }
+
+    #[test]
+    fn income_security_family_census_child_poverty_income_capture_gap_keeps_values_blocked() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_income_security_family_census_child_poverty_income_capture_gap(&root).unwrap();
     }
 
     #[test]
