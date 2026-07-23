@@ -34754,6 +34754,25 @@ fn validate_taxlane_showcase_readiness_summary(root: &Path) -> Result<(), String
         }
     }
 
+    let papers_index =
+        fs::read_to_string(root.join("docs/papers/README.md")).map_err(|e| e.to_string())?;
+    for required in [
+        "../reading/taxlane-showcase-readiness-summary.md",
+        "The papers establish the public-policy thesis",
+        "the repo can demonstrate today",
+        "balanced-budget outputs remain blocked",
+        "[0+legible-federal-funding.pdf](0+legible-federal-funding.pdf)",
+        "../../research/publications/legible-federal-funding/paper.md",
+        "[5+low-tax-country-borrowing-habit.pdf](5+low-tax-country-borrowing-habit.pdf)",
+        "../../research/publications/low-tax-country-borrowing-habit/paper.md",
+    ] {
+        if !papers_index.contains(required) {
+            return Err(format!(
+                "Taxlane papers index showcase route missing: {required}"
+            ));
+        }
+    }
+
     Ok(())
 }
 
