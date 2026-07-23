@@ -6,28 +6,31 @@ denominator, and claim status before it asks for trust.
 
 ## Five-Minute Version
 
-1. Open [README.md](../README.md) and state the one-line purpose:
-   TAXLANE is a source-backed civic visibility system for income-tax receipts,
-   funding lanes, benchmark gaps, and reform proposals.
-2. Open [Taxlane Showcase Readiness Summary](reading/taxlane-showcase-readiness-summary.md).
+1. Open [SHOWCASE.md](../SHOWCASE.md) and state the taxpayer question:
+   when a public fiscal number is shown, can the reader see the source, scope,
+   denominator, financing relationship, and claim status before trusting it?
+2. Use the one-minute example in [SHOWCASE.md](../SHOWCASE.md): a tax receipt
+   should not imply that one person's income-tax dollars are legally tagged to
+   every displayed program unless the legal dedication is sourced.
+3. Open [Taxlane Showcase Readiness Summary](reading/taxlane-showcase-readiness-summary.md).
    Say the current status plainly: demo-ready as a source-custody/readiness
    guardrail system, not solver-ready, rate-ready, savings-ready, or
    balanced-budget-ready.
-3. Open [Honest Federal Tax Receipt](reading/honest-federal-tax-receipt.md).
+4. Open [Honest Federal Tax Receipt](reading/honest-federal-tax-receipt.md).
    Show the core standard: current law, legal dedication, modeled allocation,
    civic illustration, and reform proposal must not be mixed.
-4. Open [Budget-Area Funding Explainer](reading/budget-area-funding-explainer.md).
+5. Open [Budget-Area Funding Explainer](reading/budget-area-funding-explainer.md).
    Show the research thesis in public language: health cost, old-age base,
    defense strategy, family support, and revenue adequacy are different
    problems.
-5. Open [Current Versus Benchmark Scoreboard](reading/current-versus-benchmark-scoreboard.md).
+6. Open [Current Versus Benchmark Scoreboard](reading/current-versus-benchmark-scoreboard.md).
    Show the firewall between benchmark gaps, improper payments, fraud,
    recoverable savings, and public claims.
-6. Open the
+7. Open the
    [adaptive-rate current frontier](../context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md#current-frontier).
    Show that the active implementation surface is gated source lineage and
    readiness, not published rates.
-7. Run:
+8. Run:
 
    ```powershell
    cargo run -p taxlane-tools -- income-tax-outlay validate

@@ -34736,6 +34736,29 @@ fn validate_taxlane_showcase_readiness_summary(root: &Path) -> Result<(), String
         }
     }
 
+    let root_showcase = fs::read_to_string(root.join("SHOWCASE.md")).map_err(|e| e.to_string())?;
+    for required in [
+        "## One-Minute Example",
+        "## Start Here",
+        "## What Is Ready",
+        "## What Is Not Ready",
+        "## Safe Public Language",
+        "## Reviewer Pack",
+        "source, scope,",
+        "denominator, financing relationship, and claim status",
+        "honest federal tax receipt",
+        "Demo-ready as a source-custody/readiness system",
+        "not solver-ready, rate-ready, savings-ready, or balanced-budget-ready",
+        "Health cost, old-age",
+        "financing, defense strategy, family support",
+        "Benchmark gaps, improper payments, fraud, and recoverable savings",
+        "AI-simulated reviewers are review lenses, not real people or endorsements",
+    ] {
+        if !root_showcase.contains(required) {
+            return Err(format!("Taxlane root showcase missing: {required}"));
+        }
+    }
+
     let reading_index =
         fs::read_to_string(root.join(READING_INDEX_PATH)).map_err(|e| e.to_string())?;
     for required in [
@@ -34931,6 +34954,19 @@ fn validate_taxlane_showcase_readiness_summary(root: &Path) -> Result<(), String
             return Err(format!(
                 "Taxlane contributing showcase route missing: {required}"
             ));
+        }
+    }
+
+    let readme = fs::read_to_string(root.join("README.md")).map_err(|e| e.to_string())?;
+    for required in [
+        "[SHOWCASE.md](SHOWCASE.md)",
+        "shortest public handoff",
+        "a concrete",
+        "taxpayer example",
+        "what is ready, what is blocked, and safe public language",
+    ] {
+        if !readme.contains(required) {
+            return Err(format!("Taxlane README showcase route missing: {required}"));
         }
     }
 

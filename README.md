@@ -9,20 +9,22 @@ program-linked taxes.
 
 If you are evaluating the project, start here:
 
-1. Read the [Taxlane showcase readiness summary](docs/reading/taxlane-showcase-readiness-summary.md)
-   for the current showable state: demo-ready as a source-custody and readiness
-   guardrail system, not solver-ready or rate-ready.
-2. Read the [showcase guide](docs/showcase.md) for a 10-minute walkthrough.
-3. Use the [demo script](docs/demo-script.md) when presenting the repo live.
-4. Read the [honest federal tax receipt](docs/reading/honest-federal-tax-receipt.md)
+1. Read [SHOWCASE.md](SHOWCASE.md) for the shortest public handoff: a concrete
+   taxpayer example, what is ready, what is blocked, and safe public language.
+2. Read the [Taxlane showcase readiness summary](docs/reading/taxlane-showcase-readiness-summary.md)
+   for the machine-readable current state: demo-ready as a source-custody and
+   readiness guardrail system, not solver-ready or rate-ready.
+3. Read the [showcase guide](docs/showcase.md) for a 10-minute walkthrough.
+4. Use the [demo script](docs/demo-script.md) when presenting the repo live.
+5. Read the [honest federal tax receipt](docs/reading/honest-federal-tax-receipt.md)
    to see the core before/after product idea.
-5. Read the [budget-area funding explainer](docs/reading/budget-area-funding-explainer.md)
+6. Read the [budget-area funding explainer](docs/reading/budget-area-funding-explainer.md)
    for the paper-backed public-policy thesis.
-6. Check the active [adaptive-rate wave frontier](context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md#current-frontier)
+7. Check the active [adaptive-rate wave frontier](context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md#current-frontier)
    to see how the repo turns the thesis into guarded machine-readable gates.
-7. Open the compiled paper set in [docs/papers](docs/papers/README.md), starting
+8. Open the compiled paper set in [docs/papers](docs/papers/README.md), starting
    with `0+legible-federal-funding.pdf`.
-8. Run `cargo run -p taxlane-tools -- income-tax-outlay validate` to check the
+9. Run `cargo run -p taxlane-tools -- income-tax-outlay validate` to check the
    derived records, chart specs, public packet links, and claim guardrails.
 
 TAXLANE is ready to show as a source-backed civic research artifact, not as tax,

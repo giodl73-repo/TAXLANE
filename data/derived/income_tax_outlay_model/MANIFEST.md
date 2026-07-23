@@ -22,7 +22,7 @@ supporting views.
 
 | Path | Role | Grain | Rows | Canonical | SHA-256 |
 |---|---|---|---:|---|---|
-| `README.md` | Repository overview | documentation | n/a | supporting | `36d6a3a383a9d20d4368cb9d70d070aa2594bcb724928822a8031df821cc7630` |
+| `README.md` | Repository overview | documentation | n/a | supporting | `b494a22bff111cf82f46d857f10bf8c0f53af4a8674b032723795365d554ea49` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.draft.jsonl` | Canonical annual model rows | fiscal year by broad category | 516 | yes | `01c0fec63836f3652fdd83b03a608159ad58f7614fc214ae6691421990f3a85e` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.decade-summary.jsonl` | Canonical decade summary rows | decade by broad category | 54 | yes | `088cb5d55cc6a37ab52dd543d8a92bf09908cda265e9c9f93324b840eb652fb3` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.annual-wide.csv` | Chart-ready annual wide view | fiscal year | 86 | no | `cbe6ec44a77b9ef4adebaef37acc4b55ac23fd5eb21916989ae9518cbd4e4c31` |
@@ -516,7 +516,7 @@ supporting views.
 | `crates/taxlane-core/Cargo.toml` | Rust Taxlane core crate manifest | tooling | n/a | supporting | `6469c9f3c3d01bc0c51783255082c93ed608c6c64c0d4f32f5cd2c08f2426fb9` |
 | `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `9e7946b1c1d60fec9fab496bf93b8907230f8daceba80b4538f485af0b3455a5` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `b910e56a20f40547ac1e4f696e84772dde163738b03915ddbcc0d0a39427719a` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `93fe595eea6e9dc84838e405ec56f5baba6fb80723bc046b48723e805b9fd068` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `b6e1e83011d84c39c5a97895890c7db322f89e9301a3da1d1d3578ac45ec923e` |
 
 ## Regeneration Order
 

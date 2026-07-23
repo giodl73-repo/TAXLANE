@@ -4,6 +4,7 @@ This is the short path for showing TAXLANE to a first-time reader, reviewer, or
 potential collaborator. It favors defensible public artifacts over the full
 research backlog.
 
+For the shortest public handoff, start with [SHOWCASE.md](../SHOWCASE.md).
 For a live walkthrough, use the companion [demo script](demo-script.md).
 For the current machine-readable showable-state summary, start with
 [Taxlane Showcase Readiness Summary](reading/taxlane-showcase-readiness-summary.md).
@@ -17,34 +18,37 @@ what is still only a proposal.
 
 ## Ten-Minute Walkthrough
 
-1. Start with [Honest Federal Tax Receipt](reading/honest-federal-tax-receipt.md).
+1. Start with [SHOWCASE.md](../SHOWCASE.md). Use the one-minute example and the
+   taxpayer-question table to make the project understandable before opening
+   implementation records.
+2. Open [Honest Federal Tax Receipt](reading/honest-federal-tax-receipt.md).
    Point out that the receipt does not pretend income-tax dollars are legally
    tagged to every displayed category. It labels the allocation basis.
-2. Open [Taxlane Showcase Readiness Summary](reading/taxlane-showcase-readiness-summary.md).
+3. Open [Taxlane Showcase Readiness Summary](reading/taxlane-showcase-readiness-summary.md).
    Use it to set the current status: TAXLANE is demo-ready as a source-custody
    and readiness guardrail system, while solver inputs, rates, savings, public
    cards, and balanced-budget claims remain blocked.
-3. Open [Budget-Area Funding Explainer](reading/budget-area-funding-explainer.md).
+4. Open [Budget-Area Funding Explainer](reading/budget-area-funding-explainer.md).
    Use it as the plain-language summary of the six-paper research program:
    health is expensive, old-age financing has a base problem, defense is a
    strategic band, family support is thin, and total revenue is low relative to
    peer systems.
-4. Open [Current Versus Benchmark Scoreboard](reading/current-versus-benchmark-scoreboard.md).
+5. Open [Current Versus Benchmark Scoreboard](reading/current-versus-benchmark-scoreboard.md).
    Show the evidence firewall: matched benchmark gaps, topline-only areas,
    breadth gaps, improper payments, fraud, and recoverable savings are separate
    categories.
-5. Open [Payment Integrity: What The Public Evidence Shows](reading/payment-integrity-bounded-factual-examples.md).
+6. Open [Payment Integrity: What The Public Evidence Shows](reading/payment-integrity-bounded-factual-examples.md).
    Show how the repo allows exact public numbers while blocking unsupported
    fraud, waste, and savings claims.
-6. Open [docs/papers](papers/README.md), then start with
+7. Open [docs/papers](papers/README.md), then start with
    `0+legible-federal-funding.pdf`. Explain that the markdown papers are the
    source of truth and the PDFs are convenience renders.
-7. Open the
+8. Open the
    [adaptive-rate wave frontier](../context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md#current-frontier).
    Show how the repo translates the research thesis into machine-readable gates
    that keep rates, savings, and balanced-budget claims blocked until evidence
    closes.
-8. Run the validation command:
+9. Run the validation command:
 
    ```powershell
    cargo run -p taxlane-tools -- income-tax-outlay validate
@@ -98,6 +102,7 @@ Current frontier:
 
 ## What To Say Carefully
 
+- "TAXLANE is demo-ready as a source-backed civic visibility system."
 - "This is a civic visibility and reform-design repo."
 - "Ordinary individual income tax is mostly a general fund receipt; TAXLANE
   models allocations unless legal dedication is cited."
