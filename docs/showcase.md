@@ -5,6 +5,8 @@ potential collaborator. It favors defensible public artifacts over the full
 research backlog.
 
 For a live walkthrough, use the companion [demo script](demo-script.md).
+For the current machine-readable showable-state summary, start with
+[Taxlane Showcase Readiness Summary](reading/taxlane-showcase-readiness-summary.md).
 
 ## One-Sentence Pitch
 
@@ -18,27 +20,31 @@ what is still only a proposal.
 1. Start with [Honest Federal Tax Receipt](reading/honest-federal-tax-receipt.md).
    Point out that the receipt does not pretend income-tax dollars are legally
    tagged to every displayed category. It labels the allocation basis.
-2. Open [Budget-Area Funding Explainer](reading/budget-area-funding-explainer.md).
+2. Open [Taxlane Showcase Readiness Summary](reading/taxlane-showcase-readiness-summary.md).
+   Use it to set the current status: TAXLANE is demo-ready as a source-custody
+   and readiness guardrail system, while solver inputs, rates, savings, public
+   cards, and balanced-budget claims remain blocked.
+3. Open [Budget-Area Funding Explainer](reading/budget-area-funding-explainer.md).
    Use it as the plain-language summary of the six-paper research program:
    health is expensive, old-age financing has a base problem, defense is a
    strategic band, family support is thin, and total revenue is low relative to
    peer systems.
-3. Open [Current Versus Benchmark Scoreboard](reading/current-versus-benchmark-scoreboard.md).
+4. Open [Current Versus Benchmark Scoreboard](reading/current-versus-benchmark-scoreboard.md).
    Show the evidence firewall: matched benchmark gaps, topline-only areas,
    breadth gaps, improper payments, fraud, and recoverable savings are separate
    categories.
-4. Open [Payment Integrity: What The Public Evidence Shows](reading/payment-integrity-bounded-factual-examples.md).
+5. Open [Payment Integrity: What The Public Evidence Shows](reading/payment-integrity-bounded-factual-examples.md).
    Show how the repo allows exact public numbers while blocking unsupported
    fraud, waste, and savings claims.
-5. Open [docs/papers](papers/README.md), then start with
+6. Open [docs/papers](papers/README.md), then start with
    `0+legible-federal-funding.pdf`. Explain that the markdown papers are the
    source of truth and the PDFs are convenience renders.
-6. Open the
+7. Open the
    [adaptive-rate wave frontier](../context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md#current-frontier).
    Show how the repo translates the research thesis into machine-readable gates
    that keep rates, savings, and balanced-budget claims blocked until evidence
    closes.
-7. Run the validation command:
+8. Run the validation command:
 
    ```powershell
    cargo run -p taxlane-tools -- income-tax-outlay validate
@@ -57,6 +63,8 @@ what is still only a proposal.
   source files.
 - Public packets for funding lanes, spending categories, payment integrity,
   cost-down evidence queues, and benchmark gaps.
+- A compact showcase readiness summary that says what is demo-ready and what is
+  still blocked.
 - An adaptive-rate operating frontier that names current source custody,
   context-only artifacts, missing evidence, and active closure gates without
   pretending a rate proposal is ready.
@@ -73,15 +81,20 @@ implementation work.
 
 Current frontier:
 
-- Pulses 82 through 193 have created rate, risk, modernization, public-card,
+- Pulses 82 through 193 created rate, risk, modernization, public-card,
   pilot, simulator, current-law, lane-depth, receipt-base, distribution,
   reserve, net-interest, and closure-gate artifacts.
+- Pulses 194 through 201 give the income-security/family lane a concrete demo
+  trail: FY2025 federal account-perimeter custody is narrowly ready, OECD
+  comparator context is displayable, and CBO, Census, HHS/ACF, and USDA source
+  gaps are documented.
 - The transportation pilot has scaffold and partial source context, but no
   publishable simulator run, rate, target cost, savings claim, or balanced-budget
   claim.
-- The active Pulse 193 queue is income-security/family source-capture closure:
-  program perimeter, CBO baseline/take-up, child poverty/income, childcare,
-  food/nutrition, and international comparator lineage remain open.
+- The active income-security/family queue remains source-capture closure:
+  CBO baseline/take-up, Census child poverty/income, childcare, food/nutrition,
+  federal/state/local translation, and broader international comparator lineage
+  remain open.
 
 ## What To Say Carefully
 
@@ -93,6 +106,7 @@ Current frontier:
   law and not personal tax advice."
 - "The adaptive-rate system is a gated implementation surface; the current
   frontier is source lineage and readiness, not published rates."
+- "Taxlane is demo-ready as a readiness system, not as a rate or savings model."
 - "AI-simulated reviewers are review lenses, not real people or endorsements."
 
 ## What Not To Claim
