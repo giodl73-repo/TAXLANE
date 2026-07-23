@@ -721,6 +721,10 @@ const INCOME_SECURITY_FAMILY_CHILD_RELATIVE_POVERTY_CONTEXT_BRIDGE_JSON_PATH: &s
 const INCOME_SECURITY_FAMILY_CHILD_RELATIVE_POVERTY_CONTEXT_BRIDGE_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/income_security_family_child_relative_poverty_context_bridge.schema.md";
 const INCOME_SECURITY_FAMILY_CHILD_RELATIVE_POVERTY_CONTEXT_BRIDGE_READER_PATH: &str =
     "docs/reading/income-security-family-child-relative-poverty-context-bridge.md";
+const INCOME_SECURITY_FAMILY_SOCX_FAMILY_BENEFIT_COMPARATOR_BRIDGE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/income_security_family_socx_family_benefit_comparator_bridge.v1.draft.json";
+const INCOME_SECURITY_FAMILY_SOCX_FAMILY_BENEFIT_COMPARATOR_BRIDGE_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/income_security_family_socx_family_benefit_comparator_bridge.schema.md";
+const INCOME_SECURITY_FAMILY_SOCX_FAMILY_BENEFIT_COMPARATOR_BRIDGE_READER_PATH: &str =
+    "docs/reading/income-security-family-socx-family-benefit-comparator-bridge.md";
 const REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/revenue_solvency_outcome_floor_definition_packet.v1.draft.json";
 const REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_SCHEMA_PATH: &str = "data/derived/breadth_benchmark_matrix/revenue_solvency_outcome_floor_definition_packet.schema.md";
 const REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_READER_PATH: &str =
@@ -11508,6 +11512,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_income_security_family_federal_program_perimeter_bridge(root)?;
     validate_income_security_family_cbo_baseline_takeup_capture_gap(root)?;
     validate_income_security_family_child_relative_poverty_context_bridge(root)?;
+    validate_income_security_family_socx_family_benefit_comparator_bridge(root)?;
     validate_revenue_solvency_outcome_floor_definition_packet(root)?;
     validate_net_interest_outcome_floor_definition_packet(root)?;
     validate_payment_integrity_outcome_floor_definition_packet(root)?;
@@ -33589,6 +33594,248 @@ fn validate_income_security_family_child_relative_poverty_context_bridge(
     Ok(())
 }
 
+fn validate_income_security_family_socx_family_benefit_comparator_bridge(
+    root: &Path,
+) -> Result<(), String> {
+    for path in [
+        INCOME_SECURITY_FAMILY_SOCX_FAMILY_BENEFIT_COMPARATOR_BRIDGE_JSON_PATH,
+        INCOME_SECURITY_FAMILY_SOCX_FAMILY_BENEFIT_COMPARATOR_BRIDGE_SCHEMA_PATH,
+        INCOME_SECURITY_FAMILY_SOCX_FAMILY_BENEFIT_COMPARATOR_BRIDGE_READER_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!(
+                "missing income-security/family SOCX comparator bridge artifact: {path}"
+            ));
+        }
+    }
+
+    let raw = root.join(SOCX_OLDAGE_FAMILY_RAW_PATH);
+    if !raw.exists()
+        || raw.metadata().map_err(|e| e.to_string())?.len() != 4334
+        || sha256_file(&raw)? != SOCX_OLDAGE_FAMILY_RAW_SHA256
+    {
+        return Err("income-security/family SOCX raw custody failed".to_string());
+    }
+
+    let panel_text = fs::read_to_string(root.join(SOCX_OLDAGE_FAMILY_PANEL_JSON_PATH))
+        .map_err(|e| e.to_string())?;
+    let panel: serde_json::Value = serde_json::from_str(&panel_text).map_err(|e| e.to_string())?;
+    let usa = panel
+        .get("country_records")
+        .and_then(serde_json::Value::as_array)
+        .and_then(|records| {
+            records
+                .iter()
+                .find(|record| string_field(record, "country_code").as_deref() == Ok("USA"))
+        })
+        .ok_or("income-security/family SOCX USA panel row")?;
+    if (number_field(usa, "family_total_percent_gdp")? - 0.658).abs() > 0.000001
+        || (number_field(usa, "family_cash_percent_gdp")? - 0.051).abs() > 0.000001
+        || (number_field(usa, "family_services_percent_gdp")? - 0.607).abs() > 0.000001
+        || string_field(usa, "observation_status")? != "complete_rounded_components"
+    {
+        return Err("income-security/family SOCX source value failed".to_string());
+    }
+
+    let text = fs::read_to_string(
+        root.join(INCOME_SECURITY_FAMILY_SOCX_FAMILY_BENEFIT_COMPARATOR_BRIDGE_JSON_PATH),
+    )
+    .map_err(|e| e.to_string())?;
+    let record: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+    if string_field(&record, "record_id")?
+        != "income-security-family-socx-family-benefit-comparator-bridge:v1"
+        || string_field(&record, "record_family")?
+            != "income_security_family_socx_family_benefit_comparator_bridge"
+        || int_field(&record, "pulse")? != 197
+        || string_field(&record, "lane_id")? != "income-security-family"
+        || string_field(&record, "depends_on_child_relative_poverty_bridge_path")?
+            != INCOME_SECURITY_FAMILY_CHILD_RELATIVE_POVERTY_CONTEXT_BRIDGE_JSON_PATH
+        || string_field(&record, "source_capture_queue_path")?
+            != INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_QUEUE_JSON_PATH
+        || string_field(&record, "source_capture_closure_work_queue_path")?
+            != INCOME_SECURITY_FAMILY_SOURCE_CAPTURE_CLOSURE_WORK_QUEUE_JSON_PATH
+        || string_field(&record, "existing_context_artifact_path")?
+            != SOCX_OLDAGE_FAMILY_PANEL_JSON_PATH
+        || string_field(&record, "target_work_item_id")?
+            != "capture-income-security-international-comparator-context"
+        || string_field(&record, "target_closure_item_id")?
+            != "close-income-security-international-comparator-lineage"
+    {
+        return Err("income-security/family SOCX bridge identity failed".to_string());
+    }
+
+    let scope = record
+        .get("closure_scope")
+        .ok_or("income-security/family SOCX bridge scope")?;
+    for field in [
+        "official_sources_only",
+        "uses_existing_captured_source",
+        "context_may_be_displayed",
+    ] {
+        if scope.get(field).and_then(serde_json::Value::as_bool) != Some(true) {
+            return Err(format!(
+                "income-security/family SOCX scope should be true: {field}"
+            ));
+        }
+    }
+    for field in [
+        "new_external_downloads_performed",
+        "closure_gate_ready",
+        "target_cost_may_be_selected",
+        "solver_inputs_may_be_populated",
+        "rates_may_be_calculated",
+    ] {
+        if scope.get(field).and_then(serde_json::Value::as_bool) != Some(false) {
+            return Err(format!(
+                "income-security/family SOCX scope should be false: {field}"
+            ));
+        }
+    }
+    if string_field(scope, "closed_component")?
+        != "OECD SOCX 2022 public family-benefit total, cash, and in-kind services context"
+        || !string_field(scope, "unclosed_component")?.contains("tax breaks")
+    {
+        return Err("income-security/family SOCX scope boundary failed".to_string());
+    }
+
+    let custody = record
+        .get("source_custody")
+        .ok_or("income-security/family SOCX source custody")?;
+    if string_field(custody, "source_id")? != "SRC-OECD-SOCX-OLDAGE-FAMILY-PANEL-2022"
+        || string_field(custody, "raw_artifact_path")? != SOCX_OLDAGE_FAMILY_RAW_PATH
+        || int_field(custody, "raw_byte_count")? != 4334
+        || string_field(custody, "raw_sha256")? != SOCX_OLDAGE_FAMILY_RAW_SHA256
+        || string_field(custody, "metadata_path")?
+            != "data/metadata/SRC-OECD-SOCX-OLDAGE-FAMILY-PANEL-2022.2026-07-15.metadata.md"
+        || custody
+            .get("custody_ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err("income-security/family SOCX custody fields failed".to_string());
+    }
+
+    let values = record
+        .get("context_values")
+        .ok_or("income-security/family SOCX context values")?;
+    let us = values
+        .get("primary_us_context")
+        .ok_or("income-security/family SOCX US context")?;
+    if string_field(values, "unit")? != "percent_gdp"
+        || int_field(values, "source_year")? != 2022
+        || int_field(values, "country_count")? != 12
+        || int_field(values, "observed_family_country_count")? != 7
+        || string_field(us, "country_code")? != "USA"
+        || (number_field(us, "family_total_percent_gdp")? - 0.658).abs() > 0.000001
+        || (number_field(us, "family_cash_percent_gdp")? - 0.051).abs() > 0.000001
+        || (number_field(us, "family_services_percent_gdp")? - 0.607).abs() > 0.000001
+        || string_field(us, "observation_status")? != "complete_rounded_components"
+    {
+        return Err("income-security/family SOCX context values failed".to_string());
+    }
+    let missing = values
+        .get("missing_country_codes")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("income-security/family SOCX missing countries")?;
+    if missing.len() != 5 {
+        return Err("income-security/family SOCX missing-country count failed".to_string());
+    }
+
+    let requirements = record
+        .get("remaining_comparator_requirements")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("income-security/family SOCX remaining comparator requirements")?;
+    if requirements.len() != 6 {
+        return Err(
+            "income-security/family SOCX remaining comparator requirements count failed"
+                .to_string(),
+        );
+    }
+
+    let blocked = record
+        .get("blocked_outputs")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("income-security/family SOCX blocked outputs")?;
+    for (field, value) in blocked {
+        if !value.is_null() {
+            return Err(format!(
+                "income-security/family SOCX blocked output must be null: {field}"
+            ));
+        }
+    }
+
+    let claims = record
+        .get("claim_booleans")
+        .and_then(serde_json::Value::as_object)
+        .ok_or("income-security/family SOCX claims")?;
+    for (field, value) in claims {
+        let observed = value
+            .as_bool()
+            .ok_or("income-security/family SOCX claim bool")?;
+        match field.as_str() {
+            "socx_family_benefit_comparator_bridge_published"
+            | "socx_family_benefit_context_ready" => {
+                if !observed {
+                    return Err(format!(
+                        "income-security/family SOCX claim should be true: {field}"
+                    ));
+                }
+            }
+            _ if observed => {
+                return Err(format!(
+                    "income-security/family SOCX downstream claim must be false: {field}"
+                ));
+            }
+            _ => {}
+        }
+    }
+
+    let warning = string_field(&record, "public_warning")?;
+    for required in [
+        "only existing OECD SOCX 2022 public family-benefit",
+        "not complete international comparator lineage",
+        "not tax-credit composition",
+        "not childcare participation context",
+        "not solver input",
+        "not rate calculation",
+        "not gross savings",
+        "not net savings",
+        "not a balanced-budget claim",
+    ] {
+        if !warning.contains(required) {
+            return Err(format!(
+                "income-security/family SOCX warning missing: {required}"
+            ));
+        }
+    }
+
+    let reader = fs::read_to_string(
+        root.join(INCOME_SECURITY_FAMILY_SOCX_FAMILY_BENEFIT_COMPARATOR_BRIDGE_READER_PATH),
+    )
+    .map_err(|e| e.to_string())?;
+    for required in [
+        INCOME_SECURITY_FAMILY_SOCX_FAMILY_BENEFIT_COMPARATOR_BRIDGE_JSON_PATH,
+        "4,334 bytes",
+        SOCX_OLDAGE_FAMILY_RAW_SHA256,
+        "0.658 percent of GDP",
+        "0.051 percent cash",
+        "0.607",
+        "SOCX family-benefit comparator context only",
+        "not tax-credit composition",
+        "not solver input",
+        "not a balanced-budget claim",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!(
+                "income-security/family SOCX reader missing: {required}"
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn validate_revenue_solvency_outcome_floor_definition_packet(root: &Path) -> Result<(), String> {
     for path in [
         REVENUE_SOLVENCY_OUTCOME_FLOOR_DEFINITION_PACKET_JSON_PATH,
@@ -45254,6 +45501,12 @@ mod global_country_comparison_tests {
     fn income_security_family_child_relative_poverty_context_bridge_stays_context_only() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_income_security_family_child_relative_poverty_context_bridge(&root).unwrap();
+    }
+
+    #[test]
+    fn income_security_family_socx_family_benefit_comparator_bridge_stays_context_only() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_income_security_family_socx_family_benefit_comparator_bridge(&root).unwrap();
     }
 
     #[test]

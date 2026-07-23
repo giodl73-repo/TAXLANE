@@ -65,7 +65,11 @@ turned the adaptive-rate thesis into a guarded implementation surface:
   SNAP PDF as a CSV, so CBO baseline/take-up values remain unpopulated;
 - Pulse 196 reuses existing OECD IDD raw custody to close international child
   relative-poverty context for the income-security/family lane, while the Census
-  domestic child poverty and income-unit gate remains open.
+  domestic child poverty and income-unit gate remains open;
+- Pulse 197 reuses existing OECD SOCX raw custody to close public
+  family-benefit total, cash, and in-kind service comparator context, while tax
+  credits, childcare participation, ESSPROS/ILO, missing-country review, and
+  child-outcome linkage remain open.
 
 The public showable state is therefore not a rate proposal. It is a disciplined
 operating model that can show:
@@ -79,10 +83,10 @@ operating model that can show:
 The next useful closure work should remain narrow source lineage, not a broad
 public claim. The active frontier is the remaining Pulse 193 closure queue:
 manual CBO SNAP baseline capture, broader CBO/take-up, Census domestic child
-poverty/income, childcare and family-service, food hardship/nutrition, and
-international comparator lineage. Each should close one named source-custody
-gate at a time without converting it into savings, rates, or a benefit package
-model.
+poverty/income, childcare and family-service, food hardship/nutrition, and the
+remaining international comparator lineage. Each should close one named
+source-custody gate at a time without converting it into savings, rates, or a
+benefit package model.
 
 ## Design principles
 

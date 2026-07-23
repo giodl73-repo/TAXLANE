@@ -917,6 +917,13 @@ Census domestic child poverty and income-unit custody, floor values, pass/fail
 findings, target costs, solver inputs, rates, savings, and balanced-budget
 claims remain blocked.
 
+`income_security_family_socx_family_benefit_comparator_bridge.v1.draft.json`
+reuses existing OECD SOCX old-age/family raw custody for public family-benefit
+total, cash, and in-kind service comparator context. It does not complete
+tax-credit composition, childcare participation, ESSPROS/ILO context,
+child-outcome linkage, target-cost selection, solver inputs, rates, savings, or
+balanced-budget claims.
+
 `revenue_solvency_outcome_floor_definition_packet.v1.draft.json` extends the
 floor definition packet pattern to the non-additive revenue-solvency overlay. It
 defines distributional-progressivity, revenue-stability, administrability,
