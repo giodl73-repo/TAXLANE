@@ -386,7 +386,7 @@ supporting views.
 | `data/derived/income_tax_outlay_subfunction_model/reconciliation-review.md` | Subfunction generated-row reconciliation review | documentation | n/a | supporting | `74190228415c186ba7b49fa90e55df289cbabb2794c1f837305aa66ac216f96f` |
 | `data/derived/income_tax_outlay_model/README.md` | Model method and schema note | documentation | n/a | supporting | `3b87582094004c813b9ae550dc08cdbf40737ac5ad9ec294d3e00ce0d0ab2dc3` |
 | `data/derived/income_tax_outlay_model/source-profile.md` | Source coverage and reconciliation sample | documentation | n/a | supporting | `03ea7eee098ee6e1f3cc4a83cd89adec009f9cbb96d050f2e7118e06dcf2e70f` |
-| `data/derived/README.md` | Derived data index | documentation | n/a | supporting | `1ba06d31627771484c9dabe123809d8ddd8dd24fc9089e63b92a220cc89da066` |
+| `data/derived/README.md` | Derived data index | documentation | n/a | supporting | `9954a94f45a96c22be38f9f3c98f81529d21dc2e0008790a6f83fef5e225fd9b` |
 | `data/derived/income_tax_outlay_model/reconciliation-review.md` | Generated-row reconciliation review | documentation | n/a | supporting | `ab200dfc8c467700964cb23d51875411603a73f9d1ea62e1beea9073449a9c8d` |
 | `data/derived/income_tax_outlay_model/decade-summary.md` | Human-readable decade summary | documentation | n/a | supporting | `47d02425c28cd8f8fd0c236b46e0c997d54a0824ddca1cb125ca0a39bcfd915f` |
 | `docs/reading/modeled-income-tax-outlays.md` | Reader-facing packet | documentation | n/a | supporting | `b7cdffb161572ff8e7c862747ad4172ef7a59deaa780373c6331f474d68515f7` |
@@ -516,7 +516,7 @@ supporting views.
 | `crates/taxlane-core/Cargo.toml` | Rust Taxlane core crate manifest | tooling | n/a | supporting | `6469c9f3c3d01bc0c51783255082c93ed608c6c64c0d4f32f5cd2c08f2426fb9` |
 | `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `9e7946b1c1d60fec9fab496bf93b8907230f8daceba80b4538f485af0b3455a5` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `b910e56a20f40547ac1e4f696e84772dde163738b03915ddbcc0d0a39427719a` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `acee70a068cd83d16a7db9beb789ed8379949993650bcfe13eac5acd65b15a9f` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `68e302c869690521a77a3ff4eae77997c0ea04350f88d8efd7811337ecd60934` |
 
 ## Regeneration Order
 

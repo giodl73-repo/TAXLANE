@@ -34773,6 +34773,21 @@ fn validate_taxlane_showcase_readiness_summary(root: &Path) -> Result<(), String
         }
     }
 
+    let derived_index =
+        fs::read_to_string(root.join("data/derived/README.md")).map_err(|e| e.to_string())?;
+    for required in [
+        "taxlane_showcase_readiness_summary.v1.draft.json",
+        "showcase-ready as a source-custody/readiness guardrail",
+        "not a solver, rate, savings, public-card",
+        "department-cut, technology-savings, or balanced-budget output",
+    ] {
+        if !derived_index.contains(required) {
+            return Err(format!(
+                "Taxlane derived index showcase route missing: {required}"
+            ));
+        }
+    }
+
     let contributing =
         fs::read_to_string(root.join("CONTRIBUTING.md")).map_err(|e| e.to_string())?;
     for required in [
