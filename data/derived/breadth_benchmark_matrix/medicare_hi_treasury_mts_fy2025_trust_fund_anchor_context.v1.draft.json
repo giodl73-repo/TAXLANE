@@ -1,0 +1,137 @@
+{
+  "record_id": "medicare-hi-treasury-mts-fy2025-trust-fund-anchor-context:v1",
+  "record_family": "medicare_hi_treasury_mts_trust_fund_anchor_context",
+  "schema_version": "v1.draft",
+  "status": "draft_fy2025_mts_anchor_context_fiscal_bridge_blocked",
+  "as_of_date": "2026-07-24",
+  "lane_id": "health-medicare",
+  "fiscal_year": 2025,
+  "record_date": "2025-09-30",
+  "unit": "dollars",
+  "purpose": "Capture Treasury MTS final FY2025 Federal Hospital Insurance Trust Fund receipt and outlay anchors without converting CMS calendar-year Trustees values into a fiscal-year solver path.",
+  "source_custody": {
+    "source_id": "SRC-TREASURY-FISCALDATA-MTS-TABLE-4-5-FY2025",
+    "publisher": "Bureau of the Fiscal Service, U.S. Department of the Treasury",
+    "dataset": "Monthly Treasury Statement Tables 4 and 5",
+    "retrieval_date": "2026-07-24",
+    "metadata_path": "data/metadata/SRC-TREASURY-FISCALDATA-MTS-TABLE-4-5-FY2025.2026-07-24.metadata.md",
+    "review_status": "source_metadata_present_and_hash_matched",
+    "raw_context_files": [
+      {
+        "table": "mts_table_4",
+        "url": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_4?filter=record_date:eq:2025-09-30&page[size]=10000&format=csv",
+        "raw_artifact_path": "data/raw/treasury/SRC-TREASURY-FISCALDATA-MTS-TABLE-4-5-FY2025/2026-07-24/mts_table_4_fy2025_final.csv",
+        "raw_byte_count": 15442,
+        "raw_sha256": "f82fdcae4b28e3a9a66dfeb20726d1a81d900ca5eabc3559741882e9258fb204",
+        "row_count": 57
+      },
+      {
+        "table": "mts_table_5",
+        "url": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?filter=record_date:eq:2025-09-30&page[size]=10000&format=csv",
+        "raw_artifact_path": "data/raw/treasury/SRC-TREASURY-FISCALDATA-MTS-TABLE-4-5-FY2025/2026-07-24/mts_table_5_fy2025_final.csv",
+        "raw_byte_count": 203342,
+        "raw_sha256": "fb1646d18d9cc05a217b3b6ac084fd006e0bf01fa26c8ee8815b881579cea66a",
+        "row_count": 811
+      }
+    ]
+  },
+  "source_boundary": {
+    "official_public_source": true,
+    "local_raw_custody_ready": true,
+    "record_date_is_final_fy2025_mts": true,
+    "fiscal_year_anchor_context_ready": true,
+    "cms_trustees_year_basis": "calendar_year",
+    "mts_year_basis": "fiscal_year",
+    "not_calendar_to_fiscal_conversion": true,
+    "not_fy2026_fy2035_hi_path": true,
+    "not_income_category_crosswalk": true,
+    "not_solver_input": true
+  },
+  "fy2025_hi_anchor_rows": [
+    {
+      "anchor_id": "hi_receipts_mts_table_4",
+      "source_table": "MTS Table 4",
+      "source_line_number": 27,
+      "classification_desc": "Total -- Federal Hospital Insurance Trust Fund",
+      "current_fytd_gross_amount_usd": 395350359469.67,
+      "current_fytd_refund_amount_usd": null,
+      "current_fytd_net_amount_usd": 395350359469.67,
+      "current_fytd_net_amount_musd": 395350.35946967,
+      "prior_fytd_net_amount_usd": 386857646680.04
+    },
+    {
+      "anchor_id": "hi_outlays_mts_table_5",
+      "source_table": "MTS Table 5",
+      "source_line_number": 221,
+      "classification_desc": "Total--Federal Hospital Insurance Trust Fund",
+      "current_fytd_gross_amount_usd": 444832699854.51,
+      "current_fytd_applicable_receipts_usd": null,
+      "current_fytd_net_amount_usd": 444832699854.51,
+      "current_fytd_net_amount_musd": 444832.69985451,
+      "prior_fytd_net_amount_usd": 407377882840.05
+    }
+  ],
+  "negative_hi_outlay_rows_observed_not_used_as_standalone_bridge": [
+    {
+      "source_table": "MTS Table 5",
+      "source_line_number": 772,
+      "classification_desc": "Federal Hospital Insurance Trust Fund",
+      "current_fytd_net_amount_usd": -8347247839.20,
+      "boundary": "Observed negative Table 5 row is not separately netted into a solver bridge; the total HI outlay line remains the FY2025 anchor."
+    },
+    {
+      "source_table": "MTS Table 5",
+      "source_line_number": 252,
+      "classification_desc": "Federal Hospital Insurance Trust Fund",
+      "current_fytd_net_amount_usd": -42381389642.17,
+      "boundary": "Observed negative Table 5 row is not separately netted into a solver bridge; the total HI outlay line remains the FY2025 anchor."
+    }
+  ],
+  "comparison_to_existing_context": {
+    "cms_omb_timing_perimeter_diagnostic_path": "data/derived/breadth_benchmark_matrix/medicare_hi_cms_omb_fy2025_timing_perimeter_diagnostic.v1.draft.json",
+    "cms_cy2025_total_income_musd": 462400,
+    "cms_cy2025_total_expenditures_musd": 444200,
+    "existing_omb_hi_receipt_anchor_musd": 395350,
+    "existing_omb_hi_outlay_anchor_musd": 444832,
+    "mts_minus_omb_hi_receipt_anchor_musd": 0.35946967,
+    "mts_minus_omb_hi_outlay_anchor_musd": 0.69985451,
+    "cms_income_minus_mts_receipts_musd": 67049.64053033,
+    "cms_expenditures_minus_mts_outlays_musd": -632.69985451,
+    "diagnostic_note": "Treasury MTS FY2025 anchors align with the existing rounded OMB receipt/outlay anchors, but CMS Trustees Table II.E1 remains calendar-year total-income/total-expenditure context and is not converted by this packet."
+  },
+  "blocked_model_steps": [
+    "construct a calendar-year to fiscal-year timing bridge for CMS Trustees values",
+    "map CMS HI income categories to Treasury/OMB fiscal-year receipt rows",
+    "extend a source-custodied Medicare HI fiscal-year path beyond FY2025",
+    "reconcile interest, transfers, taxation of benefits, premiums, and other income before solver use"
+  ],
+  "blocked_outputs": {
+    "fiscal_year_hi_path_fy2025_2035": null,
+    "calendar_to_fiscal_conversion": null,
+    "income_category_crosswalk": null,
+    "explicit_transfer_schedule": null,
+    "matched_solver_yield": null,
+    "solver_input": null,
+    "solver_run": null,
+    "rate_calculation": null,
+    "public_rate_card": null,
+    "savings_estimate": null,
+    "balanced_budget_claim": null
+  },
+  "claim_booleans": {
+    "medicare_hi_treasury_mts_fy2025_anchor_context_published": true,
+    "local_raw_custody_ready": true,
+    "fy2025_mts_hi_receipt_outlay_anchors_ready": true,
+    "fiscal_year_hi_path_fy2025_2035_ready": false,
+    "calendar_to_fiscal_conversion_ready": false,
+    "income_category_crosswalk_ready": false,
+    "matched_solver_yield_ready": false,
+    "solver_input_ready": false,
+    "solver_run_published": false,
+    "rate_calculation_published": false,
+    "public_rate_card_published": false,
+    "savings_estimate_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "Treasury MTS Tables 4 and 5 provide local raw custody for FY2025 Federal Hospital Insurance Trust Fund receipt and outlay anchors. This improves fiscal-year anchor evidence only. It is not a calendar-to-fiscal conversion, not a FY2025-FY2035 Medicare HI fiscal-year path, not an income-category crosswalk, not matched solver yield, not solver input, not a solver run, not a rate calculation, not a public rate card, not a savings estimate, and not a balanced-budget claim."
+}

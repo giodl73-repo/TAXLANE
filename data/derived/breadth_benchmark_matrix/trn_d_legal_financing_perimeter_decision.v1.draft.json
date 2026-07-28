@@ -1,0 +1,72 @@
+{
+  "record_id": "trn-d-legal-financing-perimeter-decision:v1",
+  "record_family": "trn_d_legal_financing_perimeter_decision",
+  "version": "v1.draft",
+  "status": "trn_d_01_complete_discretionary_faa_perimeter_fund_assignment_unresolved",
+  "pulse": 261,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "TRN-D",
+  "start_gate_path": "data/derived/breadth_benchmark_matrix/trn_d_financing_fairness_start_gate.v1.draft.json",
+  "scenario_path": "data/derived/breadth_benchmark_matrix/trn_c_airmen_certificate_reform_scenario.v1.draft.json",
+  "bill_source_path": "data/raw/gpo/SRC-GPO-HR2247-RFS-2026/2026-07-26/hr2247-rfs-excerpt.txt",
+  "score_source_path": "data/raw/gpo/SRC-GPO-HRPT119-551-2026/2026-07-26/hrpt119-551-cbo-excerpt.txt",
+  "schema_path": "data/derived/breadth_benchmark_matrix/trn_d_legal_financing_perimeter_decision.schema.md",
+  "reader_path": "docs/reading/trn-d-legal-financing-perimeter-decision.md",
+  "source_findings": {
+    "implementing_agency": "Federal Aviation Administration",
+    "implementing_department": "Department of Transportation",
+    "budget_function": "400_transportation",
+    "spending_type": "subject_to_appropriation",
+    "fy2026_fy2031_estimated_authorization_millions": 20,
+    "fy2026_fy2031_estimated_outlays_millions": 18,
+    "direct_spending_effect_millions": 0,
+    "revenue_effect_millions": 0,
+    "appropriation_assumed_for_score": true,
+    "bill_enacted": false
+  },
+  "legal_perimeter_decision": {
+    "federal_discretionary_appropriation_perimeter_admitted": true,
+    "faa_implementation_perimeter_admitted": true,
+    "airport_airway_trust_fund_assignment_supported": false,
+    "airport_airway_trust_fund_assignment": null,
+    "general_fund_assignment_supported": false,
+    "general_fund_assignment": null,
+    "fee_or_assigned_receipt_financing_supported": false,
+    "fee_or_assigned_receipt_base": null,
+    "named_account_or_appropriation_identified": false,
+    "named_account_or_appropriation": null,
+    "decision": "The admitted sources support a conditional FAA discretionary-appropriation cost perimeter, but do not identify a fund, receipt source, or named appropriation account. Fund allocation remains unassigned rather than inferred.",
+    "trn_d_01_done": true
+  },
+  "next_package_gate": {
+    "trn_d_02_required": false,
+    "reason": "No fee, tax, or assigned-receipt financing instrument is selected, so a matched receipt base and yield are not required for this candidate under current evidence.",
+    "next_active_work_package_id": "TRN-D-03",
+    "trn_d_03_may_start": true
+  },
+  "blocked_outputs": {
+    "trust_fund_effect_millions": null,
+    "general_fund_effect_millions": null,
+    "named_account_allocation_millions": null,
+    "receipt_base": null,
+    "assigned_rate": null,
+    "distribution_or_incidence": null,
+    "administration_or_compliance_burden": null,
+    "trn_e_start": null
+  },
+  "claim_booleans": {
+    "trn_d_legal_financing_perimeter_published": true,
+    "trn_d_01_done": true,
+    "federal_discretionary_appropriation_perimeter_admitted": true,
+    "faa_implementation_perimeter_admitted": true,
+    "trn_d_03_may_start": true,
+    "candidate_enacted": false,
+    "airport_airway_trust_fund_assignment_published": false,
+    "general_fund_assignment_published": false,
+    "receipt_base_published": false,
+    "assigned_rate_published": false,
+    "trn_d_done": false,
+    "trn_e_may_start": false
+  },
+  "public_warning": "TRN-D-01 closes only the legal perimeter: conditional FAA implementation spending subject to appropriation. Neither the Airport and Airway Trust Fund, the general fund, a fee, nor a named appropriation account is assigned by the admitted sources. No receipt base, rate, incidence result, TRN-D closure, or TRN-E start is published."
+}

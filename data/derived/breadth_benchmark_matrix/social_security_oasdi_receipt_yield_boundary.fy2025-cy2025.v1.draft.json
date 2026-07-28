@@ -1,0 +1,112 @@
+{
+  "record_id": "social-security-oasdi-receipt-yield-boundary:fy2025-cy2025:v1",
+  "record_family": "social_security_oasdi_receipt_yield_boundary",
+  "schema_version": "v1.draft",
+  "status": "draft_omb_ssa_boundary_context_solver_blocked",
+  "pulse": 205,
+  "as_of_date": "2026-07-23",
+  "lane_id": "social-security",
+  "dedicated_receipt_anchors_path": "data/derived/breadth_benchmark_matrix/current_law_fy2025_dedicated_receipt_anchors.v1.draft.json",
+  "taxable_payroll_base_bridge_path": "data/derived/breadth_benchmark_matrix/social_security_taxable_payroll_base_bridge.cy2025-2035.v1.draft.json",
+  "current_law_path_path": "data/derived/breadth_benchmark_matrix/social_security_oasdi_fy2025_2035_current_law_path.v1.draft.json",
+  "source_ids": ["SRC-OMB-HIST-2-4-FY2027", "SRC-SSA-TRUSTEES-2026"],
+  "year_basis_boundary": {
+    "omb_receipt_anchor_year_basis": "fiscal_year_2025",
+    "ssa_taxable_payroll_year_basis": "calendar_year_2025",
+    "may_compare_as_context": true,
+    "may_treat_as_reconciled_solver_yield": false,
+    "required_next_bridge": "calendar-year to fiscal-year payroll-tax-yield bridge with OMB row-perimeter reconciliation"
+  },
+  "omb_fy2025_receipt_anchor": {
+    "source_path": "data/derived/breadth_benchmark_matrix/current_law_fy2025_dedicated_receipt_anchors.v1.draft.json",
+    "source_table_ref": "OMB Historical Table 2.4 FY2027 rows 8 and 9, FY2025 column",
+    "unit": "millions_of_dollars",
+    "oasi_anchor_musd": 1097382,
+    "di_anchor_musd": 186354,
+    "oasdi_anchor_sum_musd": 1283736,
+    "may_populate_solver_yield": false
+  },
+  "ssa_cy2025_taxable_payroll_yield_context": {
+    "source_path": "data/derived/breadth_benchmark_matrix/social_security_taxable_payroll_base_bridge.cy2025-2035.v1.draft.json",
+    "source_table_refs": ["SSA Trustees Table VI.G1", "SSA Trustees Table V.C6"],
+    "unit": "millions_of_dollars",
+    "taxable_payroll_musd": 10562000,
+    "combined_oasdi_payroll_tax_rate_percent": 12.4,
+    "computed_payroll_tax_yield_musd": 1309688,
+    "formula": "10562000 * 0.124 = 1309688",
+    "may_populate_solver_yield": false
+  },
+  "context_comparison": {
+    "omb_anchor_minus_ssa_cy_payroll_yield_musd": -25952,
+    "absolute_difference_musd": 25952,
+    "absolute_difference_percent_of_omb_anchor": 2.02159945658609,
+    "omb_anchor_as_percent_of_ssa_cy_payroll_yield": 98.0184593582594,
+    "interpretation": "The OMB FY2025 OASDI receipt anchor and SSA CY2025 taxable-payroll yield context are close enough to prioritize a formal bridge, but they are not the same measurement period or source perimeter and cannot be substituted.",
+    "ready_for_solver": false
+  },
+  "remaining_bridge_requirements": [
+    {
+      "requirement_id": "calendar_to_fiscal_timing_bridge",
+      "description": "Translate SSA calendar-year taxable payroll and payroll-tax yield context to the federal fiscal year or source a direct fiscal-year equivalent.",
+      "ready": false
+    },
+    {
+      "requirement_id": "omb_row_perimeter_reconciliation",
+      "description": "Reconcile OMB Table 2.4 OASI and DI receipt rows to SSA payroll tax contributions, taxation of benefits, reimbursements, interest, and other trust-fund income categories without double-counting.",
+      "ready": false
+    },
+    {
+      "requirement_id": "distribution_incidence_behavior",
+      "description": "Add payer distribution, incidence, behavior, avoidance/compliance, and administration burden before any rate or reform-yield use.",
+      "ready": false
+    },
+    {
+      "requirement_id": "reviewed_solver_receipt_row",
+      "description": "Create a reviewed solver receipt-row mapping only after timing, perimeter, distribution, incidence, behavior, and administration gates are complete.",
+      "ready": false
+    }
+  ],
+  "bridge_status": {
+    "omb_fy2025_receipt_anchor_ready": true,
+    "ssa_cy2025_taxable_payroll_context_ready": true,
+    "context_comparison_ready": true,
+    "calendar_to_fiscal_bridge_ready": false,
+    "omb_row_perimeter_reconciliation_ready": false,
+    "current_law_yield_for_solver_ready": false,
+    "reform_yield_ready": false,
+    "rate_ready": false,
+    "public_card_ready": false
+  },
+  "blocked_outputs": {
+    "fiscal_year_taxable_payroll_yield": null,
+    "omb_row_perimeter_reconciliation": null,
+    "current_law_yield_for_solver": null,
+    "reform_yield": null,
+    "distribution_incidence": null,
+    "administration_burden": null,
+    "solver_receipt_row": null,
+    "rate_calculation": null,
+    "public_rate_card": null,
+    "gross_savings": null,
+    "net_savings": null,
+    "balanced_budget_claim": null
+  },
+  "claim_booleans": {
+    "social_security_oasdi_receipt_yield_boundary_published": true,
+    "omb_fy2025_receipt_anchor_ready": true,
+    "ssa_cy2025_taxable_payroll_context_ready": true,
+    "context_comparison_ready": true,
+    "calendar_to_fiscal_bridge_ready": false,
+    "omb_row_perimeter_reconciliation_ready": false,
+    "current_law_yield_for_solver_ready": false,
+    "reform_yield_ready": false,
+    "solver_receipt_row_ready": false,
+    "rate_calculation_published": false,
+    "public_rate_card_published": false,
+    "gross_savings_published": false,
+    "net_savings_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "This boundary compares a custody-ready OMB FY2025 OASDI receipt anchor with SSA CY2025 taxable-payroll yield context. It is not a calendar-to-fiscal bridge, not OMB row-perimeter reconciliation, not current-law solver yield, not reform yield, not distribution or incidence analysis, not solver input, not a rate calculation, not a public rate card, not a savings estimate, not a technology-savings claim, and not a balanced-budget claim."
+}

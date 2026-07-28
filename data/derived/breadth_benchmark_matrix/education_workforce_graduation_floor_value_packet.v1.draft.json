@@ -1,0 +1,92 @@
+{
+  "record_id": "education-workforce-graduation-floor-value-packet:v1",
+  "record_family": "education_workforce_graduation_floor_value_packet",
+  "version": "v1.draft",
+  "pulse": 212,
+  "as_of_date": "2026-07-25",
+  "lane_id": "education-workforce",
+  "floor_id": "completion_persistence",
+  "floor_definition_packet_path": "data/derived/breadth_benchmark_matrix/education_workforce_outcome_floor_definition_packet.v1.draft.json",
+  "k12_outcome_baseline_path": "data/derived/breadth_benchmark_matrix/k12_outcome_baseline.naep2024-acgr2021-22.v1.draft.json",
+  "outcome_floor_wave_d_value_readiness_path": "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json",
+  "threshold_rationale": {
+    "rationale_id": "no-regression-from-public-high-school-acgr",
+    "selected_measure": "Four-year adjusted cohort graduation rate for public high school students",
+    "rationale": "Completion and persistence floors should prevent a lower-cost education/workforce scenario from reducing public high-school completion below the reviewed national baseline before any broader education/workforce target cost can pass.",
+    "threshold_type": "baseline_no_regression_floor",
+    "threshold_value": 87.0,
+    "threshold_unit": "percent",
+    "source_table": "NCES ACGR 2021-22 national public high-school graduation rate as captured in the K-12 outcome baseline",
+    "review_status": "draft_threshold_rationale_needs_role_review_before_pass_fail"
+  },
+  "baseline_values": {
+    "reference_school_year": "2021-22",
+    "primary_baseline": {
+      "measure": "public high-school four-year adjusted cohort graduation rate",
+      "value": 87.0,
+      "unit": "percent",
+      "source_path": "data/derived/breadth_benchmark_matrix/k12_outcome_baseline.naep2024-acgr2021-22.v1.draft.json"
+    },
+    "equity_context": [
+      {"group": "american_indian_alaska_native", "value": 74.0, "unit": "percent"},
+      {"group": "asian_pacific_islander", "value": 94.0, "unit": "percent"},
+      {"group": "black", "value": 81.0, "unit": "percent"},
+      {"group": "hispanic", "value": 83.0, "unit": "percent"},
+      {"group": "white", "value": 90.0, "unit": "percent"},
+      {"group": "students_with_disabilities", "value": 71.0, "unit": "percent"},
+      {"group": "english_learners", "value": 72.0, "unit": "percent"},
+      {"group": "economically_disadvantaged", "value": 81.0, "unit": "percent"},
+      {"group": "enrolled_homeless", "value": 68.0, "unit": "percent"}
+    ],
+    "boundary": "This is a K-12 completion baseline only. It is not federal/state/local translation, not postsecondary completion, not WIOA placement, not policy impact, and not pass/fail evidence."
+  },
+  "policy_values": null,
+  "stress_values": null,
+  "pass_fail_evidence": null,
+  "readiness_status": {
+    "threshold_rationale_ready": true,
+    "threshold_value_populated": true,
+    "baseline_value_ready": true,
+    "policy_value_ready": false,
+    "stress_value_ready": false,
+    "pass_fail_ready": false,
+    "lower_cost_scenario_admissible": false,
+    "solver_ready": false,
+    "rate_ready": false
+  },
+  "blocked_outputs": {
+    "federal_state_local_translation": null,
+    "program_to_outlay_allocation": null,
+    "policy_value": null,
+    "stress_value": null,
+    "pass_fail_finding": null,
+    "target_cost": null,
+    "federal_effect": null,
+    "gross_savings": null,
+    "net_savings": null,
+    "solver_input": null,
+    "public_rate_card": null,
+    "balanced_budget_claim": null
+  },
+  "claim_booleans": {
+    "graduation_floor_value_packet_published": true,
+    "threshold_rationale_ready": true,
+    "threshold_value_populated": true,
+    "baseline_value_ready": true,
+    "policy_value_ready": false,
+    "stress_value_ready": false,
+    "pass_fail_ready": false,
+    "lower_cost_scenario_admissible": false,
+    "target_cost_published": false,
+    "federal_effect_published": false,
+    "gross_savings_published": false,
+    "net_savings_published": false,
+    "solver_ready": false,
+    "rate_ready": false,
+    "public_rate_card_published": false,
+    "savings_claim_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "This is a draft no-regression education/workforce graduation floor threshold and baseline value packet only. It is not federal/state/local translation, not policy values, not stress values, not pass/fail evidence, not lower-cost scenario admissibility, not target cost, not solver input, not rate calculation, not gross savings, not net savings, not a technology-savings claim, and not a balanced-budget claim."
+}

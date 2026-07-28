@@ -1,0 +1,94 @@
+{
+  "record_id": "transportation-trust-fund-cbo-balance-extension-fy2032-2035-context:v1",
+  "record_family": "transportation_trust_fund_cbo_balance_extension_context",
+  "schema_version": "v1.draft",
+  "status": "draft_cbo_balance_extension_context_income_outgo_reconciliation_blocked",
+  "as_of_date": "2026-07-24",
+  "lane_id": "transportation-infrastructure",
+  "purpose": "Capture unambiguous CBO February 2026 open-data FY2032-FY2035 balance context for the Highway Trust Fund and Airport and Airway Trust Fund, without treating the balances as OMB Table 13-4 income/outgo rows, Function 400 mapping, or solver input.",
+  "source_custody": {
+    "source_id": "SRC-CBO-OPEN-DATA-TRUST-FUND-2026-02",
+    "publisher": "Congressional Budget Office",
+    "source_title": "CBO February 2026 trust-fund projection variables",
+    "url": "https://github.com/US-CBO/cbo-data/blob/main/data/budget/trust_fund/annual_fy_2026-02.csv",
+    "raw_url": "https://raw.githubusercontent.com/US-CBO/cbo-data/main/data/budget/trust_fund/annual_fy_2026-02.csv",
+    "retrieval_date": "2026-07-23",
+    "raw_artifact_path": "data/raw/cbo/SRC-CBO-OPEN-DATA-TRUST-FUND-2026-02/2026-07-23/annual_fy_2026-02.csv",
+    "metadata_path": "data/metadata/SRC-CBO-OPEN-DATA-TRUST-FUND-2026-02.2026-07-23.metadata.md",
+    "byte_count": 25466,
+    "sha256": "4fcc0f725e6ab002107bedf461e21dacbdc6ac49e85475b8ff3e8aa20c3cdaab",
+    "row_count": 728,
+    "review_status": "captured_context_only"
+  },
+  "source_variable_scope": {
+    "projection_release": "2026-02",
+    "unit": "billions_usd",
+    "balance_variables_used": ["tf_bal_airport", "tf_bal_highway"],
+    "covered_extension_years": [2032, 2033, 2034, 2035],
+    "no_interpolation_used": true,
+    "cbo_balance_rows_are_unambiguous": true,
+    "surplus_variables_have_duplicate_date_variable_rows": true,
+    "surplus_variables_excluded_from_values": true,
+    "not_income_outgo_reconciliation": true,
+    "not_omb_table_13_4_extension": true,
+    "not_function_400_mapping": true,
+    "not_solver_input": true
+  },
+  "fy2032_2035_balance_rows": [
+    {"fiscal_year": 2032, "airport_and_airway_balance_end": 38.411, "highway_balance_end": 0.0, "combined_balance_end": 38.411, "highway_zero_balance": true},
+    {"fiscal_year": 2033, "airport_and_airway_balance_end": 42.533, "highway_balance_end": 0.0, "combined_balance_end": 42.533, "highway_zero_balance": true},
+    {"fiscal_year": 2034, "airport_and_airway_balance_end": 47.123, "highway_balance_end": 0.0, "combined_balance_end": 47.123, "highway_zero_balance": true},
+    {"fiscal_year": 2035, "airport_and_airway_balance_end": 52.21, "highway_balance_end": 0.0, "combined_balance_end": 52.21, "highway_zero_balance": true}
+  ],
+  "fy2031_overlap_diagnostic": {
+    "omb_table_13_4_source_context_path": "data/derived/breadth_benchmark_matrix/transportation_trust_fund_table_13_4_fy2025_2031_context_path.v1.draft.json",
+    "omb_fy2031_airport_and_airway_balance_end": 43.0,
+    "cbo_fy2031_airport_and_airway_balance_end": 34.699,
+    "airport_and_airway_cbo_minus_omb": -8.301,
+    "omb_fy2031_highway_balance_end": -122.4,
+    "cbo_fy2031_highway_balance_end": 0.0,
+    "highway_cbo_minus_omb": 122.4,
+    "diagnostic_note": "The FY2031 overlap exposes CBO/OMB source-perimeter and balance-treatment differences; it does not authorize stitching CBO FY2032-FY2035 balances onto OMB Table 13-4 as a continuous reconciled path."
+  },
+  "duplicate_variable_boundary": {
+    "tf_sur_airport_duplicate_date_variable_rows_observed": true,
+    "tf_sur_highway_duplicate_date_variable_rows_observed": true,
+    "example_duplicate_rows": [
+      {"variable": "tf_sur_airport", "fiscal_year": 2032, "values": [3.712, 26.275]},
+      {"variable": "tf_sur_highway", "fiscal_year": 2032, "values": [-32.94, -32.94]}
+    ],
+    "surplus_rows_used_for_income_outgo_or_solver": false
+  },
+  "blocked_outputs": {
+    "omb_table_13_4_fy2032_fy2035_income_outgo_rows": null,
+    "complete_fy2025_fy2035_transportation_trust_fund_path": null,
+    "trust_fund_income_outgo_reconciliation": null,
+    "explicit_general_fund_transfer_path": null,
+    "credited_offsetting_collections": null,
+    "function_400_mapping": null,
+    "solver_input": null,
+    "solver_run": null,
+    "rate_calculation": null,
+    "public_rate_card": null,
+    "savings_estimate": null,
+    "balanced_budget_claim": null
+  },
+  "claim_booleans": {
+    "transportation_trust_fund_cbo_balance_extension_context_published": true,
+    "source_custody_ready": true,
+    "fy2032_fy2035_balance_context_present": true,
+    "cbo_omb_overlap_diagnostic_present": true,
+    "income_outgo_reconciliation_ready": false,
+    "complete_transportation_trust_fund_path_ready": false,
+    "explicit_general_fund_transfer_path_ready": false,
+    "credited_offsetting_collections_ready": false,
+    "function_400_mapping_ready": false,
+    "solver_input_ready": false,
+    "solver_run_published": false,
+    "rate_calculation_published": false,
+    "public_rate_card_published": false,
+    "savings_estimate_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "CBO FY2032-FY2035 transportation trust-fund balance extension context only. This is not OMB Table 13-4 FY2032-FY2035 income/outgo rows, not a complete FY2025-FY2035 transportation trust-fund path, not trust-fund income/outgo reconciliation, not explicit general-fund transfers, not credited offsetting collections, not Function 400 mapping, not solver input, not a rate calculation, not a public rate card, not a savings estimate, and not a balanced-budget claim."
+}

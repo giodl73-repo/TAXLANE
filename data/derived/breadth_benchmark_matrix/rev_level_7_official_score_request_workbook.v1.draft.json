@@ -1,0 +1,65 @@
+{
+  "record_id":"rev-level-7-official-score-request-workbook:v1",
+  "record_family":"rev_level_7_official_score_request_workbook",
+  "version":"v1.draft",
+  "status":"rev_level_7_official_score_request_workbook_complete_response_pending",
+  "pulse":462,
+  "as_of_date":"2026-07-27",
+  "track_prefix":"REV",
+  "work_package_id":"REV-L7-02",
+  "policy_specification_path":"data/derived/breadth_benchmark_matrix/rev_level_7_scorer_ready_legislative_specification.v1.draft.json",
+  "integrated_rerun_path":"data/derived/breadth_benchmark_matrix/fifteen_track_integrated_dependency_admission_rerun.v1.draft.json",
+  "schema_path":"data/derived/breadth_benchmark_matrix/rev_level_7_official_score_request_workbook.schema.md",
+  "reader_path":"docs/reading/rev-level-7-official-score-request-workbook.md",
+  "role_review_path":"reviews/2026-07-27-rev-level-7-official-score-request-workbook-role-review.md",
+  "request_identity":{"request_id":"taxlane-fy2026-rate-only-score-request-v1","request_type":"technical_scoring_handoff_not_submitted","requested_scorers":["Joint Committee on Taxation","Congressional Budget Office"],"policy_id":"taxlane_uniform_ordinary_rate_schedule_2026_permanent","budget_window":"FY2026-FY2035","official_response_received":false},
+  "baseline_and_policy":{"baseline_source_url":"https://www.cbo.gov/publication/62105","baseline_law_cutoff":"2026-01-14","policy_first_tax_year":2026,"policy_duration":"permanent_for_scoring","ordinary_rate_schedule_percent":[21.0,23.0,33.0,35.0,43.0,46.0,48.0],"current_law_thresholds_and_indexing_retained":true,"spending_instruments_included":0,"conditional_cost_notes_excluded":1},
+  "annual_score_rows":[
+    {"fiscal_year":2026,"taxlane_model_cash_proxy_billions":819.220,"official_conventional_revenue_billions":null,"official_spending_effect_billions":null,"official_administration_cost_billions":null,"official_macro_revenue_feedback_billions":null,"official_primary_deficit_change_billions":null,"official_net_interest_change_billions":null,"official_total_deficit_change_billions":null},
+    {"fiscal_year":2027,"taxlane_model_cash_proxy_billions":null,"official_conventional_revenue_billions":null,"official_spending_effect_billions":null,"official_administration_cost_billions":null,"official_macro_revenue_feedback_billions":null,"official_primary_deficit_change_billions":null,"official_net_interest_change_billions":null,"official_total_deficit_change_billions":null},
+    {"fiscal_year":2028,"taxlane_model_cash_proxy_billions":null,"official_conventional_revenue_billions":null,"official_spending_effect_billions":null,"official_administration_cost_billions":null,"official_macro_revenue_feedback_billions":null,"official_primary_deficit_change_billions":null,"official_net_interest_change_billions":null,"official_total_deficit_change_billions":null},
+    {"fiscal_year":2029,"taxlane_model_cash_proxy_billions":null,"official_conventional_revenue_billions":null,"official_spending_effect_billions":null,"official_administration_cost_billions":null,"official_macro_revenue_feedback_billions":null,"official_primary_deficit_change_billions":null,"official_net_interest_change_billions":null,"official_total_deficit_change_billions":null},
+    {"fiscal_year":2030,"taxlane_model_cash_proxy_billions":null,"official_conventional_revenue_billions":null,"official_spending_effect_billions":null,"official_administration_cost_billions":null,"official_macro_revenue_feedback_billions":null,"official_primary_deficit_change_billions":null,"official_net_interest_change_billions":null,"official_total_deficit_change_billions":null},
+    {"fiscal_year":2031,"taxlane_model_cash_proxy_billions":null,"official_conventional_revenue_billions":null,"official_spending_effect_billions":null,"official_administration_cost_billions":null,"official_macro_revenue_feedback_billions":null,"official_primary_deficit_change_billions":null,"official_net_interest_change_billions":null,"official_total_deficit_change_billions":null},
+    {"fiscal_year":2032,"taxlane_model_cash_proxy_billions":null,"official_conventional_revenue_billions":null,"official_spending_effect_billions":null,"official_administration_cost_billions":null,"official_macro_revenue_feedback_billions":null,"official_primary_deficit_change_billions":null,"official_net_interest_change_billions":null,"official_total_deficit_change_billions":null},
+    {"fiscal_year":2033,"taxlane_model_cash_proxy_billions":null,"official_conventional_revenue_billions":null,"official_spending_effect_billions":null,"official_administration_cost_billions":null,"official_macro_revenue_feedback_billions":null,"official_primary_deficit_change_billions":null,"official_net_interest_change_billions":null,"official_total_deficit_change_billions":null},
+    {"fiscal_year":2034,"taxlane_model_cash_proxy_billions":null,"official_conventional_revenue_billions":null,"official_spending_effect_billions":null,"official_administration_cost_billions":null,"official_macro_revenue_feedback_billions":null,"official_primary_deficit_change_billions":null,"official_net_interest_change_billions":null,"official_total_deficit_change_billions":null},
+    {"fiscal_year":2035,"taxlane_model_cash_proxy_billions":null,"official_conventional_revenue_billions":null,"official_spending_effect_billions":null,"official_administration_cost_billions":null,"official_macro_revenue_feedback_billions":null,"official_primary_deficit_change_billions":null,"official_net_interest_change_billions":null,"official_total_deficit_change_billions":null}
+  ],
+  "requested_distribution_tables":[
+    {"table_id":"tax_units_by_income","dimensions":["expanded income group","filing status","tax units"],"measures":["average tax change","after-tax income change","share of total change"]},
+    {"table_id":"families_and_workers","dimensions":["income decile","family type","children","age","wage status"],"measures":["tax change","effective-rate change","after-tax income change"]},
+    {"table_id":"geography_and_business_income","dimensions":["state or region","urban rural","pass-through income status"],"measures":["tax change","after-tax income change"]}
+  ],
+  "requested_behavior_and_macro_outputs":["taxable-income response by source","labor supply and compensation","saving and capital formation","prices and interest rates","GDP and GNP","cross-instrument revenue feedback","debt-service feedback","model weights and uncertainty range"],
+  "reconciliation_identities":[
+    {"identity_id":"primary_deficit","formula":"official_spending_effect - official_conventional_revenue - official_macro_revenue_feedback + official_administration_cost","sign_convention":"positive is deficit increase"},
+    {"identity_id":"total_deficit","formula":"official_primary_deficit_change + official_net_interest_change","sign_convention":"positive is deficit increase"},
+    {"identity_id":"balance_test","formula":"current_law_deficit + official_total_deficit_change","pass_condition":"less_than_or_equal_to_zero for every required year or stated window rule"},
+    {"identity_id":"rate_sufficiency","formula":"official_scored_receipts_change compared with the certified fiscal target after all scored effects","pass_condition":"meets_or_exceeds_target without unsupported carry"}
+  ],
+  "scorer_questions":[
+    "What is the conventional fiscal-year revenue effect for FY2026-FY2035?",
+    "How much TY2026 liability is realized in FY2026 versus later fiscal years?",
+    "What IRS appropriation and administrative outlay path is required?",
+    "What employer, payor, software, preparer, and taxpayer compliance burden is expected?",
+    "What behavioral assumptions and models drive the conventional score?",
+    "What proposal-specific macro feedback and model weighting apply?",
+    "What distributional results apply across income, filing, family, age, geography, and business-income groups?",
+    "What debt-service path results after annual primary effects and financing timing?",
+    "Does the package satisfy the stated annual or budget-window balance test?"
+  ],
+  "workbook_checks":[
+    {"check_id":"ten_fiscal_year_rows","status":"pass"},
+    {"check_id":"official_fields_null_pending_response","status":"pass"},
+    {"check_id":"model_proxy_separate_from_official_score","status":"pass"},
+    {"check_id":"distribution_request_complete","status":"pass"},
+    {"check_id":"behavior_macro_request_complete","status":"pass"},
+    {"check_id":"deficit_interest_balance_identities_complete","status":"pass"},
+    {"check_id":"administration_and_private_burden_requested","status":"pass"},
+    {"check_id":"score_request_not_misrepresented_as_submitted","status":"pass"}
+  ],
+  "decision":{"score_request_workbook_complete":true,"ready_for_authorized_submission":true,"external_request_submitted":false,"official_response_received":false,"formal_certification_complete":false},
+  "blocked_outputs":{"official_annual_score_rows":null,"official_distribution_tables":null,"official_macro_results":null,"official_administration_cost":null,"official_private_compliance_cost":null,"official_debt_service_path":null,"formal_certified_rate":null,"formal_balance_determination":null},
+  "public_warning":"This workbook is a complete technical request surface, not an official score and not evidence that a request was submitted. All official annual fields remain null. Submission requires an authorized congressional or institutional scoring channel, and certification requires the resulting official response."
+}

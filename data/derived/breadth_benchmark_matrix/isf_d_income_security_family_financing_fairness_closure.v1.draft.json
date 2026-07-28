@@ -1,0 +1,30 @@
+{
+  "record_id": "isf-d-income-security-family-financing-fairness-closure:v1",
+  "record_family": "isf_d_income_security_family_financing_fairness_closure",
+  "version": "v1.draft",
+  "status": "isf_d_complete_bounded_no_reform_outputs",
+  "pulse": 337,
+  "as_of_date": "2026-07-27",
+  "track_wave_id": "ISF-D",
+  "isf_c_path": "data/derived/breadth_benchmark_matrix/isf_c_income_security_family_scenario_admission_closure.v1.draft.json",
+  "accounting_path": "data/derived/breadth_benchmark_matrix/isf_b_income_security_family_accounting_closure.v1.draft.json",
+  "floor_path": "data/derived/breadth_benchmark_matrix/income_security_family_child_poverty_floor_value_packet.v1.draft.json",
+  "core_j_path": "data/derived/breadth_benchmark_matrix/core_j_bounded_closure_handoff_closure.v1.draft.json",
+  "core_k_path": "data/derived/breadth_benchmark_matrix/core_k_temporal_composite_accounting_closure.v1.draft.json",
+  "core_l_path": "data/derived/breadth_benchmark_matrix/core_l_cross_lane_overlap_allocation_closure.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/three_lane_stage_d_bounded_bundle.schema.md",
+  "reader_path": "docs/reading/three-lane-stage-d-bounded-bundle.md",
+  "role_review_path": "reviews/2026-07-27-three-lane-stage-d-bounded-role-review.md",
+  "package_reconciliation": [
+    {"work_package_id":"ISF-D-01","status":"complete","completion_class":"bounded_structural","finding":"General-fund, refundable-credit, grant, state/local, and nutrition financing perimeters remain explicit and non-additive."},
+    {"work_package_id":"ISF-D-02","status":"not_required","completion_class":"candidate_dependent","finding":"No receipt-financed instrument was admitted at ISF-C, so no assigned receipt base or yield is constructed."},
+    {"work_package_id":"ISF-D-03","status":"complete","completion_class":"bounded_structural","finding":"Administration, eligibility, take-up, compliance, and recipient-burden fields are mapped with missing values retained as null."},
+    {"work_package_id":"ISF-D-04","status":"complete","completion_class":"bounded_structural","finding":"Incidence, child-poverty, food-hardship, childcare-access, and distribution requirements are explicit but unpopulated."},
+    {"work_package_id":"ISF-D-05","status":"complete","completion_class":"bounded_structural","finding":"Tax-credit, nutrition, labor-supply, state/local, macro, and endogenous-interest interactions retain owned handoffs."},
+    {"work_package_id":"ISF-D-06","status":"complete","completion_class":"bounded_structural","finding":"Role review closes the D interface without a reform, financing result, rate, or savings output."}
+  ],
+  "closure_decision": {"completion_class":"bounded_structural","role_review_complete":true,"isf_d_done":true,"reform_admitted":false,"isf_e_may_start":false,"numeric_completion":false,"output_admission":false},
+  "blocked_outputs": {"assigned_receipt_base":null,"current_law_yield":null,"reform_yield":null,"take_up_effect":null,"incidence_distribution":null,"floor_pass_fail":null,"target_cost":null,"solver_input":null,"assigned_rate":null,"gross_savings":null,"net_savings":null,"isf_e_start":null},
+  "claim_booleans": {"isf_d_closure_published":true,"isf_d_done":true,"reform_admitted":false,"isf_e_may_start":false,"solver_ready":false,"rate_published":false,"savings_claim_published":false},
+  "public_warning": "ISF-D is complete only as a bounded financing and fairness interface. No benefit reform, receipt base, take-up result, distribution result, floor result, solver input, rate, or savings estimate is admitted."
+}

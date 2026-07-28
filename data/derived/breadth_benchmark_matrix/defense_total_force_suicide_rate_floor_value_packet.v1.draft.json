@@ -1,0 +1,42 @@
+{
+  "record_id": "defense-total-force-suicide-rate-floor-value-packet:v1",
+  "record_family": "defense_total_force_suicide_rate_floor_value_packet",
+  "version": "v1.draft",
+  "pulse": 220,
+  "as_of_date": "2026-07-26",
+  "lane_id": "national-defense",
+  "floor_id": "personnel_safety",
+  "floor_class": "quality_safety",
+  "floor_definition_packet_path": "data/derived/breadth_benchmark_matrix/defense_outcome_floor_definition_packet.v1.draft.json",
+  "source_metadata_path": "data/metadata/SRC-DOD-ARSM-CY2024.2026-07-26.metadata.md",
+  "outcome_floor_wave_d_value_readiness_path": "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json",
+  "threshold_rationale": {
+    "rationale_id": "personnel-safety-no-regression-from-cy2024-total-force-suicide-rate",
+    "selected_measure": "Total Force suicide deaths per 100,000 Service members",
+    "rationale": "A defense lower-cost scenario should not pass this personnel-safety slice if reviewed policy or stress evidence raises the Total Force suicide rate above the latest reported completed-year baseline.",
+    "threshold_type": "baseline_no_regression_ceiling",
+    "threshold_value": 23.2,
+    "threshold_unit": "deaths_per_100000_service_members",
+    "source_table": "CY2024 Annual Report executive summary",
+    "review_status": "draft_threshold_rationale_needs_role_review_before_pass_fail"
+  },
+  "baseline_values": {
+    "reporting_period": "calendar year 2024",
+    "primary_baseline": {"measure": "Total Force suicide rate", "value": 23.2, "unit": "deaths_per_100000_service_members", "source_id": "SRC-DOD-ARSM-CY2024", "source_path": "data/raw/dod/SRC-DOD-ARSM-CY2024/2026-07-26/cy2024-annual-report-suicide-military.pdf"},
+    "supporting_context": [
+      {"measure": "Total Force suicide deaths", "value": 471, "unit": "people", "evidence_status": "reported_cy2024"},
+      {"measure": "CY2023 Total Force suicide rate", "value": 26.0, "unit": "deaths_per_100000_service_members", "evidence_status": "reported_comparison"},
+      {"measure": "CY2023 Total Force suicide deaths", "value": 531, "unit": "people", "evidence_status": "reported_comparison"}
+    ],
+    "source_custody": {"publisher": "U.S. Department of Defense, Defense Suicide Prevention Office", "raw_artifact_path": "data/raw/dod/SRC-DOD-ARSM-CY2024/2026-07-26/cy2024-annual-report-suicide-military.pdf", "raw_byte_count": 12300846, "raw_sha256": "23403efb6ac0209134bc61b9457375599b3c4a03fc508e473f2ef7a69529364e", "review_status": "source_metadata_present_and_hash_matched"},
+    "boundary": "The annual Total Force suicide rate is one personnel-safety slice. The report says the year-over-year Total Force change was not statistically significant. This is not readiness, force structure, procurement, strategic reserve, policy values, stress values, pass/fail evidence, solver input, rates, savings, or a balanced-budget claim."
+  },
+  "policy_values": null,
+  "stress_values": null,
+  "pass_fail_evidence": null,
+  "readiness_status": {"threshold_rationale_ready": true, "threshold_value_populated": true, "baseline_value_ready": true, "policy_value_ready": false, "stress_value_ready": false, "pass_fail_ready": false, "complete_defense_floor_ready": false, "lower_cost_scenario_admissible": false, "solver_ready": false, "rate_ready": false},
+  "remaining_requirements": ["role review", "policy and stress values", "pass/fail evidence", "readiness, force-structure, procurement, strategic-reserve, equity, and delivery-feasibility floors"],
+  "blocked_outputs": {"policy_values": null, "stress_values": null, "pass_fail_evidence": null, "lower_cost_scenario_admissibility": null, "solver_input": null, "rate_calculation": null, "savings": null, "balanced_budget_claim": null},
+  "claim_booleans": {"floor_value_packet_published": true, "threshold_rationale_ready": true, "baseline_value_ready": true, "policy_value_ready": false, "stress_value_ready": false, "pass_fail_ready": false, "complete_lane_floor_ready": false, "lower_cost_scenario_admissible": false, "solver_ready": false, "rate_ready": false, "savings_claim_published": false, "balanced_budget_claim_published": false},
+  "public_warning": "Draft no-regression Total Force suicide-rate floor threshold. Policy and stress values remain null. This is not a complete defense floor, not pass/fail evidence, not solver input, not savings, and not a balanced-budget claim."
+}

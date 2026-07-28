@@ -1,0 +1,31 @@
+{
+  "record_id": "oas-d-social-security-financing-fairness-closure:v1",
+  "record_family": "oas_d_social_security_financing_fairness_closure",
+  "version": "v1.draft",
+  "status": "oas_d_complete_bounded_no_reform_outputs",
+  "pulse": 315,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "OAS-D",
+  "oas_c_path": "data/derived/breadth_benchmark_matrix/oas_c_social_security_scenario_admission_closure.v1.draft.json",
+  "taxable_payroll_path": "data/derived/breadth_benchmark_matrix/social_security_taxable_payroll_base_bridge.cy2025-2035.v1.draft.json",
+  "receipt_boundary_path": "data/derived/breadth_benchmark_matrix/social_security_oasdi_receipt_yield_boundary.fy2025-cy2025.v1.draft.json",
+  "floor_path": "data/derived/breadth_benchmark_matrix/social_security_outcome_floor_definition_packet.v1.draft.json",
+  "core_j_path": "data/derived/breadth_benchmark_matrix/core_j_bounded_closure_handoff_closure.v1.draft.json",
+  "core_k_path": "data/derived/breadth_benchmark_matrix/core_k_temporal_composite_accounting_closure.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/multi_track_d_b_catchup_bundle.schema.md",
+  "reader_path": "docs/reading/multi-track-d-b-catchup-bundle.md",
+  "role_review_path": "reviews/2026-07-26-multi-track-d-b-catchup-role-review.md",
+  "package_reconciliation": [
+    {"work_package_id":"OAS-D-01","status":"complete","completion_class":"bounded_structural","finding":"OASI, DI, combined OASDI, payroll, benefit-taxation, interest, reimbursement, and transfer perimeters remain explicit."},
+    {"work_package_id":"OAS-D-02","status":"not_required","completion_class":"discovery_only","finding":"No reform receipt instrument is selected because OAS-C admitted no reform."},
+    {"work_package_id":"OAS-D-03","status":"complete","completion_class":"bounded_structural","finding":"Administration, claiming, labor-supply, and employer behavior fields are defined with values null."},
+    {"work_package_id":"OAS-D-04","status":"complete","completion_class":"bounded_structural","finding":"Income, age, sex, disability, cohort, geography, and lifetime-incidence dimensions are mapped without results."},
+    {"work_package_id":"OAS-D-05","status":"complete","completion_class":"bounded_structural","finding":"OASI/DI, debt, interest, payroll, labor, adequacy, and poverty interactions retain owned handoffs."},
+    {"work_package_id":"OAS-D-06","status":"complete","completion_class":"bounded_structural","finding":"Role review closes the bounded D bridge without admitting a reform or outputs."}
+  ],
+  "handoff_summary": {"selected_reform":null,"fiscal_calendar_bridge":null,"long_range_score":null,"behavior_values":null,"incidence_values":null,"distribution_values":null,"successor_owner":"OAS-E","blocking_gate":"admit a sourced scored OAS-C reform with annual and long-range effects"},
+  "closure_decision": {"completion_class":"bounded_structural","role_review_complete":true,"oas_d_done":true,"oas_e_may_start":false,"numeric_completion":false,"output_admission":false},
+  "blocked_outputs": {"social_security_reform":null,"reform_yield":null,"incidence_result":null,"distribution_result":null,"solver_input":null,"payroll_tax_rate":null,"savings":null,"oas_e_start":null},
+  "claim_booleans": {"oas_d_closure_published":true,"oas_d_done":true,"oas_e_may_start":false,"reform_admitted":false,"solver_ready":false,"rate_published":false},
+  "public_warning": "OAS-D is complete as a bounded financing, behavior, incidence, fairness, and interaction map. OAS-C admitted no reform, so all numerical results and OAS-E remain blocked."
+}

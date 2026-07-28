@@ -1,0 +1,30 @@
+{
+  "record_id": "hlt-a-health-baseline-closure:v1",
+  "record_family": "hlt_a_health_baseline_closure",
+  "version": "v1.draft",
+  "status": "hlt_a_complete_bounded_source_spine_hlt_b_started",
+  "pulse": 283,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "HLT-A",
+  "start_gate_path": "data/derived/breadth_benchmark_matrix/hlt_a_health_baseline_start_gate.v1.draft.json",
+  "perimeter_inventory_path": "data/derived/breadth_benchmark_matrix/hlt_a_health_lane_perimeter_source_inventory.v1.draft.json",
+  "baseline_path": "data/derived/breadth_benchmark_matrix/hlt_a_federal_health_baseline_path.v1.draft.json",
+  "financing_lineage_path": "data/derived/breadth_benchmark_matrix/hlt_a_health_financing_lineage.v1.draft.json",
+  "service_floor_spine_path": "data/derived/breadth_benchmark_matrix/hlt_a_health_service_floor_source_spine.v1.draft.json",
+  "role_review_path": "reviews/2026-07-26-hlt-a-health-baseline-closure-role-review.md",
+  "hlt_b_start_gate_path": "data/derived/breadth_benchmark_matrix/hlt_b_health_accounting_start_gate.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/hlt_a_health_baseline_closure.schema.md",
+  "reader_path": "docs/reading/hlt-a-health-baseline-closure.md",
+  "package_reconciliation": [
+    {"work_package_id":"HLT-A-01","status":"complete","finding":"Federal health/Medicare perimeter and five source families frozen."},
+    {"work_package_id":"HLT-A-02","status":"complete","finding":"FY2025-FY2031 exact baseline rows and FY2032-FY2035 explicit nulls reconciled."},
+    {"work_package_id":"HLT-A-03","status":"complete","finding":"Trust-fund, premium, government-contribution, state, and other financing relationships remain separate."},
+    {"work_package_id":"HLT-A-04","status":"complete","finding":"Five service/floor classes bound to available source packets and explicit gaps."},
+    {"work_package_id":"HLT-A-05","status":"complete","finding":"Eight-role review accepts bounded A-stage closure and guarded HLT-B discovery start."}
+  ],
+  "closure_boundary": {"bounded_health_source_spine_complete":true,"full_numeric_horizon_complete":false,"complete_source_capture":false,"floor_pass_fail_complete":false,"annual_financing_allocation_complete":false,"unresolved_items_carried_to_hlt_b":true},
+  "dependency_decision": {"core_h_done":true,"hlt_a_done":true,"hlt_b_may_start":true,"hlt_b_started":true,"next_active_work_package_id":"HLT-B-01"},
+  "blocked_outputs": {"fy2032_fy2035_health_outlays":null,"annual_financing_allocation":null,"complete_floor_values":null,"health_reform":null,"solver_input":null,"assigned_rate":null,"gross_savings":null,"net_savings":null},
+  "claim_booleans": {"hlt_a_health_baseline_closure_published":true,"role_review_complete":true,"hlt_a_done":true,"hlt_b_may_start":true,"hlt_b_started":true,"full_numeric_horizon_ready":false,"floor_pass_fail_ready":false,"solver_ready":false,"rate_published":false,"savings_claim_published":false},
+  "public_warning": "HLT-A closes as a bounded baseline and source spine, not as a complete numeric horizon, complete source capture, floor result, health reform, financing allocation, solver input, rate, or savings estimate. HLT-B accounting discovery may start with those gaps preserved."
+}

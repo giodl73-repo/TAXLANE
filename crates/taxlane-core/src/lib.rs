@@ -7,6 +7,897 @@ pub const SPEND_CATEGORY_MAP_MODEL_ID: &str = "spend-category-map-v1";
 pub const BREADTH_BENCHMARK_RECORD_FAMILY: &str = "breadth_benchmark_matrix";
 pub const HEADLINE_BASIS_RECORD_FAMILY: &str = "headline_basis_crosswalk";
 
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum ScoredAmount {
+    ExactThousandthsOfMillion(i64),
+    BoundedThousandthsOfMillion {
+        lower_inclusive: i64,
+        upper_exclusive: i64,
+    },
+    Missing,
+}
+
+impl ScoredAmount {
+    pub fn validate(&self) -> Result<(), String> {
+        match self {
+            Self::ExactThousandthsOfMillion(_) | Self::Missing => Ok(()),
+            Self::BoundedThousandthsOfMillion {
+                lower_inclusive,
+                upper_exclusive,
+            } if lower_inclusive < upper_exclusive => Ok(()),
+            Self::BoundedThousandthsOfMillion { .. } => {
+                Err("scored amount bound must have positive width".to_string())
+            }
+        }
+    }
+
+    pub fn is_observed(&self) -> bool {
+        !matches!(self, Self::Missing)
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct AnnualReformEffect {
+    pub fiscal_year: u16,
+    pub outlay: ScoredAmount,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ApplicableFloorReview {
+    pub floor_id: String,
+    pub applicable: bool,
+    pub policy_pass: Option<bool>,
+    pub stress_pass: Option<bool>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReformAdmissionInput {
+    pub instrument_id: String,
+    pub legislative_source_ready: bool,
+    pub federal_effect_source_ready: bool,
+    pub conditional_on_enactment: bool,
+    pub annual_effects: Vec<AnnualReformEffect>,
+    pub floors: Vec<ApplicableFloorReview>,
+    pub lower_cost_claim_requested: bool,
+    pub productivity_savings_supported: bool,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReformAdmissionDecision {
+    pub real_reform_admitted: bool,
+    pub cost_only: bool,
+    pub lower_cost_admitted: bool,
+    pub target_cost_allowed: bool,
+}
+
+pub fn admit_reform(input: &ReformAdmissionInput) -> Result<ReformAdmissionDecision, String> {
+    validate_required("reform instrument_id", &input.instrument_id)?;
+    if !input.legislative_source_ready || !input.federal_effect_source_ready {
+        return Err("reform admission requires legislative and federal-effect sources".to_string());
+    }
+    if input.annual_effects.is_empty() {
+        return Err("reform admission requires annual federal effects".to_string());
+    }
+
+    let mut years = BTreeSet::new();
+    for effect in &input.annual_effects {
+        effect.outlay.validate()?;
+        if !years.insert(effect.fiscal_year) {
+            return Err(format!(
+                "duplicate reform fiscal year: {}",
+                effect.fiscal_year
+            ));
+        }
+    }
+    let first = *years.first().ok_or("missing first reform fiscal year")?;
+    let last = *years.last().ok_or("missing last reform fiscal year")?;
+    if years.len() != usize::from(last - first + 1) {
+        return Err("reform annual effects must cover a contiguous horizon".to_string());
+    }
+    if !input
+        .annual_effects
+        .iter()
+        .any(|effect| effect.outlay.is_observed())
+    {
+        return Err("reform annual effects contain no observed score".to_string());
+    }
+
+    let mut floor_ids = BTreeSet::new();
+    for floor in &input.floors {
+        validate_required("reform floor_id", &floor.floor_id)?;
+        if !floor_ids.insert(floor.floor_id.as_str()) {
+            return Err(format!("duplicate reform floor: {}", floor.floor_id));
+        }
+        if floor.applicable {
+            if floor.policy_pass != Some(true) || floor.stress_pass != Some(true) {
+                return Err(format!(
+                    "applicable reform floor must pass policy and stress: {}",
+                    floor.floor_id
+                ));
+            }
+        } else if floor.policy_pass.is_some() || floor.stress_pass.is_some() {
+            return Err(format!(
+                "non-applicable reform floor must not carry a pass result: {}",
+                floor.floor_id
+            ));
+        }
+    }
+    if !input.floors.iter().any(|floor| floor.applicable) {
+        return Err("reform admission requires at least one applicable floor".to_string());
+    }
+
+    let lower_cost_admitted = input.lower_cost_claim_requested
+        && input.productivity_savings_supported
+        && input
+            .annual_effects
+            .iter()
+            .all(|effect| matches!(effect.outlay, ScoredAmount::ExactThousandthsOfMillion(_)));
+    Ok(ReformAdmissionDecision {
+        real_reform_admitted: true,
+        cost_only: !lower_cost_admitted,
+        lower_cost_admitted,
+        target_cost_allowed: lower_cost_admitted,
+    })
+}
+
+/// Shared CORE-J completion semantics. Structural closure is intentionally
+/// distinct from numeric and output readiness.
+#[derive(Clone, Copy, Debug, Eq, Ord, PartialEq, PartialOrd, Serialize, Deserialize)]
+pub enum CompletionClass {
+    DiscoveryOnly,
+    BoundedStructural,
+    NumericComplete,
+    OutputReady,
+}
+
+/// Shared CORE-J evidence states used by lane handoffs.
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub enum EvidenceState {
+    Ready,
+    PartialContext,
+    DefinitionOnly,
+    SourceGap,
+    NotApplicable,
+    Blocked,
+}
+
+impl EvidenceState {
+    pub fn permits_output(self) -> bool {
+        matches!(self, Self::Ready)
+    }
+
+    pub fn requires_handoff(self) -> bool {
+        matches!(
+            self,
+            Self::PartialContext | Self::DefinitionOnly | Self::SourceGap | Self::Blocked
+        )
+    }
+}
+
+/// Cross-perimeter accounting roles learned from transportation, health, and
+/// education. These roles classify evidence; they do not assert that values
+/// from different perimeters are additive.
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub enum AccountRole {
+    Appropriation,
+    ProgramOutlay,
+    TrustFund,
+    GeneralFund,
+    DedicatedReceipt,
+    Premium,
+    GovernmentContribution,
+    StateLocalResource,
+    PrivateContext,
+    Grant,
+    CreditSubsidy,
+    OffsettingCollection,
+    OffsettingReceipt,
+    NonAdditiveContext,
+}
+
+impl AccountRole {
+    pub fn requires_sign_preservation(self) -> bool {
+        matches!(
+            self,
+            Self::CreditSubsidy | Self::OffsettingCollection | Self::OffsettingReceipt
+        )
+    }
+
+    pub fn requires_non_additive_boundary(self) -> bool {
+        matches!(
+            self,
+            Self::StateLocalResource | Self::PrivateContext | Self::NonAdditiveContext
+        )
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct LaneHandoffObligation {
+    pub field_id: String,
+    pub evidence_state: EvidenceState,
+    pub account_role: Option<AccountRole>,
+    pub value_present: bool,
+    pub output_eligible: bool,
+    pub sign_preserved: bool,
+    pub non_additive: bool,
+    pub successor_owner: Option<String>,
+    pub blocking_gate: Option<String>,
+}
+
+impl LaneHandoffObligation {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("handoff field_id", &self.field_id)?;
+        if self.output_eligible != self.evidence_state.permits_output() {
+            return Err(format!(
+                "handoff output eligibility must match evidence state: {}",
+                self.field_id
+            ));
+        }
+        match self.evidence_state {
+            EvidenceState::Ready => {
+                if !self.value_present {
+                    return Err(format!("ready handoff value is missing: {}", self.field_id));
+                }
+                if self.successor_owner.is_some() || self.blocking_gate.is_some() {
+                    return Err(format!(
+                        "ready handoff must not carry a blocker: {}",
+                        self.field_id
+                    ));
+                }
+            }
+            EvidenceState::NotApplicable => {
+                if self.value_present
+                    || self.output_eligible
+                    || self.successor_owner.is_some()
+                    || self.blocking_gate.is_some()
+                {
+                    return Err(format!(
+                        "not-applicable handoff must be empty and unblocked: {}",
+                        self.field_id
+                    ));
+                }
+            }
+            EvidenceState::DefinitionOnly | EvidenceState::SourceGap | EvidenceState::Blocked => {
+                if self.value_present {
+                    return Err(format!(
+                        "unresolved handoff must not carry a value: {}",
+                        self.field_id
+                    ));
+                }
+            }
+            EvidenceState::PartialContext => {}
+        }
+        if self.evidence_state.requires_handoff() {
+            let owner = self
+                .successor_owner
+                .as_deref()
+                .ok_or_else(|| format!("handoff owner missing: {}", self.field_id))?;
+            let gate = self
+                .blocking_gate
+                .as_deref()
+                .ok_or_else(|| format!("handoff blocking gate missing: {}", self.field_id))?;
+            validate_required("handoff successor_owner", owner)?;
+            validate_required("handoff blocking_gate", gate)?;
+        }
+        if self
+            .account_role
+            .is_some_and(AccountRole::requires_sign_preservation)
+            && !self.sign_preserved
+        {
+            return Err(format!(
+                "signed account role must preserve sign: {}",
+                self.field_id
+            ));
+        }
+        if self
+            .account_role
+            .is_some_and(AccountRole::requires_non_additive_boundary)
+            && !self.non_additive
+        {
+            return Err(format!(
+                "cross-perimeter account role must be non-additive: {}",
+                self.field_id
+            ));
+        }
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct LaneClosureAssessmentInput {
+    pub stage_id: String,
+    pub completion_class: CompletionClass,
+    pub role_review_complete: bool,
+    pub handoff_obligations: Vec<LaneHandoffObligation>,
+    pub successor_discovery_requested: bool,
+    pub output_admission_requested: bool,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct LaneClosureAssessmentDecision {
+    pub bounded_closure_admitted: bool,
+    pub numeric_completion_admitted: bool,
+    pub successor_discovery_allowed: bool,
+    pub output_admission_allowed: bool,
+}
+
+pub fn assess_lane_closure(
+    input: &LaneClosureAssessmentInput,
+) -> Result<LaneClosureAssessmentDecision, String> {
+    validate_required("closure stage_id", &input.stage_id)?;
+    if input.handoff_obligations.is_empty() {
+        return Err("closure assessment requires handoff obligations".to_string());
+    }
+    let mut fields = BTreeSet::new();
+    for obligation in &input.handoff_obligations {
+        obligation.validate()?;
+        if !fields.insert(obligation.field_id.as_str()) {
+            return Err(format!(
+                "duplicate closure handoff field: {}",
+                obligation.field_id
+            ));
+        }
+    }
+
+    let bounded_closure_admitted =
+        input.completion_class >= CompletionClass::BoundedStructural && input.role_review_complete;
+    if input.completion_class >= CompletionClass::BoundedStructural && !input.role_review_complete {
+        return Err("bounded closure requires completed role review".to_string());
+    }
+    let all_resolved = input.handoff_obligations.iter().all(|obligation| {
+        matches!(
+            obligation.evidence_state,
+            EvidenceState::Ready | EvidenceState::NotApplicable
+        )
+    });
+    let numeric_completion_admitted =
+        input.completion_class >= CompletionClass::NumericComplete && all_resolved;
+    if input.completion_class >= CompletionClass::NumericComplete && !all_resolved {
+        return Err("numeric completion cannot carry unresolved handoffs".to_string());
+    }
+    let successor_discovery_allowed = bounded_closure_admitted;
+    if input.successor_discovery_requested && !successor_discovery_allowed {
+        return Err("successor discovery requires bounded reviewed closure".to_string());
+    }
+    let output_admission_allowed = input.completion_class == CompletionClass::OutputReady
+        && numeric_completion_admitted
+        && input.handoff_obligations.iter().all(|obligation| {
+            obligation.output_eligible || obligation.evidence_state == EvidenceState::NotApplicable
+        });
+    if input.output_admission_requested && !output_admission_allowed {
+        return Err("output admission requires output-ready resolved closure".to_string());
+    }
+
+    Ok(LaneClosureAssessmentDecision {
+        bounded_closure_admitted,
+        numeric_completion_admitted,
+        successor_discovery_allowed,
+        output_admission_allowed,
+    })
+}
+
+/// CORE-K time bases. Values from different bases require an explicit bridge;
+/// proximity is never enough to make them interchangeable.
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub enum TimeBasis {
+    FiscalYear,
+    CalendarYear,
+    TaxYear,
+}
+
+/// CORE-K distinguishes a component from a published composite. A composite
+/// remains non-additive when its component values are also present.
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub enum AggregationRole {
+    Component,
+    CompositeNonAdditive,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct TemporalAccountingLineage {
+    pub field_id: String,
+    pub source_time_basis: TimeBasis,
+    pub target_time_basis: TimeBasis,
+    pub bridge_method: Option<String>,
+    pub source_horizon_end: u16,
+    pub target_horizon_end: u16,
+    pub aggregation_role: AggregationRole,
+    pub component_ids: Vec<String>,
+    pub non_additive: bool,
+    pub transfers_explicit: bool,
+}
+
+impl TemporalAccountingLineage {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("temporal lineage field_id", &self.field_id)?;
+        if self.source_time_basis != self.target_time_basis {
+            let bridge = self.bridge_method.as_deref().ok_or_else(|| {
+                format!("cross-basis lineage requires a bridge: {}", self.field_id)
+            })?;
+            validate_required("temporal bridge_method", bridge)?;
+        }
+        if self.target_horizon_end > self.source_horizon_end {
+            return Err(format!(
+                "target horizon exceeds source-supported horizon: {}",
+                self.field_id
+            ));
+        }
+        match self.aggregation_role {
+            AggregationRole::Component if !self.component_ids.is_empty() => {
+                return Err(format!(
+                    "component lineage must not name child components: {}",
+                    self.field_id
+                ));
+            }
+            AggregationRole::Component => {}
+            AggregationRole::CompositeNonAdditive => {
+                if self.component_ids.len() < 2 || !self.non_additive {
+                    return Err(format!(
+                        "composite lineage requires components and a non-additive boundary: {}",
+                        self.field_id
+                    ));
+                }
+                let mut components = BTreeSet::new();
+                for component in &self.component_ids {
+                    validate_required("temporal component_id", component)?;
+                    if !components.insert(component.as_str()) {
+                        return Err(format!("duplicate temporal component: {}", self.field_id));
+                    }
+                }
+            }
+        }
+        if !self.transfers_explicit {
+            return Err(format!(
+                "accounting lineage must make transfers explicit: {}",
+                self.field_id
+            ));
+        }
+        Ok(())
+    }
+}
+
+/// CORE-L treatment for a subject that appears in more than one lane.
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub enum OverlapTreatment {
+    ExclusiveOwner,
+    SharedContextNonAdditive,
+    Allocated,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct CrossLaneAllocation {
+    pub subject_id: String,
+    pub owner_lane: String,
+    pub participant_lanes: Vec<String>,
+    pub treatment: OverlapTreatment,
+    pub non_additive: bool,
+    pub allocation_basis_points: BTreeMap<String, u16>,
+    pub allocation_source: Option<String>,
+}
+
+impl CrossLaneAllocation {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("cross-lane subject_id", &self.subject_id)?;
+        validate_required("cross-lane owner_lane", &self.owner_lane)?;
+        if self.participant_lanes.len() < 2 {
+            return Err("cross-lane allocation requires at least two lanes".to_string());
+        }
+        let mut participants = BTreeSet::new();
+        for lane in &self.participant_lanes {
+            validate_required("cross-lane participant", lane)?;
+            if !participants.insert(lane.as_str()) {
+                return Err(format!("duplicate cross-lane participant: {lane}"));
+            }
+        }
+        if !participants.contains(self.owner_lane.as_str()) {
+            return Err("cross-lane owner must be a participant".to_string());
+        }
+        match self.treatment {
+            OverlapTreatment::ExclusiveOwner | OverlapTreatment::SharedContextNonAdditive => {
+                if !self.non_additive
+                    || !self.allocation_basis_points.is_empty()
+                    || self.allocation_source.is_some()
+                {
+                    return Err(
+                        "unallocated cross-lane treatment must be non-additive and carry no shares"
+                            .to_string(),
+                    );
+                }
+            }
+            OverlapTreatment::Allocated => {
+                if self.non_additive {
+                    return Err("allocated cross-lane treatment cannot be non-additive".to_string());
+                }
+                let source = self
+                    .allocation_source
+                    .as_deref()
+                    .ok_or("allocated cross-lane treatment requires a source")?;
+                validate_required("cross-lane allocation_source", source)?;
+                if self.allocation_basis_points.len() != participants.len()
+                    || self
+                        .allocation_basis_points
+                        .keys()
+                        .any(|lane| !participants.contains(lane.as_str()))
+                    || self
+                        .allocation_basis_points
+                        .values()
+                        .map(|share| u32::from(*share))
+                        .sum::<u32>()
+                        != 10_000
+                {
+                    return Err(
+                        "allocated cross-lane shares must cover participants and sum to 10000"
+                            .to_string(),
+                    );
+                }
+            }
+        }
+        Ok(())
+    }
+}
+
+/// CORE-M candidate intent. The profile determines which release outputs are
+/// meaningful; it does not decide whether a policy is desirable.
+#[derive(Clone, Copy, Debug, Eq, Ord, PartialEq, PartialOrd, Serialize, Deserialize)]
+pub enum CandidateObjectiveProfile {
+    CostOnlyModernization,
+    CostNeutralReform,
+    LowerCostReform,
+    RevenueInstrument,
+    NonAdditiveIntegrityOverlay,
+    EndogenousFiscalEffect,
+}
+
+/// Financing evidence roles remain distinct. In particular, an appropriation
+/// perimeter is not evidence of a named fund, account, or receipt instrument.
+#[derive(Clone, Copy, Debug, Eq, Ord, PartialEq, PartialOrd, Serialize, Deserialize)]
+pub enum FinancingRole {
+    Authorization,
+    Appropriation,
+    ProgramOutlay,
+    NamedFund,
+    NamedAccount,
+    Transfer,
+    DedicatedReceipt,
+    ReceiptOrFeeBase,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct FinancingRoleEvidence {
+    pub role: FinancingRole,
+    pub source_id: String,
+    pub source_supported: bool,
+}
+
+/// A reviewed non-applicable gate resolves applicability only. It never
+/// supplies a value or a pass/fail result for the underlying subject.
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub enum CandidateGateDisposition {
+    RequiredReady,
+    RequiredBlocked,
+    ReviewedNotApplicable,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct CandidateGateReview {
+    pub gate_id: String,
+    pub disposition: CandidateGateDisposition,
+    pub evidence_path: Option<String>,
+    pub rationale: Option<String>,
+    pub successor_owner: Option<String>,
+    pub blocking_gate: Option<String>,
+}
+
+impl CandidateGateReview {
+    pub fn validate(&self) -> Result<(), String> {
+        validate_required("candidate gate_id", &self.gate_id)?;
+        match self.disposition {
+            CandidateGateDisposition::RequiredReady => {
+                let path = self.evidence_path.as_deref().ok_or_else(|| {
+                    format!("ready candidate gate lacks evidence: {}", self.gate_id)
+                })?;
+                validate_required("candidate gate evidence_path", path)?;
+                if self.successor_owner.is_some() || self.blocking_gate.is_some() {
+                    return Err(format!(
+                        "ready candidate gate must not carry a blocker: {}",
+                        self.gate_id
+                    ));
+                }
+            }
+            CandidateGateDisposition::RequiredBlocked => {
+                let owner = self.successor_owner.as_deref().ok_or_else(|| {
+                    format!("blocked candidate gate lacks owner: {}", self.gate_id)
+                })?;
+                let blocker = self.blocking_gate.as_deref().ok_or_else(|| {
+                    format!("blocked candidate gate lacks blocker: {}", self.gate_id)
+                })?;
+                validate_required("candidate gate successor_owner", owner)?;
+                validate_required("candidate gate blocking_gate", blocker)?;
+            }
+            CandidateGateDisposition::ReviewedNotApplicable => {
+                let rationale = self.rationale.as_deref().ok_or_else(|| {
+                    format!(
+                        "not-applicable candidate gate lacks rationale: {}",
+                        self.gate_id
+                    )
+                })?;
+                validate_required("candidate gate not-applicable rationale", rationale)?;
+                if self.evidence_path.is_some()
+                    || self.successor_owner.is_some()
+                    || self.blocking_gate.is_some()
+                {
+                    return Err(format!(
+                        "not-applicable candidate gate must not carry evidence or blockers: {}",
+                        self.gate_id
+                    ));
+                }
+            }
+        }
+        Ok(())
+    }
+}
+
+#[derive(Clone, Copy, Debug, Eq, Ord, PartialEq, PartialOrd, Serialize, Deserialize)]
+pub enum ReleaseOutput {
+    CandidateExplanation,
+    OfficialIncrementalCost,
+    CostNeutralResult,
+    LowerCostTarget,
+    GrossSavings,
+    NetSavings,
+    AssignedReceiptRate,
+    NonAdditiveControlEffect,
+    EndogenousFiscalEffect,
+}
+
+impl CandidateObjectiveProfile {
+    pub fn permits(self, output: ReleaseOutput) -> bool {
+        use CandidateObjectiveProfile as Profile;
+        use ReleaseOutput as Output;
+        match self {
+            Profile::CostOnlyModernization => matches!(
+                output,
+                Output::CandidateExplanation | Output::OfficialIncrementalCost
+            ),
+            Profile::CostNeutralReform => matches!(
+                output,
+                Output::CandidateExplanation | Output::CostNeutralResult
+            ),
+            Profile::LowerCostReform => matches!(
+                output,
+                Output::CandidateExplanation
+                    | Output::LowerCostTarget
+                    | Output::GrossSavings
+                    | Output::NetSavings
+            ),
+            Profile::RevenueInstrument => matches!(
+                output,
+                Output::CandidateExplanation | Output::AssignedReceiptRate
+            ),
+            Profile::NonAdditiveIntegrityOverlay => matches!(
+                output,
+                Output::CandidateExplanation | Output::NonAdditiveControlEffect
+            ),
+            Profile::EndogenousFiscalEffect => matches!(
+                output,
+                Output::CandidateExplanation | Output::EndogenousFiscalEffect
+            ),
+        }
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct CandidateDossierInput {
+    pub candidate_id: String,
+    pub profile: CandidateObjectiveProfile,
+    pub candidate_source_ready: bool,
+    pub official_effect_source_ready: bool,
+    pub financing_evidence: Vec<FinancingRoleEvidence>,
+    pub gate_reviews: Vec<CandidateGateReview>,
+    pub requested_outputs: Vec<ReleaseOutput>,
+    pub role_review_complete: bool,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct CandidateDossierDecision {
+    pub dossier_valid: bool,
+    pub all_required_gates_ready: bool,
+    pub reviewed_not_applicable_gates: usize,
+    pub release_ready: bool,
+    pub admitted_outputs: Vec<ReleaseOutput>,
+}
+
+pub fn assess_candidate_dossier(
+    input: &CandidateDossierInput,
+) -> Result<CandidateDossierDecision, String> {
+    validate_required("candidate dossier candidate_id", &input.candidate_id)?;
+    if !input.candidate_source_ready || !input.official_effect_source_ready {
+        return Err("candidate dossier requires candidate and official-effect sources".to_string());
+    }
+    if input.gate_reviews.is_empty() {
+        return Err("candidate dossier requires gate reviews".to_string());
+    }
+    let mut financing_roles = BTreeSet::new();
+    for evidence in &input.financing_evidence {
+        validate_required("candidate financing source_id", &evidence.source_id)?;
+        if !evidence.source_supported {
+            return Err("candidate financing role must be source-supported".to_string());
+        }
+        if !financing_roles.insert(evidence.role) {
+            return Err("duplicate candidate financing role".to_string());
+        }
+    }
+    let mut gate_ids = BTreeSet::new();
+    for gate in &input.gate_reviews {
+        gate.validate()?;
+        if !gate_ids.insert(gate.gate_id.as_str()) {
+            return Err(format!("duplicate candidate gate: {}", gate.gate_id));
+        }
+    }
+    let mut outputs = BTreeSet::new();
+    for output in &input.requested_outputs {
+        if !outputs.insert(*output) {
+            return Err("duplicate candidate release output".to_string());
+        }
+        if !input.profile.permits(*output) {
+            return Err(format!(
+                "candidate profile does not permit requested output: {output:?}"
+            ));
+        }
+    }
+    if input.profile == CandidateObjectiveProfile::RevenueInstrument
+        && outputs.contains(&ReleaseOutput::AssignedReceiptRate)
+        && !financing_roles.contains(&FinancingRole::ReceiptOrFeeBase)
+    {
+        return Err("assigned receipt rate requires a sourced receipt or fee base".to_string());
+    }
+    let all_required_gates_ready = input
+        .gate_reviews
+        .iter()
+        .all(|gate| gate.disposition != CandidateGateDisposition::RequiredBlocked);
+    let reviewed_not_applicable_gates = input
+        .gate_reviews
+        .iter()
+        .filter(|gate| gate.disposition == CandidateGateDisposition::ReviewedNotApplicable)
+        .count();
+    let release_ready = input.role_review_complete && all_required_gates_ready;
+
+    Ok(CandidateDossierDecision {
+        dossier_valid: true,
+        all_required_gates_ready,
+        reviewed_not_applicable_gates,
+        release_ready,
+        admitted_outputs: if release_ready {
+            outputs.into_iter().collect()
+        } else {
+            vec![]
+        },
+    })
+}
+
+/// CORE-N public surfaces keep a cost note, rate card, savings result,
+/// non-additive control report, and endogenous fiscal-effect report distinct.
+/// Choosing a surface never creates an output that CORE-M did not admit.
+#[derive(Clone, Copy, Debug, Eq, Ord, PartialEq, PartialOrd, Serialize, Deserialize)]
+pub enum PublicReleaseSurface {
+    CostNote,
+    RateCard,
+    SavingsResult,
+    IntegrityOverlayReport,
+    EndogenousEffectReport,
+}
+
+impl PublicReleaseSurface {
+    pub fn compatible_with(self, profile: CandidateObjectiveProfile) -> bool {
+        matches!(
+            (self, profile),
+            (
+                Self::CostNote,
+                CandidateObjectiveProfile::CostOnlyModernization
+            ) | (Self::RateCard, CandidateObjectiveProfile::RevenueInstrument)
+                | (
+                    Self::SavingsResult,
+                    CandidateObjectiveProfile::LowerCostReform
+                )
+                | (
+                    Self::IntegrityOverlayReport,
+                    CandidateObjectiveProfile::NonAdditiveIntegrityOverlay
+                )
+                | (
+                    Self::EndogenousEffectReport,
+                    CandidateObjectiveProfile::EndogenousFiscalEffect
+                )
+        )
+    }
+
+    fn required_output(self) -> ReleaseOutput {
+        match self {
+            Self::CostNote => ReleaseOutput::OfficialIncrementalCost,
+            Self::RateCard => ReleaseOutput::AssignedReceiptRate,
+            Self::SavingsResult => ReleaseOutput::NetSavings,
+            Self::IntegrityOverlayReport => ReleaseOutput::NonAdditiveControlEffect,
+            Self::EndogenousEffectReport => ReleaseOutput::EndogenousFiscalEffect,
+        }
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct PublicReleaseInput {
+    pub candidate_id: String,
+    pub profile: CandidateObjectiveProfile,
+    pub surface: PublicReleaseSurface,
+    pub admitted_outputs: Vec<ReleaseOutput>,
+    pub gate_reviews: Vec<CandidateGateReview>,
+    pub role_review_complete: bool,
+    pub public_language_review_complete: bool,
+    pub reproducible_release_complete: bool,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct PublicReleaseDecision {
+    pub surface_compatible: bool,
+    pub all_required_gates_ready: bool,
+    pub release_ready: bool,
+    pub surface: PublicReleaseSurface,
+    pub publishable_outputs: Vec<ReleaseOutput>,
+}
+
+pub fn assess_public_release(input: &PublicReleaseInput) -> Result<PublicReleaseDecision, String> {
+    validate_required("public release candidate_id", &input.candidate_id)?;
+    if !input.surface.compatible_with(input.profile) {
+        return Err("public release surface is incompatible with candidate profile".to_string());
+    }
+    if input.admitted_outputs.is_empty() {
+        return Err("public release requires at least one admitted output".to_string());
+    }
+    let mut outputs = BTreeSet::new();
+    for output in &input.admitted_outputs {
+        if !outputs.insert(*output) {
+            return Err("duplicate public release output".to_string());
+        }
+        if !input.profile.permits(*output) {
+            return Err(format!(
+                "public release output is incompatible with candidate profile: {output:?}"
+            ));
+        }
+    }
+    if !outputs.contains(&ReleaseOutput::CandidateExplanation)
+        || !outputs.contains(&input.surface.required_output())
+    {
+        return Err("public release surface lacks its required typed outputs".to_string());
+    }
+    if input.gate_reviews.is_empty() {
+        return Err("public release requires gate reviews".to_string());
+    }
+    let mut gate_ids = BTreeSet::new();
+    for gate in &input.gate_reviews {
+        gate.validate()?;
+        if !gate_ids.insert(gate.gate_id.as_str()) {
+            return Err(format!("duplicate public release gate: {}", gate.gate_id));
+        }
+    }
+    let all_required_gates_ready = input
+        .gate_reviews
+        .iter()
+        .all(|gate| gate.disposition != CandidateGateDisposition::RequiredBlocked);
+    let release_ready = all_required_gates_ready
+        && input.role_review_complete
+        && input.public_language_review_complete
+        && input.reproducible_release_complete;
+
+    Ok(PublicReleaseDecision {
+        surface_compatible: true,
+        all_required_gates_ready,
+        release_ready,
+        surface: input.surface,
+        publishable_outputs: if release_ready {
+            outputs.into_iter().collect()
+        } else {
+            vec![]
+        },
+    })
+}
+
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct ArtifactMetadata<'a> {
     pub path: &'a str,
@@ -8599,6 +9490,164 @@ fn validate_iso_date(label: &str, value: &str) -> Result<(), String> {
     }
 }
 
+/// Shared, integer-unit fund accounting used by CORE-H and lane tracks.
+///
+/// Callers choose the unit (for example millions of dollars or tenths of a
+/// billion) and must keep it consistent across every field. Signed fields are
+/// intentional because transfers, adjustments, and offsets may reverse.
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct FundYearInput {
+    pub opening_balance: i64,
+    pub gross_program_outlays: i64,
+    pub implementation_outlays: i64,
+    pub fallback_remediation_outlays: i64,
+    pub credited_offsetting_collections: i64,
+    pub dedicated_receipts: i64,
+    pub explicit_general_fund_transfer: i64,
+    pub other_scored_fund_income: i64,
+    pub balance_adjustments: i64,
+    pub explicit_rounding_line: i64,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct FundYearOutput {
+    pub primary_outlays: i64,
+    pub net_cash_requirement: i64,
+    pub total_fund_income: i64,
+    pub fund_balance_change: i64,
+    pub closing_balance: i64,
+}
+
+pub fn reconcile_fund_year(input: FundYearInput) -> Result<FundYearOutput, String> {
+    let primary_outlays = input
+        .gross_program_outlays
+        .checked_add(input.implementation_outlays)
+        .and_then(|value| value.checked_add(input.fallback_remediation_outlays))
+        .ok_or("fund primary-outlay arithmetic overflow")?;
+    let net_cash_requirement = primary_outlays
+        .checked_sub(input.credited_offsetting_collections)
+        .ok_or("fund net-cash arithmetic overflow")?;
+    let total_fund_income = input
+        .dedicated_receipts
+        .checked_add(input.explicit_general_fund_transfer)
+        .and_then(|value| value.checked_add(input.other_scored_fund_income))
+        .ok_or("fund income arithmetic overflow")?;
+    let fund_balance_change = total_fund_income
+        .checked_sub(net_cash_requirement)
+        .and_then(|value| value.checked_add(input.balance_adjustments))
+        .and_then(|value| value.checked_add(input.explicit_rounding_line))
+        .ok_or("fund balance-change arithmetic overflow")?;
+    let closing_balance = input
+        .opening_balance
+        .checked_add(fund_balance_change)
+        .ok_or("fund closing-balance arithmetic overflow")?;
+
+    Ok(FundYearOutput {
+        primary_outlays,
+        net_cash_requirement,
+        total_fund_income,
+        fund_balance_change,
+        closing_balance,
+    })
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct ReserveYearInput {
+    pub opening_balance: i64,
+    pub contribution: i64,
+    pub withdrawal: i64,
+    pub emergency_adjustment: i64,
+    pub explicit_rounding_line: i64,
+}
+
+pub fn reconcile_reserve_year(input: ReserveYearInput) -> Result<i64, String> {
+    if input.opening_balance < 0 || input.contribution < 0 || input.withdrawal < 0 {
+        return Err(
+            "reserve opening balance, contribution, and withdrawal must be nonnegative".to_string(),
+        );
+    }
+    let available = input
+        .opening_balance
+        .checked_add(input.contribution)
+        .ok_or("reserve available-balance arithmetic overflow")?;
+    if input.withdrawal > available {
+        return Err("reserve withdrawal exceeds opening balance plus contribution".to_string());
+    }
+    available
+        .checked_sub(input.withdrawal)
+        .and_then(|value| value.checked_add(input.emergency_adjustment))
+        .and_then(|value| value.checked_add(input.explicit_rounding_line))
+        .ok_or_else(|| "reserve closing-balance arithmetic overflow".to_string())
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct FederalYearInput {
+    pub receipts: i64,
+    pub primary_outlays: i64,
+    pub net_interest: i64,
+    pub opening_debt_held_by_public: i64,
+    pub other_financing_and_timing: i64,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct FederalYearOutput {
+    pub total_outlays: i64,
+    pub primary_deficit: i64,
+    pub total_deficit: i64,
+    pub closing_debt_held_by_public: i64,
+}
+
+pub fn reconcile_federal_year(input: FederalYearInput) -> Result<FederalYearOutput, String> {
+    let total_outlays = input
+        .primary_outlays
+        .checked_add(input.net_interest)
+        .ok_or("federal total-outlay arithmetic overflow")?;
+    let primary_deficit = input
+        .primary_outlays
+        .checked_sub(input.receipts)
+        .ok_or("federal primary-deficit arithmetic overflow")?;
+    let total_deficit = primary_deficit
+        .checked_add(input.net_interest)
+        .ok_or("federal total-deficit arithmetic overflow")?;
+    let closing_debt_held_by_public = input
+        .opening_debt_held_by_public
+        .checked_add(total_deficit)
+        .and_then(|value| value.checked_add(input.other_financing_and_timing))
+        .ok_or("federal debt-rollforward arithmetic overflow")?;
+
+    Ok(FederalYearOutput {
+        total_outlays,
+        primary_deficit,
+        total_deficit,
+        closing_debt_held_by_public,
+    })
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct InterestComputation {
+    pub truncated_interest: i64,
+    pub exact_numerator_remainder: i64,
+}
+
+/// Computes debt times a decimal rate expressed in millionths. The remainder
+/// is returned instead of silently rounding, so publication layers can apply
+/// and disclose their chosen rounding rule.
+pub fn compute_interest_from_rate_millionths(
+    debt: i64,
+    annual_rate_millionths: i64,
+) -> Result<InterestComputation, String> {
+    if debt < 0 || annual_rate_millionths < 0 {
+        return Err("debt and annual interest rate must be nonnegative".to_string());
+    }
+    let numerator = debt
+        .checked_mul(annual_rate_millionths)
+        .ok_or("interest arithmetic overflow")?;
+    Ok(InterestComputation {
+        truncated_interest: numerator / 1_000_000,
+        exact_numerator_remainder: numerator % 1_000_000,
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -12545,5 +13594,562 @@ mod tests {
         };
 
         assert!(record.validate().is_err());
+    }
+
+    fn core_j_ready_handoff(field_id: &str) -> LaneHandoffObligation {
+        LaneHandoffObligation {
+            field_id: field_id.to_string(),
+            evidence_state: EvidenceState::Ready,
+            account_role: Some(AccountRole::ProgramOutlay),
+            value_present: true,
+            output_eligible: true,
+            sign_preserved: false,
+            non_additive: false,
+            successor_owner: None,
+            blocking_gate: None,
+        }
+    }
+
+    #[test]
+    fn core_j_admits_bounded_closure_and_successor_discovery_with_open_handoffs() {
+        let input = LaneClosureAssessmentInput {
+            stage_id: "HLT-A".to_string(),
+            completion_class: CompletionClass::BoundedStructural,
+            role_review_complete: true,
+            handoff_obligations: vec![
+                core_j_ready_handoff("fy2025_health_outlays"),
+                LaneHandoffObligation {
+                    field_id: "annual_state_financing".to_string(),
+                    evidence_state: EvidenceState::PartialContext,
+                    account_role: Some(AccountRole::StateLocalResource),
+                    value_present: true,
+                    output_eligible: false,
+                    sign_preserved: false,
+                    non_additive: true,
+                    successor_owner: Some("HLT-B-02".to_string()),
+                    blocking_gate: Some("annual financing adapter".to_string()),
+                },
+            ],
+            successor_discovery_requested: true,
+            output_admission_requested: false,
+        };
+        let decision = assess_lane_closure(&input).unwrap();
+        assert!(decision.bounded_closure_admitted);
+        assert!(decision.successor_discovery_allowed);
+        assert!(!decision.numeric_completion_admitted);
+        assert!(!decision.output_admission_allowed);
+    }
+
+    #[test]
+    fn core_j_blocks_output_admission_from_bounded_closure() {
+        let input = LaneClosureAssessmentInput {
+            stage_id: "TRN-D".to_string(),
+            completion_class: CompletionClass::BoundedStructural,
+            role_review_complete: true,
+            handoff_obligations: vec![LaneHandoffObligation {
+                field_id: "financing_source".to_string(),
+                evidence_state: EvidenceState::SourceGap,
+                account_role: None,
+                value_present: false,
+                output_eligible: false,
+                sign_preserved: false,
+                non_additive: false,
+                successor_owner: Some("TRN-E-02".to_string()),
+                blocking_gate: Some("source-supported financing selection".to_string()),
+            }],
+            successor_discovery_requested: true,
+            output_admission_requested: true,
+        };
+        assert!(assess_lane_closure(&input).is_err());
+    }
+
+    #[test]
+    fn core_j_requires_sign_and_non_additive_boundaries() {
+        let unsigned_credit = LaneHandoffObligation {
+            field_id: "higher_education_credit".to_string(),
+            evidence_state: EvidenceState::PartialContext,
+            account_role: Some(AccountRole::CreditSubsidy),
+            value_present: true,
+            output_eligible: false,
+            sign_preserved: false,
+            non_additive: false,
+            successor_owner: Some("EDU-B-02".to_string()),
+            blocking_gate: Some("signed credit adapter".to_string()),
+        };
+        assert!(unsigned_credit.validate().is_err());
+
+        let additive_state = LaneHandoffObligation {
+            field_id: "state_payment".to_string(),
+            evidence_state: EvidenceState::PartialContext,
+            account_role: Some(AccountRole::StateLocalResource),
+            value_present: true,
+            output_eligible: false,
+            sign_preserved: false,
+            non_additive: false,
+            successor_owner: Some("HLT-B-02".to_string()),
+            blocking_gate: Some("state financing adapter".to_string()),
+        };
+        assert!(additive_state.validate().is_err());
+    }
+
+    #[test]
+    fn core_j_admits_outputs_only_for_resolved_output_ready_closure() {
+        let input = LaneClosureAssessmentInput {
+            stage_id: "EXAMPLE-Z".to_string(),
+            completion_class: CompletionClass::OutputReady,
+            role_review_complete: true,
+            handoff_obligations: vec![core_j_ready_handoff("resolved_value")],
+            successor_discovery_requested: true,
+            output_admission_requested: true,
+        };
+        let decision = assess_lane_closure(&input).unwrap();
+        assert!(decision.numeric_completion_admitted);
+        assert!(decision.output_admission_allowed);
+    }
+
+    #[test]
+    fn core_k_requires_explicit_calendar_to_fiscal_bridge() {
+        let lineage = TemporalAccountingLineage {
+            field_id: "oasdi_taxable_payroll".to_string(),
+            source_time_basis: TimeBasis::CalendarYear,
+            target_time_basis: TimeBasis::FiscalYear,
+            bridge_method: None,
+            source_horizon_end: 2035,
+            target_horizon_end: 2035,
+            aggregation_role: AggregationRole::Component,
+            component_ids: vec![],
+            non_additive: false,
+            transfers_explicit: true,
+        };
+        assert!(lineage.validate().is_err());
+    }
+
+    #[test]
+    fn core_k_blocks_unsupported_horizon_extension() {
+        let lineage = TemporalAccountingLineage {
+            field_id: "health_outlays".to_string(),
+            source_time_basis: TimeBasis::FiscalYear,
+            target_time_basis: TimeBasis::FiscalYear,
+            bridge_method: None,
+            source_horizon_end: 2031,
+            target_horizon_end: 2035,
+            aggregation_role: AggregationRole::Component,
+            component_ids: vec![],
+            non_additive: false,
+            transfers_explicit: true,
+        };
+        assert!(lineage.validate().is_err());
+    }
+
+    #[test]
+    fn core_k_requires_non_additive_composite_identity() {
+        let lineage = TemporalAccountingLineage {
+            field_id: "combined_oasdi".to_string(),
+            source_time_basis: TimeBasis::FiscalYear,
+            target_time_basis: TimeBasis::FiscalYear,
+            bridge_method: None,
+            source_horizon_end: 2035,
+            target_horizon_end: 2035,
+            aggregation_role: AggregationRole::CompositeNonAdditive,
+            component_ids: vec!["OASI".to_string(), "DI".to_string()],
+            non_additive: false,
+            transfers_explicit: true,
+        };
+        assert!(lineage.validate().is_err());
+    }
+
+    #[test]
+    fn core_k_admits_bounded_explicit_oasdi_lineage() {
+        let lineage = TemporalAccountingLineage {
+            field_id: "combined_oasdi".to_string(),
+            source_time_basis: TimeBasis::FiscalYear,
+            target_time_basis: TimeBasis::FiscalYear,
+            bridge_method: None,
+            source_horizon_end: 2035,
+            target_horizon_end: 2035,
+            aggregation_role: AggregationRole::CompositeNonAdditive,
+            component_ids: vec!["OASI".to_string(), "DI".to_string()],
+            non_additive: true,
+            transfers_explicit: true,
+        };
+        assert!(lineage.validate().is_ok());
+    }
+
+    fn core_l_overlap(treatment: OverlapTreatment) -> CrossLaneAllocation {
+        CrossLaneAllocation {
+            subject_id: "nutrition_support".to_string(),
+            owner_lane: "income-security-family".to_string(),
+            participant_lanes: vec![
+                "income-security-family".to_string(),
+                "agriculture".to_string(),
+            ],
+            treatment,
+            non_additive: true,
+            allocation_basis_points: BTreeMap::new(),
+            allocation_source: None,
+        }
+    }
+
+    #[test]
+    fn core_l_admits_non_additive_shared_context() {
+        assert!(
+            core_l_overlap(OverlapTreatment::SharedContextNonAdditive)
+                .validate()
+                .is_ok()
+        );
+    }
+
+    #[test]
+    fn core_l_requires_owner_to_be_a_participant() {
+        let mut overlap = core_l_overlap(OverlapTreatment::ExclusiveOwner);
+        overlap.owner_lane = "health-medicare".to_string();
+        assert!(overlap.validate().is_err());
+    }
+
+    #[test]
+    fn core_l_blocks_unsourced_or_incomplete_allocation() {
+        let mut overlap = core_l_overlap(OverlapTreatment::Allocated);
+        overlap.non_additive = false;
+        overlap
+            .allocation_basis_points
+            .insert("income-security-family".to_string(), 6_000);
+        assert!(overlap.validate().is_err());
+    }
+
+    #[test]
+    fn core_l_admits_sourced_complete_allocation() {
+        let mut overlap = core_l_overlap(OverlapTreatment::Allocated);
+        overlap.non_additive = false;
+        overlap
+            .allocation_basis_points
+            .insert("income-security-family".to_string(), 6_000);
+        overlap
+            .allocation_basis_points
+            .insert("agriculture".to_string(), 4_000);
+        overlap.allocation_source = Some("official allocation crosswalk".to_string());
+        assert!(overlap.validate().is_ok());
+    }
+
+    fn core_m_ready_gate(gate_id: &str) -> CandidateGateReview {
+        CandidateGateReview {
+            gate_id: gate_id.to_string(),
+            disposition: CandidateGateDisposition::RequiredReady,
+            evidence_path: Some(format!("evidence/{gate_id}.json")),
+            rationale: None,
+            successor_owner: None,
+            blocking_gate: None,
+        }
+    }
+
+    fn core_m_dossier(profile: CandidateObjectiveProfile) -> CandidateDossierInput {
+        CandidateDossierInput {
+            candidate_id: "candidate-1".to_string(),
+            profile,
+            candidate_source_ready: true,
+            official_effect_source_ready: true,
+            financing_evidence: vec![FinancingRoleEvidence {
+                role: FinancingRole::Appropriation,
+                source_id: "SRC-CBO-SCORE".to_string(),
+                source_supported: true,
+            }],
+            gate_reviews: vec![core_m_ready_gate("official_effect")],
+            requested_outputs: vec![ReleaseOutput::CandidateExplanation],
+            role_review_complete: true,
+        }
+    }
+
+    #[test]
+    fn core_m_admits_trn_cost_only_profile_with_reviewed_non_applicability() {
+        let mut dossier = core_m_dossier(CandidateObjectiveProfile::CostOnlyModernization);
+        dossier.candidate_id = "hr2247_airmen_certificate_accessibility".to_string();
+        dossier
+            .requested_outputs
+            .push(ReleaseOutput::OfficialIncrementalCost);
+        dossier.gate_reviews.push(CandidateGateReview {
+            gate_id: "roadway_fatality_floor".to_string(),
+            disposition: CandidateGateDisposition::ReviewedNotApplicable,
+            evidence_path: None,
+            rationale: Some("candidate changes FAA credential presentation only".to_string()),
+            successor_owner: None,
+            blocking_gate: None,
+        });
+
+        let decision = assess_candidate_dossier(&dossier).unwrap();
+        assert!(decision.dossier_valid);
+        assert!(decision.release_ready);
+        assert_eq!(decision.reviewed_not_applicable_gates, 1);
+        assert_eq!(decision.admitted_outputs.len(), 2);
+    }
+
+    #[test]
+    fn core_m_blocks_savings_from_trn_cost_only_profile() {
+        let mut dossier = core_m_dossier(CandidateObjectiveProfile::CostOnlyModernization);
+        dossier.requested_outputs.push(ReleaseOutput::GrossSavings);
+        assert!(assess_candidate_dossier(&dossier).is_err());
+    }
+
+    #[test]
+    fn core_m_reviewed_non_applicability_cannot_carry_synthetic_evidence() {
+        let mut dossier = core_m_dossier(CandidateObjectiveProfile::CostOnlyModernization);
+        dossier.gate_reviews.push(CandidateGateReview {
+            gate_id: "roadway_fatality_floor".to_string(),
+            disposition: CandidateGateDisposition::ReviewedNotApplicable,
+            evidence_path: Some("invented/pass.json".to_string()),
+            rationale: Some("not applicable".to_string()),
+            successor_owner: None,
+            blocking_gate: None,
+        });
+        assert!(assess_candidate_dossier(&dossier).is_err());
+    }
+
+    #[test]
+    fn core_m_requires_matched_base_for_rev_assigned_rate() {
+        let mut dossier = core_m_dossier(CandidateObjectiveProfile::RevenueInstrument);
+        dossier
+            .requested_outputs
+            .push(ReleaseOutput::AssignedReceiptRate);
+        assert!(assess_candidate_dossier(&dossier).is_err());
+
+        dossier.financing_evidence.push(FinancingRoleEvidence {
+            role: FinancingRole::ReceiptOrFeeBase,
+            source_id: "SRC-IRS-MATCHED-BASE".to_string(),
+            source_supported: true,
+        });
+        assert!(assess_candidate_dossier(&dossier).unwrap().release_ready);
+    }
+
+    #[test]
+    fn core_m_keeps_pay_control_effect_non_additive() {
+        let mut dossier = core_m_dossier(CandidateObjectiveProfile::NonAdditiveIntegrityOverlay);
+        dossier
+            .requested_outputs
+            .push(ReleaseOutput::NonAdditiveControlEffect);
+        assert!(assess_candidate_dossier(&dossier).unwrap().release_ready);
+
+        dossier.requested_outputs.push(ReleaseOutput::GrossSavings);
+        assert!(assess_candidate_dossier(&dossier).is_err());
+    }
+
+    #[test]
+    fn core_m_keeps_net_interest_endogenous() {
+        let mut dossier = core_m_dossier(CandidateObjectiveProfile::EndogenousFiscalEffect);
+        dossier
+            .requested_outputs
+            .push(ReleaseOutput::EndogenousFiscalEffect);
+        assert!(assess_candidate_dossier(&dossier).unwrap().release_ready);
+
+        dossier.requested_outputs.push(ReleaseOutput::NetSavings);
+        assert!(assess_candidate_dossier(&dossier).is_err());
+    }
+
+    fn core_n_release(
+        profile: CandidateObjectiveProfile,
+        surface: PublicReleaseSurface,
+        typed_output: ReleaseOutput,
+    ) -> PublicReleaseInput {
+        PublicReleaseInput {
+            candidate_id: "candidate-1".to_string(),
+            profile,
+            surface,
+            admitted_outputs: vec![ReleaseOutput::CandidateExplanation, typed_output],
+            gate_reviews: vec![core_m_ready_gate("typed_release_review")],
+            role_review_complete: true,
+            public_language_review_complete: true,
+            reproducible_release_complete: true,
+        }
+    }
+
+    #[test]
+    fn core_n_admits_trn_cost_note_without_rate_card_fields() {
+        let release = core_n_release(
+            CandidateObjectiveProfile::CostOnlyModernization,
+            PublicReleaseSurface::CostNote,
+            ReleaseOutput::OfficialIncrementalCost,
+        );
+        let decision = assess_public_release(&release).unwrap();
+        assert!(decision.release_ready);
+        assert_eq!(decision.surface, PublicReleaseSurface::CostNote);
+        assert_eq!(decision.publishable_outputs.len(), 2);
+    }
+
+    #[test]
+    fn core_n_rejects_cost_only_candidate_as_rate_card() {
+        let release = core_n_release(
+            CandidateObjectiveProfile::CostOnlyModernization,
+            PublicReleaseSurface::RateCard,
+            ReleaseOutput::OfficialIncrementalCost,
+        );
+        assert!(assess_public_release(&release).is_err());
+    }
+
+    #[test]
+    fn core_n_rate_card_requires_assigned_rate_output() {
+        let mut release = core_n_release(
+            CandidateObjectiveProfile::RevenueInstrument,
+            PublicReleaseSurface::RateCard,
+            ReleaseOutput::AssignedReceiptRate,
+        );
+        assert!(assess_public_release(&release).unwrap().release_ready);
+        release.admitted_outputs.pop();
+        assert!(assess_public_release(&release).is_err());
+    }
+
+    #[test]
+    fn core_n_blocked_gate_keeps_surface_unpublished() {
+        let mut release = core_n_release(
+            CandidateObjectiveProfile::LowerCostReform,
+            PublicReleaseSurface::SavingsResult,
+            ReleaseOutput::NetSavings,
+        );
+        release.gate_reviews.push(CandidateGateReview {
+            gate_id: "distribution".to_string(),
+            disposition: CandidateGateDisposition::RequiredBlocked,
+            evidence_path: None,
+            rationale: None,
+            successor_owner: Some("lane-F".to_string()),
+            blocking_gate: Some("quantitative distribution evidence".to_string()),
+        });
+        let decision = assess_public_release(&release).unwrap();
+        assert!(!decision.release_ready);
+        assert!(decision.publishable_outputs.is_empty());
+    }
+
+    #[test]
+    fn core_n_keeps_overlay_and_endogenous_surfaces_distinct() {
+        let overlay = core_n_release(
+            CandidateObjectiveProfile::NonAdditiveIntegrityOverlay,
+            PublicReleaseSurface::IntegrityOverlayReport,
+            ReleaseOutput::NonAdditiveControlEffect,
+        );
+        let endogenous = core_n_release(
+            CandidateObjectiveProfile::EndogenousFiscalEffect,
+            PublicReleaseSurface::EndogenousEffectReport,
+            ReleaseOutput::EndogenousFiscalEffect,
+        );
+        assert!(assess_public_release(&overlay).unwrap().release_ready);
+        assert!(assess_public_release(&endogenous).unwrap().release_ready);
+    }
+
+    #[test]
+    fn core_h_reconciles_fund_flow_with_explicit_offsets_transfers_and_rounding() {
+        let output = reconcile_fund_year(FundYearInput {
+            opening_balance: 180,
+            gross_program_outlays: 199,
+            implementation_outlays: 0,
+            fallback_remediation_outlays: 0,
+            credited_offsetting_collections: 0,
+            dedicated_receipts: 231,
+            explicit_general_fund_transfer: 0,
+            other_scored_fund_income: 5,
+            balance_adjustments: 0,
+            explicit_rounding_line: 0,
+        })
+        .unwrap();
+
+        assert_eq!(output.primary_outlays, 199);
+        assert_eq!(output.net_cash_requirement, 199);
+        assert_eq!(output.total_fund_income, 236);
+        assert_eq!(output.fund_balance_change, 37);
+        assert_eq!(output.closing_balance, 217);
+    }
+
+    #[test]
+    fn core_h_reconciles_core_g_fy2025_debt_rollforward() {
+        let output = reconcile_federal_year(FederalYearInput {
+            receipts: 5_234_616,
+            primary_outlays: 6_040_048,
+            net_interest: 969_938,
+            opening_debt_held_by_public: 28_195_575,
+            other_financing_and_timing: 201_457,
+        })
+        .unwrap();
+
+        assert_eq!(output.total_outlays, 7_009_986);
+        assert_eq!(output.primary_deficit, 805_432);
+        assert_eq!(output.total_deficit, 1_775_370);
+        assert_eq!(output.closing_debt_held_by_public, 30_172_402);
+    }
+
+    #[test]
+    fn core_h_blocks_reserve_overdraw_and_exposes_interest_remainder() {
+        assert!(
+            reconcile_reserve_year(ReserveYearInput {
+                opening_balance: 10,
+                contribution: 2,
+                withdrawal: 13,
+                emergency_adjustment: 0,
+                explicit_rounding_line: 0,
+            })
+            .is_err()
+        );
+
+        let interest = compute_interest_from_rate_millionths(1_000, 33_830).unwrap();
+        assert_eq!(interest.truncated_interest, 33);
+        assert_eq!(interest.exact_numerator_remainder, 830_000);
+    }
+
+    #[test]
+    fn core_i_admits_bounded_cost_only_reform_without_target_cost() {
+        let decision = admit_reform(&ReformAdmissionInput {
+            instrument_id: "hr2247_airmen_certificate_accessibility".to_string(),
+            legislative_source_ready: true,
+            federal_effect_source_ready: true,
+            conditional_on_enactment: true,
+            annual_effects: vec![
+                AnnualReformEffect {
+                    fiscal_year: 2026,
+                    outlay: ScoredAmount::BoundedThousandthsOfMillion {
+                        lower_inclusive: 0,
+                        upper_exclusive: 500,
+                    },
+                },
+                AnnualReformEffect {
+                    fiscal_year: 2027,
+                    outlay: ScoredAmount::ExactThousandthsOfMillion(5_000),
+                },
+                AnnualReformEffect {
+                    fiscal_year: 2028,
+                    outlay: ScoredAmount::ExactThousandthsOfMillion(4_000),
+                },
+            ],
+            floors: vec![ApplicableFloorReview {
+                floor_id: "access_coverage".to_string(),
+                applicable: true,
+                policy_pass: Some(true),
+                stress_pass: Some(true),
+            }],
+            lower_cost_claim_requested: false,
+            productivity_savings_supported: false,
+        })
+        .unwrap();
+
+        assert!(decision.real_reform_admitted);
+        assert!(decision.cost_only);
+        assert!(!decision.lower_cost_admitted);
+        assert!(!decision.target_cost_allowed);
+    }
+
+    #[test]
+    fn core_i_blocks_failed_applicable_floor() {
+        let result = admit_reform(&ReformAdmissionInput {
+            instrument_id: "candidate".to_string(),
+            legislative_source_ready: true,
+            federal_effect_source_ready: true,
+            conditional_on_enactment: true,
+            annual_effects: vec![AnnualReformEffect {
+                fiscal_year: 2026,
+                outlay: ScoredAmount::ExactThousandthsOfMillion(1_000),
+            }],
+            floors: vec![ApplicableFloorReview {
+                floor_id: "safety".to_string(),
+                applicable: true,
+                policy_pass: Some(true),
+                stress_pass: Some(false),
+            }],
+            lower_cost_claim_requested: false,
+            productivity_savings_supported: false,
+        });
+
+        assert!(result.is_err());
     }
 }

@@ -1,0 +1,135 @@
+{
+  "record_id": "targeted-spending-rate-decision:v1",
+  "record_family": "targeted_spending_rate_decision",
+  "version": "v1.draft",
+  "status": "targeted_hlt_def_spending_wave_complete_rate_unchanged",
+  "pulse": 478,
+  "as_of_date": "2026-07-27",
+  "rate_baseline_path": "data/derived/breadth_benchmark_matrix/rev_internal_rate_analysis_completion.v1.draft.json",
+  "hlt_evidence_path": "data/derived/breadth_benchmark_matrix/hlt_next_level_a_site_neutral_evidence_closure.v1.draft.json",
+  "hlt_admission_path": "data/derived/breadth_benchmark_matrix/hlt_next_level_b_admission_rerun.v1.draft.json",
+  "def_candidate_path": "data/derived/breadth_benchmark_matrix/def_level_5_specific_force_strategy_candidate_audit.v1.draft.json",
+  "net_recomputation_path": "data/derived/breadth_benchmark_matrix/net_level_3_zero_input_endogenous_recomputation.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/targeted_spending_rate_decision.schema.md",
+  "reader_path": "docs/reading/targeted-spending-rate-decision.md",
+  "role_review_path": "reviews/2026-07-27-targeted-spending-rate-decision-role-review.md",
+  "frozen_control": {
+    "fy2026_revenue_target_billions": 813.727,
+    "admitted_primary_spending_reduction_billions": 0.0,
+    "preferred_uniform_uplift_points": 11.0,
+    "preferred_schedule_percent": [21, 23, 33, 35, 43, 46, 48],
+    "central_cash_proxy_billions": 819.220,
+    "central_gap_after_administration_and_debt_billions": 5.416
+  },
+  "candidate_rows": [
+    {
+      "track": "HLT",
+      "candidate_id": "off_campus_hopd_imaging_site_neutral_payment",
+      "policy": "Apply site-neutral rates to imaging services for all off-campus hospital outpatient departments.",
+      "score_source": "CBO December 2024 option 60908",
+      "effective_date_in_option": "2026-01-01",
+      "headline_fy2026_reduction_billions": 0.4,
+      "headline_fy2025_2034_reduction_billions": 7.6,
+      "required_gate_count": 7,
+      "ready_gate_count": 1,
+      "blocked_gate_count": 6,
+      "current_2026_law_rescore": false,
+      "all_required_floors_pass": false,
+      "admitted_fy2026_primary_reduction_billions": 0.0,
+      "disposition": "retained_for_rescore_not_admitted",
+      "blocking_evidence": [
+        "imaging-specific beneficiary cost sharing and distribution",
+        "provider access and service-location response",
+        "rural and safety-net protection",
+        "diagnostic quality and timeliness",
+        "implementation and behavioral response",
+        "CY2026 current-law overlap rescore"
+      ]
+    },
+    {
+      "track": "DEF",
+      "candidate_id": "cbo_smaller_budget_option_1_proportional_active_force_reduction",
+      "policy": "Use CBO's proportional active-force strategy as the implementation concept while preserving reserve units.",
+      "score_source": "CBO December 2024 option 60920 with October 2021 strategy context",
+      "headline_fy2026_reduction_billions": 15.0,
+      "headline_fy2026_2034_reduction_billions": 959.0,
+      "required_gate_count": 7,
+      "ready_gate_count": 1,
+      "blocked_gate_count": 6,
+      "current_2026_law_rescore": false,
+      "all_required_floors_pass": false,
+      "admitted_fy2026_primary_reduction_billions": 0.0,
+      "disposition": "specific_strategy_retained_not_admitted",
+      "blocking_evidence": [
+        "current FYDP unit and program allocation",
+        "readiness and simultaneous-conflict stress test",
+        "personnel family and community transition cost",
+        "procurement RDT&E munitions and industrial-base schedule",
+        "allied treaty and regional posture plan",
+        "legal accounting and current-law rescore"
+      ]
+    }
+  ],
+  "separate_rails": {
+    "oas_treatment": "separate_solvency_rail_not_primary_spending_savings",
+    "pay_treatment": "non_additive_measurement_overlay_zero_package_contribution",
+    "oas_fy2026_primary_spending_contribution_billions": 0.0,
+    "pay_fy2026_additive_contribution_billions": 0.0
+  },
+  "admission_rule": {
+    "requires_sourced_fy2026_cash_effect": true,
+    "requires_all_applicable_outcome_floors_pass": true,
+    "requires_current_law_overlap_reconciliation": true,
+    "headline_or_vintage_score_alone_is_admissible": false,
+    "total_admitted_fy2026_primary_reduction_billions": 0.0
+  },
+  "net_recomputation": {
+    "admitted_upstream_primary_reduction_billions": 0.0,
+    "fy2026_debt_delta_billions": 0.0,
+    "fy2026_net_interest_delta_billions": 0.0,
+    "direct_net_interest_cut_allowed": false,
+    "result_class": "zero_input_endogenous_identity"
+  },
+  "pay_net_rev_reconciliation": {
+    "starting_fy2026_revenue_target_billions": 813.727,
+    "admitted_spending_reduction_billions": 0.0,
+    "pay_additive_contribution_billions": 0.0,
+    "net_endogenous_contribution_billions": 0.0,
+    "recomputed_fy2026_revenue_target_billions": 813.727,
+    "identity_pass": true
+  },
+  "rate_result": {
+    "control_uniform_uplift_points": 11.0,
+    "recomputed_uniform_uplift_points": 11.0,
+    "control_schedule_percent": [21, 23, 33, 35, 43, 46, 48],
+    "recomputed_schedule_percent": [21, 23, 33, 35, 43, 46, 48],
+    "rate_reduction_points": 0.0,
+    "lower_rate_supported": false,
+    "preferred_taxlane_schedule_changed": false
+  },
+  "step_audit": [
+    {"step": 1, "result": "frozen zero-savings rate baseline preserved", "status": "complete"},
+    {"step": 2, "result": "specific HLT imaging candidate advanced", "status": "complete"},
+    {"step": 3, "result": "specific DEF force-strategy candidate advanced", "status": "complete"},
+    {"step": 4, "result": "OAS and PAY separate-rail treatments preserved", "status": "complete"},
+    {"step": 5, "result": "source, cash, and outcome-floor admission rerun completed", "status": "complete"},
+    {"step": 6, "result": "NET recomputed endogenously", "status": "complete"},
+    {"step": 7, "result": "PAY-NET-REV identity rerun completed", "status": "complete"},
+    {"step": 8, "result": "responsible rate-down test completed", "status": "complete"},
+    {"step": 9, "result": "recomputed schedule compared with frozen control", "status": "complete"},
+    {"step": 10, "result": "combined spending-and-rate decision published", "status": "complete"}
+  ],
+  "decision": {
+    "targeted_spending_wave_complete": true,
+    "hlt_candidate_admitted": false,
+    "def_candidate_admitted": false,
+    "unsupported_headline_savings_excluded": true,
+    "rate_recommendation_changed": false,
+    "next_evidence_priority": "proposal-specific HLT access and beneficiary evidence plus CY2026 overlap rescore",
+    "official_request_planned": false,
+    "official_score_claimed": false,
+    "enacted_law_claimed": false,
+    "balanced_budget_proven": false
+  },
+  "public_warning": "The targeted wave tested specific HLT and DEF candidates but admitted no FY2026 spending reduction because each has six unresolved gates. PAY remains non-additive and NET remains endogenous, so Taxlane's preferred central 21/23/33/35/43/46/48 analytical schedule does not move. This does not prove that future evidence-backed spending reforms cannot lower the rate."
+}

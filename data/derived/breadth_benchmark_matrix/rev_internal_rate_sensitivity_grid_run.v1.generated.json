@@ -1,0 +1,1465 @@
+{
+  "record_family": "rev_internal_rate_sensitivity_grid_run",
+  "version": "v1.generated",
+  "as_of_date": "2026-07-27",
+  "analysis_scope": "independent_taxlane_analysis_only",
+  "model": "Tax-Calculator 6.5.1",
+  "data": "bundled CPS tax-unit file",
+  "tax_year": 2026,
+  "baseline_iitax_billions": 2120.507,
+  "baseline_schedule_percent": [
+    10.0,
+    12.0,
+    22.0,
+    24.0,
+    32.0,
+    35.0,
+    37.0
+  ],
+  "first_year_ratio": 0.774223895,
+  "fy2026_revenue_target_billions": 813.727,
+  "elasticities": [
+    0.15,
+    0.25,
+    0.35
+  ],
+  "candidates": [
+    {
+      "uniform_uplift_points": 9.5,
+      "schedule_percent": [
+        19.5,
+        21.5,
+        31.5,
+        33.5,
+        41.5,
+        44.5,
+        46.5
+      ],
+      "static_full_year_change_billions": 1081.748,
+      "elasticity_cases": [
+        {
+          "substitution_elasticity": 0.15,
+          "full_year_liability_change_billions": 984.565,
+          "first_year_cash_proxy_billions": 762.273,
+          "target_difference_billions": -51.454,
+          "target_coverage_percent": 93.677,
+          "mean_tax_change_dollars": 4472.55,
+          "after_tax_income_change_percent": -6.602,
+          "top_decile_share_percent": 53.54
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "full_year_liability_change_billions": 920.458,
+          "first_year_cash_proxy_billions": 712.641,
+          "target_difference_billions": -101.086,
+          "target_coverage_percent": 87.577,
+          "mean_tax_change_dollars": 4181.34,
+          "after_tax_income_change_percent": -7.225,
+          "top_decile_share_percent": 52.57
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "full_year_liability_change_billions": 856.753,
+          "first_year_cash_proxy_billions": 663.318,
+          "target_difference_billions": -150.409,
+          "target_coverage_percent": 81.516,
+          "mean_tax_change_dollars": 3891.94,
+          "after_tax_income_change_percent": -7.85,
+          "top_decile_share_percent": 51.46
+        }
+      ],
+      "central_distribution": [
+        {
+          "group": "0-10n",
+          "change_billions": 0.0,
+          "share_of_change_percent": 0.0,
+          "mean_tax_change_dollars": 0.0,
+          "after_tax_income_change_percent": 0.0
+        },
+        {
+          "group": "0-10z",
+          "change_billions": 0.0,
+          "share_of_change_percent": 0.0,
+          "mean_tax_change_dollars": 0.0,
+          "after_tax_income_change_percent": null
+        },
+        {
+          "group": "0-10p",
+          "change_billions": 0.01,
+          "share_of_change_percent": 0.0,
+          "mean_tax_change_dollars": 0.73,
+          "after_tax_income_change_percent": -0.018
+        },
+        {
+          "group": "10-20",
+          "change_billions": 2.046,
+          "share_of_change_percent": 0.22,
+          "mean_tax_change_dollars": 92.93,
+          "after_tax_income_change_percent": -0.716
+        },
+        {
+          "group": "20-30",
+          "change_billions": 11.488,
+          "share_of_change_percent": 1.25,
+          "mean_tax_change_dollars": 521.87,
+          "after_tax_income_change_percent": -2.166
+        },
+        {
+          "group": "30-40",
+          "change_billions": 17.887,
+          "share_of_change_percent": 1.94,
+          "mean_tax_change_dollars": 812.57,
+          "after_tax_income_change_percent": -2.532
+        },
+        {
+          "group": "40-50",
+          "change_billions": 28.644,
+          "share_of_change_percent": 3.11,
+          "mean_tax_change_dollars": 1301.35,
+          "after_tax_income_change_percent": -3.269
+        },
+        {
+          "group": "50-60",
+          "change_billions": 43.304,
+          "share_of_change_percent": 4.7,
+          "mean_tax_change_dollars": 1966.94,
+          "after_tax_income_change_percent": -4.066
+        },
+        {
+          "group": "60-70",
+          "change_billions": 64.834,
+          "share_of_change_percent": 7.04,
+          "mean_tax_change_dollars": 2945.22,
+          "after_tax_income_change_percent": -4.883
+        },
+        {
+          "group": "70-80",
+          "change_billions": 99.677,
+          "share_of_change_percent": 10.83,
+          "mean_tax_change_dollars": 4527.93,
+          "after_tax_income_change_percent": -5.853
+        },
+        {
+          "group": "80-90",
+          "change_billions": 168.695,
+          "share_of_change_percent": 18.33,
+          "mean_tax_change_dollars": 7663.9,
+          "after_tax_income_change_percent": -7.69
+        },
+        {
+          "group": "90-100",
+          "change_billions": 483.873,
+          "share_of_change_percent": 52.57,
+          "mean_tax_change_dollars": 21978.49,
+          "after_tax_income_change_percent": -11.182
+        },
+        {
+          "group": "ALL",
+          "change_billions": 920.458,
+          "share_of_change_percent": 100.0,
+          "mean_tax_change_dollars": 4181.34,
+          "after_tax_income_change_percent": -7.225
+        },
+        {
+          "group": "90-95",
+          "change_billions": 140.443,
+          "share_of_change_percent": 15.26,
+          "mean_tax_change_dollars": 12757.62,
+          "after_tax_income_change_percent": -9.661
+        },
+        {
+          "group": "95-99",
+          "change_billions": 186.086,
+          "share_of_change_percent": 20.22,
+          "mean_tax_change_dollars": 21133.11,
+          "after_tax_income_change_percent": -10.973
+        },
+        {
+          "group": "Top 1%",
+          "change_billions": 157.344,
+          "share_of_change_percent": 17.09,
+          "mean_tax_change_dollars": 71462.26,
+          "after_tax_income_change_percent": -13.051
+        }
+      ]
+    },
+    {
+      "uniform_uplift_points": 10.0,
+      "schedule_percent": [
+        20.0,
+        22.0,
+        32.0,
+        34.0,
+        42.0,
+        45.0,
+        47.0
+      ],
+      "static_full_year_change_billions": 1138.766,
+      "elasticity_cases": [
+        {
+          "substitution_elasticity": 0.15,
+          "full_year_liability_change_billions": 1035.045,
+          "first_year_cash_proxy_billions": 801.357,
+          "target_difference_billions": -12.37,
+          "target_coverage_percent": 98.48,
+          "mean_tax_change_dollars": 4701.87,
+          "after_tax_income_change_percent": -6.942,
+          "top_decile_share_percent": 53.54
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "full_year_liability_change_billions": 966.629,
+          "first_year_cash_proxy_billions": 748.388,
+          "target_difference_billions": -65.339,
+          "target_coverage_percent": 91.97,
+          "mean_tax_change_dollars": 4391.08,
+          "after_tax_income_change_percent": -7.593,
+          "top_decile_share_percent": 52.56
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "full_year_liability_change_billions": 898.643,
+          "first_year_cash_proxy_billions": 695.751,
+          "target_difference_billions": -117.976,
+          "target_coverage_percent": 85.502,
+          "mean_tax_change_dollars": 4082.24,
+          "after_tax_income_change_percent": -8.246,
+          "top_decile_share_percent": 51.44
+        }
+      ],
+      "central_distribution": [
+        {
+          "group": "0-10n",
+          "change_billions": 0.0,
+          "share_of_change_percent": 0.0,
+          "mean_tax_change_dollars": 0.0,
+          "after_tax_income_change_percent": 0.0
+        },
+        {
+          "group": "0-10z",
+          "change_billions": 0.0,
+          "share_of_change_percent": 0.0,
+          "mean_tax_change_dollars": 0.0,
+          "after_tax_income_change_percent": null
+        },
+        {
+          "group": "0-10p",
+          "change_billions": 0.01,
+          "share_of_change_percent": 0.0,
+          "mean_tax_change_dollars": 0.77,
+          "after_tax_income_change_percent": -0.019
+        },
+        {
+          "group": "10-20",
+          "change_billions": 2.15,
+          "share_of_change_percent": 0.22,
+          "mean_tax_change_dollars": 97.65,
+          "after_tax_income_change_percent": -0.753
+        },
+        {
+          "group": "20-30",
+          "change_billions": 12.077,
+          "share_of_change_percent": 1.25,
+          "mean_tax_change_dollars": 548.6,
+          "after_tax_income_change_percent": -2.278
+        },
+        {
+          "group": "30-40",
+          "change_billions": 18.801,
+          "share_of_change_percent": 1.94,
+          "mean_tax_change_dollars": 854.06,
+          "after_tax_income_change_percent": -2.662
+        },
+        {
+          "group": "40-50",
+          "change_billions": 30.097,
+          "share_of_change_percent": 3.11,
+          "mean_tax_change_dollars": 1367.32,
+          "after_tax_income_change_percent": -3.437
+        },
+        {
+          "group": "50-60",
+          "change_billions": 45.489,
+          "share_of_change_percent": 4.71,
+          "mean_tax_change_dollars": 2066.19,
+          "after_tax_income_change_percent": -4.274
+        },
+        {
+          "group": "60-70",
+          "change_billions": 68.098,
+          "share_of_change_percent": 7.04,
+          "mean_tax_change_dollars": 3093.52,
+          "after_tax_income_change_percent": -5.132
+        },
+        {
+          "group": "70-80",
+          "change_billions": 104.706,
+          "share_of_change_percent": 10.83,
+          "mean_tax_change_dollars": 4756.35,
+          "after_tax_income_change_percent": -6.152
+        },
+        {
+          "group": "80-90",
+          "change_billions": 177.172,
+          "share_of_change_percent": 18.33,
+          "mean_tax_change_dollars": 8049.05,
+          "after_tax_income_change_percent": -8.082
+        },
+        {
+          "group": "90-100",
+          "change_billions": 508.03,
+          "share_of_change_percent": 52.56,
+          "mean_tax_change_dollars": 23075.74,
+          "after_tax_income_change_percent": -11.751
+        },
+        {
+          "group": "ALL",
+          "change_billions": 966.629,
+          "share_of_change_percent": 100.0,
+          "mean_tax_change_dollars": 4391.08,
+          "after_tax_income_change_percent": -7.593
+        },
+        {
+          "group": "90-95",
+          "change_billions": 147.5,
+          "share_of_change_percent": 15.26,
+          "mean_tax_change_dollars": 13398.63,
+          "after_tax_income_change_percent": -10.154
+        },
+        {
+          "group": "95-99",
+          "change_billions": 195.404,
+          "share_of_change_percent": 20.22,
+          "mean_tax_change_dollars": 22191.37,
+          "after_tax_income_change_percent": -11.532
+        },
+        {
+          "group": "Top 1%",
+          "change_billions": 165.126,
+          "share_of_change_percent": 17.08,
+          "mean_tax_change_dollars": 74996.57,
+          "after_tax_income_change_percent": -13.711
+        }
+      ]
+    },
+    {
+      "uniform_uplift_points": 10.159,
+      "schedule_percent": [
+        20.159,
+        22.159,
+        32.159,
+        34.159,
+        42.159,
+        45.159,
+        47.159
+      ],
+      "static_full_year_change_billions": 1156.898,
+      "elasticity_cases": [
+        {
+          "substitution_elasticity": 0.15,
+          "full_year_liability_change_billions": 1051.06,
+          "first_year_cash_proxy_billions": 813.756,
+          "target_difference_billions": 0.029,
+          "target_coverage_percent": 100.004,
+          "mean_tax_change_dollars": 4774.61,
+          "after_tax_income_change_percent": -7.05,
+          "top_decile_share_percent": 53.54
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "full_year_liability_change_billions": 981.25,
+          "first_year_cash_proxy_billions": 759.707,
+          "target_difference_billions": -54.02,
+          "target_coverage_percent": 93.361,
+          "mean_tax_change_dollars": 4457.49,
+          "after_tax_income_change_percent": -7.71,
+          "top_decile_share_percent": 52.55
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "full_year_liability_change_billions": 911.875,
+          "first_year_cash_proxy_billions": 705.995,
+          "target_difference_billions": -107.732,
+          "target_coverage_percent": 86.761,
+          "mean_tax_change_dollars": 4142.34,
+          "after_tax_income_change_percent": -8.372,
+          "top_decile_share_percent": 51.43
+        }
+      ],
+      "central_distribution": [
+        {
+          "group": "0-10n",
+          "change_billions": 0.0,
+          "share_of_change_percent": 0.0,
+          "mean_tax_change_dollars": 0.0,
+          "after_tax_income_change_percent": 0.0
+        },
+        {
+          "group": "0-10z",
+          "change_billions": 0.0,
+          "share_of_change_percent": 0.0,
+          "mean_tax_change_dollars": 0.0,
+          "after_tax_income_change_percent": null
+        },
+        {
+          "group": "0-10p",
+          "change_billions": 0.01,
+          "share_of_change_percent": 0.0,
+          "mean_tax_change_dollars": 0.78,
+          "after_tax_income_change_percent": -0.019
+        },
+        {
+          "group": "10-20",
+          "change_billions": 2.183,
+          "share_of_change_percent": 0.22,
+          "mean_tax_change_dollars": 99.15,
+          "after_tax_income_change_percent": -0.765
+        },
+        {
+          "group": "20-30",
+          "change_billions": 12.264,
+          "share_of_change_percent": 1.25,
+          "mean_tax_change_dollars": 557.1,
+          "after_tax_income_change_percent": -2.314
+        },
+        {
+          "group": "30-40",
+          "change_billions": 19.09,
+          "share_of_change_percent": 1.95,
+          "mean_tax_change_dollars": 867.22,
+          "after_tax_income_change_percent": -2.703
+        },
+        {
+          "group": "40-50",
+          "change_billions": 30.557,
+          "share_of_change_percent": 3.11,
+          "mean_tax_change_dollars": 1388.25,
+          "after_tax_income_change_percent": -3.49
+        },
+        {
+          "group": "50-60",
+          "change_billions": 46.182,
+          "share_of_change_percent": 4.71,
+          "mean_tax_change_dollars": 2097.66,
+          "after_tax_income_change_percent": -4.34
+        },
+        {
+          "group": "60-70",
+          "change_billions": 69.134,
+          "share_of_change_percent": 7.05,
+          "mean_tax_change_dollars": 3140.54,
+          "after_tax_income_change_percent": -5.211
+        },
+        {
+          "group": "70-80",
+          "change_billions": 106.3,
+          "share_of_change_percent": 10.83,
+          "mean_tax_change_dollars": 4828.79,
+          "after_tax_income_change_percent": -6.247
+        },
+        {
+          "group": "80-90",
+          "change_billions": 179.86,
+          "share_of_change_percent": 18.33,
+          "mean_tax_change_dollars": 8171.15,
+          "after_tax_income_change_percent": -8.207
+        },
+        {
+          "group": "90-100",
+          "change_billions": 515.67,
+          "share_of_change_percent": 52.55,
+          "mean_tax_change_dollars": 23422.76,
+          "after_tax_income_change_percent": -11.931
+        },
+        {
+          "group": "ALL",
+          "change_billions": 981.25,
+          "share_of_change_percent": 100.0,
+          "mean_tax_change_dollars": 4457.49,
+          "after_tax_income_change_percent": -7.71
+        },
+        {
+          "group": "90-95",
+          "change_billions": 149.737,
+          "share_of_change_percent": 15.26,
+          "mean_tax_change_dollars": 13601.83,
+          "after_tax_income_change_percent": -10.31
+        },
+        {
+          "group": "95-99",
+          "change_billions": 198.358,
+          "share_of_change_percent": 20.21,
+          "mean_tax_change_dollars": 22526.78,
+          "after_tax_income_change_percent": -11.71
+        },
+        {
+          "group": "Top 1%",
+          "change_billions": 167.576,
+          "share_of_change_percent": 17.08,
+          "mean_tax_change_dollars": 76109.1,
+          "after_tax_income_change_percent": -13.921
+        }
+      ]
+    },
+    {
+      "uniform_uplift_points": 10.5,
+      "schedule_percent": [
+        20.5,
+        22.5,
+        32.5,
+        34.5,
+        42.5,
+        45.5,
+        47.5
+      ],
+      "static_full_year_change_billions": 1195.787,
+      "elasticity_cases": [
+        {
+          "substitution_elasticity": 0.15,
+          "full_year_liability_change_billions": 1085.315,
+          "first_year_cash_proxy_billions": 840.277,
+          "target_difference_billions": 26.55,
+          "target_coverage_percent": 103.263,
+          "mean_tax_change_dollars": 4930.22,
+          "after_tax_income_change_percent": -7.282,
+          "top_decile_share_percent": 53.53
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "full_year_liability_change_billions": 1012.453,
+          "first_year_cash_proxy_billions": 783.865,
+          "target_difference_billions": -29.862,
+          "target_coverage_percent": 96.33,
+          "mean_tax_change_dollars": 4599.24,
+          "after_tax_income_change_percent": -7.961,
+          "top_decile_share_percent": 52.54
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "full_year_liability_change_billions": 940.044,
+          "first_year_cash_proxy_billions": 727.804,
+          "target_difference_billions": -85.923,
+          "target_coverage_percent": 89.441,
+          "mean_tax_change_dollars": 4270.31,
+          "after_tax_income_change_percent": -8.642,
+          "top_decile_share_percent": 51.41
+        }
+      ],
+      "central_distribution": [
+        {
+          "group": "0-10n",
+          "change_billions": 0.0,
+          "share_of_change_percent": 0.0,
+          "mean_tax_change_dollars": 0.0,
+          "after_tax_income_change_percent": 0.0
+        },
+        {
+          "group": "0-10z",
+          "change_billions": 0.0,
+          "share_of_change_percent": 0.0,
+          "mean_tax_change_dollars": 0.0,
+          "after_tax_income_change_percent": null
+        },
+        {
+          "group": "0-10p",
+          "change_billions": 0.011,
+          "share_of_change_percent": 0.0,
+          "mean_tax_change_dollars": 0.81,
+          "after_tax_income_change_percent": -0.02
+        },
+        {
+          "group": "10-20",
+          "change_billions": 2.253,
+          "share_of_change_percent": 0.22,
+          "mean_tax_change_dollars": 102.36,
+          "after_tax_income_change_percent": -0.79
+        },
+        {
+          "group": "20-30",
+          "change_billions": 12.664,
+          "share_of_change_percent": 1.25,
+          "mean_tax_change_dollars": 575.27,
+          "after_tax_income_change_percent": -2.39
+        },
+        {
+          "group": "30-40",
+          "change_billions": 19.71,
+          "share_of_change_percent": 1.95,
+          "mean_tax_change_dollars": 895.39,
+          "after_tax_income_change_percent": -2.792
+        },
+        {
+          "group": "40-50",
+          "change_billions": 31.543,
+          "share_of_change_percent": 3.12,
+          "mean_tax_change_dollars": 1433.05,
+          "after_tax_income_change_percent": -3.604
+        },
+        {
+          "group": "50-60",
+          "change_billions": 47.665,
+          "share_of_change_percent": 4.71,
+          "mean_tax_change_dollars": 2165.01,
+          "after_tax_income_change_percent": -4.481
+        },
+        {
+          "group": "60-70",
+          "change_billions": 71.348,
+          "share_of_change_percent": 7.05,
+          "mean_tax_change_dollars": 3241.16,
+          "after_tax_income_change_percent": -5.38
+        },
+        {
+          "group": "70-80",
+          "change_billions": 109.712,
+          "share_of_change_percent": 10.84,
+          "mean_tax_change_dollars": 4983.76,
+          "after_tax_income_change_percent": -6.45
+        },
+        {
+          "group": "80-90",
+          "change_billions": 185.611,
+          "share_of_change_percent": 18.33,
+          "mean_tax_change_dollars": 8432.41,
+          "after_tax_income_change_percent": -8.473
+        },
+        {
+          "group": "90-100",
+          "change_billions": 531.936,
+          "share_of_change_percent": 52.54,
+          "mean_tax_change_dollars": 24161.57,
+          "after_tax_income_change_percent": -12.32
+        },
+        {
+          "group": "ALL",
+          "change_billions": 1012.453,
+          "share_of_change_percent": 100.0,
+          "mean_tax_change_dollars": 4599.24,
+          "after_tax_income_change_percent": -7.961
+        },
+        {
+          "group": "90-95",
+          "change_billions": 154.523,
+          "share_of_change_percent": 15.26,
+          "mean_tax_change_dollars": 14036.57,
+          "after_tax_income_change_percent": -10.645
+        },
+        {
+          "group": "95-99",
+          "change_billions": 204.675,
+          "share_of_change_percent": 20.22,
+          "mean_tax_change_dollars": 23244.23,
+          "after_tax_income_change_percent": -12.089
+        },
+        {
+          "group": "Top 1%",
+          "change_billions": 172.738,
+          "share_of_change_percent": 17.06,
+          "mean_tax_change_dollars": 78453.63,
+          "after_tax_income_change_percent": -14.377
+        }
+      ]
+    },
+    {
+      "uniform_uplift_points": 10.922,
+      "schedule_percent": [
+        20.922,
+        22.922,
+        32.922,
+        34.922,
+        42.922,
+        45.922,
+        47.922
+      ],
+      "static_full_year_change_billions": 1243.913,
+      "elasticity_cases": [
+        {
+          "substitution_elasticity": 0.15,
+          "full_year_liability_change_billions": 1127.674,
+          "first_year_cash_proxy_billions": 873.072,
+          "target_difference_billions": 59.345,
+          "target_coverage_percent": 107.293,
+          "mean_tax_change_dollars": 5122.65,
+          "after_tax_income_change_percent": -7.568,
+          "top_decile_share_percent": 53.52
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "full_year_liability_change_billions": 1051.017,
+          "first_year_cash_proxy_billions": 813.722,
+          "target_difference_billions": -0.005,
+          "target_coverage_percent": 99.999,
+          "mean_tax_change_dollars": 4774.42,
+          "after_tax_income_change_percent": -8.269,
+          "top_decile_share_percent": 52.53
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "full_year_liability_change_billions": 974.832,
+          "first_year_cash_proxy_billions": 754.738,
+          "target_difference_billions": -58.989,
+          "target_coverage_percent": 92.751,
+          "mean_tax_change_dollars": 4428.34,
+          "after_tax_income_change_percent": -8.973,
+          "top_decile_share_percent": 51.39
+        }
+      ],
+      "central_distribution": [
+        {
+          "group": "0-10n",
+          "change_billions": 0.0,
+          "share_of_change_percent": 0.0,
+          "mean_tax_change_dollars": 0.0,
+          "after_tax_income_change_percent": 0.0
+        },
+        {
+          "group": "0-10z",
+          "change_billions": 0.0,
+          "share_of_change_percent": 0.0,
+          "mean_tax_change_dollars": 0.0,
+          "after_tax_income_change_percent": null
+        },
+        {
+          "group": "0-10p",
+          "change_billions": 0.011,
+          "share_of_change_percent": 0.0,
+          "mean_tax_change_dollars": 0.84,
+          "after_tax_income_change_percent": -0.021
+        },
+        {
+          "group": "10-20",
+          "change_billions": 2.34,
+          "share_of_change_percent": 0.22,
+          "mean_tax_change_dollars": 106.32,
+          "after_tax_income_change_percent": -0.821
+        },
+        {
+          "group": "20-30",
+          "change_billions": 13.158,
+          "share_of_change_percent": 1.25,
+          "mean_tax_change_dollars": 597.7,
+          "after_tax_income_change_percent": -2.484
+        },
+        {
+          "group": "30-40",
+          "change_billions": 20.476,
+          "share_of_change_percent": 1.95,
+          "mean_tax_change_dollars": 930.16,
+          "after_tax_income_change_percent": -2.901
+        },
+        {
+          "group": "40-50",
+          "change_billions": 32.761,
+          "share_of_change_percent": 3.12,
+          "mean_tax_change_dollars": 1488.36,
+          "after_tax_income_change_percent": -3.745
+        },
+        {
+          "group": "50-60",
+          "change_billions": 49.494,
+          "share_of_change_percent": 4.71,
+          "mean_tax_change_dollars": 2248.08,
+          "after_tax_income_change_percent": -4.655
+        },
+        {
+          "group": "60-70",
+          "change_billions": 74.08,
+          "share_of_change_percent": 7.05,
+          "mean_tax_change_dollars": 3365.25,
+          "after_tax_income_change_percent": -5.589
+        },
+        {
+          "group": "70-80",
+          "change_billions": 113.92,
+          "share_of_change_percent": 10.84,
+          "mean_tax_change_dollars": 5174.92,
+          "after_tax_income_change_percent": -6.7
+        },
+        {
+          "group": "80-90",
+          "change_billions": 192.699,
+          "share_of_change_percent": 18.33,
+          "mean_tax_change_dollars": 8754.45,
+          "after_tax_income_change_percent": -8.802
+        },
+        {
+          "group": "90-100",
+          "change_billions": 552.078,
+          "share_of_change_percent": 52.53,
+          "mean_tax_change_dollars": 25076.49,
+          "after_tax_income_change_percent": -12.796
+        },
+        {
+          "group": "ALL",
+          "change_billions": 1051.017,
+          "share_of_change_percent": 100.0,
+          "mean_tax_change_dollars": 4774.42,
+          "after_tax_income_change_percent": -8.269
+        },
+        {
+          "group": "90-95",
+          "change_billions": 160.424,
+          "share_of_change_percent": 15.26,
+          "mean_tax_change_dollars": 14572.59,
+          "after_tax_income_change_percent": -11.059
+        },
+        {
+          "group": "95-99",
+          "change_billions": 212.462,
+          "share_of_change_percent": 20.21,
+          "mean_tax_change_dollars": 24128.59,
+          "after_tax_income_change_percent": -12.558
+        },
+        {
+          "group": "Top 1%",
+          "change_billions": 179.193,
+          "share_of_change_percent": 17.05,
+          "mean_tax_change_dollars": 81385.25,
+          "after_tax_income_change_percent": -14.931
+        }
+      ]
+    },
+    {
+      "uniform_uplift_points": 11.0,
+      "schedule_percent": [
+        21.0,
+        23.0,
+        33.0,
+        35.0,
+        43.0,
+        46.0,
+        48.0
+      ],
+      "static_full_year_change_billions": 1252.809,
+      "elasticity_cases": [
+        {
+          "substitution_elasticity": 0.15,
+          "full_year_liability_change_billions": 1135.488,
+          "first_year_cash_proxy_billions": 879.122,
+          "target_difference_billions": 65.395,
+          "target_coverage_percent": 108.036,
+          "mean_tax_change_dollars": 5158.14,
+          "after_tax_income_change_percent": -7.621,
+          "top_decile_share_percent": 53.52
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "full_year_liability_change_billions": 1058.117,
+          "first_year_cash_proxy_billions": 819.22,
+          "target_difference_billions": 5.493,
+          "target_coverage_percent": 100.675,
+          "mean_tax_change_dollars": 4806.68,
+          "after_tax_income_change_percent": -8.326,
+          "top_decile_share_percent": 52.53
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "full_year_liability_change_billions": 981.224,
+          "first_year_cash_proxy_billions": 759.687,
+          "target_difference_billions": -54.04,
+          "target_coverage_percent": 93.359,
+          "mean_tax_change_dollars": 4457.37,
+          "after_tax_income_change_percent": -9.034,
+          "top_decile_share_percent": 51.39
+        }
+      ],
+      "central_distribution": [
+        {
+          "group": "0-10n",
+          "change_billions": 0.0,
+          "share_of_change_percent": 0.0,
+          "mean_tax_change_dollars": 0.0,
+          "after_tax_income_change_percent": 0.0
+        },
+        {
+          "group": "0-10z",
+          "change_billions": 0.0,
+          "share_of_change_percent": 0.0,
+          "mean_tax_change_dollars": 0.0,
+          "after_tax_income_change_percent": null
+        },
+        {
+          "group": "0-10p",
+          "change_billions": 0.011,
+          "share_of_change_percent": 0.0,
+          "mean_tax_change_dollars": 0.85,
+          "after_tax_income_change_percent": -0.021
+        },
+        {
+          "group": "10-20",
+          "change_billions": 2.356,
+          "share_of_change_percent": 0.22,
+          "mean_tax_change_dollars": 107.05,
+          "after_tax_income_change_percent": -0.826
+        },
+        {
+          "group": "20-30",
+          "change_billions": 13.249,
+          "share_of_change_percent": 1.25,
+          "mean_tax_change_dollars": 601.84,
+          "after_tax_income_change_percent": -2.501
+        },
+        {
+          "group": "30-40",
+          "change_billions": 20.617,
+          "share_of_change_percent": 1.95,
+          "mean_tax_change_dollars": 936.57,
+          "after_tax_income_change_percent": -2.921
+        },
+        {
+          "group": "40-50",
+          "change_billions": 32.985,
+          "share_of_change_percent": 3.12,
+          "mean_tax_change_dollars": 1498.56,
+          "after_tax_income_change_percent": -3.771
+        },
+        {
+          "group": "50-60",
+          "change_billions": 49.831,
+          "share_of_change_percent": 4.71,
+          "mean_tax_change_dollars": 2263.39,
+          "after_tax_income_change_percent": -4.687
+        },
+        {
+          "group": "60-70",
+          "change_billions": 74.583,
+          "share_of_change_percent": 7.05,
+          "mean_tax_change_dollars": 3388.11,
+          "after_tax_income_change_percent": -5.627
+        },
+        {
+          "group": "70-80",
+          "change_billions": 114.696,
+          "share_of_change_percent": 10.84,
+          "mean_tax_change_dollars": 5210.18,
+          "after_tax_income_change_percent": -6.747
+        },
+        {
+          "group": "80-90",
+          "change_billions": 194.006,
+          "share_of_change_percent": 18.34,
+          "mean_tax_change_dollars": 8813.84,
+          "after_tax_income_change_percent": -8.863
+        },
+        {
+          "group": "90-100",
+          "change_billions": 555.782,
+          "share_of_change_percent": 52.53,
+          "mean_tax_change_dollars": 25244.72,
+          "after_tax_income_change_percent": -12.885
+        },
+        {
+          "group": "ALL",
+          "change_billions": 1058.117,
+          "share_of_change_percent": 100.0,
+          "mean_tax_change_dollars": 4806.68,
+          "after_tax_income_change_percent": -8.326
+        },
+        {
+          "group": "90-95",
+          "change_billions": 161.512,
+          "share_of_change_percent": 15.26,
+          "mean_tax_change_dollars": 14671.42,
+          "after_tax_income_change_percent": -11.135
+        },
+        {
+          "group": "95-99",
+          "change_billions": 213.898,
+          "share_of_change_percent": 20.21,
+          "mean_tax_change_dollars": 24291.65,
+          "after_tax_income_change_percent": -12.645
+        },
+        {
+          "group": "Top 1%",
+          "change_billions": 180.373,
+          "share_of_change_percent": 17.05,
+          "mean_tax_change_dollars": 81921.12,
+          "after_tax_income_change_percent": -15.034
+        }
+      ]
+    },
+    {
+      "uniform_uplift_points": 11.5,
+      "schedule_percent": [
+        21.5,
+        23.5,
+        33.5,
+        35.5,
+        43.5,
+        46.5,
+        48.5
+      ],
+      "static_full_year_change_billions": 1309.843,
+      "elasticity_cases": [
+        {
+          "substitution_elasticity": 0.15,
+          "full_year_liability_change_billions": 1185.51,
+          "first_year_cash_proxy_billions": 917.85,
+          "target_difference_billions": 104.123,
+          "target_coverage_percent": 112.796,
+          "mean_tax_change_dollars": 5385.38,
+          "after_tax_income_change_percent": -7.959,
+          "top_decile_share_percent": 53.52
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "full_year_liability_change_billions": 1103.519,
+          "first_year_cash_proxy_billions": 854.37,
+          "target_difference_billions": 40.643,
+          "target_coverage_percent": 104.995,
+          "mean_tax_change_dollars": 5012.92,
+          "after_tax_income_change_percent": -8.691,
+          "top_decile_share_percent": 52.51
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "full_year_liability_change_billions": 1022.03,
+          "first_year_cash_proxy_billions": 791.28,
+          "target_difference_billions": -22.447,
+          "target_coverage_percent": 97.241,
+          "mean_tax_change_dollars": 4642.74,
+          "after_tax_income_change_percent": -9.426,
+          "top_decile_share_percent": 51.36
+        }
+      ],
+      "central_distribution": [
+        {
+          "group": "0-10n",
+          "change_billions": 0.0,
+          "share_of_change_percent": 0.0,
+          "mean_tax_change_dollars": 0.0,
+          "after_tax_income_change_percent": 0.0
+        },
+        {
+          "group": "0-10z",
+          "change_billions": 0.0,
+          "share_of_change_percent": 0.0,
+          "mean_tax_change_dollars": 0.0,
+          "after_tax_income_change_percent": null
+        },
+        {
+          "group": "0-10p",
+          "change_billions": 0.012,
+          "share_of_change_percent": 0.0,
+          "mean_tax_change_dollars": 0.88,
+          "after_tax_income_change_percent": -0.022
+        },
+        {
+          "group": "10-20",
+          "change_billions": 2.459,
+          "share_of_change_percent": 0.22,
+          "mean_tax_change_dollars": 111.72,
+          "after_tax_income_change_percent": -0.863
+        },
+        {
+          "group": "20-30",
+          "change_billions": 13.832,
+          "share_of_change_percent": 1.25,
+          "mean_tax_change_dollars": 628.34,
+          "after_tax_income_change_percent": -2.612
+        },
+        {
+          "group": "30-40",
+          "change_billions": 21.521,
+          "share_of_change_percent": 1.95,
+          "mean_tax_change_dollars": 977.62,
+          "after_tax_income_change_percent": -3.05
+        },
+        {
+          "group": "40-50",
+          "change_billions": 34.422,
+          "share_of_change_percent": 3.12,
+          "mean_tax_change_dollars": 1563.83,
+          "after_tax_income_change_percent": -3.937
+        },
+        {
+          "group": "50-60",
+          "change_billions": 51.987,
+          "share_of_change_percent": 4.71,
+          "mean_tax_change_dollars": 2361.32,
+          "after_tax_income_change_percent": -4.893
+        },
+        {
+          "group": "60-70",
+          "change_billions": 77.803,
+          "share_of_change_percent": 7.05,
+          "mean_tax_change_dollars": 3534.38,
+          "after_tax_income_change_percent": -5.874
+        },
+        {
+          "group": "70-80",
+          "change_billions": 119.659,
+          "share_of_change_percent": 10.84,
+          "mean_tax_change_dollars": 5435.6,
+          "after_tax_income_change_percent": -7.043
+        },
+        {
+          "group": "80-90",
+          "change_billions": 202.364,
+          "share_of_change_percent": 18.34,
+          "mean_tax_change_dollars": 9193.54,
+          "after_tax_income_change_percent": -9.251
+        },
+        {
+          "group": "90-100",
+          "change_billions": 579.46,
+          "share_of_change_percent": 52.51,
+          "mean_tax_change_dollars": 26320.23,
+          "after_tax_income_change_percent": -13.449
+        },
+        {
+          "group": "ALL",
+          "change_billions": 1103.519,
+          "share_of_change_percent": 100.0,
+          "mean_tax_change_dollars": 5012.92,
+          "after_tax_income_change_percent": -8.691
+        },
+        {
+          "group": "90-95",
+          "change_billions": 168.467,
+          "share_of_change_percent": 15.27,
+          "mean_tax_change_dollars": 15303.22,
+          "after_tax_income_change_percent": -11.623
+        },
+        {
+          "group": "95-99",
+          "change_billions": 223.074,
+          "share_of_change_percent": 20.21,
+          "mean_tax_change_dollars": 25333.73,
+          "after_tax_income_change_percent": -13.199
+        },
+        {
+          "group": "Top 1%",
+          "change_billions": 187.92,
+          "share_of_change_percent": 17.03,
+          "mean_tax_change_dollars": 85348.82,
+          "after_tax_income_change_percent": -15.691
+        }
+      ]
+    },
+    {
+      "uniform_uplift_points": 11.854,
+      "schedule_percent": [
+        21.854,
+        23.854,
+        33.854,
+        35.854,
+        43.854,
+        46.854,
+        48.854
+      ],
+      "static_full_year_change_billions": 1350.225,
+      "elasticity_cases": [
+        {
+          "substitution_elasticity": 0.15,
+          "full_year_liability_change_billions": 1220.841,
+          "first_year_cash_proxy_billions": 945.204,
+          "target_difference_billions": 131.477,
+          "target_coverage_percent": 116.157,
+          "mean_tax_change_dollars": 5545.87,
+          "after_tax_income_change_percent": -8.198,
+          "top_decile_share_percent": 53.51
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "full_year_liability_change_billions": 1135.525,
+          "first_year_cash_proxy_billions": 879.15,
+          "target_difference_billions": 65.423,
+          "target_coverage_percent": 108.04,
+          "mean_tax_change_dollars": 5158.31,
+          "after_tax_income_change_percent": -8.949,
+          "top_decile_share_percent": 52.5
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "full_year_liability_change_billions": 1050.724,
+          "first_year_cash_proxy_billions": 813.496,
+          "target_difference_billions": -0.231,
+          "target_coverage_percent": 99.972,
+          "mean_tax_change_dollars": 4773.09,
+          "after_tax_income_change_percent": -9.702,
+          "top_decile_share_percent": 51.34
+        }
+      ],
+      "central_distribution": [
+        {
+          "group": "0-10n",
+          "change_billions": 0.0,
+          "share_of_change_percent": 0.0,
+          "mean_tax_change_dollars": 0.0,
+          "after_tax_income_change_percent": 0.0
+        },
+        {
+          "group": "0-10z",
+          "change_billions": 0.0,
+          "share_of_change_percent": 0.0,
+          "mean_tax_change_dollars": 0.0,
+          "after_tax_income_change_percent": null
+        },
+        {
+          "group": "0-10p",
+          "change_billions": 0.012,
+          "share_of_change_percent": 0.0,
+          "mean_tax_change_dollars": 0.91,
+          "after_tax_income_change_percent": -0.023
+        },
+        {
+          "group": "10-20",
+          "change_billions": 2.532,
+          "share_of_change_percent": 0.22,
+          "mean_tax_change_dollars": 115.01,
+          "after_tax_income_change_percent": -0.888
+        },
+        {
+          "group": "20-30",
+          "change_billions": 14.244,
+          "share_of_change_percent": 1.25,
+          "mean_tax_change_dollars": 647.04,
+          "after_tax_income_change_percent": -2.69
+        },
+        {
+          "group": "30-40",
+          "change_billions": 22.158,
+          "share_of_change_percent": 1.95,
+          "mean_tax_change_dollars": 1006.59,
+          "after_tax_income_change_percent": -3.141
+        },
+        {
+          "group": "40-50",
+          "change_billions": 35.436,
+          "share_of_change_percent": 3.12,
+          "mean_tax_change_dollars": 1609.9,
+          "after_tax_income_change_percent": -4.054
+        },
+        {
+          "group": "50-60",
+          "change_billions": 53.507,
+          "share_of_change_percent": 4.71,
+          "mean_tax_change_dollars": 2430.38,
+          "after_tax_income_change_percent": -5.038
+        },
+        {
+          "group": "60-70",
+          "change_billions": 80.073,
+          "share_of_change_percent": 7.05,
+          "mean_tax_change_dollars": 3637.5,
+          "after_tax_income_change_percent": -6.048
+        },
+        {
+          "group": "70-80",
+          "change_billions": 123.158,
+          "share_of_change_percent": 10.85,
+          "mean_tax_change_dollars": 5594.59,
+          "after_tax_income_change_percent": -7.252
+        },
+        {
+          "group": "80-90",
+          "change_billions": 208.257,
+          "share_of_change_percent": 18.34,
+          "mean_tax_change_dollars": 9461.26,
+          "after_tax_income_change_percent": -9.525
+        },
+        {
+          "group": "90-100",
+          "change_billions": 596.147,
+          "share_of_change_percent": 52.5,
+          "mean_tax_change_dollars": 27078.17,
+          "after_tax_income_change_percent": -13.847
+        },
+        {
+          "group": "ALL",
+          "change_billions": 1135.525,
+          "share_of_change_percent": 100.0,
+          "mean_tax_change_dollars": 5158.31,
+          "after_tax_income_change_percent": -8.949
+        },
+        {
+          "group": "90-95",
+          "change_billions": 173.37,
+          "share_of_change_percent": 15.27,
+          "mean_tax_change_dollars": 15748.66,
+          "after_tax_income_change_percent": -11.967
+        },
+        {
+          "group": "95-99",
+          "change_billions": 229.542,
+          "share_of_change_percent": 20.21,
+          "mean_tax_change_dollars": 26068.24,
+          "after_tax_income_change_percent": -13.589
+        },
+        {
+          "group": "Top 1%",
+          "change_billions": 193.235,
+          "share_of_change_percent": 17.02,
+          "mean_tax_change_dollars": 87762.96,
+          "after_tax_income_change_percent": -16.155
+        }
+      ]
+    },
+    {
+      "uniform_uplift_points": 12.0,
+      "schedule_percent": [
+        22.0,
+        24.0,
+        34.0,
+        36.0,
+        44.0,
+        47.0,
+        49.0
+      ],
+      "static_full_year_change_billions": 1366.88,
+      "elasticity_cases": [
+        {
+          "substitution_elasticity": 0.15,
+          "full_year_liability_change_billions": 1235.391,
+          "first_year_cash_proxy_billions": 956.469,
+          "target_difference_billions": 142.742,
+          "target_coverage_percent": 117.542,
+          "mean_tax_change_dollars": 5611.97,
+          "after_tax_income_change_percent": -8.297,
+          "top_decile_share_percent": 53.51
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "full_year_liability_change_billions": 1148.689,
+          "first_year_cash_proxy_billions": 889.343,
+          "target_difference_billions": 75.616,
+          "target_coverage_percent": 109.293,
+          "mean_tax_change_dollars": 5218.11,
+          "after_tax_income_change_percent": -9.055,
+          "top_decile_share_percent": 52.5
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "full_year_liability_change_billions": 1062.51,
+          "first_year_cash_proxy_billions": 822.621,
+          "target_difference_billions": 8.894,
+          "target_coverage_percent": 101.093,
+          "mean_tax_change_dollars": 4826.63,
+          "after_tax_income_change_percent": -9.815,
+          "top_decile_share_percent": 51.33
+        }
+      ],
+      "central_distribution": [
+        {
+          "group": "0-10n",
+          "change_billions": 0.0,
+          "share_of_change_percent": 0.0,
+          "mean_tax_change_dollars": 0.0,
+          "after_tax_income_change_percent": 0.0
+        },
+        {
+          "group": "0-10z",
+          "change_billions": 0.0,
+          "share_of_change_percent": 0.0,
+          "mean_tax_change_dollars": 0.0,
+          "after_tax_income_change_percent": null
+        },
+        {
+          "group": "0-10p",
+          "change_billions": 0.012,
+          "share_of_change_percent": 0.0,
+          "mean_tax_change_dollars": 0.92,
+          "after_tax_income_change_percent": -0.023
+        },
+        {
+          "group": "10-20",
+          "change_billions": 2.562,
+          "share_of_change_percent": 0.22,
+          "mean_tax_change_dollars": 116.37,
+          "after_tax_income_change_percent": -0.899
+        },
+        {
+          "group": "20-30",
+          "change_billions": 14.413,
+          "share_of_change_percent": 1.25,
+          "mean_tax_change_dollars": 654.73,
+          "after_tax_income_change_percent": -2.723
+        },
+        {
+          "group": "30-40",
+          "change_billions": 22.421,
+          "share_of_change_percent": 1.95,
+          "mean_tax_change_dollars": 1018.51,
+          "after_tax_income_change_percent": -3.179
+        },
+        {
+          "group": "40-50",
+          "change_billions": 35.853,
+          "share_of_change_percent": 3.12,
+          "mean_tax_change_dollars": 1628.84,
+          "after_tax_income_change_percent": -4.102
+        },
+        {
+          "group": "50-60",
+          "change_billions": 54.133,
+          "share_of_change_percent": 4.71,
+          "mean_tax_change_dollars": 2458.81,
+          "after_tax_income_change_percent": -5.098
+        },
+        {
+          "group": "60-70",
+          "change_billions": 81.007,
+          "share_of_change_percent": 7.05,
+          "mean_tax_change_dollars": 3679.94,
+          "after_tax_income_change_percent": -6.12
+        },
+        {
+          "group": "70-80",
+          "change_billions": 124.599,
+          "share_of_change_percent": 10.85,
+          "mean_tax_change_dollars": 5660.01,
+          "after_tax_income_change_percent": -7.338
+        },
+        {
+          "group": "80-90",
+          "change_billions": 210.682,
+          "share_of_change_percent": 18.34,
+          "mean_tax_change_dollars": 9571.42,
+          "after_tax_income_change_percent": -9.638
+        },
+        {
+          "group": "90-100",
+          "change_billions": 603.007,
+          "share_of_change_percent": 52.5,
+          "mean_tax_change_dollars": 27389.78,
+          "after_tax_income_change_percent": -14.011
+        },
+        {
+          "group": "ALL",
+          "change_billions": 1148.689,
+          "share_of_change_percent": 100.0,
+          "mean_tax_change_dollars": 5218.11,
+          "after_tax_income_change_percent": -9.055
+        },
+        {
+          "group": "90-95",
+          "change_billions": 175.388,
+          "share_of_change_percent": 15.27,
+          "mean_tax_change_dollars": 15931.92,
+          "after_tax_income_change_percent": -12.109
+        },
+        {
+          "group": "95-99",
+          "change_billions": 232.202,
+          "share_of_change_percent": 20.21,
+          "mean_tax_change_dollars": 26370.37,
+          "after_tax_income_change_percent": -13.75
+        },
+        {
+          "group": "Top 1%",
+          "change_billions": 195.418,
+          "share_of_change_percent": 17.01,
+          "mean_tax_change_dollars": 88754.24,
+          "after_tax_income_change_percent": -16.345
+        }
+      ]
+    }
+  ],
+  "boundary": {
+    "official_request_planned": false,
+    "official_score": false,
+    "taxlane_internal_analysis": true,
+    "administration_macro_and_debt_applied": false
+  }
+}

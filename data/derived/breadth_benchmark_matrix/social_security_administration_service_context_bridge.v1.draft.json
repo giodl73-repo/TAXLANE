@@ -1,0 +1,124 @@
+{
+  "record_id": "social-security-administration-service-context-bridge:v1",
+  "record_family": "social_security_administration_service_context_bridge",
+  "schema_version": "v1.draft",
+  "status": "draft_ssa_browser_visible_service_context_ready_values_blocked",
+  "pulse": 210,
+  "as_of_date": "2026-07-25",
+  "lane_id": "social-security",
+  "source_capture_status_rollup_path": "data/derived/breadth_benchmark_matrix/social_security_source_capture_status_rollup.v1.draft.json",
+  "outcome_floor_wave_d_value_readiness_path": "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json",
+  "target_work_item_id": "capture-ssa-administration-transition-capacity",
+  "closure_scope": {
+    "official_sources_only": true,
+    "uses_existing_browser_visible_source": true,
+    "new_external_downloads_performed": false,
+    "source_family": "SSA performance dashboard",
+    "closed_component": "browser-visible May 2026 service-channel and processing-time context",
+    "unclosed_component": "raw-byte custody, complete claims processing values, appeals backlog values, payment accuracy context, staffing/workload context, transition capacity model, administration burden, floor thresholds, and pass/fail evidence",
+    "closure_gate_partially_informed": "administration_transition_context_visible",
+    "closure_gate_ready": false,
+    "context_may_be_displayed": true,
+    "floor_values_may_be_populated": false,
+    "pass_fail_findings_may_be_populated": false,
+    "solver_inputs_may_be_populated": false,
+    "rates_may_be_calculated": false
+  },
+  "source_custody": {
+    "source_id": "SRC-SSA-PERFORMANCE-DASHBOARD-2026-06-09",
+    "publisher": "Social Security Administration",
+    "source_url": "https://www.ssa.gov/ssa-performance",
+    "retrieval_date": "2026-07-25",
+    "last_updated_displayed": "2026-06-09",
+    "local_raw_byte_custody_ready": false,
+    "access_boundary": {
+      "command_line_fetch_status": "blocked_access_denied",
+      "attempted_url": "https://www.ssa.gov/ssa-performance",
+      "boundary_recorded": true
+    },
+    "browser_visible_context_ready": true
+  },
+  "context_values": {
+    "display_period": "May 2026 and fiscal year to date October through May where labeled",
+    "service_channels": {
+      "year_to_date_customer_contacts_online_and_phone_percent": 96.3,
+      "online_transactions_increase_compared_with_prior_year_percent": 8.0,
+      "estimated_public_wait_time_reduction_hours_millions": 14.2,
+      "online_services_time_savings_hours_millions": 7.6,
+      "national_800_number_time_savings_hours_millions": 4.9,
+      "field_offices_time_savings_hours_millions": 1.7
+    },
+    "national_800_number": {
+      "may_2025_average_speed_of_answer_minutes": 11,
+      "may_2025_answer_rate_percent": 67,
+      "may_2026_average_speed_of_answer_minutes": 5,
+      "may_2026_answer_rate_percent": 89,
+      "callers_served_increase_millions": 5.9,
+      "callers_served_increase_percent": 29
+    },
+    "field_offices": {
+      "fy2026_average_combined_wait_time_minutes": 21,
+      "improvement_from_fy2024_percent": 31,
+      "appointment_average_wait_time_minutes": 6
+    },
+    "claims_and_appeals_processing_context": {
+      "retirement_and_survivors_most_claims_processed_within_days": 14,
+      "initial_disability_decisions_faster_than_may_2025_days": 42,
+      "hearings_average_wait_months": 9,
+      "hearings_processing_goal_days": 270
+    },
+    "floor_use_boundary": "SSA service context only; not complete claims-processing values, not appeals backlog values, not payment accuracy values, not transition-capacity floor values, and not pass/fail evidence."
+  },
+  "remaining_floor_requirements": [
+    "local raw-byte custody or stable archived extract",
+    "complete claims processing time series",
+    "appeals backlog and hearing inventory values",
+    "payment accuracy context",
+    "staffing and workload context",
+    "transition capacity and administration burden model",
+    "threshold rationale",
+    "policy and stress values",
+    "pass/fail evidence"
+  ],
+  "blocked_outputs": {
+    "claims_processing_floor_values": null,
+    "appeals_backlog_values": null,
+    "payment_accuracy_values": null,
+    "staffing_workload_values": null,
+    "transition_capacity_model": null,
+    "administration_burden": null,
+    "pass_fail_findings": null,
+    "lower_cost_scenario_admissibility": null,
+    "target_cost": null,
+    "federal_effect": null,
+    "gross_savings": null,
+    "net_savings": null,
+    "solver_input": null,
+    "rate_calculation": null,
+    "public_rate_card": null,
+    "balanced_budget_claim": null
+  },
+  "claim_booleans": {
+    "ssa_administration_service_context_bridge_published": true,
+    "ssa_browser_visible_service_context_ready": true,
+    "local_raw_byte_custody_ready": false,
+    "administration_transition_floor_context_gate_ready": false,
+    "claims_processing_floor_values_populated": false,
+    "appeals_backlog_values_populated": false,
+    "payment_accuracy_values_populated": false,
+    "transition_capacity_model_ready": false,
+    "pass_fail_findings_populated": false,
+    "lower_cost_scenario_admissibility_ready": false,
+    "target_cost_published": false,
+    "federal_effect_published": false,
+    "gross_savings_published": false,
+    "net_savings_published": false,
+    "solver_input_ready": false,
+    "rate_calculation_published": false,
+    "public_rate_card_published": false,
+    "department_cut_instruction_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "This bridge closes only browser-visible SSA May 2026 service-channel and processing-time context for the Social Security lane. It is not local SSA raw-byte custody, not complete claims-processing values, not appeals backlog values, not payment accuracy values, not transition capacity floor values, not policy values, not stress values, not pass/fail findings, not target-cost selection, not gross savings, not net savings, not solver input, not rate calculation, not a public rate card, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+}

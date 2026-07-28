@@ -1,0 +1,33 @@
+{
+  "record_id": "agr-b-agriculture-accounting-closure:v1",
+  "record_family": "agr_b_agriculture_accounting_closure",
+  "version": "v1.draft",
+  "status": "agr_b_complete_bounded_accounting",
+  "pulse": 324,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "AGR-B",
+  "agr_a_path": "data/derived/breadth_benchmark_matrix/agr_a_agriculture_baseline_source_spine.v1.draft.json",
+  "core_h_path": "data/derived/breadth_benchmark_matrix/core_h_shared_accounting_substrate.v1.draft.json",
+  "core_j_path": "data/derived/breadth_benchmark_matrix/core_j_bounded_closure_handoff_closure.v1.draft.json",
+  "core_k_path": "data/derived/breadth_benchmark_matrix/core_k_temporal_composite_accounting_closure.v1.draft.json",
+  "core_l_path": "data/derived/breadth_benchmark_matrix/core_l_cross_lane_overlap_allocation_closure.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/multi_track_d_b_catchup_bundle.schema.md",
+  "reader_path": "docs/reading/multi-track-d-b-catchup-bundle.md",
+  "role_review_path": "reviews/2026-07-26-multi-track-d-b-catchup-role-review.md",
+  "package_reconciliation": [
+    {"work_package_id":"AGR-B-01","status":"complete","completion_class":"bounded_structural","finding":"Support, insurance, services, market-price support, research, and nutrition handoffs map to explicit roles."},
+    {"work_package_id":"AGR-B-02","status":"complete","completion_class":"bounded_structural","finding":"Appropriation, subsidy, indemnity context, fee, grant, and delivery adapters retain overlap boundaries."},
+    {"work_package_id":"AGR-B-03","status":"complete","completion_class":"bounded_structural","finding":"The bounded schedule retains component, insurance-cash, and later-year gaps as null."},
+    {"work_package_id":"AGR-B-04","status":"complete","completion_class":"bounded_structural","finding":"Role review closes bounded B accounting against CORE-H/J/K/L."}
+  ],
+  "account_mapping": [
+    {"component_id":"farm_support","roles":["appropriation","program_outlay"],"evidence_state":"partial_context","non_additive":false,"successor_owner":"AGR-C","blocking_gate":"annual support and market-price schedule"},
+    {"component_id":"crop_insurance","roles":["appropriation","program_outlay","offsetting_collection"],"evidence_state":"partial_context","sign_preserved":true,"non_additive":true,"overlap_owner":"agriculture","successor_owner":"AGR-C","blocking_gate":"premium subsidy indemnity delivery and payment-integrity schedule"},
+    {"component_id":"agricultural_services_research","roles":["appropriation","grant","program_outlay"],"evidence_state":"definition_only","non_additive":false,"successor_owner":"AGR-C","blocking_gate":"account and grant schedule"},
+    {"component_id":"nutrition_handoff","roles":["grant","program_outlay","non_additive_context"],"evidence_state":"definition_only","non_additive":true,"overlap_owner":"income-security-family","successor_owner":"AGR-C","blocking_gate":"ISF-owned nutrition allocation or non-additive reference"}
+  ],
+  "closure_decision": {"completion_class":"bounded_structural","role_review_complete":true,"agr_b_done":true,"agr_c_may_start":true,"numeric_completion":false,"output_admission":false},
+  "blocked_outputs": {"complete_schedule":null,"insurance_cash_bridge":null,"nutrition_allocation":null,"reform":null,"solver_input":null,"assigned_rate":null,"savings":null},
+  "claim_booleans": {"agr_b_closure_published":true,"agr_b_done":true,"agr_c_may_start":true,"core_l_pinned":true,"solver_ready":false,"rate_published":false},
+  "public_warning": "AGR-B is complete as bounded accounting with nutrition and payment-integrity overlaps assigned non-additively. It is not a complete schedule, reform, rate, fraud finding, or savings claim."
+}

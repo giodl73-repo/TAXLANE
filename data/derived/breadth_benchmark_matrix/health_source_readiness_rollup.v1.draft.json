@@ -2,9 +2,9 @@
   "record_id": "health-source-readiness-rollup:v1",
   "record_family": "health_source_readiness_rollup",
   "schema_version": "v1.draft",
-  "status": "draft_partial_context_custody_solver_and_rates_blocked",
+  "status": "draft_partial_context_custody_nhe_and_quality_access_ready_solver_and_rates_blocked",
   "pulse": 183,
-  "as_of_date": "2026-07-20",
+  "as_of_date": "2026-07-24",
   "lane_id": "health-medicare",
   "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
   "health_floor_source_capture_status_path": "data/derived/breadth_benchmark_matrix/health_floor_source_capture_status.v1.draft.json",
@@ -36,9 +36,9 @@
     {
       "source_family": "CMS national health expenditure accounts",
       "source_role": "coverage, access, service-mix, and private-insurance payment context",
-      "custody_status": "custody_gap",
-      "raw_custody_ready": false,
-      "may_populate_current_law_context": false,
+      "custody_status": "custody_ready_context_only",
+      "raw_custody_ready": true,
+      "may_populate_current_law_context": true,
       "may_populate_floor_threshold_or_pass_fail": false,
       "may_populate_federal_policy_translation": false,
       "may_populate_solver_input": false
@@ -56,8 +56,9 @@
     {
       "source_family": "CMS quality and access indicator series",
       "source_role": "access, quality, risk-adjusted outcome, rural-capacity, and safety-net-capacity floor evidence",
-      "custody_status": "custody_gap",
+      "custody_status": "partial_custody_context_only",
       "raw_custody_ready": false,
+      "partial_raw_custody_ready": true,
       "may_populate_current_law_context": false,
       "may_populate_floor_threshold_or_pass_fail": false,
       "may_populate_federal_policy_translation": false,
@@ -66,8 +67,9 @@
   ],
   "readiness_counts": {
     "source_family_count": 5,
-    "custody_ready_context_only_count": 2,
-    "custody_gap_count": 3,
+    "custody_ready_context_only_count": 3,
+    "partial_custody_context_only_count": 1,
+    "custody_gap_count": 1,
     "floor_passage_ready_count": 0,
     "federal_policy_translation_ready_count": 0,
     "solver_input_ready_count": 0,
@@ -76,8 +78,9 @@
   "health_lane_readiness": {
     "partial_fiscal_context_ready": true,
     "medicare_financing_and_enrollment_context_ready": true,
-    "nhe_raw_custody_ready": false,
+    "nhe_raw_custody_ready": true,
     "cbo_raw_custody_ready": false,
+    "quality_access_partial_raw_custody_ready": true,
     "quality_access_raw_custody_ready": false,
     "threshold_values_selected": false,
     "observed_floor_values_populated": false,
@@ -107,8 +110,9 @@
     "partial_fiscal_context_ready": true,
     "medicare_financing_and_enrollment_context_ready": true,
     "health_source_capture_complete": false,
-    "nhe_source_custody_ready": false,
+    "nhe_source_custody_ready": true,
     "cbo_source_custody_ready": false,
+    "quality_access_partial_source_custody_ready": true,
     "quality_access_source_custody_ready": false,
     "threshold_values_selected": false,
     "observed_floor_values_populated": false,
@@ -126,12 +130,11 @@
     "balanced_budget_claim_published": false
   },
   "next_source_gates": [
-    {"gate": "capture_nhe_raw_custody", "ready": false, "value": null},
     {"gate": "capture_cbo_health_baseline_raw_custody", "ready": false, "value": null},
-    {"gate": "capture_quality_access_indicator_raw_custody", "ready": false, "value": null},
+    {"gate": "complete_quality_access_indicator_raw_custody", "ready": false, "value": null},
     {"gate": "threshold_review_record", "ready": false, "value": null},
     {"gate": "federal_policy_translation_model", "ready": false, "value": null},
     {"gate": "behavior_incidence_transition_cost_model", "ready": false, "value": null}
   ],
-  "public_warning": "This health/Medicare source-readiness rollup is partial context custody only. It is not complete health source capture, not health floor threshold selection, not observed floor values, not pass/fail findings, not lower-cost scenario admissibility, not a federal policy score, not target-cost selection, not gross savings, not net savings, not solver input, not rate calculation, not a public rate card, not a technology-savings claim, and not a balanced-budget claim."
+  "public_warning": "This health/Medicare source-readiness rollup is partial context custody only, including CMS NHE and partial CMS Provider Data Catalog hospital quality/access context. It is not complete health source capture, not health floor threshold selection, not observed floor values, not pass/fail findings, not lower-cost scenario admissibility, not a federal policy score, not target-cost selection, not gross savings, not net savings, not solver input, not rate calculation, not a public rate card, not a technology-savings claim, and not a balanced-budget claim."
 }

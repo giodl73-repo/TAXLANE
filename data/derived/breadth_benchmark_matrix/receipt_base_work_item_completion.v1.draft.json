@@ -7,31 +7,125 @@
   "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
   "receipt_base_source_work_queue_path": "data/derived/breadth_benchmark_matrix/receipt_base_source_work_queue.v1.draft.json",
   "omb_receipt_category_context_path": "data/derived/breadth_benchmark_matrix/omb_receipt_category_context.fy2025.v1.draft.json",
+  "omb_receipt_category_fy2025_2031_context_path": "data/derived/breadth_benchmark_matrix/omb_receipt_category_fy2025_2031_context.v1.draft.json",
+  "omb_receipt_share_table_2_2_fy2025_2031_context_path": "data/derived/breadth_benchmark_matrix/omb_receipt_share_table_2_2_fy2025_2031_context.v1.draft.json",
+  "omb_receipt_detail_table_2_4_fy2025_2031_context_path": "data/derived/breadth_benchmark_matrix/omb_receipt_detail_table_2_4_fy2025_2031_context.v1.draft.json",
+  "omb_receipt_amount_share_reconciliation_fy2025_2031_context_path": "data/derived/breadth_benchmark_matrix/omb_receipt_amount_share_reconciliation_fy2025_2031_context.v1.draft.json",
+  "irs_soi_pub1304_ty2023_individual_income_base_context_path": "data/derived/breadth_benchmark_matrix/irs_soi_pub1304_ty2023_individual_income_base_context.v1.draft.json",
+  "social_security_taxable_payroll_base_bridge_path": "data/derived/breadth_benchmark_matrix/social_security_taxable_payroll_base_bridge.cy2025-2035.v1.draft.json",
+  "health_medicare_trustees_source_capture_status_path": "data/derived/breadth_benchmark_matrix/health_medicare_trustees_source_capture_status.v1.draft.json",
+  "medicare_hi_cy2025_2035_current_law_context_path": "data/derived/breadth_benchmark_matrix/medicare_hi_cy2025_2035_current_law_context_path.v1.draft.json",
+  "transportation_receipt_base_work_item_progress_path": "data/derived/breadth_benchmark_matrix/transportation_receipt_base_work_item_progress.v1.draft.json",
   "rate_publication_readiness_rollup_path": "data/derived/breadth_benchmark_matrix/rate_publication_readiness_rollup.v1.draft.json",
   "completed_work_items": [
+    {
+      "work_item_id": "capture-irs-soi-pub-1304-individual-income-base",
+      "completion_status": "ty2023_context_extraction_complete_not_matched_fy2025_assigned_base",
+      "completion_artifact_paths": [
+        "data/derived/breadth_benchmark_matrix/irs_soi_pub1304_ty2023_individual_income_base_context.v1.draft.json"
+      ],
+      "source_ids": ["SRC-IRS-SOI-PUB1304-TABLE-1-1-TY2023"],
+      "completed_fields": ["ty2023_agi_context", "ty2023_taxable_income_context", "ty2023_income_tax_after_credits_context"],
+      "not_completed_fields": ["matched_fy2025_individual_income_base", "legal_receipt_base", "economic_receipt_base", "payer_universe", "distribution_incidence", "behavioral_elasticity", "administration_burden", "current_law_solver_yield", "reform_yield"],
+      "ready_for_assigned_base": false,
+      "ready_for_rate_publication": false,
+      "ready_for_solver": false
+    },
+    {
+      "work_item_id": "capture-ssa-oasdi-taxable-payroll-base",
+      "completion_status": "calendar_year_context_extraction_complete_fiscal_bridge_missing",
+      "completion_artifact_paths": [
+        "data/derived/breadth_benchmark_matrix/social_security_taxable_payroll_base_bridge.cy2025-2035.v1.draft.json"
+      ],
+      "source_ids": ["SRC-SSA-TRUSTEES-2026"],
+      "completed_fields": ["cy2025_cy2035_oasdi_taxable_payroll_context", "contribution_and_benefit_base_context", "current_law_combined_rate_context"],
+      "not_completed_fields": ["fiscal_year_taxable_payroll_base", "omb_receipt_yield_reconciliation", "distribution_incidence", "behavioral_elasticity", "administration_burden", "current_law_solver_yield", "reform_yield"],
+      "ready_for_assigned_base": false,
+      "ready_for_rate_publication": false,
+      "ready_for_solver": false
+    },
+    {
+      "work_item_id": "capture-medicare-hi-taxable-payroll-base",
+      "completion_status": "calendar_year_hi_context_capture_complete_fiscal_bridge_missing",
+      "completion_artifact_paths": [
+        "data/derived/breadth_benchmark_matrix/health_medicare_trustees_source_capture_status.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/medicare_hi_cy2025_2035_current_law_context_path.v1.draft.json"
+      ],
+      "source_ids": ["SRC-CMS-MEDICARE-TRUSTEES-2026"],
+      "completed_fields": ["cy2025_hi_financing_context", "cy2025_cy2035_hi_current_law_context_path", "raw_cms_trustees_custody"],
+      "not_completed_fields": ["fiscal_year_medicare_hi_taxable_payroll_base", "omb_receipt_reconciliation", "distribution_incidence", "behavioral_elasticity", "administration_burden", "current_law_solver_yield", "reform_yield"],
+      "ready_for_assigned_base": false,
+      "ready_for_rate_publication": false,
+      "ready_for_solver": false
+    },
     {
       "work_item_id": "extract-omb-receipt-category-reconciliation",
       "completion_status": "context_extraction_complete_not_assigned_base",
       "completion_artifact_path": "data/derived/breadth_benchmark_matrix/omb_receipt_category_context.fy2025.v1.draft.json",
+      "completion_artifact_paths": [
+        "data/derived/breadth_benchmark_matrix/omb_receipt_category_context.fy2025.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/omb_receipt_category_fy2025_2031_context.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/omb_receipt_share_table_2_2_fy2025_2031_context.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/omb_receipt_detail_table_2_4_fy2025_2031_context.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/omb_receipt_amount_share_reconciliation_fy2025_2031_context.v1.draft.json"
+      ],
       "source_id": "SRC-OMB-HIST-2-4-FY2027",
-      "completed_fields": ["receipt_category", "fiscal_year", "receipt_amount", "perimeter_note", "not_a_legal_or_economic_base_flag"],
-      "not_completed_fields": ["legal_receipt_base_amount", "economic_receipt_base_amount", "assigned_base_rate", "behavioral_elasticity", "current_law_yield", "reform_yield"],
+      "source_ids": ["SRC-OMB-HIST-2-1-FY2027", "SRC-OMB-HIST-2-2-FY2027", "SRC-OMB-HIST-2-4-FY2027"],
+      "completed_fields": [
+        "receipt_category",
+        "fiscal_year",
+        "receipt_amount",
+        "receipt_share",
+        "receipt_detail",
+        "amount_share_reconciliation",
+        "perimeter_note",
+        "not_a_legal_or_economic_base_flag"
+      ],
+      "not_completed_fields": [
+        "legal_receipt_base_amount",
+        "economic_receipt_base_amount",
+        "assigned_base_rate",
+        "behavioral_elasticity",
+        "current_law_yield",
+        "reform_yield",
+        "incidence_distribution",
+        "administration_burden"
+      ],
+      "ready_for_assigned_base": false,
+      "ready_for_rate_publication": false,
+      "ready_for_solver": false
+    },
+    {
+      "work_item_id": "capture-transportation-excise-user-fee-base",
+      "completion_status": "receipt_yield_context_extraction_complete_legal_and_economic_base_missing",
+      "completion_artifact_paths": [
+        "data/derived/breadth_benchmark_matrix/transportation_receipt_base_work_item_progress.v1.draft.json"
+      ],
+      "source_ids": ["SRC-OMB-HIST-2-4-FY2027"],
+      "completed_fields": ["fy2025_transportation_trust_fund_excise_receipt_yield_context", "fy2025_airport_and_airway_excise_receipt_yield_context"],
+      "not_completed_fields": ["legal_base_amount", "economic_base_amount", "tax_or_fee_type_crosswalk", "complete_trust_fund_crediting_rule", "elasticity", "distribution_incidence", "administration_burden", "current_law_yield_by_tax_or_fee_type", "reform_yield"],
       "ready_for_assigned_base": false,
       "ready_for_rate_publication": false,
       "ready_for_solver": false
     }
   ],
-  "remaining_work_items": [
+  "remaining_work_items": [],
+  "assigned_base_open_work_items": [
     "capture-irs-soi-pub-1304-individual-income-base",
     "capture-ssa-oasdi-taxable-payroll-base",
     "capture-medicare-hi-taxable-payroll-base",
+    "extract-omb-receipt-category-reconciliation",
     "capture-transportation-excise-user-fee-base"
   ],
   "summary": {
     "work_item_count": 5,
-    "context_complete_count": 1,
+    "context_complete_count": 5,
+    "context_artifact_count": 10,
     "assigned_base_ready_count": 0,
-    "remaining_work_item_count": 4,
+    "remaining_context_work_item_count": 0,
+    "assigned_base_open_work_item_count": 5,
+    "multi_year_omb_receipt_context_ready": true,
+    "all_receipt_base_work_items_have_context_progress": true,
     "matched_receipt_bases_ready": false,
     "rate_publication_ready": false,
     "solver_ready": false
@@ -59,9 +153,11 @@
     "balanced_budget_fields": null
   },
   "public_warning_phrases": [
-    "One receipt-base work item has context extraction complete, but no assigned receipt base is ready.",
+    "All five receipt-base work items have context progress, but no assigned receipt base is ready.",
+    "OMB Table 2.1, Table 2.2, Table 2.4, and amount/share reconciliation context are captured for FY2025-FY2031.",
+    "IRS Pub 1304 TY2023, SSA Trustees calendar-year OASDI taxable-payroll, CMS Medicare Trustees calendar-year HI, and transportation receipt-yield context are captured with assignment gates closed.",
     "OMB receipt-category context is not a legal or economic assigned receipt base.",
-    "Four receipt-base source work items remain open.",
+    "All five assigned-base work items remain open.",
     "No rate, public rate card, solver input, tax proposal, or balanced-budget value is populated.",
     "No external request was submitted and no agency or person was contacted.",
     "This record is not solver input, not a solver run, not a target-cost selection, not a rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."

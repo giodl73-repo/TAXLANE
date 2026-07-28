@@ -1,0 +1,42 @@
+{
+  "record_id": "international-foreign-assistance-geographic-coverage-floor-value-packet:v1",
+  "record_family": "international_foreign_assistance_geographic_coverage_floor_value_packet",
+  "version": "v1.draft",
+  "pulse": 225,
+  "as_of_date": "2026-07-26",
+  "lane_id": "international-affairs",
+  "floor_id": "foreign_assistance_geographic_coverage",
+  "floor_class": "access_coverage",
+  "floor_definition_packet_path": "data/derived/breadth_benchmark_matrix/international_affairs_outcome_floor_definition_packet.v1.draft.json",
+  "source_metadata_path": "data/metadata/SRC-FOREIGNASSISTANCE-BY-COUNTRY-2026-07-01.2026-07-26.metadata.md",
+  "outcome_floor_wave_d_value_readiness_path": "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json",
+  "threshold_rationale": {
+    "rationale_id": "foreign-assistance-geographic-reporting-coverage-no-regression-from-fy2024",
+    "selected_measure": "Country and region records with reported U.S. foreign-assistance obligations",
+    "rationale": "An international-affairs lower-cost scenario should not pass this narrow geographic-coverage slice if reviewed comparable evidence reduces the number of country/region obligation records below the FY2024 baseline.",
+    "threshold_type": "baseline_no_regression_floor",
+    "threshold_value": 213,
+    "threshold_unit": "country_region_records",
+    "source_table": "ForeignAssistance.gov by-country API, FY2024 obligations",
+    "review_status": "draft_threshold_rationale_needs_role_review_before_pass_fail"
+  },
+  "baseline_values": {
+    "reporting_period": "fiscal year 2024 obligations",
+    "primary_baseline": {"measure": "country/region obligation records", "value": 213, "unit": "country_region_records", "source_id": "SRC-FOREIGNASSISTANCE-BY-COUNTRY-2026-07-01", "source_path": "data/raw/state/SRC-FOREIGNASSISTANCE-BY-COUNTRY-2026-07-01/2026-07-26/by-country-fy2024-obligations.json"},
+    "supporting_context": [
+      {"measure": "records with positive obligation amounts", "value": 212, "unit": "country_region_records", "evidence_status": "derived_from_custodied_api_rows"},
+      {"measure": "aggregate current-dollar obligations", "value": 85781331374, "unit": "dollars", "evidence_status": "derived_from_custodied_api_rows"},
+      {"measure": "negative adjustment records", "value": 1, "unit": "country_region_records", "evidence_status": "derived_from_custodied_api_rows"}
+    ],
+    "source_custody": {"publisher": "U.S. Department of State, ForeignAssistance.gov", "raw_artifact_path": "data/raw/state/SRC-FOREIGNASSISTANCE-BY-COUNTRY-2026-07-01/2026-07-26/by-country-fy2024-obligations.json", "raw_byte_count": 71798, "raw_sha256": "3c7a1660dc8c68dc34a84fa69af052fa3a1e5c3ed6208013de3a040f5e0c9c26", "review_status": "source_metadata_present_and_hash_matched"},
+    "boundary": "Record count is a financial reporting-coverage proxy, not unique-country beneficiary reach, program activity, humanitarian or development effectiveness, diplomacy or consular presence, security assistance, exchange, financial-instrument performance, policy values, stress values, pass/fail evidence, savings, or a balanced-budget claim."
+  },
+  "policy_values": null,
+  "stress_values": null,
+  "pass_fail_evidence": null,
+  "readiness_status": {"threshold_rationale_ready": true, "threshold_value_populated": true, "baseline_value_ready": true, "policy_value_ready": false, "stress_value_ready": false, "pass_fail_ready": false, "complete_international_affairs_floor_ready": false, "lower_cost_scenario_admissible": false, "solver_ready": false, "rate_ready": false},
+  "remaining_requirements": ["role review", "comparable policy and stress values", "pass/fail evidence", "diplomacy, consular, humanitarian, development, security, exchange, financial-instrument, equity, and delivery-feasibility floors"],
+  "blocked_outputs": {"policy_values": null, "stress_values": null, "pass_fail_evidence": null, "lower_cost_scenario_admissibility": null, "solver_input": null, "savings": null, "balanced_budget_claim": null},
+  "claim_booleans": {"floor_value_packet_published": true, "threshold_rationale_ready": true, "baseline_value_ready": true, "policy_value_ready": false, "stress_value_ready": false, "pass_fail_ready": false, "complete_lane_floor_ready": false, "lower_cost_scenario_admissible": false, "solver_ready": false, "rate_ready": false, "savings_claim_published": false, "balanced_budget_claim_published": false},
+  "public_warning": "Draft no-regression foreign-assistance geographic reporting-coverage floor threshold. Policy and stress values remain null. This is not beneficiary reach, not a complete international-affairs floor, not pass/fail evidence, not savings, and not a balanced-budget claim."
+}

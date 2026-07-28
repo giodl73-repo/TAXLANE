@@ -1,0 +1,38 @@
+{
+  "record_id": "disaster-billion-dollar-disaster-deaths-floor-value-packet:v1",
+  "record_family": "disaster_billion_dollar_disaster_deaths_floor_value_packet",
+  "version": "v1.draft",
+  "pulse": 221,
+  "as_of_date": "2026-07-26",
+  "lane_id": "disaster-resilience",
+  "floor_id": "life_safety_response",
+  "floor_class": "quality_safety",
+  "floor_definition_packet_path": "data/derived/breadth_benchmark_matrix/disaster_resilience_outcome_floor_definition_packet.v1.draft.json",
+  "source_metadata_path": "data/metadata/SRC-NOAA-NCEI-BILLION-DOLLAR-DISASTERS-1980-2024.2026-07-26.metadata.md",
+  "outcome_floor_wave_d_value_readiness_path": "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json",
+  "threshold_rationale": {
+    "rationale_id": "life-safety-no-regression-from-2024-billion-dollar-disaster-deaths",
+    "selected_measure": "Deaths associated with U.S. billion-dollar weather and climate disasters",
+    "rationale": "A disaster/resilience lower-cost scenario should not pass this narrow life-safety slice if reviewed comparable policy or stress evidence raises associated deaths above the completed-year baseline.",
+    "threshold_type": "baseline_no_regression_ceiling",
+    "threshold_value": 568,
+    "threshold_unit": "associated_deaths",
+    "source_table": "NCEI 2024 U.S. billion-dollar events summary",
+    "review_status": "draft_threshold_rationale_needs_role_review_before_pass_fail"
+  },
+  "baseline_values": {
+    "reporting_period": "calendar year 2024",
+    "primary_baseline": {"measure": "Deaths associated with qualifying disasters", "value": 568, "unit": "people", "source_id": "SRC-NOAA-NCEI-BILLION-DOLLAR-DISASTERS-1980-2024", "source_path": "data/raw/noaa/SRC-NOAA-NCEI-BILLION-DOLLAR-DISASTERS-1980-2024/2026-07-26/events.pdf"},
+    "supporting_context": [{"measure": "qualifying billion-dollar events", "value": 27, "unit": "events", "evidence_status": "reported_2024"}],
+    "source_custody": {"publisher": "NOAA National Centers for Environmental Information", "raw_artifact_path": "data/raw/noaa/SRC-NOAA-NCEI-BILLION-DOLLAR-DISASTERS-1980-2024/2026-07-26/events.pdf", "raw_byte_count": 287913, "raw_sha256": "e679eb5e6151905e77c3d75cd8de3a7d56eab8ab7311f516f253dab0313cd1d5", "review_status": "source_metadata_present_and_hash_matched"},
+    "boundary": "The annual count is not exposure- or event-severity-normalized and covers only qualifying weather and climate disasters. It is not FEMA performance, preparedness, warning or response quality, recovery, mitigation, policy values, stress values, pass/fail evidence, savings, or a balanced-budget claim."
+  },
+  "policy_values": null,
+  "stress_values": null,
+  "pass_fail_evidence": null,
+  "readiness_status": {"threshold_rationale_ready": true, "threshold_value_populated": true, "baseline_value_ready": true, "policy_value_ready": false, "stress_value_ready": false, "pass_fail_ready": false, "complete_disaster_floor_ready": false, "lower_cost_scenario_admissible": false, "solver_ready": false, "rate_ready": false},
+  "remaining_requirements": ["role review", "comparable policy and stress values", "pass/fail evidence", "exposure normalization, response, recovery, mitigation, equity, reserve, and delivery-feasibility floors"],
+  "blocked_outputs": {"policy_values": null, "stress_values": null, "pass_fail_evidence": null, "lower_cost_scenario_admissibility": null, "reserve_path": null, "solver_input": null, "savings": null, "balanced_budget_claim": null},
+  "claim_booleans": {"floor_value_packet_published": true, "threshold_rationale_ready": true, "baseline_value_ready": true, "policy_value_ready": false, "stress_value_ready": false, "pass_fail_ready": false, "complete_lane_floor_ready": false, "lower_cost_scenario_admissible": false, "solver_ready": false, "rate_ready": false, "savings_claim_published": false, "balanced_budget_claim_published": false},
+  "public_warning": "Draft no-regression billion-dollar-disaster death-count floor threshold. Policy and stress values remain null. This is not a complete disaster/resilience floor, not exposure-normalized, not pass/fail evidence, not savings, and not a balanced-budget claim."
+}

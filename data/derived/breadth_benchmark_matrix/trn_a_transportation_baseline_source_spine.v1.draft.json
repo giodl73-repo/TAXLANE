@@ -1,0 +1,75 @@
+{
+  "record_id": "trn-a-transportation-baseline-source-spine:v1",
+  "record_family": "trn_a_transportation_baseline_source_spine",
+  "version": "v1.draft",
+  "status": "trn_a_complete_bounded_current_law_baseline_source_spine",
+  "track_wave_id": "TRN-A",
+  "pulse": 238,
+  "as_of_date": "2026-07-26",
+  "schema_path": "data/derived/breadth_benchmark_matrix/trn_a_transportation_baseline_source_spine.schema.md",
+  "reader_path": "docs/reading/trn-a-transportation-baseline-source-spine.md",
+  "role_review_path": "reviews/2026-07-26-trn-a-transportation-baseline-source-spine-role-review.md",
+  "corpus_plan_path": "data/derived/breadth_benchmark_matrix/adaptive_rate_corpus_track_plan.v1.draft.json",
+  "core_g_path": "data/derived/breadth_benchmark_matrix/core_g_official_current_law_solver_spine.v1.draft.json",
+  "purpose": "Admit the authoritative transportation current-law baseline and source spine needed to derive CORE-H interfaces and begin transportation accounting work without stitching incompatible vintages or inventing unavailable FY2032-FY2035 income/outgo rows.",
+  "lane_scope": {
+    "lane_id": "transportation-infrastructure",
+    "function_code": "400",
+    "federal_outlay_perimeter": "OMB Function 400 and subfunctions 401, 402, 403, and 407",
+    "named_funds": ["highway_trust_fund", "airport_and_airway_trust_fund"],
+    "service_perimeter": ["ground_transportation", "air_transportation", "water_transportation", "other_transportation", "roadway_safety"],
+    "baseline_year": 2025,
+    "required_solver_horizon": [2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035]
+  },
+  "source_spine": [
+    {"component_id":"function_400_net_outlays","artifact_path":"data/derived/breadth_benchmark_matrix/transportation_pilot_partial_federal_outlay_path.v1.draft.json","source_id":"SRC-OMB-PBD-OUTLAYS-FY2027","coverage":"FY2025-FY2031 actual_and_estimates","admission_status":"admitted_bounded_baseline","solver_ready":false},
+    {"component_id":"named_trust_fund_income_outgo_balance","artifact_path":"data/derived/breadth_benchmark_matrix/transportation_trust_fund_table_13_4_fy2025_2031_context_path.v1.draft.json","source_id":"SRC-OMB-AP-13-TABLES-FY2027","coverage":"FY2025-FY2031_actual_and_estimates","admission_status":"admitted_separate_fund_context","solver_ready":false},
+    {"component_id":"fy2025_receipt_outlay_anchor","artifact_path":"data/derived/breadth_benchmark_matrix/transportation_trust_fund_treasury_mts_fy2025_anchor_context.v1.draft.json","source_id":"SRC-TREASURY-FISCALDATA-MTS-TABLE-4-5-FY2025","coverage":"FY2025_final_anchor","admission_status":"admitted_corroborating_context","solver_ready":false},
+    {"component_id":"named_trust_fund_balance_extension","artifact_path":"data/derived/breadth_benchmark_matrix/transportation_trust_fund_cbo_balance_extension_fy2032_2035_context.v1.draft.json","source_id":"SRC-CBO-OPEN-DATA-TRUST-FUND-2026-02","coverage":"FY2032-FY2035_balance_only","admission_status":"admitted_non_stitchable_context","solver_ready":false},
+    {"component_id":"cross_source_overlap_boundary","artifact_path":"data/derived/breadth_benchmark_matrix/transportation_trust_fund_cross_source_reconciliation_status.v1.draft.json","source_id":"OMB_CBO_TREASURY","coverage":"FY2025_anchor_and_FY2031_overlap","admission_status":"admitted_reconciliation_requirement","solver_ready":false},
+    {"component_id":"roadway_safety_baseline","artifact_path":"data/derived/breadth_benchmark_matrix/transportation_roadway_fatality_rate_floor_value_packet.v1.draft.json","source_id":"SRC-NHTSA-CRASHSTATS-813800-2025-EARLY-2024-ARF","coverage":"CY2024_completed_year","admission_status":"admitted_service_floor_anchor","solver_ready":false}
+  ],
+  "bounded_outlay_baseline_musd": [
+    {"fiscal_year":2025,"ground":100827,"air":29743,"water":13852,"other":898,"total":145320,"status":"actual"},
+    {"fiscal_year":2026,"ground":102208,"air":29972,"water":17094,"other":1003,"total":150277,"status":"projection"},
+    {"fiscal_year":2027,"ground":106589,"air":37288,"water":21557,"other":1041,"total":166475,"status":"projection"},
+    {"fiscal_year":2028,"ground":110912,"air":40166,"water":23488,"other":1052,"total":175618,"status":"projection"},
+    {"fiscal_year":2029,"ground":109158,"air":36501,"water":22141,"other":1033,"total":168833,"status":"projection"},
+    {"fiscal_year":2030,"ground":105178,"air":31234,"water":20203,"other":1003,"total":157618,"status":"projection"},
+    {"fiscal_year":2031,"ground":103220,"air":28413,"water":19666,"other":969,"total":152268,"status":"projection"}
+  ],
+  "explicit_horizon_gaps": [
+    {"fiscal_year":2032,"function_400_outlays_musd":null,"named_fund_income_outgo":null,"reason":"no_admitted_compatible_official_lane_income_outgo_source"},
+    {"fiscal_year":2033,"function_400_outlays_musd":null,"named_fund_income_outgo":null,"reason":"no_admitted_compatible_official_lane_income_outgo_source"},
+    {"fiscal_year":2034,"function_400_outlays_musd":null,"named_fund_income_outgo":null,"reason":"no_admitted_compatible_official_lane_income_outgo_source"},
+    {"fiscal_year":2035,"function_400_outlays_musd":null,"named_fund_income_outgo":null,"reason":"no_admitted_compatible_official_lane_income_outgo_source"}
+  ],
+  "core_h_interface_findings": [
+    "preserve_each_named_trust_fund_as_a_separate_ledger",
+    "represent_general_fund_transfers_as_explicit_signed_fields",
+    "represent_credited_offsetting_collections_separately_from_gross_program_outlays",
+    "represent_other_scored_fund_income_and_balance_adjustments_explicitly",
+    "carry_source_vintage_and_perimeter_on_every_annual_row",
+    "expose_rounding_residuals_instead_of_forcing_cross_source_agreement",
+    "support_null_years_and_non_stitchable_overlap_diagnostics",
+    "map_fund_ledgers_to_function_400_only_through_an_explicit_reviewed_crosswalk",
+    "keep_reserves_separate_from_named_fund_balances",
+    "recompute_debt_and_interest_endogenously_at_the_federal_layer"
+  ],
+  "completion_gates": [
+    {"gate_id":"core_g_dependency","ready":true},
+    {"gate_id":"function_400_baseline_custody","ready":true},
+    {"gate_id":"named_fund_source_custody","ready":true},
+    {"gate_id":"transfer_offset_and_adjustment_fields_identified","ready":true},
+    {"gate_id":"service_perimeter_identified","ready":true},
+    {"gate_id":"horizon_gaps_explicit","ready":true},
+    {"gate_id":"cross_source_non_stitching_boundary","ready":true},
+    {"gate_id":"core_h_requirements_derived","ready":true},
+    {"gate_id":"role_review","ready":true},
+    {"gate_id":"deterministic_validation","ready":true}
+  ],
+  "aggregate_status": {"source_component_count":6,"bounded_outlay_rows":7,"explicit_null_horizon_rows":4,"completion_gate_count":10,"ready_completion_gates":10,"trn_a_done":true,"core_h_interface_findings_ready":true,"full_fy2025_fy2035_lane_solver_path_ready":false,"trn_b_may_start":false},
+  "blocked_outputs": {"fy2032_fy2035_function_400_outlays":null,"fy2032_fy2035_named_fund_income_outgo":null,"reconciled_named_fund_solver_path":null,"target_cost":null,"rate":null,"savings":null,"balanced_budget_result":null},
+  "claim_booleans": {"trn_a_source_spine_published":true,"trn_a_done":true,"core_h_interface_findings_ready":true,"full_lane_solver_path_ready":false,"trn_b_started":false,"solver_run_published":false,"rate_published":false,"savings_claim_published":false,"balanced_budget_claim_published":false},
+  "public_warning": "TRN-A completes the bounded transportation baseline and authoritative source spine. It preserves FY2032-FY2035 Function 400 and named-fund income/outgo gaps as null and does not stitch incompatible CBO and OMB balances. It is not a reconciled lane solver path, reform score, target cost, rate, savings estimate, or balanced-budget result."
+}

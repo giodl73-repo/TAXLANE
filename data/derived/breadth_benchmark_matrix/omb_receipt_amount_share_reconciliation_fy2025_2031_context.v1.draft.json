@@ -1,0 +1,105 @@
+{
+  "record_id": "omb-receipt-amount-share-reconciliation-fy2025-2031-context:v1",
+  "record_family": "omb_receipt_amount_share_reconciliation_context",
+  "version": "v1.draft",
+  "status": "draft_official_omb_amount_share_reconciliation_not_base_or_rate",
+  "as_of_date": "2026-07-24",
+  "purpose": "Cross-check OMB Historical Table 2.1 FY2025-FY2031 receipt amounts against OMB Historical Table 2.2 FY2025-FY2031 one-decimal receipt-source shares while keeping legal/economic receipt bases, rate bridges, solver inputs, and public claims blocked.",
+  "input_artifacts": {
+    "receipt_amount_context_path": "data/derived/breadth_benchmark_matrix/omb_receipt_category_fy2025_2031_context.v1.draft.json",
+    "receipt_share_context_path": "data/derived/breadth_benchmark_matrix/omb_receipt_share_table_2_2_fy2025_2031_context.v1.draft.json"
+  },
+  "source_custody": [
+    {
+      "source_id": "SRC-OMB-HIST-2-1-FY2027",
+      "publisher": "Office of Management and Budget",
+      "source_table": "Historical Table 2.1 - Receipts by Source: 1934-2031",
+      "raw_artifact_path": "data/raw/omb/SRC-OMB-HIST-2-1-FY2027/2026-06-21/hist02z1_fy2027.xlsx",
+      "retrieval_date": "2026-06-21",
+      "byte_count": 12393,
+      "sha256": "1212da86947a71d9a0268e23d3de789402bcfb80b308cd48a32926a65b2e7bc3",
+      "review_status": "captured_context_only"
+    },
+    {
+      "source_id": "SRC-OMB-HIST-2-2-FY2027",
+      "publisher": "Office of Management and Budget",
+      "source_table": "Historical Table 2.2 - Percentage Composition of Receipts by Source: 1934-2031",
+      "raw_artifact_path": "data/raw/omb/SRC-OMB-HIST-2-2-FY2027/2026-06-21/hist02z2_fy2027.xlsx",
+      "retrieval_date": "2026-06-21",
+      "byte_count": 10253,
+      "sha256": "9e2bc741ca3a92929551ca65c6db55901a1d96bac0cae43788c89cfac4f0fe55",
+      "review_status": "captured_context_only"
+    }
+  ],
+  "method": {
+    "amount_unit": "millions_of_dollars",
+    "share_unit": "percent_of_total_receipts",
+    "covered_years": [2025, 2026, 2027, 2028, 2029, 2030, 2031],
+    "actual_years": [2025],
+    "estimate_years": [2026, 2027, 2028, 2029, 2030, 2031],
+    "recalculated_share_decimal_places": 3,
+    "source_share_decimal_places": 1,
+    "half_tenth_share_rounding_tolerance_musd": "total_receipts_musd * 0.0005, rounded to nearest million",
+    "no_interpolation_used": true,
+    "not_receipt_amount_source": true,
+    "not_legal_or_economic_receipt_base": true,
+    "not_assigned_receipt_base": true,
+    "not_rate_bridge": true,
+    "not_solver_input": true
+  },
+  "annual_reconciliation_rows": [
+    {"fiscal_year": 2025, "year_status": "actual", "total_receipts_musd": 5236421, "component_share_sum_pct": 99.9, "max_abs_rounding_difference_musd": 1763, "one_decimal_share_half_rounding_tolerance_musd": 2618, "all_category_differences_within_rounding_tolerance": true, "category_checks": [{"category_id": "individual_income_taxes", "amount_musd": 2656044, "amount_share_pct": 50.723, "source_share_pct": 50.7, "rounded_share_implied_amount_musd": 2654865, "rounding_difference_musd": -1179}, {"category_id": "corporation_income_taxes", "amount_musd": 452089, "amount_share_pct": 8.634, "source_share_pct": 8.6, "rounded_share_implied_amount_musd": 450332, "rounding_difference_musd": -1757}, {"category_id": "social_insurance_retirement_total", "amount_musd": 1748294, "amount_share_pct": 33.387, "source_share_pct": 33.4, "rounded_share_implied_amount_musd": 1748965, "rounding_difference_musd": 671}, {"category_id": "excise_taxes", "amount_musd": 105937, "amount_share_pct": 2.023, "source_share_pct": 2.0, "rounded_share_implied_amount_musd": 104728, "rounding_difference_musd": -1209}, {"category_id": "other_receipts", "amount_musd": 274057, "amount_share_pct": 5.234, "source_share_pct": 5.2, "rounded_share_implied_amount_musd": 272294, "rounding_difference_musd": -1763}]},
+    {"fiscal_year": 2026, "year_status": "estimate", "total_receipts_musd": 5475705, "component_share_sum_pct": 100.0, "max_abs_rounding_difference_musd": 1561, "one_decimal_share_half_rounding_tolerance_musd": 2738, "all_category_differences_within_rounding_tolerance": true, "category_checks": [{"category_id": "individual_income_taxes", "amount_musd": 2629899, "amount_share_pct": 48.029, "source_share_pct": 48.0, "rounded_share_implied_amount_musd": 2628338, "rounding_difference_musd": -1561}, {"category_id": "corporation_income_taxes", "amount_musd": 398640, "amount_share_pct": 7.280, "source_share_pct": 7.3, "rounded_share_implied_amount_musd": 399726, "rounding_difference_musd": 1086}, {"category_id": "social_insurance_retirement_total", "amount_musd": 1849815, "amount_share_pct": 33.782, "source_share_pct": 33.8, "rounded_share_implied_amount_musd": 1850788, "rounding_difference_musd": 973}, {"category_id": "excise_taxes", "amount_musd": 105588, "amount_share_pct": 1.928, "source_share_pct": 1.9, "rounded_share_implied_amount_musd": 104038, "rounding_difference_musd": -1550}, {"category_id": "other_receipts", "amount_musd": 491763, "amount_share_pct": 8.981, "source_share_pct": 9.0, "rounded_share_implied_amount_musd": 492813, "rounding_difference_musd": 1050}]},
+    {"fiscal_year": 2027, "year_status": "estimate", "total_receipts_musd": 5920951, "component_share_sum_pct": 100.0, "max_abs_rounding_difference_musd": 2391, "one_decimal_share_half_rounding_tolerance_musd": 2960, "all_category_differences_within_rounding_tolerance": true, "category_checks": [{"category_id": "individual_income_taxes", "amount_musd": 2869270, "amount_share_pct": 48.460, "source_share_pct": 48.5, "rounded_share_implied_amount_musd": 2871661, "rounding_difference_musd": 2391}, {"category_id": "corporation_income_taxes", "amount_musd": 440066, "amount_share_pct": 7.432, "source_share_pct": 7.4, "rounded_share_implied_amount_musd": 438150, "rounding_difference_musd": -1916}, {"category_id": "social_insurance_retirement_total", "amount_musd": 1934509, "amount_share_pct": 32.672, "source_share_pct": 32.7, "rounded_share_implied_amount_musd": 1936151, "rounding_difference_musd": 1642}, {"category_id": "excise_taxes", "amount_musd": 107440, "amount_share_pct": 1.815, "source_share_pct": 1.8, "rounded_share_implied_amount_musd": 106577, "rounding_difference_musd": -863}, {"category_id": "other_receipts", "amount_musd": 569666, "amount_share_pct": 9.621, "source_share_pct": 9.6, "rounded_share_implied_amount_musd": 568411, "rounding_difference_musd": -1255}]},
+    {"fiscal_year": 2028, "year_status": "estimate", "total_receipts_musd": 6288407, "component_share_sum_pct": 100.0, "max_abs_rounding_difference_musd": 2750, "one_decimal_share_half_rounding_tolerance_musd": 3144, "all_category_differences_within_rounding_tolerance": true, "category_checks": [{"category_id": "individual_income_taxes", "amount_musd": 3074004, "amount_share_pct": 48.884, "source_share_pct": 48.9, "rounded_share_implied_amount_musd": 3075031, "rounding_difference_musd": 1027}, {"category_id": "corporation_income_taxes", "amount_musd": 455515, "amount_share_pct": 7.244, "source_share_pct": 7.2, "rounded_share_implied_amount_musd": 452765, "rounding_difference_musd": -2750}, {"category_id": "social_insurance_retirement_total", "amount_musd": 2053856, "amount_share_pct": 32.661, "source_share_pct": 32.7, "rounded_share_implied_amount_musd": 2056309, "rounding_difference_musd": 2453}, {"category_id": "excise_taxes", "amount_musd": 107576, "amount_share_pct": 1.711, "source_share_pct": 1.7, "rounded_share_implied_amount_musd": 106903, "rounding_difference_musd": -673}, {"category_id": "other_receipts", "amount_musd": 597456, "amount_share_pct": 9.501, "source_share_pct": 9.5, "rounded_share_implied_amount_musd": 597399, "rounding_difference_musd": -57}]},
+    {"fiscal_year": 2029, "year_status": "estimate", "total_receipts_musd": 6660321, "component_share_sum_pct": 100.0, "max_abs_rounding_difference_musd": 3154, "one_decimal_share_half_rounding_tolerance_musd": 3330, "all_category_differences_within_rounding_tolerance": true, "category_checks": [{"category_id": "individual_income_taxes", "amount_musd": 3280032, "amount_share_pct": 49.247, "source_share_pct": 49.2, "rounded_share_implied_amount_musd": 3276878, "rounding_difference_musd": -3154}, {"category_id": "corporation_income_taxes", "amount_musd": 481816, "amount_share_pct": 7.234, "source_share_pct": 7.2, "rounded_share_implied_amount_musd": 479543, "rounding_difference_musd": -2273}, {"category_id": "social_insurance_retirement_total", "amount_musd": 2158527, "amount_share_pct": 32.409, "source_share_pct": 32.4, "rounded_share_implied_amount_musd": 2157944, "rounding_difference_musd": -583}, {"category_id": "excise_taxes", "amount_musd": 110233, "amount_share_pct": 1.655, "source_share_pct": 1.7, "rounded_share_implied_amount_musd": 113225, "rounding_difference_musd": 2992}, {"category_id": "other_receipts", "amount_musd": 629713, "amount_share_pct": 9.455, "source_share_pct": 9.5, "rounded_share_implied_amount_musd": 632730, "rounding_difference_musd": 3017}]},
+    {"fiscal_year": 2030, "year_status": "estimate", "total_receipts_musd": 7137281, "component_share_sum_pct": 99.9, "max_abs_rounding_difference_musd": 3465, "one_decimal_share_half_rounding_tolerance_musd": 3569, "all_category_differences_within_rounding_tolerance": true, "category_checks": [{"category_id": "individual_income_taxes", "amount_musd": 3564198, "amount_share_pct": 49.938, "source_share_pct": 49.9, "rounded_share_implied_amount_musd": 3561503, "rounding_difference_musd": -2695}, {"category_id": "corporation_income_taxes", "amount_musd": 516336, "amount_share_pct": 7.234, "source_share_pct": 7.2, "rounded_share_implied_amount_musd": 513884, "rounding_difference_musd": -2452}, {"category_id": "social_insurance_retirement_total", "amount_musd": 2276402, "amount_share_pct": 31.895, "source_share_pct": 31.9, "rounded_share_implied_amount_musd": 2276793, "rounding_difference_musd": 391}, {"category_id": "excise_taxes", "amount_musd": 113113, "amount_share_pct": 1.585, "source_share_pct": 1.6, "rounded_share_implied_amount_musd": 114196, "rounding_difference_musd": 1083}, {"category_id": "other_receipts", "amount_musd": 667232, "amount_share_pct": 9.349, "source_share_pct": 9.3, "rounded_share_implied_amount_musd": 663767, "rounding_difference_musd": -3465}]},
+    {"fiscal_year": 2031, "year_status": "estimate", "total_receipts_musd": 7559389, "component_share_sum_pct": 100.1, "max_abs_rounding_difference_musd": 3518, "one_decimal_share_half_rounding_tolerance_musd": 3780, "all_category_differences_within_rounding_tolerance": true, "category_checks": [{"category_id": "individual_income_taxes", "amount_musd": 3802690, "amount_share_pct": 50.304, "source_share_pct": 50.3, "rounded_share_implied_amount_musd": 3802373, "rounding_difference_musd": -317}, {"category_id": "corporation_income_taxes", "amount_musd": 540758, "amount_share_pct": 7.153, "source_share_pct": 7.2, "rounded_share_implied_amount_musd": 544276, "rounding_difference_musd": 3518}, {"category_id": "social_insurance_retirement_total", "amount_musd": 2395136, "amount_share_pct": 31.684, "source_share_pct": 31.7, "rounded_share_implied_amount_musd": 2396326, "rounding_difference_musd": 1190}, {"category_id": "excise_taxes", "amount_musd": 113550, "amount_share_pct": 1.502, "source_share_pct": 1.5, "rounded_share_implied_amount_musd": 113391, "rounding_difference_musd": -159}, {"category_id": "other_receipts", "amount_musd": 707255, "amount_share_pct": 9.356, "source_share_pct": 9.4, "rounded_share_implied_amount_musd": 710583, "rounding_difference_musd": 3328}]}
+  ],
+  "aggregate_reconciliation": {
+    "year_count": 7,
+    "categories_per_year": 5,
+    "all_year_category_checks_within_rounding_tolerance": true,
+    "largest_abs_rounding_difference_musd": 3518,
+    "largest_abs_rounding_difference_year": 2031,
+    "largest_abs_rounding_difference_category": "corporation_income_taxes"
+  },
+  "blocked_outputs": {
+    "legal_receipt_base_amounts": null,
+    "economic_receipt_base_amounts": null,
+    "matched_receipt_bases": null,
+    "assigned_base_rates": null,
+    "behavioral_elasticities": null,
+    "incidence_distribution_model": null,
+    "administration_burden": null,
+    "current_law_solver_yields": null,
+    "reform_yields": null,
+    "solver_input_rows": null,
+    "solver_run": null,
+    "statutory_rate": null,
+    "effective_rate": null,
+    "public_rate_card": null,
+    "tax_proposal": null,
+    "balanced_budget_claim": null
+  },
+  "claim_booleans": {
+    "omb_amount_share_reconciliation_published": true,
+    "source_custody_ready": true,
+    "fy2025_fy2031_amount_share_reconciliation_present": true,
+    "legal_receipt_base_ready": false,
+    "economic_receipt_base_ready": false,
+    "matched_receipt_bases_ready": false,
+    "incidence_distribution_model_ready": false,
+    "administration_burden_ready": false,
+    "current_law_solver_yields_ready": false,
+    "reform_yields_ready": false,
+    "solver_input_ready": false,
+    "solver_run_published": false,
+    "statutory_rate_published": false,
+    "effective_rate_published": false,
+    "public_rate_card_published": false,
+    "tax_proposal_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "OMB Table 2.1 and Table 2.2 FY2025-FY2031 reconciliation only. This checks amount/share consistency under one-decimal share rounding; it is not a legal/economic receipt base, not an assigned base, not incidence or distribution modeling, not a rate bridge, not solver input, not a tax proposal, and not a balanced-budget claim."
+}

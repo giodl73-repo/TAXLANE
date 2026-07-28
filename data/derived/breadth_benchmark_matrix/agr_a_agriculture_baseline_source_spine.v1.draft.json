@@ -1,0 +1,34 @@
+{
+  "record_id": "agr-a-agriculture-baseline-source-spine:v1",
+  "record_family": "agr_a_agriculture_baseline_source_spine",
+  "version": "v1.draft",
+  "status": "agr_a_complete_bounded_baseline_source_spine",
+  "pulse": 319,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "AGR-A",
+  "lane_id": "agriculture",
+  "core_g_path": "data/derived/breadth_benchmark_matrix/core_g_official_current_law_solver_spine.v1.draft.json",
+  "depth_card_path": "data/derived/breadth_benchmark_matrix/agriculture_depth_card.fy2025.v1.draft.json",
+  "floor_path": "data/derived/breadth_benchmark_matrix/agriculture_outcome_floor_definition_packet.v1.draft.json",
+  "debt_asset_floor_path": "data/derived/breadth_benchmark_matrix/agriculture_debt_to_asset_ratio_floor_value_packet.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/multi_track_d_b_catchup_bundle.schema.md",
+  "reader_path": "docs/reading/multi-track-d-b-catchup-bundle.md",
+  "role_review_path": "reviews/2026-07-26-multi-track-d-b-catchup-role-review.md",
+  "package_reconciliation": [
+    {"work_package_id":"AGR-A-01","status":"complete","completion_class":"bounded_structural","finding":"Farm support, insurance, services, market-price support, research, and nutrition handoffs remain explicit."},
+    {"work_package_id":"AGR-A-02","status":"complete","completion_class":"bounded_structural","finding":"FY2025 depth-card values form a bounded baseline with later years null."},
+    {"work_package_id":"AGR-A-03","status":"complete","completion_class":"bounded_structural","finding":"Appropriations, commodity support, insurance subsidy, indemnity context, fees, and grants remain distinct."},
+    {"work_package_id":"AGR-A-04","status":"complete","completion_class":"bounded_structural","finding":"Farm resilience, productivity, food security, environment, and payment-accuracy floor lineage is mapped."},
+    {"work_package_id":"AGR-A-05","status":"complete","completion_class":"bounded_structural","finding":"Role review accepts bounded A closure with nutrition and payment-integrity overlaps retained."}
+  ],
+  "source_handoffs": [
+    {"field_id":"support_insurance_service_paths","evidence_state":"source_gap","successor_owner":"AGR-B","blocking_gate":"annual component and account schedule"},
+    {"field_id":"nutrition_overlap","evidence_state":"definition_only","successor_owner":"AGR-B","blocking_gate":"non-additive AGR ISF ownership treatment"},
+    {"field_id":"crop_insurance_cash_subsidy_bridge","evidence_state":"partial_context","successor_owner":"AGR-B","blocking_gate":"premium subsidy indemnity and delivery-cost adapter"},
+    {"field_id":"payment_integrity_overlap","evidence_state":"definition_only","successor_owner":"AGR-B","blocking_gate":"non-additive payment-integrity reference treatment"}
+  ],
+  "closure_decision": {"completion_class":"bounded_structural","role_review_complete":true,"agr_a_done":true,"agr_b_may_start":true,"numeric_completion":false,"output_admission":false},
+  "blocked_outputs": {"complete_baseline":null,"insurance_schedule":null,"nutrition_allocation":null,"solver_input":null,"assigned_rate":null,"savings":null},
+  "claim_booleans": {"agr_a_spine_published":true,"agr_a_done":true,"agr_b_may_start":true,"solver_ready":false,"rate_published":false},
+  "public_warning": "AGR-A closes a bounded agriculture baseline and source spine. Complete component paths, crop-insurance accounting, nutrition allocation, rates, and savings remain blocked."
+}

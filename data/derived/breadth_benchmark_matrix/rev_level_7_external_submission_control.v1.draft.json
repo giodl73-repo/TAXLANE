@@ -1,0 +1,29 @@
+{
+  "record_id":"rev-level-7-external-submission-control:v1",
+  "record_family":"rev_level_7_external_submission_control",
+  "version":"v1.draft",
+  "status":"sealed_local_bundle_built_authorization_and_channel_pending",
+  "pulse":473,
+  "as_of_date":"2026-07-27",
+  "submission_id":"taxlane-rev-level-7-fy2026-rate-only-v1",
+  "bundle_id":"cc2718b3cd4a4723eba9846b29cc8335b4e94bab70c8783871ee8caa81a61be5",
+  "schema_path":"data/derived/breadth_benchmark_matrix/rev_level_7_external_submission_control.schema.md",
+  "reader_path":"docs/reading/rev-level-7-external-submission-authorization-and-routing.md",
+  "cover_memo_path":"docs/reading/rev-level-7-external-submission-cover-memo.md",
+  "role_review_path":"reviews/2026-07-27-rev-level-7-external-submission-control-role-review.md",
+  "builder_path":"tools/build-rev-level-7-submission.ps1",
+  "payload":[
+    {"path":"docs/reading/rev-level-7-external-submission-cover-memo.md","bundle_path":"01-cover-memo.md","media_type":"text/markdown","role":"request_cover","sha256":"6b32c1c1242c696ebb56703170ae94144c7e9473e109083cc834e8d4a3634c6c"},
+    {"path":"data/derived/breadth_benchmark_matrix/rev_level_7_scorer_ready_legislative_specification.v1.draft.json","bundle_path":"02-policy-specification.json","media_type":"application/json","role":"controlling_policy_specification","sha256":"aa2a4f01611ddcb09c24d4d7c8a786a6e05cfd78b8977e528e4c868b62a3507a"},
+    {"path":"data/derived/breadth_benchmark_matrix/rev_level_7_official_score_request_workbook.v1.draft.json","bundle_path":"03-score-request-workbook.json","media_type":"application/json","role":"requested_annual_and_distribution_outputs","sha256":"cb9eb3ebddd7ce8a96b6fe030d65c6f03c6e90668beee83d5103a612f7f434a7"},
+    {"path":"data/derived/breadth_benchmark_matrix/rev_level_7_nonofficial_conforming_discussion_draft.v1.draft.json","bundle_path":"04-nonofficial-discussion-draft.json","media_type":"application/json","role":"nonofficial_legislative_drafting_aid","sha256":"e910a858ab4a92f11c9182dbe87cf0ab056c360d026209bb33d8b981aede8e9a"},
+    {"path":"data/derived/breadth_benchmark_matrix/pay_net_rev_post_fifteen_track_reconciliation.v1.draft.json","bundle_path":"05-internal-fiscal-reconciliation.json","media_type":"application/json","role":"internal_package_accounting_boundary","sha256":"c477de77430ae35224f7c57cbe561b9d7c5baaf67ce2fe636c886ec0682a9d6d"},
+    {"path":"data/derived/breadth_benchmark_matrix/rev_level_7_integrated_certification_and_score_handoff.v1.draft.json","bundle_path":"06-internal-certification-handoff.json","media_type":"application/json","role":"internal_readiness_and_external_gate_record","sha256":"4a636650d17db442bf6c68bcd38f6e14f86cfcad7386c568c8edf3c065da82b0"},
+    {"path":"docs/reading/rev-level-7-external-submission-authorization-and-routing.md","bundle_path":"07-authorization-and-routing.md","media_type":"text/markdown","role":"no_send_authorization_and_routing_boundary","sha256":"fd24b57550293a403936c475c522dc5268ee5ea5469a5a2c4016c657e8258b9d"}
+  ],
+  "routing":{"official_revenue_estimator":"Joint Committee on Taxation","authorized_requester_required":true,"primary_route":"authorized_congressional_tax_writing_committee_or_member_staff_to_jct","cbo_role":"coordinated_spending_interaction_debt_service_and_budget_effects_as_applicable","public_direct_official_score_route_available":false,"selected_requesting_office":null,"selected_staff_contact":null,"selected_jct_channel":null,"selected_cbo_channel":null},
+  "authorization":{"requesting_office":null,"requesting_principal":null,"staff_contact_name":null,"staff_contact_official_email":null,"authority_basis":null,"approval_date":null,"authorized_signer":null,"approved_cover_message":null,"approved_bundle_id":null,"approved_bundle_sha256":null,"exact_outbound_action_authorized":false},
+  "preflight":{"payload_hashes_verified":true,"deterministic_bundle_built":true,"bundle_sha256_generated":true,"nonofficial_draft_label_present":true,"planning_numbers_not_official":true,"no_spending_savings_admitted":true,"no_secrets_or_personal_data_in_payload":true,"receipt_intake_ready":true,"response_intake_ready":true,"send_allowed":false},
+  "blocked_outputs":{"requesting_office":null,"authorized_signer":null,"selected_official_channel":null,"approved_bundle_sha256":null,"transmission_timestamp":null,"submission_receipt":null,"official_response":null},
+  "public_warning":"This record defines a sealable technical payload but does not authorize or perform a submission. A named congressional requester, verified authority, exact approved digest, selected official route, and explicit outbound authorization are mandatory before any send."
+}

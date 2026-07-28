@@ -12,6 +12,11 @@
     "no_external_request_submitted_this_pulse": true,
     "no_agency_or_person_contacted": true,
     "ht23_source_custody_ready": true,
+    "pub_1304_ty2023_raw_custody_ready": true,
+    "ssa_trustees_official_source_browser_review_ready": true,
+    "ssa_oasdi_taxable_payroll_calendar_context_ready": true,
+    "cms_medicare_trustees_raw_custody_ready": true,
+    "medicare_hi_calendar_year_context_ready": true,
     "ht23_may_populate_rate_base_amounts": false,
     "pub_1304_raw_custody_ready": false,
     "payroll_base_source_custody_ready": false,
@@ -33,13 +38,55 @@
       "metadata_sha256": "6e2325743d8b2683b1aa6a839fe9f0fd65aeb154364b320526c27af860c4e5e1",
       "usable_for": ["current-law rate and bracket source custody", "tax-year semantics for rate/bracket extraction"],
       "not_usable_for": ["AGI base amount", "taxable income base amount", "taxable payroll base", "behavioral elasticity", "incidence", "distribution", "administration cost", "solver input", "new statutory or effective rate"]
+    },
+    {
+      "source_id": "SRC-IRS-SOI-PUB1304-TABLE-1-1-TY2023",
+      "official_host_or_publisher": "Internal Revenue Service, Statistics of Income",
+      "source_description": "Publication 1304 Table 1.1 Tax Year 2023 aggregate individual income AGI, taxable income, and income tax after credits",
+      "retrieval_date": "2026-07-19",
+      "raw_artifact_path": "data/raw/irs/SRC-IRS-SOI-PUB1304-TABLE-1-1-TY2023/2026-07-19/23in11si.xls",
+      "raw_byte_count": 54272,
+      "raw_sha256": "842da11fe09123796c861e919d16011ef161338de1c172d39064bdfa666aca17",
+      "metadata_path": "data/metadata/SRC-IRS-SOI-PUB1304-TABLE-1-1-TY2023.2026-07-19.metadata.md",
+      "metadata_byte_count": 667,
+      "metadata_sha256": "e09fcb8fb863d2391091994d8fe8ea541123342bba318164f959edaa0615ef85",
+      "usable_for": ["TY2023 AGI context", "TY2023 taxable-income context", "TY2023 income-tax-after-credits yield context"],
+      "not_usable_for": ["matched FY2025 assigned base", "legal receipt base", "economic receipt base", "payer universe", "distribution", "incidence", "behavioral elasticity", "administration cost", "assigned base rate", "public rate card", "solver input"]
+    },
+    {
+      "source_id": "SRC-SSA-TRUSTEES-2026",
+      "official_host_or_publisher": "Social Security Administration, Office of the Chief Actuary",
+      "source_description": "2026 OASDI Trustees Report official browser-reviewed source surfaces and CY2025-CY2035 OASDI taxable-payroll context bridge",
+      "retrieval_date": "2026-07-23",
+      "raw_artifact_path": null,
+      "raw_byte_count": null,
+      "raw_sha256": null,
+      "metadata_path": "data/metadata/SRC-SSA-TRUSTEES-2026.2026-07-23.metadata.md",
+      "metadata_byte_count": 1280,
+      "metadata_sha256": "98bf466a4c786d69ce5480cb1be90e9df1a573dd6a8a6b236369528860e77595",
+      "usable_for": ["CY2025-CY2035 OASDI taxable-payroll context", "OASDI solvency context", "source-location inventory"],
+      "not_usable_for": ["fiscal-year assigned base", "OMB receipt reconciliation", "current-law solver yield", "reform yield", "distribution", "incidence", "behavioral elasticity", "administration cost", "assigned base rate", "public rate card", "solver input"]
+    },
+    {
+      "source_id": "SRC-CMS-MEDICARE-TRUSTEES-2026",
+      "official_host_or_publisher": "Centers for Medicare & Medicaid Services, Office of the Actuary",
+      "source_description": "2026 Medicare Trustees Report raw-custodied CY2025 HI financing and CY2025-CY2035 HI current-law context",
+      "retrieval_date": "2026-07-19",
+      "raw_artifact_path": "data/raw/cms/SRC-CMS-MEDICARE-TRUSTEES-2026/2026-07-19/2026-medicare-trustees-report.pdf",
+      "raw_byte_count": 2844621,
+      "raw_sha256": "ffa56b9137006872300b0346149eae1613d09a172b6ba118aad48e66dfc48fa8",
+      "metadata_path": "data/metadata/SRC-CMS-MEDICARE-TRUSTEES-2026.2026-07-19.metadata.md",
+      "metadata_byte_count": 625,
+      "metadata_sha256": "e7d23533f65d2492b9594a93b6b5ea1d4e017796705ff0ecaf21ce493e7020ee",
+      "usable_for": ["CY2025 HI financing context", "CY2025-CY2035 HI current-law context path", "Medicare enrollment denominator context"],
+      "not_usable_for": ["fiscal-year assigned base", "OMB receipt reconciliation", "current-law solver yield", "reform yield", "distribution", "incidence", "behavioral elasticity", "administration cost", "assigned base rate", "public rate card", "solver input"]
     }
   ],
   "blocked_base_rows": [
     {
       "base_id": "individual_income_agi",
       "needed_for": ["general_receipts", "revenue-solvency"],
-      "missing_source": "source-custodied IRS SOI aggregate AGI amount for matched year",
+      "missing_source": "matched FY2025 legal/economic individual-income base; TY2023 IRS Pub 1304 AGI context exists but is not a matched assigned base",
       "baseline_amount_musd": null,
       "matched_year": null,
       "rate_ready": false
@@ -47,7 +94,7 @@
     {
       "base_id": "individual_income_taxable_income",
       "needed_for": ["general_receipts", "revenue-solvency"],
-      "missing_source": "source-custodied IRS SOI aggregate taxable-income amount for matched year",
+      "missing_source": "matched FY2025 legal/economic taxable-income base; TY2023 IRS Pub 1304 taxable-income context exists but is not a matched assigned base",
       "baseline_amount_musd": null,
       "matched_year": null,
       "rate_ready": false
@@ -55,7 +102,7 @@
     {
       "base_id": "oasdi_taxable_payroll",
       "needed_for": ["social-security"],
-      "missing_source": "source-custodied SSA taxable payroll base and wage-base perimeter",
+      "missing_source": "fiscal-year OMB-reconciled OASDI taxable-payroll assigned base; SSA CY2025-CY2035 taxable-payroll context exists but is not a fiscal-year solver base",
       "baseline_amount_musd": null,
       "matched_year": null,
       "rate_ready": false
@@ -63,7 +110,7 @@
     {
       "base_id": "medicare_hi_taxable_payroll",
       "needed_for": ["health-medicare"],
-      "missing_source": "source-custodied Medicare HI taxable payroll base and perimeter",
+      "missing_source": "fiscal-year OMB-reconciled Medicare HI taxable-payroll assigned base; CMS Medicare Trustees calendar-year HI context exists but is not a fiscal-year solver base",
       "baseline_amount_musd": null,
       "matched_year": null,
       "rate_ready": false
@@ -80,7 +127,7 @@
   "legacy_quarantine": {
     "legacy_path": "data/derived/program_lane_rate_model/program_lane_statutory_rate.ty2022-illustrative.draft.jsonl",
     "status": "legacy_illustrative_only_solver_and_rate_output_blocked",
-    "reason": "The file mixes TY2022 illustrative SOI base values with FY2025 lane cost structure and does not have current local raw Pub 1304 custody in this repo state.",
+    "reason": "The file mixes TY2022 illustrative SOI base values with FY2025 lane cost structure and predates the current TY2023 Pub 1304 context packet; it still lacks a matched FY2025 legal/economic assigned base, incidence, behavior, administration, and yield bridge.",
     "prohibited_uses": ["solver input", "public rate card", "statutory rate", "effective rate", "tax proposal", "balanced-budget claim"]
   },
   "required_before_rates": [
@@ -114,6 +161,7 @@
   },
   "public_warning_phrases": [
     "HT23 is a current-law rate and bracket source, not an AGI or taxable-income base source.",
+    "IRS Pub 1304 TY2023 context, SSA Trustees calendar-year taxable-payroll context, and CMS Medicare Trustees calendar-year HI context are captured, but none is a matched FY2025 assigned receipt base.",
     "The TY2022 illustrative statutory-rate file is legacy illustrative only and cannot enter any solver, rate output, public rate card, tax proposal, or balanced-budget claim.",
     "Matched receipt bases remain blocked until source custody, legal perimeter, economic perimeter, baseline amount, elasticity, incidence, distribution, administration, and yield fields are modeled.",
     "No external request was submitted and no agency or person was contacted.",

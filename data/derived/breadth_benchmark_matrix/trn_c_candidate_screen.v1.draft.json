@@ -1,0 +1,68 @@
+{
+  "record_id": "trn-c-candidate-screen:v1",
+  "record_family": "trn_c_candidate_screen",
+  "version": "v1.draft",
+  "status": "trn_c_01_complete_one_current_candidate_selected",
+  "pulse": 252,
+  "as_of_date": "2026-07-26",
+  "trn_c_start_gate_path": "data/derived/breadth_benchmark_matrix/trn_c_real_reform_start_gate.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/trn_c_candidate_screen.schema.md",
+  "selected_candidate_id": "hr2247_airmen_certificate_accessibility",
+  "screening_rules": [
+    "The candidate must be a named legislative or administrative instrument, not a generic technology idea.",
+    "Current official text or action status and an official federal-cost path are required.",
+    "A candidate may be admitted as cost-only; no productivity, savings, or target-cost credit is inferred.",
+    "A stale prior-Congress bill may remain comparison context but cannot control the current candidate.",
+    "An existing current-law program without a scored incremental policy delta is not a reform candidate."
+  ],
+  "candidates": [
+    {
+      "candidate_id": "hr2247_airmen_certificate_accessibility",
+      "instrument": "H.R. 2247, Airmen Certificate Accessibility Act, 119th Congress",
+      "current_status": "passed_house_2026_03_24_referred_senate_2026_03_25_not_enacted",
+      "legislative_source_id": "SRC-GPO-HR2247-RFS-2026",
+      "score_source_id": "SRC-GPO-HRPT119-551-2026",
+      "official_text_ready": true,
+      "annual_federal_effect_ready": true,
+      "physical_fallback_explicit": true,
+      "authentication_verification_explicit": true,
+      "selected": true,
+      "decision": "selected_for_bounded_cost_only_admission"
+    },
+    {
+      "candidate_id": "hr1500_intelligent_transportation_integration",
+      "instrument": "H.R. 1500, Intelligent Transportation Integration Act, 118th Congress",
+      "current_status": "expired_at_end_of_118th_congress_not_enacted",
+      "official_text_ready": true,
+      "annual_federal_effect_ready": true,
+      "selected": false,
+      "decision": "rejected_stale_legislative_vintage"
+    },
+    {
+      "candidate_id": "adc_program_continuation",
+      "instrument": "Advanced Digital Construction Management Systems program continuation",
+      "current_status": "existing_current_law_program_through_fy2026",
+      "official_text_ready": true,
+      "annual_federal_effect_ready": false,
+      "selected": false,
+      "decision": "rejected_no_scored_incremental_reform_delta"
+    }
+  ],
+  "aggregate_status": {
+    "candidates_screened": 3,
+    "candidates_selected": 1,
+    "current_official_legislative_source_ready": true,
+    "official_cost_score_ready": true,
+    "trn_c_01_done": true
+  },
+  "claim_booleans": {
+    "candidate_screen_published": true,
+    "trn_c_01_done": true,
+    "candidate_selected": true,
+    "candidate_enacted": false,
+    "savings_claim_published": false,
+    "target_cost_published": false,
+    "rate_published": false
+  },
+  "public_warning": "H.R. 2247 is selected as a real, current legislative candidate with official text and a CBO cost estimate. It passed the House but is not enacted. Selection does not assert enactment, productivity savings, a lower target cost, a rate, or a public policy endorsement."
+}

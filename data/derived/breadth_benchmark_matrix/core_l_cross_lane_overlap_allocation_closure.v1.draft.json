@@ -1,0 +1,27 @@
+{
+  "record_id": "core-l-cross-lane-overlap-allocation-closure:v1",
+  "record_family": "core_l_cross_lane_overlap_allocation_closure",
+  "version": "v1.draft",
+  "status": "core_l_complete_cross_lane_overlap_allocation_interfaces",
+  "pulse": 321,
+  "as_of_date": "2026-07-26",
+  "core_wave_id": "CORE-L",
+  "contract_path": "data/derived/breadth_benchmark_matrix/core_l_cross_lane_overlap_allocation_contract.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/multi_track_d_b_catchup_bundle.schema.md",
+  "reader_path": "docs/reading/multi-track-d-b-catchup-bundle.md",
+  "role_review_path": "reviews/2026-07-26-multi-track-d-b-catchup-role-review.md",
+  "closure_checks": [
+    {"check_id":"owner_participation","status":"pass"},
+    {"check_id":"participant_uniqueness","status":"pass"},
+    {"check_id":"non_additive_unallocated_overlap","status":"pass"},
+    {"check_id":"sourced_allocation","status":"pass"},
+    {"check_id":"complete_share_coverage","status":"pass"},
+    {"check_id":"basis_point_identity","status":"pass"},
+    {"check_id":"three_overlap_portability","status":"pass"},
+    {"check_id":"rust_validation","status":"pass"}
+  ],
+  "dependency_decision": {"core_l_done":true,"isf_b_may_close":true,"vet_b_may_close":true,"agr_b_may_close":true},
+  "blocked_outputs": {"allocated_overlap_values":null,"cross_lane_total":null,"solver_input":null,"assigned_rate":null,"savings":null},
+  "claim_booleans": {"core_l_closure_published":true,"role_review_complete":true,"core_l_done":true,"solver_ready":false,"rate_published":false},
+  "public_warning": "CORE-L is complete as a validation layer. Nutrition, veterans-health, and crop-insurance payment-integrity overlaps remain non-additive until sourced allocations exist."
+}

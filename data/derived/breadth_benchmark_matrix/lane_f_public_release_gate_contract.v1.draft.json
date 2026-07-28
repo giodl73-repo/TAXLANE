@@ -1,0 +1,21 @@
+{
+  "record_id":"lane-f-public-release-gate-contract:v1","record_family":"lane_f_public_release_gate_contract","version":"v1.draft","status":"canonical_lane_f_typed_release_contract_complete_starts_blocked","pulse":388,"as_of_date":"2026-07-27",
+  "lane_e_contract_path":"data/derived/breadth_benchmark_matrix/lane_e_bounded_selection_solver_gate_contract.v1.draft.json","e_portfolio_path":"data/derived/breadth_benchmark_matrix/fifteen_lane_stage_e_portfolio_closure.v1.draft.json","core_m_path":"data/derived/breadth_benchmark_matrix/core_m_candidate_dossier_typed_release_closure.v1.draft.json","public_card_contract_path":"data/derived/breadth_benchmark_matrix/public_rate_card_v2_contract.v1.draft.json","rate_readiness_path":"data/derived/breadth_benchmark_matrix/rate_publication_readiness_rollup.v1.draft.json","final_closure_path":"data/derived/breadth_benchmark_matrix/final_closure_readiness_gate.v1.draft.json","schema_path":"data/derived/breadth_benchmark_matrix/lane_f_public_release_gate_contract.schema.md","reader_path":"docs/reading/lane-f-public-release-gate-contract.md",
+  "start_requirements":[
+    {"gate_id":"e_output_ready_closure","required":true,"current_portfolio_status":"blocked"},
+    {"gate_id":"candidate_and_financing_selected","required":true,"current_portfolio_status":"blocked"},
+    {"gate_id":"integrated_solver_run_complete","required":true,"current_portfolio_status":"blocked"},
+    {"gate_id":"sensitivity_floor_distribution_complete","required":true,"current_portfolio_status":"blocked"},
+    {"gate_id":"source_and_fiscal_reconciliation_audited","required":true,"current_portfolio_status":"blocked"},
+    {"gate_id":"beneficiary_taxpayer_and_incidence_reviewed","required":true,"current_portfolio_status":"blocked"},
+    {"gate_id":"eight_role_review_complete","required":true,"current_portfolio_status":"blocked"},
+    {"gate_id":"public_language_review_complete","required":true,"current_portfolio_status":"blocked"},
+    {"gate_id":"reproducible_release_complete","required":true,"current_portfolio_status":"blocked"},
+    {"gate_id":"rate_publication_gate_open","required":true,"current_portfolio_status":"blocked"}
+  ],
+  "stage_rule":{"bounded_e_is_sufficient_for_f_start":false,"e_output_ready_required":true,"candidate_selected_required":true,"solver_run_required_when_profile_requires":true,"all_ten_gates_must_be_dispositioned":true,"all_applicable_gates_required":true,"reviewed_not_applicable_allowed":true,"not_applicable_cannot_supply_result":true,"partial_f_start_prohibited":true,"public_card_requires_role_and_language_review":true},
+  "special_treatments":{"PAY":"non_additive_overlay_no_savings_shortcut","REV":"non_additive_overlay_no_rate_shortcut","NET":"endogenous_no_direct_cut"},
+  "blocked_outputs":{"stage_f_start":null,"public_rate_card":null,"assigned_rate":null,"gross_savings":null,"net_savings":null,"department_cut_instruction":null,"technology_savings_claim":null,"balanced_budget_claim":null},
+  "claim_booleans":{"lane_f_contract_published":true,"all_f_start_requirements_defined":true,"typed_release_profiles_integrated":true,"any_f_stage_started":false,"public_release_ready":false,"rate_published":false,"savings_claim_published":false},
+  "public_warning":"This contract defines typed F-stage release gates. All ten gates must be dispositioned and every profile-applicable gate must pass; reviewed non-applicability cannot fabricate a result. TRN completed F only as a CORE-N cost note. No solver result, rate, savings, public rate card, or balanced-budget output is admitted."
+}

@@ -1,0 +1,27 @@
+{
+  "record_id":"batch-3-trn-rev-two-level-closure:v1",
+  "record_family":"batch_3_trn_rev_two_level_closure",
+  "version":"v1.draft",
+  "status":"trn_rev_internal_two_levels_complete_external_rev_certification_pending",
+  "pulse":471,
+  "as_of_date":"2026-07-27",
+  "all_fifteen_wave_path":"data/derived/breadth_benchmark_matrix/fifteen_track_next_two_level_advancement_wave.v1.draft.json",
+  "schema_path":"data/derived/breadth_benchmark_matrix/batch_3_trn_rev_two_level_closure.schema.md",
+  "reader_path":"docs/reading/batch-3-trn-rev-two-level-closure.md",
+  "role_review_path":"reviews/2026-07-27-batch-3-trn-rev-two-level-closure-role-review.md",
+  "official_sources":[
+    {"source_id":"CBO-HR2247-2026-02-19","url":"https://www.cbo.gov/publication/62142","tracks":["TRN"],"use":"current bill score and appropriation-dependent annual outlays"},
+    {"source_id":"CONGRESS-HR2247-ACTIONS","url":"https://www.congress.gov/bill/119th-congress/house-bill/2247/all-actions","tracks":["TRN"],"use":"introduced-only legislative status and latest recorded action"},
+    {"source_id":"HOUSE-USCODE-26-1-PRELIM","url":"https://uscode.house.gov/view.xhtml?req=(title:26%20section:1%20edition:prelim)","tracks":["REV"],"use":"current statutory individual rate structure"},
+    {"source_id":"PL119-21","url":"https://www.congress.gov/119/plaws/publ21/PLAW-119publ21.pdf","tracks":["REV"],"use":"post-2025 current-law tax amendments"},
+    {"source_id":"CBO-62105","url":"https://www.cbo.gov/publication/62105","tracks":["REV"],"use":"2026 baseline and official-score role boundary"}
+  ],
+  "track_rows":[
+    {"track":"TRN","level_a":{"status":"complete_precise_reblock","ready_gates":5,"blocked_gates":4,"finding":"CBO's February 2026 estimate retains $18 million of 2026-2031 outlays subject to appropriation, with less than $0.5 million in FY2026. Congress.gov still lists H.R. 2247 as introduced and ordered reported, not enacted. Enactment, actual appropriations, implementation, and candidate-specific safety-floor passage remain unresolved."},"level_b":{"status":"complete_conditional_cost_note_retained","candidate_admitted":false,"admitted_primary_spending_reduction_billions":0.0,"conditional_cost_note_ready":true,"conditional_2026_2031_outlay_cost_millions":18,"fy2026_outlay_cost_upper_bound_millions":0.5,"treatment":"appropriation_dependent_unenacted_cost_note_not_package_savings","cost_note_path":"data/derived/breadth_benchmark_matrix/trn_f_hr2247_cost_note.v1.draft.json"}},
+    {"track":"REV","level_a":{"status":"complete_external_channel_reblock","ready_internal_deliverables":3,"blocked_external_gates":3,"finding":"The scorer-ready legislative specification, ten-year workbook, and nonofficial conforming discussion draft are complete. Authorized submission, Legislative Counsel conforming text, and an official CBO/JCT response have not occurred."},"level_b":{"status":"complete_planning_schedule_retained_external_certification_pending","planning_schedule_percent":[21,23,33,35,43,46,48],"official_score_received":false,"official_rate_certified":false,"formal_balance_certified":false,"planning_only":true,"handoff_path":"data/derived/breadth_benchmark_matrix/rev_level_7_integrated_certification_and_score_handoff.v1.draft.json"}}
+  ],
+  "integrated_batch_result":{"tracks":2,"level_a_completed":2,"level_b_completed":2,"all_fifteen_internal_two_level_wave_complete":true,"new_spending_candidates_admitted":0,"admitted_fy2026_primary_reduction_billions":0.0,"planning_rate_change_supported":false,"external_rev_certification_pending":true},
+  "decision":{"trn_conditional_cost_note_retained":true,"trn_savings_claim_rejected":true,"rev_internal_handoff_retained":true,"rev_planning_schedule_retained":true,"authorized_external_submission_pending":true,"integrated_pay_net_rev_rerun_may_start":true,"proper_rate_ready":false},
+  "blocked_outputs":{"trn_enacted_implementation_path":null,"trn_package_savings":null,"legislative_counsel_text":null,"official_cbo_jct_score":null,"official_rate":null,"formal_balance_determination":null},
+  "public_warning":"All fifteen tracks have completed the active internal two-level wave. TRN retains only a conditional cost note for an unenacted, appropriation-dependent bill. REV retains a planning-only schedule; no authorized external submission, official CBO/JCT score, certified rate, or formal balance determination has occurred."
+}

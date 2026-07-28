@@ -1,0 +1,31 @@
+{
+  "record_id": "hlt-a-health-baseline-start-gate:v1",
+  "record_family": "hlt_a_health_baseline_start_gate",
+  "version": "v1.draft",
+  "status": "hlt_a_complete_hlt_b_started",
+  "pulse": 256,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "HLT-A",
+  "core_g_path": "data/derived/breadth_benchmark_matrix/core_g_official_current_law_solver_spine.v1.draft.json",
+  "core_h_path": "data/derived/breadth_benchmark_matrix/core_h_shared_accounting_substrate.v1.draft.json",
+  "perimeter_inventory_path": "data/derived/breadth_benchmark_matrix/hlt_a_health_lane_perimeter_source_inventory.v1.draft.json",
+  "baseline_path": "data/derived/breadth_benchmark_matrix/hlt_a_federal_health_baseline_path.v1.draft.json",
+  "financing_lineage_path": "data/derived/breadth_benchmark_matrix/hlt_a_health_financing_lineage.v1.draft.json",
+  "service_floor_spine_path": "data/derived/breadth_benchmark_matrix/hlt_a_health_service_floor_source_spine.v1.draft.json",
+  "closure_path": "data/derived/breadth_benchmark_matrix/hlt_a_health_baseline_closure.v1.draft.json",
+  "hlt_b_start_gate_path": "data/derived/breadth_benchmark_matrix/hlt_b_health_accounting_start_gate.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/hlt_a_health_baseline_start_gate.schema.md",
+  "reader_path": "docs/reading/hlt-a-health-baseline-start-gate.md",
+  "dependency_gate": {"required_dependency":"CORE-G","core_g_done":true,"hlt_a_may_start":true,"hlt_a_started":true},
+  "work_packages": [
+    {"work_package_id":"HLT-A-01","title":"Health lane perimeter and official-source inventory","status":"complete","objective":"Freeze Medicare, Medicaid/CHIP, marketplace, public-health, provider, and federal/state/local perimeter boundaries without summing incompatible sources."},
+    {"work_package_id":"HLT-A-02","title":"FY2025 anchor and FY2026-FY2035 baseline path","status":"complete","objective":"Build one source-vintaged annual health baseline with explicit nulls and no reform effects."},
+    {"work_package_id":"HLT-A-03","title":"Medicare HI and other financing lineage","status":"complete","objective":"Separate trust-fund, general-fund, premium, state, and other financing relationships before accounting adaptation."},
+    {"work_package_id":"HLT-A-04","title":"Health service and floor source spine","status":"complete","objective":"Bind access, quality, equity, provider adequacy, and delivery source lineage without policy values."},
+    {"work_package_id":"HLT-A-05","title":"Baseline reconciliation and role review","status":"complete","objective":"Close the bounded health source spine and decide whether HLT-B may start."}
+  ],
+  "b_stage_gate": {"hlt_b_requires_hlt_a":true,"hlt_b_requires_core_h":true,"core_h_done":true,"hlt_a_done":true,"hlt_b_may_start":true,"hlt_b_started":true},
+  "aggregate_status": {"work_packages":5,"in_progress_work_packages":0,"completed_work_packages":5,"hlt_a_01_done":true,"hlt_a_02_done":true,"hlt_a_03_done":true,"hlt_a_04_done":true,"hlt_a_05_done":true,"hlt_a_started":true,"hlt_a_done":true,"hlt_b_may_start":true,"hlt_b_started":true},
+  "claim_booleans": {"hlt_a_start_gate_published":true,"core_g_done":true,"hlt_a_started":true,"hlt_a_01_done":true,"hlt_a_02_done":true,"hlt_a_03_done":true,"hlt_a_04_done":true,"hlt_a_05_done":true,"hlt_a_done":true,"hlt_b_may_start":true,"hlt_b_started":true,"health_reform_admitted":false,"solver_ready":false,"rate_published":false,"savings_claim_published":false},
+  "public_warning": "HLT-A is complete as a bounded baseline and source spine, and HLT-B account-mapping discovery has started. Full numeric horizon, complete source capture, annual financing allocations, floor passage, health reform, solver output, rate, and savings remain blocked."
+}

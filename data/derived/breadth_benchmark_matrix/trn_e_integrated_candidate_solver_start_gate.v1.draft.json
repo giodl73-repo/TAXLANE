@@ -1,0 +1,30 @@
+{
+  "record_id": "trn-e-integrated-candidate-solver-start-gate:v1",
+  "record_family": "trn_e_integrated_candidate_solver_start_gate",
+  "version": "v1.draft",
+  "status": "trn_e_complete_bounded_no_candidate_solver_run",
+  "pulse": 286,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "TRN-E",
+  "trn_d_closure_path": "data/derived/breadth_benchmark_matrix/trn_d_financing_fairness_closure.v1.draft.json",
+  "core_h_path": "data/derived/breadth_benchmark_matrix/core_h_shared_accounting_substrate.v1.draft.json",
+  "core_i_path": "data/derived/breadth_benchmark_matrix/core_i_shared_reform_admission_contract.v1.draft.json",
+  "input_readiness_bridge_path": "data/derived/breadth_benchmark_matrix/trn_e_solver_input_readiness_bridge.v1.draft.json",
+  "core_j_path": "data/derived/breadth_benchmark_matrix/core_j_bounded_closure_handoff_closure.v1.draft.json",
+  "core_k_path": "data/derived/breadth_benchmark_matrix/core_k_temporal_composite_accounting_closure.v1.draft.json",
+  "trn_e_closure_path": "data/derived/breadth_benchmark_matrix/trn_e_integrated_candidate_solver_closure.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/trn_e_integrated_candidate_solver_start_gate.schema.md",
+  "reader_path": "docs/reading/trn-e-integrated-candidate-solver-start-gate.md",
+  "dependency_gate": {"required_dependency":"TRN-D","trn_d_done":true,"trn_e_may_start":true,"trn_e_started":true},
+  "work_packages": [
+    {"work_package_id":"TRN-E-01","title":"Integrated solver input readiness bridge","status":"complete","objective":"Reconcile current law, scenario, financing, fund, floor, distribution, and interest inputs without filling unsupported values."},
+    {"work_package_id":"TRN-E-02","title":"Candidate target-cost and financing selection","status":"complete","objective":"Select candidate values only after every required input and role gate passes."},
+    {"work_package_id":"TRN-E-03","title":"Deterministic integrated candidate run","status":"not_required","objective":"Run the checked current-law, reform, fund, reserve, debt, and endogenous-interest system."},
+    {"work_package_id":"TRN-E-04","title":"Sensitivity, floor, and distribution reconciliation","status":"not_required","objective":"Test scenario sensitivity and all applicable outcome and fairness boundaries."},
+    {"work_package_id":"TRN-E-05","title":"Solver role review and closure","status":"complete","objective":"Decide whether any internal candidate output may advance to TRN-F review."}
+  ],
+  "readiness_boundary": {"current_law_spine_ready":true,"accounting_substrate_ready":true,"cost_only_scenario_ready":true,"bounded_financing_fairness_bridge_ready":true,"input_state_map_ready":true,"core_j_done":true,"financing_source_ready":false,"complete_floor_set_ready":false,"candidate_target_cost_ready":false,"solver_input_ready":false},
+  "blocked_outputs": {"candidate_target_cost":null,"financing_source":null,"assigned_rate":null,"solver_input":null,"solver_result":null,"floor_pass_fail":null,"distribution_result":null,"gross_savings":null,"net_savings":null,"trn_e_closure":null,"trn_f_start":null},
+  "claim_booleans": {"trn_e_start_gate_published":true,"trn_d_done":true,"trn_e_started":true,"trn_e_01_done":true,"core_j_done":true,"core_k_done":true,"trn_e_02_started":true,"trn_e_done":true,"candidate_selected":false,"solver_input_ready":false,"solver_run_published":false,"rate_published":false,"savings_claim_published":false,"trn_f_may_start":false},
+  "public_warning": "TRN-E is complete as a bounded selection and solver gate. No financing source or target passed, no solver run occurred, and solver results, rates, distribution results, savings, and TRN-F remain blocked."
+}

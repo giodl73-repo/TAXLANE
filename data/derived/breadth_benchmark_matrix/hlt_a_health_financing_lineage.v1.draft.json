@@ -1,0 +1,122 @@
+{
+  "record_id": "hlt-a-health-financing-lineage:v1",
+  "record_family": "hlt_a_health_financing_lineage",
+  "version": "v1.draft",
+  "status": "hlt_a_03_complete_financing_relationships_separated_values_bounded",
+  "pulse": 275,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "HLT-A",
+  "start_gate_path": "data/derived/breadth_benchmark_matrix/hlt_a_health_baseline_start_gate.v1.draft.json",
+  "baseline_path": "data/derived/breadth_benchmark_matrix/hlt_a_federal_health_baseline_path.v1.draft.json",
+  "medicare_financing_source_path": "data/derived/contribution_alignment/medicare_part_financing.cy2025.cms-trustees-2026.draft.jsonl",
+  "medicare_hi_income_split_path": "data/derived/breadth_benchmark_matrix/medicare_hi_benefits_tax_income_split.v1.draft.json",
+  "cbo_health_rowmap_path": "data/derived/breadth_benchmark_matrix/cbo_health_insurance_table2_browser_rowmap_fy2026_2036.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/hlt_a_health_financing_lineage.schema.md",
+  "reader_path": "docs/reading/hlt-a-health-financing-lineage.md",
+  "financing_relationships": [
+    {
+      "component_id": "medicare_hi_part_a",
+      "relationship": "Hospital Insurance trust fund; payroll taxes, taxation of benefits, and other income finance Part A expenditures",
+      "year_basis": "calendar_year_2025_context",
+      "income_billions": 462.4,
+      "expenditures_billions": 444.2,
+      "end_assets_billions": 255.7,
+      "federal_baseline_allocation_ready": false,
+      "boundary": "Do not merge CY2025 Trustees values into FY2025 OMB outlays without a calendar/fiscal and receipt-row bridge."
+    },
+    {
+      "component_id": "medicare_smi_part_b",
+      "relationship": "Supplementary Medical Insurance financed primarily by beneficiary premiums and government contributions, plus other income",
+      "year_basis": "calendar_year_2025_context",
+      "income_billions": 580.5,
+      "expenditures_billions": 584.3,
+      "premium_income_billions": 150.3,
+      "government_contribution_billions": 422.2,
+      "federal_baseline_allocation_ready": false,
+      "boundary": "Part B is not classified as payroll-tax financed and CY context is not added to FY outlays."
+    },
+    {
+      "component_id": "medicare_smi_part_d",
+      "relationship": "Supplementary Medical Insurance financed by premiums, government contributions, and state payments",
+      "year_basis": "calendar_year_2025_context",
+      "income_billions": 183.31743,
+      "expenditures_billions": 181.531211,
+      "premium_income_billions": 14.862191,
+      "government_contribution_billions": 148.843676,
+      "state_payments_billions": 19.086703,
+      "federal_baseline_allocation_ready": false,
+      "boundary": "State payments and premium financing remain visible and CY context is not added to FY outlays."
+    },
+    {
+      "component_id": "medicaid_chip",
+      "relationship": "joint federal-state program financing with federal subsidies represented in CBO health baseline context and state shares kept outside federal outlays",
+      "year_basis": "fiscal_baseline_context",
+      "income_billions": null,
+      "expenditures_billions": null,
+      "federal_baseline_allocation_ready": false,
+      "boundary": "No federal/state split is inferred from the combined OMB function-550 path."
+    },
+    {
+      "component_id": "marketplace_and_related_subsidies",
+      "relationship": "federal premium-tax-credit and related subsidy financing tracked separately from Medicare trust-fund and premium relationships",
+      "year_basis": "fiscal_baseline_context",
+      "income_billions": null,
+      "expenditures_billions": null,
+      "federal_baseline_allocation_ready": false,
+      "boundary": "Tax-credit and outlay treatment requires an explicit fiscal bridge; no receipt or rate is assigned here."
+    },
+    {
+      "component_id": "other_function_550_health",
+      "relationship": "public-health, provider, research, and delivery accounts financed through their account-specific discretionary or mandatory authorities",
+      "year_basis": "fiscal_baseline_context",
+      "income_billions": null,
+      "expenditures_billions": null,
+      "federal_baseline_allocation_ready": false,
+      "boundary": "No blanket general-fund allocation is inferred without account-level mapping."
+    }
+  ],
+  "lineage_rules": {
+    "hi_separate_from_smi": true,
+    "part_b_premiums_and_government_contributions_separate": true,
+    "part_d_premiums_government_contributions_and_state_payments_separate": true,
+    "state_medicaid_share_outside_federal_outlays": true,
+    "nhe_private_and_household_spending_non_additive": true,
+    "receipts_not_added_to_outlays": true,
+    "calendar_fiscal_bridge_required": true,
+    "account_mapping_required_for_other_health": true
+  },
+  "decision": {
+    "financing_relationships_separated": true,
+    "annual_federal_financing_allocation_admitted": false,
+    "matched_receipt_base_admitted": false,
+    "hlt_a_03_done": true,
+    "hlt_a_04_may_start": true,
+    "next_active_work_package_id": "HLT-A-04"
+  },
+  "blocked_outputs": {
+    "fy2025_fy2035_hi_allocation": null,
+    "fy2025_fy2035_smi_allocation": null,
+    "fy2025_fy2035_medicaid_state_federal_split": null,
+    "fy2025_fy2035_marketplace_financing": null,
+    "other_health_account_allocation": null,
+    "matched_receipt_base": null,
+    "assigned_rate": null,
+    "solver_input": null,
+    "hlt_a_closure": null,
+    "hlt_b_start": null
+  },
+  "claim_booleans": {
+    "hlt_a_health_financing_lineage_published": true,
+    "medicare_part_relationships_separated": true,
+    "state_and_private_context_non_additive": true,
+    "hlt_a_03_done": true,
+    "hlt_a_04_may_start": true,
+    "annual_financing_allocation_published": false,
+    "matched_receipt_base_published": false,
+    "assigned_rate_published": false,
+    "solver_ready": false,
+    "hlt_a_done": false,
+    "hlt_b_may_start": false
+  },
+  "public_warning": "HLT-A-03 separates Medicare HI, Part B, Part D, Medicaid/CHIP, marketplace, and other-health financing relationships. Trustees amounts remain CY2025 context and are not added to FY2025 OMB outlays. Annual program allocations, matched bases, rates, solver input, HLT-A closure, and HLT-B start remain blocked."
+}

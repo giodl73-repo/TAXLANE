@@ -1,0 +1,24 @@
+{
+  "record_id": "three-lane-stage-c-discovery-bundle:v1",
+  "record_family": "three_lane_stage_c_discovery_bundle",
+  "version": "v1.draft",
+  "status": "isf_c_vet_c_agr_c_complete_bounded_no_reforms",
+  "pulse": 332,
+  "as_of_date": "2026-07-26",
+  "schema_path": "data/derived/breadth_benchmark_matrix/three_lane_stage_c_discovery_bundle.schema.md",
+  "reader_path": "docs/reading/three-lane-stage-c-discovery-bundle.md",
+  "role_review_path": "reviews/2026-07-26-three-lane-stage-c-discovery-role-review.md",
+  "core_i_path": "data/derived/breadth_benchmark_matrix/core_i_shared_reform_admission_contract.v1.draft.json",
+  "core_j_path": "data/derived/breadth_benchmark_matrix/core_j_bounded_closure_handoff_closure.v1.draft.json",
+  "core_k_path": "data/derived/breadth_benchmark_matrix/core_k_temporal_composite_accounting_closure.v1.draft.json",
+  "core_l_path": "data/derived/breadth_benchmark_matrix/core_l_cross_lane_overlap_allocation_closure.v1.draft.json",
+  "lane_stage_evidence": [
+    {"prefix":"ISF","lane_id":"income-security-family","highest_completed_stage":"ISF-C","requirement_met":true,"reform_admitted":false,"evidence_path":"data/derived/breadth_benchmark_matrix/isf_c_income_security_family_scenario_admission_closure.v1.draft.json"},
+    {"prefix":"VET","lane_id":"veterans","highest_completed_stage":"VET-C","requirement_met":true,"reform_admitted":false,"evidence_path":"data/derived/breadth_benchmark_matrix/vet_c_veterans_scenario_admission_closure.v1.draft.json"},
+    {"prefix":"AGR","lane_id":"agriculture","highest_completed_stage":"AGR-C","requirement_met":true,"reform_admitted":false,"evidence_path":"data/derived/breadth_benchmark_matrix/agr_c_agriculture_scenario_admission_closure.v1.draft.json"}
+  ],
+  "aggregate_status": {"lane_tracks":3,"c_stages_done":3,"candidate_families_screened":12,"new_reforms_admitted":0,"d_stages_allowed":0,"solver_runs":0},
+  "blocked_outputs": {"selected_reform":null,"annual_reform_score":null,"floor_pass_fail":null,"target_cost":null,"solver_input":null,"assigned_rate":null,"savings":null},
+  "claim_booleans": {"three_lane_stage_c_bundle_published":true,"isf_c_done":true,"vet_c_done":true,"agr_c_done":true,"all_three_c_stages_done":true,"new_reform_admitted":false,"any_d_stage_allowed":false,"solver_run_performed":false,"solver_ready":false,"rate_published":false},
+  "public_warning": "ISF-C, VET-C, and AGR-C are complete as bounded candidate screens. No reform, D-stage start, solver run, rate, savings, or public output is admitted."
+}

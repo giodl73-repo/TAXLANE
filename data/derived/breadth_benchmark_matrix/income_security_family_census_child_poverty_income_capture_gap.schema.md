@@ -2,7 +2,7 @@
 
 `income_security_family_census_child_poverty_income_capture_gap.v1.draft.json`
 records the still-open Census domestic child poverty and income source-custody
-gate.
+gate, with raw Census context custody now captured.
 
 Required checks:
 
@@ -11,8 +11,8 @@ Required checks:
   queue.
 - Candidate official Census poverty, SPM, and CPS ASEC source surfaces are
   named.
-- Local raw artifact paths, byte counts, SHA-256 hashes, retrieval dates, and
-  metadata paths remain null until source custody exists.
-- Child poverty values, SPM values, deep/near poverty, income-unit perimeter,
-  floor values, solver inputs, rates, savings, and balanced-budget claims remain
-  blocked.
+- Local raw Census report, official-poverty table, SPM table, supporting raw
+  files, byte counts, SHA-256 hashes, retrieval date, observed structure, and
+  metadata path may be recorded once custody exists.
+- Child-poverty floor values, pass/fail findings, solver inputs, rates, savings,
+  and balanced-budget claims remain blocked.

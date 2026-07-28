@@ -15,6 +15,8 @@ Required top-level fields:
 - `purpose`
 - `parallelization_rules`
 - `standard_agent_work_order`
+- `parallel_blocker_workstreams`
+- `central_integration_protocol`
 - `assignment_waves`
 - `integration_review_checklist`
 - `claim_booleans`
@@ -28,7 +30,20 @@ Every assignment wave must declare:
 - `integration_required`
 - `rationale`
 
+Every parallel blocker workstream must declare:
+
+- `workstream_id`
+- `max_parallel_agents`
+- `primary_blockers`
+- `agent_allowed_outputs`
+- `integration_required_before_gate_change`
+- `blocked_outputs`
+
+Parallel blocker workstreams are recommendation-only until the main integration
+pass updates machine artifacts, keeps unsupported values null, and runs the
+required validation suite.
+
 This plan is orchestration-only. It does not execute agents, produce lane
-outputs, publish target costs, calculate rates, claim savings, identify waste or
-fraud, direct department cuts, claim technology savings, or claim a balanced
-budget.
+outputs, execute workstream agents, publish target costs, calculate rates,
+claim savings, identify waste or fraud, direct department cuts, claim technology
+savings, or claim a balanced budget.

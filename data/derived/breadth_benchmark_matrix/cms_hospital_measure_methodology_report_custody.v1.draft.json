@@ -1,0 +1,89 @@
+{
+  "record_id": "cms-hospital-measure-methodology-report-custody:v1",
+  "record_family": "cms_hospital_measure_methodology_report_custody",
+  "schema_version": "v1.draft",
+  "status": "draft_partial_cms_methodology_report_custody_floor_values_blocked",
+  "pulse": 182,
+  "as_of_date": "2026-07-24",
+  "lane_id": "health-medicare",
+  "source_id": "SRC-CMS-HOSPITAL-MEASURE-METHODOLOGY-REPORTS-2026-01-02",
+  "publisher": "Centers for Medicare & Medicaid Services (CMS)",
+  "retrieval_date": "2026-07-24",
+  "metadata_path": "data/metadata/SRC-CMS-HOSPITAL-MEASURE-METHODOLOGY-REPORTS-2026-01-02.2026-07-24.metadata.md",
+  "official_context": {
+    "cms_measure_methodology_page_url": "https://www.cms.gov/medicare/quality/initiatives/hospital-quality-initiative/measure-methodology",
+    "page_last_modified": "2026-01-02",
+    "page_role": "CMS describes hospital measure methodology reports and links downloadable methodology and updates/specifications reports."
+  },
+  "captured_reports": [
+    {
+      "report_id": "hybrid_hospital_wide_mortality_methodology_v2_1",
+      "title": "Hybrid Hospital-Wide (All-Condition, All-Procedure) Risk-Standardized Mortality Measure with Electronic Health Record Extracted Risk Factors Methodology Report Version 2.1",
+      "official_url": "https://www.cms.gov/files/document/hybrid-hospital-wide-all-condition-all-procedure-risk-standardized-mortality-measure-electronic.pdf",
+      "raw_artifact_path": "data/raw/cms/SRC-CMS-HOSPITAL-MEASURE-METHODOLOGY-REPORTS-2026-01-02/2026-07-24/hybrid_hospital_wide_risk_standardized_mortality_methodology_v2_1.pdf",
+      "raw_byte_count": 2480474,
+      "raw_sha256": "251baf82e0bac94861903b88ca852b107478925525c2bd97d748b115461db2ec",
+      "methodology_context": ["cohort", "outcome", "risk_adjustment", "measure_calculation", "case_mix_adjustment"],
+      "context_use_only": true,
+      "may_populate_thresholds": false,
+      "may_populate_observed_values": false,
+      "may_populate_pass_fail": false,
+      "may_populate_solver_inputs": false
+    },
+    {
+      "report_id": "condition_specific_mortality_2022_updates_specifications",
+      "title": "2022 Condition-Specific Mortality Measures Updates and Specifications Report",
+      "official_url": "https://www.cms.gov/files/document/2022-condition-specific-mortality-measures-updates-and-specifications-report.pdf",
+      "raw_artifact_path": "data/raw/cms/SRC-CMS-HOSPITAL-MEASURE-METHODOLOGY-REPORTS-2026-01-02/2026-07-24/2022_condition_specific_mortality_measures_updates_specifications_report.pdf",
+      "raw_byte_count": 3807935,
+      "raw_sha256": "c84b314c95e6ddff5eb54eee72dfd5a5d245fb42a8e6a4cdc90e0b4be9c70d47",
+      "methodology_context": ["condition_specific_mortality", "updates_and_specifications", "risk_adjustment_context"],
+      "context_use_only": true,
+      "may_populate_thresholds": false,
+      "may_populate_observed_values": false,
+      "may_populate_pass_fail": false,
+      "may_populate_solver_inputs": false
+    }
+  ],
+  "captured_page": {
+    "title": "CMS Measure Methodology",
+    "official_url": "https://www.cms.gov/medicare/quality/initiatives/hospital-quality-initiative/measure-methodology",
+    "raw_artifact_path": "data/raw/cms/SRC-CMS-HOSPITAL-MEASURE-METHODOLOGY-REPORTS-2026-01-02/2026-07-24/cms_measure_methodology_page.html",
+    "raw_byte_count": 229684,
+    "raw_sha256": "a72380b50fc71dcfbd74cb9a0fdd5362571227cc720b368f0cf13151417a57ff",
+    "context_use_only": true
+  },
+  "custody_summary": {
+    "official_public_methodology_page_captured": true,
+    "selected_mortality_methodology_reports_captured": true,
+    "raw_file_count": 3,
+    "raw_total_byte_count": 6518093,
+    "risk_adjusted_mortality_methodology_context_ready": true,
+    "complete_quality_access_methodology_custody_ready": false,
+    "denominator_to_dataset_field_crosswalk_ready": false,
+    "all_measure_family_case_mix_lineage_ready": false,
+    "rural_safety_net_capacity_series_ready": false,
+    "floor_threshold_values_ready": false,
+    "observed_floor_values_ready": false,
+    "pass_fail_findings_ready": false,
+    "solver_input_ready": false,
+    "rate_calculation_ready": false,
+    "savings_claim_ready": false,
+    "balanced_budget_claim_ready": false
+  },
+  "blocked_outputs": {
+    "complete_cms_quality_access_lineage": null,
+    "denominator_to_dataset_field_crosswalk": null,
+    "all_quality_access_methodology_reports": null,
+    "rural_safety_net_capacity_series": null,
+    "health_floor_thresholds": null,
+    "observed_floor_values": null,
+    "pass_fail_findings": null,
+    "health_policy_score": null,
+    "solver_input": null,
+    "rate_calculation": null,
+    "savings_estimate": null,
+    "balanced_budget_claim": null
+  },
+  "public_warning": "CMS Measure Methodology page custody and selected CMS mortality methodology reports are locally captured, including hospital-wide risk-standardized mortality and condition-specific mortality updates/specifications, but this is still partial methodology custody. It is not a complete CMS quality/access denominator-to-dataset field crosswalk, not complete all-measure case-mix lineage, not rural/safety-net capacity series, not floor thresholds, not observed floor values, not pass/fail findings, not solver input, not rate calculation, not savings estimate, and not a balanced-budget claim."
+}

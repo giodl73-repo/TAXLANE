@@ -10,7 +10,8 @@ Required top-level fields:
 - `status`
 - `pulse`: must equal `118`.
 - Links to the scaffold rollup, current-law custody preflight, current-law path
-  inventory, solver-input readiness rollup, and balanced-rate readiness gate.
+  inventory, lane full coverage matrix, solver-input readiness rollup, and
+  balanced-rate readiness gate.
 - `sequence_rules`
 - `work_queue`
 - `aggregate_status`
@@ -18,7 +19,8 @@ Required top-level fields:
 - `plain_english_status`
 
 The work queue must keep every work item `ready: false` with `value: null`.
-It may order next work, but it must not populate current-law values, solver
-inputs, policy scores, target costs, rates, savings, waste/fraud findings,
-department-cut instructions, technology-savings claims, or balanced-budget
-claims.
+Items may show partial progress evidence, but partial progress is not
+completion. The queue may order next work, but it must not populate current-law
+values, solver inputs, policy scores, target costs, rates, savings, waste/fraud
+findings, department-cut instructions, technology-savings claims, or
+balanced-budget claims.

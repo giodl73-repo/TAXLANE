@@ -1,0 +1,31 @@
+{
+  "record_id": "hlt-c-health-scenario-admission-closure:v1",
+  "record_family": "hlt_c_health_scenario_admission_closure",
+  "version": "v1.draft",
+  "status": "hlt_c_complete_bounded_screen_no_reform_admitted",
+  "pulse": 306,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "HLT-C",
+  "hlt_b_path": "data/derived/breadth_benchmark_matrix/hlt_b_health_accounting_closure.v1.draft.json",
+  "core_i_path": "data/derived/breadth_benchmark_matrix/core_i_shared_reform_admission_contract.v1.draft.json",
+  "core_j_path": "data/derived/breadth_benchmark_matrix/core_j_bounded_closure_handoff_closure.v1.draft.json",
+  "core_k_path": "data/derived/breadth_benchmark_matrix/core_k_temporal_composite_accounting_closure.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/stage_c_catchup_bundle.schema.md",
+  "reader_path": "docs/reading/stage-c-catchup-bundle.md",
+  "role_review_path": "reviews/2026-07-26-stage-c-catchup-bundle-role-review.md",
+  "package_reconciliation": [
+    {"work_package_id":"HLT-C-01","status":"complete","completion_class":"discovery_only","finding":"Candidate families screened against source, score, accounting, and floor requirements."},
+    {"work_package_id":"HLT-C-02","status":"complete","completion_class":"discovery_only","finding":"No candidate has both legislative authority and annual federal effects ready for CORE-I admission."},
+    {"work_package_id":"HLT-C-03","status":"complete","completion_class":"discovery_only","finding":"Floor pass/fail is not applicable because no reform candidate is admitted."},
+    {"work_package_id":"HLT-C-04","status":"complete","completion_class":"bounded_structural","finding":"Role review closes the screen without manufacturing a reform."}
+  ],
+  "candidate_screen": [
+    {"candidate_id":"current_policy_reference","evidence_state":"ready","is_reform":false,"admitted":false,"reason":"reference context is not a reform instrument"},
+    {"candidate_id":"medicare_financing_option","evidence_state":"source_gap","is_reform":true,"admitted":false,"reason":"no selected legislative instrument and complete annual federal score"},
+    {"candidate_id":"health_delivery_option","evidence_state":"definition_only","is_reform":true,"admitted":false,"reason":"no source-backed scored instrument or applicable-floor results"}
+  ],
+  "closure_decision": {"completion_class":"bounded_structural","role_review_complete":true,"hlt_c_done":true,"reform_admitted":false,"hlt_d_may_start":false,"output_admission":false},
+  "blocked_outputs": {"selected_reform":null,"annual_reform_score":null,"floor_pass_fail":null,"target_cost":null,"solver_input":null,"assigned_rate":null,"savings":null,"hlt_d_start":null},
+  "claim_booleans": {"hlt_c_closure_published":true,"hlt_c_done":true,"reform_admitted":false,"hlt_d_may_start":false,"solver_ready":false,"rate_published":false},
+  "public_warning": "HLT-C is complete as a bounded candidate screen with no reform admitted. Completion of screening is not a reform, score, floor result, target cost, solver input, rate, savings, or HLT-D start."
+}

@@ -1,0 +1,28 @@
+{
+  "record_id": "hlt-b-health-component-account-mapping:v1",
+  "record_family": "hlt_b_health_component_account_mapping",
+  "version": "v1.draft",
+  "status": "hlt_b_01_complete_component_roles_mapped_gaps_handed_off",
+  "pulse": 293,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "HLT-B",
+  "start_gate_path": "data/derived/breadth_benchmark_matrix/hlt_b_health_accounting_start_gate.v1.draft.json",
+  "hlt_a_closure_path": "data/derived/breadth_benchmark_matrix/hlt_a_health_baseline_closure.v1.draft.json",
+  "core_h_path": "data/derived/breadth_benchmark_matrix/core_h_shared_accounting_substrate.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/hlt_b_health_component_account_mapping.schema.md",
+  "reader_path": "docs/reading/hlt-b-health-component-account-mapping.md",
+  "component_mapping": [
+    {"component_id":"medicare_hi_part_a","account_roles":["trust_fund","dedicated_receipt","program_outlay"],"evidence_state":"partial_context","sign_preservation_required":false,"non_additive":false,"successor_owner":"HLT-B-02","blocking_gate":"calendar/fiscal and annual receipt/outlay adapter"},
+    {"component_id":"medicare_smi_part_b","account_roles":["premium","government_contribution","program_outlay"],"evidence_state":"partial_context","sign_preservation_required":false,"non_additive":false,"successor_owner":"HLT-B-02","blocking_gate":"annual premium and contribution adapter"},
+    {"component_id":"medicare_smi_part_d","account_roles":["premium","government_contribution","state_local_resource","program_outlay"],"evidence_state":"partial_context","sign_preservation_required":false,"non_additive":true,"successor_owner":"HLT-B-02","blocking_gate":"annual premium contribution and state-payment adapter"},
+    {"component_id":"medicaid_chip","account_roles":["program_outlay","state_local_resource"],"evidence_state":"definition_only","sign_preservation_required":false,"non_additive":true,"successor_owner":"HLT-B-02","blocking_gate":"federal/state account mapping"},
+    {"component_id":"marketplace_and_related_subsidies","account_roles":["program_outlay","credit_subsidy"],"evidence_state":"definition_only","sign_preservation_required":true,"non_additive":false,"successor_owner":"HLT-B-02","blocking_gate":"tax-credit and outlay treatment bridge"},
+    {"component_id":"other_function_550_health","account_roles":["appropriation","program_outlay"],"evidence_state":"source_gap","sign_preservation_required":false,"non_additive":false,"successor_owner":"HLT-B-02","blocking_gate":"account-level authority and financing mapping"}
+  ],
+  "mapping_rules": {"trust_fund_and_smi_separate":true,"premium_and_government_contribution_separate":true,"state_resources_non_additive":true,"private_context_non_additive":true,"credit_signs_preserved":true,"calendar_fiscal_bridge_required":true},
+  "derived_core_needs": ["cross-perimeter account-role enum","non-additivity flag","sign-preservation rule","evidence state independent of value presence","named successor handoff obligation"],
+  "decision": {"component_role_map_complete":true,"annual_adapter_ready":false,"hlt_b_01_done":true,"hlt_b_02_may_start":true,"next_active_work_package_id":"HLT-B-02"},
+  "blocked_outputs": {"complete_account_mapping":null,"annual_health_accounting_schedule":null,"matched_receipt_base":null,"assigned_rate":null,"solver_input":null,"health_reform":null,"hlt_b_closure":null,"hlt_c_start":null},
+  "claim_booleans": {"hlt_b_component_account_mapping_published":true,"component_role_map_complete":true,"hlt_b_01_done":true,"hlt_b_02_may_start":true,"annual_adapter_ready":false,"solver_ready":false,"rate_published":false,"hlt_b_done":false,"hlt_c_may_start":false},
+  "public_warning": "HLT-B-01 maps six health components to shared account roles while preserving trust-fund, premium, government-contribution, state, credit-sign, and calendar/fiscal boundaries. This is not a complete annual adapter, schedule, matched base, rate, solver input, reform, HLT-B closure, or HLT-C start."
+}

@@ -1,0 +1,38 @@
+{
+  "record_id": "science-rd-intensity-floor-value-packet:v1",
+  "record_family": "science_rd_intensity_floor_value_packet",
+  "version": "v1.draft",
+  "pulse": 223,
+  "as_of_date": "2026-07-26",
+  "lane_id": "science-energy-environment",
+  "floor_id": "science_research_capacity",
+  "floor_class": "adequacy_resilience",
+  "floor_definition_packet_path": "data/derived/breadth_benchmark_matrix/science_energy_environment_outcome_floor_definition_packet.v1.draft.json",
+  "source_metadata_path": "data/metadata/SRC-NCSES-NATIONAL-PATTERNS-2023-2024-TABLE1.2026-07-26.metadata.md",
+  "outcome_floor_wave_d_value_readiness_path": "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json",
+  "threshold_rationale": {
+    "rationale_id": "science-capacity-no-regression-from-2023-rd-intensity-estimate",
+    "selected_measure": "U.S. total research and development as a percentage of GDP",
+    "rationale": "A science-component lower-cost scenario should not pass this capacity slice if reviewed policy or stress evidence lowers national R&D intensity below the latest nonforecast estimate.",
+    "threshold_type": "baseline_no_regression_floor",
+    "threshold_value": 3.37,
+    "threshold_unit": "percent_of_gdp",
+    "source_table": "NCSES National Patterns table 1, 2023 estimate",
+    "review_status": "draft_threshold_rationale_needs_role_review_before_pass_fail"
+  },
+  "baseline_values": {
+    "reporting_period": "calendar year 2023 estimate",
+    "primary_baseline": {"measure": "U.S. R&D intensity", "value": 3.37, "unit": "percent_of_gdp", "source_id": "SRC-NCSES-NATIONAL-PATTERNS-2023-2024-TABLE1", "source_path": "data/raw/nsf/SRC-NCSES-NATIONAL-PATTERNS-2023-2024-TABLE1/2026-07-26/nsf26313-table1.pdf"},
+    "supporting_context": [{"measure": "2024 forecast U.S. R&D intensity", "value": 3.39, "unit": "percent_of_gdp", "evidence_status": "forecast_not_baseline"}],
+    "source_custody": {"publisher": "National Center for Science and Engineering Statistics, National Science Foundation", "raw_artifact_path": "data/raw/nsf/SRC-NCSES-NATIONAL-PATTERNS-2023-2024-TABLE1/2026-07-26/nsf26313-table1.pdf", "raw_byte_count": 117643, "raw_sha256": "d9edcb5234cc00166f4830df08a0cd51f6a541aa2ce4f7df1c77b899e3695d6e", "review_status": "source_metadata_present_and_hash_matched"},
+    "boundary": "The 2023 value is an estimate and the 2024 value is a forecast. R&D intensity is an input-capacity proxy, not research quality or outcomes, and does not cover energy reliability, affordability, environmental quality, equity, policy values, stress values, pass/fail evidence, savings, or a balanced-budget claim."
+  },
+  "policy_values": null,
+  "stress_values": null,
+  "pass_fail_evidence": null,
+  "readiness_status": {"threshold_rationale_ready": true, "threshold_value_populated": true, "baseline_value_ready": true, "policy_value_ready": false, "stress_value_ready": false, "pass_fail_ready": false, "complete_science_energy_environment_floor_ready": false, "lower_cost_scenario_admissible": false, "solver_ready": false, "rate_ready": false},
+  "remaining_requirements": ["role review", "policy and stress values", "pass/fail evidence", "research quality, energy, environment, equity, and delivery-feasibility floors"],
+  "blocked_outputs": {"policy_values": null, "stress_values": null, "pass_fail_evidence": null, "lower_cost_scenario_admissibility": null, "solver_input": null, "savings": null, "balanced_budget_claim": null},
+  "claim_booleans": {"floor_value_packet_published": true, "threshold_rationale_ready": true, "baseline_value_ready": true, "policy_value_ready": false, "stress_value_ready": false, "pass_fail_ready": false, "complete_lane_floor_ready": false, "lower_cost_scenario_admissible": false, "solver_ready": false, "rate_ready": false, "savings_claim_published": false, "balanced_budget_claim_published": false},
+  "public_warning": "Draft no-regression science R&D-intensity floor threshold using a 2023 estimate; the 2024 forecast is context only. Policy and stress values remain null. This is not a complete science/energy/environment floor, not pass/fail evidence, not savings, and not a balanced-budget claim."
+}

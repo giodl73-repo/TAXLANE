@@ -1,0 +1,33 @@
+{
+  "record_id": "oas-b-social-security-accounting-closure:v1",
+  "record_family": "oas_b_social_security_accounting_closure",
+  "version": "v1.draft",
+  "status": "oas_b_complete_bounded_accounting_oas_c_may_start",
+  "pulse": 305,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "OAS-B",
+  "oas_a_path": "data/derived/breadth_benchmark_matrix/oas_a_social_security_baseline_source_spine.v1.draft.json",
+  "core_h_path": "data/derived/breadth_benchmark_matrix/core_h_shared_accounting_substrate.v1.draft.json",
+  "core_j_path": "data/derived/breadth_benchmark_matrix/core_j_bounded_closure_handoff_closure.v1.draft.json",
+  "core_k_path": "data/derived/breadth_benchmark_matrix/core_k_temporal_composite_accounting_closure.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/stage_c_catchup_bundle.schema.md",
+  "reader_path": "docs/reading/stage-c-catchup-bundle.md",
+  "role_review_path": "reviews/2026-07-26-stage-c-catchup-bundle-role-review.md",
+  "package_reconciliation": [
+    {"work_package_id":"OAS-B-01","status":"complete","completion_class":"bounded_structural","finding":"OASI, DI, combined OASDI, receipts, outlays, interest, reimbursements, and transfers receive explicit roles."},
+    {"work_package_id":"OAS-B-02","status":"complete","completion_class":"bounded_structural","finding":"Fund and receipt adapters preserve component/composite and calendar/fiscal boundaries."},
+    {"work_package_id":"OAS-B-03","status":"complete","completion_class":"bounded_structural","finding":"The bounded annual schedule retains post-depletion and component fields as null where unsupported."},
+    {"work_package_id":"OAS-B-04","status":"complete","completion_class":"bounded_structural","finding":"Role review accepts bounded accounting closure with owned handoffs."}
+  ],
+  "account_mapping": [
+    {"field_id":"combined_oasdi","account_roles":["trust_fund","non_additive_context"],"evidence_state":"partial_context","time_basis":"fiscal_year","aggregation_role":"composite_non_additive","component_ids":["OASI","DI"],"non_additive":true,"successor_owner":"OAS-C","blocking_gate":"separate component reconciliation"},
+    {"field_id":"oasi","account_roles":["trust_fund","dedicated_receipt","program_outlay"],"evidence_state":"source_gap","time_basis":"fiscal_year","aggregation_role":"component","component_ids":[],"non_additive":false,"successor_owner":"OAS-C","blocking_gate":"separate OASI annual path"},
+    {"field_id":"di","account_roles":["trust_fund","dedicated_receipt","program_outlay"],"evidence_state":"source_gap","time_basis":"fiscal_year","aggregation_role":"component","component_ids":[],"non_additive":false,"successor_owner":"OAS-C","blocking_gate":"separate DI annual path"},
+    {"field_id":"taxable_payroll","account_roles":["dedicated_receipt"],"evidence_state":"partial_context","time_basis":"calendar_to_fiscal_bridge_required","aggregation_role":"component","component_ids":[],"non_additive":false,"successor_owner":"OAS-C","blocking_gate":"OMB SSA receipt perimeter and time bridge"},
+    {"field_id":"interest_reimbursements_transfers","account_roles":["general_fund","trust_fund"],"evidence_state":"definition_only","time_basis":"fiscal_year","aggregation_role":"component","component_ids":[],"non_additive":false,"successor_owner":"OAS-C","blocking_gate":"explicit annual transfer and credit schedule"}
+  ],
+  "closure_decision": {"completion_class":"bounded_structural","role_review_complete":true,"oas_b_done":true,"oas_c_may_start":true,"numeric_completion":false,"output_admission":false},
+  "blocked_outputs": {"complete_oasi_di_schedule":null,"calendar_fiscal_bridge":null,"long_range_solvency":null,"reform_yield":null,"solver_input":null,"assigned_rate":null,"savings":null},
+  "claim_booleans": {"oas_b_closure_published":true,"oas_b_done":true,"oas_c_may_start":true,"core_k_pinned":true,"numeric_completion":false,"solver_ready":false,"rate_published":false},
+  "public_warning": "OAS-B is complete only as bounded accounting structure. It preserves separate funds, a non-additive combined view, time-basis boundaries, and explicit transfer gaps; it does not publish a complete schedule, rate, or savings."
+}

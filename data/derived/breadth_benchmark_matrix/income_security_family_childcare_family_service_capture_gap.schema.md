@@ -9,6 +9,9 @@ Required checks:
 - The record links the income-security/family source capture queue and closure
   queue.
 - Candidate official ACF CCDF and TANF source surfaces are named.
+- Access-boundary attempts are recorded when official ACF surfaces return empty
+  responses, with retrieval date, method, result, URL, notes, and
+  `retained_as_custody: false`.
 - Local raw artifact paths, byte counts, SHA-256 hashes, retrieval dates, and
   metadata paths remain null until source custody exists.
 - Childcare access floors, work/care transition context, delivery feasibility,

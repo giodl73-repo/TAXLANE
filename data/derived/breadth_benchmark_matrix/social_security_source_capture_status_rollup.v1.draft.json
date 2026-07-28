@@ -1,0 +1,167 @@
+{
+  "record_id": "social-security-source-capture-status-rollup:v1",
+  "record_family": "social_security_source_capture_status_rollup",
+  "schema_version": "v1.draft",
+  "status": "draft_partial_source_capture_context_ready_solver_blocked",
+  "pulse": 206,
+  "as_of_date": "2026-07-23",
+  "lane_id": "social-security",
+  "source_capture_queue_path": "data/derived/breadth_benchmark_matrix/social_security_source_capture_queue.v1.draft.json",
+  "source_readiness_gap_path": "data/derived/breadth_benchmark_matrix/social_security_source_readiness_gap.v1.draft.json",
+  "trustees_source_capture_status_path": "data/derived/breadth_benchmark_matrix/social_security_trustees_source_capture_status.v1.draft.json",
+  "current_law_path_path": "data/derived/breadth_benchmark_matrix/social_security_oasdi_fy2025_2035_current_law_path.v1.draft.json",
+  "taxable_payroll_base_bridge_path": "data/derived/breadth_benchmark_matrix/social_security_taxable_payroll_base_bridge.cy2025-2035.v1.draft.json",
+  "receipt_yield_boundary_path": "data/derived/breadth_benchmark_matrix/social_security_oasdi_receipt_yield_boundary.fy2025-cy2025.v1.draft.json",
+  "benefit_adequacy_context_bridge_path": "data/derived/breadth_benchmark_matrix/social_security_benefit_adequacy_context_bridge.v1.draft.json",
+  "old_age_poverty_context_bridge_path": "data/derived/breadth_benchmark_matrix/social_security_old_age_poverty_context_bridge.v1.draft.json",
+  "domestic_old_age_poverty_context_bridge_path": "data/derived/breadth_benchmark_matrix/social_security_domestic_old_age_poverty_context_bridge.v1.draft.json",
+  "administration_service_context_bridge_path": "data/derived/breadth_benchmark_matrix/social_security_administration_service_context_bridge.v1.draft.json",
+  "coverage_matrix_path": "data/derived/breadth_benchmark_matrix/lane_full_coverage_matrix.v1.draft.json",
+  "source_capture_rules": {
+    "official_sources_only": true,
+    "local_raw_byte_custody_ready": false,
+    "access_boundary_recorded": true,
+    "browser_verified_official_sources_allowed_for_context": true,
+    "calendar_year_context_cannot_substitute_for_fiscal_year_solver_yield": true,
+    "missing_values_remain_null": true,
+    "blocked_gates_remain_false": true
+  },
+  "capture_item_status": [
+    {
+      "work_item_id": "capture-oasdi-annual-fund-path",
+      "queue_priority": 1,
+      "status": "partial_combined_fiscal_year_path_context",
+      "evidence_paths": ["data/derived/breadth_benchmark_matrix/social_security_oasdi_fy2025_2035_current_law_path.v1.draft.json"],
+      "now_available": ["combined OASDI FY2025-FY2035 fiscal-year table values where SSA displays them", "post-depletion null treatment", "source-labeled Table VI.C6 boundary"],
+      "still_missing": ["separate OASI annual income/cost/assets", "separate DI annual income/cost/assets", "local SSA raw-byte custody", "complete post-depletion reserve-dependent fields", "explicit transfer schedule"],
+      "ready": false
+    },
+    {
+      "work_item_id": "capture-oasdi-75-year-solvency-path",
+      "queue_priority": 2,
+      "status": "partial_highlight_context",
+      "evidence_paths": ["data/derived/breadth_benchmark_matrix/social_security_trustees_source_capture_status.v1.draft.json"],
+      "now_available": ["combined depletion year", "payable-benefit percentages", "75-year actuarial balance", "single-year table inventory"],
+      "still_missing": ["full 75-year normalized solvency path", "stress path", "floor thresholds", "pass/fail evidence"],
+      "ready": false
+    },
+    {
+      "work_item_id": "capture-oasdi-taxable-payroll-base",
+      "queue_priority": 3,
+      "status": "partial_calendar_year_base_context",
+      "evidence_paths": [
+        "data/derived/breadth_benchmark_matrix/social_security_taxable_payroll_base_bridge.cy2025-2035.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/social_security_oasdi_receipt_yield_boundary.fy2025-cy2025.v1.draft.json"
+      ],
+      "now_available": ["CY2025-CY2035 taxable payroll", "CY2025-CY2035 contribution and benefit base", "current-law 12.4 percent OASDI rate context", "OMB FY2025 versus SSA CY2025 receipt-yield boundary"],
+      "still_missing": ["calendar-to-fiscal bridge", "OMB row-perimeter reconciliation", "distribution/incidence", "behavior/reform yield", "administration burden", "solver receipt row"],
+      "ready": false
+    },
+    {
+      "work_item_id": "capture-social-security-benefit-adequacy-floors",
+      "queue_priority": 4,
+      "status": "partial_oecd_pension_replacement_context",
+      "evidence_paths": ["data/derived/breadth_benchmark_matrix/social_security_benefit_adequacy_context_bridge.v1.draft.json"],
+      "now_available": ["OECD modeled mandatory-scheme replacement-rate source custody", "United States gross and net modeled replacement-rate context", "model and scope boundary"],
+      "still_missing": ["domestic benefit adequacy source custody", "observed current-retiree benefit values", "threshold rationale", "policy and stress values", "pass/fail evidence"],
+      "ready": false
+    },
+    {
+      "work_item_id": "capture-old-age-poverty-floor-values",
+      "queue_priority": 5,
+      "status": "partial_oecd_and_census_domestic_old_age_context",
+      "evidence_paths": [
+        "data/derived/breadth_benchmark_matrix/social_security_old_age_poverty_context_bridge.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/social_security_domestic_old_age_poverty_context_bridge.v1.draft.json"
+      ],
+      "now_available": ["OECD old-age relative-poverty source custody", "United States 2023 over-65 relative-poverty context", "international comparison interpretation boundary", "Census 2024 domestic 65-plus official poverty context", "Census 2024 domestic 65-plus SPM poverty context", "Census 2024 Social Security SPM element-effect context", "Census 2024 65-plus official income-to-poverty ratio context"],
+      "still_missing": ["old-age poverty measure selection and rationale", "income-unit boundary review", "threshold rationale", "policy and stress values", "pass/fail evidence"],
+      "ready": false
+    },
+    {
+      "work_item_id": "capture-ssa-administration-transition-capacity",
+      "queue_priority": 6,
+      "status": "partial_browser_visible_ssa_service_context",
+      "evidence_paths": ["data/derived/breadth_benchmark_matrix/social_security_administration_service_context_bridge.v1.draft.json"],
+      "now_available": ["browser-visible SSA May 2026 service-channel context", "browser-visible National 800 Number context", "browser-visible field-office wait-time context", "browser-visible retirement/survivor claims, disability decision, and hearings processing-time context", "command-line access boundary"],
+      "still_missing": ["local raw-byte custody or stable archived extract", "complete claims processing values", "appeals backlog context", "payment accuracy context", "staffing and workload context", "transition capacity and administration burden"],
+      "ready": false
+    }
+  ],
+  "coverage_gate_updates": {
+    "current_law_baseline": {
+      "previous_status": "missing",
+      "updated_status": "partial",
+      "basis": "Combined OASDI FY2025-FY2035 Table VI.C6 context exists, but OASI/DI split path and complete post-depletion fields remain missing."
+    },
+    "source_custody": {
+      "previous_status": "partial",
+      "updated_status": "partial",
+      "basis": "Official SSA sources are browser-verified and access boundaries are recorded; local raw-byte custody remains blocked."
+    },
+    "receipt_rate_bridge": {
+      "previous_status": "missing",
+      "updated_status": "partial",
+      "basis": "CY2025-CY2035 taxable payroll and OMB/SSA receipt boundary exist, but fiscal bridge, OMB reconciliation, incidence, administration, and solver yield remain missing."
+    }
+  },
+  "aggregate_status": {
+    "capture_item_count": 6,
+    "items_with_partial_progress": 6,
+    "items_not_started": 0,
+    "items_ready_count": 0,
+    "current_law_context_artifacts_ready": 1,
+    "receipt_base_context_artifacts_ready": 2,
+    "floor_context_artifacts_ready": 3,
+    "administration_context_artifacts_ready": 1,
+    "floor_value_artifacts_ready": 0,
+    "solver_ready_items": 0,
+    "rate_ready_items": 0,
+    "savings_ready_items": 0
+  },
+  "blocked_outputs": {
+    "complete_oasi_di_split_path": null,
+    "complete_75_year_solvency_path": null,
+    "fiscal_year_taxable_payroll_yield": null,
+    "omb_row_perimeter_reconciliation": null,
+    "benefit_adequacy_floor_values": null,
+    "old_age_poverty_floor_values": null,
+    "administration_transition_capacity_values": null,
+    "pass_fail_findings": null,
+    "lower_cost_scenario_admissibility": null,
+    "solver_input": null,
+    "rate_calculation": null,
+    "public_rate_card": null,
+    "gross_savings": null,
+    "net_savings": null,
+    "balanced_budget_claim": null
+  },
+  "claim_booleans": {
+    "social_security_source_capture_status_rollup_published": true,
+    "current_law_baseline_gate_partial": true,
+    "receipt_rate_bridge_gate_partial": true,
+    "benefit_adequacy_context_bridge_published": true,
+    "international_pension_replacement_context_ready": true,
+    "old_age_poverty_context_bridge_published": true,
+    "international_old_age_poverty_context_ready": true,
+    "domestic_old_age_poverty_context_bridge_published": true,
+    "census_old_age_poverty_context_ready": true,
+    "ssa_administration_service_context_bridge_published": true,
+    "ssa_browser_visible_service_context_ready": true,
+    "all_source_capture_items_ready": false,
+    "local_raw_byte_custody_ready": false,
+    "complete_oasi_di_split_path_ready": false,
+    "complete_75_year_solvency_path_ready": false,
+    "floor_values_ready": false,
+    "pass_fail_findings_populated": false,
+    "lower_cost_scenario_admissibility_ready": false,
+    "solver_input_ready": false,
+    "rate_calculation_published": false,
+    "public_rate_card_published": false,
+    "gross_savings_published": false,
+    "net_savings_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "This rollup records Social Security source-capture progress only. It makes the current-law baseline and receipt/rate bridge gates partial, not complete, and adds OECD modeled pension replacement-rate context, OECD old-age relative-poverty context, Census domestic 65-plus old-age poverty context, and browser-visible SSA service context only. It is not complete SSA raw custody, not a complete OASI/DI split path, not a complete 75-year solvency path, not domestic benefit adequacy custody, not old-age poverty measure selection, not administration transition floor values, not pass/fail evidence, not solver input, not a rate calculation, not a public rate card, not a savings estimate, not a technology-savings claim, and not a balanced-budget claim."
+}

@@ -18,6 +18,7 @@
     "cms_medicare_trustees_raw_custody_ready": true,
     "fhwa_highway_statistics_raw_custody_ready": true,
     "ssa_trustees_raw_custody_ready": false,
+    "ssa_trustees_calendar_year_context_ready": true,
     "matched_receipt_bases_ready": false,
     "rate_publication_ready": false,
     "solver_inputs_ready": false
@@ -161,6 +162,21 @@
       "ready_for_solver": false
     },
     {
+      "work_item_id": "capture-ssa-oasdi-taxable-payroll-base",
+      "base_id": "oasdi_taxable_payroll",
+      "source_id": "SRC-SSA-TRUSTEES-2026",
+      "source_table_ref": "SSA Trustees Table VI.G1, Selected Economic Variables, Calendar Years 1970-2100",
+      "matched_year": "CY2025",
+      "year_basis": "calendar_year",
+      "source_unit": "billions_of_dollars",
+      "source_value_billion_usd": 10562,
+      "amount_musd": 10562000,
+      "value_role": "official_browser_reviewed_calendar_year_context_not_fiscal_year_assigned_base",
+      "ready_for_assigned_base": false,
+      "ready_for_rate_publication": false,
+      "ready_for_solver": false
+    },
+    {
       "work_item_id": "capture-medicare-hi-taxable-payroll-base",
       "base_id": "medicare_hi_taxable_payroll",
       "source_id": "SRC-CMS-MEDICARE-TRUSTEES-2026",
@@ -218,6 +234,7 @@
     "irs_agi_musd_formula": "15286017359 / 1000 = 15286017.359",
     "irs_taxable_income_musd_formula": "11625278987 / 1000 = 11625278.987",
     "irs_income_tax_after_credits_musd_formula": "2108587001 / 1000 = 2108587.001",
+    "ssa_oasdi_taxable_payroll_musd_formula": "10562 * 1000 = 10562000",
     "medicare_hi_taxable_payroll_musd_formula": "13277 * 1000 = 13277000",
     "medicare_hi_payroll_tax_yield_musd_formula": "400622160000 / 1000000 = 400622.16",
     "fhwa_fe9_total_musd_formula": "37512192 / 1000 = 37512.192",
@@ -227,12 +244,13 @@
   "summary": {
     "source_packets_captured": 6,
     "blocked_source_packets": 1,
-    "extracted_context_rows": 6,
+    "extracted_context_rows": 7,
     "work_items_with_new_source_custody": [
       "capture-irs-soi-pub-1304-individual-income-base",
       "capture-medicare-hi-taxable-payroll-base",
       "capture-transportation-excise-user-fee-base"
     ],
+    "work_items_with_official_context_but_raw_custody_blocked": ["capture-ssa-oasdi-taxable-payroll-base"],
     "work_items_still_raw_custody_blocked": ["capture-ssa-oasdi-taxable-payroll-base"],
     "assigned_base_ready_count": 0,
     "matched_receipt_bases_ready": false,
@@ -259,6 +277,7 @@
     "Pulse 137 captured official public source files and guarded context values; it did not publish assigned receipt bases.",
     "TY2023 IRS SOI values are not FY2025 matched assigned bases.",
     "CMS Medicare HI taxable payroll context is not a public rate calculation.",
+    "SSA OASDI calendar-year taxable-payroll context is not a fiscal-year assigned receipt base.",
     "FHWA highway-user receipt and legal-rate context is not a complete economic transportation fee base.",
     "SSA OASDI raw source custody remains blocked in this environment because the official site returned HTTP 403 to direct raw download.",
     "No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.",

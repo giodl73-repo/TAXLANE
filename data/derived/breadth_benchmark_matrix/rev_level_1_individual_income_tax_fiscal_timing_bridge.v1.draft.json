@@ -1,0 +1,19 @@
+{
+  "record_id":"rev-level-1-individual-income-tax-fiscal-timing-bridge:v1","record_family":"rev_level_1_individual_income_tax_fiscal_timing_bridge","version":"v1.draft","status":"rev_l1_03_complete_bounded_reblock","pulse":414,"as_of_date":"2026-07-27","work_package_id":"REV-L1-03","track_prefix":"REV",
+  "legal_perimeter_path":"data/derived/breadth_benchmark_matrix/rev_level_1_individual_income_legal_economic_base_perimeter.v1.draft.json","irs_soi_context_path":"data/derived/breadth_benchmark_matrix/irs_soi_pub1304_ty2023_individual_income_base_context.v1.draft.json","omb_receipt_context_path":"data/derived/breadth_benchmark_matrix/omb_receipt_category_fy2025_2031_context.v1.draft.json","treasury_mts_metadata_path":"data/metadata/SRC-TREASURY-MTS-ACCOUNTING-BASIS-2026.2026-07-27.metadata.md","form1040_metadata_path":"data/metadata/SRC-IRS-FORM1040-INSTRUCTIONS-TY2025.2026-07-27.metadata.md","schema_path":"data/derived/breadth_benchmark_matrix/rev_level_1_individual_income_tax_fiscal_timing_bridge.schema.md","reader_path":"docs/reading/rev-level-1-individual-income-tax-fiscal-timing-bridge.md","role_review_path":"reviews/2026-07-27-rev-level-1-individual-income-tax-fiscal-timing-bridge-role-review.md",
+  "bridge_endpoints":{"source_base":{"value_millions":11625278.987,"concept":"IRS SOI taxable income","period":"TY2023","basis":"tax_year_return_aggregate"},"source_liability_context":{"value_millions":2108587.001,"concept":"IRS SOI income tax after credits","period":"TY2023","basis":"tax_year_return_aggregate"},"target_receipts":{"value_millions":2656044,"concept":"OMB individual income tax receipts","period":"FY2025","basis":"fiscal_year_federal_receipts"}},
+  "required_bridge_components":[
+    {"component":"withholding","required":true,"cohort_assignment_ready":false},
+    {"component":"estimated_payments","required":true,"cohort_assignment_ready":false},
+    {"component":"return_settlements_and_prior_year_payments","required":true,"cohort_assignment_ready":false},
+    {"component":"refunds_and_refundable_credits","required":true,"cohort_assignment_ready":false},
+    {"component":"enforcement_and_late_collections","required":true,"cohort_assignment_ready":false},
+    {"component":"tax_year_to_fiscal_year_lag_weights","required":true,"cohort_assignment_ready":false},
+    {"component":"legal_perimeter_reconciliation","required":true,"cohort_assignment_ready":false}
+  ],
+  "bridge_decision":{"direct_division_rejected":true,"ty2023_to_fy2025_same_period":false,"liability_equals_cash_receipts":false,"complete_cohort_bridge_available":false,"matched_fy2025_assigned_base_ready":false,"rev_l1_03_complete_as_bounded_reblock":true,"rev_l1_04_may_start":true,"rev_l1_05_may_start":false,"rate_calculation_allowed":false},
+  "successor_requirement":"A later matched-base claim must assign fiscal-year collections and refunds to tax-year/legal-base cohorts with documented weights, perimeter reconciliation, and reproducible arithmetic. REV-L1-04 may proceed independently on behavior, compliance, administration, incidence, and distribution evidence.",
+  "blocked_outputs":{"timing_weights":null,"matched_fy2025_assigned_base":null,"current_law_yield":null,"behavioral_adjustment":null,"assigned_rate":null,"solver_input":null,"solver_result":null,"public_rate_card":null},
+  "claim_booleans":{"rev_l1_03_published":true,"timing_perimeter_diagnosed":true,"bounded_reblock_complete":true,"numeric_timing_bridge_complete":false,"matched_base_ready":false,"rate_published":false},
+  "public_warning":"The timing bridge is complete only as a bounded reblock. TY2023 return aggregates cannot be divided into FY2025 receipts: withholding, estimated payments, settlements, refunds, enforcement collections, lag weights, and legal perimeters are not cohort-reconciled. No matched base or rate is published."
+}

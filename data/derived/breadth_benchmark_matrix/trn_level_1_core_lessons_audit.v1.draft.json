@@ -1,0 +1,92 @@
+{
+  "record_id": "trn-level-1-core-lessons-audit:v1",
+  "record_family": "trn_level_1_core_lessons_audit",
+  "version": "v1.draft",
+  "status": "trn_level_1_core_lessons_audited_core_m_discovery_recommended",
+  "pulse": 383,
+  "as_of_date": "2026-07-27",
+  "trn_candidate_path": "data/derived/breadth_benchmark_matrix/trn_c_airmen_certificate_reform_scenario.v1.draft.json",
+  "trn_d_closure_path": "data/derived/breadth_benchmark_matrix/trn_d_financing_fairness_closure.v1.draft.json",
+  "trn_e_readiness_path": "data/derived/breadth_benchmark_matrix/trn_e_solver_input_readiness_bridge.v1.draft.json",
+  "trn_e_closure_path": "data/derived/breadth_benchmark_matrix/trn_e_integrated_candidate_solver_closure.v1.draft.json",
+  "lane_f_contract_path": "data/derived/breadth_benchmark_matrix/lane_f_public_release_gate_contract.v1.draft.json",
+  "advancement_queue_path": "data/derived/breadth_benchmark_matrix/fifteen_lane_two_level_f_advancement_queue.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/trn_level_1_core_lessons_audit.schema.md",
+  "reader_path": "docs/reading/trn-level-1-core-lessons-audit.md",
+  "role_review_path": "reviews/2026-07-27-trn-level-1-core-lessons-role-review.md",
+  "candidate_finding": {
+    "candidate_id": "hr2247_airmen_certificate_accessibility",
+    "candidate_class": "cost_only_service_modernization",
+    "official_incremental_outlay_score_present": true,
+    "lower_cost_target_supported": false,
+    "savings_supported": false,
+    "receipt_or_fee_instrument_present": false,
+    "named_fund_or_account_supported": false,
+    "candidate_enacted": false,
+    "finding": "H.R. 2247 is a real, conditionally scored cost-only modernization candidate. Its evidence supports implementation cost and candidate-specific access, authentication, equity, resilience, and delivery review, but not a lower target cost, savings, receipt rate, or named-fund assignment."
+  },
+  "existing_core_coverage": [
+    {"core_wave":"CORE-G","covered":"current-law federal topline spine","remaining_gap":"none for candidate classification"},
+    {"core_wave":"CORE-H","covered":"fund, reserve, transfer, offset, debt, and interest accounting interfaces","remaining_gap":"does not decide whether an instrument is appropriation-backed, receipt-financed, or unassigned"},
+    {"core_wave":"CORE-I","covered":"conditional real-reform and cost-only admission","remaining_gap":"does not define a typed downstream release profile"},
+    {"core_wave":"CORE-J","covered":"completion classes, evidence states, handoffs, and output-admission boundary","remaining_gap":"does not assemble one candidate dossier across all downstream gates"},
+    {"core_wave":"CORE-K","covered":"time-basis, horizon, composite, and transfer lineage","remaining_gap":"does not define candidate-specific required versus not-applicable inputs"},
+    {"core_wave":"CORE-L","covered":"cross-lane overlap ownership and allocation","remaining_gap":"does not scope lane-wide floors to a particular candidate"}
+  ],
+  "reusable_lessons": [
+    {"lesson_id":"typed_candidate_objective","finding":"Candidate class must be explicit before E rerun or F audit.","shared_need":"Enumerate cost-only modernization, cost-neutral reform, lower-cost reform, revenue instrument, non-additive integrity overlay, and endogenous fiscal effect profiles."},
+    {"lesson_id":"financing_role_taxonomy","finding":"Subject to appropriation is a spending perimeter, not proof of a fund, account, receipt source, or rate base.","shared_need":"Keep authorization, appropriation, outlay, named fund/account, transfer, and receipt financing as distinct typed roles."},
+    {"lesson_id":"candidate_scoped_floor_applicability","finding":"A lane-wide roadway fatality floor is not automatically applicable to an FAA credential-presentation candidate.","shared_need":"Require each floor to be required, reviewed-not-applicable, or blocked, with rationale and evidence."},
+    {"lesson_id":"reviewed_not_applicable_gate_state","finding":"A universal all-pass gate cannot represent legitimate non-applicability without either false failure or unjustified data work.","shared_need":"Add a reviewed not-applicable disposition that satisfies applicability review but never fabricates a result."},
+    {"lesson_id":"typed_solver_and_release_profile","finding":"A cost-only candidate can have an official incremental score without supporting a rate, savings, or lower-cost solver objective.","shared_need":"Bind solver requirements and releasable outputs to the candidate profile rather than assuming one universal rate-card output."},
+    {"lesson_id":"candidate_dossier_reconciliation","finding":"The same candidate is currently spread across C, D, E, floor, source, and F-gate records.","shared_need":"Provide one reproducible dossier index with evidence path, state, owner, applicability, and release eligibility for every required input."}
+  ],
+  "core_recommendation": {
+    "recommended_wave_id": "CORE-M",
+    "working_title": "Candidate Dossier and Typed Release Profiles",
+    "discovery_warranted": true,
+    "implementation_started": false,
+    "contract_complete": false,
+    "proposed_work_packages": [
+      "define candidate objective and release-profile enums",
+      "define financing-role taxonomy without inferred fund assignment",
+      "define required, reviewed-not-applicable, and blocked gate dispositions",
+      "define candidate dossier reconciliation rows and evidence ownership",
+      "derive output eligibility from the typed profile",
+      "test against TRN cost-only, PAY/REV non-additive, and NET endogenous cases"
+    ],
+    "dependency_decision": "Discover CORE-M before treating TRN Level 1 as an output-ready E rerun. Continue source work in parallel, but do not select H.R. 2247 as a savings or rate candidate."
+  },
+  "trn_specific_work_remaining": [
+    "decide whether H.R. 2247 is retained as a cost-only public-release candidate or rejected for the rate/savings profile",
+    "resolve appropriation, named-account, and fund treatment only from admitted evidence",
+    "complete candidate-specific policy and stress evidence for applicable floors",
+    "complete quantitative beneficiary and burden analysis where supportable",
+    "complete the debt and interest dependency path for the admitted incremental cost"
+  ],
+  "blocked_outputs": {
+    "core_m_start": null,
+    "core_m_contract": null,
+    "candidate_selection": null,
+    "financing_source": null,
+    "solver_run": null,
+    "trn_f_start": null,
+    "assigned_rate": null,
+    "gross_savings": null,
+    "net_savings": null,
+    "public_rate_card": null
+  },
+  "claim_booleans": {
+    "trn_level_1_core_lessons_audit_published": true,
+    "existing_core_coverage_mapped": true,
+    "core_m_discovery_recommended": true,
+    "core_m_started": false,
+    "core_m_contract_complete": false,
+    "candidate_selected": false,
+    "solver_run_performed": false,
+    "trn_f_may_start": false,
+    "rate_published": false,
+    "savings_claim_published": false
+  },
+  "public_warning": "This audit identifies reusable CORE needs exposed by TRN Level 1. It recommends CORE-M discovery but does not start or complete CORE-M, select H.R. 2247, run a solver, start TRN-F, publish a rate, or claim savings."
+}

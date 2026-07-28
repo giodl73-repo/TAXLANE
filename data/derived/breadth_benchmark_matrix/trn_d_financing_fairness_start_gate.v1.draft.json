@@ -1,0 +1,42 @@
+{
+  "record_id": "trn-d-financing-fairness-start-gate:v1",
+  "record_family": "trn_d_financing_fairness_start_gate",
+  "version": "v1.draft",
+  "status": "trn_d_complete_trn_e_started",
+  "pulse": 258,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "TRN-D",
+  "trn_c_closure_path": "data/derived/breadth_benchmark_matrix/trn_c_real_reform_closure.v1.draft.json",
+  "scenario_path": "data/derived/breadth_benchmark_matrix/trn_c_airmen_certificate_reform_scenario.v1.draft.json",
+  "core_i_path": "data/derived/breadth_benchmark_matrix/core_i_shared_reform_admission_contract.v1.draft.json",
+  "legal_financing_perimeter_path": "data/derived/breadth_benchmark_matrix/trn_d_legal_financing_perimeter_decision.v1.draft.json",
+  "administration_behavior_path": "data/derived/breadth_benchmark_matrix/trn_d_administration_compliance_behavior_boundary.v1.draft.json",
+  "incidence_fairness_path": "data/derived/breadth_benchmark_matrix/trn_d_incidence_distribution_fairness_boundary.v1.draft.json",
+  "interactions_bridge_path": "data/derived/breadth_benchmark_matrix/trn_d_interactions_macro_fund_bridge.v1.draft.json",
+  "closure_path": "data/derived/breadth_benchmark_matrix/trn_d_financing_fairness_closure.v1.draft.json",
+  "trn_e_start_gate_path": "data/derived/breadth_benchmark_matrix/trn_e_integrated_candidate_solver_start_gate.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/trn_d_financing_fairness_start_gate.schema.md",
+  "reader_path": "docs/reading/trn-d-financing-fairness-start-gate.md",
+  "dependency_gate": {"required_dependency":"TRN-C","trn_c_done":true,"trn_d_may_start":true,"trn_d_started":true},
+  "candidate_financing_boundary": {
+    "fy2026_fy2031_incremental_outlays_millions": 18,
+    "budget_function": "400_transportation",
+    "spending_type": "subject_to_appropriation",
+    "airport_airway_trust_fund_assignment": null,
+    "general_fund_assignment": null,
+    "fee_or_assigned_receipt_base": null,
+    "distribution_or_incidence": null,
+    "administration_or_compliance_burden": null
+  },
+  "work_packages": [
+    {"work_package_id":"TRN-D-01","title":"Legal financing and appropriation perimeter","status":"complete","objective":"Determine whether the conditional function-400 outlays belong to general-fund, Airport and Airway Trust Fund, fee, or another financing perimeter without inference."},
+    {"work_package_id":"TRN-D-02","title":"Matched receipt base and yield","status":"not_required_no_receipt_instrument_selected","objective":"Admit a matched-year legal and economic base only if the selected financing instrument requires one."},
+    {"work_package_id":"TRN-D-03","title":"Administration compliance and behavior","status":"complete","objective":"Cost FAA, user, employer, and verification burden without converting optional digital adoption into savings."},
+    {"work_package_id":"TRN-D-04","title":"Incidence distribution and fairness","status":"complete","objective":"Assess who finances and who bears implementation and access burdens, including offline and non-digital users."},
+    {"work_package_id":"TRN-D-05","title":"Interactions macro and fund bridge","status":"complete","objective":"Map tax, fund, appropriation, and macro interactions while preserving endogenous-interest deferral."},
+    {"work_package_id":"TRN-D-06","title":"Financing/fairness reconciliation and role review","status":"complete","objective":"Close the financing bridge and decide whether TRN-E may start."}
+  ],
+  "aggregate_status": {"work_packages":6,"in_progress_work_packages":0,"completed_work_packages":5,"not_required_work_packages":1,"trn_d_01_done":true,"trn_d_03_done":true,"trn_d_04_done":true,"trn_d_05_done":true,"trn_d_06_done":true,"trn_d_started":true,"trn_d_done":true,"trn_e_may_start":true,"trn_e_started":true},
+  "claim_booleans": {"trn_d_start_gate_published":true,"trn_c_done":true,"trn_d_started":true,"trn_d_01_done":true,"trn_d_03_done":true,"trn_d_04_done":true,"trn_d_05_done":true,"trn_d_06_done":true,"trn_d_done":true,"financing_source_selected":false,"assigned_rate_published":false,"trn_e_may_start":true,"trn_e_started":true},
+  "public_warning": "TRN-D is complete as a bounded financing and fairness bridge; TRN-D-02 is not required because no receipt instrument is selected. TRN-E input-readiness discovery has started. Quantitative incidence, fund allocation, behavioral or macro effects, target cost, solver result, rate, and savings remain blocked."
+}

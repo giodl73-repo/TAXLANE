@@ -5,7 +5,9 @@ Record:
 
 This is a local source inventory, not a receipt-base extraction.
 Local HT23 custody supports rate and bracket context only, not AGI, taxable-income, payroll, or fee base amounts.
-Derived denominator context cannot substitute for raw source custody of assigned receipt bases.
+IRS Pub 1304 TY2023 raw custody supports individual-income context only, not a matched FY2025 assigned base.
+SSA Trustees calendar-year taxable-payroll context cannot substitute for a fiscal-year OMB-reconciled assigned receipt base.
+CMS Medicare Trustees raw custody supports calendar-year HI context only, not a fiscal-year OMB-reconciled assigned receipt base.
 
 No assigned base amount, elasticity, yield, rate, public rate card, solver input, tax proposal, or balanced-budget value is populated.
 

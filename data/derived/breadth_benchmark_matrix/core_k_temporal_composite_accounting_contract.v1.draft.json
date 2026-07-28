@@ -1,0 +1,37 @@
+{
+  "record_id": "core-k-temporal-composite-accounting-contract:v1",
+  "record_family": "core_k_temporal_composite_accounting_contract",
+  "version": "v1.draft",
+  "status": "core_k_interfaces_implemented_role_review_ready",
+  "pulse": 303,
+  "as_of_date": "2026-07-26",
+  "core_wave_id": "CORE-K",
+  "core_h_path": "data/derived/breadth_benchmark_matrix/core_h_shared_accounting_substrate.v1.draft.json",
+  "core_j_path": "data/derived/breadth_benchmark_matrix/core_j_bounded_closure_handoff_closure.v1.draft.json",
+  "hlt_b_path": "data/derived/breadth_benchmark_matrix/hlt_b_health_accounting_closure.v1.draft.json",
+  "edu_b_path": "data/derived/breadth_benchmark_matrix/edu_b_education_workforce_accounting_closure.v1.draft.json",
+  "oas_a_path": "data/derived/breadth_benchmark_matrix/oas_a_social_security_baseline_source_spine.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/stage_c_catchup_bundle.schema.md",
+  "reader_path": "docs/reading/stage-c-catchup-bundle.md",
+  "time_bases": ["fiscal_year","calendar_year","tax_year"],
+  "aggregation_roles": ["component","composite_non_additive"],
+  "lineage_rules": {
+    "cross_basis_requires_explicit_bridge": true,
+    "target_horizon_may_not_exceed_source_horizon": true,
+    "composite_requires_named_components": true,
+    "composite_and_components_are_non_additive": true,
+    "transfers_must_be_explicit": true,
+    "temporal_alignment_does_not_imply_perimeter_alignment": true
+  },
+  "rust_interfaces": ["TimeBasis","AggregationRole","TemporalAccountingLineage"],
+  "cross_lane_findings": [
+    {"finding_id":"time_basis","supported_by":["HLT-B","EDU-B","OAS-A"],"finding":"Fiscal, calendar, and tax-year values require explicit bridges."},
+    {"finding_id":"horizon_support","supported_by":["HLT-B","EDU-B","OAS-A"],"finding":"A target schedule may not silently extend beyond its source-supported horizon."},
+    {"finding_id":"composite_identity","supported_by":["HLT-B","OAS-A"],"finding":"Published composites and their named components are non-additive views."},
+    {"finding_id":"explicit_transfers","supported_by":["HLT-B","EDU-B","OAS-A"],"finding":"Interfund and intergovernmental transfers remain explicit."}
+  ],
+  "implementation_status": {"interfaces_required":3,"interfaces_implemented":3,"unit_tests_added":4,"core_k_implementation_done":true,"core_k_role_review_may_start":true},
+  "blocked_outputs": {"bridged_numeric_schedule":null,"extended_horizon":null,"solver_input":null,"assigned_rate":null,"savings":null},
+  "claim_booleans": {"core_k_contract_published":true,"shared_interfaces_implemented":true,"core_k_implementation_done":true,"core_k_role_review_may_start":true,"core_k_done":false,"solver_ready":false,"rate_published":false},
+  "public_warning": "CORE-K validates time basis, source horizon, composite identity, and explicit-transfer lineage. It does not create missing bridges, extend source horizons, admit solver inputs, calculate rates, or establish savings."
+}

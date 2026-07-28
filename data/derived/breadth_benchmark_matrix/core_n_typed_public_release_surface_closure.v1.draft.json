@@ -1,0 +1,9 @@
+{
+  "record_id":"core-n-typed-public-release-surface-closure:v1","record_family":"core_n_typed_public_release_surface_closure","version":"v1.draft","status":"core_n_complete_five_typed_public_release_surfaces","pulse":405,"as_of_date":"2026-07-27","core_wave_id":"CORE-N",
+  "contract_path":"data/derived/breadth_benchmark_matrix/core_n_typed_public_release_surface_contract.v1.draft.json","implementation_path":"crates/taxlane-core/src/lib.rs","schema_path":"data/derived/breadth_benchmark_matrix/core_n_typed_public_release_surface_contract.schema.md","reader_path":"docs/reading/core-n-typed-public-release-surface-contract.md","role_review_path":"reviews/2026-07-27-core-n-typed-public-release-surface-role-review.md",
+  "closure_checks":["five_surface_types","profile_surface_compatibility","core_m_output_compatibility","required_surface_output","blocked_gate_preservation","role_review","public_language_review","reproducible_release","overlay_non_additivity","endogenous_no_direct_cut","rust_validation"],
+  "dependency_decision":{"core_n_done":true,"trn_f_cost_note_may_complete":true,"rev_rate_card_requires_matched_base":true},
+  "blocked_outputs":{"trn_cost_note":null,"public_rate_card":null,"assigned_rate":null,"savings_result":null,"integrity_overlay_report":null,"endogenous_effect_report":null,"balanced_budget_claim":null},
+  "claim_booleans":{"core_n_closure_published":true,"role_review_complete":true,"core_n_done":true,"trn_f_cost_note_may_complete":true,"rate_published":false,"savings_claim_published":false},
+  "public_warning":"CORE-N is complete as shared typed public-release infrastructure. It permits TRN-F to complete only as a cost note and keeps every rate card blocked until a revenue instrument has a source-supported matched base and all applicable gates."
+}

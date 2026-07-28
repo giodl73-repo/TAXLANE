@@ -1,0 +1,99 @@
+{
+  "record_id": "medicare-hi-cms-omb-fy2025-timing-perimeter-diagnostic:v1",
+  "record_family": "medicare_hi_cms_omb_fy2025_timing_perimeter_diagnostic",
+  "schema_version": "v1.draft",
+  "status": "draft_cy_fy_timing_perimeter_diagnostic_fiscal_bridge_blocked",
+  "as_of_date": "2026-07-24",
+  "lane_id": "health-medicare",
+  "cms_hi_cy_context_path": "data/derived/breadth_benchmark_matrix/medicare_hi_cy2025_2035_current_law_context_path.v1.draft.json",
+  "omb_receipt_anchor_path": "data/derived/breadth_benchmark_matrix/current_law_fy2025_dedicated_receipt_anchors.v1.draft.json",
+  "omb_outlay_anchor_path": "data/derived/breadth_benchmark_matrix/current_law_fy2025_named_trust_fund_outlay_anchors.v1.draft.json",
+  "source_ids": ["SRC-CMS-MEDICARE-TRUSTEES-2026", "SRC-OMB-HIST-2-4-FY2027", "SRC-OMB-PBD-OUTLAYS-FY2027"],
+  "source_boundary": {
+    "official_public_sources": true,
+    "local_raw_custody_present": true,
+    "diagnostic_only": true,
+    "cms_year_basis": "calendar_year_2025",
+    "omb_year_basis": "fiscal_year_2025",
+    "unit": "millions_usd",
+    "not_calendar_to_fiscal_conversion": true,
+    "not_omb_cms_receipt_row_bridge": true,
+    "not_fiscal_year_hi_path": true,
+    "not_solver_input": true
+  },
+  "comparison_rows": [
+    {
+      "comparison_id": "hi_income_receipt_anchor",
+      "cms_context_field": "CMS Trustees Table II.E1 CY2025 total income",
+      "cms_amount_musd": 462400,
+      "omb_anchor_field": "OMB Historical Table 2.4 FY2025 Hospital insurance",
+      "omb_amount_musd": 395350,
+      "cms_minus_omb_musd": 67050,
+      "cms_minus_omb_pct_of_omb": 16.95966,
+      "diagnostic_boundary": "CMS total income includes more than the OMB Hospital Insurance receipt anchor and is calendar-year, not fiscal-year, context."
+    },
+    {
+      "comparison_id": "hi_expenditures_outlay_anchor",
+      "cms_context_field": "CMS Trustees Table II.E1 CY2025 total expenditures",
+      "cms_amount_musd": 444200,
+      "omb_anchor_field": "OMB PBD FY2025 Federal Hospital Insurance Trust Fund outlay anchor",
+      "omb_amount_musd": 444832,
+      "cms_minus_omb_musd": -632,
+      "cms_minus_omb_pct_of_omb": -0.14208,
+      "diagnostic_boundary": "CMS total expenditures and OMB outlay anchor are close but still calendar-year versus fiscal-year and source-perimeter context."
+    },
+    {
+      "comparison_id": "hi_net_change_context",
+      "cms_context_field": "CMS Trustees Table II.E1 CY2025 change in fund",
+      "cms_amount_musd": 18200,
+      "omb_anchor_field": "OMB FY2025 receipt anchor minus OMB FY2025 outlay anchor",
+      "omb_amount_musd": -49482,
+      "cms_minus_omb_musd": 67682,
+      "cms_minus_omb_pct_of_omb": null,
+      "diagnostic_boundary": "The CMS calendar-year fund change is not comparable to the simple OMB fiscal receipt-minus-outlay anchor without timing, income-category, and accounting reconciliation."
+    }
+  ],
+  "diagnostic_findings": [
+    "CMS CY2025 HI total expenditures are within 632 million of the OMB FY2025 HI outlay anchor, but this does not prove a fiscal-year bridge.",
+    "CMS CY2025 HI total income is 67.050 billion above the OMB FY2025 Hospital Insurance receipt anchor, reflecting timing/perimeter differences that must be bridged before use.",
+    "CMS CY2025 change in fund and OMB FY2025 receipt-minus-outlay anchor are not interchangeable without timing and accounting reconciliation."
+  ],
+  "blocked_model_steps": [
+    "construct a calendar-year to fiscal-year timing bridge",
+    "map CMS HI income categories to OMB Hospital Insurance receipt rows",
+    "confirm included and excluded OMB Hospital Insurance receipt types",
+    "reconcile payroll taxes, taxation of benefits, interest, transfers, and other income",
+    "bind any current-law yield to solver rows only after source perimeter review"
+  ],
+  "blocked_outputs": {
+    "fiscal_year_hi_path": null,
+    "omb_cms_receipt_row_bridge": null,
+    "timing_bridge": null,
+    "income_category_crosswalk": null,
+    "legal_receipt_base_amount": null,
+    "economic_receipt_base_amount": null,
+    "matched_solver_yield": null,
+    "solver_input": null,
+    "solver_run": null,
+    "rate_calculation": null,
+    "public_rate_card": null,
+    "savings_estimate": null,
+    "balanced_budget_claim": null
+  },
+  "claim_booleans": {
+    "medicare_hi_cms_omb_timing_perimeter_diagnostic_published": true,
+    "fy2025_anchor_comparison_recorded": true,
+    "fiscal_year_hi_path_ready": false,
+    "omb_cms_receipt_row_bridge_ready": false,
+    "timing_bridge_ready": false,
+    "income_category_crosswalk_ready": false,
+    "matched_solver_yield_ready": false,
+    "solver_input_ready": false,
+    "solver_run_published": false,
+    "rate_calculation_published": false,
+    "public_rate_card_published": false,
+    "savings_estimate_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "Medicare HI CMS/OMB FY2025 timing-perimeter comparison is diagnostic context only. It is not a calendar-to-fiscal conversion, not a fiscal-year HI path, not an OMB/CMS receipt-row bridge, not a matched solver yield, not solver input, not a solver run, not a rate calculation, not a public rate card, not a savings estimate, and not a balanced-budget claim."
+}

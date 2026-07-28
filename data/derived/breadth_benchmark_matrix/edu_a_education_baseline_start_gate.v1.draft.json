@@ -1,0 +1,31 @@
+{
+  "record_id": "edu-a-education-baseline-start-gate:v1",
+  "record_family": "edu_a_education_baseline_start_gate",
+  "version": "v1.draft",
+  "status": "edu_a_complete_edu_b_started",
+  "pulse": 257,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "EDU-A",
+  "core_g_path": "data/derived/breadth_benchmark_matrix/core_g_official_current_law_solver_spine.v1.draft.json",
+  "core_h_path": "data/derived/breadth_benchmark_matrix/core_h_shared_accounting_substrate.v1.draft.json",
+  "perimeter_inventory_path": "data/derived/breadth_benchmark_matrix/edu_a_education_workforce_perimeter_source_inventory.v1.draft.json",
+  "baseline_path": "data/derived/breadth_benchmark_matrix/edu_a_federal_education_workforce_baseline_path.v1.draft.json",
+  "financing_lineage_path": "data/derived/breadth_benchmark_matrix/edu_a_education_workforce_financing_lineage.v1.draft.json",
+  "service_floor_spine_path": "data/derived/breadth_benchmark_matrix/edu_a_education_workforce_service_floor_source_spine.v1.draft.json",
+  "closure_path": "data/derived/breadth_benchmark_matrix/edu_a_education_workforce_baseline_closure.v1.draft.json",
+  "edu_b_start_gate_path": "data/derived/breadth_benchmark_matrix/edu_b_education_workforce_accounting_start_gate.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/edu_a_education_baseline_start_gate.schema.md",
+  "reader_path": "docs/reading/edu-a-education-baseline-start-gate.md",
+  "dependency_gate": {"required_dependency":"CORE-G","core_g_done":true,"edu_a_may_start":true,"edu_a_started":true},
+  "work_packages": [
+    {"work_package_id":"EDU-A-01","title":"Education and workforce lane perimeter and source inventory","status":"complete","objective":"Freeze federal education, training, employment-service, loan/subsidy, and state/local translation boundaries."},
+    {"work_package_id":"EDU-A-02","title":"FY2025 anchor and FY2026-FY2035 baseline path","status":"complete","objective":"Build one source-vintaged annual federal education/workforce baseline with explicit nulls."},
+    {"work_package_id":"EDU-A-03","title":"General-fund, loan, grant, and offset lineage","status":"complete","objective":"Separate appropriations, loan subsidy, fees, recoveries, and state/local flows before accounting adaptation."},
+    {"work_package_id":"EDU-A-04","title":"Education and workforce service-floor source spine","status":"complete","objective":"Bind access, completion, attainment, employment, equity, and delivery source lineage without policy values."},
+    {"work_package_id":"EDU-A-05","title":"Baseline reconciliation and role review","status":"complete","objective":"Close the bounded education/workforce source spine and decide whether EDU-B may start."}
+  ],
+  "b_stage_gate": {"edu_b_requires_edu_a":true,"edu_b_requires_core_h":true,"core_h_done":true,"edu_a_done":true,"edu_b_may_start":true,"edu_b_started":true},
+  "aggregate_status": {"work_packages":5,"in_progress_work_packages":0,"completed_work_packages":5,"edu_a_01_done":true,"edu_a_02_done":true,"edu_a_03_done":true,"edu_a_04_done":true,"edu_a_05_done":true,"edu_a_started":true,"edu_a_done":true,"edu_b_may_start":true,"edu_b_started":true},
+  "claim_booleans": {"edu_a_start_gate_published":true,"core_g_done":true,"edu_a_started":true,"edu_a_01_done":true,"edu_a_02_done":true,"edu_a_03_done":true,"edu_a_04_done":true,"edu_a_05_done":true,"edu_a_done":true,"edu_b_may_start":true,"edu_b_started":true,"education_reform_admitted":false,"solver_ready":false,"rate_published":false,"savings_claim_published":false},
+  "public_warning": "EDU-A is complete as a bounded baseline and source spine, and EDU-B account-mapping discovery has started. Full numeric horizon, account allocation, federal/state/local translation, floor passage, education reform, solver output, rate, and savings remain blocked."
+}

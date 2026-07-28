@@ -1,0 +1,38 @@
+{
+  "record_id": "justice-violent-victimization-rate-floor-value-packet:v1",
+  "record_family": "justice_violent_victimization_rate_floor_value_packet",
+  "version": "v1.draft",
+  "pulse": 222,
+  "as_of_date": "2026-07-26",
+  "lane_id": "justice-courts-public-safety",
+  "floor_id": "public_safety_victimization",
+  "floor_class": "quality_safety",
+  "floor_definition_packet_path": "data/derived/breadth_benchmark_matrix/justice_courts_public_safety_outcome_floor_definition_packet.v1.draft.json",
+  "source_metadata_path": "data/metadata/SRC-BJS-NCVS-CRIMINAL-VICTIMIZATION-2024.2026-07-26.metadata.md",
+  "outcome_floor_wave_d_value_readiness_path": "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json",
+  "threshold_rationale": {
+    "rationale_id": "public-safety-no-regression-from-2024-legacy-ncvs-violent-victimization-rate",
+    "selected_measure": "Violent victimizations per 1,000 persons age 12 or older",
+    "rationale": "A justice/public-safety lower-cost scenario should not pass this safety slice if reviewed methodologically comparable evidence raises violent victimization above the 2024 legacy-instrument baseline.",
+    "threshold_type": "baseline_no_regression_ceiling",
+    "threshold_value": 23.3,
+    "threshold_unit": "violent_victimizations_per_1000_persons_age_12_plus",
+    "source_table": "BJS Criminal Victimization, 2024, legacy NCVS estimates",
+    "review_status": "draft_threshold_rationale_needs_role_review_before_pass_fail"
+  },
+  "baseline_values": {
+    "reporting_period": "calendar year 2024 legacy NCVS instrument",
+    "primary_baseline": {"measure": "violent victimization rate", "value": 23.3, "unit": "violent_victimizations_per_1000_persons_age_12_plus", "source_id": "SRC-BJS-NCVS-CRIMINAL-VICTIMIZATION-2024", "source_path": "data/raw/doj/SRC-BJS-NCVS-CRIMINAL-VICTIMIZATION-2024/2026-07-26/criminal-victimization-2024.pdf"},
+    "supporting_context": [{"measure": "violent victimizations", "value": 6671640, "unit": "victimizations", "evidence_status": "reported_legacy_instrument_estimate"}],
+    "source_custody": {"publisher": "U.S. Department of Justice, Bureau of Justice Statistics", "raw_artifact_path": "data/raw/doj/SRC-BJS-NCVS-CRIMINAL-VICTIMIZATION-2024/2026-07-26/criminal-victimization-2024.pdf", "raw_byte_count": 1363254, "raw_sha256": "91494bb14d8f6964dd1ffb7eb9a0edd9fc0e0524105cce22684ed0d8875b2810", "review_status": "source_metadata_present_and_hash_matched"},
+    "boundary": "The 2024 NCVS split-sample redesign means trend comparisons must preserve instrument lineage. This is not reported-crime incidence, police performance, court timeliness, corrections, rights, due process, policy values, stress values, pass/fail evidence, savings, or a balanced-budget claim."
+  },
+  "policy_values": null,
+  "stress_values": null,
+  "pass_fail_evidence": null,
+  "readiness_status": {"threshold_rationale_ready": true, "threshold_value_populated": true, "baseline_value_ready": true, "policy_value_ready": false, "stress_value_ready": false, "pass_fail_ready": false, "complete_justice_floor_ready": false, "lower_cost_scenario_admissible": false, "solver_ready": false, "rate_ready": false},
+  "remaining_requirements": ["role review", "methodologically comparable policy and stress values", "pass/fail evidence", "rights, due-process, court, corrections, equity, and delivery-feasibility floors"],
+  "blocked_outputs": {"policy_values": null, "stress_values": null, "pass_fail_evidence": null, "lower_cost_scenario_admissibility": null, "solver_input": null, "savings": null, "balanced_budget_claim": null},
+  "claim_booleans": {"floor_value_packet_published": true, "threshold_rationale_ready": true, "baseline_value_ready": true, "policy_value_ready": false, "stress_value_ready": false, "pass_fail_ready": false, "complete_lane_floor_ready": false, "lower_cost_scenario_admissible": false, "solver_ready": false, "rate_ready": false, "savings_claim_published": false, "balanced_budget_claim_published": false},
+  "public_warning": "Draft no-regression legacy-NCVS violent-victimization-rate floor threshold. Policy and stress values remain null. This is not a complete justice floor, not pass/fail evidence, not savings, and not a balanced-budget claim."
+}

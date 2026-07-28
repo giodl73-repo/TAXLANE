@@ -1,5 +1,12 @@
 # TAXLANE Reading Packets
 
+Latest fiscal frontier: [REV Level-1 guarded proxy closure](rev-level-1-guarded-proxy-closure.md),
+[fiscally decisive Level-1 candidate envelopes](fiscally-decisive-track-level-1-candidate-envelopes.md),
+and the [Level-2 dependency rerun](fiscally-decisive-track-level-2-dependency-rerun.md).
+HLT then advances through its [Medicare Advantage scale proxy](hlt-level-3-ma-benchmark-current-law-scale-proxy.md),
+[beneficiary-floor audit](hlt-level-4-ma-benchmark-beneficiary-floor-audit.md),
+and [fiscal-package contribution bridge](fiscal-package-hlt-contribution-bridge.md).
+
 Public reading packets turn source-backed research notes into plain-language
 explainers. They should keep three labels visible:
 
@@ -28,6 +35,63 @@ receipt standard.
 |---|---|
 | `honest-federal-tax-receipt.md` | Flagship one-page before/after case and financing-lane receipt prototype. |
 | `current-versus-benchmark-scoreboard.md` | Breadth/depth scoreboard showing matched current-versus-benchmark values, topline-only areas, explicit gaps, and the fraud/savings firewall. |
+| `lane-full-coverage-matrix.md` | Validated all-lane matrix for the nine full-coverage gates; preserves incomplete, non-solver-ready, non-rate-ready, non-savings-ready status. |
+| `public-explainer-wave-c-promotion.md` | Wave C promotion audit: all 15 public explainers are complete, while lane depth, solver, rates, savings, and balanced-budget gates remain blocked. |
+| `outcome-floor-wave-d-value-readiness.md` | Wave D lane-anchor completion audit; full component floor passage remains blocked. |
+| `wave-e-reference-scenario-packs.md` | Wave E completion packet: 15 current-policy reference calibrations with central boundary passes and synthetic adverse failures; no reform or fiscal effects. |
+| `lane-scenario-pack-wave-e-readiness.md` | Wave E completion audit: all 15 reference packs, policy/stress calibration values, and comparator results are ready while reform, solver, rate, and savings claims remain blocked. |
+| `wave-f-transportation-deterministic-calibration.md` | Wave F completion: FY2025-FY2035 synthetic transportation dry run exercises fund, reserve, rounding, floor-blocking, debt, and endogenous-interest mechanics. |
+| `solver-rate-wave-f-readiness.md` | Wave F calibration is complete; zero substantive prerequisites are ready, so official solver outputs, rates, cards, savings, and balanced-budget claims remain blocked. |
+| `wave-g-official-current-law-solver-spine-contract.md` | CORE-G contract and eight completion gates for the official FY2025-FY2035 current-law federal topline spine. |
+| `core-g-official-current-law-solver-spine.md` | Admitted CORE-G CBO FY2025-FY2035 topline spine, exact identities, custody, and TRN-A start boundary. |
+| `adaptive-rate-corpus-track-plan.md` | Controlling extensible CORE namespace and repeatable TRN-A through TRN-F transportation recipe. |
+| `trn-a-transportation-baseline-source-spine.md` | Completed bounded Function 400 and transportation named-fund source spine with explicit horizon gaps. |
+| `core-h-shared-accounting-substrate.md` | Completed checked shared fund, reserve, debt, and endogenous-interest accounting interfaces. |
+| `trn-b-transportation-accounting-start-gate.md` | TRN-B dependency proof, active first work package, and downstream claim boundaries. |
+| `trn-b-transportation-accounting-closure.md` | Completed bounded transportation accounting substrate, source decisions, reconciliation, and remaining nulls. |
+| `trn-c-real-reform-start-gate.md` | Verified TRN-C dependency, completed work packages, and bounded closure state. |
+| `trn-c-candidate-screen.md` | Current-policy candidate screen selecting H.R. 2247 without an enactment or savings claim. |
+| `trn-c-airmen-certificate-reform-scenario.md` | Conditional $18 million cost-only H.R. 2247 scenario and applicable-floor review. |
+| `trn-c-real-reform-closure.md` | TRN-C role-reviewed closure and TRN-D dependency handoff. |
+| `core-i-shared-reform-admission-contract.md` | Reusable bounded-score, cost-only, and applicable-floor admission interfaces. |
+| `trn-d-financing-fairness-start-gate.md` | TRN-D financing and fairness dependency gate. |
+| `trn-d-legal-financing-perimeter-decision.md` | TRN-D-01 FAA discretionary-appropriation perimeter with null fund assignment. |
+| `trn-d-administration-compliance-behavior-boundary.md` | TRN-D-03 scored FAA cost with unscored burden and behavior values null. |
+| `trn-d-incidence-distribution-fairness-boundary.md` | TRN-D-04 qualitative incidence and access-fairness map with quantitative values null. |
+| `trn-d-interactions-macro-fund-bridge.md` | TRN-D-05 bounded appropriation, fund, behavior, macro, and interest interaction map. |
+| `trn-d-financing-fairness-closure.md` | TRN-D-06 role-reviewed bounded closure with unsupported values blocked. |
+| `trn-e-integrated-candidate-solver-start-gate.md` | TRN-E gate with TRN-E-01 complete and TRN-E-02 active. |
+| `trn-e-solver-input-readiness-bridge.md` | Eight-family evidence-state and owned-handoff map closing TRN-E-01. |
+| `hlt-a-health-baseline-start-gate.md` | Health baseline/source stage start with HLT-B blocked. |
+| `hlt-a-health-lane-perimeter-source-inventory.md` | HLT-A-01 federal health perimeter and five-family source inventory. |
+| `hlt-a-federal-health-baseline-path.md` | HLT-A-02 one-vintage FY2025-FY2035 exact/null federal health path. |
+| `hlt-a-health-financing-lineage.md` | HLT-A-03 separated Medicare, Medicaid/CHIP, marketplace, and other-health financing relationships. |
+| `hlt-a-health-service-floor-source-spine.md` | HLT-A-04 five-class health service/floor lineage with partial custody and gaps explicit. |
+| `hlt-a-health-baseline-closure.md` | HLT-A-05 role-reviewed bounded baseline/source-spine closure. |
+| `hlt-b-health-accounting-start-gate.md` | HLT-B gate with HLT-B-01 complete and HLT-B-02 active. |
+| `hlt-b-health-component-account-mapping.md` | Six-component health role mapping and boundary handoff. |
+| `edu-a-education-baseline-start-gate.md` | Education/workforce baseline/source stage start with EDU-B blocked. |
+| `edu-a-education-workforce-perimeter-source-inventory.md` | EDU-A-01 function-500 perimeter and five-family source inventory. |
+| `edu-a-federal-education-workforce-baseline-path.md` | EDU-A-02 one-vintage FY2025-FY2035 exact/null function-500 path. |
+| `edu-a-education-workforce-financing-lineage.md` | EDU-A-03 signed appropriations, grant, loan, offset, and state/local financing boundaries. |
+| `edu-a-education-workforce-service-floor-source-spine.md` | EDU-A-04 five-class education/workforce service-floor lineage. |
+| `edu-a-education-workforce-baseline-closure.md` | EDU-A-05 role-reviewed bounded baseline/source-spine closure. |
+| `edu-b-education-workforce-accounting-start-gate.md` | EDU-B gate with EDU-B-01 complete and EDU-B-02 active. |
+| `edu-b-education-workforce-component-account-mapping.md` | Six-component signed and non-additive education/workforce role mapping. |
+| `core-j-bounded-closure-handoff-contract.md` | Shared completion classes, evidence states, account roles, and handoff rules. |
+| `core-j-bounded-closure-handoff-closure.md` | Role-reviewed CORE-J closure permitting three lane-local `-02` starts. |
+| `stage-c-catchup-bundle.md` | CORE-K and four-lane catch-up: TRN at E and HLT, EDU, and OASDI through bounded C. |
+| `multi-track-d-b-catchup-bundle.md` | CORE-L and seven-lane catch-up: TRN-E; HLT/EDU/OAS-D; and ISF/VET/AGR-B. |
+| `three-lane-stage-c-discovery-bundle.md` | Bounded ISF/VET/AGR candidate screens with no reform or D-stage start admitted. |
+| `three-lane-stage-d-bounded-bundle.md` | Bounded ISF/VET/AGR financing and fairness closures with all numeric outputs blocked. |
+| `eight-lane-a-d-bounded-bundle.md` | Reviewed DEF/DIS/JUS/SEE/INT/PAY/REV/NET A-through-D structural chains. |
+| `fifteen-lane-track-stage-matrix.md` | Canonical unique prefixes and current bounded stages for all fifteen tracks. |
+| `fifteen-lane-stage-d-portfolio-closure.md` | Controlling proof that all fifteen tracks are at or beyond bounded D without output admission. |
+| `lane-e-bounded-selection-solver-gate-contract.md` | Canonical five-package E contract derived from the TRN-E no-candidate precedent. |
+| `fourteen-lane-stage-e-bounded-bundle.md` | Reviewed D-to-E closures for HLT/EDU/OAS/ISF/VET/AGR/DEF/DIS/JUS/SEE/INT/PAY/REV/NET. |
+| `fifteen-lane-stage-e-portfolio-closure.md` | Historical portfolio proof that all fifteen tracks first reached bounded E with zero solver runs. |
+| `adaptive-rate-multi-track-frontier.md` | Empty active frontier with fourteen bounded-E tracks and one typed output-ready TRN closure. |
+| `adaptive-rate-post-f-wave-roadmap.md` | Historical Pulse 233 generic G-L predecessor retained for provenance. |
 | `payment-integrity-bounded-factual-examples.md` | Public payment-integrity handoff: exact FY2024 reconciliation, four program cards, seven source-labeled examples, and required claim boundaries. |
 | `headline-number-selection-guide.md` | Selection guide reconciling the valid health, defense, and interest headline measures and their incompatible scopes. |
 | `veterans-depth-card.md` | Complete FY2025 veterans function and five-component breakdown with current service probes and benchmark gates. |
@@ -55,6 +119,43 @@ receipt standard.
 | `balanced-rate-readiness-gate.md` | Pulse 80 no-rate gate: preserves denominator definitions and blocks statutory rates, effective rates, public cards, and balanced-budget claims. |
 | `final-closure-readiness-gate.md` | Pulse 81 no-closure gate: blocks final public closure until distributional, behavioral, macro, interaction, reserve, review, language, and rate-card work exists. |
 | `adaptive-rate-system-contract.md` | Pulse 82 contract: separates rate calculation from publication and keeps adaptive-rate outputs blocked until assigned-base, distributional, behavioral, macro, interaction, and review gates pass. |
+| `current-law-source-custody-progress-rollup.md` | Current-law custody progress rollup across the eight required paths; partial progress only, not a complete FY2025-FY2035 baseline or solver input. |
+| `cbo-open-data-fy2032-2035-current-law-extension-context.md` | Official CBO FY2032-FY2035 top-line, revenue, debt, net-interest, and selected trust-fund context; not OMB 17-row reconciliation or solver input. |
+| `cbo-major-outlay-category-fy2032-2035-context.md` | Official CBO FY2026-FY2035 major outlay-category context for several lanes; not OMB 17-row reconciliation, lane baseline, or solver input. |
+| `cbo-revenue-detail-fy2026-2035-context.md` | Official CBO FY2026-FY2035 revenue-detail context for revenue-solvency; not matched receipt bases, a rate bridge, or solver input. |
+| `cbo-health-insurance-baseline-browser-context-fy2026-2036.md` | CBO February 2026 and July 23, 2026 health-insurance baseline public context; command-line raw custody remains blocked, and values are not solver/rate input. |
+| `cbo-health-insurance-table2-browser-rowmap-fy2026-2036.md` | CBO February 2026 health-insurance Table 2 rowmap supported by local spreadsheet custody; solver, rate, savings, and balanced-budget gates remain blocked. |
+| `omb-pbd-fy2027-user-guide-horizon-boundary-context.md` | OMB PBD FY2027 User's Guide custody and FY2031 horizon boundary; not FY2032-FY2035 OMB 17-row values, solver input, or a balanced-budget claim. |
+| `irs-soi-pub1304-ty2023-individual-income-base-context.md` | Official IRS SOI Pub. 1304 TY2023 individual-income AGI, taxable-income, and tax-yield context; not a matched FY2025 assigned base or rate input. |
+| `irs-soi-corporation-complete-table-2-3-ty2022-corporate-income-base-context.md` | Official IRS SOI Publication 16 TY2022 corporate-income return, receipt, tax-base, and tax-yield context; not a matched FY2025 assigned base or rate input. |
+| `omb-receipt-category-fy2025-2031-context.md` | Official OMB Historical Table 2.1 FY2025-FY2031 receipt-category context; not assigned bases, rate bridges, or solver inputs. |
+| `omb-receipt-detail-table-2-4-fy2025-2031-context.md` | Official OMB Historical Table 2.4 FY2025-FY2031 social-insurance, retirement, and excise receipt detail; not legal/economic bases, rate bridges, or solver inputs. |
+| `omb-receipt-share-table-2-2-fy2025-2031-context.md` | Official OMB Historical Table 2.2 FY2025-FY2031 receipt-source share context; not receipt amounts, bases, rate bridges, or solver inputs. |
+| `omb-receipt-amount-share-reconciliation-fy2025-2031-context.md` | OMB Table 2.1/Table 2.2 FY2025-FY2031 amount/share reconciliation; not bases, rates, yields, or solver inputs. |
+| `omb-cbo-revenue-overlap-reconciliation-fy2026-2031-context.md` | OMB Table 2.1/CBO revenue-detail overlap reconciliation context for FY2026-FY2031; exposes source-vintage differences without assigning bases or rates. |
+| `net-interest-pbd-fy2025-2031-current-law-context-path.md` | OMB PBD FY2025-FY2031 net-interest context; FY2032-FY2035, debt stock, maturity schedule, rate path, feedback, solver, rates, and savings remain blocked. |
+| `social-security-trustees-source-capture-status.md` | Social Security Trustees source-capture progress: official SSA pages and context values are browser-verified, local raw bytes are blocked by HTTP 403, and solver/rate/savings claims remain blocked. |
+| `social-security-oasdi-fy2025-2035-current-law-path.md` | Official SSA combined OASDI fiscal-year path for FY2025-FY2035, with post-depletion nulls preserved and solver/rate/savings claims blocked. |
+| `social-security-taxable-payroll-base-bridge.md` | Official SSA CY2025-CY2035 taxable payroll, wage-base, GDP, AWI, and current-law OASDI rate context; fiscal bridge, solver rows, rates, and savings remain blocked. |
+| `social-security-oasdi-receipt-yield-boundary.md` | OMB FY2025 OASDI receipt anchor versus SSA CY2025 taxable-payroll yield context; comparison only, not solver yield or rate evidence. |
+| `social-security-source-capture-status-rollup.md` | Consolidated Social Security source-capture status: current-law baseline and receipt/rate bridge are partial, not complete, with solver/rate/savings claims blocked. |
+| `social-security-benefit-adequacy-context-bridge.md` | OECD modeled pension replacement-rate context for Social Security; international context only, not domestic benefit adequacy floor values or pass/fail evidence. |
+| `social-security-old-age-poverty-context-bridge.md` | OECD old-age relative-poverty context for Social Security; international context only, not domestic floor values, pass/fail evidence, solver input, or a rate claim. |
+| `social-security-domestic-old-age-poverty-context-bridge.md` | Census domestic 65-plus poverty and near-poverty context for Social Security; not old-age poverty measure selection, floor values, pass/fail evidence, solver input, or a rate claim. |
+| `social-security-administration-service-context-bridge.md` | Browser-visible SSA service-channel and processing-time context for Social Security; not raw custody, transition capacity floor values, solver input, or savings. |
+| `health-medicare-provider-adequacy-margin-floor-value-packet.md` | Wave D Health/Medicare floor-value packet: draft provider-adequacy margin no-regression threshold and baseline value, with access/quality/policy/stress/pass-fail still blocked. |
+| `social-security-old-age-poverty-floor-value-packet.md` | First Wave D Social Security floor-value packet: draft 65+ SPM poverty no-regression threshold and baseline value, with policy/stress/pass-fail still blocked. |
+| `veterans-claims-backlog-floor-value-packet.md` | Wave D Veterans floor-value packet: draft VA claims-backlog no-regression threshold and baseline value, with policy/stress/pass-fail still blocked. |
+| `payment-integrity-fcic-payment-accuracy-floor-value-packet.md` | Wave D payment-integrity FCIC floor-value packet: draft payment-accuracy no-regression threshold and baseline value, with policy/stress/pass-fail and savings still blocked. |
+| `revenue-solvency-total-receipts-floor-value-packet.md` | Wave D revenue-solvency floor-value packet: draft total-receipts no-regression threshold and baseline value, with bases/rates/policy/stress/pass-fail still blocked. |
+| `net-interest-average-rate-floor-value-packet.md` | Wave D net-interest floor-value packet: draft average-rate no-regression threshold and baseline value, with direct cuts, path completion, solver, rates, savings, policy/stress/pass-fail still blocked. |
+| `outcome-floor-wave-d-value-readiness.md` | Wave D completion audit: all 15 lanes have floor definitions and at least one source-custodied draft anchor threshold/baseline. |
+| `defense-total-force-suicide-rate-floor-value-packet.md` | Defense personnel-safety anchor: CY2024 Total Force suicide-rate ceiling, with readiness and complete defense floors blocked. |
+| `disaster-billion-dollar-disaster-deaths-floor-value-packet.md` | Disaster life-safety anchor: 2024 associated-death ceiling with exposure normalization and complete floor coverage blocked. |
+| `justice-violent-victimization-rate-floor-value-packet.md` | Justice public-safety anchor: legacy-NCVS 2024 violent-victimization-rate ceiling with split-sample boundary. |
+| `science-rd-intensity-floor-value-packet.md` | Science capacity anchor: 2023 estimated R&D-to-GDP floor; energy, environment, and complete lane floors blocked. |
+| `agriculture-debt-to-asset-ratio-floor-value-packet.md` | Agriculture resilience anchor: 2024 actual farm-sector debt-to-asset ceiling with aggregate-distribution boundary. |
+| `international-foreign-assistance-geographic-coverage-floor-value-packet.md` | International access anchor: FY2024 ForeignAssistance.gov country/region reporting coverage, not beneficiary reach or effectiveness. |
 | `overspending-risk-taxonomy.md` | Pulse 83 taxonomy: classifies review-needed overspending risk while blocking waste, fraud, recoverability, savings, budget-score, and department-cut claims. |
 | `technology-transition-operating-model.md` | Pulse 84 contract: treats modernization as a transition path with implementation, training, cybersecurity, privacy, fallback, service-risk, measured-productivity, stress, and floor gates. |
 | `public-rate-card-v2-contract.md` | Pulse 85 contract: defines valid and blocked public-card fields while keeping statutory-rate and effective-rate publication blocked. |
@@ -88,7 +189,10 @@ receipt standard.
 | `transportation-receipt-base-work-item-progress.md` | Pulse 136 progress: records transportation excise receipt-yield context while keeping legal/economic bases, rates, solver inputs, and public claims blocked. |
 | `receipt-base-official-source-capture.md` | Pulse 137 source capture: records IRS, CMS, and FHWA official public source custody and guarded context values while keeping assigned bases, rates, solver inputs, and public claims blocked. |
 | `receipt-base-reconciliation-gap.md` | Pulse 138 reconciliation gap: explains why captured IRS, CMS, FHWA, and blocked SSA source context still cannot publish assigned bases, rates, solver inputs, or public claims. |
+| `receipt-base-rate-bridge-readiness-rollup.md` | Receipt-base/rate-bridge readiness rollup across IRS, OMB/CBO, Social Security, Medicare HI, and transportation context; all assigned-base and rate outputs remain blocked. |
 | `medicare-hi-receipt-base-reconciliation.md` | Pulse 139 reconciliation: compares CMS Medicare HI payroll context with the OMB HI receipt anchor while keeping rates, solver inputs, and public claims blocked. |
+| `medicare-hi-cy2025-2035-current-law-context-path.md` | CMS Trustees CY2025-CY2035 Medicare HI current-law context path with local raw custody; fiscal-year solver path, rates, savings, and public claims remain blocked. |
+| `medicare-hi-cms-omb-fy2025-timing-perimeter-diagnostic.md` | CMS CY2025 versus OMB FY2025 Medicare HI timing/perimeter diagnostic; not a calendar-to-fiscal conversion, fiscal-year path, or solver input. |
 | `medicare-hi-perimeter-bridge-requirements.md` | Pulse 140 requirements: defines the Medicare HI perimeter bridge required before assigned-base/rate use while keeping values and public claims blocked. |
 | `medicare-hi-payroll-tax-perimeter-bridge.md` | Pulse 141 bridge: partially evidences CMS Medicare HI payroll-tax yield perimeter while keeping OMB bridge, rates, solver inputs, and public claims blocked. |
 | `medicare-hi-benefits-tax-income-split.md` | Pulse 142 split: evidences CMS Medicare HI payroll, OASDI-benefit-taxation, and other-income categories while keeping OMB mapping, rates, solver inputs, and public claims blocked. |
@@ -121,6 +225,7 @@ receipt standard.
 | `wave4-component-and-pilot-lane-depth-packets.md` | Pulse 115 Wave 4 scaffold: Agriculture, International affairs, and Transportation/infrastructure explainability packets with all rate/savings/claim gates blocked. |
 | `wave5-fiscal-control-overlay-depth-packets.md` | Pulse 116 Wave 5 scaffold: revenue-solvency, payment-integrity, and net-interest overlay explainability packets with all rate/savings/claim gates blocked. |
 | `wave-lane-depth-scaffold-rollup.md` | Pulse 117 rollup: all 15 analytical lanes have scaffolded explainability packets, but zero lanes are complete, solver-ready, rate-ready, or claim-ready. |
+| `public-explainer-wave-c-promotion.md` | Wave C completion: all 15 analytical lanes now have completion-template public explainers, while every downstream modeling and public-claim gate remains blocked. |
 | `post-rollup-readiness-work-queue.md` | Pulse 118 queue: ordered next work after scaffold coverage, with all values/rates/solver/claim outputs still blocked. |
 | `current-law-source-custody-batch-plan.md` | Pulse 119 plan: future custody batches for current-law source capture, with no sources, values, solver inputs, rates, or public claims populated. |
 | `current-law-source-custody-packet-template.md` | Pulse 120 template: exact future source-custody packet fields/checks, with no sources, values, solver inputs, rates, or public claims populated. |
@@ -128,6 +233,24 @@ receipt standard.
 | `current-law-baseline-annual-path-partial.md` | Pulse 122 data packet: partial official current-law outlay path for FY2025-FY2031, with FY2032-FY2035 and forward receipts/deficits still null. |
 | `current-law-baseline-receipts-deficit-path-partial.md` | Pulse 123 data packet: partial official current-law receipts and deficit path for FY2025-FY2031, with FY2032-FY2035 and fund/solver paths still blocked. |
 | `current-law-fy2025-fund-group-path.md` | Pulse 124 data packet: source-custodied FY2025 OMB fund-group actuals, with federal funds not relabeled as general fund and named trust-fund paths still blocked. |
+| `treasury-mts-table-8-federal-fund-fy2025-context.md` | Treasury MTS Table 8 FY2025 federal-fund context with local raw custody; federal funds remain broader than the general fund and solver/rate/savings claims stay blocked. |
+| `medicare-hi-treasury-mts-fy2025-trust-fund-anchor-context.md` | Treasury MTS Tables 4 and 5 FY2025 Medicare HI receipt/outlay anchor context; not a calendar-to-fiscal conversion or solver input. |
+| `current-law-source-custody-wave-b-closure.md` | Wave B closure: existing captured official source custody is reconciled and exhausted, while unsupported current-law values remain null and solver/rate/savings claims stay blocked. |
+| `data-acquisition-eight-gap-status.md` | Follow-up acquisition status for the eight remaining data gaps; records new CMS/Treasury/IRS custody, supporting USDA ERS/FNS custody visibility, CBO browser-visible context plus command-line access blockers, and still-blocked solver/rate/savings gates. |
+| `net-interest-treasury-mspd-maturity-detail-context.md` | Treasury MSPD Table 3/Table 5 maturity-detail field coverage for net interest; local custody exists, but remaining-maturity schedules, projections, solver inputs, and rates remain blocked. |
+| `net-interest-treasury-mspd-remaining-maturity-bucket-diagnostic.md` | Treasury MSPD Table 3/Table 5 latest-month maturity bucket diagnostic for net interest; the tables are not combined and solver/rate/savings gates remain blocked. |
+| `net-interest-treasury-average-interest-rate-context.md` | Treasury latest-month average-interest-rate context for net interest; not a fiscal-year rate path, CBO/OMB bridge, solver input, rate calculation, or savings claim. |
+| `omb-ap13-fund-group-reconciliation-detail-fy2025-context.md` | OMB AP13 Table 13-1/13-2/13-3 FY2025 fund-group reconciliation detail; improves context while keeping general-fund and named trust-fund paths blocked. |
+| `transportation-trust-fund-table-13-4-aggregate-fy2025-2031-context.md` | Diagnostic aggregate of OMB Table 13-4 Highway and Airport/Airway trust-fund context; highlights balance pressure while keeping reconciliation and solver gates blocked. |
+| `transportation-trust-fund-table-13-4-identity-diagnostic.md` | Internal OMB Table 13-4 identity diagnostic for transportation trust funds; verifies FY2025-FY2031 rounding reconciliation while keeping Function 400 and solver gates blocked. |
+| `transportation-trust-fund-cbo-balance-extension-fy2032-2035-context.md` | CBO FY2032-FY2035 Highway and Airport/Airway balance-extension context; not OMB Table 13-4 income/outgo rows, Function 400 mapping, or solver input. |
+| `transportation-trust-fund-cross-source-reconciliation-status.md` | Transportation OMB/CBO/Treasury trust-fund reconciliation status; blocks stitching FY2032-FY2035 balance context into a solver path. |
+| `transportation-trust-fund-treasury-mts-fy2025-anchor-context.md` | Treasury MTS Tables 4 and 5 FY2025 transportation trust-fund receipt/outlay anchor context; not income/outgo reconciliation, Function 400 mapping, or solver input. |
+| `outcome-floor-wave-d-value-readiness.md` | Wave D complete for one sourced anchor per lane. |
+| `wave-e-reference-scenario-packs.md` | Wave E complete for one role-reviewed reference calibration per lane; actual reform and fiscal effects remain blocked. |
+| `lane-scenario-pack-wave-e-readiness.md` | Wave E complete for 15 reference scenario packs; no reform scenario, federal effect, or lower-cost admissibility is claimed. |
+| `wave-f-transportation-deterministic-calibration.md` | Role-reviewed calibration-only simulator run with no policy or fiscal claims. |
+| `solver-rate-wave-f-readiness.md` | Separates completed mechanical calibration from blocked substantive solver and rate publication. |
 | `rate-change-worked-examples.md` | Three end-to-end examples of the rate-adjustment operating model (defense up, health down, Social Security cap lift). |
 | `budget-area-funding-explainer.md` | Lay distillation of the six panel-reviewed research papers: where the US over-funds (health), under-funds (family), funds by strategy (defense), runs a broken base (Social Security), and under-collects overall (revenue). Points to `docs/papers/`. |
 | `family-support-target-rubric-application.md` | First metric-specific application of the international comparator target rubric; family support remains display-only because the bounded spending panel is below the median and favorable-quartile claim minimums. |
@@ -135,9 +258,9 @@ receipt standard.
 | `income-security-family-cbo-baseline-takeup-capture-gap.md` | Pulse 195 gap: blocked CBO selected-program SNAP baseline capture attempt, with raw CBO custody, baseline values, take-up context, solver inputs, rates, and savings still blocked. |
 | `income-security-family-child-relative-poverty-context-bridge.md` | Pulse 196 bridge: existing OECD child relative-poverty context for income-security/family, with Census domestic poverty custody, floor values, solver inputs, rates, and savings still blocked. |
 | `income-security-family-socx-family-benefit-comparator-bridge.md` | Pulse 197 bridge: existing OECD SOCX public family-benefit total/cash/service comparator context, with tax-credit, childcare, ESSPROS/ILO, solver, rate, and savings gates still blocked. |
-| `income-security-family-childcare-family-service-capture-gap.md` | Pulse 198 gap: HHS/ACF childcare and family-service source custody remains open; CCDF/TANF context, floors, solver inputs, rates, and savings remain blocked. |
-| `income-security-family-food-hardship-nutrition-capture-gap.md` | Pulse 199 gap: USDA food hardship and nutrition source custody remains open; ERS/FNS context, floors, solver inputs, rates, and savings remain blocked. |
-| `income-security-family-census-child-poverty-income-capture-gap.md` | Pulse 200 gap: Census domestic child poverty and income source custody remains open; poverty/SPM/income-unit context, floors, solver inputs, rates, and savings remain blocked. |
+| `income-security-family-childcare-family-service-capture-gap.md` | Pulse 198 gap: HHS/ACF childcare and family-service source custody remains open after HTTP 202 empty-body access boundaries; CCDF/TANF context, floors, solver inputs, rates, and savings remain blocked. |
+| `income-security-family-food-hardship-nutrition-capture-gap.md` | Pulse 199 gap with later ERS/FNS progress: ERS food-security and FNS SNAP raw custody/context are partially ready, while nutrition boundary, floors, solver inputs, rates, and savings remain blocked. |
+| `income-security-family-census-child-poverty-income-capture-gap.md` | Pulse 200 gap with later Census progress: Census poverty/SPM/income-unit raw custody/context is ready, while floor values, solver inputs, rates, and savings remain blocked. |
 | `taxlane-showcase-readiness-summary.md` | Pulse 201 showcase summary: Taxlane is demo-ready as a source-custody/readiness guardrail system, while solver inputs, rates, savings, public cards, and balanced-budget claims remain blocked. |
 | `where-federal-money-goes.md` | Spending-side packet showing the largest FY2025 outlay categories, financing context, and safe accountability questions. |
 | `cost-down-backlog.md` | Pressure-linked levers for lowering cost over time without publishing unsupported savings claims. |
@@ -538,9 +661,10 @@ It is the bounded public surface, not a performance or savings report.
      claims remain blocked.
 111. Read `income-security-family-childcare-family-service-capture-gap.md`
      before treating childcare or family-service context as available. HHS/ACF
-     raw custody, CCDF context, TANF context, childcare-access floor values,
-     work/care transition, delivery feasibility, solver inputs, rates, savings,
-     and balanced-budget claims remain blocked.
+     raw custody remains open after HTTP 202 empty-body access boundaries;
+     CCDF context, TANF context, childcare-access floor values, work/care
+     transition, delivery feasibility, solver inputs, rates, savings, and
+     balanced-budget claims remain blocked.
 112. Read `income-security-family-food-hardship-nutrition-capture-gap.md`
      before treating food-hardship or nutrition context as available. USDA raw
      custody, ERS food-security context, FNS SNAP context, material-hardship
@@ -548,7 +672,7 @@ It is the bounded public surface, not a performance or savings report.
      balanced-budget claims remain blocked.
 113. Read `income-security-family-census-child-poverty-income-capture-gap.md`
      before treating Census child poverty, SPM child poverty, or income-unit
-     context as available. Census raw custody, poverty values, child-poverty
+     context as available. Census raw custody is now partially captured, but poverty values, child-poverty
      floors, income-unit context, solver inputs, rates, savings, and
      balanced-budget claims remain blocked.
 114. Read `taxlane-showcase-readiness-summary.md` before describing Taxlane as
@@ -561,99 +685,137 @@ It is the bounded public surface, not a performance or savings report.
      Revenue-solvency is non-additive; matched bases, behavior, incidence,
      distribution, administration, thresholds, pass/fail findings, solver
      inputs, and balanced-budget claims remain blocked.
-116. Read `net-interest-outcome-floor-definition-packet.md` before treating any
+116. Read `revenue-solvency-total-receipts-floor-value-packet.md` before
+     treating OMB total receipts as a tax base, rate bridge, tax proposal, or
+     balanced-budget mechanism. It is a draft no-regression threshold and
+     baseline value only; matched bases, legal/economic bases, payer universe,
+     behavior, incidence, distribution, administration, policy, stress,
+     pass/fail, rates, solver, and balanced-budget claims remain blocked.
+117. Read `net-interest-outcome-floor-definition-packet.md` before treating any
      net-interest amount as cuttable or solver-ready. Net interest is endogenous;
      debt, maturity, rate, primary-balance feedback, thresholds, pass/fail
      findings, solver inputs, and balanced-budget claims remain blocked.
-117. Read `payment-integrity-outcome-floor-definition-packet.md` before treating
+118. Read `payment-integrity-outcome-floor-definition-packet.md` before treating
      any improper-payment estimate, control concept, or collection concept as
      savings-ready. Payment integrity is non-additive; fraud findings, causal
      prevention lineage, same-cohort collection lineage, thresholds, pass/fail
      findings, solver inputs, and balanced-budget claims remain blocked.
-118. Read `veterans-outcome-floor-definition-packet.md` before treating any
+119. Read `payment-integrity-fcic-payment-accuracy-floor-value-packet.md`
+     before treating the FCIC payment-accuracy baseline as a payment-integrity
+     pass/fail finding or savings basis. It is a draft no-regression threshold
+     and baseline value only; false-positive, due-process, policy, stress,
+     causal-prevention, same-cohort collection, fraud, waste, savings, solver,
+     rate, and balanced-budget claims remain blocked.
+120. Read `veterans-outcome-floor-definition-packet.md` before treating any
      veterans cohort, service package, or lower-cost scenario as admissible.
      Earned eligibility, statutory continuity, thresholds, pass/fail findings,
      target costs, savings, solver inputs, and balanced-budget claims remain
      blocked.
-119. Read `transportation-infrastructure-outcome-floor-definition-packet.md`
+121. Read `transportation-infrastructure-outcome-floor-definition-packet.md`
      before treating any transportation pilot, asset inventory, maintenance gap,
      or lower-cost scenario as admissible. The pilot floor contract remains
      thresholdless; thresholds, pass/fail findings, simulator runs, target
      costs, savings, solver inputs, and balanced-budget claims remain blocked.
-120. Read `education-workforce-outcome-floor-definition-packet.md` before
+122. Read `education-workforce-outcome-floor-definition-packet.md` before
      treating any education/workforce lower-cost scenario as admissible. The
      negative higher-education entry is accounting, not savings; thresholds,
      pass/fail findings, federal/state/local translation, program-to-outlay
      allocation, target costs, savings, solver inputs, and balanced-budget claims
      remain blocked.
-121. Read `disaster-resilience-outcome-floor-definition-packet.md` before
+123. Read `disaster-resilience-outcome-floor-definition-packet.md` before
      treating any disaster lower-cost scenario, reserve path, mitigation result,
      or declaration evidence as admissible. Declarations are not spending,
      project amounts are not outlays, and benefit-cost ratios are not realized
      savings; thresholds, pass/fail findings, reserve rules, target costs,
      savings, solver inputs, and balanced-budget claims remain blocked.
-122. Read `justice-courts-public-safety-outcome-floor-definition-packet.md`
+124. Read `justice-courts-public-safety-outcome-floor-definition-packet.md`
      before treating any justice lower-cost scenario, all-government comparison,
      or component policy path as admissible. Federal function 750 is not the full
      US justice system; thresholds, pass/fail findings, rights review, target
      costs, savings, solver inputs, and balanced-budget claims remain blocked.
-123. Read `science-energy-environment-outcome-floor-definition-packet.md`
+125. Read `science-energy-environment-outcome-floor-definition-packet.md`
      before treating any science, energy, environment, or combined subtotal as
      admissible. The composed subtotal is not one OMB function, one program, one
      performance surface, or one composite target; component scenarios,
      thresholds, target costs, savings, solver inputs, and balanced-budget claims
      remain blocked.
-124. Read `agriculture-outcome-floor-definition-packet.md` before treating any
+126. Read `agriculture-outcome-floor-definition-packet.md` before treating any
      agriculture lower-cost scenario, crop-insurance integrity estimate, account
      crosswalk, or nutrition handoff as admissible. Nutrition belongs to income
      security, and crop-insurance integrity context is not fraud or savings;
      thresholds, target costs, savings, solver inputs, and balanced-budget claims
      remain blocked.
-125. Read `international-affairs-outcome-floor-definition-packet.md` before
+127. Read `international-affairs-outcome-floor-definition-packet.md` before
      treating any international-affairs lower-cost scenario, negative financial
      program entry, or mixed GDP comparison as admissible. Diplomacy, ODA,
      humanitarian, security, exchange, and financial instruments remain separate;
      thresholds, target costs, savings, solver inputs, and balanced-budget claims
      remain blocked.
-126. Read `lane-floor-readiness-rollup.md` to answer whether floor-definition
+128. Read `lane-floor-readiness-rollup.md` to answer whether floor-definition
      packet coverage is complete. Coverage is complete across all fifteen
      analytical lanes, but thresholds, floor passage, component policy paths,
      solver inputs, savings, rates, and balanced-budget claims remain blocked.
-127. Read `lane-floor-source-work-queue.md` before capturing floor thresholds
+129. Read `lane-floor-source-work-queue.md` before capturing floor thresholds
      or observed floor values. It names official source families and next
      capture actions, but no threshold, value, pass/fail finding, solver input,
      rate, savings claim, or balanced-budget claim is populated.
-128. Read `health-floor-source-capture-status.md` before treating existing OMB
+130. Read `health-medicare-provider-adequacy-margin-floor-value-packet.md`
+     before treating the efficient-hospital margin baseline as a health policy
+     score or savings basis. It is a draft no-regression threshold and baseline
+     value only; universal Medicare-relative targets, access passage, quality
+     passage, rural/safety-net capacity evidence, policy, stress, pass/fail,
+     solver, rate, and balanced-budget claims remain blocked.
+131. Read `health-floor-source-capture-status.md` before treating existing OMB
      health fiscal custody as outcome-floor evidence. It supports FY2025 fiscal
      context only; floor indicator custody, thresholds, observed values,
      pass/fail findings, policy scores, solver inputs, rates, and savings remain
      blocked.
-129. Read `health-medicare-trustees-source-capture-status.md` before using CMS
+132. Read `health-medicare-trustees-source-capture-status.md` before using CMS
      Medicare Trustees rows in the health/Medicare lane. The source supports
      CY2025 Medicare financing and enrollment context only; floor thresholds,
      observed floor values, pass/fail findings, solver inputs, rates, savings,
      and balanced-budget claims remain blocked.
-130. Read `health-nhe-source-custody-gap.md` before treating CMS NHE references
+133. Read `health-nhe-source-custody-gap.md` before treating CMS NHE references
      in health sensitivity artifacts as source custody. NHE source IDs are
      referenced, but raw NHE custody, thresholds, observed floor values,
      pass/fail findings, solver inputs, rates, savings, and balanced-budget
      claims remain blocked.
-131. Read `health-cbo-source-custody-gap.md` before treating CBO references in
+134. Read `health-cbo-source-custody-gap.md` before treating CBO references in
      health context artifacts as source custody. CBO source IDs are referenced,
      but raw CBO health-baseline custody, federal policy translation, behavior
      modeling, incidence modeling, pass/fail findings, solver inputs, rates,
      savings, and balanced-budget claims remain blocked.
-132. Read `health-quality-access-indicator-source-gap.md` before treating
+135. Read `health-quality-access-indicator-source-gap.md` before treating
      health/Medicare quality, access, risk-adjusted outcome, rural-capacity, or
      safety-net-capacity indicators as floor values. Source families are
-     declared, but raw custody, thresholds, observed values, pass/fail findings,
-     solver inputs, rates, savings, and balanced-budget claims remain blocked.
-133. Read `health-source-readiness-rollup.md` to understand the current
+     declared, and partial CMS raw/context custody exists, but complete
+     thresholds, observed values, pass/fail findings, solver inputs, rates,
+     savings, and balanced-budget claims remain blocked.
+136. Read `cms-hospital-quality-methodology-surface-context.md` before treating
+     CMS/QualityNet methodology routes as complete methodology custody. The
+     surface HTML/JavaScript files are captured, but methodology report content,
+     denominator crosswalks, risk-adjustment lineage, floor values, and solver
+     inputs remain blocked.
+137. Read `cms-hospital-measure-methodology-report-custody.md` before treating
+     CMS hospital measure methods as complete quality/access lineage. Selected
+     mortality methodology reports are captured, but all-measure case-mix
+     lineage, denominator crosswalks, floor values, and solver inputs remain
+     blocked.
+138. Read `cms-hospital-quality-dataset-field-crosswalk.md` before treating
+     captured CMS hospital quality fields as denominator lineage. Field
+     presence for Denominator, Sample, measure-count fields, and HAI
+     measure-ID patterns is captured, but complete methodology joins, floor
+     values, and solver inputs remain blocked.
+139. Read `cms-hrsa-rural-safety-net-capacity-context.md` before treating rural
+     or safety-net hospital capacity context as floor values. CMS definition and
+     inpatient PSF fields are captured, but HRSA local custody, facility joins,
+     capacity series, floors, and solver inputs remain blocked.
+140. Read `health-source-readiness-rollup.md` to understand the current
      health/Medicare source-readiness state. OMB fiscal and CMS Medicare
      Trustees custody are context-only ready; NHE, CBO, and quality/access
      remain custody gaps; floor passage, solver inputs, rates, savings, and
      balanced-budget claims remain blocked.
-134. Read `social-security-source-readiness-gap.md` before using CY2025 OASDI
+141. Read `social-security-source-readiness-gap.md` before using CY2025 OASDI
      denominator context. The derived worker and beneficiary counts are
      context-only; SSA raw custody, annual fund paths, 75-year solvency paths,
      taxable payroll bases, floor values, solver inputs, rates, savings, and
@@ -685,6 +847,222 @@ It is the bounded public surface, not a performance or savings report.
      work, but all closure values, lineage completion, solver inputs, rates,
      savings, department-cut instructions, technology-savings claims, and
      balanced-budget claims remain blocked.
+140. Read `transportation-trust-fund-table-13-4-fy2025-2031-context-path.md`
+     before using transportation trust-fund annual values. It captures OMB
+     Table 13-4 FY2025-FY2031 Highway Trust Fund and Airport and Airway Trust
+     Fund context rows, but FY2032-FY2035, explicit transfers, credited
+     collections, fund-balance reconciliation, Function 400 mapping, solver
+     inputs, rates, savings, and balanced-budget claims remain blocked.
+141. Read `current-law-17-row-pbd-fy2025-2031-context-path.md` before using
+     lane-level current-law outlay context beyond FY2025. It captures the
+     existing 17-row ledger categories for FY2025-FY2031 from OMB PBD outlays,
+     but FY2032-FY2035, fund split, policy scenarios, solver inputs, rates,
+     savings, and balanced-budget claims remain blocked.
+142. Read `data-acquisition-eight-gap-status.md` before treating the latest
+     acquisition pass as complete source custody. All eight gaps were reviewed
+     and new CMS/Treasury local custody was added. The status also now exposes
+     supporting USDA ERS/FNS custody visibility for the food-hardship/nutrition
+     packet, but CBO spreadsheet raw custody, OMB 17-row extension,
+     general-fund path, Medicare HI fiscal bridge, matched receipt bases,
+     transportation reconciliation, net-interest maturity reconciliation,
+     solver inputs, rates, savings, and balanced-budget claims remain blocked.
+143. Read `net-interest-treasury-mspd-maturity-detail-context.md` before using
+     Treasury MSPD maturity fields in the net-interest lane. It records local
+     field coverage for Table 3 and Table 5 through 2026-06-30, but weighted
+     average maturity, remaining-maturity schedules, CBO/OMB projection
+     bridges, solver inputs, rates, savings, and balanced-budget claims remain
+     blocked.
+144. Read `net-interest-treasury-mspd-remaining-maturity-bucket-diagnostic.md`
+     before using Treasury MSPD maturity buckets in the net-interest lane. It
+     records non-combined Table 3/Table 5 latest-month bucket diagnostics and
+     exposes unit/perimeter reconciliation gaps; weighted average maturity,
+     remaining-maturity schedules, solver inputs, rates, savings, and
+     balanced-budget claims remain blocked.
+145. Read `omb-ap13-fund-group-reconciliation-detail-fy2025-context.md` before
+     treating FY2025 fund-group detail as a general-fund or named trust-fund
+     path. Tables 13-1, 13-2, and 13-3 improve federal-funds/trust-funds
+     reconciliation context, but general-fund annual paths, named trust-fund
+     balances, explicit transfer schedules, solver inputs, rates, savings, and
+     balanced-budget claims remain blocked.
+146. Read `transportation-trust-fund-table-13-4-aggregate-fy2025-2031-context.md`
+     before using aggregate transportation trust-fund pressure figures. It is a
+     diagnostic sum of Highway and Airport/Airway context rows only; explicit
+     transfers, credited collections, Function 400 mapping, solver inputs,
+     rates, savings, and balanced-budget claims remain blocked.
+147. Read `transportation-trust-fund-table-13-4-identity-diagnostic.md` before
+     treating Table 13-4 transportation trust-fund rows as internally
+     reconciled. It verifies FY2025-FY2031 rounding identities only; FY2032-
+     FY2035 values, explicit transfers, credited collections, Function 400
+     mapping, solver inputs, rates, savings, and balanced-budget claims remain
+     blocked.
+148. Read `omb-cbo-revenue-overlap-reconciliation-fy2026-2031-context.md`
+     before comparing OMB and CBO receipt projections. It records diagnostic
+     FY2026-FY2031 source-vintage differences only; legal/economic bases,
+     assigned bases, rate bridges, solver inputs, public rate cards, savings,
+     and balanced-budget claims remain blocked.
+149. Read `medicare-hi-cms-omb-fy2025-timing-perimeter-diagnostic.md` before
+     treating CMS Trustees HI values and OMB HI anchors as comparable. It is
+     diagnostic timing/perimeter evidence only; calendar-to-fiscal conversion,
+     fiscal-year HI paths, OMB/CMS receipt-row bridges, solver inputs, rates,
+     savings, and balanced-budget claims remain blocked.
+150. Read `treasury-mts-table-8-federal-fund-fy2025-context.md` before treating
+     Treasury federal-fund values as general-fund values. It has final FY2025
+     MTS Table 8 custody, but federal funds are broader than the general fund;
+     general-fund paths, transfer schedules, solver inputs, rates, savings, and
+     balanced-budget claims remain blocked.
+151. Read `net-interest-treasury-average-interest-rate-context.md` before using
+     Treasury average-interest-rate rows for net-interest modeling. It records
+     latest-month context only; fiscal-year rate paths, CBO/OMB projection
+     bridges, debt-stock projections, solver inputs, rates, savings, and
+     balanced-budget claims remain blocked.
+152. Read `education-workforce-graduation-floor-value-packet.md` before using
+     education/workforce completion floor values. It publishes a draft K-12
+     graduation no-regression threshold and baseline value only; federal/state/
+     local translation, policy values, stress values, pass/fail evidence,
+     target costs, solver inputs, rates, savings, and balanced-budget claims
+     remain blocked.
+153. Read `income-security-family-child-poverty-floor-value-packet.md` before
+     using income-security/family child-poverty floor values. It publishes a
+     draft Census under-18 official poverty no-regression threshold and baseline
+     value only; benefit-package modeling, take-up, childcare, nutrition
+     handoff, policy values, stress values, pass/fail evidence, target costs,
+     solver inputs, rates, savings, and balanced-budget claims remain blocked.
+154. Read `transportation-roadway-fatality-rate-floor-value-packet.md` before
+     using transportation roadway-safety floor values. It publishes a draft
+     no-regression threshold and completed-year 2024 FARS ARF baseline only;
+     2025 values remain statistical projections, and all other transportation
+     floors, policy values, stress values, pass/fail evidence, simulator runs,
+     solver inputs, rates, savings, and balanced-budget claims remain blocked.
+
+155. Read `lane-f-public-release-gate-contract.md` for the ten conjunctive
+     requirements that separate bounded E from a valid public-release stage.
+156. Read `fifteen-lane-stage-f-start-readiness.md` for all fifteen audited
+     F-start decisions: one typed TRN cost-only start and fourteen blocked.
+157. Read `fifteen-lane-two-level-f-advancement-queue.md` for the candidate/input
+     work and subsequent E-rerun/F-audit assigned to every track.
+158. Read `trn-level-1-core-lessons-audit.md` for the distinction between
+     TRN-specific evidence gaps and the proposed CORE-M candidate-dossier and
+     typed-release interfaces that were subsequently implemented.
+159. Read `core-m-candidate-dossier-typed-release-contract.md` for the completed
+     shared candidate profiles, financing roles, reviewed gate dispositions,
+     and typed output rules. It does not select a lane candidate.
+160. Read `trn-level-1-hr2247-candidate-dossier.md` for the profile-specific
+     selection of H.R. 2247 as a conditional cost-only TRN candidate.
+161. Read `trn-level-2-hr2247-output-ready-e-rerun.md` for the ten-gate rerun
+     that makes only the candidate explanation and official incremental cost
+     output-ready and permits a narrowly scoped TRN-F start.
+162. Read `core-n-typed-public-release-surface-contract.md` for the five shared
+     public surfaces and their profile-to-output boundaries.
+163. Read `trn-f-hr2247-cost-note.md` for the completed conditional cost note,
+     which is explicitly not a rate card or savings result.
+164. Read `rev-level-1-individual-income-rate-candidate-start.md` for the active
+     rate-bearing probe and the unmatched FY2025/TY2023 base boundary.
+165. Read `hlt-level-3-ma-benchmark-current-law-scale-proxy.md` for HLT's
+     program-scale sensitivity and formal-rescore caveats.
+166. Read `hlt-level-4-ma-benchmark-beneficiary-floor-audit.md` for the floor
+     rejection of the unmitigated uniform Medicare Advantage candidate.
+167. Read `fiscal-package-hlt-contribution-bridge.md` for HLT's mechanical
+     scale and null admitted package contribution.
+168. Read `def-level-3-defense-current-law-scale-bridge.md` for the unchanged
+     official DEF timing envelope and its 2026 perimeter mismatch.
+169. Read `def-level-4-force-readiness-allocation-audit.md` for the eight
+     blocked gates that keep the unallocated defense candidate out.
+170. Read `fiscal-package-def-contribution-bridge.md` for combined HLT/DEF
+     mechanical scale, zero admitted savings, and the PAY handoff.
+171. Read `pay-level-3-full-dmf-causal-control-spine.md` for PAY's specific
+     control, causal filter, and reported cost-netted benefit.
+172. Read `pay-level-4-full-dmf-accounting-floor-audit.md` for the two passed
+     evidence gates and six blocked additive-accounting gates.
+173. Read `fiscal-package-pay-contribution-bridge.md` for PAY's 0.0218 percent
+     target-scale comparison, zero FY2026 contribution, and OAS handoff.
+174. Read `oas-level-3-taxable-max-2026-trustees-bridge.md` for the official
+     taxable-maximum score and current trust-fund context.
+175. Read `oas-level-4-taxable-max-cohort-incidence-audit.md` for the two passed
+     evidence gates and six blocked solvency-admission gates.
+176. Read `fiscal-package-oas-contribution-bridge.md` for the separate spending,
+     OASDI-solvency, and REV rails and the NET handoff.
+177. Read `net-level-3-zero-input-endogenous-recomputation.md` for the official
+     baseline, zero-input identity, and excluded carry sensitivity.
+178. Read `net-level-4-endogenous-dependency-audit.md` for the three passed and
+     five blocked gates governing every nonzero NET result.
+179. Read `fiscal-package-net-contribution-bridge.md` for the zero NET package
+     contribution, five-track conversion closure, and REV Level-2 handoff.
+180. Read `rev-level-2-zero-admitted-spending-reconciliation.md` for why the
+     +2.760-point schedule is superseded and +7.159 is the active sensitivity.
+181. Read `rev-level-2-formal-rate-gate-audit.md` for the two passed and six
+     blocked gates and the formal tax-unit scoring specification.
+182. Read `fiscal-package-rate-readiness-bridge.md` for the distinction between
+     the active mechanical target and the still-null proper rate.
+183. Read `rev-level-3-taxcalc-microsimulation-score.md` for the reproducible
+     TY2026 CPS score, behavioral range, and income-group distribution.
+184. Read `rev-level-3-rate-admission-audit.md` for the three model passes and
+     three remaining fiscal-assignment blockers.
+185. Read `fiscal-package-provisional-rate-bridge.md` for the +8.353-point
+     central estimate, +7.817 to +8.986 range, and REV Level-4 handoff.
+186. Read `rev-level-4-first-year-cash-timing-bridge.md` for the official timing
+     anchor, +10.922-point central cash proxy, and behavioral range.
+187. Read `rev-level-4-assignment-cost-macro-audit.md` for the three passed
+     timing gates and two blocked assignment gates.
+188. Read `fiscal-package-fiscal-timing-rate-bridge.md` for the rate progression
+     from guarded proxy through fiscal timing and the REV Level-5 handoff.
+189. Read `rev-level-5-administration-implementation-ceiling.md` for the
+     historical $77 million agency ceiling and +0.001-point sensitivity.
+190. Read `rev-level-5-macro-assignment-methodology-audit.md` for JCT's required
+     dynamic-scoring method and the proposal-specific macro reblock.
+191. Read `fiscal-package-administration-bounded-rate-bridge.md` for the
+     +10.923-point strongest bounded planning sensitivity and REV Level-6 fork.
+192. Read `rev-level-6-policy-rate-decision.md` for the +11.0-point selection
+     rule, exact model run, and planning schedule.
+193. Read `rev-level-6-revenue-instrument-dossier.md` for the matched-base
+     CORE-M revenue-instrument admission.
+194. Read `rev-f-public-planning-rate-card.md` for the public 21/23/33/35/43/
+     46/48-percent planning schedule and its uncertainty boundary.
+195. Read `hlt-level-5-site-neutral-imaging-candidate-audit.md` for the narrower
+     health candidate and its six remaining admission gates.
+196. Read `def-level-5-specific-force-strategy-candidate-audit.md` for the named
+     force strategy and current-FYDP execution reblock.
+197. Read `rate-down-bundle-dependency-rerun.md` for the unchanged FY2026 target
+     after HLT, DEF, PAY, and NET reconciliation.
+198. Read `eight-track-two-level-candidate-catchup.md` for the concrete VET,
+     EDU, ISF, AGR, DIS, JUS, SEE, and INT candidates and reviewed reblocks.
+199. Read `fifteen-track-integrated-dependency-admission-rerun.md` for the
+     portfolio-wide dependency, admission, and typed-output result.
+200. Read `rev-level-7-integrated-certification-and-score-handoff.md` for the
+     completed internal certification and exact external CBO/JCT handoff.
+201. Read `rev-level-7-scorer-ready-legislative-specification.md` for the exact
+     filing-status, duration, interaction, transition, and model policy.
+202. Read `rev-level-7-official-score-request-workbook.md` for the ten-year
+     annual response surface, fiscal identities, and scorer questions.
+203. Read `rev-level-7-nonofficial-conforming-discussion-draft.md` for the
+     narrow §1(j) drafting bridge and its Legislative Counsel boundary.
+204. Read `fifteen-track-next-two-level-advancement-wave.md` for the active
+     Level A evidence tasks and dependent Level B reruns across all tracks.
+205. Read `hlt-next-level-a-site-neutral-evidence-closure.md` for the CY2026
+     OPPS overlap findings and precise imaging-candidate reblock.
+206. Read `hlt-next-level-b-admission-rerun.md` for the reviewed zero-admission
+     result and unchanged fiscal contribution.
+207. Read `batch-1-remaining-four-two-level-closure.md` for the DEF, OAS, PAY,
+     and NET reblocks and completion of the five-track opening batch.
+208. Read `batch-2-eight-track-two-level-closure.md` for the refreshed VET,
+     EDU, ISF, AGR, DIS, JUS, SEE, and INT reblocks and zero-admission reruns.
+209. Read `batch-3-trn-rev-two-level-closure.md` for the final internal pair,
+     retained TRN cost note, and external REV certification boundary.
+210. Read `pay-net-rev-post-fifteen-track-reconciliation.md` for the completed
+     all-fifteen accounting rerun and unchanged planning schedule.
+211. Read `rev-level-7-external-submission-cover-memo.md` for the exact sealed
+     policy request, requested outputs, and planning-only fiscal boundary.
+212. Read `rev-level-7-external-submission-authorization-and-routing.md` for
+     the JCT-first official route, authorization checklist, and no-send gate.
+213. Read the response-intake schema and Pulse 474 for the hashed three-state
+     path from empty intake through authenticated rate-recertification input.
+214. Read `rev-internal-analysis-next-ten-steps.md` for the corrected internal
+     rate-grid, PAY-NET-REV, and targeted 15-track roadmap.
+215. Read `rev-internal-analysis-baseline-freeze.md` for the frozen model,
+     fiscal, behavior, timing, and source-hash assumptions.
+216. Read `rev-internal-rate-analysis-completion.md` for the 14-candidate result,
+     three recommendation tiers, and completed 15-track dependency review.
+217. Read `targeted-spending-rate-decision.md` for the specific HLT and DEF
+     candidate audit, zero-admission result, and unchanged rate recommendation.
 
 ## Public-Use Guardrail
 

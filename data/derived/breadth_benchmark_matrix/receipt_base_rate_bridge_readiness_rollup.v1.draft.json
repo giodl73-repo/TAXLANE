@@ -1,0 +1,185 @@
+{
+  "record_id": "receipt-base-rate-bridge-readiness-rollup:v1",
+  "record_family": "receipt_base_rate_bridge_readiness_rollup",
+  "schema_version": "v1.draft",
+  "status": "draft_context_present_assigned_bases_and_rates_blocked",
+  "as_of_date": "2026-07-25",
+  "purpose": "Consolidate available receipt-base and rate-bridge context across IRS SOI, OMB/CBO revenue overlap, Social Security OASDI, Medicare HI, and transportation receipt packets while preserving the no-rate boundary.",
+  "source_context_paths": {
+    "assigned_receipt_base_source_gap_path": "data/derived/breadth_benchmark_matrix/assigned_receipt_base_source_gap.v1.draft.json",
+    "receipt_base_official_source_capture_path": "data/derived/breadth_benchmark_matrix/receipt_base_official_source_capture.v1.draft.json",
+    "receipt_base_reconciliation_gap_path": "data/derived/breadth_benchmark_matrix/receipt_base_reconciliation_gap.v1.draft.json",
+    "omb_cbo_revenue_overlap_reconciliation_path": "data/derived/breadth_benchmark_matrix/omb_cbo_revenue_overlap_reconciliation_fy2026_2031_context.v1.draft.json",
+    "irs_individual_income_context_path": "data/derived/breadth_benchmark_matrix/irs_soi_pub1304_ty2023_individual_income_base_context.v1.draft.json",
+    "irs_corporate_income_context_path": "data/derived/breadth_benchmark_matrix/irs_soi_corporation_complete_table_2_3_ty2022_corporate_income_base_context.v1.draft.json",
+    "social_security_oasdi_receipt_yield_boundary_path": "data/derived/breadth_benchmark_matrix/social_security_oasdi_receipt_yield_boundary.fy2025-cy2025.v1.draft.json",
+    "medicare_hi_omb_cms_receipt_row_perimeter_evidence_path": "data/derived/breadth_benchmark_matrix/medicare_hi_omb_cms_receipt_row_perimeter_evidence.v1.draft.json",
+    "transportation_receipt_base_work_item_progress_path": "data/derived/breadth_benchmark_matrix/transportation_receipt_base_work_item_progress.v1.draft.json",
+    "rate_publication_readiness_rollup_path": "data/derived/breadth_benchmark_matrix/rate_publication_readiness_rollup.v1.draft.json"
+  },
+  "context_rows": [
+    {
+      "context_id": "individual_income_ty2023_irs_soi",
+      "lane_id": "revenue-solvency",
+      "source_id": "SRC-IRS-SOI-PUB1304-TABLE-1-1-TY2023",
+      "year_basis": "tax_year",
+      "matched_year": "TY2023",
+      "context_values_musd": {
+        "agi": 15286017.359,
+        "taxable_income": 11625278.987,
+        "income_tax_after_credits": 2108587.001
+      },
+      "readiness_status": "context_only_tax_year_not_fy2025_assigned_base",
+      "ready_for_assigned_base": false,
+      "ready_for_rate_publication": false,
+      "ready_for_solver": false
+    },
+    {
+      "context_id": "corporate_income_ty2022_irs_soi",
+      "lane_id": "revenue-solvency",
+      "source_id": "SRC-IRS-SOI-CORP-COMPLETE-TABLE-2-3-TY2022",
+      "year_basis": "tax_year",
+      "matched_year": "TY2022",
+      "context_values_musd": {
+        "business_receipts": 29513404.734,
+        "income_subject_to_tax": 2878327.977,
+        "income_tax_after_credits": 448500.023
+      },
+      "readiness_status": "context_only_tax_year_not_fy2025_assigned_base",
+      "ready_for_assigned_base": false,
+      "ready_for_rate_publication": false,
+      "ready_for_solver": false
+    },
+    {
+      "context_id": "omb_cbo_receipt_overlap_fy2026_2031",
+      "lane_id": "revenue-solvency",
+      "source_id": "SRC-OMB-HIST-2-1-FY2027 and SRC-CBO-OPEN-DATA-REVENUE-DETAIL-2026-02",
+      "year_basis": "fiscal_year_projection_overlap",
+      "matched_year": "FY2026-FY2031",
+      "context_values_musd": {
+        "fy2026_cbo_minus_omb_total_receipts": 120211,
+        "fy2031_cbo_minus_omb_total_receipts": -689896
+      },
+      "readiness_status": "source_overlap_diagnostic_not_legal_or_economic_base",
+      "ready_for_assigned_base": false,
+      "ready_for_rate_publication": false,
+      "ready_for_solver": false
+    },
+    {
+      "context_id": "social_security_oasdi_fy2025_cy2025_boundary",
+      "lane_id": "social-security",
+      "source_id": "SRC-OMB-HIST-2-4-FY2027 and SRC-SSA-TRUSTEES-2026",
+      "year_basis": "fiscal_year_anchor_vs_calendar_year_payroll",
+      "matched_year": "FY2025/CY2025",
+      "context_values_musd": {
+        "omb_oasdi_receipt_anchor": 1283736,
+        "ssa_cy2025_taxable_payroll": 10562000,
+        "computed_cy2025_payroll_tax_yield": 1309688,
+        "absolute_difference": 25952
+      },
+      "readiness_status": "timing_and_perimeter_boundary_not_solver_yield",
+      "ready_for_assigned_base": false,
+      "ready_for_rate_publication": false,
+      "ready_for_solver": false
+    },
+    {
+      "context_id": "medicare_hi_fy2025_cms_omb_perimeter_evidence",
+      "lane_id": "health-medicare",
+      "source_id": "SRC-CMS-MEDICARE-TRUSTEES-2026 and SRC-OMB-HIST-2-4-FY2027",
+      "year_basis": "fiscal_year",
+      "matched_year": "FY2025",
+      "context_values_musd": {
+        "cms_payroll_taxes": 400622.16,
+        "omb_hospital_insurance_anchor": 395350,
+        "cms_minus_omb": 5272.16
+      },
+      "readiness_status": "fy2025_evidence_boundary_perimeter_bridge_incomplete",
+      "ready_for_assigned_base": false,
+      "ready_for_rate_publication": false,
+      "ready_for_solver": false
+    },
+    {
+      "context_id": "transportation_fy2024_fhwa_receipt_yield",
+      "lane_id": "transportation-infrastructure",
+      "source_id": "SRC-FHWA-HIGHWAY-STATISTICS-2024-FE9",
+      "year_basis": "fiscal_year",
+      "matched_year": "FY2024",
+      "context_values_musd": {
+        "highway_user_receipt_yield": 37512.192,
+        "motor_fuel_total": 29249.678,
+        "trucks_and_trailers": 6054.649
+      },
+      "readiness_status": "receipt_yield_context_not_fy2025_legal_or_economic_base",
+      "ready_for_assigned_base": false,
+      "ready_for_rate_publication": false,
+      "ready_for_solver": false
+    }
+  ],
+  "readiness_summary": {
+    "context_row_count": 6,
+    "lanes_with_context": ["health-medicare", "revenue-solvency", "social-security", "transportation-infrastructure"],
+    "assigned_base_ready_count": 0,
+    "legal_economic_base_ready_count": 0,
+    "incidence_distribution_ready_count": 0,
+    "administration_burden_ready_count": 0,
+    "current_law_solver_yield_ready_count": 0,
+    "reform_yield_ready_count": 0,
+    "solver_ready_count": 0,
+    "rate_publication_ready_count": 0,
+    "public_rate_card_ready_count": 0
+  },
+  "required_before_any_rate": [
+    "matched fiscal-year or explicit tax-year/calendar-year bridge",
+    "legal receipt-base perimeter",
+    "economic receipt-base perimeter",
+    "payer universe",
+    "distribution and incidence model",
+    "behavior, avoidance, and compliance response",
+    "administration and taxpayer burden",
+    "current-law yield matched to solver row",
+    "reform yield",
+    "reviewed public rate-card language"
+  ],
+  "blocked_outputs": {
+    "matched_receipt_bases": null,
+    "legal_receipt_base_amounts": null,
+    "economic_receipt_base_amounts": null,
+    "payer_universe": null,
+    "distribution_incidence_model": null,
+    "administration_burden": null,
+    "current_law_solver_yields": null,
+    "reform_yields": null,
+    "solver_input_rows": null,
+    "solver_run": null,
+    "statutory_rates": null,
+    "effective_rates": null,
+    "assigned_base_rates": null,
+    "public_rate_cards": null,
+    "tax_proposal_fields": null,
+    "savings_estimate": null,
+    "technology_savings_claim": null,
+    "balanced_budget_claim": null
+  },
+  "claim_booleans": {
+    "receipt_base_rate_bridge_readiness_rollup_published": true,
+    "official_context_rows_present": true,
+    "matched_receipt_bases_ready": false,
+    "legal_economic_base_ready": false,
+    "payer_universe_ready": false,
+    "incidence_distribution_model_ready": false,
+    "administration_burden_ready": false,
+    "current_law_solver_yield_ready": false,
+    "reform_yield_ready": false,
+    "solver_input_ready": false,
+    "solver_run_published": false,
+    "statutory_rate_published": false,
+    "effective_rate_published": false,
+    "assigned_base_rate_published": false,
+    "public_rate_card_published": false,
+    "tax_proposal_published": false,
+    "savings_estimate_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "This rollup publishes receipt-base and rate-bridge context readiness only. IRS SOI tax-year values, OMB/CBO receipt overlap, Social Security OASDI timing context, Medicare HI perimeter evidence, and transportation receipt-yield context are not matched assigned receipt bases. This is not a legal or economic receipt base, not a payer-universe definition, not an incidence or distribution model, not administration burden, not current-law solver yield, not reform yield, not solver input, not a rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a technology-savings claim, and not a balanced-budget claim."
+}

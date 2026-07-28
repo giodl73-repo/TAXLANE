@@ -1,0 +1,83 @@
+{
+  "record_id": "cbo-major-outlay-category-fy2032-2035-context:v1",
+  "record_family": "cbo_major_outlay_category_context",
+  "version": "v1.draft",
+  "status": "draft_official_cbo_category_context_not_omb_lane_ledger",
+  "as_of_date": "2026-07-23",
+  "purpose": "Capture official CBO February 2026 FY2026-FY2035 major outlay-category context from the already-custodied CBO ten-year budget open-data CSV without treating those categories as OMB 17-row lane mappings or solver inputs.",
+  "source_custody": {
+    "source_id": "SRC-CBO-OPEN-DATA-TEN-YEAR-BUDGET-2026-02",
+    "publisher": "Congressional Budget Office",
+    "url": "https://github.com/US-CBO/cbo-data/blob/main/data/budget/ten_year_budget/annual_fy_2026-02.csv",
+    "raw_url": "https://raw.githubusercontent.com/US-CBO/cbo-data/main/data/budget/ten_year_budget/annual_fy_2026-02.csv",
+    "retrieval_date": "2026-07-23",
+    "raw_artifact_path": "data/raw/cbo/SRC-CBO-OPEN-DATA-TEN-YEAR-BUDGET-2026-02/2026-07-23/annual_fy_2026-02.csv",
+    "metadata_path": "data/metadata/SRC-CBO-OPEN-DATA-TEN-YEAR-BUDGET-2026-02.2026-07-23.metadata.md",
+    "byte_count": 145228,
+    "sha256": "6a2d727e70fb53512e45afdcc8d145f7dc952b2d4e87ca03591cb4e5bd63f0db",
+    "review_status": "captured_context_only"
+  },
+  "extraction_scope": {
+    "projection_release": "2026-02",
+    "source_unit": "billions_usd",
+    "covered_years": [2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035],
+    "selected_variable_count_per_year": 23,
+    "no_interpolation_used": true,
+    "not_omb_function_mapping": true,
+    "not_taxlane_17_row_ledger": true,
+    "not_lane_level_solver_input": true
+  },
+  "annual_category_rows": [
+    {"fiscal_year": 2026, "discretionary_defense": 884.513, "discretionary_nondefense": 995.791, "mandatory_total": 4529.339, "mandatory_social_security": 1665.942, "mandatory_oasi": 1502.517, "mandatory_di": 163.425, "mandatory_medicare": 1286.868, "mandatory_medicaid": 707.865, "mandatory_health_care": 2132.261, "mandatory_income_security": 389.09, "mandatory_snap": 100.053, "mandatory_family_support": 36.776, "mandatory_child_nutrition": 36.523, "mandatory_veterans": 300.733, "mandatory_agriculture": 30.668, "mandatory_higher_education": 17.537, "mandatory_admin_justice": 36.875, "mandatory_defense": 33.54, "expired_air_transport_outlays": 0.0, "expired_ground_transport_oblim_outlays": 0.0, "expired_ccc_outlays": 0.0, "expired_total_outlays": 15.072},
+    {"fiscal_year": 2027, "discretionary_defense": 901.101, "discretionary_nondefense": 980.538, "mandatory_total": 4783.047, "mandatory_social_security": 1768.983, "mandatory_oasi": 1597.653, "mandatory_di": 171.33, "mandatory_medicare": 1373.623, "mandatory_medicaid": 726.198, "mandatory_health_care": 2218.852, "mandatory_income_security": 389.067, "mandatory_snap": 97.418, "mandatory_family_support": 36.601, "mandatory_child_nutrition": 38.453, "mandatory_veterans": 324.065, "mandatory_agriculture": 41.34, "mandatory_higher_education": 20.946, "mandatory_admin_justice": 46.702, "mandatory_defense": 43.985, "expired_air_transport_outlays": 0.0, "expired_ground_transport_oblim_outlays": 0.0, "expired_ccc_outlays": 0.013, "expired_total_outlays": 114.163},
+    {"fiscal_year": 2028, "discretionary_defense": 928.172, "discretionary_nondefense": 1000.582, "mandatory_total": 5004.548, "mandatory_social_security": 1875.116, "mandatory_oasi": 1696.678, "mandatory_di": 178.438, "mandatory_medicare": 1533.279, "mandatory_medicaid": 746.038, "mandatory_health_care": 2394.864, "mandatory_income_security": 397.755, "mandatory_snap": 93.684, "mandatory_family_support": 36.9, "mandatory_child_nutrition": 40.401, "mandatory_veterans": 367.414, "mandatory_agriculture": 37.951, "mandatory_higher_education": 11.816, "mandatory_admin_justice": 51.81, "mandatory_defense": 29.392, "expired_air_transport_outlays": 0.0, "expired_ground_transport_oblim_outlays": 0.0, "expired_ccc_outlays": 0.037, "expired_total_outlays": 129.978},
+    {"fiscal_year": 2029, "discretionary_defense": 938.416, "discretionary_nondefense": 1009.988, "mandatory_total": 5066.604, "mandatory_social_security": 1978.541, "mandatory_oasi": 1793.889, "mandatory_di": 184.652, "mandatory_medicare": 1470.2, "mandatory_medicaid": 753.511, "mandatory_health_care": 2344.505, "mandatory_income_security": 393.372, "mandatory_snap": 94.641, "mandatory_family_support": 37.432, "mandatory_child_nutrition": 42.177, "mandatory_veterans": 338.315, "mandatory_agriculture": 34.25, "mandatory_higher_education": 11.463, "mandatory_admin_justice": 51.542, "mandatory_defense": 21.996, "expired_air_transport_outlays": 0.0, "expired_ground_transport_oblim_outlays": 0.0, "expired_ccc_outlays": 0.093, "expired_total_outlays": 138.333},
+    {"fiscal_year": 2030, "discretionary_defense": 965.808, "discretionary_nondefense": 1022.825, "mandatory_total": 5375.172, "mandatory_social_security": 2082.769, "mandatory_oasi": 1891.609, "mandatory_di": 191.16, "mandatory_medicare": 1648.614, "mandatory_medicaid": 776.778, "mandatory_health_care": 2550.161, "mandatory_income_security": 404.541, "mandatory_snap": 96.032, "mandatory_family_support": 37.897, "mandatory_child_nutrition": 43.927, "mandatory_veterans": 380.136, "mandatory_agriculture": 30.995, "mandatory_higher_education": 11.652, "mandatory_admin_justice": 50.701, "mandatory_defense": 12.25, "expired_air_transport_outlays": 0.0, "expired_ground_transport_oblim_outlays": 0.0, "expired_ccc_outlays": 0.1, "expired_total_outlays": 162.114},
+    {"fiscal_year": 2031, "discretionary_defense": 985.535, "discretionary_nondefense": 1038.879, "mandatory_total": 5582.391, "mandatory_social_security": 2189.776, "mandatory_oasi": 1991.809, "mandatory_di": 197.967, "mandatory_medicare": 1752.64, "mandatory_medicaid": 803.767, "mandatory_health_care": 2683.127, "mandatory_income_security": 411.167, "mandatory_snap": 97.521, "mandatory_family_support": 38.311, "mandatory_child_nutrition": 45.658, "mandatory_veterans": 393.56, "mandatory_agriculture": 30.122, "mandatory_higher_education": 11.894, "mandatory_admin_justice": 42.435, "mandatory_defense": 6.862, "expired_air_transport_outlays": 0.0, "expired_ground_transport_oblim_outlays": 0.0, "expired_ccc_outlays": 0.298, "expired_total_outlays": 170.82},
+    {"fiscal_year": 2032, "discretionary_defense": 1006.461, "discretionary_nondefense": 1056.775, "mandatory_total": 5835.417, "mandatory_social_security": 2298.339, "mandatory_oasi": 2093.565, "mandatory_di": 204.774, "mandatory_medicare": 1866.597, "mandatory_medicaid": 833.971, "mandatory_health_care": 2835.607, "mandatory_income_security": 420.87, "mandatory_snap": 99.193, "mandatory_family_support": 38.744, "mandatory_child_nutrition": 47.349, "mandatory_veterans": 411.281, "mandatory_agriculture": 30.33, "mandatory_higher_education": 12.17, "mandatory_admin_justice": 36.628, "mandatory_defense": 1.651, "expired_air_transport_outlays": 0.0, "expired_ground_transport_oblim_outlays": 0.0, "expired_ccc_outlays": 1.608, "expired_total_outlays": 181.242},
+    {"fiscal_year": 2033, "discretionary_defense": 1034.483, "discretionary_nondefense": 1076.499, "mandatory_total": 6276.865, "mandatory_social_security": 2408.571, "mandatory_oasi": 2196.188, "mandatory_di": 212.383, "mandatory_medicare": 2122.822, "mandatory_medicaid": 870.449, "mandatory_health_care": 3133.569, "mandatory_income_security": 434.134, "mandatory_snap": 100.251, "mandatory_family_support": 39.195, "mandatory_child_nutrition": 49.033, "mandatory_veterans": 458.452, "mandatory_agriculture": 31.166, "mandatory_higher_education": 12.502, "mandatory_admin_justice": 26.787, "mandatory_defense": 3.93, "expired_air_transport_outlays": 0.0, "expired_ground_transport_oblim_outlays": 0.0, "expired_ccc_outlays": 3.111, "expired_total_outlays": 191.712},
+    {"fiscal_year": 2034, "discretionary_defense": 1050.676, "discretionary_nondefense": 1096.334, "mandatory_total": 6436.662, "mandatory_social_security": 2519.408, "mandatory_oasi": 2298.714, "mandatory_di": 220.694, "mandatory_medicare": 2153.252, "mandatory_medicaid": 905.377, "mandatory_health_care": 3205.392, "mandatory_income_security": 436.146, "mandatory_snap": 101.212, "mandatory_family_support": 39.676, "mandatory_child_nutrition": 50.67, "mandatory_veterans": 451.943, "mandatory_agriculture": 31.692, "mandatory_higher_education": 12.725, "mandatory_admin_justice": 25.008, "mandatory_defense": 3.388, "expired_air_transport_outlays": 0.0, "expired_ground_transport_oblim_outlays": 0.0, "expired_ccc_outlays": 19.449, "expired_total_outlays": 217.387},
+    {"fiscal_year": 2035, "discretionary_defense": 1068.288, "discretionary_nondefense": 1119.003, "mandatory_total": 6544.534, "mandatory_social_security": 2631.845, "mandatory_oasi": 2402.044, "mandatory_di": 229.801, "mandatory_medicare": 2154.893, "mandatory_medicaid": 941.145, "mandatory_health_care": 3251.579, "mandatory_income_security": 435.381, "mandatory_snap": 102.24, "mandatory_family_support": 40.173, "mandatory_child_nutrition": 52.38, "mandatory_veterans": 439.039, "mandatory_agriculture": 32.271, "mandatory_higher_education": 12.907, "mandatory_admin_justice": 23.412, "mandatory_defense": -0.248, "expired_air_transport_outlays": 0.0, "expired_ground_transport_oblim_outlays": 0.0, "expired_ccc_outlays": 20.284, "expired_total_outlays": 227.961}
+  ],
+  "lane_context_boundaries": [
+    {"lane_id": "national-defense", "context_fields": ["discretionary_defense", "mandatory_defense"], "blocked_boundary": "not force structure, readiness, procurement, or OMB Function 050 row reconciliation"},
+    {"lane_id": "social-security", "context_fields": ["mandatory_social_security", "mandatory_oasi", "mandatory_di"], "blocked_boundary": "not SSA trustees reserve path or OASDI solver yield"},
+    {"lane_id": "health-medicare", "context_fields": ["mandatory_health_care", "mandatory_medicare", "mandatory_medicaid"], "blocked_boundary": "not fiscal-year HI path, SMI split, NHE path, or health solver row"},
+    {"lane_id": "income-security-family", "context_fields": ["mandatory_income_security", "mandatory_snap", "mandatory_family_support", "mandatory_child_nutrition"], "blocked_boundary": "not benefit package, take-up model, or federal/state/local translation"},
+    {"lane_id": "veterans", "context_fields": ["mandatory_veterans"], "blocked_boundary": "not eligible-cohort or service-package path"},
+    {"lane_id": "agriculture", "context_fields": ["mandatory_agriculture", "expired_ccc_outlays"], "blocked_boundary": "not support, insurance, services, market-price support, or nutrition handoff scenario"},
+    {"lane_id": "transportation-infrastructure", "context_fields": ["expired_air_transport_outlays", "expired_ground_transport_oblim_outlays"], "blocked_boundary": "not Function 400 baseline, trust-fund income/outgo reconciliation, or asset-maintenance floor evidence"},
+    {"lane_id": "education-workforce", "context_fields": ["mandatory_higher_education"], "blocked_boundary": "not federal/state/local education path or workforce outcome floor evidence"},
+    {"lane_id": "justice-courts-public-safety", "context_fields": ["mandatory_admin_justice"], "blocked_boundary": "not federalism, caseload, court process, rights, safety, or timeliness floor evidence"}
+  ],
+  "blocked_outputs": {
+    "omb_17_row_fy2032_fy2035_ledger": null,
+    "taxlane_lane_baseline_rows": null,
+    "component_policy_paths": null,
+    "outcome_floor_values": null,
+    "transition_model": null,
+    "solver_input_rows": null,
+    "solver_run": null,
+    "target_cost": null,
+    "public_rate_card": null,
+    "savings_estimate": null,
+    "balanced_budget_claim": null
+  },
+  "claim_booleans": {
+    "cbo_major_outlay_category_context_published": true,
+    "source_custody_ready": true,
+    "fy2026_fy2035_category_context_present": true,
+    "omb_17_row_fy2032_fy2035_ledger_ready": false,
+    "taxlane_lane_baseline_ready": false,
+    "component_policy_paths_ready": false,
+    "outcome_floor_values_ready": false,
+    "transition_model_ready": false,
+    "solver_input_ready": false,
+    "solver_run_published": false,
+    "target_cost_published": false,
+    "public_rate_card_published": false,
+    "savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "CBO FY2026-FY2035 major outlay-category context only. This is not an OMB 17-row ledger, not a Taxlane lane baseline, not a policy scenario, not outcome-floor evidence, not solver input, not a rate calculation, not a savings estimate, and not a balanced-budget claim."
+}

@@ -1,0 +1,33 @@
+{
+  "record_id": "vet-b-veterans-accounting-closure:v1",
+  "record_family": "vet_b_veterans_accounting_closure",
+  "version": "v1.draft",
+  "status": "vet_b_complete_bounded_accounting",
+  "pulse": 323,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "VET-B",
+  "vet_a_path": "data/derived/breadth_benchmark_matrix/vet_a_veterans_baseline_source_spine.v1.draft.json",
+  "core_h_path": "data/derived/breadth_benchmark_matrix/core_h_shared_accounting_substrate.v1.draft.json",
+  "core_j_path": "data/derived/breadth_benchmark_matrix/core_j_bounded_closure_handoff_closure.v1.draft.json",
+  "core_k_path": "data/derived/breadth_benchmark_matrix/core_k_temporal_composite_accounting_closure.v1.draft.json",
+  "core_l_path": "data/derived/breadth_benchmark_matrix/core_l_cross_lane_overlap_allocation_closure.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/multi_track_d_b_catchup_bundle.schema.md",
+  "reader_path": "docs/reading/multi-track-d-b-catchup-bundle.md",
+  "role_review_path": "reviews/2026-07-26-multi-track-d-b-catchup-role-review.md",
+  "package_reconciliation": [
+    {"work_package_id":"VET-B-01","status":"complete","completion_class":"bounded_structural","finding":"Benefits, healthcare, housing, education, and administration map to explicit federal account roles."},
+    {"work_package_id":"VET-B-02","status":"complete","completion_class":"bounded_structural","finding":"Mandatory benefit, discretionary health, grant, reimbursement, and administration adapters retain cohort and health overlap boundaries."},
+    {"work_package_id":"VET-B-03","status":"complete","completion_class":"bounded_structural","finding":"The bounded schedule retains eligibility, service-package, and later-year gaps as null."},
+    {"work_package_id":"VET-B-04","status":"complete","completion_class":"bounded_structural","finding":"Role review closes bounded B accounting against CORE-H/J/K/L."}
+  ],
+  "account_mapping": [
+    {"component_id":"veterans_benefits","roles":["program_outlay"],"evidence_state":"partial_context","non_additive":false,"successor_owner":"VET-C","blocking_gate":"annual benefit and eligibility cohort schedule"},
+    {"component_id":"veterans_health","roles":["appropriation","program_outlay"],"evidence_state":"partial_context","non_additive":true,"overlap_owner":"veterans","successor_owner":"VET-C","blocking_gate":"service package and HLT overlap treatment"},
+    {"component_id":"housing_education","roles":["grant","program_outlay"],"evidence_state":"definition_only","non_additive":false,"successor_owner":"VET-C","blocking_gate":"account and beneficiary schedule"},
+    {"component_id":"claims_administration","roles":["appropriation","program_outlay"],"evidence_state":"partial_context","non_additive":false,"successor_owner":"VET-C","blocking_gate":"workload backlog and decision-time schedule"}
+  ],
+  "closure_decision": {"completion_class":"bounded_structural","role_review_complete":true,"vet_b_done":true,"vet_c_may_start":true,"numeric_completion":false,"output_admission":false},
+  "blocked_outputs": {"complete_schedule":null,"eligible_cohort":null,"service_package":null,"reform":null,"solver_input":null,"assigned_rate":null,"savings":null},
+  "claim_booleans": {"vet_b_closure_published":true,"vet_b_done":true,"vet_c_may_start":true,"core_l_pinned":true,"solver_ready":false,"rate_published":false},
+  "public_warning": "VET-B is complete as bounded accounting with veterans-health overlap assigned non-additively. It is not a complete schedule, service package, reform, rate, or savings claim."
+}

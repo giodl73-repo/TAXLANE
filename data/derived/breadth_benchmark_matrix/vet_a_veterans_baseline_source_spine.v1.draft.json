@@ -1,0 +1,34 @@
+{
+  "record_id": "vet-a-veterans-baseline-source-spine:v1",
+  "record_family": "vet_a_veterans_baseline_source_spine",
+  "version": "v1.draft",
+  "status": "vet_a_complete_bounded_baseline_source_spine",
+  "pulse": 318,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "VET-A",
+  "lane_id": "veterans",
+  "core_g_path": "data/derived/breadth_benchmark_matrix/core_g_official_current_law_solver_spine.v1.draft.json",
+  "depth_card_path": "data/derived/breadth_benchmark_matrix/veterans_depth_card.fy2025.v1.draft.json",
+  "floor_path": "data/derived/breadth_benchmark_matrix/veterans_outcome_floor_definition_packet.v1.draft.json",
+  "claims_floor_path": "data/derived/breadth_benchmark_matrix/veterans_claims_backlog_floor_value_packet.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/multi_track_d_b_catchup_bundle.schema.md",
+  "reader_path": "docs/reading/multi-track-d-b-catchup-bundle.md",
+  "role_review_path": "reviews/2026-07-26-multi-track-d-b-catchup-role-review.md",
+  "package_reconciliation": [
+    {"work_package_id":"VET-A-01","status":"complete","completion_class":"bounded_structural","finding":"Veterans benefits, healthcare, housing, education, and administration remain within an explicit federal perimeter."},
+    {"work_package_id":"VET-A-02","status":"complete","completion_class":"bounded_structural","finding":"FY2025 depth-card values form a bounded baseline with later years null."},
+    {"work_package_id":"VET-A-03","status":"complete","completion_class":"bounded_structural","finding":"Mandatory benefits, discretionary healthcare, grants, reimbursements, and administration remain distinct."},
+    {"work_package_id":"VET-A-04","status":"complete","completion_class":"bounded_structural","finding":"Eligibility, continuity, access, health, housing, education, and claims-timeliness floor lineage is mapped."},
+    {"work_package_id":"VET-A-05","status":"complete","completion_class":"bounded_structural","finding":"Role review accepts bounded A closure with cohort and horizon gaps retained."}
+  ],
+  "source_handoffs": [
+    {"field_id":"eligible_cohort_path","evidence_state":"source_gap","successor_owner":"VET-B","blocking_gate":"annual eligibility and beneficiary cohorts"},
+    {"field_id":"health_service_package","evidence_state":"definition_only","successor_owner":"VET-B","blocking_gate":"VA health service and financing adapter"},
+    {"field_id":"claims_timeliness_path","evidence_state":"partial_context","successor_owner":"VET-B","blocking_gate":"annual workload backlog and decision-time schedule"},
+    {"field_id":"health_lane_overlap","evidence_state":"definition_only","successor_owner":"VET-B","blocking_gate":"non-additive VET HLT overlap treatment"}
+  ],
+  "closure_decision": {"completion_class":"bounded_structural","role_review_complete":true,"vet_a_done":true,"vet_b_may_start":true,"numeric_completion":false,"output_admission":false},
+  "blocked_outputs": {"complete_baseline":null,"eligible_cohort":null,"service_package":null,"solver_input":null,"assigned_rate":null,"savings":null},
+  "claim_booleans": {"vet_a_spine_published":true,"vet_a_done":true,"vet_b_may_start":true,"solver_ready":false,"rate_published":false},
+  "public_warning": "VET-A closes a bounded veterans baseline and source spine. Complete cohorts, service packages, later-year schedules, rates, and savings remain blocked."
+}

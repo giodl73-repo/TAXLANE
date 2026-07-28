@@ -1,0 +1,36 @@
+Source: U.S. Government Publishing Office
+Package: CRPT-119hrpt551
+Official URL: https://www.govinfo.gov/content/pkg/CRPT-119hrpt551/html/CRPT-119hrpt551.htm
+Retrieved: 2026-07-26
+Capture boundary: Verbatim CBO-cost-estimate excerpt and table from the official House report HTML package.
+
+Congressional Budget Office Cost Estimate
+
+H.R. 2247 would allow pilots to present digital airman and medical
+certificates to the Federal Aviation Administration (FAA) instead of
+physical documents and would require the agency to update its
+regulations by November 30, 2028.
+
+Using information from the FAA, CBO estimates that the agency would
+need to acquire new software systems to issue and maintain digital
+certificates at an average cost of $3 million each year. Based on the
+cost of similar efforts and information from the FAA, CBO expects that
+the required rulemaking would cost $2 million.
+
+In total, CBO estimates that implementing H.R. 2247 would cost $18
+million over the 2026-2031 period. Any related spending would be subject
+to the availability of appropriated funds.
+
+The estimated budgetary effects of the legislation are shown in Table
+1. The costs of the legislation fall within budget function 400
+(transportation).
+
+TABLE 1.--ESTIMATED BUDGETARY EFFECTS OF H.R. 2247
+By fiscal year, millions of dollars
+
+Fiscal year                    2026  2027  2028  2029  2030  2031  2026-2031
+Estimated Authorization          3     4     4     3     3     3         20
+Estimated Outlays                *     5     4     3     3     3         18
+
+* = between zero and $500,000.
+

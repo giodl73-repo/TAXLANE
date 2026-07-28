@@ -2,7 +2,7 @@
   "record_id": "income-security-family-food-hardship-nutrition-capture-gap:v1",
   "record_family": "income_security_family_food_hardship_nutrition_capture_gap",
   "schema_version": "v1.draft",
-  "status": "draft_food_hardship_nutrition_capture_gap_values_blocked",
+  "status": "draft_partial_ers_and_fns_raw_custody_context_ready_values_blocked",
   "pulse": 199,
   "as_of_date": "2026-07-22",
   "lane_id": "income-security-family",
@@ -23,14 +23,45 @@
     ]
   },
   "local_custody_status": {
-    "local_raw_ers_food_security_artifact_path": null,
-    "local_raw_fns_snap_artifact_path": null,
+    "local_raw_ers_food_security_artifact_path": "data/raw/usda/SRC-USDA-ERS-HOUSEHOLD-FOOD-SECURITY-2024/2026-07-24/err-358-household-food-security-2024.pdf",
+    "local_raw_fns_snap_artifact_path": "data/raw/usda/SRC-USDA-FNS-SNAP-PARTICIPATION-COST-DATA/2026-07-24/snap-annualsummary-7.xlsx",
     "local_raw_nutrition_assistance_artifact_path": null,
-    "metadata_path": null,
-    "raw_byte_count": null,
-    "raw_sha256": null,
-    "retrieval_date": null,
+    "metadata_path": "data/metadata/SRC-USDA-FNS-SNAP-PARTICIPATION-COST-DATA.2026-07-24.metadata.md",
+    "raw_byte_count": 24215,
+    "raw_sha256": "53c101e4f23c12d04c65ed304919b5f5ed18c560f9ea81acb9191cf8a54254e3",
+    "retrieval_date": "2026-07-24",
+    "ers_metadata_path": "data/metadata/SRC-USDA-ERS-HOUSEHOLD-FOOD-SECURITY-2024.2026-07-24.metadata.md",
+    "ers_raw_byte_count": 1017042,
+    "ers_raw_sha256": "dfe19c73cd5fbaa08a2dec52768690c968892150153806fec83038d3dac0adf7",
+    "ers_retrieval_date": "2026-07-24",
+    "supporting_ers_food_security_raw_files": [
+      {"path": "data/raw/usda/SRC-USDA-ERS-HOUSEHOLD-FOOD-SECURITY-2024/2026-07-24/err-358-report-summary.pdf", "byte_count": 343612, "sha256": "b7f80ef59e3ae601b4f665bd2a59a7698723b28fbae8647468754d3465ce7e4b"},
+      {"path": "data/raw/usda/SRC-USDA-ERS-HOUSEHOLD-FOOD-SECURITY-2024/2026-07-24/ap-126-statistical-supplement-2024.pdf", "byte_count": 529826, "sha256": "e5f8428ede1ee0e2a5ea7d35845b2849f0c830aaf1a19ee57831c759c657789d"},
+      {"path": "data/raw/usda/SRC-USDA-ERS-HOUSEHOLD-FOOD-SECURITY-2024/2026-07-24/ers-food-security-data-product-page.html", "byte_count": 140962, "sha256": "6dad7daa1199e25765db078fd8b13d7b6668094ca9eacabf39cdbf3fdc4bfa3f"},
+      {"path": "data/raw/usda/SRC-USDA-ERS-HOUSEHOLD-FOOD-SECURITY-2024/2026-07-24/ers-food-security-topic-page.html", "byte_count": 52165, "sha256": "af2e739ee553352fa7606b82c23f1e3408a101bec9b26c6387f4f439128972e7"},
+      {"path": "data/raw/usda/SRC-USDA-ERS-HOUSEHOLD-FOOD-SECURITY-2024/2026-07-24/december-2024-cps-food-security-supplement-technical-documentation.pdf", "byte_count": 256115, "sha256": "052b5102990bb7e58a7f62e6b39a687b4c598b1fe746af0ef19c2ceb89ec7cac"},
+      {"path": "data/raw/usda/SRC-USDA-ERS-HOUSEHOLD-FOOD-SECURITY-2024/2026-07-24/december-2024-cps-food-security-supplement-questionnaire.pdf", "byte_count": 307365, "sha256": "534d77003478e038782f3be3209640ec03434625087ea3496e39d0126307fa1c"},
+      {"path": "data/raw/usda/SRC-USDA-ERS-HOUSEHOLD-FOOD-SECURITY-2024/2026-07-24/december-2024-cps-food-security-supplement-questionnaire.docx", "byte_count": 61886, "sha256": "b16032adc09c77218c2867ee82b387a5e60a97bd1e253340f3e095a2625b5dea"}
+    ],
+    "supporting_fns_snap_raw_files": [
+      {"path": "data/raw/usda/SRC-USDA-FNS-SNAP-PARTICIPATION-COST-DATA/2026-07-24/snap-annualsummary-7.pdf", "byte_count": 258647, "sha256": "c5f0903a61e857185b5beb6359974ced4533df3d923f2f1979405ee9be56f9b1"},
+      {"path": "data/raw/usda/SRC-USDA-FNS-SNAP-PARTICIPATION-COST-DATA/2026-07-24/snap-zip-fy69tocurrent-7.zip", "byte_count": 1583515, "sha256": "25e6ec007e2cee48c024a793fd1e7fb97a8fa64c980bf4780cfb0ef8a9b98b9e"},
+      {"path": "data/raw/usda/SRC-USDA-FNS-SNAP-PARTICIPATION-COST-DATA/2026-07-24/snap-4fymonthly-7.xlsx", "byte_count": 31756, "sha256": "8a1dd2b3e9404d3d2a8eab8134bbf173284871ac63c1ef62e25a7422b2309384"},
+      {"path": "data/raw/usda/SRC-USDA-FNS-SNAP-PARTICIPATION-COST-DATA/2026-07-24/snap-persons-7.xlsx", "byte_count": 16033, "sha256": "86164de33587e4ff4c035f83b9deeff4b97ab04cdf8b9fa606c45617763b6ee8"},
+      {"path": "data/raw/usda/SRC-USDA-FNS-SNAP-PARTICIPATION-COST-DATA/2026-07-24/snap-households-7.xlsx", "byte_count": 16099, "sha256": "325969ff7e3fd0b4d17ea1cd18c71552c838234270a278eb92313669330aabe5"},
+      {"path": "data/raw/usda/SRC-USDA-FNS-SNAP-PARTICIPATION-COST-DATA/2026-07-24/snap-benefits-7.xlsx", "byte_count": 16224, "sha256": "cd33c0aa154fd4b2b833c58ba0859aa3c1a9490daf487dd43d7c18ed3e4612ff"}
+    ],
+    "observed_file_structure": {
+      "snap_annualsummary_xlsx_dimension": "A1:F200",
+      "snap_4fymonthly_xlsx_dimension": "A1:GD59",
+      "snap_persons_xlsx_dimension": "A1:F68",
+      "snap_households_xlsx_dimension": "A1:F67",
+      "snap_benefits_xlsx_dimension": "A1:F67",
+      "snap_zip_fy69tocurrent_entry_count": 38
+    },
     "custody_ready": false,
+    "ers_food_security_raw_custody_ready": true,
+    "fns_snap_raw_custody_ready": true,
     "values_may_be_populated": false
   },
   "next_manual_capture_requirements": [
@@ -43,8 +74,8 @@
   "readiness_status": {
     "food_hardship_nutrition_capture_gap_published": true,
     "raw_usda_custody_ready": false,
-    "ers_food_security_context_ready": false,
-    "fns_snap_context_ready": false,
+    "ers_food_security_context_ready": true,
+    "fns_snap_context_ready": true,
     "nutrition_program_boundary_ready": false,
     "material_hardship_floor_values_ready": false,
     "food_security_floor_values_ready": false,
@@ -76,8 +107,8 @@
     "food_hardship_nutrition_capture_gap_published": true,
     "source_capture_complete": false,
     "raw_usda_custody_ready": false,
-    "ers_food_security_context_ready": false,
-    "fns_snap_context_ready": false,
+    "ers_food_security_context_ready": true,
+    "fns_snap_context_ready": true,
     "nutrition_program_boundary_ready": false,
     "material_hardship_floor_values_populated": false,
     "food_security_floor_values_populated": false,
@@ -97,5 +128,5 @@
     "technology_savings_claim_published": false,
     "balanced_budget_claim_published": false
   },
-  "public_warning": "This record is a food-hardship/nutrition source-capture gap only. It is not USDA raw source custody, not ERS food-security context, not FNS SNAP context, not a nutrition-program boundary, not material-hardship floor values, not food-security floor values, not benefit-package context, not a benefit package model, not a take-up model, not pass/fail findings, not target-cost selection, not gross savings, not net savings, not solver input, not rate calculation, not a public rate card, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+  "public_warning": "This record is a food-hardship/nutrition source-capture gap with partial ERS food-security and FNS SNAP raw custody. Official ERS household food-security report, supplement, topic/data-product pages, and 2024 CPS Food Security Supplement documentation are locally captured, and official FNS SNAP participation, cost, benefit, persons, households, monthly, and FY1969-current ZIP files are locally captured, but this is not complete USDA raw source custody, not a complete nutrition-program boundary, not material-hardship floor values, not food-security floor values, not benefit-package context, not a benefit package model, not a take-up model, not pass/fail findings, not target-cost selection, not gross savings, not net savings, not solver input, not rate calculation, not a public rate card, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
 }

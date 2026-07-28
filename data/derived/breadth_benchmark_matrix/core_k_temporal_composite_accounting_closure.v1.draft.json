@@ -1,0 +1,27 @@
+{
+  "record_id": "core-k-temporal-composite-accounting-closure:v1",
+  "record_family": "core_k_temporal_composite_accounting_closure",
+  "version": "v1.draft",
+  "status": "core_k_complete_temporal_composite_accounting_interfaces",
+  "pulse": 304,
+  "as_of_date": "2026-07-26",
+  "core_wave_id": "CORE-K",
+  "contract_path": "data/derived/breadth_benchmark_matrix/core_k_temporal_composite_accounting_contract.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/stage_c_catchup_bundle.schema.md",
+  "reader_path": "docs/reading/stage-c-catchup-bundle.md",
+  "role_review_path": "reviews/2026-07-26-stage-c-catchup-bundle-role-review.md",
+  "closure_checks": [
+    {"check_id":"time_basis_enum","status":"pass"},
+    {"check_id":"explicit_cross_basis_bridge","status":"pass"},
+    {"check_id":"source_horizon_cap","status":"pass"},
+    {"check_id":"component_composite_identity","status":"pass"},
+    {"check_id":"non_additive_composite","status":"pass"},
+    {"check_id":"explicit_transfer_lineage","status":"pass"},
+    {"check_id":"three_lane_portability","status":"pass"},
+    {"check_id":"rust_validation","status":"pass"}
+  ],
+  "dependency_decision": {"core_k_done":true,"hlt_b_may_close":true,"edu_b_may_close":true,"oas_b_may_close":true},
+  "blocked_outputs": {"bridged_numeric_schedule":null,"extended_horizon":null,"solver_input":null,"assigned_rate":null,"savings":null},
+  "claim_booleans": {"core_k_closure_published":true,"role_review_complete":true,"core_k_done":true,"solver_ready":false,"rate_published":false,"savings_claim_published":false},
+  "public_warning": "CORE-K is complete as a shared validation layer only. Cross-basis bridges and unsupported horizons remain blocked until lane-local evidence closes them."
+}

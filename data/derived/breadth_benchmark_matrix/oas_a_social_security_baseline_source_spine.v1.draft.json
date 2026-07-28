@@ -1,0 +1,36 @@
+{
+  "record_id": "oas-a-social-security-baseline-source-spine:v1",
+  "record_family": "oas_a_social_security_baseline_source_spine",
+  "version": "v1.draft",
+  "status": "oas_a_complete_bounded_baseline_source_spine",
+  "pulse": 302,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "OAS-A",
+  "lane_id": "social-security",
+  "core_g_path": "data/derived/breadth_benchmark_matrix/core_g_official_current_law_solver_spine.v1.draft.json",
+  "current_law_path": "data/derived/breadth_benchmark_matrix/social_security_oasdi_fy2025_2035_current_law_path.v1.draft.json",
+  "source_status_path": "data/derived/breadth_benchmark_matrix/social_security_source_capture_status_rollup.v1.draft.json",
+  "taxable_payroll_path": "data/derived/breadth_benchmark_matrix/social_security_taxable_payroll_base_bridge.cy2025-2035.v1.draft.json",
+  "receipt_yield_boundary_path": "data/derived/breadth_benchmark_matrix/social_security_oasdi_receipt_yield_boundary.fy2025-cy2025.v1.draft.json",
+  "floor_definition_path": "data/derived/breadth_benchmark_matrix/social_security_outcome_floor_definition_packet.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/stage_c_catchup_bundle.schema.md",
+  "reader_path": "docs/reading/stage-c-catchup-bundle.md",
+  "role_review_path": "reviews/2026-07-26-stage-c-catchup-bundle-role-review.md",
+  "package_reconciliation": [
+    {"work_package_id":"OAS-A-01","status":"complete","completion_class":"bounded_structural","finding":"Federal Social Security perimeter is separate OASI, DI, and combined OASDI context."},
+    {"work_package_id":"OAS-A-02","status":"complete","completion_class":"bounded_structural","finding":"Combined FY2025-FY2035 current-law path is admitted with post-depletion nulls."},
+    {"work_package_id":"OAS-A-03","status":"complete","completion_class":"bounded_structural","finding":"Payroll, benefit-taxation, interest, reimbursement, and transfer forms remain distinct."},
+    {"work_package_id":"OAS-A-04","status":"complete","completion_class":"bounded_structural","finding":"Adequacy, poverty, administration, and trust-fund continuity floor lineage is mapped."},
+    {"work_package_id":"OAS-A-05","status":"complete","completion_class":"bounded_structural","finding":"Role review accepts bounded A-stage closure with source gaps retained."}
+  ],
+  "source_handoffs": [
+    {"field_id":"separate_oasi_di_annual_paths","evidence_state":"source_gap","successor_owner":"OAS-B","blocking_gate":"separate annual income cost assets and transfers"},
+    {"field_id":"combined_oasdi_fy2025_2035","evidence_state":"partial_context","successor_owner":"OAS-B","blocking_gate":"component and post-depletion reconciliation"},
+    {"field_id":"calendar_taxable_payroll","evidence_state":"partial_context","successor_owner":"OAS-B","blocking_gate":"calendar-to-fiscal receipt bridge"},
+    {"field_id":"long_range_solvency","evidence_state":"source_gap","successor_owner":"OAS-C","blocking_gate":"75-year normalized solvency path"}
+  ],
+  "closure_decision": {"completion_class":"bounded_structural","role_review_complete":true,"oas_a_done":true,"oas_b_may_start":true,"numeric_completion":false,"output_admission":false},
+  "blocked_outputs": {"complete_oasi_path":null,"complete_di_path":null,"calendar_fiscal_bridge":null,"long_range_solvency":null,"solver_input":null,"assigned_rate":null,"savings":null},
+  "claim_booleans": {"oas_a_spine_published":true,"oas_a_done":true,"oas_b_may_start":true,"numeric_completion":false,"solver_ready":false,"rate_published":false,"savings_claim_published":false},
+  "public_warning": "OAS-A closes a bounded Social Security baseline and source spine. Separate OASI/DI paths, post-depletion fields, fiscal/calendar reconciliation, long-range solvency, rates, and savings remain blocked."
+}

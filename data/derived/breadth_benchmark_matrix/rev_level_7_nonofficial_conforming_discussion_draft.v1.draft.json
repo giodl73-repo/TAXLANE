@@ -1,0 +1,57 @@
+{
+  "record_id":"rev-level-7-nonofficial-conforming-discussion-draft:v1",
+  "record_family":"rev_level_7_nonofficial_conforming_discussion_draft",
+  "version":"v1.draft",
+  "status":"nonofficial_discussion_draft_complete_legislative_counsel_conformance_required",
+  "pulse":464,
+  "as_of_date":"2026-07-27",
+  "track_prefix":"REV",
+  "work_package_id":"REV-L7-03",
+  "policy_specification_path":"data/derived/breadth_benchmark_matrix/rev_level_7_scorer_ready_legislative_specification.v1.draft.json",
+  "score_request_workbook_path":"data/derived/breadth_benchmark_matrix/rev_level_7_official_score_request_workbook.v1.draft.json",
+  "level_7_handoff_path":"data/derived/breadth_benchmark_matrix/rev_level_7_integrated_certification_and_score_handoff.v1.draft.json",
+  "schema_path":"data/derived/breadth_benchmark_matrix/rev_level_7_nonofficial_conforming_discussion_draft.schema.md",
+  "reader_and_draft_path":"docs/reading/rev-level-7-nonofficial-conforming-discussion-draft.md",
+  "role_review_path":"reviews/2026-07-27-rev-level-7-nonofficial-conforming-discussion-draft-role-review.md",
+  "official_code_source":{"publisher":"Office of the Law Revision Counsel, U.S. House of Representatives","title":"26 U.S.C. §1, Tax imposed, preliminary edition","url":"https://uscode.house.gov/view.xhtml?req=(title:26%20section:1%20edition:prelim)","text_current_through":"2026-07-15","structural_findings":["section 1(j)(2)(A) through (D) contain the four individual filing-status rate tables","section 1(j)(2)(E) separately governs estates and trusts","section 1(j)(3)(B) prescribes later-year indexed tables"]},
+  "draft_identity":{"short_title":"Taxlane Ordinary Individual Rate Schedule Discussion Draft","document_type":"nonofficial_discussion_draft","legislative_counsel_product":false,"introduced_bill":false,"official_proposal":false,"enacted_law":false},
+  "amendment_mechanic":{"code_section":"26 U.S.C. 1(j)","new_paragraph":"1(j)(7)","method":"direct the Secretary, for the individual tables prescribed under section 1(j)(3)(B), to substitute the seven specified ordinary rates while preserving every bracket threshold and indexing rule","applies_to_table_subparagraphs":["1(j)(2)(A)","1(j)(2)(B)","1(j)(2)(C)","1(j)(2)(D)"],"does_not_apply_to":["1(j)(2)(E) estates and trusts","preferential capital-gain and qualified-dividend rates","any tax parameter outside the express ordinary individual rate substitutions"]},
+  "rate_substitutions_percent":[
+    {"current":10.0,"specified":21.0},
+    {"current":12.0,"specified":23.0},
+    {"current":22.0,"specified":33.0},
+    {"current":24.0,"specified":35.0},
+    {"current":32.0,"specified":43.0},
+    {"current":35.0,"specified":46.0},
+    {"current":37.0,"specified":48.0}
+  ],
+  "threshold_and_computation_rules":{"minimum_and_maximum_bracket_amounts_changed":false,"section_1_j_3_indexing_changed":false,"rounding_changed":false,"base_tax_amounts_recomputed_from_specified_marginal_rates":true,"marginal_layering_changed":false},
+  "effective_date":{"applies_to_taxable_years_beginning_after":"2025-12-31","section_15_proration_applies":false,"expiration_date":null,"permanent_for_scoring":true},
+  "administrative_directions":[
+    "Treasury must revise wage and pension withholding methods as soon as practicable.",
+    "Previously published 2026 withholding methods remain usable until the mandatory date in implementing guidance.",
+    "Reasonable-cause and estimated-tax relief applies when an underpayment is attributable solely to pre-guidance use of the prior schedule.",
+    "Treasury must update forms, instructions, e-file schemas, and other implementation materials.",
+    "Nothing in the draft supplies or deems an appropriation."
+  ],
+  "conformance_questions_for_legislative_counsel":[
+    "Whether a new section 1(j)(7) or replacement tables in section 1(j)(2)(A) through (D) are the preferred drafting form.",
+    "Whether additional cross-references to section 1(c) rates require conforming amendments beyond section 1(j)(2)(F).",
+    "Whether the section 15 nonapplication clause is necessary for a taxable-year effective date enacted after January 1, 2026.",
+    "Whether withholding and estimated-tax transition relief belongs in statutory text or Treasury guidance.",
+    "Whether any budget-act, PAYGO, or administrative-appropriation language is required for an introduced measure."
+  ],
+  "draft_checks":[
+    {"check_id":"current_code_structure_cited","status":"pass"},
+    {"check_id":"four_individual_filing_status_tables_covered","status":"pass"},
+    {"check_id":"seven_rate_substitutions_exact","status":"pass"},
+    {"check_id":"thresholds_and_indexing_preserved","status":"pass"},
+    {"check_id":"estates_and_trusts_excluded","status":"pass"},
+    {"check_id":"effective_date_and_transition_present","status":"pass"},
+    {"check_id":"nonofficial_status_conspicuous","status":"pass"},
+    {"check_id":"legislative_counsel_questions_retained","status":"pass"}
+  ],
+  "decision":{"nonofficial_discussion_draft_complete":true,"matches_scorer_ready_policy_specification":true,"ready_for_legislative_counsel_review":true,"legislative_counsel_conforming_text_complete":false,"authorized_submission_completed":false,"statutory_schedule_ready":false,"official_rate_certified":false,"balanced_budget_certified":false},
+  "blocked_outputs":{"legislative_counsel_conforming_text":null,"introduced_bill_number":null,"authorized_score_submission_receipt":null,"official_conventional_score":null,"official_dynamic_score":null,"formal_certified_rate":null,"formal_balance_determination":null},
+  "public_warning":"This is a nonofficial discussion draft prepared to make Legislative Counsel review easier. It is not Legislative Counsel text, an introduced bill, an official proposal, enacted law, an official score, or a certified rate or balance determination."
+}

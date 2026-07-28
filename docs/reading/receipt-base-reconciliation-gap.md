@@ -8,11 +8,13 @@ Captured context values are not matched assigned receipt bases.
 
 Medicare HI has FY2025 source context, but rate and solver gates remain blocked.
 
+SSA OASDI has CY2025 taxable-payroll context, but raw-byte custody and fiscal-year reconciliation remain blocked.
+
 IRS TY2023 values require a tax-year-to-fiscal-year bridge before FY2025 use.
 
 FHWA FY2024 receipt-yield context is not a FY2025 legal or economic transportation base.
 
-SSA OASDI raw source custody remains blocked.
+SSA OASDI raw source custody remains blocked even though calendar-year context is available.
 
 No FOIA request, records request, form, email, phone call, or agency/person contact was submitted.
 

@@ -1,0 +1,39 @@
+{
+  "record_id":"hlt-next-level-a-site-neutral-evidence-closure:v1",
+  "record_family":"hlt_next_level_a_site_neutral_evidence_closure",
+  "version":"v1.draft",
+  "status":"hlt_next_level_a_complete_precise_current_law_reblock",
+  "pulse":467,
+  "as_of_date":"2026-07-27",
+  "track_prefix":"HLT",
+  "predecessor_path":"data/derived/breadth_benchmark_matrix/hlt_level_5_site_neutral_imaging_candidate_audit.v1.draft.json",
+  "all_fifteen_wave_path":"data/derived/breadth_benchmark_matrix/fifteen_track_next_two_level_advancement_wave.v1.draft.json",
+  "schema_path":"data/derived/breadth_benchmark_matrix/hlt_next_level_a_site_neutral_evidence_closure.schema.md",
+  "reader_path":"docs/reading/hlt-next-level-a-site-neutral-evidence-closure.md",
+  "role_review_path":"reviews/2026-07-27-hlt-next-level-a-site-neutral-evidence-closure-role-review.md",
+  "official_sources":[
+    {"source_id":"CBO-60908","url":"https://www.cbo.gov/budget-options/60908","use":"December 2024 imaging-option identity and FY2025-FY2034 score"},
+    {"source_id":"CMS-CY2026-OPPS-FINAL-FACT-SHEET","url":"https://www.cms.gov/newsroom/fact-sheets/calendar-year-2026-hospital-outpatient-prospective-payment-system-opps-ambulatory-surgical-center","use":"controlling CY2026 drug-administration site-neutral policy, beneficiary savings, 340B non-drug offset, and outpatient quality-measure context"},
+    {"source_id":"CMS-MEDICARE-PAYMENT-SYSTEMS","url":"https://www.cms.gov/outreach-and-education/medicare-learning-network-mln/mlnproducts/html/medicare-payment-systems.html","use":"OPPS exclusions, off-campus PBD treatment, rural SCH clinic exception, and coinsurance context"},
+    {"source_id":"MEDPAC-MARCH-2026","url":"https://www.medpac.gov/wp-content/uploads/2026/03/Mar26_MedPAC_Report_To_Congress_SEC.pdf","use":"current site-neutral policy and general access context, not an imaging-option score"}
+  ],
+  "candidate":{"candidate_id":"off_campus_hopd_imaging_site_neutral_payment","cbo_score_vintage":"2024-12-12","effective_date_in_cbo_option":"2026-01-01","annual_unadmitted_outlay_reduction_billions":[{"fiscal_year":2025,"amount":0.0},{"fiscal_year":2026,"amount":0.4},{"fiscal_year":2027,"amount":0.6},{"fiscal_year":2028,"amount":0.7},{"fiscal_year":2029,"amount":0.7},{"fiscal_year":2030,"amount":0.8},{"fiscal_year":2031,"amount":0.9},{"fiscal_year":2032,"amount":1.0},{"fiscal_year":2033,"amount":1.2},{"fiscal_year":2034,"amount":1.3}],"score_is_current_2026_law_rescore":false},
+  "current_law_overlap_findings":[
+    "CMS finalized PFS-equivalent payment for drug-administration APCs in excepted off-campus PBDs for CY2026, not the selected imaging option.",
+    "CMS estimated the drug-administration policy reduces 2026 OPPS spending by $290 million: $220 million for Medicare and $70 million for beneficiaries.",
+    "A separate 0.5 percent CY2026 OPPS conversion-factor reduction applies to many non-drug items and services as part of the 340B remedy offset and may overlap the imaging score base.",
+    "The December 2024 CBO imaging option has not been formally rescored against those CY2026 policies or the January 2026 CBO baseline."
+  ],
+  "gate_rows":[
+    {"gate_id":"legal_instrument_and_official_score","disposition":"ready_vintage_bounded","evidence":"CBO publishes the imaging option and annual FY2025-FY2034 effects; the vintage is retained explicitly."},
+    {"gate_id":"beneficiary_cost_sharing_no_regression","disposition":"context_ready_proposal_specific_result_blocked","evidence":"CMS reports lower beneficiary coinsurance from its analogous 2026 drug-administration policy, but no imaging-specific beneficiary amount or distribution is published."},
+    {"gate_id":"provider_access_and_service_location","disposition":"proposal_specific_blocked","evidence":"MedPAC supplies general access context; no imaging-location, appointment, relocation, closure, or capacity response is identified for this option."},
+    {"gate_id":"rural_and_safety_net_protection","disposition":"proposal_specific_blocked","evidence":"CMS documents certain OPPS exclusions and a rural SCH clinic exception, but no imaging-option rural, CAH, REH, sole-community, or safety-net distribution is scored."},
+    {"gate_id":"quality_and_diagnostic_timeliness","disposition":"proposal_specific_blocked","evidence":"CMS identifies outpatient quality programs and a voluntary excessive-radiation CT measure, but no diagnostic completion, delay, substitution, or image-quality effect for this option."},
+    {"gate_id":"implementation_and_behavior","disposition":"proposal_specific_blocked","evidence":"Current policy supplies billing mechanics and general site incentives, but no imaging-specific ownership, consolidation, coding, volume, or location response."},
+    {"gate_id":"current_law_rescore_and_overlap","disposition":"formal_rescore_blocked","evidence":"CY2026 drug-administration site neutrality and the 340B non-drug offset alter the current-law OPPS context; no formal imaging-option rescore or overlap reconciliation exists."}
+  ],
+  "decision":{"level_a_complete":true,"completion_type":"precise_reblock","required_gate_count":7,"fully_ready_gate_count":1,"context_ready_but_proposal_specific_blocked_count":1,"proposal_or_rescore_blocked_count":5,"candidate_admitted":false,"admitted_fy2026_reduction_billions":0.0,"level_b_may_run_zero_admission_review":true},
+  "blocked_outputs":{"proposal_specific_beneficiary_effect":null,"provider_access_effect":null,"rural_safety_net_effect":null,"diagnostic_quality_timeliness_effect":null,"behavioral_response":null,"current_law_rescore":null,"admitted_savings":null},
+  "public_warning":"Level A is complete because every evidence gate is now dispositioned against CY2026 current law, not because the candidate passed. The December 2024 CBO score remains unadmitted and requires proposal-specific floor evidence and a formal current-law rescore."
+}

@@ -1,0 +1,31 @@
+{
+  "record_id": "trn-d-financing-fairness-closure:v1",
+  "record_family": "trn_d_financing_fairness_closure",
+  "version": "v1.draft",
+  "status": "trn_d_complete_bounded_financing_fairness_bridge_trn_e_started",
+  "pulse": 281,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "TRN-D",
+  "start_gate_path": "data/derived/breadth_benchmark_matrix/trn_d_financing_fairness_start_gate.v1.draft.json",
+  "legal_perimeter_path": "data/derived/breadth_benchmark_matrix/trn_d_legal_financing_perimeter_decision.v1.draft.json",
+  "administration_behavior_path": "data/derived/breadth_benchmark_matrix/trn_d_administration_compliance_behavior_boundary.v1.draft.json",
+  "incidence_fairness_path": "data/derived/breadth_benchmark_matrix/trn_d_incidence_distribution_fairness_boundary.v1.draft.json",
+  "interactions_bridge_path": "data/derived/breadth_benchmark_matrix/trn_d_interactions_macro_fund_bridge.v1.draft.json",
+  "role_review_path": "reviews/2026-07-26-trn-d-financing-fairness-closure-role-review.md",
+  "trn_e_start_gate_path": "data/derived/breadth_benchmark_matrix/trn_e_integrated_candidate_solver_start_gate.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/trn_d_financing_fairness_closure.schema.md",
+  "reader_path": "docs/reading/trn-d-financing-fairness-closure.md",
+  "package_reconciliation": [
+    {"work_package_id":"TRN-D-01","status":"complete","finding":"FAA discretionary-appropriation perimeter admitted; fund and account assignments remain null."},
+    {"work_package_id":"TRN-D-02","status":"not_required","finding":"No fee, tax, or assigned-receipt instrument was selected."},
+    {"work_package_id":"TRN-D-03","status":"complete","finding":"Only the scored FAA cost is admitted; user, employer, behavior, and savings values remain null."},
+    {"work_package_id":"TRN-D-04","status":"complete","finding":"Qualitative incidence and access protections admitted; quantitative distribution remains null."},
+    {"work_package_id":"TRN-D-05","status":"complete","finding":"Interaction map complete; fund, macro, behavior, and interest values remain deferred."},
+    {"work_package_id":"TRN-D-06","status":"complete","finding":"Eight-role review accepts bounded closure and guarded TRN-E discovery start."}
+  ],
+  "closure_boundary": {"bounded_bridge_complete":true,"financing_source_selected":false,"quantitative_incidence_complete":false,"macro_effect_complete":false,"assigned_rate_complete":false,"unresolved_items_carried_to_trn_e":true},
+  "dependency_decision": {"trn_d_done":true,"trn_e_may_start":true,"trn_e_started":true,"next_active_work_package_id":"TRN-E-01"},
+  "blocked_outputs": {"fund_allocation":null,"quantitative_incidence":null,"assigned_rate":null,"macro_effect":null,"endogenous_interest_effect":null,"candidate_target_cost":null,"solver_result":null,"gross_savings":null,"net_savings":null,"public_rate_card":null},
+  "claim_booleans": {"trn_d_financing_fairness_closure_published":true,"role_review_complete":true,"trn_d_done":true,"trn_e_may_start":true,"trn_e_started":true,"financing_source_selected":false,"quantitative_incidence_published":false,"solver_ready":false,"rate_published":false,"savings_claim_published":false},
+  "public_warning": "TRN-D closes as a bounded financing and fairness bridge, not as a completed fund allocation, quantitative incidence result, macro score, rate, solver run, or savings estimate. TRN-E discovery may start, but all candidate outputs remain blocked."
+}

@@ -1,0 +1,21 @@
+{
+  "record_id":"fiscal-package-hlt-contribution-bridge:v1","record_family":"fiscal_package_hlt_contribution_bridge","version":"v1.draft","status":"hlt_mechanical_scale_mapped_admitted_contribution_null","pulse":427,"as_of_date":"2026-07-27",
+  "rev_closure_path":"data/derived/breadth_benchmark_matrix/rev_level_1_guarded_proxy_closure.v1.draft.json","hlt_proxy_path":"data/derived/breadth_benchmark_matrix/hlt_level_3_ma_benchmark_current_law_scale_proxy.v1.draft.json","hlt_floor_audit_path":"data/derived/breadth_benchmark_matrix/hlt_level_4_ma_benchmark_beneficiary_floor_audit.v1.draft.json","schema_path":"data/derived/breadth_benchmark_matrix/fiscal_package_hlt_contribution_bridge.schema.md","reader_path":"docs/reading/fiscal-package-hlt-contribution-bridge.md","role_review_path":"reviews/2026-07-27-fiscal-package-hlt-contribution-bridge-role-review.md",
+  "package_target":{"annual_primary_spending_correction_assumption_billions":500,"target_source":"REV guarded planning case","target_is_policy_or_score":false},
+  "annual_rows":[
+    {"fiscal_year":2026,"mechanical_hlt_proxy_billions":0,"mechanical_remaining_target_billions":500,"admitted_hlt_contribution_billions":null,"admitted_remaining_target_billions":null},
+    {"fiscal_year":2027,"mechanical_hlt_proxy_billions":18.905,"mechanical_remaining_target_billions":481.095,"admitted_hlt_contribution_billions":null,"admitted_remaining_target_billions":null},
+    {"fiscal_year":2028,"mechanical_hlt_proxy_billions":51.920,"mechanical_remaining_target_billions":448.080,"admitted_hlt_contribution_billions":null,"admitted_remaining_target_billions":null},
+    {"fiscal_year":2029,"mechanical_hlt_proxy_billions":53.995,"mechanical_remaining_target_billions":446.005,"admitted_hlt_contribution_billions":null,"admitted_remaining_target_billions":null},
+    {"fiscal_year":2030,"mechanical_hlt_proxy_billions":62.490,"mechanical_remaining_target_billions":437.510,"admitted_hlt_contribution_billions":null,"admitted_remaining_target_billions":null},
+    {"fiscal_year":2031,"mechanical_hlt_proxy_billions":67.037,"mechanical_remaining_target_billions":432.963,"admitted_hlt_contribution_billions":null,"admitted_remaining_target_billions":null},
+    {"fiscal_year":2032,"mechanical_hlt_proxy_billions":72.625,"mechanical_remaining_target_billions":427.375,"admitted_hlt_contribution_billions":null,"admitted_remaining_target_billions":null},
+    {"fiscal_year":2033,"mechanical_hlt_proxy_billions":85.316,"mechanical_remaining_target_billions":414.684,"admitted_hlt_contribution_billions":null,"admitted_remaining_target_billions":null},
+    {"fiscal_year":2034,"mechanical_hlt_proxy_billions":84.756,"mechanical_remaining_target_billions":415.244,"admitted_hlt_contribution_billions":null,"admitted_remaining_target_billions":null}
+  ],
+  "scale_findings":{"fy2026_hlt_contribution_billions":0,"fy2026_rev_proxy_uplift_points_after_hlt":2.760,"fy2027_2034_average_mechanical_hlt_proxy_billions":62.131,"fy2027_2034_average_mechanical_target_share_percent":12.426,"fy2027_2034_average_mechanical_remaining_target_billions":437.869,"admitted_hlt_contribution_billions":null},
+  "decision":{"hlt_changes_fy2026_rate_case":false,"hlt_mechanical_scale_is_material_but_insufficient":true,"hlt_candidate_floor_admitted":false,"package_spending_correction_ready":false,"next_decisive_track":"DEF","parallel_hlt_successor":"targeted_ma_excess_payment_candidate_with_beneficiary_mitigation"},
+  "blocked_outputs":{"admitted_hlt_contribution":null,"admitted_remaining_package":null,"revised_rev_rate":null,"solver_result":null,"net_savings":null,"balanced_budget_claim":null},
+  "claim_booleans":{"hlt_contribution_bridge_published":true,"hlt_admitted_to_package":false,"fy2026_rev_rate_changed":false,"savings_claim_published":false},
+  "public_warning":"HLT contributes zero to the FY2026 case because the option begins in 2027. Its $62.131 billion average annual scale proxy would cover only 12.426 percent of the assumed $500 billion annual target, and the floor-rejected candidate contributes nothing to the admitted package."
+}

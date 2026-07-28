@@ -1,0 +1,140 @@
+{
+  "record_id": "current-law-source-custody-wave-b-closure:v1",
+  "record_family": "current_law_source_custody_wave_b_closure",
+  "version": "v1.draft",
+  "status": "wave_b_closed_existing_official_custody_exhausted_values_still_blocked",
+  "as_of_date": "2026-07-24",
+  "current_law_source_custody_progress_rollup_path": "data/derived/breadth_benchmark_matrix/current_law_source_custody_progress_rollup.v1.draft.json",
+  "data_acquisition_eight_gap_status_path": "data/derived/breadth_benchmark_matrix/data_acquisition_eight_gap_status.v1.draft.json",
+  "lane_full_coverage_matrix_path": "data/derived/breadth_benchmark_matrix/lane_full_coverage_matrix.v1.draft.json",
+  "current_law_path_inventory_path": "data/derived/breadth_benchmark_matrix/current_law_path_inventory.v1.draft.json",
+  "purpose": "Close Wave B for existing captured official source custody: all locally available official-source current-law custody has been reconciled into the progress rollup, while unsupported values remain null and downstream gates remain blocked.",
+  "wave_b_completion_definition": {
+    "existing_local_official_source_inventory_reconciled": true,
+    "unsupported_values_remain_null": true,
+    "no_interpolation_used": true,
+    "no_external_request_submitted": true,
+    "no_agency_or_person_contacted": true,
+    "wave_b_closed_for_existing_captured_sources": true,
+    "all_current_law_paths_complete": false,
+    "all_source_custody_complete": false,
+    "solver_inputs_ready": false,
+    "rates_ready": false
+  },
+  "batch_closure_rows": [
+    {
+      "batch_id": "batch_1_federal_baseline_and_17_row_ledger",
+      "closure_status": "closed_for_existing_local_official_sources",
+      "evidence_paths": [
+        "data/derived/breadth_benchmark_matrix/current_law_fy2025_17_row_ledger_custody.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/current_law_17_row_pbd_fy2025_2031_context_path.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/omb_pbd_fy2027_user_guide_horizon_boundary_context.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/current_law_baseline_annual_path_partial.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/current_law_baseline_receipts_deficit_path_partial.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/cbo_open_data_fy2032_2035_current_law_extension_context.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/cbo_major_outlay_category_fy2032_2035_context.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/cbo_revenue_detail_fy2026_2035_context.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/current_law_fy2025_fund_group_path.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/treasury_mts_table_8_federal_fund_fy2025_context.v1.draft.json"
+      ],
+      "supported_values": "FY2025 17-row ledger, FY2025-FY2031 17-row PBD outlay context, OMB PBD User's Guide FY2027 horizon-boundary context, FY2025-FY2031 aggregate outlays/receipts/deficit, CBO FY2032-FY2035 top-line context, CBO FY2026-FY2035 major outlay-category context, CBO FY2026-FY2035 revenue-detail context, FY2025 OMB fund-group context, and FY2025 Treasury MTS Table 8 federal-fund context.",
+      "still_blocked": ["FY2032-FY2035 OMB PBD/Historical 17-row annual values", "unified OMB/CBO reconciliation", "fund split", "annual general-fund path", "federal-fund/general-fund source-boundary reconciliation", "explicit transfer schedule", "solver binding"],
+      "path_complete": false,
+      "solver_ready": false
+    },
+    {
+      "batch_id": "batch_2_trust_fund_paths",
+      "closure_status": "closed_for_existing_local_official_sources",
+      "evidence_paths": [
+        "data/derived/breadth_benchmark_matrix/current_law_fy2025_dedicated_receipt_anchors.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/current_law_fy2025_named_trust_fund_outlay_anchors.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/current_law_named_fund_balance_transfer_gap.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/transportation_pilot_trust_fund_source_custody.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/transportation_pilot_trust_fund_accounting_boundary.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/transportation_trust_fund_table_13_4_fy2025_2031_context_path.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/transportation_trust_fund_treasury_mts_fy2025_anchor_context.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/cbo_open_data_fy2032_2035_current_law_extension_context.v1.draft.json"
+      ],
+      "supported_values": "FY2025 dedicated receipt and named trust-fund outlay anchors, transportation trust-fund custody/accounting boundaries, OMB Table 13-4 FY2025-FY2031 Highway Trust Fund and Airport and Airway Trust Fund context values, Treasury MTS Tables 4 and 5 FY2025 transportation trust-fund receipt/outlay anchor context, and CBO FY2032-FY2035 OASI/DI, Medicare HI, Highway, and Airport/Airway trust-fund balance context.",
+      "still_blocked": ["solver-ready annual OASDI fund path", "solver-ready Medicare HI fiscal-year path", "transportation trust-fund income/outgo reconciliation", "explicit transfers", "credited offsetting collections", "fund-balance reconciliation"],
+      "path_complete": false,
+      "solver_ready": false
+    },
+    {
+      "batch_id": "batch_3_health_current_law_components",
+      "closure_status": "closed_for_existing_local_official_sources",
+      "evidence_paths": [
+        "data/derived/breadth_benchmark_matrix/health_source_readiness_rollup.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/health_medicare_trustees_source_capture_status.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/health_nhe_source_custody_gap.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/health_cbo_source_custody_gap.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/cbo_health_insurance_baseline_browser_context_fy2026_2036.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/cbo_health_insurance_table2_browser_rowmap_fy2026_2036.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/health_quality_access_indicator_source_gap.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/medicare_hi_cy2025_2035_current_law_context_path.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/medicare_hi_treasury_mts_fy2025_trust_fund_anchor_context.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/medicare_hi_bridge_status_rollup.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/cbo_major_outlay_category_fy2032_2035_context.v1.draft.json"
+      ],
+      "supported_values": "CMS Medicare Trustees CY2025 financing/enrollment context, Medicare HI CY2025-CY2035 current-law context, Treasury MTS Tables 4 and 5 FY2025 Medicare HI receipt/outlay anchor context, CMS NHE raw context custody, February 2026 CBO health-insurance PDF/spreadsheet raw custody and Table 2 rowmap context, CBO health latest-publication access-boundary evidence, partial CMS Provider Data Catalog hospital quality/access context custody, CBO FY2026-FY2035 major health-category context, and Medicare HI bridge blockers.",
+      "still_blocked": ["fiscal-year Medicare HI path", "SMI split path", "non-Medicare health path", "July 2026 CBO latest-publication local raw custody", "complete quality/access lineage", "OMB/CBO/CMS reconciliation", "health solver row"],
+      "path_complete": false,
+      "solver_ready": false
+    },
+    {
+      "batch_id": "batch_4_net_interest_and_debt_path",
+      "closure_status": "closed_for_existing_local_official_sources",
+      "evidence_paths": [
+        "data/derived/breadth_benchmark_matrix/net_interest_pbd_fy2025_2031_current_law_context_path.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/cbo_open_data_fy2032_2035_current_law_extension_context.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/net_interest_treasury_average_interest_rate_context.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/fiscal_debt_dynamics_2026_2036.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/net_interest_formula_contract.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/net_interest_outcome_floor_definition_packet.v1.draft.json"
+      ],
+      "supported_values": "OMB PBD FY2025-FY2031 net-interest context, CBO FY2032-FY2035 net-interest/debt context with local raw custody, Treasury latest-month average-interest-rate context, CBO-derived fiscal debt dynamics context, and the endogenous net-interest formula boundary.",
+      "still_blocked": ["FY2032-FY2035 OMB PBD net-interest row values", "maturity bucket schedule", "remaining-maturity reconciliation", "fiscal-year rate path", "primary-balance feedback fixture as solver input"],
+      "path_complete": false,
+      "solver_ready": false
+    }
+  ],
+  "aggregate_status": {
+    "batches_closed_for_existing_sources": 4,
+    "required_current_law_paths_reviewed": 8,
+    "complete_current_law_paths": 0,
+    "wave_b_done": true,
+    "solver_inputs_ready": false,
+    "rates_ready": false
+  },
+  "blocked_outputs": {
+    "complete_fy2025_fy2035_current_law_baseline": null,
+    "complete_source_custody": null,
+    "solver_inputs": null,
+    "solver_run": null,
+    "target_cost": null,
+    "statutory_rate": null,
+    "effective_rate": null,
+    "public_rate_card": null,
+    "savings_estimate": null,
+    "balanced_budget_claim": null
+  },
+  "claim_booleans": {
+    "current_law_source_custody_wave_b_closure_published": true,
+    "wave_b_done": true,
+    "all_current_law_paths_complete": false,
+    "all_source_custody_complete": false,
+    "solver_inputs_ready": false,
+    "solver_run_published": false,
+    "target_cost_published": false,
+    "statutory_rate_published": false,
+    "effective_rate_published": false,
+    "public_rate_card_published": false,
+    "savings_claim_published": false,
+    "waste_finding_published": false,
+    "fraud_finding_published": false,
+    "department_cut_instruction_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "plain_english_status": "Wave B is done for existing captured official sources: the federal baseline/general-fund, trust-fund, health component, and net-interest/debt source-custody batches are closed for local evidence review; OMB PBD User's Guide FY2027 horizon-boundary custody, CBO FY2032-FY2035 top-line context, CBO FY2026-FY2035 major outlay-category context, CBO FY2026-FY2035 revenue-detail context, February 2026 CBO health-insurance PDF/spreadsheet raw custody and Table 2 rowmap context, Treasury MTS Table 8 FY2025 federal-fund context, Treasury MTS Tables 4 and 5 FY2025 Medicare HI receipt/outlay anchor context, Treasury MTS Tables 4 and 5 FY2025 transportation trust-fund anchor context, CMS NHE context custody, and partial CMS Provider Data Catalog hospital quality/access context custody have been captured. The data-acquisition eight-gap status is linked as the latest acquisition-status packet, not as complete source custody. This does not mean all current-law paths are complete, all source custody is complete, matched receipt bases are ready, or any solver/rate/savings/balanced-budget gate is ready."
+}

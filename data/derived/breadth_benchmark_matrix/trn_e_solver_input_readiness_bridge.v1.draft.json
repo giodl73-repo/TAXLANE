@@ -1,0 +1,31 @@
+{
+  "record_id": "trn-e-solver-input-readiness-bridge:v1",
+  "record_family": "trn_e_solver_input_readiness_bridge",
+  "version": "v1.draft",
+  "status": "trn_e_01_complete_input_states_mapped_outputs_blocked",
+  "pulse": 292,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "TRN-E",
+  "start_gate_path": "data/derived/breadth_benchmark_matrix/trn_e_integrated_candidate_solver_start_gate.v1.draft.json",
+  "trn_d_closure_path": "data/derived/breadth_benchmark_matrix/trn_d_financing_fairness_closure.v1.draft.json",
+  "core_h_path": "data/derived/breadth_benchmark_matrix/core_h_shared_accounting_substrate.v1.draft.json",
+  "core_i_path": "data/derived/breadth_benchmark_matrix/core_i_shared_reform_admission_contract.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/trn_e_solver_input_readiness_bridge.schema.md",
+  "reader_path": "docs/reading/trn-e-solver-input-readiness-bridge.md",
+  "input_state_map": [
+    {"input_id":"current_law_topline","evidence_state":"ready","account_role":"program_outlay","value_present":true,"output_eligible":true,"successor_owner":null,"blocking_gate":null},
+    {"input_id":"fund_accounting_interfaces","evidence_state":"ready","account_role":"trust_fund","value_present":true,"output_eligible":true,"successor_owner":null,"blocking_gate":null},
+    {"input_id":"conditional_reform_score","evidence_state":"partial_context","account_role":"appropriation","value_present":true,"output_eligible":false,"successor_owner":"TRN-E-02","blocking_gate":"candidate target-cost and financing selection"},
+    {"input_id":"financing_source","evidence_state":"source_gap","account_role":null,"value_present":false,"output_eligible":false,"successor_owner":"TRN-E-02","blocking_gate":"source-supported financing selection"},
+    {"input_id":"complete_transportation_fund_path","evidence_state":"blocked","account_role":"trust_fund","value_present":false,"output_eligible":false,"successor_owner":"TRN-E-02","blocking_gate":"FY2031 overlap and FY2032-FY2035 income/outgo reconciliation"},
+    {"input_id":"outcome_floor_set","evidence_state":"partial_context","account_role":"non_additive_context","value_present":true,"output_eligible":false,"successor_owner":"TRN-E-04","blocking_gate":"complete applicable policy and stress floors"},
+    {"input_id":"distribution_incidence","evidence_state":"definition_only","account_role":"non_additive_context","value_present":false,"output_eligible":false,"successor_owner":"TRN-E-04","blocking_gate":"quantitative incidence evidence"},
+    {"input_id":"endogenous_interest","evidence_state":"partial_context","account_role":"general_fund","value_present":true,"output_eligible":false,"successor_owner":"TRN-E-03","blocking_gate":"dependency-complete debt and rate path"}
+  ],
+  "readiness_counts": {"inputs":8,"ready":2,"partial_context":3,"definition_only":1,"source_gap":1,"blocked":1,"output_eligible":2},
+  "derived_core_needs": ["shared completion classification","shared evidence-state vocabulary","unresolved-item successor owner and blocking gate","cross-perimeter account-role tags","discovery start distinct from output admission"],
+  "decision": {"input_state_map_complete":true,"solver_input_ready":false,"trn_e_01_done":true,"trn_e_02_may_start":true,"next_active_work_package_id":"TRN-E-02"},
+  "blocked_outputs": {"candidate_target_cost":null,"financing_source":null,"assigned_rate":null,"solver_input":null,"solver_result":null,"floor_pass_fail":null,"distribution_result":null,"gross_savings":null,"net_savings":null,"trn_e_closure":null,"trn_f_start":null},
+  "claim_booleans": {"trn_e_solver_input_readiness_bridge_published":true,"input_state_map_complete":true,"trn_e_01_done":true,"trn_e_02_may_start":true,"solver_input_ready":false,"solver_run_published":false,"rate_published":false,"savings_claim_published":false,"trn_e_done":false,"trn_f_may_start":false},
+  "public_warning": "TRN-E-01 classifies eight input families and their handoff obligations. Only the current-law topline and shared accounting interfaces are output-eligible. This is not candidate target-cost selection, a financing source, solver input, solver result, rate, distribution result, savings, TRN-E closure, or TRN-F start."
+}

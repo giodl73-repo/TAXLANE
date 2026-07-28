@@ -1,0 +1,96 @@
+{
+  "record_id": "net-interest-treasury-mspd-maturity-detail-context:v1",
+  "record_family": "net_interest_treasury_mspd_maturity_detail_context",
+  "schema_version": "v1.draft",
+  "status": "draft_treasury_mspd_maturity_detail_context_solver_blocked",
+  "as_of_date": "2026-07-24",
+  "lane_id": "net-interest",
+  "source_id": "SRC-TREASURY-FISCALDATA-MSPD-DETAIL-2026-07-24",
+  "metadata_path": "data/metadata/SRC-TREASURY-FISCALDATA-MSPD-DETAIL-2026-07-24.2026-07-24.metadata.md",
+  "source_boundary": {
+    "official_public_source": true,
+    "retrieval_date": "2026-07-24",
+    "complete_paged_local_csv_custody": true,
+    "latest_record_date": "2026-06-30",
+    "context_only": true,
+    "not_weighted_average_maturity": true,
+    "not_remaining_maturity_schedule": true,
+    "not_cbo_omb_projection_bridge": true,
+    "not_solver_input": true
+  },
+  "raw_context_files": [
+    {
+      "table": "mspd_table_3",
+      "description": "MSPD security detail with issue date, maturity date, rates/yields, issued/redeemed/outstanding fields, and fiscal/calendar period fields.",
+      "raw_artifact_path": "data/raw/treasury/SRC-TREASURY-FISCALDATA-MSPD-DETAIL-2026-07-24/2026-07-24/mspd_table_3.full.csv",
+      "raw_byte_count": 55726310,
+      "raw_sha256": "347ff7878822ec7cf108b575cc440fe104dea4f0f9688cc0da89f5ce815a67c4",
+      "total_rows": 217144,
+      "latest_record_date": "2026-06-30",
+      "latest_record_date_rows": 1088,
+      "latest_rows_with_maturity_date": 878,
+      "latest_rows_with_issue_date": 875,
+      "latest_rows_with_interest_rate": 764,
+      "latest_rows_with_yield": 875,
+      "latest_rows_with_outstanding_amount": 475
+    },
+    {
+      "table": "mspd_table_5",
+      "description": "MSPD CUSIP-level strip/reconstitution detail with maturity date, rate, outstanding amount, and fiscal/calendar period fields.",
+      "raw_artifact_path": "data/raw/treasury/SRC-TREASURY-FISCALDATA-MSPD-DETAIL-2026-07-24/2026-07-24/mspd_table_5.full.csv",
+      "raw_byte_count": 13156635,
+      "raw_sha256": "801fceb68ece6ae48640697b7a6ab2dec65bcdb7c899b2b3fbe1c3bd133c5867",
+      "total_rows": 86145,
+      "latest_record_date": "2026-06-30",
+      "latest_record_date_rows": 409,
+      "latest_rows_with_maturity_date": 405,
+      "latest_rows_with_issue_date": 0,
+      "latest_rows_with_interest_rate": 405,
+      "latest_rows_with_yield": 0,
+      "latest_rows_with_outstanding_amount": 409
+    }
+  ],
+  "field_coverage_use": [
+    "identify Treasury MSPD fields that can support a future maturity review",
+    "confirm local custody for maturity-date-bearing MSPD detail rows",
+    "separate source custody from remaining-maturity modeling"
+  ],
+  "blocked_model_steps": [
+    "unit and perimeter review for MSPD amount fields",
+    "duplicate/CUSIP/strip/reconstitution treatment",
+    "remaining-maturity bucket construction",
+    "reconciliation to debt held by the public and intragovernmental holdings",
+    "bridge from monthly Treasury records to FY2025-FY2035 CBO/OMB fiscal-year paths",
+    "primary-balance feedback fixture"
+  ],
+  "blocked_outputs": {
+    "weighted_average_maturity": null,
+    "remaining_maturity_schedule": null,
+    "debt_stock_projection": null,
+    "rate_path": null,
+    "primary_balance_feedback_fixture": null,
+    "solver_input": null,
+    "solver_run": null,
+    "rate_calculation": null,
+    "public_rate_card": null,
+    "savings_estimate": null,
+    "balanced_budget_claim": null
+  },
+  "claim_booleans": {
+    "net_interest_treasury_mspd_maturity_detail_context_published": true,
+    "complete_paged_local_csv_custody": true,
+    "latest_month_field_coverage_recorded": true,
+    "weighted_average_maturity_published": false,
+    "remaining_maturity_schedule_ready": false,
+    "debt_stock_projection_ready": false,
+    "rate_path_ready": false,
+    "primary_balance_feedback_ready": false,
+    "solver_input_ready": false,
+    "solver_run_published": false,
+    "rate_calculation_published": false,
+    "public_rate_card_published": false,
+    "savings_estimate_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "Treasury MSPD Table 3 and Table 5 maturity-detail custody is locally captured through 2026-06-30 field coverage, but this is not a weighted average maturity, not a remaining-maturity schedule, not a debt-stock projection, not a CBO/OMB fiscal-year projection bridge, not a rate path, not primary-balance feedback, not solver input, not a solver run, not a rate calculation, not a public rate card, not a savings estimate, and not a balanced-budget claim."
+}

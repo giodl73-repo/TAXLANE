@@ -1,0 +1,66 @@
+{
+  "record_id": "transportation-trust-fund-table-13-4-aggregate-fy2025-2031-context:v1",
+  "record_family": "transportation_trust_fund_table_13_4_aggregate_context",
+  "schema_version": "v1.draft",
+  "status": "draft_aggregate_context_solver_reconciliation_blocked",
+  "as_of_date": "2026-07-24",
+  "lane_id": "transportation-infrastructure",
+  "source_context_path": "data/derived/breadth_benchmark_matrix/transportation_trust_fund_table_13_4_fy2025_2031_context_path.v1.draft.json",
+  "source_id": "SRC-OMB-AP-13-TABLES-FY2027",
+  "raw_artifact_path": "data/raw/omb/SRC-OMB-AP-13-TABLES-FY2027/2026-07-23/ap_13_tables_fy2027.xlsx",
+  "raw_byte_count": 47862,
+  "raw_sha256": "86e550d366f218435f3ef9af43bafe37ff5a2e496680013a7d1dbcab7737c505",
+  "unit": "billions_usd",
+  "aggregation_boundary": {
+    "source_rows_are_official_context": true,
+    "funds_kept_separate_in_source_context": true,
+    "aggregate_is_diagnostic_only": true,
+    "not_function_400_mapping": true,
+    "not_general_fund_transfer_schedule": true,
+    "not_solver_input": true
+  },
+  "annual_aggregate_rows": [
+    {"fiscal_year": 2025, "year_status": "actual", "funds_included": ["airport_and_airway_trust_fund", "highway_trust_fund"], "combined_total_income": 71.3, "combined_outgo": -94.3, "combined_balance_end": 95.2, "highway_balance_end": 73.5, "airport_airway_balance_end": 21.7, "highway_negative_balance": false, "combined_negative_balance": false},
+    {"fiscal_year": 2026, "year_status": "estimate", "funds_included": ["airport_and_airway_trust_fund", "highway_trust_fund"], "combined_total_income": 70.9, "combined_outgo": -97.5, "combined_balance_end": 68.5, "highway_balance_end": 46.3, "airport_airway_balance_end": 22.2, "highway_negative_balance": false, "combined_negative_balance": false},
+    {"fiscal_year": 2027, "year_status": "estimate", "funds_included": ["airport_and_airway_trust_fund", "highway_trust_fund"], "combined_total_income": 71.4, "combined_outgo": -99.1, "combined_balance_end": 40.5, "highway_balance_end": 16.4, "airport_airway_balance_end": 24.1, "highway_negative_balance": false, "combined_negative_balance": false},
+    {"fiscal_year": 2028, "year_status": "estimate", "funds_included": ["airport_and_airway_trust_fund", "highway_trust_fund"], "combined_total_income": 72.6, "combined_outgo": -102.8, "combined_balance_end": 10.4, "highway_balance_end": -15.6, "airport_airway_balance_end": 26.0, "highway_negative_balance": true, "combined_negative_balance": false},
+    {"fiscal_year": 2029, "year_status": "estimate", "funds_included": ["airport_and_airway_trust_fund", "highway_trust_fund"], "combined_total_income": 73.4, "combined_outgo": -103.5, "combined_balance_end": -19.8, "highway_balance_end": -49.6, "airport_airway_balance_end": 29.8, "highway_negative_balance": true, "combined_negative_balance": true},
+    {"fiscal_year": 2030, "year_status": "estimate", "funds_included": ["airport_and_airway_trust_fund", "highway_trust_fund"], "combined_total_income": 74.7, "combined_outgo": -104.6, "combined_balance_end": -49.6, "highway_balance_end": -85.1, "airport_airway_balance_end": 35.5, "highway_negative_balance": true, "combined_negative_balance": true},
+    {"fiscal_year": 2031, "year_status": "estimate", "funds_included": ["airport_and_airway_trust_fund", "highway_trust_fund"], "combined_total_income": 76.1, "combined_outgo": -105.9, "combined_balance_end": -79.4, "highway_balance_end": -122.4, "airport_airway_balance_end": 43.0, "highway_negative_balance": true, "combined_negative_balance": true}
+  ],
+  "diagnostic_findings": {
+    "highway_first_negative_balance_year": 2028,
+    "combined_first_negative_balance_year": 2029,
+    "fy2025_combined_balance_end": 95.2,
+    "fy2031_combined_balance_end": -79.4,
+    "airport_airway_balance_positive_through_2031": true
+  },
+  "blocked_outputs": {
+    "complete_fy2025_fy2035_transportation_trust_fund_path": null,
+    "fund_balance_reconciliation": null,
+    "explicit_general_fund_transfer_path": null,
+    "credited_offsetting_collections": null,
+    "function_400_mapping": null,
+    "solver_input": null,
+    "solver_run": null,
+    "rate_calculation": null,
+    "public_rate_card": null,
+    "savings_estimate": null,
+    "balanced_budget_claim": null
+  },
+  "claim_booleans": {
+    "transportation_trust_fund_table_13_4_aggregate_context_published": true,
+    "diagnostic_aggregate_context_ready": true,
+    "complete_transportation_trust_fund_path_ready": false,
+    "fund_balance_reconciliation_ready": false,
+    "explicit_general_fund_transfer_path_ready": false,
+    "function_400_mapping_ready": false,
+    "solver_input_ready": false,
+    "solver_run_published": false,
+    "rate_calculation_published": false,
+    "public_rate_card_published": false,
+    "savings_estimate_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "The Table 13-4 aggregate is diagnostic context only. Highway Trust Fund and Airport and Airway Trust Fund source rows remain separate, and the aggregate does not supply FY2032-FY2035 values, is not explicit general-fund transfers, is not credited offsetting collections, is not Function 400 mapping, is not solver input, is not a solver run, is not a rate calculation, is not a public rate card, is not a savings estimate, and is not a balanced-budget claim."
+}

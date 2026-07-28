@@ -1,0 +1,21 @@
+{
+  "record_id": "three-lane-stage-d-bounded-bundle:v1",
+  "record_family": "three_lane_stage_d_bounded_bundle",
+  "version": "v1.draft",
+  "status": "isf_vet_agr_bounded_d_complete_seven_tracks_at_or_beyond_d",
+  "pulse": 340,
+  "as_of_date": "2026-07-27",
+  "stage_matrix_path": "data/derived/breadth_benchmark_matrix/fifteen_lane_track_stage_matrix.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/three_lane_stage_d_bounded_bundle.schema.md",
+  "reader_path": "docs/reading/three-lane-stage-d-bounded-bundle.md",
+  "role_review_path": "reviews/2026-07-27-three-lane-stage-d-bounded-role-review.md",
+  "lane_stage_evidence": [
+    {"prefix":"ISF","lane_id":"income-security-family","highest_completed_stage":"ISF-D","requirement_met":true,"reform_admitted":false,"evidence_path":"data/derived/breadth_benchmark_matrix/isf_d_income_security_family_financing_fairness_closure.v1.draft.json"},
+    {"prefix":"VET","lane_id":"veterans","highest_completed_stage":"VET-D","requirement_met":true,"reform_admitted":false,"evidence_path":"data/derived/breadth_benchmark_matrix/vet_d_veterans_financing_fairness_closure.v1.draft.json"},
+    {"prefix":"AGR","lane_id":"agriculture","highest_completed_stage":"AGR-D","requirement_met":true,"reform_admitted":false,"evidence_path":"data/derived/breadth_benchmark_matrix/agr_d_agriculture_financing_fairness_closure.v1.draft.json"}
+  ],
+  "aggregate_status": {"bundle_tracks":3,"d_stages_done":3,"portfolio_tracks_at_or_beyond_d":7,"portfolio_tracks_remaining_to_d":8,"new_reforms_admitted":0,"solver_runs":0},
+  "blocked_outputs": {"selected_reform":null,"financing_result":null,"incidence_distribution":null,"floor_pass_fail":null,"target_cost":null,"solver_input":null,"assigned_rate":null,"gross_savings":null,"net_savings":null},
+  "claim_booleans": {"three_lane_stage_d_bundle_published":true,"isf_d_done":true,"vet_d_done":true,"agr_d_done":true,"seven_tracks_at_or_beyond_d":true,"all_fifteen_tracks_at_or_beyond_d":false,"new_reform_admitted":false,"solver_run_performed":false,"solver_ready":false,"rate_published":false},
+  "public_warning": "ISF-D, VET-D, and AGR-D are complete as bounded structural bridges. Seven of fifteen tracks are now at or beyond D. No reform, financing result, solver run, rate, savings, or public output is admitted."
+}

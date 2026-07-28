@@ -3,9 +3,11 @@
 Record:
 `data/derived/breadth_benchmark_matrix/receipt_base_work_item_completion.v1.draft.json`
 
-One receipt-base work item has context extraction complete, but no assigned receipt base is ready.
+All five receipt-base work items have context progress, but no assigned receipt base is ready.
+OMB Table 2.1, Table 2.2, Table 2.4, and amount/share reconciliation context are captured for FY2025-FY2031.
+IRS Pub 1304 TY2023, SSA Trustees calendar-year OASDI taxable-payroll, CMS Medicare Trustees calendar-year HI, and transportation receipt-yield context are captured with assignment gates closed.
 OMB receipt-category context is not a legal or economic assigned receipt base.
-Four receipt-base source work items remain open.
+All five assigned-base work items remain open.
 
 No rate, public rate card, solver input, tax proposal, or balanced-budget value is populated.
 No external request was submitted and no agency or person was contacted.

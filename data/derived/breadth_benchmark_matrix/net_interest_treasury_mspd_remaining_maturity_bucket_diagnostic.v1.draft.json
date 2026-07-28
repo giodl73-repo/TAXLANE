@@ -1,0 +1,107 @@
+{
+  "record_id": "net-interest-treasury-mspd-remaining-maturity-bucket-diagnostic:v1",
+  "record_family": "net_interest_treasury_mspd_remaining_maturity_bucket_diagnostic",
+  "schema_version": "v1.draft",
+  "status": "draft_partial_mspd_bucket_diagnostic_reconciliation_blocked",
+  "as_of_date": "2026-07-24",
+  "lane_id": "net-interest",
+  "source_id": "SRC-TREASURY-FISCALDATA-MSPD-DETAIL-2026-07-24",
+  "metadata_path": "data/metadata/SRC-TREASURY-FISCALDATA-MSPD-DETAIL-2026-07-24.2026-07-24.metadata.md",
+  "maturity_detail_context_path": "data/derived/breadth_benchmark_matrix/net_interest_treasury_mspd_maturity_detail_context.v1.draft.json",
+  "source_boundary": {
+    "official_public_source": true,
+    "retrieval_date": "2026-07-24",
+    "latest_record_date": "2026-06-30",
+    "diagnostic_bucket_coverage_only": true,
+    "table_3_and_table_5_not_combined": true,
+    "amount_unit_and_perimeter_reconciliation_required": true,
+    "not_weighted_average_maturity": true,
+    "not_remaining_maturity_schedule": true,
+    "not_debt_stock_projection": true,
+    "not_cbo_omb_projection_bridge": true,
+    "not_solver_input": true
+  },
+  "bucket_method": {
+    "record_date": "2026-06-30",
+    "remaining_days_basis": "maturity_date minus record_date",
+    "amount_field": "outstanding_amt",
+    "included_rows": "latest-month rows with non-null outstanding_amt and non-past maturity_date",
+    "bucket_edges": ["<=1 year", ">1 and <=3 years", ">3 and <=5 years", ">5 and <=10 years", ">10 and <=20 years", ">20 and <=30 years", ">30 years"],
+    "calendar_year_days": "365.25 used only for diagnostic bucket edges"
+  },
+  "table_diagnostics": [
+    {
+      "table": "mspd_table_3",
+      "latest_record_date_rows": 1088,
+      "usable_rows": 462,
+      "total_outstanding_amt_raw_units": "31082178.32343828",
+      "buckets": [
+        {"bucket": "lte_1y", "row_count": 112, "outstanding_amt_raw_units": "10146468.31559119", "weighted_average_remaining_days_diagnostic": "112.11035311133622"},
+        {"bucket": "gt_1y_lte_3y", "row_count": 110, "outstanding_amt_raw_units": "6636027.78188565", "weighted_average_remaining_days_diagnostic": "703.5927961180236"},
+        {"bucket": "gt_3y_lte_5y", "row_count": 68, "outstanding_amt_raw_units": "4271384.57657272", "weighted_average_remaining_days_diagnostic": "1472.7293694305754"},
+        {"bucket": "gt_5y_lte_10y", "row_count": 56, "outstanding_amt_raw_units": "4310030.81901257", "weighted_average_remaining_days_diagnostic": "2593.1004029304017"},
+        {"bucket": "gt_10y_lte_20y", "row_count": 66, "outstanding_amt_raw_units": "2863280.78527407", "weighted_average_remaining_days_diagnostic": "5935.839915359538"},
+        {"bucket": "gt_20y_lte_30y", "row_count": 50, "outstanding_amt_raw_units": "2854986.04510208", "weighted_average_remaining_days_diagnostic": "9288.527258916283"},
+        {"bucket": "gt_30y", "row_count": 0, "outstanding_amt_raw_units": "0", "weighted_average_remaining_days_diagnostic": null}
+      ]
+    },
+    {
+      "table": "mspd_table_5",
+      "latest_record_date_rows": 409,
+      "usable_rows": 405,
+      "total_outstanding_amt_raw_units": "23685187972.23828",
+      "buckets": [
+        {"bucket": "lte_1y", "row_count": 59, "outstanding_amt_raw_units": "3103105125.49119", "weighted_average_remaining_days_diagnostic": "193.5920951094503"},
+        {"bucket": "gt_1y_lte_3y", "row_count": 106, "outstanding_amt_raw_units": "6282400620.78565", "weighted_average_remaining_days_diagnostic": "713.126987227526"},
+        {"bucket": "gt_3y_lte_5y", "row_count": 68, "outstanding_amt_raw_units": "4271384576.57272", "weighted_average_remaining_days_diagnostic": "1472.7293694305754"},
+        {"bucket": "gt_5y_lte_10y", "row_count": 56, "outstanding_amt_raw_units": "4310030819.01257", "weighted_average_remaining_days_diagnostic": "2593.1004029304017"},
+        {"bucket": "gt_10y_lte_20y", "row_count": 66, "outstanding_amt_raw_units": "2863280785.27407", "weighted_average_remaining_days_diagnostic": "5935.839915359538"},
+        {"bucket": "gt_20y_lte_30y", "row_count": 50, "outstanding_amt_raw_units": "2854986045.10208", "weighted_average_remaining_days_diagnostic": "9288.527258916283"},
+        {"bucket": "gt_30y", "row_count": 0, "outstanding_amt_raw_units": "0", "weighted_average_remaining_days_diagnostic": null}
+      ]
+    }
+  ],
+  "reconciliation_findings": [
+    "MSPD Table 3 and Table 5 are not combined because their amount fields and security perimeters require review.",
+    "Many Table 5 bucket raw amounts are approximately 1,000 times the corresponding Table 3 raw amounts, while Table 3 has additional short-bill coverage.",
+    "The diagnostic improves source-backed maturity bucket visibility but does not reconcile to debt held by the public, intragovernmental holdings, CBO debt projections, OMB net interest, or a fiscal-year rate path."
+  ],
+  "blocked_model_steps": [
+    "confirm amount units and perimeter for Table 3 outstanding_amt",
+    "confirm amount units and perimeter for Table 5 outstanding_amt",
+    "deduplicate CUSIP, STRIPS, reconstitution, bills, notes, bonds, TIPS, and FRN treatment",
+    "reconcile latest-month MSPD amounts to official debt stock perimeter",
+    "bridge monthly maturity buckets to FY2025-FY2035 CBO/OMB fiscal-year projection paths",
+    "build primary-balance feedback fixture"
+  ],
+  "blocked_outputs": {
+    "weighted_average_maturity": null,
+    "remaining_maturity_schedule": null,
+    "debt_stock_projection": null,
+    "rate_path": null,
+    "primary_balance_feedback_fixture": null,
+    "solver_input": null,
+    "solver_run": null,
+    "rate_calculation": null,
+    "public_rate_card": null,
+    "savings_estimate": null,
+    "balanced_budget_claim": null
+  },
+  "claim_booleans": {
+    "net_interest_treasury_mspd_remaining_maturity_bucket_diagnostic_published": true,
+    "latest_month_bucket_diagnostic_recorded": true,
+    "table_3_and_table_5_combined": false,
+    "weighted_average_maturity_published": false,
+    "remaining_maturity_schedule_ready": false,
+    "debt_stock_projection_ready": false,
+    "rate_path_ready": false,
+    "primary_balance_feedback_ready": false,
+    "solver_input_ready": false,
+    "solver_run_published": false,
+    "rate_calculation_published": false,
+    "public_rate_card_published": false,
+    "savings_estimate_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "Treasury MSPD remaining-maturity bucket diagnostics are recorded for 2026-06-30 latest-month rows, but Table 3 and Table 5 are not combined. This is not a weighted average maturity, not a remaining-maturity schedule, not a debt-stock projection, not a CBO/OMB fiscal-year projection bridge, not a rate path, not primary-balance feedback, not solver input, not a solver run, not a rate calculation, not a public rate card, not a savings estimate, and not a balanced-budget claim."
+}

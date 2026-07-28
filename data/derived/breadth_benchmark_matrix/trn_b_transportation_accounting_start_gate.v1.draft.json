@@ -1,0 +1,47 @@
+{
+  "record_id": "trn-b-transportation-accounting-start-gate:v1",
+  "record_family": "trn_b_transportation_accounting_start_gate",
+  "version": "v1.draft",
+  "status": "trn_b_completed_after_verified_dependency_start",
+  "track_wave_id": "TRN-B",
+  "pulse": 242,
+  "as_of_date": "2026-07-26",
+  "schema_path": "data/derived/breadth_benchmark_matrix/trn_b_transportation_accounting_start_gate.schema.md",
+  "reader_path": "docs/reading/trn-b-transportation-accounting-start-gate.md",
+  "corpus_plan_path": "data/derived/breadth_benchmark_matrix/adaptive_rate_corpus_track_plan.v1.draft.json",
+  "trn_a_path": "data/derived/breadth_benchmark_matrix/trn_a_transportation_baseline_source_spine.v1.draft.json",
+  "core_h_path": "data/derived/breadth_benchmark_matrix/core_h_shared_accounting_substrate.v1.draft.json",
+  "active_work_artifact_path": "data/derived/breadth_benchmark_matrix/trn_b_named_fund_adapter_rows.v1.draft.json",
+  "source_bridge_decisions_path": "data/derived/breadth_benchmark_matrix/trn_b_source_bridge_decisions.v1.draft.json",
+  "function_400_mapping_path": "data/derived/breadth_benchmark_matrix/trn_b_function_400_mapping.v1.draft.json",
+  "accounting_schedules_path": "data/derived/breadth_benchmark_matrix/trn_b_accounting_schedules.v1.draft.json",
+  "closure_path": "data/derived/breadth_benchmark_matrix/trn_b_transportation_accounting_closure.v1.draft.json",
+  "dependency_gate": {
+    "required_dependencies": ["TRN-A", "CORE-H"],
+    "trn_a_done": true,
+    "core_h_done": true,
+    "all_dependencies_complete": true,
+    "trn_b_may_start": true,
+    "trn_b_started": true
+  },
+  "work_packages": [
+    {"work_package_id":"TRN-B-01","title":"Named-fund adapter rows","objective":"Instantiate separate Highway and Airport and Airway FundYearInput rows from admitted source perimeters.","status":"complete"},
+    {"work_package_id":"TRN-B-02","title":"OMB/Treasury FY2025 bridge decision","objective":"Resolve or preserve differences among OMB Table 13-4 and Treasury receipt/outlay anchors with an explicit reviewed bridge.","status":"complete"},
+    {"work_package_id":"TRN-B-03","title":"OMB/CBO FY2031 overlap decision","objective":"Maintain separate vintages or admit a documented bridge; never mechanically stitch mismatched balances.","status":"complete"},
+    {"work_package_id":"TRN-B-04","title":"Function 400 mapping","objective":"Build a reviewed mapping from named-fund ledgers and general-fund activity to Function 400 net outlays.","status":"complete"},
+    {"work_package_id":"TRN-B-05","title":"Transfer offset reserve and rounding schedules","objective":"Populate explicit transfers, credited offsets, balance adjustments, reserve parameters, and rounding lines where official evidence permits.","status":"complete"},
+    {"work_package_id":"TRN-B-06","title":"Transportation reconciliation closure","objective":"Recompute all admitted fund and federal identities and issue the TRN-B role-review decision.","status":"complete"}
+  ],
+  "admission_rules": [
+    "No null source value may be converted to zero.",
+    "No OMB/CBO or OMB/Treasury bridge may be admitted without explicit perimeter and vintage review.",
+    "Highway and Airport and Airway trust funds remain separate.",
+    "General-fund transfers, credited offsets, adjustments, reserves, and rounding remain explicit.",
+    "CORE-H arithmetic may validate admitted rows but may not decide source equivalence.",
+    "TRN-C remains blocked until TRN-B closes."
+  ],
+  "aggregate_status": {"dependency_count":2,"ready_dependencies":2,"work_package_count":6,"in_progress_work_packages":0,"completed_work_packages":6,"trn_b_started":true,"trn_b_done":true,"trn_c_may_start":true},
+  "blocked_outputs": {"real_reform_score":null,"solver_run":null,"rate":null,"savings":null,"balanced_budget_result":null},
+  "claim_booleans": {"trn_b_start_gate_published":true,"trn_a_done":true,"core_h_done":true,"trn_b_started":true,"trn_b_done":true,"trn_c_may_start":true,"solver_run_published":false,"rate_published":false,"savings_claim_published":false,"balanced_budget_claim_published":false},
+  "public_warning": "TRN-B started against completed TRN-A and CORE-H dependencies and has now completed all six work packages. TRN-C may start; no reform score, solver result, rate, savings estimate, or balanced-budget result is published."
+}

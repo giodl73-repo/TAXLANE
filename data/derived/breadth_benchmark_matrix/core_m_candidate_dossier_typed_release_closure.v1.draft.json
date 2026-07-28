@@ -1,0 +1,20 @@
+{
+  "record_id":"core-m-candidate-dossier-typed-release-closure:v1","record_family":"core_m_candidate_dossier_typed_release_closure","version":"v1.draft","status":"core_m_complete_candidate_dossier_typed_release_interfaces","pulse":387,"as_of_date":"2026-07-27","core_wave_id":"CORE-M",
+  "contract_path":"data/derived/breadth_benchmark_matrix/core_m_candidate_dossier_typed_release_contract.v1.draft.json","implementation_path":"crates/taxlane-core/src/lib.rs","schema_path":"data/derived/breadth_benchmark_matrix/core_m_candidate_dossier_typed_release_contract.schema.md","reader_path":"docs/reading/core-m-candidate-dossier-typed-release-contract.md","role_review_path":"reviews/2026-07-27-core-m-candidate-dossier-typed-release-role-review.md",
+  "closure_checks":[
+    {"check_id":"six_candidate_profiles","status":"pass"},
+    {"check_id":"eight_financing_roles","status":"pass"},
+    {"check_id":"three_gate_dispositions","status":"pass"},
+    {"check_id":"reviewed_non_applicability_no_synthetic_result","status":"pass"},
+    {"check_id":"typed_output_compatibility","status":"pass"},
+    {"check_id":"rev_matched_base_requirement","status":"pass"},
+    {"check_id":"pay_non_additive_boundary","status":"pass"},
+    {"check_id":"net_endogenous_boundary","status":"pass"},
+    {"check_id":"rust_validation","status":"pass"},
+    {"check_id":"eight_role_review","status":"pass"}
+  ],
+  "dependency_decision":{"core_m_done":true,"trn_level_1_may_resume":true,"trn_e_output_ready_rerun_allowed":false,"reason":"CORE-M resolves shared typing only; the TRN dossier still lacks lane-specific selection and required evidence."},
+  "blocked_outputs":{"selected_trn_candidate":null,"trn_e_rerun":null,"trn_f_start":null,"solver_result":null,"assigned_rate":null,"gross_savings":null,"net_savings":null,"public_rate_card":null},
+  "claim_booleans":{"core_m_closure_published":true,"role_review_complete":true,"core_m_done":true,"trn_level_1_may_resume":true,"candidate_selected":false,"trn_e_output_ready_rerun_allowed":false,"trn_f_may_start":false,"solver_run_performed":false,"rate_published":false,"savings_claim_published":false},
+  "public_warning":"CORE-M is complete as shared candidate-dossier and typed-release infrastructure. TRN Level 1 may resume, but no candidate is selected and no E rerun, F start, solver result, rate, savings, or public card is admitted."
+}

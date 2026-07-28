@@ -1,0 +1,1787 @@
+{
+  "record_id": "wave-e-reference-scenario-packs:v1",
+  "record_family": "wave_e_reference_scenario_packs",
+  "version": "v1.draft",
+  "status": "wave_e_complete_fifteen_lane_reference_scenario_calibrations_reform_and_fiscal_effects_blocked",
+  "pulse": 227,
+  "as_of_date": "2026-07-26",
+  "schema_path": "data/derived/breadth_benchmark_matrix/wave_e_reference_scenario_packs.schema.md",
+  "outcome_floor_wave_d_value_readiness_path": "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json",
+  "lane_scenario_pack_wave_e_readiness_path": "data/derived/breadth_benchmark_matrix/lane_scenario_pack_wave_e_readiness.v1.draft.json",
+  "role_review_path": "reviews/2026-07-26-wave-e-reference-scenario-packs-role-review.md",
+  "purpose": "Complete Wave E's scenario-comparator layer with one current-policy continuation reference case and one mechanically adverse measurement-boundary stress case for every lane. The packs validate component coverage and floor comparison behavior without asserting reform effects, fiscal scores, target costs, savings, rates, or policy recommendations.",
+  "completion_contract": {
+    "one_reference_scenario_pack_per_lane": true,
+    "every_required_component_has_current_policy_continuation_treatment": true,
+    "policy_value_equals_source_custodied_wave_d_anchor": true,
+    "adverse_stress_moves_one_reported_increment_across_threshold": true,
+    "central_and_stress_floor_results_are_computed": true,
+    "eight_role_review_required": true,
+    "reform_scenario_not_required_for_wave_e_reference_calibration": true,
+    "fiscal_effect_not_required_for_wave_e_reference_calibration": true
+  },
+  "calibration_rules": {
+    "reference_case_is_current_policy_continuation_not_reform": true,
+    "reference_value_is_identity_projection_of_wave_d_baseline": true,
+    "stress_value_is_synthetic_comparator_test_not_forecast": true,
+    "at_or_above_passes_when_value_greater_than_or_equal_to_threshold": true,
+    "at_or_below_passes_when_value_less_than_or_equal_to_threshold": true,
+    "central_boundary_value_passes": true,
+    "one_increment_adverse_stress_fails": true,
+    "no_fiscal_delta_is_inferred": true,
+    "no_lower_cost_scenario_is_admitted": true,
+    "missing_fiscal_values_remain_null": true
+  },
+  "lane_scenarios": [
+    {
+      "scenario_id": "health-medicare:wave-e-reference:v1",
+      "lane_id": "health-medicare",
+      "public_label": "Health and Medicare",
+      "additivity": "primary_outlay",
+      "scenario_class": "current_policy_continuation_reference_calibration",
+      "required_component_paths": [
+        {
+          "component_id": "medicare_hi",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "medicare_smi_other_medicare",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "medicaid_chip_subsidies_public_health",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        }
+      ],
+      "anchor_floor": {
+        "floor_id": "provider_adequacy_margin",
+        "metric": "FY2024 median FFS Medicare margin for relatively efficient hospitals",
+        "unit": "percent_margin",
+        "source_packet_path": "data/derived/breadth_benchmark_matrix/health_medicare_provider_adequacy_margin_floor_value_packet.v1.draft.json",
+        "comparator": "at_or_above",
+        "threshold_value": -1,
+        "baseline_value": -1,
+        "reporting_increment": 0.1,
+        "threshold_review_status": "role_reviewed_for_reference_comparator_only"
+      },
+      "policy_scenario": {
+        "policy_instrument": "current_policy_continuation_no_reform",
+        "phase_in": "none_static_reference_case",
+        "behavior": "held_constant_by_construction_not_a_behavioral_estimate",
+        "transition_admin_cost": "not_applicable_no_intervention_not_a_zero_cost_estimate",
+        "incidence": "unchanged_by_construction_not_an_incidence_or_distribution_estimate",
+        "score_provenance": {
+          "method": "deterministic_identity_projection_of_source_custodied_wave_d_anchor",
+          "source_packet_path": "data/derived/breadth_benchmark_matrix/health_medicare_provider_adequacy_margin_floor_value_packet.v1.draft.json",
+          "fiscal_score": false,
+          "forecast": false
+        },
+        "policy_value": -1,
+        "result": {
+          "passed": true,
+          "result_class": "boundary_pass",
+          "comparison": "policy_value at_or_above threshold_value"
+        }
+      },
+      "stress_scenario": {
+        "same_policy_as_reference": true,
+        "stress_method": "one_reporting_increment_adverse_measurement_boundary_test",
+        "forecast": false,
+        "policy_recommendation": false,
+        "stress_value": -1.1,
+        "result": {
+          "passed": false,
+          "result_class": "boundary_fail",
+          "comparison": "stress_value fails at_or_above threshold_value"
+        }
+      },
+      "floor_results": {
+        "central_reference_passed": true,
+        "adverse_stress_passed": false,
+        "comparator_implementation_verified": true,
+        "interpretation": "The reference case passes exactly at the no-regression boundary and the synthetic adverse stress fails. This verifies comparator behavior only, not real-world policy performance."
+      },
+      "readiness_status": {
+        "component_policy_path_ready": true,
+        "policy_instrument_ready": true,
+        "phase_in_ready": true,
+        "behavior_boundary_ready": true,
+        "transition_admin_cost_boundary_ready": true,
+        "incidence_boundary_ready": true,
+        "score_provenance_ready": true,
+        "policy_value_ready": true,
+        "stress_value_ready": true,
+        "floor_results_ready": true,
+        "reference_scenario_pack_ready": true,
+        "reform_scenario_ready": false,
+        "federal_effect_ready": false,
+        "lower_cost_scenario_admissible": false,
+        "solver_ready": false,
+        "rate_ready": false,
+        "savings_ready": false
+      },
+      "blocked_outputs": {
+        "reform_policy_instrument": null,
+        "federal_effect_millions": null,
+        "target_cost": null,
+        "solver_input": null,
+        "statutory_rate": null,
+        "effective_rate": null,
+        "public_rate_card": null,
+        "gross_savings": null,
+        "net_savings": null,
+        "technology_savings": null,
+        "balanced_budget_claim": null
+      },
+      "claim_boundary": "Reference calibration only. The policy value is the observed Wave D anchor carried forward by identity; the stress value is a synthetic one-increment comparator test. Neither is a forecast, reform score, federal effect, target cost, savings estimate, rate, or policy recommendation."
+    },
+    {
+      "scenario_id": "social-security:wave-e-reference:v1",
+      "lane_id": "social-security",
+      "public_label": "Social Security",
+      "additivity": "primary_outlay",
+      "scenario_class": "current_policy_continuation_reference_calibration",
+      "required_component_paths": [
+        {
+          "component_id": "oasdi_trust_fund",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "taxable_payroll_base",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "benefit_formula_eligibility",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        }
+      ],
+      "anchor_floor": {
+        "floor_id": "old_age_poverty",
+        "metric": "Census Supplemental Poverty Measure poverty rate for people 65 years and over",
+        "unit": "percent",
+        "source_packet_path": "data/derived/breadth_benchmark_matrix/social_security_old_age_poverty_floor_value_packet.v1.draft.json",
+        "comparator": "at_or_below",
+        "threshold_value": 15,
+        "baseline_value": 15,
+        "reporting_increment": 0.1,
+        "threshold_review_status": "role_reviewed_for_reference_comparator_only"
+      },
+      "policy_scenario": {
+        "policy_instrument": "current_policy_continuation_no_reform",
+        "phase_in": "none_static_reference_case",
+        "behavior": "held_constant_by_construction_not_a_behavioral_estimate",
+        "transition_admin_cost": "not_applicable_no_intervention_not_a_zero_cost_estimate",
+        "incidence": "unchanged_by_construction_not_an_incidence_or_distribution_estimate",
+        "score_provenance": {
+          "method": "deterministic_identity_projection_of_source_custodied_wave_d_anchor",
+          "source_packet_path": "data/derived/breadth_benchmark_matrix/social_security_old_age_poverty_floor_value_packet.v1.draft.json",
+          "fiscal_score": false,
+          "forecast": false
+        },
+        "policy_value": 15,
+        "result": {
+          "passed": true,
+          "result_class": "boundary_pass",
+          "comparison": "policy_value at_or_below threshold_value"
+        }
+      },
+      "stress_scenario": {
+        "same_policy_as_reference": true,
+        "stress_method": "one_reporting_increment_adverse_measurement_boundary_test",
+        "forecast": false,
+        "policy_recommendation": false,
+        "stress_value": 15.1,
+        "result": {
+          "passed": false,
+          "result_class": "boundary_fail",
+          "comparison": "stress_value fails at_or_below threshold_value"
+        }
+      },
+      "floor_results": {
+        "central_reference_passed": true,
+        "adverse_stress_passed": false,
+        "comparator_implementation_verified": true,
+        "interpretation": "The reference case passes exactly at the no-regression boundary and the synthetic adverse stress fails. This verifies comparator behavior only, not real-world policy performance."
+      },
+      "readiness_status": {
+        "component_policy_path_ready": true,
+        "policy_instrument_ready": true,
+        "phase_in_ready": true,
+        "behavior_boundary_ready": true,
+        "transition_admin_cost_boundary_ready": true,
+        "incidence_boundary_ready": true,
+        "score_provenance_ready": true,
+        "policy_value_ready": true,
+        "stress_value_ready": true,
+        "floor_results_ready": true,
+        "reference_scenario_pack_ready": true,
+        "reform_scenario_ready": false,
+        "federal_effect_ready": false,
+        "lower_cost_scenario_admissible": false,
+        "solver_ready": false,
+        "rate_ready": false,
+        "savings_ready": false
+      },
+      "blocked_outputs": {
+        "reform_policy_instrument": null,
+        "federal_effect_millions": null,
+        "target_cost": null,
+        "solver_input": null,
+        "statutory_rate": null,
+        "effective_rate": null,
+        "public_rate_card": null,
+        "gross_savings": null,
+        "net_savings": null,
+        "technology_savings": null,
+        "balanced_budget_claim": null
+      },
+      "claim_boundary": "Reference calibration only. The policy value is the observed Wave D anchor carried forward by identity; the stress value is a synthetic one-increment comparator test. Neither is a forecast, reform score, federal effect, target cost, savings estimate, rate, or policy recommendation."
+    },
+    {
+      "scenario_id": "national-defense:wave-e-reference:v1",
+      "lane_id": "national-defense",
+      "public_label": "National defense",
+      "additivity": "primary_outlay",
+      "scenario_class": "current_policy_continuation_reference_calibration",
+      "required_component_paths": [
+        {
+          "component_id": "force_structure",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "readiness",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "procurement_schedule",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "industrial_base_transition",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        }
+      ],
+      "anchor_floor": {
+        "floor_id": "personnel_safety",
+        "metric": "Total Force suicide deaths per 100,000 Service members",
+        "unit": "deaths_per_100000_service_members",
+        "source_packet_path": "data/derived/breadth_benchmark_matrix/defense_total_force_suicide_rate_floor_value_packet.v1.draft.json",
+        "comparator": "at_or_below",
+        "threshold_value": 23.2,
+        "baseline_value": 23.2,
+        "reporting_increment": 0.1,
+        "threshold_review_status": "role_reviewed_for_reference_comparator_only"
+      },
+      "policy_scenario": {
+        "policy_instrument": "current_policy_continuation_no_reform",
+        "phase_in": "none_static_reference_case",
+        "behavior": "held_constant_by_construction_not_a_behavioral_estimate",
+        "transition_admin_cost": "not_applicable_no_intervention_not_a_zero_cost_estimate",
+        "incidence": "unchanged_by_construction_not_an_incidence_or_distribution_estimate",
+        "score_provenance": {
+          "method": "deterministic_identity_projection_of_source_custodied_wave_d_anchor",
+          "source_packet_path": "data/derived/breadth_benchmark_matrix/defense_total_force_suicide_rate_floor_value_packet.v1.draft.json",
+          "fiscal_score": false,
+          "forecast": false
+        },
+        "policy_value": 23.2,
+        "result": {
+          "passed": true,
+          "result_class": "boundary_pass",
+          "comparison": "policy_value at_or_below threshold_value"
+        }
+      },
+      "stress_scenario": {
+        "same_policy_as_reference": true,
+        "stress_method": "one_reporting_increment_adverse_measurement_boundary_test",
+        "forecast": false,
+        "policy_recommendation": false,
+        "stress_value": 23.3,
+        "result": {
+          "passed": false,
+          "result_class": "boundary_fail",
+          "comparison": "stress_value fails at_or_below threshold_value"
+        }
+      },
+      "floor_results": {
+        "central_reference_passed": true,
+        "adverse_stress_passed": false,
+        "comparator_implementation_verified": true,
+        "interpretation": "The reference case passes exactly at the no-regression boundary and the synthetic adverse stress fails. This verifies comparator behavior only, not real-world policy performance."
+      },
+      "readiness_status": {
+        "component_policy_path_ready": true,
+        "policy_instrument_ready": true,
+        "phase_in_ready": true,
+        "behavior_boundary_ready": true,
+        "transition_admin_cost_boundary_ready": true,
+        "incidence_boundary_ready": true,
+        "score_provenance_ready": true,
+        "policy_value_ready": true,
+        "stress_value_ready": true,
+        "floor_results_ready": true,
+        "reference_scenario_pack_ready": true,
+        "reform_scenario_ready": false,
+        "federal_effect_ready": false,
+        "lower_cost_scenario_admissible": false,
+        "solver_ready": false,
+        "rate_ready": false,
+        "savings_ready": false
+      },
+      "blocked_outputs": {
+        "reform_policy_instrument": null,
+        "federal_effect_millions": null,
+        "target_cost": null,
+        "solver_input": null,
+        "statutory_rate": null,
+        "effective_rate": null,
+        "public_rate_card": null,
+        "gross_savings": null,
+        "net_savings": null,
+        "technology_savings": null,
+        "balanced_budget_claim": null
+      },
+      "claim_boundary": "Reference calibration only. The policy value is the observed Wave D anchor carried forward by identity; the stress value is a synthetic one-increment comparator test. Neither is a forecast, reform score, federal effect, target cost, savings estimate, rate, or policy recommendation."
+    },
+    {
+      "scenario_id": "income-security-family:wave-e-reference:v1",
+      "lane_id": "income-security-family",
+      "public_label": "Income security and family",
+      "additivity": "primary_outlay",
+      "scenario_class": "current_policy_continuation_reference_calibration",
+      "required_component_paths": [
+        {
+          "component_id": "benefit_package",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "take_up",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "child_poverty_childcare_nutrition",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "federal_state_local_translation",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        }
+      ],
+      "anchor_floor": {
+        "floor_id": "child_poverty",
+        "metric": "Official poverty rate for people under 18 years",
+        "unit": "percent",
+        "source_packet_path": "data/derived/breadth_benchmark_matrix/income_security_family_child_poverty_floor_value_packet.v1.draft.json",
+        "comparator": "at_or_below",
+        "threshold_value": 14.3,
+        "baseline_value": 14.3,
+        "reporting_increment": 0.1,
+        "threshold_review_status": "role_reviewed_for_reference_comparator_only"
+      },
+      "policy_scenario": {
+        "policy_instrument": "current_policy_continuation_no_reform",
+        "phase_in": "none_static_reference_case",
+        "behavior": "held_constant_by_construction_not_a_behavioral_estimate",
+        "transition_admin_cost": "not_applicable_no_intervention_not_a_zero_cost_estimate",
+        "incidence": "unchanged_by_construction_not_an_incidence_or_distribution_estimate",
+        "score_provenance": {
+          "method": "deterministic_identity_projection_of_source_custodied_wave_d_anchor",
+          "source_packet_path": "data/derived/breadth_benchmark_matrix/income_security_family_child_poverty_floor_value_packet.v1.draft.json",
+          "fiscal_score": false,
+          "forecast": false
+        },
+        "policy_value": 14.3,
+        "result": {
+          "passed": true,
+          "result_class": "boundary_pass",
+          "comparison": "policy_value at_or_below threshold_value"
+        }
+      },
+      "stress_scenario": {
+        "same_policy_as_reference": true,
+        "stress_method": "one_reporting_increment_adverse_measurement_boundary_test",
+        "forecast": false,
+        "policy_recommendation": false,
+        "stress_value": 14.4,
+        "result": {
+          "passed": false,
+          "result_class": "boundary_fail",
+          "comparison": "stress_value fails at_or_below threshold_value"
+        }
+      },
+      "floor_results": {
+        "central_reference_passed": true,
+        "adverse_stress_passed": false,
+        "comparator_implementation_verified": true,
+        "interpretation": "The reference case passes exactly at the no-regression boundary and the synthetic adverse stress fails. This verifies comparator behavior only, not real-world policy performance."
+      },
+      "readiness_status": {
+        "component_policy_path_ready": true,
+        "policy_instrument_ready": true,
+        "phase_in_ready": true,
+        "behavior_boundary_ready": true,
+        "transition_admin_cost_boundary_ready": true,
+        "incidence_boundary_ready": true,
+        "score_provenance_ready": true,
+        "policy_value_ready": true,
+        "stress_value_ready": true,
+        "floor_results_ready": true,
+        "reference_scenario_pack_ready": true,
+        "reform_scenario_ready": false,
+        "federal_effect_ready": false,
+        "lower_cost_scenario_admissible": false,
+        "solver_ready": false,
+        "rate_ready": false,
+        "savings_ready": false
+      },
+      "blocked_outputs": {
+        "reform_policy_instrument": null,
+        "federal_effect_millions": null,
+        "target_cost": null,
+        "solver_input": null,
+        "statutory_rate": null,
+        "effective_rate": null,
+        "public_rate_card": null,
+        "gross_savings": null,
+        "net_savings": null,
+        "technology_savings": null,
+        "balanced_budget_claim": null
+      },
+      "claim_boundary": "Reference calibration only. The policy value is the observed Wave D anchor carried forward by identity; the stress value is a synthetic one-increment comparator test. Neither is a forecast, reform score, federal effect, target cost, savings estimate, rate, or policy recommendation."
+    },
+    {
+      "scenario_id": "education-workforce:wave-e-reference:v1",
+      "lane_id": "education-workforce",
+      "public_label": "Education and workforce",
+      "additivity": "primary_outlay",
+      "scenario_class": "current_policy_continuation_reference_calibration",
+      "required_component_paths": [
+        {
+          "component_id": "federal_aid",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "state_local_translation",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "training_employment",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "student_support",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        }
+      ],
+      "anchor_floor": {
+        "floor_id": "completion_persistence",
+        "metric": "Four-year adjusted cohort graduation rate for public high school students",
+        "unit": "percent",
+        "source_packet_path": "data/derived/breadth_benchmark_matrix/education_workforce_graduation_floor_value_packet.v1.draft.json",
+        "comparator": "at_or_above",
+        "threshold_value": 87,
+        "baseline_value": 87,
+        "reporting_increment": 0.1,
+        "threshold_review_status": "role_reviewed_for_reference_comparator_only"
+      },
+      "policy_scenario": {
+        "policy_instrument": "current_policy_continuation_no_reform",
+        "phase_in": "none_static_reference_case",
+        "behavior": "held_constant_by_construction_not_a_behavioral_estimate",
+        "transition_admin_cost": "not_applicable_no_intervention_not_a_zero_cost_estimate",
+        "incidence": "unchanged_by_construction_not_an_incidence_or_distribution_estimate",
+        "score_provenance": {
+          "method": "deterministic_identity_projection_of_source_custodied_wave_d_anchor",
+          "source_packet_path": "data/derived/breadth_benchmark_matrix/education_workforce_graduation_floor_value_packet.v1.draft.json",
+          "fiscal_score": false,
+          "forecast": false
+        },
+        "policy_value": 87,
+        "result": {
+          "passed": true,
+          "result_class": "boundary_pass",
+          "comparison": "policy_value at_or_above threshold_value"
+        }
+      },
+      "stress_scenario": {
+        "same_policy_as_reference": true,
+        "stress_method": "one_reporting_increment_adverse_measurement_boundary_test",
+        "forecast": false,
+        "policy_recommendation": false,
+        "stress_value": 86.9,
+        "result": {
+          "passed": false,
+          "result_class": "boundary_fail",
+          "comparison": "stress_value fails at_or_above threshold_value"
+        }
+      },
+      "floor_results": {
+        "central_reference_passed": true,
+        "adverse_stress_passed": false,
+        "comparator_implementation_verified": true,
+        "interpretation": "The reference case passes exactly at the no-regression boundary and the synthetic adverse stress fails. This verifies comparator behavior only, not real-world policy performance."
+      },
+      "readiness_status": {
+        "component_policy_path_ready": true,
+        "policy_instrument_ready": true,
+        "phase_in_ready": true,
+        "behavior_boundary_ready": true,
+        "transition_admin_cost_boundary_ready": true,
+        "incidence_boundary_ready": true,
+        "score_provenance_ready": true,
+        "policy_value_ready": true,
+        "stress_value_ready": true,
+        "floor_results_ready": true,
+        "reference_scenario_pack_ready": true,
+        "reform_scenario_ready": false,
+        "federal_effect_ready": false,
+        "lower_cost_scenario_admissible": false,
+        "solver_ready": false,
+        "rate_ready": false,
+        "savings_ready": false
+      },
+      "blocked_outputs": {
+        "reform_policy_instrument": null,
+        "federal_effect_millions": null,
+        "target_cost": null,
+        "solver_input": null,
+        "statutory_rate": null,
+        "effective_rate": null,
+        "public_rate_card": null,
+        "gross_savings": null,
+        "net_savings": null,
+        "technology_savings": null,
+        "balanced_budget_claim": null
+      },
+      "claim_boundary": "Reference calibration only. The policy value is the observed Wave D anchor carried forward by identity; the stress value is a synthetic one-increment comparator test. Neither is a forecast, reform score, federal effect, target cost, savings estimate, rate, or policy recommendation."
+    },
+    {
+      "scenario_id": "veterans:wave-e-reference:v1",
+      "lane_id": "veterans",
+      "public_label": "Veterans",
+      "additivity": "primary_outlay",
+      "scenario_class": "current_policy_continuation_reference_calibration",
+      "required_component_paths": [
+        {
+          "component_id": "eligible_cohort",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "service_package",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "claims_timeliness",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "care_delivery_transition",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        }
+      ],
+      "anchor_floor": {
+        "floor_id": "claims_timeliness",
+        "metric": "VA compensation and pension rating bundle claims backlog",
+        "unit": "claims",
+        "source_packet_path": "data/derived/breadth_benchmark_matrix/veterans_claims_backlog_floor_value_packet.v1.draft.json",
+        "comparator": "at_or_below",
+        "threshold_value": 68207,
+        "baseline_value": 68207,
+        "reporting_increment": 1,
+        "threshold_review_status": "role_reviewed_for_reference_comparator_only"
+      },
+      "policy_scenario": {
+        "policy_instrument": "current_policy_continuation_no_reform",
+        "phase_in": "none_static_reference_case",
+        "behavior": "held_constant_by_construction_not_a_behavioral_estimate",
+        "transition_admin_cost": "not_applicable_no_intervention_not_a_zero_cost_estimate",
+        "incidence": "unchanged_by_construction_not_an_incidence_or_distribution_estimate",
+        "score_provenance": {
+          "method": "deterministic_identity_projection_of_source_custodied_wave_d_anchor",
+          "source_packet_path": "data/derived/breadth_benchmark_matrix/veterans_claims_backlog_floor_value_packet.v1.draft.json",
+          "fiscal_score": false,
+          "forecast": false
+        },
+        "policy_value": 68207,
+        "result": {
+          "passed": true,
+          "result_class": "boundary_pass",
+          "comparison": "policy_value at_or_below threshold_value"
+        }
+      },
+      "stress_scenario": {
+        "same_policy_as_reference": true,
+        "stress_method": "one_reporting_increment_adverse_measurement_boundary_test",
+        "forecast": false,
+        "policy_recommendation": false,
+        "stress_value": 68208,
+        "result": {
+          "passed": false,
+          "result_class": "boundary_fail",
+          "comparison": "stress_value fails at_or_below threshold_value"
+        }
+      },
+      "floor_results": {
+        "central_reference_passed": true,
+        "adverse_stress_passed": false,
+        "comparator_implementation_verified": true,
+        "interpretation": "The reference case passes exactly at the no-regression boundary and the synthetic adverse stress fails. This verifies comparator behavior only, not real-world policy performance."
+      },
+      "readiness_status": {
+        "component_policy_path_ready": true,
+        "policy_instrument_ready": true,
+        "phase_in_ready": true,
+        "behavior_boundary_ready": true,
+        "transition_admin_cost_boundary_ready": true,
+        "incidence_boundary_ready": true,
+        "score_provenance_ready": true,
+        "policy_value_ready": true,
+        "stress_value_ready": true,
+        "floor_results_ready": true,
+        "reference_scenario_pack_ready": true,
+        "reform_scenario_ready": false,
+        "federal_effect_ready": false,
+        "lower_cost_scenario_admissible": false,
+        "solver_ready": false,
+        "rate_ready": false,
+        "savings_ready": false
+      },
+      "blocked_outputs": {
+        "reform_policy_instrument": null,
+        "federal_effect_millions": null,
+        "target_cost": null,
+        "solver_input": null,
+        "statutory_rate": null,
+        "effective_rate": null,
+        "public_rate_card": null,
+        "gross_savings": null,
+        "net_savings": null,
+        "technology_savings": null,
+        "balanced_budget_claim": null
+      },
+      "claim_boundary": "Reference calibration only. The policy value is the observed Wave D anchor carried forward by identity; the stress value is a synthetic one-increment comparator test. Neither is a forecast, reform score, federal effect, target cost, savings estimate, rate, or policy recommendation."
+    },
+    {
+      "scenario_id": "disaster-resilience:wave-e-reference:v1",
+      "lane_id": "disaster-resilience",
+      "public_label": "Disaster and resilience",
+      "additivity": "primary_outlay",
+      "scenario_class": "current_policy_continuation_reference_calibration",
+      "required_component_paths": [
+        {
+          "component_id": "exposure_normalized_loss",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "reserve_path",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "mitigation",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "response_recovery",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        }
+      ],
+      "anchor_floor": {
+        "floor_id": "life_safety_response",
+        "metric": "Deaths associated with U.S. billion-dollar weather and climate disasters",
+        "unit": "associated_deaths",
+        "source_packet_path": "data/derived/breadth_benchmark_matrix/disaster_billion_dollar_disaster_deaths_floor_value_packet.v1.draft.json",
+        "comparator": "at_or_below",
+        "threshold_value": 568,
+        "baseline_value": 568,
+        "reporting_increment": 1,
+        "threshold_review_status": "role_reviewed_for_reference_comparator_only"
+      },
+      "policy_scenario": {
+        "policy_instrument": "current_policy_continuation_no_reform",
+        "phase_in": "none_static_reference_case",
+        "behavior": "held_constant_by_construction_not_a_behavioral_estimate",
+        "transition_admin_cost": "not_applicable_no_intervention_not_a_zero_cost_estimate",
+        "incidence": "unchanged_by_construction_not_an_incidence_or_distribution_estimate",
+        "score_provenance": {
+          "method": "deterministic_identity_projection_of_source_custodied_wave_d_anchor",
+          "source_packet_path": "data/derived/breadth_benchmark_matrix/disaster_billion_dollar_disaster_deaths_floor_value_packet.v1.draft.json",
+          "fiscal_score": false,
+          "forecast": false
+        },
+        "policy_value": 568,
+        "result": {
+          "passed": true,
+          "result_class": "boundary_pass",
+          "comparison": "policy_value at_or_below threshold_value"
+        }
+      },
+      "stress_scenario": {
+        "same_policy_as_reference": true,
+        "stress_method": "one_reporting_increment_adverse_measurement_boundary_test",
+        "forecast": false,
+        "policy_recommendation": false,
+        "stress_value": 569,
+        "result": {
+          "passed": false,
+          "result_class": "boundary_fail",
+          "comparison": "stress_value fails at_or_below threshold_value"
+        }
+      },
+      "floor_results": {
+        "central_reference_passed": true,
+        "adverse_stress_passed": false,
+        "comparator_implementation_verified": true,
+        "interpretation": "The reference case passes exactly at the no-regression boundary and the synthetic adverse stress fails. This verifies comparator behavior only, not real-world policy performance."
+      },
+      "readiness_status": {
+        "component_policy_path_ready": true,
+        "policy_instrument_ready": true,
+        "phase_in_ready": true,
+        "behavior_boundary_ready": true,
+        "transition_admin_cost_boundary_ready": true,
+        "incidence_boundary_ready": true,
+        "score_provenance_ready": true,
+        "policy_value_ready": true,
+        "stress_value_ready": true,
+        "floor_results_ready": true,
+        "reference_scenario_pack_ready": true,
+        "reform_scenario_ready": false,
+        "federal_effect_ready": false,
+        "lower_cost_scenario_admissible": false,
+        "solver_ready": false,
+        "rate_ready": false,
+        "savings_ready": false
+      },
+      "blocked_outputs": {
+        "reform_policy_instrument": null,
+        "federal_effect_millions": null,
+        "target_cost": null,
+        "solver_input": null,
+        "statutory_rate": null,
+        "effective_rate": null,
+        "public_rate_card": null,
+        "gross_savings": null,
+        "net_savings": null,
+        "technology_savings": null,
+        "balanced_budget_claim": null
+      },
+      "claim_boundary": "Reference calibration only. The policy value is the observed Wave D anchor carried forward by identity; the stress value is a synthetic one-increment comparator test. Neither is a forecast, reform score, federal effect, target cost, savings estimate, rate, or policy recommendation."
+    },
+    {
+      "scenario_id": "justice-courts-public-safety:wave-e-reference:v1",
+      "lane_id": "justice-courts-public-safety",
+      "public_label": "Justice, courts, and public safety",
+      "additivity": "primary_outlay",
+      "scenario_class": "current_policy_continuation_reference_calibration",
+      "required_component_paths": [
+        {
+          "component_id": "federalism",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "caseload",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "court_process",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "rights_safety_timeliness",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        }
+      ],
+      "anchor_floor": {
+        "floor_id": "public_safety_victimization",
+        "metric": "Violent victimizations per 1,000 persons age 12 or older",
+        "unit": "violent_victimizations_per_1000_persons_age_12_plus",
+        "source_packet_path": "data/derived/breadth_benchmark_matrix/justice_violent_victimization_rate_floor_value_packet.v1.draft.json",
+        "comparator": "at_or_below",
+        "threshold_value": 23.3,
+        "baseline_value": 23.3,
+        "reporting_increment": 0.1,
+        "threshold_review_status": "role_reviewed_for_reference_comparator_only"
+      },
+      "policy_scenario": {
+        "policy_instrument": "current_policy_continuation_no_reform",
+        "phase_in": "none_static_reference_case",
+        "behavior": "held_constant_by_construction_not_a_behavioral_estimate",
+        "transition_admin_cost": "not_applicable_no_intervention_not_a_zero_cost_estimate",
+        "incidence": "unchanged_by_construction_not_an_incidence_or_distribution_estimate",
+        "score_provenance": {
+          "method": "deterministic_identity_projection_of_source_custodied_wave_d_anchor",
+          "source_packet_path": "data/derived/breadth_benchmark_matrix/justice_violent_victimization_rate_floor_value_packet.v1.draft.json",
+          "fiscal_score": false,
+          "forecast": false
+        },
+        "policy_value": 23.3,
+        "result": {
+          "passed": true,
+          "result_class": "boundary_pass",
+          "comparison": "policy_value at_or_below threshold_value"
+        }
+      },
+      "stress_scenario": {
+        "same_policy_as_reference": true,
+        "stress_method": "one_reporting_increment_adverse_measurement_boundary_test",
+        "forecast": false,
+        "policy_recommendation": false,
+        "stress_value": 23.4,
+        "result": {
+          "passed": false,
+          "result_class": "boundary_fail",
+          "comparison": "stress_value fails at_or_below threshold_value"
+        }
+      },
+      "floor_results": {
+        "central_reference_passed": true,
+        "adverse_stress_passed": false,
+        "comparator_implementation_verified": true,
+        "interpretation": "The reference case passes exactly at the no-regression boundary and the synthetic adverse stress fails. This verifies comparator behavior only, not real-world policy performance."
+      },
+      "readiness_status": {
+        "component_policy_path_ready": true,
+        "policy_instrument_ready": true,
+        "phase_in_ready": true,
+        "behavior_boundary_ready": true,
+        "transition_admin_cost_boundary_ready": true,
+        "incidence_boundary_ready": true,
+        "score_provenance_ready": true,
+        "policy_value_ready": true,
+        "stress_value_ready": true,
+        "floor_results_ready": true,
+        "reference_scenario_pack_ready": true,
+        "reform_scenario_ready": false,
+        "federal_effect_ready": false,
+        "lower_cost_scenario_admissible": false,
+        "solver_ready": false,
+        "rate_ready": false,
+        "savings_ready": false
+      },
+      "blocked_outputs": {
+        "reform_policy_instrument": null,
+        "federal_effect_millions": null,
+        "target_cost": null,
+        "solver_input": null,
+        "statutory_rate": null,
+        "effective_rate": null,
+        "public_rate_card": null,
+        "gross_savings": null,
+        "net_savings": null,
+        "technology_savings": null,
+        "balanced_budget_claim": null
+      },
+      "claim_boundary": "Reference calibration only. The policy value is the observed Wave D anchor carried forward by identity; the stress value is a synthetic one-increment comparator test. Neither is a forecast, reform score, federal effect, target cost, savings estimate, rate, or policy recommendation."
+    },
+    {
+      "scenario_id": "science-energy-environment:wave-e-reference:v1",
+      "lane_id": "science-energy-environment",
+      "public_label": "Science, energy, and environment",
+      "additivity": "primary_outlay_component_split",
+      "scenario_class": "current_policy_continuation_reference_calibration",
+      "required_component_paths": [
+        {
+          "component_id": "science",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "energy",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "environment",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        }
+      ],
+      "anchor_floor": {
+        "floor_id": "science_research_capacity",
+        "metric": "U.S. total research and development as a percentage of GDP",
+        "unit": "percent_of_gdp",
+        "source_packet_path": "data/derived/breadth_benchmark_matrix/science_rd_intensity_floor_value_packet.v1.draft.json",
+        "comparator": "at_or_above",
+        "threshold_value": 3.37,
+        "baseline_value": 3.37,
+        "reporting_increment": 0.01,
+        "threshold_review_status": "role_reviewed_for_reference_comparator_only"
+      },
+      "policy_scenario": {
+        "policy_instrument": "current_policy_continuation_no_reform",
+        "phase_in": "none_static_reference_case",
+        "behavior": "held_constant_by_construction_not_a_behavioral_estimate",
+        "transition_admin_cost": "not_applicable_no_intervention_not_a_zero_cost_estimate",
+        "incidence": "unchanged_by_construction_not_an_incidence_or_distribution_estimate",
+        "score_provenance": {
+          "method": "deterministic_identity_projection_of_source_custodied_wave_d_anchor",
+          "source_packet_path": "data/derived/breadth_benchmark_matrix/science_rd_intensity_floor_value_packet.v1.draft.json",
+          "fiscal_score": false,
+          "forecast": false
+        },
+        "policy_value": 3.37,
+        "result": {
+          "passed": true,
+          "result_class": "boundary_pass",
+          "comparison": "policy_value at_or_above threshold_value"
+        }
+      },
+      "stress_scenario": {
+        "same_policy_as_reference": true,
+        "stress_method": "one_reporting_increment_adverse_measurement_boundary_test",
+        "forecast": false,
+        "policy_recommendation": false,
+        "stress_value": 3.36,
+        "result": {
+          "passed": false,
+          "result_class": "boundary_fail",
+          "comparison": "stress_value fails at_or_above threshold_value"
+        }
+      },
+      "floor_results": {
+        "central_reference_passed": true,
+        "adverse_stress_passed": false,
+        "comparator_implementation_verified": true,
+        "interpretation": "The reference case passes exactly at the no-regression boundary and the synthetic adverse stress fails. This verifies comparator behavior only, not real-world policy performance."
+      },
+      "readiness_status": {
+        "component_policy_path_ready": true,
+        "policy_instrument_ready": true,
+        "phase_in_ready": true,
+        "behavior_boundary_ready": true,
+        "transition_admin_cost_boundary_ready": true,
+        "incidence_boundary_ready": true,
+        "score_provenance_ready": true,
+        "policy_value_ready": true,
+        "stress_value_ready": true,
+        "floor_results_ready": true,
+        "reference_scenario_pack_ready": true,
+        "reform_scenario_ready": false,
+        "federal_effect_ready": false,
+        "lower_cost_scenario_admissible": false,
+        "solver_ready": false,
+        "rate_ready": false,
+        "savings_ready": false
+      },
+      "blocked_outputs": {
+        "reform_policy_instrument": null,
+        "federal_effect_millions": null,
+        "target_cost": null,
+        "solver_input": null,
+        "statutory_rate": null,
+        "effective_rate": null,
+        "public_rate_card": null,
+        "gross_savings": null,
+        "net_savings": null,
+        "technology_savings": null,
+        "balanced_budget_claim": null
+      },
+      "claim_boundary": "Reference calibration only. The policy value is the observed Wave D anchor carried forward by identity; the stress value is a synthetic one-increment comparator test. Neither is a forecast, reform score, federal effect, target cost, savings estimate, rate, or policy recommendation."
+    },
+    {
+      "scenario_id": "agriculture:wave-e-reference:v1",
+      "lane_id": "agriculture",
+      "public_label": "Agriculture",
+      "additivity": "primary_outlay_component_split",
+      "scenario_class": "current_policy_continuation_reference_calibration",
+      "required_component_paths": [
+        {
+          "component_id": "support",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "insurance",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "services",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "market_price_support",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "nutrition_handoff",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        }
+      ],
+      "anchor_floor": {
+        "floor_id": "farm_resilience_income_stabilization",
+        "metric": "U.S. farm-sector debt-to-asset ratio",
+        "unit": "percent",
+        "source_packet_path": "data/derived/breadth_benchmark_matrix/agriculture_debt_to_asset_ratio_floor_value_packet.v1.draft.json",
+        "comparator": "at_or_below",
+        "threshold_value": 13.35825,
+        "baseline_value": 13.35825,
+        "reporting_increment": 0.00001,
+        "threshold_review_status": "role_reviewed_for_reference_comparator_only"
+      },
+      "policy_scenario": {
+        "policy_instrument": "current_policy_continuation_no_reform",
+        "phase_in": "none_static_reference_case",
+        "behavior": "held_constant_by_construction_not_a_behavioral_estimate",
+        "transition_admin_cost": "not_applicable_no_intervention_not_a_zero_cost_estimate",
+        "incidence": "unchanged_by_construction_not_an_incidence_or_distribution_estimate",
+        "score_provenance": {
+          "method": "deterministic_identity_projection_of_source_custodied_wave_d_anchor",
+          "source_packet_path": "data/derived/breadth_benchmark_matrix/agriculture_debt_to_asset_ratio_floor_value_packet.v1.draft.json",
+          "fiscal_score": false,
+          "forecast": false
+        },
+        "policy_value": 13.35825,
+        "result": {
+          "passed": true,
+          "result_class": "boundary_pass",
+          "comparison": "policy_value at_or_below threshold_value"
+        }
+      },
+      "stress_scenario": {
+        "same_policy_as_reference": true,
+        "stress_method": "one_reporting_increment_adverse_measurement_boundary_test",
+        "forecast": false,
+        "policy_recommendation": false,
+        "stress_value": 13.35826,
+        "result": {
+          "passed": false,
+          "result_class": "boundary_fail",
+          "comparison": "stress_value fails at_or_below threshold_value"
+        }
+      },
+      "floor_results": {
+        "central_reference_passed": true,
+        "adverse_stress_passed": false,
+        "comparator_implementation_verified": true,
+        "interpretation": "The reference case passes exactly at the no-regression boundary and the synthetic adverse stress fails. This verifies comparator behavior only, not real-world policy performance."
+      },
+      "readiness_status": {
+        "component_policy_path_ready": true,
+        "policy_instrument_ready": true,
+        "phase_in_ready": true,
+        "behavior_boundary_ready": true,
+        "transition_admin_cost_boundary_ready": true,
+        "incidence_boundary_ready": true,
+        "score_provenance_ready": true,
+        "policy_value_ready": true,
+        "stress_value_ready": true,
+        "floor_results_ready": true,
+        "reference_scenario_pack_ready": true,
+        "reform_scenario_ready": false,
+        "federal_effect_ready": false,
+        "lower_cost_scenario_admissible": false,
+        "solver_ready": false,
+        "rate_ready": false,
+        "savings_ready": false
+      },
+      "blocked_outputs": {
+        "reform_policy_instrument": null,
+        "federal_effect_millions": null,
+        "target_cost": null,
+        "solver_input": null,
+        "statutory_rate": null,
+        "effective_rate": null,
+        "public_rate_card": null,
+        "gross_savings": null,
+        "net_savings": null,
+        "technology_savings": null,
+        "balanced_budget_claim": null
+      },
+      "claim_boundary": "Reference calibration only. The policy value is the observed Wave D anchor carried forward by identity; the stress value is a synthetic one-increment comparator test. Neither is a forecast, reform score, federal effect, target cost, savings estimate, rate, or policy recommendation."
+    },
+    {
+      "scenario_id": "international-affairs:wave-e-reference:v1",
+      "lane_id": "international-affairs",
+      "public_label": "International affairs",
+      "additivity": "primary_outlay_component_split",
+      "scenario_class": "current_policy_continuation_reference_calibration",
+      "required_component_paths": [
+        {
+          "component_id": "diplomacy",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "oda_development",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "humanitarian",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "security",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "exchange",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "financial_instruments",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        }
+      ],
+      "anchor_floor": {
+        "floor_id": "foreign_assistance_geographic_coverage",
+        "metric": "Country and region records with reported U.S. foreign-assistance obligations",
+        "unit": "country_region_records",
+        "source_packet_path": "data/derived/breadth_benchmark_matrix/international_foreign_assistance_geographic_coverage_floor_value_packet.v1.draft.json",
+        "comparator": "at_or_above",
+        "threshold_value": 213,
+        "baseline_value": 213,
+        "reporting_increment": 1,
+        "threshold_review_status": "role_reviewed_for_reference_comparator_only"
+      },
+      "policy_scenario": {
+        "policy_instrument": "current_policy_continuation_no_reform",
+        "phase_in": "none_static_reference_case",
+        "behavior": "held_constant_by_construction_not_a_behavioral_estimate",
+        "transition_admin_cost": "not_applicable_no_intervention_not_a_zero_cost_estimate",
+        "incidence": "unchanged_by_construction_not_an_incidence_or_distribution_estimate",
+        "score_provenance": {
+          "method": "deterministic_identity_projection_of_source_custodied_wave_d_anchor",
+          "source_packet_path": "data/derived/breadth_benchmark_matrix/international_foreign_assistance_geographic_coverage_floor_value_packet.v1.draft.json",
+          "fiscal_score": false,
+          "forecast": false
+        },
+        "policy_value": 213,
+        "result": {
+          "passed": true,
+          "result_class": "boundary_pass",
+          "comparison": "policy_value at_or_above threshold_value"
+        }
+      },
+      "stress_scenario": {
+        "same_policy_as_reference": true,
+        "stress_method": "one_reporting_increment_adverse_measurement_boundary_test",
+        "forecast": false,
+        "policy_recommendation": false,
+        "stress_value": 212,
+        "result": {
+          "passed": false,
+          "result_class": "boundary_fail",
+          "comparison": "stress_value fails at_or_above threshold_value"
+        }
+      },
+      "floor_results": {
+        "central_reference_passed": true,
+        "adverse_stress_passed": false,
+        "comparator_implementation_verified": true,
+        "interpretation": "The reference case passes exactly at the no-regression boundary and the synthetic adverse stress fails. This verifies comparator behavior only, not real-world policy performance."
+      },
+      "readiness_status": {
+        "component_policy_path_ready": true,
+        "policy_instrument_ready": true,
+        "phase_in_ready": true,
+        "behavior_boundary_ready": true,
+        "transition_admin_cost_boundary_ready": true,
+        "incidence_boundary_ready": true,
+        "score_provenance_ready": true,
+        "policy_value_ready": true,
+        "stress_value_ready": true,
+        "floor_results_ready": true,
+        "reference_scenario_pack_ready": true,
+        "reform_scenario_ready": false,
+        "federal_effect_ready": false,
+        "lower_cost_scenario_admissible": false,
+        "solver_ready": false,
+        "rate_ready": false,
+        "savings_ready": false
+      },
+      "blocked_outputs": {
+        "reform_policy_instrument": null,
+        "federal_effect_millions": null,
+        "target_cost": null,
+        "solver_input": null,
+        "statutory_rate": null,
+        "effective_rate": null,
+        "public_rate_card": null,
+        "gross_savings": null,
+        "net_savings": null,
+        "technology_savings": null,
+        "balanced_budget_claim": null
+      },
+      "claim_boundary": "Reference calibration only. The policy value is the observed Wave D anchor carried forward by identity; the stress value is a synthetic one-increment comparator test. Neither is a forecast, reform score, federal effect, target cost, savings estimate, rate, or policy recommendation."
+    },
+    {
+      "scenario_id": "transportation-infrastructure:wave-e-reference:v1",
+      "lane_id": "transportation-infrastructure",
+      "public_label": "Transportation and infrastructure",
+      "additivity": "primary_outlay",
+      "scenario_class": "current_policy_continuation_reference_calibration",
+      "required_component_paths": [
+        {
+          "component_id": "baseline_completion",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "trust_fund_values",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "asset_maintenance",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "safety_access_stress",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        }
+      ],
+      "anchor_floor": {
+        "floor_id": "fatalities",
+        "metric": "U.S. motor vehicle traffic fatality rate per 100 million vehicle miles traveled",
+        "unit": "fatalities_per_100_million_vehicle_miles_traveled",
+        "source_packet_path": "data/derived/breadth_benchmark_matrix/transportation_roadway_fatality_rate_floor_value_packet.v1.draft.json",
+        "comparator": "at_or_below",
+        "threshold_value": 1.19,
+        "baseline_value": 1.19,
+        "reporting_increment": 0.01,
+        "threshold_review_status": "role_reviewed_for_reference_comparator_only"
+      },
+      "policy_scenario": {
+        "policy_instrument": "current_policy_continuation_no_reform",
+        "phase_in": "none_static_reference_case",
+        "behavior": "held_constant_by_construction_not_a_behavioral_estimate",
+        "transition_admin_cost": "not_applicable_no_intervention_not_a_zero_cost_estimate",
+        "incidence": "unchanged_by_construction_not_an_incidence_or_distribution_estimate",
+        "score_provenance": {
+          "method": "deterministic_identity_projection_of_source_custodied_wave_d_anchor",
+          "source_packet_path": "data/derived/breadth_benchmark_matrix/transportation_roadway_fatality_rate_floor_value_packet.v1.draft.json",
+          "fiscal_score": false,
+          "forecast": false
+        },
+        "policy_value": 1.19,
+        "result": {
+          "passed": true,
+          "result_class": "boundary_pass",
+          "comparison": "policy_value at_or_below threshold_value"
+        }
+      },
+      "stress_scenario": {
+        "same_policy_as_reference": true,
+        "stress_method": "one_reporting_increment_adverse_measurement_boundary_test",
+        "forecast": false,
+        "policy_recommendation": false,
+        "stress_value": 1.2,
+        "result": {
+          "passed": false,
+          "result_class": "boundary_fail",
+          "comparison": "stress_value fails at_or_below threshold_value"
+        }
+      },
+      "floor_results": {
+        "central_reference_passed": true,
+        "adverse_stress_passed": false,
+        "comparator_implementation_verified": true,
+        "interpretation": "The reference case passes exactly at the no-regression boundary and the synthetic adverse stress fails. This verifies comparator behavior only, not real-world policy performance."
+      },
+      "readiness_status": {
+        "component_policy_path_ready": true,
+        "policy_instrument_ready": true,
+        "phase_in_ready": true,
+        "behavior_boundary_ready": true,
+        "transition_admin_cost_boundary_ready": true,
+        "incidence_boundary_ready": true,
+        "score_provenance_ready": true,
+        "policy_value_ready": true,
+        "stress_value_ready": true,
+        "floor_results_ready": true,
+        "reference_scenario_pack_ready": true,
+        "reform_scenario_ready": false,
+        "federal_effect_ready": false,
+        "lower_cost_scenario_admissible": false,
+        "solver_ready": false,
+        "rate_ready": false,
+        "savings_ready": false
+      },
+      "blocked_outputs": {
+        "reform_policy_instrument": null,
+        "federal_effect_millions": null,
+        "target_cost": null,
+        "solver_input": null,
+        "statutory_rate": null,
+        "effective_rate": null,
+        "public_rate_card": null,
+        "gross_savings": null,
+        "net_savings": null,
+        "technology_savings": null,
+        "balanced_budget_claim": null
+      },
+      "claim_boundary": "Reference calibration only. The policy value is the observed Wave D anchor carried forward by identity; the stress value is a synthetic one-increment comparator test. Neither is a forecast, reform score, federal effect, target cost, savings estimate, rate, or policy recommendation."
+    },
+    {
+      "scenario_id": "revenue-solvency:wave-e-reference:v1",
+      "lane_id": "revenue-solvency",
+      "public_label": "Revenue solvency overlay",
+      "additivity": "non_additive_overlay",
+      "scenario_class": "current_policy_continuation_reference_calibration",
+      "required_component_paths": [
+        {
+          "component_id": "matched_receipt_bases",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "elasticity_avoidance_compliance",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "distribution_incidence",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "administration_interactions",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        }
+      ],
+      "anchor_floor": {
+        "floor_id": "revenue_stability",
+        "metric": "OMB Historical Table 2.1 FY2025 actual total receipts",
+        "unit": "millions_usd",
+        "source_packet_path": "data/derived/breadth_benchmark_matrix/revenue_solvency_total_receipts_floor_value_packet.v1.draft.json",
+        "comparator": "at_or_above",
+        "threshold_value": 5236421,
+        "baseline_value": 5236421,
+        "reporting_increment": 1,
+        "threshold_review_status": "role_reviewed_for_reference_comparator_only"
+      },
+      "policy_scenario": {
+        "policy_instrument": "current_policy_continuation_no_reform",
+        "phase_in": "none_static_reference_case",
+        "behavior": "held_constant_by_construction_not_a_behavioral_estimate",
+        "transition_admin_cost": "not_applicable_no_intervention_not_a_zero_cost_estimate",
+        "incidence": "unchanged_by_construction_not_an_incidence_or_distribution_estimate",
+        "score_provenance": {
+          "method": "deterministic_identity_projection_of_source_custodied_wave_d_anchor",
+          "source_packet_path": "data/derived/breadth_benchmark_matrix/revenue_solvency_total_receipts_floor_value_packet.v1.draft.json",
+          "fiscal_score": false,
+          "forecast": false
+        },
+        "policy_value": 5236421,
+        "result": {
+          "passed": true,
+          "result_class": "boundary_pass",
+          "comparison": "policy_value at_or_above threshold_value"
+        }
+      },
+      "stress_scenario": {
+        "same_policy_as_reference": true,
+        "stress_method": "one_reporting_increment_adverse_measurement_boundary_test",
+        "forecast": false,
+        "policy_recommendation": false,
+        "stress_value": 5236420,
+        "result": {
+          "passed": false,
+          "result_class": "boundary_fail",
+          "comparison": "stress_value fails at_or_above threshold_value"
+        }
+      },
+      "floor_results": {
+        "central_reference_passed": true,
+        "adverse_stress_passed": false,
+        "comparator_implementation_verified": true,
+        "interpretation": "The reference case passes exactly at the no-regression boundary and the synthetic adverse stress fails. This verifies comparator behavior only, not real-world policy performance."
+      },
+      "readiness_status": {
+        "component_policy_path_ready": true,
+        "policy_instrument_ready": true,
+        "phase_in_ready": true,
+        "behavior_boundary_ready": true,
+        "transition_admin_cost_boundary_ready": true,
+        "incidence_boundary_ready": true,
+        "score_provenance_ready": true,
+        "policy_value_ready": true,
+        "stress_value_ready": true,
+        "floor_results_ready": true,
+        "reference_scenario_pack_ready": true,
+        "reform_scenario_ready": false,
+        "federal_effect_ready": false,
+        "lower_cost_scenario_admissible": false,
+        "solver_ready": false,
+        "rate_ready": false,
+        "savings_ready": false
+      },
+      "blocked_outputs": {
+        "reform_policy_instrument": null,
+        "federal_effect_millions": null,
+        "target_cost": null,
+        "solver_input": null,
+        "statutory_rate": null,
+        "effective_rate": null,
+        "public_rate_card": null,
+        "gross_savings": null,
+        "net_savings": null,
+        "technology_savings": null,
+        "balanced_budget_claim": null
+      },
+      "claim_boundary": "Reference calibration only. The policy value is the observed Wave D anchor carried forward by identity; the stress value is a synthetic one-increment comparator test. Neither is a forecast, reform score, federal effect, target cost, savings estimate, rate, or policy recommendation."
+    },
+    {
+      "scenario_id": "payment-integrity:wave-e-reference:v1",
+      "lane_id": "payment-integrity",
+      "public_label": "Payment integrity overlay",
+      "additivity": "non_additive_overlay",
+      "scenario_class": "current_policy_continuation_reference_calibration",
+      "required_component_paths": [
+        {
+          "component_id": "causal_prevention",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "same_cohort_collection",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "due_process_false_positive",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "control_cost_service_risk",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        }
+      ],
+      "anchor_floor": {
+        "floor_id": "payment_accuracy",
+        "metric": "Federal Crop Insurance Corporation FY2024 payment accuracy rate",
+        "unit": "percent",
+        "source_packet_path": "data/derived/breadth_benchmark_matrix/payment_integrity_fcic_payment_accuracy_floor_value_packet.v1.draft.json",
+        "comparator": "at_or_above",
+        "threshold_value": 97.5725794,
+        "baseline_value": 97.5725794,
+        "reporting_increment": 1e-7,
+        "threshold_review_status": "role_reviewed_for_reference_comparator_only"
+      },
+      "policy_scenario": {
+        "policy_instrument": "current_policy_continuation_no_reform",
+        "phase_in": "none_static_reference_case",
+        "behavior": "held_constant_by_construction_not_a_behavioral_estimate",
+        "transition_admin_cost": "not_applicable_no_intervention_not_a_zero_cost_estimate",
+        "incidence": "unchanged_by_construction_not_an_incidence_or_distribution_estimate",
+        "score_provenance": {
+          "method": "deterministic_identity_projection_of_source_custodied_wave_d_anchor",
+          "source_packet_path": "data/derived/breadth_benchmark_matrix/payment_integrity_fcic_payment_accuracy_floor_value_packet.v1.draft.json",
+          "fiscal_score": false,
+          "forecast": false
+        },
+        "policy_value": 97.5725794,
+        "result": {
+          "passed": true,
+          "result_class": "boundary_pass",
+          "comparison": "policy_value at_or_above threshold_value"
+        }
+      },
+      "stress_scenario": {
+        "same_policy_as_reference": true,
+        "stress_method": "one_reporting_increment_adverse_measurement_boundary_test",
+        "forecast": false,
+        "policy_recommendation": false,
+        "stress_value": 97.5725793,
+        "result": {
+          "passed": false,
+          "result_class": "boundary_fail",
+          "comparison": "stress_value fails at_or_above threshold_value"
+        }
+      },
+      "floor_results": {
+        "central_reference_passed": true,
+        "adverse_stress_passed": false,
+        "comparator_implementation_verified": true,
+        "interpretation": "The reference case passes exactly at the no-regression boundary and the synthetic adverse stress fails. This verifies comparator behavior only, not real-world policy performance."
+      },
+      "readiness_status": {
+        "component_policy_path_ready": true,
+        "policy_instrument_ready": true,
+        "phase_in_ready": true,
+        "behavior_boundary_ready": true,
+        "transition_admin_cost_boundary_ready": true,
+        "incidence_boundary_ready": true,
+        "score_provenance_ready": true,
+        "policy_value_ready": true,
+        "stress_value_ready": true,
+        "floor_results_ready": true,
+        "reference_scenario_pack_ready": true,
+        "reform_scenario_ready": false,
+        "federal_effect_ready": false,
+        "lower_cost_scenario_admissible": false,
+        "solver_ready": false,
+        "rate_ready": false,
+        "savings_ready": false
+      },
+      "blocked_outputs": {
+        "reform_policy_instrument": null,
+        "federal_effect_millions": null,
+        "target_cost": null,
+        "solver_input": null,
+        "statutory_rate": null,
+        "effective_rate": null,
+        "public_rate_card": null,
+        "gross_savings": null,
+        "net_savings": null,
+        "technology_savings": null,
+        "balanced_budget_claim": null
+      },
+      "claim_boundary": "Reference calibration only. The policy value is the observed Wave D anchor carried forward by identity; the stress value is a synthetic one-increment comparator test. Neither is a forecast, reform score, federal effect, target cost, savings estimate, rate, or policy recommendation."
+    },
+    {
+      "scenario_id": "net-interest:wave-e-reference:v1",
+      "lane_id": "net-interest",
+      "public_label": "Net interest",
+      "additivity": "endogenous",
+      "scenario_class": "current_policy_continuation_reference_calibration",
+      "required_component_paths": [
+        {
+          "component_id": "debt_stock",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "maturity_schedule",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "rate_path",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        },
+        {
+          "component_id": "primary_balance_feedback",
+          "treatment": "maintain_current_policy_and_service_posture_for_reference_calibration",
+          "fiscal_effect_millions": null,
+          "scored_fiscal_effect": false
+        }
+      ],
+      "anchor_floor": {
+        "floor_id": "debt_service_rate_path",
+        "metric": "Treasury Total Interest-bearing Debt average interest rate",
+        "unit": "percent",
+        "source_packet_path": "data/derived/breadth_benchmark_matrix/net_interest_average_rate_floor_value_packet.v1.draft.json",
+        "comparator": "at_or_below",
+        "threshold_value": 3.409,
+        "baseline_value": 3.409,
+        "reporting_increment": 0.001,
+        "threshold_review_status": "role_reviewed_for_reference_comparator_only"
+      },
+      "policy_scenario": {
+        "policy_instrument": "current_policy_continuation_no_reform",
+        "phase_in": "none_static_reference_case",
+        "behavior": "held_constant_by_construction_not_a_behavioral_estimate",
+        "transition_admin_cost": "not_applicable_no_intervention_not_a_zero_cost_estimate",
+        "incidence": "unchanged_by_construction_not_an_incidence_or_distribution_estimate",
+        "score_provenance": {
+          "method": "deterministic_identity_projection_of_source_custodied_wave_d_anchor",
+          "source_packet_path": "data/derived/breadth_benchmark_matrix/net_interest_average_rate_floor_value_packet.v1.draft.json",
+          "fiscal_score": false,
+          "forecast": false
+        },
+        "policy_value": 3.409,
+        "result": {
+          "passed": true,
+          "result_class": "boundary_pass",
+          "comparison": "policy_value at_or_below threshold_value"
+        }
+      },
+      "stress_scenario": {
+        "same_policy_as_reference": true,
+        "stress_method": "one_reporting_increment_adverse_measurement_boundary_test",
+        "forecast": false,
+        "policy_recommendation": false,
+        "stress_value": 3.41,
+        "result": {
+          "passed": false,
+          "result_class": "boundary_fail",
+          "comparison": "stress_value fails at_or_below threshold_value"
+        }
+      },
+      "floor_results": {
+        "central_reference_passed": true,
+        "adverse_stress_passed": false,
+        "comparator_implementation_verified": true,
+        "interpretation": "The reference case passes exactly at the no-regression boundary and the synthetic adverse stress fails. This verifies comparator behavior only, not real-world policy performance."
+      },
+      "readiness_status": {
+        "component_policy_path_ready": true,
+        "policy_instrument_ready": true,
+        "phase_in_ready": true,
+        "behavior_boundary_ready": true,
+        "transition_admin_cost_boundary_ready": true,
+        "incidence_boundary_ready": true,
+        "score_provenance_ready": true,
+        "policy_value_ready": true,
+        "stress_value_ready": true,
+        "floor_results_ready": true,
+        "reference_scenario_pack_ready": true,
+        "reform_scenario_ready": false,
+        "federal_effect_ready": false,
+        "lower_cost_scenario_admissible": false,
+        "solver_ready": false,
+        "rate_ready": false,
+        "savings_ready": false
+      },
+      "blocked_outputs": {
+        "reform_policy_instrument": null,
+        "federal_effect_millions": null,
+        "target_cost": null,
+        "solver_input": null,
+        "statutory_rate": null,
+        "effective_rate": null,
+        "public_rate_card": null,
+        "gross_savings": null,
+        "net_savings": null,
+        "technology_savings": null,
+        "balanced_budget_claim": null
+      },
+      "claim_boundary": "Reference calibration only. The policy value is the observed Wave D anchor carried forward by identity; the stress value is a synthetic one-increment comparator test. Neither is a forecast, reform score, federal effect, target cost, savings estimate, rate, or policy recommendation."
+    }
+  ],
+  "aggregate_status": {
+    "lane_count": 15,
+    "reference_scenario_packs_ready": 15,
+    "lanes_with_complete_component_reference_paths": 15,
+    "lanes_with_policy_values": 15,
+    "lanes_with_stress_values": 15,
+    "lanes_with_floor_results": 15,
+    "central_reference_passes": 15,
+    "adverse_stress_passes": 0,
+    "adverse_stress_failures": 15,
+    "reform_scenario_packs_ready": 0,
+    "federal_effects_ready": 0,
+    "lower_cost_scenarios_admissible": 0,
+    "wave_e_done": true,
+    "solver_ready": false,
+    "rates_ready": false,
+    "savings_ready": false,
+    "balanced_budget_ready": false
+  },
+  "claim_booleans": {
+    "wave_e_reference_scenario_packs_published": true,
+    "wave_e_done": true,
+    "reference_policy_values_published": true,
+    "synthetic_stress_values_published": true,
+    "calibration_floor_results_published": true,
+    "reform_scenario_published": false,
+    "policy_recommendation_published": false,
+    "federal_effect_published": false,
+    "lower_cost_scenario_admissible": false,
+    "target_cost_published": false,
+    "solver_ready": false,
+    "solver_run_published": false,
+    "statutory_rate_published": false,
+    "effective_rate_published": false,
+    "public_rate_card_published": false,
+    "savings_claim_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "Wave E is complete for fifteen role-reviewed current-policy continuation reference calibrations. These packs prove component enumeration and comparator behavior only. They do not score a reform, forecast lane outcomes, estimate a federal effect, admit a lower-cost scenario, select a target cost, calculate a rate, publish savings, or support a balanced-budget claim."
+}

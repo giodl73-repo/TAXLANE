@@ -1,0 +1,46 @@
+{
+  "record_id": "trn-b-source-bridge-decisions:v1",
+  "record_family": "trn_b_source_bridge_decisions",
+  "version": "v1.draft",
+  "status": "trn_b_02_and_03_complete_separate_perimeters_no_mechanical_stitch",
+  "track_wave_id": "TRN-B",
+  "work_package_ids": ["TRN-B-02", "TRN-B-03"],
+  "pulse": 246,
+  "as_of_date": "2026-07-26",
+  "schema_path": "data/derived/breadth_benchmark_matrix/trn_b_source_bridge_decisions.schema.md",
+  "omb_path": "data/derived/breadth_benchmark_matrix/transportation_trust_fund_table_13_4_fy2025_2031_context_path.v1.draft.json",
+  "treasury_path": "data/derived/breadth_benchmark_matrix/transportation_trust_fund_treasury_mts_fy2025_anchor_context.v1.draft.json",
+  "cbo_path": "data/derived/breadth_benchmark_matrix/transportation_trust_fund_cbo_balance_extension_fy2032_2035_context.v1.draft.json",
+  "cross_source_status_path": "data/derived/breadth_benchmark_matrix/transportation_trust_fund_cross_source_reconciliation_status.v1.draft.json",
+  "fy2025_omb_treasury_review": {
+    "decision": "OMB_Table_13_4_controls_named_fund_ledger_Treasury_MTS_remains_final_anchor_diagnostic",
+    "bridge_admitted": false,
+    "reason": "OMB Table 13-4 supplies internally linked income, outgo, change, and balance rows for both named funds; Treasury MTS supplies final transaction anchors with different classifications and does not expose a comparable Highway Trust Fund total-outlay ledger row.",
+    "comparisons_musd": [
+      {"comparison_id":"airport_receipts","omb":23100.0,"treasury":22651.06130492,"treasury_minus_omb":-448.93869508,"perimeter_status":"diagnostic_not_bridge"},
+      {"comparison_id":"highway_receipts","omb":43800.0,"treasury":44294.72985973,"treasury_minus_omb":494.72985973,"perimeter_status":"diagnostic_not_bridge"},
+      {"comparison_id":"airport_outgo","omb":19900.0,"treasury":19679.24588718,"treasury_minus_omb":-220.75411282,"perimeter_status":"diagnostic_not_bridge"},
+      {"comparison_id":"highway_outgo","omb":74400.0,"treasury_fhwa_agency_total":65032.57729402,"difference_not_computed":null,"perimeter_status":"incomparable_agency_total_not_highway_trust_fund_total"}
+    ],
+    "unexplained_difference_allocated_to_transfer_offset_or_savings": false,
+    "work_package_done": true
+  },
+  "fy2031_omb_cbo_review": {
+    "decision": "retain_separate_OMB_and_CBO_vintages_no_stitch",
+    "bridge_admitted": false,
+    "reason": "The FY2031 overlap differences are material and CBO supplies balance-only context rather than compatible Table 13-4 income/outgo rows.",
+    "comparisons_busd": [
+      {"fund_id":"airport_and_airway_trust_fund","omb_balance_end":43.0,"cbo_balance_end":34.699,"cbo_minus_omb":-8.301},
+      {"fund_id":"highway_trust_fund","omb_balance_end":-122.4,"cbo_balance_end":0.0,"cbo_minus_omb":122.4}
+    ],
+    "controlling_trn_b_ledger_horizon": "OMB_FY2025_FY2031",
+    "cbo_fy2032_fy2035_status": "separate_balance_only_context_not_ledger_extension",
+    "fy2032_fy2035_income_outgo_rows": null,
+    "mechanical_stitch_prohibited": true,
+    "work_package_done": true
+  },
+  "aggregate_status": {"work_packages_completed":2,"bridge_decisions":2,"bridges_admitted":0,"omb_ledger_horizon_ready":true,"treasury_anchor_diagnostic_ready":true,"cbo_balance_context_ready":true,"full_fy2025_fy2035_named_fund_ledger_ready":false,"trn_b_done":false},
+  "blocked_outputs": {"fy2025_omb_treasury_numeric_bridge":null,"fy2032_fy2035_income_outgo_extension":null,"omb_cbo_stitched_path":null,"cross_source_difference_as_savings":null,"trn_b_closure":null},
+  "claim_booleans": {"trn_b_02_done":true,"trn_b_03_done":true,"source_bridge_decisions_published":true,"fy2025_numeric_bridge_admitted":false,"omb_cbo_stitched_path_published":false,"full_horizon_named_fund_ledger_ready":false,"trn_b_done":false,"savings_claim_published":false},
+  "public_warning": "TRN-B-02 and TRN-B-03 are complete as reviewed source-boundary decisions. OMB controls the bounded named-fund ledger; Treasury remains FY2025 diagnostic context; CBO remains separate balance-only context. No numeric cross-source bridge, FY2032-FY2035 income/outgo extension, stitched path, savings claim, or TRN-B closure is published."
+}

@@ -1,0 +1,120 @@
+{
+  "record_id": "hlt-a-health-lane-perimeter-source-inventory:v1",
+  "record_family": "hlt_a_health_lane_perimeter_source_inventory",
+  "version": "v1.draft",
+  "status": "hlt_a_01_complete_bounded_health_perimeter_inventory",
+  "pulse": 262,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "HLT-A",
+  "start_gate_path": "data/derived/breadth_benchmark_matrix/hlt_a_health_baseline_start_gate.v1.draft.json",
+  "core_g_path": "data/derived/breadth_benchmark_matrix/core_g_official_current_law_solver_spine.v1.draft.json",
+  "source_readiness_rollup_path": "data/derived/breadth_benchmark_matrix/health_source_readiness_rollup.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/hlt_a_health_lane_perimeter_source_inventory.schema.md",
+  "reader_path": "docs/reading/hlt-a-health-lane-perimeter-source-inventory.md",
+  "lane_perimeter": {
+    "lane_id": "health-medicare",
+    "federal_budget_functions": ["550_health", "570_medicare"],
+    "included_components": [
+      "Medicare Hospital Insurance and Supplementary Medical Insurance program outlays and financing context",
+      "Medicaid and CHIP federal outlays and federal-state financing context",
+      "marketplace premium-tax-credit and related federal subsidy context",
+      "federal public-health, health-research, provider, and delivery accounts classified to the lane",
+      "federal administration where classified within the lane"
+    ],
+    "adjacent_context_not_additive": [
+      "CMS National Health Expenditure Accounts economy-wide health spending",
+      "state and local Medicaid shares and other subnational health spending",
+      "employer and household premiums and out-of-pocket spending",
+      "provider quality, access, rural-capacity, and safety-net indicators"
+    ],
+    "excluded_or_separate": [
+      "Social Security cash benefits",
+      "veterans health accounts assigned to the veterans lane",
+      "worker compensation and other income-security transfers",
+      "state, local, household, employer, and private-insurer spending as federal outlays",
+      "intragovernmental transfers counted again as program resources"
+    ],
+    "double_count_rule": "Do not add economy-wide NHE, state/local shares, private spending, trust-fund receipts, premiums, or intragovernmental transfers to federal function 550/570 outlays. Each may enter only through an explicit reconciliation bridge."
+  },
+  "source_inventory": [
+    {
+      "source_family": "OMB FY2027 historical tables and public budget database",
+      "artifact_path": "data/derived/breadth_benchmark_matrix/current_law_fy2025_17_row_ledger_custody.v1.draft.json",
+      "role": "federal FY2025 health and Medicare function anchors",
+      "custody_status": "ready_for_federal_topline_context",
+      "may_enter_hlt_a_02": true,
+      "not_authorized": "no automatic program, fund, or financing decomposition"
+    },
+    {
+      "source_family": "CMS Medicare Trustees 2026",
+      "artifact_path": "data/derived/breadth_benchmark_matrix/health_medicare_trustees_source_capture_status.v1.draft.json",
+      "role": "Medicare enrollment, part financing, and HI/SMI context",
+      "custody_status": "ready_for_context_only",
+      "may_enter_hlt_a_02": false,
+      "not_authorized": "not a substitute for a reconciled federal outlay path"
+    },
+    {
+      "source_family": "CBO federal subsidies for health insurance",
+      "artifact_path": "data/derived/breadth_benchmark_matrix/cbo_health_insurance_baseline_browser_context_fy2026_2036.v1.draft.json",
+      "role": "Medicare, Medicaid/CHIP, marketplace, and employment-based subsidy baseline context",
+      "custody_status": "february_2026_raw_ready_later_2026_vintages_context_only",
+      "may_enter_hlt_a_02": true,
+      "not_authorized": "no mixed-vintage stitching or replacement of missing latest-publication bytes"
+    },
+    {
+      "source_family": "CMS National Health Expenditure Accounts",
+      "artifact_path": "data/derived/breadth_benchmark_matrix/health_nhe_source_custody_gap.v1.draft.json",
+      "role": "economy-wide payer, service, and source-of-funds context",
+      "custody_status": "raw_custody_ready_context_only",
+      "may_enter_hlt_a_02": false,
+      "not_authorized": "not additive to federal budget outlays"
+    },
+    {
+      "source_family": "CMS quality and access indicator series",
+      "artifact_path": "data/derived/breadth_benchmark_matrix/health_quality_access_indicator_source_gap.v1.draft.json",
+      "role": "provider access, quality, rural-capacity, and safety-net evidence",
+      "custody_status": "partial_custody_context_only",
+      "may_enter_hlt_a_02": false,
+      "not_authorized": "no threshold, pass/fail, or fiscal effect"
+    }
+  ],
+  "inventory_counts": {
+    "source_families": 5,
+    "federal_baseline_candidate_families": 2,
+    "context_only_families": 3,
+    "complete_latest_vintage_families": 0,
+    "hlt_a_01_done": true,
+    "hlt_a_02_may_start": true
+  },
+  "next_package_gate": {
+    "next_active_work_package_id": "HLT-A-02",
+    "required_output": "one source-vintaged FY2025 anchor and FY2026-FY2035 federal baseline with explicit bridge rows and nulls",
+    "mixed_vintage_stitching_prohibited": true,
+    "nonfederal_context_addition_prohibited": true
+  },
+  "blocked_outputs": {
+    "reconciled_fy2025_fy2035_health_path": null,
+    "medicare_hi_financing_bridge": null,
+    "state_local_translation": null,
+    "policy_scenario": null,
+    "target_cost": null,
+    "rate": null,
+    "savings": null,
+    "hlt_b_start": null
+  },
+  "claim_booleans": {
+    "hlt_a_health_perimeter_inventory_published": true,
+    "hlt_a_01_done": true,
+    "hlt_a_02_may_start": true,
+    "health_perimeter_frozen": true,
+    "official_source_inventory_frozen": true,
+    "health_baseline_reconciled": false,
+    "hlt_a_done": false,
+    "hlt_b_may_start": false,
+    "health_reform_admitted": false,
+    "solver_ready": false,
+    "rate_published": false,
+    "savings_claim_published": false
+  },
+  "public_warning": "HLT-A-01 freezes a bounded health/Medicare perimeter and inventories five source families. It does not add economy-wide, state/local, private, or trust-fund context to federal outlays. The annual baseline, financing bridge, policy scenario, rate, savings, HLT-A closure, and HLT-B start remain blocked."
+}

@@ -13,6 +13,8 @@
     "work_queue_only": true,
     "no_external_request_submitted_this_pulse": true,
     "no_agency_or_person_contacted": true,
+    "context_progress_recorded": true,
+    "matched_assigned_base_progress_recorded": false,
     "matched_receipt_bases_ready": false,
     "rate_publication_ready": false,
     "solver_inputs_ready": false
@@ -26,7 +28,7 @@
       "required_fields": ["matched_tax_year", "legal_perimeter", "economic_perimeter", "agi_amount", "taxable_income_amount", "current_law_yield"],
       "allowed_next_action": "capture_or_locate_existing_official_public_source_artifact_only",
       "external_contact_allowed": false,
-      "status": "not_started_no_external_request",
+      "status": "ty2023_context_capture_complete_not_matched_fy2025_assigned_base",
       "value": null,
       "ready": false
     },
@@ -38,7 +40,7 @@
       "required_fields": ["matched_calendar_or_fiscal_year", "covered_wage_perimeter", "taxable_payroll_amount", "current_law_yield"],
       "allowed_next_action": "capture_or_locate_existing_official_public_source_artifact_only",
       "external_contact_allowed": false,
-      "status": "not_started_no_external_request",
+      "status": "calendar_year_context_capture_complete_fiscal_bridge_missing",
       "value": null,
       "ready": false
     },
@@ -50,7 +52,7 @@
       "required_fields": ["matched_calendar_or_fiscal_year", "hi_taxable_payroll_perimeter", "taxable_payroll_amount", "current_law_yield"],
       "allowed_next_action": "capture_or_locate_existing_official_public_source_artifact_only",
       "external_contact_allowed": false,
-      "status": "not_started_no_external_request",
+      "status": "calendar_year_hi_context_capture_complete_fiscal_bridge_missing",
       "value": null,
       "ready": false
     },
@@ -62,7 +64,7 @@
       "required_fields": ["receipt_category", "fiscal_year", "receipt_amount", "perimeter_note", "not_a_legal_or_economic_base_flag"],
       "allowed_next_action": "extract_context_from_existing_local_custodied_omb_file",
       "external_contact_allowed": false,
-      "status": "not_started_no_external_request",
+      "status": "expanded_omb_context_capture_complete_not_assigned_base",
       "value": null,
       "ready": false
     },
@@ -74,7 +76,7 @@
       "required_fields": ["matched_year", "tax_or_fee_type", "legal_base", "economic_base", "receipt_yield", "trust_fund_crediting_rule"],
       "allowed_next_action": "capture_or_locate_existing_official_public_source_artifact_only",
       "external_contact_allowed": false,
-      "status": "not_started_no_external_request",
+      "status": "receipt_yield_context_capture_complete_legal_and_economic_base_missing",
       "value": null,
       "ready": false
     }
@@ -83,6 +85,8 @@
     "work_item_count": 5,
     "ready_count": 0,
     "blocked_count": 5,
+    "context_progress_count": 5,
+    "not_started_count": 0,
     "external_contact_allowed_count": 0,
     "matched_receipt_bases_ready": false,
     "rate_publication_ready": false,
@@ -104,7 +108,7 @@
   "public_warning_phrases": [
     "This is a receipt-base source work queue, not source capture or receipt-base extraction.",
     "No external request was submitted and no agency or person was contacted.",
-    "Every work item remains not started, not ready, and external contact is false.",
+    "All five work items have context progress, but every work item remains not ready and external contact is false.",
     "No assigned base amount, elasticity, yield, rate, public rate card, solver input, tax proposal, or balanced-budget value is populated.",
     "Source work may use only existing local artifacts or official public source capture; it may not contact an agency or person.",
     "This record is not solver input, not a solver run, not a target-cost selection, not a rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."

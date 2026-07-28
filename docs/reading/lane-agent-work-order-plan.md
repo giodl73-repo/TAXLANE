@@ -21,6 +21,20 @@ The wave order is:
 4. Agriculture, International affairs, and Transportation.
 5. Revenue-solvency, Payment-integrity, and Net-interest overlays.
 
+The remaining blockers can also scale through five parallel blocker workstreams:
+
+1. Current-law path extraction.
+2. Health/Medicare HI bridge.
+3. Receipt-base/rate bridge.
+4. Outcome floor values.
+5. Scenario pack prep.
+
+Parallel agents recommend only; the main integration pass updates machine artifacts
+and runs validation before any gate changes. Workstream agents may propose
+candidate source packets, value/null extraction notes, bridge evidence,
+floor-value packets, scenario outlines, reader text, and validator patch
+proposals, but they may not flip readiness gates.
+
 Integration review checks that all 15 analytical lanes appear once, the 15 analytical lanes are not confused with the 17 budget rows, revenue-solvency and payment-integrity remain non-additive overlays, net interest remains endogenous, trust funds remain separate, missing values remain null, blocked gates remain false, technology changes are transition paths not automatic savings, international differences are not savings, improper-payment estimates do not imply fraud, the public reader is plain language, and a validator plus focused test were added.
 
 This is not a solver run, not target-cost selection, not rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim.

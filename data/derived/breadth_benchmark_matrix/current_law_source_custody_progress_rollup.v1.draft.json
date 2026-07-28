@@ -1,0 +1,145 @@
+{
+  "record_id": "current-law-source-custody-progress-rollup:v1",
+  "record_family": "current_law_source_custody_progress_rollup",
+  "version": "v1.draft",
+  "status": "draft_partial_custody_progress_no_complete_horizon",
+  "as_of_date": "2026-07-23",
+  "current_law_source_custody_batch_plan_path": "data/derived/breadth_benchmark_matrix/current_law_source_custody_batch_plan.v1.draft.json",
+  "source_custody_current_law_paths_gap_path": "data/derived/breadth_benchmark_matrix/source_custody_current_law_paths_gap.v1.draft.json",
+  "current_law_path_inventory_path": "data/derived/breadth_benchmark_matrix/current_law_path_inventory.v1.draft.json",
+  "lane_full_coverage_matrix_path": "data/derived/breadth_benchmark_matrix/lane_full_coverage_matrix.v1.draft.json",
+  "data_acquisition_eight_gap_status_path": "data/derived/breadth_benchmark_matrix/data_acquisition_eight_gap_status.v1.draft.json",
+  "purpose": "Summarize current-law source-custody progress across the eight required current-law paths and link the latest eight-gap acquisition status without changing older source-custody batch-plan semantics or opening solver, rate, savings, or balanced-budget gates.",
+  "path_rows": [
+    {
+      "path_id": "full_17_row_fy2025_ledger",
+      "progress_status": "partial",
+      "evidence_paths": ["data/derived/breadth_benchmark_matrix/current_law_fy2025_17_row_ledger_custody.v1.draft.json", "data/derived/breadth_benchmark_matrix/current_law_17_row_pbd_fy2025_2031_context_path.v1.draft.json", "data/derived/breadth_benchmark_matrix/omb_pbd_fy2027_user_guide_horizon_boundary_context.v1.draft.json"],
+      "covered_years": [2025, 2026, 2027, 2028, 2029, 2030, 2031],
+      "context_years": [2032, 2033, 2034, 2035],
+      "missing_years": [2032, 2033, 2034, 2035],
+      "path_complete": false,
+      "solver_ready": false,
+      "blocked_outputs": ["FY2032-FY2035 OMB 17-row ledger", "fund split", "solver input", "rate calculation"]
+    },
+    {
+      "path_id": "baseline_plus_ten_year_horizon",
+      "progress_status": "partial",
+      "evidence_paths": [
+        "data/derived/breadth_benchmark_matrix/current_law_baseline_annual_path_partial.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/current_law_baseline_receipts_deficit_path_partial.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/cbo_open_data_fy2032_2035_current_law_extension_context.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/cbo_major_outlay_category_fy2032_2035_context.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/cbo_revenue_detail_fy2026_2035_context.v1.draft.json"
+      ],
+      "covered_years": [2025, 2026, 2027, 2028, 2029, 2030, 2031],
+      "context_years": [2032, 2033, 2034, 2035],
+      "missing_years": [],
+      "path_complete": false,
+      "solver_ready": false,
+      "blocked_outputs": ["unified OMB/CBO reconciliation", "fund split", "lane row allocation", "solver input", "balanced-budget claim"]
+    },
+    {
+      "path_id": "general_fund_path",
+      "progress_status": "partial",
+      "evidence_paths": [
+        "data/derived/breadth_benchmark_matrix/current_law_fy2025_fund_group_path.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/omb_ap13_fund_group_reconciliation_detail_fy2025_context.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/treasury_mts_table_8_federal_fund_fy2025_context.v1.draft.json"
+      ],
+      "covered_years": [2025],
+      "missing_years": [2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035],
+      "path_complete": false,
+      "solver_ready": false,
+      "blocked_outputs": ["annual general-fund path", "explicit transfers", "federal-fund/general-fund source-boundary reconciliation", "solver input"]
+    },
+    {
+      "path_id": "oasdi_fund_path",
+      "progress_status": "partial",
+      "evidence_paths": ["data/derived/breadth_benchmark_matrix/current_law_fy2025_dedicated_receipt_anchors.v1.draft.json", "data/derived/breadth_benchmark_matrix/current_law_fy2025_named_trust_fund_outlay_anchors.v1.draft.json", "data/derived/breadth_benchmark_matrix/social_security_oasdi_fy2025_2035_current_law_path.v1.draft.json", "data/derived/breadth_benchmark_matrix/social_security_source_capture_status_rollup.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_open_data_fy2032_2035_current_law_extension_context.v1.draft.json"],
+      "covered_years": [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035],
+      "partial_years": [2034, 2035],
+      "missing_years": [],
+      "path_complete": false,
+      "solver_ready": false,
+      "blocked_outputs": ["separate OASI annual path", "separate DI annual path", "complete post-depletion reserve fields", "explicit transfers", "calendar-to-fiscal receipt bridge", "solver input"]
+    },
+    {
+      "path_id": "medicare_hi_fund_path",
+      "progress_status": "partial",
+      "evidence_paths": ["data/derived/breadth_benchmark_matrix/current_law_fy2025_dedicated_receipt_anchors.v1.draft.json", "data/derived/breadth_benchmark_matrix/current_law_fy2025_named_trust_fund_outlay_anchors.v1.draft.json", "data/derived/breadth_benchmark_matrix/medicare_hi_treasury_mts_fy2025_trust_fund_anchor_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/health_medicare_trustees_source_capture_status.v1.draft.json", "data/derived/breadth_benchmark_matrix/medicare_hi_cy2025_2035_current_law_context_path.v1.draft.json", "data/derived/breadth_benchmark_matrix/medicare_hi_bridge_status_rollup.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_open_data_fy2032_2035_current_law_extension_context.v1.draft.json"],
+      "covered_years": [2025],
+      "context_years": [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035],
+      "missing_years": [2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035],
+      "path_complete": false,
+      "solver_ready": false,
+      "blocked_outputs": ["fiscal-year HI fund path", "OMB/CMS timing and receipt-row bridge", "trust-fund solver yield mapping", "rate bridge", "solver input"]
+    },
+    {
+      "path_id": "transportation_trust_fund_path",
+      "progress_status": "partial",
+      "evidence_paths": ["data/derived/breadth_benchmark_matrix/transportation_pilot_trust_fund_source_custody.v1.draft.json", "data/derived/breadth_benchmark_matrix/transportation_pilot_trust_fund_accounting_boundary.v1.draft.json", "data/derived/breadth_benchmark_matrix/transportation_trust_fund_table_13_4_fy2025_2031_context_path.v1.draft.json", "data/derived/breadth_benchmark_matrix/transportation_trust_fund_treasury_mts_fy2025_anchor_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_open_data_fy2032_2035_current_law_extension_context.v1.draft.json"],
+      "covered_years": [2025, 2026, 2027, 2028, 2029, 2030, 2031],
+      "context_years": [2032, 2033, 2034, 2035],
+      "missing_years": [],
+      "path_complete": false,
+      "solver_ready": false,
+      "blocked_outputs": ["trust-fund income/outgo reconciliation", "explicit general-fund transfers", "credited offsetting collections", "fund-balance reconciliation", "mapping to Function 400 net outlays", "solver input"]
+    },
+    {
+      "path_id": "health_fiscal_current_law_path",
+      "progress_status": "partial",
+      "evidence_paths": [
+        "data/derived/breadth_benchmark_matrix/health_source_readiness_rollup.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/health_medicare_trustees_source_capture_status.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/cbo_health_insurance_baseline_browser_context_fy2026_2036.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/cbo_health_insurance_table2_browser_rowmap_fy2026_2036.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/cbo_major_outlay_category_fy2032_2035_context.v1.draft.json"
+      ],
+      "covered_years": [2025],
+      "context_years": [2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035],
+      "missing_years": [],
+      "path_complete": false,
+      "solver_ready": false,
+      "blocked_outputs": ["fiscal-year HI path", "SMI split path", "non-Medicare health path", "OMB/CBO/CMS reconciliation", "solver input"]
+    },
+    {
+      "path_id": "net_interest_current_law_path",
+      "progress_status": "partial",
+      "evidence_paths": ["data/derived/breadth_benchmark_matrix/net_interest_pbd_fy2025_2031_current_law_context_path.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_open_data_fy2032_2035_current_law_extension_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/net_interest_treasury_average_interest_rate_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/net_interest_formula_contract.v1.draft.json", "data/derived/breadth_benchmark_matrix/net_interest_outcome_floor_definition_packet.v1.draft.json"],
+      "covered_years": [2025, 2026, 2027, 2028, 2029, 2030, 2031],
+      "context_years": [2032, 2033, 2034, 2035],
+      "missing_years": [],
+      "path_complete": false,
+      "solver_ready": false,
+      "blocked_outputs": ["OMB PBD FY2032-FY2035 net-interest row", "debt stock reconciliation", "maturity schedule", "fiscal-year rate path", "primary-balance feedback fixture", "solver input"]
+    }
+  ],
+  "aggregate_status": {
+    "required_paths": 8,
+    "partial_paths": 8,
+    "missing_paths": 0,
+    "complete_paths": 0,
+    "complete_required_horizon_ready": false,
+    "all_current_law_paths_complete": false,
+    "solver_inputs_ready": false
+  },
+  "claim_booleans": {
+    "current_law_source_custody_progress_rollup_published": true,
+    "all_current_law_paths_complete": false,
+    "complete_required_horizon_ready": false,
+    "solver_inputs_ready": false,
+    "solver_run_published": false,
+    "target_cost_published": false,
+    "statutory_rate_published": false,
+    "effective_rate_published": false,
+    "public_rate_card_published": false,
+    "savings_claim_published": false,
+    "waste_finding_published": false,
+    "fraud_finding_published": false,
+    "department_cut_instruction_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "plain_english_status": "Existing current-law custody artifacts now give partial custody progress for all eight required current-law paths, including official OMB PBD User's Guide FY2027 horizon-boundary custody, official CBO FY2032-FY2035 extension context for top-line budget, selected trust-fund balance, debt, and net-interest variables, official CBO FY2026-FY2035 major outlay-category context, official CBO FY2026-FY2035 revenue-detail context, February 2026 CBO health-insurance PDF/spreadsheet raw custody and Table 2 rowmap context, Treasury MTS Table 8 federal-fund FY2025 context, Treasury MTS Tables 4 and 5 Medicare HI FY2025 receipt/outlay anchor context, and Treasury MTS Tables 4 and 5 transportation FY2025 trust-fund anchor context. The data-acquisition eight-gap status is linked as acquisition-status evidence, not as complete source custody. This is not a complete FY2025-FY2035 OMB 17-row lane baseline, not a general-fund annual path, not matched receipt-base evidence, not solver-ready, not rate-ready, not savings-ready, and not balanced-budget-ready."
+}

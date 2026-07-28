@@ -1,0 +1,71 @@
+{
+  "record_id": "trn-c-real-reform-closure:v1",
+  "record_family": "trn_c_real_reform_closure",
+  "version": "v1.draft",
+  "status": "trn_c_complete_cost_only_reform_admitted",
+  "pulse": 255,
+  "as_of_date": "2026-07-26",
+  "start_gate_path": "data/derived/breadth_benchmark_matrix/trn_c_real_reform_start_gate.v1.draft.json",
+  "candidate_screen_path": "data/derived/breadth_benchmark_matrix/trn_c_candidate_screen.v1.draft.json",
+  "scenario_path": "data/derived/breadth_benchmark_matrix/trn_c_airmen_certificate_reform_scenario.v1.draft.json",
+  "core_i_path": "data/derived/breadth_benchmark_matrix/core_i_shared_reform_admission_contract.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/trn_c_real_reform_closure.schema.md",
+  "reader_path": "docs/reading/trn-c-real-reform-closure.md",
+  "role_review_path": "reviews/2026-07-26-trn-c-real-reform-closure-role-review.md",
+  "work_package_results": [
+    {"work_package_id":"TRN-C-01","status":"complete","evidence_path":"data/derived/breadth_benchmark_matrix/trn_c_candidate_screen.v1.draft.json"},
+    {"work_package_id":"TRN-C-02","status":"complete","evidence_path":"data/derived/breadth_benchmark_matrix/trn_c_airmen_certificate_reform_scenario.v1.draft.json"},
+    {"work_package_id":"TRN-C-03","status":"complete","evidence_path":"data/derived/breadth_benchmark_matrix/trn_c_airmen_certificate_reform_scenario.v1.draft.json"},
+    {"work_package_id":"TRN-C-04","status":"complete","evidence_path":"data/derived/breadth_benchmark_matrix/trn_c_airmen_certificate_reform_scenario.v1.draft.json"},
+    {"work_package_id":"TRN-C-05","status":"complete","evidence_path":"reviews/2026-07-26-trn-c-real-reform-closure-role-review.md"}
+  ],
+  "closure_decision": {
+    "selected_instrument": "H.R. 2247, Airmen Certificate Accessibility Act",
+    "instrument_enacted": false,
+    "conditional_score_only": true,
+    "fy2026_fy2031_cbo_outlays_millions": 18,
+    "cost_only_reform_admitted": true,
+    "lower_cost_reform_admitted": false,
+    "target_cost_admitted": false,
+    "productivity_savings_admitted": false,
+    "financing_source_admitted": false,
+    "applicable_policy_and_stress_floors_passed": true,
+    "core_i_findings_extracted": true,
+    "trn_c_done": true,
+    "trn_d_may_start": true
+  },
+  "blocked_outputs": {
+    "enactment_claim": null,
+    "named_fund_financing": null,
+    "general_fund_financing": null,
+    "behavioral_savings": null,
+    "productivity_savings": null,
+    "lower_target_cost": null,
+    "effective_rate": null,
+    "public_rate_card": null,
+    "balanced_budget_result": null
+  },
+  "aggregate_status": {
+    "work_packages": 5,
+    "completed_work_packages": 5,
+    "selected_candidates": 1,
+    "admitted_cost_only_reforms": 1,
+    "admitted_lower_cost_reforms": 0,
+    "trn_c_done": true,
+    "trn_d_may_start": true
+  },
+  "claim_booleans": {
+    "trn_c_closure_published": true,
+    "trn_c_done": true,
+    "trn_d_may_start": true,
+    "real_reform_score_published": true,
+    "candidate_enacted": false,
+    "target_cost_published": false,
+    "gross_savings_published": false,
+    "net_savings_published": false,
+    "rate_published": false,
+    "public_rate_card_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "TRN-C closes with a conditional, cost-only H.R. 2247 scenario and a CBO-estimated $18 million FY2026-FY2031 outlay effect. The bill is not enacted. No financing source, lower target cost, productivity savings, rate, public card, or balanced-budget claim is admitted."
+}

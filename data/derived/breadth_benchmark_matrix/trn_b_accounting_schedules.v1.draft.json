@@ -1,0 +1,40 @@
+{
+  "record_id": "trn-b-accounting-schedules:v1",
+  "record_family": "trn_b_accounting_schedules",
+  "version": "v1.draft",
+  "status": "trn_b_05_complete_evidence_supported_schedules_with_nulls",
+  "track_wave_id": "TRN-B",
+  "work_package_id": "TRN-B-05",
+  "pulse": 248,
+  "as_of_date": "2026-07-26",
+  "schema_path": "data/derived/breadth_benchmark_matrix/trn_b_accounting_schedules.schema.md",
+  "named_fund_adapter_path": "data/derived/breadth_benchmark_matrix/trn_b_named_fund_adapter_rows.v1.draft.json",
+  "source_bridge_decisions_path": "data/derived/breadth_benchmark_matrix/trn_b_source_bridge_decisions.v1.draft.json",
+  "unit": "tenths_billions_usd",
+  "field_decisions": [
+    {"field_id":"explicit_general_fund_transfer","source_status":"not_separately_identified_in_admitted_rows","adapter_value":0,"substantive_schedule":null,"decision":"zero_prevents_double_counting_inside_aggregate_balance_adjustment_not_evidence_of_zero_transfers"},
+    {"field_id":"credited_offsetting_collections","source_status":"no_comparable_separate_outlay_offset_series_admitted","adapter_value":0,"substantive_schedule":null,"decision":"OMB_outgo_is_used_as_reported_and_no_extra_offset_is_deducted"},
+    {"field_id":"balance_adjustments","source_status":"OMB_combined_borrowing_transfers_lapses_other_adjustments_available","substantive_schedule":"populated_at_displayed_precision","decision":"combined_field_not_disaggregated"},
+    {"field_id":"reserve_contribution_withdrawal_and_balance","source_status":"no_lane_specific_reserve_parameters_admitted","substantive_schedule":null,"decision":"reserve_interface_ready_but_numeric_schedule_remains_null"},
+    {"field_id":"explicit_rounding_line","source_status":"derived_only_to_reconcile_displayed_components_to_displayed_closing_balance","substantive_schedule":"populated_at_tenths_billions","decision":"never_absorbed_into_transfers_offsets_or_savings"}
+  ],
+  "annual_rows": [
+    {"fund_id":"airport_and_airway_trust_fund","fiscal_year":2025,"explicit_general_fund_transfer":null,"credited_offsetting_collections":null,"balance_adjustments":0,"reserve_contribution":null,"reserve_withdrawal":null,"reserve_balance":null,"explicit_rounding_line":0},
+    {"fund_id":"airport_and_airway_trust_fund","fiscal_year":2026,"explicit_general_fund_transfer":null,"credited_offsetting_collections":null,"balance_adjustments":0,"reserve_contribution":null,"reserve_withdrawal":null,"reserve_balance":null,"explicit_rounding_line":1},
+    {"fund_id":"airport_and_airway_trust_fund","fiscal_year":2027,"explicit_general_fund_transfer":null,"credited_offsetting_collections":null,"balance_adjustments":0,"reserve_contribution":null,"reserve_withdrawal":null,"reserve_balance":null,"explicit_rounding_line":0},
+    {"fund_id":"airport_and_airway_trust_fund","fiscal_year":2028,"explicit_general_fund_transfer":null,"credited_offsetting_collections":null,"balance_adjustments":0,"reserve_contribution":null,"reserve_withdrawal":null,"reserve_balance":null,"explicit_rounding_line":-1},
+    {"fund_id":"airport_and_airway_trust_fund","fiscal_year":2029,"explicit_general_fund_transfer":null,"credited_offsetting_collections":null,"balance_adjustments":0,"reserve_contribution":null,"reserve_withdrawal":null,"reserve_balance":null,"explicit_rounding_line":0},
+    {"fund_id":"airport_and_airway_trust_fund","fiscal_year":2030,"explicit_general_fund_transfer":null,"credited_offsetting_collections":null,"balance_adjustments":0,"reserve_contribution":null,"reserve_withdrawal":null,"reserve_balance":null,"explicit_rounding_line":-1},
+    {"fund_id":"airport_and_airway_trust_fund","fiscal_year":2031,"explicit_general_fund_transfer":null,"credited_offsetting_collections":null,"balance_adjustments":0,"reserve_contribution":null,"reserve_withdrawal":null,"reserve_balance":null,"explicit_rounding_line":-1},
+    {"fund_id":"highway_trust_fund","fiscal_year":2025,"explicit_general_fund_transfer":null,"credited_offsetting_collections":null,"balance_adjustments":-1,"reserve_contribution":null,"reserve_withdrawal":null,"reserve_balance":null,"explicit_rounding_line":0},
+    {"fund_id":"highway_trust_fund","fiscal_year":2026,"explicit_general_fund_transfer":null,"credited_offsetting_collections":null,"balance_adjustments":-2,"reserve_contribution":null,"reserve_withdrawal":null,"reserve_balance":null,"explicit_rounding_line":-1},
+    {"fund_id":"highway_trust_fund","fiscal_year":2027,"explicit_general_fund_transfer":null,"credited_offsetting_collections":null,"balance_adjustments":-2,"reserve_contribution":null,"reserve_withdrawal":null,"reserve_balance":null,"explicit_rounding_line":0},
+    {"fund_id":"highway_trust_fund","fiscal_year":2028,"explicit_general_fund_transfer":null,"credited_offsetting_collections":null,"balance_adjustments":0,"reserve_contribution":null,"reserve_withdrawal":null,"reserve_balance":null,"explicit_rounding_line":1},
+    {"fund_id":"highway_trust_fund","fiscal_year":2029,"explicit_general_fund_transfer":null,"credited_offsetting_collections":null,"balance_adjustments":0,"reserve_contribution":null,"reserve_withdrawal":null,"reserve_balance":null,"explicit_rounding_line":-1},
+    {"fund_id":"highway_trust_fund","fiscal_year":2030,"explicit_general_fund_transfer":null,"credited_offsetting_collections":null,"balance_adjustments":0,"reserve_contribution":null,"reserve_withdrawal":null,"reserve_balance":null,"explicit_rounding_line":1},
+    {"fund_id":"highway_trust_fund","fiscal_year":2031,"explicit_general_fund_transfer":null,"credited_offsetting_collections":null,"balance_adjustments":0,"reserve_contribution":null,"reserve_withdrawal":null,"reserve_balance":null,"explicit_rounding_line":0}
+  ],
+  "aggregate_status": {"annual_row_count":14,"evidence_supported_adjustment_rows":14,"evidence_supported_rounding_rows":14,"unsupported_transfer_rows_kept_null":14,"unsupported_offset_rows_kept_null":14,"unsupported_reserve_rows_kept_null":14,"work_package_done":true,"numeric_reserve_parameters_ready":false,"trn_b_done":false},
+  "claim_booleans": {"trn_b_05_done":true,"accounting_schedules_published":true,"general_fund_transfer_schedule_published":false,"credited_offset_schedule_published":false,"numeric_reserve_schedule_published":false,"rounding_schedule_published":true,"trn_b_done":false,"savings_claim_published":false},
+  "public_warning": "TRN-B-05 populates only evidence-supported combined adjustments and explicit rounding. General-fund transfers, credited offsetting collections, and numeric reserve schedules remain null; adapter zeros prevent double counting and are not substantive zero claims."
+}

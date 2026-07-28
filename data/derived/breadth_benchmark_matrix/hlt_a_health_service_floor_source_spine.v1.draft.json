@@ -1,0 +1,30 @@
+{
+  "record_id": "hlt-a-health-service-floor-source-spine:v1",
+  "record_family": "hlt_a_health_service_floor_source_spine",
+  "version": "v1.draft",
+  "status": "hlt_a_04_complete_bounded_service_floor_lineage_gaps_explicit",
+  "pulse": 282,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "HLT-A",
+  "start_gate_path": "data/derived/breadth_benchmark_matrix/hlt_a_health_baseline_start_gate.v1.draft.json",
+  "baseline_path": "data/derived/breadth_benchmark_matrix/hlt_a_federal_health_baseline_path.v1.draft.json",
+  "financing_lineage_path": "data/derived/breadth_benchmark_matrix/hlt_a_health_financing_lineage.v1.draft.json",
+  "floor_definition_path": "data/derived/breadth_benchmark_matrix/health_outcome_floor_definition_packet.v1.draft.json",
+  "floor_source_capture_path": "data/derived/breadth_benchmark_matrix/health_floor_source_capture_status.v1.draft.json",
+  "source_readiness_rollup_path": "data/derived/breadth_benchmark_matrix/health_source_readiness_rollup.v1.draft.json",
+  "provider_adequacy_floor_path": "data/derived/breadth_benchmark_matrix/health_medicare_provider_adequacy_margin_floor_value_packet.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/hlt_a_health_service_floor_source_spine.schema.md",
+  "reader_path": "docs/reading/hlt-a-health-service-floor-source-spine.md",
+  "service_floor_lineage": [
+    {"floor_class":"access_coverage","source_state":"partial_context_custody","bound_sources":["CMS Provider Data Catalog hospital access context","CMS Medicare Trustees enrollment context"],"threshold_or_pass_fail_ready":false},
+    {"floor_class":"quality_safety","source_state":"partial_context_custody","bound_sources":["CMS Provider Data Catalog hospital quality context","CMS hospital measure methodology surfaces"],"threshold_or_pass_fail_ready":false},
+    {"floor_class":"equity_distribution","source_state":"source_gap","bound_sources":["health outcome-floor definition packet"],"threshold_or_pass_fail_ready":false},
+    {"floor_class":"adequacy_resilience","source_state":"draft_baseline_context","bound_sources":["Medicare provider-adequacy margin floor packet","CMS/HRSA rural safety-net context"],"threshold_or_pass_fail_ready":false},
+    {"floor_class":"fiscal_delivery_feasibility","source_state":"partial_fiscal_context","bound_sources":["OMB FY2025 health and Medicare outlays","CMS NHE context","CBO health source gap"],"threshold_or_pass_fail_ready":false}
+  ],
+  "source_boundary": {"official_sources_only":true,"federal_and_nonfederal_context_not_summed":true,"partial_context_custody_admitted":true,"complete_health_source_capture_admitted":false,"threshold_selection_admitted":false,"observed_pass_fail_admitted":false,"policy_or_stress_values_admitted":false},
+  "decision": {"bounded_service_floor_lineage_admitted":true,"hlt_a_04_done":true,"hlt_a_05_may_start":true,"next_active_work_package_id":"HLT-A-05"},
+  "blocked_outputs": {"complete_health_source_capture":null,"floor_thresholds":null,"policy_floor_values":null,"stress_floor_values":null,"pass_fail_findings":null,"federal_translation":null,"solver_input":null,"hlt_a_closure":null,"hlt_b_start":null},
+  "claim_booleans": {"hlt_a_health_service_floor_source_spine_published":true,"bounded_service_floor_lineage_admitted":true,"partial_context_custody_admitted":true,"hlt_a_04_done":true,"hlt_a_05_may_start":true,"complete_health_source_capture_ready":false,"floor_pass_fail_ready":false,"solver_ready":false,"hlt_a_done":false,"hlt_b_may_start":false},
+  "public_warning": "HLT-A-04 binds access, quality, equity, provider-adequacy, and fiscal-delivery source lineage with explicit partial-custody and source-gap states. It does not select thresholds, populate policy or stress values, publish pass/fail findings, translate federal effects, produce solver input, close HLT-A, or start HLT-B."
+}

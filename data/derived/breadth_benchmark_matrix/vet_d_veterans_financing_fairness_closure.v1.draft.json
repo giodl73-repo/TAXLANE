@@ -1,0 +1,33 @@
+{
+  "record_id": "vet-d-veterans-financing-fairness-closure:v1",
+  "record_family": "vet_d_veterans_financing_fairness_closure",
+  "version": "v1.draft",
+  "status": "vet_d_complete_bounded_hr2137_floor_blocked_no_reform_outputs",
+  "pulse": 338,
+  "as_of_date": "2026-07-27",
+  "track_wave_id": "VET-D",
+  "vet_c_path": "data/derived/breadth_benchmark_matrix/vet_c_veterans_scenario_admission_closure.v1.draft.json",
+  "accounting_path": "data/derived/breadth_benchmark_matrix/vet_b_veterans_accounting_closure.v1.draft.json",
+  "floor_path": "data/derived/breadth_benchmark_matrix/veterans_claims_backlog_floor_value_packet.v1.draft.json",
+  "hr2137_bill_source_path": "data/raw/gpo/SRC-GOVINFO-HR2137-RH-2026/2026-07-26/BILLS-119hr2137rh.pdf",
+  "hr2137_cbo_url": "https://www.cbo.gov/publication/61852",
+  "core_j_path": "data/derived/breadth_benchmark_matrix/core_j_bounded_closure_handoff_closure.v1.draft.json",
+  "core_k_path": "data/derived/breadth_benchmark_matrix/core_k_temporal_composite_accounting_closure.v1.draft.json",
+  "core_l_path": "data/derived/breadth_benchmark_matrix/core_l_cross_lane_overlap_allocation_closure.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/three_lane_stage_d_bounded_bundle.schema.md",
+  "reader_path": "docs/reading/three-lane-stage-d-bounded-bundle.md",
+  "role_review_path": "reviews/2026-07-27-three-lane-stage-d-bounded-role-review.md",
+  "package_reconciliation": [
+    {"work_package_id":"VET-D-01","status":"complete","completion_class":"bounded_structural","finding":"Mandatory benefits, discretionary administration, Toxic Exposures Fund, court, health-overlap, and general-fund perimeters remain distinct."},
+    {"work_package_id":"VET-D-02","status":"not_required","completion_class":"candidate_dependent","finding":"H.R. 2137 has official text and a CBO score, but it is not admitted because the applicable claims-timeliness policy and stress floor is incomplete; no financing base or yield is constructed."},
+    {"work_package_id":"VET-D-03","status":"complete","completion_class":"bounded_structural","finding":"Claims workload, examinations, appeals aggregation, staffing, IT, administration, and beneficiary-burden requirements are mapped."},
+    {"work_package_id":"VET-D-04","status":"complete","completion_class":"bounded_structural","finding":"Veteran access, claims timeliness, quality, pension-recipient, Medicaid, and cohort incidence requirements remain explicit and unscored."},
+    {"work_package_id":"VET-D-05","status":"complete","completion_class":"bounded_structural","finding":"TEF, health, Medicaid, pension, court, debt, and endogenous-interest interactions remain separated with CORE-L overlap ownership."},
+    {"work_package_id":"VET-D-06","status":"complete","completion_class":"bounded_structural","finding":"Role review closes the D interface without admitting H.R. 2137, a target cost, rate, or savings result."}
+  ],
+  "candidate_evidence_progress": {"candidate_id":"hr2137_review_every_veterans_claim","official_reported_bill_custodied":true,"official_cbo_score_identified":true,"cbo_score_date":"2025-11-04","score_horizon":"FY2026-FY2035","direct_spending_outlays_total_millions":-108,"appropriation_outlays_total_millions":136,"net_combined_outlay_effect_millions":28,"candidate_enacted":false,"applicable_claims_floor_ready":false,"candidate_admitted":false,"boundary":"The signed direct-spending reduction is driven by an extension of pension-payment limits with a Medicaid interaction; it is not claims-processing productivity savings."},
+  "closure_decision": {"completion_class":"bounded_structural","role_review_complete":true,"vet_d_done":true,"reform_admitted":false,"vet_e_may_start":false,"numeric_completion":false,"output_admission":false},
+  "blocked_outputs": {"admitted_reform":null,"assigned_receipt_base":null,"claims_productivity_savings":null,"incidence_distribution":null,"floor_pass_fail":null,"target_cost":null,"solver_input":null,"assigned_rate":null,"gross_savings":null,"net_savings":null,"vet_e_start":null},
+  "claim_booleans": {"vet_d_closure_published":true,"vet_d_done":true,"hr2137_source_progress_recorded":true,"reform_admitted":false,"vet_e_may_start":false,"solver_ready":false,"rate_published":false,"savings_claim_published":false},
+  "public_warning": "VET-D is complete only as a bounded financing and fairness interface. H.R. 2137 is not enacted or admitted, its claims-timeliness floor is incomplete, and its pension/Medicaid effects are not claims-processing savings. No solver input, rate, savings, or public card is admitted."
+}

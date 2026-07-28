@@ -1,0 +1,30 @@
+{
+  "record_id": "edu-a-education-workforce-baseline-closure:v1",
+  "record_family": "edu_a_education_workforce_baseline_closure",
+  "version": "v1.draft",
+  "status": "edu_a_complete_bounded_source_spine_edu_b_started",
+  "pulse": 285,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "EDU-A",
+  "start_gate_path": "data/derived/breadth_benchmark_matrix/edu_a_education_baseline_start_gate.v1.draft.json",
+  "perimeter_inventory_path": "data/derived/breadth_benchmark_matrix/edu_a_education_workforce_perimeter_source_inventory.v1.draft.json",
+  "baseline_path": "data/derived/breadth_benchmark_matrix/edu_a_federal_education_workforce_baseline_path.v1.draft.json",
+  "financing_lineage_path": "data/derived/breadth_benchmark_matrix/edu_a_education_workforce_financing_lineage.v1.draft.json",
+  "service_floor_spine_path": "data/derived/breadth_benchmark_matrix/edu_a_education_workforce_service_floor_source_spine.v1.draft.json",
+  "role_review_path": "reviews/2026-07-26-edu-a-education-workforce-baseline-closure-role-review.md",
+  "edu_b_start_gate_path": "data/derived/breadth_benchmark_matrix/edu_b_education_workforce_accounting_start_gate.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/edu_a_education_workforce_baseline_closure.schema.md",
+  "reader_path": "docs/reading/edu-a-education-workforce-baseline-closure.md",
+  "package_reconciliation": [
+    {"work_package_id":"EDU-A-01","status":"complete","finding":"Function-500 and six-subfunction federal perimeter plus five source families frozen."},
+    {"work_package_id":"EDU-A-02","status":"complete","finding":"FY2025-FY2031 exact baseline rows and FY2032-FY2035 explicit nulls reconciled."},
+    {"work_package_id":"EDU-A-03","status":"complete","finding":"Appropriation, grant, nongrant, credit, offset, and state/local relationships remain separate."},
+    {"work_package_id":"EDU-A-04","status":"complete","finding":"Five service/floor classes bound to available source packets and explicit gaps."},
+    {"work_package_id":"EDU-A-05","status":"complete","finding":"Eight-role review accepts bounded A-stage closure and guarded EDU-B discovery start."}
+  ],
+  "closure_boundary": {"bounded_education_workforce_source_spine_complete":true,"full_numeric_horizon_complete":false,"federal_state_local_translation_complete":false,"complete_floor_set":false,"account_allocation_complete":false,"unresolved_items_carried_to_edu_b":true},
+  "dependency_decision": {"core_h_done":true,"edu_a_done":true,"edu_b_may_start":true,"edu_b_started":true,"next_active_work_package_id":"EDU-B-01"},
+  "blocked_outputs": {"fy2032_fy2035_function_500_outlays":null,"full_account_allocation":null,"federal_state_local_translation":null,"complete_floor_values":null,"education_reform":null,"solver_input":null,"assigned_rate":null,"gross_savings":null,"net_savings":null},
+  "claim_booleans": {"edu_a_baseline_closure_published":true,"role_review_complete":true,"edu_a_done":true,"edu_b_may_start":true,"edu_b_started":true,"full_numeric_horizon_ready":false,"complete_floor_set_ready":false,"solver_ready":false,"rate_published":false,"savings_claim_published":false},
+  "public_warning": "EDU-A closes as a bounded baseline and source spine, not as a complete numeric horizon, full account allocation, federal/state/local translation, floor result, education reform, solver input, rate, or savings estimate. EDU-B accounting discovery may start with those gaps preserved."
+}

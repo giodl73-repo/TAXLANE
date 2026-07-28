@@ -1,0 +1,22 @@
+# SRC-USDA-ERS-HOUSEHOLD-FOOD-SECURITY-2024 metadata
+
+- Publisher: U.S. Department of Agriculture, Economic Research Service
+- Source: Household Food Security in the United States in 2024, report summary, statistical supplement, ERS food-security topic/data-product pages, and 2024 CPS Food Security Supplement documentation
+- Official report URL: `https://www.ers.usda.gov/media/9161/err-358.pdf?v=61418`
+- Official report-summary URL: `https://www.ers.usda.gov/media/7746/err-358-report-summary.pdf?v=65703`
+- Official statistical supplement URL: `https://ers.usda.gov/sites/default/files/_laserfiche/publications/113634/AP-126.pdf`
+- Official data-product URL: `https://www.ers.usda.gov/data-products/food-security-in-the-united-states`
+- Official topic URL: `https://www.ers.usda.gov/topics/food-nutrition-assistance/food-security-in-the-u-s`
+- Retrieval date: 2026-07-24
+- Capture method: Scripted download from official ERS URLs.
+- Raw artifacts:
+  - `data/raw/usda/SRC-USDA-ERS-HOUSEHOLD-FOOD-SECURITY-2024/2026-07-24/err-358-household-food-security-2024.pdf`; byte count: 1017042; SHA-256: `dfe19c73cd5fbaa08a2dec52768690c968892150153806fec83038d3dac0adf7`
+  - `data/raw/usda/SRC-USDA-ERS-HOUSEHOLD-FOOD-SECURITY-2024/2026-07-24/err-358-report-summary.pdf`; byte count: 343612; SHA-256: `b7f80ef59e3ae601b4f665bd2a59a7698723b28fbae8647468754d3465ce7e4b`
+  - `data/raw/usda/SRC-USDA-ERS-HOUSEHOLD-FOOD-SECURITY-2024/2026-07-24/ap-126-statistical-supplement-2024.pdf`; byte count: 529826; SHA-256: `e5f8428ede1ee0e2a5ea7d35845b2849f0c830aaf1a19ee57831c759c657789d`
+  - `data/raw/usda/SRC-USDA-ERS-HOUSEHOLD-FOOD-SECURITY-2024/2026-07-24/ers-food-security-data-product-page.html`; byte count: 140962; SHA-256: `6dad7daa1199e25765db078fd8b13d7b6668094ca9eacabf39cdbf3fdc4bfa3f`
+  - `data/raw/usda/SRC-USDA-ERS-HOUSEHOLD-FOOD-SECURITY-2024/2026-07-24/ers-food-security-topic-page.html`; byte count: 52165; SHA-256: `af2e739ee553352fa7606b82c23f1e3408a101bec9b26c6387f4f439128972e7`
+  - `data/raw/usda/SRC-USDA-ERS-HOUSEHOLD-FOOD-SECURITY-2024/2026-07-24/december-2024-cps-food-security-supplement-technical-documentation.pdf`; byte count: 256115; SHA-256: `052b5102990bb7e58a7f62e6b39a687b4c598b1fe746af0ef19c2ceb89ec7cac`
+  - `data/raw/usda/SRC-USDA-ERS-HOUSEHOLD-FOOD-SECURITY-2024/2026-07-24/december-2024-cps-food-security-supplement-questionnaire.pdf`; byte count: 307365; SHA-256: `534d77003478e038782f3be3209640ec03434625087ea3496e39d0126307fa1c`
+  - `data/raw/usda/SRC-USDA-ERS-HOUSEHOLD-FOOD-SECURITY-2024/2026-07-24/december-2024-cps-food-security-supplement-questionnaire.docx`; byte count: 61886; SHA-256: `b16032adc09c77218c2867ee82b387a5e60a97bd1e253340f3e095a2625b5dea`
+- Use: ERS food-security source context for the income-security/family food-hardship and nutrition source gate.
+- Boundary: not reviewed floor values, not a material-hardship threshold, not a nutrition-program boundary, not a benefit package model, not solver input, not rates, and not savings.

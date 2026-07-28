@@ -1,0 +1,32 @@
+{
+  "record_id": "trn-b-function-400-mapping:v1",
+  "record_family": "trn_b_function_400_mapping",
+  "version": "v1.draft",
+  "status": "trn_b_04_complete_reviewed_perimeter_crosswalk",
+  "track_wave_id": "TRN-B",
+  "work_package_id": "TRN-B-04",
+  "pulse": 247,
+  "as_of_date": "2026-07-26",
+  "schema_path": "data/derived/breadth_benchmark_matrix/trn_b_function_400_mapping.schema.md",
+  "function_400_path": "data/derived/breadth_benchmark_matrix/transportation_pilot_partial_federal_outlay_path.v1.draft.json",
+  "named_fund_adapter_path": "data/derived/breadth_benchmark_matrix/trn_b_named_fund_adapter_rows.v1.draft.json",
+  "unit": "millions_usd",
+  "mapping_contract": [
+    {"fund_id":"airport_and_airway_trust_fund","related_function_400_subfunction":"402_air_transportation","relationship":"related_perimeters_not_one_to_one","direct_allocation_allowed":false},
+    {"fund_id":"highway_trust_fund","related_function_400_subfunction":"401_ground_transportation","relationship":"related_perimeters_not_one_to_one","direct_allocation_allowed":false},
+    {"fund_id":null,"related_function_400_subfunction":"403_water_transportation","relationship":"outside_two_named_fund_ledgers","direct_allocation_allowed":false},
+    {"fund_id":null,"related_function_400_subfunction":"407_other_transportation","relationship":"outside_two_named_fund_ledgers","direct_allocation_allowed":false}
+  ],
+  "annual_crosswalk_rows": [
+    {"fiscal_year":2025,"function_400_total":145320,"ground":100827,"air":29743,"water":13852,"other":898,"highway_fund_outgo":74400,"airport_and_airway_fund_outgo":19900,"named_fund_outgo_sum":94300,"ground_perimeter_residual":26427,"air_perimeter_residual":9843,"water_and_other":14750,"non_named_fund_and_perimeter_residual":51020,"identity_difference":0},
+    {"fiscal_year":2026,"function_400_total":150277,"ground":102208,"air":29972,"water":17094,"other":1003,"highway_fund_outgo":75900,"airport_and_airway_fund_outgo":21600,"named_fund_outgo_sum":97500,"ground_perimeter_residual":26308,"air_perimeter_residual":8372,"water_and_other":18097,"non_named_fund_and_perimeter_residual":52777,"identity_difference":0},
+    {"fiscal_year":2027,"function_400_total":166475,"ground":106589,"air":37288,"water":21557,"other":1041,"highway_fund_outgo":77700,"airport_and_airway_fund_outgo":21400,"named_fund_outgo_sum":99100,"ground_perimeter_residual":28889,"air_perimeter_residual":15888,"water_and_other":22598,"non_named_fund_and_perimeter_residual":67375,"identity_difference":0},
+    {"fiscal_year":2028,"function_400_total":175618,"ground":110912,"air":40166,"water":23488,"other":1052,"highway_fund_outgo":79800,"airport_and_airway_fund_outgo":23000,"named_fund_outgo_sum":102800,"ground_perimeter_residual":31112,"air_perimeter_residual":17166,"water_and_other":24540,"non_named_fund_and_perimeter_residual":72818,"identity_difference":0},
+    {"fiscal_year":2029,"function_400_total":168833,"ground":109158,"air":36501,"water":22141,"other":1033,"highway_fund_outgo":81000,"airport_and_airway_fund_outgo":22500,"named_fund_outgo_sum":103500,"ground_perimeter_residual":28158,"air_perimeter_residual":14001,"water_and_other":23174,"non_named_fund_and_perimeter_residual":65333,"identity_difference":0},
+    {"fiscal_year":2030,"function_400_total":157618,"ground":105178,"air":31234,"water":20203,"other":1003,"highway_fund_outgo":82400,"airport_and_airway_fund_outgo":22200,"named_fund_outgo_sum":104600,"ground_perimeter_residual":22778,"air_perimeter_residual":9034,"water_and_other":21206,"non_named_fund_and_perimeter_residual":53018,"identity_difference":0},
+    {"fiscal_year":2031,"function_400_total":152268,"ground":103220,"air":28413,"water":19666,"other":969,"highway_fund_outgo":83800,"airport_and_airway_fund_outgo":22100,"named_fund_outgo_sum":105900,"ground_perimeter_residual":19420,"air_perimeter_residual":6313,"water_and_other":20635,"non_named_fund_and_perimeter_residual":46368,"identity_difference":0}
+  ],
+  "review_decision": {"mapping_ready":true,"bounded_horizon":"FY2025-FY2031","residual_is_general_fund_amount":false,"general_fund_amount":null,"residual_is_savings":false,"fund_outgo_equals_subfunction_outlay":false,"solver_allocation_ready":false,"work_package_done":true},
+  "claim_booleans": {"trn_b_04_done":true,"function_400_crosswalk_published":true,"general_fund_amount_published":false,"solver_allocation_ready":false,"savings_claim_published":false,"trn_b_done":false},
+  "public_warning": "TRN-B-04 publishes a reviewed perimeter crosswalk, not a one-to-one allocation. The residual is not labeled general-fund spending or savings, and the mapping does not create a solver-ready allocation."
+}

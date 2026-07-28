@@ -1,0 +1,83 @@
+{
+  "record_id": "cms-hrsa-rural-safety-net-capacity-context:v1",
+  "record_family": "cms_hrsa_rural_safety_net_capacity_context",
+  "schema_version": "v1.draft",
+  "status": "draft_partial_rural_safety_net_capacity_context_floor_values_blocked",
+  "pulse": 182,
+  "as_of_date": "2026-07-24",
+  "lane_id": "health-medicare",
+  "source_id": "SRC-CMS-HRSA-RURAL-SAFETY-NET-CAPACITY-CONTEXT-2026-07-24",
+  "metadata_path": "data/metadata/SRC-CMS-HRSA-RURAL-SAFETY-NET-CAPACITY-CONTEXT-2026-07-24.2026-07-24.metadata.md",
+  "local_cms_sources": [
+    {
+      "source_key": "cms_team_safety_net_rural_fact_sheet",
+      "publisher": "Centers for Medicare & Medicaid Services (CMS)",
+      "official_url": "https://www.cms.gov/files/document/team-safetynet-rural-fs.pdf",
+      "raw_artifact_path": "data/raw/cms/SRC-CMS-HRSA-RURAL-SAFETY-NET-CAPACITY-CONTEXT-2026-07-24/2026-07-24/cms_team_safetynet_rural_fact_sheet.pdf",
+      "raw_byte_count": 235117,
+      "raw_sha256": "14b998ce02e54d77e3a25f3dfb75a03a30bd2422eea44a731c8409c63b3de7ea",
+      "context_fields": ["safety_net_definition", "rural_hospital_definition", "bed_size_categories", "low_volume_policy", "quality_program_source_boundary"],
+      "context_use_only": true
+    },
+    {
+      "source_key": "cms_provider_specific_data_page",
+      "publisher": "Centers for Medicare & Medicaid Services (CMS)",
+      "official_url": "https://www.cms.gov/medicare/payment/prospective-payment-systems/provider-specific-data-public-use-text-format",
+      "raw_artifact_path": "data/raw/cms/SRC-CMS-HRSA-RURAL-SAFETY-NET-CAPACITY-CONTEXT-2026-07-24/2026-07-24/cms_provider_specific_data_public_use_page.html",
+      "raw_byte_count": 213804,
+      "raw_sha256": "bcf66589f060a7389bd60947dc428e4465cedcbf0cd91eece91ac2b4049f9ca3",
+      "context_fields": ["provider_specific_file_download_boundary", "inpatient_psf_csv_access", "provider_facts_for_pps_calculations"],
+      "context_use_only": true
+    },
+    {
+      "source_key": "cms_inpatient_psf_october_2025_zip",
+      "publisher": "Centers for Medicare & Medicaid Services (CMS)",
+      "official_url": "https://www.cms.gov/medicare/medicare-fee-for-service-payment/prospmedicarefeesvcpmtgen/downloads/inp-psf.zip",
+      "raw_artifact_path": "data/raw/cms/SRC-CMS-HRSA-RURAL-SAFETY-NET-CAPACITY-CONTEXT-2026-07-24/2026-07-24/cms_inpatient_psf_october_2025.zip",
+      "raw_byte_count": 10201748,
+      "raw_sha256": "dd245f3d013fa12de3a1710248a1bfebfe10cf77685736e87633498130b8d812",
+      "zip_entries": [
+        {"entry_name": "IPSF_INP_2025-12-05.csv", "entry_byte_count": 102215932, "row_count": 332369},
+        {"entry_name": "IPSF_INP_LRO_2025-12-05.csv", "entry_byte_count": 2837534, "row_count": 9413},
+        {"entry_name": "IPSF_INP_LRO_2025-12-05.xlsx", "entry_byte_count": 3307206, "row_count": null}
+      ],
+      "capacity_context_fields": ["bedSize", "supplementalSecurityIncomeRatio", "medicaidRatio", "operatingDsh", "providerType", "stateCode", "caseMixIndex"],
+      "context_use_only": true
+    }
+  ],
+  "browser_visible_hrsa_context": {
+    "publisher": "Health Resources and Services Administration (HRSA)",
+    "forhp_data_files_page_url": "https://www.hrsa.gov/rural-health/about-us/what-is-rural/data-files",
+    "rural_health_areas_xlsx_url": "https://www.hrsa.gov/sites/default/files/hrsa/rural-health/about/rural-health-areas-data-set.xlsx",
+    "browser_context_ready": true,
+    "local_raw_custody_ready": false,
+    "command_line_access_boundary": "HRSA page and XLSX command-line retrieval returned access denied from this environment."
+  },
+  "capacity_context_summary": {
+    "cms_definition_context_captured": true,
+    "cms_inpatient_psf_zip_captured": true,
+    "cms_psf_capacity_fields_identified": true,
+    "hrsa_browser_context_identified": true,
+    "hrsa_local_raw_custody_ready": false,
+    "facility_to_county_rural_join_ready": false,
+    "complete_rural_safety_net_capacity_series_ready": false,
+    "floor_threshold_values_ready": false,
+    "observed_floor_values_ready": false,
+    "pass_fail_findings_ready": false,
+    "solver_input_ready": false,
+    "rate_calculation_ready": false,
+    "balanced_budget_claim_ready": false
+  },
+  "blocked_outputs": {
+    "complete_rural_safety_net_capacity_series": null,
+    "hrsa_local_raw_rural_area_dataset": null,
+    "facility_to_county_rural_join": null,
+    "health_floor_thresholds": null,
+    "observed_floor_values": null,
+    "pass_fail_findings": null,
+    "solver_input": null,
+    "rate_calculation": null,
+    "balanced_budget_claim": null
+  },
+  "public_warning": "CMS rural/safety-net definition context, CMS Provider Specific File page custody, and CMS inpatient PSF ZIP custody are locally captured, and HRSA FORHP rural data files are browser-visible official context, but HRSA local raw custody and facility-to-county rural joins remain blocked. This is not a complete rural/safety-net capacity series, not floor thresholds, not observed floor values, not pass/fail findings, not solver input, not rate calculation, and not a balanced-budget claim."
+}

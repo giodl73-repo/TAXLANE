@@ -1,0 +1,95 @@
+{
+  "record_id": "omb-pbd-fy2027-user-guide-horizon-boundary-context:v1",
+  "record_family": "omb_pbd_user_guide_horizon_boundary_context",
+  "version": "v1.draft",
+  "status": "draft_source_custody_documentation_added_values_still_blocked",
+  "as_of_date": "2026-07-24",
+  "gap_id": "fy2032_fy2035_omb_17_row_ledger",
+  "source_custody": {
+    "source_id": "SRC-OMB-PBD-GUIDE-FY2027",
+    "publisher": "Office of Management and Budget",
+    "source_title": "Public Budget Database User's Guide, Budget of the United States Government for Fiscal Year 2027",
+    "url": "https://www.whitehouse.gov/wp-content/uploads/2026/04/db_guide_fy2027.pdf",
+    "retrieval_date": "2026-07-24",
+    "raw_artifact_path": "data/raw/omb/SRC-OMB-PBD-GUIDE-FY2027/2026-07-24/db_guide_fy2027.pdf",
+    "raw_byte_count": 249763,
+    "raw_sha256": "cc4871365009d485dae32bc6aeaa402005f06151516399efd8499c72f0542bb3",
+    "metadata_path": "data/metadata/SRC-OMB-PBD-GUIDE-FY2027.2026-07-24.metadata.md",
+    "review_status": "reviewed_for_pbd_file_boundary_not_values"
+  },
+  "source_boundary": {
+    "official_public_source": true,
+    "local_raw_custody": true,
+    "documentation_only": true,
+    "not_omb_17_row_values": true,
+    "not_interpolation": true,
+    "not_solver_input": true,
+    "not_rate_or_savings_claim": true
+  },
+  "guide_extract_boundary": {
+    "describes_three_data_files": true,
+    "account_level_spreadsheet_format": true,
+    "source_unit": "thousands_of_dollars",
+    "guide_year_horizon_text": "FY1995 through FY2031 amounts represent Budget amounts multiplied by one thousand to convert to thousands; detail below millions is not available.",
+    "limitation_boundary": "Guide documents PBD file scope and limitations; it does not provide FY2032-FY2035 OMB 17-row rows."
+  },
+  "pbd_data_file_boundary": [
+    {
+      "file_role": "outlays",
+      "guide_file_name": "outlays.xlsx",
+      "guide_content": "Outlays and offsetting receipts, 1962-2031, in spreadsheet format.",
+      "local_taxlane_source_id": "SRC-OMB-PBD-OUTLAYS-FY2027",
+      "local_taxlane_path": "data/raw/omb/SRC-OMB-PBD-OUTLAYS-FY2027/2026-07-13/outlays_fy2027.xlsx"
+    },
+    {
+      "file_role": "receipts",
+      "guide_file_name": "receipts.xlsx",
+      "guide_content": "Governmental receipts, 1962-2031, in spreadsheet format.",
+      "local_taxlane_source_id": null,
+      "local_taxlane_path": null
+    },
+    {
+      "file_role": "budget_authority",
+      "guide_file_name": "budauth.xlsx",
+      "guide_content": "Budget authority and offsetting receipts, 1976-2031, in spreadsheet format.",
+      "local_taxlane_source_id": null,
+      "local_taxlane_path": null
+    }
+  ],
+  "local_ledger_boundary": {
+    "existing_omb_17_row_context_path": "data/derived/breadth_benchmark_matrix/current_law_17_row_pbd_fy2025_2031_context_path.v1.draft.json",
+    "existing_cbo_topline_context_path": "data/derived/breadth_benchmark_matrix/cbo_open_data_fy2032_2035_current_law_extension_context.v1.draft.json",
+    "existing_cbo_major_outlay_category_context_path": "data/derived/breadth_benchmark_matrix/cbo_major_outlay_category_fy2032_2035_context.v1.draft.json",
+    "omb_pbd_outlay_covered_years": [2025, 2026, 2027, 2028, 2029, 2030, 2031],
+    "omb_17_row_missing_years": [2032, 2033, 2034, 2035],
+    "cbo_context_available_for_missing_years": true,
+    "cbo_context_is_not_omb_17_row_ledger": true,
+    "fy2032_fy2035_values_remain_null": true
+  },
+  "blocked_outputs": {
+    "fy2032_fy2035_omb_17_row_values": null,
+    "complete_fy2025_fy2035_omb_17_row_path": null,
+    "unified_omb_cbo_reconciliation": null,
+    "fund_split": null,
+    "solver_input": null,
+    "solver_run": null,
+    "rate_calculation": null,
+    "public_rate_card": null,
+    "savings_estimate": null,
+    "balanced_budget_claim": null
+  },
+  "claim_booleans": {
+    "omb_pbd_user_guide_source_custody_published": true,
+    "pbd_file_boundary_documented": true,
+    "omb_pbd_outlay_horizon_boundary_documented": true,
+    "fy2032_fy2035_omb_17_row_values_ready": false,
+    "complete_fy2025_fy2035_omb_17_row_path_ready": false,
+    "unified_omb_cbo_reconciliation_ready": false,
+    "solver_input_ready": false,
+    "rate_calculation_published": false,
+    "public_rate_card_published": false,
+    "savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "OMB Public Budget Database User's Guide FY2027 source custody documents the three data files and the FY2031 PBD horizon boundary. This is not FY2032-FY2035 OMB 17-row values, not a complete FY2025-FY2035 OMB 17-row path, not interpolation, not unified OMB/CBO reconciliation, not solver input, not a rate calculation, not a savings estimate, and not a balanced-budget claim."
+}

@@ -15,11 +15,32 @@
     "official_sources_only": true,
     "selected_programs_page_url": "https://www.cbo.gov/data/baseline-projections-selected-programs",
     "candidate_snap_pdf_url": "https://www.cbo.gov/system/files/2026-01/51312-2026-02-snap.pdf",
+    "candidate_snap_spreadsheet_url": "https://www.cbo.gov/system/files/2026-01/51312-2026-02-snap.xlsx",
     "candidate_snap_pdf_title": "Baseline Projections: Supplemental Nutrition Assistance Program, February 2026",
     "official_cbo_open_data_repo_url": "https://github.com/US-CBO/cbo-data",
     "official_cbo_open_data_repo_head": "284a95665f9f2f74ed1f482feb629b43fce323da",
     "open_data_catalog_checked": true,
     "selected_program_snap_csv_found_in_open_data_catalog": false
+  },
+  "browser_visible_context": {
+    "selected_programs_page_browser_visible": true,
+    "snap_pdf_browser_visible": true,
+    "snap_pdf_page_count": 3,
+    "snap_pdf_title": "SNAP Baseline--02-2026-rev",
+    "snap_program_name": "Supplemental Nutrition Assistance Program",
+    "snap_publication_month": "February 2026",
+    "covered_fiscal_years": [2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035, 2036],
+    "browser_visible_fields": [
+      "estimated outlays",
+      "budget authority",
+      "average monthly participation",
+      "average monthly benefit per participant",
+      "Thrifty Food Plan estimated change",
+      "unemployment rate fiscal year average",
+      "nutrition assistance for Puerto Rico and American Samoa",
+      "employment and training budget authority"
+    ],
+    "context_boundary": "Browser text verifies that the official PDF contains baseline and participation/benefit fields, but row extraction, raw PDF custody, spreadsheet custody, byte counts, hashes, and review are still missing."
   },
   "capture_attempts": [
     {
@@ -52,6 +73,26 @@
       "captured_as_source": false,
       "retained_raw_artifact_path": null,
       "notes": "Official CBO open-data repository was reachable, but the catalog search did not expose the selected-program SNAP baseline PDF as a machine-readable CSV."
+    },
+    {
+      "attempt_id": "cbo-snap-pdf-powershell-direct-url-2026-07-24",
+      "attempted_at_local_date": "2026-07-24",
+      "method": "PowerShell Invoke-WebRequest with browser-like user agent",
+      "url": "https://www.cbo.gov/system/files/2026-01/51312-2026-02-snap.pdf",
+      "result": "blocked_by_403_from_command_line",
+      "captured_as_source": false,
+      "retained_raw_artifact_path": null,
+      "notes": "The official PDF is browser-visible, but direct command-line raw download returned HTTP 403 and no raw file was retained."
+    },
+    {
+      "attempt_id": "cbo-snap-spreadsheet-powershell-direct-url-2026-07-24",
+      "attempted_at_local_date": "2026-07-24",
+      "method": "PowerShell Invoke-WebRequest with browser-like user agent",
+      "url": "https://www.cbo.gov/system/files/2026-01/51312-2026-02-snap.xlsx",
+      "result": "blocked_by_403_from_command_line",
+      "captured_as_source": false,
+      "retained_raw_artifact_path": null,
+      "notes": "The selected-program page exposes a February 2026 SNAP spreadsheet slot, but direct command-line raw download returned HTTP 403 and no raw file was retained."
     }
   ],
   "next_manual_capture_requirements": [
@@ -61,7 +102,9 @@
     "Repeat for other income-security/family CBO baseline/take-up components before treating the whole CBO/take-up gate as closed."
   ],
   "readiness_status": {
+    "cbo_snap_browser_context_ready": true,
     "cbo_snap_pdf_raw_custody_ready": false,
+    "cbo_snap_spreadsheet_raw_custody_ready": false,
     "cbo_snap_baseline_values_populated": false,
     "cbo_snap_takeup_context_populated": false,
     "cbo_baseline_takeup_context_ready": false,
@@ -110,5 +153,5 @@
     "technology_savings_claim_published": false,
     "balanced_budget_claim_published": false
   },
-  "public_warning": "This CBO baseline/take-up capture gap records blocked source acquisition only. It is not raw CBO source custody, not CBO baseline values, not take-up context, not a benefit package model, not a take-up model, not floor values, not federal/state/local translation, not solver input, not rate calculation, not a public rate card, not gross savings, not net savings, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+  "public_warning": "This CBO baseline/take-up capture gap records browser-visible SNAP context and blocked source acquisition only. The February 2026 SNAP PDF is browser-visible and contains baseline outlay, participation, and average-benefit fields for FY2026-FY2036, but raw PDF/spreadsheet custody remains blocked by command-line 403 responses. It is not raw CBO source custody, not CBO baseline values, not take-up context, not a benefit package model, not a take-up model, not floor values, not federal/state/local translation, not solver input, not rate calculation, not a public rate card, not gross savings, not net savings, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
 }

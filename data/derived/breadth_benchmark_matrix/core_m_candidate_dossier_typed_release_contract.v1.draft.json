@@ -1,0 +1,33 @@
+{
+  "record_id":"core-m-candidate-dossier-typed-release-contract:v1","record_family":"core_m_candidate_dossier_typed_release_contract","version":"v1.draft","status":"core_m_interfaces_implemented_role_review_ready","pulse":386,"as_of_date":"2026-07-27","core_wave_id":"CORE-M",
+  "lessons_audit_path":"data/derived/breadth_benchmark_matrix/trn_level_1_core_lessons_audit.v1.draft.json","core_i_path":"data/derived/breadth_benchmark_matrix/core_i_shared_reform_admission_contract.v1.draft.json","core_j_path":"data/derived/breadth_benchmark_matrix/core_j_bounded_closure_handoff_closure.v1.draft.json","core_k_path":"data/derived/breadth_benchmark_matrix/core_k_temporal_composite_accounting_closure.v1.draft.json","core_l_path":"data/derived/breadth_benchmark_matrix/core_l_cross_lane_overlap_allocation_closure.v1.draft.json","implementation_path":"crates/taxlane-core/src/lib.rs","schema_path":"data/derived/breadth_benchmark_matrix/core_m_candidate_dossier_typed_release_contract.schema.md","reader_path":"docs/reading/core-m-candidate-dossier-typed-release-contract.md",
+  "candidate_objective_profiles":["cost_only_modernization","cost_neutral_reform","lower_cost_reform","revenue_instrument","non_additive_integrity_overlay","endogenous_fiscal_effect"],
+  "financing_roles":["authorization","appropriation","program_outlay","named_fund","named_account","transfer","dedicated_receipt","receipt_or_fee_base"],
+  "gate_dispositions":["required_ready","required_blocked","reviewed_not_applicable"],
+  "release_outputs":["candidate_explanation","official_incremental_cost","cost_neutral_result","lower_cost_target","gross_savings","net_savings","assigned_receipt_rate","non_additive_control_effect","endogenous_fiscal_effect"],
+  "required_interfaces":[
+    {"interface_id":"typed_candidate_objective","requirement":"Every dossier declares exactly one candidate objective profile before output eligibility is assessed.","implemented":true},
+    {"interface_id":"source_supported_financing_roles","requirement":"Authorization, appropriation, outlay, fund, account, transfer, receipt, and base roles remain distinct and source-supported.","implemented":true},
+    {"interface_id":"reviewed_gate_disposition","requirement":"Every gate is ready, blocked with an owner, or reviewed not applicable with a rationale.","implemented":true},
+    {"interface_id":"non_applicability_no_synthetic_result","requirement":"Reviewed non-applicability carries no evidence path, value, pass result, or blocker.","implemented":true},
+    {"interface_id":"typed_release_output","requirement":"Requested outputs must be permitted by the candidate objective profile.","implemented":true},
+    {"interface_id":"dossier_release_decision","requirement":"Release readiness requires ready sources, no required blocked gate, compatible outputs, and completed role review.","implemented":true}
+  ],
+  "profile_rules":{
+    "cost_only_modernization":{"permits":["candidate_explanation","official_incremental_cost"],"prohibits":["lower_cost_target","gross_savings","net_savings","assigned_receipt_rate"]},
+    "revenue_instrument":{"permits":["candidate_explanation","assigned_receipt_rate"],"assigned_rate_requires":"source_supported_receipt_or_fee_base"},
+    "non_additive_integrity_overlay":{"permits":["candidate_explanation","non_additive_control_effect"],"gross_or_net_savings_prohibited":true},
+    "endogenous_fiscal_effect":{"permits":["candidate_explanation","endogenous_fiscal_effect"],"direct_savings_prohibited":true}
+  },
+  "rust_interfaces":["CandidateObjectiveProfile","FinancingRole","FinancingRoleEvidence","CandidateGateDisposition","CandidateGateReview","ReleaseOutput","CandidateDossierInput","CandidateDossierDecision","assess_candidate_dossier"],
+  "validation_cases":[
+    {"case_id":"TRN-cost-only","profile":"cost_only_modernization","expected":"official cost allowed; savings blocked; candidate-scoped non-applicability allowed"},
+    {"case_id":"PAY-non-additive","profile":"non_additive_integrity_overlay","expected":"control effect allowed; gross savings blocked"},
+    {"case_id":"REV-revenue","profile":"revenue_instrument","expected":"assigned rate requires a matched source-supported receipt or fee base"},
+    {"case_id":"NET-endogenous","profile":"endogenous_fiscal_effect","expected":"endogenous fiscal effect allowed; direct net-savings output blocked"}
+  ],
+  "implementation_status":{"required_interfaces":6,"implemented_interfaces":6,"rust_interfaces":9,"validation_cases":4,"unit_tests_added":6,"core_m_implementation_done":true,"core_m_role_review_may_start":true},
+  "blocked_outputs":{"selected_trn_candidate":null,"trn_e_rerun":null,"trn_f_start":null,"solver_result":null,"assigned_rate":null,"gross_savings":null,"net_savings":null,"public_rate_card":null},
+  "claim_booleans":{"core_m_contract_published":true,"shared_interfaces_implemented":true,"four_profile_cases_validated":true,"core_m_implementation_done":true,"core_m_role_review_may_start":true,"core_m_done":false,"candidate_selected":false,"solver_run_performed":false,"rate_published":false,"savings_claim_published":false},
+  "public_warning":"CORE-M types candidate dossiers and release eligibility. It does not select H.R. 2247 or another candidate, turn cost into savings, infer financing, bypass an applicable gate, run a solver, start F, publish a rate, or claim savings."
+}

@@ -1,0 +1,41 @@
+{
+  "record_id": "agriculture-debt-to-asset-ratio-floor-value-packet:v1",
+  "record_family": "agriculture_debt_to_asset_ratio_floor_value_packet",
+  "version": "v1.draft",
+  "pulse": 224,
+  "as_of_date": "2026-07-26",
+  "lane_id": "agriculture",
+  "floor_id": "farm_resilience_income_stabilization",
+  "floor_class": "adequacy_resilience",
+  "floor_definition_packet_path": "data/derived/breadth_benchmark_matrix/agriculture_outcome_floor_definition_packet.v1.draft.json",
+  "source_metadata_path": "data/metadata/SRC-USDA-ERS-FARM-FINANCIAL-INDICATORS-2026-02.2026-07-26.metadata.md",
+  "outcome_floor_wave_d_value_readiness_path": "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json",
+  "threshold_rationale": {
+    "rationale_id": "farm-resilience-no-regression-from-2024-debt-to-asset-ratio",
+    "selected_measure": "U.S. farm-sector debt-to-asset ratio",
+    "rationale": "An agriculture lower-cost scenario should not pass this aggregate farm-resilience slice if reviewed policy or stress evidence raises the debt-to-asset ratio above the latest actual-year baseline.",
+    "threshold_type": "baseline_no_regression_ceiling",
+    "threshold_value": 13.35825,
+    "threshold_unit": "percent",
+    "source_table": "ERS farm-sector financial indicators, 2024 actual",
+    "review_status": "draft_threshold_rationale_needs_role_review_before_pass_fail"
+  },
+  "baseline_values": {
+    "reporting_period": "calendar year 2024 actual",
+    "primary_baseline": {"measure": "farm-sector debt-to-asset ratio", "value": 13.35825, "unit": "percent", "source_id": "SRC-USDA-ERS-FARM-FINANCIAL-INDICATORS-2026-02", "source_path": "data/raw/usda/SRC-USDA-ERS-FARM-FINANCIAL-INDICATORS-2026-02/2026-07-26/farm-sector-financial-indicators.xlsx"},
+    "supporting_context": [
+      {"measure": "2025 forecast debt-to-asset ratio", "value": 13.49289, "unit": "percent", "evidence_status": "forecast_not_baseline"},
+      {"measure": "2026 forecast debt-to-asset ratio", "value": 13.74654, "unit": "percent", "evidence_status": "forecast_not_baseline"}
+    ],
+    "source_custody": {"publisher": "U.S. Department of Agriculture, Economic Research Service", "raw_artifact_path": "data/raw/usda/SRC-USDA-ERS-FARM-FINANCIAL-INDICATORS-2026-02/2026-07-26/farm-sector-financial-indicators.xlsx", "raw_byte_count": 17134, "raw_sha256": "11e24f98047587d0a2455952c5fd967a5da702b044e9e10e0c1e11827dec9b46", "review_status": "source_metadata_present_and_hash_matched"},
+    "boundary": "Forecast values are context only. The aggregate ratio can hide distribution by farm size, commodity, region, and producer characteristics and is not crop-loss protection, income stabilization, food security, conservation, program integrity, policy values, stress values, pass/fail evidence, savings, or a balanced-budget claim."
+  },
+  "policy_values": null,
+  "stress_values": null,
+  "pass_fail_evidence": null,
+  "readiness_status": {"threshold_rationale_ready": true, "threshold_value_populated": true, "baseline_value_ready": true, "policy_value_ready": false, "stress_value_ready": false, "pass_fail_ready": false, "complete_agriculture_floor_ready": false, "lower_cost_scenario_admissible": false, "solver_ready": false, "rate_ready": false},
+  "remaining_requirements": ["role review", "policy and stress values", "pass/fail evidence", "distribution, risk protection, productivity, conservation, program-integrity, nutrition-handoff, and delivery-feasibility floors"],
+  "blocked_outputs": {"policy_values": null, "stress_values": null, "pass_fail_evidence": null, "lower_cost_scenario_admissibility": null, "solver_input": null, "savings": null, "balanced_budget_claim": null},
+  "claim_booleans": {"floor_value_packet_published": true, "threshold_rationale_ready": true, "baseline_value_ready": true, "policy_value_ready": false, "stress_value_ready": false, "pass_fail_ready": false, "complete_lane_floor_ready": false, "lower_cost_scenario_admissible": false, "solver_ready": false, "rate_ready": false, "savings_claim_published": false, "balanced_budget_claim_published": false},
+  "public_warning": "Draft no-regression farm-sector debt-to-asset-ratio floor threshold using the 2024 actual; forecast values are context only. Policy and stress values remain null. This is not a complete agriculture floor, not pass/fail evidence, not savings, and not a balanced-budget claim."
+}

@@ -86,6 +86,26 @@ turned the adaptive-rate thesis into a guarded implementation surface:
   after Pulses 194 through 200 and adds a Taxlane showcase readiness summary:
   demo-ready as a custody/readiness guardrail system, not solver-ready,
   rate-ready, savings-ready, or balanced-budget-ready.
+- Pulses 202 through 219 close the current-law source-custody Wave B frontier,
+  complete Wave C public explainers, and attach the first nine Wave D lane
+  anchor floor-value packets, including the completed-year 2024 transportation
+  roadway fatality-rate anchor.
+- Pulses 220 through 225 finish the Wave D lane-anchor contract with
+  source-custodied defense personnel-safety, disaster life-safety, justice
+  victimization, science R&D-intensity, agriculture debt-to-asset, and
+  international foreign-assistance reporting-coverage values. Every lane now
+  has at least one draft threshold/baseline anchor.
+- Pulses 226 through 228 complete the Wave E reference-calibration contract.
+  Every lane has current-policy continuation component paths, an
+  identity-projected policy value, a one-reporting-increment adverse stress
+  value, deterministic pass/fail results, and eight-role review. These are
+  comparator calibrations, not reform or fiscal scores.
+- Pulses 229 through 231 complete Wave F under the original Pulse 87 simulator
+  contract. A role-reviewed FY2025-FY2035 transportation fixture exercises
+  baseline, modernization, and stress paths, fund arithmetic, reserve and
+  rounding interfaces, endogenous debt-interest feedback, and deterministic
+  floor blocking. Its values are synthetic calibration units, not official
+  fiscal paths, reform scores, target costs, rates, or savings.
 
 The public showable state is therefore not a rate proposal. It is a disciplined
 operating model that can show:
@@ -96,14 +116,80 @@ operating model that can show:
 - which gates must close before target costs, solver inputs, rates, savings, or
   balanced-budget claims can be published.
 
-The next useful closure work should remain narrow source lineage, not a broad
-public claim. The active frontier is the post-Pulse-201 closure set: manual CBO
-SNAP baseline capture, broader CBO/take-up, Census domestic child poverty/SPM
-child poverty and income-unit capture, manual HHS/ACF childcare and
-family-service capture, food hardship/nutrition raw custody, federal/state/local
-translation, and the remaining international comparator lineage. Each should
-close one named source-custody gate at a time without converting it into
-savings, rates, or a benefit package model.
+Wave F is complete as a deterministic simulator calibration. CORE-G is now
+complete: it admits the official FY2025-FY2035 current-law federal topline
+solver spine with one source-custodied baseline horizon, projection vintage,
+sign convention, explicit financing/timing residual, debt rollforward, and
+net-interest lineage. Complete component floors, fiscal effects, transition
+costs, behavior, incidence, distribution, official fund and reserve paths, and
+reform scoring remain downstream. The Wave E and F calibrations and CORE-G do
+not admit lower-cost scenarios; target costs, lane solver inputs, rates,
+savings, and balanced-budget claims remain blocked.
+
+## CORE-G — Official current-law solver spine
+
+CORE-G constructs and admits one official FY2025-FY2035 federal topline path.
+It is a current-law input layer, not a reform or rate wave.
+
+Acceptance:
+
+- exactly eleven populated fiscal years: FY2025 actual plus FY2026-FY2035
+  projections;
+- official raw-byte custody, retrieval metadata, hashes, source vintage, and
+  field-level extraction lineage for every admitted value;
+- one projection vintage for FY2026-FY2035 and an explicit bridge if the FY2025
+  actual comes from another official source or vintage;
+- receipts, primary outlays, net interest, total outlays, primary deficit,
+  total deficit, GDP, debt held by the public, other financing/timing, and
+  average-rate context;
+- exact outlay, deficit-component, and debt-rollforward reconciliation at
+  source precision, with no interpolation;
+- net interest preserved as endogenous rather than directly cut;
+- eight-role boundary review and deterministic repository validation; and
+- real reform deltas, target costs, rates, savings, and balanced-budget outputs
+  remain blocked.
+
+## CORE and lane-track roadmap
+
+Shared infrastructure uses the extensible `CORE-*` namespace. Lane recipes use
+a stable prefix followed by local stages, beginning with transportation
+`TRN-A` through `TRN-F`. CORE can extend without renaming lane tracks.
+
+The path to the first defensible public transportation output is:
+
+| Wave | Closure boundary | First newly allowed output |
+|---|---|---|
+| CORE-G | Official FY2025-FY2035 current-law federal topline spine | Current-law topline solver spine |
+| CORE-H | Shared 17-row, named-fund, transfer, offset, reserve, rounding, debt, and endogenous-interest substrate | Reconciled current-law accounting substrate |
+| TRN-A | Transportation current-law baseline and source spine | Transportation baseline eligible for track work |
+| TRN-B | Transportation fund and accounting substrate | Reconciled transportation accounting inputs |
+| TRN-C | One real transportation reform with federal effects, transition costs, complete applicable floors, behavior, phase-in, stress, and review | Real reform scenario pack and target outlay path if admitted |
+| TRN-D | Matched receipt base, yields, compliance, administration, incidence, distribution, interactions, and macro sensitivity | Pilot financing and fairness solver rows |
+| TRN-E | Integrated current-law, reform, financing, fund, reserve, distribution, and debt-interest run | Internal target-cost and effective-rate candidates |
+| TRN-F | Source audit, sensitivity review, eight-role decision, public-language review, and reproducible release | First public transportation pilot card if every gate passes |
+
+CORE-G through CORE-L and TRN-A through TRN-E are complete. TRN-C admitted
+H.R. 2247 as a conditional cost-only reform with $18 million of CBO-estimated
+FY2026-FY2031 outlays, no savings credit, and no lower target cost. The active
+frontier is TRN-D, HLT-A, and EDU-A. TRN-D-01, HLT-A-01, and EDU-A-01 are
+complete, as are TRN-D-03, HLT-A-02, and EDU-A-02. The financing/incidence
+slice—TRN-D-04, HLT-A-03, and EDU-A-03—is complete. The two-level bundle
+TRN-D-05/06, HLT-A-04/05, and EDU-A-04/05 is complete, closing bounded TRN-D,
+HLT-A, and EDU-A. TRN-E-01, HLT-B-01, and EDU-B-01 are complete and their
+cross-lane findings are closed in CORE-J. The next adapter work and new OASDI
+lane derive CORE-K. HLT-D, EDU-D, and OAS-D close bounded bridges. ISF-A/B,
+VET-A/B, and AGR-A/B close bounded source and accounting stages and derive
+CORE-L. ISF-C, VET-C, and AGR-C then close as bounded candidate screens, followed
+by bounded D closures. DEF, DIS, JUS, SEE, INT, PAY, REV, and NET have reviewed
+A-through-D chains. The canonical E contract then applies TRN-E's selection and
+solver-gate precedent to the other fourteen tracks. Fourteen tracks remain at
+bounded E; PAY and REV remain non-additive overlays and NET remains endogenous.
+CORE-N and TRN-F now publish H.R. 2247 only as a conditional cost note; the
+other fourteen bounded-E selections remain no-candidate decisions. REV Level 1
+is active at the legal/economic individual-income base perimeter. No solver run,
+rate calculation, or public rate card is admitted. Discovery may
+overlap, but track output admission follows each A-F dependency chain; one
+pilot cannot establish all-lane readiness.
 
 ## Design principles
 
@@ -384,7 +470,157 @@ Acceptance:
 
 ## Current blockers
 
-- No public effective rates are calculated by this plan.
+The portfolio now has a shared F-stage public-release contract, an audit of all
+fifteen F starts, and a two-level advancement queue for every track. TRN has
+completed F only as its typed cost note; the other fourteen starts remain
+blocked. REV Level 1 now closes the first guarded rate-bearing planning case.
+HLT, OAS, PAY, NET, and DEF each complete two bounded advancement levels and
+own the next fiscally decisive evidence closures.
+
+`CORE-M — Candidate Dossier and Typed Release Profiles` and `CORE-N — Typed
+Public-Release Surfaces` are complete. They keep
+cost-only candidates out of savings/rate gates, scopes applicability to the
+candidate, preserves PAY/REV non-additivity and NET endogeneity, and allows TRN
+Levels 1 and 2 and TRN-F to close. H.R. 2247 is published only as a conditional
+cost note. REV's bounded planning objective selects a 2.760-point uniform
+schedule only when paired with an assumed $500 billion annual spending
+correction. It is not an assigned rate or official score. HLT, OAS, PAY, NET,
+and DEF have official-option, measurement, or endogenous envelopes plus
+completed dependency audits; every track remains reblocked before additive
+package admission.
+
+HLT subsequently completed a current-law program-scale sensitivity and
+beneficiary-floor audit. Its mechanical proxy is $497.044 billion over
+FY2027-FY2034, averaging $62.131 billion annually, but the unmitigated uniform
+benchmark candidate is rejected because average out-of-pocket costs rise,
+supplemental benefits fall, and five additional floors remain blocked.
+
+DEF then completed its scale and allocation conversion. CBO's unchanged option
+is $15 billion in FY2026 and averages $106.556 billion in FY2026-FY2034, but it
+is not a 2026 rescore and all eight force, readiness, procurement, personnel,
+allied-burden, transition, and accounting gates remain blocked. Rejected HLT
+and DEF mechanical envelopes together average 32.357 percent of the assumed
+$500 billion target; admitted savings remain zero and the FY2026 REV schedule
+does not change.
+
+PAY then selected Treasury's full-DMF Do Not Pay pilot. Its reported
+calendar-2024 benefit is $113.5 million gross and $108.9 million after stated
+costs. Unique causal attribution and cost netting pass, but benefit type,
+program ownership, cash disposition, fiscal timing, due process, and
+distribution remain blocked. PAY is only 0.0218 percent of the assumed target,
+contributes zero to FY2026, and remains non-additive.
+
+OAS then bridged the selected 90-percent taxable-earnings option to the 2026
+Trustees path. The old official score shows a $72.3 billion FY2026 deficit
+effect, but it raises dedicated payroll-tax receipts, increases scheduled
+benefits, and includes an income-tax offset. Two evidence gates pass and six
+cohort, incidence, adequacy, administration, overlap, and rescore gates remain
+blocked. OAS contributes zero to primary spending, does not change REV, and
+hands the frontier to endogenous NET Level 3.
+
+NET Levels 3 and 4 now close the five-track fiscal conversion. With no admitted
+upstream primary spending, the only valid endogenous result is zero. The
+$17.045 billion full-year carry remains a mechanical sensitivity because five
+maturity, rate, timing, financing, and iterative gates are blocked. REV Level 2
+is now active for formal rate reconciliation; this is not rate publication.
+
+REV Level 2 completes that reconciliation. The +2.760-point schedule is
+superseded because its assumed $500 billion spending correction was not
+admitted. With the full $813.727 billion primary deficit remaining, the central
+linear sensitivity is +7.159 points. Two evidence gates pass and six formal-
+score gates remain blocked. REV Level 3 now owns the tax-unit score; no proper
+rate is assigned yet.
+
+REV Level 3 now supplies the first independent tax-unit microsimulation. The
+static Tax-Calculator run reproduces the +7.159-point target; an explicit 0.25
+taxable-income response moves the central result to +8.353 points, with an
+approximate +7.82 to +8.99 elasticity range. Tax-unit, behavior, and
+distribution gates pass. Fiscal cash timing, administration/compliance, and
+cross-instrument macro feedback remain blocked, so REV Level 4 owns assignment.
+
+REV Level 4 now closes the first-year fiscal-timing proxy. An official CBO/JCT
+option supplies a 77.423-percent first-year realization anchor; applying it to
+the independent behavioral model yields +10.922 points centrally and an
+approximate +10.159 to +11.853 range. Three timing gates pass. Marginal
+administration/compliance cost and cross-instrument macro feedback remain
+unscored, so no proper assigned rate is published and REV Level 5 owns the next
+closure.
+
+REV Level 5 now closes as a bounded administration and macro-methodology
+review. Treasury's historical $77 million IRS allocation for the much broader
+2017 law is admitted only as a conservative agency ceiling; its linearized
+effect moves the planning sensitivity from +10.922 to +10.923 points and the
+range to approximately +10.160 to +11.854. GAO supports a routine withholding-
+table implementation path but supplies no private compliance cost. JCT's
+current process requires calibrated present-law/proposed-law macro models and
+model weighting, so macro and debt feedback remain null. REV Level 6 owns the
+official dynamic-score or explicit reviewed policy-assignment fork.
+
+REV Level 6 resolves the reviewed policy-assignment fork. The decision rule
+rounds the +10.923 bounded central uplift upward to the smallest one-decimal
+schedule, +11.0 points. The exact run produces an $819.220 billion first-year
+proxy, $5.493 billion over the target. A matched-base CORE-M revenue dossier
+and CORE-N release review then complete REV-F as a model planning rate card:
+21, 23, 33, 35, 43, 46, and 48 percent, with unchanged thresholds and a +10.2
+to +11.9 uplift uncertainty band. This is not enacted law, official scoring,
+formal certification, or a balance claim. REV Level 7 owns those gates.
+
+The next program then completes four linked closures. HLT Level 5 selects the
+narrow CBO off-campus imaging site-neutral option and DEF Level 5 selects a
+named proportional active-force strategy, but both remain unadmitted after
+candidate-specific floor and score reruns. The rate-down bundle therefore
+preserves zero FY2026 admitted spending and the +11.0-point planning schedule.
+VET, EDU, ISF, AGR, DIS, JUS, SEE, and INT then each complete candidate
+selection and a second dependency/floor level; all eight close as reviewed
+reblocks. The integrated rerun covers all fifteen canonical tracks exactly
+once and permits only TRN's conditional cost note and REV's model planning
+card. REV Level 7 completes internal evidence certification and an official
+CBO/JCT score handoff. Formal rate and balance certification remain external
+and blocked; the next frontier is an official score or new floor-passing
+spending evidence.
+
+REV Level 7 then closes two additional handoff gaps. The scorer-ready policy
+specification fixes permanence from TY2026, all four filing-status breakpoint
+schedules, unchanged tax provisions, post-2026 indexing, interactions,
+withholding, estimated-tax, return-software, late-enactment transition, and the
+FY2026-FY2035 window. The official-score workbook supplies ten annual rows,
+distribution and macro requests, deficit/debt identities, and scorer questions
+while keeping every official field null. Internal scoring-request readiness is
+complete; Legislative Counsel text, an authorized submission channel, and the
+official response remain external.
+
+The nonofficial discussion draft then closes the last controllable drafting
+bridge. It uses a narrow §1(j)(7) rate-substitution mechanic, covers all four
+individual filing-status tables, preserves current-law thresholds and
+indexing, excludes estates and trusts, and supplies transition language and
+questions for Legislative Counsel. It remains explicitly nonofficial;
+Legislative Counsel conformance and every score and certification output stay
+external.
+
+The internal frontier then returns to all fifteen tracks. Pulse 466 opens one
+Level A evidence-closure item and one dependent Level B admission or typed-
+output rerun per canonical prefix. HLT, DEF, OAS, PAY, and NET form the first
+execution batch; VET, EDU, ISF, AGR, DIS, JUS, SEE, and INT form the second;
+TRN and REV refresh typed outputs after upstream results. REV's authorized
+external channel proceeds in parallel and does not pause the other tracks.
+
+HLT then completes the first pair. Level A reconciles the December 2024 CBO
+imaging option with CY2026 OPPS current law: CMS's new drug-administration
+site-neutral policy is distinct, while the 340B non-drug offset changes the
+base and reinforces the need for a formal imaging rescore. General access,
+rural, beneficiary, and quality context remains non-proposal-specific. Level B
+therefore closes as a reviewed zero-admission rerun, with no change to PAY,
+NET, or the REV target.
+
+DEF, OAS, PAY, and NET then close both levels in one role-preserving bundle.
+The FY2026 defense request sharpens rather than resolves the mismatch with the
+2021 force-reduction strategy. OAS remains dedicated financing, PAY remains a
+non-additive measurement overlay, and NET validates only the zero-input
+endogenous result. Batch 1 is complete across five tracks with zero additive
+primary savings; Batch 2 may begin.
+
+- One guarded proxy schedule is calculated; no assigned or official rate is
+  published.
 - No statutory rates are proposed.
 - No balanced-budget claim is made.
 - No department is identified as wasteful.
@@ -396,6 +632,64 @@ Acceptance:
   gates remain open.
 - No transportation simulator run is publishable until the remaining baseline,
   floor, modernization, stress, fund, solver, and review gates pass.
+
+Batch 2 then completes both levels for VET, EDU, ISF, AGR, DIS, JUS, SEE, and
+INT. The refresh identifies an unenacted early-cost VET bill, major 2025
+reconciliation changes around Pell and crop insurance, a still-stale 2018 NFIP
+score, and newer weatherization authorization context. None closes every
+current-law, implementation, interaction, outcome, and distribution gate, so
+all eight Level B reruns remain zero admission.
+
+Batch 3 closes TRN and REV. H.R. 2247 remains introduced and its $18 million
+2026-2031 score remains subject to appropriation, so TRN retains only the typed
+cost note. REV completes as an external-channel reblock and retains the
+21/23/33/35/43/46/48 planning schedule. All fifteen internal two-level pairs
+are complete; authorized Legislative Counsel and CBO/JCT certification remains
+external.
+
+The integrated PAY-NET-REV rerun then preserves zero admitted FY2026 spending,
+keeps PAY non-additive, and returns a zero-input NET result. The remaining
+FY2026 revenue need is still $813.727 billion, so the planning schedule does not
+move downward and is not a proper or official rate.
+
+Pulse 473 seals the REV Level 7 submission payload locally. Seven exact files
+are hash-verified into a deterministic ZIP, and an empty authenticated-response
+intake is ready. This does not send the bundle: the requesting office, signer,
+official channel, approved digest, receipt, and official response remain null.
+After an authorized official response arrives, its findings trigger a targeted
+15-track reconciliation, beginning with PAY, NET, REV, and any affected lane;
+unchanged lanes retain their completed evidence rather than repeating work.
+
+Pulse 474 makes that trigger machine-operable. The response intake now
+validates empty, received-pending-review, and authenticated-ready states. Every
+receipt and response asset is hash-custodied; the final transition requires ten
+annual conventional-revenue rows, exact legislative text, scope resolution,
+and independent review before PAY-NET-REV rate recertification may begin.
+
+Pulse 475 corrects the project scope: Taxlane is doing independent analysis,
+not pursuing an official request. External submission and certification are no
+longer active work or completion gates. The active frontier is the internal
+ten-step rate wave: freeze the baseline, score a candidate grid, rerun
+distribution and timing, apply explicit uncertainty ranges, reconcile
+PAY-NET-REV, revisit affected track dependencies, rank candidates, and publish
+a clearly labeled Taxlane analytical recommendation.
+
+Pulse 476 freezes Tax-Calculator 6.5.1, the bundled CPS tax units, FY2026
+$813.727 billion revenue target, 0.774223895 timing ratio, three behavior cases,
+and all source hashes. Pulse 477 completes the grid and analysis: 14 candidate
+uplifts and 42 behavior cases, explicit administration/macro/debt sensitivities,
+PAY-NET-REV reconciliation, and review of all 15 track dependencies. Taxlane's
+preferred central analytical schedule is 21/23/33/35/43/46/48; the
+22/24/34/36/44/47/49 schedule is the behavior-robust contingency, and +12.6 is
+only a severe internal stress ceiling. The internal frontier is now empty.
+
+Pulse 478 completes the first targeted spending-rate wave after the rate freeze.
+It tests the specific HLT off-campus imaging and DEF proportional active-force
+candidates. Each retains six unresolved current-law, execution, or outcome-floor
+gates, so neither headline score enters FY2026 savings. OAS stays on its separate
+solvency rail, PAY remains non-additive, NET recomputes to zero, the revenue
+target remains $813.727 billion, and the preferred central schedule remains
+21/23/33/35/43/46/48.
 
 ## Validation posture
 

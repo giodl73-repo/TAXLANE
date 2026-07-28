@@ -1,0 +1,115 @@
+{
+  "record_id": "cms-hospital-quality-methodology-surface-context:v1",
+  "record_family": "cms_hospital_quality_methodology_surface_context",
+  "schema_version": "v1.draft",
+  "status": "draft_official_surface_custody_methodology_content_blocked",
+  "pulse": 182,
+  "as_of_date": "2026-07-24",
+  "lane_id": "health-medicare",
+  "source_id": "SRC-CMS-HOSPITAL-QUALITY-METHODOLOGY-SURFACES-2026-07-24",
+  "publisher": "Centers for Medicare & Medicaid Services (CMS) / QualityNet",
+  "retrieval_date": "2026-07-24",
+  "metadata_path": "data/metadata/SRC-CMS-HOSPITAL-QUALITY-METHODOLOGY-SURFACES-2026-07-24.2026-07-24.metadata.md",
+  "official_surfaces": [
+    {
+      "surface_id": "cms_provider_data_catalog_overall_star_rating_topic",
+      "title": "CMS Provider Data Catalog Overall Hospital Quality Star Rating topic",
+      "url": "https://data.cms.gov/provider-data/topics/hospitals/overall-hospital-quality-star-rating/",
+      "local_role": "official CMS topic page HTML plus Provider Data Catalog app assets",
+      "raw_files": [
+        {
+          "path": "data/raw/cms/SRC-CMS-HOSPITAL-QUALITY-METHODOLOGY-SURFACES-2026-07-24/2026-07-24/overall_star_rating_topic.html",
+          "byte_count": 2196,
+          "sha256": "11612c367d9de8eaa47ad3b9cda178477e7fc9e12a30113d0e52b3eb029a7ab2"
+        },
+        {
+          "path": "data/raw/cms/SRC-CMS-HOSPITAL-QUALITY-METHODOLOGY-SURFACES-2026-07-24/2026-07-24/pdc_index.css",
+          "byte_count": 1038287,
+          "sha256": "5ff7f121fdded61309807712dcd65cf87389d55c08a3bcac355b87a062f232fa"
+        },
+        {
+          "path": "data/raw/cms/SRC-CMS-HOSPITAL-QUALITY-METHODOLOGY-SURFACES-2026-07-24/2026-07-24/pdc_index.js",
+          "byte_count": 5017533,
+          "sha256": "e1818bf6f8d685853e720d6be2969ac1d227b9bbab0ec0e508dcef3ef7dd2294"
+        }
+      ],
+      "context_use_only": true
+    },
+    {
+      "surface_id": "qualitynet_mortality_methodology_route",
+      "title": "QualityNet inpatient mortality methodology route",
+      "url": "https://qualitynet.cms.gov/inpatient/measures/mortality/methodology",
+      "local_role": "official QualityNet app-shell route and JavaScript bundles",
+      "raw_files": [
+        {
+          "path": "data/raw/cms/SRC-CMS-HOSPITAL-QUALITY-METHODOLOGY-SURFACES-2026-07-24/2026-07-24/qualitynet_mortality_methodology.html",
+          "byte_count": 595,
+          "sha256": "65c3ce0305aac61b15aa9feb89e194996617caf0b38629c0936593e9df94eae9"
+        },
+        {
+          "path": "data/raw/cms/SRC-CMS-HOSPITAL-QUALITY-METHODOLOGY-SURFACES-2026-07-24/2026-07-24/qualitynet_main.js",
+          "byte_count": 2669385,
+          "sha256": "817bfd72eeab649f2efc5dddfa20781b59d1ad75e36c4fb9302b176651ae3f64"
+        },
+        {
+          "path": "data/raw/cms/SRC-CMS-HOSPITAL-QUALITY-METHODOLOGY-SURFACES-2026-07-24/2026-07-24/qualitynet_chunk_LP3O54EB.js",
+          "byte_count": 3152293,
+          "sha256": "87313d2bd597ac2233f41bd3bd3b6866fd1909aea4590a381bb816512f75fa1f"
+        },
+        {
+          "path": "data/raw/cms/SRC-CMS-HOSPITAL-QUALITY-METHODOLOGY-SURFACES-2026-07-24/2026-07-24/qualitynet_scripts.js",
+          "byte_count": 2286292,
+          "sha256": "8d57265a794ca596e7cca2fe979da9a66a59a2de943ee1a3ecb9412adcd18058"
+        }
+      ],
+      "context_use_only": true
+    },
+    {
+      "surface_id": "qualitynet_overall_ratings_resources_route",
+      "title": "QualityNet overall ratings resources route",
+      "url": "https://qualitynet.cms.gov/inpatient/public-reporting/overall-ratings/resources",
+      "local_role": "official QualityNet app-shell route",
+      "raw_files": [
+        {
+          "path": "data/raw/cms/SRC-CMS-HOSPITAL-QUALITY-METHODOLOGY-SURFACES-2026-07-24/2026-07-24/qualitynet_overall_ratings_resources.html",
+          "byte_count": 595,
+          "sha256": "65c3ce0305aac61b15aa9feb89e194996617caf0b38629c0936593e9df94eae9"
+        }
+      ],
+      "context_use_only": true
+    }
+  ],
+  "custody_summary": {
+    "official_public_surfaces_captured": true,
+    "local_html_js_shell_custody_ready": true,
+    "metadata_path_present": true,
+    "raw_file_count": 8,
+    "raw_total_byte_count": 14167176,
+    "methodology_report_content_custody_ready": false,
+    "denominator_to_field_crosswalk_ready": false,
+    "risk_adjustment_case_mix_methodology_ready": false,
+    "rural_safety_net_capacity_series_ready": false,
+    "floor_threshold_values_ready": false,
+    "observed_floor_values_ready": false,
+    "pass_fail_findings_ready": false,
+    "solver_input_ready": false,
+    "rate_calculation_ready": false,
+    "savings_claim_ready": false,
+    "balanced_budget_claim_ready": false
+  },
+  "blocked_outputs": {
+    "complete_cms_quality_access_lineage": null,
+    "risk_adjusted_outcome_case_mix_methodology": null,
+    "denominator_to_dataset_field_crosswalk": null,
+    "rural_safety_net_capacity_series": null,
+    "health_floor_thresholds": null,
+    "observed_floor_values": null,
+    "pass_fail_findings": null,
+    "health_policy_score": null,
+    "solver_input": null,
+    "rate_calculation": null,
+    "savings_estimate": null,
+    "balanced_budget_claim": null
+  },
+  "public_warning": "Official CMS Provider Data Catalog and QualityNet methodology surfaces are locally captured as HTML, CSS, and JavaScript custody, but the QualityNet captures are app-shell bytes and do not establish complete methodology report content, denominator-to-field crosswalk, risk-adjustment case-mix lineage, rural/safety-net capacity series, floor thresholds, observed values, pass/fail findings, solver input, rate calculation, savings estimate, or balanced-budget claim."
+}

@@ -1,0 +1,28 @@
+{
+  "record_id":"hlt-level-5-site-neutral-imaging-candidate-audit:v1",
+  "record_family":"hlt_level_5_site_neutral_imaging_candidate_audit",
+  "version":"v1.draft",
+  "status":"hlt_level_5_complete_narrower_candidate_selected_provider_access_rescore_blocked",
+  "pulse":455,
+  "as_of_date":"2026-07-27",
+  "track_prefix":"HLT",
+  "work_package_id":"HLT-L5",
+  "predecessor_path":"data/derived/breadth_benchmark_matrix/hlt_level_4_ma_benchmark_beneficiary_floor_audit.v1.draft.json",
+  "schema_path":"data/derived/breadth_benchmark_matrix/hlt_level_5_site_neutral_imaging_candidate_audit.schema.md",
+  "reader_path":"docs/reading/hlt-level-5-site-neutral-imaging-candidate-audit.md",
+  "role_review_path":"reviews/2026-07-27-hlt-level-5-site-neutral-imaging-candidate-audit-role-review.md",
+  "candidate":{"candidate_id":"off_campus_hopd_imaging_site_neutral_payment","source_url":"https://www.cbo.gov/budget-options/60908","source_publication_date":"2024-12-12","effective_date":"2026-01-01","policy":"Apply site-neutral rates to imaging services for all off-campus hospital outpatient departments.","score_vintage":"CBO December 2024 option","fy2025_2034_outlay_reduction_billions":7.6,"fy2026_outlay_reduction_billions":0.4,"formal_2026_current_law_rescore":false,"selected_for_candidate_audit":true},
+  "selection_rationale":{"replaces_rejected_uniform_ma_benchmark_candidate":true,"narrow_service_and_site_scope":true,"official_annual_score_present":true,"beneficiary_cost_sharing_direction":"expected_lower_allowed_charge_but_not_quantified_by_cbo_option","provider_access_effect_scored":false,"rural_safety_net_effect_scored":false,"distribution_effect_scored":false},
+  "gate_rows":[
+    {"gate_id":"legal_instrument_and_official_score","disposition":"required_ready","evidence":"CBO identifies the policy, January 2026 effective date, and annual outlay effects."},
+    {"gate_id":"beneficiary_cost_sharing_no_regression","disposition":"required_blocked","evidence":"The payment rule is narrower, but the option does not publish beneficiary cost-sharing results."},
+    {"gate_id":"provider_access_and_service_location","disposition":"required_blocked","evidence":"Hospital response, service relocation, imaging availability, and appointment effects are unscored."},
+    {"gate_id":"rural_and_safety_net_protection","disposition":"required_blocked","evidence":"No rural, sole-community, critical-access, or safety-net distribution is published."},
+    {"gate_id":"quality_and_diagnostic_timeliness","disposition":"required_blocked","evidence":"No diagnostic completion, delay, substitution, or quality effect is quantified."},
+    {"gate_id":"implementation_and_behavior","disposition":"required_blocked","evidence":"Billing-site, ownership, consolidation, and volume responses are embedded only in the old score, not exposed for the current baseline."},
+    {"gate_id":"current_law_rescore_and_overlap","disposition":"required_blocked","evidence":"The December 2024 option is not rescored to the February 2026 baseline or reconciled with other Medicare policies."}
+  ],
+  "decision":{"candidate_selected_for_audit":true,"required_gate_count":7,"required_ready_count":1,"required_blocked_count":6,"all_required_gates_pass":false,"candidate_admitted_to_spending_package":false,"official_option_may_be_counted_as_package_savings":false,"admitted_fy2026_reduction_billions":0.0,"hlt_f_may_start":false,"next_required_evidence":"provider, beneficiary, rural, behavior, and current-law rescore packet"},
+  "blocked_outputs":{"admitted_hlt_reduction":null,"beneficiary_distribution":null,"provider_access_result":null,"implementation_cost":null,"net_savings":null,"solver_input":null,"hlt_f_start":null,"balanced_budget_claim":null},
+  "public_warning":"The narrower $7.6 billion CBO option is selected for audit, not admitted as savings. Its official score does not supply the provider-access, rural, beneficiary, behavior, distribution, or 2026-rescore evidence required by the Taxlane floors."
+}

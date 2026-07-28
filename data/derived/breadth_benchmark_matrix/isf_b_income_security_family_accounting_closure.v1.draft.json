@@ -1,0 +1,33 @@
+{
+  "record_id": "isf-b-income-security-family-accounting-closure:v1",
+  "record_family": "isf_b_income_security_family_accounting_closure",
+  "version": "v1.draft",
+  "status": "isf_b_complete_bounded_accounting",
+  "pulse": 322,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "ISF-B",
+  "isf_a_path": "data/derived/breadth_benchmark_matrix/isf_a_income_security_family_baseline_source_spine.v1.draft.json",
+  "core_h_path": "data/derived/breadth_benchmark_matrix/core_h_shared_accounting_substrate.v1.draft.json",
+  "core_j_path": "data/derived/breadth_benchmark_matrix/core_j_bounded_closure_handoff_closure.v1.draft.json",
+  "core_k_path": "data/derived/breadth_benchmark_matrix/core_k_temporal_composite_accounting_closure.v1.draft.json",
+  "core_l_path": "data/derived/breadth_benchmark_matrix/core_l_cross_lane_overlap_allocation_closure.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/multi_track_d_b_catchup_bundle.schema.md",
+  "reader_path": "docs/reading/multi-track-d-b-catchup-bundle.md",
+  "role_review_path": "reviews/2026-07-26-multi-track-d-b-catchup-role-review.md",
+  "package_reconciliation": [
+    {"work_package_id":"ISF-B-01","status":"complete","completion_class":"bounded_structural","finding":"Program components map to appropriation, outlay, grant, credit, and non-additive resource roles."},
+    {"work_package_id":"ISF-B-02","status":"complete","completion_class":"bounded_structural","finding":"Benefit, grant, refundable-credit, state/local, and nutrition adapters preserve signs and overlap ownership."},
+    {"work_package_id":"ISF-B-03","status":"complete","completion_class":"bounded_structural","finding":"The bounded schedule retains annual program, eligibility, and take-up gaps as null."},
+    {"work_package_id":"ISF-B-04","status":"complete","completion_class":"bounded_structural","finding":"Role review closes bounded B accounting against CORE-H/J/K/L."}
+  ],
+  "account_mapping": [
+    {"component_id":"cash_and_income_support","roles":["program_outlay"],"evidence_state":"partial_context","non_additive":false,"successor_owner":"ISF-C","blocking_gate":"annual benefit and eligibility path"},
+    {"component_id":"refundable_credits","roles":["credit_subsidy","program_outlay"],"evidence_state":"definition_only","sign_preserved":true,"non_additive":false,"successor_owner":"ISF-C","blocking_gate":"signed credit and tax-year fiscal bridge"},
+    {"component_id":"nutrition_support","roles":["grant","program_outlay","state_local_resource"],"evidence_state":"partial_context","sign_preserved":true,"non_additive":true,"overlap_owner":"income-security-family","successor_owner":"ISF-C","blocking_gate":"annual federal and nonfederal schedule"},
+    {"component_id":"childcare_family_services","roles":["grant","program_outlay","state_local_resource"],"evidence_state":"source_gap","sign_preserved":true,"non_additive":true,"successor_owner":"ISF-C","blocking_gate":"program account and recipient finance schedule"}
+  ],
+  "closure_decision": {"completion_class":"bounded_structural","role_review_complete":true,"isf_b_done":true,"isf_c_may_start":true,"numeric_completion":false,"output_admission":false},
+  "blocked_outputs": {"complete_schedule":null,"take_up_model":null,"benefit_package":null,"reform":null,"solver_input":null,"assigned_rate":null,"savings":null},
+  "claim_booleans": {"isf_b_closure_published":true,"isf_b_done":true,"isf_c_may_start":true,"core_l_pinned":true,"solver_ready":false,"rate_published":false},
+  "public_warning": "ISF-B is complete as bounded accounting with nutrition overlap assigned non-additively. It is not a complete schedule, take-up model, reform, rate, or savings claim."
+}

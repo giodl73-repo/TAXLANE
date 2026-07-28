@@ -1,0 +1,148 @@
+{
+  "record_id": "social-security-domestic-old-age-poverty-context-bridge:v1",
+  "record_family": "social_security_domestic_old_age_poverty_context_bridge",
+  "schema_version": "v1.draft",
+  "status": "draft_census_domestic_old_age_poverty_context_ready_floor_values_blocked",
+  "pulse": 209,
+  "as_of_date": "2026-07-25",
+  "lane_id": "social-security",
+  "source_capture_status_rollup_path": "data/derived/breadth_benchmark_matrix/social_security_source_capture_status_rollup.v1.draft.json",
+  "outcome_floor_wave_d_value_readiness_path": "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json",
+  "census_child_poverty_income_capture_gap_path": "data/derived/breadth_benchmark_matrix/income_security_family_census_child_poverty_income_capture_gap.v1.draft.json",
+  "target_work_item_id": "capture-old-age-poverty-floor-values",
+  "closure_scope": {
+    "official_sources_only": true,
+    "uses_existing_captured_source": true,
+    "new_external_downloads_performed": false,
+    "source_family": "Census P60-287 official poverty and Supplemental Poverty Measure tables",
+    "closed_component": "domestic 65-plus poverty and near-poverty context",
+    "unclosed_component": "floor threshold rationale, measure selection, policy values, stress values, and pass/fail evidence",
+    "closure_gate_partially_informed": "old_age_poverty_floor_context_ready",
+    "closure_gate_ready": false,
+    "context_may_be_displayed": true,
+    "threshold_values_may_be_populated": false,
+    "floor_values_may_be_populated": false,
+    "pass_fail_findings_may_be_populated": false,
+    "solver_inputs_may_be_populated": false,
+    "rates_may_be_calculated": false
+  },
+  "source_custody": {
+    "source_id": "SRC-CENSUS-P60-287-POVERTY-2024",
+    "publisher": "U.S. Census Bureau",
+    "source_url": "https://www.census.gov/library/publications/2025/demo/p60-287.html",
+    "metadata_path": "data/metadata/SRC-CENSUS-P60-287-POVERTY-2024.2026-07-24.metadata.md",
+    "retrieval_date": "2026-07-24",
+    "raw_files": [
+      {
+        "table_id": "Table A-3",
+        "raw_artifact_path": "data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/tableA3_hist_pov_by_all_and_age.xlsx",
+        "raw_byte_count": 57388,
+        "raw_sha256": "a72a881ce64b1d32bacaa35a43a291fb75119503a793195c252d560c253b0ed2"
+      },
+      {
+        "table_id": "Table B-2",
+        "raw_artifact_path": "data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/tableB-2.xlsx",
+        "raw_byte_count": 43484,
+        "raw_sha256": "8cdb688380c543c1bd3bc47e2124ec6872511eff8c03c8340b1adacdbd1525fe"
+      },
+      {
+        "table_id": "Table B-7",
+        "raw_artifact_path": "data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/tableB-7.xlsx",
+        "raw_byte_count": 14272,
+        "raw_sha256": "ceea883550e7453b3002d90afb4caa7b52612cb9fb24846fe1df424468ca46f7"
+      },
+      {
+        "table_id": "Income-to-Poverty Ratios",
+        "raw_artifact_path": "data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/Income-to-Poverty-Ratios.xlsx",
+        "raw_byte_count": 14948,
+        "raw_sha256": "fb5b9c60b02cef2acc49d1674271839623082fad4ab00395d42d4949de00938f"
+      }
+    ],
+    "custody_ready": true
+  },
+  "context_values": {
+    "reference_year": 2024,
+    "unit": "thousands_or_percent_as_labeled",
+    "age_group": "65 years and over",
+    "official_poverty_measure": {
+      "source_table": "Table A-3",
+      "population_thousands": 61490,
+      "below_poverty_thousands": 6108,
+      "below_poverty_percent": 9.9
+    },
+    "supplemental_poverty_measure": {
+      "source_table": "Table B-2",
+      "population_thousands": 61490,
+      "below_poverty_thousands": 9223,
+      "below_poverty_margin_of_error_thousands": 327,
+      "below_poverty_percent": 15.0,
+      "below_poverty_percent_margin_of_error": 0.5
+    },
+    "spm_social_security_element_effect": {
+      "source_table": "Table B-7",
+      "effect_on_65_plus_spm_poverty_thousands": -20100,
+      "margin_of_error_thousands": 422,
+      "interpretation": "Census SPM element effect; negative values mean the element reduces the number of people counted in SPM poverty."
+    },
+    "official_income_to_poverty_ratio_context": {
+      "source_table": "Income-to-Poverty Ratios",
+      "under_50_percent_threshold_thousands": 2477,
+      "under_50_percent_threshold_percent": 4.0,
+      "under_125_percent_threshold_thousands": 8703,
+      "under_125_percent_threshold_percent": 14.2,
+      "under_150_percent_threshold_thousands": 11640,
+      "under_150_percent_threshold_percent": 18.9,
+      "under_200_percent_threshold_thousands": 17290,
+      "under_200_percent_threshold_percent": 28.1
+    },
+    "floor_use_boundary": "Domestic baseline context only; not an old-age poverty floor threshold, not a selected poverty measure for Taxlane floor passage, and not pass/fail evidence."
+  },
+  "remaining_floor_requirements": [
+    "old-age poverty measure selection and rationale",
+    "income-unit and resource-definition boundary review",
+    "threshold rationale",
+    "policy and stress values",
+    "pass/fail evidence"
+  ],
+  "blocked_outputs": {
+    "old_age_poverty_measure_selection": null,
+    "income_unit_boundary_review": null,
+    "threshold_rationale": null,
+    "old_age_poverty_floor_values": null,
+    "policy_values": null,
+    "stress_values": null,
+    "pass_fail_findings": null,
+    "lower_cost_scenario_admissibility": null,
+    "target_cost": null,
+    "federal_effect": null,
+    "gross_savings": null,
+    "net_savings": null,
+    "solver_input": null,
+    "rate_calculation": null,
+    "public_rate_card": null,
+    "balanced_budget_claim": null
+  },
+  "claim_booleans": {
+    "domestic_old_age_poverty_context_bridge_published": true,
+    "census_old_age_poverty_context_ready": true,
+    "old_age_poverty_floor_context_gate_ready": false,
+    "old_age_poverty_measure_selected": false,
+    "threshold_values_selected": false,
+    "baseline_floor_values_populated": false,
+    "policy_floor_values_populated": false,
+    "stress_floor_values_populated": false,
+    "pass_fail_findings_populated": false,
+    "lower_cost_scenario_admissibility_ready": false,
+    "target_cost_published": false,
+    "federal_effect_published": false,
+    "gross_savings_published": false,
+    "net_savings_published": false,
+    "solver_input_ready": false,
+    "rate_calculation_published": false,
+    "public_rate_card_published": false,
+    "department_cut_instruction_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "This bridge closes only existing Census domestic 65-plus old-age poverty and near-poverty context for the Social Security lane. It is not old-age poverty measure selection, not income-unit boundary review, not threshold rationale, not old-age poverty floor values, not policy values, not stress values, not pass/fail findings, not target-cost selection, not gross savings, not net savings, not solver input, not rate calculation, not a public rate card, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+}

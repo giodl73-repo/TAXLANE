@@ -1,0 +1,37 @@
+{
+  "record_id": "trn-d-interactions-macro-fund-bridge:v1",
+  "record_family": "trn_d_interactions_macro_fund_bridge",
+  "version": "v1.draft",
+  "status": "trn_d_05_complete_bounded_interactions_mapped_values_deferred",
+  "pulse": 280,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "TRN-D",
+  "start_gate_path": "data/derived/breadth_benchmark_matrix/trn_d_financing_fairness_start_gate.v1.draft.json",
+  "scenario_path": "data/derived/breadth_benchmark_matrix/trn_c_airmen_certificate_reform_scenario.v1.draft.json",
+  "legal_perimeter_path": "data/derived/breadth_benchmark_matrix/trn_d_legal_financing_perimeter_decision.v1.draft.json",
+  "incidence_fairness_path": "data/derived/breadth_benchmark_matrix/trn_d_incidence_distribution_fairness_boundary.v1.draft.json",
+  "trust_fund_reconciliation_path": "data/derived/breadth_benchmark_matrix/transportation_trust_fund_cross_source_reconciliation_status.v1.draft.json",
+  "core_h_path": "data/derived/breadth_benchmark_matrix/core_h_shared_accounting_substrate.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/trn_d_interactions_macro_fund_bridge.schema.md",
+  "reader_path": "docs/reading/trn-d-interactions-macro-fund-bridge.md",
+  "interaction_map": [
+    {"interaction_id":"appropriation_score","treatment":"The conditional CBO score admits $18 million of FY2026-FY2031 FAA outlays subject to appropriation.","known_value_millions":18,"quantified_interaction_ready":true},
+    {"interaction_id":"receipt_instrument","treatment":"No fee, tax, or assigned-receipt instrument is selected; matched receipt-base and yield work is not applicable to this candidate.","known_value_millions":null,"quantified_interaction_ready":false},
+    {"interaction_id":"fund_allocation","treatment":"CBO does not identify Airport and Airway Trust Fund, general-fund, fee, or named-account allocation for the scored outlays.","known_value_millions":null,"quantified_interaction_ready":false},
+    {"interaction_id":"trust_fund_path","treatment":"Existing OMB, Treasury, and CBO transportation trust-fund context remains non-stitchable because the FY2031 overlap does not reconcile.","known_value_millions":null,"quantified_interaction_ready":false},
+    {"interaction_id":"behavior_and_productivity","treatment":"Optional digital adoption does not establish behavioral, productivity, compliance, or savings effects.","known_value_millions":null,"quantified_interaction_ready":false},
+    {"interaction_id":"macro_and_interest","treatment":"No separate macro effect is scored; debt and endogenous-interest treatment remains deferred to a dependency-complete integrated solver.","known_value_millions":null,"quantified_interaction_ready":false}
+  ],
+  "bridge_rules": {
+    "appropriation_score_not_receipt_assignment": true,
+    "no_receipt_instrument_means_no_rate_base": true,
+    "unreconciled_trust_fund_sources_not_stitched": true,
+    "behavior_not_converted_to_savings": true,
+    "macro_effect_not_inferred": true,
+    "endogenous_interest_deferred": true
+  },
+  "decision": {"bounded_interaction_map_admitted":true,"fund_allocation_admitted":false,"macro_effect_admitted":false,"trn_d_05_done":true,"trn_d_06_may_start":true,"next_active_work_package_id":"TRN-D-06"},
+  "blocked_outputs": {"airport_airway_trust_fund_allocation_millions":null,"general_fund_allocation_millions":null,"matched_receipt_base":null,"assigned_rate":null,"behavioral_budget_effect_millions":null,"macro_effect_millions":null,"endogenous_interest_effect_millions":null,"solver_input":null,"trn_d_closure":null,"trn_e_start":null},
+  "claim_booleans": {"trn_d_interactions_macro_fund_bridge_published":true,"bounded_interaction_map_admitted":true,"trn_d_05_done":true,"trn_d_06_may_start":true,"fund_allocation_published":false,"macro_effect_published":false,"assigned_rate_published":false,"solver_ready":false,"trn_d_done":false,"trn_e_may_start":false},
+  "public_warning": "TRN-D-05 maps appropriation, receipt, fund, behavior, macro, and interest interactions. Only the $18 million conditional FAA outlay score is quantified. Fund allocation, receipt base, rate, behavior, macro, interest, solver input, TRN-D closure, and TRN-E start remain blocked."
+}

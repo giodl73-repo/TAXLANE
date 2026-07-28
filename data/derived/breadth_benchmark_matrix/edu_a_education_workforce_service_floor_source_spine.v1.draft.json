@@ -1,0 +1,31 @@
+{
+  "record_id": "edu-a-education-workforce-service-floor-source-spine:v1",
+  "record_family": "edu_a_education_workforce_service_floor_source_spine",
+  "version": "v1.draft",
+  "status": "edu_a_04_complete_bounded_service_floor_lineage_gaps_explicit",
+  "pulse": 284,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "EDU-A",
+  "start_gate_path": "data/derived/breadth_benchmark_matrix/edu_a_education_baseline_start_gate.v1.draft.json",
+  "baseline_path": "data/derived/breadth_benchmark_matrix/edu_a_federal_education_workforce_baseline_path.v1.draft.json",
+  "financing_lineage_path": "data/derived/breadth_benchmark_matrix/edu_a_education_workforce_financing_lineage.v1.draft.json",
+  "floor_definition_path": "data/derived/breadth_benchmark_matrix/education_workforce_outcome_floor_definition_packet.v1.draft.json",
+  "graduation_floor_path": "data/derived/breadth_benchmark_matrix/education_workforce_graduation_floor_value_packet.v1.draft.json",
+  "k12_outcome_baseline_path": "data/derived/breadth_benchmark_matrix/k12_outcome_baseline.naep2024-acgr2021-22.v1.draft.json",
+  "education_access_transition_path": "data/derived/breadth_benchmark_matrix/census_cps_education_access_transition_baseline.oct2024.v1.draft.json",
+  "training_impact_path": "data/derived/breadth_benchmark_matrix/pell_short_training_impact_evidence.2012-2021.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/edu_a_education_workforce_service_floor_source_spine.schema.md",
+  "reader_path": "docs/reading/edu-a-education-workforce-service-floor-source-spine.md",
+  "service_floor_lineage": [
+    {"floor_class":"access_participation","source_state":"baseline_context","bound_sources":["Census CPS education access/transition baseline"],"policy_or_pass_fail_ready":false},
+    {"floor_class":"completion_attainment","source_state":"draft_threshold_and_baseline","bound_sources":["K-12 NAEP/ACGR outcome baseline","graduation floor value packet"],"policy_or_pass_fail_ready":false},
+    {"floor_class":"employment_earnings","source_state":"bounded_impact_context","bound_sources":["Pell short-training impact evidence"],"policy_or_pass_fail_ready":false},
+    {"floor_class":"equity_distribution","source_state":"definition_only","bound_sources":["education/workforce outcome-floor definition packet"],"policy_or_pass_fail_ready":false},
+    {"floor_class":"fiscal_delivery_feasibility","source_state":"partial_fiscal_context","bound_sources":["federal function-500 baseline","K-12 federalism finance bridge","higher-education account bridge","training/employment account bridge"],"policy_or_pass_fail_ready":false}
+  ],
+  "source_boundary": {"official_or_custodied_sources_only":true,"federal_state_local_context_not_summed":true,"outcome_cohorts_not_summed":true,"credit_and_cash_not_equated":true,"threshold_selection_complete":false,"policy_or_stress_values_complete":false,"pass_fail_complete":false},
+  "decision": {"bounded_service_floor_lineage_admitted":true,"edu_a_04_done":true,"edu_a_05_may_start":true,"next_active_work_package_id":"EDU-A-05"},
+  "blocked_outputs": {"federal_state_local_translation":null,"program_to_outlay_allocation":null,"complete_floor_thresholds":null,"policy_floor_values":null,"stress_floor_values":null,"pass_fail_findings":null,"solver_input":null,"edu_a_closure":null,"edu_b_start":null},
+  "claim_booleans": {"edu_a_service_floor_source_spine_published":true,"bounded_service_floor_lineage_admitted":true,"edu_a_04_done":true,"edu_a_05_may_start":true,"federal_state_local_translation_ready":false,"complete_floor_set_ready":false,"solver_ready":false,"edu_a_done":false,"edu_b_may_start":false},
+  "public_warning": "EDU-A-04 binds access, completion, attainment, employment, equity, and delivery source lineage while preserving federal/state/local, cohort, credit, and fiscal boundaries. It does not complete translations, policy or stress values, pass/fail findings, solver input, EDU-A closure, or EDU-B start."
+}

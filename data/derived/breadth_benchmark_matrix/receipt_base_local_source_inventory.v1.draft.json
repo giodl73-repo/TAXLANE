@@ -12,6 +12,11 @@
     "local_repo_inventory_only": true,
     "no_external_request_submitted_this_pulse": true,
     "no_agency_or_person_contacted": true,
+    "irs_pub1304_ty2023_raw_custody_ready": true,
+    "ssa_trustees_official_source_browser_review_ready": true,
+    "ssa_calendar_year_taxable_payroll_context_ready": true,
+    "cms_medicare_trustees_raw_custody_ready": true,
+    "medicare_hi_calendar_year_financing_context_ready": true,
     "matched_receipt_bases_ready": false,
     "rate_publication_ready": false,
     "solver_inputs_ready": false
@@ -24,6 +29,17 @@
       "custody_status": "raw_and_metadata_present",
       "usable_for": ["rate_and_bracket_context", "tax_year_semantics"],
       "not_usable_for": ["agi_base_amount", "taxable_income_base_amount", "taxable_payroll_base", "transportation_fee_base", "elasticity", "incidence", "distribution", "administration_cost", "assigned_base_rate", "solver_input"],
+      "baseline_amount_musd": null,
+      "matched_year": null,
+      "ready": false
+    },
+    {
+      "source_id": "SRC-IRS-SOI-PUB1304-TABLE-1-1-TY2023",
+      "local_artifact_path": "data/raw/irs/SRC-IRS-SOI-PUB1304-TABLE-1-1-TY2023/2026-07-19/23in11si.xls",
+      "metadata_path": "data/metadata/SRC-IRS-SOI-PUB1304-TABLE-1-1-TY2023.2026-07-19.metadata.md",
+      "custody_status": "raw_and_metadata_present_context_only_not_matched_fy2025_assigned_base",
+      "usable_for": ["ty2023_agi_context", "ty2023_taxable_income_context", "ty2023_income_tax_after_credits_yield_context"],
+      "not_usable_for": ["matched_fy2025_individual_income_base", "legal_receipt_base", "economic_receipt_base", "payer_universe", "distribution", "incidence", "behavioral_elasticity", "administration_cost", "assigned_base_rate", "public_rate_card", "solver_input"],
       "baseline_amount_musd": null,
       "matched_year": null,
       "ready": false
@@ -42,10 +58,21 @@
     {
       "source_id": "SRC-SSA-TRUSTEES-2026",
       "local_artifact_path": null,
-      "metadata_path": null,
-      "custody_status": "derived_denominator_context_only_no_local_raw_or_metadata",
-      "usable_for": ["rounded_cy2025_oasdi_worker_and_beneficiary_context_if_caveated"],
-      "not_usable_for": ["oasdi_taxable_payroll_base_amount", "medicare_hi_taxable_payroll_base_amount", "matched_fy2025_assigned_base_rate", "public_rate_card", "solver_input"],
+      "metadata_path": "data/metadata/SRC-SSA-TRUSTEES-2026.2026-07-23.metadata.md",
+      "custody_status": "official_browser_review_and_metadata_present_local_raw_byte_capture_blocked",
+      "usable_for": ["rounded_cy2025_oasdi_context_if_caveated", "calendar_year_oasdi_taxable_payroll_context_if_caveated", "source_location_inventory"],
+      "not_usable_for": ["fiscal_year_oasdi_taxable_payroll_base_amount", "medicare_hi_taxable_payroll_base_amount", "matched_fy2025_assigned_base_rate", "omb_receipt_reconciliation", "public_rate_card", "solver_input"],
+      "baseline_amount_musd": null,
+      "matched_year": null,
+      "ready": false
+    },
+    {
+      "source_id": "SRC-CMS-MEDICARE-TRUSTEES-2026",
+      "local_artifact_path": "data/raw/cms/SRC-CMS-MEDICARE-TRUSTEES-2026/2026-07-19/2026-medicare-trustees-report.pdf",
+      "metadata_path": "data/metadata/SRC-CMS-MEDICARE-TRUSTEES-2026.2026-07-19.metadata.md",
+      "custody_status": "raw_and_metadata_present_calendar_year_hi_context_only_not_fiscal_year_assigned_base",
+      "usable_for": ["cy2025_medicare_hi_financing_context", "cy2025_cy2035_hi_current_law_context_path", "medicare_enrollment_denominator_context"],
+      "not_usable_for": ["fiscal_year_medicare_hi_taxable_payroll_base_amount", "omb_receipt_reconciliation", "matched_fy2025_assigned_base_rate", "distribution", "incidence", "behavioral_elasticity", "administration_cost", "public_rate_card", "solver_input"],
       "baseline_amount_musd": null,
       "matched_year": null,
       "ready": false
@@ -65,28 +92,28 @@
   "blocked_base_rows": [
     {
       "base_id": "individual_income_agi",
-      "local_status": "no_local_raw_pub_1304_or_equivalent_source_custody_for_base_amount",
+      "local_status": "ty2023_pub1304_agi_context_custodied_but_no_matched_fy2025_legal_or_economic_assigned_base",
       "baseline_amount_musd": null,
       "matched_year": null,
       "ready": false
     },
     {
       "base_id": "individual_income_taxable_income",
-      "local_status": "no_local_raw_pub_1304_or_equivalent_source_custody_for_base_amount",
+      "local_status": "ty2023_pub1304_taxable_income_context_custodied_but_no_matched_fy2025_legal_or_economic_assigned_base",
       "baseline_amount_musd": null,
       "matched_year": null,
       "ready": false
     },
     {
       "base_id": "oasdi_taxable_payroll",
-      "local_status": "no_local_raw_ssa_trustees_or_equivalent_source_custody_for_taxable_payroll_base_amount",
+      "local_status": "ssa_calendar_year_taxable_payroll_context_exists_but_no_fiscal_year_omb_reconciled_assigned_base",
       "baseline_amount_musd": null,
       "matched_year": null,
       "ready": false
     },
     {
       "base_id": "medicare_hi_taxable_payroll",
-      "local_status": "no_local_raw_cms_or_ssa_trustees_source_custody_for_hi_taxable_payroll_base_amount",
+      "local_status": "cms_medicare_trustees_hi_calendar_year_context_custodied_but_no_fiscal_year_omb_reconciled_assigned_base",
       "baseline_amount_musd": null,
       "matched_year": null,
       "ready": false
@@ -114,7 +141,9 @@
   "public_warning_phrases": [
     "This is a local source inventory, not a receipt-base extraction.",
     "Local HT23 custody supports rate and bracket context only, not AGI, taxable-income, payroll, or fee base amounts.",
-    "Derived denominator context cannot substitute for raw source custody of assigned receipt bases.",
+    "IRS Pub 1304 TY2023 raw custody supports individual-income context only, not a matched FY2025 assigned base.",
+    "SSA Trustees calendar-year taxable-payroll context cannot substitute for a fiscal-year OMB-reconciled assigned receipt base.",
+    "CMS Medicare Trustees raw custody supports calendar-year HI context only, not a fiscal-year OMB-reconciled assigned receipt base.",
     "No assigned base amount, elasticity, yield, rate, public rate card, solver input, tax proposal, or balanced-budget value is populated.",
     "No external request was submitted and no agency or person was contacted.",
     "This record is not solver input, not a solver run, not a target-cost selection, not a rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."

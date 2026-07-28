@@ -1,0 +1,1507 @@
+{
+  "record_family": "rev_internal_rate_candidate_analysis",
+  "version": "v1.generated",
+  "as_of_date": "2026-07-27",
+  "input_grid_path": "data/derived/breadth_benchmark_matrix/rev_internal_rate_sensitivity_grid_run.v1.generated.json",
+  "analysis_scope": "independent_taxlane_analysis_only",
+  "uncertainty_contract": {
+    "administration_ceiling_billions": 0.077,
+    "macro_revenue_stress_percents": [
+      -5.0,
+      -2.5,
+      0.0
+    ],
+    "macro_values_are_internal_stresses_not_estimates": true,
+    "fy2026_average_interest_rate_percent": 3.404,
+    "debt_service_is_first_order_full_year_upper_sensitivity": true,
+    "pay_additive_contribution_billions": 0.0,
+    "net_direct_cut_billions": 0.0
+  },
+  "candidate_rows": [
+    {
+      "uniform_uplift_points": 9.5,
+      "schedule_percent": [
+        19.5,
+        21.5,
+        31.5,
+        33.5,
+        41.5,
+        44.5,
+        46.5
+      ],
+      "central_cash_proxy_billions": 712.641,
+      "central_gap_after_administration_and_debt_billions": -104.607,
+      "behavior_cases_meeting_target_without_macro_stress": 0,
+      "all_behavior_cases_meet_target_without_macro_stress": false,
+      "stress_cases_meeting_target": 0,
+      "stress_case_count": 9,
+      "mean_tax_change_dollars_central": 4181.34,
+      "after_tax_income_change_percent_central": -7.225,
+      "top_decile_share_percent_central": 52.57,
+      "scenarios": [
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 762.273,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 3.052,
+          "final_target_difference_billions": -92.696,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 762.273,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 2.403,
+          "final_target_difference_billions": -72.991,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 762.273,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 1.754,
+          "final_target_difference_billions": -53.285,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 712.641,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 4.657,
+          "final_target_difference_billions": -141.452,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 712.641,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 4.05,
+          "final_target_difference_billions": -123.029,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 712.641,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 3.444,
+          "final_target_difference_billions": -104.607,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 663.318,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 6.252,
+          "final_target_difference_billions": -189.903,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 663.318,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 5.687,
+          "final_target_difference_billions": -172.756,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 663.318,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 5.123,
+          "final_target_difference_billions": -155.609,
+          "target_met": false
+        }
+      ]
+    },
+    {
+      "uniform_uplift_points": 10.0,
+      "schedule_percent": [
+        20.0,
+        22.0,
+        32.0,
+        34.0,
+        42.0,
+        45.0,
+        47.0
+      ],
+      "central_cash_proxy_billions": 748.388,
+      "central_gap_after_administration_and_debt_billions": -67.643,
+      "behavior_cases_meeting_target_without_macro_stress": 0,
+      "all_behavior_cases_meet_target_without_macro_stress": false,
+      "stress_cases_meeting_target": 0,
+      "stress_case_count": 9,
+      "mean_tax_change_dollars_central": 4391.08,
+      "after_tax_income_change_percent_central": -7.593,
+      "top_decile_share_percent_central": 52.56,
+      "scenarios": [
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 801.357,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 1.788,
+          "final_target_difference_billions": -54.302,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 801.357,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 1.106,
+          "final_target_difference_billions": -33.587,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 801.357,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.424,
+          "final_target_difference_billions": -12.871,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 748.388,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 3.501,
+          "final_target_difference_billions": -106.336,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 748.388,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 2.864,
+          "final_target_difference_billions": -86.989,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 748.388,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 2.227,
+          "final_target_difference_billions": -67.643,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 695.751,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 5.203,
+          "final_target_difference_billions": -158.043,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 695.751,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 4.611,
+          "final_target_difference_billions": -140.057,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 695.751,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 4.019,
+          "final_target_difference_billions": -122.072,
+          "target_met": false
+        }
+      ]
+    },
+    {
+      "uniform_uplift_points": 10.159,
+      "schedule_percent": [
+        20.159,
+        22.159,
+        32.159,
+        34.159,
+        42.159,
+        45.159,
+        47.159
+      ],
+      "central_cash_proxy_billions": 759.707,
+      "central_gap_after_administration_and_debt_billions": -55.938,
+      "behavior_cases_meeting_target_without_macro_stress": 0,
+      "all_behavior_cases_meet_target_without_macro_stress": false,
+      "stress_cases_meeting_target": 0,
+      "stress_case_count": 9,
+      "mean_tax_change_dollars_central": 4457.49,
+      "after_tax_income_change_percent_central": -7.71,
+      "top_decile_share_percent_central": 52.55,
+      "scenarios": [
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 813.756,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 1.387,
+          "final_target_difference_billions": -42.122,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 813.756,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.694,
+          "final_target_difference_billions": -21.086,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 813.756,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.002,
+          "final_target_difference_billions": -0.05,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 759.707,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 3.134,
+          "final_target_difference_billions": -95.217,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 759.707,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 2.488,
+          "final_target_difference_billions": -75.578,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 759.707,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 1.841,
+          "final_target_difference_billions": -55.938,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 705.995,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 4.871,
+          "final_target_difference_billions": -147.98,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 705.995,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 4.271,
+          "final_target_difference_billions": -129.729,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 705.995,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 3.67,
+          "final_target_difference_billions": -111.479,
+          "target_met": false
+        }
+      ]
+    },
+    {
+      "uniform_uplift_points": 10.5,
+      "schedule_percent": [
+        20.5,
+        22.5,
+        32.5,
+        34.5,
+        42.5,
+        45.5,
+        47.5
+      ],
+      "central_cash_proxy_billions": 783.865,
+      "central_gap_after_administration_and_debt_billions": -30.958,
+      "behavior_cases_meeting_target_without_macro_stress": 1,
+      "all_behavior_cases_meet_target_without_macro_stress": false,
+      "stress_cases_meeting_target": 2,
+      "stress_case_count": 9,
+      "mean_tax_change_dollars_central": 4599.24,
+      "after_tax_income_change_percent_central": -7.961,
+      "top_decile_share_percent_central": 52.54,
+      "scenarios": [
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 840.277,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.529,
+          "final_target_difference_billions": -16.07,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 840.277,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 5.466,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 840.277,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 26.473,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 783.865,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 2.353,
+          "final_target_difference_billions": -71.486,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 783.865,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 1.686,
+          "final_target_difference_billions": -51.222,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 783.865,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 1.019,
+          "final_target_difference_billions": -30.958,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 727.804,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 4.166,
+          "final_target_difference_billions": -126.556,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 727.804,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 3.547,
+          "final_target_difference_billions": -107.742,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 727.804,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 2.927,
+          "final_target_difference_billions": -88.927,
+          "target_met": false
+        }
+      ]
+    },
+    {
+      "uniform_uplift_points": 10.922,
+      "schedule_percent": [
+        20.922,
+        22.922,
+        32.922,
+        34.922,
+        42.922,
+        45.922,
+        47.922
+      ],
+      "central_cash_proxy_billions": 813.722,
+      "central_gap_after_administration_and_debt_billions": -0.085,
+      "behavior_cases_meeting_target_without_macro_stress": 1,
+      "all_behavior_cases_meet_target_without_macro_stress": false,
+      "stress_cases_meeting_target": 3,
+      "stress_case_count": 9,
+      "mean_tax_change_dollars_central": 4774.42,
+      "after_tax_income_change_percent_central": -8.269,
+      "top_decile_share_percent_central": 52.53,
+      "scenarios": [
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 873.072,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 15.614,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 873.072,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 37.441,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 873.072,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 59.268,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 813.722,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 1.388,
+          "final_target_difference_billions": -42.156,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 813.722,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.695,
+          "final_target_difference_billions": -21.12,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 813.722,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.003,
+          "final_target_difference_billions": -0.085,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 754.738,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 3.295,
+          "final_target_difference_billions": -100.098,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 754.738,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 2.653,
+          "final_target_difference_billions": -80.587,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 754.738,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 2.011,
+          "final_target_difference_billions": -61.077,
+          "target_met": false
+        }
+      ]
+    },
+    {
+      "uniform_uplift_points": 11.0,
+      "schedule_percent": [
+        21.0,
+        23.0,
+        33.0,
+        35.0,
+        43.0,
+        46.0,
+        48.0
+      ],
+      "central_cash_proxy_billions": 819.22,
+      "central_gap_after_administration_and_debt_billions": 5.416,
+      "behavior_cases_meeting_target_without_macro_stress": 2,
+      "all_behavior_cases_meet_target_without_macro_stress": false,
+      "stress_cases_meeting_target": 4,
+      "stress_case_count": 9,
+      "mean_tax_change_dollars_central": 4806.68,
+      "after_tax_income_change_percent_central": -8.326,
+      "top_decile_share_percent_central": 52.53,
+      "scenarios": [
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 879.122,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 21.362,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 879.122,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 43.34,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 879.122,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 65.318,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 819.22,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 1.21,
+          "final_target_difference_billions": -36.755,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 819.22,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.513,
+          "final_target_difference_billions": -15.577,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 819.22,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 5.416,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 759.687,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 3.135,
+          "final_target_difference_billions": -95.236,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 759.687,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 2.489,
+          "final_target_difference_billions": -75.598,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 759.687,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 1.842,
+          "final_target_difference_billions": -55.959,
+          "target_met": false
+        }
+      ]
+    },
+    {
+      "uniform_uplift_points": 11.5,
+      "schedule_percent": [
+        21.5,
+        23.5,
+        33.5,
+        35.5,
+        43.5,
+        46.5,
+        48.5
+      ],
+      "central_cash_proxy_billions": 854.37,
+      "central_gap_after_administration_and_debt_billions": 40.566,
+      "behavior_cases_meeting_target_without_macro_stress": 2,
+      "all_behavior_cases_meet_target_without_macro_stress": false,
+      "stress_cases_meeting_target": 5,
+      "stress_case_count": 9,
+      "mean_tax_change_dollars_central": 5012.92,
+      "after_tax_income_change_percent_central": -8.691,
+      "top_decile_share_percent_central": 52.51,
+      "scenarios": [
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 917.85,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 58.154,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 917.85,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 81.1,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 917.85,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 104.046,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 854.37,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.073,
+          "final_target_difference_billions": -2.226,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 854.37,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 19.207,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 854.37,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 40.566,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 791.28,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 2.113,
+          "final_target_difference_billions": -64.201,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 791.28,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 1.44,
+          "final_target_difference_billions": -43.746,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 791.28,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.767,
+          "final_target_difference_billions": -23.291,
+          "target_met": false
+        }
+      ]
+    },
+    {
+      "uniform_uplift_points": 11.854,
+      "schedule_percent": [
+        21.854,
+        23.854,
+        33.854,
+        35.854,
+        43.854,
+        46.854,
+        48.854
+      ],
+      "central_cash_proxy_billions": 879.15,
+      "central_gap_after_administration_and_debt_billions": 65.346,
+      "behavior_cases_meeting_target_without_macro_stress": 2,
+      "all_behavior_cases_meet_target_without_macro_stress": false,
+      "stress_cases_meeting_target": 6,
+      "stress_case_count": 9,
+      "mean_tax_change_dollars_central": 5158.31,
+      "after_tax_income_change_percent_central": -8.949,
+      "top_decile_share_percent_central": 52.5,
+      "scenarios": [
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 945.204,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 84.14,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 945.204,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 107.77,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 945.204,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 131.4,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 879.15,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 21.389,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 879.15,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 43.367,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 879.15,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 65.346,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 813.496,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 1.395,
+          "final_target_difference_billions": -42.378,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 813.496,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.703,
+          "final_target_difference_billions": -21.348,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 813.496,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.01,
+          "final_target_difference_billions": -0.318,
+          "target_met": false
+        }
+      ]
+    },
+    {
+      "uniform_uplift_points": 12.0,
+      "schedule_percent": [
+        22.0,
+        24.0,
+        34.0,
+        36.0,
+        44.0,
+        47.0,
+        49.0
+      ],
+      "central_cash_proxy_billions": 889.343,
+      "central_gap_after_administration_and_debt_billions": 75.539,
+      "behavior_cases_meeting_target_without_macro_stress": 3,
+      "all_behavior_cases_meet_target_without_macro_stress": true,
+      "stress_cases_meeting_target": 7,
+      "stress_case_count": 9,
+      "mean_tax_change_dollars_central": 5218.11,
+      "after_tax_income_change_percent_central": -9.055,
+      "top_decile_share_percent_central": 52.5,
+      "scenarios": [
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 956.469,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 94.842,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 956.469,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 118.753,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 956.469,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 142.665,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 889.343,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 31.072,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 889.343,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 53.305,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 889.343,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 75.539,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 822.621,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 1.1,
+          "final_target_difference_billions": -33.414,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 822.621,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.4,
+          "final_target_difference_billions": -12.148,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 822.621,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 8.817,
+          "target_met": true
+        }
+      ]
+    },
+    {
+      "uniform_uplift_points": 12.25,
+      "schedule_percent": [
+        22.25,
+        24.25,
+        34.25,
+        36.25,
+        44.25,
+        47.25,
+        49.25
+      ],
+      "central_cash_proxy_billions": 906.808,
+      "central_gap_after_administration_and_debt_billions": 93.004,
+      "behavior_cases_meeting_target_without_macro_stress": 3,
+      "all_behavior_cases_meet_target_without_macro_stress": true,
+      "stress_cases_meeting_target": 8,
+      "stress_case_count": 9,
+      "mean_tax_change_dollars_central": 5320.59,
+      "after_tax_income_change_percent_central": -9.236,
+      "top_decile_share_percent_central": 52.49,
+      "scenarios": [
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 975.767,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 113.175,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 975.767,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 137.569,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 975.767,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 161.963,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 906.808,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 47.664,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 906.808,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 70.334,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 906.808,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 93.004,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 838.261,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.594,
+          "final_target_difference_billions": -18.05,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 838.261,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 3.5,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 838.261,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 24.457,
+          "target_met": true
+        }
+      ]
+    },
+    {
+      "uniform_uplift_points": 12.5,
+      "schedule_percent": [
+        22.5,
+        24.5,
+        34.5,
+        36.5,
+        44.5,
+        47.5,
+        49.5
+      ],
+      "central_cash_proxy_billions": 924.131,
+      "central_gap_after_administration_and_debt_billions": 110.327,
+      "behavior_cases_meeting_target_without_macro_stress": 3,
+      "all_behavior_cases_meet_target_without_macro_stress": true,
+      "stress_cases_meeting_target": 8,
+      "stress_case_count": 9,
+      "mean_tax_change_dollars_central": 5422.23,
+      "after_tax_income_change_percent_central": -9.418,
+      "top_decile_share_percent_central": 52.48,
+      "scenarios": [
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 994.979,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 131.426,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 994.979,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 156.301,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 994.979,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 181.175,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 924.131,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 64.12,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 924.131,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 87.224,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 924.131,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 110.327,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 853.705,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.095,
+          "final_target_difference_billions": -2.879,
+          "target_met": false
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 853.705,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 18.558,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 853.705,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 39.901,
+          "target_met": true
+        }
+      ]
+    },
+    {
+      "uniform_uplift_points": 12.6,
+      "schedule_percent": [
+        22.6,
+        24.6,
+        34.6,
+        36.6,
+        44.6,
+        47.6,
+        49.6
+      ],
+      "central_cash_proxy_billions": 931.068,
+      "central_gap_after_administration_and_debt_billions": 117.264,
+      "behavior_cases_meeting_target_without_macro_stress": 3,
+      "all_behavior_cases_meet_target_without_macro_stress": true,
+      "stress_cases_meeting_target": 9,
+      "stress_case_count": 9,
+      "mean_tax_change_dollars_central": 5462.93,
+      "after_tax_income_change_percent_central": -9.49,
+      "top_decile_share_percent_central": 52.48,
+      "scenarios": [
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 1002.668,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 138.731,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 1002.668,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 163.797,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 1002.668,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 188.864,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 931.068,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 70.711,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 931.068,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 93.987,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 931.068,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 117.264,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 859.893,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 3.094,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 859.893,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 24.592,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 859.893,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 46.089,
+          "target_met": true
+        }
+      ]
+    },
+    {
+      "uniform_uplift_points": 12.75,
+      "schedule_percent": [
+        22.75,
+        24.75,
+        34.75,
+        36.75,
+        44.75,
+        47.75,
+        49.75
+      ],
+      "central_cash_proxy_billions": 941.441,
+      "central_gap_after_administration_and_debt_billions": 127.637,
+      "behavior_cases_meeting_target_without_macro_stress": 3,
+      "all_behavior_cases_meet_target_without_macro_stress": true,
+      "stress_cases_meeting_target": 9,
+      "stress_case_count": 9,
+      "mean_tax_change_dollars_central": 5523.79,
+      "after_tax_income_change_percent_central": -9.599,
+      "top_decile_share_percent_central": 52.47,
+      "scenarios": [
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 1014.185,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 149.672,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 1014.185,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 175.026,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 1014.185,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 200.381,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 941.441,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 80.565,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 941.441,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 104.101,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 941.441,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 127.637,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 869.131,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 11.87,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 869.131,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 33.599,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 869.131,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 55.327,
+          "target_met": true
+        }
+      ]
+    },
+    {
+      "uniform_uplift_points": 13.0,
+      "schedule_percent": [
+        23.0,
+        25.0,
+        35.0,
+        37.0,
+        45.0,
+        48.0,
+        50.0
+      ],
+      "central_cash_proxy_billions": 958.624,
+      "central_gap_after_administration_and_debt_billions": 144.82,
+      "behavior_cases_meeting_target_without_macro_stress": 3,
+      "all_behavior_cases_meet_target_without_macro_stress": true,
+      "stress_cases_meeting_target": 9,
+      "stress_case_count": 9,
+      "mean_tax_change_dollars_central": 5624.61,
+      "after_tax_income_change_percent_central": -9.78,
+      "top_decile_share_percent_central": 52.46,
+      "scenarios": [
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 1033.314,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 167.844,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 1033.314,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 193.677,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.15,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 1033.314,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 219.51,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 958.624,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 96.889,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 958.624,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 120.854,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.25,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 958.624,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 144.82,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": -5.0,
+          "cash_proxy_billions": 884.367,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 26.345,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": -2.5,
+          "cash_proxy_billions": 884.367,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 48.454,
+          "target_met": true
+        },
+        {
+          "substitution_elasticity": 0.35,
+          "macro_revenue_stress_percent": 0.0,
+          "cash_proxy_billions": 884.367,
+          "administration_ceiling_billions": 0.077,
+          "first_order_debt_service_upper_billions": 0.0,
+          "final_target_difference_billions": 70.563,
+          "target_met": true
+        }
+      ]
+    }
+  ],
+  "ranking_by_central_fit": [
+    11.0,
+    11.5,
+    11.854,
+    12.0,
+    12.25,
+    12.5,
+    12.6,
+    12.75,
+    13.0,
+    10.922,
+    10.5,
+    10.159,
+    10.0,
+    9.5
+  ],
+  "selection": {
+    "lowest_central_case_uplift_meeting_target": 11.0,
+    "lowest_all_behavior_case_uplift_meeting_target_without_macro_stress": 12.0,
+    "lowest_all_stress_case_uplift_meeting_target": 12.6,
+    "strict_stress_grid_extension_required": false
+  },
+  "boundary": {
+    "official_request_planned": false,
+    "official_score": false,
+    "taxlane_internal_analysis": true,
+    "macro_stresses_are_not_forecasts": true,
+    "balanced_budget_proven": false
+  }
+}

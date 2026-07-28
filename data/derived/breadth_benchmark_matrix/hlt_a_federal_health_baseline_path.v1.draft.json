@@ -1,0 +1,83 @@
+{
+  "record_id": "hlt-a-federal-health-baseline-path:v1",
+  "record_family": "hlt_a_federal_health_baseline_path",
+  "version": "v1.draft",
+  "status": "hlt_a_02_complete_fy2025_fy2031_exact_fy2032_fy2035_null",
+  "pulse": 269,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "HLT-A",
+  "start_gate_path": "data/derived/breadth_benchmark_matrix/hlt_a_health_baseline_start_gate.v1.draft.json",
+  "perimeter_inventory_path": "data/derived/breadth_benchmark_matrix/hlt_a_health_lane_perimeter_source_inventory.v1.draft.json",
+  "source_path": "data/derived/breadth_benchmark_matrix/current_law_17_row_pbd_fy2025_2031_context_path.v1.draft.json",
+  "source_id": "SRC-OMB-PBD-OUTLAYS-FY2027",
+  "schema_path": "data/derived/breadth_benchmark_matrix/hlt_a_federal_health_baseline_path.schema.md",
+  "reader_path": "docs/reading/hlt-a-federal-health-baseline-path.md",
+  "scope": {
+    "unit": "millions_usd_source_display_precision",
+    "horizon": "FY2025-FY2035",
+    "source_vintage_rule": "one captured OMB FY2027 public budget database outlays workbook",
+    "component_function_codes": ["550", "570"],
+    "component_labels": ["Health (non-Medicare)", "Medicare"],
+    "reform_effects_included": false,
+    "interpolation_allowed": false,
+    "cross_vintage_stitching_allowed": false
+  },
+  "annual_rows": [
+    {"fiscal_year":2025,"health_550_outlays_millions":978511,"medicare_570_outlays_millions":996718,"combined_health_medicare_outlays_millions":1975229,"observation":"exact_at_source_display_precision"},
+    {"fiscal_year":2026,"health_550_outlays_millions":1047526,"medicare_570_outlays_millions":1070248,"combined_health_medicare_outlays_millions":2117774,"observation":"exact_at_source_display_precision"},
+    {"fiscal_year":2027,"health_550_outlays_millions":1032118,"medicare_570_outlays_millions":1200809,"combined_health_medicare_outlays_millions":2232927,"observation":"exact_at_source_display_precision"},
+    {"fiscal_year":2028,"health_550_outlays_millions":1036983,"medicare_570_outlays_millions":1350466,"combined_health_medicare_outlays_millions":2387449,"observation":"exact_at_source_display_precision"},
+    {"fiscal_year":2029,"health_550_outlays_millions":1077961,"medicare_570_outlays_millions":1316240,"combined_health_medicare_outlays_millions":2394201,"observation":"exact_at_source_display_precision"},
+    {"fiscal_year":2030,"health_550_outlays_millions":1112624,"medicare_570_outlays_millions":1473374,"combined_health_medicare_outlays_millions":2585998,"observation":"exact_at_source_display_precision"},
+    {"fiscal_year":2031,"health_550_outlays_millions":1143249,"medicare_570_outlays_millions":1573538,"combined_health_medicare_outlays_millions":2716787,"observation":"exact_at_source_display_precision"},
+    {"fiscal_year":2032,"health_550_outlays_millions":null,"medicare_570_outlays_millions":null,"combined_health_medicare_outlays_millions":null,"observation":"missing_in_captured_omb_function_path"},
+    {"fiscal_year":2033,"health_550_outlays_millions":null,"medicare_570_outlays_millions":null,"combined_health_medicare_outlays_millions":null,"observation":"missing_in_captured_omb_function_path"},
+    {"fiscal_year":2034,"health_550_outlays_millions":null,"medicare_570_outlays_millions":null,"combined_health_medicare_outlays_millions":null,"observation":"missing_in_captured_omb_function_path"},
+    {"fiscal_year":2035,"health_550_outlays_millions":null,"medicare_570_outlays_millions":null,"combined_health_medicare_outlays_millions":null,"observation":"missing_in_captured_omb_function_path"}
+  ],
+  "reconciliation": {
+    "exact_years": 7,
+    "explicit_null_years": 4,
+    "fy2025_anchor_ready": true,
+    "fy2025_fy2031_component_sums_recompute": true,
+    "fy2032_fy2035_omb_function_rows_ready": false,
+    "cbo_major_category_context_substitution_prohibited": true,
+    "full_numeric_horizon_ready": false,
+    "bounded_horizon_record_complete": true
+  },
+  "next_package_gate": {
+    "hlt_a_02_done": true,
+    "hlt_a_03_may_start": true,
+    "next_active_work_package_id": "HLT-A-03",
+    "required_output": "separate Medicare HI trust-fund, SMI general-fund and premium, Medicaid state/federal, marketplace, and other financing lineage without adding receipts to outlays"
+  },
+  "blocked_outputs": {
+    "fy2032_fy2035_function_550_outlays_millions": null,
+    "fy2032_fy2035_function_570_outlays_millions": null,
+    "full_numeric_fy2025_fy2035_path": null,
+    "financing_allocation": null,
+    "policy_scenario": null,
+    "solver_input": null,
+    "rate": null,
+    "savings": null,
+    "hlt_a_closure": null,
+    "hlt_b_start": null
+  },
+  "claim_booleans": {
+    "hlt_a_health_baseline_path_published": true,
+    "fy2025_anchor_ready": true,
+    "fy2025_fy2031_exact_rows_ready": true,
+    "fy2032_fy2035_explicit_null_rows_ready": true,
+    "bounded_horizon_record_complete": true,
+    "hlt_a_02_done": true,
+    "hlt_a_03_may_start": true,
+    "full_numeric_horizon_ready": false,
+    "health_reform_admitted": false,
+    "solver_ready": false,
+    "rate_published": false,
+    "savings_claim_published": false,
+    "hlt_a_done": false,
+    "hlt_b_may_start": false
+  },
+  "public_warning": "HLT-A-02 publishes one-vintage OMB function 550 and 570 current-law rows for FY2025-FY2031 and explicit nulls for FY2032-FY2035. It does not substitute CBO major categories, interpolate, add nonfederal spending, admit reform effects, complete the financing bridge, run a solver, publish a rate or savings, close HLT-A, or start HLT-B."
+}

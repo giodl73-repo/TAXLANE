@@ -11,8 +11,11 @@ Required invariants:
   Medicare Trustees source-capture status, NHE source-custody gap, CBO
   source-custody gap, and quality/access indicator source gap.
 - Exactly five source families are summarized.
-- Exactly two source families may be custody-ready, and both are context-only.
-- NHE, CBO, and quality/access source families remain custody gaps.
+- Exactly three source families may be custody-ready, and all are context-only.
+- One source family may be partial custody context-only: CMS quality/access.
+- CBO remains a custody gap, while remaining CMS quality/access lineage remains
+  incomplete for floor passage.
 - Floor passage, federal policy translation, solver inputs, savings, and rates
   remain null/false.
-- Only publication and context-readiness booleans may be true.
+- Only publication, context-readiness, and partial quality/access custody
+  booleans may be true.

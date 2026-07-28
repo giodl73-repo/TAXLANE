@@ -1,0 +1,35 @@
+{
+  "record_id": "isf-a-income-security-family-baseline-source-spine:v1",
+  "record_family": "isf_a_income_security_family_baseline_source_spine",
+  "version": "v1.draft",
+  "status": "isf_a_complete_bounded_baseline_source_spine",
+  "pulse": 317,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "ISF-A",
+  "lane_id": "income-security-family",
+  "core_g_path": "data/derived/breadth_benchmark_matrix/core_g_official_current_law_solver_spine.v1.draft.json",
+  "perimeter_path": "data/derived/breadth_benchmark_matrix/income_security_family_federal_program_perimeter_bridge.fy2025.v1.draft.json",
+  "source_status_path": "data/derived/breadth_benchmark_matrix/income_security_family_source_capture_status_rollup.v1.draft.json",
+  "floor_path": "data/derived/breadth_benchmark_matrix/income_security_family_outcome_floor_definition_packet.v1.draft.json",
+  "child_poverty_path": "data/derived/breadth_benchmark_matrix/income_security_family_child_poverty_floor_value_packet.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/multi_track_d_b_catchup_bundle.schema.md",
+  "reader_path": "docs/reading/multi-track-d-b-catchup-bundle.md",
+  "role_review_path": "reviews/2026-07-26-multi-track-d-b-catchup-role-review.md",
+  "package_reconciliation": [
+    {"work_package_id":"ISF-A-01","status":"complete","completion_class":"bounded_structural","finding":"Federal income-security/family perimeter is separated from state/local and private context."},
+    {"work_package_id":"ISF-A-02","status":"complete","completion_class":"bounded_structural","finding":"FY2025 program context and explicit horizon gaps form the bounded baseline."},
+    {"work_package_id":"ISF-A-03","status":"complete","completion_class":"bounded_structural","finding":"Appropriation, mandatory benefit, grant, refundable credit, nutrition, and recipient relationships remain distinct."},
+    {"work_package_id":"ISF-A-04","status":"complete","completion_class":"bounded_structural","finding":"Child poverty, childcare, nutrition, access, and take-up floor lineage is mapped."},
+    {"work_package_id":"ISF-A-05","status":"complete","completion_class":"bounded_structural","finding":"Role review accepts bounded A closure with source gaps retained."}
+  ],
+  "source_handoffs": [
+    {"field_id":"complete_program_annual_path","evidence_state":"source_gap","successor_owner":"ISF-B","blocking_gate":"annual program and account schedule"},
+    {"field_id":"take_up_path","evidence_state":"source_gap","successor_owner":"ISF-B","blocking_gate":"eligible participant and take-up lineage"},
+    {"field_id":"federal_state_local_translation","evidence_state":"definition_only","successor_owner":"ISF-B","blocking_gate":"non-additive intergovernmental adapter"},
+    {"field_id":"refundable_credit_treatment","evidence_state":"partial_context","successor_owner":"ISF-B","blocking_gate":"signed credit and outlay adapter"}
+  ],
+  "closure_decision": {"completion_class":"bounded_structural","role_review_complete":true,"isf_a_done":true,"isf_b_may_start":true,"numeric_completion":false,"output_admission":false},
+  "blocked_outputs": {"complete_baseline":null,"take_up_model":null,"benefit_package":null,"solver_input":null,"assigned_rate":null,"savings":null},
+  "claim_booleans": {"isf_a_spine_published":true,"isf_a_done":true,"isf_b_may_start":true,"solver_ready":false,"rate_published":false},
+  "public_warning": "ISF-A closes a bounded baseline and source spine. Complete program paths, take-up, federal/state/local translation, benefit-package modeling, rates, and savings remain blocked."
+}

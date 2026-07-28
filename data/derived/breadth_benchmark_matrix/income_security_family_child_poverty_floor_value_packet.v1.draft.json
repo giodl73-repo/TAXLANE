@@ -1,0 +1,92 @@
+{
+  "record_id": "income-security-family-child-poverty-floor-value-packet:v1",
+  "record_family": "income_security_family_child_poverty_floor_value_packet",
+  "version": "v1.draft",
+  "pulse": 213,
+  "as_of_date": "2026-07-25",
+  "lane_id": "income-security-family",
+  "floor_id": "child_poverty",
+  "floor_definition_packet_path": "data/derived/breadth_benchmark_matrix/income_security_family_outcome_floor_definition_packet.v1.draft.json",
+  "census_child_poverty_income_capture_gap_path": "data/derived/breadth_benchmark_matrix/income_security_family_census_child_poverty_income_capture_gap.v1.draft.json",
+  "outcome_floor_wave_d_value_readiness_path": "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json",
+  "threshold_rationale": {
+    "rationale_id": "no-regression-from-2024-official-under-18-poverty",
+    "selected_measure": "Official poverty rate for people under 18 years",
+    "rationale": "A lower-cost income-security/family scenario cannot pass if reviewed policy and stress evidence show child poverty above the 2024 official Census baseline before broader benefit, take-up, childcare, nutrition, and transition floors are reviewed.",
+    "threshold_type": "baseline_no_regression_ceiling",
+    "threshold_value": 14.3,
+    "threshold_unit": "percent",
+    "source_table": "Census P60-287 Table A-1 and Table A-3",
+    "review_status": "draft_threshold_rationale_needs_role_review_before_pass_fail"
+  },
+  "baseline_values": {
+    "reference_year": 2024,
+    "primary_baseline": {
+      "measure": "Under-18 official poverty rate",
+      "value": 14.3,
+      "unit": "percent",
+      "population_thousands": 72550,
+      "below_poverty_thousands": 10350,
+      "margin_of_error_percentage_points": 0.6,
+      "margin_of_error_below_poverty_thousands": 416,
+      "source_path": "data/derived/breadth_benchmark_matrix/income_security_family_census_child_poverty_income_capture_gap.v1.draft.json"
+    },
+    "supporting_context": [
+      {"measure": "Under-18 SPM poverty rate", "value": 13.4, "unit": "percent", "below_poverty_thousands": 9744, "margin_of_error_percentage_points": 0.5, "source_table": "Census P60-287 Table B-2"},
+      {"measure": "Three-year United States under-18 official poverty rate", "value": 14.8, "unit": "percent", "below_poverty_thousands": 10770, "margin_of_error_percentage_points": 0.4, "source_table": "Census P60-287 spm_opm_state_by_age"},
+      {"measure": "Three-year United States under-18 SPM poverty rate", "value": 13.1, "unit": "percent", "below_poverty_thousands": 9563, "margin_of_error_percentage_points": 0.3, "source_table": "Census P60-287 spm_opm_state_by_age"}
+    ],
+    "boundary": "This is a child-poverty baseline only. It is not a benefit-package model, not take-up, not childcare access, not nutrition handoff, not policy impact, and not pass/fail evidence."
+  },
+  "policy_values": null,
+  "stress_values": null,
+  "pass_fail_evidence": null,
+  "readiness_status": {
+    "threshold_rationale_ready": true,
+    "threshold_value_populated": true,
+    "baseline_value_ready": true,
+    "policy_value_ready": false,
+    "stress_value_ready": false,
+    "pass_fail_ready": false,
+    "lower_cost_scenario_admissible": false,
+    "solver_ready": false,
+    "rate_ready": false
+  },
+  "blocked_outputs": {
+    "benefit_package_model": null,
+    "take_up_model": null,
+    "childcare_access_model": null,
+    "nutrition_handoff": null,
+    "policy_value": null,
+    "stress_value": null,
+    "pass_fail_finding": null,
+    "target_cost": null,
+    "federal_effect": null,
+    "gross_savings": null,
+    "net_savings": null,
+    "solver_input": null,
+    "public_rate_card": null,
+    "balanced_budget_claim": null
+  },
+  "claim_booleans": {
+    "child_poverty_floor_value_packet_published": true,
+    "threshold_rationale_ready": true,
+    "threshold_value_populated": true,
+    "baseline_value_ready": true,
+    "policy_value_ready": false,
+    "stress_value_ready": false,
+    "pass_fail_ready": false,
+    "lower_cost_scenario_admissible": false,
+    "target_cost_published": false,
+    "federal_effect_published": false,
+    "gross_savings_published": false,
+    "net_savings_published": false,
+    "solver_ready": false,
+    "rate_ready": false,
+    "public_rate_card_published": false,
+    "savings_claim_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "This is a draft no-regression income-security/family child-poverty floor threshold and baseline value packet only. It is not a benefit-package model, not take-up, not childcare access, not nutrition handoff, not policy values, not stress values, not pass/fail evidence, not lower-cost scenario admissibility, not target cost, not solver input, not rate calculation, not gross savings, not net savings, not a technology-savings claim, and not a balanced-budget claim."
+}

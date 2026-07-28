@@ -2,22 +2,27 @@
   "record_id": "health-cbo-source-custody-gap:v1",
   "record_family": "health_cbo_source_custody_gap",
   "schema_version": "v1.draft",
-  "status": "draft_cbo_raw_custody_gap_policy_translation_blocked",
+  "status": "draft_cbo_official_access_boundary_raw_custody_blocked_policy_translation_blocked",
   "pulse": 181,
-  "as_of_date": "2026-07-20",
+  "as_of_date": "2026-07-24",
   "lane_id": "health-medicare",
   "health_floor_source_capture_status_path": "data/derived/breadth_benchmark_matrix/health_floor_source_capture_status.v1.draft.json",
   "health_medicare_trustees_source_capture_status_path": "data/derived/breadth_benchmark_matrix/health_medicare_trustees_source_capture_status.v1.draft.json",
   "health_nhe_source_custody_gap_path": "data/derived/breadth_benchmark_matrix/health_nhe_source_custody_gap.v1.draft.json",
+  "cbo_health_insurance_table2_browser_rowmap_path": "data/derived/breadth_benchmark_matrix/cbo_health_insurance_table2_browser_rowmap_fy2026_2036.v1.draft.json",
   "lane_floor_source_work_queue_path": "data/derived/breadth_benchmark_matrix/lane_floor_source_work_queue.v1.draft.json",
-  "source_ids_referenced_but_not_custody_ready": ["SRC-CBO-LTBO", "SRC-CBO-COMMERCIAL-PROVIDER-PRICES"],
+  "source_ids_referenced_but_not_raw_custody_ready": ["SRC-CBO-LTBO", "SRC-CBO-COMMERCIAL-PROVIDER-PRICES"],
   "source_custody_status": {
     "official_sources_only": true,
-    "used_existing_captured_sources_only": true,
-    "new_external_download_performed": false,
+    "used_existing_captured_sources_only": false,
+    "new_external_download_performed": true,
     "no_foia_or_records_request_submitted": true,
     "no_agency_or_person_contacted": true,
     "cbo_source_referenced_in_derived_health_artifacts": true,
+    "cbo_official_browser_access_ready": true,
+    "cbo_command_line_download_blocked": true,
+    "cbo_february_2026_health_baseline_raw_custody_ready": true,
+    "cbo_table2_browser_rowmap_context_ready": true,
     "cbo_raw_artifact_path_present": false,
     "cbo_metadata_path_present": false,
     "cbo_raw_sha256_present": false,
@@ -26,7 +31,62 @@
     "cbo_values_may_populate_behavior_or_incidence": false,
     "cbo_values_may_populate_solver_inputs": false
   },
+  "official_access_boundary": [
+    {
+      "source_id": "SRC-CBO-LTBO",
+      "publisher": "Congressional Budget Office",
+      "publication_page_url": "https://www.cbo.gov/publication/61270",
+      "official_pdf_url": "https://www.cbo.gov/system/files/2025-03/61187-Long-Term-Outlook-2025.pdf",
+      "browser_review_date": "2026-07-24",
+      "browser_review_evidence": "Official CBO page and PDF accessible in browser; command-line raw download returned HTTP 403 bot-protection response.",
+      "local_raw_artifact_path": null,
+      "raw_byte_count": null,
+      "raw_sha256": null,
+      "access_boundary_ready": true,
+      "local_raw_custody_ready": false,
+      "context_use_only": true,
+      "may_populate_policy_translation_or_pass_fail": false
+    },
+    {
+      "source_id": "SRC-CBO-COMMERCIAL-PROVIDER-PRICES",
+      "publisher": "Congressional Budget Office",
+      "publication_page_url": "https://www.cbo.gov/publication/57778",
+      "official_pdf_url": "https://www.cbo.gov/system/files/2022-01/57422-medical-prices.pdf",
+      "browser_review_date": "2026-07-24",
+      "browser_review_evidence": "Official CBO page and PDF accessible in browser; command-line raw download returned HTTP 403 bot-protection response.",
+      "local_raw_artifact_path": null,
+      "raw_byte_count": null,
+      "raw_sha256": null,
+      "access_boundary_ready": true,
+      "local_raw_custody_ready": false,
+      "context_use_only": true,
+      "may_populate_policy_translation_or_pass_fail": false
+    },
+    {
+      "source_id": "no_source_id_assigned_cbo_62380_browser_context_only",
+      "publisher": "Congressional Budget Office",
+      "publication_page_url": "https://www.cbo.gov/publication/62380",
+      "official_pdf_url": "https://www.cbo.gov/system/files/2026-05/62380-Federal-Health-Subsidies.pdf",
+      "official_data_url": "https://www.cbo.gov/system/files/2026-05/62380-Data.xlsx",
+      "browser_review_date": "2026-07-24",
+      "browser_review_evidence": "Official CBO page, 23-page PDF, and data workbook link are browser-visible for the May 11, 2026 health-subsidy presentation; command-line raw download returned HTTP 403.",
+      "local_raw_artifact_path": null,
+      "raw_byte_count": null,
+      "raw_sha256": null,
+      "access_boundary_ready": true,
+      "local_raw_custody_ready": false,
+      "context_use_only": true,
+      "may_populate_policy_translation_or_pass_fail": false
+    }
+  ],
   "referencing_artifacts": [
+    {
+      "artifact_path": "data/derived/breadth_benchmark_matrix/cbo_health_insurance_baseline_browser_context_fy2026_2036.v1.draft.json",
+      "referenced_source_ids": ["SRC-CBO-FEDERAL-SUBSIDIES-HEALTH-INSURANCE-2026-02", "no_source_id_assigned_cbo_62380_browser_context_only"],
+      "allowed_use": "February 2026 CBO health baseline raw custody plus May 2026 browser-visible presentation context only",
+      "raw_custody_ready": true,
+      "may_populate_policy_translation_or_pass_fail": false
+    },
     {
       "artifact_path": "data/derived/efficiency_pressure/cost_down_source_packets.fy2025.v1.draft.jsonl",
       "referenced_source_ids": ["SRC-CBO-LTBO"],
@@ -54,9 +114,20 @@
       "allowed_use": "commercial provider-price benchmark context only",
       "raw_custody_ready": false,
       "may_populate_policy_translation_or_pass_fail": false
+    },
+    {
+      "artifact_path": "data/derived/breadth_benchmark_matrix/cbo_health_insurance_table2_browser_rowmap_fy2026_2036.v1.draft.json",
+      "referenced_source_ids": ["SRC-CBO-FEDERAL-SUBSIDIES-HEALTH-INSURANCE-2026-02"],
+      "allowed_use": "browser-verified Table 2 row-label context only",
+      "raw_custody_ready": false,
+      "may_populate_policy_translation_or_pass_fail": false
     }
   ],
   "cbo_capture_requirements": [
+    {"requirement": "official_access_boundary", "value": "CBO publication pages and official PDFs browser-reviewed; local raw byte download blocked by HTTP 403.", "ready": true},
+    {"requirement": "february_2026_health_baseline_raw_custody", "value": "Manual browser download captured the official February 2026 Federal Subsidies for Health Insurance PDF and spreadsheet with local byte counts and SHA-256 hashes.", "ready": true},
+    {"requirement": "may_2026_health_subsidy_presentation_browser_context", "value": "CBO publication 62380 page, 23-page PDF, and data workbook link are browser-visible official context, but command-line raw custody is blocked by HTTP 403.", "ready": true},
+    {"requirement": "browser_verified_table2_rowmap", "value": "February 2026 Federal Subsidies for Health Insurance Table 2 row order is assigned from browser visual review and supported by local spreadsheet custody.", "ready": true},
     {"requirement": "raw_artifact_path", "value": null, "ready": false},
     {"requirement": "raw_byte_count", "value": null, "ready": false},
     {"requirement": "raw_sha256", "value": null, "ready": false},
@@ -83,6 +154,10 @@
   "claim_booleans": {
     "health_cbo_source_custody_gap_published": true,
     "cbo_source_referenced_in_derived_health_artifacts": true,
+    "cbo_official_browser_access_ready": true,
+    "cbo_command_line_download_blocked": true,
+    "cbo_february_2026_health_baseline_raw_custody_ready": true,
+    "cbo_table2_browser_rowmap_context_ready": true,
     "cbo_source_custody_ready": false,
     "cbo_raw_artifact_captured": false,
     "cbo_metadata_captured": false,
@@ -102,5 +177,5 @@
     "technology_savings_claim_published": false,
     "balanced_budget_claim_published": false
   },
-  "public_warning": "CBO source IDs appear in derived health context artifacts, but local raw CBO health baseline custody is not ready in this packet. This is not CBO source capture, not federal health policy translation, not behavior modeling, not incidence modeling, not pass/fail findings, not lower-cost scenario admissibility, not target-cost selection, not gross savings, not net savings, not solver input, not rate calculation, not a public rate card, not a technology-savings claim, and not a balanced-budget claim."
+  "public_warning": "CBO source IDs appear in derived health context artifacts, official CBO browser access is documented, the February 2026 CBO health-insurance PDF/spreadsheet raw files are captured through manual browser download, the May 11, 2026 CBO health-subsidy presentation page/PDF/data workbook are browser-visible context only, and the February 2026 health-insurance Table 2 rowmap is assigned as context only, but CBO source capture is still incomplete because other CBO health references plus May and July 2026 raw files remain blocked. This is not complete CBO source capture, not federal health policy translation, not behavior modeling, not incidence modeling, not pass/fail findings, not lower-cost scenario admissibility, not target-cost selection, not gross savings, not net savings, not solver input, not rate calculation, not a public rate card, not a technology-savings claim, and not a balanced-budget claim."
 }

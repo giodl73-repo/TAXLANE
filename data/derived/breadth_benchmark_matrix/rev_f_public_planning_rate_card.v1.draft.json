@@ -1,0 +1,19 @@
+{
+  "record_id":"rev-f-public-planning-rate-card:v1","record_family":"rev_f_public_planning_rate_card","version":"v1.draft","status":"rev_f_complete_public_model_planning_rate_card","pulse":454,"as_of_date":"2026-07-27","track_prefix":"REV","lane_id":"revenue-solvency","track_wave_id":"REV-F",
+  "core_n_path":"data/derived/breadth_benchmark_matrix/core_n_typed_public_release_surface_closure.v1.draft.json","dossier_path":"data/derived/breadth_benchmark_matrix/rev_level_6_revenue_instrument_dossier.v1.draft.json","policy_decision_path":"data/derived/breadth_benchmark_matrix/rev_level_6_policy_rate_decision.v1.draft.json","schema_path":"data/derived/breadth_benchmark_matrix/rev_f_public_planning_rate_card.schema.md","reader_path":"docs/reading/rev-f-public-planning-rate-card.md","role_review_path":"reviews/2026-07-27-rev-f-public-planning-rate-card-role-review.md",
+  "release_identity":{"surface":"rate_card","candidate_id":"fy2026_uniform_individual_income_rate_planning_schedule","objective_profile":"revenue_instrument","release_class":"public_model_planning_rate_card","statutory_or_enacted":false,"official_score":false},
+  "public_rate_card":{"headline":"Modeled FY2026 individual-income planning schedule","scope_label":"uniform uplift to ordinary individual income-tax brackets; thresholds unchanged","current_law_schedule_percent":[10.0,12.0,22.0,24.0,32.0,35.0,37.0],"assigned_planning_uplift_points":11.0,"assigned_planning_schedule_percent":[21.0,23.0,33.0,35.0,43.0,46.0,48.0],"planning_uncertainty_band_uplift_points":[10.2,11.9],"modeled_first_year_cash_proxy_billions":819.220,"fy2026_cash_target_billions":813.727,"modeled_proxy_cushion_billions":5.493,"top_decile_share_percent":52.53,"all_after_tax_income_change_percent":-8.326,"model":"Tax-Calculator 6.5.1 CPS TY2026 plus explicit behavioral and timing assumptions","public_claim_status":"publishable_model_planning_rate_only"},
+  "release_checks":[
+    {"check_id":"core_n_rate_card_surface","status":"pass"},
+    {"check_id":"core_m_assigned_rate_output","status":"pass"},
+    {"check_id":"matched_model_receipt_base","status":"pass"},
+    {"check_id":"distribution_disclosure","status":"pass"},
+    {"check_id":"official_statutory_balance_disclaimer","status":"pass"},
+    {"check_id":"role_and_public_language_review","status":"pass"},
+    {"check_id":"reproducible_release","status":"pass"}
+  ],
+  "closure_decision":{"rev_f_started":true,"rev_f_done":true,"surface":"rate_card","public_planning_rate_card_published":true,"planning_rate_published":true,"official_rate_published":false,"statutory_rate_proposed":false,"balanced_budget_claim_published":false,"release_outputs":["candidate_explanation","assigned_receipt_rate"]},
+  "blocked_outputs":{"official_conventional_score":null,"official_dynamic_score":null,"macroeconomic_revenue_feedback":null,"private_compliance_cost":null,"formal_certified_rate":null,"statutory_legislative_schedule":null,"balanced_budget_claim":null},
+  "claim_booleans":{"rev_f_planning_rate_card_published":true,"core_n_surface_applied":true,"rev_f_started":true,"rev_f_done":true,"planning_rate_published":true,"official_rate_published":false,"statutory_rate_proposed":false,"balanced_budget_claim_published":false},
+  "public_warning":"This card publishes a reviewed model planning schedule: 21, 23, 33, 35, 43, 46, and 48 percent. It is not enacted law, an official JCT/CBO score, a formally certified fiscal rate, or proof of a balanced budget."
+}

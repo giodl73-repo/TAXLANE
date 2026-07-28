@@ -33,6 +33,53 @@
     "custody_ready": false,
     "values_may_be_populated": false
   },
+  "access_boundary_attempts": [
+    {
+      "attempt_id": "acf-ccdf-statistics-page-powershell-2026-07-24",
+      "url": "https://www.acf.hhs.gov/occ/data/child-care-and-development-fund-statistics",
+      "retrieval_date": "2026-07-24",
+      "method": "PowerShell Invoke-WebRequest",
+      "result": "http_202_empty_body",
+      "retained_as_custody": false,
+      "notes": "Official ACF page returned HTTP 202 with zero content bytes from this environment."
+    },
+    {
+      "attempt_id": "acf-tanf-program-page-powershell-2026-07-24",
+      "url": "https://www.acf.hhs.gov/ofa/programs/temporary-assistance-needy-families-tanf",
+      "retrieval_date": "2026-07-24",
+      "method": "PowerShell Invoke-WebRequest",
+      "result": "http_202_empty_body",
+      "retained_as_custody": false,
+      "notes": "Official ACF page returned HTTP 202 with zero content bytes from this environment."
+    },
+    {
+      "attempt_id": "acf-tanf-application-page-powershell-2026-07-24",
+      "url": "https://www.acf.hhs.gov/ofa/data/tanf-application-data-2020-2029",
+      "retrieval_date": "2026-07-24",
+      "method": "PowerShell Invoke-WebRequest",
+      "result": "http_202_empty_body",
+      "retained_as_custody": false,
+      "notes": "Official ACF page returned HTTP 202 with zero content bytes from this environment."
+    },
+    {
+      "attempt_id": "acf-ccdf-fy2023-xlsx-candidate-powershell-2026-07-24",
+      "url": "https://www.acf.hhs.gov/sites/default/files/documents/occ/FY%202023%20CCDF%20Data%20Tables%20%28Preliminary%29.xlsx",
+      "retrieval_date": "2026-07-24",
+      "method": "PowerShell Invoke-WebRequest",
+      "result": "http_202_empty_body",
+      "retained_as_custody": false,
+      "notes": "Candidate official ACF XLSX path returned HTTP 202 with zero content bytes from this environment."
+    },
+    {
+      "attempt_id": "acf-tanf-application-xlsx-candidates-powershell-2026-07-24",
+      "url": "https://www.acf.hhs.gov/sites/default/files/documents/ofa/2025_tanf_application_data.xlsx",
+      "retrieval_date": "2026-07-24",
+      "method": "PowerShell Invoke-WebRequest",
+      "result": "http_202_empty_body",
+      "retained_as_custody": false,
+      "notes": "Candidate 2025 and 2024 official ACF TANF application XLSX paths returned HTTP 202 with zero content bytes from this environment."
+    }
+  ],
   "next_manual_capture_requirements": [
     "capture official ACF CCDF raw data table bytes for served children/families and access/service measures",
     "capture official ACF TANF raw data table bytes for caseload, applications, expenditures, or relevant family-service measures",
@@ -94,5 +141,5 @@
     "technology_savings_claim_published": false,
     "balanced_budget_claim_published": false
   },
-  "public_warning": "This record is a childcare/family-service source-capture gap only. It is not HHS/ACF raw source custody, not CCDF context, not TANF context, not family-service context, not childcare-access floor values, not work/care transition context, not delivery-feasibility context, not a benefit package model, not a take-up model, not pass/fail findings, not target-cost selection, not gross savings, not net savings, not solver input, not rate calculation, not a public rate card, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+  "public_warning": "This record is a childcare/family-service source-capture gap only. Official ACF CCDF and TANF pages plus candidate XLSX paths returned HTTP 202 empty-body access boundaries from this environment on 2026-07-24. It is not HHS/ACF raw source custody, not CCDF context, not TANF context, not family-service context, not childcare-access floor values, not work/care transition context, not delivery-feasibility context, not a benefit package model, not a take-up model, not pass/fail findings, not target-cost selection, not gross savings, not net savings, not solver input, not rate calculation, not a public rate card, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
 }

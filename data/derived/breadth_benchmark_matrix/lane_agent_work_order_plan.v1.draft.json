@@ -13,6 +13,9 @@
     "one_clean_worktree_per_lane": true,
     "agents_may_not_share_edit_targets": true,
     "integration_agent_required_after_each_wave": true,
+    "parallel_source_value_scouts_allowed": true,
+    "serial_validator_integration_required": true,
+    "workstream_agents_may_not_flip_gates": true,
     "merge_order": "lane_branch_then_integration_pointer",
     "normative_target_choices_require_review": true,
     "policy_mechanism_design_requires_review": true,
@@ -63,6 +66,55 @@
       "not_balanced_budget_claim"
     ]
   },
+  "parallel_blocker_workstreams": [
+    {
+      "workstream_id": "current_law_path_extraction",
+      "max_parallel_agents": 3,
+      "primary_blockers": ["complete FY2025-FY2035 lane current-law paths", "general-fund versus federal-fund boundary", "trust-fund path reconciliation"],
+      "agent_allowed_outputs": ["candidate source packets", "candidate value/null extraction notes", "candidate reader text", "validator patch proposal"],
+      "integration_required_before_gate_change": true,
+      "blocked_outputs": ["solver input", "rate calculation", "savings estimate", "balanced-budget claim"]
+    },
+    {
+      "workstream_id": "health_medicare_hi_bridge",
+      "max_parallel_agents": 2,
+      "primary_blockers": ["Medicare HI calendar-to-fiscal bridge", "OMB/CMS/Treasury perimeter reconciliation", "health component current-law split"],
+      "agent_allowed_outputs": ["candidate bridge evidence", "timing/perimeter diagnostics", "candidate reader text", "validator patch proposal"],
+      "integration_required_before_gate_change": true,
+      "blocked_outputs": ["HI solver yield", "health solver row", "rate bridge", "savings estimate"]
+    },
+    {
+      "workstream_id": "receipt_base_rate_bridge",
+      "max_parallel_agents": 2,
+      "primary_blockers": ["matched legal/economic receipt bases", "payer universe", "incidence and distribution", "administration burden"],
+      "agent_allowed_outputs": ["candidate base inventory", "source-overlap diagnostics", "candidate reader text", "validator patch proposal"],
+      "integration_required_before_gate_change": true,
+      "blocked_outputs": ["statutory rate", "effective rate", "public rate card", "tax proposal"]
+    },
+    {
+      "workstream_id": "outcome_floor_values",
+      "max_parallel_agents": 3,
+      "primary_blockers": ["threshold rationale", "baseline observed values", "policy and stress floor values", "pass/fail evidence"],
+      "agent_allowed_outputs": ["candidate floor-value packets", "source custody notes", "candidate reader text", "validator patch proposal"],
+      "integration_required_before_gate_change": true,
+      "blocked_outputs": ["floor passage", "lower-cost scenario admissibility", "target cost", "department-cut instruction"]
+    },
+    {
+      "workstream_id": "scenario_pack_prep",
+      "max_parallel_agents": 3,
+      "primary_blockers": ["component policy paths", "behavior and transition costs", "score provenance", "overlay non-additivity"],
+      "agent_allowed_outputs": ["candidate component scenario outlines", "split-lane boundary notes", "candidate reader text", "validator patch proposal"],
+      "integration_required_before_gate_change": true,
+      "blocked_outputs": ["scored scenario", "federal effect", "gross savings", "net savings"]
+    }
+  ],
+  "central_integration_protocol": {
+    "parallel_agents_recommend_only": true,
+    "main_integration_updates_machine_artifacts": true,
+    "run_required_validation_after_each_integrated_slice": true,
+    "public_outputs_remain_blocked_until_upstream_gates_pass": true,
+    "max_active_agent_workstreams": 3
+  },
   "assignment_waves": [
     {"wave_id": "wave_1_public_topline", "max_parallel_agents": 3, "lane_ids": ["health-medicare", "social-security", "national-defense"], "integration_required": true, "rationale": "Highest public salience and largest risk of premature claims."},
     {"wave_id": "wave_2_human_services", "max_parallel_agents": 3, "lane_ids": ["income-security-family", "education-workforce", "veterans"], "integration_required": true, "rationale": "Human-service lanes need clear served-population and floor language."},
@@ -87,6 +139,9 @@
   "claim_booleans": {
     "lane_agent_work_order_plan_published": true,
     "lane_agents_executed": false,
+    "parallel_blocker_workstreams_published": true,
+    "workstream_agents_executed": false,
+    "workstream_gate_change_published": false,
     "lane_depth_complete": false,
     "public_explainability_complete": false,
     "solver_ready": false,
@@ -103,5 +158,5 @@
     "technology_savings_claim_published": false,
     "balanced_budget_claim_published": false
   },
-  "plain_english_status": "Agents can scale the lane-depth work by taking one lane each in clean worktrees, using the same work order, and then passing an integration review. This plan does not execute lane agents, complete lane depth, calculate rates, publish target costs, claim savings, identify waste or fraud, direct department cuts, claim technology savings, or claim a balanced budget."
+  "plain_english_status": "Agents can scale the lane-depth work by taking one lane each in clean worktrees, using the same work order, and then passing an integration review. The remaining blockers can also scale through five parallel blocker workstreams: current-law path extraction, health/Medicare HI bridge, receipt-base/rate bridge, outcome floor values, and scenario pack prep. Parallel agents recommend only; the main integration pass updates machine artifacts and runs validation before any gate changes. This plan does not execute lane agents, execute workstream agents, complete lane depth, calculate rates, publish target costs, claim savings, identify waste or fraud, direct department cuts, claim technology savings, or claim a balanced budget."
 }

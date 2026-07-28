@@ -1,0 +1,58 @@
+{
+  "record_id": "core-i-shared-reform-admission-contract:v1",
+  "record_family": "core_i_shared_reform_admission_contract",
+  "version": "v1.draft",
+  "status": "core_i_complete_shared_reform_admission_interfaces",
+  "pulse": 254,
+  "as_of_date": "2026-07-26",
+  "derived_from_trn_c_scenario_path": "data/derived/breadth_benchmark_matrix/trn_c_airmen_certificate_reform_scenario.v1.draft.json",
+  "core_h_path": "data/derived/breadth_benchmark_matrix/core_h_shared_accounting_substrate.v1.draft.json",
+  "implementation_path": "crates/taxlane-core/src/lib.rs",
+  "schema_path": "data/derived/breadth_benchmark_matrix/core_i_shared_reform_admission_contract.schema.md",
+  "reader_path": "docs/reading/core-i-shared-reform-admission-contract.md",
+  "purpose": "Provide reusable lane-stage-C admission interfaces without copying transportation-specific policy judgments into CORE.",
+  "required_interfaces": [
+    {"interface_id":"instrument_identity_and_status","requirement":"A named instrument, official status, counterfactual, and conditional-enactment boundary are explicit.","implemented":true},
+    {"interface_id":"source_custody","requirement":"Legislative or administrative text and official federal-effect evidence are both ready.","implemented":true},
+    {"interface_id":"annual_effect_observation","requirement":"Annual effects are contiguous, unique, and may be exact, bounded, or missing without coercion.","implemented":true},
+    {"interface_id":"transition_and_behavior","requirement":"Positive implementation costs stay separate from unsupported behavior, productivity, or savings claims.","implemented":true},
+    {"interface_id":"applicable_floor_policy_and_stress","requirement":"Every applicable floor passes policy and stress; non-applicable floors carry no synthetic pass result.","implemented":true},
+    {"interface_id":"cost_only_admission","requirement":"A real reform may be admitted as cost-only while lower target cost and savings remain blocked.","implemented":true},
+    {"interface_id":"financing_and_interest_deferral","requirement":"Unscored funding-source allocation and endogenous interest remain deferred to later lane stages.","implemented":true},
+    {"interface_id":"role_review_and_public_boundary","requirement":"Lane closure still requires role review and explicit blocked public claims.","implemented":true}
+  ],
+  "rust_interfaces": [
+    "ScoredAmount",
+    "AnnualReformEffect",
+    "ApplicableFloorReview",
+    "ReformAdmissionInput",
+    "ReformAdmissionDecision",
+    "admit_reform"
+  ],
+  "reuse_contract": {
+    "lane_specific_policy_stays_in_track": true,
+    "core_decides_policy_merit": false,
+    "bounded_amounts_supported": true,
+    "cost_only_reforms_supported": true,
+    "non_applicable_floor_pass_prohibited": true,
+    "failed_applicable_floor_blocks_admission": true,
+    "target_cost_requires_lower_cost_and_supported_productivity": true,
+    "compatible_stages": ["TRN-C","HLT-C","EDU-C","VET-C"]
+  },
+  "aggregate_status": {
+    "required_interfaces": 8,
+    "implemented_interfaces": 8,
+    "core_i_done": true,
+    "trn_c_may_close": true
+  },
+  "claim_booleans": {
+    "core_i_contract_published": true,
+    "core_i_done": true,
+    "shared_reform_admission_interface_ready": true,
+    "all_lane_reforms_admitted": false,
+    "solver_ready": false,
+    "rate_published": false,
+    "savings_claim_published": false
+  },
+  "public_warning": "CORE-I supplies shared reform-admission interfaces only. It does not admit a reform for any lane by itself, decide policy merit, assign financing, run the solver, publish a target cost, calculate a rate, or claim savings."
+}

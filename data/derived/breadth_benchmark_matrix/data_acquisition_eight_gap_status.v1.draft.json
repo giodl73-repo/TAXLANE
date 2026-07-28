@@ -1,0 +1,272 @@
+{
+  "record_id": "data-acquisition-eight-gap-status:v1",
+  "record_family": "data_acquisition_eight_gap_status",
+  "schema_version": "v1.draft",
+  "status": "draft_all_eight_reviewed_new_public_custody_added_hard_blocks_preserved",
+  "as_of_date": "2026-07-24",
+  "purpose": "Track the eight requested data-acquisition gaps after another official-source pass without converting incomplete evidence into solver, rate, savings, or balanced-budget claims.",
+  "source_rules": {
+    "official_public_sources_only": true,
+    "no_foia_or_records_request_submitted": true,
+    "no_agency_or_person_contacted": true,
+    "unsupported_values_remain_null": true,
+    "downstream_claim_gates_remain_blocked": true
+  },
+  "gap_rows": [
+    {
+      "gap_id": "cbo_health_baseline_local_raw_custody",
+      "status": "partial_manual_february_2026_raw_custody_captured_latest_publication_raw_blocked",
+      "new_local_custody_added": true,
+      "official_source_context": ["https://www.cbo.gov/publication/62539", "https://www.cbo.gov/publication/62380", "https://www.cbo.gov/data/baseline-projections-selected-programs", "https://www.cbo.gov/system/files/2026-02/51298-2026-02-healthinsurance.pdf"],
+      "browser_visible_context_paths": [
+        "data/derived/breadth_benchmark_matrix/cbo_health_insurance_baseline_browser_context_fy2026_2036.v1.draft.json",
+        "docs/reading/cbo-health-insurance-baseline-browser-context-fy2026-2036.md",
+        "data/derived/breadth_benchmark_matrix/cbo_health_insurance_table2_browser_rowmap_fy2026_2036.v1.draft.json",
+        "docs/reading/cbo-health-insurance-table2-browser-rowmap-fy2026-2036.md"
+      ],
+      "attempted_download_urls": [
+        "https://www.cbo.gov/system/files/2026-02/51298-2026-02-healthinsurance.xlsx",
+        "https://www.cbo.gov/system/files/2026-02/51298-2026-02-healthinsurance.pdf",
+        "https://www.cbo.gov/system/files/2026-02/51301-2026-02-medicaid.xlsx",
+        "https://www.cbo.gov/system/files/2026-02/51302-2026-02-medicare.xlsx",
+        "https://www.cbo.gov/system/files/2026-02/60523-2026-02-premium-tax-credit.xlsx",
+        "https://www.cbo.gov/system/files/2026-05/62380-Federal-Health-Subsidies.pdf",
+        "https://www.cbo.gov/system/files/2026-05/62380-Data.xlsx",
+        "https://www.cbo.gov/publication/62539",
+        "https://www.cbo.gov/system/files/2026-07/62539-health-insurance.pdf",
+        "https://www.cbo.gov/system/files/2026-07/62539-Federal-Subsidies-for-Health-Insurance.pdf"
+      ],
+      "raw_files": [
+        {"path": "data/raw/cbo/SRC-CBO-FEDERAL-SUBSIDIES-HEALTH-INSURANCE-2026-02/2026-07-24/51298-2026-02-healthinsurance.pdf", "byte_count": 747901, "sha256": "2c24c10b855be1e1a9e9c87a30ddaf5b4c62a8dbe9d92d3e2ebf18524a54d349"},
+        {"path": "data/raw/cbo/SRC-CBO-FEDERAL-SUBSIDIES-HEALTH-INSURANCE-2026-02/2026-07-24/51298-2026-02-healthinsurance.xlsx", "byte_count": 42861, "sha256": "f2d7cc186f3a0afa909e648f8224a1f7f80af202db234848b507fd49416e1001"}
+      ],
+      "metadata_path": "data/metadata/SRC-CBO-FEDERAL-SUBSIDIES-HEALTH-INSURANCE-2026-02.2026-07-24.metadata.md",
+      "diagnostic_progress": "CBO's selected-program baseline page, manually supplied February 2026 Federal Subsidies for Health Insurance PDF/spreadsheet raw custody, spreadsheet-supported February 2026 Table 2 rowmap, May 11, 2026 CBO health-subsidy presentation browser-visible PDF/data context, and July 23, 2026 Federal Subsidies for Health Insurance, 2026 to 2036 publication are official public context, but the May and July 2026 endpoints still do not provide command-line raw custody.",
+      "blocker": "CBO February 2026 PDF and spreadsheet local raw custody is captured through manual browser download, but CBO May 2026 presentation PDF/data endpoints and July latest-publication page/PDF endpoints returned 403 or login-redirect access boundaries to command-line retrieval; no health federal policy score, solver row, savings estimate, or rate calculation is opened.",
+      "still_blocked_outputs": ["health federal policy score", "health solver row", "savings estimate", "rate calculation"]
+    },
+    {
+      "gap_id": "complete_cms_quality_access_lineage",
+      "status": "partial_lineage_context_captured",
+      "new_local_custody_added": true,
+      "evidence_paths": [
+        "data/raw/cms/SRC-CMS-PDC-HOSPITAL-DATA-DICTIONARY-2026-04/2026-07-24/HOSPITAL_Data_Dictionary.pdf",
+        "data/raw/cms/SRC-CMS-HOSPITAL-QUALITY-METHODOLOGY-SURFACES-2026-07-24/2026-07-24/overall_star_rating_topic.html",
+        "data/raw/cms/SRC-CMS-HOSPITAL-QUALITY-METHODOLOGY-SURFACES-2026-07-24/2026-07-24/qualitynet_mortality_methodology.html",
+        "data/raw/cms/SRC-CMS-HOSPITAL-QUALITY-METHODOLOGY-SURFACES-2026-07-24/2026-07-24/qualitynet_overall_ratings_resources.html",
+        "data/raw/cms/SRC-CMS-HOSPITAL-MEASURE-METHODOLOGY-REPORTS-2026-01-02/2026-07-24/cms_measure_methodology_page.html",
+        "data/raw/cms/SRC-CMS-HOSPITAL-MEASURE-METHODOLOGY-REPORTS-2026-01-02/2026-07-24/hybrid_hospital_wide_risk_standardized_mortality_methodology_v2_1.pdf",
+        "data/raw/cms/SRC-CMS-HOSPITAL-MEASURE-METHODOLOGY-REPORTS-2026-01-02/2026-07-24/2022_condition_specific_mortality_measures_updates_specifications_report.pdf",
+        "data/raw/cms/SRC-CMS-HRSA-RURAL-SAFETY-NET-CAPACITY-CONTEXT-2026-07-24/2026-07-24/cms_team_safetynet_rural_fact_sheet.pdf",
+        "data/raw/cms/SRC-CMS-HRSA-RURAL-SAFETY-NET-CAPACITY-CONTEXT-2026-07-24/2026-07-24/cms_provider_specific_data_public_use_page.html",
+        "data/raw/cms/SRC-CMS-HRSA-RURAL-SAFETY-NET-CAPACITY-CONTEXT-2026-07-24/2026-07-24/cms_inpatient_psf_october_2025.zip",
+        "data/metadata/SRC-CMS-PDC-HOSPITAL-DATA-DICTIONARY-2026-04.2026-07-24.metadata.md",
+        "data/metadata/SRC-CMS-HOSPITAL-QUALITY-METHODOLOGY-SURFACES-2026-07-24.2026-07-24.metadata.md",
+        "data/metadata/SRC-CMS-HOSPITAL-MEASURE-METHODOLOGY-REPORTS-2026-01-02.2026-07-24.metadata.md",
+        "data/metadata/SRC-CMS-HRSA-RURAL-SAFETY-NET-CAPACITY-CONTEXT-2026-07-24.2026-07-24.metadata.md",
+        "data/derived/breadth_benchmark_matrix/cms_hospital_quality_methodology_surface_context.v1.draft.json",
+        "docs/reading/cms-hospital-quality-methodology-surface-context.md",
+        "data/derived/breadth_benchmark_matrix/cms_hospital_measure_methodology_report_custody.v1.draft.json",
+        "docs/reading/cms-hospital-measure-methodology-report-custody.md",
+        "data/derived/breadth_benchmark_matrix/cms_hospital_quality_dataset_field_crosswalk.v1.draft.json",
+        "docs/reading/cms-hospital-quality-dataset-field-crosswalk.md",
+        "data/derived/breadth_benchmark_matrix/cms_hrsa_rural_safety_net_capacity_context.v1.draft.json",
+        "docs/reading/cms-hrsa-rural-safety-net-capacity-context.md",
+        "data/derived/breadth_benchmark_matrix/health_quality_access_indicator_source_gap.v1.draft.json"
+      ],
+      "raw_byte_count": 1291356,
+      "raw_sha256": "cd5016abee26e914b273a8fea8ab698710ff60f1c53a1b66e43bbd7168f6cb81",
+      "methodology_surface_raw_file_count": 8,
+      "methodology_surface_raw_total_byte_count": 14167176,
+      "methodology_report_raw_file_count": 3,
+      "methodology_report_raw_total_byte_count": 6518093,
+      "dataset_field_crosswalk_captured_dataset_count": 6,
+      "dataset_field_crosswalk_captured_total_rows": 479209,
+      "rural_safety_net_context_raw_file_count": 3,
+      "rural_safety_net_context_raw_total_byte_count": 10650669,
+      "diagnostic_progress": "CMS Hospital Data Dictionary lineage context, CMS/QualityNet methodology surface HTML/JavaScript custody, selected CMS mortality methodology report content, partial CMS dataset denominator-field crosswalk context, and partial CMS/HRSA rural safety-net capacity context are locally captured, including Provider Data Catalog overall star rating, QualityNet mortality methodology, QualityNet overall ratings resources routes, CMS Measure Methodology page custody, hospital-wide risk-standardized mortality methodology, condition-specific mortality updates/specifications, Denominator, Sample, measure-count fields, HAI measure-ID pattern context, CMS TEAM safety-net/rural definitions, CMS inpatient PSF bed-size/SSI/Medicaid/DSH/provider-type/state/case-mix fields, and HRSA browser-visible rural data context; complete all-measure case-mix lineage, complete denominator-to-field crosswalk, HRSA local raw custody, and facility-to-county rural joins remain incomplete.",
+      "still_blocked_outputs": ["complete denominator-to-field crosswalk", "complete all-measure risk-adjustment and case-mix lineage", "complete rural/safety-net capacity series", "HRSA local raw rural area dataset", "facility-to-county rural joins", "floor thresholds", "pass/fail findings"]
+    },
+    {
+      "gap_id": "fy2032_fy2035_omb_17_row_ledger",
+      "status": "pbd_guide_custody_added_values_not_available_in_local_omb_fy2027_pbd_or_historical_tables",
+      "new_local_custody_added": true,
+      "existing_context_paths": [
+        "data/raw/omb/SRC-OMB-PBD-GUIDE-FY2027/2026-07-24/db_guide_fy2027.pdf",
+        "data/metadata/SRC-OMB-PBD-GUIDE-FY2027.2026-07-24.metadata.md",
+        "data/derived/breadth_benchmark_matrix/omb_pbd_fy2027_user_guide_horizon_boundary_context.v1.draft.json",
+        "docs/reading/omb-pbd-fy2027-user-guide-horizon-boundary-context.md",
+        "data/derived/breadth_benchmark_matrix/current_law_17_row_pbd_fy2025_2031_context_path.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/cbo_open_data_fy2032_2035_current_law_extension_context.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/cbo_major_outlay_category_fy2032_2035_context.v1.draft.json"
+      ],
+      "raw_file": {"path": "data/raw/omb/SRC-OMB-PBD-GUIDE-FY2027/2026-07-24/db_guide_fy2027.pdf", "byte_count": 249763, "sha256": "cc4871365009d485dae32bc6aeaa402005f06151516399efd8499c72f0542bb3"},
+      "diagnostic_progress": "OMB Public Budget Database User's Guide FY2027 is now in local custody and documents the three PBD data files plus the FY2031 horizon boundary for outlays, receipts, and budget authority.",
+      "blocker": "OMB Public Budget Database FY2027 local outlay workbook and guide cover FY2025-FY2031 for the relevant projections; FY2032-FY2035 remain CBO context, not OMB 17-row ledger values.",
+      "still_blocked_outputs": ["complete OMB FY2025-FY2035 17-row lane baseline", "unified OMB/CBO reconciliation", "solver input"]
+    },
+    {
+      "gap_id": "general_fund_annual_path",
+      "status": "partial_treasury_federal_fund_context_captured_general_fund_blocked",
+      "new_local_custody_added": true,
+      "existing_context_paths": [
+        "data/raw/treasury/SRC-TREASURY-FISCALDATA-MTS-TABLE-8-FY2025/2026-07-24/mts_table_8_fy2025_final.csv",
+        "data/metadata/SRC-TREASURY-FISCALDATA-MTS-TABLE-8-FY2025.2026-07-24.metadata.md",
+        "data/derived/breadth_benchmark_matrix/treasury_mts_table_8_federal_fund_fy2025_context.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/omb_ap13_fund_group_reconciliation_detail_fy2025_context.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/current_law_fy2025_fund_group_path.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/current_law_named_fund_balance_transfer_gap.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/trust_fund_fund_group_reconciliation_gap.v1.draft.json"
+      ],
+      "raw_file": {"path": "data/raw/treasury/SRC-TREASURY-FISCALDATA-MTS-TABLE-8-FY2025/2026-07-24/mts_table_8_fy2025_final.csv", "byte_count": 7184, "sha256": "289e8d2f484af79c81921a1820f18ff02a25aec45fda95c40e6797256bd2f9dc", "row_count": 24},
+      "diagnostic_progress": "Treasury MTS Table 8 final FY2025 federal-fund receipts/outlays context is now in local custody and compared with OMB Historical Table 1.4 federal-fund totals, exposing federal-fund/general-fund source-boundary and source/timing/perimeter differences without relabeling federal funds as the general fund.",
+      "blocker": "Treasury MTS Table 8 and OMB AP13/Historical Table 1.4 improve FY2025 federal-funds/trust-funds reconciliation context, but federal-funds actuals are broader than the general fund and cannot be relabeled as a general-fund annual path without explicit general-fund evidence.",
+      "still_blocked_outputs": ["annual general-fund path", "explicit transfer schedule", "fund balance reconciliation", "solver input"]
+    },
+    {
+      "gap_id": "medicare_hi_fiscal_year_bridge",
+      "status": "partial_calendar_year_context_ready_fiscal_bridge_blocked",
+      "new_local_custody_added": true,
+      "existing_context_paths": [
+        "data/raw/cms/SRC-CMS-MEDICARE-TRUSTEES-2026/2026-07-19/2026-medicare-trustees-report.pdf",
+        "data/raw/treasury/SRC-TREASURY-FISCALDATA-MTS-TABLE-4-5-FY2025/2026-07-24/mts_table_4_fy2025_final.csv",
+        "data/raw/treasury/SRC-TREASURY-FISCALDATA-MTS-TABLE-4-5-FY2025/2026-07-24/mts_table_5_fy2025_final.csv",
+        "data/metadata/SRC-TREASURY-FISCALDATA-MTS-TABLE-4-5-FY2025.2026-07-24.metadata.md",
+        "data/derived/breadth_benchmark_matrix/medicare_hi_cy2025_2035_current_law_context_path.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/medicare_hi_omb_cms_receipt_row_perimeter_evidence.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/medicare_hi_cms_omb_fy2025_timing_perimeter_diagnostic.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/medicare_hi_treasury_mts_fy2025_trust_fund_anchor_context.v1.draft.json"
+      ],
+      "raw_files": [
+        {"path": "data/raw/treasury/SRC-TREASURY-FISCALDATA-MTS-TABLE-4-5-FY2025/2026-07-24/mts_table_4_fy2025_final.csv", "byte_count": 15442, "sha256": "f82fdcae4b28e3a9a66dfeb20726d1a81d900ca5eabc3559741882e9258fb204", "row_count": 57},
+        {"path": "data/raw/treasury/SRC-TREASURY-FISCALDATA-MTS-TABLE-4-5-FY2025/2026-07-24/mts_table_5_fy2025_final.csv", "byte_count": 203342, "sha256": "fb1646d18d9cc05a217b3b6ac084fd006e0bf01fa26c8ee8815b881579cea66a", "row_count": 811}
+      ],
+      "diagnostic_progress": "CMS CY2025 HI income/expenditure context is now compared with OMB FY2025 receipt/outlay anchors as a timing/perimeter diagnostic, and Treasury MTS Tables 4 and 5 now provide source-custodied final FY2025 Federal Hospital Insurance Trust Fund fiscal-year receipt and outlay anchors without converting calendar-year values to fiscal-year path values.",
+      "blocker": "CMS Trustees context is calendar-year, and Treasury/OMB FY2025 fiscal-year anchors do not provide a calendar-to-fiscal conversion, FY2026-FY2035 Medicare HI fiscal-year path, income-category crosswalk, or solver-ready yield mapping.",
+      "still_blocked_outputs": ["fiscal-year HI path", "OMB/CMS timing bridge", "HI trust-fund solver yield mapping", "rate bridge"]
+    },
+    {
+      "gap_id": "receipt_base_assigned_bases",
+      "status": "partial_context_ready_matched_assigned_bases_blocked",
+      "new_local_custody_added": true,
+      "existing_context_paths": [
+        "data/derived/breadth_benchmark_matrix/receipt_base_work_item_completion.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/receipt_base_official_source_capture.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/receipt_base_reconciliation_gap.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/omb_cbo_revenue_overlap_reconciliation_fy2026_2031_context.v1.draft.json",
+        "data/raw/irs/SRC-IRS-SOI-PUB1304-TABLE-1-1-TY2023/2026-07-19/23in11si.xls",
+        "data/metadata/SRC-IRS-SOI-PUB1304-TABLE-1-1-TY2023.2026-07-19.metadata.md",
+        "data/derived/breadth_benchmark_matrix/irs_soi_pub1304_ty2023_individual_income_base_context.v1.draft.json",
+        "data/raw/irs/SRC-IRS-SOI-CORP-COMPLETE-TABLE-2-3-TY2022/2026-07-24/22co23ccr.xlsx",
+        "data/metadata/SRC-IRS-SOI-CORP-COMPLETE-TABLE-2-3-TY2022.2026-07-24.metadata.md",
+        "data/derived/breadth_benchmark_matrix/irs_soi_corporation_complete_table_2_3_ty2022_corporate_income_base_context.v1.draft.json"
+      ],
+      "individual_raw_file": {"path": "data/raw/irs/SRC-IRS-SOI-PUB1304-TABLE-1-1-TY2023/2026-07-19/23in11si.xls", "byte_count": 54272, "sha256": "842da11fe09123796c861e919d16011ef161338de1c172d39064bdfa666aca17"},
+      "raw_file": {"path": "data/raw/irs/SRC-IRS-SOI-CORP-COMPLETE-TABLE-2-3-TY2022/2026-07-24/22co23ccr.xlsx", "byte_count": 30680, "sha256": "9360ebd2abaa5db27d3816387dd6f3af9d118e044ce7e3467706e165bd4ffeb0"},
+      "diagnostic_progress": "OMB Table 2.1 and CBO revenue-detail overlap now compares FY2026-FY2031 source-vintage differences for selected receipt categories without choosing an assigned base, IRS SOI Publication 1304 Table 1.1 TY2023 individual-income context is already in local custody for AGI, taxable income, and income-tax-after-credits context, and IRS SOI Publication 16 Table 2.3 TY2022 corporate-income context is now in local custody for active corporations other than Forms 1120S, 1120-REIT, and 1120-RIC.",
+      "blocker": "Official context captures, source-custodied IRS SOI individual/corporate context, and OMB/CBO source-overlap diagnostics exist, but legal/economic base definitions, payer universe, incidence, administration, and current-law/reform yield bridges are not matched for assigned bases.",
+      "still_blocked_outputs": ["assigned base amounts", "matched receipt bases", "behavioral elasticities", "public rate cards", "solver input"]
+    },
+    {
+      "gap_id": "transportation_trust_fund_reconciliation",
+      "status": "partial_context_ready_reconciliation_blocked",
+      "new_local_custody_added": true,
+      "official_source_context": ["https://www.cbo.gov/data/baseline-projections-selected-programs"],
+      "existing_context_paths": [
+        "data/raw/treasury/SRC-TREASURY-FISCALDATA-MTS-TABLE-4-5-FY2025/2026-07-24/mts_table_4_fy2025_final.csv",
+        "data/raw/treasury/SRC-TREASURY-FISCALDATA-MTS-TABLE-4-5-FY2025/2026-07-24/mts_table_5_fy2025_final.csv",
+        "data/metadata/SRC-TREASURY-FISCALDATA-MTS-TABLE-4-5-FY2025.2026-07-24.metadata.md",
+        "data/derived/breadth_benchmark_matrix/transportation_trust_fund_treasury_mts_fy2025_anchor_context.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/transportation_trust_fund_table_13_4_fy2025_2031_context_path.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/transportation_trust_fund_table_13_4_aggregate_fy2025_2031_context.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/transportation_trust_fund_table_13_4_identity_diagnostic.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/transportation_trust_fund_cbo_balance_extension_fy2032_2035_context.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/cbo_open_data_fy2032_2035_current_law_extension_context.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/transportation_pilot_trust_fund_accounting_boundary.v1.draft.json"
+      ],
+      "raw_files": [
+        {"path": "data/raw/treasury/SRC-TREASURY-FISCALDATA-MTS-TABLE-4-5-FY2025/2026-07-24/mts_table_4_fy2025_final.csv", "byte_count": 15442, "sha256": "f82fdcae4b28e3a9a66dfeb20726d1a81d900ca5eabc3559741882e9258fb204", "row_count": 57},
+        {"path": "data/raw/treasury/SRC-TREASURY-FISCALDATA-MTS-TABLE-4-5-FY2025/2026-07-24/mts_table_5_fy2025_final.csv", "byte_count": 203342, "sha256": "fb1646d18d9cc05a217b3b6ac084fd006e0bf01fa26c8ee8815b881579cea66a", "row_count": 811}
+      ],
+      "diagnostic_progress": "OMB Table 13-4 Highway and Airport/Airway rows now internally reconcile within 0.1 billion rounding tolerance for FY2025-FY2031, CBO FY2032-FY2035 unambiguous balance-extension context is captured for Highway and Airport/Airway funds without using duplicated surplus rows, and Treasury MTS Tables 4 and 5 now provide source-custodied FY2025 Airport/Airway and Highway receipt plus selected outlay context.",
+      "blocker": "Existing OMB/CBO/Treasury context, diagnostic Table 13-4 aggregate/identity checks, Treasury MTS FY2025 anchor context, and CBO FY2032-FY2035 balance context do not reconcile highway, mass transit, airport, interest, offsetting collections, explicit general-fund transfers, and Function 400 net outlays into one solver perimeter.",
+      "still_blocked_outputs": ["transportation trust-fund income/outgo reconciliation", "fund-balance reconciliation", "mapping to Function 400 net outlays", "solver input"]
+    },
+    {
+      "gap_id": "net_interest_maturity_rate_data",
+      "status": "partial_treasury_rate_and_debt_context_captured",
+      "new_local_custody_added": true,
+      "evidence_paths": [
+        "data/raw/treasury/SRC-TREASURY-FISCALDATA-AVG-INTEREST-RATES-2026-07-24/2026-07-24/avg_interest_rates.csv",
+        "data/raw/treasury/SRC-TREASURY-FISCALDATA-MSPD-TABLE-1-2026-07-24/2026-07-24/mspd_table_1.csv",
+        "data/raw/treasury/SRC-TREASURY-FISCALDATA-MSPD-DETAIL-2026-07-24/2026-07-24/mspd_table_3.full.csv",
+        "data/raw/treasury/SRC-TREASURY-FISCALDATA-MSPD-DETAIL-2026-07-24/2026-07-24/mspd_table_5.full.csv",
+        "data/raw/treasury/SRC-TREASURY-FISCALDATA-MSPD-TABLE-1-2026-07-24/2026-07-24/debt_to_penny_recent.csv",
+        "data/metadata/SRC-TREASURY-FISCALDATA-AVG-INTEREST-RATES-2026-07-24.2026-07-24.metadata.md",
+        "data/metadata/SRC-TREASURY-FISCALDATA-MSPD-TABLE-1-2026-07-24.2026-07-24.metadata.md",
+        "data/metadata/SRC-TREASURY-FISCALDATA-MSPD-DETAIL-2026-07-24.2026-07-24.metadata.md",
+        "data/derived/breadth_benchmark_matrix/net_interest_treasury_average_interest_rate_context.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/net_interest_treasury_mspd_maturity_detail_context.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/net_interest_treasury_mspd_remaining_maturity_bucket_diagnostic.v1.draft.json"
+      ],
+      "raw_files": [
+        {"path": "data/raw/treasury/SRC-TREASURY-FISCALDATA-AVG-INTEREST-RATES-2026-07-24/2026-07-24/avg_interest_rates.csv", "byte_count": 501180, "sha256": "48c1c47f506a7cae791fa0b2ff2259094486062dfca3b1c42433eaf6508c252b"},
+        {"path": "data/raw/treasury/SRC-TREASURY-FISCALDATA-MSPD-TABLE-1-2026-07-24/2026-07-24/mspd_table_1.csv", "byte_count": 572282, "sha256": "e69089cd531522d47e4ac9f9cbf9efc3d0328886d1d5816999cde31f4891be19"},
+        {"path": "data/raw/treasury/SRC-TREASURY-FISCALDATA-MSPD-DETAIL-2026-07-24/2026-07-24/mspd_table_3.full.csv", "byte_count": 55726310, "sha256": "347ff7878822ec7cf108b575cc440fe104dea4f0f9688cc0da89f5ce815a67c4", "row_count": 217144},
+        {"path": "data/raw/treasury/SRC-TREASURY-FISCALDATA-MSPD-DETAIL-2026-07-24/2026-07-24/mspd_table_5.full.csv", "byte_count": 13156635, "sha256": "801fceb68ece6ae48640697b7a6ab2dec65bcdb7c899b2b3fbe1c3bd133c5867", "row_count": 86145},
+        {"path": "data/raw/treasury/SRC-TREASURY-FISCALDATA-MSPD-TABLE-1-2026-07-24/2026-07-24/debt_to_penny_recent.csv", "byte_count": 823082, "sha256": "cc5b3b0b3e96338ad5d47ef48266eb31a354f87dbd89ba34116db15aaabe53fc"}
+      ],
+      "diagnostic_progress": "Treasury average-interest-rate latest-month context is now recorded through 2026-06-30, and Treasury MSPD latest-month Table 3/Table 5 maturity buckets are recorded as a non-combined diagnostic, exposing rate, unit, and perimeter reconciliation issues before any model use.",
+      "still_blocked_outputs": ["solver-ready debt stock projection", "remaining-maturity reconciliation across Treasury monthly detail and CBO/OMB fiscal-year projections", "CBO/OMB rate projection bridge", "primary-balance feedback fixture", "solver input"]
+    }
+  ],
+  "summary": {
+    "requested_gap_count": 8,
+    "reviewed_gap_count": 8,
+    "new_local_custody_gap_count": 8,
+    "supporting_out_of_scope_custody_packet_count": 1,
+    "partial_context_gap_count": 7,
+    "hard_blocked_gap_count": 1,
+    "solver_ready_gap_count": 0,
+    "rate_ready_gap_count": 0
+  },
+  "supporting_out_of_scope_custody": [
+    {
+      "supporting_id": "usda_ers_fns_food_hardship_nutrition_supporting_custody",
+      "lane_id": "income-security-family",
+      "status": "supporting_context_attached_not_one_of_primary_eight_gaps",
+      "dedicated_packet_path": "data/derived/breadth_benchmark_matrix/income_security_family_food_hardship_nutrition_capture_gap.v1.draft.json",
+      "dedicated_reader_path": "docs/reading/income-security-family-food-hardship-nutrition-capture-gap.md",
+      "metadata_paths": [
+        "data/metadata/SRC-USDA-ERS-HOUSEHOLD-FOOD-SECURITY-2024.2026-07-24.metadata.md",
+        "data/metadata/SRC-USDA-FNS-SNAP-PARTICIPATION-COST-DATA.2026-07-24.metadata.md"
+      ],
+      "primary_raw_files": [
+        {"path": "data/raw/usda/SRC-USDA-ERS-HOUSEHOLD-FOOD-SECURITY-2024/2026-07-24/err-358-household-food-security-2024.pdf", "byte_count": 1017042, "sha256": "dfe19c73cd5fbaa08a2dec52768690c968892150153806fec83038d3dac0adf7"},
+        {"path": "data/raw/usda/SRC-USDA-FNS-SNAP-PARTICIPATION-COST-DATA/2026-07-24/snap-annualsummary-7.xlsx", "byte_count": 24215, "sha256": "53c101e4f23c12d04c65ed304919b5f5ed18c560f9ea81acb9191cf8a54254e3"}
+      ],
+      "fns_snap_raw_file_count": 7,
+      "fns_snap_raw_total_byte_count": 1946489,
+      "ers_food_security_raw_context_file_count": 8,
+      "ers_food_security_raw_context_total_byte_count": 2708973,
+      "not_primary_gap_closure": true,
+      "not_complete_usda_raw_source_custody": true,
+      "not_complete_nutrition_program_boundary": true,
+      "not_floor_values": true,
+      "not_solver_input": true,
+      "not_rate_or_savings_claim": true
+    }
+  ],
+  "blocked_outputs": {
+    "complete_current_law_path": null,
+    "complete_source_custody": null,
+    "floor_pass_fail": null,
+    "solver_input": null,
+    "solver_run": null,
+    "rate_calculation": null,
+    "public_rate_card": null,
+    "savings_estimate": null,
+    "balanced_budget_claim": null
+  },
+  "public_warning": "All eight requested acquisition gaps were reviewed. New local custody was added for CBO February 2026 health-insurance PDF/spreadsheet files, CMS Hospital Data Dictionary lineage context, CMS/QualityNet methodology surface HTML/JavaScript custody, selected CMS mortality methodology report content, partial CMS dataset denominator-field crosswalk context, partial CMS/HRSA rural safety-net capacity context, OMB Public Budget Database User's Guide FY2027 horizon-boundary context, Treasury Fiscal Data rate/debt/maturity-detail context, Treasury MTS Table 8 FY2025 federal-fund context, Treasury MTS Tables 4 and 5 FY2025 Medicare HI fiscal-year anchor context, Treasury MTS Tables 4 and 5 FY2025 transportation trust-fund anchor context, and IRS SOI Publication 16 TY2022 corporate-income context. Existing local custody for IRS SOI Publication 1304 Table 1.1 TY2023 individual-income context is also attached to the receipt-base acquisition row. A machine-readable supporting custody block now points to the existing USDA ERS food-security and USDA FNS SNAP raw custody packet: 8 ERS food-security raw/context files and 7 FNS SNAP raw files, including the FNS FY1969-current ZIP, remain supporting context rather than a primary eight-gap closure. Medicare HI CMS/OMB timing-perimeter diagnostics now compare CY2025 CMS context with FY2025 OMB/Treasury anchors, Treasury MSPD latest-month bucket diagnostics now expose net-interest maturity reconciliation work, Treasury MTS Table 8 diagnostics now expose federal-fund/general-fund source-boundary work, OMB Table 13-4 transportation identity diagnostics now verify internal FY2025-FY2031 rounding reconciliation, Treasury MTS Tables 4 and 5 now expose FY2025 transportation receipt/outlay anchor context, CBO transportation trust-fund balance extension context now covers FY2032-FY2035 balances without income/outgo reconciliation, OMB/CBO revenue overlap plus IRS SOI individual/corporate context diagnostics now expose receipt source-vintage and base-context differences, OMB PBD guide custody now documents the three data files and FY2031 horizon boundary without creating FY2032-FY2035 OMB 17-row values, and CBO health context now records February 2026 local raw custody, a spreadsheet-supported February 2026 Table 2 rowmap, May 11, 2026 CBO health-subsidy presentation browser-visible PDF/data context, and the July 23, 2026 CBO Federal Subsidies for Health Insurance, 2026 to 2036 latest-publication boundary without May or July 2026 local raw byte custody. CBO May 2026 presentation and July 2026 page/PDF raw custody remain blocked by command-line access controls, CMS mortality methodology reports, partial dataset field crosswalks, and partial CMS/HRSA rural safety-net capacity context are not complete all-measure quality/access lineage, HRSA local raw custody remains blocked, and OMB/CBO/CMS/general-fund/transportation/receipt-base reconciliation gates remain partial or blocked. This packet is not complete source custody, not a complete current-law path, not floor passage, not solver input, not a solver run, not a rate calculation, not a public rate card, not a savings estimate, and not a balanced-budget claim."
+}

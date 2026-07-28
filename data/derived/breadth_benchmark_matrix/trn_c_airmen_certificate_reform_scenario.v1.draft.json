@@ -1,0 +1,125 @@
+{
+  "record_id": "trn-c-airmen-certificate-reform-scenario:v1",
+  "record_family": "trn_c_airmen_certificate_reform_scenario",
+  "version": "v1.draft",
+  "status": "admitted_cost_only_real_reform_no_savings_credit",
+  "pulse": 253,
+  "as_of_date": "2026-07-26",
+  "candidate_screen_path": "data/derived/breadth_benchmark_matrix/trn_c_candidate_screen.v1.draft.json",
+  "trn_b_closure_path": "data/derived/breadth_benchmark_matrix/trn_b_transportation_accounting_closure.v1.draft.json",
+  "core_h_path": "data/derived/breadth_benchmark_matrix/core_h_shared_accounting_substrate.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/trn_c_airmen_certificate_reform_scenario.schema.md",
+  "instrument": {
+    "candidate_id": "hr2247_airmen_certificate_accessibility",
+    "name": "H.R. 2247, Airmen Certificate Accessibility Act",
+    "congress": 119,
+    "legislative_status": "passed_house_referred_senate_not_enacted",
+    "house_passage_date": "2026-03-24",
+    "senate_referral_date": "2026-03-25",
+    "legal_perimeter": "Optional presentation of FAA-issued physical or digital airman and medical certificates for FAA inspection, with implementation through 14 CFR parts 61, 63, 65, 67, and 107.",
+    "legislative_source_id": "SRC-GPO-HR2247-RFS-2026",
+    "legislative_source_path": "data/raw/gpo/SRC-GPO-HR2247-RFS-2026/2026-07-26/hr2247-rfs-excerpt.txt",
+    "score_source_id": "SRC-GPO-HRPT119-551-2026",
+    "score_source_path": "data/raw/gpo/SRC-GPO-HRPT119-551-2026/2026-07-26/hrpt119-551-cbo-excerpt.txt"
+  },
+  "counterfactual": {
+    "baseline": "current_law_without_enactment_of_hr2247",
+    "candidate_is_not_current_law": true,
+    "comparison_is_incremental": true,
+    "enactment_assumed_for_score_only": true,
+    "appropriation_assumed": true,
+    "boundary": "CBO's estimate is conditional on enactment and appropriation; Taxlane does not assert either has occurred."
+  },
+  "annual_federal_effects": [
+    {"fiscal_year":2025,"estimated_authorization_millions":0,"estimated_outlays_millions":0,"outlay_observation":"exact_zero_before_score_window"},
+    {"fiscal_year":2026,"estimated_authorization_millions":3,"estimated_outlays_millions":null,"outlay_observation":"between_zero_and_0_5_million","outlay_lower_bound_millions":0,"outlay_upper_bound_exclusive_millions":0.5},
+    {"fiscal_year":2027,"estimated_authorization_millions":4,"estimated_outlays_millions":5,"outlay_observation":"exact_at_cbo_display_precision"},
+    {"fiscal_year":2028,"estimated_authorization_millions":4,"estimated_outlays_millions":4,"outlay_observation":"exact_at_cbo_display_precision"},
+    {"fiscal_year":2029,"estimated_authorization_millions":3,"estimated_outlays_millions":3,"outlay_observation":"exact_at_cbo_display_precision"},
+    {"fiscal_year":2030,"estimated_authorization_millions":3,"estimated_outlays_millions":3,"outlay_observation":"exact_at_cbo_display_precision"},
+    {"fiscal_year":2031,"estimated_authorization_millions":3,"estimated_outlays_millions":3,"outlay_observation":"exact_at_cbo_display_precision"}
+  ],
+  "score_totals": {
+    "fy2026_fy2031_estimated_authorization_millions": 20,
+    "fy2026_fy2031_estimated_outlays_millions": 18,
+    "direct_spending_effect_millions": 0,
+    "revenue_effect_millions": 0,
+    "budget_function": "400_transportation",
+    "spending_type": "subject_to_appropriation",
+    "rounding_boundary": "The CBO total is retained as published; the FY2026 asterisk is not coerced to zero or solved residually."
+  },
+  "transition_and_phase_in": {
+    "rulemaking_cost_millions": 2,
+    "software_issue_and_maintenance_average_annual_cost_millions": 3,
+    "final_rule_deadline": "2028-11-30",
+    "central_costs_are_positive_outlays": true,
+    "annual_component_split_available": false,
+    "annual_component_split": null,
+    "phase_description": [
+      {"period":"FY2026-FY2028","phase":"software_acquisition_rulemaking_and_implementation","amounts_controlled_by":"annual_cbo_score_rows"},
+      {"period":"FY2029-FY2031","phase":"digital_certificate_system_operation_and_maintenance","amounts_controlled_by":"annual_cbo_score_rows"}
+    ]
+  },
+  "behavior_and_delivery": {
+    "digital_use_is_optional": true,
+    "physical_certificate_remains_valid": true,
+    "cloud_use_requires_sufficient_connectivity": true,
+    "digital_certificate_must_be_faa_issued": true,
+    "authentication_and_verification_required": true,
+    "adoption_rate": null,
+    "workforce_reduction": null,
+    "user_time_savings": null,
+    "agency_productivity_savings": null,
+    "behavioral_budget_effect": null,
+    "boundary": "The legislation and CBO score support optional adoption and implementation costs, not a quantified take-up, workforce, productivity, or savings response."
+  },
+  "stress_cases": [
+    {"stress_id":"insufficient_connectivity","adverse_condition":"Electronic device or cloud presentation is unavailable.","statutory_fallback":"The physical FAA-issued certificate remains an accepted format; cloud presentation is allowed only where connectivity is sufficient.","additional_cost_millions":null,"floor_failure":false,"reason":"access continuity is preserved without assigning an unsupported stress cost"},
+    {"stress_id":"authentication_or_verification_failure","adverse_condition":"A digital certificate cannot be authenticated or verified.","statutory_fallback":"The digital format is not accepted unless it meets FAA authentication and verification requirements; the physical format remains available.","additional_cost_millions":null,"floor_failure":false,"reason":"the policy design fails closed to the physical credential"},
+    {"stress_id":"implementation_cost_overrun","adverse_condition":"Software or rulemaking costs exceed the CBO central estimate.","statutory_fallback":"No fixed savings, lower target cost, or offset finances the implementation.","additional_cost_millions":null,"floor_failure":false,"reason":"cost stress is unquantified and therefore remains null; it cannot create a savings or affordability claim"}
+  ],
+  "applicable_floor_review": [
+    {"floor_class":"access_coverage","applicable":true,"policy_pass":true,"stress_pass":true,"evidence":"physical certificates remain accepted and cloud use is connectivity-conditioned"},
+    {"floor_class":"quality_safety","applicable":true,"policy_pass":true,"stress_pass":true,"evidence":"FAA issuance plus authentication and verification are mandatory; qualification standards are unchanged"},
+    {"floor_class":"equity_distribution","applicable":true,"policy_pass":true,"stress_pass":true,"evidence":"digital presentation is optional and the physical channel remains available; CBO reports no intergovernmental or private-sector mandate"},
+    {"floor_class":"adequacy_resilience","applicable":true,"policy_pass":true,"stress_pass":true,"evidence":"physical fallback preserves credential presentation during device, cloud, or connectivity failure"},
+    {"floor_class":"fiscal_delivery_feasibility","applicable":true,"policy_pass":true,"stress_pass":true,"evidence":"CBO supplies central implementation costs and the bill supplies a final-rule deadline; unscored overruns remain null and do not support a savings claim"},
+    {"floor_class":"roadway_fatalities_asset_condition_and_climate","applicable":false,"policy_pass":null,"stress_pass":null,"evidence":"the instrument changes FAA credential presentation only and does not change roadway operations, infrastructure assets, maintenance, or climate-resilience programs"}
+  ],
+  "accounting_bridge": {
+    "trn_b_named_fund_assignment": null,
+    "explicit_general_fund_assignment": null,
+    "function_400_incremental_outlays_millions": 18,
+    "named_fund_effect_millions": null,
+    "funding_source_decision_deferred_to": "TRN-D",
+    "endogenous_interest_deferred_to": "TRN-E",
+    "boundary": "CBO identifies function 400 and spending subject to appropriation but does not identify Airport and Airway Trust Fund financing or a general-fund source."
+  },
+  "admission_decision": {
+    "real_policy_instrument_admitted": true,
+    "official_federal_effect_admitted": true,
+    "transition_cost_admitted": true,
+    "behavioral_savings_admitted": false,
+    "productivity_savings_admitted": false,
+    "lower_cost_scenario_admitted": false,
+    "target_outlay_reduction_admitted": false,
+    "cost_only_reform_scenario_admitted": true,
+    "trn_c_02_done": true,
+    "trn_c_03_done": true,
+    "trn_c_04_done": true
+  },
+  "claim_booleans": {
+    "real_reform_scenario_published": true,
+    "official_federal_effect_published": true,
+    "transition_cost_published": true,
+    "candidate_enacted": false,
+    "lower_cost_scenario_admitted": false,
+    "target_cost_published": false,
+    "gross_savings_published": false,
+    "net_savings_published": false,
+    "technology_savings_claim_published": false,
+    "rate_published": false,
+    "public_rate_card_published": false
+  },
+  "public_warning": "This is a conditional, cost-only score of H.R. 2247 using official legislative text and CBO's estimate. The bill is not enacted. The score adds $18 million of estimated FY2026-FY2031 outlays subject to appropriation and admits no productivity savings, lower target cost, financing source, rate, or public policy endorsement."
+}

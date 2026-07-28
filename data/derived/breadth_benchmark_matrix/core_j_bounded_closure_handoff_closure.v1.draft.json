@@ -1,0 +1,27 @@
+{
+  "record_id": "core-j-bounded-closure-handoff-closure:v1",
+  "record_family": "core_j_bounded_closure_handoff_closure",
+  "version": "v1.draft",
+  "status": "core_j_complete_shared_bounded_closure_handoff_interfaces",
+  "pulse": 296,
+  "as_of_date": "2026-07-26",
+  "core_wave_id": "CORE-J",
+  "contract_path": "data/derived/breadth_benchmark_matrix/core_j_bounded_closure_handoff_contract.v1.draft.json",
+  "role_review_path": "reviews/2026-07-26-core-j-bounded-closure-handoff-role-review.md",
+  "schema_path": "data/derived/breadth_benchmark_matrix/core_j_bounded_closure_handoff_closure.schema.md",
+  "reader_path": "docs/reading/core-j-bounded-closure-handoff-closure.md",
+  "closure_checks": [
+    {"check_id":"completion_taxonomy","status":"pass","finding":"Bounded, numeric, and output completion are distinct."},
+    {"check_id":"evidence_state_contract","status":"pass","finding":"Value presence does not bypass output eligibility."},
+    {"check_id":"account_role_contract","status":"pass","finding":"Signed and non-additive role rules are enforced."},
+    {"check_id":"handoff_ownership","status":"pass","finding":"Every unresolved item requires an owner and blocking gate."},
+    {"check_id":"successor_discovery","status":"pass","finding":"Reviewed bounded closure may open discovery only."},
+    {"check_id":"output_admission","status":"pass","finding":"Only resolved output-ready closure may admit outputs."},
+    {"check_id":"three_lane_portability","status":"pass","finding":"Transportation, health, and education mappings fit without weakening lane rules."},
+    {"check_id":"rust_validation","status":"pass","finding":"Seven interfaces and four focused unit tests are present."}
+  ],
+  "dependency_decision": {"core_j_done":true,"trn_e_02_may_start":true,"hlt_b_02_may_start":true,"edu_b_02_may_start":true},
+  "blocked_outputs": {"numeric_lane_completion":null,"output_ready_lane_completion":null,"solver_input":null,"solver_result":null,"assigned_rate":null,"gross_savings":null,"net_savings":null,"public_rate_card":null},
+  "claim_booleans": {"core_j_closure_published":true,"role_review_complete":true,"core_j_done":true,"trn_e_02_may_start":true,"hlt_b_02_may_start":true,"edu_b_02_may_start":true,"solver_ready":false,"rate_published":false,"savings_claim_published":false},
+  "public_warning": "CORE-J is complete as a shared validation and handoff layer. It permits the three lane-local -02 packages to start discovery; it does not establish numeric lane completion, output readiness, solver inputs or results, rates, savings, or a public rate card."
+}

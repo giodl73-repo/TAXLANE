@@ -1,0 +1,123 @@
+{
+  "record_id": "edu-a-education-workforce-financing-lineage:v1",
+  "record_family": "edu_a_education_workforce_financing_lineage",
+  "version": "v1.draft",
+  "status": "edu_a_03_complete_financing_forms_separated_values_bounded",
+  "pulse": 276,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "EDU-A",
+  "start_gate_path": "data/derived/breadth_benchmark_matrix/edu_a_education_baseline_start_gate.v1.draft.json",
+  "baseline_path": "data/derived/breadth_benchmark_matrix/edu_a_federal_education_workforce_baseline_path.v1.draft.json",
+  "higher_education_bridge_path": "data/derived/breadth_benchmark_matrix/higher_education_account_bridge.fy2025.v1.draft.json",
+  "training_employment_bridge_path": "data/derived/breadth_benchmark_matrix/training_employment_account_bridge.fy2025.v1.draft.json",
+  "k12_federalism_bridge_path": "data/derived/breadth_benchmark_matrix/k12_federalism_finance_bridge.fy2024.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/edu_a_education_workforce_financing_lineage.schema.md",
+  "reader_path": "docs/reading/edu-a-education-workforce-financing-lineage.md",
+  "financing_relationships": [
+    {
+      "component_id": "k12_501",
+      "relationship": "federal function-500 appropriations and grants remain separate from recipient-side federal, state, and local school-system revenue",
+      "federal_period": "FY2024_OMB_context",
+      "federal_outlays_millions": 105373,
+      "recipient_period": "FY2024_Census_school_system_context",
+      "recipient_federal_revenue_millions": 115084.579,
+      "recipient_state_revenue_millions": 450044.318,
+      "recipient_local_revenue_millions": 429793.145,
+      "reconciliation_status": "not_reconcilable_not_additive",
+      "boundary": "Federal outlays and recipient revenue differ in perimeter, timing, pass-through, and classification."
+    },
+    {
+      "component_id": "higher_education_502",
+      "relationship": "program and grant outlays coexist with credit subsidy, negative subsidy, downward reestimate, repayment, collection, liquidating-account, and offsetting-receipt entries",
+      "federal_period": "FY2025",
+      "net_outlays_millions": -35005,
+      "positive_account_entries_millions": 118203,
+      "negative_account_entries_millions": -153208,
+      "reconciliation_status": "exact_account_reconciliation_complete",
+      "boundary": "The negative net value is a credit-account result and is not cash collections, waste, or savings."
+    },
+    {
+      "component_id": "training_employment_504",
+      "relationship": "discretionary and mandatory grant and nongrant accounts finance training and employment services",
+      "federal_period": "FY2025",
+      "net_outlays_millions": 5434,
+      "discretionary_outlays_millions": 5300,
+      "mandatory_outlays_millions": 134,
+      "grant_outlays_millions": 2788,
+      "nongrant_outlays_millions": 2646,
+      "reconciliation_status": "exact_account_reconciliation_complete",
+      "boundary": "Program outcome cohorts and actual-outlay allocation remain unmatched."
+    },
+    {
+      "component_id": "research_general_education_aids_503",
+      "relationship": "account-specific discretionary or mandatory authorities and grants remain to be mapped",
+      "federal_period": "FY2025",
+      "net_outlays_millions": 4656,
+      "reconciliation_status": "function_anchor_only",
+      "boundary": "No blanket general-fund, grant, fee, or offset allocation is inferred."
+    },
+    {
+      "component_id": "other_labor_services_505",
+      "relationship": "account-specific labor-service appropriations, fees, recoveries, or offsets remain to be mapped",
+      "federal_period": "FY2025",
+      "net_outlays_millions": 2282,
+      "reconciliation_status": "function_anchor_only",
+      "boundary": "No account-level financing split is admitted."
+    },
+    {
+      "component_id": "social_services_506",
+      "relationship": "federal grants and program outlays remain distinct from state/local matching or service-delivery resources",
+      "federal_period": "FY2025",
+      "net_outlays_millions": 26311,
+      "reconciliation_status": "function_anchor_only",
+      "boundary": "No federal/state/local translation is inferred from the function anchor."
+    }
+  ],
+  "lineage_rules": {
+    "appropriations_separate_from_recipient_revenue": true,
+    "grants_separate_from_nongrants": true,
+    "mandatory_separate_from_discretionary": true,
+    "credit_subsidy_separate_from_cash_principal": true,
+    "negative_subsidy_and_reestimates_preserve_sign": true,
+    "offsetting_receipts_preserve_sign": true,
+    "state_local_resources_non_additive": true,
+    "outcome_populations_non_additive": true,
+    "account_mapping_required_for_unresolved_subfunctions": true
+  },
+  "decision": {
+    "financing_forms_separated": true,
+    "fy2025_known_account_bridges_admitted": true,
+    "unresolved_account_allocations_admitted": false,
+    "cash_subsidy_equivalence_admitted": false,
+    "edu_a_03_done": true,
+    "edu_a_04_may_start": true,
+    "next_active_work_package_id": "EDU-A-04"
+  },
+  "blocked_outputs": {
+    "fy2025_fy2035_account_financing_path": null,
+    "subfunction_503_account_allocation": null,
+    "subfunction_505_account_allocation": null,
+    "subfunction_506_account_allocation": null,
+    "state_local_translation": null,
+    "loan_cash_equivalence": null,
+    "assigned_rate": null,
+    "solver_input": null,
+    "edu_a_closure": null,
+    "edu_b_start": null
+  },
+  "claim_booleans": {
+    "edu_a_financing_lineage_published": true,
+    "known_financing_forms_separated": true,
+    "credit_account_signs_preserved": true,
+    "state_local_context_non_additive": true,
+    "edu_a_03_done": true,
+    "edu_a_04_may_start": true,
+    "full_account_financing_path_published": false,
+    "cash_subsidy_equivalence_published": false,
+    "assigned_rate_published": false,
+    "solver_ready": false,
+    "edu_a_done": false,
+    "edu_b_may_start": false
+  },
+  "public_warning": "EDU-A-03 separates appropriations, grants, nongrants, mandatory and discretionary outlays, credit subsidy, negative subsidy, reestimates, collections, offsets, and recipient-side state/local finance. Known FY2025 bridges are retained with their signs; unresolved account allocations, cash/subsidy equivalence, state/local translation, rates, solver input, EDU-A closure, and EDU-B start remain blocked."
+}

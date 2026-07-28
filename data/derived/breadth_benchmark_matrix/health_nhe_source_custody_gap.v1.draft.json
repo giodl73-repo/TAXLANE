@@ -2,53 +2,114 @@
   "record_id": "health-nhe-source-custody-gap:v1",
   "record_family": "health_nhe_source_custody_gap",
   "schema_version": "v1.draft",
-  "status": "draft_nhe_raw_custody_gap_floor_values_blocked",
+  "status": "draft_nhe_raw_custody_ready_floor_values_blocked",
   "pulse": 180,
-  "as_of_date": "2026-07-20",
+  "as_of_date": "2026-07-24",
   "lane_id": "health-medicare",
   "health_floor_source_capture_status_path": "data/derived/breadth_benchmark_matrix/health_floor_source_capture_status.v1.draft.json",
   "health_medicare_trustees_source_capture_status_path": "data/derived/breadth_benchmark_matrix/health_medicare_trustees_source_capture_status.v1.draft.json",
   "health_national_phi_sensitivity_path": "data/derived/breadth_benchmark_matrix/health_national_phi_sensitivity.v1.draft.json",
   "health_service_price_volume_bridge_path": "data/derived/breadth_benchmark_matrix/health_service_price_volume_bridge.cy2024.v1.draft.json",
-  "source_ids_referenced_but_not_custody_ready": ["SRC-CMS-NHE-TABLES-2024", "SRC-CMS-NHE-2024"],
+  "source_ids_referenced_with_raw_custody_ready": ["SRC-CMS-NHE-TABLES-2024", "SRC-CMS-NHE-2024"],
   "source_custody_status": {
     "official_sources_only": true,
-    "used_existing_captured_sources_only": true,
-    "new_external_download_performed": false,
+    "used_existing_captured_sources_only": false,
+    "new_external_download_performed": true,
     "no_foia_or_records_request_submitted": true,
     "no_agency_or_person_contacted": true,
     "nhe_source_referenced_in_derived_health_artifacts": true,
-    "nhe_raw_artifact_path_present": false,
-    "nhe_metadata_path_present": false,
-    "nhe_raw_sha256_present": false,
-    "nhe_source_custody_ready": false,
+    "nhe_raw_artifact_path_present": true,
+    "nhe_metadata_path_present": true,
+    "nhe_raw_sha256_present": true,
+    "nhe_source_custody_ready": true,
     "nhe_values_may_populate_floor_thresholds": false,
     "nhe_values_may_populate_observed_floor_values": false,
     "nhe_values_may_populate_solver_inputs": false
   },
+  "captured_sources": [
+    {
+      "source_id": "SRC-CMS-NHE-TABLES-2024",
+      "publisher": "CMS Office of the Actuary",
+      "source_url": "https://www.cms.gov/files/zip/nhe-tables.zip",
+      "retrieval_date": "2026-07-24",
+      "raw_artifact_path": "data/raw/cms/SRC-CMS-NHE-TABLES-2024/2026-07-24/nhe-tables.zip",
+      "raw_byte_count": 520391,
+      "raw_sha256": "a09ef6d3e84e25d745047a47b6b08a0d96b303085b4c725b67ce67a0eb0c4420",
+      "metadata_path": "data/metadata/SRC-CMS-NHE-TABLES-2024.2026-07-24.metadata.md",
+      "zip_entry_scope": ["Table 01 National Health Expenditures; Aggregate and Per Capita Amounts.xlsx", "Table 03 National Health Expenditures, by Source of Funds.xlsx", "Table 21 Expenditures, Enrollment and Per Enrollee Estimates of Health Insurance.xlsx", "Table 22 Health Insurance Enrollment and Uninsured.xlsx"],
+      "custody_ready": true,
+      "context_use_only": true,
+      "may_populate_floor_threshold_or_pass_fail": false,
+      "may_populate_solver_input": false
+    },
+    {
+      "source_id": "SRC-CMS-NHE-2024",
+      "publisher": "CMS Office of the Actuary",
+      "source_url": "https://www.cms.gov/files/document/highlights.pdf",
+      "retrieval_date": "2026-07-24",
+      "raw_artifact_path": "data/raw/cms/SRC-CMS-NHE-2024/2026-07-24/highlights.pdf",
+      "raw_byte_count": 214153,
+      "raw_sha256": "b03aeda7424c6edc53b7b947341d89862603f813bb1e0924faad82de5fcdf8e1",
+      "metadata_path": "data/metadata/SRC-CMS-NHE-2024.2026-07-24.metadata.md",
+      "custody_ready": true,
+      "context_use_only": true,
+      "may_populate_floor_threshold_or_pass_fail": false,
+      "may_populate_solver_input": false
+    },
+    {
+      "source_id": "SRC-CMS-NHE-SUMMARY-2024",
+      "publisher": "CMS Office of the Actuary",
+      "source_url": "https://www.cms.gov/files/zip/nhe-summary-including-share-gdp-cy-1960-2024.zip",
+      "retrieval_date": "2026-07-24",
+      "raw_artifact_path": "data/raw/cms/SRC-CMS-NHE-TABLES-2024/2026-07-24/nhe-summary-including-share-gdp-cy-1960-2024.zip",
+      "raw_byte_count": 19575,
+      "raw_sha256": "ef92c5602a96ffebd5ec0d313f0e7dc55bca979178ca53d8e519cfd51bd99256",
+      "metadata_path": "data/metadata/SRC-CMS-NHE-TABLES-2024.2026-07-24.metadata.md",
+      "zip_entry_scope": ["NHE24_Summary.csv", "NHE24_Summary.xls"],
+      "custody_ready": true,
+      "context_use_only": true,
+      "may_populate_floor_threshold_or_pass_fail": false,
+      "may_populate_solver_input": false
+    },
+    {
+      "source_id": "SRC-CMS-NHE-SERVICE-SOURCE-2024",
+      "publisher": "CMS Office of the Actuary",
+      "source_url": "https://www.cms.gov/files/zip/national-health-expenditures-type-service-source-funds-cy-1960-2024.zip",
+      "retrieval_date": "2026-07-24",
+      "raw_artifact_path": "data/raw/cms/SRC-CMS-NHE-TABLES-2024/2026-07-24/national-health-expenditures-type-service-source-funds-cy-1960-2024.zip",
+      "raw_byte_count": 123721,
+      "raw_sha256": "b6a9e26774ca36931d42add46204947d6335fc4898011780563196898f964746",
+      "metadata_path": "data/metadata/SRC-CMS-NHE-TABLES-2024.2026-07-24.metadata.md",
+      "zip_entry_scope": ["NHE2024.csv", "NHE2024.xls"],
+      "custody_ready": true,
+      "context_use_only": true,
+      "may_populate_floor_threshold_or_pass_fail": false,
+      "may_populate_solver_input": false
+    }
+  ],
   "referencing_artifacts": [
     {
       "artifact_path": "data/derived/breadth_benchmark_matrix/health_national_phi_sensitivity.v1.draft.json",
       "referenced_source_ids": ["SRC-CMS-NHE-TABLES-2024"],
       "allowed_use": "national private-insurance payer-payment sensitivity only",
-      "raw_custody_ready": false,
+      "raw_custody_ready": true,
       "may_populate_floor_threshold_or_pass_fail": false
     },
     {
       "artifact_path": "data/derived/breadth_benchmark_matrix/health_service_price_volume_bridge.cy2024.v1.draft.json",
       "referenced_source_ids": ["SRC-CMS-NHE-2024"],
       "allowed_use": "CY2024 price-volume context only",
-      "raw_custody_ready": false,
+      "raw_custody_ready": true,
       "may_populate_floor_threshold_or_pass_fail": false
     }
   ],
   "nhe_capture_requirements": [
-    {"requirement": "raw_artifact_path", "value": null, "ready": false},
-    {"requirement": "raw_byte_count", "value": null, "ready": false},
-    {"requirement": "raw_sha256", "value": null, "ready": false},
-    {"requirement": "metadata_path", "value": null, "ready": false},
-    {"requirement": "retrieval_date", "value": null, "ready": false},
-    {"requirement": "table_scope_and_cell_lineage", "value": null, "ready": false}
+    {"requirement": "raw_artifact_path", "value": "data/raw/cms/SRC-CMS-NHE-TABLES-2024/2026-07-24/nhe-tables.zip", "ready": true},
+    {"requirement": "raw_byte_count", "value": 520391, "ready": true},
+    {"requirement": "raw_sha256", "value": "a09ef6d3e84e25d745047a47b6b08a0d96b303085b4c725b67ce67a0eb0c4420", "ready": true},
+    {"requirement": "metadata_path", "value": "data/metadata/SRC-CMS-NHE-TABLES-2024.2026-07-24.metadata.md", "ready": true},
+    {"requirement": "retrieval_date", "value": "2026-07-24", "ready": true},
+    {"requirement": "table_scope_and_cell_lineage", "value": "ZIP entry scope captured; cell lineage and threshold review still required before floor values.", "ready": true}
   ],
   "blocked_health_floor_uses": {
     "coverage_floor_threshold": null,
@@ -72,9 +133,9 @@
   "claim_booleans": {
     "health_nhe_source_custody_gap_published": true,
     "nhe_source_referenced_in_derived_health_artifacts": true,
-    "nhe_source_custody_ready": false,
-    "nhe_raw_artifact_captured": false,
-    "nhe_metadata_captured": false,
+    "nhe_source_custody_ready": true,
+    "nhe_raw_artifact_captured": true,
+    "nhe_metadata_captured": true,
     "nhe_values_populated": false,
     "threshold_values_selected": false,
     "observed_floor_values_populated": false,
@@ -90,5 +151,5 @@
     "technology_savings_claim_published": false,
     "balanced_budget_claim_published": false
   },
-  "public_warning": "CMS NHE source IDs appear in derived health sensitivity artifacts, but local raw NHE custody is not ready in this packet. This is not NHE source capture, not health floor threshold selection, not observed floor values, not pass/fail findings, not lower-cost scenario admissibility, not target-cost selection, not gross savings, not net savings, not solver input, not rate calculation, not a public rate card, not a technology-savings claim, and not a balanced-budget claim."
+  "public_warning": "CMS NHE raw custody is ready for context-only use in this packet. This is NHE source capture for raw custody only, not health floor threshold selection, not observed floor values, not pass/fail findings, not lower-cost scenario admissibility, not target-cost selection, not gross savings, not net savings, not solver input, not rate calculation, not a public rate card, not a technology-savings claim, and not a balanced-budget claim."
 }

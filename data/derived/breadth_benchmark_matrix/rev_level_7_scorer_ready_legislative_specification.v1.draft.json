@@ -1,0 +1,62 @@
+{
+  "record_id":"rev-level-7-scorer-ready-legislative-specification:v1",
+  "record_family":"rev_level_7_scorer_ready_legislative_specification",
+  "version":"v1.draft",
+  "status":"rev_level_7_scorer_ready_policy_specification_complete_legislative_counsel_text_not_enacted",
+  "pulse":461,
+  "as_of_date":"2026-07-27",
+  "track_prefix":"REV",
+  "work_package_id":"REV-L7-01",
+  "level_7_handoff_path":"data/derived/breadth_benchmark_matrix/rev_level_7_integrated_certification_and_score_handoff.v1.draft.json",
+  "irs_2026_rate_source_url":"https://www.irs.gov/irb/2025-45_IRB",
+  "irs_2026_publication_505_url":"https://www.irs.gov/pub/irs-prior/p505--2026.pdf",
+  "schema_path":"data/derived/breadth_benchmark_matrix/rev_level_7_scorer_ready_legislative_specification.schema.md",
+  "reader_path":"docs/reading/rev-level-7-scorer-ready-legislative-specification.md",
+  "role_review_path":"reviews/2026-07-27-rev-level-7-scorer-ready-legislative-specification-role-review.md",
+  "policy_identity":{"policy_id":"taxlane_uniform_ordinary_rate_schedule_2026_permanent","policy_type":"model_scoring_specification","legislative_or_enacted":false,"official_proposal":false,"objective":"replace the seven ordinary individual income-tax marginal rates while preserving the current-law base and indexed bracket thresholds"},
+  "effective_and_duration":{"applies_to_taxable_years_beginning_after":"2025-12-31","first_tax_year":2026,"expiration_date":null,"duration":"permanent_for_scoring","budget_window":"FY2026-FY2035","current_law_baseline_cutoff":"2026-01-14","retroactive_to_closed_tax_year":false},
+  "rate_schedule":{"current_law_percent":[10.0,12.0,22.0,24.0,32.0,35.0,37.0],"specified_percent":[21.0,23.0,33.0,35.0,43.0,46.0,48.0],"uniform_uplift_points":11.0,"rate_count":7,"marginal_layering_unchanged":true},
+  "ty2026_taxable_income_breakpoints_dollars":[
+    {"filing_status":"single","breakpoints":[12400,50400,105700,201775,256225,640600]},
+    {"filing_status":"married_filing_jointly_or_qualifying_surviving_spouse","breakpoints":[24800,100800,211400,403550,512450,768700]},
+    {"filing_status":"married_filing_separately","breakpoints":[12400,50400,105700,201775,256225,384350]},
+    {"filing_status":"head_of_household","breakpoints":[17700,67450,105700,201750,256200,640600]}
+  ],
+  "post_2026_threshold_rule":{"rule":"retain every current-law filing-status breakpoint and current-law inflation adjustment for each later taxable year","rate_schedule_remains_specified":true,"threshold_formula_changed":false,"rounding_rule_changed":false},
+  "unchanged_tax_parameters":[
+    "filing-status definitions",
+    "taxable-income definition and income inclusions",
+    "standard and itemized deductions",
+    "personal and dependent rules",
+    "credits and credit phaseouts",
+    "alternative minimum tax parameters",
+    "net investment income tax",
+    "additional Medicare tax",
+    "qualified dividend and long-term capital-gain rate schedules",
+    "self-employment and payroll taxes",
+    "estate, gift, corporate, excise, and other federal taxes",
+    "penalty, interest, refund, and collection rules except stated transition relief"
+  ],
+  "interaction_rules":[
+    {"interaction_id":"ordinary_tax_computation","treatment":"apply the specified rates through existing marginal bracket layering to taxable ordinary income"},
+    {"interaction_id":"preferential_income_stack","treatment":"retain current-law stacking and preferential rates; ordinary-rate changes affect only the ordinary-income portion and statutory stacking interactions"},
+    {"interaction_id":"credits_and_amt","treatment":"recompute liability under unchanged current-law credit and AMT rules using the specified ordinary tax liability"},
+    {"interaction_id":"other_tax_instruments","treatment":"no rate, base, threshold, deduction, credit, payroll, corporate, estate, gift, or excise change is specified"},
+    {"interaction_id":"spending_package","treatment":"no spending instrument is included; H.R. 2247 remains a conditional nonpackage cost note"}
+  ],
+  "administration_and_transition":{"treasury_withholding_tables":"Treasury and IRS update wage and pension withholding methods as soon as practicable for wages and payments after enactment.","employer_and_payor_transition":"Employers and payors may continue the previously published 2026 methods until the mandatory effective date stated in implementing guidance.","estimated_tax_transition":"No underpayment penalty arises solely from pre-guidance installments calculated under the previously published 2026 schedule when later installments follow implementing guidance.","return_and_software_updates":"Forms, instructions, e-file schemas, tax software, and IRS systems implement the specified rates for TY2026 returns filed in 2027.","effective_date_if_enacted_after_2026_start":"Official scoring must separately identify retroactive liability, withholding catch-up, refund/balance-due, compliance, and feasibility effects; the model does not assume immediate retroactive collection.","appropriation":"Administrative resources are to be estimated by IRS/JCT/CBO and are not assigned a synthetic amount."},
+  "taxcalc_mapping":{"model":"Tax-Calculator 6.5.1","tax_year":2026,"changed_parameters":["II_rt1","II_rt2","II_rt3","II_rt4","II_rt5","II_rt6","II_rt7"],"parameter_values":[0.21,0.23,0.33,0.35,0.43,0.46,0.48],"threshold_parameters_changed":false,"other_parameters_changed":false,"runner_path":"experiments/rev-level-3-taxcalc/run.py","equivalent_runner_arguments":"--uplift 11.0 --sub-elasticity 0.25 --first-year-ratio 0.7742238946378175"},
+  "specification_checks":[
+    {"check_id":"filing_status_complete","status":"pass"},
+    {"check_id":"rates_and_breakpoints_complete","status":"pass"},
+    {"check_id":"effective_date_and_duration_complete","status":"pass"},
+    {"check_id":"unchanged_base_and_interactions_explicit","status":"pass"},
+    {"check_id":"withholding_estimated_tax_and_return_transition_explicit","status":"pass"},
+    {"check_id":"budget_window_and_baseline_cutoff_explicit","status":"pass"},
+    {"check_id":"taxcalc_parameter_mapping_reproducible","status":"pass"},
+    {"check_id":"spending_and_conditional_cost_boundary_explicit","status":"pass"}
+  ],
+  "decision":{"scorer_ready_policy_specification_complete":true,"substantive_legislative_fields_complete":true,"legislative_counsel_conforming_text_required":true,"official_score_may_be_requested":true,"statutory_schedule_enacted":false,"official_rate_certified":false,"balanced_budget_certified":false},
+  "blocked_outputs":{"legislative_counsel_bill_text":null,"official_conventional_score":null,"official_dynamic_score":null,"proposal_specific_administration_cost":null,"proposal_specific_private_compliance_cost":null,"formal_certified_rate":null,"formal_balance_determination":null},
+  "public_warning":"This is a complete model scoring specification, not legislation or an official proposal. It fixes duration, filing-status breakpoints, unchanged provisions, interactions, transition, and the budget window so an external scorer can analyze the same policy Taxlane modeled. Legislative Counsel text and official scoring remain outstanding."
+}

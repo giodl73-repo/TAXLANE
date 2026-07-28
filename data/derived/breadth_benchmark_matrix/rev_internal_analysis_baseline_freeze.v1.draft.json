@@ -1,0 +1,61 @@
+{
+  "record_id": "rev-internal-analysis-baseline-freeze:v1",
+  "record_family": "rev_internal_analysis_baseline_freeze",
+  "version": "v1.draft",
+  "status": "internal_baseline_frozen_grid_ready",
+  "pulse": 476,
+  "as_of_date": "2026-07-27",
+  "next_ten_steps_path": "data/derived/breadth_benchmark_matrix/rev_internal_analysis_next_ten_steps.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/rev_internal_analysis_baseline_freeze.schema.md",
+  "reader_path": "docs/reading/rev-internal-analysis-baseline-freeze.md",
+  "role_review_path": "reviews/2026-07-27-rev-internal-analysis-baseline-freeze-role-review.md",
+  "model_baseline": {
+    "model": "Tax-Calculator",
+    "version": "6.5.1",
+    "data": "bundled CPS tax-unit file",
+    "tax_year": 2026,
+    "baseline_schedule_percent": [10, 12, 22, 24, 32, 35, 37],
+    "ordinary_rate_parameters": ["II_rt1", "II_rt2", "II_rt3", "II_rt4", "II_rt5", "II_rt6", "II_rt7"]
+  },
+  "fiscal_baseline": {
+    "fy2026_revenue_need_billions": 813.727,
+    "admitted_primary_spending_reduction_billions": 0.0,
+    "pay_additive_contribution_billions": 0.0,
+    "net_zero_input_contribution_billions": 0.0,
+    "first_year_realization_ratio": 0.774223895,
+    "historical_agency_ceiling_billions": 0.077
+  },
+  "behavior_baseline": {
+    "central_substitution_elasticity": 0.25,
+    "sensitivity_substitution_elasticities": [0.15, 0.25, 0.35],
+    "income_elasticity": 0.0,
+    "capital_gains_semi_elasticity": 0.0
+  },
+  "grid_contract": {
+    "uniform_uplift_points": [9.5, 10.0, 10.159, 10.5, 10.922, 11.0, 11.5, 11.854, 12.0],
+    "central_uplift_points": 11.0,
+    "candidate_count": 9,
+    "elasticity_cases_per_candidate": 3,
+    "runner_path": "experiments/rev-level-3-taxcalc/run_grid.py",
+    "generated_output_path": "data/derived/breadth_benchmark_matrix/rev_internal_rate_sensitivity_grid_run.v1.generated.json"
+  },
+  "frozen_inputs": [
+    {"path": "experiments/rev-level-3-taxcalc/run.py", "sha256": "3020eb621dc4cbff72f9a97107c6a48e4ca4d282b18ab06d125507eae86e0068"},
+    {"path": "experiments/rev-level-3-taxcalc/requirements.txt", "sha256": "2149f4a91b33a810fe789312d8cd16cfe88788a293e1ca1a53ec7921f3a22338"},
+    {"path": "data/derived/breadth_benchmark_matrix/rev_level_3_taxcalc_microsimulation_score.v1.draft.json", "sha256": "c26f0908ad7a9407c897a3443e038cae35a6a0673bb2c5c6795b7675880b4c21"},
+    {"path": "data/derived/breadth_benchmark_matrix/rev_level_4_first_year_cash_timing_bridge.v1.draft.json", "sha256": "e16aeb48731a47ae1b5b832ec368bcf0c58b835e752044f28e89dc57336b522b"},
+    {"path": "data/derived/breadth_benchmark_matrix/rev_level_5_administration_implementation_ceiling.v1.draft.json", "sha256": "e8fd3ee560aef9b3d3f1597bce5115d7d400032b5d032f33b5711cc16f0c8771"},
+    {"path": "data/derived/breadth_benchmark_matrix/rev_level_5_macro_assignment_methodology_audit.v1.draft.json", "sha256": "90979fdc187ca4c9eeb3a4de4438577b712d89814a1ea7c74c4234384849d545"},
+    {"path": "data/derived/breadth_benchmark_matrix/pay_net_rev_post_fifteen_track_reconciliation.v1.draft.json", "sha256": "c477de77430ae35224f7c57cbe561b9d7c5baaf67ce2fe636c886ec0682a9d6d"},
+    {"path": "data/derived/breadth_benchmark_matrix/rev_level_6_policy_rate_decision.v1.draft.json", "sha256": "b7e549f69e2dae586e538a28681f67ee3d170894830b7572085aa7d1555ab1e3"}
+  ],
+  "claim_booleans": {
+    "independent_analysis_only": true,
+    "baseline_frozen": true,
+    "grid_ready": true,
+    "official_request_planned": false,
+    "official_score_used": false,
+    "analytical_rate_finalized": false
+  },
+  "public_warning": "This frozen baseline supports independent Taxlane sensitivity analysis. It is not an official request, score, enacted schedule, or proof of balance."
+}

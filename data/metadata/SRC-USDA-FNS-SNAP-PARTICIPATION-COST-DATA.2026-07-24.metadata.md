@@ -1,0 +1,24 @@
+# SRC-USDA-FNS-SNAP-PARTICIPATION-COST-DATA metadata
+
+- Publisher: U.S. Department of Agriculture, Food and Nutrition Service
+- Source: SNAP participation, cost, benefits, persons, households, monthly, and FY1969-current data files
+- Official listing URL: `https://www.fns.usda.gov/pd/supplemental-nutrition-assistance-program-snap`
+- Retrieval date: 2026-07-24
+- Capture method: Scripted download from official FNS resource-file URLs after the live FNS page exposed current filenames.
+- Raw artifacts:
+  - `data/raw/usda/SRC-USDA-FNS-SNAP-PARTICIPATION-COST-DATA/2026-07-24/snap-annualsummary-7.pdf`; byte count: 258647; SHA-256: `c5f0903a61e857185b5beb6359974ced4533df3d923f2f1979405ee9be56f9b1`
+  - `data/raw/usda/SRC-USDA-FNS-SNAP-PARTICIPATION-COST-DATA/2026-07-24/snap-annualsummary-7.xlsx`; byte count: 24215; SHA-256: `53c101e4f23c12d04c65ed304919b5f5ed18c560f9ea81acb9191cf8a54254e3`
+  - `data/raw/usda/SRC-USDA-FNS-SNAP-PARTICIPATION-COST-DATA/2026-07-24/snap-zip-fy69tocurrent-7.zip`; byte count: 1583515; SHA-256: `25e6ec007e2cee48c024a793fd1e7fb97a8fa64c980bf4780cfb0ef8a9b98b9e`
+  - `data/raw/usda/SRC-USDA-FNS-SNAP-PARTICIPATION-COST-DATA/2026-07-24/snap-4fymonthly-7.xlsx`; byte count: 31756; SHA-256: `8a1dd2b3e9404d3d2a8eab8134bbf173284871ac63c1ef62e25a7422b2309384`
+  - `data/raw/usda/SRC-USDA-FNS-SNAP-PARTICIPATION-COST-DATA/2026-07-24/snap-persons-7.xlsx`; byte count: 16033; SHA-256: `86164de33587e4ff4c035f83b9deeff4b97ab04cdf8b9fa606c45617763b6ee8`
+  - `data/raw/usda/SRC-USDA-FNS-SNAP-PARTICIPATION-COST-DATA/2026-07-24/snap-households-7.xlsx`; byte count: 16099; SHA-256: `325969ff7e3fd0b4d17ea1cd18c71552c838234270a278eb92313669330aabe5`
+  - `data/raw/usda/SRC-USDA-FNS-SNAP-PARTICIPATION-COST-DATA/2026-07-24/snap-benefits-7.xlsx`; byte count: 16224; SHA-256: `cd33c0aa154fd4b2b833c58ba0859aa3c1a9490daf487dd43d7c18ed3e4612ff`
+- Observed workbook/ZIP structure:
+  - `snap-annualsummary-7.xlsx`: one worksheet, `A1:F200`
+  - `snap-4fymonthly-7.xlsx`: one worksheet, `A1:GD59`
+  - `snap-persons-7.xlsx`: one worksheet, `A1:F68`
+  - `snap-households-7.xlsx`: one worksheet, `A1:F67`
+  - `snap-benefits-7.xlsx`: one worksheet, `A1:F67`
+  - `snap-zip-fy69tocurrent-7.zip`: 38 entries
+- Use: FNS SNAP participation, cost, benefit, persons, households, and monthly context for the income-security/family food-hardship and nutrition source gate.
+- Boundary: not ERS food-security context, not broader nutrition-program boundary completion, not material-hardship floor values, not food-security floor values, not a benefit package model, not solver input, not rates, and not savings.

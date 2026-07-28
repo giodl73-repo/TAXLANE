@@ -12,9 +12,12 @@ Required invariants:
   sensitivity boundary.
 - Existing OMB fiscal sources may be marked custody-ready only for FY2025 fiscal
   context.
-- Floor-indicator, threshold, baseline-floor, policy-floor, and stress-floor
-  custody remain incomplete.
+- CMS NHE and CMS Provider Data Catalog hospital quality/access sources may be
+  marked context-only for floor indicator review.
+- Complete floor-indicator, threshold, baseline-floor, policy-floor, and
+  stress-floor custody remain incomplete.
 - Source candidates still needed keep raw path, byte count, and SHA-256 null.
 - Every floor value remains null and every floor passage flag remains false.
 - Blocked outputs remain null.
-- Only publication and partial fiscal-custody booleans may be true.
+- Only publication, partial fiscal-custody, and partial floor-indicator context
+  custody booleans may be true.

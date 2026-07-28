@@ -1,0 +1,33 @@
+{
+  "record_id": "agr-c-agriculture-scenario-admission-closure:v1",
+  "record_family": "agr_c_agriculture_scenario_admission_closure",
+  "version": "v1.draft",
+  "status": "agr_c_complete_bounded_screen_no_reform_admitted",
+  "pulse": 331,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "AGR-C",
+  "agr_b_path": "data/derived/breadth_benchmark_matrix/agr_b_agriculture_accounting_closure.v1.draft.json",
+  "core_i_path": "data/derived/breadth_benchmark_matrix/core_i_shared_reform_admission_contract.v1.draft.json",
+  "core_j_path": "data/derived/breadth_benchmark_matrix/core_j_bounded_closure_handoff_closure.v1.draft.json",
+  "core_k_path": "data/derived/breadth_benchmark_matrix/core_k_temporal_composite_accounting_closure.v1.draft.json",
+  "core_l_path": "data/derived/breadth_benchmark_matrix/core_l_cross_lane_overlap_allocation_closure.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/three_lane_stage_c_discovery_bundle.schema.md",
+  "reader_path": "docs/reading/three-lane-stage-c-discovery-bundle.md",
+  "role_review_path": "reviews/2026-07-26-three-lane-stage-c-discovery-role-review.md",
+  "package_reconciliation": [
+    {"work_package_id":"AGR-C-01","status":"complete","completion_class":"discovery_only","finding":"Farm-support, crop-insurance, services, research, and market candidate families are screened against CORE-I/J/K/L."},
+    {"work_package_id":"AGR-C-02","status":"complete","completion_class":"discovery_only","finding":"No candidate has a selected legislative instrument with complete subsidy, indemnity, delivery, behavior, and annual federal effects."},
+    {"work_package_id":"AGR-C-03","status":"complete","completion_class":"discovery_only","finding":"Resilience, productivity, food-security, environmental, and payment-accuracy floor passage is not applicable without an admitted reform."},
+    {"work_package_id":"AGR-C-04","status":"complete","completion_class":"bounded_structural","finding":"Role review closes discovery without manufacturing an insurance schedule, fraud finding, score, or savings result."}
+  ],
+  "candidate_screen": [
+    {"candidate_id":"current_policy_reference","evidence_state":"ready","is_reform":false,"admitted":false,"reason":"current-law and depth-card context is not a reform instrument"},
+    {"candidate_id":"crop_insurance_subsidy_delivery_option","evidence_state":"source_gap","is_reform":true,"admitted":false,"reason":"no selected authority with complete premium subsidy indemnity delivery and behavior effects"},
+    {"candidate_id":"commodity_support_option","evidence_state":"source_gap","is_reform":true,"admitted":false,"reason":"no selected legislative instrument with market-price transition and annual federal score"},
+    {"candidate_id":"agricultural_services_research_option","evidence_state":"definition_only","is_reform":true,"admitted":false,"reason":"no source-backed grant schedule implementation cost or applicable-floor results"}
+  ],
+  "closure_decision": {"completion_class":"bounded_structural","role_review_complete":true,"agr_c_done":true,"reform_admitted":false,"agr_d_may_start":false,"output_admission":false},
+  "blocked_outputs": {"selected_reform":null,"annual_reform_score":null,"insurance_cash_effect":null,"nutrition_allocation":null,"payment_integrity_finding":null,"floor_pass_fail":null,"target_cost":null,"solver_input":null,"assigned_rate":null,"savings":null,"agr_d_start":null},
+  "claim_booleans": {"agr_c_closure_published":true,"agr_c_done":true,"reform_admitted":false,"agr_d_may_start":false,"solver_ready":false,"rate_published":false,"fraud_finding_published":false},
+  "public_warning": "AGR-C is complete as a bounded candidate screen with no reform admitted. It is not an insurance schedule, fraud finding, score, floor result, rate, savings estimate, or AGR-D start."
+}

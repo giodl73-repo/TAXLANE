@@ -2,7 +2,7 @@
   "record_id": "income-security-family-census-child-poverty-income-capture-gap:v1",
   "record_family": "income_security_family_census_child_poverty_income_capture_gap",
   "schema_version": "v1.draft",
-  "status": "draft_census_child_poverty_income_capture_gap_values_blocked",
+  "status": "draft_census_child_poverty_income_raw_custody_context_ready_values_blocked",
   "pulse": 200,
   "as_of_date": "2026-07-22",
   "lane_id": "income-security-family",
@@ -24,14 +24,36 @@
     ]
   },
   "local_custody_status": {
-    "local_raw_census_poverty_report_path": null,
-    "local_raw_census_poverty_table_path": null,
-    "local_raw_census_spm_table_path": null,
-    "metadata_path": null,
-    "raw_byte_count": null,
-    "raw_sha256": null,
-    "retrieval_date": null,
+    "local_raw_census_poverty_report_path": "data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/p60-287-poverty-2024.pdf",
+    "local_raw_census_poverty_table_path": "data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/tableA3_hist_pov_by_all_and_age.xlsx",
+    "local_raw_census_spm_table_path": "data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/spm_opm_state_by_age.xlsx",
+    "metadata_path": "data/metadata/SRC-CENSUS-P60-287-POVERTY-2024.2026-07-24.metadata.md",
+    "raw_byte_count": 2000905,
+    "raw_sha256": "b99624bfd024a4f9396594d23a845d5bd581f8094401a3b469aa0a3fb6c799d1",
+    "retrieval_date": "2026-07-24",
+    "supporting_census_raw_files": [
+      {"path": "data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/p60-287-publication-page.html", "byte_count": 372180, "sha256": "09e3a9306dab24d303b687fb26a4bd61d60e5a7ea0f96c4b027952dfc58d1a13"},
+      {"path": "data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/supplemental-poverty-measure-topic-page.html", "byte_count": 351222, "sha256": "67fa7b5122750e21cab08e116b2f3215f542e1f6b3a8577b396ac7a22bc978cc"},
+      {"path": "data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/tableA1_pov_characteristics.xlsx", "byte_count": 16152, "sha256": "f9b8185932f57b9ccb6f2b5ba88d2a81a7a7b0e783107373128fbf1b0bc1ff75"},
+      {"path": "data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/hstpov2.xlsx", "byte_count": 48352, "sha256": "3e6d073b81bc22c6ff0c679a99f8bf1e12332e0231ee16b04fbb4cddb6e9c92f"},
+      {"path": "data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/hstpov4.xlsx", "byte_count": 79061, "sha256": "8d2abf9b6bbdb4f109cde72e99b8e770e76e409b74a912a25756af04fe23ac6e"},
+      {"path": "data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/Income-to-Poverty-Ratios.xlsx", "byte_count": 14948, "sha256": "fb5b9c60b02cef2acc49d1674271839623082fad4ab00395d42d4949de00938f"},
+      {"path": "data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/tableB-2.xlsx", "byte_count": 43484, "sha256": "8cdb688380c543c1bd3bc47e2124ec6872511eff8c03c8340b1adacdbd1525fe"},
+      {"path": "data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/tableB-7.xlsx", "byte_count": 14272, "sha256": "ceea883550e7453b3002d90afb4caa7b52612cb9fb24846fe1df424468ca46f7"},
+      {"path": "data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/SPM-pov-threshold-2024.xlsx", "byte_count": 58459, "sha256": "419feb588d9e81c1c91b2b8400ce1faefd2178750a47af80ee8989b830c7578f"},
+      {"path": "data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/cpsmar25.pdf", "byte_count": 3765734, "sha256": "7f0cb9f791f2737ad12fd552b8cb201f4d1de266eac160322597344e73499fb4"}
+    ],
+    "observed_file_structure": {
+      "tableA3_hist_pov_by_all_and_age_dimension": "A1:M530",
+      "hstpov2_dimension": "A1:M573",
+      "hstpov4_dimension": "A1:M1026",
+      "income_to_poverty_ratios_dimension": "A1:R39",
+      "tableB_2_dimension": "A1:U257",
+      "spm_opm_state_by_age_dimension": "A1:Y61",
+      "spm_pov_threshold_2024_dimensions": ["A1:I37", "A1:L82", "A1:O378"]
+    },
     "custody_ready": false,
+    "raw_census_context_custody_ready": true,
     "values_may_be_populated": false
   },
   "existing_context_not_closure": [
@@ -55,12 +77,12 @@
   ],
   "readiness_status": {
     "census_child_poverty_income_capture_gap_published": true,
-    "raw_census_custody_ready": false,
-    "official_child_poverty_context_ready": false,
-    "spm_child_poverty_context_ready": false,
-    "deep_poverty_or_near_poverty_context_ready": false,
-    "income_definition_ready": false,
-    "income_unit_perimeter_ready": false,
+    "raw_census_custody_ready": true,
+    "official_child_poverty_context_ready": true,
+    "spm_child_poverty_context_ready": true,
+    "deep_poverty_or_near_poverty_context_ready": true,
+    "income_definition_ready": true,
+    "income_unit_perimeter_ready": true,
     "child_poverty_floor_values_ready": false,
     "solver_input_ready": false,
     "rate_calculation_ready": false
@@ -89,12 +111,12 @@
   "claim_booleans": {
     "census_child_poverty_income_capture_gap_published": true,
     "source_capture_complete": false,
-    "raw_census_custody_ready": false,
-    "official_child_poverty_context_ready": false,
-    "spm_child_poverty_context_ready": false,
-    "deep_poverty_or_near_poverty_context_ready": false,
-    "income_definition_ready": false,
-    "income_unit_perimeter_ready": false,
+    "raw_census_custody_ready": true,
+    "official_child_poverty_context_ready": true,
+    "spm_child_poverty_context_ready": true,
+    "deep_poverty_or_near_poverty_context_ready": true,
+    "income_definition_ready": true,
+    "income_unit_perimeter_ready": true,
     "child_poverty_floor_values_populated": false,
     "equity_distribution_floor_populated": false,
     "baseline_family_income_context_published": false,
@@ -111,5 +133,5 @@
     "technology_savings_claim_published": false,
     "balanced_budget_claim_published": false
   },
-  "public_warning": "This record is a Census child poverty and income source-capture gap only. It is not Census raw source custody, not official child poverty context, not SPM child poverty context, not deep poverty or near-poverty context, not an income definition, not an income-unit perimeter, not child-poverty floor values, not pass/fail findings, not target-cost selection, not gross savings, not net savings, not solver input, not rate calculation, not a public rate card, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+  "public_warning": "This record is a Census child poverty and income source-capture gap with raw Census context custody. Official Census P60-287 report, official-poverty tables, SPM tables, income-to-poverty context, and CPS ASEC technical documentation are locally captured, but this is not child-poverty floor values, not pass/fail findings, not target-cost selection, not gross savings, not net savings, not solver input, not rate calculation, not a public rate card, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
 }

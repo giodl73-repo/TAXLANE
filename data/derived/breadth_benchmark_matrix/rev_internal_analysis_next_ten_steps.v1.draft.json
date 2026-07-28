@@ -1,0 +1,47 @@
+{
+  "record_id": "rev-internal-analysis-next-ten-steps:v1",
+  "record_family": "rev_internal_analysis_next_ten_steps",
+  "version": "v1.draft",
+  "status": "internal_analysis_ten_steps_complete",
+  "pulse": 477,
+  "as_of_date": "2026-07-27",
+  "schema_path": "data/derived/breadth_benchmark_matrix/rev_internal_analysis_next_ten_steps.schema.md",
+  "reader_path": "docs/reading/rev-internal-analysis-next-ten-steps.md",
+  "role_review_path": "reviews/2026-07-27-rev-internal-analysis-next-ten-steps-role-review.md",
+  "baseline_freeze_path": "data/derived/breadth_benchmark_matrix/rev_internal_analysis_baseline_freeze.v1.draft.json",
+  "completion_path": "data/derived/breadth_benchmark_matrix/rev_internal_rate_analysis_completion.v1.draft.json",
+  "analysis_scope": {
+    "taxlane_independent_analysis_only": true,
+    "official_request_planned": false,
+    "external_submission_in_scope": false,
+    "official_certification_required": false,
+    "current_model_schedule_percent": [21, 23, 33, 35, 43, 46, 48],
+    "current_uniform_uplift_points": 11.0,
+    "fy2026_revenue_need_billions": 813.727,
+    "admitted_fy2026_primary_spending_reduction_billions": 0.0
+  },
+  "steps": [
+    {"step": 1, "work": "Reset the objective and claim vocabulary to independent Taxlane analysis", "status": "complete", "exit": "No official request or certification remains on the active frontier"},
+    {"step": 2, "work": "Freeze the internal baseline, policy parameters, and source vintages", "status": "complete", "exit": "One reproducible baseline manifest controls every comparison"},
+    {"step": 3, "work": "Build a rate-sensitivity grid around the current plus-11-point schedule", "status": "complete", "exit": "Multiple candidate uplifts are scored on identical inputs"},
+    {"step": 4, "work": "Rerun Tax-Calculator distribution and behavioral cases for the grid", "status": "complete", "exit": "Revenue, incidence, and uncertainty outputs exist for every candidate"},
+    {"step": 5, "work": "Recompute FY2026 cash timing for every candidate schedule", "status": "complete", "exit": "Tax-year results map consistently into the first fiscal year"},
+    {"step": 6, "work": "Apply administration, compliance, macro, and debt-service sensitivities as explicit internal ranges", "status": "complete", "exit": "No unsupported point estimate is treated as observed fact"},
+    {"step": 7, "work": "Rerun the PAY-NET-REV accounting identity across all candidates", "status": "complete", "exit": "Non-additive PAY and endogenous NET treatment are preserved"},
+    {"step": 8, "work": "Reopen only the 15-track dependencies affected by each candidate", "status": "complete", "exit": "Every changed interface is reviewed without repeating unchanged lane work"},
+    {"step": 9, "work": "Rank candidate schedules by funding fit, distribution, robustness, and floor risk", "status": "complete", "exit": "The tradeoff table identifies a preferred internal analytical schedule"},
+    {"step": 10, "work": "Publish the Taxlane analytical rate recommendation with uncertainty and caveats", "status": "complete", "exit": "The result is reproducible and clearly labeled as Taxlane analysis, not law or an official score"}
+  ],
+  "claim_booleans": {
+    "independent_analysis_only": true,
+    "official_request_planned": false,
+    "external_submission_in_scope": false,
+    "official_certification_required": false,
+    "internal_rate_analysis_started": true,
+    "taxlane_analytical_rate_finalized": true,
+    "official_rate_claimed": false,
+    "enacted_law_claimed": false,
+    "balanced_budget_proven": false
+  },
+  "public_warning": "This is an independent Taxlane analysis plan. It does not request, require, or imply Legislative Counsel, JCT, CBO, congressional, or other official action."
+}

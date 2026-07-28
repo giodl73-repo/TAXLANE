@@ -1,0 +1,121 @@
+{
+  "record_id": "cbo-open-data-fy2032-2035-current-law-extension-context:v1",
+  "record_family": "cbo_open_data_current_law_extension_context",
+  "version": "v1.draft",
+  "status": "draft_official_cbo_extension_context_not_omb_17_row_reconciliation",
+  "as_of_date": "2026-07-23",
+  "purpose": "Capture official CBO open-data context for FY2032-FY2035 top-line current-law, revenue, debt, net-interest, and selected trust-fund variables without treating it as an OMB 17-row lane ledger or solver input.",
+  "source_custody_packets": [
+    {
+      "source_id": "SRC-CBO-OPEN-DATA-TEN-YEAR-BUDGET-2026-02",
+      "publisher": "Congressional Budget Office",
+      "url": "https://github.com/US-CBO/cbo-data/blob/main/data/budget/ten_year_budget/annual_fy_2026-02.csv",
+      "raw_url": "https://raw.githubusercontent.com/US-CBO/cbo-data/main/data/budget/ten_year_budget/annual_fy_2026-02.csv",
+      "retrieval_date": "2026-07-23",
+      "raw_artifact_path": "data/raw/cbo/SRC-CBO-OPEN-DATA-TEN-YEAR-BUDGET-2026-02/2026-07-23/annual_fy_2026-02.csv",
+      "metadata_path": "data/metadata/SRC-CBO-OPEN-DATA-TEN-YEAR-BUDGET-2026-02.2026-07-23.metadata.md",
+      "byte_count": 145228,
+      "sha256": "6a2d727e70fb53512e45afdcc8d145f7dc952b2d4e87ca03591cb4e5bd63f0db",
+      "row_count": 3333,
+      "review_status": "captured_context_only"
+    },
+    {
+      "source_id": "SRC-CBO-OPEN-DATA-TRUST-FUND-2026-02",
+      "publisher": "Congressional Budget Office",
+      "url": "https://github.com/US-CBO/cbo-data/blob/main/data/budget/trust_fund/annual_fy_2026-02.csv",
+      "raw_url": "https://raw.githubusercontent.com/US-CBO/cbo-data/main/data/budget/trust_fund/annual_fy_2026-02.csv",
+      "retrieval_date": "2026-07-23",
+      "raw_artifact_path": "data/raw/cbo/SRC-CBO-OPEN-DATA-TRUST-FUND-2026-02/2026-07-23/annual_fy_2026-02.csv",
+      "metadata_path": "data/metadata/SRC-CBO-OPEN-DATA-TRUST-FUND-2026-02.2026-07-23.metadata.md",
+      "byte_count": 25466,
+      "sha256": "4fcc0f725e6ab002107bedf461e21dacbdc6ac49e85475b8ff3e8aa20c3cdaab",
+      "row_count": 728,
+      "review_status": "captured_context_only"
+    },
+    {
+      "source_id": "SRC-CBO-OPEN-DATA-REVENUE-DETAIL-2026-02",
+      "publisher": "Congressional Budget Office",
+      "url": "https://github.com/US-CBO/cbo-data/blob/main/data/budget/revenue_detail/annual_fy_2026-02.csv",
+      "raw_url": "https://raw.githubusercontent.com/US-CBO/cbo-data/main/data/budget/revenue_detail/annual_fy_2026-02.csv",
+      "retrieval_date": "2026-07-23",
+      "raw_artifact_path": "data/raw/cbo/SRC-CBO-OPEN-DATA-REVENUE-DETAIL-2026-02/2026-07-23/annual_fy_2026-02.csv",
+      "metadata_path": "data/metadata/SRC-CBO-OPEN-DATA-REVENUE-DETAIL-2026-02.2026-07-23.metadata.md",
+      "byte_count": 76738,
+      "sha256": "86b5f5ec7142533875b2d69b69dfa5b259cb2b477c37c403a3414012fd04b241",
+      "row_count": 1700,
+      "review_status": "captured_context_only"
+    }
+  ],
+  "extraction_scope": {
+    "official_sources_only": true,
+    "direct_cbo_workbook_download_blocked_by_site_protection": true,
+    "official_github_open_data_used": true,
+    "projection_release": "2026-02",
+    "unit": "billions_usd",
+    "covered_extension_years": [2032, 2033, 2034, 2035],
+    "no_interpolation_used": true,
+    "not_omb_pbd_row_mapping": true,
+    "not_17_row_lane_ledger": true,
+    "not_solver_input": true
+  },
+  "topline_extension_rows": [
+    {"fiscal_year": 2032, "outlays_total": 9569.1, "revenues_total": 7129.682, "deficit_total": -2439.418, "primary_deficit": -768.971, "net_interest_outlays": 1670.447, "debt_held_by_public_end": 44922.49, "average_interest_rate_percent": 3.852},
+    {"fiscal_year": 2033, "outlays_total": 10172.211, "revenues_total": 7391.476, "deficit_total": -2780.735, "primary_deficit": -996.371, "net_interest_outlays": 1784.364, "debt_held_by_public_end": 47644.187, "average_interest_rate_percent": 3.881},
+    {"fiscal_year": 2034, "outlays_total": 10487.423, "revenues_total": 7668.923, "deficit_total": -2818.5, "primary_deficit": -914.749, "net_interest_outlays": 1903.751, "debt_held_by_public_end": 50393.853, "average_interest_rate_percent": 3.904},
+    {"fiscal_year": 2035, "outlays_total": 10750.897, "revenues_total": 7971.863, "deficit_total": -2779.034, "primary_deficit": -759.962, "net_interest_outlays": 2019.072, "debt_held_by_public_end": 53103.223, "average_interest_rate_percent": 3.919}
+  ],
+  "revenue_detail_extension_rows": [
+    {"fiscal_year": 2032, "individual_income": 3594.393, "payroll": 2301.556, "corporate_income": 509.962, "excise": 110.831, "customs": 389.307, "estate_gift": 39.228, "federal_reserve": 129.707, "misc_fees": 54.698, "total": 7129.682},
+    {"fiscal_year": 2033, "individual_income": 3743.854, "payroll": 2388.562, "corporate_income": 525.923, "excise": 112.45, "customs": 382.307, "estate_gift": 41.391, "federal_reserve": 140.534, "misc_fees": 56.455, "total": 7391.476},
+    {"fiscal_year": 2034, "individual_income": 3902.609, "payroll": 2477.672, "corporate_income": 539.067, "excise": 112.929, "customs": 381.592, "estate_gift": 43.989, "federal_reserve": 152.883, "misc_fees": 58.182, "total": 7668.923},
+    {"fiscal_year": 2035, "individual_income": 4071.909, "payroll": 2570.009, "corporate_income": 551.906, "excise": 116.393, "customs": 390.098, "estate_gift": 47.152, "federal_reserve": 164.508, "misc_fees": 59.888, "total": 7971.863}
+  ],
+  "trust_fund_balance_extension_rows": [
+    {"fiscal_year": 2032, "highway": 0.0, "airport_and_airway": 38.411, "medicare_hi": 333.892, "oasi": 0.0, "di": 578.246},
+    {"fiscal_year": 2033, "highway": 0.0, "airport_and_airway": 42.533, "medicare_hi": 286.313, "oasi": 0.0, "di": 648.361},
+    {"fiscal_year": 2034, "highway": 0.0, "airport_and_airway": 47.123, "medicare_hi": 255.399, "oasi": 0.0, "di": 722.83},
+    {"fiscal_year": 2035, "highway": 0.0, "airport_and_airway": 52.21, "medicare_hi": 251.788, "oasi": 0.0, "di": 801.398}
+  ],
+  "reconciliation_limits": {
+    "omb_fy2027_pbd_rows_reconciled_through_fy2031_only": true,
+    "cbo_fy2032_fy2035_topline_is_not_allocated_to_omb_17_rows": true,
+    "cbo_trust_fund_balance_context_is_not_income_outgo_reconciliation": true,
+    "cbo_revenue_detail_is_not_legal_or_economic_receipt_base": true,
+    "net_interest_values_are_context_not_feedback_fixture": true
+  },
+  "blocked_outputs": {
+    "omb_17_row_fy2032_fy2035_ledger": null,
+    "lane_level_fy2032_fy2035_outlay_rows": null,
+    "trust_fund_income_outgo_reconciliation": null,
+    "receipt_rate_bridge": null,
+    "solver_input_rows": null,
+    "solver_run": null,
+    "target_cost": null,
+    "statutory_rate": null,
+    "effective_rate": null,
+    "public_rate_card": null,
+    "savings_estimate": null,
+    "balanced_budget_claim": null
+  },
+  "claim_booleans": {
+    "cbo_open_data_current_law_extension_context_published": true,
+    "source_custody_ready": true,
+    "fy2032_fy2035_topline_context_present": true,
+    "fy2032_fy2035_revenue_detail_context_present": true,
+    "fy2032_fy2035_trust_fund_balance_context_present": true,
+    "omb_17_row_fy2032_fy2035_ledger_ready": false,
+    "all_current_law_paths_complete": false,
+    "trust_fund_reconciliation_ready": false,
+    "receipt_rate_bridge_ready": false,
+    "solver_input_ready": false,
+    "solver_run_published": false,
+    "target_cost_published": false,
+    "statutory_rate_published": false,
+    "effective_rate_published": false,
+    "public_rate_card_published": false,
+    "savings_claim_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "CBO FY2032-FY2035 current-law extension context only. This is not an OMB 17-row ledger, not a lane-level baseline, not trust-fund income/outgo reconciliation, not a receipt/rate bridge, not solver input, not a rate calculation, not a savings estimate, and not a balanced-budget claim."
+}

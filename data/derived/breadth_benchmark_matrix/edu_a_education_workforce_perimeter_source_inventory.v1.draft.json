@@ -1,0 +1,128 @@
+{
+  "record_id": "edu-a-education-workforce-perimeter-source-inventory:v1",
+  "record_family": "edu_a_education_workforce_perimeter_source_inventory",
+  "version": "v1.draft",
+  "status": "edu_a_01_complete_bounded_education_workforce_perimeter_inventory",
+  "pulse": 263,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "EDU-A",
+  "start_gate_path": "data/derived/breadth_benchmark_matrix/edu_a_education_baseline_start_gate.v1.draft.json",
+  "core_g_path": "data/derived/breadth_benchmark_matrix/core_g_official_current_law_solver_spine.v1.draft.json",
+  "education_depth_card_path": "data/derived/breadth_benchmark_matrix/education_depth_card.fy2025.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/edu_a_education_workforce_perimeter_source_inventory.schema.md",
+  "reader_path": "docs/reading/edu-a-education-workforce-perimeter-source-inventory.md",
+  "lane_perimeter": {
+    "lane_id": "education-workforce",
+    "federal_budget_function": "500_education_training_employment_and_social_services",
+    "included_subfunctions": [
+      "501_elementary_secondary_and_vocational_education",
+      "502_higher_education",
+      "503_research_and_general_education_aids",
+      "504_training_and_employment",
+      "505_other_labor_services",
+      "506_social_services"
+    ],
+    "included_accounting_forms": [
+      "discretionary and mandatory federal program outlays",
+      "grants and administration classified to function 500",
+      "credit-program subsidy outlays, negative subsidies, reestimates, liquidating accounts, and related offsetting receipts",
+      "refundable tax-credit outlays classified to the function"
+    ],
+    "adjacent_context_not_additive": [
+      "state and local K-12 revenue and expenditure",
+      "institutional, household, employer, and private education spending",
+      "CPS and NCES enrollment, access, completion, and transition populations",
+      "WIOA performance and BLS labor-market populations"
+    ],
+    "excluded_or_separate": [
+      "unemployment compensation assigned outside function 500",
+      "general income-security transfers not classified to function 500",
+      "state/local and private resources as federal outlays",
+      "loan principal or cash collections treated as identical to subsidy cost",
+      "education outcomes treated as causal effects of unmatched spending"
+    ],
+    "double_count_rule": "Do not add recipient-side state/local finance, private spending, loan principal, cash collections, or population measures to federal function-500 outlays. Preserve credit-account signs and reconcile federal account rows before aggregation."
+  },
+  "source_inventory": [
+    {
+      "source_family": "OMB FY2027 historical tables and public budget database",
+      "artifact_path": "data/derived/breadth_benchmark_matrix/education_depth_card.fy2025.v1.draft.json",
+      "role": "FY2025 function-500 and subfunction anchors",
+      "custody_status": "ready_for_federal_topline_context",
+      "may_enter_edu_a_02": true,
+      "not_authorized": "no state/local or outcome translation"
+    },
+    {
+      "source_family": "OMB and Department of Education account evidence",
+      "artifact_path": "data/derived/breadth_benchmark_matrix/higher_education_account_bridge.fy2025.v1.draft.json",
+      "role": "higher-education grant, administration, credit-subsidy, reestimate, and receipt lineage",
+      "custody_status": "exact_fy2025_account_reconciliation_ready",
+      "may_enter_edu_a_02": true,
+      "not_authorized": "cash-collection equivalence or savings inference"
+    },
+    {
+      "source_family": "Census school-system finance",
+      "artifact_path": "data/derived/breadth_benchmark_matrix/k12_federalism_finance_bridge.fy2024.v1.draft.json",
+      "role": "recipient-side federal, state, and local K-12 finance context",
+      "custody_status": "fy2024_context_bridge_ready",
+      "may_enter_edu_a_02": false,
+      "not_authorized": "addition to OMB outlays or same-period reconciliation"
+    },
+    {
+      "source_family": "Census CPS and NCES education evidence",
+      "artifact_path": "data/derived/breadth_benchmark_matrix/census_cps_education_access_transition_baseline.oct2024.v1.draft.json",
+      "role": "enrollment, access, transition, completion, and attainment context",
+      "custody_status": "descriptive_context_ready",
+      "may_enter_edu_a_02": false,
+      "not_authorized": "program attribution, causal effect, or cost per outcome"
+    },
+    {
+      "source_family": "DOL WIOA, ETA, and BLS workforce evidence",
+      "artifact_path": "data/derived/breadth_benchmark_matrix/training_employment_account_bridge.fy2025.v1.draft.json",
+      "role": "training/employment account and workforce program context",
+      "custody_status": "account_reconciliation_and_descriptive_context_ready",
+      "may_enter_edu_a_02": true,
+      "not_authorized": "actual-outlay cohort allocation or current causal effect"
+    }
+  ],
+  "inventory_counts": {
+    "source_families": 5,
+    "federal_baseline_candidate_families": 3,
+    "context_only_families": 2,
+    "included_subfunctions": 6,
+    "edu_a_01_done": true,
+    "edu_a_02_may_start": true
+  },
+  "next_package_gate": {
+    "next_active_work_package_id": "EDU-A-02",
+    "required_output": "one source-vintaged FY2025 anchor and FY2026-FY2035 federal function-500 baseline with explicit credit-account signs and nulls",
+    "recipient_finance_addition_prohibited": true,
+    "credit_cash_equivalence_prohibited": true,
+    "outcome_attribution_prohibited": true
+  },
+  "blocked_outputs": {
+    "reconciled_fy2025_fy2035_education_workforce_path": null,
+    "state_local_translation": null,
+    "loan_cash_equivalence": null,
+    "policy_scenario": null,
+    "target_cost": null,
+    "rate": null,
+    "savings": null,
+    "edu_b_start": null
+  },
+  "claim_booleans": {
+    "edu_a_perimeter_inventory_published": true,
+    "edu_a_01_done": true,
+    "edu_a_02_may_start": true,
+    "education_workforce_perimeter_frozen": true,
+    "official_source_inventory_frozen": true,
+    "education_workforce_baseline_reconciled": false,
+    "edu_a_done": false,
+    "edu_b_may_start": false,
+    "education_reform_admitted": false,
+    "solver_ready": false,
+    "rate_published": false,
+    "savings_claim_published": false
+  },
+  "public_warning": "EDU-A-01 freezes the federal function-500 education/workforce perimeter and inventories five source families. State/local finance, private resources, credit cash flows, and population or outcome measures are not added to federal outlays. The annual baseline, policy scenario, rate, savings, EDU-A closure, and EDU-B start remain blocked."
+}

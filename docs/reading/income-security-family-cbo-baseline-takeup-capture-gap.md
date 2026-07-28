@@ -16,6 +16,17 @@ PDF. A second request with a browser-like user agent returned a 770-byte
 challenge response, which was deleted instead of committed as raw source
 custody.
 
+The official CBO selected-program page is browser-visible, and the February
+2026 SNAP PDF is browser-readable as `SNAP Baseline--02-2026-rev`. Browser text
+shows a 3-page PDF with FY2026-FY2036 baseline fields for estimated outlays,
+budget authority, average monthly participation, average monthly benefit per
+participant, Thrifty Food Plan estimated change, fiscal-year unemployment rate,
+nutrition assistance for Puerto Rico and American Samoa, and employment and
+training budget authority. This is browser-visible context only: direct
+command-line attempts on 2026-07-24 to capture the official PDF and spreadsheet
+URLs returned HTTP 403, so no local raw PDF/spreadsheet custody, byte count,
+SHA-256, or extracted baseline values are claimed.
+
 The official CBO open-data repository was reachable at
 `https://github.com/US-CBO/cbo-data`, with observed HEAD
 `284a95665f9f2f74ed1f482feb629b43fce323da`, but its catalog did not expose this

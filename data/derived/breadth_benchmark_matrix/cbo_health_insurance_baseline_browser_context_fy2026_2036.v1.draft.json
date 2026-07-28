@@ -1,0 +1,178 @@
+{
+  "record_id": "cbo-health-insurance-baseline-browser-context-fy2026-2036:v1",
+  "record_family": "cbo_health_insurance_baseline_browser_context",
+  "schema_version": "v1.draft",
+  "status": "draft_manual_local_raw_custody_captured_latest_publication_raw_blocked",
+  "lane_id": "health-medicare",
+  "as_of_date": "2026-07-24",
+  "purpose": "Record official CBO health-insurance baseline context after manual browser download supplied local raw custody for the February 2026 PDF and spreadsheet, while preserving the command-line raw custody blocker for the July 2026 latest-publication endpoints.",
+  "official_source_context": {
+    "publisher": "Congressional Budget Office",
+    "selected_programs_page_url": "https://www.cbo.gov/data/baseline-projections-selected-programs",
+    "selected_programs_page_browser_verified": true,
+    "selected_programs_health_categories": [
+      "Children's Health Insurance Program",
+      "Federal Subsidies for Health Insurance",
+      "Medicaid",
+      "Medicare",
+      "Premium Tax Credit and Related Spending"
+    ],
+    "browser_visible_pdf_url": "https://www.cbo.gov/system/files/2026-02/51298-2026-02-healthinsurance.pdf",
+    "browser_visible_pdf_title": "Federal Subsidies for Health Insurance Baseline--02-2026",
+    "browser_visible_pdf_page_count": 5,
+    "browser_visible_pdf_context": "The browser-visible PDF describes CBO/JCT baseline projections for health insurance coverage and federal subsidy costs. Table 2 is federal subsidies for health insurance under current law, in billions of dollars, with discretionary outlays and federal-employer outlays excluded.",
+    "latest_official_publication_context": {
+      "publication_url": "https://www.cbo.gov/publication/62539",
+      "publication_title": "Federal Subsidies for Health Insurance, 2026 to 2036",
+      "publication_date": "2026-07-23",
+      "search_index_or_homepage_visible": true,
+      "context_summary": "CBO's current public surface reports updated 2026-2036 federal subsidies for health insurance context. The page and likely system-file endpoints redirect or return 403 from command-line access in this environment, so no local raw byte custody is claimed."
+    },
+    "may_2026_presentation_context": {
+      "publication_url": "https://www.cbo.gov/publication/62380",
+      "publication_title": "CBO's Baseline Projections of Federal Subsidies for Health Insurance",
+      "publication_date": "2026-05-11",
+      "publication_type": "Presentation",
+      "browser_visible_document_url": "https://www.cbo.gov/system/files/2026-05/62380-Federal-Health-Subsidies.pdf",
+      "browser_visible_document_page_count": 23,
+      "browser_visible_data_url": "https://www.cbo.gov/system/files/2026-05/62380-Data.xlsx",
+      "context_summary": "The browser-visible CBO page and presentation describe February 2026 projections of federal subsidies for health insurance, including Medicare, Medicaid, premium tax credits, enrollment, projection changes, and methods notes. Command-line raw custody for the PDF and data workbook remains blocked by HTTP 403 in this environment, so no local byte custody or checksum is claimed."
+    }
+  },
+  "local_raw_custody": {
+    "manual_browser_download_raw_custody_ready": true,
+    "command_line_raw_custody_ready": false,
+    "metadata_path": "data/metadata/SRC-CBO-FEDERAL-SUBSIDIES-HEALTH-INSURANCE-2026-02.2026-07-24.metadata.md",
+    "source_id": "SRC-CBO-FEDERAL-SUBSIDIES-HEALTH-INSURANCE-2026-02",
+    "review_status": "manual_local_raw_custody_captured_for_february_2026_baseline",
+    "access_boundary": "Command-line retrieval of the CBO health spreadsheet and PDF endpoints returned an anti-bot/JavaScript challenge from this environment; local raw bytes are claimed only because the repository owner supplied manual browser downloads.",
+    "raw_files": [
+      {
+        "file_role": "official_pdf",
+        "raw_artifact_path": "data/raw/cbo/SRC-CBO-FEDERAL-SUBSIDIES-HEALTH-INSURANCE-2026-02/2026-07-24/51298-2026-02-healthinsurance.pdf",
+        "byte_count": 747901,
+        "sha256": "2c24c10b855be1e1a9e9c87a30ddaf5b4c62a8dbe9d92d3e2ebf18524a54d349"
+      },
+      {
+        "file_role": "official_spreadsheet",
+        "raw_artifact_path": "data/raw/cbo/SRC-CBO-FEDERAL-SUBSIDIES-HEALTH-INSURANCE-2026-02/2026-07-24/51298-2026-02-healthinsurance.xlsx",
+        "byte_count": 42861,
+        "sha256": "f2d7cc186f3a0afa909e648f8224a1f7f80af202db234848b507fd49416e1001",
+        "workbook_sheets": [
+          {"sheet_name": "healthinsuranceT1_02-2026", "worksheet": "xl/worksheets/sheet1.xml", "dimension": "A1:AA76", "row_count": 76},
+          {"sheet_name": "healthinsuranceT2_02-2026", "worksheet": "xl/worksheets/sheet2.xml", "dimension": "A1:Y175", "row_count": 175}
+        ]
+      }
+    ]
+  },
+  "attempted_command_line_retrievals": [
+    {
+      "url": "https://www.cbo.gov/system/files/2026-02/51298-2026-02-healthinsurance.xlsx",
+      "result": "blocked_by_anti_bot_javascript_challenge"
+    },
+    {
+      "url": "https://www.cbo.gov/system/files/2026-02/51298-2026-02-healthinsurance.pdf",
+      "result": "blocked_by_datadome_anti_bot_javascript_challenge"
+    },
+    {
+      "url": "https://www.cbo.gov/publication/62539",
+      "result": "blocked_by_403_or_login_redirect_from_command_line"
+    },
+    {
+      "url": "https://www.cbo.gov/system/files/2026-07/62539-health-insurance.pdf",
+      "result": "blocked_by_403_from_command_line"
+    },
+    {
+      "url": "https://www.cbo.gov/system/files/2026-07/62539-Federal-Subsidies-for-Health-Insurance.pdf",
+      "result": "blocked_by_403_from_command_line"
+    },
+    {
+      "url": "https://www.cbo.gov/publication/62380",
+      "result": "browser_visible_command_line_page_blocked_or_unreliable"
+    },
+    {
+      "url": "https://www.cbo.gov/system/files/2026-05/62380-Federal-Health-Subsidies.pdf",
+      "result": "browser_visible_pdf_command_line_raw_custody_blocked_by_403"
+    },
+    {
+      "url": "https://www.cbo.gov/system/files/2026-05/62380-Data.xlsx",
+      "result": "browser_visible_data_workbook_command_line_raw_custody_blocked_by_403"
+    }
+  ],
+  "browser_visible_numeric_rows_unassigned": [
+    {
+      "table": "Table 2",
+      "lineage": "browser PDF text extraction",
+      "row_label_assignment_status": "blocked_by_pdf_text_ordering",
+      "unit": "billions_of_dollars",
+      "values": ["n.a.", 478, 515, 548, 580, 612, 645, 680, 716, 755, 796, 840, 6687]
+    },
+    {
+      "table": "Table 2",
+      "lineage": "browser PDF text extraction",
+      "row_label_assignment_status": "blocked_by_pdf_text_ordering",
+      "unit": "billions_of_dollars",
+      "values": [629, 668, 685, 702, 708, 723, 737, 763, 796, 826, 858, 892, 7691]
+    },
+    {
+      "table": "Table 2",
+      "lineage": "browser PDF text extraction",
+      "row_label_assignment_status": "blocked_by_pdf_text_ordering",
+      "unit": "billions_of_dollars",
+      "values": [977, 1051, 1128, 1190, 1272, 1342, 1422, 1511, 1622, 1735, 1841, 1952, 15015]
+    },
+    {
+      "table": "Table 2",
+      "lineage": "browser PDF text extraction",
+      "row_label_assignment_status": "blocked_by_pdf_text_ordering",
+      "unit": "billions_of_dollars",
+      "values": ["n.a.", 2365, 2471, 2581, 2708, 2837, 2978, 3139, 3328, 3520, 3711, 3913, 31185]
+    }
+  ],
+  "source_boundary": {
+    "official_public_source_visible_in_browser": true,
+    "local_raw_byte_custody_ready": true,
+    "spreadsheet_custody_ready": true,
+    "pdf_local_custody_ready": true,
+    "may_2026_presentation_browser_context_ready": true,
+    "may_2026_presentation_raw_custody_ready": false,
+    "july_2026_latest_publication_raw_custody_ready": false,
+    "row_labels_assigned_to_values": true,
+    "health_component_policy_score_ready": false,
+    "current_law_health_solver_path_ready": false,
+    "not_solver_input": true,
+    "not_rate_calculation": true,
+    "not_balanced_budget_claim": true
+  },
+  "blocked_outputs": {
+    "july_2026_latest_publication_raw_file": null,
+    "may_2026_presentation_raw_file": null,
+    "may_2026_presentation_data_workbook": null,
+    "health_federal_policy_score": null,
+    "health_solver_row": null,
+    "solver_input": null,
+    "solver_run": null,
+    "rate_calculation": null,
+    "public_rate_card": null,
+    "savings_estimate": null,
+    "balanced_budget_claim": null
+  },
+  "claim_booleans": {
+    "browser_visible_official_context_recorded": true,
+    "manual_february_2026_raw_custody_ready": true,
+    "source_custody_ready": true,
+    "local_raw_byte_custody_ready": true,
+    "may_2026_presentation_browser_context_ready": true,
+    "may_2026_presentation_raw_custody_ready": false,
+    "july_2026_latest_publication_raw_custody_ready": false,
+    "health_federal_policy_score_ready": false,
+    "health_solver_row_ready": false,
+    "solver_input_ready": false,
+    "solver_run_published": false,
+    "rate_calculation_published": false,
+    "public_rate_card_published": false,
+    "savings_estimate_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "CBO health-insurance baseline local raw custody is captured for the February 2026 Federal Subsidies for Health Insurance PDF and spreadsheet through manual browser download. The May 11, 2026 CBO health-subsidy presentation page, PDF, and data workbook are browser-visible official context, but May 2026 local raw byte custody remains blocked by command-line 403 responses. The July 23, 2026 CBO Federal Subsidies for Health Insurance, 2026 to 2036 publication is recorded as latest official public context; July 2026 local raw byte custody remains blocked by command-line access controls, 403 responses, or login redirects. This is not a health federal policy score, not a current-law health solver path, not solver input, not a solver run, not a rate calculation, not a public rate card, not a savings estimate, and not a balanced-budget claim."
+}

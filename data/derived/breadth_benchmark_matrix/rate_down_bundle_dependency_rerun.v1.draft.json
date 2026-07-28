@@ -1,0 +1,27 @@
+{
+  "record_id":"rate-down-bundle-dependency-rerun:v1",
+  "record_family":"rate_down_bundle_dependency_rerun",
+  "version":"v1.draft",
+  "status":"rate_down_bundle_complete_no_admitted_spending_rate_card_unchanged",
+  "pulse":457,
+  "as_of_date":"2026-07-27",
+  "hlt_candidate_path":"data/derived/breadth_benchmark_matrix/hlt_level_5_site_neutral_imaging_candidate_audit.v1.draft.json",
+  "def_candidate_path":"data/derived/breadth_benchmark_matrix/def_level_5_specific_force_strategy_candidate_audit.v1.draft.json",
+  "pay_path":"data/derived/breadth_benchmark_matrix/fiscal_package_pay_contribution_bridge.v1.draft.json",
+  "net_path":"data/derived/breadth_benchmark_matrix/fiscal_package_net_contribution_bridge.v1.draft.json",
+  "rev_f_reference_path":"data/derived/breadth_benchmark_matrix/rev_f_public_planning_rate_card.v1.draft.json",
+  "schema_path":"data/derived/breadth_benchmark_matrix/rate_down_bundle_dependency_rerun.schema.md",
+  "reader_path":"docs/reading/rate-down-bundle-dependency-rerun.md",
+  "role_review_path":"reviews/2026-07-27-rate-down-bundle-dependency-rerun-role-review.md",
+  "contribution_rows":[
+    {"track":"HLT","candidate":"off_campus_hopd_imaging_site_neutral_payment","headline_envelope_billions":7.6,"fy2026_headline_billions":0.4,"admitted_fy2026_primary_reduction_billions":0.0,"treatment":"excluded_floor_and_rescore_blocked"},
+    {"track":"DEF","candidate":"cbo_smaller_budget_option_1_proportional_active_force_reduction","headline_envelope_billions":959.0,"fy2026_headline_billions":15.0,"admitted_fy2026_primary_reduction_billions":0.0,"treatment":"excluded_allocation_readiness_transition_and_rescore_blocked"},
+    {"track":"PAY","candidate":"full_dmf_do_not_pay_pilot","headline_envelope_billions":0.1089,"fy2026_headline_billions":0.0,"admitted_fy2026_primary_reduction_billions":0.0,"treatment":"non_additive_measurement_overlay"},
+    {"track":"NET","candidate":"endogenous_interest_recomputation","headline_envelope_billions":17.045,"fy2026_headline_billions":0.0,"admitted_fy2026_primary_reduction_billions":0.0,"treatment":"endogenous_zero_without_admitted_upstream_primary_path"}
+  ],
+  "fiscal_reconciliation":{"fy2026_primary_deficit_target_before_spending_billions":813.727,"admitted_fy2026_primary_spending_reduction_billions":0.0,"admitted_fy2026_pay_reduction_billions":0.0,"admitted_fy2026_endogenous_net_reduction_billions":0.0,"revised_fy2026_cash_target_billions":813.727,"target_reduction_billions":0.0},
+  "rate_reconciliation":{"reference_planning_uplift_points":11.0,"recomputed_planning_uplift_points":11.0,"reference_schedule_percent":[21.0,23.0,33.0,35.0,43.0,46.0,48.0],"recomputed_schedule_percent":[21.0,23.0,33.0,35.0,43.0,46.0,48.0],"rate_reduction_points":0.0,"planning_rate_card_changed":false,"official_or_formal_rate":false},
+  "decision":{"rate_down_bundle_complete":true,"candidate_replacements_reviewed":true,"pay_non_additivity_preserved":true,"net_endogeneity_preserved":true,"unsupported_savings_excluded":true,"lower_rate_supported":false,"eight_track_catchup_may_start":true,"rev_level_7_may_start":false},
+  "blocked_outputs":{"admitted_hlt_savings":null,"admitted_def_savings":null,"nonzero_pay_contribution":null,"nonzero_net_contribution":null,"lower_planning_rate":null,"formal_certified_rate":null,"official_combined_score":null,"balanced_budget_claim":null},
+  "public_warning":"The rate-down bundle tested narrower HLT and more specific DEF candidates but admitted no FY2026 spending reduction. PAY remains non-additive and NET remains endogenous, so the $813.727 billion target and +11.0-point planning schedule do not change. This is a completed decision, not evidence that spending can never lower rates."
+}

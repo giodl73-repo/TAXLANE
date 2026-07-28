@@ -1,0 +1,117 @@
+{
+  "record_id": "social-security-benefit-adequacy-context-bridge:v1",
+  "record_family": "social_security_benefit_adequacy_context_bridge",
+  "schema_version": "v1.draft",
+  "status": "draft_oecd_pension_replacement_context_ready_floor_values_blocked",
+  "pulse": 208,
+  "as_of_date": "2026-07-25",
+  "lane_id": "social-security",
+  "source_capture_status_rollup_path": "data/derived/breadth_benchmark_matrix/social_security_source_capture_status_rollup.v1.draft.json",
+  "outcome_floor_wave_d_value_readiness_path": "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json",
+  "existing_context_artifact_path": "data/derived/breadth_benchmark_matrix/pension_replacement_country_panel.model2024.v1.draft.json",
+  "target_work_item_id": "capture-social-security-benefit-adequacy-floors",
+  "closure_scope": {
+    "official_sources_only": true,
+    "uses_existing_captured_source": true,
+    "new_external_downloads_performed": false,
+    "source_family": "OECD Pensions at a Glance modeled pension replacement panel",
+    "closed_component": "international mandatory-scheme replacement-rate context",
+    "unclosed_component": "domestic Social Security benefit adequacy thresholds, observed baseline values, policy values, stress values, and pass/fail evidence",
+    "closure_gate_partially_informed": "benefit_adequacy_floor_context_ready",
+    "closure_gate_ready": false,
+    "context_may_be_displayed": true,
+    "threshold_values_may_be_populated": false,
+    "floor_values_may_be_populated": false,
+    "pass_fail_findings_may_be_populated": false,
+    "solver_inputs_may_be_populated": false,
+    "rates_may_be_calculated": false
+  },
+  "source_custody": {
+    "source_id": "SRC-OECD-PAG-PENSION-REPLACEMENT-PANEL-2024",
+    "publisher": "Organisation for Economic Co-operation and Development",
+    "source_url": "https://www.oecd.org/en/publications/pensions-at-a-glance-2025_e40274c1-en.html",
+    "metadata_path": "data/metadata/SRC-OECD-PAG-PENSION-REPLACEMENT-PANEL-2024.2026-07-15.metadata.md",
+    "retrieval_date": "2026-07-15",
+    "api_dataflow": "OECD.ELS.SPD,DSD_PAG@DF_PRR,1.0",
+    "raw_files": [
+      {
+        "measure": "gross_replacement_rate",
+        "raw_artifact_path": "data/raw/oecd/SRC-OECD-PAG-PENSION-REPLACEMENT-PANEL-2024/2026-07-15/oecd-pag-gross-replacement-average-earner-mandatory-2024.csv",
+        "raw_byte_count": 1140,
+        "raw_sha256": "ec19bf44a336d484afc67115e07367ec6f601698d94f0034d7dc616a3ccfc85f"
+      },
+      {
+        "measure": "net_replacement_rate",
+        "raw_artifact_path": "data/raw/oecd/SRC-OECD-PAG-PENSION-REPLACEMENT-PANEL-2024/2026-07-15/oecd-pag-net-replacement-average-earner-mandatory-2024.csv",
+        "raw_byte_count": 1134,
+        "raw_sha256": "cd2f6dba48e44ebea7d7005c000557bef02a5466d233011d6f9fba4d19c30698"
+      }
+    ],
+    "custody_ready": true
+  },
+  "context_values": {
+    "measure": "modeled mandatory-scheme pension replacement rates for a male full-career average earner entering at age 22 in 2024",
+    "model_entry_year": 2024,
+    "unit": "percent",
+    "country_count": 12,
+    "observed_country_count": 11,
+    "primary_us_context": {
+      "country_code": "USA",
+      "gross_replacement_rate_percent": 39.7,
+      "net_replacement_rate_percent": 51.3,
+      "observation_status": "modeled"
+    },
+    "model_boundary": "These are theoretical future entitlements for a worker entering at age 22 in 2024, not observed benefits or incomes of current retirees.",
+    "scope_boundary": "Mandatory public and private schemes are included; voluntary schemes are excluded. Gross and net rates have different earnings denominators and are never subtracted as a fiscal saving.",
+    "floor_use_boundary": "Baseline context only; not a Social Security benefit-adequacy threshold, not an observed current-retiree value, and not pass/fail evidence."
+  },
+  "remaining_floor_requirements": [
+    "domestic Social Security benefit adequacy source custody",
+    "cohort, earnings-history, age, claiming-year, and benefit-type boundary review",
+    "observed current-retiree benefit and income context",
+    "threshold rationale",
+    "policy and stress values",
+    "pass/fail evidence"
+  ],
+  "blocked_outputs": {
+    "domestic_benefit_adequacy_lineage_review": null,
+    "observed_current_retiree_benefit_values": null,
+    "threshold_rationale": null,
+    "benefit_adequacy_floor_values": null,
+    "policy_values": null,
+    "stress_values": null,
+    "pass_fail_findings": null,
+    "lower_cost_scenario_admissibility": null,
+    "target_cost": null,
+    "federal_effect": null,
+    "gross_savings": null,
+    "net_savings": null,
+    "solver_input": null,
+    "rate_calculation": null,
+    "public_rate_card": null,
+    "balanced_budget_claim": null
+  },
+  "claim_booleans": {
+    "benefit_adequacy_context_bridge_published": true,
+    "international_pension_replacement_context_ready": true,
+    "benefit_adequacy_floor_context_gate_ready": false,
+    "domestic_benefit_adequacy_custody_ready": false,
+    "threshold_values_selected": false,
+    "baseline_floor_values_populated": false,
+    "policy_floor_values_populated": false,
+    "stress_floor_values_populated": false,
+    "pass_fail_findings_populated": false,
+    "lower_cost_scenario_admissibility_ready": false,
+    "target_cost_published": false,
+    "federal_effect_published": false,
+    "gross_savings_published": false,
+    "net_savings_published": false,
+    "solver_input_ready": false,
+    "rate_calculation_published": false,
+    "public_rate_card_published": false,
+    "department_cut_instruction_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "This bridge closes only existing OECD modeled pension replacement-rate context for the Social Security lane. It is not domestic Social Security benefit adequacy custody, not observed current-retiree benefit values, not threshold rationale, not benefit-adequacy floor values, not policy values, not stress values, not pass/fail findings, not target-cost selection, not gross savings, not net savings, not solver input, not rate calculation, not a public rate card, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+}

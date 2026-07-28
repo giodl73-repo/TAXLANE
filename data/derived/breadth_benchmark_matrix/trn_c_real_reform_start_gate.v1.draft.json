@@ -1,0 +1,30 @@
+{
+  "record_id": "trn-c-real-reform-start-gate:v1",
+  "record_family": "trn_c_real_reform_start_gate",
+  "version": "v1.draft",
+  "status": "trn_c_completed_after_verified_dependency_start",
+  "track_wave_id": "TRN-C",
+  "pulse": 250,
+  "as_of_date": "2026-07-26",
+  "schema_path": "data/derived/breadth_benchmark_matrix/trn_c_real_reform_start_gate.schema.md",
+  "reader_path": "docs/reading/trn-c-real-reform-start-gate.md",
+  "trn_b_closure_path": "data/derived/breadth_benchmark_matrix/trn_b_transportation_accounting_closure.v1.draft.json",
+  "candidate_screen_path": "data/derived/breadth_benchmark_matrix/trn_c_candidate_screen.v1.draft.json",
+  "scenario_path": "data/derived/breadth_benchmark_matrix/trn_c_airmen_certificate_reform_scenario.v1.draft.json",
+  "core_i_path": "data/derived/breadth_benchmark_matrix/core_i_shared_reform_admission_contract.v1.draft.json",
+  "closure_path": "data/derived/breadth_benchmark_matrix/trn_c_real_reform_closure.v1.draft.json",
+  "dependency_gate": {"required_dependency":"TRN-B","trn_b_done":true,"trn_c_may_start":true,"trn_c_started":true},
+  "work_packages": [
+    {"work_package_id":"TRN-C-01","title":"Candidate discovery and source screen","status":"complete","objective":"Identify real transportation policy instruments and reject candidates without official legislative, administrative, and scoring source paths."},
+    {"work_package_id":"TRN-C-02","title":"Federal effect and transition-cost score","status":"complete","objective":"Admit source-custodied annual federal effects and transition costs without interpolation."},
+    {"work_package_id":"TRN-C-03","title":"Behavior phase-in and stress model","status":"complete","objective":"Document behavioral response, implementation timing, adverse realization, and fallback costs."},
+    {"work_package_id":"TRN-C-04","title":"Complete applicable transportation floors","status":"complete","objective":"Populate policy and stress values for every applicable service floor and issue pass/fail evidence."},
+    {"work_package_id":"TRN-C-05","title":"Reform admission and role review","status":"complete","objective":"Admit at most one defensible reform scenario after reconciliation, source audit, and eight-role review."}
+  ],
+  "admission_rules": ["A named real policy instrument is required.","Official legislative or administrative source custody is required.","Annual federal effects and transition costs remain null until scored evidence is admitted.","Complete applicable floors must pass under policy and stress paths.","No lower-cost or savings result is recognized from reference calibration alone.","TRN-D remains blocked until TRN-C closes."],
+  "aggregate_status": {"dependency_count":1,"ready_dependencies":1,"work_package_count":5,"in_progress_work_packages":0,"completed_work_packages":5,"trn_c_started":true,"trn_c_done":true,"trn_d_may_start":true},
+  "admitted_outputs": {"selected_policy_instrument":"H.R. 2247, Airmen Certificate Accessibility Act","fy2026_fy2031_cbo_outlays_millions":18,"scenario_class":"conditional_cost_only"},
+  "blocked_outputs": {"enactment_claim":null,"financing_source":null,"behavioral_savings":null,"productivity_savings":null,"lower_target_cost":null,"rate":null,"public_rate_card":null},
+  "claim_booleans": {"trn_c_start_gate_published":true,"trn_b_done":true,"trn_c_started":true,"trn_c_done":true,"real_reform_score_published":true,"candidate_enacted":false,"target_cost_published":false,"trn_d_may_start":true},
+  "public_warning": "TRN-C completed with a conditional cost-only H.R. 2247 scenario and permits TRN-D to start. The bill is not enacted. No financing source, lower target cost, productivity savings, rate, or public card is admitted."
+}

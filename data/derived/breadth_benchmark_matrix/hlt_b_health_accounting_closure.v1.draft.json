@@ -1,0 +1,33 @@
+{
+  "record_id": "hlt-b-health-accounting-closure:v1",
+  "record_family": "hlt_b_health_accounting_closure",
+  "version": "v1.draft",
+  "status": "hlt_b_complete_bounded_accounting_hlt_c_may_start",
+  "pulse": 300,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "HLT-B",
+  "start_gate_path": "data/derived/breadth_benchmark_matrix/hlt_b_health_accounting_start_gate.v1.draft.json",
+  "component_mapping_path": "data/derived/breadth_benchmark_matrix/hlt_b_health_component_account_mapping.v1.draft.json",
+  "core_h_path": "data/derived/breadth_benchmark_matrix/core_h_shared_accounting_substrate.v1.draft.json",
+  "core_j_path": "data/derived/breadth_benchmark_matrix/core_j_bounded_closure_handoff_closure.v1.draft.json",
+  "core_k_path": "data/derived/breadth_benchmark_matrix/core_k_temporal_composite_accounting_closure.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/stage_c_catchup_bundle.schema.md",
+  "reader_path": "docs/reading/stage-c-catchup-bundle.md",
+  "role_review_path": "reviews/2026-07-26-stage-c-catchup-bundle-role-review.md",
+  "package_reconciliation": [
+    {"work_package_id":"HLT-B-01","status":"complete","completion_class":"bounded_structural","finding":"Six health components map to shared account roles."},
+    {"work_package_id":"HLT-B-02","status":"complete","completion_class":"bounded_structural","finding":"HI, SMI, Medicaid/CHIP, marketplace-credit, state-payment, and general-health financing adapters preserve their boundaries."},
+    {"work_package_id":"HLT-B-03","status":"complete","completion_class":"bounded_structural","finding":"The supported annual schedule remains exact where sourced and null beyond supported horizons."},
+    {"work_package_id":"HLT-B-04","status":"complete","completion_class":"bounded_structural","finding":"Role review accepts bounded accounting closure with owned handoffs."}
+  ],
+  "adapter_findings": [
+    {"adapter_id":"medicare_hi","evidence_state":"partial_context","time_basis":"calendar_and_fiscal_require_bridge","aggregation":"component","non_additive":false,"successor_owner":"HLT-C","blocking_gate":"complete annual HI receipt outlay and reserve bridge"},
+    {"adapter_id":"medicare_smi","evidence_state":"partial_context","time_basis":"calendar_and_fiscal_require_bridge","aggregation":"component","non_additive":false,"successor_owner":"HLT-C","blocking_gate":"complete premium and general-fund contribution schedule"},
+    {"adapter_id":"medicaid_chip","evidence_state":"definition_only","time_basis":"fiscal_year","aggregation":"federal_and_state_components","non_additive":true,"successor_owner":"HLT-C","blocking_gate":"federal state annual reconciliation"},
+    {"adapter_id":"marketplace_credit","evidence_state":"definition_only","time_basis":"tax_and_fiscal_require_bridge","aggregation":"signed_credit_component","non_additive":false,"successor_owner":"HLT-C","blocking_gate":"signed credit and outlay schedule"}
+  ],
+  "closure_decision": {"completion_class":"bounded_structural","role_review_complete":true,"hlt_b_done":true,"hlt_c_may_start":true,"numeric_completion":false,"output_admission":false},
+  "blocked_outputs": {"complete_health_schedule":null,"matched_receipt_base":null,"health_reform":null,"solver_input":null,"assigned_rate":null,"savings":null},
+  "claim_booleans": {"hlt_b_closure_published":true,"hlt_b_done":true,"hlt_c_may_start":true,"numeric_completion":false,"solver_ready":false,"rate_published":false,"savings_claim_published":false},
+  "public_warning": "HLT-B is complete only as a bounded structural accounting stage. Open annual, time-basis, federal/state, and signed-credit handoffs remain explicit. This is not numeric completion, a reform, solver input, a rate, or savings."
+}

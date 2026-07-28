@@ -1,0 +1,35 @@
+# SRC-CENSUS-P60-287-POVERTY-2024 metadata
+
+- Publisher: U.S. Census Bureau
+- Source: Poverty in the United States: 2024, detailed official-poverty and Supplemental Poverty Measure tables, SPM topic page, and CPS ASEC 2025 technical documentation
+- Official publication URL: `https://www.census.gov/library/publications/2025/demo/p60-287.html`
+- Official PDF URL: `https://www2.census.gov/library/publications/2025/demo/p60-287.pdf`
+- Official SPM topic URL: `https://www.census.gov/topics/income-poverty/supplemental-poverty-measure.html`
+- Retrieval date: 2026-07-24
+- Capture method: Scripted download from official Census URLs exposed by the P60-287 publication page and SPM topic page.
+- Raw artifacts:
+  - `data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/p60-287-publication-page.html`; byte count: 372180; SHA-256: `09e3a9306dab24d303b687fb26a4bd61d60e5a7ea0f96c4b027952dfc58d1a13`
+  - `data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/p60-287-poverty-2024.pdf`; byte count: 2000905; SHA-256: `b99624bfd024a4f9396594d23a845d5bd581f8094401a3b469aa0a3fb6c799d1`
+  - `data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/supplemental-poverty-measure-topic-page.html`; byte count: 351222; SHA-256: `67fa7b5122750e21cab08e116b2f3215f542e1f6b3a8577b396ac7a22bc978cc`
+  - `data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/tableA1_pov_characteristics.xlsx`; byte count: 16152; SHA-256: `f9b8185932f57b9ccb6f2b5ba88d2a81a7a7b0e783107373128fbf1b0bc1ff75`
+  - `data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/tableA3_hist_pov_by_all_and_age.xlsx`; byte count: 57388; SHA-256: `a72a881ce64b1d32bacaa35a43a291fb75119503a793195c252d560c253b0ed2`
+  - `data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/hstpov2.xlsx`; byte count: 48352; SHA-256: `3e6d073b81bc22c6ff0c679a99f8bf1e12332e0231ee16b04fbb4cddb6e9c92f`
+  - `data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/hstpov4.xlsx`; byte count: 79061; SHA-256: `8d2abf9b6bbdb4f109cde72e99b8e770e76e409b74a912a25756af04fe23ac6e`
+  - `data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/Income-to-Poverty-Ratios.xlsx`; byte count: 14948; SHA-256: `fb5b9c60b02cef2acc49d1674271839623082fad4ab00395d42d4949de00938f`
+  - `data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/tableB-2.xlsx`; byte count: 43484; SHA-256: `8cdb688380c543c1bd3bc47e2124ec6872511eff8c03c8340b1adacdbd1525fe`
+  - `data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/tableB-7.xlsx`; byte count: 14272; SHA-256: `ceea883550e7453b3002d90afb4caa7b52612cb9fb24846fe1df424468ca46f7`
+  - `data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/spm_opm_state_by_age.xlsx`; byte count: 18417; SHA-256: `9cadcf13fca360bba8a8edb30bf96b72cb2e7f78c3884257a947fb8f8bdd7f79`
+  - `data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/SPM-pov-threshold-2024.xlsx`; byte count: 58459; SHA-256: `419feb588d9e81c1c91b2b8400ce1faefd2178750a47af80ee8989b830c7578f`
+  - `data/raw/census/SRC-CENSUS-P60-287-POVERTY-2024/2026-07-24/cpsmar25.pdf`; byte count: 3765734; SHA-256: `7f0cb9f791f2737ad12fd552b8cb201f4d1de266eac160322597344e73499fb4`
+- Observed workbook structure:
+  - `tableA1_pov_characteristics.xlsx`: `A1:L63`
+  - `tableA3_hist_pov_by_all_and_age.xlsx`: `A1:M530`
+  - `hstpov2.xlsx`: `A1:M573`
+  - `hstpov4.xlsx`: `A1:M1026`
+  - `Income-to-Poverty-Ratios.xlsx`: `A1:R39`
+  - `tableB-2.xlsx`: `A1:U257`
+  - `tableB-7.xlsx`: `A1:I63`
+  - `spm_opm_state_by_age.xlsx`: `A1:Y61`
+  - `SPM-pov-threshold-2024.xlsx`: `A1:I37`, `A1:L82`, and `A1:O378`
+- Use: Census domestic official-poverty, SPM, income-definition, income-unit, and age-perimeter source context for the income-security/family child-poverty source gate.
+- Boundary: not reviewed child-poverty floor values, not pass/fail findings, not a benefit package model, not solver input, not rates, and not savings.

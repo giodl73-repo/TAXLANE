@@ -1,0 +1,28 @@
+{
+  "record_id": "core-l-cross-lane-overlap-allocation-contract:v1",
+  "record_family": "core_l_cross_lane_overlap_allocation_contract",
+  "version": "v1.draft",
+  "status": "core_l_interfaces_implemented_role_review_ready",
+  "pulse": 320,
+  "as_of_date": "2026-07-26",
+  "core_wave_id": "CORE-L",
+  "core_j_path": "data/derived/breadth_benchmark_matrix/core_j_bounded_closure_handoff_closure.v1.draft.json",
+  "core_k_path": "data/derived/breadth_benchmark_matrix/core_k_temporal_composite_accounting_closure.v1.draft.json",
+  "isf_a_path": "data/derived/breadth_benchmark_matrix/isf_a_income_security_family_baseline_source_spine.v1.draft.json",
+  "vet_a_path": "data/derived/breadth_benchmark_matrix/vet_a_veterans_baseline_source_spine.v1.draft.json",
+  "agr_a_path": "data/derived/breadth_benchmark_matrix/agr_a_agriculture_baseline_source_spine.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/multi_track_d_b_catchup_bundle.schema.md",
+  "reader_path": "docs/reading/multi-track-d-b-catchup-bundle.md",
+  "overlap_treatments": ["exclusive_owner","shared_context_non_additive","allocated"],
+  "contract_rules": {"owner_must_be_participant":true,"at_least_two_participants":true,"unallocated_overlap_is_non_additive":true,"allocated_overlap_requires_source":true,"allocated_shares_cover_all_participants":true,"allocated_shares_sum_to_10000_basis_points":true},
+  "rust_interfaces": ["OverlapTreatment","CrossLaneAllocation"],
+  "cross_lane_findings": [
+    {"finding_id":"nutrition","owner_lane":"income-security-family","participant_lanes":["income-security-family","agriculture"],"treatment":"shared_context_non_additive"},
+    {"finding_id":"veterans_health","owner_lane":"veterans","participant_lanes":["veterans","health-medicare"],"treatment":"shared_context_non_additive"},
+    {"finding_id":"crop_insurance_payment_integrity","owner_lane":"agriculture","participant_lanes":["agriculture","payment-integrity"],"treatment":"shared_context_non_additive"}
+  ],
+  "implementation_status": {"interfaces_required":2,"interfaces_implemented":2,"unit_tests_added":4,"core_l_implementation_done":true,"core_l_role_review_may_start":true},
+  "blocked_outputs": {"allocated_overlap_values":null,"cross_lane_total":null,"solver_input":null,"assigned_rate":null,"savings":null},
+  "claim_booleans": {"core_l_contract_published":true,"shared_interfaces_implemented":true,"core_l_implementation_done":true,"core_l_done":false,"solver_ready":false,"rate_published":false},
+  "public_warning": "CORE-L governs ownership and non-additivity when subjects appear in multiple lanes. It does not invent allocation shares, combine lane totals, admit solver inputs, calculate rates, or establish savings."
+}

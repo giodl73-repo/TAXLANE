@@ -21,4 +21,6 @@ Still null and blocked:
 
 Reserve contributions are positive outlays. Reserve withdrawals are explicit financing sources. Trust funds remain separate. Net interest remains endogenous.
 
+Compact validator phrase: net interest remains endogenous.
+
 This is a reserve-parameter readiness gate, not reserve parameters, not a solver run, not target-cost selection, not rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim.

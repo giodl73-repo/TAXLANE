@@ -4,6 +4,10 @@
 required before the baseline year plus ten-year deterministic solver horizon can
 be assembled.
 
+The inventory may separately identify a ready shared federal topline spine.
+That readiness does not change the required/false/null state of incomplete
+lane, fund, general-fund, or endogenous-interest solver paths.
+
 Required invariants:
 
 - `record_family` is `current_law_path_inventory`.

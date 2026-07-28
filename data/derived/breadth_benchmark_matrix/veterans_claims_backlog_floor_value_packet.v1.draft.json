@@ -1,0 +1,105 @@
+{
+  "record_id": "veterans-claims-backlog-floor-value-packet:v1",
+  "record_family": "veterans_claims_backlog_floor_value_packet",
+  "schema_version": "v1.draft",
+  "status": "draft_threshold_and_baseline_values_ready_policy_stress_pass_fail_blocked",
+  "pulse": 214,
+  "as_of_date": "2026-07-25",
+  "lane_id": "veterans",
+  "floor_id": "claims_timeliness",
+  "floor_definition_packet_path": "data/derived/breadth_benchmark_matrix/veterans_outcome_floor_definition_packet.v1.draft.json",
+  "veterans_depth_card_path": "data/derived/breadth_benchmark_matrix/veterans_depth_card.fy2025.v1.draft.json",
+  "outcome_floor_wave_d_value_readiness_path": "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json",
+  "threshold_rationale": {
+    "rationale_id": "no-regression-from-va-claims-backlog-probe",
+    "selected_measure": "VA compensation and pension rating bundle claims backlog",
+    "why_this_measure": "The claims backlog is a direct claims-timeliness pressure signal already attached in the Veterans depth card from the VA Detailed Claims Data dashboard. It is usable as a narrow no-regression baseline for the claims-timeliness floor, but backlog alone is not a service-package model, not a full timeliness distribution, and not an efficiency or savings finding.",
+    "threshold_rule": "A lower-cost veterans scenario cannot pass the claims-timeliness floor if reviewed policy and stress evidence show the compensation and pension rating bundle claims backlog rising above the 2026-06-30 VA probe baseline.",
+    "threshold_type": "baseline_no_regression_ceiling",
+    "threshold_value": 68207,
+    "threshold_unit": "claims",
+    "source_table": "VA Detailed Claims Data dashboard",
+    "review_status": "draft_threshold_rationale_needs_role_review_before_pass_fail"
+  },
+  "baseline_values": {
+    "observed_date": "2026-06-30",
+    "primary_baseline": {
+      "measure": "Compensation and pension rating bundle claims backlog",
+      "value": 68207,
+      "unit": "claims",
+      "source_id": "SRC-VA-CLAIMS-DATA",
+      "source_path": "data/derived/breadth_benchmark_matrix/veterans_depth_card.fy2025.v1.draft.json",
+      "status": "probe_not_performance_finding"
+    },
+    "supporting_context": [
+      {
+        "measure": "Compensation and pension claim-based quality",
+        "value": 84.91,
+        "unit": "percent",
+        "source_id": "SRC-VA-CLAIMS-DATA",
+        "source_path": "data/derived/breadth_benchmark_matrix/veterans_depth_card.fy2025.v1.draft.json",
+        "status": "probe_not_performance_finding"
+      }
+    ],
+    "boundary": "The backlog and quality probes are review signals only. They are not a complete claims-timeliness series, not appeals evidence, not per-veteran cost evidence, not a service-package path, not a waste finding, not a fraud finding, and not savings evidence."
+  },
+  "policy_values": null,
+  "stress_values": null,
+  "pass_fail_evidence": null,
+  "readiness_status": {
+    "threshold_rationale_ready": true,
+    "threshold_value_populated": true,
+    "baseline_value_ready": true,
+    "policy_value_ready": false,
+    "stress_value_ready": false,
+    "pass_fail_ready": false,
+    "lower_cost_scenario_admissible": false,
+    "solver_ready": false,
+    "rate_ready": false
+  },
+  "remaining_requirements": [
+    "role review of threshold rationale",
+    "complete claims timeliness series and metric definition review",
+    "claims accuracy, appeals, and remediation evidence",
+    "reviewed veterans policy scenario values",
+    "reviewed veterans stress scenario values",
+    "pass/fail evidence comparing policy and stress values with the threshold",
+    "eligible-cohort and service-package model",
+    "lower-cost scenario admissibility review"
+  ],
+  "blocked_outputs": {
+    "policy_values": null,
+    "stress_values": null,
+    "pass_fail_evidence": null,
+    "lower_cost_scenario_admissibility": null,
+    "target_cost": null,
+    "federal_effect": null,
+    "gross_savings": null,
+    "net_savings": null,
+    "solver_input": null,
+    "rate_calculation": null,
+    "public_rate_card": null,
+    "balanced_budget_claim": null
+  },
+  "claim_booleans": {
+    "claims_backlog_floor_value_packet_published": true,
+    "threshold_rationale_ready": true,
+    "threshold_value_populated": true,
+    "baseline_value_ready": true,
+    "policy_value_ready": false,
+    "stress_value_ready": false,
+    "pass_fail_ready": false,
+    "lower_cost_scenario_admissible": false,
+    "target_cost_published": false,
+    "federal_effect_published": false,
+    "gross_savings_published": false,
+    "net_savings_published": false,
+    "solver_input_ready": false,
+    "rate_calculation_published": false,
+    "public_rate_card_published": false,
+    "department_cut_instruction_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "This packet selects a draft no-regression claims-backlog floor threshold and baseline value for the Veterans lane only. It is not role-reviewed final threshold selection, not a complete claims-timeliness series, not appeals evidence, not policy values, not stress values, not pass/fail evidence, not lower-cost scenario admissibility, not target-cost selection, not gross savings, not net savings, not solver input, not rate calculation, not a public rate card, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+}

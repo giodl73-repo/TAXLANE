@@ -4,7 +4,7 @@
   "schema_version": "v1.draft",
   "status": "draft_partial_fiscal_source_custody_floor_values_blocked",
   "pulse": 178,
-  "as_of_date": "2026-07-20",
+  "as_of_date": "2026-07-24",
   "lane_id": "health-medicare",
   "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
   "lane_floor_source_work_queue_path": "data/derived/breadth_benchmark_matrix/lane_floor_source_work_queue.v1.draft.json",
@@ -16,10 +16,11 @@
   "source_custody_status": {
     "official_sources_only": true,
     "used_existing_captured_sources_only": true,
-    "new_external_download_performed": false,
+    "new_external_download_performed": true,
     "no_foia_or_records_request_submitted": true,
     "no_agency_or_person_contacted": true,
     "partial_fiscal_source_custody_ready": true,
+    "partial_floor_indicator_context_custody_ready": true,
     "floor_indicator_source_custody_ready": false,
     "threshold_source_custody_ready": false,
     "baseline_floor_value_source_custody_ready": false,
@@ -67,11 +68,103 @@
     "may_populate_floor_threshold_or_pass_fail": false,
     "may_populate_solver_input": false
   },
+  "captured_floor_context_sources": [
+    {
+      "source_id": "SRC-CMS-NHE-TABLES-2024",
+      "source_family": "CMS national health expenditure accounts",
+      "needed_for": ["coverage", "access", "service_mix_context"],
+      "retrieval_date": "2026-07-24",
+      "raw_artifact_path": "data/raw/cms/SRC-CMS-NHE-TABLES-2024/2026-07-24/nhe-tables.zip",
+      "raw_byte_count": 520391,
+      "raw_sha256": "a09ef6d3e84e25d745047a47b6b08a0d96b303085b4c725b67ce67a0eb0c4420",
+      "metadata_path": "data/metadata/SRC-CMS-NHE-TABLES-2024.2026-07-24.metadata.md",
+      "custody_ready": true,
+      "context_use_only": true,
+      "may_populate_floor_threshold_or_pass_fail": false
+    },
+    {
+      "source_id": "SRC-CMS-PDC-HOSPITAL-GENERAL-INFORMATION-2026-05-13",
+      "source_family": "CMS Provider Data Catalog hospital quality/access context",
+      "needed_for": ["hospital_registry", "overall_rating", "emergency_services", "quality_measure_counts"],
+      "retrieval_date": "2026-07-24",
+      "raw_artifact_path": "data/raw/cms/SRC-CMS-PDC-HOSPITAL-GENERAL-INFORMATION-2026-05-13/2026-07-24/Hospital_General_Information.csv",
+      "raw_byte_count": 1453884,
+      "raw_sha256": "83c98b2e8687580e0482b13e1e9acd5813534be243e5ccd9f55556a869595d40",
+      "metadata_path": "data/metadata/SRC-CMS-PDC-HOSPITAL-QUALITY-ACCESS-2026-05-13.2026-07-24.metadata.md",
+      "custody_ready": true,
+      "context_use_only": true,
+      "may_populate_floor_threshold_or_pass_fail": false
+    },
+    {
+      "source_id": "SRC-CMS-PDC-COMPLICATIONS-DEATHS-HOSPITAL-2026-05-13",
+      "source_family": "CMS Provider Data Catalog hospital quality/access context",
+      "needed_for": ["mortality", "complications", "risk_adjusted_outcome_context"],
+      "retrieval_date": "2026-07-24",
+      "raw_artifact_path": "data/raw/cms/SRC-CMS-PDC-COMPLICATIONS-DEATHS-HOSPITAL-2026-05-13/2026-07-24/Complications_and_Deaths_Hospital.csv",
+      "raw_byte_count": 22982118,
+      "raw_sha256": "4edd2c4c9aa3596b97a374a91250f0bcc225c576a609907166cb2c64fc003720",
+      "metadata_path": "data/metadata/SRC-CMS-PDC-HOSPITAL-QUALITY-ACCESS-2026-05-13.2026-07-24.metadata.md",
+      "custody_ready": true,
+      "context_use_only": true,
+      "may_populate_floor_threshold_or_pass_fail": false
+    },
+    {
+      "source_id": "SRC-CMS-PDC-HAI-HOSPITAL-2026-05-13",
+      "source_family": "CMS Provider Data Catalog hospital quality/access context",
+      "needed_for": ["healthcare_associated_infections", "safety"],
+      "retrieval_date": "2026-07-24",
+      "raw_artifact_path": "data/raw/cms/SRC-CMS-PDC-HAI-HOSPITAL-2026-05-13/2026-07-24/Healthcare_Associated_Infections_Hospital.csv",
+      "raw_byte_count": 38658196,
+      "raw_sha256": "90be9098189e6922e7a0387f085cc34121eca476f0b50361423261cb7d12948f",
+      "metadata_path": "data/metadata/SRC-CMS-PDC-HOSPITAL-QUALITY-ACCESS-2026-05-13.2026-07-24.metadata.md",
+      "custody_ready": true,
+      "context_use_only": true,
+      "may_populate_floor_threshold_or_pass_fail": false
+    },
+    {
+      "source_id": "SRC-CMS-PDC-UNPLANNED-HOSPITAL-VISITS-HOSPITAL-2026-05-13",
+      "source_family": "CMS Provider Data Catalog hospital quality/access context",
+      "needed_for": ["unplanned_hospital_visits", "readmissions"],
+      "retrieval_date": "2026-07-24",
+      "raw_artifact_path": "data/raw/cms/SRC-CMS-PDC-UNPLANNED-HOSPITAL-VISITS-HOSPITAL-2026-05-13/2026-07-24/Unplanned_Hospital_Visits_Hospital.csv",
+      "raw_byte_count": 19035194,
+      "raw_sha256": "6f8f59fed5a56e78868d8a4d73f1a78341168cc07f3536b72be952f35c76751d",
+      "metadata_path": "data/metadata/SRC-CMS-PDC-HOSPITAL-QUALITY-ACCESS-2026-05-13.2026-07-24.metadata.md",
+      "custody_ready": true,
+      "context_use_only": true,
+      "may_populate_floor_threshold_or_pass_fail": false
+    },
+    {
+      "source_id": "SRC-CMS-PDC-TIMELY-EFFECTIVE-CARE-HOSPITAL-2026-05-13",
+      "source_family": "CMS Provider Data Catalog hospital quality/access context",
+      "needed_for": ["timely_effective_care", "access"],
+      "retrieval_date": "2026-07-24",
+      "raw_artifact_path": "data/raw/cms/SRC-CMS-PDC-TIMELY-EFFECTIVE-CARE-HOSPITAL-2026-05-13/2026-07-24/Timely_and_Effective_Care_Hospital.csv",
+      "raw_byte_count": 34178467,
+      "raw_sha256": "5d39e1fd8b7b272fe83f7b53e2f69288c997dfb4d28b68dd74454e80e7d860e9",
+      "metadata_path": "data/metadata/SRC-CMS-PDC-HOSPITAL-QUALITY-ACCESS-2026-05-13.2026-07-24.metadata.md",
+      "custody_ready": true,
+      "context_use_only": true,
+      "may_populate_floor_threshold_or_pass_fail": false
+    },
+    {
+      "source_id": "SRC-CMS-PDC-RURAL-EMERGENCY-TIMELY-EFFECTIVE-CARE-HOSPITAL-2026-05-13",
+      "source_family": "CMS Provider Data Catalog hospital quality/access context",
+      "needed_for": ["rural_emergency_hospital", "timely_effective_care", "rural_access_context"],
+      "retrieval_date": "2026-07-24",
+      "raw_artifact_path": "data/raw/cms/SRC-CMS-PDC-RURAL-EMERGENCY-TIMELY-EFFECTIVE-CARE-HOSPITAL-2026-05-13/2026-07-24/Rural_Emergency_Hospitals_Timely_and_Effective_Care_Hospital.csv",
+      "raw_byte_count": 59753,
+      "raw_sha256": "c83bdee86d813a9a23b642cc3ed159825cef355e9f025c274f50f64cd12568e0",
+      "metadata_path": "data/metadata/SRC-CMS-PDC-HOSPITAL-QUALITY-ACCESS-2026-05-13.2026-07-24.metadata.md",
+      "custody_ready": true,
+      "context_use_only": true,
+      "may_populate_floor_threshold_or_pass_fail": false
+    }
+  ],
   "source_candidates_still_needed": [
-    {"source_family": "CMS national health expenditure accounts", "needed_for": ["coverage", "access", "service_mix_context"], "raw_artifact_path": null, "raw_byte_count": null, "raw_sha256": null, "custody_ready": false},
     {"source_family": "CMS Medicare trustees", "needed_for": ["medicare_hi_path", "smi_context", "enrollment_and_financing_context"], "raw_artifact_path": null, "raw_byte_count": null, "raw_sha256": null, "custody_ready": false},
     {"source_family": "CBO federal health baseline", "needed_for": ["federal_policy_translation", "behavior_and_utilization_context", "premium_tax_incidence_context"], "raw_artifact_path": null, "raw_byte_count": null, "raw_sha256": null, "custody_ready": false},
-    {"source_family": "CMS quality and access indicator series", "needed_for": ["quality_safety", "risk_adjusted_outcomes", "rural_and_safety_net_capacity"], "raw_artifact_path": null, "raw_byte_count": null, "raw_sha256": null, "custody_ready": false}
+    {"source_family": "remaining CMS quality/access lineage", "needed_for": ["measure_definition_lineage", "denominator_lineage", "risk_adjustment_case_mix_lineage", "rural_and_safety_net_capacity"], "raw_artifact_path": null, "raw_byte_count": null, "raw_sha256": null, "custody_ready": false}
   ],
   "floor_value_status": [
     {"floor_class": "access_coverage", "threshold_value": null, "baseline_value": null, "policy_value": null, "stress_value": null, "passed": false},
@@ -96,6 +189,7 @@
   "claim_booleans": {
     "health_floor_source_capture_status_published": true,
     "partial_fiscal_source_custody_ready": true,
+    "partial_floor_indicator_context_custody_ready": true,
     "floor_indicator_source_custody_ready": false,
     "threshold_values_selected": false,
     "baseline_floor_values_populated": false,
@@ -113,5 +207,5 @@
     "technology_savings_claim_published": false,
     "balanced_budget_claim_published": false
   },
-  "public_warning": "This health/Medicare packet captures partial FY2025 fiscal source custody only. It is not health floor threshold selection, not observed floor values, not pass/fail findings, not lower-cost scenario admissibility, not a federal policy score, not target-cost selection, not gross savings, not net savings, not solver input, not rate calculation, not a public rate card, not a technology-savings claim, and not a balanced-budget claim."
+  "public_warning": "This health/Medicare packet captures partial FY2025 fiscal source custody, CMS NHE raw context custody, and partial CMS Provider Data Catalog hospital quality/access context custody only. It is not health floor threshold selection, not observed floor values, not pass/fail findings, not lower-cost scenario admissibility, not a federal policy score, not target-cost selection, not gross savings, not net savings, not solver input, not rate calculation, not a public rate card, not a technology-savings claim, and not a balanced-budget claim."
 }

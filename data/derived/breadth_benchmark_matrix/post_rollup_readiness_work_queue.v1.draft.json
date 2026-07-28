@@ -2,11 +2,12 @@
   "record_id": "post-rollup-readiness-work-queue:v1",
   "record_family": "post_rollup_readiness_work_queue",
   "version": "v1.draft",
-  "status": "draft_sequence_after_scaffold_rollup_no_inputs_populated",
+  "status": "draft_sequence_after_matrix_partial_progress_no_inputs_populated",
   "pulse": 118,
   "wave_lane_depth_scaffold_rollup_path": "data/derived/breadth_benchmark_matrix/wave_lane_depth_scaffold_rollup.v1.draft.json",
   "current_law_source_custody_preflight_path": "data/derived/breadth_benchmark_matrix/current_law_source_custody_preflight.v1.draft.json",
   "current_law_path_inventory_path": "data/derived/breadth_benchmark_matrix/current_law_path_inventory.v1.draft.json",
+  "lane_full_coverage_matrix_path": "data/derived/breadth_benchmark_matrix/lane_full_coverage_matrix.v1.draft.json",
   "solver_input_readiness_rollup_path": "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json",
   "balanced_rate_readiness_gate_path": "data/derived/breadth_benchmark_matrix/balanced_rate_readiness_gate.v1.draft.json",
   "purpose": "Turn the post-Waves 1-5 scaffold rollup into a strict next-work queue that prevents solver, rate, savings, waste/fraud, department-cut, technology-savings, or balanced-budget claims before required evidence is ready.",
@@ -26,8 +27,15 @@
       "rank": 1,
       "work_id": "source_custody_and_current_law_paths",
       "title": "Source custody and official current-law paths",
-      "status": "blocked_not_started",
+      "status": "partial_progress_still_blocked",
       "why_first": "No solver input, policy delta, or public rate can be trusted until official annual source custody and current-law paths exist.",
+      "progress_evidence_paths": [
+        "data/derived/breadth_benchmark_matrix/lane_full_coverage_matrix.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/current_law_source_custody_progress_rollup.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/current_law_source_custody_wave_b_closure.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/data_acquisition_eight_gap_status.v1.draft.json"
+      ],
+      "progress_note": "The full coverage matrix now marks current-law baseline and source-custody gates partial for all 15 lanes, the current-law progress rollup and Wave B closure are linked, and the eight-gap acquisition status is attached, but no current-law path values, solver inputs, rates, or savings are ready.",
       "required_artifacts_before_complete": ["raw bytes", "metadata", "retrieval date", "byte count", "sha256", "review status", "annual years covered", "component mapping"],
       "blocked_outputs": ["current_law_path_values", "solver_inputs", "policy_deltas", "rates", "public_rate_cards"],
       "value": null,
@@ -114,6 +122,8 @@
   "aggregate_status": {
     "work_items": 8,
     "ready_items": 0,
+    "partial_progress_items": 1,
+    "current_law_source_custody_partial_progress": true,
     "current_law_values_populated": false,
     "solver_inputs_ready": false,
     "policy_scenarios_ready": false,
@@ -138,5 +148,5 @@
     "technology_savings_claim_published": false,
     "balanced_budget_claim_published": false
   },
-  "plain_english_status": "The next phase is ordered, not ready. First capture official source custody and current-law annual paths. Then reconcile funds, set outcome floors, build policy-specific scores, model receipt bases and distribution, establish payment-integrity lineage, add net-interest feedback, and only then attempt a deterministic solver dry run. This queue publishes no values, rates, savings, waste/fraud findings, department cuts, technology savings, solver outputs, or balanced-budget claim."
+  "plain_english_status": "The next phase is ordered, not ready. Source custody and current-law paths now have partial matrix-visible progress for all 15 lanes, with the current-law progress rollup, Wave B closure, and eight-gap acquisition status attached, but rank 1 remains blocked because complete official annual paths and source custody are not done. Then reconcile funds, set outcome floors, build policy-specific scores, model receipt bases and distribution, establish payment-integrity lineage, add net-interest feedback, and only then attempt a deterministic solver dry run. This queue publishes no values, rates, savings, waste/fraud findings, department cuts, technology savings, solver outputs, or balanced-budget claim."
 }

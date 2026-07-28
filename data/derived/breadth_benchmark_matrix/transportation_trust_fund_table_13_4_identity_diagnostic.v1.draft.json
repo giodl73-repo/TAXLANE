@@ -1,0 +1,88 @@
+{
+  "record_id": "transportation-trust-fund-table-13-4-identity-diagnostic:v1",
+  "record_family": "transportation_trust_fund_table_13_4_identity_diagnostic",
+  "schema_version": "v1.draft",
+  "status": "draft_table_13_4_internal_identity_diagnostic_solver_blocked",
+  "as_of_date": "2026-07-24",
+  "lane_id": "transportation-infrastructure",
+  "source_context_path": "data/derived/breadth_benchmark_matrix/transportation_trust_fund_table_13_4_fy2025_2031_context_path.v1.draft.json",
+  "source_id": "SRC-OMB-AP-13-TABLES-FY2027",
+  "raw_artifact_path": "data/raw/omb/SRC-OMB-AP-13-TABLES-FY2027/2026-07-23/ap_13_tables_fy2027.xlsx",
+  "raw_byte_count": 47862,
+  "raw_sha256": "86e550d366f218435f3ef9af43bafe37ff5a2e496680013a7d1dbcab7737c505",
+  "unit": "billions_usd",
+  "identity_method": {
+    "rows_checked": 14,
+    "funds_checked": ["airport_and_airway_trust_fund", "highway_trust_fund"],
+    "fiscal_years_checked": [2025, 2026, 2027, 2028, 2029, 2030, 2031],
+    "rounding_tolerance_billions": 0.1,
+    "checks": [
+      "income components sum to total income",
+      "noninterest income plus outgo equals surplus_or_deficit_excluding_interest",
+      "surplus_or_deficit_excluding_interest plus interest equals subtotal_surplus_or_deficit",
+      "subtotal_surplus_or_deficit plus borrowing/transfers/lapses/other adjustments equals total_change_in_fund_balance",
+      "total_balance_start plus total_change_in_fund_balance equals balance_end"
+    ]
+  },
+  "identity_summary": {
+    "rows_checked": 14,
+    "rows_with_any_delta_over_tolerance": 0,
+    "max_abs_delta_billions": 0.1,
+    "airport_airway_rows_checked": 7,
+    "highway_rows_checked": 7,
+    "highway_first_negative_balance_year": 2028,
+    "airport_airway_balance_positive_through_2031": true,
+    "all_deltas_within_rounding_tolerance": true
+  },
+  "rounding_observations": [
+    {"trust_fund_id": "airport_and_airway_trust_fund", "fiscal_year": 2028, "largest_abs_delta_billions": 0.1, "largest_delta_field": "income_components_to_total_income"},
+    {"trust_fund_id": "airport_and_airway_trust_fund", "fiscal_year": 2030, "largest_abs_delta_billions": 0.1, "largest_delta_field": "income_components_to_total_income"},
+    {"trust_fund_id": "airport_and_airway_trust_fund", "fiscal_year": 2031, "largest_abs_delta_billions": 0.1, "largest_delta_field": "income_components_to_total_income"},
+    {"trust_fund_id": "highway_trust_fund", "fiscal_year": 2026, "largest_abs_delta_billions": 0.1, "largest_delta_field": "income_components_to_total_income"},
+    {"trust_fund_id": "highway_trust_fund", "fiscal_year": 2027, "largest_abs_delta_billions": 0.1, "largest_delta_field": "subtotal_to_total_change_and_balance_end"},
+    {"trust_fund_id": "highway_trust_fund", "fiscal_year": 2028, "largest_abs_delta_billions": 0.1, "largest_delta_field": "balance_end_identity"},
+    {"trust_fund_id": "highway_trust_fund", "fiscal_year": 2029, "largest_abs_delta_billions": 0.1, "largest_delta_field": "noninterest_income_plus_outgo"}
+  ],
+  "diagnostic_findings": [
+    "OMB Table 13-4 transportation fund rows internally reconcile within 0.1 billion rounding tolerance for FY2025-FY2031.",
+    "Highway Trust Fund balance turns negative in FY2028 in the Table 13-4 context rows.",
+    "Airport and Airway Trust Fund balance remains positive through FY2031 in the Table 13-4 context rows.",
+    "This diagnostic does not add FY2032-FY2035 values and does not reconcile Table 13-4 to Function 400 net outlays."
+  ],
+  "blocked_model_steps": [
+    "obtain FY2032-FY2035 transportation trust-fund income/outgo/balance values or official extension context",
+    "identify explicit general-fund transfers and credited offsetting collections",
+    "map Table 13-4 trust-fund accounting to Function 400 net outlays without double counting",
+    "reconcile Highway, Mass Transit, Airport/Airway, interest, and intrabudgetary rows to a solver perimeter",
+    "review legal/economic payer base before any rate bridge"
+  ],
+  "blocked_outputs": {
+    "complete_fy2025_fy2035_transportation_trust_fund_path": null,
+    "fund_balance_reconciliation": null,
+    "explicit_general_fund_transfer_path": null,
+    "credited_offsetting_collections": null,
+    "function_400_mapping": null,
+    "solver_input": null,
+    "solver_run": null,
+    "rate_calculation": null,
+    "public_rate_card": null,
+    "savings_estimate": null,
+    "balanced_budget_claim": null
+  },
+  "claim_booleans": {
+    "transportation_trust_fund_table_13_4_identity_diagnostic_published": true,
+    "internal_identity_diagnostic_ready": true,
+    "all_deltas_within_rounding_tolerance": true,
+    "complete_transportation_trust_fund_path_ready": false,
+    "fund_balance_reconciliation_ready": false,
+    "explicit_general_fund_transfer_path_ready": false,
+    "function_400_mapping_ready": false,
+    "solver_input_ready": false,
+    "solver_run_published": false,
+    "rate_calculation_published": false,
+    "public_rate_card_published": false,
+    "savings_estimate_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "OMB Table 13-4 transportation trust-fund rows internally reconcile within rounding tolerance for FY2025-FY2031, but this is diagnostic context only. This is not FY2032-FY2035 values, not a complete transportation trust-fund path, not explicit general-fund transfers, not credited offsetting collections, not Function 400 mapping, not solver input, not a solver run, not a rate calculation, not a public rate card, not a savings estimate, and not a balanced-budget claim."
+}

@@ -1,0 +1,385 @@
+{
+  "record_id": "lane-full-coverage-matrix:v1",
+  "record_family": "lane_full_coverage_matrix",
+  "version": "v1.draft",
+  "status": "draft_full_coverage_visibility_no_lane_complete",
+  "as_of_date": "2026-07-26",
+  "lane_depth_explainability_tracker_path": "data/derived/breadth_benchmark_matrix/lane_depth_explainability_tracker.v1.draft.json",
+  "public_explainer_wave_c_promotion_path": "data/derived/breadth_benchmark_matrix/public_explainer_wave_c_promotion.v1.draft.json",
+  "lane_floor_readiness_rollup_path": "data/derived/breadth_benchmark_matrix/lane_floor_readiness_rollup.v1.draft.json",
+  "outcome_floor_wave_d_value_readiness_path": "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json",
+  "lane_scenario_pack_wave_e_readiness_path": "data/derived/breadth_benchmark_matrix/lane_scenario_pack_wave_e_readiness.v1.draft.json",
+  "solver_rate_wave_f_readiness_path": "data/derived/breadth_benchmark_matrix/solver_rate_wave_f_readiness.v1.draft.json",
+  "wave_f_transportation_calibration_path": "data/derived/breadth_benchmark_matrix/wave_f_transportation_deterministic_calibration.v1.draft.json",
+  "solver_input_readiness_rollup_path": "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json",
+  "post_rollup_readiness_work_queue_path": "data/derived/breadth_benchmark_matrix/post_rollup_readiness_work_queue.v1.draft.json",
+  "purpose": "One validated visibility matrix for the nine full-coverage gates across all fifteen Taxlane analytical lanes.",
+  "required_gates": [
+    "current_law_baseline",
+    "source_custody",
+    "public_explainer",
+    "outcome_floors",
+    "policy_scenarios",
+    "transition_model",
+    "solver_mapping",
+    "receipt_rate_bridge",
+    "claim_boundary"
+  ],
+  "status_meanings": {
+    "missing": "No evidence artifact currently closes the gate.",
+    "partial": "Some source-backed or contract evidence exists, but the completion contract remains open.",
+    "complete": "The gate has positive evidence for the full lane-specific completion contract."
+  },
+  "aggregate_status": {
+    "lane_count": 15,
+    "required_gate_count": 9,
+    "lanes_full_coverage_complete": 0,
+    "lanes_with_partial_current_law_baseline": 15,
+    "lanes_with_partial_source_custody": 15,
+    "lanes_with_complete_public_explainers": 15,
+    "lanes_with_complete_claim_boundary": 15,
+    "lanes_with_partial_outcome_floor_baseline_context": 15,
+    "lanes_with_source_custodied_anchor_thresholds": 15,
+    "lanes_with_source_custodied_anchor_baselines": 15,
+    "lanes_with_complete_outcome_floor_values": 0,
+    "lanes_with_partial_policy_scenario_component_requirements": 15,
+    "lanes_with_ready_policy_scenario_packs": 15,
+    "lanes_with_wave_e_reference_policy_values": 15,
+    "lanes_with_wave_e_reference_stress_values": 15,
+    "lanes_with_wave_e_comparator_results": 15,
+    "lanes_with_ready_reform_scenario_packs": 0,
+    "lanes_with_partial_transition_model": 2,
+    "lanes_missing_transition_model": 13,
+    "lanes_with_partial_solver_mapping": 7,
+    "lanes_missing_solver_mapping": 8,
+    "lanes_with_partial_receipt_rate_bridge": 4,
+    "lanes_missing_receipt_rate_bridge": 11,
+    "wave_f_prerequisites_ready": 0,
+    "wave_f_calibration_interfaces_ready": 10,
+    "deterministic_solver_dry_run_ready": true,
+    "lanes_solver_ready": 0,
+    "public_rates_ready": 0,
+    "public_rate_cards_ready": 0,
+    "transportation_deepest_pilot": true,
+    "all_public_claim_outputs_blocked": true
+  },
+  "special_lane_handling": {
+    "revenue-solvency": "non_additive_overlay",
+    "payment-integrity": "non_additive_overlay",
+    "net-interest": "endogenous"
+  },
+  "gate_completion_contract": {
+    "current_law_baseline": "FY2025-FY2035 annual path from official sources, with component and fund treatment where relevant.",
+    "source_custody": "Source ID, publisher, URL, retrieval date, byte count or access boundary, SHA-256 when local bytes exist, and review status.",
+    "public_explainer": "Answers what it does, what taxpayers pay now, who is served or protected, outcomes, overspending/underfunding boundary, technology transition, evidence gaps, and blocked claims.",
+    "outcome_floors": "Threshold rationale, baseline values, policy values, stress values, and pass/fail evidence.",
+    "policy_scenarios": "Policy instrument, phase-in, behavior, transition/admin cost, incidence, score provenance, and floor results.",
+    "transition_model": "Implementation, training, cybersecurity/privacy/fallback where relevant, service-risk, stress, and measured productivity or explicit no-credit boundary.",
+    "solver_mapping": "Lane row mapping, fund treatment, interactions, null policy, and blocked outputs.",
+    "receipt_rate_bridge": "Legal/economic base, payer universe, distribution/incidence, administration burden, and current-law/reform yield.",
+    "claim_boundary": "Explicit allowed, blocked, and still-null claims."
+  },
+  "lane_rows": [
+    {
+      "lane_id": "health-medicare",
+      "public_label": "Health and Medicare",
+      "coverage_tier": "partial_context",
+      "lane_full_coverage_complete": false,
+      "gates": {
+        "current_law_baseline": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/current_law_17_row_pbd_fy2025_2031_context_path.v1.draft.json", "data/derived/breadth_benchmark_matrix/medicare_hi_cy2025_2035_current_law_context_path.v1.draft.json", "data/derived/breadth_benchmark_matrix/omb_receipt_detail_table_2_4_fy2025_2031_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_open_data_fy2032_2035_current_law_extension_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_major_outlay_category_fy2032_2035_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/health_medicare_trustees_source_capture_status.v1.draft.json"], "blocked_outputs": ["component_federal_path", "full_fy2025_fy2035_path", "fiscal-year HI path"]},
+        "source_custody": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/health_source_readiness_rollup.v1.draft.json"], "blocked_outputs": ["NHE custody", "CBO custody", "quality/access indicator custody"]},
+        "public_explainer": {"status": "complete", "evidence_paths": ["data/derived/breadth_benchmark_matrix/wave1_public_topline_lane_depth_packets.v1.draft.json", "data/derived/breadth_benchmark_matrix/public_explainer_wave_c_promotion.v1.draft.json"], "blocked_outputs": ["rates", "savings", "solver output"]},
+        "outcome_floors": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/health_outcome_floor_definition_packet.v1.draft.json", "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json"], "blocked_outputs": ["thresholds", "baseline values", "policy values", "stress values", "pass/fail findings"]},
+        "policy_scenarios": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/health_medicare_relative_scenarios.v1.draft.json", "data/derived/breadth_benchmark_matrix/lane_scenario_pack_wave_e_readiness.v1.draft.json", "data/derived/breadth_benchmark_matrix/wave_e_reference_scenario_packs.v1.draft.json"], "blocked_outputs": ["federal policy score", "behavior model", "floor-passing scenario"]},
+        "transition_model": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["transition cost", "administration burden", "implementation risk"]},
+        "solver_mapping": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/medicare_hi_bridge_status_rollup.v1.draft.json"], "blocked_outputs": ["solver input row", "current-law yield mapping"]},
+        "receipt_rate_bridge": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/medicare_hi_receipt_base_reconciliation.v1.draft.json", "data/derived/breadth_benchmark_matrix/omb_receipt_detail_table_2_4_fy2025_2031_context.v1.draft.json"], "blocked_outputs": ["assigned base", "rate", "public rate card"]},
+        "claim_boundary": {"status": "complete", "evidence_paths": ["data/derived/breadth_benchmark_matrix/medicare_hi_closure_series_rollup.v1.draft.json"], "blocked_outputs": ["rates", "savings", "technology savings", "balanced-budget claim"]}
+      },
+      "next_blocker": "Close NHE, CBO, quality/access, behavior, transition, and Medicare HI yield mapping before solver or rate use."
+    },
+    {
+      "lane_id": "social-security",
+      "public_label": "Social Security",
+      "coverage_tier": "partial_context",
+      "lane_full_coverage_complete": false,
+      "gates": {
+        "current_law_baseline": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/social_security_oasdi_fy2025_2035_current_law_path.v1.draft.json", "data/derived/breadth_benchmark_matrix/omb_receipt_detail_table_2_4_fy2025_2031_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_open_data_fy2032_2035_current_law_extension_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_major_outlay_category_fy2032_2035_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/social_security_source_capture_status_rollup.v1.draft.json"], "blocked_outputs": ["separate OASI/DI annual path", "complete post-depletion reserve fields", "complete 75-year normalized solvency path"]},
+        "source_custody": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/social_security_trustees_source_capture_status.v1.draft.json", "data/derived/breadth_benchmark_matrix/social_security_source_capture_status_rollup.v1.draft.json"], "blocked_outputs": ["local SSA raw-byte custody", "SHA-256 for SSA local bytes", "benefit adequacy custody", "old-age poverty custody", "administration transition custody"]},
+        "public_explainer": {"status": "complete", "evidence_paths": ["data/derived/breadth_benchmark_matrix/wave1_public_topline_lane_depth_packets.v1.draft.json", "data/derived/breadth_benchmark_matrix/public_explainer_wave_c_promotion.v1.draft.json"], "blocked_outputs": ["rates", "savings", "solver output"]},
+        "outcome_floors": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/social_security_outcome_floor_definition_packet.v1.draft.json", "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json"], "blocked_outputs": ["adequacy values", "old-age poverty values", "pass/fail findings"]},
+        "policy_scenarios": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/lane_scenario_pack_wave_e_readiness.v1.draft.json", "data/derived/breadth_benchmark_matrix/wave_e_reference_scenario_packs.v1.draft.json"], "blocked_outputs": ["demographic solvency scenario", "benefit formula scenario", "taxable wage-base reform scenario"]},
+        "transition_model": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["phase-in", "beneficiary transition"]},
+        "solver_mapping": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["OASDI solver row", "fund treatment"]},
+        "receipt_rate_bridge": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/social_security_taxable_payroll_base_bridge.cy2025-2035.v1.draft.json", "data/derived/breadth_benchmark_matrix/social_security_oasdi_receipt_yield_boundary.fy2025-cy2025.v1.draft.json", "data/derived/breadth_benchmark_matrix/omb_receipt_detail_table_2_4_fy2025_2031_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/social_security_source_capture_status_rollup.v1.draft.json"], "blocked_outputs": ["calendar-to-fiscal bridge", "OMB row-perimeter reconciliation", "current-law solver yield", "reform yield", "distribution/incidence", "administration burden"]},
+        "claim_boundary": {"status": "complete", "evidence_paths": ["data/derived/breadth_benchmark_matrix/social_security_source_capture_status_rollup.v1.draft.json"], "blocked_outputs": ["rates", "savings", "balanced-budget claim"]}
+      },
+      "next_blocker": "Close local SSA raw custody, separate OASI/DI paths, full 75-year solvency path, calendar-to-fiscal receipt bridge, OMB row reconciliation, floor values, and transition source paths."
+    },
+    {
+      "lane_id": "national-defense",
+      "public_label": "National defense",
+      "coverage_tier": "scaffold_only",
+      "lane_full_coverage_complete": false,
+      "gates": {
+        "current_law_baseline": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/current_law_17_row_pbd_fy2025_2031_context_path.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_open_data_fy2032_2035_current_law_extension_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_major_outlay_category_fy2032_2035_context.v1.draft.json"], "blocked_outputs": ["FY2032-FY2035 OMB 17-row defense baseline", "force-structure plan", "readiness/procurement linkage"]},
+        "source_custody": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/defense_source_capture_status_rollup.v1.draft.json"], "blocked_outputs": ["force-structure custody", "readiness custody", "procurement custody"]},
+        "public_explainer": {"status": "complete", "evidence_paths": ["data/derived/breadth_benchmark_matrix/wave1_public_topline_lane_depth_packets.v1.draft.json", "data/derived/breadth_benchmark_matrix/public_explainer_wave_c_promotion.v1.draft.json"], "blocked_outputs": ["rates", "savings", "solver output"]},
+        "outcome_floors": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/defense_outcome_floor_definition_packet.v1.draft.json", "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json"], "blocked_outputs": ["readiness values", "force-structure values", "procurement thresholds"]},
+        "policy_scenarios": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/lane_scenario_pack_wave_e_readiness.v1.draft.json", "data/derived/breadth_benchmark_matrix/wave_e_reference_scenario_packs.v1.draft.json"], "blocked_outputs": ["GDP-band force plan", "federal score"]},
+        "transition_model": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["procurement transition", "industrial-base transition"]},
+        "solver_mapping": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["solver row mapping", "interaction treatment"]},
+        "receipt_rate_bridge": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["general-fund base bridge", "rate bridge"]},
+        "claim_boundary": {"status": "complete", "evidence_paths": ["data/derived/breadth_benchmark_matrix/defense_source_capture_closure_work_queue.v1.draft.json"], "blocked_outputs": ["department cuts", "savings", "technology savings", "balanced-budget claim"]}
+      },
+      "next_blocker": "Close force-structure, readiness, procurement, audit-control, and transition source families."
+    },
+    {
+      "lane_id": "income-security-family",
+      "public_label": "Income security and family",
+      "coverage_tier": "partial_context",
+      "lane_full_coverage_complete": false,
+      "gates": {
+        "current_law_baseline": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/current_law_17_row_pbd_fy2025_2031_context_path.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_open_data_fy2032_2035_current_law_extension_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_major_outlay_category_fy2032_2035_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/income_security_family_federal_program_perimeter_bridge.fy2025.v1.draft.json"], "blocked_outputs": ["FY2032-FY2035 OMB lane path", "benefit package path", "take-up path", "federal/state/local translation"]},
+        "source_custody": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/income_security_family_source_capture_status_rollup.v1.draft.json"], "blocked_outputs": ["CBO capture", "Census capture", "HHS/ACF capture", "USDA capture"]},
+        "public_explainer": {"status": "complete", "evidence_paths": ["data/derived/breadth_benchmark_matrix/wave2_human_services_lane_depth_packets.v1.draft.json", "data/derived/breadth_benchmark_matrix/public_explainer_wave_c_promotion.v1.draft.json"], "blocked_outputs": ["rates", "savings", "solver output"]},
+        "outcome_floors": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/income_security_family_outcome_floor_definition_packet.v1.draft.json", "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json"], "blocked_outputs": ["child-poverty values", "childcare values", "nutrition values", "pass/fail findings"]},
+        "policy_scenarios": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/lane_scenario_pack_wave_e_readiness.v1.draft.json", "data/derived/breadth_benchmark_matrix/wave_e_reference_scenario_packs.v1.draft.json"], "blocked_outputs": ["benefit package model", "take-up model", "score provenance"]},
+        "transition_model": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["service-delivery transition", "work/care transition"]},
+        "solver_mapping": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["solver row mapping"]},
+        "receipt_rate_bridge": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["general-fund base bridge", "rate bridge"]},
+        "claim_boundary": {"status": "complete", "evidence_paths": ["data/derived/breadth_benchmark_matrix/income_security_family_source_capture_closure_work_queue.v1.draft.json"], "blocked_outputs": ["savings", "department cuts", "technology savings", "balanced-budget claim"]}
+      },
+      "next_blocker": "Close CBO, Census, HHS/ACF, USDA, floor-value, and federal/state/local translation gaps."
+    },
+    {
+      "lane_id": "revenue-solvency",
+      "public_label": "Revenue solvency overlay",
+      "coverage_tier": "overlay_scaffold",
+      "lane_full_coverage_complete": false,
+      "gates": {
+        "current_law_baseline": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/omb_receipt_category_context.fy2025.v1.draft.json", "data/derived/breadth_benchmark_matrix/omb_receipt_category_fy2025_2031_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/omb_receipt_detail_table_2_4_fy2025_2031_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/omb_receipt_share_table_2_2_fy2025_2031_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/omb_receipt_amount_share_reconciliation_fy2025_2031_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_open_data_fy2032_2035_current_law_extension_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_revenue_detail_fy2026_2035_context.v1.draft.json"], "blocked_outputs": ["matched receipt bases", "legal/economic yield path"]},
+        "source_custody": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/receipt_base_official_source_capture.v1.draft.json"], "blocked_outputs": ["assigned base custody completion"]},
+        "public_explainer": {"status": "complete", "evidence_paths": ["data/derived/breadth_benchmark_matrix/wave5_fiscal_control_overlay_depth_packets.v1.draft.json", "data/derived/breadth_benchmark_matrix/public_explainer_wave_c_promotion.v1.draft.json"], "blocked_outputs": ["rates", "savings", "solver output"]},
+        "outcome_floors": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/revenue_solvency_outcome_floor_definition_packet.v1.draft.json", "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json"], "blocked_outputs": ["thresholds", "distribution values", "administration values", "pass/fail findings"]},
+        "policy_scenarios": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/lane_scenario_pack_wave_e_readiness.v1.draft.json", "data/derived/breadth_benchmark_matrix/wave_e_reference_scenario_packs.v1.draft.json"], "blocked_outputs": ["scored receipt package", "behavior response", "avoidance/compliance"]},
+        "transition_model": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["tax administration transition", "taxpayer burden"]},
+        "solver_mapping": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json"], "blocked_outputs": ["non-additive overlay solver treatment"]},
+        "receipt_rate_bridge": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/assigned_receipt_base_inventory.v1.draft.json", "data/derived/breadth_benchmark_matrix/omb_receipt_category_fy2025_2031_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/omb_receipt_detail_table_2_4_fy2025_2031_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_revenue_detail_fy2026_2035_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/irs_soi_pub1304_ty2023_individual_income_base_context.v1.draft.json"], "blocked_outputs": ["legal/economic base values", "current-law yield", "reform yield", "rates"]},
+        "claim_boundary": {"status": "complete", "evidence_paths": ["data/derived/breadth_benchmark_matrix/rate_publication_readiness_rollup.v1.draft.json"], "blocked_outputs": ["rates", "tax proposal", "balanced-budget claim"]}
+      },
+      "next_blocker": "Close matched bases, elasticity, avoidance/compliance, distribution, incidence, administration, interactions, and review."
+    },
+    {
+      "lane_id": "net-interest",
+      "public_label": "Net interest",
+      "coverage_tier": "endogenous_contract",
+      "lane_full_coverage_complete": false,
+      "gates": {
+        "current_law_baseline": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/net_interest_pbd_fy2025_2031_current_law_context_path.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_open_data_fy2032_2035_current_law_extension_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/current_law_17_row_pbd_fy2025_2031_context_path.v1.draft.json"], "blocked_outputs": ["FY2032-FY2035 OMB PBD net-interest row", "debt stock reconciliation", "maturity schedule", "rate path"]},
+        "source_custody": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/current_law_path_inventory.v1.draft.json"], "blocked_outputs": ["Treasury/CBO debt and maturity custody"]},
+        "public_explainer": {"status": "complete", "evidence_paths": ["data/derived/breadth_benchmark_matrix/wave5_fiscal_control_overlay_depth_packets.v1.draft.json", "data/derived/breadth_benchmark_matrix/public_explainer_wave_c_promotion.v1.draft.json"], "blocked_outputs": ["rates", "savings", "solver output"]},
+        "outcome_floors": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/net_interest_outcome_floor_definition_packet.v1.draft.json", "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json"], "blocked_outputs": ["full/timely debt-service threshold values", "stress values"]},
+        "policy_scenarios": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/lane_scenario_pack_wave_e_readiness.v1.draft.json", "data/derived/breadth_benchmark_matrix/wave_e_reference_scenario_packs.v1.draft.json"], "blocked_outputs": ["primary-balance feedback scenario"]},
+        "transition_model": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/net_interest_formula_contract.v1.draft.json"], "blocked_outputs": ["feedback fixture values"]},
+        "solver_mapping": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json"], "blocked_outputs": ["endogenous net-interest solver path"]},
+        "receipt_rate_bridge": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["not directly rateable", "general financing interaction"]},
+        "claim_boundary": {"status": "complete", "evidence_paths": ["data/derived/breadth_benchmark_matrix/net_interest_formula_contract.v1.draft.json"], "blocked_outputs": ["direct cut", "direct savings", "balanced-budget claim"]}
+      },
+      "next_blocker": "Populate debt stock, maturity schedule, rate path, and primary-balance feedback fixture."
+    },
+    {
+      "lane_id": "payment-integrity",
+      "public_label": "Payment integrity overlay",
+      "coverage_tier": "overlay_partial",
+      "lane_full_coverage_complete": false,
+      "gates": {
+        "current_law_baseline": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/payment_integrity_depth_card.fy2024.v1.draft.json"], "blocked_outputs": ["program-wide current-law prevention/collection path"]},
+        "source_custody": {"status": "partial", "evidence_paths": ["data/derived/efficiency_pressure/extracts/payment_integrity_methodology_closure_coverage_q4_2025.jsonl"], "blocked_outputs": ["causal prevention lineage", "same-cohort collection lineage"]},
+        "public_explainer": {"status": "complete", "evidence_paths": ["docs/reading/payment-integrity-bounded-factual-examples.md", "data/derived/breadth_benchmark_matrix/public_explainer_wave_c_promotion.v1.draft.json"], "blocked_outputs": ["rates", "savings", "solver output"]},
+        "outcome_floors": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/payment_integrity_outcome_floor_definition_packet.v1.draft.json", "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json"], "blocked_outputs": ["due-process thresholds", "false-positive thresholds", "access thresholds", "pass/fail findings"]},
+        "policy_scenarios": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/lane_scenario_pack_wave_e_readiness.v1.draft.json", "data/derived/breadth_benchmark_matrix/wave_e_reference_scenario_packs.v1.draft.json"], "blocked_outputs": ["causal prevention score", "same-cohort collection score"]},
+        "transition_model": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["control cost", "service-risk model"]},
+        "solver_mapping": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json"], "blocked_outputs": ["non-additive overlay solver credit"]},
+        "receipt_rate_bridge": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["not an additive receipt/rate lane"]},
+        "claim_boundary": {"status": "complete", "evidence_paths": ["data/derived/breadth_benchmark_matrix/payment_integrity_outcome_floor_definition_packet.v1.draft.json"], "blocked_outputs": ["fraud inference", "waste finding", "recoverable savings", "balanced-budget claim"]}
+      },
+      "next_blocker": "Prove causal prevention or same-cohort collections with due-process, false-positive, access, and control-cost floors."
+    },
+    {
+      "lane_id": "veterans",
+      "public_label": "Veterans",
+      "coverage_tier": "partial_depth_card",
+      "lane_full_coverage_complete": false,
+      "gates": {
+        "current_law_baseline": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/current_law_17_row_pbd_fy2025_2031_context_path.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_open_data_fy2032_2035_current_law_extension_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_major_outlay_category_fy2032_2035_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/veterans_depth_card.fy2025.v1.draft.json"], "blocked_outputs": ["eligible-cohort/service-package path", "FY2032-FY2035 OMB lane path"]},
+        "source_custody": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/veterans_depth_card.fy2025.v1.draft.json"], "blocked_outputs": ["service package custody", "claims timeliness custody"]},
+        "public_explainer": {"status": "complete", "evidence_paths": ["docs/reading/veterans-depth-card.md", "data/derived/breadth_benchmark_matrix/public_explainer_wave_c_promotion.v1.draft.json"], "blocked_outputs": ["rates", "savings", "solver output"]},
+        "outcome_floors": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/veterans_outcome_floor_definition_packet.v1.draft.json", "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json"], "blocked_outputs": ["statutory continuity values", "access values", "health values", "pass/fail findings"]},
+        "policy_scenarios": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/lane_scenario_pack_wave_e_readiness.v1.draft.json", "data/derived/breadth_benchmark_matrix/wave_e_reference_scenario_packs.v1.draft.json"], "blocked_outputs": ["service-package policy path"]},
+        "transition_model": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["claims/care delivery transition"]},
+        "solver_mapping": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["solver row mapping"]},
+        "receipt_rate_bridge": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["general-fund base bridge", "rate bridge"]},
+        "claim_boundary": {"status": "complete", "evidence_paths": ["data/derived/breadth_benchmark_matrix/veterans_outcome_floor_definition_packet.v1.draft.json"], "blocked_outputs": ["target cost", "savings", "balanced-budget claim"]}
+      },
+      "next_blocker": "Build eligible-cohort, service-package, statutory continuity, access, health, and claims-timeliness values."
+    },
+    {
+      "lane_id": "transportation-infrastructure",
+      "public_label": "Transportation and infrastructure",
+      "coverage_tier": "deepest_pilot",
+      "lane_full_coverage_complete": false,
+      "gates": {
+        "current_law_baseline": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/current_law_17_row_pbd_fy2025_2031_context_path.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_open_data_fy2032_2035_current_law_extension_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_major_outlay_category_fy2032_2035_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/transportation_pilot_partial_federal_outlay_path.v1.draft.json", "data/derived/breadth_benchmark_matrix/transportation_trust_fund_table_13_4_fy2025_2031_context_path.v1.draft.json", "data/derived/breadth_benchmark_matrix/omb_receipt_detail_table_2_4_fy2025_2031_context.v1.draft.json"], "blocked_outputs": ["FY2032-FY2035 OMB Function 400 baseline", "trust-fund income/outgo reconciliation", "Function 400 trust-fund mapping"]},
+        "source_custody": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/transportation_pilot_fy2025_anchor_custody.v1.draft.json", "data/derived/breadth_benchmark_matrix/transportation_pilot_trust_fund_source_custody.v1.draft.json"], "blocked_outputs": ["trust-fund value extraction", "full reconciliation"]},
+        "public_explainer": {"status": "complete", "evidence_paths": ["docs/reading/transportation-depth-card.md", "data/derived/breadth_benchmark_matrix/public_explainer_wave_c_promotion.v1.draft.json"], "blocked_outputs": ["rates", "savings", "solver output"]},
+        "outcome_floors": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/transportation_infrastructure_outcome_floor_definition_packet.v1.draft.json", "data/derived/breadth_benchmark_matrix/transportation_pilot_floor_indicator_contract.v1.draft.json", "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json"], "blocked_outputs": ["thresholds", "baseline floor values", "policy floor values", "stress floor values", "pass/fail findings"]},
+        "policy_scenarios": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/transportation_pilot_modernization_path_contract.v1.draft.json", "data/derived/breadth_benchmark_matrix/transportation_pilot_stress_path_contract.v1.draft.json", "data/derived/breadth_benchmark_matrix/lane_scenario_pack_wave_e_readiness.v1.draft.json", "data/derived/breadth_benchmark_matrix/wave_e_reference_scenario_packs.v1.draft.json"], "blocked_outputs": ["real reform policy values", "simulator run", "savings"]},
+        "transition_model": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/transportation_pilot_modernization_path_contract.v1.draft.json"], "blocked_outputs": ["productivity credit", "transition cost values"]},
+        "solver_mapping": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/transportation_pilot_trust_fund_accounting_boundary.v1.draft.json"], "blocked_outputs": ["solver input row", "fund balance path"]},
+        "receipt_rate_bridge": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/transportation_receipt_base_work_item_progress.v1.draft.json", "data/derived/breadth_benchmark_matrix/omb_receipt_detail_table_2_4_fy2025_2031_context.v1.draft.json"], "blocked_outputs": ["legal/economic bases", "rate", "public card"]},
+        "claim_boundary": {"status": "complete", "evidence_paths": ["data/derived/breadth_benchmark_matrix/transportation_pilot_stress_path_contract.v1.draft.json"], "blocked_outputs": ["simulator output", "rate", "savings", "balanced-budget claim"]}
+      },
+      "next_blocker": "Finish FY2032-FY2035 baseline, trust-fund annual values, floor thresholds, and policy/stress values."
+    },
+    {
+      "lane_id": "education-workforce",
+      "public_label": "Education and workforce",
+      "coverage_tier": "partial_depth_card",
+      "lane_full_coverage_complete": false,
+      "gates": {
+        "current_law_baseline": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/current_law_17_row_pbd_fy2025_2031_context_path.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_open_data_fy2032_2035_current_law_extension_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_major_outlay_category_fy2032_2035_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/education_depth_card.fy2025.v1.draft.json"], "blocked_outputs": ["federal/state/local translation", "FY2032-FY2035 OMB lane path"]},
+        "source_custody": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/education_depth_card.fy2025.v1.draft.json"], "blocked_outputs": ["state/local custody", "program allocation custody"]},
+        "public_explainer": {"status": "complete", "evidence_paths": ["docs/reading/education-depth-card.md", "data/derived/breadth_benchmark_matrix/public_explainer_wave_c_promotion.v1.draft.json"], "blocked_outputs": ["rates", "savings", "solver output"]},
+        "outcome_floors": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/education_workforce_outcome_floor_definition_packet.v1.draft.json", "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json"], "blocked_outputs": ["attainment", "completion", "access", "employment", "equity values"]},
+        "policy_scenarios": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/lane_scenario_pack_wave_e_readiness.v1.draft.json", "data/derived/breadth_benchmark_matrix/wave_e_reference_scenario_packs.v1.draft.json"], "blocked_outputs": ["federal/state/local policy path"]},
+        "transition_model": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["service/training transition"]},
+        "solver_mapping": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["solver row mapping"]},
+        "receipt_rate_bridge": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["general-fund base bridge", "rate bridge"]},
+        "claim_boundary": {"status": "complete", "evidence_paths": ["data/derived/breadth_benchmark_matrix/education_workforce_outcome_floor_definition_packet.v1.draft.json"], "blocked_outputs": ["negative-entry savings", "target cost", "balanced-budget claim"]}
+      },
+      "next_blocker": "Close federal/state/local translation and education/workforce outcome floor values."
+    },
+    {
+      "lane_id": "disaster-resilience",
+      "public_label": "Disaster and resilience",
+      "coverage_tier": "partial_depth_card",
+      "lane_full_coverage_complete": false,
+      "gates": {
+        "current_law_baseline": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/current_law_17_row_pbd_fy2025_2031_context_path.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_open_data_fy2032_2035_current_law_extension_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/disaster_depth_card.fy2025.v1.draft.json"], "blocked_outputs": ["FY2032-FY2035 OMB lane path", "exposure-normalized path", "reserve path"]},
+        "source_custody": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/disaster_depth_card.fy2025.v1.draft.json"], "blocked_outputs": ["obligation/outlay custody", "mitigation method custody"]},
+        "public_explainer": {"status": "complete", "evidence_paths": ["docs/reading/disaster-depth-card.md", "data/derived/breadth_benchmark_matrix/public_explainer_wave_c_promotion.v1.draft.json"], "blocked_outputs": ["rates", "savings", "solver output"]},
+        "outcome_floors": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/disaster_resilience_outcome_floor_definition_packet.v1.draft.json", "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json"], "blocked_outputs": ["mitigation values", "recovery values", "service continuity values"]},
+        "policy_scenarios": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/lane_scenario_pack_wave_e_readiness.v1.draft.json", "data/derived/breadth_benchmark_matrix/wave_e_reference_scenario_packs.v1.draft.json"], "blocked_outputs": ["exposure-normalized loss model", "reserve scenario"]},
+        "transition_model": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["reserve/response transition"]},
+        "solver_mapping": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/reserve_rule_contract.v1.draft.json"], "blocked_outputs": ["reserve parameters", "solver row mapping"]},
+        "receipt_rate_bridge": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["general-fund base bridge", "rate bridge"]},
+        "claim_boundary": {"status": "complete", "evidence_paths": ["data/derived/breadth_benchmark_matrix/disaster_resilience_outcome_floor_definition_packet.v1.draft.json"], "blocked_outputs": ["avoided-loss savings", "target cost", "balanced-budget claim"]}
+      },
+      "next_blocker": "Build exposure-normalized loss model, reserve path, and mitigation/recovery floor values."
+    },
+    {
+      "lane_id": "justice-courts-public-safety",
+      "public_label": "Justice, courts, and public safety",
+      "coverage_tier": "partial_depth_card",
+      "lane_full_coverage_complete": false,
+      "gates": {
+        "current_law_baseline": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/current_law_17_row_pbd_fy2025_2031_context_path.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_open_data_fy2032_2035_current_law_extension_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_major_outlay_category_fy2032_2035_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/justice_depth_card.fy2025.v1.draft.json"], "blocked_outputs": ["federalism path", "caseload path", "FY2032-FY2035 OMB lane path"]},
+        "source_custody": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/justice_depth_card.fy2025.v1.draft.json"], "blocked_outputs": ["state/local custody", "rights/process custody"]},
+        "public_explainer": {"status": "complete", "evidence_paths": ["docs/reading/justice-depth-card.md", "data/derived/breadth_benchmark_matrix/public_explainer_wave_c_promotion.v1.draft.json"], "blocked_outputs": ["rates", "savings", "solver output"]},
+        "outcome_floors": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/justice_courts_public_safety_outcome_floor_definition_packet.v1.draft.json", "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json"], "blocked_outputs": ["rights", "safety", "timeliness", "due-process values"]},
+        "policy_scenarios": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/lane_scenario_pack_wave_e_readiness.v1.draft.json", "data/derived/breadth_benchmark_matrix/wave_e_reference_scenario_packs.v1.draft.json"], "blocked_outputs": ["federalism/caseload/process policy path"]},
+        "transition_model": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["court process transition", "service-risk model"]},
+        "solver_mapping": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["solver row mapping"]},
+        "receipt_rate_bridge": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["general-fund base bridge", "rate bridge"]},
+        "claim_boundary": {"status": "complete", "evidence_paths": ["data/derived/breadth_benchmark_matrix/justice_courts_public_safety_outcome_floor_definition_packet.v1.draft.json"], "blocked_outputs": ["target cost", "savings", "balanced-budget claim"]}
+      },
+      "next_blocker": "Close federalism, caseload, court process, rights, safety, and timeliness floor values."
+    },
+    {
+      "lane_id": "science-energy-environment",
+      "public_label": "Science, energy, and environment",
+      "coverage_tier": "partial_depth_card",
+      "lane_full_coverage_complete": false,
+      "gates": {
+        "current_law_baseline": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/current_law_17_row_pbd_fy2025_2031_context_path.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_open_data_fy2032_2035_current_law_extension_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/science_energy_environment_depth_card.fy2025.v1.draft.json"], "blocked_outputs": ["FY2032-FY2035 OMB lane path", "separate component annual paths"]},
+        "source_custody": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/science_energy_environment_depth_card.fy2025.v1.draft.json"], "blocked_outputs": ["science custody", "energy custody", "environment custody"]},
+        "public_explainer": {"status": "complete", "evidence_paths": ["docs/reading/science-energy-environment-depth-card.md", "data/derived/breadth_benchmark_matrix/public_explainer_wave_c_promotion.v1.draft.json"], "blocked_outputs": ["rates", "savings", "solver output"]},
+        "outcome_floors": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/science_energy_environment_outcome_floor_definition_packet.v1.draft.json", "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json"], "blocked_outputs": ["component thresholds", "component values", "pass/fail findings"]},
+        "policy_scenarios": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/lane_scenario_pack_wave_e_readiness.v1.draft.json", "data/derived/breadth_benchmark_matrix/wave_e_reference_scenario_packs.v1.draft.json"], "blocked_outputs": ["separate science scenario", "separate energy scenario", "separate environment scenario"]},
+        "transition_model": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["innovation lag", "grid/environment transition"]},
+        "solver_mapping": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json"], "blocked_outputs": ["composite target", "component solver rows"]},
+        "receipt_rate_bridge": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["general-fund base bridge", "rate bridge"]},
+        "claim_boundary": {"status": "complete", "evidence_paths": ["data/derived/breadth_benchmark_matrix/science_energy_environment_outcome_floor_definition_packet.v1.draft.json"], "blocked_outputs": ["composite target", "savings", "balanced-budget claim"]}
+      },
+      "next_blocker": "Split science, energy, and environment into separate component scenario packs."
+    },
+    {
+      "lane_id": "agriculture",
+      "public_label": "Agriculture",
+      "coverage_tier": "partial_depth_card",
+      "lane_full_coverage_complete": false,
+      "gates": {
+        "current_law_baseline": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/current_law_17_row_pbd_fy2025_2031_context_path.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_open_data_fy2032_2035_current_law_extension_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_major_outlay_category_fy2032_2035_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/agriculture_depth_card.fy2025.v1.draft.json"], "blocked_outputs": ["FY2032-FY2035 OMB lane path", "support/insurance/services/market-price-support paths"]},
+        "source_custody": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/agriculture_depth_card.fy2025.v1.draft.json"], "blocked_outputs": ["FY2025 account crosswalk custody", "nutrition handoff custody"]},
+        "public_explainer": {"status": "complete", "evidence_paths": ["docs/reading/agriculture-depth-card.md", "data/derived/breadth_benchmark_matrix/public_explainer_wave_c_promotion.v1.draft.json"], "blocked_outputs": ["rates", "savings", "solver output"]},
+        "outcome_floors": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/agriculture_outcome_floor_definition_packet.v1.draft.json", "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json"], "blocked_outputs": ["farm resilience", "productivity", "food security", "environment values"]},
+        "policy_scenarios": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/lane_scenario_pack_wave_e_readiness.v1.draft.json", "data/derived/breadth_benchmark_matrix/wave_e_reference_scenario_packs.v1.draft.json"], "blocked_outputs": ["support scenario", "insurance scenario", "services scenario", "market-price-support scenario", "nutrition handoff"]},
+        "transition_model": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["insurance/service delivery transition"]},
+        "solver_mapping": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["solver row mapping", "nutrition double-count prevention"]},
+        "receipt_rate_bridge": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["general-fund base bridge", "rate bridge"]},
+        "claim_boundary": {"status": "complete", "evidence_paths": ["data/derived/breadth_benchmark_matrix/agriculture_outcome_floor_definition_packet.v1.draft.json"], "blocked_outputs": ["crop-insurance fraud inference", "savings", "balanced-budget claim"]}
+      },
+      "next_blocker": "Separate support, insurance, services, market-price support, and nutrition handoff before target-cost work."
+    },
+    {
+      "lane_id": "international-affairs",
+      "public_label": "International affairs",
+      "coverage_tier": "partial_depth_card",
+      "lane_full_coverage_complete": false,
+      "gates": {
+        "current_law_baseline": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/current_law_17_row_pbd_fy2025_2031_context_path.v1.draft.json", "data/derived/breadth_benchmark_matrix/cbo_open_data_fy2032_2035_current_law_extension_context.v1.draft.json", "data/derived/breadth_benchmark_matrix/international_affairs_depth_card.fy2025.v1.draft.json"], "blocked_outputs": ["component commitment-to-outlay paths", "FY2032-FY2035 OMB lane path"]},
+        "source_custody": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/international_affairs_depth_card.fy2025.v1.draft.json"], "blocked_outputs": ["diplomacy/ODA/humanitarian/security/exchange/financial custody"]},
+        "public_explainer": {"status": "complete", "evidence_paths": ["docs/reading/international-affairs-depth-card.md", "data/derived/breadth_benchmark_matrix/public_explainer_wave_c_promotion.v1.draft.json"], "blocked_outputs": ["rates", "savings", "solver output"]},
+        "outcome_floors": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/international_affairs_outcome_floor_definition_packet.v1.draft.json", "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json"], "blocked_outputs": ["diplomacy", "humanitarian effectiveness", "fiscal risk", "component values"]},
+        "policy_scenarios": {"status": "partial", "evidence_paths": ["data/derived/breadth_benchmark_matrix/lane_scenario_pack_wave_e_readiness.v1.draft.json", "data/derived/breadth_benchmark_matrix/wave_e_reference_scenario_packs.v1.draft.json"], "blocked_outputs": ["diplomacy scenario", "ODA/development scenario", "humanitarian scenario", "security scenario", "exchange scenario", "financial-instrument scenario"]},
+        "transition_model": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["component delivery transition", "financial instrument risk"]},
+        "solver_mapping": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["component solver mapping", "negative financial-program treatment"]},
+        "receipt_rate_bridge": {"status": "missing", "evidence_paths": [], "blocked_outputs": ["general-fund base bridge", "rate bridge"]},
+        "claim_boundary": {"status": "complete", "evidence_paths": ["data/derived/breadth_benchmark_matrix/international_affairs_outcome_floor_definition_packet.v1.draft.json"], "blocked_outputs": ["mixed GDP comparison as target", "savings", "balanced-budget claim"]}
+      },
+      "next_blocker": "Separate diplomacy, ODA/development, humanitarian, security, exchange, and financial instruments with commitment-to-outlay bridges."
+    }
+  ],
+  "blocked_outputs": {
+    "target_cost": null,
+    "federal_effect": null,
+    "gross_savings": null,
+    "net_savings": null,
+    "solver_input": null,
+    "solver_run": null,
+    "statutory_rate": null,
+    "effective_rate": null,
+    "public_rate_card": null,
+    "department_cut_instruction": null,
+    "technology_savings_claim": null,
+    "balanced_budget_claim": null
+  },
+  "claim_booleans": {
+    "lane_full_coverage_matrix_published": true,
+    "all_lanes_full_coverage_complete": false,
+    "solver_ready": false,
+    "solver_run_published": false,
+    "target_cost_published": false,
+    "statutory_rate_published": false,
+    "effective_rate_published": false,
+    "public_rate_card_published": false,
+    "savings_claim_published": false,
+    "waste_finding_published": false,
+    "fraud_finding_published": false,
+    "department_cut_instruction_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "plain_english_status": "All fifteen analytical lanes have one validated coverage matrix with the nine required gates visible. Wave C completed public explainers, Wave D completed one source-custodied anchor per lane, and Wave E completed one role-reviewed current-policy reference calibration per lane. The Wave E packs verify central boundary passes and synthetic adverse failures but do not supply reform scenarios, federal effects, or lower-cost admissibility. Wave F records zero ready solver/rate prerequisites. Transportation is the deepest pilot, claim boundaries are explicit, and every lane remains incomplete for full coverage. No solver output, public rate, savings estimate, department cut, technology-savings claim, or balanced-budget claim is published."
+}

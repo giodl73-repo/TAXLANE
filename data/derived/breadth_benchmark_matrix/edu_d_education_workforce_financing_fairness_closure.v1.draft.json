@@ -1,0 +1,29 @@
+{
+  "record_id": "edu-d-education-workforce-financing-fairness-closure:v1",
+  "record_family": "edu_d_education_workforce_financing_fairness_closure",
+  "version": "v1.draft",
+  "status": "edu_d_complete_bounded_no_reform_outputs",
+  "pulse": 314,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "EDU-D",
+  "edu_c_path": "data/derived/breadth_benchmark_matrix/edu_c_education_workforce_scenario_admission_closure.v1.draft.json",
+  "floor_path": "data/derived/breadth_benchmark_matrix/education_workforce_outcome_floor_definition_packet.v1.draft.json",
+  "core_j_path": "data/derived/breadth_benchmark_matrix/core_j_bounded_closure_handoff_closure.v1.draft.json",
+  "core_k_path": "data/derived/breadth_benchmark_matrix/core_k_temporal_composite_accounting_closure.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/multi_track_d_b_catchup_bundle.schema.md",
+  "reader_path": "docs/reading/multi-track-d-b-catchup-bundle.md",
+  "role_review_path": "reviews/2026-07-26-multi-track-d-b-catchup-role-review.md",
+  "package_reconciliation": [
+    {"work_package_id":"EDU-D-01","status":"complete","completion_class":"bounded_structural","finding":"Appropriation, grant, credit, offset, state/local, and recipient perimeters remain separate."},
+    {"work_package_id":"EDU-D-02","status":"not_required","completion_class":"discovery_only","finding":"No receipt instrument is selected because EDU-C admitted no reform."},
+    {"work_package_id":"EDU-D-03","status":"complete","completion_class":"bounded_structural","finding":"Administration, institutional, learner, employer, and behavior fields are defined with values null."},
+    {"work_package_id":"EDU-D-04","status":"complete","completion_class":"bounded_structural","finding":"Income, age, race, disability, geography, institution, and workforce incidence dimensions are mapped without results."},
+    {"work_package_id":"EDU-D-05","status":"complete","completion_class":"bounded_structural","finding":"Grant, credit, state, debt, interest, and labor-market interactions retain owned handoffs."},
+    {"work_package_id":"EDU-D-06","status":"complete","completion_class":"bounded_structural","finding":"Role review closes the bounded D bridge without admitting a reform or outputs."}
+  ],
+  "handoff_summary": {"selected_financing_instrument":null,"administration_values":null,"behavior_values":null,"incidence_values":null,"distribution_values":null,"macro_values":null,"successor_owner":"EDU-E","blocking_gate":"admit a sourced scored EDU-C reform before integrated candidate work"},
+  "closure_decision": {"completion_class":"bounded_structural","role_review_complete":true,"edu_d_done":true,"edu_e_may_start":false,"numeric_completion":false,"output_admission":false},
+  "blocked_outputs": {"education_reform":null,"financing_source":null,"incidence_result":null,"distribution_result":null,"solver_input":null,"assigned_rate":null,"savings":null,"edu_e_start":null},
+  "claim_booleans": {"edu_d_closure_published":true,"edu_d_done":true,"edu_e_may_start":false,"reform_admitted":false,"solver_ready":false,"rate_published":false},
+  "public_warning": "EDU-D is complete as a bounded financing, behavior, incidence, fairness, and interaction map. EDU-C admitted no reform, so all numerical results and EDU-E remain blocked."
+}

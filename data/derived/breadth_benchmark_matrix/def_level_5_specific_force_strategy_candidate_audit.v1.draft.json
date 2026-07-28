@@ -1,0 +1,28 @@
+{
+  "record_id":"def-level-5-specific-force-strategy-candidate-audit:v1",
+  "record_family":"def_level_5_specific_force_strategy_candidate_audit",
+  "version":"v1.draft",
+  "status":"def_level_5_complete_specific_strategy_selected_current_fydp_execution_blocked",
+  "pulse":456,
+  "as_of_date":"2026-07-27",
+  "track_prefix":"DEF",
+  "work_package_id":"DEF-L5",
+  "predecessor_path":"data/derived/breadth_benchmark_matrix/def_level_4_force_readiness_allocation_audit.v1.draft.json",
+  "schema_path":"data/derived/breadth_benchmark_matrix/def_level_5_specific_force_strategy_candidate_audit.schema.md",
+  "reader_path":"docs/reading/def-level-5-specific-force-strategy-candidate-audit.md",
+  "role_review_path":"reviews/2026-07-27-def-level-5-specific-force-strategy-candidate-audit-role-review.md",
+  "candidate":{"candidate_id":"cbo_smaller_budget_option_1_proportional_active_force_reduction","current_option_url":"https://www.cbo.gov/budget-options/60920","strategy_source_url":"https://www.cbo.gov/publication/57538","force_tool_url":"https://www.cbo.gov/force-structure-tool","current_option_score_vintage":"CBO December 2024","strategy_vintage":"CBO October 2021","policy":"Use CBO's proportional active-force strategy as the implementation concept while preserving reserve units.","current_option_fy2026_2034_outlay_reduction_billions":959.0,"current_option_fy2026_outlay_reduction_billions":15.0,"formal_2026_current_law_rescore":false,"selected_for_candidate_audit":true},
+  "selection_rationale":{"replaces_unspecified_topline_candidate":true,"mission_strategy_named":true,"active_force_treatment_named":true,"reserve_force_treatment_named":true,"current_fydp_program_allocation_present":false,"war_plan_validation_present":false,"transition_cost_present":false},
+  "gate_rows":[
+    {"gate_id":"strategy_and_force_concept","disposition":"required_ready","evidence":"CBO Option 1 names a proportional active-force strategy and preserves reserve units."},
+    {"gate_id":"current_fydp_unit_and_program_allocation","disposition":"required_blocked","evidence":"The 2021 strategy is not an executable allocation against the FY2026 request or current FYDP."},
+    {"gate_id":"readiness_and_simultaneous_conflict_stress","disposition":"required_blocked","evidence":"CBO describes slower response and reduced flexibility but does not certify the current stress floor."},
+    {"gate_id":"personnel_family_and_community_transition","disposition":"required_blocked","evidence":"Current separations, civilian, contractor, family, and community effects are not costed."},
+    {"gate_id":"procurement_rdte_munitions_and_industrial_base","disposition":"required_blocked","evidence":"No current program, quantity, milestone, munitions, supplier, or cancellation schedule is allocated."},
+    {"gate_id":"allied_treaty_and_regional_posture","disposition":"required_blocked","evidence":"No current treaty, theater, allied-capacity, or burden-transfer implementation plan is scored."},
+    {"gate_id":"legal_accounting_and_current_law_rescore","disposition":"required_blocked","evidence":"The $959 billion score remains an unspecified December 2024 topline option, not a score of this selected strategy against the 2026 baseline."}
+  ],
+  "decision":{"candidate_selected_for_audit":true,"required_gate_count":7,"required_ready_count":1,"required_blocked_count":6,"all_required_gates_pass":false,"candidate_admitted_to_spending_package":false,"official_option_may_be_counted_as_package_savings":false,"admitted_fy2026_reduction_billions":0.0,"def_f_may_start":false,"next_required_evidence":"current FYDP unit/program allocation, stress test, transition cost, and CBO rescore"},
+  "blocked_outputs":{"admitted_def_reduction":null,"current_force_structure_plan":null,"readiness_result":null,"distribution_result":null,"procurement_schedule":null,"implementation_cost":null,"net_savings":null,"solver_input":null,"def_f_start":null,"balanced_budget_claim":null},
+  "public_warning":"A specific proportional active-force strategy is now selected for audit, but the $959 billion CBO topline is not a score of that strategy against the 2026 baseline. Six execution, readiness, transition, program, allied, and score gates keep admitted savings at zero."
+}

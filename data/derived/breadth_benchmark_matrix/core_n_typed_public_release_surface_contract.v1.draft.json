@@ -1,0 +1,18 @@
+{
+  "record_id":"core-n-typed-public-release-surface-contract:v1","record_family":"core_n_typed_public_release_surface_contract","version":"v1.draft","status":"core_n_interfaces_implemented_role_review_ready","pulse":404,"as_of_date":"2026-07-27","core_wave_id":"CORE-N",
+  "core_m_path":"data/derived/breadth_benchmark_matrix/core_m_candidate_dossier_typed_release_closure.v1.draft.json","lane_f_path":"data/derived/breadth_benchmark_matrix/lane_f_public_release_gate_contract.v1.draft.json","legacy_rate_card_path":"data/derived/breadth_benchmark_matrix/public_rate_card_v2_contract.v1.draft.json","trn_level_2_path":"data/derived/breadth_benchmark_matrix/trn_level_2_hr2247_output_ready_e_rerun.v1.draft.json","implementation_path":"crates/taxlane-core/src/lib.rs","schema_path":"data/derived/breadth_benchmark_matrix/core_n_typed_public_release_surface_contract.schema.md","reader_path":"docs/reading/core-n-typed-public-release-surface-contract.md",
+  "release_surfaces":[
+    {"surface":"cost_note","compatible_profile":"cost_only_modernization","required_outputs":["candidate_explanation","official_incremental_cost"],"prohibited_interpretations":["rate_card","savings_result"]},
+    {"surface":"rate_card","compatible_profile":"revenue_instrument","required_outputs":["candidate_explanation","assigned_receipt_rate"],"additional_dependency":"CORE-M source-supported receipt_or_fee_base"},
+    {"surface":"savings_result","compatible_profile":"lower_cost_reform","required_outputs":["candidate_explanation","net_savings"],"additional_dependency":"source-supported lower-cost and distribution results"},
+    {"surface":"integrity_overlay_report","compatible_profile":"non_additive_integrity_overlay","required_outputs":["candidate_explanation","non_additive_control_effect"],"gross_or_net_savings_prohibited":true},
+    {"surface":"endogenous_effect_report","compatible_profile":"endogenous_fiscal_effect","required_outputs":["candidate_explanation","endogenous_fiscal_effect"],"direct_savings_prohibited":true}
+  ],
+  "release_rule":{"surface_must_match_profile":true,"outputs_must_be_core_m_admitted":true,"surface_required_output_must_be_present":true,"all_profile_required_gates_must_be_ready":true,"reviewed_non_applicability_cannot_create_output":true,"role_review_required":true,"public_language_review_required":true,"reproducible_release_required":true,"one_surface_cannot_supply_another_surface_result":true},
+  "rust_interfaces":["PublicReleaseSurface","PublicReleaseInput","PublicReleaseDecision","assess_public_release"],
+  "validation_cases":["TRN cost note without rate fields","cost-only profile rejected as rate card","REV rate card requires assigned-rate output","blocked gate prevents release","PAY overlay and NET endogenous surfaces remain distinct"],
+  "implementation_status":{"release_surfaces":5,"rust_interfaces":4,"unit_tests_added":5,"core_n_implementation_done":true,"core_n_role_review_may_start":true},
+  "blocked_outputs":{"trn_cost_note":null,"public_rate_card":null,"assigned_rate":null,"savings_result":null,"integrity_overlay_report":null,"endogenous_effect_report":null,"balanced_budget_claim":null},
+  "claim_booleans":{"core_n_contract_published":true,"typed_public_release_surfaces_implemented":true,"five_surface_cases_validated":true,"core_n_implementation_done":true,"core_n_role_review_may_start":true,"core_n_done":false,"trn_f_done":false,"rate_published":false,"savings_claim_published":false},
+  "public_warning":"CORE-N types public-release surfaces. It does not turn a cost note into a rate card, infer a matched base, create a solver result, convert an overlay into savings, directly cut an endogenous effect, complete TRN-F, publish a rate, or claim budget balance."
+}

@@ -1,5 +1,17 @@
 # Breadth And Benchmark Matrix
 
+The latest fiscal program completes the rate-down candidate pass, advances the
+remaining eight tracks through two concrete levels, reruns all fifteen tracks,
+and completes REV Level 7's internal certification and official-score handoff.
+See `rate_down_bundle_dependency_rerun.v1.draft.json`,
+`eight_track_two_level_candidate_catchup.v1.draft.json`,
+`fifteen_track_integrated_dependency_admission_rerun.v1.draft.json`, and
+`rev_level_7_integrated_certification_and_score_handoff.v1.draft.json`.
+No spending candidate passed every admission gate, so the REV-F planning card
+remains unchanged. The substantive policy specification and ten-year score
+workbook are also complete; authorized submission and formal external
+certification remain blocked.
+
 This family answers three portfolio questions in one controlled record set:
 
 1. Are the important fiscal lanes covered?
@@ -11,6 +23,265 @@ Canonical draft rows:
 `breadth_benchmark_matrix.v1.draft.jsonl`.
 
 Public scoreboard: `docs/reading/current-versus-benchmark-scoreboard.md`.
+
+`lane_full_coverage_matrix.v1.draft.json` is the all-lane completion dashboard
+for the nine full-coverage gates: current-law baseline, source custody, public
+explainer, outcome floors, policy scenarios, transition model, solver mapping,
+receipt/rate bridge, and claim boundary. Its reader is
+`docs/reading/lane-full-coverage-matrix.md`. It marks transportation as the
+deepest pilot while keeping every lane incomplete for solver, rate, savings,
+technology-savings, department-cut, and balanced-budget claims.
+
+`public_explainer_wave_c_promotion.v1.draft.json` closes Wave C for the public
+explainer gate. It promotes the existing wave depth packets and depth-card
+readers into the common eight-question public template for all 15 analytical
+lanes, while keeping lane-depth completion, current-law values, floor values,
+policy scenarios, transition models, solver mapping, receipt/rate bridges,
+savings, and balanced-budget claims blocked. Its reader is
+`docs/reading/public-explainer-wave-c-promotion.md`.
+
+`current_law_source_custody_progress_rollup.v1.draft.json` summarizes partial
+custody progress across the eight required current-law paths after later
+current-law artifacts were added. It is not a complete FY2025-FY2035 baseline,
+not solver input, and not a rate or savings record. Its reader is
+`docs/reading/current-law-source-custody-progress-rollup.md`.
+
+`current_law_source_custody_wave_b_closure.v1.draft.json` closes Wave B for
+existing captured official sources. It records that the federal baseline,
+trust-fund, health component, and net-interest/debt batches have been reviewed
+against local custody, while unsupported values remain null and solver, rate,
+savings, and balanced-budget claims remain blocked. Its reader is
+`docs/reading/current-law-source-custody-wave-b-closure.md`.
+
+`social_security_trustees_source_capture_status.v1.draft.json` records new
+official-source progress for the Social Security lane. SSA Trustees pages and
+selected context values are browser-verified, but local raw-byte capture from
+this environment returned HTTP 403, so the packet records an access boundary
+and keeps complete annual fund paths, taxable payroll bases, floors, solver
+inputs, rates, savings, and balanced-budget claims blocked. Its reader is
+`docs/reading/social-security-trustees-source-capture-status.md`.
+
+`social_security_oasdi_fy2025_2035_current_law_path.v1.draft.json` adds the
+official combined OASDI fiscal-year Table VI.C6 path for FY2025-FY2035. It
+preserves post-depletion fields as null where SSA does not display them and
+keeps OASI/DI split paths, taxable payroll, floor values, solver inputs, rates,
+savings, and balanced-budget claims blocked. Its reader is
+`docs/reading/social-security-oasdi-fy2025-2035-current-law-path.md`.
+
+`social_security_taxable_payroll_base_bridge.cy2025-2035.v1.draft.json` adds
+official SSA calendar-year taxable payroll and contribution-and-benefit-base
+context for CY2025-CY2035. It closes a calendar-year base context gap while
+leaving the fiscal-year bridge, OMB receipt reconciliation, reform yield,
+distribution/incidence, administration burden, solver rows, rates, savings, and
+balanced-budget claims blocked. Its reader is
+`docs/reading/social-security-taxable-payroll-base-bridge.md`.
+
+`social_security_oasdi_receipt_yield_boundary.fy2025-cy2025.v1.draft.json`
+compares the custody-ready OMB FY2025 OASDI receipt anchor to SSA CY2025
+taxable-payroll yield context. It is a timing/perimeter boundary only and keeps
+calendar-to-fiscal bridging, OMB row reconciliation, solver yield, reform yield,
+rates, savings, and balanced-budget claims blocked. Its reader is
+`docs/reading/social-security-oasdi-receipt-yield-boundary.md`.
+
+`social_security_source_capture_status_rollup.v1.draft.json` consolidates the
+new Social Security source-capture progress. It marks the current-law baseline
+and receipt/rate bridge coverage gates as partial, while keeping local raw
+custody, OASI/DI split paths, full 75-year solvency, floor values, solver
+inputs, rates, savings, and balanced-budget claims blocked. Its reader is
+`docs/reading/social-security-source-capture-status-rollup.md`.
+
+`social_security_benefit_adequacy_context_bridge.v1.draft.json` reuses the
+source-custodied OECD pension replacement panel to attach Social Security
+benefit-adequacy context. It is international modeled context only, not
+domestic benefit adequacy custody, observed current-retiree benefit values,
+threshold rationale, floor values, pass/fail evidence, solver input, rates,
+savings, or a balanced-budget claim. Its reader is
+`docs/reading/social-security-benefit-adequacy-context-bridge.md`.
+
+`social_security_old_age_poverty_context_bridge.v1.draft.json` reuses the
+source-custodied OECD age-relative-poverty panel to attach Social Security
+old-age relative-poverty context. It is international context only, not
+domestic old-age poverty custody, threshold rationale, floor values, pass/fail
+evidence, solver input, rates, savings, or a balanced-budget claim. Its reader
+is `docs/reading/social-security-old-age-poverty-context-bridge.md`.
+
+`social_security_domestic_old_age_poverty_context_bridge.v1.draft.json` reuses
+the source-custodied Census P60-287 poverty packet to attach domestic 65-plus
+official-poverty, SPM, Social Security element-effect, and income-to-poverty
+ratio context. It is context only, not measure selection, threshold rationale,
+floor values, pass/fail evidence, solver input, rates, savings, or a
+balanced-budget claim. Its reader is
+`docs/reading/social-security-domestic-old-age-poverty-context-bridge.md`.
+
+`social_security_administration_service_context_bridge.v1.draft.json` records
+browser-visible SSA May 2026 service-channel and processing-time context while
+preserving the command-line access boundary. It is not raw-byte custody, not
+transition capacity floor values, not pass/fail evidence, not solver input, not
+rates, savings, or a balanced-budget claim. Its reader is
+`docs/reading/social-security-administration-service-context-bridge.md`.
+
+`social_security_old_age_poverty_floor_value_packet.v1.draft.json` is the first
+Wave D floor-value packet. It selects a draft no-regression threshold rationale
+and baseline value for the Social Security 65+ SPM poverty floor, while keeping
+policy values, stress values, pass/fail evidence, solver inputs, rates, savings,
+and balanced-budget claims blocked. Its reader is
+`docs/reading/social-security-old-age-poverty-floor-value-packet.md`.
+
+`veterans_claims_backlog_floor_value_packet.v1.draft.json` adds a narrow Wave D
+Veterans floor-value packet. It selects a draft no-regression threshold
+rationale and baseline value for the VA compensation and pension rating bundle
+claims backlog, while keeping complete claims-timeliness series, appeals
+evidence, service-package path, policy values, stress values, pass/fail
+evidence, solver inputs, rates, savings, and balanced-budget claims blocked.
+Its reader is
+`docs/reading/veterans-claims-backlog-floor-value-packet.md`.
+
+`payment_integrity_fcic_payment_accuracy_floor_value_packet.v1.draft.json` adds
+a narrow Wave D payment-integrity floor-value packet for the FCIC component. It
+selects a draft no-regression threshold rationale and baseline value for the
+FY2024 FCIC payment accuracy rate, while keeping false-positive modeling, due
+process evidence, causal-prevention lineage, same-cohort collection lineage,
+policy values, stress values, pass/fail evidence, solver inputs, rates, savings,
+and balanced-budget claims blocked. Its reader is
+`docs/reading/payment-integrity-fcic-payment-accuracy-floor-value-packet.md`.
+
+`revenue_solvency_total_receipts_floor_value_packet.v1.draft.json` adds a
+narrow Wave D revenue-solvency floor-value packet. It selects a draft
+no-regression threshold rationale and baseline value for FY2025 OMB total
+receipts, while keeping matched receipt bases, legal/economic bases, payer
+universe, behavior, incidence, distribution, administration burden, policy
+values, stress values, pass/fail evidence, solver inputs, rates, tax proposals,
+and balanced-budget claims blocked. Its reader is
+`docs/reading/revenue-solvency-total-receipts-floor-value-packet.md`.
+
+`health_medicare_provider_adequacy_margin_floor_value_packet.v1.draft.json`
+adds a narrow Wave D health/Medicare floor-value packet. It selects a draft
+no-regression threshold rationale and baseline value for the FY2024 relatively
+efficient hospital median FFS Medicare margin, while keeping universal
+Medicare-relative targets, access passage, quality passage, rural/safety-net
+capacity evidence, policy values, stress values, pass/fail evidence, solver
+inputs, rates, savings, and balanced-budget claims blocked. Its reader is
+`docs/reading/health-medicare-provider-adequacy-margin-floor-value-packet.md`.
+
+`net_interest_average_rate_floor_value_packet.v1.draft.json` adds a narrow
+Wave D net-interest floor-value packet. It selects a draft no-regression
+threshold rationale and baseline value for the Treasury Total Interest-bearing
+Debt average interest rate, while keeping complete FY2025-FY2035 paths, debt
+stock, maturity schedules, primary-balance feedback, direct-cut claims, policy
+values, stress values, pass/fail evidence, solver inputs, rates, savings, and
+balanced-budget claims blocked. Its reader is
+`docs/reading/net-interest-average-rate-floor-value-packet.md`.
+
+`transportation_roadway_fatality_rate_floor_value_packet.v1.draft.json` adds a
+narrow Wave D transportation quality/safety floor-value packet. It selects a
+draft no-regression threshold rationale and completed-year 2024 FARS ARF
+baseline of 1.19 fatalities per 100 million vehicle miles traveled. The 2025
+rate and count remain statistical-projection context only, while serious
+injuries, reliability, asset condition, access, equity, resilience, delivery
+feasibility, policy values, stress values, pass/fail evidence, simulator runs,
+solver inputs, rates, savings, and balanced-budget claims remain blocked. Its
+reader is
+`docs/reading/transportation-roadway-fatality-rate-floor-value-packet.md`.
+
+`outcome_floor_wave_d_value_readiness.v1.draft.json` tracks the Wave D floor
+value pass. It verifies that all 15 lanes have floor-definition packets,
+descriptive baseline context, and at least one source-custodied draft anchor
+threshold and baseline. That completes the Wave D lane-anchor contract. No lane
+had Wave E policy values, stress values, or pass/fail evidence at Wave D
+closure. Its reader is
+`docs/reading/outcome-floor-wave-d-value-readiness.md`.
+
+Pulses 220–225 add the remaining defense personnel-safety, disaster
+life-safety, justice victimization, science R&D-intensity, agriculture
+debt-to-asset, and international foreign-assistance reporting-coverage anchor
+packets. Each is deliberately narrow and does not complete its lane's full
+floor set.
+
+`wave_e_reference_scenario_packs.v1.draft.json` and
+`lane_scenario_pack_wave_e_readiness.v1.draft.json` complete the Wave E
+reference-calibration pass. All 15 lanes have current-policy continuation
+component paths, identity-projected policy values, one-increment adverse stress
+values, deterministic floor results, and eight-role review. These records do
+not publish reform effects, fiscal scores, lower-cost admissibility, solver
+inputs, rates, savings, or balanced-budget claims. Their readers are
+`docs/reading/wave-e-reference-scenario-packs.md` and
+`docs/reading/lane-scenario-pack-wave-e-readiness.md`.
+
+`wave_f_transportation_deterministic_calibration.v1.draft.json` completes the
+Pulse 87 Wave F mechanics boundary with an eleven-year synthetic transportation
+fixture. `solver_rate_wave_f_readiness.v1.draft.json` separates that completed
+dry run from substantive readiness: zero official prerequisites are ready for a
+publishable solver output, public rate, savings claim, or balanced-budget claim.
+
+`wave_g_official_current_law_solver_spine_contract.v1.draft.json` defines the
+CORE-G closure contract: one official FY2025-FY2035 federal topline spine with
+strict vintage, source-custody, reconciliation, debt, interest, review, and
+claim-boundary gates. `core_g_official_current_law_solver_spine.v1.draft.json`
+admits that spine and unlocks the start of TRN-A without opening solver, rate,
+savings, or balanced-budget claims.
+
+`adaptive_rate_post_f_wave_roadmap.v1.draft.json` preserves the Pulse 233
+generic G-L predecessor map. The controlling
+`adaptive_rate_corpus_track_plan.v1.draft.json` separates extensible shared
+`CORE-*` work from the repeatable transportation recipe `TRN-A` through
+`TRN-F`. `trn_a_transportation_baseline_source_spine.v1.draft.json` closes the
+bounded baseline/source spine without stitching its explicit source gaps.
+`core_h_shared_accounting_substrate.v1.draft.json` closes the reusable checked
+accounting engine, and `trn_b_transportation_accounting_start_gate.v1.draft.json`
+records that TRN-B started against both completed dependencies.
+`trn_b_named_fund_adapter_rows.v1.draft.json` supplies the first real work:
+all fourteen FY2025-FY2031 named-fund rows recompute to OMB closing balances.
+`trn_b_source_bridge_decisions.v1.draft.json`,
+`trn_b_function_400_mapping.v1.draft.json`, and
+`trn_b_accounting_schedules.v1.draft.json` close the source, mapping, and
+schedule packages. `trn_b_transportation_accounting_closure.v1.draft.json`
+closes TRN-B. `trn_c_real_reform_start_gate.v1.draft.json` and
+`trn_c_real_reform_closure.v1.draft.json` close a conditional cost-only H.R.
+2247 scenario. `core_i_shared_reform_admission_contract.v1.draft.json`
+captures its reusable interfaces, while
+`adaptive_rate_multi_track_frontier.v1.draft.json` records TRN-D-01, HLT-A-01,
+and EDU-A-01 complete, along with TRN-D-03, HLT-A-02, and EDU-A-02. The
+financing/incidence slice—TRN-D-04, HLT-A-03, and EDU-A-03—is also complete.
+The six-package two-level bundle closes TRN-D-05/06, HLT-A-04/05, and
+EDU-A-04/05. TRN-E-01, HLT-B-01, and EDU-B-01 then derive CORE-J's shared
+closure/handoff layer. The next adapters and new OASDI lane derive CORE-K's
+time-basis and composite-accounting rules. ISF-A, VET-A, and AGR-A then derive
+CORE-L's overlap rules. The canonical stage matrix and portfolio closure now
+show all fifteen tracks at bounded E after completed no-candidate selection
+decisions. PAY and REV remain non-additive overlays and NET remains endogenous;
+zero solver runs occur and substantive outputs and F stages stay blocked.
+Earlier first-package records freeze the FAA appropriation
+perimeter, health source perimeter, and education/workforce function-500
+perimeter without inventing fund assignments or adding nonfederal context to
+federal outlays.
+The second-slice records admit only scored FAA administration cost and build
+one-vintage FY2025-FY2031 health and education function paths with explicit
+FY2032-FY2035 nulls.
+The financing/incidence records add a qualitative transportation fairness map,
+separate Medicare and other-health financing relationships, and signed
+education/workforce financing forms while preserving unsupported quantitative
+incidence, annual allocation, account mapping, rate, solver, and savings nulls.
+The two-level closure records then reconcile those bounded artifacts under
+eight-role review. Successor start gates open input-readiness and account-mapping
+discovery only; target costs, complete floors, solver results, rates, savings,
+and later-stage starts remain blocked.
+
+`transportation_trust_fund_cross_source_reconciliation_status.v1.draft.json`
+rolls up OMB Table 13-4, Treasury MTS FY2025, and CBO FY2032-FY2035 trust-fund
+context for the transportation lane. It records that OMB Table 13-4 internally
+reconciles for FY2025-FY2031 and that CBO provides balance-only FY2032-FY2035
+context, but the FY2031 OMB/CBO overlap mismatch blocks a stitched path,
+solver input, rates, savings, technology-savings claims, and balanced-budget
+claims. Its reader is
+`docs/reading/transportation-trust-fund-cross-source-reconciliation-status.md`.
+
+`receipt_base_rate_bridge_readiness_rollup.v1.draft.json` consolidates
+available receipt-base and rate-bridge context across IRS SOI, OMB/CBO revenue
+overlap, Social Security OASDI, Medicare HI, and transportation receipt
+packets. It records context readiness only and keeps matched assigned bases,
+legal/economic bases, incidence, administration, solver yields, rates, savings,
+technology-savings claims, and balanced-budget claims blocked. Its reader is
+`docs/reading/receipt-base-rate-bridge-readiness-rollup.md`.
 
 `global_country_comparison_coverage.v1.draft.json` defines the European,
 Asian, and additional peer panels, lane-specific metrics, official source
@@ -617,6 +888,22 @@ interfund transactions. It does not relabel federal funds as the general fund,
 does not split named trust funds, and keeps forward fund paths and solver/rate
 claims blocked.
 
+`treasury_mts_table_8_federal_fund_fy2025_context.v1.draft.json` adds local
+Treasury MTS Table 8 custody for final FY2025 federal-fund and trust-fund
+context. It compares Treasury MTS federal-fund totals with OMB Historical Table
+1.4 federal-fund totals and keeps the federal-fund/general-fund boundary
+blocked: federal funds are broader than the general fund, and no general-fund
+annual path, transfer schedule, solver input, rate, savings, or balanced-budget
+claim is populated.
+
+`medicare_hi_treasury_mts_fy2025_trust_fund_anchor_context.v1.draft.json`
+adds local custody for final FY2025 Treasury MTS Tables 4 and 5 Federal
+Hospital Insurance Trust Fund receipt and outlay anchors. It improves the
+Medicare HI fiscal-year anchor trail and confirms alignment with rounded OMB
+FY2025 anchors, but it is not a calendar-to-fiscal conversion, not a
+FY2025-FY2035 Medicare HI fiscal-year path, not an income-category crosswalk,
+not solver input, not a rate calculation, and not a balanced-budget claim.
+
 `current_law_fy2025_dedicated_receipt_anchors.v1.draft.json` publishes
 source-custodied FY2025 dedicated-receipt anchors for OASI, DI, Medicare HI,
 transportation trust-fund excise receipts, and airport-and-airway excise
@@ -929,22 +1216,25 @@ balanced-budget claims.
 
 `income_security_family_childcare_family_service_capture_gap.v1.draft.json`
 records the still-open HHS/ACF childcare and family-service source-custody gate.
-It names candidate ACF CCDF and TANF source surfaces but keeps local raw custody,
+It names candidate ACF CCDF and TANF source surfaces, records HTTP 202
+empty-body access boundaries from this environment, and keeps local raw custody,
 childcare access floors, work/care transition, delivery feasibility, solver
 inputs, rates, savings, and balanced-budget claims blocked.
 
 `income_security_family_food_hardship_nutrition_capture_gap.v1.draft.json`
 records the still-open USDA food hardship and nutrition source-custody gate. It
-names candidate ERS food-security and FNS SNAP source surfaces but keeps local
-raw custody, food-security measures, SNAP participation/benefit context,
-material-hardship floors, solver inputs, rates, savings, and balanced-budget
-claims blocked.
+now captures partial ERS food-security raw custody/context plus FNS SNAP raw
+custody/context for annual summary, monthly, persons, households, benefits, and
+FY1969-current ZIP files, while broader nutrition-program boundary context,
+food-security measures, material-hardship floors, solver inputs, rates, savings,
+and balanced-budget claims remain blocked.
 
 `income_security_family_census_child_poverty_income_capture_gap.v1.draft.json`
 records the still-open Census domestic child poverty and income source-custody
-gate. It names Census poverty report, Supplemental Poverty Measure, and CPS ASEC
-source surfaces but keeps raw custody, poverty values, income-unit context,
-floor values, solver inputs, rates, savings, and balanced-budget claims blocked.
+gate. It now captures raw Census P60-287 report, official-poverty tables, SPM
+tables, income-to-poverty context, and CPS ASEC documentation, while
+child-poverty floor values, pass/fail findings, solver inputs, rates, savings,
+and balanced-budget claims remain blocked.
 
 `taxlane_showcase_readiness_summary.v1.draft.json` gives a concise showable-state
 summary for Taxlane. It positions the project as a source-custody and readiness
@@ -1061,6 +1351,25 @@ It closes that source-family context gap only; NHE, CBO baseline, quality/access
 indicator custody, thresholds, floor values, pass/fail findings, solver inputs,
 savings, rates, and balanced-budget claims remain blocked.
 
+`medicare_hi_cy2025_2035_current_law_context_path.v1.draft.json` adds the
+source-custodied CMS Trustees Table II.E1 calendar-year HI current-law context
+path for CY2025-CY2035. It is real source progress, but not a fiscal-year OMB
+solver path, matched yield, rate calculation, savings estimate, or public rate
+card.
+
+`medicare_hi_cms_omb_fy2025_timing_perimeter_diagnostic.v1.draft.json` compares
+CMS Trustees CY2025 HI income/expenditure context with OMB FY2025 HI
+receipt/outlay anchors as a timing/perimeter diagnostic. It does not convert
+calendar-year values to fiscal-year path values, bridge OMB/CMS receipt rows,
+populate solver inputs, calculate rates, estimate savings, or support public
+balanced-budget claims.
+
+`net_interest_pbd_fy2025_2031_current_law_context_path.v1.draft.json` adds the
+source-custodied OMB Public Budget Database net-interest context path for
+FY2025-FY2031. It keeps FY2032-FY2035, debt stock, maturity schedule, rate path,
+primary-balance feedback, direct cuts, solver outputs, rates, savings, and
+balanced-budget claims blocked.
+
 `health_nhe_source_custody_gap.v1.draft.json` records that CMS NHE source IDs
 appear in derived health sensitivity artifacts but are not yet backed by local
 raw NHE custody in this packet. It keeps NHE source capture, floor thresholds,
@@ -1075,10 +1384,41 @@ inputs, savings, rates, and balanced-budget claims blocked.
 
 `health_quality_access_indicator_source_gap.v1.draft.json` records that
 health/Medicare quality, access, risk-adjusted outcome, rural-capacity, and
-safety-net-capacity indicator families are needed but are not yet backed by local
-raw source custody in this packet. It keeps thresholds, observed floor values,
-pass/fail findings, solver inputs, savings, rates, and balanced-budget claims
+safety-net-capacity indicator families are needed; six CMS Provider Data
+Catalog CSVs, a CMS Hospital Data Dictionary, and CMS/QualityNet methodology
+surfaces are locally captured as context. It keeps complete denominator
+crosswalks, methodology report content, observed floor values, pass/fail
+findings, solver inputs, savings, rates, and balanced-budget claims blocked.
+
+`cms_hospital_quality_methodology_surface_context.v1.draft.json` records
+official CMS Provider Data Catalog and QualityNet methodology surface
+HTML/JavaScript custody, while preserving the block on complete methodology
+report content, denominator-to-field crosswalks, risk-adjustment case-mix
+lineage, floor values, pass/fail findings, solver inputs, rates, savings, and
+balanced-budget claims.
+
+`cms_hospital_measure_methodology_report_custody.v1.draft.json` records CMS
+Measure Methodology page custody and selected mortality methodology reports for
+hospital-wide risk-standardized mortality and condition-specific mortality
+updates/specifications. It keeps complete all-measure case-mix lineage,
+denominator-to-field crosswalks, rural/safety-net capacity series, floor values,
+pass/fail findings, solver inputs, rates, savings, and balanced-budget claims
 blocked.
+
+`cms_hospital_quality_dataset_field_crosswalk.v1.draft.json` records a partial
+field-level crosswalk for six captured CMS Provider Data Catalog hospital
+quality/access datasets, including Denominator, Sample, measure-count fields,
+and HAI measure-ID pattern context. It keeps complete denominator lineage,
+methodology joins, floor values, pass/fail findings, solver inputs, rates,
+savings, and balanced-budget claims blocked.
+
+`cms_hrsa_rural_safety_net_capacity_context.v1.draft.json` records partial
+CMS/HRSA rural and safety-net hospital capacity context. CMS TEAM and inpatient
+PSF custody identify safety-net/rural definitions, bed-size fields, SSI,
+Medicaid, DSH, provider-type, state, and case-mix context; HRSA rural data files
+remain browser-visible context without local raw custody. Complete capacity
+series, facility joins, floors, solver inputs, rates, savings, and
+balanced-budget claims remain blocked.
 
 `health_source_readiness_rollup.v1.draft.json` summarizes the post-Pulse-182
 health/Medicare source-custody state. It marks OMB fiscal custody and CMS
@@ -1096,6 +1436,36 @@ source captures for Social Security: OASDI annual fund path, 75-year solvency
 path, taxable payroll base, benefit adequacy floors, old-age poverty floors, and
 SSA administration/transition capacity. Values, solver inputs, rates, savings,
 and balanced-budget claims remain blocked.
+
+`social_security_trustees_source_capture_status.v1.draft.json` makes the first
+post-queue Social Security source progress. It verifies official 2026 SSA
+Trustees source surfaces and narrow OASDI context values, while documenting the
+local 403 raw-capture boundary and keeping complete annual paths, taxable
+payroll, floors, solver inputs, rates, savings, and balanced-budget claims
+blocked.
+
+`social_security_oasdi_fy2025_2035_current_law_path.v1.draft.json` turns the
+verified SSA Trustees appendix into a bounded combined OASDI fiscal-year path.
+The FY2025-FY2035 rows are source-labeled and preserve post-depletion nulls;
+separate OASI/DI paths, taxable payroll, floors, solver inputs, rates, and
+savings remain blocked.
+
+`social_security_taxable_payroll_base_bridge.cy2025-2035.v1.draft.json` adds
+the next Social Security receipt-base input: official calendar-year taxable
+payroll, GDP, AWI, contribution-and-benefit base, and 12.4 percent current-law
+rate context. It does not create fiscal-year receipt yield, solver rows, reform
+yield, rates, or savings.
+
+`social_security_oasdi_receipt_yield_boundary.fy2025-cy2025.v1.draft.json`
+then compares that calendar-year context with the OMB FY2025 OASDI receipt
+anchor. The comparison is useful for prioritizing a formal bridge, but it is
+not solver yield, not OMB row-perimeter reconciliation, not a rate calculation,
+and not savings.
+
+`social_security_source_capture_status_rollup.v1.draft.json` updates the lane
+dashboard after the Social Security source-capture work. It records three
+partially progressed queue items and three still-not-started floor/transition
+items, with zero ready items and all public-output claims blocked.
 
 `defense_source_readiness_gap.v1.draft.json` records that defense source IDs
 appear in context/source packets but are not yet backed by local raw custody for
@@ -1122,3 +1492,324 @@ perimeter review, audit-control boundary review, and transition/industrial-base
 lineage. Closure values, lineage completion, solver inputs, rates, savings,
 department-cut instructions, technology-savings claims, and balanced-budget
 claims remain blocked.
+
+`transportation_trust_fund_table_13_4_fy2025_2031_context_path.v1.draft.json`
+captures OMB Analytical Perspectives Table 13-4 FY2025-FY2031 context rows for
+the Highway Trust Fund and Airport and Airway Trust Fund. FY2032-FY2035,
+explicit general-fund transfers, credited collections, fund-balance
+reconciliation, Function 400 mapping, solver inputs, rates, savings, and
+balanced-budget claims remain blocked.
+
+`current_law_17_row_pbd_fy2025_2031_context_path.v1.draft.json` captures the
+existing 17-row current-law ledger categories for FY2025-FY2031 from OMB PBD
+outlays. It reconciles each year to the aggregate OMB PBD outlay path while
+keeping FY2032-FY2035, fund split, policy scenarios, solver inputs, rates,
+savings, and balanced-budget claims blocked.
+
+`omb_pbd_fy2027_user_guide_horizon_boundary_context.v1.draft.json` captures
+local source custody for OMB's FY2027 Public Budget Database User's Guide. It
+documents the three PBD files for outlays, receipts, and budget authority and
+the FY2031 horizon boundary without creating FY2032-FY2035 OMB 17-row values,
+interpolation, solver input, rates, savings, or a balanced-budget claim.
+
+`cbo_open_data_fy2032_2035_current_law_extension_context.v1.draft.json`
+captures official CBO open-data CSV custody for FY2032-FY2035 top-line budget,
+revenue, debt, net-interest, and selected trust-fund balance context. This
+reduces the true current-law context gap, but it does not replace the OMB
+17-row lane ledger, trust-fund income/outgo reconciliation, receipt/rate bridge,
+solver input, rate calculation, savings estimate, or balanced-budget gate.
+
+`cbo_major_outlay_category_fy2032_2035_context.v1.draft.json` extracts official
+CBO FY2026-FY2035 major outlay-category context for defense, Social Security,
+health/Medicare/Medicaid, income security, veterans, agriculture,
+transportation-related expired-authority rows, higher education, and
+administration of justice. It improves category visibility but remains outside
+the OMB 17-row ledger, Taxlane lane baseline, policy-scenario, floor-value,
+solver, rate, savings, and balanced-budget gates.
+
+`cbo_revenue_detail_fy2026_2035_context.v1.draft.json` extracts official CBO
+FY2026-FY2035 revenue-detail context for individual income, payroll, corporate
+income, excise, customs, estate and gift, Federal Reserve remittances,
+miscellaneous fees, and total receipts. It improves revenue-solvency receipt
+context, but it is not matched legal/economic base evidence, not incidence or
+distribution modeling, not a rate bridge, not solver input, not a tax proposal,
+and not a balanced-budget claim.
+
+`cbo_health_insurance_baseline_browser_context_fy2026_2036.v1.draft.json`
+records CBO February 2026 Federal Subsidies for Health Insurance
+browser-visible official context and the July 23, 2026 Federal Subsidies for
+Health Insurance, 2026 to 2036 latest-publication boundary after command-line
+spreadsheet/PDF/page retrieval hit anti-bot, 403, or login-redirect access
+boundaries. It does not claim local raw byte custody, does not assign PDF
+numeric rows to component labels, and keeps health policy scores, solver
+inputs, rates, savings, and balanced-budget claims blocked.
+
+`cbo_health_insurance_table2_browser_rowmap_fy2026_2036.v1.draft.json`
+records a row map for CBO February 2026 health-insurance Table 2 supported by
+local spreadsheet custody while keeping current-law solver paths, policy scores,
+rates, savings, and balanced-budget claims blocked.
+
+`irs_soi_pub1304_ty2023_individual_income_base_context.v1.draft.json` promotes
+the source-custodied IRS SOI Publication 1304 Table 1.1 TY2023 individual-income
+AGI, taxable-income, and income-tax-after-credits values into a focused
+revenue-solvency bridge. It also records that the IRS Basic Tables Part 1 page
+listed Table 1.1 through TY2023 on the latest check. It is not a matched FY2025
+assigned base, not a legal/economic receipt base, not a rate bridge, not solver
+input, not a tax proposal, and not a balanced-budget claim.
+
+`irs_soi_corporation_complete_table_2_3_ty2022_corporate_income_base_context.v1.draft.json`
+captures source-custodied IRS SOI Publication 16 Table 2.3 TY2022
+corporate-income context for active corporations other than Forms 1120S,
+1120-REIT, and 1120-RIC. It records return count, business receipts, income
+subject to tax, and income tax after credits from the Total column. It is not a
+matched FY2025 assigned base, not a legal/economic receipt base, not a rate
+bridge, not solver input, not a tax proposal, and not a balanced-budget claim.
+
+`omb_receipt_category_fy2025_2031_context.v1.draft.json` extracts official OMB
+Historical Table 2.1 FY2025-FY2031 fiscal receipt-category context for
+individual income taxes, corporation income taxes, social insurance and
+retirement receipts, excise taxes, other receipts, total receipts, and
+on/off-budget splits. It closes more receipt-category context, but it is not a
+legal/economic receipt base, not an assigned base, not a rate bridge, not solver
+input, not a tax proposal, and not a balanced-budget claim.
+
+`omb_receipt_detail_table_2_4_fy2025_2031_context.v1.draft.json` extracts
+official OMB Historical Table 2.4 FY2025-FY2031 social-insurance, retirement,
+and excise receipt detail. It improves OASDI, Hospital Insurance,
+transportation excise, airport/airway excise, and revenue-solvency context, but
+it is not taxable payroll, not an HI income split, not a statutory user-fee
+base, not a legal/economic receipt base, not a rate bridge, not solver input,
+not a tax proposal, and not a balanced-budget claim.
+
+`omb_receipt_share_table_2_2_fy2025_2031_context.v1.draft.json` extracts
+official OMB Historical Table 2.2 FY2025-FY2031 receipt-source shares for major
+receipt categories. It is percentage composition context only, with source
+rounding preserved; it is not receipt amounts, not a legal/economic receipt
+base, not an assigned base, not a rate bridge, not solver input, not a tax
+proposal, and not a balanced-budget claim.
+
+`omb_receipt_amount_share_reconciliation_fy2025_2031_context.v1.draft.json`
+cross-checks OMB Historical Table 2.1 receipt amounts against OMB Historical
+Table 2.2 one-decimal receipt-source shares for FY2025-FY2031. All category-year
+differences remain within the half-tenth share rounding tolerance. This is
+diagnostic fiscal receipt reconciliation context only, not matched receipt-base
+evidence, not a rate bridge, not solver input, not a tax proposal, and not a
+balanced-budget claim.
+
+`omb_cbo_revenue_overlap_reconciliation_fy2026_2031_context.v1.draft.json`
+compares OMB Table 2.1 receipt-category context with CBO revenue-detail context
+for FY2026-FY2031. It records source-vintage differences in overlapping
+receipt categories while keeping legal/economic bases, assigned bases, rate
+bridges, solver inputs, public rate cards, tax proposals, savings, and
+balanced-budget claims blocked.
+
+`data_acquisition_eight_gap_status.v1.draft.json` records the latest acquisition
+pass across the eight remaining data gaps. It adds local CMS Hospital Data
+Dictionary custody, Treasury Fiscal Data rate/debt/maturity-detail custody, and
+Treasury MTS Table 8 federal-fund custody, exposes supporting USDA ERS/FNS food
+hardship and nutrition custody visibility, records the CBO command-line
+spreadsheet/PDF access boundary plus browser-visible health context, and keeps
+OMB 17-row extension, general-fund, Medicare HI fiscal bridge, receipt-base,
+transportation reconciliation, net-interest maturity projection/reconciliation,
+solver, rate, savings, and balanced-budget gates blocked.
+
+`net_interest_treasury_mspd_maturity_detail_context.v1.draft.json` records
+Treasury MSPD Table 3 and Table 5 field coverage for the net-interest lane.
+It confirms local maturity-date-bearing detail rows through 2026-06-30 while
+keeping weighted average maturity, remaining-maturity schedules, CBO/OMB
+projection bridges, solver inputs, rates, savings, and balanced-budget claims
+blocked.
+
+`net_interest_treasury_mspd_remaining_maturity_bucket_diagnostic.v1.draft.json`
+records non-combined Treasury MSPD Table 3 and Table 5 latest-month maturity
+bucket diagnostics. It improves visibility into remaining-maturity source
+coverage while keeping unit/perimeter reconciliation, weighted average
+maturity, remaining-maturity schedules, CBO/OMB projection bridges, solver
+inputs, rates, savings, and balanced-budget claims blocked.
+
+`net_interest_treasury_average_interest_rate_context.v1.draft.json` records
+Treasury average-interest-rate latest-month context through 2026-06-30. It
+captures Total Marketable, Total Non-marketable, and Total Interest-bearing Debt
+average rates, but it is not a fiscal-year rate path, not a CBO/OMB projection
+bridge, not a debt-stock projection, not solver input, and not a savings or
+balanced-budget claim.
+
+`omb_ap13_fund_group_reconciliation_detail_fy2025_context.v1.draft.json`
+extracts OMB Analytical Perspectives Tables 13-1, 13-2, and 13-3 FY2025
+fund-group reconciliation detail. It improves federal-funds, trust-funds,
+interfund, and trust-fund-group balance context, but federal funds are still
+not relabeled as the general fund and named trust-fund paths, explicit transfer
+schedules, solver inputs, rates, savings, and balanced-budget claims remain
+blocked.
+
+`transportation_trust_fund_table_13_4_aggregate_fy2025_2031_context.v1.draft.json`
+adds a diagnostic aggregate of the validated OMB Table 13-4 Highway Trust Fund
+and Airport and Airway Trust Fund rows. It shows combined balance pressure while
+keeping source funds separate and preserving solver/rate/savings/balanced-budget
+claim blocks.
+
+`transportation_trust_fund_table_13_4_identity_diagnostic.v1.draft.json`
+checks Table 13-4 internal identities for the Highway Trust Fund and Airport
+and Airway Trust Fund across FY2025-FY2031. The diagnostic confirms every row
+reconciles within 0.1 billion rounding tolerance while keeping FY2032-FY2035
+values, explicit transfers, credited collections, Function 400 mapping, solver
+inputs, rates, savings, and balanced-budget claims blocked.
+
+`transportation_trust_fund_cbo_balance_extension_fy2032_2035_context.v1.draft.json`
+captures CBO February 2026 open-data FY2032-FY2035 balance context for the
+Highway Trust Fund and Airport and Airway Trust Fund. It uses unambiguous
+balance variables only, excludes duplicated surplus date/variable rows, and
+does not provide OMB Table 13-4 income/outgo rows, trust-fund reconciliation,
+Function 400 mapping, solver inputs, rates, savings, or balanced-budget claims.
+
+`transportation_trust_fund_treasury_mts_fy2025_anchor_context.v1.draft.json`
+captures Treasury MTS Tables 4 and 5 FY2025 Airport and Airway Trust Fund and
+Highway Trust Fund receipt rows plus selected outlay context. It improves
+fiscal-year anchor custody while keeping transportation trust-fund income/outgo
+reconciliation, fund-balance reconciliation, explicit transfers, credited
+offsetting collections, Function 400 mapping, solver inputs, rates, savings,
+and balanced-budget claims blocked.
+
+`education_workforce_graduation_floor_value_packet.v1.draft.json` converts the
+K-12 public high-school graduation baseline into a draft education/workforce
+completion/persistence no-regression threshold and baseline value. It keeps
+federal/state/local translation, policy values, stress values, pass/fail
+evidence, target costs, solver inputs, rates, savings, and balanced-budget
+claims blocked.
+
+`income_security_family_child_poverty_floor_value_packet.v1.draft.json`
+converts the Census under-18 official poverty baseline into a draft
+income-security/family child-poverty no-regression threshold and baseline value.
+It keeps benefit-package modeling, take-up, childcare, nutrition handoff,
+policy values, stress values, pass/fail evidence, target costs, solver inputs,
+rates, savings, and balanced-budget claims blocked.
+
+`veterans_claims_backlog_floor_value_packet.v1.draft.json` converts the VA
+claims backlog probe into a draft Veterans claims-timeliness no-regression
+threshold and baseline value. It keeps complete timeliness series, appeals
+evidence, policy values, stress values, pass/fail evidence, target costs, solver
+inputs, rates, savings, and balanced-budget claims blocked.
+
+`payment_integrity_fcic_payment_accuracy_floor_value_packet.v1.draft.json`
+converts the FCIC FY2024 payment-accuracy baseline into a draft
+payment-integrity quality/safety no-regression threshold and baseline value. It
+keeps false-positive modeling, due-process evidence, causal-prevention lineage,
+same-cohort collection lineage, policy values, stress values, pass/fail
+evidence, target costs, solver inputs, rates, savings, and balanced-budget
+claims blocked.
+
+`health_medicare_provider_adequacy_margin_floor_value_packet.v1.draft.json`
+converts the FY2024 relatively efficient hospital median FFS Medicare margin
+baseline into a draft health/Medicare provider-adequacy no-regression threshold
+and baseline value. It keeps access, quality, rural/safety-net capacity,
+policy values, stress values, pass/fail evidence, federal scores, solver
+inputs, rates, savings, and balanced-budget claims blocked.
+
+`revenue_solvency_total_receipts_floor_value_packet.v1.draft.json` converts the
+OMB FY2025 total-receipts baseline into a draft revenue-solvency
+adequacy/resilience no-regression threshold and baseline value. It keeps matched
+receipt bases, legal/economic bases, payer universe, behavior, incidence,
+distribution, administration burden, policy values, stress values, pass/fail
+evidence, solver inputs, rates, tax proposals, and balanced-budget claims
+blocked.
+
+`net_interest_average_rate_floor_value_packet.v1.draft.json` converts the
+Treasury Total Interest-bearing Debt average-rate baseline into a draft
+net-interest adequacy/resilience no-regression threshold and baseline value. It
+keeps complete FY2025-FY2035 net-interest paths, debt stock, maturity
+schedules, primary-balance feedback, direct-cut claims, policy values, stress
+values, pass/fail evidence, solver inputs, rates, savings, and balanced-budget
+claims blocked.
+
+`transportation_roadway_fatality_rate_floor_value_packet.v1.draft.json`
+converts the reported 2024 FARS ARF nationwide roadway fatality-rate baseline
+into a draft transportation quality/safety no-regression threshold and baseline
+value. It keeps the 2025 statistical projection separate and keeps all other
+transportation floors, policy values, stress values, pass/fail evidence,
+simulator runs, solver inputs, rates, savings, and balanced-budget claims
+blocked.
+
+`lane_f_public_release_gate_contract.v1.draft.json` defines the common ten-gate
+boundary between bounded E and public-release work. The companion
+`fifteen_lane_stage_f_start_readiness.v1.draft.json` audits all fifteen starts.
+It allows one typed TRN cost-only start and keeps the other fourteen blocked,
+while `fifteen_lane_two_level_f_advancement_queue.v1.draft.json` assigns
+candidate/input work followed by an E-rerun/F-start audit to each track. None
+of these records actually starts F or publishes a public rate card.
+
+`trn_level_1_core_lessons_audit.v1.draft.json` maps what CORE-G through CORE-L
+already cover and records the discovery basis for CORE-M candidate dossiers,
+typed release profiles, financing roles, candidate-scoped floors, and reviewed
+non-applicability. The audit itself does not select a candidate.
+
+`core_m_candidate_dossier_typed_release_contract.v1.draft.json` and its closure
+complete the shared CORE-M interfaces. They validate TRN cost-only, PAY
+non-additive, REV matched-base, and NET endogenous profiles while leaving every
+lane candidate and F start blocked.
+
+`trn_level_1_hr2247_candidate_dossier.v1.draft.json` applies CORE-M and selects
+H.R. 2247 only for a conditional cost-only explanation and its official $18
+million FY2026-FY2031 incremental outlay score.
+
+`trn_level_2_hr2247_output_ready_e_rerun.v1.draft.json` dispositions all ten
+typed F gates and makes only those two outputs ready. It allows TRN-F to start
+within that scope without fabricating a solver result, rate, or savings claim.
+
+`core_n_typed_public_release_surface_contract.v1.draft.json` and its closure
+separate cost notes, rate cards, savings results, integrity overlays, and
+endogenous-effect reports. `trn_f_hr2247_cost_note.v1.draft.json` then completes
+TRN-F only as the conditional H.R. 2247 cost note.
+
+`rev_level_1_individual_income_rate_candidate_start.v1.draft.json` starts the
+first rate-bearing probe using OMB FY2025 individual-income receipts and IRS
+TY2023 taxable-income context. Their year and perimeter mismatch remains an
+explicit blocker; no effective rate is calculated.
+
+`rev_level_7_nonofficial_conforming_discussion_draft.v1.draft.json` supplies a
+narrow, explicitly nonofficial §1(j) drafting bridge for Legislative Counsel.
+`fifteen_track_next_two_level_advancement_wave.v1.draft.json` then returns the
+internal frontier to all fifteen tracks: every Level A evidence task is
+started, while every Level B admission or typed-output rerun remains dependent
+and incomplete.
+
+`batch_2_eight_track_two_level_closure.v1.draft.json` completes the next two
+levels for VET, EDU, ISF, AGR, DIS, JUS, SEE, and INT. Current-source review
+sharpens each blocker but admits no headline envelope as package savings.
+
+`batch_3_trn_rev_two_level_closure.v1.draft.json` completes the internal
+all-fifteen wave. TRN retains an appropriation-dependent H.R. 2247 cost note;
+REV retains its planning-only schedule while authorized external certification
+remains pending.
+
+`pay_net_rev_post_fifteen_track_reconciliation.v1.draft.json` integrates all
+fifteen internal results. With zero admitted FY2026 spending reduction, PAY
+non-additive, and NET zero-input, the remaining revenue need stays $813.727
+billion and the planning schedule stays 21/23/33/35/43/46/48.
+
+`rev_level_7_external_submission_control.v1.draft.json` seals the seven-file
+REV payload with per-file hashes and a deterministic bundle identity while
+keeping authorization and send flags false. The paired
+`rev_level_7_external_response_intake.v1.draft.json` provides an empty,
+authenticated receipt and official-response surface without implying that a
+submission or score exists.
+
+Pulse 474 makes that response surface executable as a three-state contract.
+The validator accepts an empty intake, a hash-custodied response pending
+review, or a fully authenticated FY2026-FY2035 response ready for targeted
+rate recertification; it rejects bad hashes and premature eligibility.
+
+`rev_internal_analysis_baseline_freeze.v1.draft.json` freezes the Tax-Calculator
+6.5.1 CPS inputs, FY2026 target, timing ratio, behavior cases, and source hashes.
+The two generated grids score 14 candidate uplifts across 42 behavior cases.
+
+`rev_internal_rate_analysis_completion.v1.draft.json` completes the ten-step
+internal wave and targeted 15-track review. It selects 21/23/33/35/43/46/48 as
+the preferred central Taxlane schedule, 22/24/34/36/44/47/49 as the
+behavior-robust contingency, and +12.6 only as a severe internal stress ceiling.
+No official request or external certification is planned or required.
+
+`targeted_spending_rate_decision.v1.draft.json` then tests the specific HLT
+off-campus imaging and DEF proportional active-force candidates against that
+rate control. Each has one ready and six unresolved gates. With zero admitted
+FY2026 savings, PAY non-additive, and NET endogenous, the revenue target remains
+$813.727 billion and the preferred central schedule does not move.

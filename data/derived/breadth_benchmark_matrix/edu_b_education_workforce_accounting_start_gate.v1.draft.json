@@ -1,0 +1,28 @@
+{
+  "record_id": "edu-b-education-workforce-accounting-start-gate:v1",
+  "record_family": "edu_b_education_workforce_accounting_start_gate",
+  "version": "v1.draft",
+  "status": "edu_b_complete_edu_c_complete_no_reform_admitted",
+  "pulse": 288,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "EDU-B",
+  "edu_a_closure_path": "data/derived/breadth_benchmark_matrix/edu_a_education_workforce_baseline_closure.v1.draft.json",
+  "core_h_path": "data/derived/breadth_benchmark_matrix/core_h_shared_accounting_substrate.v1.draft.json",
+  "component_mapping_path": "data/derived/breadth_benchmark_matrix/edu_b_education_workforce_component_account_mapping.v1.draft.json",
+  "core_j_path": "data/derived/breadth_benchmark_matrix/core_j_bounded_closure_handoff_closure.v1.draft.json",
+  "core_k_path": "data/derived/breadth_benchmark_matrix/core_k_temporal_composite_accounting_closure.v1.draft.json",
+  "edu_b_closure_path": "data/derived/breadth_benchmark_matrix/edu_b_education_workforce_accounting_closure.v1.draft.json",
+  "edu_c_closure_path": "data/derived/breadth_benchmark_matrix/edu_c_education_workforce_scenario_admission_closure.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/edu_b_education_workforce_accounting_start_gate.schema.md",
+  "reader_path": "docs/reading/edu-b-education-workforce-accounting-start-gate.md",
+  "dependency_gate": {"edu_a_done":true,"core_h_done":true,"edu_b_may_start":true,"edu_b_started":true},
+  "work_packages": [
+    {"work_package_id":"EDU-B-01","title":"Education/workforce component-to-account mapping","status":"complete","objective":"Map the bounded function-500 baseline and financing forms to CORE-H roles while preserving credit signs and federal/state/local boundaries."},
+    {"work_package_id":"EDU-B-02","title":"Grant, credit, offset, and fund adapters","status":"complete","objective":"Adapt only source-supported financing forms to checked account flows."},
+    {"work_package_id":"EDU-B-03","title":"Annual schedule and reconciliation","status":"complete","objective":"Build only source-supported annual schedules and preserve explicit horizon gaps."},
+    {"work_package_id":"EDU-B-04","title":"Accounting role review and closure","status":"complete","objective":"Decide whether the bounded education/workforce accounting substrate may advance to EDU-C."}
+  ],
+  "blocked_outputs": {"complete_account_mapping":null,"annual_education_workforce_schedule":null,"federal_state_local_translation":null,"loan_cash_equivalence":null,"assigned_rate":null,"solver_input":null,"education_reform":null,"edu_b_closure":null,"edu_c_start":null},
+  "claim_booleans": {"edu_b_start_gate_published":true,"edu_a_done":true,"core_h_done":true,"edu_b_started":true,"edu_b_01_done":true,"core_j_done":true,"core_k_done":true,"edu_b_02_started":true,"edu_b_done":true,"edu_c_done":true,"reform_admitted":false,"accounting_schedule_ready":false,"solver_ready":false,"rate_published":false},
+  "public_warning": "EDU-B is complete as bounded accounting and EDU-C is complete as a candidate screen with no reform admitted. Complete annual schedules, translations, loan/cash equivalence, rates, solver input, reform, and savings remain blocked."
+}

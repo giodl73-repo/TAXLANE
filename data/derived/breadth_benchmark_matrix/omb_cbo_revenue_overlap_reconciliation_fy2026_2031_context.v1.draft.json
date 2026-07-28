@@ -1,0 +1,92 @@
+{
+  "record_id": "omb-cbo-revenue-overlap-reconciliation-fy2026-2031-context:v1",
+  "record_family": "omb_cbo_revenue_overlap_reconciliation_context",
+  "schema_version": "v1.draft",
+  "status": "draft_official_revenue_overlap_context_not_base_or_rate",
+  "as_of_date": "2026-07-24",
+  "lane_id": "revenue-solvency",
+  "omb_receipt_category_context_path": "data/derived/breadth_benchmark_matrix/omb_receipt_category_fy2025_2031_context.v1.draft.json",
+  "cbo_revenue_detail_context_path": "data/derived/breadth_benchmark_matrix/cbo_revenue_detail_fy2026_2035_context.v1.draft.json",
+  "source_ids": ["SRC-OMB-HIST-2-1-FY2027", "SRC-CBO-OPEN-DATA-REVENUE-DETAIL-2026-02"],
+  "source_boundary": {
+    "official_public_sources": true,
+    "local_raw_custody_present_for_both_sources": true,
+    "overlap_years": [2026, 2027, 2028, 2029, 2030, 2031],
+    "unit": "billions_usd",
+    "omb_values_converted_from_millions": true,
+    "not_legal_or_economic_receipt_base": true,
+    "not_assigned_receipt_base": true,
+    "not_rate_bridge": true,
+    "not_solver_input": true
+  },
+  "category_mapping": [
+    {"comparison_id": "individual_income", "omb_field": "individual_income_taxes", "cbo_field": "individual_income"},
+    {"comparison_id": "corporate_income", "omb_field": "corporation_income_taxes", "cbo_field": "corporate_income"},
+    {"comparison_id": "payroll_social_insurance", "omb_field": "social_insurance_retirement_total", "cbo_field": "payroll"},
+    {"comparison_id": "excise", "omb_field": "excise_taxes", "cbo_field": "excise"},
+    {"comparison_id": "total_receipts", "omb_field": "total_receipts", "cbo_field": "total"}
+  ],
+  "annual_summary_rows": [
+    {"fiscal_year": 2026, "omb_total_receipts": 5475.705, "cbo_total_receipts": 5595.916, "cbo_minus_omb_total": 120.211, "cbo_minus_omb_total_pct_of_omb": 2.195},
+    {"fiscal_year": 2027, "omb_total_receipts": 5920.951, "cbo_total_receipts": 5885.198, "cbo_minus_omb_total": -35.753, "cbo_minus_omb_total_pct_of_omb": -0.604},
+    {"fiscal_year": 2028, "omb_total_receipts": 6288.407, "cbo_total_receipts": 6071.468, "cbo_minus_omb_total": -216.939, "cbo_minus_omb_total_pct_of_omb": -3.45},
+    {"fiscal_year": 2029, "omb_total_receipts": 6660.321, "cbo_total_receipts": 6319.789, "cbo_minus_omb_total": -340.532, "cbo_minus_omb_total_pct_of_omb": -5.113},
+    {"fiscal_year": 2030, "omb_total_receipts": 7137.281, "cbo_total_receipts": 6594.999, "cbo_minus_omb_total": -542.282, "cbo_minus_omb_total_pct_of_omb": -7.598},
+    {"fiscal_year": 2031, "omb_total_receipts": 7559.389, "cbo_total_receipts": 6869.493, "cbo_minus_omb_total": -689.896, "cbo_minus_omb_total_pct_of_omb": -9.126}
+  ],
+  "category_difference_extremes": {
+    "largest_positive_cbo_minus_omb": {"fiscal_year": 2026, "comparison_id": "individual_income", "difference_billions": 121.392},
+    "largest_negative_cbo_minus_omb": {"fiscal_year": 2031, "comparison_id": "total_receipts", "difference_billions": -689.896},
+    "largest_negative_component_cbo_minus_omb": {"fiscal_year": 2031, "comparison_id": "individual_income", "difference_billions": -341.637}
+  },
+  "diagnostic_findings": [
+    "OMB Table 2.1 and CBO revenue-detail context overlap for FY2026-FY2031 but are not identical source vintages or perimeters.",
+    "CBO total receipts are above OMB by 120.211 billion in FY2026 and below OMB by 689.896 billion in FY2031.",
+    "The overlap diagnostic is useful for source reconciliation before any matched receipt-base or solver work.",
+    "The diagnostic does not choose OMB or CBO as a legal/economic base and does not publish rates."
+  ],
+  "blocked_model_steps": [
+    "select baseline source hierarchy and vintage rules",
+    "define legal and economic bases by receipt instrument",
+    "bridge tax-year, calendar-year, and fiscal-year bases",
+    "reconcile current-law yields to solver rows",
+    "model incidence, distribution, behavioral response, compliance, and administration burden"
+  ],
+  "blocked_outputs": {
+    "matched_receipt_bases": null,
+    "legal_economic_base": null,
+    "payer_universe": null,
+    "incidence_distribution_model": null,
+    "administration_burden": null,
+    "current_law_solver_yield": null,
+    "reform_yield": null,
+    "solver_input_rows": null,
+    "solver_run": null,
+    "statutory_rate": null,
+    "effective_rate": null,
+    "public_rate_card": null,
+    "tax_proposal": null,
+    "savings_estimate": null,
+    "balanced_budget_claim": null
+  },
+  "claim_booleans": {
+    "omb_cbo_revenue_overlap_reconciliation_published": true,
+    "official_overlap_context_ready": true,
+    "matched_receipt_bases_ready": false,
+    "legal_economic_base_ready": false,
+    "payer_universe_ready": false,
+    "incidence_distribution_model_ready": false,
+    "administration_burden_ready": false,
+    "current_law_solver_yield_ready": false,
+    "reform_yield_ready": false,
+    "solver_input_ready": false,
+    "solver_run_published": false,
+    "statutory_rate_published": false,
+    "effective_rate_published": false,
+    "public_rate_card_published": false,
+    "tax_proposal_published": false,
+    "savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "OMB/CBO revenue overlap reconciliation is diagnostic source context only for FY2026-FY2031. It is not a legal or economic receipt base, not an assigned receipt base, not a payer-universe definition, not an incidence or distribution model, not a rate bridge, not solver input, not a solver run, not a public rate card, not a tax proposal, not a savings estimate, and not a balanced-budget claim."
+}

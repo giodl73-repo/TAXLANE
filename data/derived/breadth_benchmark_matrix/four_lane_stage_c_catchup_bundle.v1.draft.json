@@ -1,0 +1,32 @@
+{
+  "record_id": "four-lane-stage-c-catchup-bundle:v1",
+  "record_family": "four_lane_stage_c_catchup_bundle",
+  "version": "v1.draft",
+  "status": "four_lanes_at_or_beyond_stage_c_core_k_complete",
+  "pulse": 309,
+  "as_of_date": "2026-07-26",
+  "schema_path": "data/derived/breadth_benchmark_matrix/stage_c_catchup_bundle.schema.md",
+  "reader_path": "docs/reading/stage-c-catchup-bundle.md",
+  "role_review_path": "reviews/2026-07-26-stage-c-catchup-bundle-role-review.md",
+  "core_k_contract_path": "data/derived/breadth_benchmark_matrix/core_k_temporal_composite_accounting_contract.v1.draft.json",
+  "core_k_closure_path": "data/derived/breadth_benchmark_matrix/core_k_temporal_composite_accounting_closure.v1.draft.json",
+  "lane_stage_evidence": [
+    {"lane_id":"transportation-infrastructure","prefix":"TRN","highest_completed_stage":"TRN-D","current_stage":"TRN-E","at_or_beyond_c":true,"evidence_path":"data/derived/breadth_benchmark_matrix/trn_e_integrated_candidate_solver_start_gate.v1.draft.json"},
+    {"lane_id":"health-medicare","prefix":"HLT","highest_completed_stage":"HLT-C","current_stage":null,"at_or_beyond_c":true,"evidence_path":"data/derived/breadth_benchmark_matrix/hlt_c_health_scenario_admission_closure.v1.draft.json"},
+    {"lane_id":"education-workforce","prefix":"EDU","highest_completed_stage":"EDU-C","current_stage":null,"at_or_beyond_c":true,"evidence_path":"data/derived/breadth_benchmark_matrix/edu_c_education_workforce_scenario_admission_closure.v1.draft.json"},
+    {"lane_id":"social-security","prefix":"OAS","highest_completed_stage":"OAS-C","current_stage":null,"at_or_beyond_c":true,"evidence_path":"data/derived/breadth_benchmark_matrix/oas_c_social_security_scenario_admission_closure.v1.draft.json"}
+  ],
+  "completed_stage_paths": {
+    "hlt_b": "data/derived/breadth_benchmark_matrix/hlt_b_health_accounting_closure.v1.draft.json",
+    "hlt_c": "data/derived/breadth_benchmark_matrix/hlt_c_health_scenario_admission_closure.v1.draft.json",
+    "edu_b": "data/derived/breadth_benchmark_matrix/edu_b_education_workforce_accounting_closure.v1.draft.json",
+    "edu_c": "data/derived/breadth_benchmark_matrix/edu_c_education_workforce_scenario_admission_closure.v1.draft.json",
+    "oas_a": "data/derived/breadth_benchmark_matrix/oas_a_social_security_baseline_source_spine.v1.draft.json",
+    "oas_b": "data/derived/breadth_benchmark_matrix/oas_b_social_security_accounting_closure.v1.draft.json",
+    "oas_c": "data/derived/breadth_benchmark_matrix/oas_c_social_security_scenario_admission_closure.v1.draft.json"
+  },
+  "aggregate_status": {"lane_tracks":4,"tracks_at_or_beyond_c":4,"completed_new_stage_records":7,"core_k_done":true,"reforms_admitted_in_catchup":0,"d_stages_opened_in_catchup":0},
+  "blocked_outputs": {"health_reform":null,"education_reform":null,"social_security_reform":null,"solver_input":null,"assigned_rate":null,"gross_savings":null,"net_savings":null,"public_rate_card":null},
+  "claim_booleans": {"stage_c_catchup_bundle_published":true,"core_k_done":true,"trn_at_or_beyond_c":true,"hlt_c_done":true,"edu_c_done":true,"oas_c_done":true,"all_four_tracks_at_or_beyond_c":true,"new_reform_admitted":false,"solver_ready":false,"rate_published":false,"savings_claim_published":false},
+  "public_warning": "All four named lane tracks are now at or beyond bounded stage C. Health, education/workforce, and OASDI C-stage completion means candidate screening is complete with no reform admitted. It is not solver, rate, savings, or public-output readiness."
+}

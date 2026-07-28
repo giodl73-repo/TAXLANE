@@ -1,0 +1,19 @@
+{
+  "record_id":"hlt-next-level-b-admission-rerun:v1",
+  "record_family":"hlt_next_level_b_admission_rerun",
+  "version":"v1.draft",
+  "status":"hlt_next_level_b_complete_zero_admission_current_law_rescore_required",
+  "pulse":468,
+  "as_of_date":"2026-07-27",
+  "track_prefix":"HLT",
+  "level_a_path":"data/derived/breadth_benchmark_matrix/hlt_next_level_a_site_neutral_evidence_closure.v1.draft.json",
+  "all_fifteen_wave_path":"data/derived/breadth_benchmark_matrix/fifteen_track_next_two_level_advancement_wave.v1.draft.json",
+  "schema_path":"data/derived/breadth_benchmark_matrix/hlt_next_level_b_admission_rerun.schema.md",
+  "reader_path":"docs/reading/hlt-next-level-b-admission-rerun.md",
+  "role_review_path":"reviews/2026-07-27-hlt-next-level-b-admission-rerun-role-review.md",
+  "admission_rerun":{"candidate_id":"off_campus_hopd_imaging_site_neutral_payment","applicable_gate_count":7,"fully_ready_gate_count":1,"unresolved_gate_count":6,"all_applicable_gates_pass":false,"cbo_fy2026_vintage_reduction_billions":0.4,"admitted_fy2026_reduction_billions":0.0,"cbo_fy2025_2034_vintage_reduction_billions":7.6,"admitted_annual_path":null,"candidate_admitted":false,"hlt_typed_savings_output_ready":false},
+  "accounting_result":{"primary_spending_contribution_billions":0.0,"pay_overlay_contribution_billions":0.0,"net_interest_input_billions":0.0,"rev_target_reduction_billions":0.0,"conditional_context_only_billions":7.6},
+  "decision":{"level_b_complete":true,"completion_type":"reviewed_zero_admission","candidate_retained_for_future_rescore":true,"candidate_rejected_as_current_package_savings":true,"all_fifteen_wave_may_continue":true,"planning_rate_change_supported":false},
+  "blocked_outputs":{"admitted_hlt_annual_savings_path":null,"beneficiary_distribution":null,"provider_access_result":null,"implementation_cost":null,"net_savings":null,"hlt_public_savings_surface":null,"rate_reduction":null},
+  "public_warning":"HLT Level B completes the admission rerun with zero admitted savings. The $0.4 billion FY2026 and $7.6 billion FY2025-FY2034 figures remain December 2024 CBO option context, not current-package savings."
+}

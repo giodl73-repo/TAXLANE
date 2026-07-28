@@ -1,0 +1,131 @@
+{
+  "record_id": "adaptive-rate-post-f-wave-roadmap:v1",
+  "record_family": "adaptive_rate_post_f_wave_roadmap",
+  "version": "v1.draft",
+  "status": "legacy_g_i_complete_j_started_mapped_to_core_and_trn",
+  "pulse": 233,
+  "as_of_date": "2026-07-26",
+  "schema_path": "data/derived/breadth_benchmark_matrix/adaptive_rate_post_f_wave_roadmap.schema.md",
+  "reader_path": "docs/reading/adaptive-rate-post-f-wave-roadmap.md",
+  "wave_plan_path": "context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md",
+  "wave_g_contract_path": "data/derived/breadth_benchmark_matrix/wave_g_official_current_law_solver_spine_contract.v1.draft.json",
+  "solver_input_readiness_rollup_path": "data/derived/breadth_benchmark_matrix/solver_input_readiness_rollup.v1.draft.json",
+  "rate_publication_readiness_rollup_path": "data/derived/breadth_benchmark_matrix/rate_publication_readiness_rollup.v1.draft.json",
+  "final_closure_readiness_gate_path": "data/derived/breadth_benchmark_matrix/final_closure_readiness_gate.v1.draft.json",
+  "purpose": "Sequence the post-Wave-F work into independently closable Waves G-L, ending with the first defensible public pilot rate card rather than an unsupported all-lane or balanced-budget claim.",
+  "roadmap_rules": {
+    "dependency_order_is_mandatory": true,
+    "a_wave_may_start_discovery_before_prior_wave_closes": true,
+    "a_wave_may_not_admit_outputs_that_depend_on_an_open_prior_gate": true,
+    "missing_values_remain_null": true,
+    "official_source_custody_required": true,
+    "unrounded_arithmetic_controls": true,
+    "net_interest_remains_endogenous": true,
+    "trust_funds_remain_separate": true,
+    "revenue_solvency_and_payment_integrity_remain_non_additive_overlays": true,
+    "first_public_release_is_one_pilot_not_all_lanes": true
+  },
+  "waves": [
+    {
+      "wave_id": "G",
+      "title": "Official Current-Law Solver Spine",
+      "depends_on": ["F"],
+      "objective": "Admit one official FY2025-FY2035 federal topline current-law path with source, vintage, deficit, debt, financing, and net-interest lineage.",
+      "acceptance_gates": ["eleven_year_horizon", "official_raw_custody", "single_projection_vintage", "fy2025_actual_bridge", "topline_identities", "debt_rollforward", "interest_lineage", "eight_role_review_and_validator"],
+      "newly_allowed_outputs": ["official_current_law_topline_solver_spine"],
+      "still_prohibited": ["real_reform_delta", "target_cost", "rate", "savings", "balanced_budget_claim"],
+      "completion_state": "complete_as_core_g"
+    },
+    {
+      "wave_id": "H",
+      "title": "Fund, Reserve, and Endogenous-Interest Substrate",
+      "depends_on": ["G"],
+      "objective": "Bind the current-law spine to the 17-row ledger, named fund paths, explicit transfers and offsets, reserve rules, rounding, and the endogenous debt-interest engine.",
+      "acceptance_gates": ["seventeen_row_solver_mapping", "oasdi_path", "medicare_hi_path", "transportation_trust_paths", "general_fund_boundary", "explicit_interfund_transfers", "credited_offsetting_collections", "reserve_parameters_and_stress", "endogenous_interest_regression", "fund_and_topline_reconciliation"],
+      "newly_allowed_outputs": ["current_law_accounting_substrate", "fund_balance_paths", "endogenous_interest_baseline_run"],
+      "still_prohibited": ["real_reform_delta", "lower_target_cost", "assigned_base_rate", "savings", "balanced_budget_claim"],
+      "completion_state": "complete_as_core_h"
+    },
+    {
+      "wave_id": "I",
+      "title": "First Real Reform Scenario Admission",
+      "depends_on": ["H"],
+      "objective": "Admit one bounded transportation modernization reform with a real policy instrument, official federal effects, transition and administration costs, complete applicable floors, behavior, phase-in, stress, and score provenance.",
+      "acceptance_gates": ["policy_instrument_and_legal_perimeter", "official_or_reviewed_federal_effect", "implementation_transition_and_fallback_costs", "complete_access_quality_equity_resilience_delivery_and_lane_floors", "behavior_and_delivery_response", "baseline_modernization_and_adverse_paths", "lower_cost_admission_decision", "eight_role_reform_review"],
+      "newly_allowed_outputs": ["one_real_reform_scenario_pack", "floor_admission_result", "scored_target_outlay_path_if_floors_pass"],
+      "still_prohibited": ["assigned_base_rate", "public_savings_claim", "payment_integrity_savings_without_causal_lineage", "balanced_budget_claim"],
+      "completion_state": "complete_as_trn_c_cost_only_reform"
+    },
+    {
+      "wave_id": "J",
+      "title": "Receipt-Base, Incidence, and Fairness Bridge",
+      "depends_on": ["I"],
+      "objective": "Build the matched financing side for the admitted pilot: legal and economic receipt bases, current-law and reform yields, behavior, compliance, administration, incidence, distribution, interactions, and macro sensitivity.",
+      "acceptance_gates": ["matched_year_and_payer_universe", "legal_and_economic_base_perimeters", "baseline_base_amount", "current_law_and_reform_yields", "elasticity_avoidance_and_compliance", "taxpayer_employer_and_agency_burden", "distribution_by_income", "tax_interactions", "administration_cost", "macro_sensitivity", "equity_floor_review"],
+      "newly_allowed_outputs": ["pilot_assigned_base_solver_rows", "distribution_and_incidence_results", "administration_and_behavior_sensitivities"],
+      "still_prohibited": ["published_statutory_rate", "published_effective_rate", "public_rate_card", "balanced_budget_claim"],
+      "completion_state": "in_progress_as_trn_d"
+    },
+    {
+      "wave_id": "K",
+      "title": "Integrated Candidate Solver and Rate Calculation",
+      "depends_on": ["J"],
+      "objective": "Run the first substantive integrated pilot solver across current law, reform, financing, funds, reserves, distribution, and endogenous debt-interest feedback.",
+      "acceptance_gates": ["all_required_solver_rows_admitted_once", "current_law_and_reform_reconciliation", "fund_reserve_and_transfer_reconciliation", "endogenous_interest_convergence", "unrounded_deficit_gap_and_rounding_line", "baseline_modernization_and_stress_runs", "behavior_distribution_macro_and_interaction_sensitivities", "deterministic_regression_suite", "candidate_rate_not_publication_review"],
+      "newly_allowed_outputs": ["internal_target_cost_candidate", "internal_all_receipt_funding_share", "internal_residual_general_fund_share", "internal_assigned_base_effective_rate_candidate", "internal_debt_and_fund_effects"],
+      "still_prohibited": ["public_rate_card", "statutory_rate_proposal", "savings_claim_without_score_boundary", "balanced_budget_claim"],
+      "completion_state": "defined_waiting_on_j"
+    },
+    {
+      "wave_id": "L",
+      "title": "First Public Pilot Rate Card and Closure Review",
+      "depends_on": ["K"],
+      "objective": "Subject the candidate solver output to source audit, sensitivity review, eight-role review, public-language review, and publication gates for one transportation pilot card.",
+      "acceptance_gates": ["source_and_hash_audit", "floor_and_beneficiary_review", "distribution_and_taxpayer_burden_review", "behavior_macro_interaction_and_stress_review", "fund_reserve_debt_and_interest_review", "eight_role_decision", "public_language_and_accessibility_review", "rate_card_reconciliation", "blocked_claims_named", "reproducible_release_bundle"],
+      "newly_allowed_outputs": ["one_public_pilot_rate_card_if_all_gates_pass", "public_explanation_of_rate_change", "public_blocker_and_sensitivity_disclosure"],
+      "still_prohibited": ["all_lane_rate_claim", "statutory_enactment_claim", "department_waste_or_fraud_inference", "automatic_technology_savings", "portfolio_balanced_budget_claim"],
+      "completion_state": "defined_waiting_on_k"
+    }
+  ],
+  "blocker_allocation": [
+    {"blocker_id":"current_law_paths","primary_wave":"G","supporting_waves":["H"]},
+    {"blocker_id":"source_custody","primary_wave":"G","supporting_waves":["H","I","J","L"]},
+    {"blocker_id":"floor_values","primary_wave":"I","supporting_waves":["L"]},
+    {"blocker_id":"policy_scenarios","primary_wave":"I","supporting_waves":["K"]},
+    {"blocker_id":"transition_costs","primary_wave":"I","supporting_waves":["K"]},
+    {"blocker_id":"receipt_bases","primary_wave":"J","supporting_waves":["K"]},
+    {"blocker_id":"distribution_incidence","primary_wave":"J","supporting_waves":["K","L"]},
+    {"blocker_id":"payment_integrity_lineage","primary_wave":"I","supporting_waves":["L"],"boundary":"Excluded from pilot savings unless causal prevention or same-cohort collection lineage passes."},
+    {"blocker_id":"net_interest_feedback","primary_wave":"H","supporting_waves":["K","L"]},
+    {"blocker_id":"reserve_parameters","primary_wave":"H","supporting_waves":["K","L"]}
+  ],
+  "dependency_chain": "G -> H -> I -> J -> K -> L",
+  "post_l_scaling_boundary": "After one public pilot survives Wave L, repeat Waves I-L per additional lane. Do not infer all-lane readiness from one pilot.",
+  "aggregate_status": {
+    "wave_count": 6,
+    "defined_waves": 6,
+    "completed_waves": 3,
+    "in_progress_waves": 1,
+    "mapped_blockers": 10,
+    "first_public_output_wave": "L",
+    "all_lane_publication_planned": false,
+    "balanced_budget_publication_planned": false
+  },
+  "claim_booleans": {
+    "post_f_roadmap_published": true,
+    "wave_g_done": true,
+    "wave_h_done": true,
+    "wave_i_done": true,
+    "wave_j_started": true,
+    "wave_j_done": false,
+    "wave_k_done": false,
+    "wave_l_done": false,
+    "solver_ready": false,
+    "rate_published": false,
+    "public_rate_card_published": false,
+    "savings_claim_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "This predecessor roadmap is reconciled to the controlling namespaces: G is CORE-G, H is CORE-H, I is completed TRN-C, and J is active TRN-D. The H.R. 2247 reform is conditional and cost-only. No lower target cost, solver result, rate, public rate card, savings estimate, technology-savings claim, or balanced-budget claim is published."
+}

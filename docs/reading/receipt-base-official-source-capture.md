@@ -10,6 +10,8 @@ TY2023 IRS SOI values are not FY2025 matched assigned bases.
 
 CMS Medicare HI taxable payroll context is not a public rate calculation.
 
+SSA OASDI calendar-year taxable-payroll context is not a fiscal-year assigned receipt base.
+
 FHWA highway-user receipt and legal-rate context is not a complete economic transportation fee base.
 
 SSA OASDI raw source custody remains blocked in this environment because the official site returned HTTP 403 to direct raw download.

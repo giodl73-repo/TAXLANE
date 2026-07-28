@@ -1,0 +1,28 @@
+{
+  "record_id":"batch-1-remaining-four-two-level-closure:v1",
+  "record_family":"batch_1_remaining_four_two_level_closure",
+  "version":"v1.draft",
+  "status":"def_oas_pay_net_two_levels_complete_zero_additive_spending",
+  "pulse":469,
+  "as_of_date":"2026-07-27",
+  "all_fifteen_wave_path":"data/derived/breadth_benchmark_matrix/fifteen_track_next_two_level_advancement_wave.v1.draft.json",
+  "schema_path":"data/derived/breadth_benchmark_matrix/batch_1_remaining_four_two_level_closure.schema.md",
+  "reader_path":"docs/reading/batch-1-remaining-four-two-level-closure.md",
+  "role_review_path":"reviews/2026-07-27-batch-1-remaining-four-two-level-closure-role-review.md",
+  "official_defense_sources":[
+    {"source_id":"DOD-FY2026-BUDGET-OVERVIEW","url":"https://comptroller.defense.gov/Portals/45/Documents/defbudget/FY2026/FY2026_Budget_Request_Overview_Book.pdf","use":"current request program and quantity context"},
+    {"source_id":"DOD-FY2026-BUDGET-BRIEFING","url":"https://www.defense.gov/News/Transcripts/Transcript/Article/4228828/background-briefing-on-fy-2026-defense-budget/","use":"$961.6 billion DOD request, 25,000 active-strength increase, nearly $160 billion readiness, program changes, and unresolved FY2027 topline"},
+    {"source_id":"CBO-60920","url":"https://www.cbo.gov/budget-options/60920","use":"December 2024 unallocated defense topline option"},
+    {"source_id":"CBO-57538","url":"https://www.cbo.gov/publication/57538","use":"October 2021 illustrative proportional active-force strategy"}
+  ],
+  "track_rows":[
+    {"track":"DEF","predecessor_path":"data/derived/breadth_benchmark_matrix/def_level_5_specific_force_strategy_candidate_audit.v1.draft.json","level_a":{"status":"complete_precise_reblock","ready_gates":1,"blocked_gates":6,"finding":"The FY2026 request increases active strength by 25,000, funds nearly $160 billion of readiness, and changes named programs; the 2021 proportional reduction strategy has no unit, program, FYDP, transition, allied, or rescore mapping to that request."},"level_b":{"status":"complete_zero_admission","candidate_admitted":false,"admitted_primary_spending_billions":0.0,"typed_output_ready":false}},
+    {"track":"OAS","predecessor_path":"data/derived/breadth_benchmark_matrix/oas_level_4_taxable_max_cohort_incidence_audit.v1.draft.json","level_a":{"status":"complete_precise_reblock","ready_gates":2,"blocked_gates":6,"finding":"The official option and 2026 Trustees context remain ready, while cohort benefits, economic incidence, adequacy, administration, REV overlap, current-law rescore, and long-range solvency remain unresolved."},"level_b":{"status":"complete_zero_admission","candidate_admitted":false,"admitted_primary_spending_billions":0.0,"typed_output_ready":false,"treatment":"dedicated_solvency_overlay_not_primary_savings"}},
+    {"track":"PAY","predecessor_path":"data/derived/breadth_benchmark_matrix/pay_level_4_full_dmf_accounting_floor_audit.v1.draft.json","level_a":{"status":"complete_precise_reblock","ready_gates":2,"blocked_gates":6,"finding":"Causal attribution and reported cost netting remain ready; prevention, identification, recovery, program ownership, fund disposition, fiscal timing, appeal, false-positive, access, and distribution evidence remain unresolved."},"level_b":{"status":"complete_zero_admission","candidate_admitted":false,"admitted_primary_spending_billions":0.0,"typed_output_ready":false,"treatment":"non_additive_measurement_overlay"}},
+    {"track":"NET","predecessor_path":"data/derived/breadth_benchmark_matrix/net_level_4_endogenous_dependency_audit.v1.draft.json","level_a":{"status":"complete_zero_input_contract","ready_gates":3,"blocked_gates":5,"finding":"The official baseline, Treasury average rate, and zero-input identity remain valid; no admitted upstream path exists and maturity, annual rate, timing, financing, and iterative feedback inputs remain unresolved."},"level_b":{"status":"complete_zero_endogenous_rerun","candidate_admitted":false,"admitted_primary_spending_billions":0.0,"endogenous_net_interest_billions":0.0,"typed_output_ready":false,"treatment":"endogenous_not_direct_cut"}}
+  ],
+  "integrated_batch_result":{"tracks":4,"level_a_completed":4,"level_b_completed":4,"new_candidates_admitted":0,"admitted_primary_spending_billions":0.0,"pay_additive_contribution_billions":0.0,"oas_primary_spending_contribution_billions":0.0,"net_interest_contribution_billions":0.0,"rev_target_reduction_billions":0.0,"planning_rate_change_supported":false},
+  "decision":{"batch_1_all_five_tracks_two_levels_complete_including_hlt":true,"def_zero_admission":true,"oas_dedicated_overlay_zero_primary_admission":true,"pay_non_additive_zero_admission":true,"net_zero_endogenous_result":true,"batch_2_may_start":true},
+  "blocked_outputs":{"def_admitted_annual_path":null,"oas_admitted_solvency_path":null,"pay_owner_attributed_annual_path":null,"net_nonzero_endogenous_path":null,"integrated_primary_savings":null,"rate_reduction":null},
+  "public_warning":"DEF, OAS, PAY, and NET complete both new levels through precise reblocks and zero-admission or zero-input reruns. Together with HLT, Batch 1 is complete, but it contributes no additive primary savings and does not lower the planning rate."
+}

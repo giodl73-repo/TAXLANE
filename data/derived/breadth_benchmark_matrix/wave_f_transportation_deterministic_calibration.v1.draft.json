@@ -1,0 +1,92 @@
+{
+  "record_id": "wave-f-transportation-deterministic-calibration:v1",
+  "record_family": "wave_f_transportation_deterministic_calibration",
+  "version": "v1.draft",
+  "status": "wave_f_complete_deterministic_transportation_calibration_only",
+  "pulse": 230,
+  "as_of_date": "2026-07-26",
+  "schema_path": "data/derived/breadth_benchmark_matrix/wave_f_transportation_deterministic_calibration.schema.md",
+  "simulator_contract_path": "data/derived/breadth_benchmark_matrix/deterministic_annual_update_simulator_contract.v1.draft.json",
+  "pilot_selection_gate_path": "data/derived/breadth_benchmark_matrix/pilot_lane_selection_gate.v1.draft.json",
+  "wave_e_reference_path": "data/derived/breadth_benchmark_matrix/wave_e_reference_scenario_packs.v1.draft.json",
+  "wave_f_readiness_path": "data/derived/breadth_benchmark_matrix/solver_rate_wave_f_readiness.v1.draft.json",
+  "role_review_path": "reviews/2026-07-26-wave-f-transportation-deterministic-calibration-role-review.md",
+  "completion_contract": {
+    "pilot_lane": "transportation-infrastructure",
+    "pilot_candidate": "transportation_asset_maintenance_and_safety",
+    "selection_scope": "deterministic_calibration_only",
+    "baseline_modernization_and_stress_paths_present": true,
+    "optimization_performed": false,
+    "fund_accounting_exercised": true,
+    "reserve_interface_exercised": true,
+    "endogenous_interest_feedback_exercised": true,
+    "floor_gate_blocks_lower_cost_recognition": true,
+    "eight_role_review_complete": true,
+    "wave_f_done": true
+  },
+  "calibration_boundary": {
+    "unit": "synthetic_calibration_units",
+    "horizon": "FY2025-FY2035",
+    "official_budget_score": false,
+    "real_reform_scenario": false,
+    "source_custodied_fiscal_path": false,
+    "purpose": "Exercise deterministic simulator identities and blocking behavior without filling missing official evidence with assumptions.",
+    "all_values_prohibited_from_policy_or_fiscal_use": true
+  },
+  "interface_coverage": [
+    {"prerequisite_id":"current_law_paths","calibration_interface_exercised":true,"substantive_ready":false},
+    {"prerequisite_id":"source_custody","calibration_interface_exercised":true,"substantive_ready":false},
+    {"prerequisite_id":"floor_values","calibration_interface_exercised":true,"substantive_ready":false},
+    {"prerequisite_id":"policy_scenarios","calibration_interface_exercised":true,"substantive_ready":false},
+    {"prerequisite_id":"transition_costs","calibration_interface_exercised":true,"substantive_ready":false},
+    {"prerequisite_id":"receipt_bases","calibration_interface_exercised":true,"substantive_ready":false},
+    {"prerequisite_id":"distribution_incidence","calibration_interface_exercised":true,"substantive_ready":false},
+    {"prerequisite_id":"payment_integrity_lineage","calibration_interface_exercised":true,"substantive_ready":false},
+    {"prerequisite_id":"net_interest_feedback","calibration_interface_exercised":true,"substantive_ready":false},
+    {"prerequisite_id":"reserve_parameters","calibration_interface_exercised":true,"substantive_ready":false}
+  ],
+  "path_parameters": {
+    "baseline": {"gross_program_outlays":100,"implementation_admin_outlays":0,"credited_offsetting_collections":0,"dedicated_receipts":80,"explicit_general_fund_transfer":20,"other_scored_fund_income":0},
+    "modernization_transition": {"gross_program_outlays":100,"implementation_admin_outlays":5,"credited_offsetting_collections":0,"dedicated_receipts":80,"explicit_general_fund_transfer":25,"other_scored_fund_income":0},
+    "modernization_provisional_productivity": {"gross_program_outlays":100,"unrecognized_productivity_reduction":5,"implementation_admin_outlays":2,"credited_offsetting_collections":0,"dedicated_receipts":80,"explicit_general_fund_transfer":22,"other_scored_fund_income":0},
+    "stress": {"gross_program_outlays":100,"implementation_admin_outlays":8,"fallback_remediation_outlays":2,"credited_offsetting_collections":0,"dedicated_receipts":80,"explicit_general_fund_transfer":30,"other_scored_fund_income":0}
+  },
+  "annual_rows": [
+    {"fiscal_year":2025,"baseline_primary_outlays":100,"baseline_net_cash_requirement":100,"baseline_fund_balance_change":0,"modernization_phase":"transition","modernization_primary_outlays":105,"modernization_net_cash_requirement":105,"modernization_fund_balance_change":0,"stress_primary_outlays":110,"stress_net_cash_requirement":110,"stress_fund_balance_change":0},
+    {"fiscal_year":2026,"baseline_primary_outlays":100,"baseline_net_cash_requirement":100,"baseline_fund_balance_change":0,"modernization_phase":"transition","modernization_primary_outlays":105,"modernization_net_cash_requirement":105,"modernization_fund_balance_change":0,"stress_primary_outlays":110,"stress_net_cash_requirement":110,"stress_fund_balance_change":0},
+    {"fiscal_year":2027,"baseline_primary_outlays":100,"baseline_net_cash_requirement":100,"baseline_fund_balance_change":0,"modernization_phase":"provisional_productivity_not_recognized","modernization_primary_outlays":102,"modernization_net_cash_requirement":102,"modernization_fund_balance_change":0,"stress_primary_outlays":110,"stress_net_cash_requirement":110,"stress_fund_balance_change":0},
+    {"fiscal_year":2028,"baseline_primary_outlays":100,"baseline_net_cash_requirement":100,"baseline_fund_balance_change":0,"modernization_phase":"provisional_productivity_not_recognized","modernization_primary_outlays":102,"modernization_net_cash_requirement":102,"modernization_fund_balance_change":0,"stress_primary_outlays":110,"stress_net_cash_requirement":110,"stress_fund_balance_change":0},
+    {"fiscal_year":2029,"baseline_primary_outlays":100,"baseline_net_cash_requirement":100,"baseline_fund_balance_change":0,"modernization_phase":"provisional_productivity_not_recognized","modernization_primary_outlays":102,"modernization_net_cash_requirement":102,"modernization_fund_balance_change":0,"stress_primary_outlays":110,"stress_net_cash_requirement":110,"stress_fund_balance_change":0},
+    {"fiscal_year":2030,"baseline_primary_outlays":100,"baseline_net_cash_requirement":100,"baseline_fund_balance_change":0,"modernization_phase":"provisional_productivity_not_recognized","modernization_primary_outlays":102,"modernization_net_cash_requirement":102,"modernization_fund_balance_change":0,"stress_primary_outlays":110,"stress_net_cash_requirement":110,"stress_fund_balance_change":0},
+    {"fiscal_year":2031,"baseline_primary_outlays":100,"baseline_net_cash_requirement":100,"baseline_fund_balance_change":0,"modernization_phase":"provisional_productivity_not_recognized","modernization_primary_outlays":102,"modernization_net_cash_requirement":102,"modernization_fund_balance_change":0,"stress_primary_outlays":110,"stress_net_cash_requirement":110,"stress_fund_balance_change":0},
+    {"fiscal_year":2032,"baseline_primary_outlays":100,"baseline_net_cash_requirement":100,"baseline_fund_balance_change":0,"modernization_phase":"provisional_productivity_not_recognized","modernization_primary_outlays":102,"modernization_net_cash_requirement":102,"modernization_fund_balance_change":0,"stress_primary_outlays":110,"stress_net_cash_requirement":110,"stress_fund_balance_change":0},
+    {"fiscal_year":2033,"baseline_primary_outlays":100,"baseline_net_cash_requirement":100,"baseline_fund_balance_change":0,"modernization_phase":"provisional_productivity_not_recognized","modernization_primary_outlays":102,"modernization_net_cash_requirement":102,"modernization_fund_balance_change":0,"stress_primary_outlays":110,"stress_net_cash_requirement":110,"stress_fund_balance_change":0},
+    {"fiscal_year":2034,"baseline_primary_outlays":100,"baseline_net_cash_requirement":100,"baseline_fund_balance_change":0,"modernization_phase":"provisional_productivity_not_recognized","modernization_primary_outlays":102,"modernization_net_cash_requirement":102,"modernization_fund_balance_change":0,"stress_primary_outlays":110,"stress_net_cash_requirement":110,"stress_fund_balance_change":0},
+    {"fiscal_year":2035,"baseline_primary_outlays":100,"baseline_net_cash_requirement":100,"baseline_fund_balance_change":0,"modernization_phase":"provisional_productivity_not_recognized","modernization_primary_outlays":102,"modernization_net_cash_requirement":102,"modernization_fund_balance_change":0,"stress_primary_outlays":110,"stress_net_cash_requirement":110,"stress_fund_balance_change":0}
+  ],
+  "floor_gate": {
+    "access":"missing_blocked","quality":"missing_blocked","equity":"missing_blocked","adequacy_resilience":"missing_blocked","delivery_feasibility":"missing_blocked",
+    "lane_specific_central":"passes_wave_e_reference_comparator_only",
+    "lane_specific_stress":"fails_wave_e_adverse_comparator",
+    "complete_floor_set_passed":false,
+    "modeled_productivity_reduction_recognized":false,
+    "lower_cost_scenario_admissible":false,
+    "target_cost":null
+  },
+  "endogenous_interest_feedback_fixture": {
+    "unit":"synthetic_calibration_units","opening_debt":1000,"effective_rate":0.03,
+    "baseline_primary_deficit":100,"modernization_primary_deficit":105,"stress_primary_deficit":110,
+    "opening_interest":30,"baseline_closing_debt":1130,"modernization_closing_debt":1135,"stress_closing_debt":1140,
+    "baseline_next_interest":33.9,"modernization_next_interest":34.05,"stress_next_interest":34.2,
+    "modernization_interest_delta":0.15,"stress_interest_delta":0.3,"net_interest_changed_endogenously":true
+  },
+  "reserve_fixture": {"contribution":0,"withdrawal":0,"opening_balance":0,"closing_balance":0,"rounding_line":0,"parameter_choice_published":false},
+  "deterministic_assertions": {
+    "annual_row_count":11,"all_primary_outlay_identities_pass":true,"all_net_cash_identities_pass":true,"all_fund_balance_identities_pass":true,"all_rounding_lines_zero":true,"interest_feedback_identity_passes":true,"lower_cost_blocking_assertion_passes":true
+  },
+  "blocked_substantive_outputs": {"official_solver_inputs":null,"real_reform_score":null,"target_cost":null,"assigned_base_rate":null,"public_rate_card":null,"gross_savings":null,"net_savings":null,"balanced_budget_result":null},
+  "claim_booleans": {
+    "wave_f_done":true,"deterministic_calibration_published":true,"optimization_performed":false,"real_reform_scenario_published":false,"official_solver_inputs_ready":false,"solver_run_published":false,"target_cost_published":false,"statutory_rate_published":false,"effective_rate_published":false,"public_rate_card_published":false,"savings_claim_published":false,"technology_savings_claim_published":false,"balanced_budget_claim_published":false
+  },
+  "public_warning": "Wave F is complete as a deterministic transportation simulator calibration. Every number in this fixture is a synthetic calibration unit, not an official budget value or policy score. The run proves arithmetic, endogenous-interest movement, and floor-gate blocking only; it does not publish a real reform scenario, solver input, target cost, rate, savings estimate, or balanced-budget result."
+}

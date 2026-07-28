@@ -1,0 +1,24 @@
+{
+  "record_id":"rev-level-6-revenue-instrument-dossier:v1","record_family":"rev_level_6_revenue_instrument_dossier","version":"v1.draft","status":"revenue_instrument_planning_rate_output_ready","pulse":453,"as_of_date":"2026-07-27","track_prefix":"REV","work_package_id":"REV-L6-02",
+  "policy_decision_path":"data/derived/breadth_benchmark_matrix/rev_level_6_policy_rate_decision.v1.draft.json","core_m_path":"data/derived/breadth_benchmark_matrix/core_m_candidate_dossier_typed_release_closure.v1.draft.json","schema_path":"data/derived/breadth_benchmark_matrix/rev_level_6_revenue_instrument_dossier.schema.md","reader_path":"docs/reading/rev-level-6-revenue-instrument-dossier.md","role_review_path":"reviews/2026-07-27-rev-level-6-revenue-instrument-dossier-role-review.md",
+  "candidate_profile":{"candidate_id":"fy2026_uniform_individual_income_rate_planning_schedule","candidate_name":"FY2026 uniform individual-income planning schedule","objective_profile":"revenue_instrument","policy_status":"reviewed_model_planning_schedule","statutory_or_enacted":false,"assigned_receipt_rate_uplift_points":11.0,"assigned_receipt_rate_schedule_percent":[21.0,23.0,33.0,35.0,43.0,46.0,48.0],"public_uncertainty_band_uplift_points":[10.2,11.9]},
+  "financing_roles":[
+    {"role":"receipt_or_fee_base","source_id":"SRC-TAXCALC-6.5.1-CPS-2026","source_supported":true,"scope":"matched TY2026 CPS tax-unit individual-income liability model"},
+    {"role":"dedicated_receipt","source_id":"SRC-IRS-REVPROC-2025-32-2026-RATES","source_supported":true,"scope":"ordinary individual income-tax legal rate schedule; general federal receipt, not legally dedicated to a program"},
+    {"role":"program_outlay","source_id":"SRC-CBO-BUDGET-OUTLOOK-2026","source_supported":true,"scope":"FY2026 current-law primary-deficit target context"}
+  ],
+  "gate_reviews":[
+    {"gate_id":"current_law_rate_schedule","disposition":"required_ready","evidence_path":"data/derived/breadth_benchmark_matrix/rev_level_1_post_2025_rate_rescore_proxy.v1.draft.json"},
+    {"gate_id":"matched_tax_unit_receipt_base","disposition":"required_ready","evidence_path":"data/derived/breadth_benchmark_matrix/rev_level_3_taxcalc_microsimulation_score.v1.draft.json"},
+    {"gate_id":"behavioral_and_distribution_model","disposition":"required_ready","evidence_path":"data/derived/breadth_benchmark_matrix/rev_level_6_policy_rate_decision.v1.draft.json"},
+    {"gate_id":"first_year_timing_proxy","disposition":"required_ready","evidence_path":"data/derived/breadth_benchmark_matrix/rev_level_4_first_year_cash_timing_bridge.v1.draft.json"},
+    {"gate_id":"bounded_administration_context","disposition":"required_ready","evidence_path":"data/derived/breadth_benchmark_matrix/rev_level_5_administration_implementation_ceiling.v1.draft.json"},
+    {"gate_id":"planning_assignment_review","disposition":"required_ready","evidence_path":"reviews/2026-07-27-rev-level-6-policy-rate-decision-role-review.md"},
+    {"gate_id":"official_dynamic_and_balance_certification","disposition":"reviewed_not_applicable","rationale":"The requested output is explicitly a model planning rate card and makes no official-score, statutory, or balanced-budget claim; formal certification remains blocked outside this surface."}
+  ],
+  "requested_release_outputs":["candidate_explanation","assigned_receipt_rate"],
+  "release_decision":{"dossier_valid":true,"all_required_gates_ready":true,"role_review_complete":true,"release_ready":true,"admitted_outputs":["candidate_explanation","assigned_receipt_rate"],"rev_f_planning_rate_card_may_start":true},
+  "blocked_outputs":{"official_conventional_score":null,"official_dynamic_score":null,"formal_certified_rate":null,"statutory_legislative_schedule":null,"balanced_budget_claim":null},
+  "claim_booleans":{"rev_level_6_dossier_published":true,"core_m_revenue_profile_applied":true,"matched_model_base_ready":true,"planning_rate_output_ready":true,"formal_rate_certified":false,"statutory_rate_proposed":false,"balanced_budget_claim_published":false},
+  "public_warning":"CORE-M admits the assigned_receipt_rate output only for a model planning rate card tied to the matched CPS tax-unit base. It does not transform the timing proxy into an official cash score, enact legislation, or certify budget balance."
+}

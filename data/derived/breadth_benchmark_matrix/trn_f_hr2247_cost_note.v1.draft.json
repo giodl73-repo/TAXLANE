@@ -1,0 +1,18 @@
+{
+  "record_id":"trn-f-hr2247-cost-note:v1","record_family":"trn_f_hr2247_cost_note","version":"v1.draft","status":"trn_f_complete_public_cost_note_only","pulse":406,"as_of_date":"2026-07-27","track_prefix":"TRN","lane_id":"transportation-infrastructure","track_wave_id":"TRN-F",
+  "core_n_path":"data/derived/breadth_benchmark_matrix/core_n_typed_public_release_surface_closure.v1.draft.json","trn_level_2_path":"data/derived/breadth_benchmark_matrix/trn_level_2_hr2247_output_ready_e_rerun.v1.draft.json","candidate_dossier_path":"data/derived/breadth_benchmark_matrix/trn_level_1_hr2247_candidate_dossier.v1.draft.json","scenario_path":"data/derived/breadth_benchmark_matrix/trn_c_airmen_certificate_reform_scenario.v1.draft.json","schema_path":"data/derived/breadth_benchmark_matrix/trn_f_hr2247_cost_note.schema.md","reader_path":"docs/reading/trn-f-hr2247-cost-note.md","role_review_path":"reviews/2026-07-27-trn-f-hr2247-cost-note-role-review.md",
+  "release_identity":{"surface":"cost_note","candidate_id":"hr2247_airmen_certificate_accessibility","candidate_name":"H.R. 2247, Airmen Certificate Accessibility Act","objective_profile":"cost_only_modernization","legislative_status":"passed_house_referred_senate_not_enacted","conditional_on_enactment_and_appropriation":true},
+  "public_cost_note":{"headline":"Conditional FAA airman-certificate modernization cost","candidate_explanation":"If enacted and funded, H.R. 2247 would require FAA modernization of airman-certificate access, authentication, and delivery.","official_incremental_cost_millions":18,"score_horizon":"FY2026-FY2031","score_source_id":"SRC-GPO-HRPT119-551-2026","scope_label":"conditional incremental federal outlays subject to appropriation","evidence_grade":"official_legislative_text_and_cbo_score_context","public_claim_status":"publishable_cost_note_only"},
+  "release_checks":[
+    {"check_id":"core_n_cost_note_surface","status":"pass"},
+    {"check_id":"trn_e_output_ready","status":"pass"},
+    {"check_id":"source_and_fiscal_language","status":"pass"},
+    {"check_id":"eight_role_review","status":"pass"},
+    {"check_id":"public_language_review","status":"pass"},
+    {"check_id":"reproducible_release","status":"pass"}
+  ],
+  "closure_decision":{"trn_f_started":true,"trn_f_done":true,"surface":"cost_note","public_cost_note_published":true,"public_rate_card_published":false,"solver_run_performed":false,"release_outputs":["candidate_explanation","official_incremental_cost"]},
+  "blocked_outputs":{"assigned_rate":null,"statutory_rate":null,"effective_rate":null,"lower_cost_target":null,"gross_savings":null,"net_savings":null,"quantitative_distribution_result":null,"named_fund_assignment":null,"public_rate_card":null,"balanced_budget_claim":null},
+  "claim_booleans":{"trn_f_cost_note_published":true,"core_n_surface_applied":true,"trn_f_started":true,"trn_f_done":true,"candidate_enacted":false,"solver_run_performed":false,"public_rate_card_published":false,"rate_published":false,"savings_claim_published":false,"balanced_budget_claim_published":false},
+  "public_warning":"This public cost note says only that H.R. 2247 is not enacted and, if enacted and funded, would add an estimated $18 million of federal outlays over FY2026-FY2031. It is not a rate card, tax proposal, named-fund assignment, savings result, lower-cost finding, quantitative distribution result, endorsement, or balanced-budget claim."
+}

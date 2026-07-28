@@ -1,0 +1,71 @@
+{
+  "record_id": "core-g-official-current-law-solver-spine:v1",
+  "record_family": "core_g_official_current_law_solver_spine",
+  "version": "v1.draft",
+  "status": "core_g_complete_official_current_law_topline_spine_admitted",
+  "core_wave_id": "CORE-G",
+  "pulse": 236,
+  "as_of_date": "2026-07-26",
+  "schema_path": "data/derived/breadth_benchmark_matrix/core_g_official_current_law_solver_spine.schema.md",
+  "reader_path": "docs/reading/core-g-official-current-law-solver-spine.md",
+  "contract_path": "data/derived/breadth_benchmark_matrix/wave_g_official_current_law_solver_spine_contract.v1.draft.json",
+  "corpus_plan_path": "data/derived/breadth_benchmark_matrix/adaptive_rate_corpus_track_plan.v1.draft.json",
+  "role_review_path": "reviews/2026-07-26-core-g-official-current-law-solver-spine-role-review.md",
+  "purpose": "Admit the official CBO February 2026 FY2025-FY2035 federal current-law topline spine needed to start TRN-A while preserving all lane, fund, reform, rate, and publication blockers.",
+  "source_packets": [
+    {
+      "source_id": "SRC-CBO-OPEN-DATA-TEN-YEAR-BUDGET-2026-02",
+      "publisher": "Congressional Budget Office",
+      "source_vintage": "2026-02",
+      "raw_artifact_path": "data/raw/cbo/SRC-CBO-OPEN-DATA-TEN-YEAR-BUDGET-2026-02/2026-07-23/annual_fy_2026-02.csv",
+      "metadata_path": "data/metadata/SRC-CBO-OPEN-DATA-TEN-YEAR-BUDGET-2026-02.2026-07-23.metadata.md",
+      "retrieval_date": "2026-07-23",
+      "byte_count": 145228,
+      "sha256": "6a2d727e70fb53512e45afdcc8d145f7dc952b2d4e87ca03591cb4e5bd63f0db",
+      "variables": ["proj_rev_total", "proj_outlays_total", "proj_outlays_net_interest", "proj_primary_deficit", "proj_deficit_total", "proj_debt_change_other_financing", "proj_debt_held_by_public_begin", "proj_debt_held_by_public_end", "proj_debt_avg_interest_rate"]
+    },
+    {
+      "source_id": "SRC-CBO-OPEN-DATA-REVENUE-DETAIL-2026-02",
+      "publisher": "Congressional Budget Office",
+      "source_vintage": "2026-02",
+      "raw_artifact_path": "data/raw/cbo/SRC-CBO-OPEN-DATA-REVENUE-DETAIL-2026-02/2026-07-23/annual_fy_2026-02.csv",
+      "metadata_path": "data/metadata/SRC-CBO-OPEN-DATA-REVENUE-DETAIL-2026-02.2026-07-23.metadata.md",
+      "retrieval_date": "2026-07-23",
+      "byte_count": 76738,
+      "sha256": "86b5f5ec7142533875b2d69b69dfa5b259cb2b477c37c403a3414012fd04b241",
+      "variables": ["rev_addendum_gdp"]
+    }
+  ],
+  "extraction_contract": {
+    "source_unit": "billions_usd",
+    "published_unit": "millions_usd",
+    "conversion": "published_millions = source_billions * 1000",
+    "source_precision_preserved": true,
+    "interpolation_used": false,
+    "projection_vintage": "2026-02",
+    "fy2025_actual_from_same_projection_release": true,
+    "cross_vintage_stitching_used": false,
+    "deficit_sign_conversion": "CBO negative deficit values are published here as positive financing needs",
+    "other_financing_and_timing": "Exact debt-identity residual; reported other financing is retained separately and the difference is explicit timing residual."
+  },
+  "annual_rows": [
+    {"fiscal_year":2025,"actual_or_projection":"actual","source_id":"SRC-CBO-OPEN-DATA-TEN-YEAR-BUDGET-2026-02","source_vintage":"2026-02","gdp_musd":30362025,"total_receipts_musd":5234616,"primary_outlays_musd":6040048,"net_interest_musd":969938,"total_outlays_musd":7009986,"primary_deficit_musd":805432,"total_deficit_musd":1775370,"other_financing_and_timing_musd":201457,"reported_other_financing_musd":201470,"timing_residual_musd":-13,"debt_held_by_public_begin_musd":28195575,"debt_held_by_public_end_musd":30172402,"average_interest_rate_percent":3.383},
+    {"fiscal_year":2026,"actual_or_projection":"projection","source_id":"SRC-CBO-OPEN-DATA-TEN-YEAR-BUDGET-2026-02","source_vintage":"2026-02","gdp_musd":31902006,"total_receipts_musd":5595916,"primary_outlays_musd":6409643,"net_interest_musd":1038976,"total_outlays_musd":7448619,"primary_deficit_musd":813727,"total_deficit_musd":1852703,"other_financing_and_timing_musd":70060,"reported_other_financing_musd":70060,"timing_residual_musd":0,"debt_held_by_public_begin_musd":30172402,"debt_held_by_public_end_musd":32095165,"average_interest_rate_percent":3.404},
+    {"fiscal_year":2027,"actual_or_projection":"projection","source_id":"SRC-CBO-OPEN-DATA-TEN-YEAR-BUDGET-2026-02","source_vintage":"2026-02","gdp_musd":33315187,"total_receipts_musd":5885198,"primary_outlays_musd":6664686,"net_interest_musd":1107715,"total_outlays_musd":7772401,"primary_deficit_musd":779488,"total_deficit_musd":1887203,"other_financing_and_timing_musd":22152,"reported_other_financing_musd":22152,"timing_residual_musd":0,"debt_held_by_public_begin_musd":32095165,"debt_held_by_public_end_musd":34004520,"average_interest_rate_percent":3.41},
+    {"fiscal_year":2028,"actual_or_projection":"projection","source_id":"SRC-CBO-OPEN-DATA-TEN-YEAR-BUDGET-2026-02","source_vintage":"2026-02","gdp_musd":34665785,"total_receipts_musd":6071468,"primary_outlays_musd":6933302,"net_interest_musd":1217824,"total_outlays_musd":8151126,"primary_deficit_musd":861834,"total_deficit_musd":2079658,"other_financing_and_timing_musd":8567,"reported_other_financing_musd":8567,"timing_residual_musd":0,"debt_held_by_public_begin_musd":34004520,"debt_held_by_public_end_musd":36092745,"average_interest_rate_percent":3.526},
+    {"fiscal_year":2029,"actual_or_projection":"projection","source_id":"SRC-CBO-OPEN-DATA-TEN-YEAR-BUDGET-2026-02","source_vintage":"2026-02","gdp_musd":36010049,"total_receipts_musd":6319789,"primary_outlays_musd":7015008,"net_interest_musd":1324496,"total_outlays_musd":8339504,"primary_deficit_musd":695219,"total_deficit_musd":2019715,"other_financing_and_timing_musd":-9703,"reported_other_financing_musd":-9703,"timing_residual_musd":0,"debt_held_by_public_begin_musd":36092745,"debt_held_by_public_end_musd":38102757,"average_interest_rate_percent":3.616},
+    {"fiscal_year":2030,"actual_or_projection":"projection","source_id":"SRC-CBO-OPEN-DATA-TEN-YEAR-BUDGET-2026-02","source_vintage":"2026-02","gdp_musd":37390673,"total_receipts_musd":6594999,"primary_outlays_musd":7363805,"net_interest_musd":1431836,"total_outlays_musd":8795641,"primary_deficit_musd":768806,"total_deficit_musd":2200642,"other_financing_and_timing_musd":-23760,"reported_other_financing_musd":-23760,"timing_residual_musd":0,"debt_held_by_public_begin_musd":38102757,"debt_held_by_public_end_musd":40279639,"average_interest_rate_percent":3.692},
+    {"fiscal_year":2031,"actual_or_projection":"projection","source_id":"SRC-CBO-OPEN-DATA-TEN-YEAR-BUDGET-2026-02","source_vintage":"2026-02","gdp_musd":38812821,"total_receipts_musd":6869493,"primary_outlays_musd":7606805,"net_interest_musd":1548383,"total_outlays_musd":9155188,"primary_deficit_musd":737312,"total_deficit_musd":2285695,"other_financing_and_timing_musd":-36998,"reported_other_financing_musd":-36998,"timing_residual_musd":0,"debt_held_by_public_begin_musd":40279639,"debt_held_by_public_end_musd":42528336,"average_interest_rate_percent":3.775},
+    {"fiscal_year":2032,"actual_or_projection":"projection","source_id":"SRC-CBO-OPEN-DATA-TEN-YEAR-BUDGET-2026-02","source_vintage":"2026-02","gdp_musd":40276527,"total_receipts_musd":7129682,"primary_outlays_musd":7898653,"net_interest_musd":1670447,"total_outlays_musd":9569100,"primary_deficit_musd":768971,"total_deficit_musd":2439418,"other_financing_and_timing_musd":-45264,"reported_other_financing_musd":-45264,"timing_residual_musd":0,"debt_held_by_public_begin_musd":42528336,"debt_held_by_public_end_musd":44922490,"average_interest_rate_percent":3.852},
+    {"fiscal_year":2033,"actual_or_projection":"projection","source_id":"SRC-CBO-OPEN-DATA-TEN-YEAR-BUDGET-2026-02","source_vintage":"2026-02","gdp_musd":41795930,"total_receipts_musd":7391476,"primary_outlays_musd":8387847,"net_interest_musd":1784364,"total_outlays_musd":10172211,"primary_deficit_musd":996371,"total_deficit_musd":2780735,"other_financing_and_timing_musd":-59038,"reported_other_financing_musd":-59038,"timing_residual_musd":0,"debt_held_by_public_begin_musd":44922490,"debt_held_by_public_end_musd":47644187,"average_interest_rate_percent":3.881},
+    {"fiscal_year":2034,"actual_or_projection":"projection","source_id":"SRC-CBO-OPEN-DATA-TEN-YEAR-BUDGET-2026-02","source_vintage":"2026-02","gdp_musd":43373323,"total_receipts_musd":7668923,"primary_outlays_musd":8583672,"net_interest_musd":1903751,"total_outlays_musd":10487423,"primary_deficit_musd":914749,"total_deficit_musd":2818500,"other_financing_and_timing_musd":-68834,"reported_other_financing_musd":-68834,"timing_residual_musd":0,"debt_held_by_public_begin_musd":47644187,"debt_held_by_public_end_musd":50393853,"average_interest_rate_percent":3.904},
+    {"fiscal_year":2035,"actual_or_projection":"projection","source_id":"SRC-CBO-OPEN-DATA-TEN-YEAR-BUDGET-2026-02","source_vintage":"2026-02","gdp_musd":45011500,"total_receipts_musd":7971863,"primary_outlays_musd":8731825,"net_interest_musd":2019072,"total_outlays_musd":10750897,"primary_deficit_musd":759962,"total_deficit_musd":2779034,"other_financing_and_timing_musd":-69664,"reported_other_financing_musd":-69664,"timing_residual_musd":0,"debt_held_by_public_begin_musd":50393853,"debt_held_by_public_end_musd":53103223,"average_interest_rate_percent":3.919}
+  ],
+  "completion_gates": [
+    {"gate_id":"source_custody","ready":true},{"gate_id":"complete_horizon","ready":true},{"gate_id":"vintage_control","ready":true},{"gate_id":"topline_reconciliation","ready":true},{"gate_id":"debt_rollforward","ready":true},{"gate_id":"interest_lineage","ready":true},{"gate_id":"boundary_review","ready":true},{"gate_id":"deterministic_validation","ready":true}
+  ],
+  "aggregate_status": {"annual_row_count":11,"actual_rows":1,"projection_rows":10,"source_packet_count":2,"completion_gate_count":8,"ready_completion_gates":8,"all_topline_identities_pass":true,"all_debt_rollforwards_pass":true,"core_g_done":true,"trn_a_may_start":true,"core_h_done":false,"full_solver_ready":false},
+  "blocked_outputs": {"seventeen_row_fy2032_fy2035_path":null,"named_fund_income_outgo_paths":null,"general_fund_path":null,"reserve_parameters":null,"real_reform_delta":null,"target_cost":null,"assigned_base_rate":null,"public_rate_card":null,"savings":null,"balanced_budget_result":null},
+  "claim_booleans": {"core_g_spine_published":true,"core_g_done":true,"trn_a_may_start":true,"core_h_done":false,"full_solver_ready":false,"solver_run_published":false,"real_reform_score_published":false,"target_cost_published":false,"rate_published":false,"public_rate_card_published":false,"savings_claim_published":false,"balanced_budget_claim_published":false},
+  "public_warning": "CORE-G admits an official CBO FY2025-FY2035 federal current-law topline solver spine and unlocks the start of TRN-A. It does not complete CORE-H, allocate FY2032-FY2035 totals to 17 rows or named funds, score a reform, select a target cost, calculate a public rate, claim savings, or claim a balanced budget."
+}

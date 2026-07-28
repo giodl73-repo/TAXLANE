@@ -1,0 +1,28 @@
+{
+  "record_id": "edu-b-education-workforce-component-account-mapping:v1",
+  "record_family": "edu_b_education_workforce_component_account_mapping",
+  "version": "v1.draft",
+  "status": "edu_b_01_complete_component_roles_mapped_gaps_handed_off",
+  "pulse": 294,
+  "as_of_date": "2026-07-26",
+  "track_wave_id": "EDU-B",
+  "start_gate_path": "data/derived/breadth_benchmark_matrix/edu_b_education_workforce_accounting_start_gate.v1.draft.json",
+  "edu_a_closure_path": "data/derived/breadth_benchmark_matrix/edu_a_education_workforce_baseline_closure.v1.draft.json",
+  "core_h_path": "data/derived/breadth_benchmark_matrix/core_h_shared_accounting_substrate.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/edu_b_education_workforce_component_account_mapping.schema.md",
+  "reader_path": "docs/reading/edu-b-education-workforce-component-account-mapping.md",
+  "component_mapping": [
+    {"component_id":"k12_501","account_roles":["appropriation","grant","program_outlay","state_local_resource"],"evidence_state":"partial_context","sign_preservation_required":false,"non_additive":true,"successor_owner":"EDU-B-02","blocking_gate":"federal grant and recipient finance adapter"},
+    {"component_id":"higher_education_502","account_roles":["appropriation","grant","credit_subsidy","offsetting_collection","offsetting_receipt","program_outlay"],"evidence_state":"partial_context","sign_preservation_required":true,"non_additive":false,"successor_owner":"EDU-B-02","blocking_gate":"credit subsidy cash and signed offset adapter"},
+    {"component_id":"research_general_education_aids_503","account_roles":["appropriation","grant","program_outlay"],"evidence_state":"source_gap","sign_preservation_required":false,"non_additive":false,"successor_owner":"EDU-B-02","blocking_gate":"account-level authority and grant mapping"},
+    {"component_id":"training_employment_504","account_roles":["appropriation","grant","program_outlay"],"evidence_state":"partial_context","sign_preservation_required":false,"non_additive":false,"successor_owner":"EDU-B-02","blocking_gate":"mandatory discretionary grant and nongrant adapter"},
+    {"component_id":"other_labor_services_505","account_roles":["appropriation","program_outlay"],"evidence_state":"source_gap","sign_preservation_required":false,"non_additive":false,"successor_owner":"EDU-B-02","blocking_gate":"account-level fee recovery and offset mapping"},
+    {"component_id":"social_services_506","account_roles":["grant","program_outlay","state_local_resource"],"evidence_state":"definition_only","sign_preservation_required":false,"non_additive":true,"successor_owner":"EDU-B-02","blocking_gate":"federal grant and state/local matching adapter"}
+  ],
+  "mapping_rules": {"appropriation_and_recipient_revenue_separate":true,"grant_and_nongrant_separate":true,"credit_subsidy_and_cash_separate":true,"negative_entries_preserve_sign":true,"state_local_resources_non_additive":true,"outcome_cohorts_non_additive":true},
+  "derived_core_needs": ["cross-perimeter account-role enum","non-additivity flag","mandatory sign preservation for credit and offsets","evidence state independent of value presence","named successor handoff obligation"],
+  "decision": {"component_role_map_complete":true,"annual_adapter_ready":false,"edu_b_01_done":true,"edu_b_02_may_start":true,"next_active_work_package_id":"EDU-B-02"},
+  "blocked_outputs": {"complete_account_mapping":null,"annual_education_workforce_schedule":null,"federal_state_local_translation":null,"loan_cash_equivalence":null,"assigned_rate":null,"solver_input":null,"education_reform":null,"edu_b_closure":null,"edu_c_start":null},
+  "claim_booleans": {"edu_b_component_account_mapping_published":true,"component_role_map_complete":true,"edu_b_01_done":true,"edu_b_02_may_start":true,"annual_adapter_ready":false,"solver_ready":false,"rate_published":false,"edu_b_done":false,"edu_c_may_start":false},
+  "public_warning": "EDU-B-01 maps six education/workforce components to shared account roles while preserving signed credit and offsets, grant boundaries, and non-additive state/local resources. This is not a complete annual adapter, translation, schedule, rate, solver input, reform, EDU-B closure, or EDU-C start."
+}

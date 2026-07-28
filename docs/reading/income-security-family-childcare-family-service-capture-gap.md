@@ -8,10 +8,13 @@ income-security/family lane. Candidate official surfaces include ACF Office of
 Child Care CCDF statistics, ACF TANF program data, and ACF TANF application data.
 
 The gap remains open because there is no local raw CCDF, TANF, or family-service
-artifact in custody for this lane yet. Before values can be populated, a
-reviewer needs to capture official raw bytes, source URLs, retrieval dates,
-byte counts, SHA-256 hashes, metadata paths, program years, eligible/served
-denominators, state/federal perimeter notes, and administrative-burden caveats.
+artifact in custody for this lane yet. On 2026-07-24, official ACF CCDF and
+TANF pages plus candidate official XLSX paths returned HTTP 202 empty-body
+access boundaries from this environment, so no raw bytes were retained as
+custody. Before values can be populated, a reviewer needs to capture official
+raw bytes, source URLs, retrieval dates, byte counts, SHA-256 hashes, metadata
+paths, program years, eligible/served denominators, state/federal perimeter
+notes, and administrative-burden caveats.
 
 This capture gap is not HHS/ACF raw source custody, not CCDF context, not TANF
 context, not family-service context, not childcare-access floor values, not
@@ -25,4 +28,4 @@ Short validator phrases: childcare/family-service source-capture gap only; not
 HHS/ACF raw source custody; not solver input; not a balanced-budget claim.
 
 Exact validator phrases: ACF Office of Child Care CCDF statistics; ACF TANF
-program data.
+program data; HTTP 202 empty-body access boundaries.

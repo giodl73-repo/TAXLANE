@@ -1,0 +1,107 @@
+{
+  "record_id": "social-security-old-age-poverty-floor-value-packet:v1",
+  "record_family": "social_security_old_age_poverty_floor_value_packet",
+  "schema_version": "v1.draft",
+  "status": "draft_threshold_and_baseline_values_ready_policy_stress_pass_fail_blocked",
+  "pulse": 211,
+  "as_of_date": "2026-07-25",
+  "lane_id": "social-security",
+  "floor_id": "old_age_poverty",
+  "floor_definition_packet_path": "data/derived/breadth_benchmark_matrix/social_security_outcome_floor_definition_packet.v1.draft.json",
+  "domestic_old_age_poverty_context_bridge_path": "data/derived/breadth_benchmark_matrix/social_security_domestic_old_age_poverty_context_bridge.v1.draft.json",
+  "international_old_age_poverty_context_bridge_path": "data/derived/breadth_benchmark_matrix/social_security_old_age_poverty_context_bridge.v1.draft.json",
+  "outcome_floor_wave_d_value_readiness_path": "data/derived/breadth_benchmark_matrix/outcome_floor_wave_d_value_readiness.v1.draft.json",
+  "threshold_rationale": {
+    "rationale_id": "no-regression-from-domestic-65-plus-spm-poverty",
+    "selected_measure": "Census Supplemental Poverty Measure poverty rate for people 65 years and over",
+    "why_this_measure": "The SPM includes taxes, transfers, medical out-of-pocket expenses, and other resources that are material for older households. It is a domestic Census measure and better aligned with Social Security adequacy review than an international relative-poverty comparator alone.",
+    "threshold_rule": "A lower-cost or receipt-increasing Social Security scenario cannot pass the old-age poverty floor if reviewed policy and stress evidence show the 65-plus SPM poverty rate rises above the 2024 Census baseline.",
+    "threshold_type": "baseline_no_regression_ceiling",
+    "threshold_value": 15.0,
+    "threshold_unit": "percent",
+    "source_table": "Census P60-287 Table B-2",
+    "review_status": "draft_threshold_rationale_needs_role_review_before_pass_fail"
+  },
+  "baseline_values": {
+    "reference_year": 2024,
+    "primary_baseline": {
+      "measure": "65-plus SPM poverty rate",
+      "value": 15.0,
+      "unit": "percent",
+      "population_thousands": 61490,
+      "below_poverty_thousands": 9223,
+      "margin_of_error_percentage_points": 0.5,
+      "source_path": "data/derived/breadth_benchmark_matrix/social_security_domestic_old_age_poverty_context_bridge.v1.draft.json"
+    },
+    "supporting_domestic_context": [
+      {"measure": "65-plus official poverty rate", "value": 9.9, "unit": "percent", "below_poverty_thousands": 6108, "source_table": "Census P60-287 Table A-3"},
+      {"measure": "65-plus official income below 125 percent of poverty", "value": 14.2, "unit": "percent", "below_threshold_thousands": 8703, "source_table": "Census P60-287 Income-to-Poverty Ratios"},
+      {"measure": "65-plus official income below 150 percent of poverty", "value": 18.9, "unit": "percent", "below_threshold_thousands": 11640, "source_table": "Census P60-287 Income-to-Poverty Ratios"},
+      {"measure": "65-plus official income below 200 percent of poverty", "value": 28.1, "unit": "percent", "below_threshold_thousands": 17290, "source_table": "Census P60-287 Income-to-Poverty Ratios"},
+      {"measure": "Social Security SPM element effect for 65-plus poverty count", "value": -20100, "unit": "thousands", "margin_of_error_thousands": 422, "source_table": "Census P60-287 Table B-7"}
+    ],
+    "international_context_not_threshold": {
+      "measure": "OECD old-age relative-poverty rate",
+      "value": 22.874,
+      "unit": "percent",
+      "reference_year": 2023,
+      "boundary": "International comparator context only; not the selected Taxlane floor threshold."
+    }
+  },
+  "policy_values": null,
+  "stress_values": null,
+  "pass_fail_evidence": null,
+  "readiness_status": {
+    "threshold_rationale_ready": true,
+    "threshold_value_populated": true,
+    "baseline_value_ready": true,
+    "policy_value_ready": false,
+    "stress_value_ready": false,
+    "pass_fail_ready": false,
+    "lower_cost_scenario_admissible": false,
+    "solver_ready": false,
+    "rate_ready": false
+  },
+  "remaining_requirements": [
+    "role review of threshold rationale",
+    "reviewed Social Security policy scenario values",
+    "reviewed Social Security stress scenario values",
+    "pass/fail evidence comparing policy and stress values with the threshold",
+    "lower-cost scenario admissibility review"
+  ],
+  "blocked_outputs": {
+    "policy_values": null,
+    "stress_values": null,
+    "pass_fail_evidence": null,
+    "lower_cost_scenario_admissibility": null,
+    "target_cost": null,
+    "federal_effect": null,
+    "gross_savings": null,
+    "net_savings": null,
+    "solver_input": null,
+    "rate_calculation": null,
+    "public_rate_card": null,
+    "balanced_budget_claim": null
+  },
+  "claim_booleans": {
+    "old_age_poverty_floor_value_packet_published": true,
+    "threshold_rationale_ready": true,
+    "threshold_value_populated": true,
+    "baseline_value_ready": true,
+    "policy_value_ready": false,
+    "stress_value_ready": false,
+    "pass_fail_ready": false,
+    "lower_cost_scenario_admissible": false,
+    "target_cost_published": false,
+    "federal_effect_published": false,
+    "gross_savings_published": false,
+    "net_savings_published": false,
+    "solver_input_ready": false,
+    "rate_calculation_published": false,
+    "public_rate_card_published": false,
+    "department_cut_instruction_published": false,
+    "technology_savings_claim_published": false,
+    "balanced_budget_claim_published": false
+  },
+  "public_warning": "This packet selects a draft no-regression old-age poverty floor threshold and baseline value for the Social Security lane only. It is not role-reviewed final threshold selection, not policy values, not stress values, not pass/fail evidence, not lower-cost scenario admissibility, not target-cost selection, not gross savings, not net savings, not solver input, not rate calculation, not a public rate card, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim."
+}

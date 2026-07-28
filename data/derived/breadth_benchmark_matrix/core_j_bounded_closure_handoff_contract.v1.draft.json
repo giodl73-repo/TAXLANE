@@ -1,0 +1,59 @@
+{
+  "record_id": "core-j-bounded-closure-handoff-contract:v1",
+  "record_family": "core_j_bounded_closure_handoff_contract",
+  "version": "v1.draft",
+  "status": "core_j_interfaces_implemented_role_review_ready",
+  "pulse": 295,
+  "as_of_date": "2026-07-26",
+  "core_wave_id": "CORE-J",
+  "core_h_path": "data/derived/breadth_benchmark_matrix/core_h_shared_accounting_substrate.v1.draft.json",
+  "core_i_path": "data/derived/breadth_benchmark_matrix/core_i_shared_reform_admission_contract.v1.draft.json",
+  "trn_e_01_path": "data/derived/breadth_benchmark_matrix/trn_e_solver_input_readiness_bridge.v1.draft.json",
+  "hlt_b_01_path": "data/derived/breadth_benchmark_matrix/hlt_b_health_component_account_mapping.v1.draft.json",
+  "edu_b_01_path": "data/derived/breadth_benchmark_matrix/edu_b_education_workforce_component_account_mapping.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/core_j_bounded_closure_handoff_contract.schema.md",
+  "reader_path": "docs/reading/core-j-bounded-closure-handoff-contract.md",
+  "completion_classes": ["discovery_only","bounded_structural","numeric_complete","output_ready"],
+  "evidence_states": [
+    {"state":"ready","value_may_be_present":true,"output_eligible":true,"handoff_required":false},
+    {"state":"partial_context","value_may_be_present":true,"output_eligible":false,"handoff_required":true},
+    {"state":"definition_only","value_may_be_present":false,"output_eligible":false,"handoff_required":true},
+    {"state":"source_gap","value_may_be_present":false,"output_eligible":false,"handoff_required":true},
+    {"state":"not_applicable","value_may_be_present":false,"output_eligible":false,"handoff_required":false},
+    {"state":"blocked","value_may_be_present":false,"output_eligible":false,"handoff_required":true}
+  ],
+  "account_roles": ["appropriation","program_outlay","trust_fund","general_fund","dedicated_receipt","premium","government_contribution","state_local_resource","private_context","grant","credit_subsidy","offsetting_collection","offsetting_receipt","non_additive_context"],
+  "role_rules": {
+    "credit_subsidy_requires_sign_preservation": true,
+    "offsetting_collection_requires_sign_preservation": true,
+    "offsetting_receipt_requires_sign_preservation": true,
+    "state_local_resource_requires_non_additive_boundary": true,
+    "private_context_requires_non_additive_boundary": true,
+    "non_additive_context_requires_non_additive_boundary": true
+  },
+  "handoff_contract": {
+    "unique_field_id_required": true,
+    "unresolved_state_requires_successor_owner": true,
+    "unresolved_state_requires_blocking_gate": true,
+    "ready_state_requires_value": true,
+    "ready_state_prohibits_blocker": true,
+    "not_applicable_state_prohibits_value_and_blocker": true,
+    "bounded_closure_requires_role_review": true,
+    "bounded_closure_may_open_successor_discovery": true,
+    "bounded_closure_may_not_open_output_admission": true,
+    "numeric_completion_prohibits_unresolved_handoffs": true,
+    "output_admission_requires_output_ready_resolved_closure": true
+  },
+  "rust_interfaces": ["CompletionClass","EvidenceState","AccountRole","LaneHandoffObligation","LaneClosureAssessmentInput","LaneClosureAssessmentDecision","assess_lane_closure"],
+  "cross_lane_findings": [
+    {"finding_id":"value_state_separation","supported_by":["TRN-E-01","HLT-B-01","EDU-B-01"],"finding":"A contextual value may be present without being output-eligible."},
+    {"finding_id":"perimeter_additivity_separation","supported_by":["HLT-B-01","EDU-B-01"],"finding":"Account role and additivity are separate dimensions."},
+    {"finding_id":"signed_role_rule","supported_by":["HLT-B-01","EDU-B-01"],"finding":"Credit subsidies and offsetting entries require sign preservation."},
+    {"finding_id":"owned_handoff","supported_by":["TRN-E-01","HLT-B-01","EDU-B-01"],"finding":"Every unresolved field requires a successor owner and named blocking gate."},
+    {"finding_id":"discovery_output_separation","supported_by":["TRN-E-01","HLT-B-01","EDU-B-01"],"finding":"Successor discovery may start after bounded reviewed closure without admitting outputs."}
+  ],
+  "implementation_status": {"interfaces_required":7,"interfaces_implemented":7,"cross_lane_findings":5,"unit_tests_added":4,"core_j_implementation_done":true,"core_j_role_review_may_start":true},
+  "blocked_outputs": {"numeric_lane_completion":null,"output_ready_lane_completion":null,"solver_input":null,"solver_result":null,"assigned_rate":null,"gross_savings":null,"net_savings":null,"public_rate_card":null},
+  "claim_booleans": {"core_j_contract_published":true,"three_lane_findings_integrated":true,"shared_interfaces_implemented":true,"core_j_implementation_done":true,"core_j_role_review_may_start":true,"core_j_done":false,"solver_ready":false,"rate_published":false,"savings_claim_published":false},
+  "public_warning": "CORE-J standardizes completion classes, evidence states, account roles, handoff obligations, and discovery/output separation. It does not convert bounded closure into numeric completion, output readiness, solver input, solver results, rates, savings, or a public rate card."
+}

@@ -1,0 +1,24 @@
+{
+  "record_id":"pay-net-rev-post-fifteen-track-reconciliation:v1",
+  "record_family":"pay_net_rev_post_fifteen_track_reconciliation",
+  "version":"v1.draft",
+  "status":"integrated_rerun_complete_zero_admitted_spending_planning_rate_unchanged",
+  "pulse":472,
+  "as_of_date":"2026-07-27",
+  "all_fifteen_wave_path":"data/derived/breadth_benchmark_matrix/fifteen_track_next_two_level_advancement_wave.v1.draft.json",
+  "batch_3_path":"data/derived/breadth_benchmark_matrix/batch_3_trn_rev_two_level_closure.v1.draft.json",
+  "schema_path":"data/derived/breadth_benchmark_matrix/pay_net_rev_post_fifteen_track_reconciliation.schema.md",
+  "reader_path":"docs/reading/pay-net-rev-post-fifteen-track-reconciliation.md",
+  "role_review_path":"reviews/2026-07-27-pay-net-rev-post-fifteen-track-reconciliation-role-review.md",
+  "fiscal_inputs":{"fy2026_primary_deficit_millions":813727,"admitted_fy2026_primary_spending_reduction_millions":0,"pay_additive_contribution_millions":0,"net_interest_endogenous_contribution_millions":0,"remaining_fy2026_revenue_need_millions":813727},
+  "dependency_results":[
+    {"track":"PAY","result":"non_additive_measurement_overlay","owner_attributed_realized_annual_path_ready":false,"additive_contribution_millions":0},
+    {"track":"NET","result":"zero_input_endogenous_rerun","admitted_upstream_primary_path_ready":false,"endogenous_contribution_millions":0},
+    {"track":"REV","result":"planning_schedule_retained","official_score_received":false,"planning_schedule_percent":[21,23,33,35,43,46,48]}
+  ],
+  "rate_result":{"prior_planning_schedule_percent":[21,23,33,35,43,46,48],"reconciled_planning_schedule_percent":[21,23,33,35,43,46,48],"schedule_changed":false,"lower_rate_supported":false,"proper_rate_ready":false,"official_rate_certified":false,"formal_balance_certified":false},
+  "accounting_identity":{"primary_deficit_millions":813727,"minus_admitted_spending_reduction_millions":0,"plus_pay_additive_adjustment_millions":0,"plus_net_interest_endogenous_adjustment_millions":0,"equals_remaining_revenue_need_millions":813727,"identity_pass":true},
+  "decision":{"all_fifteen_internal_results_integrated":true,"zero_admitted_spending_preserved":true,"pay_double_count_prevented":true,"net_interest_direct_cut_prevented":true,"planning_schedule_unchanged":true,"external_official_score_still_required":true},
+  "blocked_outputs":{"admitted_spending_path":null,"owner_attributed_pay_savings":null,"nonzero_endogenous_net_interest_path":null,"official_revenue_score":null,"official_rate":null,"formal_balance_determination":null},
+  "public_warning":"The integrated rerun preserves the full $813.727 billion FY2026 revenue need because no spending candidate was admitted, PAY remains non-additive, and NET has no admitted upstream path. The 21/23/33/35/43/46/48 schedule is unchanged but remains planning-only pending an authorized official score."
+}

@@ -1,0 +1,23 @@
+{
+  "record_id":"fourteen-lane-stage-e-bounded-bundle:v1","record_family":"fourteen_lane_stage_e_bounded_bundle","version":"v1.draft","status":"fourteen_d_to_e_bounded_closures_complete","pulse":371,"as_of_date":"2026-07-27",
+  "contract_path":"data/derived/breadth_benchmark_matrix/lane_e_bounded_selection_solver_gate_contract.v1.draft.json","schema_path":"data/derived/breadth_benchmark_matrix/fourteen_lane_stage_e_bounded_bundle.schema.md","reader_path":"docs/reading/fourteen-lane-stage-e-bounded-bundle.md","role_review_path":"reviews/2026-07-27-fourteen-lane-stage-e-bounded-role-review.md",
+  "lane_stage_evidence":[
+    {"prefix":"HLT","lane_id":"health-medicare","highest_completed_stage":"HLT-E","requirement_met":true,"evidence_path":"data/derived/breadth_benchmark_matrix/hlt_e_health_bounded_selection_solver_closure.v1.draft.json"},
+    {"prefix":"EDU","lane_id":"education-workforce","highest_completed_stage":"EDU-E","requirement_met":true,"evidence_path":"data/derived/breadth_benchmark_matrix/edu_e_education_workforce_bounded_selection_solver_closure.v1.draft.json"},
+    {"prefix":"OAS","lane_id":"social-security","highest_completed_stage":"OAS-E","requirement_met":true,"evidence_path":"data/derived/breadth_benchmark_matrix/oas_e_social_security_bounded_selection_solver_closure.v1.draft.json"},
+    {"prefix":"ISF","lane_id":"income-security-family","highest_completed_stage":"ISF-E","requirement_met":true,"evidence_path":"data/derived/breadth_benchmark_matrix/isf_e_income_security_family_bounded_selection_solver_closure.v1.draft.json"},
+    {"prefix":"VET","lane_id":"veterans","highest_completed_stage":"VET-E","requirement_met":true,"evidence_path":"data/derived/breadth_benchmark_matrix/vet_e_veterans_bounded_selection_solver_closure.v1.draft.json"},
+    {"prefix":"AGR","lane_id":"agriculture","highest_completed_stage":"AGR-E","requirement_met":true,"evidence_path":"data/derived/breadth_benchmark_matrix/agr_e_agriculture_bounded_selection_solver_closure.v1.draft.json"},
+    {"prefix":"DEF","lane_id":"national-defense","highest_completed_stage":"DEF-E","requirement_met":true,"evidence_path":"data/derived/breadth_benchmark_matrix/def_e_national_defense_bounded_selection_solver_closure.v1.draft.json"},
+    {"prefix":"DIS","lane_id":"disaster-resilience","highest_completed_stage":"DIS-E","requirement_met":true,"evidence_path":"data/derived/breadth_benchmark_matrix/dis_e_disaster_resilience_bounded_selection_solver_closure.v1.draft.json"},
+    {"prefix":"JUS","lane_id":"justice-courts-public-safety","highest_completed_stage":"JUS-E","requirement_met":true,"evidence_path":"data/derived/breadth_benchmark_matrix/jus_e_justice_public_safety_bounded_selection_solver_closure.v1.draft.json"},
+    {"prefix":"SEE","lane_id":"science-energy-environment","highest_completed_stage":"SEE-E","requirement_met":true,"evidence_path":"data/derived/breadth_benchmark_matrix/see_e_science_energy_environment_bounded_selection_solver_closure.v1.draft.json"},
+    {"prefix":"INT","lane_id":"international-affairs","highest_completed_stage":"INT-E","requirement_met":true,"evidence_path":"data/derived/breadth_benchmark_matrix/int_e_international_affairs_bounded_selection_solver_closure.v1.draft.json"},
+    {"prefix":"PAY","lane_id":"payment-integrity","highest_completed_stage":"PAY-E","requirement_met":true,"special_treatment":"non_additive_overlay","evidence_path":"data/derived/breadth_benchmark_matrix/pay_e_payment_integrity_bounded_selection_solver_closure.v1.draft.json"},
+    {"prefix":"REV","lane_id":"revenue-solvency","highest_completed_stage":"REV-E","requirement_met":true,"special_treatment":"non_additive_overlay","evidence_path":"data/derived/breadth_benchmark_matrix/rev_e_revenue_solvency_bounded_selection_solver_closure.v1.draft.json"},
+    {"prefix":"NET","lane_id":"net-interest","highest_completed_stage":"NET-E","requirement_met":true,"special_treatment":"endogenous","evidence_path":"data/derived/breadth_benchmark_matrix/net_e_net_interest_bounded_selection_solver_closure.v1.draft.json"}
+  ],
+  "aggregate_status":{"bundle_tracks":14,"e_stages_done":14,"candidate_selections_completed":14,"candidates_selected":0,"solver_runs":0,"f_starts_allowed":0,"non_additive_overlays":2,"endogenous_tracks":1},
+  "blocked_outputs":{"candidate_target_cost":null,"financing_source":null,"solver_input":null,"solver_result":null,"assigned_rate":null,"distribution_result":null,"gross_savings":null,"net_savings":null,"public_rate_card":null},
+  "claim_booleans":{"fourteen_lane_e_bundle_published":true,"fourteen_bounded_e_closures_done":true,"candidate_selected":false,"solver_run_performed":false,"stage_f_allowed":false,"solver_ready":false,"rate_published":false}
+}
