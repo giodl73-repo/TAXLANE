@@ -1,0 +1,37 @@
+{
+  "record_id": "repository-corpus-inventory-snapshot:2026-07-27:v1",
+  "record_family": "repository_corpus_inventory_snapshot",
+  "version": "v1.draft",
+  "status": "post_expanded_site_round_two_expected_snapshot",
+  "as_of_date": "2026-07-27",
+  "repository_scope": "taxlane_worktree",
+  "counts": {
+    "wave_directories": 139,
+    "pulse_markdown_files": 513,
+    "derived_json_or_jsonl_files": 560,
+    "derived_schema_markdown_files": 369,
+    "reading_markdown_files": 488,
+    "research_paper_markdown_files": 10,
+    "paper_pdf_files": 10,
+    "presentation_markdown_files": 3,
+    "site_html_files": 9,
+    "review_files_after_round_two": 198,
+    "standing_role_lenses": 8,
+    "workspace_tests": 388
+  },
+  "count_methods": {
+    "wave_directories": "Get-ChildItem context/waves -Directory",
+    "pulse_markdown_files": "files under context/waves matching pulse-*.md",
+    "derived_json_or_jsonl_files": "files under data/derived matching .json or .jsonl",
+    "derived_schema_markdown_files": "files under data/derived matching schema.md",
+    "reading_markdown_files": "Markdown files under docs/reading",
+    "research_paper_markdown_files": "research/publications/**/paper.md",
+    "paper_pdf_files": "PDF files under docs/papers",
+    "presentation_markdown_files": "Markdown files directly under docs/explanation/presentations",
+    "site_html_files": "HTML files under docs/explanation/site",
+    "review_files_after_round_two": "files under reviews after adding expanded-site round-one and round-two reviews",
+    "standing_role_lenses": "T-1 through T-8 under .roles",
+    "workspace_tests": "cargo test --workspace: 152 taxlane-core plus 236 taxlane-tools"
+  },
+  "boundary": "Counts describe corpus size and validation coverage. They do not measure correctness, policy impact, official acceptance, public use, or endorsement. Counts must be refreshed when repository contents change."
+}

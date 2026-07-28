@@ -1,0 +1,108 @@
+{
+  "record_id": "taxpayer-profile-scenarios:ty2026:v1",
+  "record_family": "taxpayer_profile_scenarios",
+  "version": "v1.draft",
+  "status": "current_and_taxlane_profiles_ready_peer_rebalancing_unscored",
+  "as_of_date": "2026-07-27",
+  "tax_year": 2026,
+  "analysis_scope": "repository_local_independent_taxlane_analysis",
+  "source_paths": [
+    "data/derived/breadth_benchmark_matrix/rev_level_7_scorer_ready_legislative_specification.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/rev_internal_rate_analysis_completion.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/oecd_cofog_country_panel.data2022.v1.draft.json",
+    "data/metadata/SRC-OECD-COFOG-GLOBAL-PANEL-2022.2026-07-15.metadata.md"
+  ],
+  "ordinary_rate_scenarios": [
+    {
+      "scenario_id": "current_law",
+      "label": "2026 current law",
+      "schedule_percent": [10.0, 12.0, 22.0, 24.0, 32.0, 35.0, 37.0],
+      "uniform_change_points": 0.0,
+      "scenario_class": "sourced_model_baseline"
+    },
+    {
+      "scenario_id": "taxlane_evidence_constrained",
+      "label": "Taxlane evidence-constrained proposal",
+      "schedule_percent": [21.0, 23.0, 33.0, 35.0, 43.0, 46.0, 48.0],
+      "uniform_change_points": 11.0,
+      "scenario_class": "internal_analytical_recommendation"
+    },
+    {
+      "scenario_id": "behavior_contingency",
+      "label": "Behavior contingency",
+      "schedule_percent": [22.0, 24.0, 34.0, 36.0, 44.0, 47.0, 49.0],
+      "uniform_change_points": 12.0,
+      "scenario_class": "internal_uncertainty_case"
+    },
+    {
+      "scenario_id": "severe_stress_ceiling",
+      "label": "Severe stress ceiling",
+      "schedule_percent": [22.6, 24.6, 34.6, 36.6, 44.6, 47.6, 49.6],
+      "uniform_change_points": 12.6,
+      "scenario_class": "internal_stress_not_recommendation"
+    }
+  ],
+  "breakpoints_dollars": {
+    "single": [12400, 50400, 105700, 201775, 256225, 640600],
+    "married_filing_jointly": [24800, 100800, 211400, 403550, 512450, 768700]
+  },
+  "profile_method": {
+    "input": "taxable ordinary income after deductions, not gross income or wages",
+    "calculation": "apply each seven-rate schedule through unchanged 2026 filing-status breakpoints",
+    "uniform_uplift_identity": "when all seven rates rise by the same number of points and thresholds are unchanged, the narrow ordinary-bracket difference equals taxable ordinary income multiplied by the uplift",
+    "included": ["ordinary income bracket calculation"],
+    "excluded": [
+      "deduction calculation",
+      "credits and phaseouts",
+      "payroll and self-employment taxes",
+      "qualified dividends and capital gains",
+      "alternative minimum tax",
+      "net investment income tax",
+      "additional Medicare tax",
+      "withholding, refunds, penalties, filing status eligibility, and household incidence",
+      "behavioral, macroeconomic, administration, and compliance effects"
+    ]
+  },
+  "profiles": [
+    {"profile_id":"single_30k","filing_status":"single","taxable_ordinary_income_dollars":30000,"current_law_ordinary_bracket_tax_dollars":3352.00,"taxlane_proposal_dollars":6652.00,"taxlane_difference_dollars":3300.00,"behavior_contingency_dollars":6952.00,"severe_stress_dollars":7132.00},
+    {"profile_id":"single_75k","filing_status":"single","taxable_ordinary_income_dollars":75000,"current_law_ordinary_bracket_tax_dollars":11212.00,"taxlane_proposal_dollars":19462.00,"taxlane_difference_dollars":8250.00,"behavior_contingency_dollars":20212.00,"severe_stress_dollars":20662.00},
+    {"profile_id":"single_150k","filing_status":"single","taxable_ordinary_income_dollars":150000,"current_law_ordinary_bracket_tax_dollars":28598.00,"taxlane_proposal_dollars":45098.00,"taxlane_difference_dollars":16500.00,"behavior_contingency_dollars":46598.00,"severe_stress_dollars":47498.00},
+    {"profile_id":"joint_100k","filing_status":"married_filing_jointly","taxable_ordinary_income_dollars":100000,"current_law_ordinary_bracket_tax_dollars":11504.00,"taxlane_proposal_dollars":22504.00,"taxlane_difference_dollars":11000.00,"behavior_contingency_dollars":23504.00,"severe_stress_dollars":24104.00},
+    {"profile_id":"joint_250k","filing_status":"married_filing_jointly","taxable_ordinary_income_dollars":250000,"current_law_ordinary_bracket_tax_dollars":45196.00,"taxlane_proposal_dollars":72696.00,"taxlane_difference_dollars":27500.00,"behavior_contingency_dollars":75196.00,"severe_stress_dollars":76696.00},
+    {"profile_id":"joint_600k","filing_status":"married_filing_jointly","taxable_ordinary_income_dollars":600000,"current_law_ordinary_bracket_tax_dollars":147538.50,"taxlane_proposal_dollars":213538.50,"taxlane_difference_dollars":66000.00,"behavior_contingency_dollars":219538.50,"severe_stress_dollars":223138.50}
+  ],
+  "peer_rebalancing_scenarios": [
+    {
+      "scenario_id": "defense_share_convergence",
+      "observed_signal": "The captured 2022 general-government composition places the U.S. defense share above every displayed peer.",
+      "directional_hypothesis": "A lower defense share could reduce the financing target if readiness, alliance, veterans, transition, timing, and economic effects clear review.",
+      "admitted_savings_billions": null,
+      "rate_schedule_percent": null,
+      "status": "research_scenario_not_scored"
+    },
+    {
+      "scenario_id": "health_cost_convergence",
+      "observed_signal": "The captured 2022 general-government composition places the U.S. health share above every displayed peer.",
+      "directional_hypothesis": "Lower prices or administrative cost could reduce the financing target only if coverage, access, quality, rural capacity, household burden, and transition floors hold.",
+      "admitted_savings_billions": null,
+      "rate_schedule_percent": null,
+      "status": "research_scenario_not_scored"
+    },
+    {
+      "scenario_id": "social_protection_convergence",
+      "observed_signal": "The captured 2022 U.S. social-protection spending share is below the five displayed peers, not above them.",
+      "directional_hypothesis": "Peer alignment would more likely expand or restructure retirement, disability, family, and unemployment protection than produce a simple cut.",
+      "admitted_savings_billions": null,
+      "rate_schedule_percent": null,
+      "status": "research_scenario_not_scored"
+    }
+  ],
+  "decision": {
+    "current_vs_taxlane_narrow_profiles_ready": true,
+    "full_household_tax_liability_profiles_ready": false,
+    "peer_rebalancing_rates_ready": false,
+    "official_score_ready": false,
+    "public_release_authorized": false
+  },
+  "public_warning": "These profiles illustrate the ordinary-income bracket calculation on specified taxable ordinary income. They are not complete household tax returns, effective-rate estimates, benefit-incidence estimates, official scores, enacted law, or personal tax advice. Peer-rebalancing scenarios are directional research questions with no admitted savings or rate result."
+}

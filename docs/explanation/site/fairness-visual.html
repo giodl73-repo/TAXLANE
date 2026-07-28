@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Taxlane — from allocation to fairness</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      --ink:#12222d; --muted:#526570; --paper:#f4f7f8; --card:#fff;
+      --blue:#096b8b; --cyan:#35a8ba; --orange:#dc6b19; --gold:#f1b943;
+      --green:#168565; --red:#b44438; --line:#c8d4d9;
+    }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:var(--paper); line-height:1.45; }
+    header, main, footer { width:min(1180px,calc(100% - 2rem)); margin:auto; }
+    header { padding:2.4rem 0 1.4rem; }
+    .eyebrow { margin:0 0 .4rem; color:var(--blue); font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
+    h1 { margin:.1rem 0 .6rem; font-size:clamp(2.1rem,5vw,4.4rem); line-height:.98; max-width:900px; }
+    .lede { max-width:760px; font-size:1.18rem; color:var(--muted); }
+    .badge { display:inline-block; border:2px solid var(--orange); color:#7a3500; background:#fff2df; padding:.42rem .7rem; font-weight:800; border-radius:999px; }
+    .grid { display:grid; grid-template-columns:repeat(12,1fr); gap:1rem; margin:1rem 0; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:1.25rem; box-shadow:0 10px 30px #17384610; }
+    .wide { grid-column:span 12; }
+    .half { grid-column:span 6; }
+    .third { grid-column:span 4; }
+    .step { display:flex; gap:.8rem; align-items:flex-start; }
+    .num { flex:0 0 2.2rem; height:2.2rem; border-radius:50%; display:grid; place-items:center; background:var(--blue); color:white; font-weight:900; }
+    h2 { margin:.1rem 0 .7rem; font-size:1.45rem; }
+    h3 { margin:.1rem 0 .4rem; }
+    .question { font-weight:800; font-size:1.08rem; }
+    .answer { color:var(--muted); }
+    .equation { display:grid; grid-template-columns:1fr auto 1fr auto 1fr auto 1fr; align-items:center; gap:.6rem; text-align:center; margin:1.2rem 0; }
+    .term { border-radius:12px; padding:1rem .6rem; min-height:112px; display:grid; place-items:center; }
+    .term strong { display:block; font-size:clamp(1.5rem,3vw,2.5rem); }
+    .services { background:#dff2f5; border:2px solid var(--cyan); }
+    .interest { background:#fff0d5; border:2px solid var(--gold); }
+    .offset { background:#f9e4e0; border:2px solid var(--red); }
+    .total { background:#daf0e8; border:2px solid var(--green); }
+    .operator { font-size:2rem; font-weight:900; }
+    .bar { height:42px; display:flex; overflow:hidden; border-radius:10px; border:1px solid #9fb1b9; margin:.8rem 0 .35rem; }
+    .bar div { min-width:2px; }
+    .legend { display:flex; flex-wrap:wrap; gap:.45rem 1rem; font-size:.78rem; color:var(--muted); }
+    .key::before { content:""; display:inline-block; width:.8rem; height:.8rem; margin-right:.3rem; border-radius:2px; background:var(--c); vertical-align:-.08rem; }
+    .hero-card { margin:1.4rem 0; padding:1.2rem; border:3px solid var(--cyan); border-radius:16px; background:linear-gradient(135deg,#edf9fa,#fff); }
+    .hero-head { display:flex; justify-content:space-between; gap:1rem; align-items:end; margin-bottom:1rem; }
+    .hero-total { text-align:right; white-space:nowrap; }
+    .hero-total strong { display:block; font-size:2rem; color:var(--blue); }
+    .lane-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:.65rem; }
+    .lane-card { --lane:#567; position:relative; overflow:hidden; min-height:104px; padding:.8rem; border:1px solid var(--line); border-radius:11px; background:white; }
+    .lane-card::after { content:""; position:absolute; left:0; bottom:0; width:var(--w); height:7px; background:var(--lane); }
+    .lane-name { display:block; min-height:2.4em; font-weight:800; line-height:1.15; }
+    .lane-pct { display:block; margin:.3rem 0 0; font-size:1.35rem; font-weight:900; color:var(--lane); }
+    .lane-usd { color:var(--muted); font-size:.86rem; }
+    .lane-card.adjustment { background:#fff3f0; border-color:#e5aaa3; }
+    .subtotal { display:flex; justify-content:space-between; gap:1rem; align-items:center; margin-top:1rem; padding:1rem; border-radius:12px; background:#dff2f5; }
+    .subtotal strong { font-size:1.55rem; }
+    .life-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:.8rem; margin:1rem 0; }
+    .life-card { --life:#096b8b; padding:1rem; border-radius:14px; border:2px solid var(--life); background:white; }
+    .life-top { display:flex; justify-content:space-between; gap:1rem; align-items:start; }
+    .life-title { font-size:1.25rem; font-weight:900; }
+    .life-money { text-align:right; white-space:nowrap; }
+    .life-money strong { display:block; color:var(--life); font-size:1.65rem; }
+    .life-card p { margin:.5rem 0 0; color:var(--muted); }
+    .life-card small { display:block; margin-top:.55rem; font-weight:700; color:var(--ink); }
+    details.hero-card > summary { cursor:pointer; font-weight:900; font-size:1.15rem; color:var(--blue); }
+    details.hero-card[open] > summary { margin-bottom:1rem; }
+    .peer-table { width:100%; border-collapse:collapse; }
+    .peer-table th,.peer-table td { border:1px solid var(--line); padding:.7rem; text-align:left; vertical-align:top; }
+    .peer-table th { background:#e6f0f3; }
+    .cofog-wrap { overflow-x:auto; margin:1rem 0; }
+    .cofog { width:100%; min-width:820px; border-collapse:separate; border-spacing:0; font-variant-numeric:tabular-nums; }
+    .cofog th,.cofog td { padding:.62rem .68rem; border-right:1px solid var(--line); border-bottom:1px solid var(--line); text-align:right; }
+    .cofog th:first-child,.cofog td:first-child { text-align:left; border-left:1px solid var(--line); }
+    .cofog thead th { position:sticky; top:0; background:#123f52; color:white; border-color:#547383; }
+    .cofog thead th:first-child { border-radius:10px 0 0 0; }
+    .cofog thead th:last-child { border-radius:0 10px 0 0; }
+    .cofog tbody th { background:#f3f7f8; font-weight:800; }
+    .cofog td { background:linear-gradient(90deg,#dff2f5 calc(var(--p) * 2.35%),white calc(var(--p) * 2.35%)); font-weight:800; }
+    .cofog tr:last-child th,.cofog tr:last-child td { border-bottom:1px solid var(--line); }
+    .peer-callouts { display:grid; grid-template-columns:repeat(3,1fr); gap:.7rem; margin:1rem 0; }
+    .peer-callout { padding:.9rem; border-radius:12px; background:#edf6f7; border:1px solid #afd0d5; }
+    .peer-callout strong { display:block; color:var(--blue); font-size:1.35rem; }
+    .bridge { display:grid; grid-template-columns:repeat(2,1fr); gap:.6rem 1rem; padding:1rem; background:#f3f7f8; border-radius:12px; }
+    .bridge p { margin:0; }
+    .goal { background:linear-gradient(135deg,#123f52,#096b8b); color:white; border:none; }
+    .goal h2,.goal p { color:white; }
+    .warning { border-left:5px solid var(--orange); background:#fff7e9; padding:1rem; }
+    .benchmark { display:grid; grid-template-columns:9rem 1fr; gap:.5rem 1rem; align-items:center; margin:.55rem 0; }
+    .track { position:relative; height:22px; background:#edf1f2; border-radius:999px; }
+    .us, .peer { position:absolute; top:3px; height:16px; border-radius:999px; }
+    .us { left:0; background:var(--orange); }
+    .peer { left:0; background:var(--blue); opacity:.72; height:6px; top:8px; }
+    .matrix { width:100%; border-collapse:collapse; }
+    .matrix th,.matrix td { border:1px solid var(--line); padding:.65rem; text-align:left; vertical-align:top; }
+    .matrix th { background:#e6f0f3; }
+    .no { color:var(--red); font-weight:800; }
+    .yes { color:var(--green); font-weight:800; }
+    footer { padding:1.5rem 0 3rem; color:var(--muted); font-size:.9rem; }
+    a { color:var(--blue); }
+    @media (max-width:780px) {
+      .half,.third { grid-column:span 12; }
+      .equation { grid-template-columns:1fr; }
+      .operator { transform:rotate(90deg); }
+      .benchmark { grid-template-columns:1fr; }
+      .lane-grid { grid-template-columns:repeat(2,1fr); }
+      .hero-head,.subtotal { align-items:flex-start; flex-direction:column; }
+      .hero-total { text-align:left; }
+      .life-grid { grid-template-columns:1fr; }
+      .peer-callouts,.bridge { grid-template-columns:1fr; }
+    }
+    @media (max-width:480px) { .lane-grid { grid-template-columns:1fr; } }
+    @media (prefers-reduced-motion:reduce) { * { scroll-behavior:auto!important; } }
+  </style>
+</head>
+<body>
+<header>
+  <p style="margin:0 0 1rem"><a href="index.html">← Taxlane overview</a> · <a href="profiles.html">Current vs proposed profiles</a> · <a href="library.html">Full project library</a></p>
+  <p class="eyebrow">Taxlane visual explainer</p>
+  <h1>What government does<br>in your life—and what it costs.</h1>
+  <p class="lede">Start with six human-scale lanes. Open the accounting detail only when you need it. Then compare how peer countries provide the same purposes before deciding what is fair.</p>
+  <p><span class="badge">Descriptive model ≠ fairness finding</span></p>
+</header>
+
+<main>
+  <section class="grid" aria-label="Three analytical layers">
+    <article class="card third"><div class="step"><span class="num">1</span><div><h2>US allocation</h2><p class="question">Where does the modeled $1,000 go?</p><p class="answer">FY2025 federal outlay shares. This layer reconciles to 100%.</p></div></div></article>
+    <article class="card third"><div class="step"><span class="num">2</span><div><h2>Peer benchmark</h2><p class="question">How does the US differ?</p><p class="answer">One comparable measure per lane. These rows must not be summed.</p></div></div></article>
+    <article class="card third"><div class="step"><span class="num">3</span><div><h2>Fairness choice</h2><p class="question">What should we fund—and who should pay?</p><p class="answer">Requires declared values, incidence, service floors, and a debt rule.</p></div></div></article>
+
+    <article class="card wide">
+      <h2>1 · Your $1,000 receipt in six life lanes</h2>
+      <p>The fifteen public-purpose rows become six things people can recognize. These groups preserve the exact accounting subtotal.</p>
+      <div class="life-grid">
+        <section class="life-card" style="--life:#824f95"><div class="life-top"><div class="life-title">Retirement &amp; disability</div><div class="life-money"><strong>$225.45</strong>22.545%</div></div><p>Retirement, survivor, and disability protection through Social Security.</p><small>Accounting lane: Social Security</small></section>
+        <section class="life-card" style="--life:#168b9c"><div class="life-top"><div class="life-title">Health &amp; care</div><div class="life-money"><strong>$281.73</strong>28.173%</div></div><p>Medicare, Medicaid and other federal health programs, public health, and care systems.</p><small>Accounting lanes: Health + Medicare</small></section>
+        <section class="life-card" style="--life:#315f91"><div class="life-top"><div class="life-title">Military, veterans &amp; global role</div><div class="life-money"><strong>$190.91</strong>19.091%</div></div><p>Armed forces, veterans' benefits and care, diplomacy, humanitarian work, and security assistance.</p><small>Accounting lanes: Defense + Veterans + International affairs</small></section>
+        <section class="life-card" style="--life:#b65c8c"><div class="life-top"><div class="life-title">Family security &amp; opportunity</div><div class="life-money"><strong>$110.35</strong>11.035%</div></div><p>Food and income support, unemployment protection, education, student aid, training, and social services.</p><small>Accounting lanes: Income security + Education</small></section>
+        <section class="life-card" style="--life:#4d8c62"><div class="life-top"><div class="life-title">Infrastructure, resilience &amp; food</div><div class="life-money"><strong>$55.02</strong>5.502%</div></div><p>Highways, transit, air and water transport, disaster relief, water resources, conservation, energy systems, and farm support and research.</p><small>Accounting lanes: Transportation + Community/disaster + Environment/energy + Agriculture</small></section>
+        <section class="life-card" style="--life:#657f8b"><div class="life-top"><div class="life-title">Courts, government &amp; discovery</div><div class="life-money"><strong>$19.62</strong>1.962%</div></div><p>Federal law enforcement, courts, corrections, Congress and fiscal operations, basic research, and space activity—net of a market/credit adjustment.</p><small>Accounting lanes: Justice/government + Science/space − Commerce/housing adjustment</small></section>
+      </div>
+      <p style="color:var(--muted);font-size:.88rem">Dollar cards are rounded independently: they display $883.08 in total, while the exact 88.306964% subtotal is $883.06964 and rounds to $883.07. A final receipt would assign the one-cent rounding residual explicitly.</p>
+      <p class="warning"><strong>Why TSA is tricky:</strong> “air transportation” is in the transportation function, but TSA and other homeland-security activities are not cleanly isolated there. The receipt should say “air-transport systems” unless a program-level crosswalk is added.</p>
+
+      <h2>How the six life lanes reconcile</h2>
+      <div class="equation" aria-label="Allocation reconciliation">
+        <div class="term services"><div><strong>88.307%</strong>15 public-purpose lanes</div></div>
+        <div class="operator">+</div>
+        <div class="term interest"><div><strong>13.836%</strong>net interest</div></div>
+        <div class="operator">−</div>
+        <div class="term offset"><div><strong>2.143%</strong>offsetting receipts</div></div>
+        <div class="operator">=</div>
+        <div class="term total"><div><strong>100%</strong>modeled receipt</div></div>
+      </div>
+      <details class="hero-card">
+        <summary>Open the exact fifteen-lane accounting detail</summary>
+      <section aria-labelledby="public-purpose-title">
+        <div class="hero-head">
+          <div><p class="eyebrow">The core receipt card</p><h2 id="public-purpose-title">Inside the 88.307% public-purpose subtotal</h2><p style="margin:0;color:var(--muted)">Fifteen modeled lanes, shown as a share of the full $1,000 receipt.</p></div>
+          <div class="hero-total"><strong>≈ $883.07</strong>of each modeled $1,000</div>
+        </div>
+        <div class="lane-grid">
+          <div class="lane-card" style="--lane:#824f95;--w:100%"><span class="lane-name">Social Security</span><span class="lane-pct">22.545%</span><span class="lane-usd">$225.45 per $1,000</span></div>
+          <div class="lane-card" style="--lane:#167a9a;--w:63.1%"><span class="lane-name">Medicare</span><span class="lane-pct">14.216%</span><span class="lane-usd">$142.16 per $1,000</span></div>
+          <div class="lane-card" style="--lane:#21a5a8;--w:61.9%"><span class="lane-name">Health and care</span><span class="lane-pct">13.957%</span><span class="lane-usd">$139.57 per $1,000</span></div>
+          <div class="lane-card" style="--lane:#315f91;--w:58%"><span class="lane-name">National defense</span><span class="lane-pct">13.067%</span><span class="lane-usd">$130.67 per $1,000</span></div>
+          <div class="lane-card" style="--lane:#c8709e;--w:44.4%"><span class="lane-name">Income security and family support</span><span class="lane-pct">10.007%</span><span class="lane-usd">$100.07 per $1,000</span></div>
+          <div class="lane-card" style="--lane:#557bb5;--w:23.9%"><span class="lane-name">Veterans and service commitments</span><span class="lane-pct">5.380%</span><span class="lane-usd">$53.80 per $1,000</span></div>
+          <div class="lane-card" style="--lane:#d89a42;--w:9.2%"><span class="lane-name">Transportation and mobility</span><span class="lane-pct">2.073%</span><span class="lane-usd">$20.73 per $1,000</span></div>
+          <div class="lane-card" style="--lane:#6d8794;--w:7.8%"><span class="lane-name">Constitutional government and justice</span><span class="lane-pct">1.764%</span><span class="lane-usd">$17.64 per $1,000</span></div>
+          <div class="lane-card" style="--lane:#4d9a7d;--w:7%"><span class="lane-name">Natural resources, energy, environment</span><span class="lane-pct">1.577%</span><span class="lane-usd">$15.77 per $1,000</span></div>
+          <div class="lane-card" style="--lane:#d6b551;--w:5.2%"><span class="lane-name">Community, disaster, regional development</span><span class="lane-pct">1.175%</span><span class="lane-usd">$11.75 per $1,000</span></div>
+          <div class="lane-card" style="--lane:#9b75aa;--w:4.6%"><span class="lane-name">Education, work, social services</span><span class="lane-pct">1.028%</span><span class="lane-usd">$10.28 per $1,000</span></div>
+          <div class="lane-card" style="--lane:#76ad66;--w:3%"><span class="lane-name">Agriculture and food production</span><span class="lane-pct">0.677%</span><span class="lane-usd">$6.77 per $1,000</span></div>
+          <div class="lane-card" style="--lane:#5e7ca4;--w:2.9%"><span class="lane-name">International affairs and diplomacy</span><span class="lane-pct">0.644%</span><span class="lane-usd">$6.44 per $1,000</span></div>
+          <div class="lane-card" style="--lane:#7b92b2;--w:2.7%"><span class="lane-name">Science, space, civic capacity</span><span class="lane-pct">0.599%</span><span class="lane-usd">$5.99 per $1,000</span></div>
+          <div class="lane-card adjustment" style="--lane:#b44438;--w:1.8%"><span class="lane-name">Commerce, housing, credit adjustment</span><span class="lane-pct">−0.401%</span><span class="lane-usd">−$4.01 per $1,000</span></div>
+        </div>
+        <div class="subtotal"><span><strong>15-lane subtotal: 88.306964%</strong><br><span style="color:var(--muted)">The negative commerce/housing row is an OMB netting and credit adjustment—not a negative public service.</span></span><span class="badge">Then add interest and subtract offsets</span></div>
+      </section></details>
+      <div class="bar" aria-label="Public-purpose allocation composition">
+        <div style="width:13.066984%;background:#315f91" title="Defense 13.067%"></div>
+        <div style="width:.644278%;background:#5e7ca4" title="International 0.644%"></div>
+        <div style="width:.598565%;background:#7b92b2" title="Science 0.599%"></div>
+        <div style="width:1.577483%;background:#4d9a7d" title="Environment and energy 1.577%"></div>
+        <div style="width:.676741%;background:#76ad66" title="Agriculture 0.677%"></div>
+        <div style="width:2.072712%;background:#d89a42" title="Transportation 2.073%"></div>
+        <div style="width:1.174908%;background:#d6b551" title="Community and disaster 1.175%"></div>
+        <div style="width:1.027541%;background:#9b75aa" title="Education 1.028%"></div>
+        <div style="width:13.956587%;background:#21a5a8" title="Health 13.957%"></div>
+        <div style="width:14.216275%;background:#167a9a" title="Medicare 14.216%"></div>
+        <div style="width:10.00711%;background:#c8709e" title="Income security 10.007%"></div>
+        <div style="width:22.545276%;background:#824f95" title="Social Security 22.545%"></div>
+        <div style="width:5.379509%;background:#557bb5" title="Veterans 5.380%"></div>
+        <div style="width:1.76423%;background:#6d8794" title="Justice 1.764%"></div>
+      </div>
+      <p class="legend"><span class="key" style="--c:#315f91">defense</span><span class="key" style="--c:#21a5a8">health</span><span class="key" style="--c:#167a9a">Medicare</span><span class="key" style="--c:#c8709e">income security</span><span class="key" style="--c:#824f95">Social Security</span><span class="key" style="--c:#557bb5">veterans</span><span>plus smaller lanes; commerce/housing adjustment is −0.401%</span></p>
+      <p class="warning"><strong>Meaning:</strong> “If ordinary income tax were displayed in proportion to FY2025 federal outlays.” <strong>Not meaning:</strong> legal dedication, international adjustment, recommended allocation, or proof of fairness.</p>
+    </article>
+
+    <article class="card wide">
+      <h2>2 · How the same purposes manifest in peer countries</h2>
+      <p>Countries provide similar public purposes through different institutions. This is a translation map—not a claim that one system can be copied directly.</p>
+      <h3>Estimated percentage breakdown of each country's public spending</h3>
+      <p>Read each column as a separate $1,000 general-government receipt. For example, Germany's 41.2% social-protection share is about $412 of its modeled $1,000; it includes pensions, disability, family, unemployment, and related protection.</p>
+      <div class="peer-callouts">
+        <div class="peer-callout"><strong>22% vs 36–41%</strong>The captured U.S. social-protection share is much smaller than the five peers.</div>
+        <div class="peer-callout"><strong>26%</strong>Health is the largest U.S. function—and a larger spending share than in every peer shown.</div>
+        <div class="peer-callout"><strong>7.7% vs 2–3%</strong>Defense takes more than twice the spending share of every peer shown.</div>
+      </div>
+      <div class="cofog-wrap"><table class="cofog" aria-label="OECD 2022 general-government expenditure shares by function">
+        <thead><tr><th>OECD function</th><th>United States</th><th>Germany</th><th>France</th><th>Japan</th><th>Sweden</th><th>Netherlands</th></tr></thead>
+        <tbody>
+          <tr><th>Social protection</th><td style="--p:21.6">21.6%</td><td style="--p:40.8">40.8%</td><td style="--p:40.8">40.8%</td><td style="--p:39.4">39.4%</td><td style="--p:38.5">38.5%</td><td style="--p:36.4">36.4%</td></tr>
+          <tr><th>Health</th><td style="--p:26.4">26.4%</td><td style="--p:17.0">17.0%</td><td style="--p:15.5">15.5%</td><td style="--p:21.2">21.2%</td><td style="--p:14.6">14.6%</td><td style="--p:16.6">16.6%</td></tr>
+          <tr><th>General public services</th><td style="--p:14.9">14.9%</td><td style="--p:12.0">12.0%</td><td style="--p:11.2">11.2%</td><td style="--p:8.7">8.7%</td><td style="--p:10.4">10.4%</td><td style="--p:8.4">8.4%</td></tr>
+          <tr><th>Economic affairs</th><td style="--p:7.8">7.8%</td><td style="--p:11.5">11.5%</td><td style="--p:11.6">11.6%</td><td style="--p:12.9">12.9%</td><td style="--p:10.2">10.2%</td><td style="--p:13.0">13.0%</td></tr>
+          <tr><th>Education</th><td style="--p:14.7">14.7%</td><td style="--p:9.0">9.0%</td><td style="--p:8.6">8.6%</td><td style="--p:7.8">7.8%</td><td style="--p:14.5">14.5%</td><td style="--p:11.2">11.2%</td></tr>
+          <tr><th>Public order &amp; safety</th><td style="--p:4.8">4.8%</td><td style="--p:3.2">3.2%</td><td style="--p:2.9">2.9%</td><td style="--p:2.8">2.8%</td><td style="--p:2.8">2.8%</td><td style="--p:4.2">4.2%</td></tr>
+          <tr><th>Defence</th><td style="--p:7.7">7.7%</td><td style="--p:2.4">2.4%</td><td style="--p:3.1">3.1%</td><td style="--p:2.2">2.2%</td><td style="--p:3.4">3.4%</td><td style="--p:3.0">3.0%</td></tr>
+          <tr><th>Recreation, culture &amp; religion</th><td style="--p:.7">0.7%</td><td style="--p:2.1">2.1%</td><td style="--p:2.5">2.5%</td><td style="--p:.9">0.9%</td><td style="--p:2.8">2.8%</td><td style="--p:2.6">2.6%</td></tr>
+          <tr><th>Environmental protection</th><td>Missing*</td><td style="--p:1.1">1.1%</td><td style="--p:1.8">1.8%</td><td style="--p:2.6">2.6%</td><td style="--p:1.3">1.3%</td><td style="--p:3.2">3.2%</td></tr>
+          <tr><th>Housing &amp; community amenities</th><td style="--p:1.3">1.3%</td><td style="--p:1.0">1.0%</td><td style="--p:2.0">2.0%</td><td style="--p:1.5">1.5%</td><td style="--p:1.5">1.5%</td><td style="--p:1.4">1.4%</td></tr>
+        </tbody>
+      </table></div>
+      <p style="color:var(--muted);font-size:.88rem"><strong>Basis:</strong> repository-captured OECD COFOG 2022 general-government national-currency values; Taxlane divided each function by the sum of captured functions for that country and rounded to 0.1 percentage point. Peer columns have all ten functions. The U.S. column is normalized over nine captured functions because GF05 is missing, so it is descriptive but not fully comparable. Columns may total 99.9% or 100.1% because of rounding. These are composition estimates—not income-tax allocation, outcomes, savings, or a recommended budget. <strong>*Missing does not mean zero environmental spending.</strong></p>
+      <p class="warning"><strong>The six columns are comparable with one another; the Taxlane receipt above is not yet comparable with them.</strong> This table combines central, state/local, and social-security funds on the same 2022 OECD basis. Taxlane's receipt is FY2025 federal-only and uses fifteen purpose lanes plus interest and offsets.</p>
+
+      <h3>How ten international functions translate into Taxlane's fifteen lanes</h3>
+      <div class="bridge">
+        <p><strong>Social protection</strong><br>Retirement, disability, income security, family support, and some veterans benefits</p>
+        <p><strong>Health</strong><br>Medicare, Medicaid, public health, and other government health programs</p>
+        <p><strong>Economic affairs</strong><br>Transportation, agriculture, energy, industry, and part of research</p>
+        <p><strong>General public services</strong><br>Administration, diplomacy, debt service, and part of basic research</p>
+        <p><strong>Public order + defence</strong><br>Justice and policing + military defence; veterans may sit elsewhere</p>
+        <p><strong>Education + remaining functions</strong><br>Education, culture, environment, housing, and community amenities</p>
+      </div>
+      <p style="color:var(--muted);font-size:.88rem">PAY and REV remain analytical overlays rather than spending functions. First-level OECD data cannot consistently separate pensions from family support, highways from energy, or debt service from administration; that is why Taxlane does not manufacture fifteen peer percentages from ten published categories.</p>
+
+      <h3>How countries deliver the same purposes</h3>
+      <div style="overflow-x:auto"><table class="peer-table">
+        <thead><tr><th>Human lane</th><th>Common US form</th><th>Common peer-country forms</th><th>Fair comparison needs</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Retirement &amp; disability</strong></td><td>Federal Social Security, dedicated payroll contributions, capped earnings base</td><td>National public pension, earnings-related social insurance, mandatory occupational pension, or mixed pillars</td><td>Benefits and contributions together; retirement age, replacement rate, demographics, and coverage</td></tr>
+          <tr><td><strong>Health &amp; care</strong></td><td>Medicare, Medicaid, employer insurance, marketplaces, federal/state delivery</td><td>Tax-funded national health service, social-health-insurance funds, or regulated compulsory insurance</td><td>Total system cost, compulsory versus voluntary financing, coverage, prices, access, and outcomes</td></tr>
+          <tr><td><strong>Military, veterans &amp; global role</strong></td><td>Central defense budget, separate veterans system, global alliance and security role</td><td>Central defense ministry; veterans often folded into pensions, health, or social protection; different alliance roles</td><td>One defense definition, GDP basis, force commitments, veterans boundary, and allied burden sharing</td></tr>
+          <tr><td><strong>Family security &amp; opportunity</strong></td><td>Federal/state benefits, refundable tax credits, state/local education, federal aid</td><td>Child allowances, paid leave, social insurance, national or municipal services, tax credits, publicly funded education</td><td>Cash + services + tax expenditures, all levels of government, take-up, poverty reduction, and outcomes</td></tr>
+          <tr><td><strong>Infrastructure, resilience &amp; food</strong></td><td>Federal grants and trust funds, state/local ownership, user fees, disaster programs, farm support</td><td>National infrastructure ministries, regional/local capital budgets, fuel taxes, tolls, public operators, national disaster insurance, agricultural policy</td><td>All-government capital and maintenance, user charges, geography, network use, resilience, and service quality</td></tr>
+          <tr><td><strong>Courts, government &amp; discovery</strong></td><td>Federal justice/general government plus research and space; major state/local justice role</td><td>National and local courts/police, central administration, research councils, universities, and space agencies</td><td>All levels of government, civil versus criminal functions, R&amp;D classification, outputs, rights, and administrative quality</td></tr>
+        </tbody>
+      </table></div>
+      <p class="warning"><strong>Two special accounting tracks do not become life-lane slices:</strong> PAY is a control and measurement overlay; REV is the financing system. NET is shown separately as the cost of past borrowing. Peer systems likewise use different audit/control institutions, tax mixes, and debt structures.</p>
+    </article>
+
+    <article class="card wide goal">
+      <p class="eyebrow" style="color:#a9e5ee">The goal</p>
+      <h2 style="font-size:clamp(1.7rem,3vw,2.7rem)">Make the cost of a decent public life visible—then ask whether the US gets comparable outcomes at a fair burden.</h2>
+      <p style="font-size:1.1rem">The objective is not to force America to equal an OECD average. It is to identify price premiums, missing services, financing mismatches, and debt shifts on comparable bases; preserve explicit service and beneficiary floors; declare who should pay and who should benefit; and only then compute a policy rate.</p>
+    </article>
+
+    <article class="card half">
+      <h2>Current peer-comparison snapshot</h2>
+      <p>Each row has its own scope and denominator. Bar lengths are illustrative of the cited ratios—not pieces of one total.</p>
+      <div class="benchmark"><strong>Total tax / GDP</strong><div class="track"><span class="us" style="width:65%" title="US 26.0% of GDP"></span><span class="peer" style="width:85.25%" title="OECD 34.1% of GDP"></span></div></div>
+      <div class="benchmark"><strong>Health / GDP</strong><div class="track"><span class="us" style="width:86%" title="US 17.2% of GDP"></span><span class="peer" style="width:46.5%" title="OECD 9.3% of GDP"></span></div></div>
+      <div class="legend"><span class="key" style="--c:var(--orange)">United States</span><span class="key" style="--c:var(--blue)">OECD average</span></div>
+      <p class="warning"><strong>Never add peer rows.</strong> Total tax and health spending use different concepts. Federal, all-government, compulsory-private, tax-expenditure, GDP, PPP, demographic, and vintage differences must remain visible.</p>
+    </article>
+
+    <article class="card half">
+      <h2>3 · Fairness needs an explicit constitution</h2>
+      <table class="matrix">
+        <thead><tr><th>Fairness lens</th><th>Question that must be answered</th><th>Current state</th></tr></thead>
+        <tbody>
+          <tr><td>Ability to pay</td><td>How is burden distributed by income and household?</td><td class="no">Incomplete</td></tr>
+          <tr><td>Benefit and need</td><td>Who receives each service, and what floor is protected?</td><td class="yes">Gates defined</td></tr>
+          <tr><td>Peer outcomes</td><td>Which comparable countries and outcomes set the benchmark?</td><td class="no">Lane-specific</td></tr>
+          <tr><td>Generations</td><td>How much is paid now versus shifted through debt?</td><td class="no">Needs annual path</td></tr>
+          <tr><td>Public purpose</td><td>Which purposes are normative priorities?</td><td class="no">Owner choice</td></tr>
+        </tbody>
+      </table>
+    </article>
+
+    <article class="card wide">
+      <h2>The plain-English conclusion</h2>
+      <p style="font-size:clamp(1.25rem,2.5vw,2rem);margin:.4rem 0"><strong>Taxlane has completed the accounting baseline and built international diagnostics. A peer-adjusted, distributionally fair allocation is the next analytical layer—not a claim already proven.</strong></p>
+    </article>
+  </section>
+</main>
+
+<footer>
+  Repository-local review visual. Sources: Taxlane FY2025 placeholder receipt model and canonical ledgers; OECD National Accounts Table 11 COFOG data (2022 values) and OECD 2025 comparison series. No remote assets, analytics, tracking, deployment, or legal/policy authority.
+</footer>
+</body>
+</html>

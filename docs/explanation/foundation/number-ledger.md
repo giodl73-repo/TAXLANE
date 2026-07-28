@@ -27,6 +27,11 @@ rounding must not change the stored value or its meaning.
 | NUM-20 | 0.774223895 | ratio | full-year output to first-year cash-proxy realization | `rev_internal_analysis_baseline_freeze.v1.draft.json` |
 | NUM-21 | 0.15 / 0.25 / 0.35 | substitution-elasticity cases | taxable-income response assumptions; not forecasts | `rev_internal_rate_analysis_completion.v1.draft.json` |
 | NUM-22 | 0 / -2.5 / -5 | percent | adverse internal macro stresses; not forecasts | `rev_internal_rate_analysis_completion.v1.draft.json` |
+| NUM-23 | 10/12/22/24/32/35/37 | marginal model bracket-rate percentages | TY2026 current-law ordinary-income schedule used by the profile comparison | `rev_level_7_scorer_ready_legislative_specification.v1.draft.json` |
+| NUM-24 | 11.0 | percentage points | uniform difference between the current-law and preferred Taxlane ordinary-income schedules; with unchanged thresholds, the narrow bracket-only profile difference equals 11% of taxable ordinary income | scorer-ready specification; `taxpayer_profile_scenarios.ty2026.v1.draft.json` |
+| NUM-25 | 6 | illustrative profiles | bracket-only single and married-filing-jointly examples; not representative households or complete returns | `taxpayer_profile_scenarios.ty2026.v1.draft.json` |
+| NUM-26 | 6 | countries | repository-captured OECD COFOG composition columns used by the local comparison; U.S. is partial because GF05 is missing | `cofog_site_spending_share_calculation.data2022.v1.draft.json` |
+| NUM-27 | 139 / 513 / 560 / 488 / 10 / 198 | repository inventory | wave directories / pulse files / derived JSON or JSONL records / reading documents / research papers / review files after the expanded-site round-two pass; operational metadata, not impact | `repository_corpus_inventory_snapshot.2026-07-27.v1.draft.json` |
 
 ## Display rules
 
@@ -43,3 +48,10 @@ rounding must not change the stored value or its meaning.
    validation run rather than frozen here.
 7. Every table or graphic carries the July 27, 2026 Taxlane analysis vintage and
    routes to the exact derived record.
+8. Never describe NUM-24 or NUM-25 as a complete household liability, effective
+   rate, gross-income example, personal estimate, or official score.
+9. Never convert NUM-26 into U.S. savings, rates, efficiency rankings, or
+   fairness findings without a matched-year crosswalk and an admitted policy
+   candidate. Render U.S. GF05 as missing, not zero.
+10. Treat NUM-27 as refreshable corpus inventory only. File counts do not prove
+    correctness, impact, adoption, or endorsement.
