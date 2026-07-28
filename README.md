@@ -254,6 +254,10 @@ story that outruns the source record.
 
 For earlier receipt, funding-lane, accountability, and source-custody work, use
 the broader [showcase](SHOWCASE.md) and [reading index](docs/reading/README.md).
+The bounded payment-integrity examples remain available at
+[docs/reading/payment-integrity-bounded-factual-examples.md](docs/reading/payment-integrity-bounded-factual-examples.md).
+The current accountability handoff is
+[docs/reading/accountability-public-brief.md](docs/reading/accountability-public-brief.md).
 For the shortest public handoff—a concrete taxpayer example showing what is ready, what is blocked, and safe public language—read [SHOWCASE.md](SHOWCASE.md).
 
 ## License
