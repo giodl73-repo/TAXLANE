@@ -1,0 +1,9 @@
+paper: why-zero-is-a-result
+track: EXPL-C2
+stage: accepted-repository-only
+round: 2
+writing_completed: true
+roles_review: ../../../../reviews/2026-07-27-expl-c-papers-round-2-roles-review.md
+pf_gates: {PF-2: pass, PF-5: pass-with-limits, PF-6: pass, PF-7: pass}
+gate_cleared: true
+external_release_authorized: false

@@ -1,0 +1,94 @@
+{
+  "artifact": "taxlane-final-result-explanation-program",
+  "version": "v1.draft",
+  "pulse": 480,
+  "status": "expl_a_through_f_complete_repository_ready_external_release_blocked",
+  "program": {
+    "name": "Taxlane final-result explanation program",
+    "future_audience_scope": "national civic audience",
+    "current_execution_scope": "Taxlane repository only",
+    "canonical_result_path": "data/derived/breadth_benchmark_matrix/fifteen_track_terminal_disposition.v1.draft.json",
+    "program_plan_path": "docs/programs/2026-07-27-final-result-explanation-program.md"
+  },
+  "audiences": [
+    {"id":"citizen","primary_need":"understand the conclusion and why the process is trustworthy","preferred_surface":"one-page brief, visual guide, FAQ"},
+    {"id":"educator_journalist","primary_need":"explain the result without flattening its caveats","preferred_surface":"teaching guide, glossary, briefing deck"},
+    {"id":"policy_reader","primary_need":"inspect each track and its admission decision","preferred_surface":"fifteen-track atlas, methods guide, papers"},
+    {"id":"technical_auditor","primary_need":"reproduce boundaries and detect unsupported claims","preferred_surface":"evidence map, machine records, validation guide"}
+  ],
+  "waves": [
+    {"id":"EXPL-A","name":"narrative_and_evidence_foundation","depends_on":[],"planned_deliverables":5,"exit_gate":"canonical narrative, claim ledger, number ledger, terminology, and visual grammar trace to validated evidence","status":"complete_round_two_roles_accepted"},
+    {"id":"EXPL-B","name":"citizen_and_teaching_guides","depends_on":["EXPL-A"],"planned_deliverables":6,"exit_gate":"non-specialist review accurately restates result and caveats","status":"complete_round_two_roles_accepted"},
+    {"id":"EXPL-C","name":"research_paper_series","depends_on":["EXPL-A"],"planned_deliverables":4,"exit_gate":"four canonical Markdown papers clear source, comparability, skepticism, and language review","status":"complete_round_two_roles_pf_accepted"},
+    {"id":"EXPL-D","name":"presentation_system","depends_on":["EXPL-A","EXPL-B","EXPL-C"],"planned_deliverables":3,"exit_gate":"five, twenty, and forty-five minute decks share claims, numbers, caveats, and traceability","status":"complete_round_two_roles_accepted"},
+    {"id":"EXPL-E","name":"local_html_experience","depends_on":["EXPL-A","EXPL-B","EXPL-C"],"planned_deliverables":1,"exit_gate":"local accessibility, link, responsive, and claim-sync checks pass with deployment disabled","status":"complete_round_two_roles_accepted"},
+    {"id":"EXPL-F","name":"integrated_review_and_repository_readiness","depends_on":["EXPL-B","EXPL-C","EXPL-D","EXPL-E"],"planned_deliverables":2,"exit_gate":"cross-format review passes and repository-readiness decision preserves external-release block","status":"complete_round_two_roles_accepted"}
+  ],
+  "paper_series": [
+    {"slug":"the-taxlane-result","title":"The Taxlane Result","purpose":"full synthesis"},
+    {"slug":"why-zero-is-a-result","title":"Why Zero Is a Result","purpose":"evidence gates and rejected savings"},
+    {"slug":"fifteen-tracks-one-accounting-spine","title":"Fifteen Tracks, One Accounting Spine","purpose":"lane decisions and shared interfaces"},
+    {"slug":"spending-evidence-to-adaptive-rate","title":"From Spending Evidence to an Adaptive Rate","purpose":"model, behavior, uncertainty, and limits"}
+  ],
+  "shared_modules": [
+    "canonical_result_statement",
+    "fifteen_track_terminal_table",
+    "pay_net_rev_identity",
+    "three_tier_rate_comparison",
+    "admitted_versus_rejected_evidence",
+    "reopening_triggers",
+    "limitations_and_non_claims",
+    "source_and_reproduction_routes"
+  ],
+  "review_gates": [
+    "numerical_identity",
+    "claim_classification",
+    "traceability",
+    "accessibility",
+    "citizen_comprehension",
+    "adversarial_reading",
+    "cross_format_parity",
+    "release_control"
+  ],
+  "aggregate": {
+    "waves": 6,
+    "audience_groups": 4,
+    "planned_canonical_deliverables": 21,
+    "planned_research_papers": 4,
+    "planned_presentations": 3,
+    "planned_local_html_experiences": 1,
+    "active_wave": "none",
+    "external_release_authorized": false,
+    "deployment_allowed": false
+  },
+  "prohibited_actions": [
+    "public_deployment",
+    "external_distribution",
+    "press_or_stakeholder_outreach",
+    "government_contact",
+    "official_score_request",
+    "legislative_submission",
+    "endorsement_claim"
+  ],
+  "claim_booleans": {
+    "fifteen_track_internal_result_complete": true,
+    "documentation_program_defined": true,
+    "expl_a_ready": false,
+    "expl_a_complete": true,
+    "expl_b_ready": false,
+    "expl_b_complete": true,
+    "expl_c_ready": false,
+    "expl_c_complete": true,
+    "expl_d_ready": false,
+    "expl_d_complete": true,
+    "expl_e_ready": false,
+    "expl_e_complete": true,
+    "expl_f_ready": false,
+    "expl_f_complete": true,
+    "all_waves_complete": true,
+    "repository_ready": true,
+    "public_release_authorized": false,
+    "official_request_planned": false,
+    "external_certification_required": false
+  }
+}

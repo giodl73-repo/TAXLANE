@@ -1468,6 +1468,20 @@ const REV_INTERNAL_COMPLETION_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/rev_internal_rate_analysis_completion.v1.draft.json";
 const TARGETED_SPENDING_RATE_DECISION_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/targeted_spending_rate_decision.v1.draft.json";
+const FIFTEEN_TRACK_TERMINAL_DISPOSITION_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/fifteen_track_terminal_disposition.v1.draft.json";
+const FINAL_RESULT_EXPLANATION_PROGRAM_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/taxlane_final_result_explanation_program.v1.draft.json";
+const EXPL_A_CLOSURE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/expl_a_narrative_evidence_foundation_closure.v1.draft.json";
+const EXPL_B_CLOSURE_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/expl_b_citizen_teaching_guides_closure.v1.draft.json";
+const EXPL_C_CLOSURE_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/expl_c_research_paper_series_closure.v1.draft.json";
+const EXPL_D_CLOSURE_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/expl_d_presentation_system_closure.v1.draft.json";
+const EXPL_E_CLOSURE_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/expl_e_local_html_experience_closure.v1.draft.json";
+const EXPL_F_CLOSURE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/expl_f_integrated_repository_readiness_closure.v1.draft.json";
 const FIFTEEN_TRACK_NEXT_TWO_LEVEL_WAVE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/fifteen_track_next_two_level_advancement_wave.v1.draft.json";
 const HLT_NEXT_LEVEL_A_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/hlt_next_level_a_site_neutral_evidence_closure.v1.draft.json";
 const HLT_NEXT_LEVEL_B_JSON_PATH: &str =
@@ -15352,6 +15366,14 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_rev_level_7_integrated_certification_and_score_handoff(root)?;
     validate_rev_internal_analysis_next_ten_steps(root)?;
     validate_targeted_spending_rate_decision(root)?;
+    validate_fifteen_track_terminal_disposition(root)?;
+    validate_final_result_explanation_program(root)?;
+    validate_expl_a_closure(root)?;
+    validate_expl_b_closure(root)?;
+    validate_expl_c_closure(root)?;
+    validate_expl_d_closure(root)?;
+    validate_expl_e_closure(root)?;
+    validate_expl_f_closure(root)?;
     validate_fifteen_track_next_two_level_advancement_wave(root)?;
     validate_rev_level_1_individual_income_rate_candidate_start(root)?;
     validate_health_floor_source_capture_status(root)?;
@@ -62463,6 +62485,752 @@ fn validate_targeted_spending_rate_decision(root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn validate_fifteen_track_terminal_disposition(root: &Path) -> Result<(), String> {
+    for path in [
+        FIFTEEN_TRACK_TERMINAL_DISPOSITION_JSON_PATH,
+        "data/derived/breadth_benchmark_matrix/fifteen_track_terminal_disposition.schema.md",
+        "docs/reading/fifteen-track-terminal-disposition.md",
+        "reviews/2026-07-27-fifteen-track-terminal-disposition-role-review.md",
+        "context/waves/2026-07-18-adaptive-rate-performance-system/pulses/pulse-479-fifteen-track-terminal-disposition.md",
+    ] {
+        if !root.join(path).is_file() {
+            return Err(format!("missing fifteen-track terminal artifact: {path}"));
+        }
+    }
+
+    let record = read_json_artifact(root, FIFTEEN_TRACK_TERMINAL_DISPOSITION_JSON_PATH)?;
+    let scope = record.get("scope").ok_or("terminal scope")?;
+    let tracks = record
+        .get("tracks")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("terminal tracks")?;
+    let result = record
+        .get("portfolio_result")
+        .ok_or("terminal portfolio result")?;
+    let claims = record.get("claim_booleans").ok_or("terminal claims")?;
+    let expected_tracks = BTreeSet::from([
+        "TRN".to_string(),
+        "HLT".to_string(),
+        "EDU".to_string(),
+        "OAS".to_string(),
+        "ISF".to_string(),
+        "VET".to_string(),
+        "AGR".to_string(),
+        "DEF".to_string(),
+        "DIS".to_string(),
+        "JUS".to_string(),
+        "SEE".to_string(),
+        "INT".to_string(),
+        "PAY".to_string(),
+        "REV".to_string(),
+        "NET".to_string(),
+    ]);
+    let observed_tracks = tracks
+        .iter()
+        .map(|row| string_field(row, "track"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let allowed_dispositions = BTreeSet::from([
+        "conditional_typed_output".to_string(),
+        "reviewed_zero_admission".to_string(),
+        "dedicated_solvency_overlay".to_string(),
+        "non_additive_measurement_overlay".to_string(),
+        "internal_analytical_recommendation".to_string(),
+        "endogenous_result".to_string(),
+    ]);
+    let zero_admission_count = tracks
+        .iter()
+        .filter(|row| {
+            string_field(row, "disposition").ok().as_deref() == Some("reviewed_zero_admission")
+        })
+        .count();
+    let typed_outputs = tracks
+        .iter()
+        .filter(|row| {
+            row.get("typed_output")
+                .is_some_and(|value| !value.is_null())
+        })
+        .count();
+    let admitted_total = tracks
+        .iter()
+        .map(|row| number_field(row, "admitted_fy2026_primary_reduction_billions"))
+        .collect::<Result<Vec<_>, _>>()?
+        .into_iter()
+        .sum::<f64>();
+    let expected_schedule = [21, 23, 33, 35, 43, 46, 48];
+    let schedule_matches = result
+        .get("preferred_schedule_percent")
+        .and_then(serde_json::Value::as_array)
+        .is_some_and(|values| {
+            values.len() == expected_schedule.len()
+                && values
+                    .iter()
+                    .zip(expected_schedule)
+                    .all(|(value, expected)| value.as_i64() == Some(expected))
+        });
+
+    for row in tracks {
+        let evidence_path = string_field(row, "evidence_path")?;
+        if !root.join(&evidence_path).is_file()
+            || string_field(row, "lane")?.is_empty()
+            || string_field(row, "reopen_when")?.is_empty()
+            || !allowed_dispositions.contains(&string_field(row, "disposition")?)
+        {
+            return Err(format!(
+                "fifteen-track terminal row failed: {}",
+                string_field(row, "track")?
+            ));
+        }
+    }
+
+    if int_field(&record, "pulse")? != 479
+        || string_field(&record, "status")?
+            != "all_fifteen_tracks_internally_complete_with_typed_terminal_dispositions"
+        || int_field(scope, "tracks")? != 15
+        || bool_field(scope, "official_request_planned")?
+        || bool_field(
+            scope,
+            "external_certification_required_for_internal_completion",
+        )?
+        || tracks.len() != 15
+        || observed_tracks != expected_tracks
+        || zero_admission_count != 10
+        || typed_outputs != 2
+        || admitted_total.abs() > 0.0001
+        || int_field(result, "terminal_tracks")? != 15
+        || int_field(result, "reviewed_zero_admission_tracks")? != 10
+        || int_field(result, "typed_public_outputs")? != 2
+        || int_field(result, "admitted_spending_candidates")? != 0
+        || number_field(result, "admitted_fy2026_primary_reduction_billions")?.abs() > 0.0001
+        || (number_field(result, "remaining_fy2026_revenue_target_billions")? - 813.727).abs()
+            > 0.001
+        || !schedule_matches
+        || !bool_field(result, "internal_portfolio_complete")?
+        || !bool_field(result, "active_track_work_queue_empty")?
+        || !bool_field(claims, "all_fifteen_tracks_present_once")?
+        || !bool_field(claims, "all_fifteen_tracks_internally_complete")?
+        || !bool_field(claims, "reviewed_zero_admission_counts_as_completion")?
+        || bool_field(claims, "official_score_claimed")?
+        || bool_field(claims, "enacted_law_claimed")?
+        || bool_field(claims, "formal_balance_certified")?
+        || bool_field(claims, "all_policy_uncertainty_resolved")?
+    {
+        return Err("fifteen-track terminal disposition failed".to_string());
+    }
+    Ok(())
+}
+
+fn validate_final_result_explanation_program(root: &Path) -> Result<(), String> {
+    for path in [
+        FINAL_RESULT_EXPLANATION_PROGRAM_JSON_PATH,
+        "data/derived/breadth_benchmark_matrix/taxlane_final_result_explanation_program.schema.md",
+        "docs/reading/taxlane-final-result-explanation-program.md",
+        "docs/programs/2026-07-27-final-result-explanation-program.md",
+        "reviews/2026-07-27-final-result-explanation-program-role-review.md",
+        "context/waves/2026-07-18-adaptive-rate-performance-system/pulses/pulse-480-final-result-explanation-program.md",
+    ] {
+        if !root.join(path).is_file() {
+            return Err(format!("missing final-result explanation artifact: {path}"));
+        }
+    }
+
+    let record = read_json_artifact(root, FINAL_RESULT_EXPLANATION_PROGRAM_JSON_PATH)?;
+    let program = record.get("program").ok_or("explanation program")?;
+    let audiences = record
+        .get("audiences")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("explanation audiences")?;
+    let waves = record
+        .get("waves")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("explanation waves")?;
+    let papers = record
+        .get("paper_series")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("explanation papers")?;
+    let modules = record
+        .get("shared_modules")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("explanation modules")?;
+    let gates = record
+        .get("review_gates")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("explanation gates")?;
+    let prohibited = record
+        .get("prohibited_actions")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("explanation prohibited actions")?;
+    let aggregate = record.get("aggregate").ok_or("explanation aggregate")?;
+    let claims = record.get("claim_booleans").ok_or("explanation claims")?;
+    let expected_wave_ids = ["EXPL-A", "EXPL-B", "EXPL-C", "EXPL-D", "EXPL-E", "EXPL-F"];
+    let observed_wave_ids = waves
+        .iter()
+        .map(|wave| string_field(wave, "id"))
+        .collect::<Result<Vec<_>, _>>()?;
+    let deliverable_total = waves
+        .iter()
+        .map(|wave| int_field(wave, "planned_deliverables"))
+        .collect::<Result<Vec<_>, _>>()?
+        .into_iter()
+        .sum::<i64>();
+    let expected_prohibited = BTreeSet::from([
+        "public_deployment".to_string(),
+        "external_distribution".to_string(),
+        "press_or_stakeholder_outreach".to_string(),
+        "government_contact".to_string(),
+        "official_score_request".to_string(),
+        "legislative_submission".to_string(),
+        "endorsement_claim".to_string(),
+    ]);
+    let observed_prohibited = prohibited
+        .iter()
+        .map(|value| {
+            value
+                .as_str()
+                .map(str::to_string)
+                .ok_or("invalid prohibited action".to_string())
+        })
+        .collect::<Result<BTreeSet<_>, _>>()?;
+
+    if int_field(&record, "pulse")? != 480
+        || string_field(&record, "status")?
+            != "expl_a_through_f_complete_repository_ready_external_release_blocked"
+        || string_field(program, "future_audience_scope")? != "national civic audience"
+        || string_field(program, "current_execution_scope")? != "Taxlane repository only"
+        || string_field(program, "canonical_result_path")?
+            != FIFTEEN_TRACK_TERMINAL_DISPOSITION_JSON_PATH
+        || audiences.len() != 4
+        || audiences.iter().any(|row| {
+            string_field(row, "id").is_err()
+                || string_field(row, "primary_need").is_err()
+                || string_field(row, "preferred_surface").is_err()
+        })
+        || observed_wave_ids != expected_wave_ids
+        || waves.iter().enumerate().any(|(index, wave)| {
+            string_field(wave, "name").is_err()
+                || wave
+                    .get("depends_on")
+                    .and_then(serde_json::Value::as_array)
+                    .is_none()
+                || string_field(wave, "exit_gate").is_err()
+                || string_field(wave, "status").ok().as_deref()
+                    != Some(match index {
+                        0 => "complete_round_two_roles_accepted",
+                        1 => "complete_round_two_roles_accepted",
+                        2 => "complete_round_two_roles_pf_accepted",
+                        3 => "complete_round_two_roles_accepted",
+                        4 => "complete_round_two_roles_accepted",
+                        5 => "complete_round_two_roles_accepted",
+                        _ => "blocked_by_dependency",
+                    })
+        })
+        || deliverable_total != 21
+        || papers.len() != 4
+        || modules.len() != 8
+        || gates.len() != 8
+        || observed_prohibited != expected_prohibited
+        || int_field(aggregate, "waves")? != 6
+        || int_field(aggregate, "audience_groups")? != 4
+        || int_field(aggregate, "planned_canonical_deliverables")? != 21
+        || int_field(aggregate, "planned_research_papers")? != 4
+        || int_field(aggregate, "planned_presentations")? != 3
+        || int_field(aggregate, "planned_local_html_experiences")? != 1
+        || string_field(aggregate, "active_wave")? != "none"
+        || bool_field(aggregate, "external_release_authorized")?
+        || bool_field(aggregate, "deployment_allowed")?
+        || !bool_field(claims, "fifteen_track_internal_result_complete")?
+        || !bool_field(claims, "documentation_program_defined")?
+        || bool_field(claims, "expl_a_ready")?
+        || !bool_field(claims, "expl_a_complete")?
+        || bool_field(claims, "expl_b_ready")?
+        || !bool_field(claims, "expl_b_complete")?
+        || bool_field(claims, "expl_c_ready")?
+        || !bool_field(claims, "expl_c_complete")?
+        || bool_field(claims, "expl_d_ready")?
+        || !bool_field(claims, "expl_d_complete")?
+        || bool_field(claims, "expl_e_ready")?
+        || !bool_field(claims, "expl_e_complete")?
+        || bool_field(claims, "expl_f_ready")?
+        || !bool_field(claims, "expl_f_complete")?
+        || !bool_field(claims, "all_waves_complete")?
+        || !bool_field(claims, "repository_ready")?
+        || bool_field(claims, "public_release_authorized")?
+        || bool_field(claims, "official_request_planned")?
+        || bool_field(claims, "external_certification_required")?
+    {
+        return Err("final-result explanation program failed".to_string());
+    }
+    Ok(())
+}
+
+fn validate_expl_a_closure(root: &Path) -> Result<(), String> {
+    for path in [
+        EXPL_A_CLOSURE_JSON_PATH,
+        "data/derived/breadth_benchmark_matrix/expl_a_narrative_evidence_foundation_closure.schema.md",
+        "docs/reading/expl-a-narrative-evidence-foundation-closure.md",
+        "reviews/2026-07-27-expl-a-foundation-round-1-roles-review.md",
+        "reviews/2026-07-27-expl-a-foundation-round-2-roles-review.md",
+        "context/waves/2026-07-18-adaptive-rate-performance-system/pulses/pulse-481-expl-a-narrative-evidence-foundation-closure.md",
+    ] {
+        if !root.join(path).is_file() {
+            return Err(format!("missing EXPL-A closure artifact: {path}"));
+        }
+    }
+    let record = read_json_artifact(root, EXPL_A_CLOSURE_JSON_PATH)?;
+    let deliverables = record
+        .get("deliverables")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("EXPL-A deliverables")?;
+    let review = record.get("review_cycle").ok_or("EXPL-A review cycle")?;
+    let gates = record.get("gates").ok_or("EXPL-A gates")?;
+    for row in deliverables {
+        let path = string_field(row, "path")?;
+        if !root.join(&path).is_file()
+            || string_field(row, "id").is_err()
+            || string_field(row, "kind").is_err()
+        {
+            return Err(format!("EXPL-A deliverable failed: {path}"));
+        }
+    }
+    if int_field(&record, "pulse")? != 481
+        || string_field(&record, "status")?
+            != "expl_a_complete_round_two_roles_accepted_expl_b_ready"
+        || deliverables.len() != 5
+        || int_field(review, "role_count")? != 8
+        || int_field(review, "round_1_p1")? != 2
+        || int_field(review, "round_1_p2")? != 6
+        || !bool_field(review, "all_p1_applied")?
+        || !bool_field(review, "all_p2_applied")?
+        || !bool_field(review, "p3_disposition_recorded")?
+        || !bool_field(review, "round_2_accepted")?
+        || int_field(review, "open_p1")? != 0
+        || int_field(review, "open_p2")? != 0
+        || !bool_field(gates, "canonical_claims_traceable")?
+        || !bool_field(gates, "numbers_traceable")?
+        || !bool_field(gates, "marginal_rate_definition_visible")?
+        || !bool_field(gates, "fund_and_allocation_boundary_visible")?
+        || !bool_field(gates, "source_vintage_visible")?
+        || !bool_field(gates, "beneficiary_and_compliance_limits_visible")?
+        || !bool_field(gates, "one_year_and_long_run_separated")?
+        || !bool_field(gates, "authority_and_false_precision_limits_visible")?
+        || bool_field(gates, "external_release_authorized")?
+        || bool_field(gates, "deployment_allowed")?
+        || string_field(&record, "next_wave")? != "EXPL-B"
+    {
+        return Err("EXPL-A closure failed".to_string());
+    }
+    Ok(())
+}
+
+fn validate_expl_b_closure(root: &Path) -> Result<(), String> {
+    for path in [
+        EXPL_B_CLOSURE_JSON_PATH,
+        "data/derived/breadth_benchmark_matrix/expl_b_citizen_teaching_guides_closure.schema.md",
+        "docs/reading/expl-b-citizen-teaching-guides-closure.md",
+        "reviews/2026-07-27-expl-b-guides-round-1-roles-review.md",
+        "reviews/2026-07-27-expl-b-guides-round-2-roles-review.md",
+        "context/waves/2026-07-18-adaptive-rate-performance-system/pulses/pulse-482-expl-b-citizen-teaching-guides-closure.md",
+    ] {
+        if !root.join(path).is_file() {
+            return Err(format!("missing EXPL-B closure artifact: {path}"));
+        }
+    }
+    let record = read_json_artifact(root, EXPL_B_CLOSURE_JSON_PATH)?;
+    let deliverables = record
+        .get("deliverables")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("EXPL-B deliverables")?;
+    let review = record.get("review_cycle").ok_or("EXPL-B review cycle")?;
+    let gates = record.get("gates").ok_or("EXPL-B gates")?;
+    for row in deliverables {
+        let path = string_field(row, "path")?;
+        if !root.join(&path).is_file() {
+            return Err(format!("EXPL-B deliverable failed: {path}"));
+        }
+    }
+    if int_field(&record, "pulse")? != 482
+        || string_field(&record, "status")?
+            != "expl_b_complete_round_two_roles_accepted_expl_c_ready"
+        || string_field(&record, "depends_on")? != EXPL_A_CLOSURE_JSON_PATH
+        || deliverables.len() != 6
+        || int_field(review, "role_count")? != 8
+        || int_field(review, "round_1_p1")? != 1
+        || int_field(review, "round_1_p2")? != 7
+        || !bool_field(review, "all_p1_applied")?
+        || !bool_field(review, "all_p2_applied")?
+        || !bool_field(review, "p3_applied")?
+        || !bool_field(review, "round_2_accepted")?
+        || int_field(review, "open_p1")? != 0
+        || int_field(review, "open_p2")? != 0
+        || !bool_field(gates, "plain_language_entry")?
+        || !bool_field(gates, "marginal_rate_teaching")?
+        || !bool_field(gates, "non_comparable_rails_fixed")?
+        || !bool_field(gates, "exact_evidence_routes")?
+        || !bool_field(gates, "public_purpose_categories_separated")?
+        || !bool_field(gates, "service_continuity_rule_visible")?
+        || !bool_field(gates, "receipt_return_complexity_separated")?
+        || !bool_field(gates, "borrowing_and_horizon_limits_visible")?
+        || !bool_field(gates, "normative_choice_and_authority_visible")?
+        || bool_field(gates, "external_release_authorized")?
+        || string_field(&record, "next_wave")? != "EXPL-C"
+    {
+        return Err("EXPL-B closure failed".to_string());
+    }
+    Ok(())
+}
+
+fn validate_expl_c_closure(root: &Path) -> Result<(), String> {
+    for path in [
+        EXPL_C_CLOSURE_JSON_PATH,
+        "data/derived/breadth_benchmark_matrix/expl_c_research_paper_series_closure.schema.md",
+        "docs/reading/expl-c-research-paper-series-closure.md",
+        "reviews/2026-07-27-expl-c-papers-round-1-roles-review.md",
+        "reviews/2026-07-27-expl-c-papers-round-2-roles-review.md",
+        "context/waves/2026-07-18-adaptive-rate-performance-system/pulses/pulse-483-expl-c-research-paper-series-closure.md",
+    ] {
+        if !root.join(path).is_file() {
+            return Err(format!("missing EXPL-C closure artifact: {path}"));
+        }
+    }
+    let record = read_json_artifact(root, EXPL_C_CLOSURE_JSON_PATH)?;
+    let papers = record
+        .get("papers")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("EXPL-C papers")?;
+    let review = record.get("review_cycle").ok_or("EXPL-C review cycle")?;
+    let gates = record.get("gates").ok_or("EXPL-C gates")?;
+    for row in papers {
+        for key in ["markdown", "panel", "pdf"] {
+            let path = string_field(row, key)?;
+            let metadata = std::fs::metadata(root.join(&path))
+                .map_err(|_| format!("EXPL-C paper artifact missing: {path}"))?;
+            if !metadata.is_file() || metadata.len() == 0 {
+                return Err(format!("EXPL-C paper artifact empty: {path}"));
+            }
+        }
+    }
+    if int_field(&record, "pulse")? != 483
+        || string_field(&record, "status")?
+            != "expl_c_complete_round_two_roles_pf_accepted_expl_d_ready"
+        || papers.len() != 4
+        || int_field(review, "role_count")? != 8
+        || int_field(review, "round_1_p1")? != 1
+        || int_field(review, "round_1_p2")? != 6
+        || !bool_field(review, "all_p1_applied")?
+        || !bool_field(review, "all_p2_applied")?
+        || !bool_field(review, "round_2_accepted")?
+        || string_field(review, "pf_2_comparability")? != "pass"
+        || string_field(review, "pf_5_distribution")? != "pass_with_limits"
+        || string_field(review, "pf_6_skepticism")? != "pass"
+        || string_field(review, "pf_7_sourcing")? != "pass"
+        || int_field(review, "open_p1")? != 0
+        || int_field(review, "open_p2")? != 0
+        || !bool_field(gates, "markdown_canonical")?
+        || !bool_field(gates, "inline_figure_ledger_routing")?
+        || !bool_field(gates, "fiscal_object_boundary")?
+        || !bool_field(gates, "service_continuity_rule")?
+        || !bool_field(gates, "distribution_limits")?
+        || !bool_field(gates, "compliance_limits")?
+        || !bool_field(gates, "analytical_not_legal_adaptation")?
+        || !bool_field(gates, "pdfs_rendered_repository_only")?
+        || bool_field(gates, "external_release_authorized")?
+        || string_field(&record, "next_wave")? != "EXPL-D"
+    {
+        return Err("EXPL-C closure failed".to_string());
+    }
+    Ok(())
+}
+
+fn validate_expl_d_closure(root: &Path) -> Result<(), String> {
+    for path in [
+        EXPL_D_CLOSURE_JSON_PATH,
+        "data/derived/breadth_benchmark_matrix/expl_d_presentation_system_closure.schema.md",
+        "docs/reading/expl-d-presentation-system-closure.md",
+        "reviews/2026-07-27-expl-d-presentations-round-1-roles-review.md",
+        "reviews/2026-07-27-expl-d-presentations-round-2-roles-review.md",
+        "context/waves/2026-07-18-adaptive-rate-performance-system/pulses/pulse-484-expl-d-presentation-system-closure.md",
+    ] {
+        if !root.join(path).is_file() {
+            return Err(format!("missing EXPL-D closure artifact: {path}"));
+        }
+    }
+    let record = read_json_artifact(root, EXPL_D_CLOSURE_JSON_PATH)?;
+    let presentations = record
+        .get("presentations")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("EXPL-D presentations")?;
+    let review = record.get("review_cycle").ok_or("EXPL-D review cycle")?;
+    let gates = record.get("gates").ok_or("EXPL-D gates")?;
+    for row in presentations {
+        for key in ["source", "preview"] {
+            let path = string_field(row, key)?;
+            let content = std::fs::read_to_string(root.join(&path))
+                .map_err(|_| format!("EXPL-D artifact missing: {path}"))?;
+            if content.is_empty()
+                || (key == "preview"
+                    && (content.contains("http://") || content.contains("https://")))
+            {
+                return Err(format!("EXPL-D artifact failed: {path}"));
+            }
+        }
+    }
+    if int_field(&record, "pulse")? != 484
+        || string_field(&record, "status")?
+            != "expl_d_complete_round_two_roles_accepted_expl_e_ready"
+        || string_field(&record, "depends_on")? != EXPL_C_CLOSURE_JSON_PATH
+        || presentations.len() != 3
+        || int_field(review, "role_count")? != 8
+        || int_field(review, "round_1_p1")? != 1
+        || int_field(review, "round_1_p2")? != 6
+        || !bool_field(review, "all_p1_applied")?
+        || !bool_field(review, "all_p2_applied")?
+        || !bool_field(review, "p3_applied")?
+        || !bool_field(review, "round_2_accepted")?
+        || int_field(review, "open_p1")? != 0
+        || int_field(review, "open_p2")? != 0
+        || !bool_field(gates, "speaker_notes")?
+        || !bool_field(gates, "caveat_slide")?
+        || !bool_field(gates, "fifteen_track_view")?
+        || !bool_field(gates, "pay_net_rev_identity")?
+        || !bool_field(gates, "three_rate_rails")?
+        || !bool_field(gates, "reopening_slide")?
+        || !bool_field(gates, "inline_ledger_routes")?
+        || !bool_field(gates, "marginal_rate_teaching")?
+        || !bool_field(gates, "local_previews_no_remote_assets")?
+        || bool_field(gates, "external_release_authorized")?
+        || bool_field(gates, "external_presentation_authorized")?
+        || string_field(&record, "next_wave")? != "EXPL-E"
+    {
+        return Err("EXPL-D closure failed".to_string());
+    }
+    Ok(())
+}
+
+fn validate_expl_e_closure(root: &Path) -> Result<(), String> {
+    for path in [
+        EXPL_E_CLOSURE_JSON_PATH,
+        "data/derived/breadth_benchmark_matrix/expl_e_local_html_experience_closure.schema.md",
+        "docs/reading/expl-e-local-html-experience-closure.md",
+        "reviews/2026-07-27-expl-e-local-html-round-1-roles-review.md",
+        "reviews/2026-07-27-expl-e-local-html-round-2-roles-review.md",
+        "context/waves/2026-07-18-adaptive-rate-performance-system/pulses/pulse-485-expl-e-local-html-experience-closure.md",
+    ] {
+        if !root.join(path).is_file() {
+            return Err(format!("missing EXPL-E closure artifact: {path}"));
+        }
+    }
+    let record = read_json_artifact(root, EXPL_E_CLOSURE_JSON_PATH)?;
+    let pages = record
+        .get("pages")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("EXPL-E pages")?;
+    let review = record.get("review_cycle").ok_or("EXPL-E review cycle")?;
+    let gates = record.get("gates").ok_or("EXPL-E gates")?;
+    let site_root = root.join(string_field(&record, "site_root")?);
+    for page in pages {
+        let name = page.as_str().ok_or("invalid EXPL-E page")?;
+        let content = std::fs::read_to_string(site_root.join(name))
+            .map_err(|_| format!("EXPL-E page missing: {name}"))?;
+        if !content.contains("<main id=\"content\">")
+            || !content.contains("class=\"skip\"")
+            || !content.contains("<nav aria-label=\"Primary\">")
+            || !content.contains("repository-only local preview")
+            || content.contains("http://")
+            || content.contains("https://")
+            || content.contains("<form")
+            || content.to_ascii_lowercase().contains("analytics") && name != "index.html"
+        {
+            return Err(format!("EXPL-E page safety/accessibility failed: {name}"));
+        }
+        let page_path = site_root.join(name);
+        let page_dir = page_path.parent().ok_or("EXPL-E page parent")?;
+        for tail in content.split("href=\"").skip(1) {
+            let target = tail.split('"').next().ok_or("EXPL-E href")?;
+            if target.starts_with('#') {
+                continue;
+            }
+            if !page_dir.join(target).is_file() {
+                return Err(format!("EXPL-E broken local link in {name}: {target}"));
+            }
+        }
+    }
+    let css = std::fs::read_to_string(site_root.join("styles.css"))
+        .map_err(|_| "EXPL-E stylesheet missing".to_string())?;
+    if !css.contains(":focus-visible")
+        || !css.contains("prefers-reduced-motion")
+        || !css.contains("overflow-x:auto")
+    {
+        return Err("EXPL-E stylesheet accessibility failed".to_string());
+    }
+    let index = std::fs::read_to_string(site_root.join("index.html")).unwrap_or_default();
+    let rates = std::fs::read_to_string(site_root.join("rates.html")).unwrap_or_default();
+    if !index.contains("$813.727B")
+        || !index.contains("$0.000B")
+        || !index.contains("21/23/33/35/43/46/48")
+        || !rates.contains("$813.727B")
+        || !rates.contains("21/23/33/35/43/46/48")
+        || !rates.contains("22/24/34/36/44/47/49")
+        || !rates.contains("22.6/24.6/34.6/36.6/44.6/47.6/49.6")
+    {
+        return Err("EXPL-E claim sync failed".to_string());
+    }
+    if int_field(&record, "pulse")? != 485
+        || string_field(&record, "status")?
+            != "expl_e_complete_round_two_roles_accepted_expl_f_ready"
+        || string_field(&record, "depends_on")? != EXPL_D_CLOSURE_JSON_PATH
+        || pages.len() != 6
+        || int_field(review, "role_count")? != 8
+        || int_field(review, "round_1_p1")? != 1
+        || int_field(review, "round_1_p2")? != 6
+        || !bool_field(review, "all_p1_applied")?
+        || !bool_field(review, "all_p2_applied")?
+        || !bool_field(review, "p3_applied")?
+        || !bool_field(review, "round_2_accepted")?
+        || int_field(review, "open_p1")? != 0
+        || int_field(review, "open_p2")? != 0
+        || !bool_field(gates, "semantic_landmarks")?
+        || !bool_field(gates, "skip_links_and_focus")?
+        || !bool_field(gates, "responsive_tables")?
+        || !bool_field(gates, "reduced_motion")?
+        || !bool_field(gates, "claim_sync")?
+        || !bool_field(gates, "local_links_checked")?
+        || int_field(gates, "remote_urls")? != 0
+        || int_field(gates, "remote_assets")? != 0
+        || int_field(gates, "forms")? != 0
+        || int_field(gates, "analytics_or_tracking")? != 0
+        || int_field(gates, "deployment_files")? != 0
+        || bool_field(gates, "external_release_authorized")?
+        || bool_field(gates, "deployment_allowed")?
+        || string_field(&record, "next_wave")? != "EXPL-F"
+    {
+        return Err("EXPL-E closure failed".to_string());
+    }
+    Ok(())
+}
+
+fn validate_expl_f_closure(root: &Path) -> Result<(), String> {
+    for path in [
+        EXPL_F_CLOSURE_JSON_PATH,
+        "data/derived/breadth_benchmark_matrix/expl_f_integrated_repository_readiness_closure.schema.md",
+        "docs/reading/expl-f-integrated-repository-readiness-closure.md",
+        "reviews/2026-07-27-expl-f-integrated-round-1-roles-review.md",
+        "reviews/2026-07-27-expl-f-integrated-round-2-roles-review.md",
+        "context/waves/2026-07-18-adaptive-rate-performance-system/pulses/pulse-486-expl-f-integrated-repository-readiness-closure.md",
+    ] {
+        if !root.join(path).is_file() {
+            return Err(format!("missing EXPL-F closure artifact: {path}"));
+        }
+    }
+    let canonical_deliverables = [
+        "docs/explanation/foundation/canonical-result-statement.md",
+        "docs/explanation/foundation/claim-ledger.md",
+        "docs/explanation/foundation/number-ledger.md",
+        "docs/explanation/foundation/terminology-and-visual-grammar.md",
+        "docs/explanation/foundation/artifact-inventory-and-downstream-outlines.md",
+        "docs/explanation/guides/one-page-result.md",
+        "docs/explanation/guides/citizen-guide.md",
+        "docs/explanation/guides/fifteen-track-guide.md",
+        "docs/explanation/guides/frequently-asked-questions.md",
+        "docs/explanation/guides/glossary.md",
+        "docs/explanation/guides/educator-discussion-guide.md",
+        "research/publications/the-taxlane-result/paper.md",
+        "research/publications/why-zero-is-a-result/paper.md",
+        "research/publications/fifteen-tracks-one-accounting-spine/paper.md",
+        "research/publications/spending-evidence-to-adaptive-rate/paper.md",
+        "docs/explanation/presentations/5-minute-overview.md",
+        "docs/explanation/presentations/20-minute-civic-briefing.md",
+        "docs/explanation/presentations/45-minute-technical-walkthrough.md",
+        "docs/explanation/site/index.html",
+        "docs/explanation/final/briefing-bundle-index.md",
+        "docs/explanation/final/cross-format-consistency-report.md",
+    ];
+    for path in canonical_deliverables {
+        let metadata = std::fs::metadata(root.join(path))
+            .map_err(|_| format!("EXPL-F canonical deliverable missing: {path}"))?;
+        if metadata.len() == 0 {
+            return Err(format!("EXPL-F canonical deliverable empty: {path}"));
+        }
+    }
+    let record = read_json_artifact(root, EXPL_F_CLOSURE_JSON_PATH)?;
+    let dependencies = record
+        .get("depends_on")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("EXPL-F dependencies")?;
+    let aggregate = record.get("aggregate").ok_or("EXPL-F aggregate")?;
+    let review = record.get("review_cycle").ok_or("EXPL-F review cycle")?;
+    let validation = record.get("validation").ok_or("EXPL-F validation")?;
+    let gates = record.get("gates").ok_or("EXPL-F gates")?;
+    let expected_dependencies = [
+        EXPL_A_CLOSURE_JSON_PATH,
+        EXPL_B_CLOSURE_JSON_PATH,
+        EXPL_C_CLOSURE_JSON_PATH,
+        EXPL_D_CLOSURE_JSON_PATH,
+        EXPL_E_CLOSURE_JSON_PATH,
+    ];
+    let observed_dependencies = dependencies
+        .iter()
+        .map(|value| value.as_str().ok_or("EXPL-F dependency"))
+        .collect::<Result<Vec<_>, _>>()?;
+    let report = std::fs::read_to_string(
+        root.join("docs/explanation/final/cross-format-consistency-report.md"),
+    )
+    .map_err(|_| "EXPL-F consistency report".to_string())?;
+    for value in [
+        "$0.000B",
+        "$813.727B",
+        "21/23/33/35/43/46/48",
+        "22/24/34/36/44/47/49",
+        "22.6/24.6/34.6/36.6/44.6/47.6/49.6",
+    ] {
+        if !report.contains(value) {
+            return Err(format!("EXPL-F parity value missing: {value}"));
+        }
+    }
+    if int_field(&record, "pulse")? != 486
+        || string_field(&record, "status")?
+            != "expl_a_through_f_complete_repository_ready_external_release_blocked"
+        || observed_dependencies != expected_dependencies
+        || int_field(aggregate, "waves_complete")? != 6
+        || int_field(aggregate, "canonical_deliverables")? != 21
+        || int_field(aggregate, "role_review_rounds")? != 12
+        || int_field(aggregate, "role_lenses_per_round")? != 8
+        || int_field(aggregate, "open_p1")? != 0
+        || int_field(aggregate, "open_p2")? != 0
+        || int_field(review, "role_count")? != 8
+        || int_field(review, "round_1_p1")? != 1
+        || int_field(review, "round_1_p2")? != 6
+        || !bool_field(review, "all_p1_applied")?
+        || !bool_field(review, "all_p2_applied")?
+        || !bool_field(review, "p3_applied")?
+        || !bool_field(review, "round_2_accepted")?
+        || int_field(review, "open_p1")? != 0
+        || int_field(review, "open_p2")? != 0
+        || int_field(validation, "taxlane_core_tests")? != 152
+        || int_field(validation, "taxlane_tools_tests")? != 236
+        || int_field(validation, "workspace_tests")? != 388
+        || !bool_field(validation, "full_workspace_passed")?
+        || !bool_field(validation, "domain_validator_passed")?
+        || !bool_field(validation, "manifest_current")?
+        || !bool_field(gates, "headline_parity")?
+        || !bool_field(gates, "boundary_parity")?
+        || !bool_field(gates, "review_chain_sequential")?
+        || !bool_field(gates, "canonical_over_convenience_views")?
+        || !bool_field(gates, "paper_pdfs_nonempty")?
+        || !bool_field(gates, "presentation_previews_local")?
+        || !bool_field(gates, "site_accessibility_and_links")?
+        || !bool_field(gates, "no_release_mechanism_added")?
+        || !bool_field(gates, "repository_ready")?
+        || bool_field(gates, "external_release_authorized")?
+        || bool_field(gates, "deployment_allowed")?
+        || bool_field(gates, "official_request_authorized")?
+        || !record
+            .get("next_wave")
+            .is_some_and(serde_json::Value::is_null)
+    {
+        return Err("EXPL-F closure failed".to_string());
+    }
+    Ok(())
+}
+
 fn validate_rev_level_7_integrated_certification_and_score_handoff(
     root: &Path,
 ) -> Result<(), String> {
@@ -80286,6 +81054,54 @@ mod global_country_comparison_tests {
     fn next_two_level_wave_starts_all_fifteen_without_claiming_completion() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_fifteen_track_next_two_level_advancement_wave(&root).unwrap();
+    }
+
+    #[test]
+    fn fifteen_track_terminal_disposition_finishes_internal_portfolio_with_caveats() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_fifteen_track_terminal_disposition(&root).unwrap();
+    }
+
+    #[test]
+    fn final_result_explanation_program_is_repo_only_and_release_blocked() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_final_result_explanation_program(&root).unwrap();
+    }
+
+    #[test]
+    fn expl_a_closes_only_after_roles_feedback_is_applied() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_expl_a_closure(&root).unwrap();
+    }
+
+    #[test]
+    fn expl_b_closes_only_after_roles_feedback_is_applied() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_expl_b_closure(&root).unwrap();
+    }
+
+    #[test]
+    fn expl_c_closes_only_after_roles_panel_feedback_and_rendering() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_expl_c_closure(&root).unwrap();
+    }
+
+    #[test]
+    fn expl_d_closes_only_after_roles_feedback_and_local_preview_checks() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_expl_d_closure(&root).unwrap();
+    }
+
+    #[test]
+    fn expl_e_closes_only_after_roles_accessibility_and_local_safety_checks() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_expl_e_closure(&root).unwrap();
+    }
+
+    #[test]
+    fn expl_f_closes_only_after_integrated_roles_parity_and_release_checks() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_expl_f_closure(&root).unwrap();
     }
 
     #[test]

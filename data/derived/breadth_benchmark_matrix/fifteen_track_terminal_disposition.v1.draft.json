@@ -1,0 +1,59 @@
+{
+  "artifact": "fifteen-track-terminal-disposition",
+  "version": "v1.draft",
+  "pulse": 479,
+  "status": "all_fifteen_tracks_internally_complete_with_typed_terminal_dispositions",
+  "scope": {
+    "analysis_owner": "Taxlane",
+    "tracks": 15,
+    "completion_definition": "reviewed terminal disposition under evidence currently in custody",
+    "official_request_planned": false,
+    "external_certification_required_for_internal_completion": false
+  },
+  "disposition_classes": [
+    "conditional_typed_output",
+    "reviewed_zero_admission",
+    "dedicated_solvency_overlay",
+    "non_additive_measurement_overlay",
+    "internal_analytical_recommendation",
+    "endogenous_result"
+  ],
+  "tracks": [
+    {"track":"TRN","lane":"transportation-infrastructure","disposition":"conditional_typed_output","typed_output":"conditional_cost_note","admitted_fy2026_primary_reduction_billions":0.0,"evidence_path":"data/derived/breadth_benchmark_matrix/batch_3_trn_rev_two_level_closure.v1.draft.json","reopen_when":"enactment, appropriation, or implementation evidence changes the H.R. 2247 cost-note basis"},
+    {"track":"HLT","lane":"health-medicare","disposition":"reviewed_zero_admission","typed_output":null,"admitted_fy2026_primary_reduction_billions":0.0,"evidence_path":"data/derived/breadth_benchmark_matrix/targeted_spending_rate_decision.v1.draft.json","reopen_when":"proposal-specific CY2026 imaging access, beneficiary, rural, quality, behavior, and overlap evidence closes all six blocked gates"},
+    {"track":"EDU","lane":"education-workforce","disposition":"reviewed_zero_admission","typed_output":null,"admitted_fy2026_primary_reduction_billions":0.0,"evidence_path":"data/derived/breadth_benchmark_matrix/batch_2_eight_track_two_level_closure.v1.draft.json","reopen_when":"a current-law Pell score and complete access, completion, distribution, and borrowing-substitution floors are available"},
+    {"track":"OAS","lane":"social-security","disposition":"dedicated_solvency_overlay","typed_output":null,"admitted_fy2026_primary_reduction_billions":0.0,"evidence_path":"data/derived/breadth_benchmark_matrix/batch_1_remaining_four_two_level_closure.v1.draft.json","reopen_when":"proposal-specific trust-fund, cohort, adequacy, employer, administration, overlap, and long-range results are available"},
+    {"track":"ISF","lane":"income-security-family","disposition":"reviewed_zero_admission","typed_output":null,"admitted_fy2026_primary_reduction_billions":0.0,"evidence_path":"data/derived/breadth_benchmark_matrix/batch_2_eight_track_two_level_closure.v1.draft.json","reopen_when":"a current-law school-meal score and complete hardship, participation, burden, take-up, and distribution floors are available"},
+    {"track":"VET","lane":"veterans","disposition":"reviewed_zero_admission","typed_output":null,"admitted_fy2026_primary_reduction_billions":0.0,"evidence_path":"data/derived/breadth_benchmark_matrix/batch_2_eight_track_two_level_closure.v1.draft.json","reopen_when":"enactment or a replacement candidate supplies a current net-cost path with claims, cohort, implementation, pension, and Medicaid effects"},
+    {"track":"AGR","lane":"agriculture","disposition":"reviewed_zero_admission","typed_output":null,"admitted_fy2026_primary_reduction_billions":0.0,"evidence_path":"data/derived/breadth_benchmark_matrix/batch_2_eight_track_two_level_closure.v1.draft.json","reopen_when":"a current-law crop-insurance score closes producer, access, coverage, disaster-substitution, food-security, and resilience floors"},
+    {"track":"DEF","lane":"national-defense","disposition":"reviewed_zero_admission","typed_output":null,"admitted_fy2026_primary_reduction_billions":0.0,"evidence_path":"data/derived/breadth_benchmark_matrix/targeted_spending_rate_decision.v1.draft.json","reopen_when":"a current FYDP mapping closes readiness, transition, program-schedule, allied-posture, allocation, and rescore gates"},
+    {"track":"DIS","lane":"disaster-resilience","disposition":"reviewed_zero_admission","typed_output":null,"admitted_fy2026_primary_reduction_billions":0.0,"evidence_path":"data/derived/breadth_benchmark_matrix/batch_2_eight_track_two_level_closure.v1.draft.json","reopen_when":"a current NFIP score closes affordability, take-up, mapping-equity, aid-interaction, exposure, and mitigation-response floors"},
+    {"track":"JUS","lane":"justice-courts-public-safety","disposition":"reviewed_zero_admission","typed_output":null,"admitted_fy2026_primary_reduction_billions":0.0,"evidence_path":"data/derived/breadth_benchmark_matrix/batch_2_eight_track_two_level_closure.v1.draft.json","reopen_when":"a program-level DOJ allocation closes victimization, civil-rights, victim-service, juvenile, local-fiscal, and geographic floors"},
+    {"track":"SEE","lane":"science-energy-environment","disposition":"reviewed_zero_admission","typed_output":null,"admitted_fy2026_primary_reduction_billions":0.0,"evidence_path":"data/derived/breadth_benchmark_matrix/batch_2_eight_track_two_level_closure.v1.draft.json","reopen_when":"a program-level allocation closes energy-burden, delivery, emissions, resilience, innovation, state-local, income, and geographic effects"},
+    {"track":"INT","lane":"international-affairs","disposition":"reviewed_zero_admission","typed_output":null,"admitted_fy2026_primary_reduction_billions":0.0,"evidence_path":"data/derived/breadth_benchmark_matrix/batch_2_eight_track_two_level_closure.v1.draft.json","reopen_when":"program and regional allocations close diplomacy, health, humanitarian, security-assistance, geographic, and national-security effects"},
+    {"track":"PAY","lane":"payment-integrity","disposition":"non_additive_measurement_overlay","typed_output":null,"admitted_fy2026_primary_reduction_billions":0.0,"evidence_path":"data/derived/breadth_benchmark_matrix/batch_1_remaining_four_two_level_closure.v1.draft.json","reopen_when":"an owner-attributed scored control effect closes gross-to-net, returns, appeals, burden, implementation, and distribution evidence"},
+    {"track":"REV","lane":"revenue-solvency","disposition":"internal_analytical_recommendation","typed_output":"planning_rate_card","admitted_fy2026_primary_reduction_billions":0.0,"evidence_path":"data/derived/breadth_benchmark_matrix/rev_internal_rate_analysis_completion.v1.draft.json","reopen_when":"the frozen fiscal target, admitted upstream effects, model inputs, or policy objective materially changes"},
+    {"track":"NET","lane":"net-interest","disposition":"endogenous_result","typed_output":null,"admitted_fy2026_primary_reduction_billions":0.0,"evidence_path":"data/derived/breadth_benchmark_matrix/batch_1_remaining_four_two_level_closure.v1.draft.json","reopen_when":"a nonzero admitted upstream annual debt path requires endogenous interest recomputation"}
+  ],
+  "portfolio_result": {
+    "terminal_tracks": 15,
+    "reviewed_zero_admission_tracks": 10,
+    "typed_public_outputs": 2,
+    "admitted_spending_candidates": 0,
+    "admitted_fy2026_primary_reduction_billions": 0.0,
+    "remaining_fy2026_revenue_target_billions": 813.727,
+    "preferred_schedule_percent": [21, 23, 33, 35, 43, 46, 48],
+    "internal_portfolio_complete": true,
+    "active_track_work_queue_empty": true
+  },
+  "claim_booleans": {
+    "all_fifteen_tracks_present_once": true,
+    "all_fifteen_tracks_internally_complete": true,
+    "reviewed_zero_admission_counts_as_completion": true,
+    "official_score_claimed": false,
+    "enacted_law_claimed": false,
+    "formal_balance_certified": false,
+    "all_policy_uncertainty_resolved": false
+  },
+  "public_warning": "Taxlane has finished its current internal analysis of all fifteen tracks. Completion means every track has a reviewed terminal disposition under current evidence; it does not mean every candidate was admitted, enacted, implemented, or officially scored. Nine primary spending tracks close at reviewed zero admission, PAY remains non-additive, OAS remains separate, NET remains endogenous, TRN retains a conditional cost note, and REV retains an internal planning rate card."
+}

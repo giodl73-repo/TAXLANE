@@ -22,7 +22,7 @@ supporting views.
 
 | Path | Role | Grain | Rows | Canonical | SHA-256 |
 |---|---|---|---:|---|---|
-| `README.md` | Repository overview | documentation | n/a | supporting | `b494a22bff111cf82f46d857f10bf8c0f53af4a8674b032723795365d554ea49` |
+| `README.md` | Repository overview | documentation | n/a | supporting | `e38bb199cf934f8b65f15874f9b47d62195ba232240cfa8b780e472995eeeb4d` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.draft.jsonl` | Canonical annual model rows | fiscal year by broad category | 516 | yes | `01c0fec63836f3652fdd83b03a608159ad58f7614fc214ae6691421990f3a85e` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.decade-summary.jsonl` | Canonical decade summary rows | decade by broad category | 54 | yes | `088cb5d55cc6a37ab52dd543d8a92bf09908cda265e9c9f93324b840eb652fb3` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.annual-wide.csv` | Chart-ready annual wide view | fiscal year | 86 | no | `cbe6ec44a77b9ef4adebaef37acc4b55ac23fd5eb21916989ae9518cbd4e4c31` |
@@ -338,7 +338,7 @@ supporting views.
 | `reviews/2026-07-26-three-lane-stage-c-discovery-role-review.md` | Three-lane stage-C discovery role review | eight-role discovery closure | n/a | supporting | `5a1c4a404102166fc3e36decbcebf8c6932539631abab7d1fc8c8bad0093971e` |
 | `data/derived/breadth_benchmark_matrix/fifteen_lane_track_stage_matrix.v1.draft.json` | Fifteen-lane canonical stage matrix | one bounded stage row per canonical lane | n/a | supporting | `36be2ccbe226d9cf061c8e8dd0cdebd24ecdbda02822979a1f9de55f90bf06c4` |
 | `data/derived/breadth_benchmark_matrix/fifteen_lane_track_stage_matrix.schema.md` | Fifteen-lane canonical stage matrix schema | fifteen-lane bounded stage contract | n/a | supporting | `f08921e7da217d901ff1e17c51d1233812e14ee9fe53673c82f3ef81f086525b` |
-| `docs/reading/fifteen-lane-track-stage-matrix.md` | Fifteen-lane canonical stage matrix reader | public bounded-stage boundary | n/a | supporting | `d74097da1e1fb1c3a2ca5ee9b63d574d75e9addbca376c5cab57a78f0fdff672` |
+| `docs/reading/fifteen-lane-track-stage-matrix.md` | Fifteen-lane canonical stage matrix reader | public bounded-stage boundary | n/a | supporting | `8b20f8ba28d6a8e18b468ad503e01c1876dc786043b46dc8cc722f35b68d7793` |
 | `data/derived/breadth_benchmark_matrix/isf_d_income_security_family_financing_fairness_closure.v1.draft.json` | ISF-D bounded financing and fairness closure | six-package income-security bounded D closure | n/a | supporting | `e0374cd50bd46db59beaf30fd4371fa21e2e9b7007e960419bffac91d3b02288` |
 | `data/derived/breadth_benchmark_matrix/vet_d_veterans_financing_fairness_closure.v1.draft.json` | VET-D bounded financing and fairness closure | six-package veterans bounded D closure | n/a | supporting | `2c1c4a9bfbc2975c9505475d7a58268545d3fbe5224dab1a977a2548ab366392` |
 | `data/derived/breadth_benchmark_matrix/agr_d_agriculture_financing_fairness_closure.v1.draft.json` | AGR-D bounded financing and fairness closure | six-package agriculture bounded D closure | n/a | supporting | `03af76b6a0f98bb81254182caf27a5656439e2aa3e9a1613bf31453f77c01252` |
@@ -935,7 +935,7 @@ supporting views.
 | `crates/taxlane-core/Cargo.toml` | Rust Taxlane core crate manifest | tooling | n/a | supporting | `6469c9f3c3d01bc0c51783255082c93ed608c6c64c0d4f32f5cd2c08f2426fb9` |
 | `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `47f4135a8d0543687379b16f7c3f06d335fabee8485f941944cb0805c9b2d941` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `b910e56a20f40547ac1e4f696e84772dde163738b03915ddbcc0d0a39427719a` |
-| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `eb5dcf843d4ff510c68dce26aba7d8bc4f3000c5ec96fdec43b2294ce9a1987e` |
+| `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `f5f63766ca0df05ff916453c8b597997eec2e0c721e8511d3eebf56facb2fe81` |
 
 ## Regeneration Order
 

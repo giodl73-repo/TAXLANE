@@ -24,9 +24,15 @@ balanced-budget outputs remain blocked.
 | [3+defense-tax-in-allied-perspective.pdf](3+defense-tax-in-allied-perspective.pdf) | [paper.md](../../research/publications/defense-tax-in-allied-perspective/paper.md) | T3 Defense | The Defense Tax in Allied Perspective | 3.71 |
 | [4+the-thin-safety-net.pdf](4+the-thin-safety-net.pdf) | [paper.md](../../research/publications/the-thin-safety-net/paper.md) | T4 Income Security | The Thin Safety Net | 3.64 |
 | [5+low-tax-country-borrowing-habit.pdf](5+low-tax-country-borrowing-habit.pdf) | [paper.md](../../research/publications/low-tax-country-borrowing-habit/paper.md) | T5 Revenue/Solvency | A Low-Tax Country with a Borrowing Habit | 3.57 |
+| [6+the-taxlane-result.pdf](6+the-taxlane-result.pdf) | [paper.md](../../research/publications/the-taxlane-result/paper.md) | EXPL-C1 | The Taxlane Result | accepted after two repository-only review rounds |
+| [7+why-zero-is-a-result.pdf](7+why-zero-is-a-result.pdf) | [paper.md](../../research/publications/why-zero-is-a-result/paper.md) | EXPL-C2 | Why Zero Is a Result | accepted after two repository-only review rounds |
+| [8+fifteen-tracks-one-accounting-spine.pdf](8+fifteen-tracks-one-accounting-spine.pdf) | [paper.md](../../research/publications/fifteen-tracks-one-accounting-spine/paper.md) | EXPL-C3 | Fifteen Tracks, One Accounting Spine | accepted after two repository-only review rounds |
+| [9+spending-evidence-to-adaptive-rate.pdf](9+spending-evidence-to-adaptive-rate.pdf) | [paper.md](../../research/publications/spending-evidence-to-adaptive-rate/paper.md) | EXPL-C4 | From Spending Evidence to an Adaptive Rate | accepted after two repository-only review rounds |
 
-Start with [0+legible-federal-funding.pdf](0+legible-federal-funding.pdf) (the
-synthesis/overview), then read the tracks in any order.
+Start with [0+legible-federal-funding.pdf](0+legible-federal-funding.pdf) for the
+original six-paper program or [6+the-taxlane-result.pdf](6+the-taxlane-result.pdf)
+for the final-result explanation series. Read the remaining papers in either
+series in any order.
 
 ## Building
 

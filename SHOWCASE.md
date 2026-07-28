@@ -33,6 +33,8 @@ source chain supports joining them.
 | Are policy scenario packs ready? | [Wave E scenario-pack readiness](docs/reading/lane-scenario-pack-wave-e-readiness.md) | Reference calibrations are ready for all 15 lanes; real reform scenarios, federal effects, and lower-cost admissibility remain blocked. |
 | Is the deterministic simulator calibrated, and are public rates ready? | [Wave F calibration](docs/reading/wave-f-transportation-deterministic-calibration.md) and [solver/rate readiness](docs/reading/solver-rate-wave-f-readiness.md) | Wave F's transportation calibration is complete and dry-run-ready. Zero substantive prerequisites are ready, so official solver outputs, public rates, cards, savings, and balanced-budget claims remain blocked. |
 | What did the spending-and-rate analysis conclude? | [targeted spending-rate decision](docs/reading/targeted-spending-rate-decision.md), [completed rate analysis](docs/reading/rev-internal-rate-analysis-completion.md), and [multi-track frontier](docs/reading/adaptive-rate-multi-track-frontier.md) | Taxlane tested specific HLT imaging and DEF force-strategy candidates. Each retains six unresolved gates, so zero FY2026 savings is admitted and 21/23/33/35/43/46/48 remains the preferred central analytical schedule; 22/24/34/36/44/47/49 remains the behavior-robust contingency. |
+| Is the fifteen-track internal program finished? | [Fifteen-track terminal disposition](docs/reading/fifteen-track-terminal-disposition.md) | Yes. Every track has a reviewed terminal disposition and an evidence-triggered reopening rule. This is internal analytical completion, not enactment, implementation, official scoring, or formal balance certification. |
+| How is the final result explained? | [Final-result briefing bundle](docs/explanation/final/briefing-bundle-index.md) | EXPL-A through EXPL-F complete 21 canonical deliverables: foundations, guides, papers, presentations, local HTML, and integrated review. The corpus is repository-ready and externally blocked; no public release or external action is authorized. |
 | Are we filling source gaps? | [Eight-gap acquisition status](docs/reading/data-acquisition-eight-gap-status.md), [OMB AP13 fund-group detail](docs/reading/omb-ap13-fund-group-reconciliation-detail-fy2025-context.md), [Net-interest MSPD maturity detail](docs/reading/net-interest-treasury-mspd-maturity-detail-context.md), [Social Security source-capture rollup](docs/reading/social-security-source-capture-status-rollup.md), [OASDI FY2025-FY2035 path](docs/reading/social-security-oasdi-fy2025-2035-current-law-path.md), [taxable payroll base bridge](docs/reading/social-security-taxable-payroll-base-bridge.md), [receipt-yield boundary](docs/reading/social-security-oasdi-receipt-yield-boundary.md), [CBO FY2032-FY2035 extension context](docs/reading/cbo-open-data-fy2032-2035-current-law-extension-context.md), [CBO FY2032-FY2035 category context](docs/reading/cbo-major-outlay-category-fy2032-2035-context.md), [CBO FY2026-FY2035 revenue-detail context](docs/reading/cbo-revenue-detail-fy2026-2035-context.md), [IRS SOI TY2023 individual-income base context](docs/reading/irs-soi-pub1304-ty2023-individual-income-base-context.md), [OMB FY2025-FY2031 receipt-category context](docs/reading/omb-receipt-category-fy2025-2031-context.md), [OMB Table 2.4 FY2025-FY2031 receipt-detail context](docs/reading/omb-receipt-detail-table-2-4-fy2025-2031-context.md), [OMB Table 2.2 FY2025-FY2031 receipt-share context](docs/reading/omb-receipt-share-table-2-2-fy2025-2031-context.md), and [OMB amount/share reconciliation](docs/reading/omb-receipt-amount-share-reconciliation-fy2025-2031-context.md) | Yes, narrow gaps are moving forward: official SSA OASDI context, taxable-payroll base context, an OMB/SSA receipt boundary, official CBO FY2032-FY2035 top-line/debt/trust-fund context, CBO major outlay-category context, CBO FY2026-FY2035 receipt-category context, OMB AP13 FY2025 fund-group detail, IRS SOI TY2023 AGI/taxable-income context, OMB FY2025-FY2031 receipt context, CMS quality/access lineage context, and Treasury rate/debt/maturity-detail context are verified, while CBO spreadsheet raw custody, general-fund annual paths, OASI/DI solver paths, matched FY2025 receipt bases, yield reconciliation, floors, solver inputs, rates, and savings remain blocked. |
 | How is the evidence protected? | [Source version ledger](docs/sources/source-version-ledger.md) and `cargo run -p taxlane-tools -- income-tax-outlay validate` | Source custody, derived records, chart specs, public links, manifest hashes, and claim guardrails are checked. |
 
@@ -47,18 +49,14 @@ source chain supports joining them.
 
 ## What Is Not Ready
 
-The next-work surface is now concrete: every one of the fifteen F starts has an
-audited decision and a two-level advancement queue. TRN completed F only as a
-typed cost note; the other fourteen starts remain blocked. REV Level 1 owns the
-active legal/economic base bridge.
-
-The subsequent internal two-level wave is now complete for all fifteen tracks.
-No spending candidate entered the FY2026 package. The PAY-NET-REV rerun leaves
-the revenue need at $813.727 billion and retains the 21/23/33/35/43/46/48
-planning schedule. The next frontier is internal: score a candidate grid,
-reconcile PAY-NET-REV, revisit affected track dependencies, and select a
-Taxlane analytical recommendation. No Legislative Counsel, JCT, CBO, or other
-official request is planned or required.
+The fifteen-track internal program is complete. Every track has a reviewed
+terminal disposition under the evidence in custody, and the active work queue
+is empty. No spending candidate entered the FY2026 package. The PAY-NET-REV
+rerun leaves the revenue need at $813.727 billion and the completed internal
+rate analysis retains 21/23/33/35/43/46/48 as its preferred central schedule.
+Tracks reopen only when their recorded evidence trigger is met or Taxlane
+deliberately starts a new policy cycle. No Legislative Counsel, JCT, CBO, or
+other official request is planned or required for this internal completion.
 
 CORE-M is complete as the shared candidate-dossier and typed-release layer.
 The demo can show why a cost-only TRN candidate, PAY/REV overlays, and NET

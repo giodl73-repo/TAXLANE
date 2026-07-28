@@ -20,3 +20,9 @@ DEF, OAS, PAY, and NET have since completed both levels as well. That closes
 the five-track opening batch: DEF remains unallocated and unscored, OAS stays a
 dedicated-solvency overlay, PAY stays non-additive, and NET stays endogenous at
 zero. Ten tracks remain.
+
+The later Batch 2 and Batch 3 closures completed those ten tracks, and the
+integrated dependency rerun preserved their evidence boundaries. The program's
+current endpoint is the [fifteen-track terminal disposition](fifteen-track-terminal-disposition.md):
+all fifteen are internally complete, with precise triggers rather than a
+standing work queue for evidence Taxlane does not possess.

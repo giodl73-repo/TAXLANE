@@ -1,241 +1,260 @@
 # TAXLANE
 
-TAXLANE is a public-policy knowledge repo about the income tax: how it works
-today, how it came to exist, what taxes are supposed to fund, and whether the
-single income-tax label should be replaced or explained as a set of distinct,
-program-linked taxes.
+**What should income-tax rates be if government spending claims have to prove
+themselves first?**
 
-## Show TAXLANE First
+TAXLANE is a source-backed civic research system that connects public purposes,
+federal spending evidence, budget accounting, and income-tax rate modeling. It
+examines fifteen tracks through one guarded accounting spine, refuses to count
+unsupported savings, and lets the remaining financing target determine an
+internal analytical rate schedule.
 
-If you are evaluating the project, start here:
+The result is now complete inside this repository: 21 canonical explanation
+artifacts, ten research papers, three presentation variants, a six-page local
+website, machine-readable closure records, and 388 passing tests.
 
-1. Read [SHOWCASE.md](SHOWCASE.md) for the shortest public handoff: a concrete
-   taxpayer example, what is ready, what is blocked, and safe public language.
-2. Read the [Taxlane showcase readiness summary](docs/reading/taxlane-showcase-readiness-summary.md)
-   for the machine-readable current state: demo-ready as a source-custody and
-   readiness guardrail system, not solver-ready or rate-ready.
-3. Read the [showcase guide](docs/showcase.md) for a 10-minute walkthrough.
-4. Use the [demo script](docs/demo-script.md) when presenting the repo live.
-5. Read the [honest federal tax receipt](docs/reading/honest-federal-tax-receipt.md)
-   to see the core before/after product idea.
-6. Read the [budget-area funding explainer](docs/reading/budget-area-funding-explainer.md)
-   for the paper-backed public-policy thesis.
-7. Check the active [adaptive-rate wave frontier](context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md#current-frontier)
-   to see how the repo turns the thesis into guarded machine-readable gates.
-8. Open the compiled paper set in [docs/papers](docs/papers/README.md), starting
-   with `0+legible-federal-funding.pdf`.
-9. Run `cargo run -p taxlane-tools -- income-tax-outlay validate` to check the
-   derived records, chart specs, public packet links, and claim guardrails.
+> **Repository-ready, externally blocked.** TAXLANE is not enacted law,
+> personal tax or legal advice, an official score, formal proof of balance, or
+> authorization to publish, deploy, submit, announce, or seek endorsement.
 
-TAXLANE is ready to show as a source-backed civic research artifact, not as tax,
-legal, accounting, investment, or national-security advice. The public promise is
-legibility: show the payer base, beneficiary base, financing relationship,
-denominator, and claim status before asking a reader to trust a tax receipt,
-funding lane, or reform proposal.
+## Elevator pitch
 
-## The Case In One Page
+Budget debates often begin with a desired tax rate or a headline savings claim.
+TAXLANE reverses the order. It asks what public services cost, tests whether
+specific spending reductions survive source, accounting, beneficiary,
+implementation, distribution, and overlap gates, and only then models the rate
+needed for the remaining scoped target.
 
-A taxpayer receipt should not merely turn one income-tax payment into a tidy
-list of programs. It should disclose what goes in, who benefits, how each lane
-is financed, which denominator is used, and whether the displayed amount is
-legally dedicated, modeled, or illustrative.
+Across fifteen tracks, no tested FY2026 primary spending reduction cleared
+every gate. TAXLANE therefore admitted **$0.000 billion** in savings instead of
+inventing a haircut, retained a scoped **$813.727 billion** ordinary-income
+target, and selected **21/23/33/35/43/46/48** as its preferred internal
+analytical marginal bracket schedule. The breakthrough is the method: spending,
+payment integrity, debt cost, dedicated solvency, and revenue cannot be mixed or
+double-counted, and every simplified claim routes back to evidence.
 
-The flagship [honest federal tax receipt](docs/reading/honest-federal-tax-receipt.md)
-shows the difference. It splits Medicare Part A from Parts B and D, treats
-defense as a collective public good, identifies interest as the cost of past
-borrowing, and keeps redistribution distinct from personal pay-in/pay-out.
+## The result
 
-The immediate proposal is truthful labeling on public tax receipts. Formal
-program-linked income taxes remain a separate design hypothesis, not a result
-the repo assumes.
+| Question | TAXLANE result |
+|---|---|
+| How many tracks were examined? | 15 |
+| How many reached reviewed zero admission? | 10 |
+| What FY2026 primary spending reduction was admitted? | **$0.000B** |
+| What scoped ordinary-income target remained? | **$813.727B** |
+| What is the preferred internal analytical schedule? | **21/23/33/35/43/46/48** |
+| What is the behavior-contingency schedule? | **22/24/34/36/44/47/49** |
+| What is the severe internal stress ceiling? | **22.6/24.6/34.6/36.6/44.6/47.6/49.6** |
 
-For the portfolio-wide evidence check, use the
-[current-versus-benchmark scoreboard](docs/reading/current-versus-benchmark-scoreboard.md).
-It shows which major lanes have matched comparisons, which only have federal
-toplines, which remain breadth gaps, and why international efficiency gaps,
-improper payments, fraud, and recoverable savings are different quantities.
-For the clearest public examples behind that firewall, read [Payment Integrity:
-What The Public Evidence Shows](docs/reading/payment-integrity-bounded-factual-examples.md).
-It distinguishes the FY2024 $148.971B classified-improper total from $12.570B
-unknown payments and labels $161.540B as improper plus unknown.
-Use the [headline-number selection guide](docs/reading/headline-number-selection-guide.md)
-when choosing among gross/net interest, defense function/subfunction, or
-federal/system-wide health measures.
+These are **marginal model bracket rates**: each percentage applies only to
+income inside its bracket. They are not effective rates, rates on all income,
+enacted rates, personal advice, or an official score.
 
-The active implementation frontier is the
-[adaptive-rate wave](context/waves/2026-07-18-adaptive-rate-performance-system/WAVE.md#current-frontier).
-It shows what is already source-custodied, what remains partial, and which gates
-must close before target costs, solver inputs, rates, savings, or
-balanced-budget claims can be published.
-For the shortest current-status view, use the
-[Taxlane showcase readiness summary](docs/reading/taxlane-showcase-readiness-summary.md).
-It records two narrow income-security/family contexts ready, four capture gaps
-documented, and all solver, rate, savings, public-card, department-cut,
-technology-savings, and balanced-budget outputs blocked.
+Start with the [final briefing bundle](docs/explanation/final/briefing-bundle-index.md)
+or open the [repository-local website](docs/explanation/site/index.html).
 
-Alternative fiscal institutions live under [experiments](experiments/README.md).
-The first experiment simulates an annual computer ballot on which every voter
-must allocate exactly 100 budget points, followed by state averaging and an
-Electoral College-weighted national aggregation.
+## How TAXLANE solved the system
 
-## Thesis
+“Solved” means the internal analytical system closes under explicit evidence,
+accounting, review, and model rules. It does not mean uncertainty or democratic
+choice disappeared.
 
-The income tax is usually presented as one tax on income, but public trust and
-fiscal legibility improve when taxpayers can see which public purposes a tax is
-meant to cover. TAXLANE studies three layers:
+### 1. Public purposes became explicit tracks
 
-1. The historical layer: why the modern income tax was passed, which problems it
-   was meant to solve, and how its legal and political role changed over time.
-2. The current layer: how taxable income, rates, deductions, credits,
-   withholding, compliance, appropriations, and general revenue interact today.
-3. The reform layer: whether an income-tax system should expose distinct
-   funding lanes for programs such as defense, courts, infrastructure, health,
-   retirement, debt service, and social insurance.
+TAXLANE separates transportation, health, education, old-age security, income
+security, veterans, agriculture, defense, disasters, justice, science/energy/
+environment, international affairs, payment integrity, revenue, and net
+interest. Each track preserves its public purpose instead of treating spending
+size as proof of waste.
 
-The repo starts from the practical question: if a tax is supposed to pay for
-public goods and lawful public obligations, should income tax be treated as one
-general revenue stream or as a transparent portfolio of program taxes?
+### 2. Evidence gates replaced headline arithmetic
 
-## Working distinction
+A candidate must identify the right fiscal object, use a current source, net
+implementation and overlap, and protect beneficiaries, service continuity,
+distribution, legal commitments, and compliance burden. A failed or incomplete
+gate produces a typed zero—not a guessed savings percentage.
 
-A tax is a compulsory public charge used to fund legitimate public obligations.
-It is not the same as a user fee, fine, loan, or insurance premium, even when a
-tax is politically described that way. Dedicated or earmarked taxes can make
-program costs visible, but they can also create false precision because money is
-fungible and legislatures still control appropriations.
+### 3. Different accounting objects stopped masquerading as savings
 
-TAXLANE therefore treats program-linked taxation as a design hypothesis, not
-as an assumed answer.
+| Rail | Rule |
+|---|---|
+| **Program owners** | Book only supported net primary effects. |
+| **PAY** | Measures payment integrity but stays non-additive; owners book any admitted effect. |
+| **NET** | Follows an admitted annual debt path; no invented interest savings. |
+| **OAS** | Remains a separate dedicated solvency and adequacy overlay. |
+| **TRN** | Can produce a conditional cost note without becoming savings. |
+| **REV** | Models the remaining scoped financing requirement. |
 
-## First questions
+This PAY–NET–REV separation prevents double counting and keeps a trust-fund
+question, an error estimate, a debt effect, and a spending reduction from being
+collapsed into one misleading total.
 
-- What did supporters and opponents say the income tax was supposed to cover
-  when it was created?
-- Which parts of today's government are actually funded by income-tax receipts,
-  payroll taxes, excise taxes, borrowing, fees, and other revenue?
-- Where does the current system hide program costs from taxpayers?
-- Which program-linked taxes already exist, such as payroll taxes for social
-  insurance?
-- What would be clearer, fairer, or riskier about splitting income tax into
-  visible funding lanes?
+### 4. The rate followed the evidence
 
-## Design process
+The model used Tax-Calculator 6.5.1, the bundled CPS tax-unit input, and tax
+year 2026. It tested fourteen uniform-uplift candidates across three
+taxable-income response cases—42 behavior cases—then kept central,
+behavior-contingency, and severe-stress results on separate rails.
 
-The first design pass is source-first:
+### 5. Every conclusion became reopenable
 
-1. Build a rates timeline from inception.
-2. Build receipts records by source and fund group.
-3. Build outlay records by function, subfunction, agency, and program.
-4. Explain the accounting rules that connect receipts, outlays, trust funds,
-   borrowing, and deficits.
-5. Only then prototype taxpayer receipts or program-linked tax lanes.
+Zero is a conclusion under current evidence, not a permanent ban on reform.
+New enacted text, current scores, owner-attributed net effects, closed
+beneficiary and continuity gates, an admitted annual debt path, changed model
+inputs, or a changed policy objective can reopen the relevant track. Reopening
+starts review again; it does not guarantee admission.
 
-Every public allocation claim must say whether it is legally dedicated,
-proportionally allocated, modeled, or illustrative.
+### 6. One source spine now serves every audience
 
-The current source-backed finding is that ordinary income tax is mostly a
-general fund receipt, so "what your income tax paid for" should be presented as
-an allocation model unless a legal dedication is cited.
+Citizens, educators, policy readers, and technical auditors see different
+levels of detail without receiving different facts. Claims and numbers have
+canonical ledgers; guides, papers, slides, PDFs, and HTML are checked against
+the same result and caveat boundary.
 
-The first advocacy position is that taxpayers should see public-purpose lanes,
-not only a total tax number. Those lanes should map to traditional budget
-functions and mandatory/discretionary categories while clearly labeling whether
-the lane is legally dedicated, proportional, deficit-inclusive, or proposed.
+## Explore the result
 
-## Repository shape
+### Fastest paths
 
-- `PRODUCT_PLAN.md` records the product thesis, non-goals, and wave plan.
-- `context/waves/` records implementation waves and pulses.
-- `data/` holds raw, metadata, extracted, and derived records under custody
-  rules.
-- `docs/data/` defines data dictionaries before raw source extraction.
-- `docs/sources/` records source versions before data extraction.
-- `docs/research/` holds cited research notes and decision records.
-- `docs/reading/` holds public reading packets derived from the research notes.
-- `.roles/` defines the review panel for taxpayer, accounting, source custody,
-  public-goods, beneficiary, compliance, fiscal, and reform-skeptic interests.
-- `.claude/skills/` contains repo-local wave, pulse, and research workflows.
+1. [One-page result](docs/explanation/guides/one-page-result.md)
+2. [Local website](docs/explanation/site/index.html)
+3. [Five-minute overview](docs/explanation/presentations/5-minute-overview.md)
+4. [Final briefing bundle](docs/explanation/final/briefing-bundle-index.md)
+5. [Cross-format consistency report](docs/explanation/final/cross-format-consistency-report.md)
 
-## Reader packets
+### Learn and teach
 
-For a curated public path, start with
-[docs/reading/taxlane-showcase-readiness-summary.md](docs/reading/taxlane-showcase-readiness-summary.md),
-then use [docs/showcase.md](docs/showcase.md). For a live walkthrough, use
-[docs/demo-script.md](docs/demo-script.md). For the complete packet index, use
-[docs/reading/README.md](docs/reading/README.md).
+- [Citizen guide](docs/explanation/guides/citizen-guide.md)
+- [Fifteen-track guide](docs/explanation/guides/fifteen-track-guide.md)
+- [FAQ](docs/explanation/guides/frequently-asked-questions.md)
+- [Glossary](docs/explanation/guides/glossary.md)
+- [Educator discussion guide](docs/explanation/guides/educator-discussion-guide.md)
 
-Start with `docs/reading/honest-federal-tax-receipt.md` for the one-page public
-case and prototype. It is the shortest route to TAXLANE's central contribution:
-every displayed amount must carry its payer base, beneficiary base, financing
-relationship, denominator, and allocation status.
+### Present
 
-Start with `docs/reading/income-tax-foundation.md` for the public foundation
-packet. It explains the income-tax history, current mechanics, budget accounting
-labels, and program-linked tax lane hypothesis without treating modeled
-allocations as legal dedication.
+- [Five-minute overview](docs/explanation/presentations/5-minute-overview.md)
+- [Twenty-minute civic briefing](docs/explanation/presentations/20-minute-civic-briefing.md)
+- [Forty-five-minute technical walkthrough](docs/explanation/presentations/45-minute-technical-walkthrough.md)
+- Local HTML previews live under `docs/explanation/presentations/previews/`.
 
-Then use `docs/reading/modeled-income-tax-outlays.md` for the broad modeled
-allocation of ordinary individual income-tax receipts by outlay share. Use
-`docs/reading/modeled-income-tax-subfunction-outlays.md` only as a drilldown
-after the broad financing context is visible.
+### Audit
 
-Use `docs/reading/accountability-public-brief.md` for the current
-accountability handoff. It explains which public questions are safe to ask now
-and why current draft accountability records are not fraud, waste, abuse, or
-performance findings.
-
-For the comparative budget-area findings, read
-`docs/reading/budget-area-funding-explainer.md` — the plain-language distillation
-of the research program below.
-
-For the spending-side view, read
-`docs/reading/where-federal-money-goes.md`. It shows the largest FY2025 outlay
-subfunctions, the borrowed-share and income-tax coverage context, and safe
-accountability questions without treating spend size as a fraud or waste finding.
-Then use `docs/reading/cost-down-backlog.md` for the evidence-first work queue:
-which levers could drive costs down over time, what proof is missing, and which
-outcome floors must be preserved before any savings claim is allowed.
+- [Canonical result statement](docs/explanation/foundation/canonical-result-statement.md)
+- [Claim ledger](docs/explanation/foundation/claim-ledger.md)
+- [Number ledger](docs/explanation/foundation/number-ledger.md)
+- [Fifteen-track terminal disposition](docs/reading/fifteen-track-terminal-disposition.md)
+- [Explanation-program closure](docs/reading/expl-f-integrated-repository-readiness-closure.md)
 
 ## Research papers
 
-`research/` holds a panel-reviewed research program with one paper per budget
-area, reviewed by a standing panel of AI-simulated public-finance lenses (see
-`research/REVIEWERS.md`; not real people, no endorsement implied). All six papers
-are accepted and rendered to PDF in `docs/papers/` (build: `pwsh docs/papers/build.ps1`):
+The ten canonical Markdown papers have repository-contained PDF convenience
+renders under [`docs/papers/`](docs/papers/README.md). Reviews use AI-simulated
+public-finance lenses defined in `research/REVIEWERS.md`; they are quality-control
+evidence, not real people or institutional endorsements.
 
-| Track | Paper | Finding (direction) |
-|---|---|---|
-| T0 | Legible Federal Funding (synthesis) | No single "too high/low"; lane-specific + under-collected |
-| T1 | The American Health Funding Premium | ~2x peer cost for worse outcomes (fix price, not rate) |
-| T2 | The Old-Age Tax and the Cap | Peer-normal spend, below-peer rate on a capped base (fix the cap) |
-| T3 | The Defense Tax in Allied Perspective | Above the European norm; a strategic band (2.0–3.5% of GDP) |
-| T4 | The Thin Safety Net | Family support below the OECD norm (strengthen + stabilize) |
-| T5 | A Low-Tax Country with a Borrowing Habit | ~8.5 pts of GDP below the OECD tax average (raise revenue) |
+### Final-result series
 
-Inventory and status: `research/RESEARCH.md`. Every figure is sourced in
-`docs/sources/source-version-ledger.md`; reform directions are proposals and
-value judgments, labeled as such.
+1. [The Taxlane Result](research/publications/the-taxlane-result/paper.md)
+2. [Why Zero Is a Result](research/publications/why-zero-is-a-result/paper.md)
+3. [Fifteen Tracks, One Accounting Spine](research/publications/fifteen-tracks-one-accounting-spine/paper.md)
+4. [From Spending Evidence to an Adaptive Rate](research/publications/spending-evidence-to-adaptive-rate/paper.md)
 
-## Validation
+### Foundation series
 
-This is a docs-first repo with a Rust validator for derived artifacts. For the
-full source/derived-record guardrail run:
+1. *Legible Federal Funding*
+2. *The American Health Funding Premium*
+3. *The Old-Age Tax and the Cap*
+4. *The Defense Tax in Allied Perspective*
+5. *The Thin Safety Net*
+6. *A Low-Tax Country with a Borrowing Habit*
+
+## Website and visual system
+
+The repository includes a static, responsive, accessible six-page explanation:
+
+- result overview;
+- fifteen-track explorer;
+- rate and uncertainty explainer;
+- accounting method;
+- evidence routes; and
+- glossary and FAQ.
+
+It uses semantic landmarks, skip links, visible keyboard focus, responsive
+tables, and reduced-motion behavior. It has no remote assets, analytics,
+tracking, forms, JavaScript dependency, hosting configuration, or deployment
+credential. Open [`docs/explanation/site/index.html`](docs/explanation/site/index.html)
+locally in a browser.
+
+The shared visual grammar distinguishes facts, model results, recommendations,
+uncertainties, and blocked claims. The next visual layer can add repository-only
+SVG charts and diagrams generated from the canonical number and claim ledgers;
+those visuals must remain convenience views rather than new factual authorities.
+
+## Review and validation
+
+EXPL-A through EXPL-F produced 21 canonical deliverables. Every wave completed
+two rounds across eight `.roles` lenses, applied all P1/P2 feedback before
+advancing, and ended with zero open P1/P2 findings. The paper wave also passed
+the relevant publication-panel gates.
+
+Validation currently covers:
+
+- 152 `taxlane-core` tests;
+- 236 `taxlane-tools` tests;
+- 388 workspace tests total;
+- closure contracts for all six explanation waves;
+- headline and accounting-boundary parity;
+- nonempty PDF and presentation renders;
+- local HTML links, accessibility markers, and remote-asset exclusions; and
+- the derived-artifact manifest.
+
+Run the full checks:
 
 ```powershell
+cargo test --workspace
 cargo run -p taxlane-tools -- income-tax-outlay validate
-```
-
-For documentation-only changes, also run:
-
-```powershell
+cargo run -p taxlane-tools -- income-tax-outlay manifest --check
 git diff --check
 ```
 
-The compiled paper PDFs can be rebuilt with:
+Rebuild the paper PDFs:
 
 ```powershell
 pwsh docs/papers/build.ps1
 ```
+
+## What TAXLANE does not claim
+
+TAXLANE does not provide:
+
+- an official legislative or budget score;
+- enacted statutory language or automatic legal rate adjustment;
+- formal proof of annual or long-run federal balance;
+- a ten-year debt-sustainability or trust-fund solvency certification;
+- a complete household distribution or incidence analysis;
+- a complete taxpayer filing or compliance-burden model;
+- proof that every government program is efficient; or
+- permission to release, deploy, submit, contact government, or claim
+  endorsement.
+
+The analysis is designed to be updated when those missing inputs become
+available. Its strongest claim is disciplined traceability: no savings without
+evidence, no financing conclusion without accounting boundaries, and no public
+story that outruns the source record.
+
+## Repository map
+
+- `docs/explanation/` — foundation, guides, presentations, local site, and final bundle
+- `research/publications/` — canonical research papers
+- `docs/papers/` — repository-contained PDF renders
+- `data/derived/breadth_benchmark_matrix/` — terminal, program, and closure records
+- `context/waves/` — implementation history and pulses
+- `.roles/` — taxpayer, accounting, custody, public-purpose, beneficiary,
+  burden, sustainability, and skeptic review lenses
+- `tools/taxlane/` — Rust artifact and corpus validation
+- `docs/reading/` — reader-facing evidence and closure packets
+
+For earlier receipt, funding-lane, accountability, and source-custody work, use
+the broader [showcase](SHOWCASE.md) and [reading index](docs/reading/README.md).
+For the shortest public handoff—a concrete taxpayer example showing what is ready, what is blocked, and safe public language—read [SHOWCASE.md](SHOWCASE.md).
 
 ## License
 

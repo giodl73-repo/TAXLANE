@@ -1,0 +1,12 @@
+:root { color-scheme: light; font-family: system-ui, sans-serif; }
+body { margin: 0 auto; max-width: 72rem; padding: 2rem; color: #18212b; background: #f7f9fb; }
+header { border-bottom: .25rem solid #176b87; margin-bottom: 2rem; }
+h1, h2 { color: #123f52; }
+h1:not(.title) { break-before: page; border-top: .15rem solid #9bc5d4; padding-top: 2rem; }
+table { border-collapse: collapse; width: 100%; display: block; overflow-x: auto; }
+th, td { border: 1px solid #8998a5; padding: .55rem; text-align: left; }
+th { background: #dcecf2; }
+blockquote { border-left: .3rem solid #c87520; padding-left: 1rem; }
+code { overflow-wrap: anywhere; }
+@media print { body { background: white; } h1:not(.title) { break-before: page; } }
+@media (max-width: 42rem) { body { padding: 1rem; } }

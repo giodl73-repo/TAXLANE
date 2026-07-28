@@ -20,6 +20,10 @@ $papers = @(
     @{ n = 3; slug = "defense-tax-in-allied-perspective" }
     @{ n = 4; slug = "the-thin-safety-net" }
     @{ n = 5; slug = "low-tax-country-borrowing-habit" }
+    @{ n = 6; slug = "the-taxlane-result" }
+    @{ n = 7; slug = "why-zero-is-a-result" }
+    @{ n = 8; slug = "fifteen-tracks-one-accounting-spine" }
+    @{ n = 9; slug = "spending-evidence-to-adaptive-rate" }
 )
 
 $fmt = "markdown-tex_math_dollars-tex_math_single_backslash-raw_tex"
