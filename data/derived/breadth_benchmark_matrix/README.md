@@ -1813,3 +1813,11 @@ off-campus imaging and DEF proportional active-force candidates against that
 rate control. Each has one ready and six unresolved gates. With zero admitted
 FY2026 savings, PAY non-additive, and NET endogenous, the revenue target remains
 $813.727 billion and the preferred central schedule does not move.
+
+`anchor_bastion_sem012_intake_disposition.v1.draft.json` replays the published
+ANCHOR and BASTION held lane candidates against those existing OAS and DEF
+rules. It finds partial semantic compatibility but no fiscal admissibility:
+both candidates remain synthetic, held, non-emitted, and unable to trigger a
+track reopening, savings admission, or rate recomputation. The companion
+schema and reader identify the minimal owner evidence needed before shared
+adapter code would have a product-changing consumer.

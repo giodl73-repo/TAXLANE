@@ -1063,6 +1063,9 @@ It is the bounded public surface, not a performance or savings report.
      three recommendation tiers, and completed 15-track dependency review.
 217. Read `targeted-spending-rate-decision.md` for the specific HLT and DEF
      candidate audit, zero-admission result, and unchanged rate recommendation.
+218. Read `anchor-bastion-sem012-intake-disposition.md` for the first direct
+     lane-owner handoff test, partial semantic compatibility finding, exact OAS
+     and DEF evidence gaps, and unchanged fiscal and rate disposition.
 
 ## Public-Use Guardrail
 

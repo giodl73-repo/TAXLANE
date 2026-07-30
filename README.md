@@ -52,6 +52,18 @@ enacted rates, personal advice, or an official score.
 Start with the [final briefing bundle](docs/explanation/final/briefing-bundle-index.md)
 or open the [repository-local website](docs/explanation/site/index.html).
 
+### First lane-owner evidence intake
+
+Taxlane also replayed the completed ANCHOR retirement/disability and BASTION
+defense SEM-012 candidates. Their common evidence envelope is useful, but both
+packs remain synthetic, held, non-emitted, and non-authoritative. Neither
+triggers the existing OAS or DEF reopening rule, so admitted savings remain
+**$0.000B**, the scoped target remains **$813.727B**, and the analytical
+schedule remains **21/23/33/35/43/46/48**. The
+[paired intake disposition](docs/reading/anchor-bastion-sem012-intake-disposition.md)
+names the exact evidence each owner must supply next. Taxlane deliberately did
+not build an adapter with no admissible consumer.
+
 ## How TAXLANE solved the system
 
 “Solved” means the internal analytical system closes under explicit evidence,

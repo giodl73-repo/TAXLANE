@@ -1,0 +1,190 @@
+{
+  "record_id": "anchor-bastion-sem012-intake-disposition:v1",
+  "record_family": "anchor_bastion_sem012_intake_disposition",
+  "version": "v1.draft",
+  "status": "paired_lane_candidates_custodied_research_useful_fiscally_held",
+  "as_of_date": "2026-07-30",
+  "product_question": "Can the two lane-owner SEM-012 candidates change Taxlane's OAS or DEF disposition or analytical rate schedule?",
+  "inputs": [
+    {
+      "producer": "ANCHOR",
+      "repository": "https://github.com/giodl73-repo/ANCHOR",
+      "commit": "0e70f00d04750efc122aee09e584a61ff49c2205",
+      "replay_command": "cargo +1.95.0 run --locked --offline -q -p anchor-program --bin anchor-program -- sem-012 fixtures/synthetic/held-taxlane-pack.fixture",
+      "schema": "anchor.lane-evidence-pack-candidate.v1",
+      "lane_id": "anchor-retirement-disability",
+      "taxlane_track_candidate": "OAS",
+      "source_digest": "sha256-safe-synthetic-anchor-program-v1",
+      "scenario_version": "anchor-cycle-v3",
+      "admission_state": "held",
+      "admission_owner": "external-taxlane",
+      "emitted": false,
+      "unresolved_holds": [
+        "public-corpus-expansion",
+        "actuarial-certification",
+        "shared-contract"
+      ],
+      "authority": {
+        "taxlane_admission": false,
+        "budget_allocation": false,
+        "rate_change": false,
+        "policy_change": false,
+        "release": false
+      }
+    },
+    {
+      "producer": "BASTION",
+      "repository": "https://github.com/giodl73-repo/BASTION",
+      "commit": "cc81c61cd3e097449db072abac99d1613a2b2101",
+      "replay_command": "cargo +1.95.0 run --locked --offline -q -p bastion-program --bin bastion-program -- sem-012 fixtures/synthetic/held-taxlane-pack.fixture",
+      "schema": "bastion.lane-evidence-pack-candidate.v1",
+      "lane_id": "bastion-defense",
+      "taxlane_track_candidate": "DEF",
+      "source_digest": "sha256-safe-synthetic-bastion-program-v1",
+      "scenario_version": "bastion-cycle-v3",
+      "admission_state": "held",
+      "admission_owner": "external-taxlane",
+      "emitted": false,
+      "unresolved_holds": [
+        "public-corpus-expansion",
+        "realization-evidence",
+        "shared-contract"
+      ],
+      "authority": {
+        "taxlane_admission": false,
+        "budget_allocation": false,
+        "rate_change": false,
+        "procurement_action": false,
+        "operational_plan": false,
+        "release": false
+      }
+    }
+  ],
+  "shared_contract_assessment": {
+    "compatibility": "partial_semantic_compatibility_not_fiscal_admissibility",
+    "common_candidate_fields": [
+      "schema",
+      "lane_id",
+      "source_digest",
+      "scenario_version",
+      "need_summary",
+      "alternative_count",
+      "comparison_rule",
+      "transition_cost_range_millions",
+      "distribution_complete",
+      "uncertainty_bps",
+      "overlap_millions",
+      "dissent_count",
+      "unresolved_holds",
+      "admission_state",
+      "admission_owner",
+      "emitted",
+      "authority"
+    ],
+    "lane_specific_fields_preserved": {
+      "ANCHOR": [
+        "annual_balance_range_millions",
+        "delivery_confidence_bps",
+        "rights_floor_bps"
+      ],
+      "BASTION": [
+        "lifecycle_cost_range_millions",
+        "readiness_floor_bps",
+        "safety_floor_bps",
+        "supplier_floor_bps",
+        "savings_state"
+      ]
+    },
+    "taxlane_fields_missing_from_both": [
+      "canonical Taxlane track identifier and fiscal object",
+      "source vintage and current-law baseline",
+      "price year, fiscal horizon, and annual cash path",
+      "candidate-specific gross-to-net effect",
+      "implementation and owner attribution",
+      "Taxlane floor definitions with evidence and pass or fail state",
+      "current-law overlap reconciliation",
+      "Taxlane review disposition and admission receipt"
+    ],
+    "shared_contract_disposition": "candidate_shape_supported_adapter_and_admission_contract_still_required"
+  },
+  "lane_dispositions": [
+    {
+      "track": "OAS",
+      "lane": "social-security",
+      "accounting_rail": "dedicated_solvency_overlay",
+      "candidate_useful_for": [
+        "separating retirement and disability realization",
+        "carrying adequacy and rights constraints",
+        "showing annual-balance and transition-cost uncertainty ranges",
+        "preserving distribution, overlap, dissent, and delivery confidence"
+      ],
+      "unresolved_taxlane_gates": [
+        "official expanded aggregate corpus",
+        "actuarially certified long-range path",
+        "price year, horizon, and annual current-law cash effects",
+        "candidate-specific cohort adequacy and employer incidence",
+        "administration and overlap reconciliation",
+        "shared adapter and independent Taxlane review"
+      ],
+      "existing_reopen_condition_triggered": false,
+      "admitted_fy2026_primary_reduction_billions": 0.0,
+      "prior_disposition": "dedicated_solvency_overlay",
+      "new_disposition": "dedicated_solvency_overlay",
+      "disposition_changed": false
+    },
+    {
+      "track": "DEF",
+      "lane": "national-defense",
+      "accounting_rail": "primary_spending_candidate",
+      "candidate_useful_for": [
+        "distinguishing funded capacity from usable readiness",
+        "carrying lifecycle and transition ranges",
+        "preserving readiness, safety, and supplier floors",
+        "showing distribution, overlap, dissent, and unrealized-savings state"
+      ],
+      "unresolved_taxlane_gates": [
+        "current FYDP program and force allocation",
+        "candidate-specific annual current-law cash effects",
+        "readiness and simultaneous-demand stress evidence",
+        "personnel, family, community, and industrial transition effects",
+        "procurement, RDT&E, munitions, supplier, and allied schedule",
+        "legal accounting, overlap reconciliation, and current-law rescore",
+        "shared adapter and independent Taxlane review"
+      ],
+      "existing_reopen_condition_triggered": false,
+      "admitted_fy2026_primary_reduction_billions": 0.0,
+      "prior_disposition": "reviewed_zero_admission",
+      "new_disposition": "reviewed_zero_admission",
+      "disposition_changed": false
+    }
+  ],
+  "portfolio_result": {
+    "producer_candidates_replayed": 2,
+    "producer_candidates_custodied_for_research": 2,
+    "producer_candidates_admitted_to_fiscal_model": 0,
+    "existing_track_reopening_conditions_triggered": 0,
+    "admitted_fy2026_primary_reduction_billions": 0.0,
+    "remaining_fy2026_revenue_target_billions": 813.727,
+    "preferred_schedule_percent": [21, 23, 33, 35, 43, 46, 48],
+    "behavior_contingency_schedule_percent": [22, 24, 34, 36, 44, 47, 49],
+    "rate_recomputation_required": false,
+    "rate_result_changed": false
+  },
+  "next_owner_evidence": {
+    "ANCHOR": "Replace synthetic ranges with an official, versioned, actuarially bounded annual path and candidate-specific adequacy, employer, administration, delivery, and overlap evidence.",
+    "BASTION": "Replace synthetic ranges with a current FYDP-mapped candidate, annual current-law cash path, readiness and transition evidence, industrial and allied effects, and a current-law rescore.",
+    "TAXLANE": "Define the minimal shared adapter only when a producer supplies evidence capable of triggering an existing track reopening condition."
+  },
+  "claim_booleans": {
+    "shared_semantic_shape_demonstrated": true,
+    "shared_adapter_implemented": false,
+    "producer_authority_overridden": false,
+    "held_pack_treated_as_emitted": false,
+    "official_score_claimed": false,
+    "savings_claimed": false,
+    "rate_change_claimed": false,
+    "public_release_authorized": false
+  },
+  "public_warning": "ANCHOR and BASTION now demonstrate a useful shared semantic candidate shape, but both inputs are synthetic, held, non-emitted, and non-authoritative. They sharpen OAS and DEF reopening requirements; they do not reopen either track, admit savings, change the $813.727 billion scoped target, or change Taxlane's analytical rate schedules."
+}
+
