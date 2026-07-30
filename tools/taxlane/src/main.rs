@@ -12,6 +12,9 @@ pub(crate) use types::*;
 
 use std::env;
 
+#[cfg(test)]
+include!("tests.rs");
+
 fn main() -> ExitCode {
     let args: Vec<String> = env::args().skip(1).collect();
     match args.as_slice() {
@@ -120,4 +123,3 @@ fn main() -> ExitCode {
         }
     }
 }
-

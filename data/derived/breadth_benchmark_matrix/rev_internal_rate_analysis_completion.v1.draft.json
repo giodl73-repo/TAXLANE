@@ -18,9 +18,9 @@
     "grid_runner_sha256": "fda83d9ffa94f535b27747266f5bef93da9c3b2e614bb0a769d4fb805a0fb977",
     "analysis_runner_path": "experiments/rev-level-3-taxcalc/analyze_grid.py",
     "analysis_runner_sha256": "c8147894f756bc2fface26508fd7eaddb7ed62ccb457d9078f257a102e48aee2",
-    "initial_grid_sha256": "17ed8f95bc9ed9d3b902e6cfaa78d648218c6bd450491b658be04ac76cd69a87",
-    "extension_grid_sha256": "2068109bdf7e3fc4ee6cef094b10cf502ea2150ed0a2786c7854333e817127dc",
-    "candidate_analysis_sha256": "f1c484bd51990873b8b1239bf0661d8def55462d923fb7db7fa6bf690d0bb07b",
+    "initial_grid_sha256": "d9139b3c4ab0739cfb6b5f72f90e91bdecb0955de2d158099ffc673ba52b4ed2",
+    "extension_grid_sha256": "548d7b483514b350f0b2c5f45806ef7c7d6c9f1cda22e6b2b00a3b076a5c9782",
+    "candidate_analysis_sha256": "90ee7ad74f79f01505ed1fd1d4273167fa6d5ef2e0ff8d121bb48222922bd4ac",
     "candidate_count": 14,
     "behavior_cases_per_candidate": 3,
     "combined_stress_cases_per_candidate": 9
