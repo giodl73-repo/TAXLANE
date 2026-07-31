@@ -1073,6 +1073,10 @@ It is the bounded public surface, not a performance or savings report.
      official non-null candidate from the four new domain owners, its
      componentized CBO path, existing-VET identity match, Level 2 reblock, and
      unchanged fiscal and rate result.
+221. Read `lifeline-calfresh-candidate-intake-disposition.md` for LIFELINE's
+     California current-law implementation envelope, the explicit separation
+     of caseload contraction from efficiency, its new held ISF identity, and
+     the unchanged fiscal and rate result.
 
 ## Public-Use Guardrail
 

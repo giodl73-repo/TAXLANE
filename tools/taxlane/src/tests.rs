@@ -1719,6 +1719,61 @@ mod global_country_comparison_tests {
         assert_eq!(record["claim_booleans"]["savings_claimed"], false);
         assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
     }
+
+    #[test]
+    fn lifeline_candidate_separates_caseload_contraction_from_efficiency() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let path = root.join(
+            "data/derived/breadth_benchmark_matrix/lifeline_calfresh_candidate_intake_disposition.v1.draft.json",
+        );
+        let text = fs::read_to_string(path).expect("read LIFELINE candidate intake");
+        let record: serde_json::Value =
+            serde_json::from_str(&text).expect("parse LIFELINE candidate intake");
+
+        let input = &record["producer_input"];
+        assert_eq!(input["candidate_id"], "california_hr1_abawd_implementation");
+        assert_eq!(input["required_sections_present"], 14);
+        assert_eq!(input["readiness"]["candidate_bounded"], true);
+        assert_eq!(input["readiness"]["cost_ready"], true);
+        assert_eq!(input["readiness"]["floors_ready"], false);
+        assert_eq!(input["readiness"]["taxlane_admission_ready"], false);
+
+        let fiscal = &record["official_fiscal_path"];
+        assert_eq!(fiscal["gross_administration_thousand_dollars"], 86_800);
+        assert_eq!(
+            fiscal["caseload_related_administration_offset_thousand_dollars"],
+            -78_600
+        );
+        assert_eq!(fiscal["net_administration_thousand_dollars"], 8_200);
+        assert_eq!(fiscal["fy2026_27_affected_people"], 302_300);
+        assert_eq!(fiscal["fy2026_27_lost_benefits_thousand_dollars"], 758_000);
+
+        assert_eq!(
+            record["taxlane_assessment"]["new_candidate_identity_added"],
+            true
+        );
+        assert_eq!(
+            record["taxlane_assessment"]["existing_isf_reopen_condition_triggered"],
+            false
+        );
+        assert_eq!(
+            record["portfolio_result"]["admitted_fy2026_primary_reduction_billions"],
+            0.0
+        );
+        assert_eq!(
+            record["portfolio_result"]["remaining_fy2026_revenue_target_billions"],
+            813.727
+        );
+        assert_eq!(
+            record["claim_booleans"]["caseload_contraction_efficiency_proven"],
+            false
+        );
+        assert_eq!(
+            record["claim_booleans"]["lost_benefits_counted_as_savings"],
+            false
+        );
+        assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
+    }
 }
 
 fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {

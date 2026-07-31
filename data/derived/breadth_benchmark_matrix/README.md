@@ -1838,3 +1838,11 @@ Because the identity already exists and enactment, outcomes, floors, incidence,
 implementation, appropriations, and delivery remain incomplete, the pack adds
 domain-owner corroboration without a duplicate fiscal effect, track reopening,
 savings admission, or rate change.
+
+`lifeline_calfresh_candidate_intake_disposition.v1.draft.json` replays
+LIFELINE's first official non-null CalFresh candidate pack. It registers a new
+ISF current-law implementation-stress identity and reconciles $86.8M gross
+administration, a -$78.6M caseload-related offset, and $8.2M net cost while
+keeping affected people and projected lost benefits outside the efficiency
+ledger. Missing observed floors, rights, delivery, and overlap evidence blocks
+admission, track reopening, savings, and rate change.

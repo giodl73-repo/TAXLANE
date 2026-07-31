@@ -11,7 +11,7 @@ internal analytical rate schedule.
 
 The result is now complete inside this repository: 21 canonical explanation
 artifacts, ten research papers, three presentation variants, a six-page local
-website, machine-readable closure records, and 389 passing tests.
+website, machine-readable closure records, and 391 passing tests.
 
 > **Repository-ready, externally blocked.** TAXLANE is not enacted law,
 > personal tax or legal advice, an official score, formal proof of balance, or
@@ -85,6 +85,14 @@ counting it again. The bill remains unenacted and Level 2 outcomes, floors,
 incidence, implementation, appropriation, and delivery evidence remain held,
 so [VET does not reopen](docs/reading/covenant-hr2137-candidate-intake-disposition.md)
 and the target and schedules stay unchanged.
+
+LIFELINE supplies the next official candidate pack: California's current-law
+CalFresh H.R. 1 implementation envelope. It reconciles $86.8M of gross
+administration with a -$78.6M caseload-related offset and $8.2M net cost, while
+keeping 302,300 affected people and $758M of projected lost benefits visible.
+This adds a new ISF identity, but it is an implementation stress test—not an
+admissible spending reduction. [ISF therefore remains held](docs/reading/lifeline-calfresh-candidate-intake-disposition.md),
+with no savings or rate change.
 
 ## How TAXLANE solved the system
 
