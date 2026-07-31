@@ -1105,6 +1105,9 @@ It is the bounded public surface, not a performance or savings report.
 230. Read `next-owner-current-evidence-refresh-disposition.md` for the first
      current-evidence refresh across LIFELINE, ENVOY, COVENANT, and TRIBUNAL,
      the exact child-repo replay hashes, admission holds, and unchanged rates.
+231. Read `envoy-nepal-outcome-reference-disposition.md` for the first observed
+     Nepal national-system outcome reference, the attribution boundary, and
+     unchanged INT, fiscal-target, and rate results.
 
 ## Public-Use Guardrail
 

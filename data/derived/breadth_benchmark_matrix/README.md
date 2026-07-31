@@ -1917,3 +1917,10 @@ status gap and missing current safeguard performance; COVENANT corrects H.R.
 2137 to formally reported in the House; and TRIBUNAL confirms no action beyond
 committee reporting. These improve corpus and gate precision without an
 observed effect, fiscal admission, track reopening, or rate change.
+
+`envoy_nepal_outcome_reference_disposition.v1.draft.json` replays ENVOY's
+official Nepal national-system outcome reference. Seven selected observations
+show real movement in electricity supply, trade, revenue, losses, cost
+recovery, and capacity, but zero rows are compact-specific or target-ready.
+Taxlane admits the context without inferring an MCC effect, savings, INT
+reopening, target change, or rate change.

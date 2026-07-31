@@ -1,0 +1,92 @@
+{
+  "record_id": "envoy-nepal-outcome-reference-disposition:v1",
+  "record_family": "envoy_nepal_outcome_reference_disposition",
+  "version": "v1.draft",
+  "status": "official_outcome_context_admitted_candidate_effect_held",
+  "as_of_date": "2026-07-31",
+  "product_question": "Do observed Nepal national-system outcomes identify an attributable MCC Compact effect that can enter Taxlane?",
+  "prior_record": "next-owner-current-evidence-refresh-disposition:v1",
+  "producer": {
+    "repository": "ENVOY",
+    "track": "INT",
+    "candidate_id": "mcc_nepal_compact_implementation",
+    "commit": "5953af90ff44c1d96ccb873e239003b76df748c7",
+    "replay_command": "cargo run --quiet -- outcome-held-pack fixtures/official/mcc-nepal-outcome-reference-2025.tsv",
+    "pack_id": "envoy:mcc-nepal-outcome-reference:v1",
+    "pack_sha256": "06ce572d53c3ef8aa01e3fc8ca5e0ee770be7c0d55bc53f8c0f5dcbf93be6d45",
+    "executable_features": 17,
+    "workspace_tests": 38,
+    "evidence_label": "official_aggregate_outcome_reference"
+  },
+  "official_findings": {
+    "selected_source_rows": 7,
+    "selected_outcome_rows": 6,
+    "compact_specific_rows": 0,
+    "target_ready_rows": 0,
+    "export_revenue_baseline_usd": 78600000,
+    "export_revenue_observed_usd": 128315789,
+    "total_electricity_supply_baseline_mwh": 12369000,
+    "total_electricity_supply_observed_mwh": 13966000,
+    "exported_electricity_baseline_mwh": 1346000,
+    "exported_electricity_observed_mwh": 1946000,
+    "transmission_loss_baseline_bps": 449,
+    "transmission_loss_observed_bps": 443,
+    "generation_capacity_baseline_mw": 3103,
+    "generation_capacity_observed_mw": 3906
+  },
+  "attribution_assessment": {
+    "national_movement_observed": true,
+    "compact_specific_outcome_observed": false,
+    "matched_exposure_available": false,
+    "counterfactual_available": false,
+    "independent_evaluation_result_available": false,
+    "local_incidence_result_available": false,
+    "safeguard_result_available": false,
+    "matched_cost_output_outcome_cohort_available": false,
+    "candidate_effect_observed": false,
+    "reason": "The official table establishes national-system movement during implementation, but none of the selected observations is compact-specific or target-ready and the causal, incidence, safeguard, and matched-cost links are absent."
+  },
+  "taxlane_assessment": {
+    "candidate_identity_matches_prior_records": true,
+    "official_context_admitted_to_domain_corpus": true,
+    "official_candidate_effect_admitted": false,
+    "service_floor_passed": false,
+    "delivery_ready": false,
+    "existing_int_reopen_condition_triggered": false,
+    "candidate_selected_for_fiscal_model": false
+  },
+  "portfolio_result": {
+    "packs_replayed": 1,
+    "packs_admitted_to_fiscal_model": 0,
+    "admitted_fy2026_primary_reduction_billions": 0.0,
+    "remaining_fy2026_revenue_target_billions": 813.727,
+    "preferred_schedule_percent": [21, 23, 33, 35, 43, 46, 48],
+    "behavior_contingency_schedule_percent": [22, 24, 34, 36, 44, 47, 49],
+    "rate_recomputation_required": false,
+    "rate_result_changed": false
+  },
+  "role_review": {
+    "fixed_point": "pass_with_risk",
+    "open_p1_findings": 0,
+    "open_p2_findings": 0,
+    "deferred_claims": [
+      "compact-specific outcome",
+      "causal attribution",
+      "local benefit and burden incidence",
+      "safeguard and do-no-harm result",
+      "matched fiscal effect",
+      "INT reopening",
+      "rate change"
+    ]
+  },
+  "claim_booleans": {
+    "official_replay_succeeded": true,
+    "national_movement_treated_as_compact_effect": false,
+    "candidate_admitted": false,
+    "savings_claimed": false,
+    "allocation_changed": false,
+    "rate_change_claimed": false,
+    "public_release_authorized": false
+  },
+  "public_warning": "Observed national progress is useful context, not an attributable MCC Compact effect or fiscal saving. INT, the $813.727B target, and both rate schedules remain unchanged."
+}

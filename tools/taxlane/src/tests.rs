@@ -2105,6 +2105,30 @@ mod global_country_comparison_tests {
         assert_eq!(record["portfolio_result"]["remaining_fy2026_revenue_target_billions"], 813.727);
         assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
     }
+
+    #[test]
+    fn envoy_outcome_reference_does_not_promote_national_movement_to_effect() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let path = root.join(
+            "data/derived/breadth_benchmark_matrix/envoy_nepal_outcome_reference_disposition.v1.draft.json",
+        );
+        let text = fs::read_to_string(path).expect("read ENVOY outcome disposition");
+        let record: serde_json::Value =
+            serde_json::from_str(&text).expect("parse ENVOY outcome disposition");
+
+        assert_eq!(record["producer"]["workspace_tests"], 38);
+        assert_eq!(record["official_findings"]["selected_source_rows"], 7);
+        assert_eq!(record["official_findings"]["compact_specific_rows"], 0);
+        assert_eq!(record["official_findings"]["target_ready_rows"], 0);
+        assert_eq!(record["attribution_assessment"]["national_movement_observed"], true);
+        assert_eq!(record["attribution_assessment"]["candidate_effect_observed"], false);
+        assert_eq!(
+            record["portfolio_result"]["admitted_fy2026_primary_reduction_billions"],
+            0.0
+        );
+        assert_eq!(record["portfolio_result"]["remaining_fy2026_revenue_target_billions"], 813.727);
+        assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
+    }
 }
 
 fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
