@@ -1908,6 +1908,36 @@ mod global_country_comparison_tests {
         );
         assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
     }
+
+    #[test]
+    fn lifeline_level2_baseline_preserves_the_implementation_timing_gap() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let path = root.join(
+            "data/derived/breadth_benchmark_matrix/lifeline_calfresh_level2_baseline_disposition.v1.draft.json",
+        );
+        let text = fs::read_to_string(path).expect("read LIFELINE Level 2 disposition");
+        let record: serde_json::Value =
+            serde_json::from_str(&text).expect("parse LIFELINE Level 2 disposition");
+
+        let floor = &record["current_system_floor_snapshot"];
+        assert_eq!(floor["operations_predate_implementation"], true);
+        assert_eq!(floor["applications_denied"], 60_469);
+        assert_eq!(floor["procedural_denials"], 43_910);
+        assert_eq!(floor["procedural_denial_share_bps"], 7_261);
+        assert_eq!(floor["churn_stale_for_candidate_evaluation"], true);
+        assert_eq!(floor["hearing_flows_candidate_specific"], false);
+
+        let assessment = &record["taxlane_assessment"];
+        assert_eq!(assessment["level2_baseline_gate_complete"], true);
+        assert_eq!(assessment["level2_candidate_admissibility_complete"], false);
+        assert_eq!(assessment["candidate_effect_observed"], false);
+        assert_eq!(assessment["existing_reopen_condition_triggered"], false);
+        assert_eq!(
+            record["portfolio_result"]["admitted_fy2026_primary_reduction_billions"],
+            0.0
+        );
+        assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
+    }
 }
 
 fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {

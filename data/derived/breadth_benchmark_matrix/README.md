@@ -1871,3 +1871,11 @@ claim accuracy, and rural cohort boundaries. Because the bill remains
 unenacted, the snapshot contains no candidate exposure or effect and cannot
 pass outcome, rights, rural-incidence, delivery, savings, or admission gates.
 VET and rates remain unchanged.
+
+`lifeline_calfresh_level2_baseline_disposition.v1.draft.json` replays
+LIFELINE's official current CalFresh operations, error, churn-coverage, hearing,
+and implementation perimeter. May operations and February error measures
+predate the June 1 implementation start; 2020 Q4 churn is stale; and annual
+hearing flows are not coded to H.R. 1. The pack therefore completes the
+comparison baseline without inventing a candidate effect, service-floor pass,
+savings, ISF reopening, or rate change.

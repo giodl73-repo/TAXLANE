@@ -11,7 +11,7 @@ internal analytical rate schedule.
 
 The result is now complete inside this repository: 21 canonical explanation
 artifacts, ten research papers, three presentation variants, a six-page local
-website, machine-readable closure records, and 394 passing tests.
+website, machine-readable closure records, and 395 passing tests.
 
 > **Repository-ready, externally blocked.** TAXLANE is not enacted law,
 > personal tax or legal advice, an official score, formal proof of balance, or
@@ -118,6 +118,13 @@ dockets. It also preserves three million rural/highly rural VHA enrollees as
 context—not a matched VBA claims cohort. [The baseline gate is complete](docs/reading/covenant-hr2137-level2-baseline-disposition.md),
 but the unenacted candidate still has no observed effect, floor passage, or
 delivery evidence. VET, savings, the target, and rates remain unchanged.
+
+LIFELINE supplies the second Level 2 comparison baseline. California's latest
+operations and error measures predate the June 1 implementation start, its
+latest statewide churn series is 2020 Q4, and FY2025-26 hearing flows are not
+candidate-coded. [The comparison surface advances](docs/reading/lifeline-calfresh-level2-baseline-disposition.md),
+but no observed H.R. 1 effect or access, accuracy, rights, adequacy, or county-
+capacity passage exists. ISF, savings, the target, and rates remain unchanged.
 
 ## How TAXLANE solved the system
 

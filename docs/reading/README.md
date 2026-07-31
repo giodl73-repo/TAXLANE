@@ -1087,6 +1087,9 @@ It is the bounded public surface, not a performance or savings report.
 224. Read `covenant-hr2137-level2-baseline-disposition.md` for COVENANT's
      current claims, appeals, accuracy, and rural-context comparison surface,
      the remaining candidate-specific Level 2 nulls, and unchanged rates.
+225. Read `lifeline-calfresh-level2-baseline-disposition.md` for LIFELINE's
+     preimplementation operations and rights comparison surface, the stale
+     churn and uncoded-hearing boundaries, and unchanged rates.
 
 ## Public-Use Guardrail
 
