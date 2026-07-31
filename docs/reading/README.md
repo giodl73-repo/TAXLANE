@@ -1117,6 +1117,10 @@ It is the bounded public surface, not a performance or savings report.
 234. Read `shield-cms-usda-rurality-disposition.md` for the 5,360-facility
      exact county rurality join, 72-row residual, distribution-versus-need
      boundary, and unchanged HLT, fiscal-target, and rate results.
+235. Read `shield-hrsa-primary-care-hpsa-disposition.md` for SHIELD's current
+     primary-care shortage registry census, the component/designation and
+     cross-vintage boundaries, and unchanged HLT, fiscal-target, and rate
+     results.
 
 ## Public-Use Guardrail
 

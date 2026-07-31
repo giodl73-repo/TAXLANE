@@ -1943,3 +1943,11 @@ CMS–USDA RUCC join. It matches 5,360 facilities, classifies 3,456 as metro and
 1,904 as nonmetro, and preserves 72 unmatched rows. Taxlane admits county-class
 distribution while holding patient rurality, travel access, formal shortage,
 staffed capacity, need, adequacy, outcomes, costs, savings, and rate changes.
+
+`shield_hrsa_primary_care_hpsa_disposition.v1.draft.json` replays SHIELD's
+current HRSA primary-care shortage-registry census. It preserves 79,150
+component rows, 7,682 currently designated HPSA IDs, component and rural-status
+multiplicity, and the separately vintaged 9,003-designation quarterly summary.
+Taxlane admits the formal registry spine while holding hospital and county
+assignment, unique population, access, capacity, adequacy, candidates, costs,
+savings, and rate changes.

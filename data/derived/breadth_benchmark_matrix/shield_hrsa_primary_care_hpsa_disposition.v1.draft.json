@@ -1,0 +1,112 @@
+{
+  "record_id": "shield-hrsa-primary-care-hpsa-disposition:v1",
+  "record_family": "shield_hrsa_primary_care_hpsa_disposition",
+  "version": "v1.draft",
+  "status": "official_hlt_shortage_registry_admitted_assignment_capacity_adequacy_and_fiscal_claims_held",
+  "as_of_date": "2026-07-31",
+  "product_question": "What does the current HRSA primary-care HPSA registry establish for HLT, and what remains unproved?",
+  "prior_record": "shield-cms-usda-rurality-disposition:v1",
+  "producer": {
+    "repository": "SHIELD",
+    "track": "HLT",
+    "candidate_id": null,
+    "commit": "5eb96b0ae9ab838d4c9837a4fe2590b12192696e",
+    "replay_command": "cargo run --quiet -p shield-cli -- hrsa-primary-care-held-pack",
+    "pack_id": "shield:hrsa-primary-care-hpsa-census-2026-07-31:v1",
+    "pack_bytes_utf8_without_newline": 5291,
+    "pack_sha256": "1345f2c1d0aa0d1b98961cf17a07653a14e7452ecea041c19e7a047e02cd6d0a",
+    "workspace_crates": 7,
+    "product_commands": 10,
+    "workspace_tests": 46,
+    "feature_tests": 12
+  },
+  "source_custody": {
+    "publisher": "Health Resources and Services Administration",
+    "daily_csv_created": "2026-07-31",
+    "daily_csv_component_rows": 79150,
+    "daily_csv_bytes": 48303351,
+    "daily_csv_sha256": "8ed0007ef82194e44a1ee9086723e42f79e5effe96104cf3104648f2837d2673",
+    "quarterly_data_as_of": "2026-07-01",
+    "quarterly_designations_as_of": "2026-06-30",
+    "quarterly_pdf_bytes": 937344,
+    "quarterly_pdf_sha256": "e71178b1c88a6b00a8a4a28780ecbff1f75e39f490ea43a8e5c5c899e211f89c",
+    "same_vintage_reconciliation_available": false
+  },
+  "registry_findings": {
+    "component_rows": 79150,
+    "designated_unique_hpsa_ids": 7682,
+    "proposed_for_withdrawal_unique_hpsa_ids": 1014,
+    "withdrawn_unique_hpsa_ids": 8999,
+    "designated_single_component_ids": 6920,
+    "designated_multi_component_ids": 762,
+    "maximum_component_rows_per_designation": 177,
+    "designated_single_rural_status_ids": 7400,
+    "designated_multi_rural_status_ids": 282,
+    "component_county_fips": 2935,
+    "quarterly_primary_care_designations": 9003,
+    "quarterly_designated_population": 108566500,
+    "quarterly_percent_need_met": 47.43,
+    "quarterly_practitioners_needed": 18541
+  },
+  "taxlane_assessment": {
+    "official_shortage_registry_census_admitted": true,
+    "registry_status_and_multiplicity_preserved": true,
+    "cross_vintage_totals_forced_to_reconcile": false,
+    "candidate_bounded": false,
+    "hospital_level_shortage_assigned": false,
+    "whole_county_shortage_assigned": false,
+    "unique_affected_population_observed": false,
+    "patient_access_observed": false,
+    "provider_supply_or_staffed_capacity_observed": false,
+    "need_or_adequacy_assessed": false,
+    "cost_or_savings_observed": false,
+    "service_floor_passed": false,
+    "hlt_reopen_condition_triggered": false,
+    "candidate_selected_for_fiscal_model": false,
+    "reason": "The daily file is a component registry and the quarterly report has a different vintage and status surface. Neither assigns shortage or capacity to the CMS hospital denominator or supplies a bounded intervention, effect, cost, floor, or delivery case."
+  },
+  "next_evidence": {
+    "geography_bridge": "Build a same-vintage designation-to-component-to-geography bridge while preserving partial-area and multi-component structure.",
+    "facility_bridge": "Use an explicit compatible identifier and designation scope before assigning any facility-level HPSA context.",
+    "capacity": "Add official provider or staffed service-line capacity with a compatible population, geography, and time basis.",
+    "access": "Measure patient-relevant travel, entry, affordability, and continuity rather than treating designation as access.",
+    "candidate": "Name one bounded HLT intervention and match its population, floors, effects, costs, incidence, and delivery evidence."
+  },
+  "portfolio_result": {
+    "packs_replayed": 1,
+    "packs_admitted_to_fiscal_model": 0,
+    "admitted_fy2026_primary_reduction_billions": 0.0,
+    "remaining_fy2026_revenue_target_billions": 813.727,
+    "preferred_schedule_percent": [21, 23, 33, 35, 43, 46, 48],
+    "behavior_contingency_schedule_percent": [22, 24, 34, 36, 44, 47, 49],
+    "rate_recomputation_required": false,
+    "rate_result_changed": false
+  },
+  "role_review": {
+    "fixed_point": "pass_with_risk",
+    "open_p1_findings": 0,
+    "open_p2_findings": 0,
+    "deferred_claims": [
+      "same-vintage designation-component-geography reconciliation",
+      "hospital or whole-county shortage assignment",
+      "deduplicated affected population",
+      "patient-relevant access and staffed capacity",
+      "quality, outcomes, equity, need, and adequacy",
+      "candidate effect, delivery, and net federal savings",
+      "HLT reopening and rate change"
+    ]
+  },
+  "claim_booleans": {
+    "official_replay_succeeded": true,
+    "component_rows_treated_as_designations": false,
+    "designation_populations_summed_as_unique_people": false,
+    "daily_and_quarterly_vintages_merged": false,
+    "designation_treated_as_hospital_access_or_capacity": false,
+    "candidate_admitted": false,
+    "savings_claimed": false,
+    "allocation_changed": false,
+    "rate_change_claimed": false,
+    "public_release_authorized": false
+  },
+  "public_warning": "The HRSA sources establish a formal primary-care shortage registry at declared component, designation-ID, and quarterly-summary grains. They do not assign shortage, access, capacity, adequacy, costs, or savings to a hospital, county, or unique population. HLT, the $813.727B target, and both rate schedules remain unchanged."
+}

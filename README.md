@@ -11,7 +11,7 @@ internal analytical rate schedule.
 
 The result is now complete inside this repository: 21 canonical explanation
 artifacts, ten research papers, three presentation variants, a six-page local
-website, machine-readable closure records, and 404 passing tests.
+website, machine-readable closure records, and 405 passing tests.
 
 > **Repository-ready, externally blocked.** TAXLANE is not enacted law,
 > personal tax or legal advice, an official score, formal proof of balance, or
@@ -166,6 +166,15 @@ facilities, 3,456 are metro and 1,904 nonmetro; 1,086 matched Critical Access
 Hospitals are nonmetro. [The rurality disposition](docs/reading/shield-cms-usda-rurality-disposition.md)
 admits that distribution while refusing to translate county class into patient
 rurality, travel access, shortage, staffed capacity, need, adequacy, or savings.
+HLT, the target, and the rates remain unchanged.
+
+SHIELD now adds HRSA's formal primary-care shortage registry at its true grain:
+79,150 component rows resolve to 7,682 currently designated HPSA IDs, including
+762 multi-component and 282 multi-rural-status designations. HRSA's separate
+June 30 quarterly total of 9,003 remains separately vintaged rather than being
+forced to match the newer daily file. [The HPSA disposition](docs/reading/shield-hrsa-primary-care-hpsa-disposition.md)
+admits the official registry spine while holding hospital or county assignment,
+unique population, access, capacity, adequacy, candidates, costs, and savings.
 HLT, the target, and the rates remain unchanged.
 
 ### Four complete bounded owner products
