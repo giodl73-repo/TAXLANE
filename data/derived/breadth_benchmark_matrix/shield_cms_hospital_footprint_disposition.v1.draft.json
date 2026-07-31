@@ -1,0 +1,102 @@
+{
+  "record_id": "shield-cms-hospital-footprint-disposition:v1",
+  "record_family": "shield_cms_hospital_footprint_disposition",
+  "version": "v1.draft",
+  "status": "official_hlt_facility_footprint_admitted_access_capacity_outcome_and_fiscal_claims_held",
+  "as_of_date": "2026-07-31",
+  "product_question": "What does SHIELD's current CMS hospital footprint establish for HLT, and what remains unproved?",
+  "prior_record": "hlt-a-health-service-floor-source-spine:v1",
+  "producer": {
+    "repository": "SHIELD",
+    "track": "HLT",
+    "candidate_id": null,
+    "commit": "157c00055ea54433f373deb7043d2b3b7e0e28a6",
+    "replay_command": "cargo run --quiet -p shield-cli -- cms-access-held-pack",
+    "pack_id": "shield:cms-hospital-footprint-2026-05:v1",
+    "pack_bytes_utf8_without_newline": 4469,
+    "pack_sha256": "a28d94b6ec8a7df23269f0ea506aa2ea90542e94c3f6aa18d2ad4230257a79ba",
+    "workspace_crates": 7,
+    "product_commands": 6,
+    "workspace_tests": 38,
+    "feature_tests": 4
+  },
+  "source_custody": {
+    "publisher": "Centers for Medicare & Medicaid Services (CMS)",
+    "dataset": "Hospital General Information",
+    "dataset_id": "xubh-q36u",
+    "released": "2026-05-13",
+    "modified": "2026-04-28",
+    "captured": "2026-07-31",
+    "source_csv_rows": 5432,
+    "source_unique_facility_ids": 5432,
+    "source_csv_bytes": 1453884,
+    "source_csv_sha256": "83c98b2e8687580e0482b13e1e9acd5813534be243e5ccd9f55556a869595d40"
+  },
+  "official_findings": {
+    "medicare_registered_hospitals": 5432,
+    "emergency_services_yes": 4498,
+    "emergency_services_no": 934,
+    "critical_access_hospitals": 1378,
+    "rural_emergency_hospitals": 41,
+    "state_and_territory_groups": 56,
+    "hospital_type_partition_reconciles": true,
+    "emergency_service_partition_reconciles": true,
+    "geography_partition_reconciles": true
+  },
+  "taxlane_assessment": {
+    "official_facility_denominator_admitted": true,
+    "candidate_bounded": false,
+    "travel_access_observed": false,
+    "staffed_capacity_observed": false,
+    "service_breadth_observed": false,
+    "quality_or_outcome_effect_observed": false,
+    "equity_or_need_assessed": false,
+    "cost_or_savings_observed": false,
+    "service_floor_passed": false,
+    "hlt_reopen_condition_triggered": false,
+    "candidate_selected_for_fiscal_model": false,
+    "reason": "Facility presence and an emergency-service flag establish a current registry denominator, not travel reach, staffing, service availability, affordability, quality, outcomes, need, adequacy, costs, or savings."
+  },
+  "next_evidence": {
+    "geography": "Join an official rurality or shortage-area geography at a compatible unit before making distribution claims.",
+    "capacity": "Add staffed service-line capacity with an explicit baseline or surge demand basis.",
+    "candidate": "Name one bounded HLT intervention and match its affected population, access, safety, equity, adequacy, cost, incidence, and delivery evidence.",
+    "fiscal": "Supply scored net federal savings with implementation, timing, overlap, beneficiary, and service-floor treatment."
+  },
+  "portfolio_result": {
+    "packs_replayed": 1,
+    "packs_admitted_to_fiscal_model": 0,
+    "admitted_fy2026_primary_reduction_billions": 0.0,
+    "remaining_fy2026_revenue_target_billions": 813.727,
+    "preferred_schedule_percent": [21, 23, 33, 35, 43, 46, 48],
+    "behavior_contingency_schedule_percent": [22, 24, 34, 36, 44, 47, 49],
+    "rate_recomputation_required": false,
+    "rate_result_changed": false
+  },
+  "role_review": {
+    "fixed_point": "pass_with_risk",
+    "open_p1_findings": 0,
+    "open_p2_findings": 0,
+    "deferred_claims": [
+      "travel and geographic access",
+      "staffed capacity and service breadth",
+      "affordability, quality, safety, and outcomes",
+      "equity, need, adequacy, and resilience",
+      "candidate-specific effect and delivery",
+      "net federal savings",
+      "HLT reopening and rate change"
+    ]
+  },
+  "claim_booleans": {
+    "official_replay_succeeded": true,
+    "facility_presence_treated_as_access": false,
+    "emergency_flag_treated_as_service_sla": false,
+    "hospital_types_treated_as_fungible_capacity": false,
+    "candidate_admitted": false,
+    "savings_claimed": false,
+    "allocation_changed": false,
+    "rate_change_claimed": false,
+    "public_release_authorized": false
+  },
+  "public_warning": "The CMS footprint is a current HLT denominator, not an access, capacity, adequacy, outcome, cost, or savings result. HLT, the $813.727B target, and both rate schedules remain unchanged."
+}

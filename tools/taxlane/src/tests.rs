@@ -2153,6 +2153,38 @@ mod global_country_comparison_tests {
         );
         assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
     }
+
+    #[test]
+    fn shield_hospital_footprint_is_context_not_access_or_savings() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let path = root.join(
+            "data/derived/breadth_benchmark_matrix/shield_cms_hospital_footprint_disposition.v1.draft.json",
+        );
+        let text = fs::read_to_string(path).expect("read SHIELD hospital-footprint disposition");
+        let record: serde_json::Value =
+            serde_json::from_str(&text).expect("parse SHIELD hospital-footprint disposition");
+
+        assert_eq!(record["producer"]["track"], "HLT");
+        assert_eq!(record["producer"]["workspace_tests"], 38);
+        assert_eq!(record["producer"]["pack_bytes_utf8_without_newline"], 4469);
+        assert_eq!(
+            record["producer"]["pack_sha256"],
+            "a28d94b6ec8a7df23269f0ea506aa2ea90542e94c3f6aa18d2ad4230257a79ba"
+        );
+        assert_eq!(record["official_findings"]["medicare_registered_hospitals"], 5432);
+        assert_eq!(record["official_findings"]["emergency_services_yes"], 4498);
+        assert_eq!(record["official_findings"]["critical_access_hospitals"], 1378);
+        assert_eq!(record["official_findings"]["rural_emergency_hospitals"], 41);
+        assert_eq!(record["taxlane_assessment"]["travel_access_observed"], false);
+        assert_eq!(record["taxlane_assessment"]["staffed_capacity_observed"], false);
+        assert_eq!(record["taxlane_assessment"]["hlt_reopen_condition_triggered"], false);
+        assert_eq!(
+            record["portfolio_result"]["admitted_fy2026_primary_reduction_billions"],
+            0.0
+        );
+        assert_eq!(record["portfolio_result"]["remaining_fy2026_revenue_target_billions"], 813.727);
+        assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
+    }
 }
 
 fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {

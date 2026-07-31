@@ -11,7 +11,7 @@ internal analytical rate schedule.
 
 The result is now complete inside this repository: 21 canonical explanation
 artifacts, ten research papers, three presentation variants, a six-page local
-website, machine-readable closure records, and 397 passing tests.
+website, machine-readable closure records, and 403 passing tests.
 
 > **Repository-ready, externally blocked.** TAXLANE is not enacted law,
 > personal tax or legal advice, an official score, formal proof of balance, or
@@ -148,6 +148,17 @@ electricity evaluation as cancelled. [The readiness gate](docs/reading/envoy-nep
 keeps those statuses separate from a public design, independent evaluator,
 exposure-aligned collection, local incidence, safeguards, or completed effect.
 INT, savings, the target, and rates therefore remain unchanged.
+
+### First SHIELD health-system denominator
+
+SHIELD now contributes a current CMS HLT footprint: 5,432 unique
+Medicare-registered hospitals across 56 state and territory groups, including
+4,498 facilities flagged for emergency services, 1,378 Critical Access
+Hospitals, and 41 Rural Emergency Hospitals. The three independent partitions
+reconcile, but [the HLT disposition](docs/reading/shield-cms-hospital-footprint-disposition.md)
+does not confuse presence with travel access, an emergency flag with a staffed
+service SLA, or hospital type with fungible capacity. No candidate, savings,
+allocation, target, or rate changes.
 
 ### Four complete bounded owner products
 

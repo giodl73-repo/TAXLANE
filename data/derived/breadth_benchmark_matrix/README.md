@@ -1930,3 +1930,10 @@ complete 186-indicator Nepal census. It identifies one baseline-target-actual
 join—road design, a process measure advancing from 40 to 76 km—and zero
 complete outcome joins or compact-specific actuals. The census advances while
 effects, savings, INT reopening, the target, and rates remain held.
+
+`shield_cms_hospital_footprint_disposition.v1.draft.json` replays SHIELD's
+current CMS hospital-footprint pack. Its 5,432 unique facilities reconcile by
+hospital type, emergency-service flag, and 56 state/territory groups. Taxlane
+admits the official HLT denominator while holding travel access, staffed
+capacity, service breadth, quality, outcomes, equity, adequacy, costs, savings,
+HLT reopening, and rate changes.
