@@ -1114,6 +1114,9 @@ It is the bounded public surface, not a performance or savings report.
 233. Read `shield-cms-hospital-footprint-disposition.md` for SHIELD's current
      5,432-facility HLT denominator, exact presence-versus-access boundary, and
      unchanged HLT, fiscal-target, and rate results.
+234. Read `shield-cms-usda-rurality-disposition.md` for the 5,360-facility
+     exact county rurality join, 72-row residual, distribution-versus-need
+     boundary, and unchanged HLT, fiscal-target, and rate results.
 
 ## Public-Use Guardrail
 

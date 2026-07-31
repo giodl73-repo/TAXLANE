@@ -11,7 +11,7 @@ internal analytical rate schedule.
 
 The result is now complete inside this repository: 21 canonical explanation
 artifacts, ten research papers, three presentation variants, a six-page local
-website, machine-readable closure records, and 403 passing tests.
+website, machine-readable closure records, and 404 passing tests.
 
 > **Repository-ready, externally blocked.** TAXLANE is not enacted law,
 > personal tax or legal advice, an official score, formal proof of balance, or
@@ -159,6 +159,14 @@ reconcile, but [the HLT disposition](docs/reading/shield-cms-hospital-footprint-
 does not confuse presence with travel access, an emergency flag with a staffed
 service SLA, or hospital type with fungible capacity. No candidate, savings,
 allocation, target, or rate changes.
+
+SHIELD then joins 5,360 of those facilities to USDA ERS 2023 county rurality
+codes without fuzzy matching and preserves 72 unmatched rows. Among matched
+facilities, 3,456 are metro and 1,904 nonmetro; 1,086 matched Critical Access
+Hospitals are nonmetro. [The rurality disposition](docs/reading/shield-cms-usda-rurality-disposition.md)
+admits that distribution while refusing to translate county class into patient
+rurality, travel access, shortage, staffed capacity, need, adequacy, or savings.
+HLT, the target, and the rates remain unchanged.
 
 ### Four complete bounded owner products
 

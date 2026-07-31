@@ -1937,3 +1937,9 @@ hospital type, emergency-service flag, and 56 state/territory groups. Taxlane
 admits the official HLT denominator while holding travel access, staffed
 capacity, service breadth, quality, outcomes, equity, adequacy, costs, savings,
 HLT reopening, and rate changes.
+
+`shield_cms_usda_rurality_disposition.v1.draft.json` replays SHIELD's exact
+CMS–USDA RUCC join. It matches 5,360 facilities, classifies 3,456 as metro and
+1,904 as nonmetro, and preserves 72 unmatched rows. Taxlane admits county-class
+distribution while holding patient rurality, travel access, formal shortage,
+staffed capacity, need, adequacy, outcomes, costs, savings, and rate changes.
