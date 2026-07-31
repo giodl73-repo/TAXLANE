@@ -1829,3 +1829,12 @@ baseline custody, but all have null candidate identities and remain unable to
 trigger admission. Zero savings, the $813.727 billion target, and the preferred
 21/23/33/35/43/46/48 schedule therefore remain unchanged; no adapter code is
 added without a candidate-capable consumer.
+
+`covenant_hr2137_candidate_intake_disposition.v1.draft.json` replays
+COVENANT's first official non-null H.R. 2137 candidate pack. It reconciles the
+producer's $173M gross claims/service and court cost, -$145M pension/Medicaid
+interaction, and $28M combined cost with Taxlane's existing VET candidate.
+Because the identity already exists and enactment, outcomes, floors, incidence,
+implementation, appropriations, and delivery remain incomplete, the pack adds
+domain-owner corroboration without a duplicate fiscal effect, track reopening,
+savings admission, or rate change.

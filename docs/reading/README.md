@@ -1069,6 +1069,10 @@ It is the bounded public surface, not a performance or savings report.
 219. Read `next-owner-official-baseline-intake-disposition.md` for the first
      four-pack official aggregate domain-owner intake, candidate-free baseline
      class, exact ISF/VET/JUS/INT gaps, and unchanged fiscal and rate result.
+220. Read `covenant-hr2137-candidate-intake-disposition.md` for the first
+     official non-null candidate from the four new domain owners, its
+     componentized CBO path, existing-VET identity match, Level 2 reblock, and
+     unchanged fiscal and rate result.
 
 ## Public-Use Guardrail
 

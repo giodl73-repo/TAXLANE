@@ -1,0 +1,109 @@
+{
+  "record_id": "covenant-hr2137-candidate-intake-disposition:v1",
+  "record_family": "covenant_hr2137_candidate_intake_disposition",
+  "version": "v1.draft",
+  "status": "producer_candidate_custodied_existing_vet_reblock_confirmed",
+  "as_of_date": "2026-07-30",
+  "product_question": "Does COVENANT's first official candidate pack close the existing H.R. 2137 VET admission gaps or change Taxlane's rate result?",
+  "prior_intake_path": "data/derived/breadth_benchmark_matrix/next_owner_official_baseline_intake_disposition.v1.draft.json",
+  "existing_vet_paths": [
+    "data/derived/breadth_benchmark_matrix/eight_track_two_level_candidate_catchup.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/vet_d_veterans_financing_fairness_closure.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/vet_e_veterans_bounded_selection_solver_closure.v1.draft.json"
+  ],
+  "producer_input": {
+    "producer": "COVENANT",
+    "repository": "https://github.com/giodl73-repo/COVENANT",
+    "commit": "750b830889c5628f6c5f771d589efed4839ac72f",
+    "replay_command": "cargo run --quiet -- candidate-held-pack fixtures/official/cbo-hr2137-2025-cost-estimate.tsv",
+    "pack_id": "covenant:hr2137-review-every-veterans-claim:v1",
+    "pack_sha256": "e4de4fe08111bfb65d03b3ca0aea4ac4b4e5674dc39ef909e8621e8b32a567ab",
+    "schema": "taxlane.lane-evidence-pack-candidate.v1",
+    "required_section_count": 14,
+    "required_sections_present": 14,
+    "track": "VET",
+    "candidate_id": "hr2137_review_every_veterans_claim",
+    "legislative_status": "reported_in_house_not_enacted",
+    "current_disposition": "held",
+    "readiness": {
+      "domain_evidence_ready": true,
+      "candidate_bounded": true,
+      "outcome_ready": false,
+      "cost_ready": true,
+      "floors_ready": false,
+      "delivery_ready": false,
+      "overlap_ready": true,
+      "taxlane_admission_ready": false
+    },
+    "authority": {
+      "taxlane_admission": false,
+      "savings": false,
+      "allocation": false,
+      "rate_change": false,
+      "release": false
+    }
+  },
+  "official_fiscal_path": {
+    "score_horizon": "FY2026-FY2035",
+    "gross_claims_appeals_it_studies_and_court_cost_millions": 173,
+    "pension_medicaid_interaction_millions": -145,
+    "direct_outlays_millions": -108,
+    "appropriation_outlays_millions": 136,
+    "combined_outlays_millions": 28,
+    "fy2026_combined_outlays_millions": 49,
+    "first_combined_net_reduction_year": 2032,
+    "accounting_rule": "The pension and Medicaid interaction is already included in direct outlays. It is not claims-processing efficiency and cannot be added again."
+  },
+  "taxlane_assessment": {
+    "candidate_identity_matches_existing_vet_candidate": true,
+    "new_candidate_identity_added": false,
+    "producer_domain_corroboration_added": true,
+    "annual_score_reconciled": true,
+    "cost_and_offset_componentized": true,
+    "current_law_null_preserved": true,
+    "candidate_selected_for_fiscal_model": false,
+    "existing_reopen_condition_triggered": false,
+    "reason": "The producer closes candidate identity, annual score, and high-level overlap custody, but the bill is not enacted and outcome, floor, incidence, implementation-cost, appropriation, and delivery evidence remain incomplete."
+  },
+  "level_2_requirements": [
+    "enactment and executed appropriation or an explicitly conditional treatment",
+    "complete claims and appeals timeliness series with policy and stress values",
+    "claims accuracy, disability-determination quality, notice, correction, and appeal-rights results",
+    "pension-recipient, Medicaid, rural, disabled-veteran, survivor, and caregiver incidence",
+    "implementation and transition costs separated from ongoing workload",
+    "workforce, procurement, system-capacity, milestone, stop-condition, and observation plan",
+    "reviewed service-floor passage and candidate-specific Taxlane admission rerun"
+  ],
+  "portfolio_result": {
+    "producer_candidate_packs_replayed": 1,
+    "producer_candidate_packs_custodied": 1,
+    "new_candidate_identities_added": 0,
+    "packs_admitted_to_fiscal_model": 0,
+    "existing_track_reopening_conditions_triggered": 0,
+    "admitted_fy2026_primary_reduction_billions": 0.0,
+    "remaining_fy2026_revenue_target_billions": 813.727,
+    "preferred_schedule_percent": [21, 23, 33, 35, 43, 46, 48],
+    "behavior_contingency_schedule_percent": [22, 24, 34, 36, 44, 47, 49],
+    "rate_recomputation_required": false,
+    "rate_result_changed": false
+  },
+  "role_review": {
+    "fixed_point": "pass_with_risk",
+    "open_p1_findings": 0,
+    "open_p2_findings": 0,
+    "deferred_claims": ["enactment", "outcome passage", "service-floor passage", "delivery readiness", "savings", "track reopening", "rate change"]
+  },
+  "claim_booleans": {
+    "official_candidate_pack_intake_succeeded": true,
+    "candidate_bounded": true,
+    "new_fiscal_candidate_created": false,
+    "candidate_admitted": false,
+    "claims_efficiency_savings_proven": false,
+    "producer_authority_overridden": false,
+    "savings_claimed": false,
+    "allocation_changed": false,
+    "rate_change_claimed": false,
+    "public_release_authorized": false
+  },
+  "public_warning": "COVENANT now supplies a real, replayable H.R. 2137 candidate pack with an official annual CBO score. It corroborates Taxlane's existing VET candidate and accounting boundaries but does not close enactment, outcome, floor, incidence, implementation, appropriation, or delivery gates. The $145 million pension and Medicaid interaction is not claims efficiency. Zero savings are admitted and no rate changes."
+}

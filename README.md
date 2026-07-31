@@ -75,6 +75,17 @@ unchanged. The [four-pack disposition](docs/reading/next-owner-official-baseline
 explains why this is substantive baseline interoperability without premature
 adapter code or fiscal admission.
 
+### First official domain-owner candidate intake
+
+COVENANT now supplies a non-null, official H.R. 2137 VET candidate pack. It
+reconciles +$173M of claims/service and court costs with a separate -$145M
+pension/Medicaid interaction, producing a +$28M FY2026-FY2035 net cost. This
+corroborates Taxlane's existing H.R. 2137 candidate rather than creating or
+counting it again. The bill remains unenacted and Level 2 outcomes, floors,
+incidence, implementation, appropriation, and delivery evidence remain held,
+so [VET does not reopen](docs/reading/covenant-hr2137-candidate-intake-disposition.md)
+and the target and schedules stay unchanged.
+
 ## How TAXLANE solved the system
 
 “Solved” means the internal analytical system closes under explicit evidence,

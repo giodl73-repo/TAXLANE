@@ -1672,6 +1672,53 @@ mod global_country_comparison_tests {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_program_lane_target_cost_contract(&root).unwrap();
     }
+
+    #[test]
+    fn covenant_candidate_corroborates_without_reopening_vet() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let path = root.join(
+            "data/derived/breadth_benchmark_matrix/covenant_hr2137_candidate_intake_disposition.v1.draft.json",
+        );
+        let text = fs::read_to_string(path).expect("read COVENANT candidate intake");
+        let record: serde_json::Value =
+            serde_json::from_str(&text).expect("parse COVENANT candidate intake");
+
+        let input = &record["producer_input"];
+        assert_eq!(input["candidate_id"], "hr2137_review_every_veterans_claim");
+        assert_eq!(input["required_sections_present"], 14);
+        assert_eq!(input["readiness"]["candidate_bounded"], true);
+        assert_eq!(input["readiness"]["cost_ready"], true);
+        assert_eq!(input["readiness"]["floors_ready"], false);
+        assert_eq!(input["readiness"]["taxlane_admission_ready"], false);
+
+        let fiscal = &record["official_fiscal_path"];
+        assert_eq!(
+            fiscal["gross_claims_appeals_it_studies_and_court_cost_millions"],
+            173
+        );
+        assert_eq!(fiscal["pension_medicaid_interaction_millions"], -145);
+        assert_eq!(fiscal["combined_outlays_millions"], 28);
+        assert_eq!(fiscal["fy2026_combined_outlays_millions"], 49);
+
+        assert_eq!(
+            record["taxlane_assessment"]["new_candidate_identity_added"],
+            false
+        );
+        assert_eq!(
+            record["taxlane_assessment"]["existing_reopen_condition_triggered"],
+            false
+        );
+        assert_eq!(
+            record["portfolio_result"]["admitted_fy2026_primary_reduction_billions"],
+            0.0
+        );
+        assert_eq!(
+            record["portfolio_result"]["remaining_fy2026_revenue_target_billions"],
+            813.727
+        );
+        assert_eq!(record["claim_booleans"]["savings_claimed"], false);
+        assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
+    }
 }
 
 fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
