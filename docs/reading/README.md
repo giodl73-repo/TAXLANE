@@ -1141,6 +1141,9 @@ It is the bounded public surface, not a performance or savings report.
      historical emergency-process observations, unavailable-value and Rural
      Emergency Hospital boundaries, and unchanged HLT, fiscal-target, and rate
      results.
+241. Read `shield-cms-county-emergency-demand-disposition.md` for SHIELD's
+     Original Medicare county emergency-use denominator, facility-location and
+     cross-county boundaries, and unchanged HLT, fiscal-target, and rate results.
 
 ## Public-Use Guardrail
 

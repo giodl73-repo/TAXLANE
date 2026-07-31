@@ -1976,6 +1976,14 @@ current hospital footprint. Taxlane admits exact identity and available-bed-use
 context while holding staffed and service-line capacity, patient access, need,
 adequacy, candidates, costs, savings, and rate changes.
 
+`shield_cms_county_emergency_demand_disposition.v1.draft.json` replays
+SHIELD's 2024 Original Medicare county emergency-demand bridge. It retains
+3,143 usable and 54 suppressed/missing county rates, places 5,300 current
+hospitals by exact county FIPS, and identifies 762 demand counties without a
+current hospital location. Taxlane admits the planning context while holding
+cross-county flow, travel, total-population demand, unmet need, adequacy,
+candidates, costs, savings, and rate changes.
+
 `shield_cms_certified_services_workforce_disposition.v1.draft.json` replays
 SHIELD's Q2 2026 CMS QIES Provider of Services spine. Exact CCN identity covers
 5,422 of 5,432 current hospitals; fourteen service modes are complete for

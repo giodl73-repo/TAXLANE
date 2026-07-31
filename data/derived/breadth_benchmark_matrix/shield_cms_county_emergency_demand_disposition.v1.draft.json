@@ -1,0 +1,110 @@
+{
+  "record_id": "shield-cms-county-emergency-demand-disposition:v1",
+  "record_family": "shield_cms_county_emergency_demand_disposition",
+  "version": "v1.draft",
+  "status": "official_hlt_county_emergency_demand_context_admitted_cross_county_access_need_and_fiscal_claims_held",
+  "as_of_date": "2026-07-31",
+  "product_question": "What does 2024 Original Medicare county emergency use establish for HLT, and what remains unproved?",
+  "prior_record": "shield-cms-emergency-care-timeliness-disposition:v1",
+  "producer": {
+    "repository": "SHIELD",
+    "track": "HLT",
+    "candidate_id": null,
+    "commit": "d469f66fe3c8950b42c7decb3b5144e3d1baf855",
+    "replay_command": "cargo run --quiet -p shield-cli -- cms-county-emergency-demand-held-pack",
+    "pack_id": "shield:cms-county-emergency-demand-2024:v1",
+    "pack_bytes_utf8_without_newline": 5544,
+    "pack_sha256": "a92ce01a978fc25517b199559fff0201a179a9f473a32f9848be5ca4fdd8aaef",
+    "workspace_crates": 7,
+    "product_commands": 22,
+    "workspace_tests": 70,
+    "feature_tests": 36
+  },
+  "source_custody": {
+    "publisher": "Centers for Medicare & Medicaid Services",
+    "dataset": "Medicare Geographic Variation - by National, State & County",
+    "dataset_id": "6219697b-8f6c-4164-bed4-cd9317c58ebc",
+    "year": 2024,
+    "modified": "2026-05-15",
+    "csv_rows": 36994,
+    "csv_bytes": 57865948,
+    "csv_sha256": "10c8304012da34da3ecfe4caf4548927095f693383814d0e79ce6711b6806fad",
+    "dictionary_sha256": "75a8d4bef07d1900a50732c78a2aec688ba3ca132dad1dc6cab1a9243d55109f",
+    "methodology_sha256": "e7c6ca8a3cb4cd761f44ee5d5e4ee78a379479a73cd93f69fb116c860a9944ca"
+  },
+  "county_demand_findings": {
+    "county_rows": 3197,
+    "county_rate_values": 3143,
+    "county_rate_suppressed_or_missing": 54,
+    "national_original_medicare_beneficiaries": 27732177,
+    "national_ed_visits": 16377193,
+    "national_ed_visits_per_1000": 590.5484,
+    "county_rate_median": 606.6914,
+    "current_facilities_in_demand_counties": 5300,
+    "demand_counties_with_current_hospital": 2435,
+    "demand_counties_without_current_hospital": 762,
+    "no_current_hospital_counties_with_numeric_ed_demand": 708,
+    "no_current_hospital_county_beneficiaries": 1527795,
+    "no_current_hospital_county_ed_visits": 906563,
+    "original_medicare_represents_total_population": false,
+    "county_residence_identifies_treating_hospital": false,
+    "county_without_hospital_is_no_access": false
+  },
+  "taxlane_assessment": {
+    "official_county_demand_context_admitted": true,
+    "national_reconciliation_and_suppression_admitted": true,
+    "exact_facility_county_fips_bridge_admitted": true,
+    "candidate_bounded": false,
+    "total_population_demand_observed": false,
+    "cross_county_patient_flow_observed": false,
+    "travel_time_or_catchment_observed": false,
+    "unmet_need_or_adequacy_assessed": false,
+    "cost_or_savings_observed": false,
+    "service_floor_passed": false,
+    "hlt_reopen_condition_triggered": false,
+    "candidate_selected_for_fiscal_model": false,
+    "reason": "The source establishes Original Medicare resident utilization and facility co-location. It does not identify the treating hospital, cross-county travel, total-population demand, unmet need, access, adequacy, an intervention, effect, cost, incidence, or delivery case."
+  },
+  "next_evidence": {
+    "travel": "Add observed patient-flow or patient-relevant travel-time evidence across county boundaries.",
+    "demand": "Add total-population emergency demand and preserve payer, age, morbidity, and suppression boundaries.",
+    "operations": "Join compatible current emergency schedules, staffing, throughput, and transfer-network evidence.",
+    "candidate": "Only then bound one emergency-access intervention with floors, effects, costs, incidence, and delivery evidence."
+  },
+  "portfolio_result": {
+    "packs_replayed": 1,
+    "packs_admitted_to_fiscal_model": 0,
+    "admitted_fy2026_primary_reduction_billions": 0.0,
+    "remaining_fy2026_revenue_target_billions": 813.727,
+    "preferred_schedule_percent": [21, 23, 33, 35, 43, 46, 48],
+    "behavior_contingency_schedule_percent": [22, 24, 34, 36, 44, 47, 49],
+    "rate_recomputation_required": false,
+    "rate_result_changed": false
+  },
+  "role_review": {
+    "fixed_point": "pass_with_risk",
+    "open_p1_findings": 0,
+    "open_p2_findings": 0,
+    "deferred_claims": [
+      "total-population emergency demand",
+      "treating facility, cross-county flow, travel time, and catchments",
+      "current schedules, staffing, throughput, and transfer capacity",
+      "unmet need, quality outcomes, equity, and adequacy",
+      "candidate effect, delivery, and net federal savings",
+      "HLT reopening and rate change"
+    ]
+  },
+  "claim_booleans": {
+    "official_replay_succeeded": true,
+    "suppressed_counties_filled_with_zero": false,
+    "original_medicare_treated_as_total_population": false,
+    "county_without_hospital_treated_as_no_access": false,
+    "utilization_treated_as_unmet_need": false,
+    "candidate_admitted": false,
+    "savings_claimed": false,
+    "allocation_changed": false,
+    "rate_change_claimed": false,
+    "public_release_authorized": false
+  },
+  "public_warning": "CMS 2024 county data establish Original Medicare emergency-use context and current facility co-location. The 762 counties without a current hospital location are not proven access gaps because treating facilities and cross-county travel are unobserved. HLT, the $813.727B target, and both rate schedules remain unchanged."
+}
