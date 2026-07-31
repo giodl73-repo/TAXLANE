@@ -1862,3 +1862,12 @@ kilometers, and three mobilized substations. Cofunding is not a U.S. offset,
 unexpended obligations are not savings, and contracted work is not a completed
 output or durable outcome. The identity therefore remains distinct from the
 selected uniform 25% function-150 reduction, so INT and rates remain unchanged.
+
+`covenant_hr2137_level2_baseline_disposition.v1.draft.json` replays
+COVENANT's official current-system claims, appeals, accuracy, and rural-context
+snapshot against the existing H.R. 2137 identity. It establishes a usable
+preimplementation comparison surface while preserving docket choice, whole-
+claim accuracy, and rural cohort boundaries. Because the bill remains
+unenacted, the snapshot contains no candidate exposure or effect and cannot
+pass outcome, rights, rural-incidence, delivery, savings, or admission gates.
+VET and rates remain unchanged.

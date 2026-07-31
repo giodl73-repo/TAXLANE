@@ -1873,6 +1873,41 @@ mod global_country_comparison_tests {
         );
         assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
     }
+
+    #[test]
+    fn covenant_level2_baseline_does_not_invent_a_candidate_effect() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let path = root.join(
+            "data/derived/breadth_benchmark_matrix/covenant_hr2137_level2_baseline_disposition.v1.draft.json",
+        );
+        let text = fs::read_to_string(path).expect("read COVENANT Level 2 disposition");
+        let record: serde_json::Value =
+            serde_json::from_str(&text).expect("parse COVENANT Level 2 disposition");
+
+        let floor = &record["current_system_floor_snapshot"];
+        assert_eq!(floor["rating_inventory"], 600_878);
+        assert_eq!(floor["rating_backlog_over_125_days"], 69_481);
+        assert_eq!(floor["rating_backlog_share_bps"], 1_156);
+        assert_eq!(floor["claim_accuracy_3_month_bps"], 8_362);
+        assert_eq!(floor["ama_direct_average_days_pending"], 212);
+        assert_eq!(floor["ama_hearing_average_days_pending"], 870);
+        assert_eq!(floor["hearing_to_direct_gap_days"], 658);
+        assert_eq!(
+            floor["rural_vha_context_matches_vba_claims_cohort"],
+            false
+        );
+
+        let assessment = &record["taxlane_assessment"];
+        assert_eq!(assessment["level2_baseline_gate_complete"], true);
+        assert_eq!(assessment["level2_candidate_admissibility_complete"], false);
+        assert_eq!(assessment["candidate_effect_observed"], false);
+        assert_eq!(assessment["existing_reopen_condition_triggered"], false);
+        assert_eq!(
+            record["portfolio_result"]["admitted_fy2026_primary_reduction_billions"],
+            0.0
+        );
+        assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
+    }
 }
 
 fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {

@@ -11,7 +11,7 @@ internal analytical rate schedule.
 
 The result is now complete inside this repository: 21 canonical explanation
 artifacts, ten research papers, three presentation variants, a six-page local
-website, machine-readable closure records, and 393 passing tests.
+website, machine-readable closure records, and 394 passing tests.
 
 > **Repository-ready, externally blocked.** TAXLANE is not enacted law,
 > personal tax or legal advice, an official score, formal proof of balance, or
@@ -108,6 +108,16 @@ kilometers and three mobilized substations separate from completed outputs and
 durable outcomes. This is a new held INT identity, not the existing uniform
 25% international-affairs reduction. [INT therefore remains held](docs/reading/envoy-nepal-compact-candidate-intake-disposition.md),
 with no savings or rate change.
+
+### First Level 2 baseline gate
+
+COVENANT now adds the current comparison surface for H.R. 2137: 600,878
+pending rating claims, 69,481 older than 125 days, 83.62% three-month
+claim-level accuracy, and 212/260/870 average days pending across the three AMA
+dockets. It also preserves three million rural/highly rural VHA enrollees as
+context—not a matched VBA claims cohort. [The baseline gate is complete](docs/reading/covenant-hr2137-level2-baseline-disposition.md),
+but the unenacted candidate still has no observed effect, floor passage, or
+delivery evidence. VET, savings, the target, and rates remain unchanged.
 
 ## How TAXLANE solved the system
 

@@ -1084,6 +1084,9 @@ It is the bounded public surface, not a performance or savings report.
      active Nepal Compact delivery envelope, the separation of cofunding,
      obligations, contracts, outputs, and outcomes, its new held INT identity,
      and unchanged rates.
+224. Read `covenant-hr2137-level2-baseline-disposition.md` for COVENANT's
+     current claims, appeals, accuracy, and rural-context comparison surface,
+     the remaining candidate-specific Level 2 nulls, and unchanged rates.
 
 ## Public-Use Guardrail
 
