@@ -1093,6 +1093,9 @@ It is the bounded public surface, not a performance or savings report.
 226. Read `tribunal-hr1702-level2-baseline-disposition.md` for TRIBUNAL's
      Southern Texas district/case-type comparison surface, nested-count and
      missing-rights boundaries, continued Level 2 hold, and unchanged rates.
+227. Read `envoy-nepal-compact-level2-baseline-disposition.md` for ENVOY's
+     quarter 11 implementation-output surface, pending and budget-version
+     boundaries, continued Level 2 hold, and unchanged rates.
 
 ## Public-Use Guardrail
 

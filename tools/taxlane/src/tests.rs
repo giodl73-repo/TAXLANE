@@ -1969,6 +1969,37 @@ mod global_country_comparison_tests {
         );
         assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
     }
+
+    #[test]
+    fn envoy_level2_baseline_keeps_outputs_pending_and_outcomes_distinct() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let path = root.join(
+            "data/derived/breadth_benchmark_matrix/envoy_nepal_compact_level2_baseline_disposition.v1.draft.json",
+        );
+        let text = fs::read_to_string(path).expect("read ENVOY Level 2 disposition");
+        let record: serde_json::Value =
+            serde_json::from_str(&text).expect("parse ENVOY Level 2 disposition");
+
+        let baseline = &record["current_delivery_baseline"];
+        assert_eq!(baseline["road_training_total"], 52);
+        assert_eq!(baseline["road_training_female"], 9);
+        assert_eq!(baseline["road_training_male"], 43);
+        assert_eq!(baseline["road_design_actual_km"], 76);
+        assert_eq!(baseline["computed_road_design_target_satisfied_bps"], 5_846);
+        assert_eq!(baseline["budget_version_reconciled"], false);
+        assert!(baseline["transformers_actual"].is_null());
+        assert!(baseline["durable_outcome"].is_null());
+
+        let assessment = &record["taxlane_assessment"];
+        assert_eq!(assessment["level2_baseline_gate_complete"], true);
+        assert_eq!(assessment["level2_candidate_admissibility_complete"], false);
+        assert_eq!(assessment["existing_reopen_condition_triggered"], false);
+        assert_eq!(
+            record["portfolio_result"]["admitted_fy2026_primary_reduction_billions"],
+            0.0
+        );
+        assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
+    }
 }
 
 fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {

@@ -1886,3 +1886,9 @@ felony-defendant comparison surface against the existing H.R. 1702 identity.
 It keeps the case type nested within all felony defendants and preserves null
 counsel, detention, victim, disparity, delivery-cost, and candidate-effect
 fields. The baseline gate advances without JUS reopening, savings, or rates.
+
+`envoy_nepal_compact_level2_baseline_disposition.v1.draft.json` replays
+ENVOY's official Nepal Compact quarter 11 training, road-design, and pending
+indicator surface. It keeps $500M and $550M source versions unresolved and
+separates training and design from completed works, local benefits, safeguards,
+additionality, and durable outcomes. INT and rates remain unchanged.
