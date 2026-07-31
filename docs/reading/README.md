@@ -1125,6 +1125,10 @@ It is the bounded public surface, not a performance or savings report.
      same-vintage area/facility geography bridge, its subcounty, multi-county,
      and invalid-key boundaries, and unchanged HLT, fiscal-target, and rate
      results.
+237. Read `shield-hrsa-primary-care-capacity-disposition.md` for SHIELD's
+     designation-recorded physician FTE and shortage formulas, policy-defined
+     exclusions, non-deduplication boundary, and unchanged HLT, fiscal-target,
+     and rate results.
 
 ## Public-Use Guardrail
 

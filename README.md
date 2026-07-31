@@ -11,7 +11,7 @@ internal analytical rate schedule.
 
 The result is now complete inside this repository: 21 canonical explanation
 artifacts, ten research papers, three presentation variants, a six-page local
-website, machine-readable closure records, and 406 passing tests.
+website, machine-readable closure records, and 407 passing tests.
 
 > **Repository-ready, externally blocked.** TAXLANE is not enacted law,
 > personal tax or legal advice, an official score, formal proof of balance, or
@@ -175,6 +175,14 @@ residual. [The geography disposition](docs/reading/shield-hrsa-primary-care-geog
 admits this same-vintage bridge while refusing to equate county location with
 whole-county shortage, CMS facility identity, patient access, staffed capacity,
 or adequacy. HLT, savings, the target, and the rates remain unchanged.
+
+SHIELD now validates HRSA's primary-care designation formulas. Exactly 3,388
+current designations record 10,635.4884 physician FTE and 12,267.0916 shortage,
+for a bounded 46.44% derived need-met ratio; 4,294 other facility designations
+are explicitly excluded rather than filled with zeros. [The capacity disposition](docs/reading/shield-hrsa-primary-care-capacity-disposition.md)
+admits this formula baseline while holding unique workforce, NP/PA supply, CMS
+hospital staffing, service availability, access, adequacy, candidates, costs,
+and savings. HLT, the target, and the rates remain unchanged.
 
 SHIELD now adds HRSA's formal primary-care shortage registry at its true grain:
 79,150 component rows resolve to 7,682 currently designated HPSA IDs, including

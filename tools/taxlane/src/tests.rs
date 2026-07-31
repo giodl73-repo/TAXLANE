@@ -2283,6 +2283,38 @@ mod global_country_comparison_tests {
         assert_eq!(record["portfolio_result"]["remaining_fy2026_revenue_target_billions"], 813.727);
         assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
     }
+
+    #[test]
+    fn shield_hrsa_capacity_is_formula_evidence_not_unique_workforce_or_savings() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let path = root.join(
+            "data/derived/breadth_benchmark_matrix/shield_hrsa_primary_care_capacity_disposition.v1.draft.json",
+        );
+        let text = fs::read_to_string(path).expect("read SHIELD capacity disposition");
+        let record: serde_json::Value =
+            serde_json::from_str(&text).expect("parse SHIELD capacity disposition");
+
+        assert_eq!(record["producer"]["track"], "HLT");
+        assert_eq!(record["producer"]["workspace_tests"], 54);
+        assert_eq!(record["producer"]["pack_bytes_utf8_without_newline"], 5284);
+        assert_eq!(
+            record["producer"]["pack_sha256"],
+            "df2db0102e6e3e91924271e24014aa6ec8c41c8217f17682f1742630226bd18c"
+        );
+        assert_eq!(record["capacity_findings"]["capacity_bearing_designation_ids"], 3388);
+        assert_eq!(record["capacity_findings"]["capacity_excluded_designation_ids"], 4294);
+        assert_eq!(record["capacity_findings"]["designation_recorded_fte"], 10635.4884);
+        assert_eq!(record["capacity_findings"]["designation_recorded_shortage"], 12267.0916);
+        assert_eq!(record["capacity_findings"]["derived_need_met_percent"], 46.44);
+        assert_eq!(record["taxlane_assessment"]["unique_physician_supply_observed"], false);
+        assert_eq!(record["taxlane_assessment"]["hlt_reopen_condition_triggered"], false);
+        assert_eq!(
+            record["portfolio_result"]["admitted_fy2026_primary_reduction_billions"],
+            0.0
+        );
+        assert_eq!(record["portfolio_result"]["remaining_fy2026_revenue_target_billions"], 813.727);
+        assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
+    }
 }
 
 fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {

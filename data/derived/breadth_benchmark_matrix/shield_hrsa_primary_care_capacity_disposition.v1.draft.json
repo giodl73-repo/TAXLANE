@@ -1,0 +1,121 @@
+{
+  "record_id": "shield-hrsa-primary-care-capacity-disposition:v1",
+  "record_family": "shield_hrsa_primary_care_capacity_disposition",
+  "version": "v1.draft",
+  "status": "official_hlt_designation_capacity_formula_admitted_unique_workforce_access_adequacy_and_fiscal_claims_held",
+  "as_of_date": "2026-07-31",
+  "product_question": "What do current HRSA primary-care designation FTE and shortage formulas establish for HLT, and what remains unproved?",
+  "prior_record": "shield-hrsa-primary-care-geography-disposition:v1",
+  "producer": {
+    "repository": "SHIELD",
+    "track": "HLT",
+    "candidate_id": null,
+    "commit": "1408abc739aae88016a091aa2c0cdcfb0796c04b",
+    "replay_command": "cargo run --quiet -p shield-cli -- hrsa-capacity-held-pack",
+    "pack_id": "shield:hrsa-primary-care-designation-capacity-2026-07-31:v1",
+    "pack_bytes_utf8_without_newline": 5284,
+    "pack_sha256": "df2db0102e6e3e91924271e24014aa6ec8c41c8217f17682f1742630226bd18c",
+    "workspace_crates": 7,
+    "product_commands": 14,
+    "workspace_tests": 54,
+    "feature_tests": 20
+  },
+  "source_custody": {
+    "publisher": "Health Resources and Services Administration",
+    "daily_csv_created": "2026-07-31",
+    "daily_csv_bytes": 48303351,
+    "daily_csv_sha256": "8ed0007ef82194e44a1ee9086723e42f79e5effe96104cf3104648f2837d2673",
+    "metadata_bytes": 27297,
+    "metadata_sha256": "0439dbf209f0b05745e99cc0911e49262b422c564282a48b9030a6175b7ab91b",
+    "quarterly_formula_boundary_reviewed": true
+  },
+  "capacity_findings": {
+    "designated_hpsa_ids": 7682,
+    "capacity_bearing_designation_ids": 3388,
+    "area_capacity_designation_ids": 2838,
+    "correctional_capacity_designation_ids": 550,
+    "capacity_excluded_designation_ids": 4294,
+    "designation_recorded_fte": 10635.4884,
+    "designation_recorded_shortage": 12267.0916,
+    "derived_need_met_percent": 46.44,
+    "area_recorded_fte": 10327.3034,
+    "area_recorded_shortage": 11498.4866,
+    "area_derived_need_met_percent": 47.32,
+    "correctional_recorded_fte": 308.185,
+    "correctional_recorded_shortage": 768.605,
+    "correctional_derived_need_met_percent": 28.62,
+    "fte_zero_designation_ids": 805,
+    "shortage_zero_designation_ids": 1,
+    "area_formula_valid_ids": 2838,
+    "area_population_identity_rounding_residual_ids": 1,
+    "area_population_identity_rounding_residual_people": -1,
+    "nurse_practitioner_and_physician_assistant_supply_included": false
+  },
+  "excluded_type_counts": {
+    "federally_qualified_health_center": 1351,
+    "federally_qualified_health_center_look_alike": 171,
+    "ihs_tribal_urban_indian": 928,
+    "other_facility": 9,
+    "rural_health_clinic": 1835
+  },
+  "taxlane_assessment": {
+    "official_designation_capacity_formula_admitted": true,
+    "formula_coverage_and_exclusions_preserved": true,
+    "area_population_formula_reconciled": true,
+    "candidate_bounded": false,
+    "unique_physician_supply_observed": false,
+    "np_pa_supply_observed": false,
+    "cms_facility_staffing_observed": false,
+    "service_line_availability_observed": false,
+    "patient_access_observed": false,
+    "need_or_adequacy_assessed": false,
+    "cost_or_savings_observed": false,
+    "service_floor_passed": false,
+    "hlt_reopen_condition_triggered": false,
+    "candidate_selected_for_fiscal_model": false,
+    "reason": "FTE and shortage are designation-formula quantities that may overlap and exclude 4,294 facility designations plus NP/PA services. They do not establish unique workforce, CMS hospital staffing, service availability, access, an intervention, effect, cost, or delivery case."
+  },
+  "next_evidence": {
+    "provider_identity": "Use an explicit compatible provider/site identifier before deduplicating designation-recorded capacity.",
+    "staffed_services": "Add official facility service-line, staffing, or appointment-capacity evidence with a compatible geography and time basis.",
+    "access": "Measure patient-relevant travel, entry, affordability, wait, and continuity rather than treating formula FTE as access.",
+    "candidate": "Name one bounded HLT intervention and match its population, floors, effects, costs, incidence, and delivery evidence."
+  },
+  "portfolio_result": {
+    "packs_replayed": 1,
+    "packs_admitted_to_fiscal_model": 0,
+    "admitted_fy2026_primary_reduction_billions": 0.0,
+    "remaining_fy2026_revenue_target_billions": 813.727,
+    "preferred_schedule_percent": [21, 23, 33, 35, 43, 46, 48],
+    "behavior_contingency_schedule_percent": [22, 24, 34, 36, 44, 47, 49],
+    "rate_recomputation_required": false,
+    "rate_result_changed": false
+  },
+  "role_review": {
+    "fixed_point": "pass_with_risk",
+    "open_p1_findings": 0,
+    "open_p2_findings": 0,
+    "deferred_claims": [
+      "deduplicated physician and population counts",
+      "nurse-practitioner and physician-assistant supply",
+      "compatible provider/site and CMS facility identity",
+      "staffed service lines and patient-relevant access",
+      "quality, outcomes, equity, need, and adequacy",
+      "candidate effect, delivery, and net federal savings",
+      "HLT reopening and rate change"
+    ]
+  },
+  "claim_booleans": {
+    "official_replay_succeeded": true,
+    "missing_formula_values_treated_as_zero": false,
+    "designation_fte_treated_as_unique_physicians": false,
+    "designation_shortage_treated_as_unique_national_gap": false,
+    "formula_capacity_treated_as_hospital_staffing_or_access": false,
+    "candidate_admitted": false,
+    "savings_claimed": false,
+    "allocation_changed": false,
+    "rate_change_claimed": false,
+    "public_release_authorized": false
+  },
+  "public_warning": "The HRSA fields establish designation-recorded primary-care physician FTE and shortage formulas for 3,388 current HPSAs and explicit exclusions for 4,294 others. They do not establish unique workforce, NP/PA supply, CMS hospital staffing, access, adequacy, costs, or savings. HLT, the $813.727B target, and both rate schedules remain unchanged."
+}

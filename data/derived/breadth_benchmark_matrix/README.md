@@ -1959,3 +1959,11 @@ SHIELD's same-vintage HRSA designation-component geography bridge. It separates
 Taxlane admits the bridge while holding CMS facility identity, whole-county
 shortage, unique population, access, capacity, adequacy, candidates, costs,
 savings, and rate changes.
+
+`shield_hrsa_primary_care_capacity_disposition.v1.draft.json` replays
+SHIELD's same-vintage HRSA primary-care capacity-formula baseline. It records
+10,635.4884 physician FTE and 12,267.0916 shortage across 3,388 formula-bearing
+designations while preserving 4,294 policy-excluded facility designations as
+missing rather than zero. Taxlane admits the formula evidence while holding
+unique workforce, NP/PA supply, CMS staffing, access, adequacy, candidates,
+costs, savings, and rate changes.
