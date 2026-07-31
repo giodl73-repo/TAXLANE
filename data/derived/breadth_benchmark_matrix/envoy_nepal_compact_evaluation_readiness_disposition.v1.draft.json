@@ -1,0 +1,128 @@
+{
+  "record_id": "envoy-nepal-compact-evaluation-readiness-disposition:v1",
+  "record_family": "envoy_nepal_compact_evaluation_readiness_disposition",
+  "version": "v1.draft",
+  "status": "producer_evaluation_readiness_custodied_int_reblock_confirmed",
+  "as_of_date": "2026-07-30",
+  "product_question": "Does ENVOY's current Nepal evaluation-procurement evidence make a candidate effect observable or change Taxlane's fiscal result?",
+  "prior_level2_path": "data/derived/breadth_benchmark_matrix/envoy_nepal_compact_level2_baseline_disposition.v1.draft.json",
+  "producer_input": {
+    "producer": "ENVOY",
+    "repository": "https://github.com/giodl73-repo/ENVOY",
+    "commit": "6f4008a0c7020a62de92d365df0d65de5179af65",
+    "replay_command": "cargo run --quiet -- evaluation-held-pack fixtures/official/mcc-nepal-evaluation-readiness-2026.tsv",
+    "pack_id": "envoy:mcc-nepal-compact-evaluation-readiness:v1",
+    "pack_sha256": "4e61cc1a4d619134da313f6dd2484fa47b4c6af9e9066c6901831ac7bc1343b0",
+    "schema": "taxlane.lane-evidence-pack-candidate.v1",
+    "supplements_prior_fourteen_section_pack": true,
+    "track": "INT",
+    "candidate_id": "mcc_nepal_compact_implementation",
+    "current_disposition": "held",
+    "authority": {
+      "taxlane_admission": false,
+      "savings": false,
+      "allocation": false,
+      "rate_change": false,
+      "release": false
+    }
+  },
+  "evaluation_readiness": {
+    "as_of": "FY2026_midyear",
+    "electricity_evaluation": {
+      "evaluation_id": "26-DPE-2372",
+      "procurement_status": "cancelled",
+      "value_band_min_thousands": 1000,
+      "value_band_max_thousands": 4999,
+      "planned_date": "2026-06-30",
+      "active_procurement": false
+    },
+    "road_evaluation": {
+      "evaluation_id": "26-DPE-2373",
+      "procurement_status": "solicitation_issued",
+      "value_band_min_thousands": 350,
+      "value_band_max_thousands": 999,
+      "planned_date": "2026-01-30",
+      "active_procurement": true
+    },
+    "project_logic_public": null,
+    "evaluation_method_public": null,
+    "baseline_cohort_public": null,
+    "data_sources_public": null,
+    "exposure_aligned_final_collection_date": null,
+    "independent_evaluator_selected": null,
+    "local_incidence_plan": null,
+    "safeguard_and_grievance_linkage": null,
+    "matched_finance_output_outcome_cohort": false,
+    "independent_evaluation_complete": false,
+    "candidate_effect_observable": false,
+    "projected_beneficiaries_are_observed": false,
+    "projected_err_is_observed": false
+  },
+  "taxlane_assessment": {
+    "candidate_identity_matches_existing_int_candidate": true,
+    "new_candidate_identity_added": false,
+    "evaluation_procurement_gate_assessed": true,
+    "evaluation_design_gate_complete": false,
+    "candidate_effect_gate_complete": false,
+    "road_evaluation_procurement_active": true,
+    "electricity_evaluation_procurement_active": false,
+    "candidate_effect_observed": false,
+    "local_incidence_floor_passed": false,
+    "safeguard_floor_passed": false,
+    "durability_floor_passed": false,
+    "candidate_selected_for_fiscal_model": false,
+    "existing_reopen_condition_triggered": false,
+    "reason": "A road-evaluation solicitation is useful readiness evidence, while the transmission evaluation is cancelled. Neither entry establishes design, evaluator, cohort, collection, incidence, safeguards, completed results, attributable effect, or savings."
+  },
+  "candidate_effect_reopen_requirements": [
+    "public project logic evaluation design questions and method",
+    "baseline and exposed cohorts with documented data sources",
+    "independent evaluator selection for both project effects under review",
+    "final collection aligned with sufficient service exposure",
+    "matched finance output completed-service and outcome cohort",
+    "subgroup local benefit burden resettlement and participation incidence",
+    "safeguard grievance labor environment inclusion and do-no-harm linkage",
+    "completed independent results with uncertainty and durability"
+  ],
+  "portfolio_result": {
+    "evaluation_readiness_packs_replayed": 1,
+    "evaluation_procurement_gates_assessed": 1,
+    "candidate_effect_gates_completed": 0,
+    "packs_admitted_to_fiscal_model": 0,
+    "existing_track_reopening_conditions_triggered": 0,
+    "admitted_fy2026_primary_reduction_billions": 0.0,
+    "remaining_fy2026_revenue_target_billions": 813.727,
+    "preferred_schedule_percent": [21, 23, 33, 35, 43, 46, 48],
+    "behavior_contingency_schedule_percent": [22, 24, 34, 36, 44, 47, 49],
+    "rate_recomputation_required": false,
+    "rate_result_changed": false
+  },
+  "role_review": {
+    "fixed_point": "pass_with_risk",
+    "open_p1_findings": 0,
+    "open_p2_findings": 0,
+    "deferred_claims": [
+      "evaluation design",
+      "candidate effect",
+      "local incidence",
+      "safeguards",
+      "durability",
+      "savings",
+      "track reopening",
+      "rate change"
+    ]
+  },
+  "claim_booleans": {
+    "official_evaluation_readiness_intake_succeeded": true,
+    "procurement_treated_as_completed_evaluation": false,
+    "projected_beneficiaries_treated_as_observed": false,
+    "projected_err_treated_as_observed": false,
+    "cancelled_evaluation_treated_as_active": false,
+    "candidate_admitted": false,
+    "savings_claimed": false,
+    "allocation_changed": false,
+    "rate_change_claimed": false,
+    "public_release_authorized": false
+  },
+  "public_warning": "A road evaluation solicitation and a cancelled transmission evaluation clarify the evidence path; they do not establish an effect. INT remains held and no rates change."
+}

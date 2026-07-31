@@ -1096,6 +1096,9 @@ It is the bounded public surface, not a performance or savings report.
 227. Read `envoy-nepal-compact-level2-baseline-disposition.md` for ENVOY's
      quarter 11 implementation-output surface, pending and budget-version
      boundaries, continued Level 2 hold, and unchanged rates.
+228. Read `envoy-nepal-compact-evaluation-readiness-disposition.md` for the
+     current road and transmission evaluation-procurement statuses, the exact
+     candidate-effect reopening test, and unchanged INT and rate results.
 
 ## Public-Use Guardrail
 

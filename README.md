@@ -142,6 +142,13 @@ but completion, incidence, safeguards, diversion, additionality, durability,
 and the $500M/$550M budget-version reconciliation remain held. INT, savings,
 the target, and rates remain unchanged.
 
+ENVOY now also makes the candidate-effect reopening path specific. MCC's
+FY2026 forecast lists the road evaluation as solicitation issued and the
+electricity evaluation as cancelled. [The readiness gate](docs/reading/envoy-nepal-compact-evaluation-readiness-disposition.md)
+keeps those statuses separate from a public design, independent evaluator,
+exposure-aligned collection, local incidence, safeguards, or completed effect.
+INT, savings, the target, and rates therefore remain unchanged.
+
 ## How TAXLANE solved the system
 
 “Solved” means the internal analytical system closes under explicit evidence,
@@ -288,8 +295,8 @@ the relevant publication-panel gates.
 Validation currently covers:
 
 - 152 `taxlane-core` tests;
-- 245 `taxlane-tools` tests;
-- 397 workspace tests total;
+- 246 `taxlane-tools` tests;
+- 398 workspace tests total;
 - closure contracts for all six explanation waves;
 - headline and accounting-boundary parity;
 - nonempty PDF and presentation renders;

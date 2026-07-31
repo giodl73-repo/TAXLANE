@@ -1892,3 +1892,11 @@ ENVOY's official Nepal Compact quarter 11 training, road-design, and pending
 indicator surface. It keeps $500M and $550M source versions unresolved and
 separates training and design from completed works, local benefits, safeguards,
 additionality, and durable outcomes. INT and rates remain unchanged.
+
+`envoy_nepal_compact_evaluation_readiness_disposition.v1.draft.json` replays
+ENVOY's current MCC evaluation-procurement supplement. It preserves the road
+evaluation's solicitation-issued status and the transmission evaluation's
+cancelled status without promoting either to a public design, completed
+evaluation, observed effect, or savings. It names the exact cohort, incidence,
+safeguard, timing, independence, and result evidence required to reopen INT;
+the target and rates remain unchanged.

@@ -2000,6 +2000,38 @@ mod global_country_comparison_tests {
         );
         assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
     }
+
+    #[test]
+    fn envoy_evaluation_readiness_does_not_promote_procurement_to_effect() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let path = root.join(
+            "data/derived/breadth_benchmark_matrix/envoy_nepal_compact_evaluation_readiness_disposition.v1.draft.json",
+        );
+        let text = fs::read_to_string(path).expect("read ENVOY evaluation disposition");
+        let record: serde_json::Value =
+            serde_json::from_str(&text).expect("parse ENVOY evaluation disposition");
+
+        let readiness = &record["evaluation_readiness"];
+        assert_eq!(readiness["road_evaluation"]["active_procurement"], true);
+        assert_eq!(
+            readiness["electricity_evaluation"]["procurement_status"],
+            "cancelled"
+        );
+        assert_eq!(readiness["candidate_effect_observable"], false);
+        assert_eq!(readiness["projected_err_is_observed"], false);
+        assert!(readiness["evaluation_method_public"].is_null());
+        assert!(readiness["safeguard_and_grievance_linkage"].is_null());
+
+        let assessment = &record["taxlane_assessment"];
+        assert_eq!(assessment["evaluation_procurement_gate_assessed"], true);
+        assert_eq!(assessment["candidate_effect_gate_complete"], false);
+        assert_eq!(assessment["existing_reopen_condition_triggered"], false);
+        assert_eq!(
+            record["portfolio_result"]["admitted_fy2026_primary_reduction_billions"],
+            0.0
+        );
+        assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
+    }
 }
 
 fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
