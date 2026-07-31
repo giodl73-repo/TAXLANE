@@ -11,7 +11,7 @@ internal analytical rate schedule.
 
 The result is now complete inside this repository: 21 canonical explanation
 artifacts, ten research papers, three presentation variants, a six-page local
-website, machine-readable closure records, and 407 passing tests.
+website, machine-readable closure records, and 409 passing tests.
 
 > **Repository-ready, externally blocked.** TAXLANE is not enacted law,
 > personal tax or legal advice, an official score, formal proof of balance, or
@@ -193,6 +193,14 @@ admits this identity and available-bed-use spine while refusing to call
 available beds staffed beds or utilization local adequacy. HLT, savings, the
 target, and the rates remain unchanged.
 
+SHIELD next adds Q2 2026 CMS-certified service modes and provider-recorded
+employed FTE fields. Exact CCN identity covers 5,422 of 5,432 current hospitals;
+fourteen service fields are complete for 5,286, with a 136-hospital VA/DoD
+residual left visible. [The service/workforce disposition](docs/reading/shield-cms-certified-services-workforce-disposition.md)
+admits that official context while refusing to translate certification into a
+current schedule or recorded FTE into unique workers, staffed capacity, access,
+need, adequacy, or savings. HLT, the target, and the rates remain unchanged.
+
 SHIELD now adds HRSA's formal primary-care shortage registry at its true grain:
 79,150 component rows resolve to 7,682 currently designated HPSA IDs, including
 762 multi-component and 282 multi-rural-status designations. HRSA's separate
@@ -362,8 +370,8 @@ the relevant publication-panel gates.
 Validation currently covers:
 
 - 152 `taxlane-core` tests;
-- 247 `taxlane-tools` tests;
-- 399 workspace tests total;
+- 257 `taxlane-tools` tests;
+- 409 workspace tests total;
 - closure contracts for all six explanation waves;
 - headline and accounting-boundary parity;
 - nonempty PDF and presentation renders;

@@ -1133,6 +1133,10 @@ It is the bounded public surface, not a performance or savings report.
      exact CCN operational join, available-bed-day utilization, explicit
      missing/invalid residuals, staffed-capacity boundary, and unchanged HLT,
      fiscal-target, and rate results.
+239. Read `shield-cms-certified-services-workforce-disposition.md` for SHIELD's
+     exact CCN certification join, service-delivery modes, provider-recorded
+     employed FTE fields, current-capacity boundary, and unchanged HLT,
+     fiscal-target, and rate results.
 
 ## Public-Use Guardrail
 

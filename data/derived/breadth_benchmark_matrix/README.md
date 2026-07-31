@@ -1975,3 +1975,11 @@ bed-day-weighted inpatient use; and joins 5,032 usable CCNs to the 5,432-ID
 current hospital footprint. Taxlane admits exact identity and available-bed-use
 context while holding staffed and service-line capacity, patient access, need,
 adequacy, candidates, costs, savings, and rate changes.
+
+`shield_cms_certified_services_workforce_disposition.v1.draft.json` replays
+SHIELD's Q2 2026 CMS QIES Provider of Services spine. Exact CCN identity covers
+5,422 of 5,432 current hospitals; fourteen service modes are complete for
+5,286, and the 136-row VA/DoD residual remains visible. Taxlane admits certified
+delivery modes and recorded employed-FTE context while holding current
+schedules, unique workforce, staffed capacity, access, need, adequacy,
+candidates, costs, savings, and rate changes.
