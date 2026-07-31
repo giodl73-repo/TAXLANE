@@ -184,6 +184,15 @@ admits this formula baseline while holding unique workforce, NP/PA supply, CMS
 hospital staffing, service availability, access, adequacy, candidates, costs,
 and savings. HLT, the target, and the rates remain unchanged.
 
+SHIELD now adds CMS hospital cost-report operations at report-record grain.
+Of 5,432 current hospital IDs, 5,144 join exactly by CCN and 5,032 have a usable
+available-bed and inpatient-day report. Valid reports show 62.56% weighted
+inpatient use overall and 62.33% for current-footprint matches, while 125
+missing and 25 invalid records remain visible. [The operational-capacity disposition](docs/reading/shield-cms-hospital-operational-capacity-disposition.md)
+admits this identity and available-bed-use spine while refusing to call
+available beds staffed beds or utilization local adequacy. HLT, savings, the
+target, and the rates remain unchanged.
+
 SHIELD now adds HRSA's formal primary-care shortage registry at its true grain:
 79,150 component rows resolve to 7,682 currently designated HPSA IDs, including
 762 multi-component and 282 multi-rural-status designations. HRSA's separate

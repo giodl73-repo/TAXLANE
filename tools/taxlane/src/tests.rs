@@ -2315,6 +2315,41 @@ mod global_country_comparison_tests {
         assert_eq!(record["portfolio_result"]["remaining_fy2026_revenue_target_billions"], 813.727);
         assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
     }
+
+    #[test]
+    fn shield_cms_operational_capacity_is_available_bed_use_not_staffed_adequacy() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let path = root.join(
+            "data/derived/breadth_benchmark_matrix/shield_cms_hospital_operational_capacity_disposition.v1.draft.json",
+        );
+        let text = fs::read_to_string(path).expect("read SHIELD operational disposition");
+        let record: serde_json::Value =
+            serde_json::from_str(&text).expect("parse SHIELD operational disposition");
+
+        assert_eq!(record["producer"]["track"], "HLT");
+        assert_eq!(record["producer"]["workspace_tests"], 58);
+        assert_eq!(record["producer"]["pack_bytes_utf8_without_newline"], 5593);
+        assert_eq!(
+            record["producer"]["pack_sha256"],
+            "6d5ed0aa56834b24eb6bc92eb8bf4a1927fd34e7abe2a6724f99f1a7dce6e6e7"
+        );
+        assert_eq!(record["operational_findings"]["usable_operational_rows"], 5953);
+        assert_eq!(record["operational_findings"]["missing_operational_rows"], 125);
+        assert_eq!(record["operational_findings"]["invalid_operational_rows"], 25);
+        assert_eq!(
+            record["operational_findings"]["current_footprint_usable_operational_ccns"],
+            5032
+        );
+        assert_eq!(record["operational_findings"]["weighted_inpatient_use_percent"], 62.56);
+        assert_eq!(record["taxlane_assessment"]["staffed_bed_capacity_observed"], false);
+        assert_eq!(record["taxlane_assessment"]["hlt_reopen_condition_triggered"], false);
+        assert_eq!(
+            record["portfolio_result"]["admitted_fy2026_primary_reduction_billions"],
+            0.0
+        );
+        assert_eq!(record["portfolio_result"]["remaining_fy2026_revenue_target_billions"], 813.727);
+        assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
+    }
 }
 
 fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {

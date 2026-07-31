@@ -1967,3 +1967,11 @@ designations while preserving 4,294 policy-excluded facility designations as
 missing rather than zero. Taxlane admits the formula evidence while holding
 unique workforce, NP/PA supply, CMS staffing, access, adequacy, candidates,
 costs, savings, and rate changes.
+
+`shield_cms_hospital_operational_capacity_disposition.v1.draft.json` replays
+SHIELD's CMS annual hospital cost-report operational spine. It preserves 5,953
+usable, 125 missing, and 25 invalid report records; measures 62.56%
+bed-day-weighted inpatient use; and joins 5,032 usable CCNs to the 5,432-ID
+current hospital footprint. Taxlane admits exact identity and available-bed-use
+context while holding staffed and service-line capacity, patient access, need,
+adequacy, candidates, costs, savings, and rate changes.

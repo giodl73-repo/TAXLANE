@@ -1,0 +1,113 @@
+{
+  "record_id": "shield-cms-hospital-operational-capacity-disposition:v1",
+  "record_family": "shield_cms_hospital_operational_capacity_disposition",
+  "version": "v1.draft",
+  "status": "official_hlt_available_bed_use_and_ccn_identity_admitted_staffed_capacity_adequacy_and_fiscal_claims_held",
+  "as_of_date": "2026-07-31",
+  "product_question": "What does CMS annual hospital available-bed use establish for HLT, and what remains unproved?",
+  "prior_record": "shield-hrsa-primary-care-capacity-disposition:v1",
+  "producer": {
+    "repository": "SHIELD",
+    "track": "HLT",
+    "candidate_id": null,
+    "commit": "dc723f3c0c7dc107f2633f763a8cd8e6d6cd6aad",
+    "replay_command": "cargo run --quiet -p shield-cli -- cms-operational-capacity-held-pack",
+    "pack_id": "shield:cms-hospital-operational-capacity-2023:v1",
+    "pack_bytes_utf8_without_newline": 5593,
+    "pack_sha256": "6d5ed0aa56834b24eb6bc92eb8bf4a1927fd34e7abe2a6724f99f1a7dce6e6e7",
+    "workspace_crates": 7,
+    "product_commands": 16,
+    "workspace_tests": 58,
+    "feature_tests": 24
+  },
+  "source_custody": {
+    "publisher": "Centers for Medicare & Medicaid Services",
+    "dataset": "Hospital Provider Cost Report",
+    "data_year": "2023",
+    "released": "2026-01-08",
+    "csv_bytes": 4130294,
+    "csv_sha256": "614f3d94dfeb84092ca775f90913ab4f843233a4fa90c3df3013efeb5221a757",
+    "dictionary_sha256": "40342bb506d4c39ad6a3306d188f414e97e683c8c7241aa5e0975bdc59c87b81",
+    "methodology_sha256": "e216d1f303095bdd57acec09c9f11b70c5188c8ee3460d201a5556db64d9b410",
+    "current_hospital_footprint_release": "2026-05-13",
+    "current_hospital_footprint_sha256": "83c98b2e8687580e0482b13e1e9acd5813534be243e5ccd9f55556a869595d40"
+  },
+  "operational_findings": {
+    "source_report_rows": 6103,
+    "unique_report_ids": 6103,
+    "unique_provider_ccns": 6040,
+    "duplicate_ccn_groups": 62,
+    "adjacent_nonoverlapping_period_pairs": 63,
+    "usable_operational_rows": 5953,
+    "usable_operational_ccns": 5895,
+    "missing_operational_rows": 125,
+    "invalid_operational_rows": 25,
+    "usable_available_bed_days": 241546243,
+    "usable_inpatient_days": 151101088,
+    "weighted_inpatient_use_percent": 62.56,
+    "current_hospital_footprint_facilities": 5432,
+    "current_footprint_exact_ccn_matches": 5144,
+    "current_footprint_usable_operational_ccns": 5032,
+    "current_footprint_operational_coverage_percent": 92.64,
+    "current_footprint_weighted_inpatient_use_percent": 62.33,
+    "available_beds_are_staffed_beds": false
+  },
+  "taxlane_assessment": {
+    "official_available_bed_use_admitted": true,
+    "exact_current_footprint_ccn_identity_admitted": true,
+    "missing_and_invalid_residuals_preserved": true,
+    "candidate_bounded": false,
+    "staffed_bed_capacity_observed": false,
+    "service_line_capacity_observed": false,
+    "workforce_capacity_observed": false,
+    "patient_access_observed": false,
+    "need_or_adequacy_assessed": false,
+    "cost_or_savings_observed": false,
+    "service_floor_passed": false,
+    "hlt_reopen_condition_triggered": false,
+    "candidate_selected_for_fiscal_model": false,
+    "reason": "The report-period evidence measures beds available for patient use and inpatient use, not staffed beds, service-line readiness, access, need, or adequacy. It defines no intervention, effect, cost, incidence, or delivery case."
+  },
+  "next_evidence": {
+    "staffed_services": "Add an official CCN-compatible service-line or workforce source and retain staffing, schedule, and surge semantics.",
+    "access": "Join patient-relevant travel, entry, affordability, wait, and continuity measures only on compatible geography and time.",
+    "need": "Compare service-specific capacity to a declared catchment, baseline demand, surge basis, and distribution floor.",
+    "candidate": "Name one bounded HLT intervention and match its population, floors, effects, costs, incidence, and delivery evidence."
+  },
+  "portfolio_result": {
+    "packs_replayed": 1,
+    "packs_admitted_to_fiscal_model": 0,
+    "admitted_fy2026_primary_reduction_billions": 0.0,
+    "remaining_fy2026_revenue_target_billions": 813.727,
+    "preferred_schedule_percent": [21, 23, 33, 35, 43, 46, 48],
+    "behavior_contingency_schedule_percent": [22, 24, 34, 36, 44, 47, 49],
+    "rate_recomputation_required": false,
+    "rate_result_changed": false
+  },
+  "role_review": {
+    "fixed_point": "pass_with_risk",
+    "open_p1_findings": 0,
+    "open_p2_findings": 0,
+    "deferred_claims": [
+      "staffed and service-line capacity",
+      "workforce schedule and surge readiness",
+      "patient-relevant travel, entry, wait, affordability, and continuity",
+      "local need, quality, outcomes, equity, and adequacy",
+      "candidate effect, delivery, and net federal savings",
+      "HLT reopening and rate change"
+    ]
+  },
+  "claim_booleans": {
+    "official_replay_succeeded": true,
+    "missing_or_invalid_reports_treated_as_valid": false,
+    "point_in_time_beds_summed_across_reports": false,
+    "available_beds_treated_as_staffed_beds": false,
+    "weighted_use_treated_as_local_adequacy": false,
+    "candidate_admitted": false,
+    "savings_claimed": false,
+    "allocation_changed": false,
+    "rate_change_claimed": false,
+    "public_release_authorized": false
+  },
+  "public_warning": "CMS cost reports provide usable available-bed and inpatient-day observations for 5,895 CCNs and exact operational coverage for 5,032 of 5,432 current hospital IDs. Available beds are not staffed beds, and weighted use does not establish local service capacity, access, need, adequacy, costs, or savings. HLT, the $813.727B target, and both rate schedules remain unchanged."
+}

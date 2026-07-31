@@ -1129,6 +1129,10 @@ It is the bounded public surface, not a performance or savings report.
      designation-recorded physician FTE and shortage formulas, policy-defined
      exclusions, non-deduplication boundary, and unchanged HLT, fiscal-target,
      and rate results.
+238. Read `shield-cms-hospital-operational-capacity-disposition.md` for SHIELD's
+     exact CCN operational join, available-bed-day utilization, explicit
+     missing/invalid residuals, staffed-capacity boundary, and unchanged HLT,
+     fiscal-target, and rate results.
 
 ## Public-Use Guardrail
 
