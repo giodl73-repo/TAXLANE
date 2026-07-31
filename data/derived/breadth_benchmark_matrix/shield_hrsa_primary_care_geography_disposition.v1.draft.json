@@ -1,0 +1,111 @@
+{
+  "record_id": "shield-hrsa-primary-care-geography-disposition:v1",
+  "record_family": "shield_hrsa_primary_care_geography_disposition",
+  "version": "v1.draft",
+  "status": "official_hlt_geography_bridge_admitted_facility_access_capacity_adequacy_and_fiscal_claims_held",
+  "as_of_date": "2026-07-31",
+  "product_question": "What does the same-vintage HRSA designation-component geography bridge establish for HLT, and what remains unproved?",
+  "prior_record": "shield-hrsa-primary-care-hpsa-disposition:v1",
+  "producer": {
+    "repository": "SHIELD",
+    "track": "HLT",
+    "candidate_id": null,
+    "commit": "e38528947e17775060efd8ef79cd117abea9c3de",
+    "replay_command": "cargo run --quiet -p shield-cli -- hrsa-geography-held-pack",
+    "pack_id": "shield:hrsa-primary-care-geography-bridge-2026-07-31:v1",
+    "pack_bytes_utf8_without_newline": 5007,
+    "pack_sha256": "9c5122e55aa5faf5aa20a7caa4608361b43c9d709403f7625768db96503247d9",
+    "workspace_crates": 7,
+    "product_commands": 12,
+    "workspace_tests": 50,
+    "feature_tests": 16
+  },
+  "source_custody": {
+    "publisher": "Health Resources and Services Administration",
+    "daily_csv_created": "2026-07-31",
+    "daily_csv_bytes": 48303351,
+    "daily_csv_sha256": "8ed0007ef82194e44a1ee9086723e42f79e5effe96104cf3104648f2837d2673",
+    "county_key_rule": "five numeric Common State County FIPS Code characters with prefix equal to Common State FIPS Code",
+    "invalid_keys_repaired_from_alternate_fields": false
+  },
+  "geography_findings": {
+    "designated_component_rows": 20368,
+    "designated_hpsa_ids": 7682,
+    "area_designation_rows": 15524,
+    "area_designation_ids": 2838,
+    "facility_designation_rows": 4844,
+    "facility_designation_ids": 4844,
+    "single_county_component_designation_ids": 2088,
+    "census_tract_component_designation_ids": 586,
+    "county_subdivision_component_designation_ids": 164,
+    "area_multi_component_ids": 762,
+    "area_multi_county_ids": 155,
+    "valid_common_county_designation_ids": 7664,
+    "distinct_valid_common_county_fips": 2932,
+    "geography_residual_designation_ids": 18,
+    "placeholder_common_county_rows": 17,
+    "state_prefix_inconsistent_rows": 1
+  },
+  "taxlane_assessment": {
+    "official_geography_bridge_admitted": true,
+    "area_and_facility_grains_preserved": true,
+    "subcounty_components_preserved": true,
+    "multi_component_and_multi_county_structure_preserved": true,
+    "geography_residual_preserved": true,
+    "candidate_bounded": false,
+    "cms_facility_identity_joined": false,
+    "whole_county_shortage_assigned": false,
+    "unique_affected_population_observed": false,
+    "patient_access_observed": false,
+    "provider_supply_or_staffed_capacity_observed": false,
+    "need_or_adequacy_assessed": false,
+    "cost_or_savings_observed": false,
+    "service_floor_passed": false,
+    "hlt_reopen_condition_triggered": false,
+    "candidate_selected_for_fiscal_model": false,
+    "reason": "County keys locate designation components. They do not make tract, subdivision, population-group, or facility designations whole-county findings, establish CMS facility identity, or supply an intervention, effect, floor, cost, or delivery case."
+  },
+  "next_evidence": {
+    "facility_identity": "Use an explicit compatible identifier before connecting HRSA facility designations to CMS facilities; county co-location is insufficient.",
+    "capacity": "Add official provider or staffed service-line capacity with compatible population, geography, and time bases.",
+    "access": "Measure patient-relevant travel, entry, affordability, and continuity rather than treating designation geography as access.",
+    "candidate": "Name one bounded HLT intervention and match its population, floors, effects, costs, incidence, and delivery evidence."
+  },
+  "portfolio_result": {
+    "packs_replayed": 1,
+    "packs_admitted_to_fiscal_model": 0,
+    "admitted_fy2026_primary_reduction_billions": 0.0,
+    "remaining_fy2026_revenue_target_billions": 813.727,
+    "preferred_schedule_percent": [21, 23, 33, 35, 43, 46, 48],
+    "behavior_contingency_schedule_percent": [22, 24, 34, 36, 44, 47, 49],
+    "rate_recomputation_required": false,
+    "rate_result_changed": false
+  },
+  "role_review": {
+    "fixed_point": "pass_with_risk",
+    "open_p1_findings": 0,
+    "open_p2_findings": 0,
+    "deferred_claims": [
+      "compatible HRSA-to-CMS facility identity",
+      "whole-county shortage assignment",
+      "deduplicated affected population",
+      "patient-relevant access and staffed capacity",
+      "quality, outcomes, equity, need, and adequacy",
+      "candidate effect, delivery, and net federal savings",
+      "HLT reopening and rate change"
+    ]
+  },
+  "claim_booleans": {
+    "official_replay_succeeded": true,
+    "county_key_treated_as_whole_county_coverage": false,
+    "county_colocation_treated_as_facility_identity": false,
+    "components_or_designations_summed_as_unique_people": false,
+    "geography_residual_imputed": false,
+    "candidate_admitted": false,
+    "savings_claimed": false,
+    "allocation_changed": false,
+    "rate_change_claimed": false,
+    "public_release_authorized": false
+  },
+  "public_warning": "The bridge locates current HRSA primary-care designation components at declared area, facility, and county-key grains. It does not establish CMS facility identity, whole-county shortage, unique population, access, capacity, adequacy, costs, or savings. HLT, the $813.727B target, and both rate schedules remain unchanged."
+}

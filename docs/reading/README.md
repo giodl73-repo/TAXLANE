@@ -1121,6 +1121,10 @@ It is the bounded public surface, not a performance or savings report.
      primary-care shortage registry census, the component/designation and
      cross-vintage boundaries, and unchanged HLT, fiscal-target, and rate
      results.
+236. Read `shield-hrsa-primary-care-geography-disposition.md` for SHIELD's
+     same-vintage area/facility geography bridge, its subcounty, multi-county,
+     and invalid-key boundaries, and unchanged HLT, fiscal-target, and rate
+     results.
 
 ## Public-Use Guardrail
 

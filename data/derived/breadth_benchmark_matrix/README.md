@@ -1951,3 +1951,11 @@ multiplicity, and the separately vintaged 9,003-designation quarterly summary.
 Taxlane admits the formal registry spine while holding hospital and county
 assignment, unique population, access, capacity, adequacy, candidates, costs,
 savings, and rate changes.
+
+`shield_hrsa_primary_care_geography_disposition.v1.draft.json` replays
+SHIELD's same-vintage HRSA designation-component geography bridge. It separates
+2,838 area from 4,844 facility designations, preserves 762 multi-component and
+155 multi-county area IDs, and leaves 18 invalid facility county keys visible.
+Taxlane admits the bridge while holding CMS facility identity, whole-county
+shortage, unique population, access, capacity, adequacy, candidates, costs,
+savings, and rate changes.
