@@ -1,0 +1,86 @@
+{
+  "record_id": "shield-nyc-ems-local-law-119-category9-disposition:v1",
+  "record_family": "shield_nyc_ems_local_law_119_category9_disposition",
+  "version": "v1.draft",
+  "status": "official_hlt_local_category9_publication_admitted_performance_and_fiscal_claims_held",
+  "as_of_date": "2026-07-31",
+  "product_question": "What does NYC's official definition-compatible Category 9 publication prove, and does it establish compliance with a performance minimum?",
+  "prior_record": "shield-nyc-ems-response-distribution-target-disposition:v1",
+  "producer": {
+    "repository": "SHIELD", "track": "HLT", "candidate_id": null,
+    "commit": "b1e4517380ee9b7e7a83b68cf542a8499ba40161",
+    "replay_command": "cargo run --quiet -p shield-cli -- nyc-ems-local-law-119-category9-held-pack",
+    "pack_id": "shield:nyc-ems-local-law-119-category9-2025:v1",
+    "pack_bytes_utf8_without_newline": 5923,
+    "pack_sha256": "2ea38a71098ae7fc13d92e87ec145eb2838ff5ec0f879aa179564dbad09c40d1",
+    "workspace_crates": 7, "product_commands": 34, "workspace_tests": 88, "feature_tests": 54
+  },
+  "source_custody": {
+    "publisher": "City of New York",
+    "power_bi_resource_key": "e59d7043-7f5c-4a62-bdec-295ddb7cc7b3",
+    "power_bi_model_id": 533915,
+    "data_as_of": "2026-07-27", "latest_month": "2026-06",
+    "conceptual_schema_bytes": 6408,
+    "conceptual_schema_sha256": "afae4549ef2811c72ea79f39adc12a3c4bf3b3bd22337096b7153869d2106bd7",
+    "citywide_response_bytes": 3157,
+    "citywide_response_sha256": "f238bfae46fcf541002a4e76e7522c8e8cfc94d6cd3476ef1aa0166dda53e4b9",
+    "borough_response_bytes": 4550,
+    "borough_response_sha256": "81f6cfb984cd4cfaa14fdf3579962d0fa8e943ce1c2cfb4c1b2c8fcf0ca9c105"
+  },
+  "official_finding": {
+    "definition": "Percentage of response time of less than 10 minutes to Advanced Life Support medical emergencies by Advanced Life Support ambulances.",
+    "calendar_2025_qualifying_incidents": 216599,
+    "calendar_2025_official_share_bps": 3926,
+    "exact_under_ten_numerator": null,
+    "named_borough_low_bps": 2565,
+    "named_borough_high_bps": 4829,
+    "named_borough_gap_bps": 2264
+  },
+  "taxlane_assessment": {
+    "definition_compatible_category9_measure_admitted": true,
+    "citywide_borough_publication_observed": true,
+    "full_section_15_129_reporting_compliance_assessed": false,
+    "minimum_acceptable_share_in_section_15_129": false,
+    "legal_or_service_performance_pass_fail_admitted": false,
+    "exact_under_ten_numerator_admitted": false,
+    "dispatch_proxy_comparison_admitted": false,
+    "outcomes_or_causal_explanation_assessed": false,
+    "service_readiness_or_adequacy_assessed": false,
+    "candidate_bounded": false, "cost_or_savings_observed": false,
+    "hlt_reopen_condition_triggered": false, "candidate_selected_for_fiscal_model": false,
+    "reason": "The official model establishes Category 9 publication at its own definition and grain. Section 15-129 mandates reporting but supplies no minimum acceptable share, and this review did not audit every community-district or division reporting grain. No pass/fail or fiscal bridge follows."
+  },
+  "next_evidence": {
+    "reporting_completeness": "Test community-district and division publication against every Section 15-129 reporting grain.",
+    "outcomes": "Join privacy-safe patient outcomes and population exposure at a compatible definition and time basis.",
+    "operations": "Test demand, call processing, staffing, fleet, posting, routing, and hospital-interface drivers without treating borough variation as causal.",
+    "candidate": "Only then bound one intervention with effect, cost, incidence, delivery, and do-no-harm evidence."
+  },
+  "portfolio_result": {
+    "packs_replayed": 1, "packs_admitted_to_fiscal_model": 0,
+    "admitted_fy2026_primary_reduction_billions": 0.0,
+    "remaining_fy2026_revenue_target_billions": 813.727,
+    "preferred_schedule_percent": [21, 23, 33, 35, 43, 46, 48],
+    "behavior_contingency_schedule_percent": [22, 24, 34, 36, 44, 47, 49],
+    "rate_recomputation_required": false, "rate_result_changed": false
+  },
+  "role_review": {
+    "fixed_point": "pass_with_risk", "open_p1_findings": 0, "open_p2_findings": 0,
+    "deferred_claims": [
+      "whole-law reporting compliance", "legal or service performance pass/fail",
+      "exact under-ten-minute numerator and dispatch comparison",
+      "patient outcomes, causality, inequity, and adequacy",
+      "candidate effect, delivery, and net federal savings", "HLT reopening and rate change"
+    ]
+  },
+  "claim_booleans": {
+    "official_replay_succeeded": true, "official_category9_publication_claimed": true,
+    "full_reporting_compliance_claimed": false, "performance_pass_fail_claimed": false,
+    "exact_numerator_claimed": false, "dispatch_proxy_compared": false,
+    "borough_difference_given_causal_explanation": false,
+    "candidate_admitted": false, "savings_claimed": false,
+    "allocation_changed": false, "rate_change_claimed": false,
+    "public_release_authorized": false
+  },
+  "public_warning": "NYC's official calendar-2025 Category 9 publication is 39.26% across 216,599 qualifying incidents. This is definition-compatible threshold attainment, but Section 15-129 sets no minimum acceptable share and this review did not audit every statutory reporting grain. No legal or service pass/fail, exact numerator, causal, adequacy, fiscal, allocation, or rate claim follows."
+}

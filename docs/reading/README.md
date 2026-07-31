@@ -1161,6 +1161,9 @@ It is the bounded public surface, not a performance or savings report.
      severity-1 response tails, separately defined official MMR targets, the
      blocked direct comparison and ALS-compliance claims, and unchanged HLT,
      fiscal-target, and rate results.
+247. Read `shield-nyc-ems-local-law-119-category9-disposition.md` for the
+     official definition-compatible Category 9 publication, the absence of a
+     statutory minimum share, and unchanged HLT, fiscal-target, and rate results.
 
 ## Public-Use Guardrail
 

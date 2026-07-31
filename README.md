@@ -11,7 +11,7 @@ internal analytical rate schedule.
 
 The result is now complete inside this repository: 21 canonical explanation
 artifacts, ten research papers, three presentation variants, a six-page local
-website, machine-readable closure records, and 416 passing tests.
+website, machine-readable closure records, and 417 passing tests.
 
 > **Repository-ready, externally blocked.** TAXLANE is not enacted law,
 > personal tax or legal advice, an official score, formal proof of balance, or
@@ -252,6 +252,14 @@ also preserves NYC's separately defined official targets while refusing a
 false pass/fail comparison across mismatched period, severity, call-start, and
 arriving-unit definitions. Adequacy, candidates, costs, and savings remain held.
 
+SHIELD now closes that definition gap with NYC's official calendar-2025 Local
+Law 119 Category 9 publication: 39.26% across 216,599 qualifying incidents.
+[The Category 9 disposition](docs/reading/shield-nyc-ems-local-law-119-category9-disposition.md)
+admits the definition-compatible citywide and borough observation while noting
+that §15-129 sets no minimum acceptable share. Whole-law reporting compliance,
+performance pass/fail, exact numerator, causality, adequacy, candidates, costs,
+and savings remain held, with no rate change.
+
 SHIELD now adds HRSA's formal primary-care shortage registry at its true grain:
 79,150 component rows resolve to 7,682 currently designated HPSA IDs, including
 762 multi-component and 282 multi-rural-status designations. HRSA's separate
@@ -422,7 +430,7 @@ Validation currently covers:
 
 - 152 `taxlane-core` tests;
 - 259 `taxlane-tools` tests;
-- 416 workspace tests total;
+- 417 workspace tests total;
 - closure contracts for all six explanation waves;
 - headline and accounting-boundary parity;
 - nonempty PDF and presentation renders;
