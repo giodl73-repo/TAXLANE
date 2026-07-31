@@ -1,0 +1,153 @@
+{
+  "record_id": "next-owner-official-baseline-intake-disposition:v1",
+  "record_family": "next_owner_official_baseline_intake_disposition",
+  "version": "v1.draft",
+  "status": "four_official_baselines_custodied_candidate_free_fiscally_held",
+  "as_of_date": "2026-07-30",
+  "product_question": "Can four official aggregate domain-owner packs improve Taxlane lane custody without being mistaken for fiscal candidates?",
+  "inputs": [
+    {
+      "producer": "LIFELINE",
+      "repository": "https://github.com/giodl73-repo/LIFELINE",
+      "commit": "4acc6a0e93e4b038d80a414def4502817426e95b",
+      "replay_command": "cargo run --quiet -- official-held-pack fixtures/official/usda-fns-snap-2024-2025.tsv",
+      "pack_id": "lifeline:usda-fns-snap-2024-2025-national:v1",
+      "pack_sha256": "2535cfd1acaa8fa9f533847b6dc37bd68955aac1e79bf8a7234f4492dfc00a8a",
+      "schema": "taxlane.lane-evidence-pack-candidate.v1",
+      "track": "ISF",
+      "source_id": "USDA-FNS-SNAP-ANNUAL-2025",
+      "evidence_label": "official_aggregate",
+      "candidate_id": null,
+      "current_disposition": "held",
+      "authority": {"taxlane_admission": false, "savings": false, "allocation": false, "rate_change": false, "release": false}
+    },
+    {
+      "producer": "COVENANT",
+      "repository": "https://github.com/giodl73-repo/COVENANT",
+      "commit": "3c0dd90b2fff1ddd3cc697ece2390370203b2524",
+      "replay_command": "cargo run --quiet -- official-held-pack fixtures/official/va-vba-abr-2025-program-scale.tsv",
+      "pack_id": "covenant:va-vba-abr-2025-program-scale:v1",
+      "pack_sha256": "5e9a7c7c468b1efd6df89d90f9e998881982e649827fa9fc285e9266fff3168d",
+      "schema": "taxlane.lane-evidence-pack-candidate.v1",
+      "track": "VET",
+      "source_id": "VA-VBA-ABR-2025",
+      "evidence_label": "official_aggregate",
+      "candidate_id": null,
+      "current_disposition": "held",
+      "authority": {"taxlane_admission": false, "savings": false, "allocation": false, "rate_change": false, "release": false}
+    },
+    {
+      "producer": "TRIBUNAL",
+      "repository": "https://github.com/giodl73-repo/TRIBUNAL",
+      "commit": "9f6e6846c876cc72ac91d967060ac7889d0b4d66",
+      "replay_command": "cargo run --quiet -- official-held-pack fixtures/official/aousc-fjcs-2025-caseflow.tsv",
+      "pack_id": "tribunal:aousc-fjcs-2025-caseflow:v1",
+      "pack_sha256": "2a4bbebaccc548824fbec7e4bc878ed04a6d9bb7c118853c6624853bc0efa006",
+      "schema": "taxlane.lane-evidence-pack-candidate.v1",
+      "track": "JUS",
+      "source_id": "AOUSC-FJCS-2025",
+      "evidence_label": "official_aggregate",
+      "candidate_id": null,
+      "current_disposition": "held",
+      "authority": {"taxlane_admission": false, "savings": false, "allocation": false, "rate_change": false, "release": false}
+    },
+    {
+      "producer": "ENVOY",
+      "repository": "https://github.com/giodl73-repo/ENVOY",
+      "commit": "baa5754af00669bb8e7b3de6d1ea556cc7e64706",
+      "replay_command": "cargo run --quiet -- official-held-pack fixtures/official/foreignassistance-fy2024-regions.tsv",
+      "pack_id": "envoy:foreignassistance-fy2024-regional-finance:v1",
+      "pack_sha256": "153b52a395cc784734b992a39b6fb581c047df11c101012092d5cdb6bce762f5",
+      "schema": "taxlane.lane-evidence-pack-candidate.v1",
+      "track": "INT",
+      "source_id": "FA-GOV-COUNTRY-2026-07-30",
+      "evidence_label": "official_aggregate",
+      "candidate_id": null,
+      "current_disposition": "held",
+      "authority": {"taxlane_admission": false, "savings": false, "allocation": false, "rate_change": false, "release": false}
+    }
+  ],
+  "contract_assessment": {
+    "required_section_count": 14,
+    "required_sections": ["identity", "scope", "source_custody", "problem", "intervention", "outcomes", "service_floors", "costs", "fiscal_bridge", "adaptive_pathways", "delivery", "overlap", "readiness", "claim_boundaries"],
+    "packs_with_all_sections": 4,
+    "candidate_free_baseline_class_supported": true,
+    "candidate_free_pack_eligible_for_admission": false,
+    "shared_adapter_required": false,
+    "adapter_disposition": "plain_json_contract_is_sufficient_until_a_bounded_candidate_can_trigger_admission"
+  },
+  "lane_dispositions": [
+    {
+      "track": "ISF",
+      "producer": "LIFELINE",
+      "useful_baseline": "FY2025 SNAP average monthly participation was 42.382 million and total cost was $102.590 billion; participation and cost movement remain distinct from take-up and savings.",
+      "missing_candidate_evidence": ["selected policy mechanism", "eligible population and take-up", "adequacy and distribution floors", "annual current-law net score", "state delivery and processing effects", "overlap allocation"],
+      "existing_reopen_condition_triggered": false,
+      "admitted_fy2026_primary_reduction_billions": 0.0,
+      "disposition_changed": false
+    },
+    {
+      "track": "VET",
+      "producer": "COVENANT",
+      "useful_baseline": "Six FY2025 VBA obligation categories reconcile to $225.541 billion, with compensation at 88.55 percent; concentration remains distinct from need, overfunding, continuity, and savings.",
+      "missing_candidate_evidence": ["selected transition or claims mechanism", "beneficiary and rural-access floors", "timeliness and continuity effects", "annual implementation and net score", "VHA and VA-wide overlap reconciliation"],
+      "existing_reopen_condition_triggered": false,
+      "admitted_fy2026_primary_reduction_billions": 0.0,
+      "disposition_changed": false
+    },
+    {
+      "track": "JUS",
+      "producer": "TRIBUNAL",
+      "useful_baseline": "Four AOUSC systems imply a -226,032 pending change and a +554 net statistical adjustment; cases and criminal defendants remain distinct units.",
+      "missing_candidate_evidence": ["selected jurisdiction and intervention", "rights and victim-service floors", "timeliness and capacity effects", "annual implementation and net score", "state local and federal overlap reconciliation"],
+      "existing_reopen_condition_triggered": false,
+      "admitted_fy2026_primary_reduction_billions": 0.0,
+      "disposition_changed": false
+    },
+    {
+      "track": "INT",
+      "producer": "ENVOY",
+      "useful_baseline": "FY2024 country-file totals show $85.781 billion obligated and $71.576 billion disbursed, while two source regions exceed a 100 percent same-year ratio; same-year flows are not matched cohorts or outcomes.",
+      "missing_candidate_evidence": ["selected program mechanism", "matched obligation cohort", "verified output and durable outcome", "local incidence and do-no-harm floors", "annual implementation and net score", "security and disaster overlap reconciliation"],
+      "existing_reopen_condition_triggered": false,
+      "admitted_fy2026_primary_reduction_billions": 0.0,
+      "disposition_changed": false
+    }
+  ],
+  "portfolio_result": {
+    "producer_packs_replayed": 4,
+    "official_aggregate_baselines_custodied": 4,
+    "bounded_fiscal_candidates_received": 0,
+    "packs_admitted_to_fiscal_model": 0,
+    "existing_track_reopening_conditions_triggered": 0,
+    "admitted_fy2026_primary_reduction_billions": 0.0,
+    "remaining_fy2026_revenue_target_billions": 813.727,
+    "preferred_schedule_percent": [21, 23, 33, 35, 43, 46, 48],
+    "behavior_contingency_schedule_percent": [22, 24, 34, 36, 44, 47, 49],
+    "rate_recomputation_required": false,
+    "rate_result_changed": false
+  },
+  "next_owner_evidence": {
+    "LIFELINE": "Add one reviewed state/program processing and participation perimeter before selecting a candidate.",
+    "COVENANT": "Add aggregate timeliness and rural-access custody around one transition or claims-flow candidate.",
+    "TRIBUNAL": "Add one jurisdiction-specific interval and rights source spine around a bounded scheduling or service candidate.",
+    "ENVOY": "Add one public non-sensitive program with matched financial cohorts, program-specific outcomes, and local-incidence evidence.",
+    "TAXLANE": "Keep baseline intake separate from candidate admission; add no shared adapter until a producer supplies a bounded candidate capable of reopening a track."
+  },
+  "role_review": {
+    "fixed_point": "pass_with_risk",
+    "open_p1_findings": 0,
+    "open_p2_findings": 0,
+    "deferred_claims": ["candidate selection", "service-floor passage", "net fiscal effect", "track reopening", "rate change"]
+  },
+  "claim_booleans": {
+    "official_aggregate_baseline_intake_succeeded": true,
+    "fiscal_candidate_received": false,
+    "producer_authority_overridden": false,
+    "savings_claimed": false,
+    "allocation_changed": false,
+    "rate_change_claimed": false,
+    "public_release_authorized": false
+  },
+  "public_warning": "The four domain owners now contribute replayable official aggregate baselines, a substantive advance beyond synthetic demonstrations. None supplies a selected fiscal candidate, passed service floors, implementation plan, current-law net score, or overlap allocation. Taxlane therefore custodies all four baselines, admits no savings, and changes no rate."
+}

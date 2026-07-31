@@ -77,6 +77,74 @@ mod global_country_comparison_tests {
     use super::*;
 
     #[test]
+    fn next_owner_official_baselines_remain_candidate_free_and_fiscally_held() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let path = root.join(
+            "data/derived/breadth_benchmark_matrix/next_owner_official_baseline_intake_disposition.v1.draft.json",
+        );
+        let text = fs::read_to_string(path).expect("read next-owner intake disposition");
+        let record: serde_json::Value =
+            serde_json::from_str(&text).expect("parse next-owner intake disposition");
+
+        let inputs = record["inputs"].as_array().expect("inputs array");
+        assert_eq!(inputs.len(), 4);
+        let tracks: BTreeSet<_> = inputs
+            .iter()
+            .map(|input| input["track"].as_str().expect("track"))
+            .collect();
+        assert_eq!(tracks, BTreeSet::from(["INT", "ISF", "JUS", "VET"]));
+        for input in inputs {
+            assert_eq!(
+                input["schema"],
+                "taxlane.lane-evidence-pack-candidate.v1"
+            );
+            assert!(input["candidate_id"].is_null());
+            for denied in [
+                "taxlane_admission",
+                "savings",
+                "allocation",
+                "rate_change",
+                "release",
+            ] {
+                assert_eq!(input["authority"][denied], false, "authority {denied}");
+            }
+        }
+
+        assert_eq!(record["contract_assessment"]["required_section_count"], 14);
+        assert_eq!(record["contract_assessment"]["packs_with_all_sections"], 4);
+        assert_eq!(
+            record["contract_assessment"]["candidate_free_baseline_class_supported"],
+            true
+        );
+        assert_eq!(
+            record["contract_assessment"]["candidate_free_pack_eligible_for_admission"],
+            false
+        );
+        assert_eq!(record["contract_assessment"]["shared_adapter_required"], false);
+
+        let lanes = record["lane_dispositions"]
+            .as_array()
+            .expect("lane dispositions");
+        assert_eq!(lanes.len(), 4);
+        for lane in lanes {
+            assert_eq!(lane["existing_reopen_condition_triggered"], false);
+            assert_eq!(lane["admitted_fy2026_primary_reduction_billions"], 0.0);
+            assert_eq!(lane["disposition_changed"], false);
+        }
+
+        assert_eq!(record["portfolio_result"]["packs_admitted_to_fiscal_model"], 0);
+        assert_eq!(
+            record["portfolio_result"]["remaining_fy2026_revenue_target_billions"],
+            813.727
+        );
+        assert_eq!(record["portfolio_result"]["rate_recomputation_required"], false);
+        assert_eq!(record["portfolio_result"]["rate_result_changed"], false);
+        assert_eq!(record["claim_booleans"]["savings_claimed"], false);
+        assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
+        assert_eq!(record["claim_booleans"]["public_release_authorized"], false);
+    }
+
+    #[test]
     fn global_country_comparison_contract_covers_every_lane() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_global_country_comparison_coverage(&root).unwrap();

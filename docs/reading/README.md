@@ -1066,6 +1066,9 @@ It is the bounded public surface, not a performance or savings report.
 218. Read `anchor-bastion-sem012-intake-disposition.md` for the first direct
      lane-owner handoff test, partial semantic compatibility finding, exact OAS
      and DEF evidence gaps, and unchanged fiscal and rate disposition.
+219. Read `next-owner-official-baseline-intake-disposition.md` for the first
+     four-pack official aggregate domain-owner intake, candidate-free baseline
+     class, exact ISF/VET/JUS/INT gaps, and unchanged fiscal and rate result.
 
 ## Public-Use Guardrail
 

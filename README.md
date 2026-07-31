@@ -11,7 +11,7 @@ internal analytical rate schedule.
 
 The result is now complete inside this repository: 21 canonical explanation
 artifacts, ten research papers, three presentation variants, a six-page local
-website, machine-readable closure records, and 388 passing tests.
+website, machine-readable closure records, and 389 passing tests.
 
 > **Repository-ready, externally blocked.** TAXLANE is not enacted law,
 > personal tax or legal advice, an official score, formal proof of balance, or
@@ -63,6 +63,17 @@ schedule remains **21/23/33/35/43/46/48**. The
 [paired intake disposition](docs/reading/anchor-bastion-sem012-intake-disposition.md)
 names the exact evidence each owner must supply next. Taxlane deliberately did
 not build an adapter with no admissible consumer.
+
+### First official domain-owner baseline intake
+
+LIFELINE, COVENANT, TRIBUNAL, and ENVOY now advance that handoff from synthetic
+candidate shapes to four replayable official aggregate baselines for ISF, VET,
+JUS, and INT. The packs establish real program scale, accounting, and source
+boundaries, but each has `candidate_id: null` and remains held. Taxlane therefore
+custodies all four, admits no savings, and leaves the target and rate schedules
+unchanged. The [four-pack disposition](docs/reading/next-owner-official-baseline-intake-disposition.md)
+explains why this is substantive baseline interoperability without premature
+adapter code or fiscal admission.
 
 ## How TAXLANE solved the system
 
@@ -210,8 +221,8 @@ the relevant publication-panel gates.
 Validation currently covers:
 
 - 152 `taxlane-core` tests;
-- 236 `taxlane-tools` tests;
-- 388 workspace tests total;
+- 237 `taxlane-tools` tests;
+- 389 workspace tests total;
 - closure contracts for all six explanation waves;
 - headline and accounting-boundary parity;
 - nonempty PDF and presentation renders;

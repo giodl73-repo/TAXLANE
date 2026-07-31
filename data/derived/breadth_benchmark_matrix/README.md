@@ -1821,3 +1821,11 @@ both candidates remain synthetic, held, non-emitted, and unable to trigger a
 track reopening, savings admission, or rate recomputation. The companion
 schema and reader identify the minimal owner evidence needed before shared
 adapter code would have a product-changing consumer.
+
+`next_owner_official_baseline_intake_disposition.v1.draft.json` replays four
+official aggregate held packs from LIFELINE, COVENANT, TRIBUNAL, and ENVOY. All
+four satisfy the fourteen-section envelope and improve ISF, VET, JUS, and INT
+baseline custody, but all have null candidate identities and remain unable to
+trigger admission. Zero savings, the $813.727 billion target, and the preferred
+21/23/33/35/43/46/48 schedule therefore remain unchanged; no adapter code is
+added without a candidate-capable consumer.
