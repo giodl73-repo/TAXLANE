@@ -1,0 +1,113 @@
+{
+  "record_id": "shield-cms-inpatient-origin-destination-disposition:v1",
+  "record_family": "shield_cms_inpatient_origin_destination_disposition",
+  "version": "v1.draft",
+  "status": "official_hlt_inpatient_cross_zip_flow_admitted_emergency_access_need_and_fiscal_claims_held",
+  "as_of_date": "2026-07-31",
+  "product_question": "What does observed 2024 Medicare inpatient origin-destination flow establish for HLT, and what remains unproved?",
+  "prior_record": "shield-cms-county-emergency-demand-disposition:v1",
+  "producer": {
+    "repository": "SHIELD",
+    "track": "HLT",
+    "candidate_id": null,
+    "commit": "f3b26742c92ec6c95f21011c6b2a36315d0e5604",
+    "replay_command": "cargo run --quiet -p shield-cli -- cms-inpatient-origin-destination-held-pack",
+    "pack_id": "shield:cms-inpatient-origin-destination-2024:v1",
+    "pack_bytes_utf8_without_newline": 5837,
+    "pack_sha256": "6054914ce3a848b90c1a7c34dedbc1784994ffd7c7d1067d6c6619b50707d2d6",
+    "workspace_crates": 7,
+    "product_commands": 24,
+    "workspace_tests": 73,
+    "feature_tests": 39
+  },
+  "source_custody": {
+    "publisher": "Centers for Medicare & Medicaid Services",
+    "dataset": "Hospital Service Area",
+    "dataset_id": "22e11819-48e8-44a8-a036-fd6351f4173a",
+    "year": 2024,
+    "modified": "2025-09-10",
+    "csv_rows": 1156702,
+    "csv_bytes": 26951355,
+    "csv_sha256": "1698b7fb8372ebafe126099e2b2406a841411f6eb2d22f50ca9add545bff5aa8",
+    "dictionary_sha256": "06535c24d23404b14befa8248800dabd0503232f3166f5a5292e4c05384943d1",
+    "methodology_sha256": "ddd800c5d4904a30ae2885a5a0c98149edb4badd1a3ec919e007928b521390e6",
+    "provider_dataset": "Q4 2024 QIES Provider of Services",
+    "provider_dataset_version_id": "8143cbc7-484f-438b-9dfa-2e81d5d6a1ed",
+    "provider_csv_rows": 115647,
+    "provider_csv_sha256": "25cbd95b347dfc92130d4a4a3bc7c79dc7bbd8fbd1a16fc294029f22e7bfcb09"
+  },
+  "inpatient_flow_findings": {
+    "hsa_rows": 1156702,
+    "hsa_providers": 7536,
+    "numeric_pairs": 146996,
+    "suppressed_pairs": 1009706,
+    "exact_q4_pos_provider_matches": 5902,
+    "matched_observable_cases": 13330744,
+    "invalid_origin_cases": 276,
+    "classified_observable_cases": 13330468,
+    "same_zip_cases": 1743939,
+    "different_zip_cases": 11586529,
+    "different_zip_case_bps": 8692,
+    "cases_are_unique_beneficiaries": false,
+    "different_zip_is_cross_county": false,
+    "inpatient_flow_is_emergency_flow": false
+  },
+  "taxlane_assessment": {
+    "official_inpatient_origin_destination_context_admitted": true,
+    "suppression_and_exact_same_year_provider_identity_admitted": true,
+    "cross_zip_inpatient_flow_observed": true,
+    "cross_county_emergency_flow_observed": false,
+    "travel_time_or_burden_observed": false,
+    "reason_for_travel_observed": false,
+    "unmet_need_or_adequacy_assessed": false,
+    "candidate_bounded": false,
+    "cost_or_savings_observed": false,
+    "service_floor_passed": false,
+    "hlt_reopen_condition_triggered": false,
+    "candidate_selected_for_fiscal_model": false,
+    "reason": "The source directly establishes that most observable matched Medicare inpatient cases cross a ZIP boundary. It does not establish a county crossing, emergency destination, distance, travel time, burden, reason for travel, unique patients, access failure, unmet need, intervention, effect, cost, incidence, or delivery case."
+  },
+  "next_evidence": {
+    "travel": "Add emergency-specific origin-destination evidence across county boundaries or patient-relevant road travel time.",
+    "demand": "Add total-population emergency demand while preserving payer, age, morbidity, and suppression boundaries.",
+    "operations": "Join compatible current emergency schedules, staffing, throughput, and transfer-network evidence.",
+    "candidate": "Only then bound one emergency-access intervention with floors, effects, costs, incidence, and delivery evidence."
+  },
+  "portfolio_result": {
+    "packs_replayed": 1,
+    "packs_admitted_to_fiscal_model": 0,
+    "admitted_fy2026_primary_reduction_billions": 0.0,
+    "remaining_fy2026_revenue_target_billions": 813.727,
+    "preferred_schedule_percent": [21, 23, 33, 35, 43, 46, 48],
+    "behavior_contingency_schedule_percent": [22, 24, 34, 36, 44, 47, 49],
+    "rate_recomputation_required": false,
+    "rate_result_changed": false
+  },
+  "role_review": {
+    "fixed_point": "pass_with_risk",
+    "open_p1_findings": 0,
+    "open_p2_findings": 0,
+    "deferred_claims": [
+      "emergency-specific cross-county flow and patient-relevant travel time",
+      "total-population emergency demand",
+      "current schedules, staffing, throughput, and transfer capacity",
+      "travel burden, reason, unmet need, quality outcomes, equity, and adequacy",
+      "candidate effect, delivery, and net federal savings",
+      "HLT reopening and rate change"
+    ]
+  },
+  "claim_booleans": {
+    "official_replay_succeeded": true,
+    "suppressed_pairs_filled_with_zero": false,
+    "cases_treated_as_unique_beneficiaries": false,
+    "different_zip_treated_as_cross_county": false,
+    "inpatient_flow_treated_as_emergency_flow": false,
+    "different_zip_treated_as_access_failure": false,
+    "candidate_admitted": false,
+    "savings_claimed": false,
+    "allocation_changed": false,
+    "rate_change_claimed": false,
+    "public_release_authorized": false
+  },
+  "public_warning": "CMS 2024 Hospital Service Area data show that 11,586,529 of 13,330,468 classified observable matched inpatient cases used a hospital in a different ZIP from the beneficiary mailing ZIP. That is observed cross-ZIP inpatient flow—not emergency flow, a county crossing, travel time, burden, or access failure. HLT, the $813.727B target, and both rate schedules remain unchanged."
+}

@@ -2447,6 +2447,37 @@ mod global_country_comparison_tests {
         assert_eq!(record["portfolio_result"]["remaining_fy2026_revenue_target_billions"], 813.727);
         assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
     }
+
+    #[test]
+    fn shield_cms_inpatient_flow_is_not_emergency_access_need_or_savings() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let path = root.join(
+            "data/derived/breadth_benchmark_matrix/shield_cms_inpatient_origin_destination_disposition.v1.draft.json",
+        );
+        let text = fs::read_to_string(path).expect("read SHIELD inpatient-flow disposition");
+        let record: serde_json::Value =
+            serde_json::from_str(&text).expect("parse SHIELD inpatient-flow disposition");
+
+        assert_eq!(record["producer"]["track"], "HLT");
+        assert_eq!(record["producer"]["workspace_tests"], 73);
+        assert_eq!(record["producer"]["pack_bytes_utf8_without_newline"], 5837);
+        assert_eq!(
+            record["producer"]["pack_sha256"],
+            "6054914ce3a848b90c1a7c34dedbc1784994ffd7c7d1067d6c6619b50707d2d6"
+        );
+        assert_eq!(record["inpatient_flow_findings"]["classified_observable_cases"], 13330468);
+        assert_eq!(record["inpatient_flow_findings"]["different_zip_cases"], 11586529);
+        assert_eq!(record["inpatient_flow_findings"]["different_zip_case_bps"], 8692);
+        assert_eq!(record["taxlane_assessment"]["cross_zip_inpatient_flow_observed"], true);
+        assert_eq!(record["taxlane_assessment"]["cross_county_emergency_flow_observed"], false);
+        assert_eq!(record["taxlane_assessment"]["hlt_reopen_condition_triggered"], false);
+        assert_eq!(
+            record["portfolio_result"]["admitted_fy2026_primary_reduction_billions"],
+            0.0
+        );
+        assert_eq!(record["portfolio_result"]["remaining_fy2026_revenue_target_billions"], 813.727);
+        assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
+    }
 }
 
 fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {

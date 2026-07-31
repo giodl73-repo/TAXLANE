@@ -11,7 +11,7 @@ internal analytical rate schedule.
 
 The result is now complete inside this repository: 21 canonical explanation
 artifacts, ten research papers, three presentation variants, a six-page local
-website, machine-readable closure records, and 411 passing tests.
+website, machine-readable closure records, and 412 passing tests.
 
 > **Repository-ready, externally blocked.** TAXLANE is not enacted law,
 > personal tax or legal advice, an official score, formal proof of balance, or
@@ -216,6 +216,13 @@ keeps 762 counties without a current hospital as a cross-county planning queue,
 not a no-access verdict. Treating facilities, travel, total-population demand,
 need, adequacy, candidates, and savings remain held, with no rate change.
 
+SHIELD now adds observed 2024 Medicare inpatient origin-destination flow. Exact
+same-year provider identity retains 13,330,468 classified cases, of which
+11,586,529 (86.92%) cross a ZIP boundary. [The inpatient-flow disposition](docs/reading/shield-cms-inpatient-origin-destination-disposition.md)
+admits that cross-ZIP context while refusing to call it a county crossing,
+emergency destination, travel time, burden, or access failure. Candidates,
+effects, costs, and savings remain held, with no rate change.
+
 SHIELD now adds HRSA's formal primary-care shortage registry at its true grain:
 79,150 component rows resolve to 7,682 currently designated HPSA IDs, including
 762 multi-component and 282 multi-rural-status designations. HRSA's separate
@@ -386,7 +393,7 @@ Validation currently covers:
 
 - 152 `taxlane-core` tests;
 - 259 `taxlane-tools` tests;
-- 411 workspace tests total;
+- 412 workspace tests total;
 - closure contracts for all six explanation waves;
 - headline and accounting-boundary parity;
 - nonempty PDF and presentation renders;

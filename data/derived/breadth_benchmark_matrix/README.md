@@ -1984,6 +1984,14 @@ current hospital location. Taxlane admits the planning context while holding
 cross-county flow, travel, total-population demand, unmet need, adequacy,
 candidates, costs, savings, and rate changes.
 
+`shield_cms_inpatient_origin_destination_disposition.v1.draft.json` replays
+SHIELD's observed 2024 Medicare inpatient origin-destination flow. It retains
+1,009,706 suppressed pairs and classifies 13,330,468 observable cases after an
+exact same-year provider join; 11,586,529 (86.92%) cross a ZIP boundary.
+Taxlane admits the cross-ZIP inpatient context while holding county crossing,
+emergency destination, travel time, burden, access, need, adequacy, candidates,
+costs, savings, and rate changes.
+
 `shield_cms_certified_services_workforce_disposition.v1.draft.json` replays
 SHIELD's Q2 2026 CMS QIES Provider of Services spine. Exact CCN identity covers
 5,422 of 5,432 current hospitals; fourteen service modes are complete for

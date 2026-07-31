@@ -1144,6 +1144,9 @@ It is the bounded public surface, not a performance or savings report.
 241. Read `shield-cms-county-emergency-demand-disposition.md` for SHIELD's
      Original Medicare county emergency-use denominator, facility-location and
      cross-county boundaries, and unchanged HLT, fiscal-target, and rate results.
+242. Read `shield-cms-inpatient-origin-destination-disposition.md` for SHIELD's
+     observed Medicare inpatient cross-ZIP flow, emergency/travel boundary, and
+     unchanged HLT, fiscal-target, and rate results.
 
 ## Public-Use Guardrail
 
