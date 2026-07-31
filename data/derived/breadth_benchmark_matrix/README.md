@@ -2000,6 +2000,14 @@ incident context. Taxlane admits the national routing context while holding
 restricted county geography, linked origin-destination flow, travel time,
 access, need, adequacy, candidates, costs, savings, and rate changes.
 
+`shield_minnesota_stroke_drive_time_disposition.v1.draft.json` replays
+SHIELD's July 2026 Minnesota stroke-system coverage baseline. It preserves 123
+designated hospitals, 97% of residents within a modeled 30-minute drive, and
+99% within 60 minutes. Taxlane admits the state-level, condition-specific
+modeled access context while holding actual EMS travel, patient flow, county
+access, service readiness, national inference, need, adequacy, candidates,
+costs, savings, and rate changes.
+
 `shield_cms_certified_services_workforce_disposition.v1.draft.json` replays
 SHIELD's Q2 2026 CMS QIES Provider of Services spine. Exact CCN identity covers
 5,422 of 5,432 current hospitals; fourteen service modes are complete for

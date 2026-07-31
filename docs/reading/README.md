@@ -1150,6 +1150,9 @@ It is the bounded public surface, not a performance or savings report.
 243. Read `shield-nemsis-ems-destination-disposition.md` for SHIELD's national
      EMS destination and incident-urbanicity context, restricted-geography and
      travel-time boundary, and unchanged HLT, fiscal-target, and rate results.
+244. Read `shield-minnesota-stroke-drive-time-disposition.md` for SHIELD's
+     current state-level, condition-specific modeled coverage, actual-travel and
+     substate boundary, and unchanged HLT, fiscal-target, and rate results.
 
 ## Public-Use Guardrail
 

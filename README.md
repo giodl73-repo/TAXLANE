@@ -11,7 +11,7 @@ internal analytical rate schedule.
 
 The result is now complete inside this repository: 21 canonical explanation
 artifacts, ten research papers, three presentation variants, a six-page local
-website, machine-readable closure records, and 413 passing tests.
+website, machine-readable closure records, and 414 passing tests.
 
 > **Repository-ready, externally blocked.** TAXLANE is not enacted law,
 > personal tax or legal advice, an official score, formal proof of balance, or
@@ -230,6 +230,13 @@ admits national routing and rural/frontier incident context while holding
 restricted county geography, travel duration, access, need, adequacy,
 candidates, costs, and savings, with no rate change.
 
+SHIELD now adds Minnesota's July 2026 stroke-system drive-time surface: 123
+designated hospitals, 97% of residents within a modeled 30-minute drive, and
+99% within 60 minutes. [The stroke drive-time disposition](docs/reading/shield-minnesota-stroke-drive-time-disposition.md)
+admits current state-level, condition-specific access context while separating
+modeled coverage from actual EMS travel, county access, service readiness,
+national adequacy, candidates, costs, and savings, with no rate change.
+
 SHIELD now adds HRSA's formal primary-care shortage registry at its true grain:
 79,150 component rows resolve to 7,682 currently designated HPSA IDs, including
 762 multi-component and 282 multi-rural-status designations. HRSA's separate
@@ -400,7 +407,7 @@ Validation currently covers:
 
 - 152 `taxlane-core` tests;
 - 259 `taxlane-tools` tests;
-- 413 workspace tests total;
+- 414 workspace tests total;
 - closure contracts for all six explanation waves;
 - headline and accounting-boundary parity;
 - nonempty PDF and presentation renders;

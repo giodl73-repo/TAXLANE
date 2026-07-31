@@ -2509,6 +2509,42 @@ mod global_country_comparison_tests {
         assert_eq!(record["portfolio_result"]["remaining_fy2026_revenue_target_billions"], 813.727);
         assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
     }
+
+    #[test]
+    fn shield_minnesota_stroke_drive_time_is_not_actual_travel_need_or_savings() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let path = root.join(
+            "data/derived/breadth_benchmark_matrix/shield_minnesota_stroke_drive_time_disposition.v1.draft.json",
+        );
+        let text = fs::read_to_string(path).expect("read SHIELD Minnesota stroke disposition");
+        let record: serde_json::Value =
+            serde_json::from_str(&text).expect("parse SHIELD Minnesota stroke disposition");
+
+        assert_eq!(record["producer"]["track"], "HLT");
+        assert_eq!(record["producer"]["workspace_tests"], 79);
+        assert_eq!(record["producer"]["pack_bytes_utf8_without_newline"], 5714);
+        assert_eq!(
+            record["producer"]["pack_sha256"],
+            "25c75014e6fd94470a09ba21d332a47fecd45d1e16da2f2fbe2b26aea460d645"
+        );
+        assert_eq!(record["stroke_access_findings"]["designated_stroke_hospitals"], 123);
+        assert_eq!(
+            record["stroke_access_findings"]["population_within_30_minute_drive_percent"],
+            97
+        );
+        assert_eq!(
+            record["stroke_access_findings"]["population_within_60_minute_drive_percent"],
+            99
+        );
+        assert_eq!(record["taxlane_assessment"]["actual_patient_or_ems_travel_admitted"], false);
+        assert_eq!(record["taxlane_assessment"]["hlt_reopen_condition_triggered"], false);
+        assert_eq!(
+            record["portfolio_result"]["admitted_fy2026_primary_reduction_billions"],
+            0.0
+        );
+        assert_eq!(record["portfolio_result"]["remaining_fy2026_revenue_target_billions"], 813.727);
+        assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
+    }
 }
 
 fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {

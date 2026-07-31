@@ -1,0 +1,102 @@
+{
+  "record_id": "shield-minnesota-stroke-drive-time-disposition:v1",
+  "record_family": "shield_minnesota_stroke_drive_time_disposition",
+  "version": "v1.draft",
+  "status": "official_hlt_state_stroke_modeled_drive_time_context_admitted_substate_need_and_fiscal_claims_held",
+  "as_of_date": "2026-07-31",
+  "product_question": "What does Minnesota's July 2026 stroke-system drive-time surface establish for HLT, and what remains unproved?",
+  "prior_record": "shield-nemsis-ems-destination-disposition:v1",
+  "producer": {
+    "repository": "SHIELD",
+    "track": "HLT",
+    "candidate_id": null,
+    "commit": "17a730fa88dea0a433fb616568bbfd4c47edccca",
+    "replay_command": "cargo run --quiet -p shield-cli -- minnesota-stroke-drive-time-held-pack",
+    "pack_id": "shield:minnesota-stroke-drive-time-2026-07:v1",
+    "pack_bytes_utf8_without_newline": 5714,
+    "pack_sha256": "25c75014e6fd94470a09ba21d332a47fecd45d1e16da2f2fbe2b26aea460d645",
+    "workspace_crates": 7,
+    "product_commands": 28,
+    "workspace_tests": 79,
+    "feature_tests": 45
+  },
+  "source_custody": {
+    "publisher": "Minnesota Department of Health",
+    "dataset": "Minnesota Stroke System Coverage: Drive Time to Designated Stroke System Hospitals",
+    "state": "Minnesota",
+    "page_updated": "2026-07-21",
+    "map_vintage": "2026-07",
+    "pdf_pages": 1,
+    "pdf_bytes": 333247,
+    "pdf_sha256": "490fc7ffc2c5af244ceafb35459b9b1c59907a6b66991a972d309d9ea1c130c4"
+  },
+  "stroke_access_findings": {
+    "designated_stroke_hospitals": 123,
+    "population_within_30_minute_drive_percent": 97,
+    "population_within_60_minute_drive_percent": 99,
+    "drive_time_is_modeled_population_coverage": true,
+    "condition_specific_emergency_access": true,
+    "actual_ems_transport_records_observed": false,
+    "patient_origin_destination_observed": false,
+    "county_estimates_published": false,
+    "machine_readable_geography_published": false,
+    "nationally_representative": false,
+    "uncovered_population_count_published": false
+  },
+  "taxlane_assessment": {
+    "official_state_stroke_access_context_admitted": true,
+    "modeled_statewide_drive_time_coverage_admitted": true,
+    "actual_patient_or_ems_travel_admitted": false,
+    "county_or_local_access_assessed": false,
+    "service_readiness_or_adequacy_assessed": false,
+    "candidate_bounded": false,
+    "cost_or_savings_observed": false,
+    "service_floor_passed": false,
+    "hlt_reopen_condition_triggered": false,
+    "candidate_selected_for_fiscal_model": false,
+    "reason": "The source establishes current statewide modeled population coverage to designated hospitals for a time-sensitive condition. Aggregate percentages, unpublished substate values, unobserved EMS trips, unknown facility readiness, and absent demand, outcome, candidate, cost, and delivery evidence prevent local need, adequacy, intervention, or fiscal claims."
+  },
+  "next_evidence": {
+    "geography": "Add machine-readable substate stroke or emergency drive-time coverage with population counts and method metadata.",
+    "travel": "Add publicly usable actual EMS response and scene-to-destination time without exposing restricted patient geography.",
+    "operations": "Join compatible current stroke-service readiness, staffing, throughput, transfer, outcomes, and total-population demand evidence.",
+    "candidate": "Only then bound one emergency-access intervention with distributional floors, effects, costs, incidence, and delivery evidence."
+  },
+  "portfolio_result": {
+    "packs_replayed": 1,
+    "packs_admitted_to_fiscal_model": 0,
+    "admitted_fy2026_primary_reduction_billions": 0.0,
+    "remaining_fy2026_revenue_target_billions": 813.727,
+    "preferred_schedule_percent": [21, 23, 33, 35, 43, 46, 48],
+    "behavior_contingency_schedule_percent": [22, 24, 34, 36, 44, 47, 49],
+    "rate_recomputation_required": false,
+    "rate_result_changed": false
+  },
+  "role_review": {
+    "fixed_point": "pass_with_risk",
+    "open_p1_findings": 0,
+    "open_p2_findings": 0,
+    "deferred_claims": [
+      "machine-readable substate coverage and exact uncovered population",
+      "actual EMS response, transport, and patient origin-destination flow",
+      "current stroke-service readiness, staffing, throughput, transfer capacity, and outcomes",
+      "local unmet need, equity distribution, quality, and adequacy",
+      "candidate effect, delivery, and net federal savings",
+      "HLT reopening and rate change"
+    ]
+  },
+  "claim_booleans": {
+    "official_replay_succeeded": true,
+    "modeled_statewide_coverage_claimed": true,
+    "modeled_drive_time_treated_as_actual_patient_travel": false,
+    "state_percentage_treated_as_county_access": false,
+    "minnesota_treated_as_nationally_representative": false,
+    "designation_treated_as_service_readiness": false,
+    "candidate_admitted": false,
+    "savings_claimed": false,
+    "allocation_changed": false,
+    "rate_change_claimed": false,
+    "public_release_authorized": false
+  },
+  "public_warning": "Minnesota reports 123 designated stroke-system hospitals, with 97% of residents within a modeled 30-minute drive and 99% within 60 minutes. This is current statewide condition-specific coverage—not actual EMS travel, county access, service readiness, national adequacy, or an intervention result. HLT, the $813.727B target, and both rate schedules remain unchanged."
+}
