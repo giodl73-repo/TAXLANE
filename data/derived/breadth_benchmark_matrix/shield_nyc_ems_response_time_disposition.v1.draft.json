@@ -1,0 +1,87 @@
+{
+  "record_id": "shield-nyc-ems-response-time-disposition:v1",
+  "record_family": "shield_nyc_ems_response_time_disposition",
+  "version": "v1.draft",
+  "status": "official_hlt_local_ems_response_context_admitted_adequacy_and_fiscal_claims_held",
+  "as_of_date": "2026-07-31",
+  "product_question": "What do FDNY's calendar-2025 dispatch aggregates establish about EMS response components, and what remains unproved?",
+  "prior_record": "shield-minnesota-stroke-drive-time-disposition:v1",
+  "producer": {
+    "repository": "SHIELD", "track": "HLT", "candidate_id": null,
+    "commit": "2c74e31c3ee5d401da20b40ba53b2c6a34525305",
+    "replay_command": "cargo run --quiet -p shield-cli -- nyc-ems-response-time-held-pack",
+    "pack_id": "shield:nyc-ems-response-time-2025:v1",
+    "pack_bytes_utf8_without_newline": 6538,
+    "pack_sha256": "38821b16791e8dceb56fa644b442b0010634148dd7fff5fc688b1f577aaa1a55",
+    "workspace_crates": 7, "product_commands": 30, "workspace_tests": 82, "feature_tests": 48
+  },
+  "source_custody": {
+    "publisher": "Fire Department of New York City", "portal": "NYC OpenData",
+    "dataset": "EMS Incident Dispatch Data", "dataset_id": "76xm-jjuj",
+    "rows_updated": "2026-07-15T20:06:55Z", "captured": "2026-07-31",
+    "dataset_rows_at_capture": 29978154, "dictionary_bytes": 22388,
+    "dictionary_sha256": "ccf797381643e39ebcd652892c730ab180bd751bedd9519b4cd9afc0e374a9de",
+    "aggregate_query_response_hashes": 5, "incident_rows_stored": false
+  },
+  "ems_response_findings": {
+    "calendar_year_incidents": 1612273, "valid_response_time_events": 1510191,
+    "invalid_response_time_events": 102082, "valid_response_time_bps": 9367,
+    "severity_one_events": 27540, "severity_one_average_response_seconds": 421.713,
+    "severity_one_average_travel_seconds": 372.592,
+    "severity_one_borough_low_average_response_seconds": 388.215,
+    "severity_one_borough_high_average_response_seconds": 456.609,
+    "response_is_incident_creation_to_first_unit_on_scene": true,
+    "travel_is_first_unit_assignment_to_first_unit_on_scene": true,
+    "dispatch_severity_is_actual_patient_condition": false,
+    "scene_to_hospital_time_observed": false, "population_denominator_joined": false,
+    "nationally_representative": false
+  },
+  "taxlane_assessment": {
+    "official_local_operations_context_admitted": true,
+    "borough_and_dispatch_severity_means_admitted": true,
+    "actual_patient_condition_assessed": false,
+    "percentiles_or_target_compliance_assessed": false,
+    "scene_to_hospital_or_outcomes_assessed": false,
+    "causal_borough_difference_assessed": false,
+    "service_readiness_or_adequacy_assessed": false,
+    "candidate_bounded": false, "cost_or_savings_observed": false,
+    "service_floor_passed": false, "hlt_reopen_condition_triggered": false,
+    "candidate_selected_for_fiscal_model": false,
+    "reason": "The source establishes local aggregate response components at dispatch-record grain. Arithmetic means, dispatch labels, absent percentiles and accepted targets, missing population denominators and outcomes, and unresolved operational mix prevent adequacy, causal, intervention, or fiscal claims."
+  },
+  "next_evidence": {
+    "distribution": "Add compatible response-time percentiles and record-validity analysis rather than relying on arithmetic means.",
+    "standard": "Add an accepted target with matching definitions, severity scope, and time basis.",
+    "population_and_outcomes": "Join compatible population exposure and outcome evidence without exposing patient or incident locations.",
+    "operations": "Separate priority, unit, demand, traffic, weather, held-incident, and surge effects before explaining borough differences.",
+    "candidate": "Only then bound one response intervention with distributional floors, effects, costs, incidence, and delivery evidence."
+  },
+  "portfolio_result": {
+    "packs_replayed": 1, "packs_admitted_to_fiscal_model": 0,
+    "admitted_fy2026_primary_reduction_billions": 0.0,
+    "remaining_fy2026_revenue_target_billions": 813.727,
+    "preferred_schedule_percent": [21, 23, 33, 35, 43, 46, 48],
+    "behavior_contingency_schedule_percent": [22, 24, 34, 36, 44, 47, 49],
+    "rate_recomputation_required": false, "rate_result_changed": false
+  },
+  "role_review": {
+    "fixed_point": "pass_with_risk", "open_p1_findings": 0, "open_p2_findings": 0,
+    "deferred_claims": [
+      "response-time percentiles, tails, and accepted target compliance",
+      "actual patient condition, scene-to-hospital travel, destination, and outcomes",
+      "population exposure, local need, causal borough differences, equity, and adequacy",
+      "candidate effect, delivery, and net federal savings", "HLT reopening and rate change"
+    ]
+  },
+  "claim_booleans": {
+    "official_replay_succeeded": true, "local_response_components_claimed": true,
+    "dispatch_severity_treated_as_actual_patient_condition": false,
+    "arithmetic_mean_treated_as_percentile_or_target": false,
+    "borough_difference_given_causal_explanation": false,
+    "scene_to_hospital_or_outcome_claimed": false,
+    "nyc_treated_as_nationally_representative": false, "candidate_admitted": false,
+    "savings_claimed": false, "allocation_changed": false,
+    "rate_change_claimed": false, "public_release_authorized": false
+  },
+  "public_warning": "FDNY's calendar-2025 dispatch aggregates contain 1,510,191 valid response-time records (93.67% of incidents). Severity-1 records average 421.713 seconds from incident creation to first unit on scene. These arithmetic means and dispatch labels do not establish actual patient condition, tails, target compliance, outcomes, adequacy, causality, or savings. HLT, the $813.727B target, and both rate schedules remain unchanged."
+}

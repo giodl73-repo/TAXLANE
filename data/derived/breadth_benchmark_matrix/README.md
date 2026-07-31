@@ -1976,6 +1976,14 @@ current hospital footprint. Taxlane admits exact identity and available-bed-use
 context while holding staffed and service-line capacity, patient access, need,
 adequacy, candidates, costs, savings, and rate changes.
 
+`shield_nyc_ems_response_time_disposition.v1.draft.json` replays SHIELD's
+calendar-2025 FDNY dispatch timing baseline. It preserves 1,510,191 valid
+response-time records, the 27,540 severity-1 records, and their 421.713-second
+mean incident-to-scene response. Taxlane admits local operational timing
+context while holding actual patient condition, percentiles, target compliance,
+scene-to-hospital time, outcomes, causal borough differences, adequacy,
+candidates, costs, savings, and rate changes.
+
 `shield_cms_county_emergency_demand_disposition.v1.draft.json` replays
 SHIELD's 2024 Original Medicare county emergency-demand bridge. It retains
 3,143 usable and 54 suppressed/missing county rates, places 5,300 current

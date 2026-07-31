@@ -1153,6 +1153,10 @@ It is the bounded public surface, not a performance or savings report.
 244. Read `shield-minnesota-stroke-drive-time-disposition.md` for SHIELD's
      current state-level, condition-specific modeled coverage, actual-travel and
      substate boundary, and unchanged HLT, fiscal-target, and rate results.
+245. Read `shield-nyc-ems-response-time-disposition.md` for SHIELD's local
+     incident-to-scene and assignment-to-scene timing context, patient-condition,
+     percentile, target, outcome, and adequacy boundaries, and unchanged HLT,
+     fiscal-target, and rate results.
 
 ## Public-Use Guardrail
 

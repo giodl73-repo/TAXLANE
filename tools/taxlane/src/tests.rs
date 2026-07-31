@@ -2545,6 +2545,38 @@ mod global_country_comparison_tests {
         assert_eq!(record["portfolio_result"]["remaining_fy2026_revenue_target_billions"], 813.727);
         assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
     }
+
+    #[test]
+    fn shield_nyc_ems_response_is_not_patient_condition_adequacy_or_savings() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let path = root.join(
+            "data/derived/breadth_benchmark_matrix/shield_nyc_ems_response_time_disposition.v1.draft.json",
+        );
+        let text = fs::read_to_string(path).expect("read SHIELD NYC EMS disposition");
+        let record: serde_json::Value =
+            serde_json::from_str(&text).expect("parse SHIELD NYC EMS disposition");
+
+        assert_eq!(record["producer"]["track"], "HLT");
+        assert_eq!(record["producer"]["workspace_tests"], 82);
+        assert_eq!(record["producer"]["feature_tests"], 48);
+        assert_eq!(record["producer"]["pack_bytes_utf8_without_newline"], 6538);
+        assert_eq!(
+            record["producer"]["pack_sha256"],
+            "38821b16791e8dceb56fa644b442b0010634148dd7fff5fc688b1f577aaa1a55"
+        );
+        assert_eq!(record["ems_response_findings"]["calendar_year_incidents"], 1612273);
+        assert_eq!(record["ems_response_findings"]["valid_response_time_events"], 1510191);
+        assert_eq!(record["ems_response_findings"]["severity_one_events"], 27540);
+        assert_eq!(record["ems_response_findings"]["severity_one_average_response_seconds"], 421.713);
+        assert_eq!(record["ems_response_findings"]["scene_to_hospital_time_observed"], false);
+        assert_eq!(record["taxlane_assessment"]["hlt_reopen_condition_triggered"], false);
+        assert_eq!(
+            record["portfolio_result"]["admitted_fy2026_primary_reduction_billions"],
+            0.0
+        );
+        assert_eq!(record["portfolio_result"]["remaining_fy2026_revenue_target_billions"], 813.727);
+        assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
+    }
 }
 
 fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {

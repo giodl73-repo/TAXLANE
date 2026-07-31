@@ -11,7 +11,7 @@ internal analytical rate schedule.
 
 The result is now complete inside this repository: 21 canonical explanation
 artifacts, ten research papers, three presentation variants, a six-page local
-website, machine-readable closure records, and 414 passing tests.
+website, machine-readable closure records, and 415 passing tests.
 
 > **Repository-ready, externally blocked.** TAXLANE is not enacted law,
 > personal tax or legal advice, an official score, formal proof of balance, or
@@ -237,6 +237,14 @@ admits current state-level, condition-specific access context while separating
 modeled coverage from actual EMS travel, county access, service readiness,
 national adequacy, candidates, costs, and savings, with no rate change.
 
+SHIELD now adds FDNY's calendar-2025 EMS dispatch timing surface: 1,510,191
+valid response-time records (93.67% of 1,612,273 incidents), with 27,540
+severity-1 records averaging 421.713 seconds from incident creation to first
+unit on scene. [The NYC EMS response disposition](docs/reading/shield-nyc-ems-response-time-disposition.md)
+admits local response-component context while holding patient condition,
+percentiles, targets, outcomes, causal borough claims, adequacy, candidates,
+costs, and savings, with no rate change.
+
 SHIELD now adds HRSA's formal primary-care shortage registry at its true grain:
 79,150 component rows resolve to 7,682 currently designated HPSA IDs, including
 762 multi-component and 282 multi-rural-status designations. HRSA's separate
@@ -407,7 +415,7 @@ Validation currently covers:
 
 - 152 `taxlane-core` tests;
 - 259 `taxlane-tools` tests;
-- 414 workspace tests total;
+- 415 workspace tests total;
 - closure contracts for all six explanation waves;
 - headline and accounting-boundary parity;
 - nonempty PDF and presentation renders;
