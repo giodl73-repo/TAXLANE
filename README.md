@@ -11,7 +11,7 @@ internal analytical rate schedule.
 
 The result is now complete inside this repository: 21 canonical explanation
 artifacts, ten research papers, three presentation variants, a six-page local
-website, machine-readable closure records, and 391 passing tests.
+website, machine-readable closure records, and 392 passing tests.
 
 > **Repository-ready, externally blocked.** TAXLANE is not enacted law,
 > personal tax or legal advice, an official score, formal proof of balance, or
@@ -93,6 +93,13 @@ keeping 302,300 affected people and $758M of projected lost benefits visible.
 This adds a new ISF identity, but it is an implementation stress test—not an
 admissible spending reduction. [ISF therefore remains held](docs/reading/lifeline-calfresh-candidate-intake-disposition.md),
 with no savings or rate change.
+
+TRIBUNAL supplies the third official candidate pack: H.R. 1702's proposed
+federal district-court capacity expansion. It reconciles $111M direct and
+$283M appropriated outlays to $394M through FY2035. This adds a new held JUS
+identity, but capacity is not automatically timeliness, rights, safety, or
+savings. [JUS therefore remains held](docs/reading/tribunal-hr1702-candidate-intake-disposition.md),
+with no rate change.
 
 ## How TAXLANE solved the system
 

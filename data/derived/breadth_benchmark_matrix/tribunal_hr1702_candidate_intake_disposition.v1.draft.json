@@ -1,0 +1,112 @@
+{
+  "record_id": "tribunal-hr1702-candidate-intake-disposition:v1",
+  "record_family": "tribunal_hr1702_candidate_intake_disposition",
+  "version": "v1.draft",
+  "status": "producer_candidate_custodied_new_jus_identity_held",
+  "as_of_date": "2026-07-30",
+  "product_question": "Does TRIBUNAL's H.R. 1702 federal district-court capacity envelope establish an admissible JUS savings candidate or change Taxlane's rate result?",
+  "prior_intake_path": "data/derived/breadth_benchmark_matrix/next_owner_official_baseline_intake_disposition.v1.draft.json",
+  "existing_jus_paths": [
+    "data/derived/breadth_benchmark_matrix/eight_track_two_level_candidate_catchup.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/batch_2_eight_track_two_level_closure.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/fifteen_track_terminal_disposition.v1.draft.json"
+  ],
+  "producer_input": {
+    "producer": "TRIBUNAL",
+    "repository": "https://github.com/giodl73-repo/TRIBUNAL",
+    "commit": "a262366aed17faa26d5e1bab24b69a3fdbf1a761",
+    "replay_command": "cargo run --quiet -- candidate-held-pack fixtures/official/cbo-hr1702-judges-act-2025-cost-estimate.tsv",
+    "pack_id": "tribunal:hr1702-judges-act-2025:v1",
+    "pack_sha256": "f0dd7605a6311b2b55f8b686d6072ea2982521c0e89dd2535b618c920821e8c3",
+    "schema": "taxlane.lane-evidence-pack-candidate.v1",
+    "required_section_count": 14,
+    "required_sections_present": 14,
+    "track": "JUS",
+    "candidate_id": "hr1702_judges_act_2025",
+    "legislative_status": "ordered_reported_house_committee_not_enacted",
+    "current_disposition": "held",
+    "readiness": {
+      "domain_evidence_ready": true,
+      "candidate_bounded": true,
+      "outcome_ready": false,
+      "cost_ready": true,
+      "floors_ready": false,
+      "delivery_ready": false,
+      "overlap_ready": false,
+      "taxlane_admission_ready": false
+    },
+    "authority": {
+      "taxlane_admission": false,
+      "savings": false,
+      "allocation": false,
+      "rate_change": false,
+      "release": false
+    }
+  },
+  "official_fiscal_path": {
+    "score_horizon": "FY2025-FY2035",
+    "permanent_judgeships": 65,
+    "temporary_judgeships": 1,
+    "direct_outlays_millions": 111,
+    "appropriation_outlays_millions": 283,
+    "combined_outlays_millions": 394,
+    "fy2025_direct_and_appropriation_each_less_than_half_million": true,
+    "fy2026_combined_outlays_millions": 8,
+    "fy2035_combined_outlays_millions": 71,
+    "accounting_rule": "Direct judge compensation and appropriated court operations are added once. No delay, detention, litigant, prosecution, defense, corrections, or social savings are scored."
+  },
+  "taxlane_assessment": {
+    "candidate_identity_matches_existing_jus_candidate": false,
+    "new_candidate_identity_added": true,
+    "candidate_class": "proposed_federal_court_capacity_investment",
+    "producer_domain_evidence_added": true,
+    "annual_cost_path_reconciled": true,
+    "direct_and_appropriated_cost_componentized": true,
+    "current_law_null_preserved": true,
+    "candidate_selected_for_fiscal_model": false,
+    "existing_jus_reopen_condition_triggered": false,
+    "reason": "H.R. 1702 is a distinct proposed capacity investment rather than the existing selected-DOJ-grant reduction. It is not enacted, CBO does not score caseflow or rights outcomes, and district allocation, version, appropriation, appointment, staffing, delivery, incidence, rights-floor, and overlap evidence remain incomplete."
+  },
+  "level_2_requirements": [
+    "exact amended reported-bill text reconciled to CBO's 65 permanent judgeship count",
+    "enactment, appropriation, appointments, confirmations, staffed seats, and district milestones",
+    "district and case-type filing-to-disposition, aged-pending, vacancy, senior-judge, and magistrate baselines",
+    "counsel, liberty, victim notice, evidence integrity, disparity, and durable-resolution policy and stress results",
+    "district allocation, litigant incidence, and geographic distribution review",
+    "prosecution, defense, detention, corrections, facilities, security, and technology overlap reconciliation",
+    "reviewed service-floor passage and candidate-specific Taxlane admission rerun"
+  ],
+  "portfolio_result": {
+    "producer_candidate_packs_replayed": 1,
+    "producer_candidate_packs_custodied": 1,
+    "new_candidate_identities_added": 1,
+    "packs_admitted_to_fiscal_model": 0,
+    "existing_track_reopening_conditions_triggered": 0,
+    "admitted_fy2026_primary_reduction_billions": 0.0,
+    "remaining_fy2026_revenue_target_billions": 813.727,
+    "preferred_schedule_percent": [21, 23, 33, 35, 43, 46, 48],
+    "behavior_contingency_schedule_percent": [22, 24, 34, 36, 44, 47, 49],
+    "rate_recomputation_required": false,
+    "rate_result_changed": false
+  },
+  "role_review": {
+    "fixed_point": "pass_with_risk",
+    "open_p1_findings": 0,
+    "open_p2_findings": 0,
+    "deferred_claims": ["reported-text version closure", "enactment and appropriation", "caseflow outcomes", "rights-floor passage", "delivery readiness", "overlap closure", "savings", "track reopening", "rate change"]
+  },
+  "claim_booleans": {
+    "official_candidate_pack_intake_succeeded": true,
+    "candidate_bounded": true,
+    "new_candidate_identity_custodied": true,
+    "candidate_admitted": false,
+    "capacity_outcome_proven": false,
+    "court_efficiency_savings_proven": false,
+    "producer_authority_overridden": false,
+    "savings_claimed": false,
+    "allocation_changed": false,
+    "rate_change_claimed": false,
+    "public_release_authorized": false
+  },
+  "public_warning": "TRIBUNAL now supplies a real, replayable H.R. 1702 federal district-court capacity envelope. It adds a new held JUS identity and reconciles $111 million direct and $283 million appropriated outlays to $394 million through FY2035. More judgeships and higher court spending do not by themselves prove faster, safer, fairer, or cheaper justice. No savings are admitted and no rate changes."
+}

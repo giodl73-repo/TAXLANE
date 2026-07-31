@@ -1774,6 +1774,52 @@ mod global_country_comparison_tests {
         );
         assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
     }
+
+    #[test]
+    fn tribunal_candidate_separates_capacity_from_outcomes_and_savings() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let path = root.join(
+            "data/derived/breadth_benchmark_matrix/tribunal_hr1702_candidate_intake_disposition.v1.draft.json",
+        );
+        let text = fs::read_to_string(path).expect("read TRIBUNAL candidate intake");
+        let record: serde_json::Value =
+            serde_json::from_str(&text).expect("parse TRIBUNAL candidate intake");
+
+        let input = &record["producer_input"];
+        assert_eq!(input["candidate_id"], "hr1702_judges_act_2025");
+        assert_eq!(input["required_sections_present"], 14);
+        assert_eq!(input["readiness"]["candidate_bounded"], true);
+        assert_eq!(input["readiness"]["cost_ready"], true);
+        assert_eq!(input["readiness"]["outcome_ready"], false);
+        assert_eq!(input["readiness"]["taxlane_admission_ready"], false);
+
+        let fiscal = &record["official_fiscal_path"];
+        assert_eq!(fiscal["direct_outlays_millions"], 111);
+        assert_eq!(fiscal["appropriation_outlays_millions"], 283);
+        assert_eq!(fiscal["combined_outlays_millions"], 394);
+        assert_eq!(fiscal["fy2026_combined_outlays_millions"], 8);
+        assert_eq!(fiscal["fy2035_combined_outlays_millions"], 71);
+
+        assert_eq!(
+            record["taxlane_assessment"]["new_candidate_identity_added"],
+            true
+        );
+        assert_eq!(
+            record["taxlane_assessment"]["existing_jus_reopen_condition_triggered"],
+            false
+        );
+        assert_eq!(
+            record["portfolio_result"]["admitted_fy2026_primary_reduction_billions"],
+            0.0
+        );
+        assert_eq!(
+            record["portfolio_result"]["remaining_fy2026_revenue_target_billions"],
+            813.727
+        );
+        assert_eq!(record["claim_booleans"]["capacity_outcome_proven"], false);
+        assert_eq!(record["claim_booleans"]["court_efficiency_savings_proven"], false);
+        assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
+    }
 }
 
 fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {

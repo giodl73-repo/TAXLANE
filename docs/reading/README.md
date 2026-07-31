@@ -1077,6 +1077,9 @@ It is the bounded public surface, not a performance or savings report.
      California current-law implementation envelope, the explicit separation
      of caseload contraction from efficiency, its new held ISF identity, and
      the unchanged fiscal and rate result.
+222. Read `tribunal-hr1702-candidate-intake-disposition.md` for TRIBUNAL's
+     federal district-court capacity envelope, the separation of added seats
+     from justice outcomes, its new held JUS identity, and unchanged rates.
 
 ## Public-Use Guardrail
 

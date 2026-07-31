@@ -1846,3 +1846,10 @@ administration, a -$78.6M caseload-related offset, and $8.2M net cost while
 keeping affected people and projected lost benefits outside the efficiency
 ledger. Missing observed floors, rights, delivery, and overlap evidence blocks
 admission, track reopening, savings, and rate change.
+
+`tribunal_hr1702_candidate_intake_disposition.v1.draft.json` replays
+TRIBUNAL's first official non-null H.R. 1702 candidate pack. It registers a new
+JUS court-capacity identity and reconciles $111M direct plus $283M appropriated
+outlays to $394M. The proposed investment does not replace the selected
+DOJ-grant reduction or prove caseflow, rights, safety, distribution, delivery,
+or savings outcomes, so JUS and rates remain unchanged.
