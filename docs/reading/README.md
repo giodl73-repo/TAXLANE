@@ -1102,6 +1102,9 @@ It is the bounded public surface, not a performance or savings report.
 229. Read `next-owner-semantic-program-completion-disposition.md` for the
      four-owner ANCHOR/BASTION product-depth audit, exact replay hashes,
      synthetic-evidence boundary, and unchanged fiscal result.
+230. Read `next-owner-current-evidence-refresh-disposition.md` for the first
+     current-evidence refresh across LIFELINE, ENVOY, COVENANT, and TRIBUNAL,
+     the exact child-repo replay hashes, admission holds, and unchanged rates.
 
 ## Public-Use Guardrail
 

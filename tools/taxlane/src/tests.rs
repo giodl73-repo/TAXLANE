@@ -2066,6 +2066,45 @@ mod global_country_comparison_tests {
         );
         assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
     }
+
+    #[test]
+    fn next_owner_current_evidence_refresh_keeps_rates_held() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let path = root.join(
+            "data/derived/breadth_benchmark_matrix/next_owner_current_evidence_refresh_disposition.v1.draft.json",
+        );
+        let text = fs::read_to_string(path).expect("read current evidence disposition");
+        let record: serde_json::Value =
+            serde_json::from_str(&text).expect("parse current evidence disposition");
+
+        let refreshes = record["owner_refreshes"].as_array().expect("owner refreshes");
+        assert_eq!(refreshes.len(), 4);
+        for refresh in refreshes {
+            assert_eq!(refresh["candidate_effect_observed"], false);
+            assert_eq!(refresh["taxlane_admission_ready"], false);
+        }
+
+        let lifeline = &refreshes[0]["official_findings"];
+        assert_eq!(lifeline["postimplementation_operations_rows"], 0);
+        assert_eq!(lifeline["candidate_coded_rows"], 0);
+
+        let envoy = &refreshes[1]["official_findings"];
+        assert_eq!(envoy["grievances_registered"], 123);
+        assert_eq!(envoy["unclassified_status_count"], 5);
+        assert_eq!(envoy["safeguard_compliance_result_ready"], false);
+
+        let covenant = &refreshes[2]["official_findings"];
+        assert_eq!(covenant["enacted"], false);
+        let tribunal = &refreshes[3]["official_findings"];
+        assert_eq!(tribunal["passed_house"], false);
+
+        assert_eq!(
+            record["portfolio_result"]["admitted_fy2026_primary_reduction_billions"],
+            0.0
+        );
+        assert_eq!(record["portfolio_result"]["remaining_fy2026_revenue_target_billions"], 813.727);
+        assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
+    }
 }
 
 fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {

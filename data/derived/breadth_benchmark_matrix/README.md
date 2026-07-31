@@ -1908,3 +1908,12 @@ feature, official-corpus, candidate, scenario, realization, accounting,
 alternatives, incidence, delivery, adaptation, comparison, handoff,
 documentation, role-review, and test requirements. Their integrated values are
 synthetic and remain outside the fiscal model; no track or rate changes.
+
+`next_owner_current_evidence_refresh_disposition.v1.draft.json` replays the
+July 31 official refreshes from all four owners. LIFELINE proves that the
+refreshed CalFresh workbook still has no postimplementation operations cohort;
+ENVOY establishes a real grievance mechanism while preserving a five-record
+status gap and missing current safeguard performance; COVENANT corrects H.R.
+2137 to formally reported in the House; and TRIBUNAL confirms no action beyond
+committee reporting. These improve corpus and gate precision without an
+observed effect, fiscal admission, track reopening, or rate change.
