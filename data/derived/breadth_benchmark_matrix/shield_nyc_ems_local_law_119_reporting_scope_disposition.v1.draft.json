@@ -1,0 +1,81 @@
+{
+  "record_id": "shield-nyc-ems-local-law-119-reporting-scope-disposition:v1",
+  "record_family": "shield_nyc_ems_local_law_119_reporting_scope_disposition",
+  "version": "v1.draft",
+  "status": "official_hlt_local_reporting_scope_corrected_full_compliance_and_fiscal_claims_held",
+  "as_of_date": "2026-07-31",
+  "product_question": "What does Local Law 119 actually require, and which reporting duties are observable on the public surface?",
+  "prior_record": "shield-nyc-ems-local-law-119-category9-disposition:v1",
+  "producer": {
+    "repository": "SHIELD", "track": "HLT", "candidate_id": null,
+    "commit": "060837f8991a73292af44064c5d15ddb042c8d02",
+    "replay_command": "cargo run --quiet -p shield-cli -- nyc-ems-local-law-119-reporting-scope-held-pack",
+    "pack_id": "shield:nyc-ems-local-law-119-reporting-scope-2026:v1",
+    "pack_bytes_utf8_without_newline": 5893,
+    "pack_sha256": "06b7e3fdac244f2fc935337a314c281c856a65ac0bfe472cbbb9428f1a93bb64",
+    "workspace_crates": 7, "product_commands": 36, "workspace_tests": 91, "feature_tests": 57
+  },
+  "law_custody": {
+    "publisher": "New York City Council and Office of the City Clerk",
+    "pdf_bytes": 170028,
+    "pdf_sha256": "6d703d17569b2329f17b0a44130a3907ac507af186001894dbfc15f00dd343c6",
+    "passed": "2013-12-10", "approved": "2013-12-17"
+  },
+  "statutory_scope": {
+    "monthly_report_required": true, "yearly_report_required": true,
+    "submit_to_council_required": true, "submit_to_mayor_required": true,
+    "website_posting_required": true, "citywide_each_category_required": true,
+    "borough_disaggregation_required": true,
+    "community_district_disaggregation_required": false,
+    "division_disaggregation_required": false,
+    "minimum_acceptable_category9_share_specified": false
+  },
+  "public_surface": {
+    "official_website_surface_observed": true,
+    "citywide_and_borough_surface_observed": true,
+    "monthly_history_in_public_model_observed": true,
+    "distinct_months": 147, "first_month": "2014 / 04", "last_month": "2026 / 06",
+    "visible_historical_month_selector_observed": false,
+    "discrete_yearly_report_observed": false,
+    "submission_to_council_verified": false,
+    "submission_to_mayor_verified": false
+  },
+  "taxlane_assessment": {
+    "prior_reporting_grain_boundary_corrected": true,
+    "full_statutory_reporting_compliance_admitted": false,
+    "legal_or_service_performance_pass_fail_admitted": false,
+    "outcomes_or_causal_explanation_assessed": false,
+    "service_readiness_or_adequacy_assessed": false,
+    "candidate_bounded": false, "cost_or_savings_observed": false,
+    "hlt_reopen_condition_triggered": false, "candidate_selected_for_fiscal_model": false,
+    "reason": "The enacted law requires citywide reports disaggregated by borough, not community district or division. Website, citywide/borough, and 147-month public-model surfaces are observed, but Council/Mayor submission and a discrete yearly report are not verified. Full compliance, pass/fail, and fiscal claims remain held."
+  },
+  "next_evidence": {
+    "reporting": "Capture Council/Mayor submission receipts and a discrete yearly report if publicly available.",
+    "outcomes": "Join privacy-safe patient outcomes and population exposure at a compatible definition and time basis.",
+    "operations": "Test demand, call processing, staffing, fleet, posting, routing, and hospital-interface drivers.",
+    "candidate": "Only then bound one intervention with effect, cost, incidence, delivery, and do-no-harm evidence."
+  },
+  "portfolio_result": {
+    "packs_replayed": 1, "packs_admitted_to_fiscal_model": 0,
+    "admitted_fy2026_primary_reduction_billions": 0.0,
+    "remaining_fy2026_revenue_target_billions": 813.727,
+    "preferred_schedule_percent": [21, 23, 33, 35, 43, 46, 48],
+    "behavior_contingency_schedule_percent": [22, 24, 34, 36, 44, 47, 49],
+    "rate_recomputation_required": false, "rate_result_changed": false
+  },
+  "role_review": {
+    "fixed_point": "pass_with_correction", "open_p1_findings": 0, "open_p2_findings": 0,
+    "corrected_claim": "Section 15-129 requires borough, not community-district or division, disaggregation.",
+    "deferred_claims": ["full statutory compliance", "Council/Mayor submission", "discrete yearly publication", "performance pass/fail", "outcomes, causality, adequacy, intervention, savings, allocation, and rates"]
+  },
+  "claim_booleans": {
+    "official_replay_succeeded": true, "statutory_scope_claimed": true,
+    "prior_false_reporting_grain_retained": false,
+    "full_reporting_compliance_claimed": false, "performance_pass_fail_claimed": false,
+    "candidate_admitted": false, "savings_claimed": false,
+    "allocation_changed": false, "rate_change_claimed": false,
+    "public_release_authorized": false
+  },
+  "public_warning": "Local Law 119 requires monthly and yearly reports to the Council and Mayor, website posting, citywide results, and borough disaggregation. It does not require community-district or division reporting. The public website and 147-month semantic-model history are observable, but formal submission and a discrete yearly report were not verified; no full-compliance, performance, fiscal, allocation, or rate claim follows."
+}

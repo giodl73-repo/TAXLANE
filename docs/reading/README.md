@@ -1164,6 +1164,9 @@ It is the bounded public surface, not a performance or savings report.
 247. Read `shield-nyc-ems-local-law-119-category9-disposition.md` for the
      official definition-compatible Category 9 publication, the absence of a
      statutory minimum share, and unchanged HLT, fiscal-target, and rate results.
+248. Read `shield-nyc-ems-local-law-119-reporting-scope-disposition.md` for the
+     corrected borough reporting grain, observable public-model history, held
+     submission/yearly-publication claims, and unchanged fiscal result.
 
 ## Public-Use Guardrail
 

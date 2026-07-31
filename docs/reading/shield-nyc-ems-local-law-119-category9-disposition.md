@@ -14,9 +14,12 @@ severity-1 dispatch extract and the two rates must not be blended or compared.
 It does **not** yield the pass/fail result that the word “compliance” might
 suggest. NYC Administrative Code §15-129 requires reporting but states no
 minimum acceptable Category 9 share. This review observed the citywide and
-borough publication but did not audit every required community-district and
-division grain. The public model also does not expose a formula that supports
-an exact under-ten-minute numerator.
+borough publication. **Correction:** the enacted law requires borough, not
+community-district or division, disaggregation. The superseding
+[reporting-scope disposition](shield-nyc-ems-local-law-119-reporting-scope-disposition.md)
+holds full compliance because Council/Mayor submission and discrete yearly
+publication were not verified. The public model also does not expose a formula
+that supports an exact under-ten-minute numerator.
 
 Taxlane therefore admits the official definition-compatible observation and
 no candidate or fiscal amount. HLT does not reopen. The remaining target stays

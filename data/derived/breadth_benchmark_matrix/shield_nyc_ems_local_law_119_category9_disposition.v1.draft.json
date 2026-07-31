@@ -48,10 +48,10 @@
     "service_readiness_or_adequacy_assessed": false,
     "candidate_bounded": false, "cost_or_savings_observed": false,
     "hlt_reopen_condition_triggered": false, "candidate_selected_for_fiscal_model": false,
-    "reason": "The official model establishes Category 9 publication at its own definition and grain. Section 15-129 mandates reporting but supplies no minimum acceptable share, and this review did not audit every community-district or division reporting grain. No pass/fail or fiscal bridge follows."
+    "reason": "The official model establishes Category 9 publication at its own definition and grain. Section 15-129 mandates reporting but supplies no minimum acceptable share. The enacted law requires borough—not community-district or division—disaggregation; the superseding reporting-scope disposition holds full compliance because Council/Mayor submission and discrete yearly publication were not verified. No pass/fail or fiscal bridge follows."
   },
   "next_evidence": {
-    "reporting_completeness": "Test community-district and division publication against every Section 15-129 reporting grain.",
+    "reporting_completeness": "See the superseding reporting-scope disposition; verify Council/Mayor submission and discrete yearly-report publication.",
     "outcomes": "Join privacy-safe patient outcomes and population exposure at a compatible definition and time basis.",
     "operations": "Test demand, call processing, staffing, fleet, posting, routing, and hospital-interface drivers without treating borough variation as causal.",
     "candidate": "Only then bound one intervention with effect, cost, incidence, delivery, and do-no-harm evidence."
@@ -82,5 +82,6 @@
     "allocation_changed": false, "rate_change_claimed": false,
     "public_release_authorized": false
   },
+  "correction_record": "shield-nyc-ems-local-law-119-reporting-scope-disposition:v1",
   "public_warning": "NYC's official calendar-2025 Category 9 publication is 39.26% across 216,599 qualifying incidents. This is definition-compatible threshold attainment, but Section 15-129 sets no minimum acceptable share and this review did not audit every statutory reporting grain. No legal or service pass/fail, exact numerator, causal, adequacy, fiscal, allocation, or rate claim follows."
 }
