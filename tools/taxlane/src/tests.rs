@@ -2654,6 +2654,32 @@ mod global_country_comparison_tests {
         assert_eq!(record["portfolio_result"]["remaining_fy2026_revenue_target_billions"], 813.727);
         assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
     }
+
+    #[test]
+    fn shield_nyc_ems_operations_context_does_not_promote_correlation_to_driver() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let path = root.join(
+            "data/derived/breadth_benchmark_matrix/shield_nyc_ems_category9_operations_context_disposition.v1.draft.json",
+        );
+        let text = fs::read_to_string(path).expect("read SHIELD NYC EMS operations disposition");
+        let record: serde_json::Value = serde_json::from_str(&text)
+            .expect("parse SHIELD NYC EMS operations disposition");
+
+        assert_eq!(record["producer"]["workspace_tests"], 94);
+        assert_eq!(record["producer"]["feature_tests"], 60);
+        assert_eq!(record["producer"]["pack_bytes_utf8_without_newline"], 6428);
+        assert_eq!(record["producer"]["pack_sha256"], "3ea6b380b0aeed22ab77462a6e5e55c50f8777644d2ff103f73c84a6368ce7a2");
+        assert_eq!(record["bridge"]["named_borough_month_join_rows"], 60);
+        assert_eq!(record["bridge"]["qualifying_definitions_match"], false);
+        assert_eq!(record["bridge"]["shared_incident_key_present"], false);
+        assert_eq!(record["bridge"]["patient_outcome_field_present"], false);
+        assert_eq!(record["taxlane_assessment"]["ecological_operations_context_admitted"], true);
+        assert_eq!(record["taxlane_assessment"]["operational_driver_identified"], false);
+        assert_eq!(record["taxlane_assessment"]["causal_explanation_admitted"], false);
+        assert_eq!(record["portfolio_result"]["admitted_fy2026_primary_reduction_billions"], 0.0);
+        assert_eq!(record["portfolio_result"]["remaining_fy2026_revenue_target_billions"], 813.727);
+        assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
+    }
 }
 
 fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {

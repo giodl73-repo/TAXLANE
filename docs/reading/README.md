@@ -1167,6 +1167,9 @@ It is the bounded public surface, not a performance or savings report.
 248. Read `shield-nyc-ems-local-law-119-reporting-scope-disposition.md` for the
      corrected borough reporting grain, observable public-model history, held
      submission/yearly-publication claims, and unchanged fiscal result.
+249. Read `shield-nyc-ems-category9-operations-context-disposition.md` for the
+     60-row ecological operations screen, blocked outcome/driver/causal claims,
+     and unchanged HLT, fiscal-target, and rate results.
 
 ## Public-Use Guardrail
 

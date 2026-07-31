@@ -1,0 +1,78 @@
+{
+  "record_id": "shield-nyc-ems-category9-operations-context-disposition:v1",
+  "record_family": "shield_nyc_ems_category9_operations_context_disposition",
+  "version": "v1.draft",
+  "status": "official_hlt_local_ecological_operations_context_admitted_outcome_driver_and_fiscal_claims_held",
+  "as_of_date": "2026-07-31",
+  "product_question": "What operational context can be joined to Category 9 without claiming an incident-level outcome or causal driver?",
+  "prior_record": "shield-nyc-ems-local-law-119-reporting-scope-disposition:v1",
+  "producer": {
+    "repository": "SHIELD", "track": "HLT", "candidate_id": null,
+    "commit": "14dbf0ff450f2ee5def414850fa394404ea2d401",
+    "replay_command": "cargo run --quiet -p shield-cli -- nyc-ems-category9-operations-context-held-pack",
+    "pack_id": "shield:nyc-ems-category9-operations-context-2025:v1",
+    "pack_bytes_utf8_without_newline": 6428,
+    "pack_sha256": "3ea6b380b0aeed22ab77462a6e5e55c50f8777644d2ff103f73c84a6368ce7a2",
+    "workspace_crates": 7, "product_commands": 38, "workspace_tests": 94, "feature_tests": 60
+  },
+  "bridge": {
+    "category9_borough_month_rows": 72,
+    "dispatch_borough_month_rows": 66,
+    "named_borough_month_join_rows": 60,
+    "category9_named_borough_incidents": 216463,
+    "category9_unspecified_incidents": 136,
+    "dispatch_named_borough_incidents": 1612266,
+    "dispatch_unspecified_incidents": 7,
+    "qualifying_definitions_match": false,
+    "shared_incident_key_present": false,
+    "patient_outcome_field_present": false
+  },
+  "descriptive_screen": {
+    "unit": "Pearson correlation across five named boroughs by twelve months",
+    "dispatch_incidents_r": -0.3516087581868836,
+    "held_share_r": -0.7400702964293323,
+    "average_response_seconds_r": -0.7586786638754872,
+    "average_travel_seconds_r": -0.8417199502059605,
+    "average_dispatch_seconds_r": -0.7018267041994052,
+    "hospital_arrival_share_r": 0.3377719068077739,
+    "valid_severity1_events_r": -0.27719074135019667,
+    "use_rule": "Hypothesis prioritization only; no driver, causal, outcome, adequacy, or candidate interpretation."
+  },
+  "taxlane_assessment": {
+    "ecological_operations_context_admitted": true,
+    "definition_compatible_outcome_join_admitted": false,
+    "incident_level_join_admitted": false,
+    "operational_driver_identified": false,
+    "causal_explanation_admitted": false,
+    "service_readiness_or_adequacy_assessed": false,
+    "candidate_bounded": false, "cost_or_savings_observed": false,
+    "hlt_reopen_condition_triggered": false, "candidate_selected_for_fiscal_model": false,
+    "reason": "Borough-month alignment supports a bounded ecological screen. Different qualifying sets, no shared incident key, no patient outcome, and uncontrolled geography/time confounding block driver, causal, adequacy, intervention, and fiscal claims."
+  },
+  "next_evidence": {
+    "operations": "Acquire ALS-unit-level call processing, staffing, fleet, posting, routing, and hospital-interface measures tied to the Category 9 qualifying set.",
+    "outcomes": "Acquire privacy-safe patient outcomes with a compatible incident or cohort identity.",
+    "design": "Pre-specify a multivariable or quasi-experimental design before testing any intervention effect.",
+    "candidate": "Bound costs, delivery, incidence, and do-no-harm only after an effect is identified."
+  },
+  "portfolio_result": {
+    "packs_replayed": 1, "packs_admitted_to_fiscal_model": 0,
+    "admitted_fy2026_primary_reduction_billions": 0.0,
+    "remaining_fy2026_revenue_target_billions": 813.727,
+    "preferred_schedule_percent": [21, 23, 33, 35, 43, 46, 48],
+    "behavior_contingency_schedule_percent": [22, 24, 34, 36, 44, 47, 49],
+    "rate_recomputation_required": false, "rate_result_changed": false
+  },
+  "role_review": {
+    "fixed_point": "pass_with_risk", "open_p1_findings": 0, "open_p2_findings": 0,
+    "deferred_claims": ["patient outcomes and incident-level linkage", "operational driver and causality", "inequity and adequacy", "candidate effect, delivery, cost, and savings", "HLT reopening, allocation, and rate change"]
+  },
+  "claim_booleans": {
+    "official_replay_succeeded": true, "ecological_association_claimed": true,
+    "patient_outcome_claimed": false, "operational_driver_claimed": false,
+    "causal_claimed": false, "candidate_admitted": false, "savings_claimed": false,
+    "allocation_changed": false, "rate_change_claimed": false,
+    "public_release_authorized": false
+  },
+  "public_warning": "Sixty named-borough/month observations support a reproducible ecological screen. Strong co-movement with dispatch timing and held share does not identify a driver: Category 9 and dispatch event definitions differ, no incidents or patient outcomes are linked, and borough/month confounding is uncontrolled. HLT, the $813.727B target, and both schedules remain unchanged."
+}
