@@ -1992,6 +1992,14 @@ Taxlane admits the cross-ZIP inpatient context while holding county crossing,
 emergency destination, travel time, burden, access, need, adequacy, candidates,
 costs, savings, and rate changes.
 
+`shield_nemsis_ems_destination_disposition.v1.draft.json` replays SHIELD's
+NEMSIS 2024 national EMS destination spine. It retains 30,123,274
+destination-coded events, including 27,863,074 (92.50%) routed to hospital or
+freestanding emergency departments, plus separately grained rural/frontier
+incident context. Taxlane admits the national routing context while holding
+restricted county geography, linked origin-destination flow, travel time,
+access, need, adequacy, candidates, costs, savings, and rate changes.
+
 `shield_cms_certified_services_workforce_disposition.v1.draft.json` replays
 SHIELD's Q2 2026 CMS QIES Provider of Services spine. Exact CCN identity covers
 5,422 of 5,432 current hospitals; fourteen service modes are complete for

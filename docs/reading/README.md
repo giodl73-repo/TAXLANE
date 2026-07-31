@@ -1147,6 +1147,9 @@ It is the bounded public surface, not a performance or savings report.
 242. Read `shield-cms-inpatient-origin-destination-disposition.md` for SHIELD's
      observed Medicare inpatient cross-ZIP flow, emergency/travel boundary, and
      unchanged HLT, fiscal-target, and rate results.
+243. Read `shield-nemsis-ems-destination-disposition.md` for SHIELD's national
+     EMS destination and incident-urbanicity context, restricted-geography and
+     travel-time boundary, and unchanged HLT, fiscal-target, and rate results.
 
 ## Public-Use Guardrail
 

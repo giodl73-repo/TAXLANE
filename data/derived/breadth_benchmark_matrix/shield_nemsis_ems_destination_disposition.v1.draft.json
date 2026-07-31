@@ -1,0 +1,108 @@
+{
+  "record_id": "shield-nemsis-ems-destination-disposition:v1",
+  "record_family": "shield_nemsis_ems_destination_disposition",
+  "version": "v1.draft",
+  "status": "official_hlt_national_ems_destination_context_admitted_geographic_access_need_and_fiscal_claims_held",
+  "as_of_date": "2026-07-31",
+  "product_question": "What does the 2024 national EMS destination surface establish for HLT, and what remains unproved?",
+  "prior_record": "shield-cms-inpatient-origin-destination-disposition:v1",
+  "producer": {
+    "repository": "SHIELD",
+    "track": "HLT",
+    "candidate_id": null,
+    "commit": "a7c6b6fe24a5c69705d27f8355c2629c1d1dbef2",
+    "replay_command": "cargo run --quiet -p shield-cli -- nemsis-ems-destination-held-pack",
+    "pack_id": "shield:nemsis-ems-destination-2024:v1",
+    "pack_bytes_utf8_without_newline": 5676,
+    "pack_sha256": "5e4ee63c6f1651e85a24bebc150ae9d14781dc2e28f432fdfe4b34d3155c3080",
+    "workspace_crates": 7,
+    "product_commands": 26,
+    "workspace_tests": 76,
+    "feature_tests": 42
+  },
+  "source_custody": {
+    "publisher": "National Emergency Medical Services Information System Technical Assistance Center",
+    "dataset": "NEMSIS Data Report 2024",
+    "supported_by": "National Highway Traffic Safety Administration Office of Emergency Medical Services",
+    "year": 2024,
+    "created": "2025-09-24",
+    "pdf_pages": 18,
+    "pdf_bytes": 2054076,
+    "pdf_sha256": "64acb775e9b16f49427371e8b71f0dcda5dba5ec84bb92e004e1149e1f949a84"
+  },
+  "ems_destination_findings": {
+    "total_activations": 60298684,
+    "participating_states_and_territories": 54,
+    "reporting_agencies": 14756,
+    "activations_in_911_surface": 46733668,
+    "incident_county_coverage_percent": 99,
+    "destination_coded_events": 30123274,
+    "hospital_emergency_department_events": 27706728,
+    "freestanding_emergency_department_events": 156346,
+    "combined_emergency_department_events": 27863074,
+    "combined_emergency_department_bps": 9250,
+    "incident_urbanicity_coded_events": 45210858,
+    "rural_incident_events": 2652293,
+    "frontier_incident_events": 452100,
+    "activations_are_unique_patients": false,
+    "public_geographic_identifiers_available": false
+  },
+  "taxlane_assessment": {
+    "official_national_ems_destination_context_admitted": true,
+    "destination_and_incident_urbanicity_denominators_admitted": true,
+    "emergency_department_destination_share_admitted": true,
+    "county_origin_destination_observed": false,
+    "scene_to_destination_duration_observed": false,
+    "road_travel_time_observed": false,
+    "local_access_or_adequacy_assessed": false,
+    "candidate_bounded": false,
+    "cost_or_savings_observed": false,
+    "service_floor_passed": false,
+    "hlt_reopen_condition_triggered": false,
+    "candidate_selected_for_fiscal_model": false,
+    "reason": "The report establishes national EMS activation, destination-type, transport-mode, and incident-urbanicity context. Voluntary submissions, restricted public geography, different denominators, repeat activations, nontransport events, and unobserved duration prevent county-flow, travel-time, access, need, intervention, effect, cost, incidence, or delivery claims."
+  },
+  "next_evidence": {
+    "geography": "Add publicly usable linked incident and destination counties or a bounded patient-relevant road-time model.",
+    "demand": "Add total-population emergency demand with payer, age, morbidity, and event-overlap boundaries.",
+    "operations": "Join compatible current EMS response, transport, hospital schedule, staffing, throughput, and transfer-network evidence.",
+    "candidate": "Only then bound one emergency-access intervention with floors, effects, costs, incidence, and delivery evidence."
+  },
+  "portfolio_result": {
+    "packs_replayed": 1,
+    "packs_admitted_to_fiscal_model": 0,
+    "admitted_fy2026_primary_reduction_billions": 0.0,
+    "remaining_fy2026_revenue_target_billions": 813.727,
+    "preferred_schedule_percent": [21, 23, 33, 35, 43, 46, 48],
+    "behavior_contingency_schedule_percent": [22, 24, 34, 36, 44, 47, 49],
+    "rate_recomputation_required": false,
+    "rate_result_changed": false
+  },
+  "role_review": {
+    "fixed_point": "pass_with_risk",
+    "open_p1_findings": 0,
+    "open_p2_findings": 0,
+    "deferred_claims": [
+      "public county origin-destination flow and scene-to-destination time",
+      "total-population emergency demand",
+      "current EMS and hospital schedules, staffing, throughput, and transfer capacity",
+      "local access, travel burden, unmet need, quality outcomes, equity, and adequacy",
+      "candidate effect, delivery, and net federal savings",
+      "HLT reopening and rate change"
+    ]
+  },
+  "claim_booleans": {
+    "official_replay_succeeded": true,
+    "activations_treated_as_unique_patients": false,
+    "destination_denominator_treated_as_all_911_activations": false,
+    "incident_urbanicity_treated_as_linked_destination_geography": false,
+    "destination_share_treated_as_access_adequacy": false,
+    "travel_time_claimed": false,
+    "candidate_admitted": false,
+    "savings_claimed": false,
+    "allocation_changed": false,
+    "rate_change_claimed": false,
+    "public_release_authorized": false
+  },
+  "public_warning": "NEMSIS reports 27,863,074 hospital or freestanding emergency-department destinations, 92.50% of 30,123,274 destination-coded 911 EMS events. Voluntary reporting, restricted public geography, different denominators, and unobserved transport duration mean this is national routing context—not county flow, travel time, access adequacy, or unique-patient demand. HLT, the $813.727B target, and both rate schedules remain unchanged."
+}

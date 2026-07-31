@@ -11,7 +11,7 @@ internal analytical rate schedule.
 
 The result is now complete inside this repository: 21 canonical explanation
 artifacts, ten research papers, three presentation variants, a six-page local
-website, machine-readable closure records, and 412 passing tests.
+website, machine-readable closure records, and 413 passing tests.
 
 > **Repository-ready, externally blocked.** TAXLANE is not enacted law,
 > personal tax or legal advice, an official score, formal proof of balance, or
@@ -223,6 +223,13 @@ admits that cross-ZIP context while refusing to call it a county crossing,
 emergency destination, travel time, burden, or access failure. Candidates,
 effects, costs, and savings remain held, with no rate change.
 
+SHIELD now adds the NEMSIS 2024 national EMS destination spine: 60,298,684
+activations, 46,733,668 on the 911 surface, and 27,863,074 hospital or
+freestanding emergency-department destinations. [The EMS destination disposition](docs/reading/shield-nemsis-ems-destination-disposition.md)
+admits national routing and rural/frontier incident context while holding
+restricted county geography, travel duration, access, need, adequacy,
+candidates, costs, and savings, with no rate change.
+
 SHIELD now adds HRSA's formal primary-care shortage registry at its true grain:
 79,150 component rows resolve to 7,682 currently designated HPSA IDs, including
 762 multi-component and 282 multi-rural-status designations. HRSA's separate
@@ -393,7 +400,7 @@ Validation currently covers:
 
 - 152 `taxlane-core` tests;
 - 259 `taxlane-tools` tests;
-- 412 workspace tests total;
+- 413 workspace tests total;
 - closure contracts for all six explanation waves;
 - headline and accounting-boundary parity;
 - nonempty PDF and presentation renders;
