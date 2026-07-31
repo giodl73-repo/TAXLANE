@@ -1,0 +1,92 @@
+{
+  "record_id": "envoy-nepal-result-chain-audit-disposition:v1",
+  "record_family": "envoy_nepal_result_chain_audit_disposition",
+  "version": "v1.draft",
+  "status": "complete_indicator_census_process_trajectory_admitted_outcome_chain_held",
+  "as_of_date": "2026-07-31",
+  "product_question": "Does the complete public Nepal indicator corpus contain an attribution-ready outcome chain for Taxlane?",
+  "prior_record": "envoy-nepal-outcome-reference-disposition:v1",
+  "producer": {
+    "repository": "ENVOY",
+    "track": "INT",
+    "candidate_id": "mcc_nepal_compact_implementation",
+    "commit": "d23de42eb6462d935128a40f946a5e0bcba45961",
+    "replay_command": "cargo run --quiet -- result-chain-held-pack fixtures/official/mcc-nepal-result-chain-audit-2025-2026.tsv",
+    "pack_id": "envoy:mcc-nepal-result-chain-audit:v1",
+    "pack_sha256": "fb1b6eaa5b7bdeef82a52fb77bdd0122f870a85a0fe4798174b143a7f197609c",
+    "executable_features": 18,
+    "workspace_tests": 42
+  },
+  "indicator_census": {
+    "total_rows": 186,
+    "outcome_rows": 73,
+    "output_rows": 59,
+    "process_rows": 39,
+    "risk_assumption_rows": 15,
+    "baseline_ready_rows": 98,
+    "target_ready_rows": 26,
+    "actual_ready_rows": 27,
+    "fully_joined_rows": 1,
+    "outcome_fully_joined_rows": 0,
+    "compact_specific_rows": 3,
+    "compact_specific_actual_rows": 0
+  },
+  "process_trajectory": {
+    "indicator": "kilometers_of_roads_under_design",
+    "level": "process",
+    "baseline_km": 0,
+    "open_data_actual_km": 40,
+    "current_q11_actual_km": 76,
+    "end_target_km": 130,
+    "additional_design_km": 36,
+    "current_progress_bps": 5846,
+    "completed_works_observed": false,
+    "service_outcome_observed": false
+  },
+  "taxlane_assessment": {
+    "complete_public_indicator_census_admitted": true,
+    "process_trajectory_admitted": true,
+    "outcome_chain_ready": false,
+    "candidate_effect_observed": false,
+    "service_floor_passed": false,
+    "delivery_ready": false,
+    "int_reopen_condition_triggered": false,
+    "candidate_selected_for_fiscal_model": false,
+    "reason": "The only baseline-target-actual join is a process measure. Zero outcome rows form a complete chain and zero compact-specific rows have an observation."
+  },
+  "portfolio_result": {
+    "packs_replayed": 1,
+    "packs_admitted_to_fiscal_model": 0,
+    "admitted_fy2026_primary_reduction_billions": 0.0,
+    "remaining_fy2026_revenue_target_billions": 813.727,
+    "preferred_schedule_percent": [21, 23, 33, 35, 43, 46, 48],
+    "behavior_contingency_schedule_percent": [22, 24, 34, 36, 44, 47, 49],
+    "rate_recomputation_required": false,
+    "rate_result_changed": false
+  },
+  "role_review": {
+    "fixed_point": "pass_with_risk",
+    "open_p1_findings": 0,
+    "open_p2_findings": 0,
+    "deferred_claims": [
+      "compact-specific outcome observation",
+      "complete outcome baseline-target-actual join",
+      "causal attribution",
+      "local incidence and safeguards",
+      "matched fiscal effect",
+      "INT reopening",
+      "rate change"
+    ]
+  },
+  "claim_booleans": {
+    "official_replay_succeeded": true,
+    "design_progress_treated_as_completed_works": false,
+    "process_progress_treated_as_outcome": false,
+    "candidate_admitted": false,
+    "savings_claimed": false,
+    "allocation_changed": false,
+    "rate_change_claimed": false,
+    "public_release_authorized": false
+  },
+  "public_warning": "The complete public indicator census identifies real process progress but no complete or compact-specific outcome chain. INT, the $813.727B target, and both rate schedules remain unchanged."
+}

@@ -1108,6 +1108,9 @@ It is the bounded public surface, not a performance or savings report.
 231. Read `envoy-nepal-outcome-reference-disposition.md` for the first observed
      Nepal national-system outcome reference, the attribution boundary, and
      unchanged INT, fiscal-target, and rate results.
+232. Read `envoy-nepal-result-chain-audit-disposition.md` for the complete
+     186-indicator census, sole process-level join, zero outcome joins, and
+     unchanged INT, fiscal-target, and rate results.
 
 ## Public-Use Guardrail
 

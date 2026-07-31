@@ -39,7 +39,7 @@ supporting views.
 | `data/derived/spend_category_map/spend-category-dashboard.md` | Spend category dashboard | documentation | n/a | supporting | `8d6021644a280e513137888054c5bb5ac0f92f9b41e2c2e136bdd63989471092` |
 | `data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.v1.draft.jsonl` | Breadth, depth, and current-versus-benchmark matrix | fiscal lane metric or explicit coverage gap | 17 | supporting | `264ee5ff5d234848bddb1eca1632e7aa0f2830c62dab58a13cca0448fde702aa` |
 | `data/derived/breadth_benchmark_matrix/breadth_benchmark_matrix.schema.md` | Breadth benchmark matrix schema | documentation | n/a | supporting | `43e37030c1cc92a5a104b4b6cb3615260b82ff9dff3a23539cbe929e7805fe64` |
-| `data/derived/breadth_benchmark_matrix/README.md` | Breadth benchmark matrix method note | documentation | n/a | supporting | `cbeaf92a48e359d34e6122556f50463a8f3887950bf1761f3d57cad565ec0e80` |
+| `data/derived/breadth_benchmark_matrix/README.md` | Breadth benchmark matrix method note | documentation | n/a | supporting | `87fd3bbdef7bf14f62d083734198a563e95c83a4b4af152ea05af33ecf7cea87` |
 | `data/derived/breadth_benchmark_matrix/lane_full_coverage_matrix.v1.draft.json` | Lane full coverage matrix | 15-lane full-coverage gate status | n/a | supporting | `4cb08259b0bcabd97eab4317255c788bd1e0e54e2609d5365d53537a756f4941` |
 | `docs/reading/lane-full-coverage-matrix.md` | Lane full coverage matrix reader | public coverage dashboard | n/a | supporting | `36b9c3a69e9ea9d8c1b26b6db723dc066cfef1e88fda9923580a3ea37a63c747` |
 | `data/derived/breadth_benchmark_matrix/public_explainer_wave_c_promotion.v1.draft.json` | Public explainer Wave C promotion | 15-lane public-explainer completion gate | n/a | supporting | `d3853176c5cdf7dc12a0673e80eac63f1130724ff70e865b38d4e226a96f3ba1` |
@@ -885,7 +885,7 @@ supporting views.
 | `data/derived/accountability_evidence/performance-demand-checklist.schema.md` | Accountability performance demand checklist schema | documentation | n/a | supporting | `afdcb11bb20a75709acabb690655fd03ba8d3a56df522c7b09e8d4b4ffeff6d1` |
 | `data/derived/accountability_evidence/artifact-map.md` | Accountability artifact map | documentation | n/a | supporting | `f7b17b6046644a00ef117962cf60b089747c2fec1a7f91f0e13ecf9b9dd33a7b` |
 | `docs/reading/accountability-public-brief.md` | Reader-facing accountability brief | documentation | n/a | supporting | `cc225ff43f81fa0316f85a8f8ede225f5d1a51470f81d2a296e32820e7434c35` |
-| `docs/reading/README.md` | Reading packet index | documentation | n/a | supporting | `705be2ca31081a876d4064d99f2da96408d3a4936b721bc6a086e3603580a4df` |
+| `docs/reading/README.md` | Reading packet index | documentation | n/a | supporting | `ca1d5180eeebd439d95e2c036604f69139533a43109143a3d8432c3746ea1b44` |
 | `docs/reading/placeholder-visibility-receipt.md` | Placeholder receipt reader packet | documentation | n/a | supporting | `4be976503aabb6c21ec77a553f185918190ebcb00e3300930d37e3a7a12f962e` |
 | `docs/reading/placeholder-receipt-display-packet.md` | Placeholder receipt static display packet | documentation | n/a | supporting | `aa2f3fd899fa1dd763b9482c4d4aae81fcde3e77aeb8ce01b1626d10155f35f2` |
 | `reviews/2026-06-23-placeholder-display-packet-role-review.md` | Placeholder receipt display packet role review | documentation | n/a | supporting | `1a0825afa9a4db902ea1d17a0a69443e0caeb2a6ae7c805f3718282c8806fd68` |

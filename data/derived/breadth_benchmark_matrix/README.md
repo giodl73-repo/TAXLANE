@@ -1924,3 +1924,9 @@ show real movement in electricity supply, trade, revenue, losses, cost
 recovery, and capacity, but zero rows are compact-specific or target-ready.
 Taxlane admits the context without inferring an MCC effect, savings, INT
 reopening, target change, or rate change.
+
+`envoy_nepal_result_chain_audit_disposition.v1.draft.json` replays ENVOY's
+complete 186-indicator Nepal census. It identifies one baseline-target-actual
+join—road design, a process measure advancing from 40 to 76 km—and zero
+complete outcome joins or compact-specific actuals. The census advances while
+effects, savings, INT reopening, the target, and rates remain held.

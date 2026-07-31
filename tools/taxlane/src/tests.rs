@@ -2129,6 +2129,30 @@ mod global_country_comparison_tests {
         assert_eq!(record["portfolio_result"]["remaining_fy2026_revenue_target_billions"], 813.727);
         assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
     }
+
+    #[test]
+    fn envoy_result_chain_audit_keeps_process_progress_out_of_fiscal_model() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let path = root.join(
+            "data/derived/breadth_benchmark_matrix/envoy_nepal_result_chain_audit_disposition.v1.draft.json",
+        );
+        let text = fs::read_to_string(path).expect("read ENVOY result-chain disposition");
+        let record: serde_json::Value =
+            serde_json::from_str(&text).expect("parse ENVOY result-chain disposition");
+
+        assert_eq!(record["indicator_census"]["total_rows"], 186);
+        assert_eq!(record["indicator_census"]["fully_joined_rows"], 1);
+        assert_eq!(record["indicator_census"]["outcome_fully_joined_rows"], 0);
+        assert_eq!(record["indicator_census"]["compact_specific_actual_rows"], 0);
+        assert_eq!(record["process_trajectory"]["additional_design_km"], 36);
+        assert_eq!(record["process_trajectory"]["service_outcome_observed"], false);
+        assert_eq!(record["taxlane_assessment"]["candidate_effect_observed"], false);
+        assert_eq!(
+            record["portfolio_result"]["admitted_fy2026_primary_reduction_billions"],
+            0.0
+        );
+        assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
+    }
 }
 
 fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
