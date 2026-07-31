@@ -11,7 +11,7 @@ internal analytical rate schedule.
 
 The result is now complete inside this repository: 21 canonical explanation
 artifacts, ten research papers, three presentation variants, a six-page local
-website, machine-readable closure records, and 409 passing tests.
+website, machine-readable closure records, and 410 passing tests.
 
 > **Repository-ready, externally blocked.** TAXLANE is not enacted law,
 > personal tax or legal advice, an official score, formal proof of balance, or
@@ -201,6 +201,14 @@ admits that official context while refusing to translate certification into a
 current schedule or recorded FTE into unique workers, staffed capacity, access,
 need, adequacy, or savings. HLT, the target, and the rates remain unchanged.
 
+SHIELD then adds CMS emergency-process observations for 4,660 exact current
+hospital IDs, plus a separate 41-facility Rural Emergency Hospital surface.
+[The timeliness disposition](docs/reading/shield-cms-emergency-care-timeliness-disposition.md)
+preserves unavailable values and descriptive national comparisons while
+refusing to call historical facility medians live waits, a patient-weighted
+system estimate, or an adequacy floor. Current operations, access, need,
+causes, candidates, and savings remain held, with no rate change.
+
 SHIELD now adds HRSA's formal primary-care shortage registry at its true grain:
 79,150 component rows resolve to 7,682 currently designated HPSA IDs, including
 762 multi-component and 282 multi-rural-status designations. HRSA's separate
@@ -370,8 +378,8 @@ the relevant publication-panel gates.
 Validation currently covers:
 
 - 152 `taxlane-core` tests;
-- 257 `taxlane-tools` tests;
-- 409 workspace tests total;
+- 258 `taxlane-tools` tests;
+- 410 workspace tests total;
 - closure contracts for all six explanation waves;
 - headline and accounting-boundary parity;
 - nonempty PDF and presentation renders;

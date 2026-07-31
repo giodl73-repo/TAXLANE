@@ -1137,6 +1137,10 @@ It is the bounded public surface, not a performance or savings report.
      exact CCN certification join, service-delivery modes, provider-recorded
      employed FTE fields, current-capacity boundary, and unchanged HLT,
      fiscal-target, and rate results.
+240. Read `shield-cms-emergency-care-timeliness-disposition.md` for SHIELD's
+     historical emergency-process observations, unavailable-value and Rural
+     Emergency Hospital boundaries, and unchanged HLT, fiscal-target, and rate
+     results.
 
 ## Public-Use Guardrail
 

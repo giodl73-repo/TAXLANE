@@ -1983,3 +1983,11 @@ SHIELD's Q2 2026 CMS QIES Provider of Services spine. Exact CCN identity covers
 delivery modes and recorded employed-FTE context while holding current
 schedules, unique workforce, staffed capacity, access, need, adequacy,
 candidates, costs, savings, and rate changes.
+
+`shield_cms_emergency_care_timeliness_disposition.v1.draft.json` replays
+SHIELD's CMS emergency-process spine. It matches 4,660 current hospital IDs,
+preserves unavailable values across six numeric measures plus ED volume, and
+keeps 41 Rural Emergency Hospitals in their separate reporting surface.
+Taxlane admits historical process context while holding live waits, current
+operations, patient-weighted system performance, access, need, causal effects,
+adequacy, candidates, costs, savings, and rate changes.
