@@ -1879,3 +1879,10 @@ predate the June 1 implementation start; 2020 Q4 churn is stale; and annual
 hearing flows are not coded to H.R. 1. The pack therefore completes the
 comparison baseline without inventing a candidate effect, service-floor pass,
 savings, ISF reopening, or rate change.
+
+`tribunal_hr1702_level2_baseline_disposition.v1.draft.json` replays
+TRIBUNAL's official March 2026 Texas Southern workload and immigration
+felony-defendant comparison surface against the existing H.R. 1702 identity.
+It keeps the case type nested within all felony defendants and preserves null
+counsel, detention, victim, disparity, delivery-cost, and candidate-effect
+fields. The baseline gate advances without JUS reopening, savings, or rates.

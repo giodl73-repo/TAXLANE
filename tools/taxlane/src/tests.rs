@@ -1938,6 +1938,37 @@ mod global_country_comparison_tests {
         );
         assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
     }
+
+    #[test]
+    fn tribunal_level2_baseline_preserves_rights_and_nested_count_boundaries() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let path = root.join(
+            "data/derived/breadth_benchmark_matrix/tribunal_hr1702_level2_baseline_disposition.v1.draft.json",
+        );
+        let text = fs::read_to_string(path).expect("read TRIBUNAL Level 2 disposition");
+        let record: serde_json::Value =
+            serde_json::from_str(&text).expect("parse TRIBUNAL Level 2 disposition");
+
+        let floor = &record["current_system_floor_snapshot"];
+        assert_eq!(floor["filings"], 21_226);
+        assert_eq!(floor["pending_change"], 3_213);
+        assert_eq!(floor["weighted_filings_per_judgeship"], 801);
+        assert_eq!(floor["immigration_felony_defendants"], 8_049);
+        assert_eq!(floor["immigration_share_bps"], 8_251);
+        assert_eq!(floor["immigration_is_nested_in_felony_total"], true);
+        assert!(floor["counsel_access_bps"].is_null());
+        assert!(floor["candidate_effect"].is_null());
+
+        let assessment = &record["taxlane_assessment"];
+        assert_eq!(assessment["level2_baseline_gate_complete"], true);
+        assert_eq!(assessment["level2_candidate_admissibility_complete"], false);
+        assert_eq!(assessment["existing_reopen_condition_triggered"], false);
+        assert_eq!(
+            record["portfolio_result"]["admitted_fy2026_primary_reduction_billions"],
+            0.0
+        );
+        assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
+    }
 }
 
 fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {

@@ -11,7 +11,7 @@ internal analytical rate schedule.
 
 The result is now complete inside this repository: 21 canonical explanation
 artifacts, ten research papers, three presentation variants, a six-page local
-website, machine-readable closure records, and 395 passing tests.
+website, machine-readable closure records, and 396 passing tests.
 
 > **Repository-ready, externally blocked.** TAXLANE is not enacted law,
 > personal tax or legal advice, an official score, formal proof of balance, or
@@ -125,6 +125,14 @@ latest statewide churn series is 2020 Q4, and FY2025-26 hearing flows are not
 candidate-coded. [The comparison surface advances](docs/reading/lifeline-calfresh-level2-baseline-disposition.md),
 but no observed H.R. 1 effect or access, accuracy, rights, adequacy, or county-
 capacity passage exists. ISF, savings, the target, and rates remain unchanged.
+
+TRIBUNAL supplies the third Level 2 comparison baseline. Southern Texas now has
+a replayable March 2026 district/case-type surface: 21,226 filings, 18,155
+pending matters, 801 weighted filings per judgeship, 46.0 vacancy months, and
+8,049 immigration felony defendants nested within 9,754 felony defendants.
+[The workload gate is complete](docs/reading/tribunal-hr1702-level2-baseline-disposition.md),
+but counsel, liberty, victim, disparity, delivery, cost, and causal effects
+remain null. JUS, savings, the target, and rates remain unchanged.
 
 ## How TAXLANE solved the system
 
@@ -272,8 +280,8 @@ the relevant publication-panel gates.
 Validation currently covers:
 
 - 152 `taxlane-core` tests;
-- 237 `taxlane-tools` tests;
-- 389 workspace tests total;
+- 244 `taxlane-tools` tests;
+- 396 workspace tests total;
 - closure contracts for all six explanation waves;
 - headline and accounting-boundary parity;
 - nonempty PDF and presentation renders;
