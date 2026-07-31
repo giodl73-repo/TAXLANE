@@ -1900,3 +1900,11 @@ cancelled status without promoting either to a public design, completed
 evaluation, observed effect, or savings. It names the exact cohort, incidence,
 safeguard, timing, independence, and result evidence required to reopen INT;
 the target and rates remain unchanged.
+
+`next_owner_semantic_program_completion_disposition.v1.draft.json` replays the
+integrated LIFELINE, COVENANT, TRIBUNAL, and ENVOY held packs and audits them
+against the ANCHOR/BASTION bounded semantic-product standard. All four meet the
+feature, official-corpus, candidate, scenario, realization, accounting,
+alternatives, incidence, delivery, adaptation, comparison, handoff,
+documentation, role-review, and test requirements. Their integrated values are
+synthetic and remain outside the fiscal model; no track or rate changes.

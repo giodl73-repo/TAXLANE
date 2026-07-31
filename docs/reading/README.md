@@ -1099,6 +1099,9 @@ It is the bounded public surface, not a performance or savings report.
 228. Read `envoy-nepal-compact-evaluation-readiness-disposition.md` for the
      current road and transmission evaluation-procurement statuses, the exact
      candidate-effect reopening test, and unchanged INT and rate results.
+229. Read `next-owner-semantic-program-completion-disposition.md` for the
+     four-owner ANCHOR/BASTION product-depth audit, exact replay hashes,
+     synthetic-evidence boundary, and unchanged fiscal result.
 
 ## Public-Use Guardrail
 

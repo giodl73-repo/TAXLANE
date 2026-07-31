@@ -149,6 +149,20 @@ keeps those statuses separate from a public design, independent evaluator,
 exposure-aligned collection, local incidence, safeguards, or completed effect.
 INT, savings, the target, and rates therefore remain unchanged.
 
+### Four complete bounded owner products
+
+LIFELINE, COVENANT, TRIBUNAL, and ENVOY now carry their official baselines and
+real candidates through complete bounded semantic programs comparable in depth
+to ANCHOR and BASTION. Each adds scenarios, realization, transition or
+lifecycle accounting, alternatives, incidence, delivery gates, adaptive
+successors, comparison mechanics, and a fourteen-section held handoff.
+
+[The completion replay](docs/reading/next-owner-semantic-program-completion-disposition.md)
+verifies 13/13/13/14 executable features and 28/28/28/32 owner tests. The
+integrated program packs are synthetic, however, so Taxlane admits none of
+their scenario, transition, incidence, or comparator values. ISF, VET, JUS,
+INT, savings, the target, and rates remain unchanged.
+
 ## How TAXLANE solved the system
 
 “Solved” means the internal analytical system closes under explicit evidence,
@@ -295,8 +309,8 @@ the relevant publication-panel gates.
 Validation currently covers:
 
 - 152 `taxlane-core` tests;
-- 246 `taxlane-tools` tests;
-- 398 workspace tests total;
+- 247 `taxlane-tools` tests;
+- 399 workspace tests total;
 - closure contracts for all six explanation waves;
 - headline and accounting-boundary parity;
 - nonempty PDF and presentation renders;

@@ -2032,6 +2032,40 @@ mod global_country_comparison_tests {
         );
         assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
     }
+
+    #[test]
+    fn next_owner_semantic_programs_complete_without_fiscal_bypass() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let path = root.join(
+            "data/derived/breadth_benchmark_matrix/next_owner_semantic_program_completion_disposition.v1.draft.json",
+        );
+        let text = fs::read_to_string(path).expect("read semantic program disposition");
+        let record: serde_json::Value =
+            serde_json::from_str(&text).expect("parse semantic program disposition");
+
+        let packs = record["producer_packs"].as_array().expect("producer packs");
+        assert_eq!(packs.len(), 4);
+        for pack in packs {
+            assert!(pack["executable_features"].as_u64().unwrap() >= 12);
+            assert_eq!(pack["required_sections_present"], 14);
+            assert_eq!(pack["evidence_label"], "synthetic_aggregate_semantic_program");
+            assert_eq!(pack["bounded_semantic_program_complete"], true);
+            assert_eq!(pack["taxlane_admission_ready"], false);
+        }
+
+        let result = &record["cross_owner_results"];
+        assert_eq!(result["owners_replayed"], 4);
+        assert_eq!(result["owners_with_official_aggregate_corpus"], 4);
+        assert_eq!(result["owners_with_delivery_gates"], 4);
+        assert_eq!(result["bounded_semantic_product_level_complete"], true);
+
+        assert_eq!(record["taxlane_assessment"]["synthetic_program_quantities_admitted"], false);
+        assert_eq!(
+            record["portfolio_result"]["admitted_fy2026_primary_reduction_billions"],
+            0.0
+        );
+        assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
+    }
 }
 
 fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
