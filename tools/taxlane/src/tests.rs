@@ -1820,6 +1820,59 @@ mod global_country_comparison_tests {
         assert_eq!(record["claim_booleans"]["court_efficiency_savings_proven"], false);
         assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
     }
+
+    #[test]
+    fn envoy_candidate_separates_finance_delivery_and_outcomes() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let path = root.join(
+            "data/derived/breadth_benchmark_matrix/envoy_nepal_compact_candidate_intake_disposition.v1.draft.json",
+        );
+        let text = fs::read_to_string(path).expect("read ENVOY candidate intake");
+        let record: serde_json::Value =
+            serde_json::from_str(&text).expect("parse ENVOY candidate intake");
+
+        let input = &record["producer_input"];
+        assert_eq!(input["candidate_id"], "mcc_nepal_compact_implementation");
+        assert_eq!(input["required_sections_present"], 14);
+        assert_eq!(input["readiness"]["candidate_bounded"], true);
+        assert_eq!(input["readiness"]["cost_ready"], true);
+        assert_eq!(input["readiness"]["outcome_ready"], false);
+        assert_eq!(input["readiness"]["taxlane_admission_ready"], false);
+
+        let position = &record["official_financial_and_delivery_position"];
+        assert_eq!(position["us_compact_millions"], 550.0);
+        assert_eq!(position["nepal_contribution_millions"], 197.0);
+        assert_eq!(position["combined_public_commitment_millions"], 747.0);
+        assert_eq!(position["us_expenditures_millions"], 115.8);
+        assert_eq!(position["us_unexpended_obligations_millions"], 434.2);
+        assert_eq!(position["transmission_km_under_contract"], 297);
+
+        assert_eq!(
+            record["taxlane_assessment"]["new_candidate_identity_added"],
+            true
+        );
+        assert_eq!(
+            record["taxlane_assessment"]["existing_int_reopen_condition_triggered"],
+            false
+        );
+        assert_eq!(
+            record["portfolio_result"]["admitted_fy2026_primary_reduction_billions"],
+            0.0
+        );
+        assert_eq!(
+            record["portfolio_result"]["remaining_fy2026_revenue_target_billions"],
+            813.727
+        );
+        assert_eq!(
+            record["claim_booleans"]["unexpended_obligations_counted_as_savings"],
+            false
+        );
+        assert_eq!(
+            record["claim_booleans"]["contracts_counted_as_completed_outputs"],
+            false
+        );
+        assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
+    }
 }
 
 fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {

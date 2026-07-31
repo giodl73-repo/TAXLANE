@@ -1080,6 +1080,10 @@ It is the bounded public surface, not a performance or savings report.
 222. Read `tribunal-hr1702-candidate-intake-disposition.md` for TRIBUNAL's
      federal district-court capacity envelope, the separation of added seats
      from justice outcomes, its new held JUS identity, and unchanged rates.
+223. Read `envoy-nepal-compact-candidate-intake-disposition.md` for ENVOY's
+     active Nepal Compact delivery envelope, the separation of cofunding,
+     obligations, contracts, outputs, and outcomes, its new held INT identity,
+     and unchanged rates.
 
 ## Public-Use Guardrail
 

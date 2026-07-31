@@ -11,7 +11,7 @@ internal analytical rate schedule.
 
 The result is now complete inside this repository: 21 canonical explanation
 artifacts, ten research papers, three presentation variants, a six-page local
-website, machine-readable closure records, and 392 passing tests.
+website, machine-readable closure records, and 393 passing tests.
 
 > **Repository-ready, externally blocked.** TAXLANE is not enacted law,
 > personal tax or legal advice, an official score, formal proof of balance, or
@@ -100,6 +100,14 @@ $283M appropriated outlays to $394M through FY2035. This adds a new held JUS
 identity, but capacity is not automatically timeliness, rights, safety, or
 savings. [JUS therefore remains held](docs/reading/tribunal-hr1702-candidate-intake-disposition.md),
 with no rate change.
+
+ENVOY supplies the fourth official candidate pack: the active Nepal MCC
+Compact. It reconciles a $550M U.S. compact, $197M Nepal contribution, and
+$115.8M in U.S. expenditures while keeping 297 contracted transmission
+kilometers and three mobilized substations separate from completed outputs and
+durable outcomes. This is a new held INT identity, not the existing uniform
+25% international-affairs reduction. [INT therefore remains held](docs/reading/envoy-nepal-compact-candidate-intake-disposition.md),
+with no savings or rate change.
 
 ## How TAXLANE solved the system
 

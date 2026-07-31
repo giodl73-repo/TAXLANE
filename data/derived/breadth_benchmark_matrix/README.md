@@ -1853,3 +1853,12 @@ JUS court-capacity identity and reconciles $111M direct plus $283M appropriated
 outlays to $394M. The proposed investment does not replace the selected
 DOJ-grant reduction or prove caseflow, rights, safety, distribution, delivery,
 or savings outcomes, so JUS and rates remain unchanged.
+
+`envoy_nepal_compact_candidate_intake_disposition.v1.draft.json` replays
+ENVOY's first official non-null Nepal Compact candidate pack. It registers a
+new INT active-delivery identity and reconciles the $550M U.S. compact, $197M
+Nepal contribution, $115.8M in U.S. expenditures, 297 contracted transmission
+kilometers, and three mobilized substations. Cofunding is not a U.S. offset,
+unexpended obligations are not savings, and contracted work is not a completed
+output or durable outcome. The identity therefore remains distinct from the
+selected uniform 25% function-150 reduction, so INT and rates remain unchanged.
