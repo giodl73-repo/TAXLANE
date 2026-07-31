@@ -1,0 +1,97 @@
+{
+  "record_id": "shield-nyc-ems-response-distribution-target-disposition:v1",
+  "record_family": "shield_nyc_ems_response_distribution_target_disposition",
+  "version": "v1.draft",
+  "status": "official_hlt_local_response_distribution_and_unmatched_target_context_admitted_fiscal_claims_held",
+  "as_of_date": "2026-07-31",
+  "product_question": "What do NYC severity-one response tails and official MMR targets establish when their definitions do not match?",
+  "prior_record": "shield-nyc-ems-response-time-disposition:v1",
+  "producer": {
+    "repository": "SHIELD", "track": "HLT", "candidate_id": null,
+    "commit": "6ad8568677b47774e472a432165b7546d3615350",
+    "replay_command": "cargo run --quiet -p shield-cli -- nyc-ems-response-distribution-target-held-pack",
+    "pack_id": "shield:nyc-ems-response-distribution-target-2025:v1",
+    "pack_bytes_utf8_without_newline": 7684,
+    "pack_sha256": "a4aa36e3eb761a938f0b79d62735dec6e230c6e5ccf09822c2da0c733576f270",
+    "workspace_crates": 7, "product_commands": 32, "workspace_tests": 85, "feature_tests": 51
+  },
+  "source_custody": {
+    "dispatch_publisher": "Fire Department of New York City",
+    "dispatch_dataset_id": "76xm-jjuj",
+    "citywide_frequency_response_bytes": 80071,
+    "citywide_frequency_response_sha256": "deb05f69e2d5a8bd239170d277527332974226f9a27a1ec535054730822d7445",
+    "borough_frequency_response_bytes": 340061,
+    "borough_frequency_response_sha256": "59d87fdcea0beeb7347b265110ef76d3ad8cf62ea5c9ae008616acc567b7be41",
+    "benchmark_publisher": "New York City Mayor's Office of Operations",
+    "benchmark_report": "Preliminary Fiscal 2026 Mayor's Management Report",
+    "benchmark_pdf_bytes": 12213302,
+    "benchmark_pdf_sha256": "cdc002703628fbb71ae8b934c9a27654e13ace444b8300669e22792bd2b55f2f"
+  },
+  "distribution_findings": {
+    "severity_one_events": 27540,
+    "p50_response_seconds": 366,
+    "p90_response_seconds": 650,
+    "p95_response_seconds": 792,
+    "at_or_below_600_seconds": 23922,
+    "at_or_below_600_seconds_bps": 8686,
+    "over_600_seconds": 3618,
+    "borough_p90_low_seconds": 593,
+    "borough_p90_high_seconds": 698,
+    "percentile_method": "nearest-rank from exact integer-second frequency counts"
+  },
+  "official_benchmark": {
+    "fy2025_life_threatening_ambulance_actual_seconds": 529,
+    "fy2026_life_threatening_ambulance_target_seconds": 415,
+    "fy2025_combined_ambulance_fire_actual_seconds": 465,
+    "fy2026_combined_ambulance_fire_target_seconds": 360,
+    "fy2025_segment_one_incidents": 28320
+  },
+  "taxlane_assessment": {
+    "distribution_context_admitted": true,
+    "official_target_context_admitted": true,
+    "same_calendar_fiscal_time_basis": false,
+    "same_severity_scope": false,
+    "same_call_start_definition": false,
+    "same_arriving_unit_scope_proved": false,
+    "direct_target_comparison_admitted": false,
+    "local_law_category_nine_als_compliance_admitted": false,
+    "outcomes_or_causal_explanation_assessed": false,
+    "service_readiness_or_adequacy_assessed": false,
+    "candidate_bounded": false, "cost_or_savings_observed": false,
+    "hlt_reopen_condition_triggered": false, "candidate_selected_for_fiscal_model": false,
+    "reason": "Exact frequency counts establish distributional response context and the PMMR establishes official target context. Calendar/fiscal period, severity, call-start, and arriving-unit mismatches block direct scoring, adequacy, intervention, and fiscal claims."
+  },
+  "next_evidence": {
+    "compatible_extract": "Acquire a machine-readable Local Law 119 or MMR extract with matching period, incident category, call start, and unit scope.",
+    "als": "Preserve Category 9 qualifying ALS denominator and ALS-arrival definition before making a ten-minute compliance claim.",
+    "outcomes": "Join privacy-safe population exposure and outcomes before interpreting operational tails as harm or need.",
+    "candidate": "Only then explain operational drivers and bound one intervention with effects, costs, incidence, and delivery evidence."
+  },
+  "portfolio_result": {
+    "packs_replayed": 1, "packs_admitted_to_fiscal_model": 0,
+    "admitted_fy2026_primary_reduction_billions": 0.0,
+    "remaining_fy2026_revenue_target_billions": 813.727,
+    "preferred_schedule_percent": [21, 23, 33, 35, 43, 46, 48],
+    "behavior_contingency_schedule_percent": [22, 24, 34, 36, 44, 47, 49],
+    "rate_recomputation_required": false, "rate_result_changed": false
+  },
+  "role_review": {
+    "fixed_point": "pass_with_risk", "open_p1_findings": 0, "open_p2_findings": 0,
+    "deferred_claims": [
+      "definition-compatible target comparison and pass/fail",
+      "Local Law Category 9 ALS compliance",
+      "patient condition, population exposure, outcomes, causality, inequity, and adequacy",
+      "candidate effect, delivery, and net federal savings", "HLT reopening and rate change"
+    ]
+  },
+  "claim_booleans": {
+    "official_replay_succeeded": true, "response_distribution_claimed": true,
+    "official_target_context_claimed": true, "target_miss_or_pass_claimed": false,
+    "ten_minute_share_called_category_nine_compliance": false,
+    "borough_tail_difference_given_causal_explanation": false,
+    "candidate_admitted": false, "savings_claimed": false,
+    "allocation_changed": false, "rate_change_claimed": false,
+    "public_release_authorized": false
+  },
+  "public_warning": "Among 27,540 calendar-2025 severity-one dispatch records, p50/p90/p95 response times are 366/650/792 seconds and 86.86% are at or below ten minutes. NYC separately publishes FY2026 targets, but mismatched period, severity, call-start, and unit definitions prohibit a direct pass/fail comparison. HLT, the $813.727B target, and both rate schedules remain unchanged."
+}

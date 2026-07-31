@@ -1984,6 +1984,14 @@ context while holding actual patient condition, percentiles, target compliance,
 scene-to-hospital time, outcomes, causal borough differences, adequacy,
 candidates, costs, savings, and rate changes.
 
+`shield_nyc_ems_response_distribution_target_disposition.v1.draft.json`
+replays SHIELD's severity-1 response tails and separately grained official MMR
+targets. It preserves p50/p90/p95 values of 366/650/792 seconds and 86.86% at
+or below ten minutes. Taxlane blocks a direct target comparison because period,
+severity, call-start, and arriving-unit definitions do not match; it also
+blocks Local Law Category 9 ALS compliance, adequacy, candidates, costs,
+savings, and rate changes.
+
 `shield_cms_county_emergency_demand_disposition.v1.draft.json` replays
 SHIELD's 2024 Original Medicare county emergency-demand bridge. It retains
 3,143 usable and 54 suppressed/missing county rates, places 5,300 current

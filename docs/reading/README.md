@@ -1157,6 +1157,10 @@ It is the bounded public surface, not a performance or savings report.
      incident-to-scene and assignment-to-scene timing context, patient-condition,
      percentile, target, outcome, and adequacy boundaries, and unchanged HLT,
      fiscal-target, and rate results.
+246. Read `shield-nyc-ems-response-distribution-target-disposition.md` for
+     severity-1 response tails, separately defined official MMR targets, the
+     blocked direct comparison and ALS-compliance claims, and unchanged HLT,
+     fiscal-target, and rate results.
 
 ## Public-Use Guardrail
 
