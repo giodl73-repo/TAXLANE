@@ -1397,6 +1397,12 @@ mod global_country_comparison_tests {
     }
 
     #[test]
+    fn see_wap_control_ceiling_keeps_existing_corrections_owned_and_advances_edu() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_see_wap_delivery_control_public_evidence_ceiling(&root).unwrap();
+    }
+
+    #[test]
     fn pay_public_evidence_ceiling_names_owner_data_without_requesting_it() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_pay_full_dmf_public_evidence_ceiling(&root).unwrap();

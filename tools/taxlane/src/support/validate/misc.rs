@@ -1341,6 +1341,7 @@ pub(crate) fn validate_global_country_comparison_coverage(root: &Path) -> Result
     validate_agr_insurer_compensation_legislative_design(root)?;
     validate_agr_uw12_score_sensitivity_service_stress_envelope(root)?;
     validate_see_energy_weatherization_current_law_owner_evidence_audit(root)?;
+    validate_see_wap_delivery_control_public_evidence_ceiling(root)?;
     validate_pay_full_dmf_public_evidence_ceiling(root)?;
     validate_hlt_site_neutral_current_law_dependency_audit(root)?;
     validate_def_proportional_force_current_law_dependency_audit(root)?;
@@ -14877,6 +14878,115 @@ pub(crate) fn validate_see_energy_weatherization_current_law_owner_evidence_audi
         || bool_field(claims, "rate_change_allowed")?
     {
         return Err("SEE energy/weatherization current-law owner-evidence audit failed".to_string());
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_see_wap_delivery_control_public_evidence_ceiling(
+    root: &Path,
+) -> Result<(), String> {
+    let ceiling = read_json_artifact(root, SEE_WAP_DELIVERY_CONTROL_PUBLIC_EVIDENCE_CEILING_JSON_PATH)?;
+    let sources = ceiling
+        .get("source_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("SEE WAP control sources")?;
+    let source_ids = sources
+        .iter()
+        .map(|row| string_field(row, "source_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let vintage = ceiling
+        .get("evidence_vintage")
+        .ok_or("SEE WAP control vintage")?;
+    let controls = ceiling
+        .get("control_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("SEE WAP control rows")?;
+    let control_ids = controls
+        .iter()
+        .map(|row| {
+            if string_field(row, "finding")?.is_empty()
+                || string_field(row, "existing_response")?.is_empty()
+                || !string_field(row, "disposition")?.starts_with("corrective_action_defined_")
+                || number_field(row, "recoverable_savings_millions")?.abs() > 0.0001
+            {
+                return Err("SEE WAP control row boundary failed".to_string());
+            }
+            string_field(row, "control_id")
+        })
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let verification = ceiling
+        .get("verification_contract")
+        .ok_or("SEE WAP verification contract")?;
+    let successor = ceiling
+        .get("successor_disposition")
+        .ok_or("SEE WAP successor disposition")?;
+    let summary = ceiling
+        .get("evidence_ceiling")
+        .ok_or("SEE WAP evidence ceiling")?;
+    let handoff = ceiling
+        .get("portfolio_handoff")
+        .ok_or("SEE WAP portfolio handoff")?;
+    let claims = ceiling
+        .get("claim_boundaries")
+        .ok_or("SEE WAP claim boundaries")?;
+    if sources.len() != 3
+        || source_ids.len() != 3
+        || !source_ids.contains("SRC-DOE-OIG-25-01-PDF")
+        || !source_ids.contains("SRC-DOE-OIG-26-33-PDF")
+        || !source_ids.contains("SRC-DOE-WAP-GUIDANCE-CURRENT")
+        || bool_field(vintage, "programwide_current_corrective_action_results_published")?
+        || bool_field(vintage, "wisconsin_corrective_action_closeout_published")?
+        || controls.len() != 6
+        || control_ids.len() != 6
+        || !control_ids.contains("average_cost_per_unit")
+        || !control_ids.contains("quarterly_reporting")
+        || !control_ids.contains("completed_units")
+        || !control_ids.contains("cost_documentation")
+        || !control_ids.contains("conflict_of_interest")
+        || !control_ids.contains("performance_and_complaints")
+        || !bool_field(
+            verification,
+            "same_cohort_before_after_or_matched_comparison_required",
+        )?
+        || !bool_field(verification, "service_outputs_required")?
+        || !bool_field(
+            verification,
+            "allowable_cost_disposition_required_for_cashable_savings",
+        )?
+        || !bool_field(
+            verification,
+            "budget_period_and_fund_disposition_required_for_cashable_savings",
+        )?
+        || string_field(successor, "new_duplicate_control_program")? != "not_selected"
+        || string_field(successor, "existing_corrective_action_verification")?
+            != "named_trigger_monitoring"
+        || !bool_field(successor, "service_recovery_may_be_reported_separately")?
+        || !bool_field(successor, "avoided_risk_may_be_reported_separately")?
+        || bool_field(successor, "cashable_savings_available")?
+        || number_field(successor, "admitted_savings_billions")?.abs() > 0.0001
+        || bool_field(successor, "rate_recomputation_required")?
+        || !bool_field(summary, "public_search_complete_for_current_slice")?
+        || int_field(summary, "source_count")? != 3
+        || int_field(summary, "control_count")? != 6
+        || int_field(summary, "existing_corrective_action_count")? != 6
+        || int_field(summary, "current_programwide_result_count")? != 0
+        || int_field(summary, "current_wisconsin_closeout_count")? != 0
+        || int_field(summary, "questioned_or_disallowed_cost_amount_count")? != 0
+        || bool_field(summary, "candidate_admitted")?
+        || string_field(handoff, "next_track")? != "EDU"
+        || bool_field(handoff, "selection_is_admission")?
+        || bool_field(claims, "official_request_made")?
+        || bool_field(claims, "public_release_authorized")?
+        || bool_field(claims, "planned_corrective_action_treated_as_completed")?
+        || bool_field(claims, "old_program_metrics_treated_as_current")?
+        || bool_field(claims, "control_risk_treated_as_disallowed_cost")?
+        || bool_field(claims, "service_recovery_treated_as_cash_savings")?
+        || bool_field(claims, "candidate_admitted")?
+        || bool_field(claims, "spending_reduction_admitted")?
+        || bool_field(claims, "solver_run_performed")?
+        || bool_field(claims, "rate_change_allowed")?
+    {
+        return Err("SEE WAP delivery-control public-evidence ceiling failed".to_string());
     }
     Ok(())
 }

@@ -2260,6 +2260,8 @@ pub(crate) const AGR_UW12_SCORE_SENSITIVITY_SERVICE_STRESS_ENVELOPE_JSON_PATH: &
 
 pub(crate) const SEE_ENERGY_WEATHERIZATION_CURRENT_LAW_OWNER_EVIDENCE_AUDIT_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/see_energy_weatherization_current_law_owner_evidence_audit.v1.draft.json";
 
+pub(crate) const SEE_WAP_DELIVERY_CONTROL_PUBLIC_EVIDENCE_CEILING_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/see_wap_delivery_control_public_evidence_ceiling.v1.draft.json";
+
 pub(crate) const PAY_FULL_DMF_EVIDENCE_CEILING_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/pay_full_dmf_public_evidence_ceiling.v1.draft.json";
 
@@ -11307,6 +11309,34 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         path: "reviews/2026-08-01-see-energy-weatherization-current-law-owner-evidence-audit-role-review.md",
         role: "SEE energy/weatherization current-law owner-evidence role review",
         grain: "finance, energy, household, delivery, distribution, law, and scope fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: SEE_WAP_DELIVERY_CONTROL_PUBLIC_EVIDENCE_CEILING_JSON_PATH,
+        role: "SEE WAP delivery-control public-evidence ceiling",
+        grain: "existing corrective actions, verification contract, and EDU handoff",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/see_wap_delivery_control_public_evidence_ceiling.schema.md",
+        role: "SEE WAP delivery-control public-evidence schema",
+        grain: "control, correction, result, service, and savings boundary",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/see-wap-delivery-control-public-evidence-ceiling.md",
+        role: "SEE WAP delivery-control public-evidence reader",
+        grain: "existing-owner correction and verification explanation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-08-01-see-wap-delivery-control-public-evidence-ceiling-role-review.md",
+        role: "SEE WAP delivery-control public-evidence role review",
+        grain: "finance, delivery, household, audit, distribution, and scope fixed point",
         kind: "markdown",
         canonical: "supporting",
     },

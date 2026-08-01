@@ -1,0 +1,90 @@
+{
+  "record_id": "see-wap-delivery-control-public-evidence-ceiling:v1",
+  "record_family": "see_wap_delivery_control_public_evidence_ceiling",
+  "version": "v1.draft",
+  "status": "public_evidence_ceiling_complete_existing_corrective_actions_require_verification_edu_next_zero_admission",
+  "as_of_date": "2026-08-01",
+  "track": "SEE",
+  "candidate_component": "wap_delivery_control_modernization",
+  "predecessor_path": "data/derived/breadth_benchmark_matrix/see_energy_weatherization_current_law_owner_evidence_audit.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/see_wap_delivery_control_public_evidence_ceiling.schema.md",
+  "reader_path": "docs/reading/see-wap-delivery-control-public-evidence-ceiling.md",
+  "role_review_path": "reviews/2026-08-01-see-wap-delivery-control-public-evidence-ceiling-role-review.md",
+  "source_rows": [
+    {"source_id":"SRC-DOE-OIG-25-01-PDF","publisher":"U.S. Department of Energy Office of Inspector General","publication_date":"2024-10-24","url":"https://www.energy.gov/sites/default/files/2024-10/DOE-OIG-25-01.pdf","use":"program concerns, recommendations, management response, correction dates, and audit scope"},
+    {"source_id":"SRC-DOE-OIG-26-33-PDF","publisher":"U.S. Department of Energy Office of Inspector General","publication_date":"2026-04-30","url":"https://www.energy.gov/sites/default/files/2026-05/DOE-OIG-26-33.pdf","use":"Wisconsin findings, recommendations, management response, and audit scope"},
+    {"source_id":"SRC-DOE-WAP-GUIDANCE-CURRENT","publisher":"U.S. Department of Energy","publication_date":null,"accessed_date":"2026-08-01","url":"https://www.energy.gov/cmei/scep/wap/weatherization-program-notices-and-memorandums","use":"current monitoring, award, reporting, average-cost, and IIJA guidance surface"}
+  ],
+  "evidence_vintage": {
+    "oig_25_01_data_through": "2023-12-31",
+    "oig_25_01_audit_end": "2024-07-31",
+    "oig_26_33_scope_fiscal_years": "2022_through_2024",
+    "oig_26_33_audit_end": "2026-01-31",
+    "programwide_current_corrective_action_results_published": false,
+    "wisconsin_corrective_action_closeout_published": false
+  },
+  "control_rows": [
+    {"control_id":"average_cost_per_unit","finding":"Eleven of 37 reporting states and territories exceeded the $8,497 IIJA average-cost limit by more than 50 percent as of 2023 year-end; front-loaded costs may decline over time.","existing_response":"DOE monitored thresholds, issued a calculator and budget-flexibility guidance, and targeted completion by December 31, 2025.","disposition":"corrective_action_defined_current_result_required","recoverable_savings_millions":0.0},
+    {"control_id":"quarterly_reporting","finding":"Twenty-one of 53 approved states and territories missed the December 2023 quarterly reporting deadline, with similar prior-quarter results.","existing_response":"DOE planned trend monitoring, corrective-action plans, increased technical visits, and twice-quarterly execution and staffing review by March 31, 2025.","disposition":"corrective_action_defined_current_result_required","recoverable_savings_millions":0.0},
+    {"control_id":"completed_units","finding":"Sixteen approved and funded states and territories reported no completed IIJA units at 2023 year-end, covering 52,386 planned units.","existing_response":"DOE required zero-completion grantees to submit corrective-action plans and tied remaining obligated funds to progress requirements beginning with December 2024 reports.","disposition":"corrective_action_defined_current_result_required","recoverable_savings_millions":0.0},
+    {"control_id":"cost_documentation","finding":"Wisconsin lacked retained invoices for portions of a judgmental 30-unit sample, creating support and allowability risk without a quantified questioned-cost amount.","existing_response":"DOE and Wisconsin proposed stronger subaward record language, monitoring, access, and an alternative compliance solution; OIG found the response responsive.","disposition":"corrective_action_defined_closeout_required","recoverable_savings_millions":0.0},
+    {"control_id":"conflict_of_interest","finding":"Wisconsin did not identify a potential organizational conflict because its policy was not sufficiently rigorous.","existing_response":"DOE and Wisconsin agreed to strengthen the policy and implement best practices; OIG found planned actions responsive.","disposition":"corrective_action_defined_closeout_required","recoverable_savings_millions":0.0},
+    {"control_id":"performance_and_complaints","finding":"Wisconsin lacked documented standard procedures for its performance tool and complaint receipt and resolution.","existing_response":"Wisconsin began formalizing the performance process and developed complaint procedures; OIG found the response responsive.","disposition":"corrective_action_defined_closeout_required","recoverable_savings_millions":0.0}
+  ],
+  "verification_contract": {
+    "programwide_required_metrics": [
+      "current ACPU by grantee with valid exclusions and trend",
+      "on-time quarterly report rate and federal approval timeliness",
+      "completed units versus approved milestones and funds drawn",
+      "corrective-action issuance, aging, closure, recurrence, and remaining-funds decisions",
+      "monitoring visits, findings, resolution, and service interruption"
+    ],
+    "wisconsin_required_evidence": [
+      "cost-document retention and access closure",
+      "conflict-policy implementation",
+      "performance-tool standard procedure",
+      "complaint intake, aging, resolution, recurrence, and safety escalation"
+    ],
+    "same_cohort_before_after_or_matched_comparison_required": true,
+    "service_outputs_required": true,
+    "allowable_cost_disposition_required_for_cashable_savings": true,
+    "budget_period_and_fund_disposition_required_for_cashable_savings": true
+  },
+  "successor_disposition": {
+    "new_duplicate_control_program": "not_selected",
+    "existing_corrective_action_verification": "named_trigger_monitoring",
+    "service_recovery_may_be_reported_separately": true,
+    "avoided_risk_may_be_reported_separately": true,
+    "cashable_savings_available": false,
+    "admitted_savings_billions": 0.0,
+    "rate_recomputation_required": false
+  },
+  "evidence_ceiling": {
+    "public_search_complete_for_current_slice": true,
+    "source_count": 3,
+    "control_count": 6,
+    "existing_corrective_action_count": 6,
+    "current_programwide_result_count": 0,
+    "current_wisconsin_closeout_count": 0,
+    "questioned_or_disallowed_cost_amount_count": 0,
+    "candidate_admitted": false
+  },
+  "portfolio_handoff": {
+    "next_track": "EDU",
+    "next_candidate": "eliminate_mandatory_pell_add_on",
+    "next_action": "reconcile post-2025 Pell current law and test low-income access, completion, institutional incidence, and borrowing substitution",
+    "selection_is_admission": false
+  },
+  "claim_boundaries": {
+    "official_request_made": false,
+    "public_release_authorized": false,
+    "planned_corrective_action_treated_as_completed": false,
+    "old_program_metrics_treated_as_current": false,
+    "control_risk_treated_as_disallowed_cost": false,
+    "service_recovery_treated_as_cash_savings": false,
+    "candidate_admitted": false,
+    "spending_reduction_admitted": false,
+    "solver_run_performed": false,
+    "rate_change_allowed": false
+  }
+}
