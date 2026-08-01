@@ -1337,6 +1337,7 @@ pub(crate) fn validate_global_country_comparison_coverage(root: &Path) -> Result
     validate_fifteen_lane_candidate_execution_frontier(root)?;
     validate_pay_full_dmf_public_evidence_ceiling(root)?;
     validate_hlt_site_neutral_current_law_dependency_audit(root)?;
+    validate_def_proportional_force_current_law_dependency_audit(root)?;
     validate_oas_fiscal_package_conversion(root)?;
     validate_net_fiscal_package_conversion(root)?;
     validate_rev_level_2_rate_reconciliation(root)?;
@@ -14227,8 +14228,12 @@ pub(crate) fn validate_hlt_site_neutral_current_law_dependency_audit(
         || dispositions.get("scorekeeper_rescore_required") != Some(&1)
         || bool_field(law, "selected_all_off_campus_imaging_policy_enacted")?
         || bool_field(law, "selected_all_off_campus_imaging_policy_implemented")?
-        || !bool_field(law, "cy2026_adjacent_drug_administration_policy_implemented")?
-        || string_field(law, "cy2027_partial_imaging_policy_status")? != "proposed_not_final"
+        || !bool_field(
+            law,
+            "cy2026_adjacent_drug_administration_policy_implemented",
+        )?
+        || string_field(law, "cy2027_partial_imaging_policy_status")?
+            != "proposed_not_final"
         || bool_field(law, "formal_current_law_cbo_rescore_published")?
         || !bool_field(context, "not_admissible_as_current_law_or_observed_result")?
         || !bool_field(decision, "dependency_audit_complete")?
@@ -14241,6 +14246,60 @@ pub(crate) fn validate_hlt_site_neutral_current_law_dependency_audit(
         || bool_field(claims, "rate_change_allowed")?
     {
         return Err("HLT site-neutral current-law dependency audit failed".to_string());
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_def_proportional_force_current_law_dependency_audit(
+    root: &Path,
+) -> Result<(), String> {
+    let audit = read_json_artifact(root, DEF_PROPORTIONAL_FORCE_CURRENT_LAW_AUDIT_JSON_PATH)?;
+    let sources = audit
+        .get("source_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("DEF audit sources")?;
+    let gates = audit
+        .get("gate_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("DEF audit gates")?;
+    let dispositions = gates.iter().try_fold(BTreeMap::new(), |mut counts, row| {
+        *counts
+            .entry(string_field(row, "disposition")?)
+            .or_insert(0usize) += 1;
+        Ok::<_, String>(counts)
+    })?;
+    let law = audit
+        .get("current_law_determination")
+        .ok_or("DEF current law")?;
+    let decision = audit.get("decision").ok_or("DEF audit decision")?;
+    let claims = audit.get("claim_boundaries").ok_or("DEF audit claims")?;
+    if sources.len() != 5
+        || gates.len() != 7
+        || dispositions.get("vintage_evidence_pass") != Some(&1)
+        || dispositions.get("current_law_evidence_pass") != Some(&1)
+        || dispositions.get("policy_design_required") != Some(&2)
+        || dispositions.get("owner_analysis_required") != Some(&2)
+        || dispositions.get("scorekeeper_rescore_required") != Some(&1)
+        || bool_field(law, "candidate_enacted")?
+        || bool_field(law, "candidate_implemented")?
+        || !bool_field(law, "fy2026_ndaa_enacted")?
+        || !bool_field(law, "fy2026_defense_appropriations_enacted")?
+        || int_field(law, "fy2026_active_end_strength_change")? != 26100
+        || bool_field(
+            law,
+            "fy2026_direction_matches_proportional_active_force_reduction",
+        )?
+        || bool_field(law, "formal_current_law_cbo_rescore_published")?
+        || !bool_field(decision, "dependency_audit_complete")?
+        || bool_field(decision, "candidate_admitted")?
+        || number_field(decision, "admitted_fy2026_reduction_billions")?.abs() > 0.0001
+        || string_field(decision, "next_active_dependency_track")? != "OAS"
+        || bool_field(claims, "authorization_treated_as_appropriation")?
+        || bool_field(claims, "vintage_score_treated_as_current")?
+        || bool_field(claims, "savings_admitted")?
+        || bool_field(claims, "rate_change_allowed")?
+    {
+        return Err("DEF proportional-force current-law dependency audit failed".to_string());
     }
     Ok(())
 }

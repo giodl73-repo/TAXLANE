@@ -1,0 +1,33 @@
+{
+  "record_id":"def-proportional-force-current-law-dependency-audit:v1",
+  "record_family":"def_proportional_force_current_law_dependency_audit",
+  "version":"v1.draft",
+  "status":"fy2026_enacted_baseline_closed_candidate_execution_and_rescore_blocked",
+  "as_of_date":"2026-08-01",
+  "track_prefix":"DEF",
+  "candidate_id":"cbo_smaller_budget_option_1_proportional_active_force_reduction",
+  "predecessor_path":"data/derived/breadth_benchmark_matrix/def_level_5_specific_force_strategy_candidate_audit.v1.draft.json",
+  "schema_path":"data/derived/breadth_benchmark_matrix/def_proportional_force_current_law_dependency_audit.schema.md",
+  "reader_path":"docs/reading/def-proportional-force-current-law-dependency-audit.md",
+  "role_review_path":"reviews/2026-08-01-def-proportional-force-current-law-dependency-audit-role-review.md",
+  "source_rows":[
+    {"source_id":"CBO-60920","role":"December 2024 option and vintage fiscal envelope","finding":"The $959 billion outlay envelope is not based on a particular force alternative and predates the enacted FY2026 baseline."},
+    {"source_id":"CBO-57538","role":"illustrative proportional active-force strategy","finding":"The 2021 strategy is illustrative, preserves reserve units, and is not a current executable war plan or FYDP allocation."},
+    {"source_id":"GOVINFO-PL119-60","role":"enacted FY2026 authorization and personnel baseline","finding":"The FY2026 NDAA enacted service end strengths and program authorizations rather than the selected proportional reduction."},
+    {"source_id":"GOVINFO-PL119-75","role":"enacted FY2026 appropriations baseline","finding":"The consolidated appropriations law supplies account and program budget authority that the candidate has not mapped to units, programs, or transitions."},
+    {"source_id":"CBO-62301","role":"April 2026 current plan and cost dependency analysis","finding":"CBO reports a $961 billion request, $156 billion reconciliation funding, no 2026 FYDP, and substantial uncertainty about enduring program costs."}
+  ],
+  "current_law_determination":{"candidate_enacted":false,"candidate_implemented":false,"fy2026_ndaa_enacted":true,"fy2026_defense_appropriations_enacted":true,"fy2026_active_end_strength_total":1302800,"fy2025_active_end_strength_total":1276700,"fy2026_active_end_strength_change":26100,"fy2026_direction_matches_proportional_active_force_reduction":false,"formal_current_law_cbo_rescore_published":false,"current_2026_fydp_published":false},
+  "gate_rows":[
+    {"gate_id":"candidate_identity_and_vintage_score","disposition":"vintage_evidence_pass","evidence":"CBO fixes the option envelope and an illustrative strategy while explicitly separating the outlay estimate from any particular alternative."},
+    {"gate_id":"current_law_authorization_and_appropriation_baseline","disposition":"current_law_evidence_pass","evidence":"Public Laws 119-60 and 119-75 establish the FY2026 authorization, end-strength, and appropriation perimeter."},
+    {"gate_id":"current_unit_program_and_fydp_allocation","disposition":"policy_design_required","evidence":"No current FYDP or candidate-authored unit and program allocation maps the proportional reduction into the enacted baseline."},
+    {"gate_id":"readiness_and_simultaneous_conflict_stress","disposition":"owner_analysis_required","evidence":"No current war-plan, mobilization, response-time, or simultaneous-conflict stress result is published for the candidate."},
+    {"gate_id":"personnel_family_and_community_transition","disposition":"owner_analysis_required","evidence":"No separation, civilian, contractor, family, installation, or regional transition plan and cost is attached to the candidate."},
+    {"gate_id":"procurement_rdte_munitions_and_industrial_base","disposition":"policy_design_required","evidence":"Enacted program changes and reconciliation funding are not reconciled to candidate quantities, milestones, suppliers, cancellations, or sunk costs."},
+    {"gate_id":"current_law_rescore_and_fiscal_timing","disposition":"scorekeeper_rescore_required","evidence":"No current-baseline score reconciles the December 2024 envelope with enacted FY2026 laws, 2025 reconciliation funds, or the missing 2026 FYDP."}
+  ],
+  "decision":{"dependency_audit_complete":true,"required_gate_count":7,"evidence_pass_count":2,"policy_design_required_count":2,"owner_analysis_required_count":2,"scorekeeper_rescore_required_count":1,"candidate_admitted":false,"admitted_fy2026_reduction_billions":0.0,"def_monitor_mode":"policy_and_publication_triggered","next_active_dependency_track":"OAS"},
+  "reopen_triggers":["a complete proportional-force policy package maps units, programs, transitions, allies, and readiness","DoD or CBO publishes a matching FYDP allocation and stress analysis","CBO publishes a current-law score for the specified force package","current law materially changes the enacted force or program perimeter"],
+  "claim_boundaries":{"official_request_made":false,"public_release_authorized":false,"authorization_treated_as_appropriation":false,"vintage_score_treated_as_current":false,"candidate_admitted":false,"savings_admitted":false,"rate_change_allowed":false}
+}

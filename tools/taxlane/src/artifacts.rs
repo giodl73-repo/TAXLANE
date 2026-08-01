@@ -2253,6 +2253,8 @@ pub(crate) const PAY_FULL_DMF_EVIDENCE_CEILING_JSON_PATH: &str =
 
 pub(crate) const HLT_SITE_NEUTRAL_CURRENT_LAW_AUDIT_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/hlt_site_neutral_imaging_current_law_dependency_audit.v1.draft.json";
 
+pub(crate) const DEF_PROPORTIONAL_FORCE_CURRENT_LAW_AUDIT_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/def_proportional_force_current_law_dependency_audit.v1.draft.json";
+
 pub(crate) const FISCAL_PACKAGE_PAY_BRIDGE_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/fiscal_package_pay_contribution_bridge.v1.draft.json";
 
@@ -11165,6 +11167,34 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         path: "reviews/2026-08-01-hlt-site-neutral-imaging-current-law-dependency-audit-role-review.md",
         role: "HLT site-neutral imaging current-law dependency audit role review",
         grain: "law, finance, beneficiary, rural, clinical, and scope fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: DEF_PROPORTIONAL_FORCE_CURRENT_LAW_AUDIT_JSON_PATH,
+        role: "DEF proportional-force current-law dependency audit",
+        grain: "enacted baseline and missing execution package",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/def_proportional_force_current_law_dependency_audit.schema.md",
+        role: "DEF proportional-force current-law dependency audit schema",
+        grain: "authorization, appropriation, force, and score boundaries",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/def-proportional-force-current-law-dependency-audit.md",
+        role: "DEF proportional-force current-law dependency audit reader",
+        grain: "dependency closure and policy triggers",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-08-01-def-proportional-force-current-law-dependency-audit-role-review.md",
+        role: "DEF proportional-force current-law dependency audit role review",
+        grain: "law, force, readiness, people, acquisition, budget, and scope fixed point",
         kind: "markdown",
         canonical: "supporting",
     },
