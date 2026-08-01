@@ -1,0 +1,106 @@
+{
+  "record_id": "verdict-candidate-admission-bridge:v1",
+  "record_family": "verdict_candidate_admission_bridge",
+  "version": "v1.draft",
+  "status": "reuse_mapping_accepted_no_fiscal_admission",
+  "as_of_date": "2026-07-31",
+  "purpose": "Map candidate-scoped VERDICT evidence into existing TAXLANE admission gates without treating a score as fiscal authority.",
+  "vtrace_profile": {
+    "repository": "VTRACE",
+    "commit": "0a9ca54",
+    "path": "docs/framework/capability-assessment.md",
+    "profile": "VERDICT",
+    "dimensions": [
+      "value",
+      "effectiveness",
+      "resilience",
+      "deliverability",
+      "iteration",
+      "coverage_and_fair_access",
+      "trust"
+    ]
+  },
+  "scored_object_boundary": {
+    "accepted_for_candidate_admission": "candidate",
+    "context_only": ["program_capability", "current_system"],
+    "cross_object_substitution_allowed": false,
+    "score_total_is_gate_disposition": false
+  },
+  "existing_taxlane_interfaces": {
+    "candidate_gate_review": "crates/taxlane-core/src/lib.rs::CandidateGateReview",
+    "candidate_dossier": "crates/taxlane-core/src/lib.rs::CandidateDossierInput",
+    "candidate_assessment": "crates/taxlane-core/src/lib.rs::assess_candidate_dossier",
+    "target_cost_contract": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+    "annual_update_contract": "data/derived/breadth_benchmark_matrix/deterministic_annual_update_simulator_contract.v1.draft.json"
+  },
+  "dimension_gate_map": [
+    {
+      "dimension": "value",
+      "gate_id": "verdict-value",
+      "required_evidence": ["whole_system_lifecycle_cost", "useful_outcome_denominator", "implementation_and_transition_cost", "compatible_comparison"]
+    },
+    {
+      "dimension": "effectiveness",
+      "gate_id": "verdict-effectiveness",
+      "required_evidence": ["candidate_specific_official_effect", "declared_service_outcome", "current_baseline"]
+    },
+    {
+      "dimension": "resilience",
+      "gate_id": "verdict-resilience",
+      "required_evidence": ["continuity_floor", "recovery_floor", "stress_path"]
+    },
+    {
+      "dimension": "deliverability",
+      "gate_id": "verdict-deliverability",
+      "required_evidence": ["authority", "financing_role", "workforce_and_capacity", "procurement_and_schedule", "transition_plan"]
+    },
+    {
+      "dimension": "iteration",
+      "gate_id": "verdict-iteration",
+      "required_evidence": ["observation_cadence", "response_authority", "outcome_review", "rollback_or_retirement_trigger", "successor_handling"]
+    },
+    {
+      "dimension": "coverage_and_fair_access",
+      "gate_id": "verdict-coverage-access",
+      "required_evidence": ["access_and_distribution", "equity_and_incidence", "exclusion_delay_and_burden"]
+    },
+    {
+      "dimension": "trust",
+      "gate_id": "verdict-trust",
+      "required_evidence": ["exact_source_and_candidate_version", "source_custody", "assumptions", "role_review", "correction_path", "claim_boundary"]
+    }
+  ],
+  "admission_rules": {
+    "all_seven_dimensions_applicable_for_lane_2_candidate": true,
+    "allowed_gate_dispositions": ["required_ready", "required_blocked"],
+    "required_ready_requires_evidence_path": true,
+    "required_blocked_requires_successor_owner_and_blocking_gate": true,
+    "failed_or_unresolved_floor_blocks_promotion": true,
+    "numeric_score_threshold_used": false,
+    "lower_cost_requires_compatible_objective_and_existing_savings_gates": true
+  },
+  "iteration_levels": [
+    "analytical_refresh",
+    "operational_response",
+    "outcome_learning",
+    "fiscal_rebalancing"
+  ],
+  "implementation_decision": {
+    "new_rust_interface_required": false,
+    "new_shared_crate_required": false,
+    "duplicate_taxlane_scorer_required": false,
+    "reuse_core_m_candidate_gate_review": true,
+    "reuse_adaptive_rate_contract": true
+  },
+  "claim_booleans": {
+    "reuse_mapping_accepted": true,
+    "candidate_admitted": false,
+    "target_cost_changed": false,
+    "allocation_changed": false,
+    "savings_admitted": false,
+    "solver_run_performed": false,
+    "rate_changed_or_published": false,
+    "public_release_authorized": false
+  },
+  "public_warning": "A VERDICT assessment organizes evidence. It does not select a candidate, establish causality, prove a lower lifecycle price, authorize spending, admit savings, change an allocation, or publish a tax rate."
+}
