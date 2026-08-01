@@ -1463,6 +1463,18 @@ mod global_country_comparison_tests {
     }
 
     #[test]
+    fn isf_and_int_monitors_wait_for_qualifying_owner_cohorts() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_isf_int_active_monitor_reconciliation(&root).unwrap();
+    }
+
+    #[test]
+    fn admission_gate_v1_terminally_disposes_every_lane_without_false_effect() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_fifteen_lane_admission_gate_v1(&root).unwrap();
+    }
+
+    #[test]
     fn pay_public_evidence_ceiling_names_owner_data_without_requesting_it() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_pay_full_dmf_public_evidence_ceiling(&root).unwrap();

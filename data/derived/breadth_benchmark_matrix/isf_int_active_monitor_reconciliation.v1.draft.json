@@ -1,0 +1,54 @@
+{
+  "record_id":"isf-int-active-monitor-reconciliation:v1",
+  "record_family":"isf_int_active_monitor_reconciliation",
+  "version":"v1.draft",
+  "status":"two_active_monitors_reconciled_named_dates_and_owner_publication_triggers_retained_zero_admission",
+  "as_of_date":"2026-08-01",
+  "schema_path":"data/derived/breadth_benchmark_matrix/isf_int_active_monitor_reconciliation.schema.md",
+  "reader_path":"docs/reading/isf-int-active-monitor-reconciliation.md",
+  "role_review_path":"reviews/2026-08-01-isf-int-active-monitor-reconciliation-role-review.md",
+  "source_rows":[
+    {"source_id":"SRC-CDSS-HR1-FAQ","publisher":"California Department of Social Services","publication_date":"2026-05-29","url":"https://www.cdss.ca.gov/benefits-services/food-nutrition-services/calfresh/frequently-asked-questions","use":"April 1 noncitizen and June 1 work and community engagement implementation dates"},
+    {"source_id":"SRC-CDSS-CALFRESH-DASHBOARD","publisher":"California Department of Social Services","updated_date":"2026-07-10","url":"https://www.cdss.ca.gov/inforesources/data-portal/research-and-data/calfresh-data-dashboard","use":"current public dashboard surface and county validation caveat"},
+    {"source_id":"SRC-CDSS-STAT47","publisher":"California Department of Social Services","updated_date":"2026-06-18","url":"https://www.cdss.ca.gov/inforesources/data-portal/research-and-data/calfresh-data-tables/stat-47","use":"ABAWD and work-registrant quarterly table publication surface"},
+    {"source_id":"SRC-LIFELINE-CALFRESH-L2","publisher":"LIFELINE replay of CDSS records","publication_date":"2026-07-30","path":"data/derived/breadth_benchmark_matrix/lifeline_calfresh_level2_baseline_disposition.v1.draft.json","use":"preimplementation operations, error, churn, hearing, cost, and rights baseline"},
+    {"source_id":"SRC-MCC-NEPAL-COMPACT","publisher":"Millennium Challenge Corporation","accessed_date":"2026-08-01","url":"https://www.mcc.gov/where-we-work/program/nepal-compact/","use":"implementation status, entry into force, project perimeter, financial vintage, beneficiaries, and projected results"},
+    {"source_id":"SRC-MCC-ANNUAL-2025","publisher":"Millennium Challenge Corporation","publication_date":"2026-03-02","url":"https://www.mcc.gov/resources/doc/annual-report-2025/","use":"amended compact total, FY2025 obligations and expenditures, and September 9 2026 compact end date"},
+    {"source_id":"SRC-ENVOY-NEPAL-Q11","publisher":"ENVOY replay of MCC and MCA-Nepal records","publication_date":"2026-07-30","path":"data/derived/breadth_benchmark_matrix/envoy_nepal_compact_level2_baseline_disposition.v1.draft.json","use":"quarter 11 training, road-design, pending-output, safeguard, cost, and durability baseline"}
+  ],
+  "monitor_rows":[
+    {
+      "track":"ISF",
+      "candidate_id":"california_hr1_abawd_implementation",
+      "monitor_state":"active_too_early_and_candidate_coding_incomplete",
+      "primary_implementation_date":"2026-06-01",
+      "elapsed_days":61,
+      "public_surface_latest_update":"2026-07-10",
+      "latest_replayed_operations_month":"2026-05",
+      "latest_replayed_error_month":"2026-02",
+      "complete_postimplementation_recertification_cycle_available":false,
+      "candidate_coded_exposure_and_outcome_rows_available":false,
+      "named_triggers":["first complete candidate-coded recertification cohort","postimplementation timeliness churn denial correction notice and appeal outcomes","subgroup and county incidence","benefit adequacy and food hardship","county delivery and realized implementation cost"],
+      "next_review_rule":"review on a qualifying CDSS cohort publication rather than calendar passage alone",
+      "candidate_admitted":false
+    },
+    {
+      "track":"INT",
+      "candidate_id":"nepal_compact_delivery",
+      "monitor_state":"active_delivery_before_compact_end_and_outcome_completion",
+      "entry_into_force_date":"2023-08-30",
+      "compact_end_date":"2026-09-09",
+      "days_until_compact_end":39,
+      "latest_replayed_report_date":"2026-06-30",
+      "mcc_public_financials_as_of":"2025-06-30",
+      "amended_compact_millions":550,
+      "completed_independent_outcome_cohort_available":false,
+      "version_reconciled_financial_output_cohort_available":false,
+      "named_triggers":["new version-reconciled MCC or MCA-Nepal financial-output cohort","completed transmission substation or road works with quality and safety","local benefit burden grievance safeguard and diversion results","verified service and maintenance outcomes","post-completion independent evaluation or compact closeout"],
+      "next_review_rule":"review on qualifying owner publication and at compact closeout; the end date alone is not outcome passage",
+      "candidate_admitted":false
+    }
+  ],
+  "portfolio_disposition":{"active_monitor_count":2,"advance_to_admission_count":0,"monitor_failure_count":0,"admitted_candidate_count":0,"admitted_savings_billions":0.0,"remaining_fy2026_revenue_target_billions":813.727,"rate_recomputation_required":false,"next_action":"freeze_fifteen_lane_admission_frontier_v1"},
+  "claim_boundaries":{"official_request_made":false,"public_release_authorized":false,"dashboard_update_treated_as_candidate_cohort":false,"elapsed_time_treated_as_effect":false,"implementation_output_treated_as_durable_outcome":false,"compact_end_date_treated_as_passage":false,"candidate_admitted":false,"spending_reduction_admitted":false,"solver_run_performed":false,"rate_change_allowed":false}
+}

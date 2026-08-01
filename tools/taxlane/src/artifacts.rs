@@ -2282,6 +2282,10 @@ pub(crate) const TRN_HOUBOLT_FREIGHT_CONNECTOR_CURRENT_OWNER_EVIDENCE_AUDIT_JSON
 
 pub(crate) const TRN_FREIGHT_CONNECTOR_LIFECYCLE_PRICE_STRESS_ENVELOPE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/trn_freight_connector_lifecycle_price_stress_envelope.v1.draft.json";
 
+pub(crate) const ISF_INT_ACTIVE_MONITOR_RECONCILIATION_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/isf_int_active_monitor_reconciliation.v1.draft.json";
+
+pub(crate) const FIFTEEN_LANE_ADMISSION_GATE_V1_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/fifteen_lane_admission_gate_v1.v1.draft.json";
+
 pub(crate) const PAY_FULL_DMF_EVIDENCE_CEILING_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/pay_full_dmf_public_evidence_ceiling.v1.draft.json";
 
@@ -11609,6 +11613,62 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         path: "reviews/2026-08-01-trn-freight-connector-lifecycle-price-stress-envelope-role-review.md",
         role: "TRN freight connector lifecycle-price stress role review",
         grain: "numeracy, finance, operations, access, resilience, fiscal, and scope fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: ISF_INT_ACTIVE_MONITOR_RECONCILIATION_JSON_PATH,
+        role: "ISF and INT active-monitor reconciliation",
+        grain: "implementation dates, elapsed time, owner publication, completed cohort, triggers, and zero admission",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/isf_int_active_monitor_reconciliation.schema.md",
+        role: "ISF and INT active-monitor reconciliation schema",
+        grain: "publication-versus-cohort, output-versus-outcome, timing, fiscal, and admission firewall",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/isf-int-active-monitor-reconciliation.md",
+        role: "ISF and INT active-monitor reconciliation reader",
+        grain: "CalFresh cycle and Nepal compact clock, evidence gaps, triggers, and disposition explanation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-08-01-isf-int-active-monitor-reconciliation-role-review.md",
+        role: "ISF and INT active-monitor reconciliation role review",
+        grain: "timing, operations, rights, evaluation, fiscal, portfolio, and scope fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: FIFTEEN_LANE_ADMISSION_GATE_V1_JSON_PATH,
+        role: "canonical Fifteen-Lane Admission Gate v1 frontier",
+        grain: "one candidate or function and one admitted trigger monitor or downstream disposition per lane",
+        kind: "json",
+        canonical: "canonical",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/fifteen_lane_admission_gate_v1.schema.md",
+        role: "Fifteen-Lane Admission Gate v1 schema",
+        grain: "terminal-class uniqueness, trigger semantics, downstream boundary, versioning, and admission firewall",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/fifteen-lane-admission-gate-v1.md",
+        role: "Fifteen-Lane Admission Gate v1 reader",
+        grain: "all-lane disposition counts, zero-admission result, dependency ordering, and freeze explanation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-08-01-fifteen-lane-admission-gate-v1-role-review.md",
+        role: "Fifteen-Lane Admission Gate v1 role review",
+        grain: "portfolio, admission, service, fiscal, dependency, adaptation, and scope fixed point",
         kind: "markdown",
         canonical: "supporting",
     },

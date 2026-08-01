@@ -1352,6 +1352,8 @@ pub(crate) fn validate_global_country_comparison_coverage(root: &Path) -> Result
     validate_vet_missed_exam_review_accommodation_stress_envelope(root)?;
     validate_trn_houbolt_freight_connector_current_owner_evidence_audit(root)?;
     validate_trn_freight_connector_lifecycle_price_stress_envelope(root)?;
+    validate_isf_int_active_monitor_reconciliation(root)?;
+    validate_fifteen_lane_admission_gate_v1(root)?;
     validate_pay_full_dmf_public_evidence_ceiling(root)?;
     validate_hlt_site_neutral_current_law_dependency_audit(root)?;
     validate_def_proportional_force_current_law_dependency_audit(root)?;
@@ -15899,6 +15901,151 @@ pub(crate) fn validate_trn_freight_connector_lifecycle_price_stress_envelope(
         || bool_field(claims, "rate_change_allowed")?
     {
         return Err("TRN freight connector lifecycle-price stress envelope failed".to_string());
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_isf_int_active_monitor_reconciliation(
+    root: &Path,
+) -> Result<(), String> {
+    let artifact = read_json_artifact(root, ISF_INT_ACTIVE_MONITOR_RECONCILIATION_JSON_PATH)?;
+    let sources = artifact
+        .get("source_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("ISF INT monitor sources")?;
+    let rows = artifact
+        .get("monitor_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("ISF INT monitor rows")?;
+    let by_track = rows
+        .iter()
+        .map(|row| Ok((string_field(row, "track")?, row)))
+        .collect::<Result<BTreeMap<_, _>, String>>()?;
+    let isf = by_track.get("ISF").ok_or("ISF monitor")?;
+    let int = by_track.get("INT").ok_or("INT monitor")?;
+    let decision = artifact
+        .get("portfolio_disposition")
+        .ok_or("ISF INT monitor disposition")?;
+    let claims = artifact
+        .get("claim_boundaries")
+        .ok_or("ISF INT monitor claims")?;
+    if sources.len() != 7
+        || rows.len() != 2
+        || int_field(isf, "elapsed_days")? != 61
+        || bool_field(isf, "complete_postimplementation_recertification_cycle_available")?
+        || bool_field(isf, "candidate_coded_exposure_and_outcome_rows_available")?
+        || bool_field(isf, "candidate_admitted")?
+        || int_field(int, "days_until_compact_end")? != 39
+        || int_field(int, "amended_compact_millions")? != 550
+        || bool_field(int, "completed_independent_outcome_cohort_available")?
+        || bool_field(int, "version_reconciled_financial_output_cohort_available")?
+        || bool_field(int, "candidate_admitted")?
+        || int_field(decision, "active_monitor_count")? != 2
+        || int_field(decision, "advance_to_admission_count")? != 0
+        || int_field(decision, "monitor_failure_count")? != 0
+        || int_field(decision, "admitted_candidate_count")? != 0
+        || number_field(decision, "admitted_savings_billions")?.abs() > 0.0001
+        || (number_field(decision, "remaining_fy2026_revenue_target_billions")? - 813.727)
+            .abs()
+            > 0.0001
+        || bool_field(decision, "rate_recomputation_required")?
+        || string_field(decision, "next_action")?
+            != "freeze_fifteen_lane_admission_frontier_v1"
+        || bool_field(claims, "dashboard_update_treated_as_candidate_cohort")?
+        || bool_field(claims, "elapsed_time_treated_as_effect")?
+        || bool_field(claims, "implementation_output_treated_as_durable_outcome")?
+        || bool_field(claims, "compact_end_date_treated_as_passage")?
+        || bool_field(claims, "candidate_admitted")?
+        || bool_field(claims, "spending_reduction_admitted")?
+        || bool_field(claims, "rate_change_allowed")?
+    {
+        return Err("ISF and INT active-monitor reconciliation failed".to_string());
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_fifteen_lane_admission_gate_v1(root: &Path) -> Result<(), String> {
+    let frontier = read_json_artifact(root, FIFTEEN_LANE_ADMISSION_GATE_V1_JSON_PATH)?;
+    let allowed = frontier
+        .get("allowed_terminal_classes")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("admission gate allowed classes")?
+        .iter()
+        .map(|value| value.as_str().ok_or("admission gate class").map(str::to_owned))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let expected_allowed = ["admitted", "named_trigger", "active_monitor", "downstream"]
+        .into_iter()
+        .map(str::to_owned)
+        .collect::<BTreeSet<_>>();
+    let rows = frontier
+        .get("lane_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("admission gate lane rows")?;
+    let expected_tracks = [
+        "AGR", "DEF", "DIS", "EDU", "HLT", "INT", "ISF", "JUS", "NET", "OAS", "PAY", "REV", "SEE",
+        "TRN", "VET",
+    ]
+    .into_iter()
+    .map(str::to_owned)
+    .collect::<BTreeSet<_>>();
+    let mut tracks = BTreeSet::new();
+    let mut classes = BTreeMap::new();
+    for row in rows {
+        tracks.insert(string_field(row, "track")?);
+        *classes
+            .entry(string_field(row, "terminal_class")?)
+            .or_insert(0usize) += 1;
+        if string_field(row, "candidate_id")?.is_empty()
+            || string_field(row, "trigger_owner")?.is_empty()
+            || string_field(row, "next_trigger")?.is_empty()
+            || number_field(row, "admitted_primary_reduction_billions")?.abs() > 0.0001
+            || bool_field(row, "rate_effect_allowed")?
+        {
+            return Err("admission gate lane boundary failed".to_string());
+        }
+    }
+    let result = frontier
+        .get("portfolio_result")
+        .ok_or("admission gate portfolio result")?;
+    let versioning = frontier
+        .get("versioning_contract")
+        .ok_or("admission gate versioning")?;
+    let claims = frontier
+        .get("claim_boundaries")
+        .ok_or("admission gate claims")?;
+    if allowed != expected_allowed
+        || rows.len() != 15
+        || tracks != expected_tracks
+        || classes.get("admitted").copied().unwrap_or(0) != 0
+        || classes.get("named_trigger") != Some(&11)
+        || classes.get("active_monitor") != Some(&2)
+        || classes.get("downstream") != Some(&2)
+        || int_field(result, "lanes_disposed")? != 15
+        || int_field(result, "admitted_count")? != 0
+        || int_field(result, "named_trigger_count")? != 11
+        || int_field(result, "active_monitor_count")? != 2
+        || int_field(result, "downstream_count")? != 2
+        || int_field(result, "unclassified_count")? != 0
+        || number_field(result, "admitted_primary_reduction_billions")?.abs() > 0.0001
+        || (number_field(result, "remaining_fy2026_revenue_target_billions")? - 813.727)
+            .abs()
+            > 0.0001
+        || bool_field(result, "net_recomputation_required")?
+        || bool_field(result, "rev_recomputation_required")?
+        || bool_field(result, "rate_result_changed")?
+        || !bool_field(versioning, "frontier_frozen")?
+        || !bool_field(versioning, "freeze_means_immutable_without_successor_version")?
+        || !bool_field(versioning, "qualifying_evidence_reopens_named_lane_only")?
+        || !bool_field(versioning, "portfolio_revalidation_required_after_any_reopen")?
+        || bool_field(versioning, "monitor_calendar_passage_alone_reopens_lane")?
+        || bool_field(claims, "named_trigger_treated_as_admission")?
+        || bool_field(claims, "active_monitor_treated_as_effect")?
+        || bool_field(claims, "downstream_function_treated_as_primary_saving")?
+        || bool_field(claims, "candidate_admitted")?
+        || bool_field(claims, "spending_reduction_admitted")?
+        || bool_field(claims, "rate_change_allowed")?
+    {
+        return Err("Fifteen-Lane Admission Gate v1 failed".to_string());
     }
     Ok(())
 }
