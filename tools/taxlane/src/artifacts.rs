@@ -2252,6 +2252,8 @@ pub(crate) const SEVEN_OWNER_OUTCOME_LANE_FRONTIER_JSON_PATH: &str = "data/deriv
 
 pub(crate) const AGR_CROP_INSURANCE_CURRENT_LAW_OWNER_EVIDENCE_AUDIT_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/agr_crop_insurance_current_law_owner_evidence_audit.v1.draft.json";
 
+pub(crate) const AGR_INSURER_COMPENSATION_PUBLIC_EVIDENCE_CEILING_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/agr_insurer_compensation_public_evidence_ceiling.v1.draft.json";
+
 pub(crate) const PAY_FULL_DMF_EVIDENCE_CEILING_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/pay_full_dmf_public_evidence_ceiling.v1.draft.json";
 
@@ -11173,6 +11175,34 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         path: "reviews/2026-08-01-agr-crop-insurance-current-law-owner-evidence-audit-role-review.md",
         role: "AGR crop-insurance current-law and owner-evidence audit role review",
         grain: "finance, agriculture, insurance, distribution, food, and scope fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: AGR_INSURER_COMPENSATION_PUBLIC_EVIDENCE_CEILING_JSON_PATH,
+        role: "AGR insurer-compensation public-evidence ceiling",
+        grain: "current-law closure, service baseline, and legislative successor boundary",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/agr_insurer_compensation_public_evidence_ceiling.schema.md",
+        role: "AGR insurer-compensation public-evidence ceiling schema",
+        grain: "statute, SRA, market, service, and authority boundary",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/agr-insurer-compensation-public-evidence-ceiling.md",
+        role: "AGR insurer-compensation public-evidence ceiling reader",
+        grain: "administrative closure and legislative design explanation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-08-01-agr-insurer-compensation-public-evidence-ceiling-role-review.md",
+        role: "AGR insurer-compensation public-evidence ceiling role review",
+        grain: "finance, insurance, service, distribution, law, and scope fixed point",
         kind: "markdown",
         canonical: "supporting",
     },

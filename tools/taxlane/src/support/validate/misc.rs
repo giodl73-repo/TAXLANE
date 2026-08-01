@@ -1337,6 +1337,7 @@ pub(crate) fn validate_global_country_comparison_coverage(root: &Path) -> Result
     validate_fifteen_lane_candidate_execution_frontier(root)?;
     validate_seven_owner_outcome_lane_execution_frontier(root)?;
     validate_agr_crop_insurance_current_law_owner_evidence_audit(root)?;
+    validate_agr_insurer_compensation_public_evidence_ceiling(root)?;
     validate_pay_full_dmf_public_evidence_ceiling(root)?;
     validate_hlt_site_neutral_current_law_dependency_audit(root)?;
     validate_def_proportional_force_current_law_dependency_audit(root)?;
@@ -14338,6 +14339,135 @@ pub(crate) fn validate_agr_crop_insurance_current_law_owner_evidence_audit(
         || bool_field(claims, "rate_change_allowed")?
     {
         return Err("AGR crop-insurance current-law owner-evidence audit failed".to_string());
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_agr_insurer_compensation_public_evidence_ceiling(
+    root: &Path,
+) -> Result<(), String> {
+    let ceiling = read_json_artifact(
+        root,
+        AGR_INSURER_COMPENSATION_PUBLIC_EVIDENCE_CEILING_JSON_PATH,
+    )?;
+    let sources = ceiling
+        .get("source_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("AGR insurer-compensation ceiling sources")?;
+    let gates = ceiling
+        .get("gate_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("AGR insurer-compensation ceiling gates")?;
+    let source_ids = sources
+        .iter()
+        .map(|row| string_field(row, "source_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let dispositions = gates.iter().try_fold(BTreeMap::new(), |mut counts, row| {
+        *counts
+            .entry(string_field(row, "disposition")?)
+            .or_insert(0usize) += 1;
+        if bool_field(row, "candidate_admitted")?
+            || string_field(row, "closure_owner")?.is_empty()
+            || string_field(row, "finding")?.is_empty()
+        {
+            return Err("AGR insurer-compensation ceiling gate boundary failed".to_string());
+        }
+        Ok(counts)
+    })?;
+    let law = ceiling
+        .get("current_law_findings")
+        .ok_or("AGR insurer-compensation current-law findings")?;
+    let baseline = ceiling
+        .get("current_operating_baseline")
+        .ok_or("AGR insurer-compensation operating baseline")?;
+    let successors = ceiling
+        .get("successor_disposition")
+        .ok_or("AGR insurer-compensation successors")?;
+    let administrative = successors
+        .get("administrative_sra_reform_under_current_law")
+        .ok_or("AGR insurer-compensation administrative successor")?;
+    let legislative = successors
+        .get("legislative_market_return_and_service_floor_design")
+        .ok_or("AGR insurer-compensation legislative successor")?;
+    let summary = ceiling
+        .get("evidence_ceiling")
+        .ok_or("AGR insurer-compensation ceiling summary")?;
+    let claims = ceiling
+        .get("claim_boundaries")
+        .ok_or("AGR insurer-compensation claim boundaries")?;
+    if sources.len() != 7
+        || source_ids.len() != 7
+        || !source_ids.contains("SRC-USCODE-7-1508")
+        || !source_ids.contains("SRC-RMA-IS-26-001")
+        || !source_ids.contains("SRC-RMA-SRA-2026-03-06")
+        || !source_ids.contains("SRC-FCIC-MANAGERS-REPORT-2025-08")
+        || !source_ids.contains("SRC-GAO-24-106086")
+        || gates.len() != 8
+        || dispositions.get("current_law_evidence_pass") != Some(&2)
+        || dispositions.get("current_aggregate_evidence_pass") != Some(&1)
+        || dispositions.get("historical_comparator_only") != Some(&1)
+        || dispositions.get("current_baseline_effect_response_required") != Some(&2)
+        || dispositions.get("owner_market_data_required") != Some(&1)
+        || dispositions.get("scorekeeper_rescore_required") != Some(&1)
+        || !bool_field(
+            law,
+            "underwriting_gain_payments_budget_neutral_to_maximum_extent_practicable",
+        )?
+        || !bool_field(
+            law,
+            "sra_renegotiation_savings_recycled_to_ao_or_underwriting_gain_payments",
+        )?
+        || bool_field(
+            law,
+            "administrative_sra_change_can_produce_net_budget_savings_under_current_law",
+        )?
+        || !bool_field(law, "legislative_change_required_for_net_savings")?
+        || int_field(baseline, "ry2026_approved_insurance_providers")? != 12
+        || int_field(baseline, "ry2026_aips_with_sra")? != 12
+        || int_field(baseline, "ry2026_aips_with_lpra")? != 11
+        || bool_field(baseline, "significant_provider_change_from_ry2025_reported")?
+        || (number_field(
+            baseline,
+            "ers_2024_combined_delivery_and_underwriting_gains_billions",
+        )? - 4.65)
+            .abs()
+            > 0.0001
+        || bool_field(baseline, "current_law_rescore_available")?
+        || bool_field(
+            baseline,
+            "current_aip_specific_cost_and_return_publicly_available",
+        )?
+        || bool_field(
+            baseline,
+            "current_state_market_share_and_concentration_publicly_closed",
+        )?
+        || bool_field(baseline, "compensation_change_exit_response_observed")?
+        || bool_field(baseline, "compensation_change_service_response_observed")?
+        || string_field(administrative, "status")? != "closed_no_net_savings_path"
+        || number_field(administrative, "admitted_fy2026_outlay_reduction_billions")?.abs()
+            > 0.0001
+        || string_field(legislative, "status")? != "eligible_for_design_not_admitted"
+        || number_field(legislative, "admitted_fy2026_outlay_reduction_billions")?.abs()
+            > 0.0001
+        || !bool_field(summary, "public_search_complete_for_current_slice")?
+        || !bool_field(summary, "current_law_administrative_savings_path_closed")?
+        || !bool_field(summary, "legislative_design_may_start")?
+        || bool_field(summary, "candidate_admitted")?
+        || number_field(summary, "admitted_fy2026_outlay_reduction_billions")?.abs() > 0.0001
+        || bool_field(summary, "rate_recomputation_required")?
+        || bool_field(claims, "official_request_made")?
+        || bool_field(claims, "public_release_authorized")?
+        || bool_field(claims, "administrative_authority_to_create_savings_claimed")?
+        || bool_field(claims, "aggregate_compensation_treated_as_recoverable_savings")?
+        || bool_field(claims, "historical_market_gap_treated_as_current_savings")?
+        || bool_field(claims, "provider_count_treated_as_competition_pass")?
+        || bool_field(claims, "service_baseline_treated_as_policy_effect")?
+        || bool_field(claims, "candidate_admitted")?
+        || bool_field(claims, "spending_reduction_admitted")?
+        || bool_field(claims, "solver_run_performed")?
+        || bool_field(claims, "rate_change_allowed")?
+    {
+        return Err("AGR insurer-compensation public-evidence ceiling failed".to_string());
     }
     Ok(())
 }

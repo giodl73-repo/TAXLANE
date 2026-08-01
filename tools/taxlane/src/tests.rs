@@ -1373,6 +1373,12 @@ mod global_country_comparison_tests {
     }
 
     #[test]
+    fn agr_insurer_compensation_ceiling_requires_legislation_without_admission() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_agr_insurer_compensation_public_evidence_ceiling(&root).unwrap();
+    }
+
+    #[test]
     fn pay_public_evidence_ceiling_names_owner_data_without_requesting_it() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_pay_full_dmf_public_evidence_ceiling(&root).unwrap();

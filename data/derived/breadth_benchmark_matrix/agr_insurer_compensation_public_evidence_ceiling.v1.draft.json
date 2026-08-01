@@ -1,0 +1,214 @@
+{
+  "record_id": "agr-insurer-compensation-public-evidence-ceiling:v1",
+  "record_family": "agr_insurer_compensation_public_evidence_ceiling",
+  "version": "v1.draft",
+  "status": "public_evidence_ceiling_complete_legislative_design_required_zero_admission",
+  "as_of_date": "2026-08-01",
+  "track": "AGR",
+  "candidate_component": "insurer_compensation_modernization",
+  "predecessor_path": "data/derived/breadth_benchmark_matrix/agr_crop_insurance_current_law_owner_evidence_audit.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/agr_insurer_compensation_public_evidence_ceiling.schema.md",
+  "reader_path": "docs/reading/agr-insurer-compensation-public-evidence-ceiling.md",
+  "role_review_path": "reviews/2026-08-01-agr-insurer-compensation-public-evidence-ceiling-role-review.md",
+  "source_rows": [
+    {
+      "source_id": "SRC-USCODE-7-1508",
+      "publisher": "Office of the Law Revision Counsel, U.S. House of Representatives",
+      "title": "7 U.S.C. 1508, Crop insurance",
+      "publication_date": null,
+      "accessed_date": "2026-08-01",
+      "url": "https://uscode.house.gov/view.xhtml?edition=prelim&req=granuleid%3AUSC-prelim-title7-section1508",
+      "use": "current SRA renegotiation, budget-neutrality, savings-recycling, high-loss, specialty-crop, and inflation-adjustment law"
+    },
+    {
+      "source_id": "SRC-RMA-IS-26-001",
+      "publisher": "U.S. Department of Agriculture, Risk Management Agency",
+      "title": "2026/2027 Standard Reinsurance Agreement and 2027 Livestock Price Reinsurance Agreement",
+      "publication_date": "2026-03-09",
+      "url": "https://www.rma.usda.gov/print/pdf/node/7803",
+      "use": "current 2026 SRA update and 2027 agreement implementation"
+    },
+    {
+      "source_id": "SRC-RMA-SRA-2026-03-06",
+      "publisher": "U.S. Department of Agriculture, Risk Management Agency",
+      "title": "2026 Standard Reinsurance Agreement",
+      "publication_date": "2026-03-06",
+      "url": "https://www.rma.usda.gov/sites/default/files/2026-03/SRA_2026-3-6-26.pdf",
+      "use": "current executed agreement structure and delivery obligations"
+    },
+    {
+      "source_id": "SRC-FCIC-MANAGERS-REPORT-2025-08",
+      "publisher": "Federal Crop Insurance Corporation",
+      "title": "August 2025 FCIC Manager's Report",
+      "publication_date": "2025-08-01",
+      "url": "https://www.rma.usda.gov/sites/default/files/2025-08/August%202025%20FCIC%20Managers%20Report%20signed.pdf",
+      "use": "reinsurance-year 2026 AIP count, renewal posture, written-agreement error rate, and turnaround baseline"
+    },
+    {
+      "source_id": "SRC-USDA-ERS-FCIP-AT-A-GLANCE-2025",
+      "publisher": "U.S. Department of Agriculture, Economic Research Service",
+      "title": "Crop Insurance at a Glance",
+      "publication_date": "2025-09-23",
+      "url": "https://www.ers.usda.gov/topics/farm-practices-management/risk-management/crop-insurance-at-a-glance",
+      "use": "2024 aggregate delivery cost, underwriting gains, and program-cost context"
+    },
+    {
+      "source_id": "SRC-GAO-24-106086",
+      "publisher": "U.S. Government Accountability Office",
+      "title": "Crop Insurance: Update on Opportunities to Reduce Program Costs",
+      "publication_date": "2023-11-07",
+      "url": "https://www.gao.gov/products/gao-24-106086",
+      "use": "historical insurer return, market comparator, delivery projection, participation incentive, and statutory recommendation"
+    },
+    {
+      "source_id": "SRC-CBO-60893",
+      "publisher": "Congressional Budget Office",
+      "title": "Reduce Subsidies in the Crop Insurance Program",
+      "publication_date": "2024-12-12",
+      "url": "https://www.cbo.gov/budget-options/60893",
+      "use": "vintage 9.25-percent A&O cap, 12-percent return target, and noncurrent component score"
+    }
+  ],
+  "current_law_findings": {
+    "sra_financial_renegotiation_frequency": "once_during_each_five_reinsurance_year_period",
+    "underwriting_gain_payments_budget_neutral_to_maximum_extent_practicable": true,
+    "ao_reimbursement_not_below_preceding_sra_extended_baseline_to_maximum_extent_practicable": true,
+    "significant_departure_from_budget_neutrality_prohibited_unless_statutorily_required": true,
+    "sra_renegotiation_savings_recycled_to_ao_or_underwriting_gain_payments": true,
+    "ry2026_high_loss_eligible_contract_extra_ao_percent_net_book_premium": 6.0,
+    "high_loss_eligible_state_loss_ratio_trigger_percent": 120.0,
+    "ry2026_specialty_crop_minimum_ao_percent_of_loss_ratio_premium": 17.0,
+    "non_specialty_ao_reduction_for_specialty_floor_prohibited": true,
+    "ry2026_ao_inflation_adjustment_required": true,
+    "current_sra_updated_for_post_2025_law": true,
+    "administrative_sra_change_can_produce_net_budget_savings_under_current_law": false,
+    "legislative_change_required_for_net_savings": true
+  },
+  "current_operating_baseline": {
+    "ry2026_approved_insurance_providers": 12,
+    "ry2026_aips_with_sra": 12,
+    "ry2026_aips_with_lpra": 11,
+    "significant_provider_change_from_ry2025_reported": false,
+    "written_agreement_submission_error_rate_2025_percent": 8.28,
+    "written_agreement_processing_turnaround_2025_days": 5.8,
+    "ers_2024_program_delivery_cost_billions": 2.34,
+    "ers_2024_aip_underwriting_gains_billions": 2.31,
+    "ers_2024_combined_delivery_and_underwriting_gains_billions": 4.65,
+    "gao_2011_2022_average_aip_return_on_retained_premiums_percent": 16.8,
+    "gao_market_based_return_comparator_percent": 10.2,
+    "gao_2024_2033_projected_average_annual_aip_compensation_billions": 3.8,
+    "cbo_vintage_fy2026_insurer_component_outlay_reduction_billions": 1.5,
+    "current_law_rescore_available": false,
+    "current_aip_specific_cost_and_return_publicly_available": false,
+    "current_state_market_share_and_concentration_publicly_closed": false,
+    "compensation_change_exit_response_observed": false,
+    "compensation_change_service_response_observed": false
+  },
+  "gate_rows": [
+    {
+      "gate_id": "current_statutory_savings_authority",
+      "disposition": "current_law_evidence_pass",
+      "finding": "7 U.S.C. 1508 requires budget neutrality, protects A&O reimbursement baselines, and recycles qualifying SRA renegotiation savings into insurer payments, so an administrative SRA change cannot create the selected net savings under current law.",
+      "closure_owner": "Congress",
+      "candidate_admitted": false
+    },
+    {
+      "gate_id": "current_sra_and_new_payment_floors",
+      "disposition": "current_law_evidence_pass",
+      "finding": "The updated 2026 SRA implements current law, including new high-loss, specialty-crop, and inflation-linked A&O provisions that postdate and conflict with the option's broad 9.25-percent cap.",
+      "closure_owner": "USDA_RMA_FCIC",
+      "candidate_admitted": false
+    },
+    {
+      "gate_id": "current_aggregate_compensation",
+      "disposition": "current_aggregate_evidence_pass",
+      "finding": "ERS separately reports $2.34 billion of 2024 delivery cost and $2.31 billion of AIP underwriting gains, but neither aggregate is a recoverable savings amount.",
+      "closure_owner": "USDA_RMA_ERS",
+      "candidate_admitted": false
+    },
+    {
+      "gate_id": "market_return_comparator",
+      "disposition": "historical_comparator_only",
+      "finding": "GAO's 16.8-percent 2011-2022 average return exceeds its 10.2-percent market comparator, supporting a design question but not a current AIP-specific return finding or a current-law score.",
+      "closure_owner": "GAO_USDA_RMA_and_independent_insurance_economist",
+      "candidate_admitted": false
+    },
+    {
+      "gate_id": "provider_participation_and_exit",
+      "disposition": "current_baseline_effect_response_required",
+      "finding": "FCIC reports 12 approved providers for reinsurance year 2026 and no significant change from 2025, but no observed compensation change establishes entry, exit, capitalization, or retained-risk response.",
+      "closure_owner": "USDA_RMA_FCIC_and_independent_evaluator",
+      "candidate_admitted": false
+    },
+    {
+      "gate_id": "producer_service_continuity",
+      "disposition": "current_baseline_effect_response_required",
+      "finding": "The 2025 8.28-percent written-agreement submission error rate and 5.8-day processing time provide bounded service baselines, not the effect of lower insurer compensation on agents, adjustment, appeals, geographic access, or claim timeliness.",
+      "closure_owner": "USDA_RMA_FCIC_and_independent_evaluator",
+      "candidate_admitted": false
+    },
+    {
+      "gate_id": "competition_cost_and_geographic_distribution",
+      "disposition": "owner_market_data_required",
+      "finding": "Public sources do not close current AIP-specific allowable cost, return, state market share, agent coverage, specialty-crop burden, high-loss-state burden, or market concentration.",
+      "closure_owner": "USDA_RMA_FCIC_GAO_and_independent_insurance_economist",
+      "candidate_admitted": false
+    },
+    {
+      "gate_id": "matching_legislative_current_law_score",
+      "disposition": "scorekeeper_rescore_required",
+      "finding": "The $1.5 billion FY2026 component estimate predates Public Law 119-21, the new statutory payment floors, and the updated 2026 SRA; no matching successor score exists.",
+      "closure_owner": "authorized_scorekeeper",
+      "candidate_admitted": false
+    }
+  ],
+  "successor_disposition": {
+    "administrative_sra_reform_under_current_law": {
+      "status": "closed_no_net_savings_path",
+      "reason": "Current law requires budget neutrality and recycling of SRA renegotiation savings while protecting or increasing multiple payment categories.",
+      "admitted_fy2026_outlay_reduction_billions": 0.0
+    },
+    "legislative_market_return_and_service_floor_design": {
+      "status": "eligible_for_design_not_admitted",
+      "required_elements": [
+        "amend 7 U.S.C. 1508(k)(8)(F) if net savings are intended",
+        "define a reproducible market-return benchmark and update cadence",
+        "preserve nationwide availability and explicit specialty-crop and high-loss-state service floors",
+        "test AIP entry, exit, capitalization, retained risk, competition, agent coverage, adjustment, appeals, and claim timeliness",
+        "separate A&O reimbursement from underwriting gain policy",
+        "include transition and federal implementation costs",
+        "obtain a matching current-law score"
+      ],
+      "admitted_fy2026_outlay_reduction_billions": 0.0
+    }
+  },
+  "evidence_ceiling": {
+    "public_search_complete_for_current_slice": true,
+    "source_count": 7,
+    "gate_count": 8,
+    "evidence_ready_gate_count": 3,
+    "historical_comparator_only_count": 1,
+    "current_baseline_effect_response_required_count": 2,
+    "owner_market_data_required_count": 1,
+    "scorekeeper_rescore_required_count": 1,
+    "current_law_administrative_savings_path_closed": true,
+    "legislative_design_may_start": true,
+    "candidate_admitted": false,
+    "admitted_fy2026_outlay_reduction_billions": 0.0,
+    "rate_recomputation_required": false
+  },
+  "next_evidence_action": "Define a bounded legislative market-return and service-floor design with separate A&O and underwriting-gain levers, explicit nationwide and specialty/high-loss protections, transition cost, and a scorekeeper-ready current-law specification.",
+  "claim_boundaries": {
+    "official_request_made": false,
+    "public_release_authorized": false,
+    "administrative_authority_to_create_savings_claimed": false,
+    "aggregate_compensation_treated_as_recoverable_savings": false,
+    "historical_market_gap_treated_as_current_savings": false,
+    "provider_count_treated_as_competition_pass": false,
+    "service_baseline_treated_as_policy_effect": false,
+    "candidate_admitted": false,
+    "spending_reduction_admitted": false,
+    "solver_run_performed": false,
+    "rate_change_allowed": false
+  }
+}
