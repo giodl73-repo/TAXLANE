@@ -2,8 +2,8 @@
   "record_id": "net-current-law-baseline-completion-plan:v1",
   "record_family": "net_current_law_baseline_completion_plan",
   "version": "v1.draft",
-  "status": "five_of_nine_steps_ready_endogenous_baseline_blocked",
-  "as_of_date": "2026-07-31",
+  "status": "six_of_nine_steps_ready_reduced_form_feedback_ready_full_maturity_blocked",
+  "as_of_date": "2026-08-01",
   "context_path": "data/derived/breadth_benchmark_matrix/net_interest_pbd_fy2025_2031_current_law_context_path.v1.draft.json",
   "formula_contract_path": "data/derived/breadth_benchmark_matrix/net_interest_formula_contract.v1.draft.json",
   "compatibility_audit_path": "data/derived/breadth_benchmark_matrix/net_current_law_baseline_compatibility_audit.v1.draft.json",
@@ -12,14 +12,14 @@
     {"step":1,"input":"horizon_boundary_or_extension","ready":true,"evidence":"CORE-G admitted FY2025-FY2035 boundary"},
     {"step":2,"input":"annual_debt_stock","ready":true,"evidence":"CORE-G beginning and ending debt held by the public"},
     {"step":3,"input":"maturity_bucket_stock_and_rollover","ready":false,"partial_evidence":"Reconciled 2026-06-30 total-marketable maturity-stock seed; public-holder allocation and annual rollover remain blocked"},
-    {"step":4,"input":"effective_rate_by_bucket_and_stress","ready":false},
+    {"step":4,"input":"effective_rate_by_bucket_and_stress","ready":false,"partial_evidence":"CBO matching-vintage aggregate average-rate path ready; bucket and stress paths blocked"},
     {"step":5,"input":"new_borrowing_timing","ready":true,"evidence":"Midyear central convention with early/late sensitivity rails, closed-form interest financing, and display-only rounding"},
     {"step":6,"input":"gross_interest_receipts_net_bridge","ready":false,"partial_evidence":"OMB FY2025-FY2031 five-subfunction bridge reconciles; matching CBO-vintage values remain blocked"},
     {"step":7,"input":"explicit_other_financing","ready":true,"evidence":"CORE-G reported other financing plus timing residual"},
     {"step":8,"input":"zero_policy_change_regression_fixture","ready":true,"evidence":"CORE-G deterministic topline and debt-identity replay"},
-    {"step":9,"input":"primary_balance_shock_feedback_test","ready":false}
+    {"step":9,"input":"primary_balance_shock_feedback_test","ready":true,"evidence":"Reduced-form zero and mechanical nonzero fixtures recompute debt and net-interest deltas through FY2035"}
   ],
   "candidate_bundle_effect": {"admitted_primary_balance_delta_millions":0,"interest_recomputation_triggered":false},
-  "readiness_summary": {"steps_ready":5,"steps_total":9,"formula_inputs_ready":4,"formula_inputs_required":8},
-  "claim_booleans": {"completion_plan_published":true,"annual_debt_path_ready":true,"zero_policy_topline_reconciliation_ready":true,"endogenous_debt_interest_path_ready":false,"maturity_path_ready":false,"rate_path_ready":false,"feedback_test_ready":false,"direct_interest_cut":false,"interest_savings":false,"solver_ready":false,"rate_effect":false}
+  "readiness_summary": {"steps_ready":6,"steps_total":9,"formula_inputs_ready":7,"formula_inputs_required":8},
+  "claim_booleans": {"completion_plan_published":true,"annual_debt_path_ready":true,"zero_policy_topline_reconciliation_ready":true,"reduced_form_feedback_ready":true,"endogenous_full_stock_debt_interest_path_ready":false,"maturity_path_ready":false,"aggregate_rate_path_ready":true,"bucket_rate_stress_path_ready":false,"feedback_test_ready":true,"direct_interest_cut":false,"interest_savings":false,"solver_ready":false,"rate_effect":false}
 }

@@ -1201,6 +1201,7 @@ pub(crate) fn validate_global_country_comparison_coverage(root: &Path) -> Result
     validate_net_interest_formula_contract(root)?;
     validate_net_interest_omb_pbd_gross_to_net_bridge(root)?;
     validate_net_interest_new_borrowing_timing_convention(root)?;
+    validate_net_interest_cbo_average_rate_feedback(root)?;
     validate_net_current_law_baseline_compatibility_audit(root)?;
     validate_net_interest_pbd_fy2025_2031_current_law_context_path(root)?;
     validate_assigned_receipt_base_inventory(root)?;

@@ -3,7 +3,7 @@
 Machine record:
 `data/derived/breadth_benchmark_matrix/net_interest_formula_contract.v1.draft.json`
 
-Pulse 104 defines the formula boundary for endogenous net interest. It does not publish a debt path, net-interest path, solver run, rate calculation, or balanced-budget result.
+Pulse 104 defines the formula boundary for endogenous net interest. It does not publish an admitted debt path, net-interest path, solver run, rate calculation, or balanced-budget result.
 
 Now admitted from the hash-custodied CORE-G CBO spine:
 
@@ -11,21 +11,26 @@ Now admitted from the hash-custodied CORE-G CBO spine:
 - baseline net interest;
 - explicit other financing series;
 - new borrowing timing rule, using a midpoint central rail and early/late
-  sensitivity bounds.
+  sensitivity bounds;
+- matching-vintage CBO FY2025–FY2035 average-interest-rate path;
+- incremental interest-receipt treatment; and
+- a reduced-form primary-balance feedback fixture.
 
-Required but still null:
+Required but still null for the full-stock model:
 
 - maturity bucket schedule;
-- effective rate path by bucket;
-- interest receipts treatment;
-- primary-balance feedback test fixture.
+
+Bucket-specific rates and stress remain a completion-step gap even though the
+matching-vintage aggregate CBO rate path is ready for bounded incremental
+feedback.
 
 The [compatibility audit](net-current-law-baseline-compatibility-audit.md)
-records why the aggregate annual inputs are compatible while Treasury's
-latest-month maturity and rate contexts cannot yet substitute for bucket paths.
+records why the CBO average-rate path is compatible with reduced-form policy
+deltas while Treasury's latest-month maturity and rate contexts cannot yet
+substitute for a full-stock bucket path.
 
-Net interest is endogenous. Net interest cannot be cut directly. After any primary-balance change, the solver must recompute deficit, debt, maturity-bucket debt stock, and subsequent net interest.
+Net interest is endogenous. Net interest cannot be cut directly. After any primary-balance change, the model must recompute deficit, debt, and subsequent net interest; the full-stock mode must additionally recompute maturity-bucket debt stock.
 
-The regression test contract is named `primary_balance_change_recomputes_debt_and_interest`, but its fixture path is still null until the maturity and bucket-rate inputs exist. The separate zero-policy topline replay and new-borrowing timing convention are ready; neither is a future-year primary-balance feedback test.
+The regression test contract is named `primary_balance_change_recomputes_debt_and_interest`. Its fixture now points to the [CBO average-rate feedback model](net-interest-cbo-average-rate-feedback.md), which proves zero-input stability and later-year debt-service movement for a mechanical nonzero shock. It is reduced-form; maturity-aware feedback remains blocked.
 
 This is a net-interest formula contract, not a net-interest path, not a solver run, not target-cost selection, not rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim.

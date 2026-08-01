@@ -1620,6 +1620,12 @@ mod global_country_comparison_tests {
     }
 
     #[test]
+    fn net_cbo_average_rate_recomputes_reduced_form_primary_feedback() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_net_interest_cbo_average_rate_feedback(&root).unwrap();
+    }
+
+    #[test]
     fn net_reconciles_mspd_snapshot_without_inventing_annual_rollover() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_net_interest_treasury_mspd_snapshot_reconciliation(&root).unwrap();

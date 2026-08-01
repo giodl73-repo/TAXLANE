@@ -12,15 +12,18 @@ Required invariants:
 - formula identities include primary balance, deficit, debt[t], net interest[t],
   and an iteration rule;
 - every required input has `required: true`;
-- baseline debt stock, baseline net interest, explicit other financing, and the
-  new-borrowing timing rule are ready with non-null evidence and no blockers;
-- the other four inputs remain `ready: false`, `value: null`, and retain at
-  least one blocker;
+- baseline debt stock, baseline net interest, explicit other financing,
+  new-borrowing timing, the matching-vintage CBO average-rate path, incremental
+  interest-receipt treatment, and the reduced-form feedback fixture are ready;
+- the full-stock maturity-bucket schedule remains `ready: false`, `value: null`,
+  and retains its real rollover and public-holder blockers;
 - net interest is endogenous and cannot be cut directly;
 - any primary-balance change must recompute subsequent debt and interest;
 - maturity, rate, interest-receipt, and other-financing inputs must be explicit;
-- regression-test fixture path remains null until the inputs exist;
-- only `net_interest_formula_contract_published` may be true;
+- the regression fixture must point to the CBO average-rate feedback artifact
+  and remain explicitly reduced-form rather than maturity-aware;
+- only the formula contract and reduced-form feedback fixture publication flags
+  may be true;
 - no net-interest path, solver, rate, target-cost, savings, waste, fraud,
   technology, department-cut, tax-proposal, public-rate-card, or
   balanced-budget claim may be published from this contract.

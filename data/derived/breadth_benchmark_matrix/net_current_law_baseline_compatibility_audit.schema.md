@@ -5,15 +5,15 @@ existing source custody. A `ready` disposition requires a compatible admitted
 artifact, not merely a related number.
 
 The audit admits the CBO CORE-G spine for annual debt stock, annual net
-interest, other financing, the FY2025–FY2035 horizon, and zero-policy-change
-topline reconciliation. It must reject aggregate average rates as maturity-
-bucket rates and reject unreconciled MSPD diagnostics as an annual rollover
-schedule.
+interest, matching-vintage average rates, other financing, the FY2025–FY2035
+horizon, zero-policy-change topline reconciliation, and reduced-form feedback.
+It must not mislabel aggregate average rates as maturity-bucket rates or MSPD
+snapshot diagnostics as an annual rollover schedule.
 
-The zero-policy fixture is limited to replaying the published topline and debt
-identities. It may not claim that the endogenous maturity-aware interest
-formula or a primary-balance shock has been reconciled.
+The original zero-policy fixture remains limited to replaying published topline
+and debt identities. A separate validated reduced-form fixture may prove
+incremental primary-balance feedback but may not claim maturity-aware feedback.
 
-Readiness totals must equal the underlying disposition rows: four of eight
-formula inputs and five of nine completion steps. Solver, interest-savings, and
-rate-effect claims remain false.
+Readiness totals must equal the underlying disposition rows: seven of eight
+formula inputs and six of nine completion steps. Full-stock maturity, solver,
+admitted interest-savings, and rate-effect claims remain false.

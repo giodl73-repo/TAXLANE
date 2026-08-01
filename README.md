@@ -376,9 +376,8 @@ The next fiscal slices are now explicit: [PAY's VA PLTSS same-cohort pilot](docs
 the [NET baseline completion plan](docs/reading/net-current-law-baseline-completion-plan.md),
 its [source-compatibility audit](docs/reading/net-current-law-baseline-compatibility-audit.md),
 and the [five-candidate fiscal rerun](docs/reading/verdict-five-candidate-fiscal-rerun.md).
-NET now admits three of eight formula inputs and completes four of nine baseline
-steps, including the zero-policy topline replay, while maturity-aware interest
-feedback remains blocked. Its
+NET's admitted CBO baseline includes debt, net interest, other financing, and
+the zero-policy topline replay. Its
 [Treasury MSPD snapshot reconciliation](docs/reading/net-interest-treasury-mspd-snapshot-reconciliation.md)
 also resolves Table 3/Table 5 units and overlap and reconciles 99.988249% future-
 maturity detail plus explicit residuals to total marketable debt. This is a
@@ -387,7 +386,11 @@ current snapshot seed, not annual rollover. The
 now explains gross interest and four signed receipt/offset components without
 cross-vintage stitching, while the
 [new-borrowing timing convention](docs/reading/net-interest-new-borrowing-timing-convention.md)
-raises NET readiness to 4/8 formula inputs and 5/9 baseline steps. The fiscal
+and [matching-vintage CBO average-rate feedback engine](docs/reading/net-interest-cbo-average-rate-feedback.md)
+now carry a mechanical primary change through current-year financing, later
+debt, and net interest. NET reaches 7/8 formula inputs, 6/9 completion steps,
+and 12/21 VERDICT capability. Full-stock annual maturity rollover and bucket
+rate stress remain blocked. The fiscal
 rerun still preserves the full $813.727B financing requirement and all three
 internal schedules because no candidate effect passed admission.
 

@@ -11,14 +11,23 @@ source-custodied annual debt held by the public, net interest, and explicit
 other-financing and timing values. The existing deterministic validator also
 replays every topline and debt identity with a zero policy delta.
 
-That makes four of eight formula inputs and five of nine completion steps
-ready. This is a real accounting advance: NET now has a bounded annual baseline
-to reconcile against rather than only a list of missing inputs.
+CORE-G also contains the matching-vintage FY2025–FY2035 projected average
+interest-rate path. Combined with the explicit borrowing-timing convention,
+that supports a reduced-form feedback engine which preserves the CBO baseline
+and calculates only policy deltas. Incremental interest receipts default to
+zero for a public-borrowing shock; any nonzero candidate effect requires
+evidence. A mechanical nonzero regression now proves later debt and interest
+movement.
+
+That makes seven of eight formula inputs and six of nine completion steps
+ready. The reduced-form engine is usable for a future admitted primary path,
+but it is not the full-stock maturity model.
 
 ## What remains incompatible
 
-The Treasury average-interest-rate artifact is latest-month aggregate context,
-not an annual effective-rate path by maturity bucket. The
+The Treasury average-interest-rate artifact remains latest-month snapshot
+context. It cross-checks current conditions but is not substituted for CBO's
+matching-vintage annual path. The
 [MSPD snapshot reconciliation](net-interest-treasury-mspd-snapshot-reconciliation.md)
 now resolves Table 3 and Table 5 units and overlap and reconciles Table 3 to
 Table 1 total marketable debt. The snapshot still does not allocate buckets
@@ -31,8 +40,9 @@ The remaining sequence is therefore substantive rather than architectural:
    rata inference and bridge June actuals to fiscal year end;
 2. define annual maturity buckets and rollover rules;
 3. map effective and stress rates to those buckets;
-4. obtain matching-CBO-vintage gross interest and receipt components; and
-5. prove that an admitted primary-balance shock changes later debt and interest.
+4. validate the full-stock result against the already-ready reduced-form result;
+   and
+5. run both only after an owner admits a real primary-balance path.
 
 No savings or rate changes follow from this audit. The five current candidates
 still contribute a zero admitted primary-balance delta.

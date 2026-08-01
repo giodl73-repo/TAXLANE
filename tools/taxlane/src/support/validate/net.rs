@@ -139,12 +139,14 @@ pub(crate) fn validate_net_interest_formula_contract(root: &Path) -> Result<(), 
         "debt_stock_bucket_t_minus_1",
         "effective_rate_bucket_t",
         "interest_receipts_t",
+        "average_rate_t * beginning_debt_delta_t",
         "After any primary-balance change",
-        "recompute deficit, debt, maturity-bucket debt stock, and subsequent net interest",
+        "recompute deficit, debt, and subsequent net interest",
     ] {
         let formula_text = format!(
-            "{} {}",
+            "{} {} {}",
             string_field(formula, "net_interest_t")?,
+            string_field(formula, "incremental_feedback_net_interest_t")?,
             string_field(formula, "iteration_rule")?
         );
         if !formula_text.contains(required) {
@@ -164,7 +166,7 @@ pub(crate) fn validate_net_interest_formula_contract(root: &Path) -> Result<(), 
         "baseline_debt_stock",
         "baseline_net_interest",
         "maturity_bucket_schedule",
-        "effective_rate_path_by_bucket",
+        "effective_rate_path",
         "new_borrowing_timing_rule",
         "interest_receipts_treatment",
         "explicit_other_financing_series",
@@ -181,6 +183,9 @@ pub(crate) fn validate_net_interest_formula_contract(root: &Path) -> Result<(), 
         "baseline_net_interest",
         "explicit_other_financing_series",
         "new_borrowing_timing_rule",
+        "effective_rate_path",
+        "interest_receipts_treatment",
+        "primary_balance_feedback_test_fixture",
     ]);
     for row in inputs {
         let input_id = string_field(row, "input_id")?;
@@ -225,6 +230,17 @@ pub(crate) fn validate_net_interest_formula_contract(root: &Path) -> Result<(), 
     {
         return Err("net-interest solver_ready must be false".to_string());
     }
+    if rules
+        .get("bounded_reduced_form_feedback_ready")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+        || rules
+            .get("full_stock_maturity_model_ready")
+            .and_then(serde_json::Value::as_bool)
+            != Some(false)
+    {
+        return Err("net-interest model-mode boundary failed".to_string());
+    }
 
     let regression = contract
         .get("regression_test_contract")
@@ -233,27 +249,24 @@ pub(crate) fn validate_net_interest_formula_contract(root: &Path) -> Result<(), 
         .get("required")
         .and_then(serde_json::Value::as_bool)
         != Some(true)
-        || regression.get("ready").and_then(serde_json::Value::as_bool) != Some(false)
+        || regression.get("ready").and_then(serde_json::Value::as_bool) != Some(true)
         || string_field(regression, "test_name")?
             != "primary_balance_change_recomputes_debt_and_interest"
-        || !regression
-            .get("test_fixture_path")
-            .is_some_and(serde_json::Value::is_null)
+        || string_field(regression, "test_fixture_path")? != NET_CBO_AVERAGE_RATE_FEEDBACK_JSON_PATH
+        || string_field(regression, "model_scope")? != "reduced_form_incremental_feedback"
     {
         return Err("net-interest regression contract failed".to_string());
     }
     let blocked = regression
-        .get("blocked_until")
+        .get("blocked_for_full_stock_mode")
         .and_then(serde_json::Value::as_array)
         .ok_or("net-interest regression blockers")?
         .iter()
         .filter_map(serde_json::Value::as_str)
         .collect::<BTreeSet<_>>();
     for required in [
-        "baseline_debt_stock",
         "maturity_bucket_schedule",
-        "effective_rate_path_by_bucket",
-        "primary_balance_feedback_test_fixture",
+        "bucket_rate_stress_path",
     ] {
         if !blocked.contains(required) {
             return Err(format!(
@@ -268,7 +281,10 @@ pub(crate) fn validate_net_interest_formula_contract(root: &Path) -> Result<(), 
         .ok_or("net-interest claims")?;
     for (field, value) in claims {
         let observed = value.as_bool().ok_or("net-interest claim bool")?;
-        if field == "net_interest_formula_contract_published" {
+        if matches!(
+            field.as_str(),
+            "net_interest_formula_contract_published" | "reduced_form_feedback_fixture_published"
+        ) {
             if !observed {
                 return Err("net-interest formula publish flag must be true".to_string());
             }
@@ -302,23 +318,23 @@ pub(crate) fn validate_net_interest_formula_contract(root: &Path) -> Result<(), 
         .map_err(|e| e.to_string())?;
     for required in [
         NET_INTEREST_FORMULA_CONTRACT_JSON_PATH,
-        "does not publish a debt path",
+        "does not publish an admitted debt path",
         "Now admitted",
         "baseline debt stock",
         "baseline net interest",
         "maturity bucket schedule",
-        "effective rate path by bucket",
+        "matching-vintage CBO FY2025–FY2035 average-interest-rate path",
         "new borrowing timing rule",
-        "interest receipts treatment",
+        "incremental interest-receipt treatment",
         "explicit other financing series",
-        "primary-balance feedback test fixture",
+        "reduced-form primary-balance feedback fixture",
         "Net interest is endogenous",
         "Net interest cannot be cut directly",
         "After any primary-balance change",
-        "recompute deficit, debt, maturity-bucket debt stock, and subsequent net interest",
+        "recompute deficit, debt, and subsequent net interest",
         "primary_balance_change_recomputes_debt_and_interest",
-        "fixture path is still null",
-        "zero-policy topline replay and new-borrowing timing convention are ready",
+        "CBO average-rate feedback model",
+        "maturity-aware feedback remains blocked",
         "not a net-interest path",
         "not a solver run",
         "not target-cost selection",
@@ -354,6 +370,7 @@ pub(crate) fn validate_net_current_law_baseline_compatibility_audit(
     validate_core_g_official_current_law_solver_spine(root)?;
     validate_net_interest_omb_pbd_gross_to_net_bridge(root)?;
     validate_net_interest_new_borrowing_timing_convention(root)?;
+    validate_net_interest_cbo_average_rate_feedback(root)?;
     let audit: serde_json::Value = serde_json::from_str(
         &fs::read_to_string(root.join(NET_BASELINE_COMPATIBILITY_AUDIT_JSON_PATH))
             .map_err(|e| e.to_string())?,
@@ -361,7 +378,7 @@ pub(crate) fn validate_net_current_law_baseline_compatibility_audit(
     .map_err(|e| e.to_string())?;
     if string_field(&audit, "record_id")? != "net-current-law-baseline-compatibility-audit:v1"
         || string_field(&audit, "status")?
-            != "partial_baseline_inputs_admitted_bucket_feedback_model_blocked"
+            != "reduced_form_feedback_inputs_admitted_full_maturity_model_blocked"
         || string_field(&audit, "formula_contract_path")? != NET_INTEREST_FORMULA_CONTRACT_JSON_PATH
         || string_field(&audit, "official_spine_path")? != CORE_G_SOLVER_SPINE_JSON_PATH
     {
@@ -382,14 +399,17 @@ pub(crate) fn validate_net_current_law_baseline_compatibility_audit(
         .collect::<Result<BTreeSet<_>, _>>()?;
     if inputs.len() != 8
         || steps.len() != 9
-        || ready_inputs != 4
-        || ready_steps != 5
+        || ready_inputs != 7
+        || ready_steps != 6
         || ready_ids
             != BTreeSet::from([
                 "baseline_debt_stock".to_string(),
                 "baseline_net_interest".to_string(),
                 "explicit_other_financing_series".to_string(),
                 "new_borrowing_timing_rule".to_string(),
+                "effective_rate_path".to_string(),
+                "interest_receipts_treatment".to_string(),
+                "primary_balance_feedback_test_fixture".to_string(),
             ])
     {
         return Err("NET compatibility readiness arithmetic failed".to_string());
@@ -402,13 +422,14 @@ pub(crate) fn validate_net_current_law_baseline_compatibility_audit(
         || int_field(fixture, "maximum_identity_residual_millions")? != 0
         || bool_field(fixture, "reconciles_endogenous_bucket_interest_formula")?
         || bool_field(fixture, "reconciles_primary_balance_interest_feedback")?
+        || !bool_field(fixture, "separate_reduced_form_feedback_fixture_ready")?
     {
         return Err("NET zero-policy reconciliation boundary failed".to_string());
     }
     let summary = &audit["readiness_summary"];
-    if int_field(summary, "formula_inputs_ready")? != 4
+    if int_field(summary, "formula_inputs_ready")? != 7
         || int_field(summary, "formula_inputs_required")? != 8
-        || int_field(summary, "completion_steps_ready")? != 5
+        || int_field(summary, "completion_steps_ready")? != 6
         || int_field(summary, "completion_steps_total")? != 9
         || !bool_field(summary, "annual_baseline_context_ready")?
         || bool_field(summary, "endogenous_interest_path_ready")?
@@ -424,7 +445,7 @@ pub(crate) fn validate_net_current_law_baseline_compatibility_audit(
     )
     .map_err(|e| e.to_string())?;
     let assessments = overlay["assessments"].as_array().ok_or("fiscal overlay assessments")?;
-    for (id, total) in [("PAY", 12), ("NET", 11), ("REV", 11)] {
+    for (id, total) in [("PAY", 12), ("NET", 12), ("REV", 11)] {
         let row = assessments
             .iter()
             .find(|row| row["overlay_id"] == id)
@@ -434,9 +455,154 @@ pub(crate) fn validate_net_current_law_baseline_compatibility_audit(
         }
     }
     if overlay["claim_booleans"]["annual_current_law_debt_path_admitted"] != true
+        || overlay["claim_booleans"]["reduced_form_feedback_engine_ready"] != true
         || overlay["claim_booleans"]["endogenous_debt_interest_path_admitted"] != false
     {
         return Err("NET overlay debt-path boundary failed".to_string());
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_net_interest_cbo_average_rate_feedback(
+    root: &Path,
+) -> Result<(), String> {
+    for path in [
+        NET_CBO_AVERAGE_RATE_FEEDBACK_JSON_PATH,
+        NET_CBO_AVERAGE_RATE_FEEDBACK_SCHEMA_PATH,
+        NET_CBO_AVERAGE_RATE_FEEDBACK_READER_PATH,
+        NET_CBO_AVERAGE_RATE_FEEDBACK_REVIEW_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing NET CBO feedback artifact: {path}"));
+        }
+    }
+    validate_core_g_official_current_law_solver_spine(root)?;
+    validate_net_interest_new_borrowing_timing_convention(root)?;
+    let record: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(NET_CBO_AVERAGE_RATE_FEEDBACK_JSON_PATH))
+            .map_err(|e| e.to_string())?,
+    )
+    .map_err(|e| e.to_string())?;
+    if string_field(&record, "record_id")? != "net-interest-cbo-average-rate-feedback:v1"
+        || string_field(&record, "status")?
+            != "matching_vintage_average_rate_and_reduced_form_feedback_ready_full_stock_model_blocked"
+        || string_field(&record, "core_g_path")? != CORE_G_SOLVER_SPINE_JSON_PATH
+    {
+        return Err("NET CBO feedback identity failed".to_string());
+    }
+    let source = &record["source_packet"];
+    if string_field(source, "source_vintage")? != "2026-02"
+        || string_field(source, "source_variable")? != "proj_debt_avg_interest_rate"
+        || int_field(source, "raw_byte_count")? != 145_228
+        || sha256_file(&root.join(string_field(source, "raw_artifact_path")?))?
+            != string_field(source, "raw_sha256")?
+    {
+        return Err("NET CBO feedback source custody failed".to_string());
+    }
+    let core: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(CORE_G_SOLVER_SPINE_JSON_PATH))
+            .map_err(|e| e.to_string())?,
+    )
+    .map_err(|e| e.to_string())?;
+    let rates = record["annual_average_rate_path"]
+        .as_array()
+        .ok_or("NET CBO rate rows")?;
+    let core_rows = core["annual_rows"].as_array().ok_or("CORE-G annual rows")?;
+    if rates.len() != 11 || core_rows.len() != 11 {
+        return Err("NET CBO rate horizon failed".to_string());
+    }
+    let mut rate_by_year = BTreeMap::new();
+    for (rate_row, core_row) in rates.iter().zip(core_rows) {
+        let year = int_field(rate_row, "fiscal_year")?;
+        let rate = number_field(rate_row, "average_interest_rate_percent")?;
+        if year != int_field(core_row, "fiscal_year")?
+            || (rate - number_field(core_row, "average_interest_rate_percent")?).abs() > 0.000001
+            || string_field(rate_row, "actual_or_projection")?
+                != string_field(core_row, "actual_or_projection")?
+        {
+            return Err(format!("NET CBO rate row failed: FY{year}"));
+        }
+        rate_by_year.insert(year, rate);
+    }
+    let zero = &record["zero_delta_regression"];
+    if int_field(zero, "annual_rows_checked")? != 11
+        || number_field(zero, "maximum_absolute_interest_delta_musd")?.abs() > 0.000001
+        || number_field(zero, "maximum_absolute_end_debt_delta_musd")?.abs() > 0.000001
+        || !bool_field(zero, "passed")?
+    {
+        return Err("NET CBO feedback zero fixture failed".to_string());
+    }
+    let fixture = &record["mechanical_feedback_fixture_not_admitted"];
+    let rows = fixture["annual_rows"].as_array().ok_or("NET CBO feedback rows")?;
+    if rows.len() != 10 || number_field(fixture, "exposure_fraction")? != 0.5 {
+        return Err("NET CBO feedback fixture shape failed".to_string());
+    }
+    let mut debt_delta = 0.0;
+    let mut cumulative_interest = 0.0;
+    for row in rows {
+        let year = int_field(row, "fiscal_year")?;
+        let rate_percent = *rate_by_year.get(&year).ok_or("missing feedback rate")?;
+        let rate = rate_percent / 100.0;
+        let financing = -number_field(row, "primary_balance_improvement_musd")?
+            + number_field(fixture, "explicit_policy_other_financing_delta_musd")?;
+        let exposure = rate * 0.5;
+        let interest = (rate * debt_delta + exposure * financing) / (1.0 - exposure);
+        debt_delta += financing + interest;
+        cumulative_interest += interest;
+        if (number_field(row, "average_interest_rate_percent")? - rate_percent).abs() > 0.000001
+            || (number_field(row, "incremental_primary_financing_musd")? - financing).abs()
+                > 0.000001
+            || (number_field(row, "incremental_net_interest_musd")? - interest).abs() > 0.000001
+            || (number_field(row, "end_debt_delta_musd")? - debt_delta).abs() > 0.000001
+        {
+            return Err(format!("NET CBO feedback arithmetic failed: FY{year}"));
+        }
+    }
+    if (number_field(fixture, "cumulative_net_interest_delta_fy2026_2035_musd")?
+        - cumulative_interest)
+        .abs()
+        > 0.000001
+        || (number_field(fixture, "fy2035_end_debt_delta_musd")? - debt_delta).abs()
+            > 0.000001
+    {
+        return Err("NET CBO feedback cumulative result failed".to_string());
+    }
+    let effect = &record["readiness_effect"];
+    if int_field(effect, "formula_inputs_ready_before")? != 4
+        || int_field(effect, "formula_inputs_ready_after")? != 7
+        || int_field(effect, "completion_steps_ready_before")? != 5
+        || int_field(effect, "completion_steps_ready_after")? != 6
+        || int_field(effect, "net_verdict_score_before")? != 11
+        || int_field(effect, "net_verdict_score_after")? != 12
+    {
+        return Err("NET CBO feedback readiness effect failed".to_string());
+    }
+    let claims = record["claim_booleans"].as_object().ok_or("NET CBO feedback claims")?;
+    for (field, value) in claims {
+        let expected = matches!(
+            field.as_str(),
+            "matching_vintage_average_rate_path_ready"
+                | "incremental_interest_receipts_treatment_ready"
+                | "reduced_form_primary_balance_feedback_fixture_ready"
+        );
+        if value.as_bool().ok_or("NET CBO feedback claim bool")? != expected {
+            return Err(format!("NET CBO feedback claim boundary failed: {field}"));
+        }
+    }
+    let reader = fs::read_to_string(root.join(NET_CBO_AVERAGE_RATE_FEEDBACK_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        "3.383%",
+        "3.919%",
+        "$1.731470 billion",
+        "$42.326809 billion",
+        "$142.326809",
+        "not admitted savings",
+        "not the full-stock maturity model",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("NET CBO feedback reader missing {required}"));
+        }
     }
     Ok(())
 }

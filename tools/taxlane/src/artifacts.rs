@@ -683,6 +683,14 @@ pub(crate) const NET_NEW_BORROWING_TIMING_READER_PATH: &str =
     "docs/reading/net-interest-new-borrowing-timing-convention.md";
 pub(crate) const NET_ACCOUNTING_BRIDGE_REVIEW_PATH: &str =
     "reviews/2026-07-31-net-accounting-bridge-role-review.md";
+pub(crate) const NET_CBO_AVERAGE_RATE_FEEDBACK_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/net_interest_cbo_average_rate_feedback.v1.draft.json";
+pub(crate) const NET_CBO_AVERAGE_RATE_FEEDBACK_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/net_interest_cbo_average_rate_feedback.schema.md";
+pub(crate) const NET_CBO_AVERAGE_RATE_FEEDBACK_READER_PATH: &str =
+    "docs/reading/net-interest-cbo-average-rate-feedback.md";
+pub(crate) const NET_CBO_AVERAGE_RATE_FEEDBACK_REVIEW_PATH: &str =
+    "reviews/2026-08-01-net-cbo-average-rate-feedback-role-review.md";
 
 pub(crate) const NET_INTEREST_PBD_FY2025_2031_CURRENT_LAW_CONTEXT_PATH_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/net_interest_pbd_fy2025_2031_current_law_context_path.v1.draft.json";
 
@@ -10951,6 +10959,34 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         path: NET_ACCOUNTING_BRIDGE_REVIEW_PATH,
         role: "NET accounting bridge role review",
         grain: "source, accounting, and fiscal fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: NET_CBO_AVERAGE_RATE_FEEDBACK_JSON_PATH,
+        role: "NET CBO average-rate feedback engine",
+        grain: "matching-vintage rate path and reduced-form debt-service feedback",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: NET_CBO_AVERAGE_RATE_FEEDBACK_SCHEMA_PATH,
+        role: "NET CBO average-rate feedback schema",
+        grain: "delta-model identity, fixtures, and full-stock boundary",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: NET_CBO_AVERAGE_RATE_FEEDBACK_READER_PATH,
+        role: "NET CBO average-rate feedback reader",
+        grain: "public method, mechanical result, and claim boundary",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: NET_CBO_AVERAGE_RATE_FEEDBACK_REVIEW_PATH,
+        role: "NET CBO average-rate feedback role review",
+        grain: "source, accounting, service, and fiscal fixed point",
         kind: "markdown",
         canonical: "supporting",
     },

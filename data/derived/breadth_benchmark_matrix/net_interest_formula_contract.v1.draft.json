@@ -2,7 +2,7 @@
   "record_id": "net-interest-formula-contract:v1",
   "record_family": "net_interest_formula_contract",
   "version": "v1.draft",
-  "status": "draft_contract_partial_baseline_inputs_ready_bucket_feedback_blocked",
+  "status": "draft_contract_reduced_form_feedback_ready_full_maturity_model_blocked",
   "pulse": 104,
   "solver_input_inventory_path": "data/derived/breadth_benchmark_matrix/solver_input_inventory.v1.draft.json",
   "program_lane_target_cost_contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
@@ -15,17 +15,18 @@
     "deficit": "primary_outlays + net_interest - total_federal_receipts",
     "debt_t": "debt_t_minus_1 + deficit_t + explicit_other_financing_t",
     "net_interest_t": "sum_over_maturity_buckets(debt_stock_bucket_t_minus_1 * effective_rate_bucket_t) + new_borrowing_interest_t - interest_receipts_t",
-    "iteration_rule": "After any primary-balance change, recompute deficit, debt, maturity-bucket debt stock, and subsequent net interest before any solver output is eligible."
+    "incremental_feedback_net_interest_t": "(average_rate_t * beginning_debt_delta_t + average_rate_t * exposure_fraction_t * incremental_primary_financing_t) / (1 - average_rate_t * exposure_fraction_t)",
+    "iteration_rule": "After any primary-balance change, recompute deficit, debt, and subsequent net interest; recompute maturity-bucket debt stock when using the full-stock maturity model."
   },
   "required_inputs": [
     {"input_id": "baseline_debt_stock", "required": true, "ready": true, "value": {"path":"data/derived/breadth_benchmark_matrix/core_g_official_current_law_solver_spine.v1.draft.json","fields":["debt_held_by_public_begin_musd","debt_held_by_public_end_musd"],"fiscal_year_start":2025,"fiscal_year_end":2035}, "blockers": []},
     {"input_id": "baseline_net_interest", "required": true, "ready": true, "value": {"path":"data/derived/breadth_benchmark_matrix/core_g_official_current_law_solver_spine.v1.draft.json","field":"net_interest_musd","fiscal_year_start":2025,"fiscal_year_end":2035}, "blockers": []},
     {"input_id": "maturity_bucket_schedule", "required": true, "ready": false, "value": null, "partial_evidence_path": "data/derived/breadth_benchmark_matrix/net_interest_treasury_mspd_snapshot_reconciliation.v1.draft.json", "blockers": ["debt-held-public bucket allocation", "rollover rule", "annual horizon"]},
-    {"input_id": "effective_rate_path_by_bucket", "required": true, "ready": false, "value": null, "blockers": ["rate source", "bucket mapping", "stress-rate rule"]},
+    {"input_id": "effective_rate_path", "required": true, "ready": true, "value": {"path":"data/derived/breadth_benchmark_matrix/net_interest_cbo_average_rate_feedback.v1.draft.json","field":"annual_average_rate_path","fiscal_year_start":2025,"fiscal_year_end":2035,"model_scope":"matching-vintage reduced-form incremental feedback"}, "blockers": []},
     {"input_id": "new_borrowing_timing_rule", "required": true, "ready": true, "value": {"path":"data/derived/breadth_benchmark_matrix/net_interest_new_borrowing_timing_convention.v1.draft.json","central_exposure_fraction":0.5,"sensitivity_exposure_fractions":[1.0,0.0],"rounding":"after identity reconciliation"}, "blockers": []},
-    {"input_id": "interest_receipts_treatment", "required": true, "ready": false, "value": null, "partial_evidence_path": "data/derived/breadth_benchmark_matrix/net_interest_omb_pbd_gross_to_net_bridge.v1.draft.json", "blockers": ["matching CBO-vintage gross-to-net bridge", "credited receipts values for admitted baseline"]},
+    {"input_id": "interest_receipts_treatment", "required": true, "ready": true, "value": {"path":"data/derived/breadth_benchmark_matrix/net_interest_cbo_average_rate_feedback.v1.draft.json","baseline_treatment":"embedded in admitted CBO net interest","incremental_default_musd":0,"nonzero_rule":"candidate-specific evidence required"}, "blockers": []},
     {"input_id": "explicit_other_financing_series", "required": true, "ready": true, "value": {"path":"data/derived/breadth_benchmark_matrix/core_g_official_current_law_solver_spine.v1.draft.json","fields":["reported_other_financing_musd","timing_residual_musd","other_financing_and_timing_musd"],"fiscal_year_start":2025,"fiscal_year_end":2035}, "blockers": []},
-    {"input_id": "primary_balance_feedback_test_fixture", "required": true, "ready": false, "value": null, "blockers": ["test baseline", "primary-change shock", "expected debt and interest movement"]}
+    {"input_id": "primary_balance_feedback_test_fixture", "required": true, "ready": true, "value": {"path":"data/derived/breadth_benchmark_matrix/net_interest_cbo_average_rate_feedback.v1.draft.json","fixture_id":"one_time_fy2026_primary_improvement_100b","model_scope":"mechanical_not_admitted"}, "blockers": []}
   ],
   "compatibility_audit_path": "data/derived/breadth_benchmark_matrix/net_current_law_baseline_compatibility_audit.v1.draft.json",
   "contract_rules": {
@@ -37,17 +38,21 @@
     "interest_receipts_must_be_explicit": true,
     "explicit_other_financing_must_be_explicit": true,
     "missing_values_remain_null": true,
+    "bounded_reduced_form_feedback_ready": true,
+    "full_stock_maturity_model_ready": false,
     "solver_ready": false
   },
   "regression_test_contract": {
     "required": true,
-    "ready": false,
+    "ready": true,
     "test_name": "primary_balance_change_recomputes_debt_and_interest",
-    "test_fixture_path": null,
-    "blocked_until": ["baseline_debt_stock", "maturity_bucket_schedule", "effective_rate_path_by_bucket", "primary_balance_feedback_test_fixture"]
+    "test_fixture_path": "data/derived/breadth_benchmark_matrix/net_interest_cbo_average_rate_feedback.v1.draft.json",
+    "model_scope": "reduced_form_incremental_feedback",
+    "blocked_for_full_stock_mode": ["maturity_bucket_schedule", "bucket_rate_stress_path"]
   },
   "claim_booleans": {
     "net_interest_formula_contract_published": true,
+    "reduced_form_feedback_fixture_published": true,
     "net_interest_path_published": false,
     "solver_ready": false,
     "target_cost_published": false,

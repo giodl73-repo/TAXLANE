@@ -1,0 +1,111 @@
+{
+  "record_id": "net-interest-cbo-average-rate-feedback:v1",
+  "record_family": "net_interest_cbo_average_rate_feedback",
+  "version": "v1.draft",
+  "status": "matching_vintage_average_rate_and_reduced_form_feedback_ready_full_stock_model_blocked",
+  "as_of_date": "2026-08-01",
+  "lane_id": "net-interest",
+  "core_g_path": "data/derived/breadth_benchmark_matrix/core_g_official_current_law_solver_spine.v1.draft.json",
+  "timing_convention_path": "data/derived/breadth_benchmark_matrix/net_interest_new_borrowing_timing_convention.v1.draft.json",
+  "source_packet": {
+    "source_id": "SRC-CBO-OPEN-DATA-TEN-YEAR-BUDGET-2026-02",
+    "source_vintage": "2026-02",
+    "raw_artifact_path": "data/raw/cbo/SRC-CBO-OPEN-DATA-TEN-YEAR-BUDGET-2026-02/2026-07-23/annual_fy_2026-02.csv",
+    "raw_byte_count": 145228,
+    "raw_sha256": "6a2d727e70fb53512e45afdcc8d145f7dc952b2d4e87ca03591cb4e5bd63f0db",
+    "source_variable": "proj_debt_avg_interest_rate",
+    "unit": "percent"
+  },
+  "model_scope": {
+    "baseline_authority": "CBO February 2026 debt-held-public and net-interest path remains unchanged",
+    "calculated_object": "incremental debt-held-public and net-interest deltas caused by an admitted primary-balance change",
+    "rate_role": "CBO projected average interest rate on debt is the matching-vintage first-order rate for the incremental debt delta",
+    "interest_receipts_treatment": "baseline receipts remain embedded in CBO net interest; incremental interest-receipt delta defaults to zero because the modeled shock changes public borrowing, and any nonzero receipt effect requires separate evidence",
+    "other_financing_treatment": "policy other-financing delta defaults to zero and must be explicit when nonzero",
+    "not_full_stock_maturity_model": true,
+    "not_marginal_auction_yield_forecast": true,
+    "not_official_policy_score": true
+  },
+  "annual_average_rate_path": [
+    {"fiscal_year": 2025, "actual_or_projection": "actual", "average_interest_rate_percent": 3.383},
+    {"fiscal_year": 2026, "actual_or_projection": "projection", "average_interest_rate_percent": 3.404},
+    {"fiscal_year": 2027, "actual_or_projection": "projection", "average_interest_rate_percent": 3.410},
+    {"fiscal_year": 2028, "actual_or_projection": "projection", "average_interest_rate_percent": 3.526},
+    {"fiscal_year": 2029, "actual_or_projection": "projection", "average_interest_rate_percent": 3.616},
+    {"fiscal_year": 2030, "actual_or_projection": "projection", "average_interest_rate_percent": 3.692},
+    {"fiscal_year": 2031, "actual_or_projection": "projection", "average_interest_rate_percent": 3.775},
+    {"fiscal_year": 2032, "actual_or_projection": "projection", "average_interest_rate_percent": 3.852},
+    {"fiscal_year": 2033, "actual_or_projection": "projection", "average_interest_rate_percent": 3.881},
+    {"fiscal_year": 2034, "actual_or_projection": "projection", "average_interest_rate_percent": 3.904},
+    {"fiscal_year": 2035, "actual_or_projection": "projection", "average_interest_rate_percent": 3.919}
+  ],
+  "reduced_form_identity": {
+    "rate_decimal": "average_interest_rate_percent / 100",
+    "current_year_exposure": "rate_decimal * exposure_fraction",
+    "incremental_primary_financing": "-primary_balance_improvement + explicit_policy_other_financing_delta",
+    "incremental_net_interest": "(rate_decimal * beginning_debt_delta + current_year_exposure * incremental_primary_financing) / (1 - current_year_exposure)",
+    "end_debt_delta": "beginning_debt_delta + incremental_primary_financing + incremental_net_interest",
+    "precision": "calculate in millions of dollars to at least six decimal places; round display only"
+  },
+  "zero_delta_regression": {
+    "fiscal_year_start": 2025,
+    "fiscal_year_end": 2035,
+    "annual_rows_checked": 11,
+    "primary_balance_improvement_musd": 0,
+    "explicit_policy_other_financing_delta_musd": 0,
+    "maximum_absolute_interest_delta_musd": 0,
+    "maximum_absolute_end_debt_delta_musd": 0,
+    "passed": true
+  },
+  "mechanical_feedback_fixture_not_admitted": {
+    "fixture_id": "one_time_fy2026_primary_improvement_100b",
+    "description": "A one-time $100 billion FY2026 primary-balance improvement tests sign, timing, circularity, and later-year compounding; it is not a candidate or savings estimate.",
+    "exposure_fraction": 0.5,
+    "explicit_policy_other_financing_delta_musd": 0,
+    "annual_rows": [
+      {"fiscal_year": 2026, "primary_balance_improvement_musd": 100000, "incremental_primary_financing_musd": -100000, "average_interest_rate_percent": 3.404, "incremental_net_interest_musd": -1731.469613, "end_debt_delta_musd": -101731.469613},
+      {"fiscal_year": 2027, "primary_balance_improvement_musd": 0, "incremental_primary_financing_musd": 0, "average_interest_rate_percent": 3.410, "incremental_net_interest_musd": -3529.216251, "end_debt_delta_musd": -105260.685864},
+      {"fiscal_year": 2028, "primary_balance_improvement_musd": 0, "incremental_primary_financing_musd": 0, "average_interest_rate_percent": 3.526, "incremental_net_interest_musd": -3778.099681, "end_debt_delta_musd": -109038.785545},
+      {"fiscal_year": 2029, "primary_balance_improvement_musd": 0, "incremental_primary_financing_musd": 0, "average_interest_rate_percent": 3.616, "incremental_net_interest_musd": -4015.441671, "end_debt_delta_musd": -113054.227215},
+      {"fiscal_year": 2030, "primary_balance_improvement_musd": 0, "incremental_primary_financing_musd": 0, "average_interest_rate_percent": 3.692, "incremental_net_interest_musd": -4252.462527, "end_debt_delta_musd": -117306.689742},
+      {"fiscal_year": 2031, "primary_balance_improvement_musd": 0, "incremental_primary_financing_musd": 0, "average_interest_rate_percent": 3.775, "incremental_net_interest_musd": -4513.520232, "end_debt_delta_musd": -121820.209975},
+      {"fiscal_year": 2032, "primary_balance_improvement_musd": 0, "incremental_primary_financing_musd": 0, "average_interest_rate_percent": 3.852, "incremental_net_interest_musd": -4784.667178, "end_debt_delta_musd": -126604.877153},
+      {"fiscal_year": 2033, "primary_balance_improvement_musd": 0, "incremental_primary_financing_musd": 0, "average_interest_rate_percent": 3.881, "incremental_net_interest_musd": -5010.769260, "end_debt_delta_musd": -131615.646412},
+      {"fiscal_year": 2034, "primary_balance_improvement_musd": 0, "incremental_primary_financing_musd": 0, "average_interest_rate_percent": 3.904, "incremental_net_interest_musd": -5240.570778, "end_debt_delta_musd": -136856.217190},
+      {"fiscal_year": 2035, "primary_balance_improvement_musd": 0, "incremental_primary_financing_musd": 0, "average_interest_rate_percent": 3.919, "incremental_net_interest_musd": -5470.591390, "end_debt_delta_musd": -142326.808580}
+    ],
+    "cumulative_net_interest_delta_fy2026_2035_musd": -42326.808580,
+    "fy2035_end_debt_delta_musd": -142326.808580
+  },
+  "readiness_effect": {
+    "matching_vintage_average_rate_path_ready": true,
+    "incremental_interest_receipts_treatment_ready": true,
+    "reduced_form_primary_balance_feedback_fixture_ready": true,
+    "full_stock_maturity_bucket_schedule_ready": false,
+    "bucket_rate_stress_path_ready": false,
+    "formula_inputs_ready_before": 4,
+    "formula_inputs_ready_after": 7,
+    "completion_steps_ready_before": 5,
+    "completion_steps_ready_after": 6,
+    "net_verdict_score_before": 11,
+    "net_verdict_score_after": 12
+  },
+  "remaining_full_model_blockers": [
+    "annual debt-held-public maturity-bucket stock and rollover",
+    "bucket-specific rate mapping and stress paths",
+    "candidate-specific nonzero interest-receipt or other-financing effects when applicable",
+    "an admitted primary-balance path before any policy result"
+  ],
+  "claim_booleans": {
+    "matching_vintage_average_rate_path_ready": true,
+    "incremental_interest_receipts_treatment_ready": true,
+    "reduced_form_primary_balance_feedback_fixture_ready": true,
+    "full_stock_maturity_model_ready": false,
+    "bucket_rate_stress_path_ready": false,
+    "candidate_primary_effect_admitted": false,
+    "interest_savings_admitted": false,
+    "solver_ready": false,
+    "rate_effect": false
+  },
+  "public_warning": "The CBO average-rate path and reduced-form feedback fixture can reproduce the direction and first-order debt-service consequences of an admitted primary-balance change while preserving the CBO baseline. The $100 billion fixture is mechanical and not admitted savings. This is not a maturity-bucket model, auction-yield forecast, official score, solver result, rate change, or balanced-budget claim."
+}
