@@ -1334,6 +1334,7 @@ pub(crate) fn validate_global_country_comparison_coverage(root: &Path) -> Result
     validate_hlt_fiscal_package_conversion(root)?;
     validate_def_fiscal_package_conversion(root)?;
     validate_pay_fiscal_package_conversion(root)?;
+    validate_fifteen_lane_candidate_execution_frontier(root)?;
     validate_oas_fiscal_package_conversion(root)?;
     validate_net_fiscal_package_conversion(root)?;
     validate_rev_level_2_rate_reconciliation(root)?;
@@ -13975,6 +13976,9 @@ pub(crate) fn validate_pay_fiscal_package_conversion(root: &Path) -> Result<(), 
         .get("selected_control")
         .ok_or("PAY selected control")?;
     let method = control.get("causal_method").ok_or("PAY causal method")?;
+    let authority = control
+        .get("current_law_authority")
+        .ok_or("PAY current-law authority")?;
     let scale = control.get("scale_findings").ok_or("PAY scale findings")?;
     let decision = control.get("decision").ok_or("PAY control decision")?;
     if int_field(&control, "pulse")? != 431
@@ -13989,6 +13993,16 @@ pub(crate) fn validate_pay_fiscal_package_conversion(root: &Path) -> Result<(), 
             method,
             "full_dmf_was_sole_death_data_source_for_counted_payments",
         )?
+        || !bool_field(method, "permanent_current_law_authority_enacted")?
+        || string_field(authority, "public_law")? != "119-77"
+        || string_field(authority, "effective_date")? != "2026-12-27"
+        || !bool_field(authority, "permanent_full_dmf_access")?
+        || !bool_field(authority, "clear_and_convincing_death_evidence_required")?
+        || !bool_field(
+            authority,
+            "erroneous_death_notification_to_connected_agencies_required",
+        )?
+        || bool_field(authority, "authority_is_fy2026_budget_score")?
         || bool_field(method, "prevention_identification_recovery_split_available")?
         || bool_field(method, "cash_return_disposition_available")?
         || (number_field(scale, "net_benefit_share_of_assumed_500b_target_percent")? - 0.0218).abs()
@@ -14020,10 +14034,10 @@ pub(crate) fn validate_pay_fiscal_package_conversion(root: &Path) -> Result<(), 
         })
         .count();
     if int_field(&audit, "pulse")? != 432
-        || gates.len() != 8
-        || pass_count != 2
+        || gates.len() != 9
+        || pass_count != 3
         || blocked_count != 6
-        || int_field(candidate, "evidence_pass_count")? != 2
+        || int_field(candidate, "evidence_pass_count")? != 3
         || int_field(candidate, "required_blocked_count")? != 6
         || bool_field(candidate, "all_required_gates_pass")?
         || bool_field(candidate, "candidate_admitted_to_spending_package")?
@@ -14056,6 +14070,63 @@ pub(crate) fn validate_pay_fiscal_package_conversion(root: &Path) -> Result<(), 
         return Err("fiscal-package PAY contribution bridge failed".to_string());
     }
     validate_blocked_outputs_null(&package, "fiscal-package PAY bridge")?;
+    Ok(())
+}
+
+pub(crate) fn validate_fifteen_lane_candidate_execution_frontier(
+    root: &Path,
+) -> Result<(), String> {
+    let frontier = read_json_artifact(root, FIFTEEN_LANE_CANDIDATE_FRONTIER_JSON_PATH)?;
+    let rows = frontier
+        .get("lane_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("candidate frontier lane rows")?;
+    let expected_tracks = [
+        "AGR", "DEF", "DIS", "EDU", "HLT", "INT", "ISF", "JUS", "NET", "OAS", "PAY", "REV", "SEE",
+        "TRN", "VET",
+    ]
+    .into_iter()
+    .map(str::to_owned)
+    .collect::<BTreeSet<_>>();
+    let tracks = rows
+        .iter()
+        .map(|row| string_field(row, "track"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let mut bands = BTreeMap::new();
+    for row in rows {
+        *bands
+            .entry(string_field(row, "priority_band")?)
+            .or_insert(0usize) += 1;
+        if bool_field(row, "candidate_admitted")?
+            || string_field(row, "strongest_evidence")?.is_empty()
+            || string_field(row, "decisive_blocker")?.is_empty()
+        {
+            return Err("candidate frontier row boundary failed".to_string());
+        }
+    }
+    let decision = frontier
+        .get("portfolio_decision")
+        .ok_or("candidate frontier decision")?;
+    let claims = frontier
+        .get("claim_boundaries")
+        .ok_or("candidate frontier claims")?;
+    if rows.len() != 15
+        || tracks != expected_tracks
+        || bands.get("A_advance_now") != Some(&1)
+        || bands.get("B_monitor_active") != Some(&2)
+        || bands.get("C_dependency_audit") != Some(&3)
+        || bands.get("D_owner_outcome_evidence") != Some(&7)
+        || bands.get("E_downstream_only") != Some(&2)
+        || string_field(decision, "selected_next_track")? != "PAY"
+        || int_field(decision, "admitted_candidate_count")? != 0
+        || bool_field(decision, "selection_is_spending_admission")?
+        || bool_field(claims, "official_request_made")?
+        || bool_field(claims, "public_release_authorized")?
+        || bool_field(claims, "candidate_admitted")?
+        || bool_field(claims, "rate_change_allowed")?
+    {
+        return Err("fifteen-lane candidate execution frontier failed".to_string());
+    }
     Ok(())
 }
 

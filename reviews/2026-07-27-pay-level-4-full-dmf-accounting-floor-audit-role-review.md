@@ -8,7 +8,8 @@
 - Distribution specialist: required false-positive, appeal, burden, and access
   evidence.
 - Systems engineer: required owning-lane allocation and recurring fiscal timing.
-- Adversarial auditor: confirmed two passes and six blocked gates.
+- Adversarial auditor: confirmed three passes and six blocked gates after the
+  enacted-authority update.
 - Public explainer: preserved the distinction between promising control and
   additive savings.
 

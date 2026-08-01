@@ -5,6 +5,14 @@ full Death Master File. Treasury reported $113.5 million of calendar-2024
 payments prevented, identified, or recovered and $4.6 million of cost, producing
 a $108.9 million net benefit.
 
+The authority is no longer merely a temporary pilot dependency. Public Law
+119-77, approved February 10, 2026 and effective December 27, 2026, makes the
+full-DMF sharing requirement permanent. It also requires clear and convincing
+evidence before SSA records a presumed death and requires notification to
+connected agencies when an erroneous death record is corrected. Those are
+material durability and due-process design facts, not measured false-positive
+or appeal outcomes.
+
 The causal boundary is stronger than a government-wide error estimate. Treasury
 counted payments for which the full DMF was the sole death-data source and used
 agency determinations that the payments were improper. The result is only

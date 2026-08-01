@@ -2245,6 +2245,9 @@ pub(crate) const PAY_LEVEL_3_CONTROL_JSON_PATH: &str =
 
 pub(crate) const PAY_LEVEL_4_AUDIT_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/pay_level_4_full_dmf_accounting_floor_audit.v1.draft.json";
 
+pub(crate) const FIFTEEN_LANE_CANDIDATE_FRONTIER_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/fifteen_lane_candidate_execution_frontier.v1.draft.json";
+
 pub(crate) const FISCAL_PACKAGE_PAY_BRIDGE_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/fiscal_package_pay_contribution_bridge.v1.draft.json";
 
@@ -11073,6 +11076,34 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         path: NET_EMPIRICAL_ROLLOVER_REVIEW_PATH,
         role: "NET MSPD empirical marginal-rollover role review",
         grain: "source, accounting, service, and fiscal fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: FIFTEEN_LANE_CANDIDATE_FRONTIER_JSON_PATH,
+        role: "Fifteen-lane candidate execution frontier",
+        grain: "one evidence-closure disposition per fiscal lane",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/fifteen_lane_candidate_execution_frontier.schema.md",
+        role: "Fifteen-lane candidate execution-frontier schema",
+        grain: "priority, execution-class, and authority boundary",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/fifteen-lane-candidate-execution-frontier.md",
+        role: "Fifteen-lane candidate execution-frontier reader",
+        grain: "all-lane selection result and remaining blockers",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-08-01-fifteen-lane-candidate-execution-frontier-role-review.md",
+        role: "Fifteen-lane candidate execution-frontier role review",
+        grain: "finance, service, distribution, and scope fixed point",
         kind: "markdown",
         canonical: "supporting",
     },

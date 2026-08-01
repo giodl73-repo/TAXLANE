@@ -22,7 +22,7 @@ supporting views.
 
 | Path | Role | Grain | Rows | Canonical | SHA-256 |
 |---|---|---|---:|---|---|
-| `README.md` | Repository overview | documentation | n/a | supporting | `1079e4e5b065075ae89926cda2b00d9fc178095c6a8de91fa74b7a56c52174d1` |
+| `README.md` | Repository overview | documentation | n/a | supporting | `fc7c29f32604e3e2af9803dfc8473a3183bdafa0e77d0158cdec78836143af68` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.draft.jsonl` | Canonical annual model rows | fiscal year by broad category | 516 | yes | `01c0fec63836f3652fdd83b03a608159ad58f7614fc214ae6691421990f3a85e` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.decade-summary.jsonl` | Canonical decade summary rows | decade by broad category | 54 | yes | `088cb5d55cc6a37ab52dd543d8a92bf09908cda265e9c9f93324b840eb652fb3` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.annual-wide.csv` | Chart-ready annual wide view | fiscal year | 86 | no | `cbe6ec44a77b9ef4adebaef37acc4b55ac23fd5eb21916989ae9518cbd4e4c31` |
@@ -889,7 +889,7 @@ supporting views.
 | `data/derived/accountability_evidence/performance-demand-checklist.schema.md` | Accountability performance demand checklist schema | documentation | n/a | supporting | `afdcb11bb20a75709acabb690655fd03ba8d3a56df522c7b09e8d4b4ffeff6d1` |
 | `data/derived/accountability_evidence/artifact-map.md` | Accountability artifact map | documentation | n/a | supporting | `f7b17b6046644a00ef117962cf60b089747c2fec1a7f91f0e13ecf9b9dd33a7b` |
 | `docs/reading/accountability-public-brief.md` | Reader-facing accountability brief | documentation | n/a | supporting | `cc225ff43f81fa0316f85a8f8ede225f5d1a51470f81d2a296e32820e7434c35` |
-| `docs/reading/README.md` | Reading packet index | documentation | n/a | supporting | `bc47596313c70b9076f770e01ef4cad745cdc620590f852a4522473510f642d8` |
+| `docs/reading/README.md` | Reading packet index | documentation | n/a | supporting | `295a4c5fe9c6c9c37c2159c8b4d58846dae60d81e3d7be70d95527c4a6f1eb7a` |
 | `docs/reading/placeholder-visibility-receipt.md` | Placeholder receipt reader packet | documentation | n/a | supporting | `4be976503aabb6c21ec77a553f185918190ebcb00e3300930d37e3a7a12f962e` |
 | `docs/reading/placeholder-receipt-display-packet.md` | Placeholder receipt static display packet | documentation | n/a | supporting | `aa2f3fd899fa1dd763b9482c4d4aae81fcde3e77aeb8ce01b1626d10155f35f2` |
 | `reviews/2026-06-23-placeholder-display-packet-role-review.md` | Placeholder receipt display packet role review | documentation | n/a | supporting | `1a0825afa9a4db902ea1d17a0a69443e0caeb2a6ae7c805f3718282c8806fd68` |
@@ -965,6 +965,10 @@ supporting views.
 | `data/derived/breadth_benchmark_matrix/net_interest_mspd_empirical_rollover_convention.schema.md` | NET MSPD empirical marginal-rollover schema | inclusive extraction, term mix, and model boundary | n/a | supporting | `e331a624978f1efdbd0b2f9d187e53665c2ff19760cfd8bef818e145eb0c8973` |
 | `docs/reading/net-interest-mspd-empirical-rollover-convention.md` | NET MSPD empirical marginal-rollover reader | issuance mix, fixture meaning, and claim boundary | n/a | supporting | `de964e52de99778bda77b0ac0760bb515f56dab5956f7e4dd4578744f00fb5b1` |
 | `reviews/2026-08-01-net-empirical-rollover-role-review.md` | NET MSPD empirical marginal-rollover role review | source, accounting, service, and fiscal fixed point | n/a | supporting | `88f1e5ef5dbc57c2884d500f714794bfe099036cdbb82671005ee43ef7bc5d57` |
+| `data/derived/breadth_benchmark_matrix/fifteen_lane_candidate_execution_frontier.v1.draft.json` | Fifteen-lane candidate execution frontier | one evidence-closure disposition per fiscal lane | n/a | supporting | `a37b73bb400dce57dc3aec16f7a4f25842f97e35605007d9effcb5bb5b749d6e` |
+| `data/derived/breadth_benchmark_matrix/fifteen_lane_candidate_execution_frontier.schema.md` | Fifteen-lane candidate execution-frontier schema | priority, execution-class, and authority boundary | n/a | supporting | `ea6c99609a837a8d537252bd5a72da733c69e10a0111713b46cefc92d551957e` |
+| `docs/reading/fifteen-lane-candidate-execution-frontier.md` | Fifteen-lane candidate execution-frontier reader | all-lane selection result and remaining blockers | n/a | supporting | `70dd6f5e3b744ff629f649405253642385e3817efc63f77e35da8ecd2c1e0065` |
+| `reviews/2026-08-01-fifteen-lane-candidate-execution-frontier-role-review.md` | Fifteen-lane candidate execution-frontier role review | finance, service, distribution, and scope fixed point | n/a | supporting | `09bee2fa6422320ec5f5c8d647b8cb2b3257a6ce57e89dd01bab49196da3d58b` |
 
 ## Regeneration Order
 

@@ -1355,6 +1355,12 @@ mod global_country_comparison_tests {
     }
 
     #[test]
+    fn fifteen_lane_frontier_selects_pay_without_admitting_savings() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_fifteen_lane_candidate_execution_frontier(&root).unwrap();
+    }
+
+    #[test]
     fn oas_option_stays_on_solvency_rail_and_out_of_spending_and_rev() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_oas_fiscal_package_conversion(&root).unwrap();

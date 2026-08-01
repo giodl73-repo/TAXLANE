@@ -372,6 +372,15 @@ implementation, a veterans rights/service proposal, and a judicial-capacity
 proposal. Five of 35 gates are ready—all Trust—and no candidate supplies an
 admitted spending reduction or rate effect.
 
+The [15-lane execution frontier](docs/reading/fifteen-lane-candidate-execution-frontier.md)
+now ranks evidence closure rather than headline dollars. PAY's full-DMF control
+is the only advance-now candidate: calendar-2024 causal results and stated-cost
+netting are joined to permanent authority under Public Law 119-77. Three of
+nine gates pass, but the missing fiscal-event split, program and fund ownership,
+annual timing, and observed beneficiary floors keep its contribution at zero.
+CalFresh and Nepal remain active-monitor candidates; NET and REV remain
+downstream recomputations.
+
 The next fiscal slices are now explicit: [PAY's VA PLTSS same-cohort pilot](docs/reading/pay-va-pltss-same-cohort-pilot.md),
 the [NET baseline completion plan](docs/reading/net-current-law-baseline-completion-plan.md),
 its [source-compatibility audit](docs/reading/net-current-law-baseline-compatibility-audit.md),

@@ -1,8 +1,11 @@
 # PAY Level-4 full-DMF accounting and floor audit
 
-Two of eight gates pass: the control has a bounded causal attribution method,
-and its reported benefit is net of stated implementation and operating costs.
-That is enough to call the candidate promising, but not enough to count savings.
+Three of nine gates pass: the control has bounded causal attribution, its
+reported benefit is net of stated implementation and operating costs, and
+Public Law 119-77 supplies permanent legal authority effective December 27,
+2026 with explicit death-evidence and correction-notification safeguards. That
+is enough to make PAY the strongest currently implemented candidate in the
+portfolio, but not enough to count savings.
 
 Six gates remain blocked:
 

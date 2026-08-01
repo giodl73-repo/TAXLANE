@@ -14,3 +14,9 @@
 - Public explainer: approved “reported net benefit,” not “package savings.”
 
 Decision: approve PAY Level 3 as a causal-control evidence spine only.
+
+August 1 addendum: Public Law 119-77 passes current-law authority and durability
+effective December 27, 2026. Its clear-and-convincing evidence and erroneous-
+death notification rules strengthen the rights design. They do not supply
+observed error correction, appeal, distribution, fund disposition, or an
+annual budget effect, so the fiscal decision does not change.

@@ -1179,6 +1179,9 @@ It is the bounded public surface, not a performance or savings report.
      72-cell reconciliation, broad cross-snapshot drift finding, explicit
      display/replay precedence, and unchanged HLT, fiscal-target, and rate
      results.
+252. Read `fifteen-lane-candidate-execution-frontier.md` for the all-lane
+     evidence-closure screen, PAY/full-DMF advance-now selection, Public Law
+     119-77 durability finding, and unchanged zero-admission fiscal result.
 
 ## Public-Use Guardrail
 
