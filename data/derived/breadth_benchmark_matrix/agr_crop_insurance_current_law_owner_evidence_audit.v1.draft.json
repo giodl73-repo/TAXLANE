@@ -1,0 +1,236 @@
+{
+  "record_id": "agr-crop-insurance-current-law-owner-evidence-audit:v1",
+  "record_family": "agr_crop_insurance_current_law_owner_evidence_audit",
+  "version": "v1.draft",
+  "status": "agr_public_evidence_audit_complete_bundled_option_split_zero_admission",
+  "as_of_date": "2026-08-01",
+  "track": "AGR",
+  "candidate_id": "crop_insurance_subsidy_and_insurer_return_reduction",
+  "frontier_path": "data/derived/breadth_benchmark_matrix/seven_owner_outcome_lane_execution_frontier.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/agr_crop_insurance_current_law_owner_evidence_audit.schema.md",
+  "reader_path": "docs/reading/agr-crop-insurance-current-law-owner-evidence-audit.md",
+  "role_review_path": "reviews/2026-08-01-agr-crop-insurance-current-law-owner-evidence-audit-role-review.md",
+  "source_rows": [
+    {
+      "source_id": "SRC-CBO-60893",
+      "publisher": "Congressional Budget Office",
+      "title": "Reduce Subsidies in the Crop Insurance Program",
+      "publication_date": "2024-12-12",
+      "url": "https://www.cbo.gov/budget-options/60893",
+      "use": "two-component option design, vintage score, A&O cap, and return target"
+    },
+    {
+      "source_id": "SRC-CBO-62105",
+      "publisher": "Congressional Budget Office",
+      "title": "The Budget and Economic Outlook: 2026 to 2036",
+      "publication_date": "2026-02-11",
+      "url": "https://www.cbo.gov/publication/62105",
+      "use": "post-2025 current-law agriculture baseline and direction of crop-insurance costs"
+    },
+    {
+      "source_id": "SRC-GOVINFO-PL119-21",
+      "publisher": "U.S. Government Publishing Office",
+      "title": "Public Law 119-21",
+      "publication_date": "2025-07-04",
+      "url": "https://www.govinfo.gov/app/details/PLAW-119publ21",
+      "use": "enacted crop-insurance changes after the option vintage"
+    },
+    {
+      "source_id": "SRC-USDA-ERS-TITLE-XI-2026-04-02",
+      "publisher": "U.S. Department of Agriculture, Economic Research Service",
+      "title": "Title XI: Crop Insurance Program Provisions",
+      "publication_date": "2026-04-02",
+      "url": "https://www.ers.usda.gov/topics/farm-economy/farm-commodity-policy/title-xi-crop-insurance-program-provisions",
+      "use": "current program structure, 2024 average producer premium share, and post-2025 policy design"
+    },
+    {
+      "source_id": "SRC-USDA-ERS-EIB299-2026",
+      "publisher": "U.S. Department of Agriculture, Economic Research Service",
+      "title": "America's Farms and Ranches at a Glance: 2025 Edition",
+      "publication_date": "2026-02-10",
+      "url": "https://www.ers.usda.gov/media/20834/eib-299.pdf",
+      "use": "2024 farm-type participation, harvested-cropland, indemnity, and financial-risk context"
+    },
+    {
+      "source_id": "SRC-USDA-ERS-FCIP-AT-A-GLANCE-2025",
+      "publisher": "U.S. Department of Agriculture, Economic Research Service",
+      "title": "Crop Insurance at a Glance",
+      "publication_date": "2025-09-23",
+      "url": "https://www.ers.usda.gov/topics/farm-practices-management/risk-management/crop-insurance-at-a-glance",
+      "use": "2024 aggregate premium subsidies, program delivery cost, underwriting gains, liability, losses, and program-cost context"
+    },
+    {
+      "source_id": "SRC-USDA-RMA-SUMMARY-BUSINESS",
+      "publisher": "U.S. Department of Agriculture, Risk Management Agency",
+      "title": "Summary of Business",
+      "publication_date": null,
+      "accessed_date": "2026-08-01",
+      "url": "https://www.rma.usda.gov/summary-business",
+      "use": "current administrative reporting surface for policies, acres, liability, premium, subsidy, indemnity, and loss ratio"
+    },
+    {
+      "source_id": "SRC-GAO-24-106086",
+      "publisher": "U.S. Government Accountability Office",
+      "title": "Crop Insurance: Update on Opportunities to Reduce Program Costs",
+      "publication_date": "2023-11-07",
+      "url": "https://www.gao.gov/products/gao-24-106086",
+      "use": "insurer compensation, market return comparison, high-income policyholder incidence, statutory constraint, and open matters"
+    },
+    {
+      "source_id": "SRC-CBO-53375",
+      "publisher": "Congressional Budget Office",
+      "title": "Options to Reduce the Budgetary Costs of the Federal Crop Insurance Program",
+      "publication_date": "2017-12-22",
+      "url": "https://www.cbo.gov/publication/53375",
+      "use": "legacy participation, cultivated-acreage, food-price, and disaster-assistance substitution uncertainty context"
+    }
+  ],
+  "option_vintage": {
+    "option_date": "2024-12-12",
+    "assumed_effective_date": "2025-06-01",
+    "producer_premium_component": {
+      "federal_average_share_before_option_percent": 60.0,
+      "federal_average_share_under_option_percent": 40.0,
+      "vintage_fy2026_outlay_reduction_billions": 3.4
+    },
+    "insurer_compensation_component": {
+      "administrative_reimbursement_cap_percent_of_estimated_premiums": 9.25,
+      "approximate_annual_reimbursement_under_option_2026_2034_billions": 1.5,
+      "target_return_percent": 12.0,
+      "vintage_fy2026_outlay_reduction_billions": 1.5
+    },
+    "combined_vintage_fy2026_outlay_reduction_billions": 4.9,
+    "combined_vintage_2025_2034_outlay_reduction_billions": 46.7,
+    "is_current_law_score": false,
+    "is_observed_result": false
+  },
+  "current_law_and_owner_findings": {
+    "public_law_119_21_enacted_after_option": true,
+    "post_vintage_law_increased_crop_insurance_support": true,
+    "cbo_2026_baseline_projects_higher_crop_insurance_costs_partly_from_demand_growth": true,
+    "ers_2024_average_producer_premium_share_percent": 38.0,
+    "ers_2024_average_federal_premium_share_percent": 62.0,
+    "ers_2024_fcip_premium_subsidies_billions": 10.4,
+    "ers_2024_program_delivery_cost_billions": 2.34,
+    "ers_2024_aip_underwriting_gains_billions": 2.31,
+    "ers_2015_2024_average_total_fcip_outlays_billions": 11.7,
+    "ers_2024_all_farm_participation_percent": 15.0,
+    "ers_2024_row_crop_operation_participation_percent": 62.0,
+    "ers_2024_specialty_crop_operation_participation_percent": 19.0,
+    "ers_2024_livestock_operation_participation_percent": 12.0,
+    "ers_2024_large_family_farm_share_of_participants_percent": 18.0,
+    "ers_2024_large_family_farm_share_of_harvested_cropland_percent": 38.0,
+    "ers_2024_large_family_farm_share_of_indemnities_percent": 45.0,
+    "gao_2011_2022_average_aip_return_on_retained_premiums_percent": 16.8,
+    "gao_market_based_return_comparator_percent": 10.2,
+    "gao_2022_high_income_policyholder_share_percent": 0.3,
+    "gao_2022_high_income_policyholder_premium_share_percent": 0.5,
+    "gao_illustrative_15_point_high_income_subsidy_reduction_savings_millions": 15.0,
+    "gao_sra_expected_underwriting_gain_constraint_open_as_of": "2026-02",
+    "current_option_specific_participation_response_observed": false,
+    "current_option_specific_disaster_assistance_substitution_observed": false,
+    "current_option_specific_food_security_effect_observed": false,
+    "current_aip_specific_return_and_delivery_cost_distribution_publicly_closed": false,
+    "matching_current_law_cbo_rescore_published": false
+  },
+  "gate_rows": [
+    {
+      "gate_id": "option_identity_and_component_score",
+      "disposition": "evidence_ready_vintage_only",
+      "finding": "The December 2024 score separates $3.4 billion of FY2026 premium-subsidy savings from $1.5 billion of insurer-compensation savings.",
+      "closure_owner": "TAXLANE",
+      "candidate_admitted": false
+    },
+    {
+      "gate_id": "post_2025_current_law_perimeter",
+      "disposition": "evidence_ready_current_law",
+      "finding": "Public Law 119-21 and CBO's 2026 baseline establish that crop-insurance law and projected costs changed after the option vintage and moved toward more support, not implementation of the selected option.",
+      "closure_owner": "TAXLANE",
+      "candidate_admitted": false
+    },
+    {
+      "gate_id": "current_program_cost_structure",
+      "disposition": "evidence_ready_current_aggregate",
+      "finding": "ERS reports 2024 premium subsidies, delivery costs, and AIP underwriting gains separately, providing a current aggregate component baseline.",
+      "closure_owner": "USDA_RMA_ERS",
+      "candidate_admitted": false
+    },
+    {
+      "gate_id": "producer_distribution",
+      "disposition": "bounded_distribution_context_not_policy_effect",
+      "finding": "Current ARMS evidence shows large differences by farm type and commodity, but indemnity and participation shares are not the incidence of the proposed subsidy cut and do not resolve beginning, underserved, tribal, income, crop, or geographic effects.",
+      "closure_owner": "USDA_ERS_RMA_and_program_evaluator",
+      "candidate_admitted": false
+    },
+    {
+      "gate_id": "participation_and_access_response",
+      "disposition": "bounded_participation_context_not_counterfactual",
+      "finding": "Current participation levels are observable, but no post-policy cohort establishes how a reduction from roughly 62 percent to 40 percent federal premium support would change coverage level, take-up, crop mix, or risk selection.",
+      "closure_owner": "USDA_RMA_and_independent_evaluator",
+      "candidate_admitted": false
+    },
+    {
+      "gate_id": "insurer_return_delivery_and_competition",
+      "disposition": "bounded_historical_market_comparison_current_delivery_response_required",
+      "finding": "GAO's 16.8 percent 2011-2022 average return exceeded its 10.2 percent market comparator, and ERS reports $4.65 billion of 2024 delivery cost plus underwriting gains; current AIP-specific cost, competition, service, and exit response remains unresolved.",
+      "closure_owner": "USDA_RMA_GAO_and_scorekeeper",
+      "candidate_admitted": false
+    },
+    {
+      "gate_id": "disaster_substitution_resilience_and_food_security",
+      "disposition": "joint_causal_model_and_owner_data_required",
+      "finding": "Legacy evidence identifies possible supplemental-aid, acreage, and food-price interactions but cannot quantify a current option-specific disaster substitution, resilience, production, or food-security effect.",
+      "closure_owner": "USDA_RMA_FSA_ERS_CBO_and_independent_evaluator",
+      "candidate_admitted": false
+    },
+    {
+      "gate_id": "matching_current_law_budget_effect",
+      "disposition": "scorekeeper_rescore_required",
+      "finding": "No current-law CBO score applies the two components after Public Law 119-21 and the 2026 baseline.",
+      "closure_owner": "authorized_scorekeeper",
+      "candidate_admitted": false
+    }
+  ],
+  "component_disposition": {
+    "producer_premium_subsidy_reduction": {
+      "status": "held_distribution_participation_resilience_and_rescore",
+      "selected_for_next_analysis": false,
+      "reason": "The broad reduction has an observed baseline but no current-law score or policy-effect evidence for heterogeneous producer access, coverage, disaster substitution, resilience, or food security.",
+      "admitted_fy2026_outlay_reduction_billions": 0.0
+    },
+    "insurer_compensation_modernization": {
+      "status": "selected_for_narrow_successor_analysis_not_admitted",
+      "selected_for_next_analysis": true,
+      "reason": "Aggregate insurer compensation and a market-return gap are independently evidenced, while the statutory SRA constraint, current AIP delivery response, service continuity, competition, implementation, and current-law score remain open.",
+      "admitted_fy2026_outlay_reduction_billions": 0.0
+    }
+  },
+  "audit_decision": {
+    "audit_complete": true,
+    "source_count": 9,
+    "gate_count": 8,
+    "evidence_ready_gate_count": 3,
+    "bounded_context_gate_count": 2,
+    "historical_comparison_current_response_required_count": 1,
+    "joint_model_owner_data_required_count": 1,
+    "scorekeeper_rescore_required_count": 1,
+    "bundled_candidate_should_remain_single": false,
+    "selected_successor_analysis_component": "insurer_compensation_modernization",
+    "candidate_admitted": false,
+    "admitted_fy2026_outlay_reduction_billions": 0.0,
+    "rate_recomputation_required": false
+  },
+  "next_evidence_action": "Build a narrow insurer-compensation modernization audit that tests the SRA legal change, current AIP delivery cost and competition, producer service continuity, insurer participation, implementation cost, and a matching current-law score while keeping the broad premium-subsidy reduction held.",
+  "claim_boundaries": {
+    "official_request_made": false,
+    "public_release_authorized": false,
+    "old_score_treated_as_current_law": false,
+    "indemnity_distribution_treated_as_subsidy_cut_incidence": false,
+    "aggregate_underwriting_gains_treated_as_recoverable_savings": false,
+    "gao_matter_treated_as_enacted": false,
+    "candidate_admitted": false,
+    "spending_reduction_admitted": false,
+    "solver_run_performed": false,
+    "rate_change_allowed": false
+  }
+}

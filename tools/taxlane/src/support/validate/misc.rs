@@ -1335,6 +1335,8 @@ pub(crate) fn validate_global_country_comparison_coverage(root: &Path) -> Result
     validate_def_fiscal_package_conversion(root)?;
     validate_pay_fiscal_package_conversion(root)?;
     validate_fifteen_lane_candidate_execution_frontier(root)?;
+    validate_seven_owner_outcome_lane_execution_frontier(root)?;
+    validate_agr_crop_insurance_current_law_owner_evidence_audit(root)?;
     validate_pay_full_dmf_public_evidence_ceiling(root)?;
     validate_hlt_site_neutral_current_law_dependency_audit(root)?;
     validate_def_proportional_force_current_law_dependency_audit(root)?;
@@ -14131,6 +14133,211 @@ pub(crate) fn validate_fifteen_lane_candidate_execution_frontier(
         || bool_field(claims, "rate_change_allowed")?
     {
         return Err("fifteen-lane candidate execution frontier failed".to_string());
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_seven_owner_outcome_lane_execution_frontier(
+    root: &Path,
+) -> Result<(), String> {
+    let frontier = read_json_artifact(root, SEVEN_OWNER_OUTCOME_LANE_FRONTIER_JSON_PATH)?;
+    let rows = frontier
+        .get("rank_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("seven-lane frontier rank rows")?;
+    let expected_tracks = ["AGR", "DIS", "EDU", "JUS", "SEE", "TRN", "VET"]
+        .into_iter()
+        .map(str::to_owned)
+        .collect::<BTreeSet<_>>();
+    let expected_ranks = (1_i64..=7_i64).collect::<BTreeSet<_>>();
+    let tracks = rows
+        .iter()
+        .map(|row| string_field(row, "track"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let ranks = rows
+        .iter()
+        .map(|row| int_field(row, "rank"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let mut advance_now_count = 0usize;
+    let mut selected_count = 0usize;
+    for row in rows {
+        if bool_field(row, "preimplementation_owner_evidence_can_advance_now")? {
+            advance_now_count += 1;
+        }
+        if bool_field(row, "selected_for_evidence_work")? {
+            selected_count += 1;
+            if string_field(row, "track")? != "AGR" {
+                return Err("seven-lane frontier selected row failed".to_string());
+            }
+        }
+        if !bool_field(row, "effect_observation_requires_policy_change")?
+            || bool_field(row, "candidate_admitted")?
+            || string_field(row, "shortest_active_path")?.is_empty()
+            || string_field(row, "ranking_reason")?.is_empty()
+        {
+            return Err("seven-lane frontier row boundary failed".to_string());
+        }
+    }
+    let decision = frontier
+        .get("portfolio_decision")
+        .ok_or("seven-lane frontier decision")?;
+    let claims = frontier
+        .get("claim_boundaries")
+        .ok_or("seven-lane frontier claim boundaries")?;
+    if rows.len() != 7
+        || tracks != expected_tracks
+        || ranks != expected_ranks
+        || advance_now_count != 4
+        || selected_count != 1
+        || string_field(decision, "selected_next_track")? != "AGR"
+        || int_field(
+            decision,
+            "preimplementation_owner_evidence_can_advance_now_count",
+        )? != 4
+        || int_field(decision, "legal_or_owner_trigger_first_count")? != 3
+        || int_field(decision, "admitted_candidate_count")? != 0
+        || bool_field(decision, "selection_is_spending_admission")?
+        || bool_field(claims, "official_request_made")?
+        || bool_field(claims, "public_release_authorized")?
+        || bool_field(claims, "headline_envelopes_summed")?
+        || bool_field(claims, "candidate_admitted")?
+        || bool_field(claims, "spending_reduction_admitted")?
+        || bool_field(claims, "solver_run_performed")?
+        || bool_field(claims, "rate_change_allowed")?
+    {
+        return Err("seven owner/outcome lane execution frontier failed".to_string());
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_agr_crop_insurance_current_law_owner_evidence_audit(
+    root: &Path,
+) -> Result<(), String> {
+    let audit = read_json_artifact(
+        root,
+        AGR_CROP_INSURANCE_CURRENT_LAW_OWNER_EVIDENCE_AUDIT_JSON_PATH,
+    )?;
+    let sources = audit
+        .get("source_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("AGR crop-insurance audit sources")?;
+    let gates = audit
+        .get("gate_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("AGR crop-insurance audit gates")?;
+    let source_ids = sources
+        .iter()
+        .map(|row| string_field(row, "source_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let dispositions = gates.iter().try_fold(BTreeMap::new(), |mut counts, row| {
+        *counts
+            .entry(string_field(row, "disposition")?)
+            .or_insert(0usize) += 1;
+        if bool_field(row, "candidate_admitted")?
+            || string_field(row, "closure_owner")?.is_empty()
+            || string_field(row, "finding")?.is_empty()
+        {
+            return Err("AGR crop-insurance audit gate boundary failed".to_string());
+        }
+        Ok(counts)
+    })?;
+    let vintage = audit
+        .get("option_vintage")
+        .ok_or("AGR crop-insurance audit option vintage")?;
+    let findings = audit
+        .get("current_law_and_owner_findings")
+        .ok_or("AGR crop-insurance audit current findings")?;
+    let components = audit
+        .get("component_disposition")
+        .ok_or("AGR crop-insurance audit components")?;
+    let producer = components
+        .get("producer_premium_subsidy_reduction")
+        .ok_or("AGR crop-insurance producer component")?;
+    let insurer = components
+        .get("insurer_compensation_modernization")
+        .ok_or("AGR crop-insurance insurer component")?;
+    let decision = audit
+        .get("audit_decision")
+        .ok_or("AGR crop-insurance audit decision")?;
+    let claims = audit
+        .get("claim_boundaries")
+        .ok_or("AGR crop-insurance audit claim boundaries")?;
+    if sources.len() != 9
+        || source_ids.len() != 9
+        || !source_ids.contains("SRC-CBO-60893")
+        || !source_ids.contains("SRC-CBO-62105")
+        || !source_ids.contains("SRC-GOVINFO-PL119-21")
+        || !source_ids.contains("SRC-USDA-RMA-SUMMARY-BUSINESS")
+        || !source_ids.contains("SRC-GAO-24-106086")
+        || gates.len() != 8
+        || dispositions.get("evidence_ready_vintage_only") != Some(&1)
+        || dispositions.get("evidence_ready_current_law") != Some(&1)
+        || dispositions.get("evidence_ready_current_aggregate") != Some(&1)
+        || dispositions.get("bounded_distribution_context_not_policy_effect") != Some(&1)
+        || dispositions.get("bounded_participation_context_not_counterfactual") != Some(&1)
+        || dispositions
+            .get("bounded_historical_market_comparison_current_delivery_response_required")
+            != Some(&1)
+        || dispositions.get("joint_causal_model_and_owner_data_required") != Some(&1)
+        || dispositions.get("scorekeeper_rescore_required") != Some(&1)
+        || bool_field(vintage, "is_current_law_score")?
+        || bool_field(vintage, "is_observed_result")?
+        || (number_field(vintage, "combined_vintage_fy2026_outlay_reduction_billions")? - 4.9).abs()
+            > 0.0001
+        || !bool_field(findings, "public_law_119_21_enacted_after_option")?
+        || !bool_field(
+            findings,
+            "post_vintage_law_increased_crop_insurance_support",
+        )?
+        || bool_field(
+            findings,
+            "current_option_specific_participation_response_observed",
+        )?
+        || bool_field(
+            findings,
+            "current_option_specific_disaster_assistance_substitution_observed",
+        )?
+        || bool_field(
+            findings,
+            "current_option_specific_food_security_effect_observed",
+        )?
+        || bool_field(
+            findings,
+            "current_aip_specific_return_and_delivery_cost_distribution_publicly_closed",
+        )?
+        || bool_field(findings, "matching_current_law_cbo_rescore_published")?
+        || bool_field(producer, "selected_for_next_analysis")?
+        || number_field(producer, "admitted_fy2026_outlay_reduction_billions")?.abs()
+            > 0.0001
+        || !bool_field(insurer, "selected_for_next_analysis")?
+        || number_field(insurer, "admitted_fy2026_outlay_reduction_billions")?.abs()
+            > 0.0001
+        || !bool_field(decision, "audit_complete")?
+        || bool_field(decision, "bundled_candidate_should_remain_single")?
+        || string_field(decision, "selected_successor_analysis_component")?
+            != "insurer_compensation_modernization"
+        || bool_field(decision, "candidate_admitted")?
+        || number_field(decision, "admitted_fy2026_outlay_reduction_billions")?.abs()
+            > 0.0001
+        || bool_field(decision, "rate_recomputation_required")?
+        || bool_field(claims, "official_request_made")?
+        || bool_field(claims, "public_release_authorized")?
+        || bool_field(claims, "old_score_treated_as_current_law")?
+        || bool_field(
+            claims,
+            "indemnity_distribution_treated_as_subsidy_cut_incidence",
+        )?
+        || bool_field(
+            claims,
+            "aggregate_underwriting_gains_treated_as_recoverable_savings",
+        )?
+        || bool_field(claims, "gao_matter_treated_as_enacted")?
+        || bool_field(claims, "candidate_admitted")?
+        || bool_field(claims, "spending_reduction_admitted")?
+        || bool_field(claims, "solver_run_performed")?
+        || bool_field(claims, "rate_change_allowed")?
+    {
+        return Err("AGR crop-insurance current-law owner-evidence audit failed".to_string());
     }
     Ok(())
 }

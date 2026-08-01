@@ -2248,6 +2248,10 @@ pub(crate) const PAY_LEVEL_4_AUDIT_JSON_PATH: &str = "data/derived/breadth_bench
 pub(crate) const FIFTEEN_LANE_CANDIDATE_FRONTIER_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/fifteen_lane_candidate_execution_frontier.v1.draft.json";
 
+pub(crate) const SEVEN_OWNER_OUTCOME_LANE_FRONTIER_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/seven_owner_outcome_lane_execution_frontier.v1.draft.json";
+
+pub(crate) const AGR_CROP_INSURANCE_CURRENT_LAW_OWNER_EVIDENCE_AUDIT_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/agr_crop_insurance_current_law_owner_evidence_audit.v1.draft.json";
+
 pub(crate) const PAY_FULL_DMF_EVIDENCE_CEILING_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/pay_full_dmf_public_evidence_ceiling.v1.draft.json";
 
@@ -11113,6 +11117,62 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         path: "reviews/2026-08-01-fifteen-lane-candidate-execution-frontier-role-review.md",
         role: "Fifteen-lane candidate execution-frontier role review",
         grain: "finance, service, distribution, and scope fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: SEVEN_OWNER_OUTCOME_LANE_FRONTIER_JSON_PATH,
+        role: "Seven owner/outcome lane execution frontier",
+        grain: "ranked active evidence path for the remaining D-band lanes",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/seven_owner_outcome_lane_execution_frontier.schema.md",
+        role: "Seven owner/outcome lane execution-frontier schema",
+        grain: "rank, operating-status, trigger, and authority boundary",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/seven-owner-outcome-lane-execution-frontier.md",
+        role: "Seven owner/outcome lane execution-frontier reader",
+        grain: "AGR selection and six-lane queue explanation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-08-01-seven-owner-outcome-lane-execution-frontier-role-review.md",
+        role: "Seven owner/outcome lane execution-frontier role review",
+        grain: "finance, agriculture, service, distribution, and scope fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: AGR_CROP_INSURANCE_CURRENT_LAW_OWNER_EVIDENCE_AUDIT_JSON_PATH,
+        role: "AGR crop-insurance current-law and owner-evidence audit",
+        grain: "component split, public evidence ceiling, and successor analysis",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/agr_crop_insurance_current_law_owner_evidence_audit.schema.md",
+        role: "AGR crop-insurance current-law and owner-evidence audit schema",
+        grain: "source, gate, component, and authority boundary",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/agr-crop-insurance-current-law-owner-evidence-audit.md",
+        role: "AGR crop-insurance current-law and owner-evidence audit reader",
+        grain: "current findings, held producer reduction, and narrower insurer path",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-08-01-agr-crop-insurance-current-law-owner-evidence-audit-role-review.md",
+        role: "AGR crop-insurance current-law and owner-evidence audit role review",
+        grain: "finance, agriculture, insurance, distribution, food, and scope fixed point",
         kind: "markdown",
         canonical: "supporting",
     },

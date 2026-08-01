@@ -1,0 +1,130 @@
+{
+  "record_id": "seven-owner-outcome-lane-execution-frontier:v1",
+  "record_family": "seven_owner_outcome_lane_execution_frontier",
+  "version": "v1.draft",
+  "status": "seven_lane_rerank_complete_agr_selected_zero_admission",
+  "as_of_date": "2026-08-01",
+  "schema_path": "data/derived/breadth_benchmark_matrix/seven_owner_outcome_lane_execution_frontier.schema.md",
+  "reader_path": "docs/reading/seven-owner-outcome-lane-execution-frontier.md",
+  "role_review_path": "reviews/2026-08-01-seven-owner-outcome-lane-execution-frontier-role-review.md",
+  "predecessor_paths": [
+    "data/derived/breadth_benchmark_matrix/fifteen_lane_candidate_execution_frontier.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/batch_2_eight_track_two_level_closure.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/batch_3_trn_rev_two_level_closure.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/next_owner_current_evidence_refresh_disposition.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/verdict_five_candidate_comparison.v1.draft.json"
+  ],
+  "selection_rule": [
+    "prefer a currently operating program whose public owner evidence can close service, distribution, or delivery gates now",
+    "prefer a candidate with a defined current-law dependency over one that first needs a new candidate identity",
+    "hold unenacted bills on named legal triggers even when their existing dossiers are comparatively mature",
+    "use fiscal scale only after operating status, owner evidence, service floors, distribution, and current-law fit",
+    "selection authorizes an evidence audit only and never admits a fiscal effect"
+  ],
+  "rank_rows": [
+    {
+      "rank": 1,
+      "track": "AGR",
+      "candidate_id": "crop_insurance_subsidy_and_insurer_return_reduction",
+      "execution_class": "operating_program_unimplemented_scored_option_current_owner_data_available",
+      "preimplementation_owner_evidence_can_advance_now": true,
+      "effect_observation_requires_policy_change": true,
+      "shortest_active_path": "reconcile the post-2025 current-law program, then test producer distribution, participation, insurer return, disaster substitution, resilience, and food-security evidence",
+      "ranking_reason": "AGR combines an operating federal program, public administrative evidence surfaces, a defined scored option, and material scale; those facts make its evidence ceiling testable now without treating the old score as current law.",
+      "selected_for_evidence_work": true,
+      "candidate_admitted": false
+    },
+    {
+      "rank": 2,
+      "track": "SEE",
+      "candidate_id": "reduce_doe_energy_conservation_weatherization_grants",
+      "execution_class": "operating_grant_program_unimplemented_scored_option_current_program_context_available",
+      "preimplementation_owner_evidence_can_advance_now": true,
+      "effect_observation_requires_policy_change": true,
+      "shortest_active_path": "reconcile current appropriation and authorization, then test household energy burden, delivery, resilience, spillovers, substitution, and income-geographic incidence",
+      "ranking_reason": "Current program and delivery evidence can improve the floor assessment now, but the selected reduction is small and lacks a matching current-law score.",
+      "selected_for_evidence_work": false,
+      "candidate_admitted": false
+    },
+    {
+      "rank": 3,
+      "track": "EDU",
+      "candidate_id": "eliminate_mandatory_pell_add_on",
+      "execution_class": "operating_benefit_program_unimplemented_scored_option_changed_by_later_law",
+      "preimplementation_owner_evidence_can_advance_now": true,
+      "effect_observation_requires_policy_change": true,
+      "shortest_active_path": "reconcile the post-2025 Pell and loan baseline, then test low-income access, completion, institutional incidence, and borrowing substitution",
+      "ranking_reason": "Owner data can support a current service-floor audit, but later eligibility, funding, and loan changes create a more entangled current-law dependency than AGR or SEE.",
+      "selected_for_evidence_work": false,
+      "candidate_admitted": false
+    },
+    {
+      "rank": 4,
+      "track": "DIS",
+      "candidate_id": "national_flood_insurance_program_change",
+      "execution_class": "operating_program_stale_option_identity_current_owner_data_available",
+      "preimplementation_owner_evidence_can_advance_now": true,
+      "effect_observation_requires_policy_change": true,
+      "shortest_active_path": "replace or refresh the 2018 option identity before testing affordability, take-up, mapping equity, disaster-aid interaction, mitigation, and exposure response",
+      "ranking_reason": "NFIP has current operating evidence, but the selected fiscal option is stale enough that candidate refresh precedes a defensible current-law score.",
+      "selected_for_evidence_work": false,
+      "candidate_admitted": false
+    },
+    {
+      "rank": 5,
+      "track": "VET",
+      "candidate_id": "hr2137_review_every_veterans_claim",
+      "execution_class": "owner_aligned_reported_legislation_not_enacted",
+      "preimplementation_owner_evidence_can_advance_now": false,
+      "effect_observation_requires_policy_change": true,
+      "shortest_active_path": "monitor enactment and appropriations, then observe implementation cost, claims timeliness, claimant rights, and program overlap in a matched cohort",
+      "ranking_reason": "The owner-aligned dossier and official score are comparatively mature, but no candidate effect can exist before enactment, funding, and implementation.",
+      "selected_for_evidence_work": false,
+      "candidate_admitted": false
+    },
+    {
+      "rank": 6,
+      "track": "JUS",
+      "candidate_id": "hr1702_district_judgeships",
+      "execution_class": "owner_aligned_reported_capacity_legislation_not_enacted_net_cost",
+      "preimplementation_owner_evidence_can_advance_now": false,
+      "effect_observation_requires_policy_change": true,
+      "shortest_active_path": "monitor enactment, appropriation, appointments, and staffing, then observe matched caseflow, rights, distribution, operating cost, and durable outcomes",
+      "ranking_reason": "TRIBUNAL supplies an owner-aligned baseline, but the candidate is an unenacted capacity investment and net cost rather than a spending reduction.",
+      "selected_for_evidence_work": false,
+      "candidate_admitted": false
+    },
+    {
+      "rank": 7,
+      "track": "TRN",
+      "candidate_id": "hr2247_airmen_certificate_presentation",
+      "execution_class": "introduced_legislation_not_enacted_owner_mismatch_conditional_cost_only",
+      "preimplementation_owner_evidence_can_advance_now": false,
+      "effect_observation_requires_policy_change": true,
+      "shortest_active_path": "assign an aviation-service owner, then require enactment, appropriation, implementation, rights, safety, delivery, cost, and durability evidence",
+      "ranking_reason": "The bill has a bounded conditional cost estimate, but it is unenacted, is not a savings candidate, and still lacks the correct service owner.",
+      "selected_for_evidence_work": false,
+      "candidate_admitted": false
+    }
+  ],
+  "portfolio_decision": {
+    "lanes_ranked": 7,
+    "preimplementation_owner_evidence_can_advance_now_count": 4,
+    "legal_or_owner_trigger_first_count": 3,
+    "selected_next_track": "AGR",
+    "selected_next_candidate": "crop_insurance_subsidy_and_insurer_return_reduction",
+    "selected_action": "current_law_owner_outcome_public_evidence_audit",
+    "selection_is_spending_admission": false,
+    "admitted_candidate_count": 0
+  },
+  "next_evidence_action": "Audit AGR's post-2025 current-law crop-insurance perimeter and public owner evidence for producer distribution, participation, insurer return, disaster substitution, resilience, food security, and score-vintage limits.",
+  "claim_boundaries": {
+    "official_request_made": false,
+    "public_release_authorized": false,
+    "headline_envelopes_summed": false,
+    "candidate_admitted": false,
+    "spending_reduction_admitted": false,
+    "solver_run_performed": false,
+    "rate_change_allowed": false
+  }
+}
