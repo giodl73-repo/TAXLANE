@@ -1433,6 +1433,12 @@ mod global_country_comparison_tests {
     }
 
     #[test]
+    fn jus_capacity_engine_replays_delivery_cost_and_caseflow_without_outcome_claim() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_jus_district_capacity_delivery_caseflow_stress_envelope(&root).unwrap();
+    }
+
+    #[test]
     fn pay_public_evidence_ceiling_names_owner_data_without_requesting_it() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_pay_full_dmf_public_evidence_ceiling(&root).unwrap();

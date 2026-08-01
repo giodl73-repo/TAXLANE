@@ -1,0 +1,55 @@
+{
+  "record_id":"jus-district-capacity-delivery-caseflow-stress-envelope:v1",
+  "record_family":"jus_district_capacity_delivery_caseflow_stress_envelope",
+  "version":"v1.draft",
+  "status":"normalized_delivery_cost_and_caseflow_stress_complete_enactment_and_observed_rights_outcomes_missing_zero_admission",
+  "as_of_date":"2026-08-01",
+  "track":"JUS",
+  "predecessor_path":"data/derived/breadth_benchmark_matrix/jus_district_judgeship_capacity_current_law_owner_evidence_audit.v1.draft.json",
+  "schema_path":"data/derived/breadth_benchmark_matrix/jus_district_capacity_delivery_caseflow_stress_envelope.schema.md",
+  "reader_path":"docs/reading/jus-district-capacity-delivery-caseflow-stress-envelope.md",
+  "role_review_path":"reviews/2026-08-01-jus-district-capacity-delivery-caseflow-stress-envelope-role-review.md",
+  "engine_crate":"crates/taxlane-jus-capacity",
+  "source_rows":[
+    {"source_id":"SRC-CBO-61263","url":"https://www.cbo.gov/publication/61263","use":"historical proposal cost components and appointment-timing warning"},
+    {"source_id":"SRC-CRS-IN12541","url":"https://www.congress.gov/crs-product/IN12541","use":"weighted-filings definition, recommendation threshold, and non-workload factors"},
+    {"source_id":"SRC-AOUSC-JUDICIAL-BUSINESS-2025","url":"https://www.uscourts.gov/data-news/reports/statistical-reports/judicial-business-united-states-courts/judicial-business-2025/us-district-courts-judicial-business-2025","use":"filing, termination, pending, timing, and case-mix boundaries"}
+  ],
+  "normalized_common_input": {
+    "existing_active_judges":100,
+    "senior_and_magistrate_equivalent_judges":0,
+    "proposed_authorized_seats":10,
+    "weighted_filings":60000,
+    "annual_filings":60000,
+    "annual_terminations_without_candidate":58000,
+    "beginning_pending":20000,
+    "assumed_annual_terminations_per_fully_productive_new_judge":400,
+    "annual_direct_compensation_usd_per_appointed_judge":300000,
+    "annual_operating_cost_usd_per_staffed_judge":700000,
+    "one_time_readiness_cost_usd_per_authorized_seat":100000,
+    "status":"hypothetical_accounting_fixture_not_empirical_estimate"
+  },
+  "scenario_rows":[
+    {"scenario_id":"authorization_only","appointment_fill_percent":0,"support_staff_readiness_percent":90,"facility_security_technology_readiness_percent":75,"productive_capacity_percent":90,"appointed_new_judges":0.0,"staffed_new_judges":0.0,"ready_new_judges":0.0,"effective_new_judges":0.0,"weighted_filings_per_effective_judge":600.0,"additional_terminations_stress":0.0,"ending_pending_without_candidate":22000.0,"ending_pending_with_candidate_stress":22000.0,"total_modeled_cost_usd":1000000.0,"modeled_cost_per_additional_termination_usd":null},
+    {"scenario_id":"partial_delivery","appointment_fill_percent":80,"support_staff_readiness_percent":90,"facility_security_technology_readiness_percent":75,"productive_capacity_percent":90,"appointed_new_judges":8.0,"staffed_new_judges":7.2,"ready_new_judges":5.4,"effective_new_judges":4.86,"weighted_filings_per_effective_judge":572.191493,"additional_terminations_stress":1944.0,"ending_pending_without_candidate":22000.0,"ending_pending_with_candidate_stress":20056.0,"direct_compensation_cost_usd":2400000.0,"operating_cost_usd":5040000.0,"one_time_readiness_cost_usd":1000000.0,"total_modeled_cost_usd":8440000.0,"modeled_cost_per_additional_termination_usd":4341.563786},
+    {"scenario_id":"full_delivery_upper_stress","appointment_fill_percent":100,"support_staff_readiness_percent":100,"facility_security_technology_readiness_percent":100,"productive_capacity_percent":100,"appointed_new_judges":10.0,"staffed_new_judges":10.0,"ready_new_judges":10.0,"effective_new_judges":10.0,"weighted_filings_per_effective_judge":545.454545,"additional_terminations_stress":4000.0,"ending_pending_without_candidate":22000.0,"ending_pending_with_candidate_stress":18000.0,"total_modeled_cost_usd":11000000.0,"modeled_cost_per_additional_termination_usd":2750.0}
+  ],
+  "evidence_ceiling": {
+    "candidate_enacted":false,
+    "observed_district_allocation_available":false,
+    "observed_appointment_to_staffed_seat_cohort_available":false,
+    "causal_caseflow_effect_available":false,
+    "matched_timeliness_quality_and_rights_outcomes_available":false,
+    "current_compatible_score_available":false,
+    "termination_is_justice_outcome":false,
+    "pending_reduction_is_rights_floor_pass":false
+  },
+  "successor_disposition": {
+    "normalized_engine_complete":true,
+    "candidate_status":"named_trigger_for_enactment_staffed_delivery_matched_outcomes_and_current_score",
+    "admitted_savings_billions":0.0,
+    "rate_recomputation_required":false,
+    "next_track":"VET"
+  },
+  "claim_boundaries":{"official_request_made":false,"public_release_authorized":false,"normalized_fixture_treated_as_forecast":false,"termination_stress_treated_as_causal":false,"pending_arithmetic_treated_as_timeliness_or_rights":false,"national_scaling_performed":false,"candidate_admitted":false,"spending_reduction_admitted":false,"solver_run_performed":false,"rate_change_allowed":false}
+}

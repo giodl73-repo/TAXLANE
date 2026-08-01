@@ -1347,6 +1347,7 @@ pub(crate) fn validate_global_country_comparison_coverage(root: &Path) -> Result
     validate_dis_nfip_current_law_owner_evidence_audit(root)?;
     validate_dis_nfip_repetitive_loss_mitigation_stress_envelope(root)?;
     validate_jus_district_judgeship_capacity_current_law_owner_evidence_audit(root)?;
+    validate_jus_district_capacity_delivery_caseflow_stress_envelope(root)?;
     validate_pay_full_dmf_public_evidence_ceiling(root)?;
     validate_hlt_site_neutral_current_law_dependency_audit(root)?;
     validate_def_proportional_force_current_law_dependency_audit(root)?;
@@ -15427,6 +15428,138 @@ pub(crate) fn validate_jus_district_judgeship_capacity_current_law_owner_evidenc
         || bool_field(claims, "rate_change_allowed")?
     {
         return Err("JUS district judgeship capacity current-law audit failed".to_string());
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_jus_district_capacity_delivery_caseflow_stress_envelope(
+    root: &Path,
+) -> Result<(), String> {
+    let artifact = read_json_artifact(
+        root,
+        JUS_DISTRICT_CAPACITY_DELIVERY_CASEFLOW_STRESS_ENVELOPE_JSON_PATH,
+    )?;
+    let common = artifact
+        .get("normalized_common_input")
+        .ok_or("JUS capacity common input")?;
+    let scenarios = artifact
+        .get("scenario_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("JUS capacity scenarios")?;
+    for row in scenarios {
+        let input = taxlane_jus_capacity::CapacityStressInput {
+            existing_active_judges: i128::from(int_field(common, "existing_active_judges")?),
+            senior_and_magistrate_equivalent_judges_micros: i128::from(int_field(
+                common,
+                "senior_and_magistrate_equivalent_judges",
+            )?) * 1_000_000,
+            proposed_authorized_seats: i128::from(int_field(
+                common,
+                "proposed_authorized_seats",
+            )?),
+            appointment_fill_ppm: i128::from(int_field(row, "appointment_fill_percent")?)
+                * 10_000,
+            support_staff_readiness_ppm: i128::from(int_field(
+                row,
+                "support_staff_readiness_percent",
+            )?) * 10_000,
+            facility_security_technology_readiness_ppm: i128::from(int_field(
+                row,
+                "facility_security_technology_readiness_percent",
+            )?) * 10_000,
+            productive_capacity_ppm: i128::from(int_field(row, "productive_capacity_percent")?)
+                * 10_000,
+            weighted_filings: i128::from(int_field(common, "weighted_filings")?),
+            annual_filings: i128::from(int_field(common, "annual_filings")?),
+            annual_terminations_without_candidate: i128::from(int_field(
+                common,
+                "annual_terminations_without_candidate",
+            )?),
+            beginning_pending: i128::from(int_field(common, "beginning_pending")?),
+            assumed_annual_terminations_per_fully_productive_new_judge: i128::from(int_field(
+                common,
+                "assumed_annual_terminations_per_fully_productive_new_judge",
+            )?),
+            annual_direct_compensation_usd_micros_per_appointed_judge: i128::from(int_field(
+                common,
+                "annual_direct_compensation_usd_per_appointed_judge",
+            )?) * 1_000_000,
+            annual_operating_cost_usd_micros_per_staffed_judge: i128::from(int_field(
+                common,
+                "annual_operating_cost_usd_per_staffed_judge",
+            )?) * 1_000_000,
+            one_time_readiness_cost_usd_micros_per_authorized_seat: i128::from(int_field(
+                common,
+                "one_time_readiness_cost_usd_per_authorized_seat",
+            )?) * 1_000_000,
+        };
+        let result = taxlane_jus_capacity::run_capacity_stress(&input)?;
+        let compare = |actual_micros: i128, field: &str| -> Result<bool, String> {
+            Ok((actual_micros as f64 / 1_000_000.0 - number_field(row, field)?).abs() < 0.000001)
+        };
+        if !compare(result.appointed_new_judges_micros, "appointed_new_judges")?
+            || !compare(result.staffed_new_judges_micros, "staffed_new_judges")?
+            || !compare(result.ready_new_judges_micros, "ready_new_judges")?
+            || !compare(result.effective_new_judges_micros, "effective_new_judges")?
+            || !compare(
+                result.weighted_filings_per_effective_judge_micros,
+                "weighted_filings_per_effective_judge",
+            )?
+            || !compare(
+                result.additional_terminations_stress_micros,
+                "additional_terminations_stress",
+            )?
+            || !compare(
+                result.ending_pending_without_candidate_micros,
+                "ending_pending_without_candidate",
+            )?
+            || !compare(
+                result.ending_pending_with_candidate_stress_micros,
+                "ending_pending_with_candidate_stress",
+            )?
+            || !compare(result.total_modeled_cost_usd_micros, "total_modeled_cost_usd")?
+        {
+            return Err("JUS capacity scenario replay failed".to_string());
+        }
+        let expected_unit_cost = row.get("modeled_cost_per_additional_termination_usd");
+        match (
+            result.modeled_cost_per_additional_termination_usd_micros,
+            expected_unit_cost,
+        ) {
+            (None, Some(value)) if value.is_null() => {}
+            (Some(actual), Some(_))
+                if (actual as f64 / 1_000_000.0
+                    - number_field(row, "modeled_cost_per_additional_termination_usd")?)
+                .abs()
+                    < 0.000001 => {}
+            _ => return Err("JUS capacity unit-cost replay failed".to_string()),
+        }
+    }
+    let evidence = artifact
+        .get("evidence_ceiling")
+        .ok_or("JUS capacity evidence ceiling")?;
+    let successor = artifact
+        .get("successor_disposition")
+        .ok_or("JUS capacity successor")?;
+    let claims = artifact
+        .get("claim_boundaries")
+        .ok_or("JUS capacity claims")?;
+    if scenarios.len() != 3
+        || bool_field(evidence, "candidate_enacted")?
+        || bool_field(evidence, "causal_caseflow_effect_available")?
+        || bool_field(evidence, "termination_is_justice_outcome")?
+        || bool_field(evidence, "pending_reduction_is_rights_floor_pass")?
+        || !bool_field(successor, "normalized_engine_complete")?
+        || string_field(successor, "next_track")? != "VET"
+        || number_field(successor, "admitted_savings_billions")?.abs() > 0.0001
+        || bool_field(successor, "rate_recomputation_required")?
+        || bool_field(claims, "normalized_fixture_treated_as_forecast")?
+        || bool_field(claims, "termination_stress_treated_as_causal")?
+        || bool_field(claims, "candidate_admitted")?
+        || bool_field(claims, "spending_reduction_admitted")?
+        || bool_field(claims, "rate_change_allowed")?
+    {
+        return Err("JUS district capacity delivery and caseflow stress envelope failed".to_string());
     }
     Ok(())
 }

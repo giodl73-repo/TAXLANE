@@ -2272,6 +2272,8 @@ pub(crate) const DIS_NFIP_REPETITIVE_LOSS_MITIGATION_STRESS_ENVELOPE_JSON_PATH: 
 
 pub(crate) const JUS_DISTRICT_JUDGESHIP_CAPACITY_CURRENT_LAW_OWNER_EVIDENCE_AUDIT_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/jus_district_judgeship_capacity_current_law_owner_evidence_audit.v1.draft.json";
 
+pub(crate) const JUS_DISTRICT_CAPACITY_DELIVERY_CASEFLOW_STRESS_ENVELOPE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/jus_district_capacity_delivery_caseflow_stress_envelope.v1.draft.json";
+
 pub(crate) const PAY_FULL_DMF_EVIDENCE_CEILING_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/pay_full_dmf_public_evidence_ceiling.v1.draft.json";
 
@@ -11487,6 +11489,34 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         path: "reviews/2026-08-01-jus-district-judgeship-capacity-current-law-owner-evidence-audit-role-review.md",
         role: "JUS district judgeship capacity current-law owner-evidence role review",
         grain: "fiscal, courts, delivery, caseflow, rights, federalism, and scope fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: JUS_DISTRICT_CAPACITY_DELIVERY_CASEFLOW_STRESS_ENVELOPE_JSON_PATH,
+        role: "JUS district capacity delivery and caseflow stress envelope",
+        grain: "appointment, staffing, readiness, cost, throughput, pending-case, and VET handoff",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/jus_district_capacity_delivery_caseflow_stress_envelope.schema.md",
+        role: "JUS district capacity delivery and caseflow stress schema",
+        grain: "gated capacity, cost, caseflow, and no-outcome boundary",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/jus-district-capacity-delivery-caseflow-stress-envelope.md",
+        role: "JUS district capacity delivery and caseflow stress reader",
+        grain: "partial delivery, mechanical caseflow, cost identity, and named triggers",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-08-01-jus-district-capacity-delivery-caseflow-stress-envelope-role-review.md",
+        role: "JUS district capacity delivery and caseflow stress role review",
+        grain: "operations, fiscal, caseflow, rights, workforce, distribution, and scope fixed point",
         kind: "markdown",
         canonical: "supporting",
     },

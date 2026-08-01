@@ -322,6 +322,10 @@ name = "taxlane-edu-pell"
 version = "0.1.0"
 
 [[package]]
+name = "taxlane-jus-capacity"
+version = "0.1.0"
+
+[[package]]
 name = "taxlane-net-interest"
 version = "0.1.0"
 
@@ -338,6 +342,7 @@ dependencies = [
  "taxlane-core",
  "taxlane-dis-flood",
  "taxlane-edu-pell",
+ "taxlane-jus-capacity",
  "taxlane-net-interest",
  "zip",
 ]
