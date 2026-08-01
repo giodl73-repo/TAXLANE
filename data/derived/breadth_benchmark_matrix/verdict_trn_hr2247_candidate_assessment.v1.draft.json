@@ -1,0 +1,120 @@
+{
+  "record_id": "verdict-trn-hr2247-candidate-assessment:v1",
+  "record_family": "verdict_trn_hr2247_candidate_assessment",
+  "version": "v1.draft",
+  "status": "candidate_assessed_one_ready_six_blocked_cost_note_retained",
+  "as_of_date": "2026-07-31",
+  "repository": "TAXLANE",
+  "assessed_commit": "9ac919868dbb9d12637a6328bacb190708b1b4ec",
+  "candidate": {
+    "candidate_id": "hr2247_airmen_certificate_accessibility",
+    "candidate_name": "H.R. 2247, Airmen Certificate Accessibility Act",
+    "object_class": "candidate",
+    "objective_profile": "cost_only_modernization",
+    "source_snapshot_status": "passed_house_referred_senate_not_enacted",
+    "conditional_on_enactment_and_appropriation": true,
+    "official_incremental_outlays_millions": 18,
+    "score_horizon": "FY2026-FY2031"
+  },
+  "owner_boundary": {
+    "candidate_domain": "FAA airman and medical certificate presentation",
+    "route_domain": "Interstate 2.0 road and freight-corridor analysis",
+    "route_is_candidate_owner": false,
+    "route_program_score_is_candidate_evidence": false,
+    "aviation_service_owner_assigned": false,
+    "cross_object_substitution_allowed": false
+  },
+  "scores": {
+    "value": 1,
+    "effectiveness": 1,
+    "resilience": 1,
+    "deliverability": 2,
+    "iteration": 0,
+    "coverage_and_fair_access": 1,
+    "trust": 3,
+    "total": 9,
+    "possible": 21,
+    "minimum": 0,
+    "total_is_gate_disposition": false
+  },
+  "candidate_gate_reviews": [
+    {
+      "dimension": "value",
+      "gate_id": "verdict-value",
+      "disposition": "required_blocked",
+      "successor_owner": "aviation_service_product_owner",
+      "blocking_gate": "useful outcome denominator, whole-system lifecycle cost, and compatible alternative are missing"
+    },
+    {
+      "dimension": "effectiveness",
+      "gate_id": "verdict-effectiveness",
+      "disposition": "required_blocked",
+      "successor_owner": "aviation_service_product_owner",
+      "blocking_gate": "current service baseline and candidate-specific observed outcome are missing"
+    },
+    {
+      "dimension": "resilience",
+      "gate_id": "verdict-resilience",
+      "disposition": "required_blocked",
+      "successor_owner": "aviation_service_product_owner",
+      "blocking_gate": "quantified stress path, recovery evidence, and observed continuity are missing"
+    },
+    {
+      "dimension": "deliverability",
+      "gate_id": "verdict-deliverability",
+      "disposition": "required_blocked",
+      "successor_owner": "legislative_and_faa_implementation_owner",
+      "blocking_gate": "source snapshot records no enactment or appropriation and lacks complete workforce, procurement, and transition evidence"
+    },
+    {
+      "dimension": "iteration",
+      "gate_id": "verdict-iteration",
+      "disposition": "required_blocked",
+      "successor_owner": "aviation_service_product_owner",
+      "blocking_gate": "observation cadence, response authority, outcome review, rollback or retirement trigger, and successor handling are missing"
+    },
+    {
+      "dimension": "coverage_and_fair_access",
+      "gate_id": "verdict-coverage-access",
+      "disposition": "required_blocked",
+      "successor_owner": "aviation_service_product_owner",
+      "blocking_gate": "adoption, delay, burden, income, geographic, employer, and payer distribution evidence is missing"
+    },
+    {
+      "dimension": "trust",
+      "gate_id": "verdict-trust",
+      "disposition": "required_ready",
+      "evidence_path": "data/derived/breadth_benchmark_matrix/trn_level_1_hr2247_candidate_dossier.v1.draft.json"
+    }
+  ],
+  "evidence_paths": [
+    "data/derived/breadth_benchmark_matrix/trn_c_airmen_certificate_reform_scenario.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/trn_d_legal_financing_perimeter_decision.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/trn_d_administration_compliance_behavior_boundary.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/trn_d_incidence_distribution_fairness_boundary.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/trn_f_hr2247_cost_note.v1.draft.json",
+    "reviews/2026-07-27-trn-level-1-hr2247-candidate-dossier-role-review.md"
+  ],
+  "cost_note_boundary": {
+    "existing_conditional_cost_note_retained": true,
+    "cost_note_is_candidate_performance_finding": false,
+    "cost_note_is_savings_or_rate_input": false,
+    "reason": "Repeating an exact official conditional fiscal score with source and caveats does not assert that the candidate improves service."
+  },
+  "next_evidence_action": "Assign an aviation-service owner and define a measurable credential-presentation baseline and outcome with adoption, failure, delay, fallback, burden, distribution, delivery, observation, and reopen evidence.",
+  "claim_booleans": {
+    "candidate_assessed": true,
+    "all_seven_dimensions_dispositioned": true,
+    "ready_gate_count": 1,
+    "blocked_gate_count": 6,
+    "candidate_admitted_as_lane_2_service_improvement": false,
+    "route_evidence_used_as_candidate_evidence": false,
+    "existing_cost_note_retained": true,
+    "candidate_enacted": false,
+    "savings_admitted": false,
+    "solver_run_performed": false,
+    "rate_changed_or_published": false,
+    "new_public_release_authorized": false
+  },
+  "public_warning": "This VERDICT score evaluates candidate evidence, not ROUTE or the transportation system. It retains only the existing conditional CBO cost note and authorizes no service-effect, savings, solver, rate, endorsement, or new release claim."
+}
