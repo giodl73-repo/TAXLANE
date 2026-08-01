@@ -1,0 +1,77 @@
+{
+  "record_id": "verdict-envoy-nepal-compact-candidate-assessment:v1",
+  "record_family": "verdict_envoy_nepal_compact_candidate_assessment",
+  "version": "v1.draft",
+  "status": "owner_aligned_candidate_handoff_one_ready_six_blocked",
+  "as_of_date": "2026-07-31",
+  "repository": "TAXLANE",
+  "assessed_commit": "2847bf6f6657f04f664f0b13b4511b388f33e30e",
+  "producer_input": {
+    "producer": "ENVOY",
+    "repository": "https://github.com/giodl73-repo/ENVOY",
+    "commit": "c1190cceb0c119d5f11219809db45987e63ede62",
+    "assessment_path": "docs/vtrace/NEPAL_COMPACT_CANDIDATE_ASSESSMENT.md",
+    "machine_record_path": "fixtures/official/mcc-nepal-compact-verdict.v1.json",
+    "candidate_id": "mcc_nepal_compact_implementation",
+    "object_class": "candidate",
+    "owner_alignment": true,
+    "producer_score_reproduced_without_drift": true
+  },
+  "scores": {
+    "value": 1,
+    "effectiveness": 1,
+    "resilience": 1,
+    "deliverability": 2,
+    "iteration": 2,
+    "coverage_and_fair_access": 1,
+    "trust": 3,
+    "total": 11,
+    "possible": 21,
+    "minimum": 1,
+    "total_is_gate_disposition": false
+  },
+  "candidate_gate_reviews": [
+    {"dimension":"value","gate_id":"verdict-value","disposition":"required_blocked","successor_owner":"ENVOY","blocking_gate":"completed outcome denominator, lifecycle and maintenance cost, additionality, and compatible alternative missing"},
+    {"dimension":"effectiveness","gate_id":"verdict-effectiveness","disposition":"required_blocked","successor_owner":"ENVOY","blocking_gate":"exposure-aligned baseline and completed independent service effect missing"},
+    {"dimension":"resilience","gate_id":"verdict-resilience","disposition":"required_blocked","successor_owner":"ENVOY","blocking_gate":"candidate stress, recovery, maintenance, safeguard, grievance, diversion, and durable-continuity results missing"},
+    {"dimension":"deliverability","gate_id":"verdict-deliverability","disposition":"required_blocked","successor_owner":"ENVOY","blocking_gate":"completed works, quality, capacity, budget reconciliation, maintenance transfer, and institutional delivery incomplete"},
+    {"dimension":"iteration","gate_id":"verdict-iteration","disposition":"required_blocked","successor_owner":"ENVOY","blocking_gate":"completed independent evaluation, operational response, outcome learning, rollback or retirement, and fiscal rebalancing missing"},
+    {"dimension":"coverage_and_fair_access","gate_id":"verdict-coverage-access","disposition":"required_blocked","successor_owner":"ENVOY","blocking_gate":"local benefit and burden incidence, participation, displacement, subgroup access, grievance results, and do-no-harm passage missing"},
+    {"dimension":"trust","gate_id":"verdict-trust","disposition":"required_ready","evidence_path":"data/derived/breadth_benchmark_matrix/envoy_nepal_compact_candidate_intake_disposition.v1.draft.json"}
+  ],
+  "taxlane_evidence_paths": [
+    "data/derived/breadth_benchmark_matrix/envoy_nepal_compact_candidate_intake_disposition.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/envoy_nepal_compact_level2_baseline_disposition.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/envoy_nepal_compact_evaluation_readiness_disposition.v1.draft.json"
+  ],
+  "stage_boundaries": {
+    "financial_execution_is_outcome": false,
+    "unexpended_obligations_are_savings": false,
+    "partner_cofunding_is_us_offset": false,
+    "contracts_are_completed_outputs": false,
+    "design_and_training_are_durable_outcomes": false,
+    "evaluation_procurement_is_evaluation_result": false
+  },
+  "fiscal_decision": {
+    "candidate_selected_for_fiscal_model": false,
+    "existing_uniform_function_150_candidate_reopened": false,
+    "admitted_fy2026_primary_reduction_billions": 0.0,
+    "remaining_fy2026_revenue_target_billions": 813.727,
+    "rate_recomputation_required": false
+  },
+  "next_evidence_action": "ENVOY completes one matched road or electricity result chain from version-reconciled cost through completed service, independent effect, local incidence, safeguards, maintenance, uncertainty, and durability.",
+  "claim_booleans": {
+    "owner_aligned_candidate_handoff_complete": true,
+    "producer_score_reproduced": true,
+    "all_seven_dimensions_dispositioned": true,
+    "ready_gate_count": 1,
+    "blocked_gate_count": 6,
+    "candidate_admitted": false,
+    "savings_admitted": false,
+    "allocation_changed": false,
+    "solver_run_performed": false,
+    "rate_changed_or_published": false,
+    "public_release_authorized": false
+  },
+  "public_warning": "The active Nepal Compact has real financial and delivery evidence, but contracts, design, training, expenditure, and evaluation procurement are not completed service or durable public outcomes. No fiscal or release gate changes."
+}

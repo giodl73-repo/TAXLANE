@@ -360,6 +360,12 @@ finds that H.R. 2247 is an aviation credential candidate, not a ROUTE road
 candidate. Its exact conditional CBO cost note remains valid, but six of seven
 service-candidate gates stay blocked and ROUTE's program score cannot fill them.
 
+The first [owner-aligned candidate handoff](docs/reading/verdict-envoy-nepal-compact-candidate-assessment.md)
+reproduces ENVOY's Nepal Compact score of 11/21 without drift. Active delivery
+improves the evidence, but only Trust is admission-ready; expenditure,
+contracts, design, training, and evaluation procurement remain distinct from
+completed service and durable outcomes.
+
 ### 4. The rate followed the evidence
 
 The model used Tax-Calculator 6.5.1, the bundled CPS tax-unit input, and tax
