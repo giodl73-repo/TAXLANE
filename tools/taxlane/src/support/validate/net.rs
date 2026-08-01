@@ -203,6 +203,11 @@ pub(crate) fn validate_net_interest_formula_contract(root: &Path) -> Result<(), 
         if blockers.is_empty() == !ready {
             return Err(format!("net-interest input blockers failed: {input_id}"));
         }
+        if input_id == "maturity_bucket_schedule"
+            && string_field(row, "partial_evidence_path")? != NET_PUBLIC_MATURITY_ENVELOPE_JSON_PATH
+        {
+            return Err("net-interest maturity partial evidence failed".to_string());
+        }
     }
 
     let rules = contract
@@ -371,6 +376,7 @@ pub(crate) fn validate_net_current_law_baseline_compatibility_audit(
     validate_net_interest_omb_pbd_gross_to_net_bridge(root)?;
     validate_net_interest_new_borrowing_timing_convention(root)?;
     validate_net_interest_cbo_average_rate_feedback(root)?;
+    validate_net_interest_mspd_public_maturity_envelope(root)?;
     let audit: serde_json::Value = serde_json::from_str(
         &fs::read_to_string(root.join(NET_BASELINE_COMPATIBILITY_AUDIT_JSON_PATH))
             .map_err(|e| e.to_string())?,
@@ -378,7 +384,7 @@ pub(crate) fn validate_net_current_law_baseline_compatibility_audit(
     .map_err(|e| e.to_string())?;
     if string_field(&audit, "record_id")? != "net-current-law-baseline-compatibility-audit:v1"
         || string_field(&audit, "status")?
-            != "reduced_form_feedback_inputs_admitted_full_maturity_model_blocked"
+            != "reduced_form_feedback_and_maturity_envelope_admitted_full_rollover_blocked"
         || string_field(&audit, "formula_contract_path")? != NET_INTEREST_FORMULA_CONTRACT_JSON_PATH
         || string_field(&audit, "official_spine_path")? != CORE_G_SOLVER_SPINE_JSON_PATH
     {
@@ -445,7 +451,7 @@ pub(crate) fn validate_net_current_law_baseline_compatibility_audit(
     )
     .map_err(|e| e.to_string())?;
     let assessments = overlay["assessments"].as_array().ok_or("fiscal overlay assessments")?;
-    for (id, total) in [("PAY", 12), ("NET", 12), ("REV", 11)] {
+    for (id, total) in [("PAY", 12), ("NET", 13), ("REV", 11)] {
         let row = assessments
             .iter()
             .find(|row| row["overlay_id"] == id)
@@ -2327,6 +2333,202 @@ pub(crate) fn validate_net_interest_treasury_mspd_snapshot_reconciliation(
         );
         if value.as_bool().ok_or("MSPD snapshot claim bool")? != expected {
             return Err(format!("MSPD snapshot claim boundary failed: {field}"));
+        }
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_net_interest_mspd_public_maturity_envelope(
+    root: &Path,
+) -> Result<(), String> {
+    for path in [
+        NET_PUBLIC_MATURITY_ENVELOPE_JSON_PATH,
+        NET_PUBLIC_MATURITY_ENVELOPE_SCHEMA_PATH,
+        NET_PUBLIC_MATURITY_ENVELOPE_READER_PATH,
+        NET_PUBLIC_MATURITY_ENVELOPE_REVIEW_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing NET public-maturity artifact: {path}"));
+        }
+    }
+    validate_net_interest_treasury_mspd_snapshot_reconciliation(root)?;
+    let record: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(NET_PUBLIC_MATURITY_ENVELOPE_JSON_PATH))
+            .map_err(|e| e.to_string())?,
+    )
+    .map_err(|e| e.to_string())?;
+    if string_field(&record, "record_id")? != "net-interest-mspd-public-maturity-envelope:v1"
+        || string_field(&record, "status")?
+            != "public_holder_existing_stock_runoff_bounded_future_issuance_rollover_blocked"
+        || string_field(&record, "record_date")? != "2026-06-30"
+    {
+        return Err("NET public-maturity identity failed".to_string());
+    }
+    let source = &record["source_packet"];
+    let source_path = root.join(string_field(source, "raw_artifact_path")?);
+    if int_field(source, "raw_byte_count")? != 55_726_310
+        || fs::metadata(&source_path).map_err(|e| e.to_string())?.len() != 55_726_310
+        || sha256_file(&source_path)? != string_field(source, "raw_sha256")?
+    {
+        return Err("NET public-maturity source custody failed".to_string());
+    }
+    let mut reader = csv::Reader::from_path(&source_path).map_err(|e| e.to_string())?;
+    let headers = reader.headers().map_err(|e| e.to_string())?.clone();
+    let column = |name: &str| {
+        headers
+            .iter()
+            .position(|value| value == name)
+            .ok_or_else(|| format!("missing MSPD column: {name}"))
+    };
+    let record_date_index = column("record_date")?;
+    let maturity_index = column("maturity_date")?;
+    let outstanding_index = column("outstanding_amt")?;
+    let is_leap = |year: i64| year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
+    let day_of_year = |year: i64, month: usize, day: i64| {
+        let mut month_days = [31_i64, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        if is_leap(year) {
+            month_days[1] = 29;
+        }
+        month_days[..month - 1].iter().sum::<i64>() + day
+    };
+    let mut groups = BTreeMap::<i64, (i64, f64, f64)>::new();
+    for csv_row in reader.records() {
+        let csv_row = csv_row.map_err(|e| e.to_string())?;
+        if csv_row.get(record_date_index) != Some("2026-06-30") {
+            continue;
+        }
+        let maturity = csv_row.get(maturity_index).ok_or("missing MSPD maturity")?;
+        let amount = csv_row.get(outstanding_index).ok_or("missing MSPD outstanding")?;
+        if maturity == "null" || maturity <= "2026-06-30" || matches!(amount, "null" | "*" | "") {
+            continue;
+        }
+        let year = maturity[0..4].parse::<i64>().map_err(|e| e.to_string())?;
+        let month = maturity[5..7].parse::<usize>().map_err(|e| e.to_string())?;
+        let day = maturity[8..10].parse::<i64>().map_err(|e| e.to_string())?;
+        let fiscal_year = if month <= 9 { year } else { year + 1 };
+        let amount = amount.parse::<f64>().map_err(|e| e.to_string())?;
+        let whole_year_days = (2026..year)
+            .map(|candidate| if is_leap(candidate) { 366 } else { 365 })
+            .sum::<i64>();
+        let remaining_days = whole_year_days + day_of_year(year, month, day)
+            - day_of_year(2026, 6, 30);
+        let group = groups.entry(fiscal_year).or_insert((0, 0.0, 0.0));
+        group.0 += 1;
+        group.1 += amount;
+        group.2 += amount * remaining_days as f64;
+    }
+    let perimeter = &record["perimeter"];
+    let market_total = number_field(perimeter, "total_marketable_musd")?;
+    let public_total = number_field(perimeter, "marketable_debt_held_public_musd")?;
+    let intragov = number_field(perimeter, "marketable_intragovernmental_musd")?;
+    if (market_total - public_total - intragov).abs() > 0.000001 {
+        return Err("NET public-maturity perimeter failed".to_string());
+    }
+    let rows = record["existing_stock_fiscal_year_runoff"]
+        .as_array()
+        .ok_or("NET public-maturity runoff rows")?;
+    if rows.len() != 10 {
+        return Err("NET public-maturity runoff horizon failed".to_string());
+    }
+    for row in rows {
+        let year = int_field(row, "fiscal_year")?;
+        let (count, amount, weighted) = groups.get(&year).ok_or("missing MSPD fiscal group")?;
+        let lower = (amount - intragov).max(0.0);
+        let upper = amount.min(public_total);
+        if int_field(row, "security_rows")? != *count
+            || (number_field(row, "total_marketable_musd")? - amount).abs() > 0.000001
+            || (number_field(row, "public_lower_musd")? - lower).abs() > 0.000001
+            || (number_field(row, "public_upper_musd")? - upper).abs() > 0.000001
+            || (number_field(row, "weighted_average_days_from_record_date")?
+                - weighted / amount)
+                .abs()
+                > 0.000001
+        {
+            return Err(format!("NET public-maturity row failed: FY{year}"));
+        }
+    }
+    let sum_group = |start: i64, end: i64| {
+        groups
+            .iter()
+            .filter(|(year, _)| **year >= start && **year <= end)
+            .fold((0_i64, 0.0_f64), |acc, (_, values)| {
+                (acc.0 + values.0, acc.1 + values.1)
+            })
+    };
+    let aggregates = &record["aggregate_envelopes"];
+    for (field, start, end) in [
+        ("cbo_horizon_fy2026_2035", 2026, 2035),
+        ("tail_fy2036_2056", 2036, 2056),
+    ] {
+        let (count, amount) = sum_group(start, end);
+        let aggregate = &aggregates[field];
+        if int_field(aggregate, "security_rows")? != count
+            || (number_field(aggregate, "total_marketable_musd")? - amount).abs() > 0.000001
+            || (number_field(aggregate, "public_lower_musd")? - (amount - intragov).max(0.0))
+                .abs()
+                > 0.000001
+            || (number_field(aggregate, "public_upper_musd")? - amount.min(public_total)).abs()
+                > 0.000001
+        {
+            return Err(format!("NET public-maturity aggregate failed: {field}"));
+        }
+    }
+    let (all_count, all_amount) = sum_group(2026, 2056);
+    let all = &aggregates["all_future_detail"];
+    let all_lower = (all_amount - intragov).max(0.0);
+    let all_upper = all_amount.min(public_total);
+    if all_count != 462
+        || (all_amount - number_field(perimeter, "future_maturity_detail_musd")?).abs()
+            > 0.000001
+        || int_field(all, "security_rows")? != all_count
+        || (number_field(all, "public_lower_musd")? - all_lower).abs() > 0.000001
+        || (number_field(all, "public_upper_musd")? - all_upper).abs() > 0.000001
+        || (number_field(all, "public_interval_width_musd")? - (all_upper - all_lower)).abs()
+            > 0.000001
+    {
+        return Err("NET public-maturity all-detail envelope failed".to_string());
+    }
+    let rule = &record["envelope_rule"];
+    if bool_field(rule, "individual_group_intervals_additive")?
+        || bool_field(rule, "pro_rata_allocation_used")?
+        || !string_field(rule, "aggregation_rule")?.contains("Aggregate group amounts first")
+    {
+        return Err("NET public-maturity non-additivity failed".to_string());
+    }
+    let effect = &record["readiness_effect"];
+    if int_field(effect, "formula_inputs_ready_before")? != 7
+        || int_field(effect, "formula_inputs_ready_after")? != 7
+        || int_field(effect, "completion_steps_ready_before")? != 6
+        || int_field(effect, "completion_steps_ready_after")? != 6
+        || int_field(effect, "net_verdict_score_before")? != 12
+        || int_field(effect, "net_verdict_score_after")? != 13
+    {
+        return Err("NET public-maturity readiness effect failed".to_string());
+    }
+    let claims = record["claim_booleans"].as_object().ok_or("NET public-maturity claims")?;
+    for (field, value) in claims {
+        let expected = matches!(
+            field.as_str(),
+            "existing_stock_fiscal_year_runoff_ready" | "public_holder_maturity_envelope_ready"
+        );
+        if value.as_bool().ok_or("NET public-maturity claim bool")? != expected {
+            return Err(format!("NET public-maturity claim boundary failed: {field}"));
+        }
+    }
+    let reader = fs::read_to_string(root.join(NET_PUBLIC_MATURITY_ENVELOPE_READER_PATH))
+        .map_err(|e| e.to_string())?;
+    for required in [
+        "$31.082178 trillion",
+        "$24.907413 trillion",
+        "$20.540429 billion",
+        "$31.061638 trillion",
+        "$31.065291 trillion",
+        "Annual intervals are not additive",
+        "without pro-rata inference",
+        "does not supply future gross issuance",
+    ] {
+        if !reader.contains(required) {
+            return Err(format!("NET public-maturity reader missing {required}"));
         }
     }
     Ok(())

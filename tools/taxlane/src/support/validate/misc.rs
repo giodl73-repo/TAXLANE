@@ -1414,6 +1414,7 @@ pub(crate) fn validate_global_country_comparison_coverage(root: &Path) -> Result
     validate_net_interest_treasury_mspd_maturity_detail_context(root)?;
     validate_net_interest_treasury_mspd_remaining_maturity_bucket_diagnostic(root)?;
     validate_net_interest_treasury_mspd_snapshot_reconciliation(root)?;
+    validate_net_interest_mspd_public_maturity_envelope(root)?;
     validate_net_interest_treasury_average_interest_rate_context(root)?;
     validate_omb_ap13_fund_group_reconciliation_detail_context(root)?;
     validate_transportation_trust_fund_table_13_4_aggregate_context(root)?;

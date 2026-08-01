@@ -30,15 +30,16 @@ context. It cross-checks current conditions but is not substituted for CBO's
 matching-vintage annual path. The
 [MSPD snapshot reconciliation](net-interest-treasury-mspd-snapshot-reconciliation.md)
 now resolves Table 3 and Table 5 units and overlap and reconciles Table 3 to
-Table 1 total marketable debt. The snapshot still does not allocate buckets
-between public and intragovernmental holders or define annual rollover, so it
-cannot yet drive interest feedback.
+Table 1 total marketable debt. The
+[public-maturity envelope](net-interest-mspd-public-maturity-envelope.md) now
+bounds public-holder uncertainty and publishes exact existing-stock fiscal-year
+runoff without pro-rata inference. Future issuance and annual rollover still
+prevent a full-stock interest result.
 
 The remaining sequence is therefore substantive rather than architectural:
 
-1. allocate Treasury maturity detail to debt held by the public without a pro-
-   rata inference and bridge June actuals to fiscal year end;
-2. define annual maturity buckets and rollover rules;
+1. source future gross issuance and its term mix;
+2. define annual rollover rules;
 3. map effective and stress rates to those buckets;
 4. validate the full-stock result against the already-ready reduced-form result;
    and

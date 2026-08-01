@@ -388,9 +388,12 @@ cross-vintage stitching, while the
 [new-borrowing timing convention](docs/reading/net-interest-new-borrowing-timing-convention.md)
 and [matching-vintage CBO average-rate feedback engine](docs/reading/net-interest-cbo-average-rate-feedback.md)
 now carry a mechanical primary change through current-year financing, later
-debt, and net interest. NET reaches 7/8 formula inputs, 6/9 completion steps,
-and 12/21 VERDICT capability. Full-stock annual maturity rollover and bucket
-rate stress remain blocked. The fiscal
+debt, and net interest. The [public-maturity envelope](docs/reading/net-interest-mspd-public-maturity-envelope.md)
+also converts all 462 outstanding-security rows into exact FY2026–FY2056 runoff
+and bounds the public-held portion without pro-rata inference. NET remains 7/8
+formula inputs and 6/9 completion steps while rising to 13/21 VERDICT
+capability. Future issuance, annual rollover, and bucket rate stress remain
+blocked. The fiscal
 rerun still preserves the full $813.727B financing requirement and all three
 internal schedules because no candidate effect passed admission.
 

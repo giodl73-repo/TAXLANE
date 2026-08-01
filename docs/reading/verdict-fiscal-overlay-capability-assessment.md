@@ -21,7 +21,7 @@ candidate-admission disposition.
 | Overlay | Object class | V | E | R | D | I | C | T | Total | Minimum |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | PAY | measurement and control overlay | 2 | 2 | 1 | 1 | 2 | 1 | 3 | 12/21 | 1 |
-| NET | endogenous accounting result | 2 | 2 | 1 | 2 | 2 | 1 | 2 | 12/21 | 1 |
+| NET | endogenous accounting result | 2 | 2 | 2 | 2 | 2 | 1 | 2 | 13/21 | 1 |
 | REV | financing-policy overlay | 2 | 1 | 1 | 2 | 2 | 1 | 2 | 11/21 | 1 |
 
 ## PAY — payment integrity
@@ -57,13 +57,15 @@ eleven topline and debt identities with a zero policy delta. The matching CBO
 source also supplies FY2025–FY2035 projected average interest rates. TAXLANE now
 uses those rates, the explicit borrowing-timing rule, and a closed-form identity
 to carry a bounded incremental primary change through later debt and interest.
-That raises Deliverability and moves NET from 11/21 to 12/21.
+That raises Deliverability and moves NET from 11/21 to 12/21. The successor
+public-maturity envelope then raises Resilience and NET to 13/21 by replacing
+an unknown holder allocation with reproducible bounds.
 
 The reduced-form engine is not the full-stock maturity engine. Treasury MSPD units,
 STRIPS overlap, and total marketable debt now reconcile for the 2026-06-30
-snapshot, but the maturity buckets are not allocated between public and
-intragovernmental holders or bridged to fiscal year end. Annual rollover
-buckets and bucket-rate and stress paths remain. OMB's gross-to-net components
+snapshot. Exact FY2026–FY2056 existing-stock runoff and non-pro-rata public-
+holder intervals are now ready. Future issuance, annual rollover, and bucket-
+rate and stress paths remain. OMB's gross-to-net components
 reconcile, while matching CBO-vintage component values remain unavailable.
 NET can accept a future admitted primary delta through the bounded reduced-form
 engine; a full-stock result must wait for the remaining maturity inputs.

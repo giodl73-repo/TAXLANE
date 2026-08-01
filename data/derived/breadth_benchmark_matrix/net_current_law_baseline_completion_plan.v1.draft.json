@@ -11,7 +11,7 @@
   "completion_steps": [
     {"step":1,"input":"horizon_boundary_or_extension","ready":true,"evidence":"CORE-G admitted FY2025-FY2035 boundary"},
     {"step":2,"input":"annual_debt_stock","ready":true,"evidence":"CORE-G beginning and ending debt held by the public"},
-    {"step":3,"input":"maturity_bucket_stock_and_rollover","ready":false,"partial_evidence":"Reconciled 2026-06-30 total-marketable maturity-stock seed; public-holder allocation and annual rollover remain blocked"},
+    {"step":3,"input":"maturity_bucket_stock_and_rollover","ready":false,"partial_evidence":"Exact existing-stock fiscal-year runoff and non-pro-rata public-holder envelope ready; future gross issuance, term mix, and annual rollover remain blocked"},
     {"step":4,"input":"effective_rate_by_bucket_and_stress","ready":false,"partial_evidence":"CBO matching-vintage aggregate average-rate path ready; bucket and stress paths blocked"},
     {"step":5,"input":"new_borrowing_timing","ready":true,"evidence":"Midyear central convention with early/late sensitivity rails, closed-form interest financing, and display-only rounding"},
     {"step":6,"input":"gross_interest_receipts_net_bridge","ready":false,"partial_evidence":"OMB FY2025-FY2031 five-subfunction bridge reconciles; matching CBO-vintage values remain blocked"},

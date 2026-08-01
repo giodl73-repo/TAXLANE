@@ -18,7 +18,9 @@ treating the remaining Treasury context as a full-stock debt model.
 
 1. Extend or explicitly bound the horizon beyond FY2031.
 2. Add source-custodied annual debt stock.
-3. Add maturity-bucket stock and rollover rules.
+3. Add maturity-bucket stock and rollover rules. **Partial:** existing-stock
+   FY2026–FY2056 runoff and public-holder intervals are ready without pro-rata
+   inference; future issuance and rollover remain blocked.
 4. Add effective-rate paths by bucket and a stress path.
    **Partial:** matching-vintage CBO aggregate average rates support reduced-
    form feedback; bucket mapping and stress remain blocked.

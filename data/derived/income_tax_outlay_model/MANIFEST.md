@@ -22,7 +22,7 @@ supporting views.
 
 | Path | Role | Grain | Rows | Canonical | SHA-256 |
 |---|---|---|---:|---|---|
-| `README.md` | Repository overview | documentation | n/a | supporting | `c56b81b4311a6b57cfd5c940fa8fa73fbcb30d23c74715df441932c4122b15ce` |
+| `README.md` | Repository overview | documentation | n/a | supporting | `984f26632fa24bf568b367db9d2987695c5d0d1803c11818f2971651f97907d1` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.draft.jsonl` | Canonical annual model rows | fiscal year by broad category | 516 | yes | `01c0fec63836f3652fdd83b03a608159ad58f7614fc214ae6691421990f3a85e` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.decade-summary.jsonl` | Canonical decade summary rows | decade by broad category | 54 | yes | `088cb5d55cc6a37ab52dd543d8a92bf09908cda265e9c9f93324b840eb652fb3` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.annual-wide.csv` | Chart-ready annual wide view | fiscal year | 86 | no | `cbe6ec44a77b9ef4adebaef37acc4b55ac23fd5eb21916989ae9518cbd4e4c31` |
@@ -940,10 +940,10 @@ supporting views.
 | `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `47f4135a8d0543687379b16f7c3f06d335fabee8485f941944cb0805c9b2d941` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `b910e56a20f40547ac1e4f696e84772dde163738b03915ddbcc0d0a39427719a` |
 | `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `b23aefa861fddf70c9a41dd9d5459ee87d076e734e7573130c19197b8dabaf35` |
-| `data/derived/breadth_benchmark_matrix/net_current_law_baseline_compatibility_audit.v1.draft.json` | NET current-law baseline compatibility audit | formula-input dispositions and zero-policy reconciliation | n/a | supporting | `144432e7ec24d435e8ab7b8a6c8e88aa07bc0b6fd4d25263ab08ff5c93f56d9e` |
+| `data/derived/breadth_benchmark_matrix/net_current_law_baseline_compatibility_audit.v1.draft.json` | NET current-law baseline compatibility audit | formula-input dispositions and zero-policy reconciliation | n/a | supporting | `618e8c184bea2b6ce4939708e7d92f916b211285e31ddde9d1aaff32a37b208e` |
 | `data/derived/breadth_benchmark_matrix/net_current_law_baseline_compatibility_audit.schema.md` | NET baseline compatibility audit schema | input-admission and claim-boundary contract | n/a | supporting | `edd76ac595afa951bfb848cef445aa670d250d7784cf07ec686cde62755426f8` |
-| `docs/reading/net-current-law-baseline-compatibility-audit.md` | NET baseline compatibility audit reader | public accounting advance and remaining gaps | n/a | supporting | `5dce5d36512c23cb10ca70bad01042ae5456781859867a4f3844d0cbc542f796` |
-| `reviews/2026-07-31-net-current-law-baseline-compatibility-role-review.md` | NET baseline compatibility role review | source and accounting fixed point | n/a | supporting | `4ffd233eed0d1fe1cc4abc65c2327de4054125f1cfac67fd8a85dcc08fde6517` |
+| `docs/reading/net-current-law-baseline-compatibility-audit.md` | NET baseline compatibility audit reader | public accounting advance and remaining gaps | n/a | supporting | `e634654a954aea30eead2238d64274a5ccf0715f3313f816d7ca442ffafc51e8` |
+| `reviews/2026-07-31-net-current-law-baseline-compatibility-role-review.md` | NET baseline compatibility role review | source and accounting fixed point | n/a | supporting | `0a6d17c9be5fb53b6394f2fb6c7ece5adccd861068a341511c07b4b6518cd3d6` |
 | `data/derived/breadth_benchmark_matrix/net_interest_omb_pbd_gross_to_net_bridge.v1.draft.json` | NET OMB gross-to-net interest bridge | five signed interest components and vintage boundary | n/a | supporting | `1fde54794d5cdfe2b717228893a7208d4708ea2255006e8b77abbe4f04dade9e` |
 | `data/derived/breadth_benchmark_matrix/net_interest_omb_pbd_gross_to_net_bridge.schema.md` | NET OMB gross-to-net interest bridge schema | component identity and no-stitch contract | n/a | supporting | `5f017a45e7f234c968e50f724fdfba6f16744d5962f858f9a4d3ec31ebd63898` |
 | `docs/reading/net-interest-omb-pbd-gross-to-net-bridge.md` | NET OMB gross-to-net interest bridge reader | public gross, receipts, offsets, and net explanation | n/a | supporting | `9783d19dd8127d50d121e55653c83f1e88bdc4f89e5982634141c305652c8135` |
@@ -955,6 +955,10 @@ supporting views.
 | `data/derived/breadth_benchmark_matrix/net_interest_cbo_average_rate_feedback.schema.md` | NET CBO average-rate feedback schema | delta-model identity, fixtures, and full-stock boundary | n/a | supporting | `3099f990d0787aa72510c14b0560f2070bd3781fb6522b0b91683a6f76bfbe64` |
 | `docs/reading/net-interest-cbo-average-rate-feedback.md` | NET CBO average-rate feedback reader | public method, mechanical result, and claim boundary | n/a | supporting | `4b027ab171355345cf425f2855361055d476ae21c63362ece1dec263eb491ed8` |
 | `reviews/2026-08-01-net-cbo-average-rate-feedback-role-review.md` | NET CBO average-rate feedback role review | source, accounting, service, and fiscal fixed point | n/a | supporting | `d65b83812449128acc394807c43ef16be35c8725790d3a700b2fa11f4d0d3f6d` |
+| `data/derived/breadth_benchmark_matrix/net_interest_mspd_public_maturity_envelope.v1.draft.json` | NET MSPD public-maturity envelope | fiscal-year existing-stock runoff and non-pro-rata holder bounds | n/a | supporting | `4ae893b0ffbca5bfb146b7f83f928e21df7d30355b6a243795d9f9625c61c19d` |
+| `data/derived/breadth_benchmark_matrix/net_interest_mspd_public_maturity_envelope.schema.md` | NET MSPD public-maturity envelope schema | source replay, interval arithmetic, and non-additivity | n/a | supporting | `383f6cd8b974eacb0e04b634fd2bd35ee06ac056e0678787f0a5873775c43252` |
+| `docs/reading/net-interest-mspd-public-maturity-envelope.md` | NET MSPD public-maturity envelope reader | runoff results, holder uncertainty, and rollover boundary | n/a | supporting | `a0660ceb144c7a13a5db28c4cdffeab0e78603323b7ff141aad157d6a724cba1` |
+| `reviews/2026-08-01-net-public-maturity-envelope-role-review.md` | NET MSPD public-maturity envelope role review | source, accounting, service, and fiscal fixed point | n/a | supporting | `3bd5d1e566e02891c6337311092044feb0f0dd622fbd9ea19ba39a62adbd56ba` |
 
 ## Regeneration Order
 

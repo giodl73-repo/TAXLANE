@@ -6,7 +6,8 @@
   count, and SHA-256; the Treasury contexts retain their narrower custody.
 - **Budget Accountant:** passes. Annual debt, interest, matching-vintage average
   rates, other financing, and reduced-form feedback are admitted, while
-  maturity-aware interest feedback remains blocked.
+  exact existing-stock runoff and public-holder bounds advance the maturity
+  evidence without pretending future issuance is known.
 - **Taxpayer and Public Goods:** passes. The audit changes no spending pot,
   service floor, financing requirement, or rate.
 - **Beneficiary and Compliance Burden:** passes as not triggered. No candidate
@@ -16,5 +17,7 @@
   separate primary-shock fixture is never described as maturity-aware.
 
 The 2026-08-01 fixed point is seven of eight formula inputs and six of nine
-completion steps. Reduced-form feedback is testable; the full-stock maturity
-result, candidate savings, solver, and rate claims remain blocked.
+completion steps. NET capability reaches 13/21 because maturity uncertainty is
+bounded without pro-rata inference. Reduced-form feedback is testable; future
+issuance, full-stock rollover, candidate savings, solver, and rate claims remain
+blocked.

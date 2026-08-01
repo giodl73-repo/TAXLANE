@@ -691,6 +691,14 @@ pub(crate) const NET_CBO_AVERAGE_RATE_FEEDBACK_READER_PATH: &str =
     "docs/reading/net-interest-cbo-average-rate-feedback.md";
 pub(crate) const NET_CBO_AVERAGE_RATE_FEEDBACK_REVIEW_PATH: &str =
     "reviews/2026-08-01-net-cbo-average-rate-feedback-role-review.md";
+pub(crate) const NET_PUBLIC_MATURITY_ENVELOPE_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/net_interest_mspd_public_maturity_envelope.v1.draft.json";
+pub(crate) const NET_PUBLIC_MATURITY_ENVELOPE_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/net_interest_mspd_public_maturity_envelope.schema.md";
+pub(crate) const NET_PUBLIC_MATURITY_ENVELOPE_READER_PATH: &str =
+    "docs/reading/net-interest-mspd-public-maturity-envelope.md";
+pub(crate) const NET_PUBLIC_MATURITY_ENVELOPE_REVIEW_PATH: &str =
+    "reviews/2026-08-01-net-public-maturity-envelope-role-review.md";
 
 pub(crate) const NET_INTEREST_PBD_FY2025_2031_CURRENT_LAW_CONTEXT_PATH_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/net_interest_pbd_fy2025_2031_current_law_context_path.v1.draft.json";
 
@@ -10986,6 +10994,34 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: NET_CBO_AVERAGE_RATE_FEEDBACK_REVIEW_PATH,
         role: "NET CBO average-rate feedback role review",
+        grain: "source, accounting, service, and fiscal fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: NET_PUBLIC_MATURITY_ENVELOPE_JSON_PATH,
+        role: "NET MSPD public-maturity envelope",
+        grain: "fiscal-year existing-stock runoff and non-pro-rata holder bounds",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: NET_PUBLIC_MATURITY_ENVELOPE_SCHEMA_PATH,
+        role: "NET MSPD public-maturity envelope schema",
+        grain: "source replay, interval arithmetic, and non-additivity",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: NET_PUBLIC_MATURITY_ENVELOPE_READER_PATH,
+        role: "NET MSPD public-maturity envelope reader",
+        grain: "runoff results, holder uncertainty, and rollover boundary",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: NET_PUBLIC_MATURITY_ENVELOPE_REVIEW_PATH,
+        role: "NET MSPD public-maturity envelope role review",
         grain: "source, accounting, service, and fiscal fixed point",
         kind: "markdown",
         canonical: "supporting",

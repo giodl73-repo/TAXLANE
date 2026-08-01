@@ -18,7 +18,8 @@ Now admitted from the hash-custodied CORE-G CBO spine:
 
 Required but still null for the full-stock model:
 
-- maturity bucket schedule;
+- complete maturity bucket schedule. Exact existing-stock runoff and public-
+  holder bounds are ready, but future issuance and rollover are not;
 
 Bucket-specific rates and stress remain a completion-step gap even though the
 matching-vintage aggregate CBO rate path is ready for bounded incremental

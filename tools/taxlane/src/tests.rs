@@ -1632,6 +1632,12 @@ mod global_country_comparison_tests {
     }
 
     #[test]
+    fn net_bounds_public_maturity_runoff_without_pro_rata_allocation() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_net_interest_mspd_public_maturity_envelope(&root).unwrap();
+    }
+
+    #[test]
     fn trn_a_completes_bounded_baseline_without_stitching_source_gaps() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_trn_a_transportation_baseline_source_spine(&root).unwrap();

@@ -2,7 +2,7 @@
   "record_id": "net-current-law-baseline-compatibility-audit:v1",
   "record_family": "net_current_law_baseline_compatibility_audit",
   "version": "v1.draft",
-  "status": "reduced_form_feedback_inputs_admitted_full_maturity_model_blocked",
+  "status": "reduced_form_feedback_and_maturity_envelope_admitted_full_rollover_blocked",
   "as_of_date": "2026-08-01",
   "formula_contract_path": "data/derived/breadth_benchmark_matrix/net_interest_formula_contract.v1.draft.json",
   "completion_plan_path": "data/derived/breadth_benchmark_matrix/net_current_law_baseline_completion_plan.v1.draft.json",
@@ -11,6 +11,7 @@
   "treasury_maturity_diagnostic_path": "data/derived/breadth_benchmark_matrix/net_interest_treasury_mspd_remaining_maturity_bucket_diagnostic.v1.draft.json",
   "treasury_snapshot_reconciliation_path": "data/derived/breadth_benchmark_matrix/net_interest_treasury_mspd_snapshot_reconciliation.v1.draft.json",
   "cbo_average_rate_feedback_path": "data/derived/breadth_benchmark_matrix/net_interest_cbo_average_rate_feedback.v1.draft.json",
+  "public_maturity_envelope_path": "data/derived/breadth_benchmark_matrix/net_interest_mspd_public_maturity_envelope.v1.draft.json",
   "purpose": "Reconcile existing CBO and Treasury custody to the NET formula input contract, admit compatible annual baseline inputs, and preserve every maturity, rate, receipt, timing, and feedback gap that prevents endogenous interest modeling.",
   "source_compatibility": [
     {
@@ -44,7 +45,7 @@
   "formula_input_disposition": [
     {"input_id":"baseline_debt_stock","ready":true,"evidence":"CORE-G FY2025-FY2035 beginning and ending debt held by the public"},
     {"input_id":"baseline_net_interest","ready":true,"evidence":"CORE-G FY2025-FY2035 net-interest rows"},
-    {"input_id":"maturity_bucket_schedule","ready":false,"evidence":null,"blocker":"MSPD marketable snapshot is reconciled, but buckets are not allocated to debt held by the public and no annual rollover rule exists"},
+    {"input_id":"maturity_bucket_schedule","ready":false,"evidence":null,"partial_evidence":"Exact FY2026-FY2056 existing-stock runoff and non-pro-rata public-holder intervals","blocker":"Future gross issuance, issuance term mix, and annual rollover remain missing"},
     {"input_id":"effective_rate_path","ready":true,"evidence":"CORE-G matching-vintage CBO FY2025-FY2035 projected average interest rates for reduced-form incremental feedback","full_stock_blocker":"No bucket-specific annual rate and stress path"},
     {"input_id":"new_borrowing_timing_rule","ready":true,"evidence":"Midyear central convention plus early/late sensitivity rails and closed-form current-year interest financing"},
     {"input_id":"interest_receipts_treatment","ready":true,"evidence":"CBO baseline net interest remains authoritative; incremental receipt delta defaults to zero for public-borrowing shocks and any nonzero candidate effect requires evidence","full_stock_partial_evidence":"OMB five-subfunction gross-to-net semantics reconcile, while matching CBO component values remain unavailable"},
@@ -54,7 +55,7 @@
   "completion_step_disposition": [
     {"step":1,"input":"horizon_boundary_or_extension","ready":true,"evidence":"CORE-G bounds the admitted baseline to FY2025-FY2035"},
     {"step":2,"input":"annual_debt_stock","ready":true,"evidence":"CORE-G beginning and ending debt held by the public"},
-    {"step":3,"input":"maturity_bucket_stock_and_rollover","ready":false,"partial_evidence":"Reconciled 2026-06-30 total-marketable snapshot seed; public-holder allocation and annual rollover remain blocked"},
+    {"step":3,"input":"maturity_bucket_stock_and_rollover","ready":false,"partial_evidence":"Exact existing-stock fiscal-year runoff and bounded public-holder perimeter ready; future issuance and annual rollover remain blocked"},
     {"step":4,"input":"effective_rate_by_bucket_and_stress","ready":false,"partial_evidence":"Matching-vintage CBO aggregate average-rate path is ready for reduced-form feedback; bucket mapping and stress remain blocked"},
     {"step":5,"input":"new_borrowing_timing","ready":true,"evidence":"Midyear central convention with early/late sensitivity rails"},
     {"step":6,"input":"gross_interest_receipts_net_bridge","ready":false,"partial_evidence":"OMB bridge ready; CBO-vintage bridge blocked"},
@@ -83,7 +84,7 @@
     "endogenous_interest_path_ready": false,
     "solver_ready": false
   },
-  "next_evidence_action": "Use the reduced-form engine for the first admitted primary path while separately completing annual maturity rollover, bucket-specific rate stress, and full-stock validation without pro-rata allocation.",
+  "next_evidence_action": "Use the reduced-form engine for the first admitted primary path while separately sourcing future issuance term mix and rollover, then apply bucket-specific rate stress and validate the full-stock result.",
   "claim_booleans": {
     "compatibility_audit_published": true,
     "annual_baseline_inputs_partially_admitted": true,

@@ -1,0 +1,86 @@
+{
+  "record_id": "net-interest-mspd-public-maturity-envelope:v1",
+  "record_family": "net_interest_mspd_public_maturity_envelope",
+  "version": "v1.draft",
+  "status": "public_holder_existing_stock_runoff_bounded_future_issuance_rollover_blocked",
+  "as_of_date": "2026-08-01",
+  "record_date": "2026-06-30",
+  "lane_id": "net-interest",
+  "snapshot_reconciliation_path": "data/derived/breadth_benchmark_matrix/net_interest_treasury_mspd_snapshot_reconciliation.v1.draft.json",
+  "core_g_path": "data/derived/breadth_benchmark_matrix/core_g_official_current_law_solver_spine.v1.draft.json",
+  "source_packet": {
+    "source_id": "SRC-TREASURY-FISCALDATA-MSPD-DETAIL-2026-07-24",
+    "raw_artifact_path": "data/raw/treasury/SRC-TREASURY-FISCALDATA-MSPD-DETAIL-2026-07-24/2026-07-24/mspd_table_3.full.csv",
+    "raw_byte_count": 55726310,
+    "raw_sha256": "347ff7878822ec7cf108b575cc440fe104dea4f0f9688cc0da89f5ce815a67c4",
+    "unit": "millions_usd"
+  },
+  "perimeter": {
+    "total_marketable_musd": 31085831.24713830,
+    "marketable_debt_held_public_musd": 31065290.81819190,
+    "marketable_intragovernmental_musd": 20540.42894637,
+    "future_maturity_detail_musd": 31082178.32343828,
+    "federal_financing_bank_and_matured_unallocated_musd": 3652.92370002
+  },
+  "envelope_rule": {
+    "group_amount_symbol": "A",
+    "public_lower_bound": "max(0, A - marketable_intragovernmental)",
+    "public_upper_bound": "min(A, marketable_debt_held_public)",
+    "interpretation": "For any one maturity group, the lower bound places all marketable intragovernmental debt inside that group and the upper bound places none there.",
+    "individual_group_intervals_additive": false,
+    "aggregation_rule": "Aggregate group amounts first, then apply the envelope once; never sum independently computed lower or upper bounds.",
+    "pro_rata_allocation_used": false
+  },
+  "existing_stock_fiscal_year_runoff": [
+    {"fiscal_year": 2026, "security_rows": 42, "total_marketable_musd": 5645798.32257712, "public_lower_musd": 5625257.89363075, "public_upper_musd": 5645798.32257712, "weighted_average_days_from_record_date": 40.741510},
+    {"fiscal_year": 2027, "security_rows": 86, "total_marketable_musd": 5423008.22418447, "public_lower_musd": 5402467.79523810, "public_upper_musd": 5423008.22418447, "weighted_average_days_from_record_date": 238.201936},
+    {"fiscal_year": 2028, "security_rows": 59, "total_marketable_musd": 3691178.12553531, "public_lower_musd": 3670637.69658894, "public_upper_musd": 3691178.12553531, "weighted_average_days_from_record_date": 635.604983},
+    {"fiscal_year": 2029, "security_rows": 46, "total_marketable_musd": 2629535.95667932, "public_lower_musd": 2608995.52773295, "public_upper_musd": 2629535.95667932, "weighted_average_days_from_record_date": 1000.210283},
+    {"fiscal_year": 2030, "security_rows": 32, "total_marketable_musd": 1983564.30352355, "public_lower_musd": 1963023.87457718, "public_upper_musd": 1983564.30352355, "weighted_average_days_from_record_date": 1382.880836},
+    {"fiscal_year": 2031, "security_rows": 30, "total_marketable_musd": 2017636.72259673, "public_lower_musd": 1997096.29365036, "public_upper_musd": 2017636.72259673, "weighted_average_days_from_record_date": 1728.293294},
+    {"fiscal_year": 2032, "security_rows": 19, "total_marketable_musd": 1225751.48199612, "public_lower_musd": 1205211.05304975, "public_upper_musd": 1225751.48199612, "weighted_average_days_from_record_date": 2106.996578},
+    {"fiscal_year": 2033, "security_rows": 15, "total_marketable_musd": 1002037.75760136, "public_lower_musd": 981497.32865499, "public_upper_musd": 1002037.75760136, "weighted_average_days_from_record_date": 2456.186002},
+    {"fiscal_year": 2034, "security_rows": 6, "total_marketable_musd": 612038.93101676, "public_lower_musd": 591498.50207039, "public_upper_musd": 612038.93101676, "weighted_average_days_from_record_date": 2838.475264},
+    {"fiscal_year": 2035, "security_rows": 6, "total_marketable_musd": 676863.46624763, "public_lower_musd": 656323.03730126, "public_upper_musd": 676863.46624763, "weighted_average_days_from_record_date": 3198.923666}
+  ],
+  "aggregate_envelopes": {
+    "cbo_horizon_fy2026_2035": {"security_rows": 341, "total_marketable_musd": 24907413.29195840, "public_lower_musd": 24886872.86301203, "public_upper_musd": 24907413.29195840},
+    "tail_fy2036_2056": {"security_rows": 121, "total_marketable_musd": 6174765.03147992, "public_lower_musd": 6154224.60253355, "public_upper_musd": 6174765.03147992},
+    "all_future_detail": {"security_rows": 462, "total_marketable_musd": 31082178.32343828, "public_lower_musd": 31061637.89449188, "public_upper_musd": 31065290.81819190, "public_interval_width_musd": 3652.92370002}
+  },
+  "model_boundary": {
+    "exact_existing_stock_runoff_ready": true,
+    "public_holder_envelope_ready": true,
+    "point_allocation_ready": false,
+    "future_gross_issuance_ready": false,
+    "future_issuance_term_mix_ready": false,
+    "annual_rollover_ready": false,
+    "full_stock_maturity_formula_input_ready": false,
+    "reduced_form_feedback_engine_affected": false
+  },
+  "readiness_effect": {
+    "formula_inputs_ready_before": 7,
+    "formula_inputs_ready_after": 7,
+    "completion_steps_ready_before": 6,
+    "completion_steps_ready_after": 6,
+    "net_verdict_score_before": 12,
+    "net_verdict_score_after": 13
+  },
+  "remaining_blockers": [
+    "future gross issuance required to replace maturing stock and finance the CBO debt path",
+    "future issuance term mix and refinancing rule",
+    "bucket-specific rate stress for the full-stock mode",
+    "point estimates may not replace the public-holder intervals without holder-level evidence"
+  ],
+  "claim_booleans": {
+    "existing_stock_fiscal_year_runoff_ready": true,
+    "public_holder_maturity_envelope_ready": true,
+    "pro_rata_allocation_used": false,
+    "annual_rollover_ready": false,
+    "full_stock_maturity_model_ready": false,
+    "candidate_savings_admitted": false,
+    "solver_ready": false,
+    "rate_effect": false
+  },
+  "public_warning": "The envelope bounds public-holder maturities without pro-rata inference and publishes exact existing-stock runoff through the CBO horizon. Each annual interval is non-additive; aggregate amounts must be bounded once. Future issuance and rollover remain unknown, so this is not a full maturity model, savings estimate, solver result, or rate change."
+}
