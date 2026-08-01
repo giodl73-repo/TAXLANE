@@ -1,0 +1,78 @@
+{
+  "record_id":"jus-district-judgeship-capacity-current-law-owner-evidence-audit:v1",
+  "record_family":"jus_district_judgeship_capacity_current_law_owner_evidence_audit",
+  "version":"v1.draft",
+  "status":"unenacted_bill_cost_timing_expired_current_capacity_reconciled_normalized_successor_selected_zero_admission",
+  "as_of_date":"2026-08-01",
+  "track":"JUS",
+  "candidate_id":"district_judgeship_capacity_investment",
+  "schema_path":"data/derived/breadth_benchmark_matrix/jus_district_judgeship_capacity_current_law_owner_evidence_audit.schema.md",
+  "reader_path":"docs/reading/jus-district-judgeship-capacity-current-law-owner-evidence-audit.md",
+  "role_review_path":"reviews/2026-08-01-jus-district-judgeship-capacity-current-law-owner-evidence-audit-role-review.md",
+  "source_rows":[
+    {"source_id":"SRC-CONGRESS-HR1702-119","publisher":"Congress.gov","publication_date":"2025-02-27","status_checked":"2026-08-01","url":"https://www.congress.gov/bill/119th-congress/house-bill/1702","use":"bill status, legislative mechanism, and latest action"},
+    {"source_id":"SRC-CBO-61263","publisher":"Congressional Budget Office","publication_date":"2025-03-25","url":"https://www.cbo.gov/publication/61263","use":"reported-bill mechanism, enactment assumption, annual cost path, and component costs"},
+    {"source_id":"SRC-CRS-IN12541","publisher":"Congressional Research Service","publication_date":"2025-04-08","url":"https://www.congress.gov/crs-product/IN12541","use":"2025 Judicial Conference recommendation, bill overlap, weighted-filings method, and district variation"},
+    {"source_id":"SRC-AOUSC-VACANCIES-2026-07-28","publisher":"Administrative Office of the U.S. Courts","publication_date":"2026-07-28","url":"https://www.uscourts.gov/judges-judgeships/judicial-vacancies","use":"current authorized district judgeships, vacancies, and pending nominees"},
+    {"source_id":"SRC-AOUSC-JUDICIAL-BUSINESS-2025","publisher":"Administrative Office of the U.S. Courts","publication_date":"2026","url":"https://www.uscourts.gov/data-news/reports/statistical-reports/judicial-business-united-states-courts/judicial-business-2025/us-district-courts-judicial-business-2025","use":"current national filings, terminations, pending matters, timing, and case-mix caveats"},
+    {"source_id":"SRC-TRIBUNAL-TXSD-2026Q1","publisher":"TRIBUNAL replay of Administrative Office records","publication_date":"2026-07-30","path":"data/derived/breadth_benchmark_matrix/tribunal_hr1702_level2_baseline_disposition.v1.draft.json","use":"existing Texas Southern workload snapshot and rights-data boundary"}
+  ],
+  "hr1702_proposal": {
+    "current_status":"ordered_reported_house_committee_not_enacted",
+    "latest_legislative_action":"2025-03-05_ordered_to_be_reported_amended",
+    "permanent_district_judgeships":65,
+    "temporary_district_judgeships":1,
+    "staggered_additions":"every_two_years_2025_through_2035_under_scored_version",
+    "cbo_assumed_enactment_fiscal_year":2025,
+    "assumed_enactment_occurred":false,
+    "cbo_direct_outlays_2025_2035_millions":111,
+    "cbo_appropriated_outlays_2025_2035_millions":283,
+    "cbo_combined_outlays_2025_2035_millions":394,
+    "cbo_fy2026_combined_outlays_millions":8,
+    "cost_path_status":"historical_reported_bill_cost_with_expired_enactment_timing_requires_rescore_if_advanced",
+    "proposal_is_spending_reduction":false
+  },
+  "current_capacity_baseline": {
+    "district_authorized_judgeships_including_territorial_2026_07_28":677,
+    "district_vacancies_2026_07_28":25,
+    "district_nominees_pending_2026_07_28":4,
+    "judicial_conference_2025_recommended_new_permanent_district_judgeships":69,
+    "judicial_conference_2025_recommended_districts":25,
+    "hr1702_overlap_with_recommended_districts":24,
+    "median_weighted_filings_per_judgeship_fy2024":411,
+    "general_recommendation_threshold_weighted_filings":430,
+    "weighted_filings_alone_determine_recommendation":false,
+    "vacancies_equal_need_for_new_authorized_seats":false,
+    "recommendation_is_enactment":false
+  },
+  "national_caseflow_fy2025": {
+    "combined_civil_and_criminal_defendant_filings":382692,
+    "filings_change_percent":6,
+    "combined_terminations":489674,
+    "combined_pending":541945,
+    "pending_change_percent":-17,
+    "civil_median_months_filing_to_disposition":15.6,
+    "civil_prior_year_median_months":13.7,
+    "criminal_defendant_median_months_filing_to_termination":6.9,
+    "aggregate_terminations_minus_filings":106982,
+    "aggregate_caseflow_is_candidate_effect":false,
+    "multidistrict_litigation_and_case_mix_material":true
+  },
+  "existing_local_baseline": {
+    "district":"Texas Southern",
+    "period_end":"2026-03-31",
+    "authorized_judgeships":19,
+    "weighted_filings_per_judgeship":801,
+    "vacant_judgeship_months":46.0,
+    "candidate_effect_observed":false,
+    "rights_floor_passed":false
+  },
+  "successor_contract": {
+    "selected_component":"district_capacity_delivery_and_caseflow_stress",
+    "required_measures":["authorized proposed and allocated seats","nomination confirmation and vacancy timing","judge and supporting-staff FTE","facilities security and technology readiness","senior judge and magistrate assistance","case-type weighted filings terminations pending and aged-pending","counsel and pretrial liberty","victim notice safety and voice","disparity due process and durable resolution","direct appropriated detention defense prosecution and correctional fiscal interactions"],
+    "next_action":"build_normalized_seat_to_staffed_capacity_and_caseflow_stress_without_treating_workload_as_effect",
+    "admitted_savings_billions":0.0,
+    "rate_recomputation_required":false
+  },
+  "claim_boundaries":{"official_request_made":false,"public_release_authorized":false,"historical_cost_path_treated_as_current":false,"proposal_cost_treated_as_savings":false,"vacancies_treated_as_new_seat_need":false,"weighted_filings_treated_as_outcome":false,"aggregate_caseflow_treated_as_candidate_effect":false,"candidate_admitted":false,"spending_reduction_admitted":false,"solver_run_performed":false,"rate_change_allowed":false}
+}

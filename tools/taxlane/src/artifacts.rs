@@ -2270,6 +2270,8 @@ pub(crate) const DIS_NFIP_CURRENT_LAW_OWNER_EVIDENCE_AUDIT_JSON_PATH: &str = "da
 
 pub(crate) const DIS_NFIP_REPETITIVE_LOSS_MITIGATION_STRESS_ENVELOPE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/dis_nfip_repetitive_loss_mitigation_stress_envelope.v1.draft.json";
 
+pub(crate) const JUS_DISTRICT_JUDGESHIP_CAPACITY_CURRENT_LAW_OWNER_EVIDENCE_AUDIT_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/jus_district_judgeship_capacity_current_law_owner_evidence_audit.v1.draft.json";
+
 pub(crate) const PAY_FULL_DMF_EVIDENCE_CEILING_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/pay_full_dmf_public_evidence_ceiling.v1.draft.json";
 
@@ -11457,6 +11459,34 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         path: "reviews/2026-08-01-dis-nfip-repetitive-loss-mitigation-stress-envelope-role-review.md",
         role: "DIS NFIP repetitive-loss mitigation stress role review",
         grain: "fiscal, delivery, insurance, household, aid, evidence, and scope fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: JUS_DISTRICT_JUDGESHIP_CAPACITY_CURRENT_LAW_OWNER_EVIDENCE_AUDIT_JSON_PATH,
+        role: "JUS district judgeship capacity current-law owner-evidence audit",
+        grain: "unenacted bill cost, current seats and vacancies, caseflow, rights, and successor boundary",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/jus_district_judgeship_capacity_current_law_owner_evidence_audit.schema.md",
+        role: "JUS district judgeship capacity current-law owner-evidence schema",
+        grain: "proposal, capacity, caseflow, rights, and admission firewall",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/jus-district-judgeship-capacity-current-law-owner-evidence-audit.md",
+        role: "JUS district judgeship capacity current-law owner-evidence reader",
+        grain: "expired proposal timing, current capacity, caseflow, and next-test explanation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-08-01-jus-district-judgeship-capacity-current-law-owner-evidence-audit-role-review.md",
+        role: "JUS district judgeship capacity current-law owner-evidence role review",
+        grain: "fiscal, courts, delivery, caseflow, rights, federalism, and scope fixed point",
         kind: "markdown",
         canonical: "supporting",
     },

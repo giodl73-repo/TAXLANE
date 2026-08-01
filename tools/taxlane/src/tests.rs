@@ -1427,6 +1427,12 @@ mod global_country_comparison_tests {
     }
 
     #[test]
+    fn jus_audit_expires_bill_timing_and_preserves_capacity_question() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_jus_district_judgeship_capacity_current_law_owner_evidence_audit(&root).unwrap();
+    }
+
+    #[test]
     fn pay_public_evidence_ceiling_names_owner_data_without_requesting_it() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_pay_full_dmf_public_evidence_ceiling(&root).unwrap();
