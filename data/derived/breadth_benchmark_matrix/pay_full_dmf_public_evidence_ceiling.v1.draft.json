@@ -1,0 +1,30 @@
+{
+  "record_id": "pay-full-dmf-public-evidence-ceiling:v1",
+  "record_family": "pay_full_dmf_public_evidence_ceiling",
+  "version": "v1.draft",
+  "status": "public_search_complete_three_ready_six_owner_data_gates_blocked",
+  "as_of_date": "2026-08-01",
+  "candidate_id": "full_dmf_do_not_pay",
+  "schema_path": "data/derived/breadth_benchmark_matrix/pay_full_dmf_public_evidence_ceiling.schema.md",
+  "reader_path": "docs/reading/pay-full-dmf-public-evidence-ceiling.md",
+  "role_review_path": "reviews/2026-08-01-pay-full-dmf-public-evidence-ceiling-role-review.md",
+  "source_rows": [
+    {"source_id":"SRC-GAO-26-107181","role":"independent pilot result and method review","publicly_closes":["causal_attribution","stated_cost_netting"],"does_not_publish":["prevention_identification_recovery_split","counted_payment_program_ownership","appropriation_or_fund_disposition","false_positive_and_appeal_outcomes","beneficiary_distribution"]},
+    {"source_id":"SRC-GOVINFO-PL119-77","role":"enacted authority and statutory safeguard design","publicly_closes":["legal_authority_and_durability"],"does_not_publish":["annual_budget_effect","observed_error_correction","observed_appeal_outcomes","distribution"]},
+    {"source_id":"SRC-TREASURY-DNP-DATA-2026-08-01","role":"current data-source availability and correction route","publicly_closes":["full_dmf_currently_listed","source_owner_and_correction_route"],"does_not_publish":["calendar_2024_counted_transactions","fiscal_event_split","program_and_fund_mapping","cohort_corrections","cohort_appeals","cohort_distribution"]}
+  ],
+  "gate_rows": [
+    {"gate_id":"unique_causal_control_attribution","disposition":"evidence_pass","closure_owner":"Treasury_and_participating_agencies","public_search_exhausted":true},
+    {"gate_id":"implementation_and_operating_cost_netting","disposition":"evidence_pass","closure_owner":"Treasury","public_search_exhausted":true},
+    {"gate_id":"legal_authority_and_durability","disposition":"evidence_pass","closure_owner":"statute","public_search_exhausted":true},
+    {"gate_id":"prevention_identification_recovery_split","disposition":"owner_data_required","closure_owner":"Treasury_and_participating_agencies","public_search_exhausted":true},
+    {"gate_id":"program_component_and_lane_ownership","disposition":"owner_data_required","closure_owner":"Treasury_and_participating_agencies","public_search_exhausted":true},
+    {"gate_id":"appropriation_fund_and_treasury_disposition","disposition":"owner_data_required","closure_owner":"participating_agencies_and_Treasury","public_search_exhausted":true},
+    {"gate_id":"fiscal_timing_recurrence_and_current_law","disposition":"owner_data_and_future_period_required","closure_owner":"Treasury_and_scorekeeper","public_search_exhausted":true},
+    {"gate_id":"notice_appeal_false_positive_and_remediation","disposition":"owner_data_required","closure_owner":"SSA_Treasury_and_participating_agencies","public_search_exhausted":true},
+    {"gate_id":"access_distribution_and_service_continuity","disposition":"owner_data_required","closure_owner":"participating_agencies","public_search_exhausted":true}
+  ],
+  "evidence_ceiling": {"required_gate_count":9,"evidence_pass_count":3,"owner_data_required_count":5,"owner_data_and_future_period_required_count":1,"public_search_exhausted_count":9,"publicly_admissible_budget_effect":null,"candidate_admitted":false,"next_public_web_search_scheduled":false},
+  "reopen_triggers": ["Treasury publishes the underlying ROI study or a successor annual assessment","an agency publishes candidate-coded transactions or aggregate fiscal-event splits","a scorekeeper publishes a current annual budget effect","a public audit publishes cohort correction, appeal, or distribution outcomes"],
+  "claim_boundaries": {"absence_proves_zero_effect":false,"official_request_made":false,"restricted_or_person_data_needed":false,"public_release_authorized":false,"savings_admitted":false,"rate_change_allowed":false}
+}

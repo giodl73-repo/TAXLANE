@@ -32,3 +32,7 @@ The next deliverable is therefore a PAY evidence-closure result—not another
 generic lane framework. If public evidence cannot separate fiscal events and
 beneficiary floors, PAY remains a valuable implemented control with a zero
 TAXLANE contribution.
+
+That public pass is now complete and recorded in the PAY evidence ceiling.
+PAY moves to publication-triggered monitoring; HLT is the next C-band
+dependency audit while the zero-admission result remains unchanged.

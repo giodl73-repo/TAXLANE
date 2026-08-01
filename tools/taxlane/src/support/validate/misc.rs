@@ -1335,6 +1335,7 @@ pub(crate) fn validate_global_country_comparison_coverage(root: &Path) -> Result
     validate_def_fiscal_package_conversion(root)?;
     validate_pay_fiscal_package_conversion(root)?;
     validate_fifteen_lane_candidate_execution_frontier(root)?;
+    validate_pay_full_dmf_public_evidence_ceiling(root)?;
     validate_oas_fiscal_package_conversion(root)?;
     validate_net_fiscal_package_conversion(root)?;
     validate_rev_level_2_rate_reconciliation(root)?;
@@ -14039,6 +14040,7 @@ pub(crate) fn validate_pay_fiscal_package_conversion(root: &Path) -> Result<(), 
         || blocked_count != 6
         || int_field(candidate, "evidence_pass_count")? != 3
         || int_field(candidate, "required_blocked_count")? != 6
+        || !bool_field(candidate, "public_search_exhausted")?
         || bool_field(candidate, "all_required_gates_pass")?
         || bool_field(candidate, "candidate_admitted_to_spending_package")?
         || bool_field(
@@ -14126,6 +14128,62 @@ pub(crate) fn validate_fifteen_lane_candidate_execution_frontier(
         || bool_field(claims, "rate_change_allowed")?
     {
         return Err("fifteen-lane candidate execution frontier failed".to_string());
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_pay_full_dmf_public_evidence_ceiling(root: &Path) -> Result<(), String> {
+    let ceiling = read_json_artifact(root, PAY_FULL_DMF_EVIDENCE_CEILING_JSON_PATH)?;
+    let sources = ceiling
+        .get("source_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("PAY evidence ceiling sources")?;
+    let gates = ceiling
+        .get("gate_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("PAY evidence ceiling gates")?;
+    let source_ids = sources
+        .iter()
+        .map(|row| string_field(row, "source_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let dispositions = gates.iter().try_fold(BTreeMap::new(), |mut counts, row| {
+        *counts
+            .entry(string_field(row, "disposition")?)
+            .or_insert(0usize) += 1;
+        if !bool_field(row, "public_search_exhausted")?
+            || string_field(row, "closure_owner")?.is_empty()
+        {
+            return Err("PAY evidence ceiling gate boundary failed".to_string());
+        }
+        Ok(counts)
+    })?;
+    let summary = ceiling
+        .get("evidence_ceiling")
+        .ok_or("PAY evidence ceiling summary")?;
+    let claims = ceiling
+        .get("claim_boundaries")
+        .ok_or("PAY evidence ceiling claims")?;
+    if sources.len() != 3
+        || source_ids.len() != 3
+        || !source_ids.contains("SRC-GAO-26-107181")
+        || !source_ids.contains("SRC-GOVINFO-PL119-77")
+        || !source_ids.contains("SRC-TREASURY-DNP-DATA-2026-08-01")
+        || gates.len() != 9
+        || dispositions.get("evidence_pass") != Some(&3)
+        || dispositions.get("owner_data_required") != Some(&5)
+        || dispositions.get("owner_data_and_future_period_required") != Some(&1)
+        || int_field(summary, "public_search_exhausted_count")? != 9
+        || bool_field(summary, "candidate_admitted")?
+        || !summary
+            .get("publicly_admissible_budget_effect")
+            .is_some_and(serde_json::Value::is_null)
+        || bool_field(claims, "absence_proves_zero_effect")?
+        || bool_field(claims, "official_request_made")?
+        || bool_field(claims, "restricted_or_person_data_needed")?
+        || bool_field(claims, "savings_admitted")?
+        || bool_field(claims, "rate_change_allowed")?
+    {
+        return Err("PAY full-DMF public evidence ceiling failed".to_string());
     }
     Ok(())
 }

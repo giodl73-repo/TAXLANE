@@ -19,3 +19,8 @@ Six gates remain blocked:
 PAY therefore remains a non-additive overlay. The next evidence target is the
 same transaction cohort with benefit type, program ownership, cash disposition,
 fiscal timing, appeal, false-positive, and distribution fields.
+
+The [public-evidence ceiling](pay-full-dmf-public-evidence-ceiling.md) confirms
+that the current GAO, enacted-law, and Treasury surfaces do not publish those
+fields. PAY should now reopen on a named publication or aggregate owner record,
+not another generic web search.

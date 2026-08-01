@@ -2248,6 +2248,9 @@ pub(crate) const PAY_LEVEL_4_AUDIT_JSON_PATH: &str = "data/derived/breadth_bench
 pub(crate) const FIFTEEN_LANE_CANDIDATE_FRONTIER_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/fifteen_lane_candidate_execution_frontier.v1.draft.json";
 
+pub(crate) const PAY_FULL_DMF_EVIDENCE_CEILING_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/pay_full_dmf_public_evidence_ceiling.v1.draft.json";
+
 pub(crate) const FISCAL_PACKAGE_PAY_BRIDGE_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/fiscal_package_pay_contribution_bridge.v1.draft.json";
 
@@ -11104,6 +11107,34 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         path: "reviews/2026-08-01-fifteen-lane-candidate-execution-frontier-role-review.md",
         role: "Fifteen-lane candidate execution-frontier role review",
         grain: "finance, service, distribution, and scope fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: PAY_FULL_DMF_EVIDENCE_CEILING_JSON_PATH,
+        role: "PAY full-DMF public-evidence ceiling",
+        grain: "nine-gate public-source closure disposition",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/pay_full_dmf_public_evidence_ceiling.schema.md",
+        role: "PAY full-DMF public-evidence ceiling schema",
+        grain: "search-exhaustion and owner-data boundary",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/pay-full-dmf-public-evidence-ceiling.md",
+        role: "PAY full-DMF public-evidence ceiling reader",
+        grain: "public closure result and reopen triggers",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-08-01-pay-full-dmf-public-evidence-ceiling-role-review.md",
+        role: "PAY full-DMF public-evidence ceiling role review",
+        grain: "source, finance, rights, privacy, and scope fixed point",
         kind: "markdown",
         canonical: "supporting",
     },
