@@ -1,0 +1,203 @@
+{
+  "record_id": "agr-insurer-compensation-legislative-design:v1",
+  "record_family": "agr_insurer_compensation_legislative_design",
+  "version": "v1.draft",
+  "status": "bounded_legislative_design_complete_score_specification_ready_zero_admission",
+  "as_of_date": "2026-08-01",
+  "track": "AGR",
+  "candidate_component": "insurer_compensation_modernization",
+  "predecessor_path": "data/derived/breadth_benchmark_matrix/agr_insurer_compensation_public_evidence_ceiling.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/agr_insurer_compensation_legislative_design.schema.md",
+  "reader_path": "docs/reading/agr-insurer-compensation-legislative-design.md",
+  "role_review_path": "reviews/2026-08-01-agr-insurer-compensation-legislative-design-role-review.md",
+  "design_objective": {
+    "primary": "test whether prospective underwriting-gain discipline can reduce federal outlays while preserving producer service and insurer capacity",
+    "producer_premium_subsidy_change_in_scope": false,
+    "ao_reimbursement_reduction_in_initial_specification": false,
+    "underwriting_gain_policy_change_in_scope": true,
+    "current_statutory_service_and_payment_floors_preserved": true,
+    "enactment_assumed": false,
+    "score_assumed": false
+  },
+  "statutory_change_specification": {
+    "target_provision": "7_U.S.C._1508(k)(8)(F)",
+    "required_changes": [
+      "create an express exception to SRA budget neutrality for legislatively specified underwriting-gain savings",
+      "permit those savings to reduce mandatory outlays instead of requiring recycling into A&O or underwriting-gain payments",
+      "retain existing A&O reimbursement protections, specialty-crop floors, high-loss-state payments, and inflation adjustments for the initial specification",
+      "require prospective application with no retroactive recovery of closed reinsurance-year gains",
+      "require public methodology, annual results, service-floor reporting, and five-reinsurance-year reauthorization or revision"
+    ],
+    "administrative_authority_alone_sufficient": false,
+    "legislation_required": true
+  },
+  "policy_alternatives": [
+    {
+      "alternative_id": "NULL_CURRENT_LAW",
+      "description": "retain the 2026 SRA and current statutory recycling and payment rules",
+      "ao_lever": "unchanged",
+      "underwriting_gain_lever": "unchanged",
+      "score_treatment": "current_law_baseline",
+      "selected_for_score_specification": false,
+      "admitted_savings_billions": 0.0
+    },
+    {
+      "alternative_id": "UW12_PROSPECTIVE",
+      "description": "prospectively calibrate reinsurance terms toward a 12-percent expected long-run AIP return on retained premium while leaving A&O policy unchanged",
+      "ao_lever": "unchanged_initially",
+      "underwriting_gain_lever": "12_percent_expected_long_run_return_target",
+      "score_treatment": "primary_score_specification",
+      "selected_for_score_specification": true,
+      "admitted_savings_billions": 0.0
+    },
+    {
+      "alternative_id": "MARKET_COMPARATOR_SENSITIVITY",
+      "description": "apply a current independently reproduced risk-adjusted market comparator using the same service and transition rules",
+      "ao_lever": "unchanged_initially",
+      "underwriting_gain_lever": "dynamic_market_comparator",
+      "score_treatment": "sensitivity_only_until_current_comparator_is_reproduced",
+      "selected_for_score_specification": false,
+      "admitted_savings_billions": 0.0
+    },
+    {
+      "alternative_id": "COMBINED_AO_AND_UW",
+      "description": "pair underwriting discipline with audited cost-based A&O reimbursement",
+      "ao_lever": "audited_cost_based_with_service_floors",
+      "underwriting_gain_lever": "market_return_target",
+      "score_treatment": "held_successor",
+      "selected_for_score_specification": false,
+      "admitted_savings_billions": 0.0
+    }
+  ],
+  "selected_score_specification": {
+    "alternative_id": "UW12_PROSPECTIVE",
+    "selection_reason": "It isolates the historical excess-return question without cutting producer premium support or A&O delivery funding, and 12 percent has an official CBO option precedent. It is a scoreable test parameter, not a finding that 12 percent is currently optimal.",
+    "target_metric_numerator": "expected_long_run_underwriting_gain_plus_investment_income_attributable_to_retained_premium",
+    "target_metric_denominator": "average_retained_premium_for_the_applicable_reinsurance_cohort",
+    "target_percent": 12.0,
+    "measurement_window_reinsurance_years": 10,
+    "update_cycle_reinsurance_years": 5,
+    "prospective_only": true,
+    "ao_reimbursement_changed": false,
+    "producer_premium_support_changed": false,
+    "historical_10_2_percent_comparator_used_as_target": false,
+    "cbo_vintage_1_5_billion_used_as_current_score": false
+  },
+  "implementation_rule": {
+    "phase_in_years": 3,
+    "year_1_share_of_modeled_term_adjustment_percent": 25,
+    "year_2_share_of_modeled_term_adjustment_percent": 50,
+    "year_3_and_later_share_percent": 100,
+    "term_adjustment_direction": "prospective_reinsurance_terms_only",
+    "closed_year_clawback_allowed": false,
+    "federal_administration_and_data_costs_scored": true,
+    "temporary_service_stabilization_payments_scored": true,
+    "sunset_or_reauthorization_after_reinsurance_years": 5
+  },
+  "service_floor_contract": {
+    "preimplementation_measurement_period_years": 3,
+    "preimplementation_data_publication_required": true,
+    "floor_rows": [
+      {
+        "floor_id": "nationwide_availability",
+        "measure": "state_crop_or_livestock_contract_units_with_at_least_one_provider_accepting_new_business",
+        "trigger": "any covered unit loses all accepting providers",
+        "response": "pause the affected term adjustment and authorize scored temporary stabilization"
+      },
+      {
+        "floor_id": "provider_capacity",
+        "measure": "approved provider count, entry, exit, capital, retained risk, and market share by state",
+        "trigger": "provider count falls below two in an existing multi-provider market or falls more than 20 percent nationally from the frozen baseline",
+        "response": "freeze the next adjustment and conduct competition and solvency review"
+      },
+      {
+        "floor_id": "specialty_and_high_loss_service",
+        "measure": "agent coverage, written agreements, policies, adjustment capacity, and claims by specialty status and high-loss state",
+        "trigger": "materially worse access or timeliness beyond the general service trigger",
+        "response": "retain statutory payment floors and apply targeted stabilization rather than across-the-board compensation"
+      },
+      {
+        "floor_id": "written_agreement_quality",
+        "measure": "submission error rate and processing turnaround",
+        "trigger": "error rate exceeds 10 percent or median turnaround exceeds 7 days for two consecutive reporting periods",
+        "response": "pause the next adjustment and require a corrective service plan"
+      },
+      {
+        "floor_id": "claims_and_appeals",
+        "measure": "claim timeliness, adjustment error, complaint, appeal, reversal, and producer-loss indicators",
+        "trigger": "more than 5 percent deterioration from the frozen three-year baseline after risk adjustment or failure of an applicable legal standard",
+        "response": "pause the next adjustment for the affected market and score remediation"
+      }
+    ],
+    "unmeasured_floor_treated_as_pass": false,
+    "temporary_stabilization_treated_as_savings": false
+  },
+  "scorekeeper_input_contract": {
+    "score_horizon_fiscal_years": 10,
+    "required_baseline": "matching_current_law_baseline_including_Public_Law_119_21_and_the_2026_SRA",
+    "required_inputs": [
+      "projected retained premium and underwriting gains by reinsurance year",
+      "projected AIP participation, capital, risk retention, and behavioral response",
+      "mapping from reinsurance-year cash flows to federal fiscal years",
+      "three-year phase-in and five-year reauthorization",
+      "federal administration, data publication, evaluation, and transition cost",
+      "service-floor stabilization and pause behavior",
+      "interactions with producer premiums, indemnities, disaster assistance, and taxable income"
+    ],
+    "gross_reduction_reported_separately": true,
+    "implementation_cost_reported_separately": true,
+    "behavioral_and_service_offsets_reported_separately": true,
+    "net_mandatory_outlay_effect_required": true,
+    "uncertainty_range_required": true,
+    "official_score_requested": false,
+    "current_score_available": false
+  },
+  "evaluation_and_adaptive_cycle": {
+    "reporting_frequency": "annual",
+    "independent_evaluation_frequency_reinsurance_years": 2,
+    "recalibration_frequency_reinsurance_years": 5,
+    "required_slices": [
+      "provider",
+      "state",
+      "commodity_or_livestock_group",
+      "specialty_crop_status",
+      "high_loss_state_status",
+      "farm_size_and_resource_group_where_lawful_and_available"
+    ],
+    "decision_states": [
+      "continue",
+      "pause_affected_market",
+      "targeted_stabilization",
+      "recalibrate",
+      "terminate_and_return_to_current_law"
+    ],
+    "automatic_savings_claim_from_target": false
+  },
+  "design_readiness": {
+    "alternatives_defined": 4,
+    "selected_score_specification_count": 1,
+    "service_floor_count": 5,
+    "statutory_change_specified": true,
+    "implementation_rule_specified": true,
+    "scorekeeper_input_contract_complete": true,
+    "public_market_data_complete": false,
+    "current_law_score_available": false,
+    "candidate_admitted": false,
+    "admitted_fy2026_outlay_reduction_billions": 0.0,
+    "rate_recomputation_required": false
+  },
+  "next_evidence_action": "Build a reproducible score-sensitivity and service-stress envelope for UW12_PROSPECTIVE using explicit retained-premium, gain, participation, implementation-cost, stabilization, and fiscal-year timing assumptions; keep all outputs illustrative until a matching current-law score and service-floor evidence exist.",
+  "claim_boundaries": {
+    "official_request_made": false,
+    "public_release_authorized": false,
+    "draft_treated_as_legislation": false,
+    "target_percent_treated_as_optimal_return": false,
+    "historical_comparator_treated_as_current_market_return": false,
+    "vintage_cbo_component_treated_as_current_score": false,
+    "service_floor_treated_as_observed_effect": false,
+    "candidate_admitted": false,
+    "spending_reduction_admitted": false,
+    "solver_run_performed": false,
+    "rate_change_allowed": false
+  }
+}

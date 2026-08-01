@@ -2254,6 +2254,8 @@ pub(crate) const AGR_CROP_INSURANCE_CURRENT_LAW_OWNER_EVIDENCE_AUDIT_JSON_PATH: 
 
 pub(crate) const AGR_INSURER_COMPENSATION_PUBLIC_EVIDENCE_CEILING_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/agr_insurer_compensation_public_evidence_ceiling.v1.draft.json";
 
+pub(crate) const AGR_INSURER_COMPENSATION_LEGISLATIVE_DESIGN_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/agr_insurer_compensation_legislative_design.v1.draft.json";
+
 pub(crate) const PAY_FULL_DMF_EVIDENCE_CEILING_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/pay_full_dmf_public_evidence_ceiling.v1.draft.json";
 
@@ -11203,6 +11205,34 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         path: "reviews/2026-08-01-agr-insurer-compensation-public-evidence-ceiling-role-review.md",
         role: "AGR insurer-compensation public-evidence ceiling role review",
         grain: "finance, insurance, service, distribution, law, and scope fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: AGR_INSURER_COMPENSATION_LEGISLATIVE_DESIGN_JSON_PATH,
+        role: "AGR insurer-compensation legislative design",
+        grain: "statutory mechanism, score specification, service floors, and adaptive cycle",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/agr_insurer_compensation_legislative_design.schema.md",
+        role: "AGR insurer-compensation legislative-design schema",
+        grain: "alternative, transition, score, service, and authority boundary",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/agr-insurer-compensation-legislative-design.md",
+        role: "AGR insurer-compensation legislative-design reader",
+        grain: "scoreable mechanism and service-before-savings explanation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-08-01-agr-insurer-compensation-legislative-design-role-review.md",
+        role: "AGR insurer-compensation legislative-design role review",
+        grain: "finance, agriculture, insurance, service, distribution, law, and scope fixed point",
         kind: "markdown",
         canonical: "supporting",
     },

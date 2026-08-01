@@ -1338,6 +1338,7 @@ pub(crate) fn validate_global_country_comparison_coverage(root: &Path) -> Result
     validate_seven_owner_outcome_lane_execution_frontier(root)?;
     validate_agr_crop_insurance_current_law_owner_evidence_audit(root)?;
     validate_agr_insurer_compensation_public_evidence_ceiling(root)?;
+    validate_agr_insurer_compensation_legislative_design(root)?;
     validate_pay_full_dmf_public_evidence_ceiling(root)?;
     validate_hlt_site_neutral_current_law_dependency_audit(root)?;
     validate_def_proportional_force_current_law_dependency_audit(root)?;
@@ -14468,6 +14469,147 @@ pub(crate) fn validate_agr_insurer_compensation_public_evidence_ceiling(
         || bool_field(claims, "rate_change_allowed")?
     {
         return Err("AGR insurer-compensation public-evidence ceiling failed".to_string());
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_agr_insurer_compensation_legislative_design(
+    root: &Path,
+) -> Result<(), String> {
+    let design = read_json_artifact(root, AGR_INSURER_COMPENSATION_LEGISLATIVE_DESIGN_JSON_PATH)?;
+    let objective = design.get("design_objective").ok_or("AGR design objective")?;
+    let statute = design
+        .get("statutory_change_specification")
+        .ok_or("AGR design statute")?;
+    let alternatives = design
+        .get("policy_alternatives")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("AGR design alternatives")?;
+    let alternative_ids = alternatives
+        .iter()
+        .map(|row| string_field(row, "alternative_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let selected_count = alternatives
+        .iter()
+        .map(|row| bool_field(row, "selected_for_score_specification"))
+        .collect::<Result<Vec<_>, _>>()?
+        .into_iter()
+        .filter(|selected| *selected)
+        .count();
+    if alternatives.iter().any(|row| {
+        number_field(row, "admitted_savings_billions")
+            .map(|value| value.abs() > 0.0001)
+            .unwrap_or(true)
+    }) {
+        return Err("AGR design alternative admission boundary failed".to_string());
+    }
+    let selected = design
+        .get("selected_score_specification")
+        .ok_or("AGR selected score specification")?;
+    let implementation = design
+        .get("implementation_rule")
+        .ok_or("AGR design implementation rule")?;
+    let service = design
+        .get("service_floor_contract")
+        .ok_or("AGR design service floors")?;
+    let floors = service
+        .get("floor_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("AGR design floor rows")?;
+    let floor_ids = floors
+        .iter()
+        .map(|row| {
+            if string_field(row, "measure")?.is_empty()
+                || string_field(row, "trigger")?.is_empty()
+                || string_field(row, "response")?.is_empty()
+            {
+                return Err("AGR design floor completeness failed".to_string());
+            }
+            string_field(row, "floor_id")
+        })
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let score = design
+        .get("scorekeeper_input_contract")
+        .ok_or("AGR design score contract")?;
+    let adaptive = design
+        .get("evaluation_and_adaptive_cycle")
+        .ok_or("AGR design adaptive cycle")?;
+    let readiness = design
+        .get("design_readiness")
+        .ok_or("AGR design readiness")?;
+    let claims = design
+        .get("claim_boundaries")
+        .ok_or("AGR design claim boundaries")?;
+    if alternatives.len() != 4
+        || alternative_ids.len() != 4
+        || !alternative_ids.contains("NULL_CURRENT_LAW")
+        || !alternative_ids.contains("UW12_PROSPECTIVE")
+        || !alternative_ids.contains("MARKET_COMPARATOR_SENSITIVITY")
+        || !alternative_ids.contains("COMBINED_AO_AND_UW")
+        || selected_count != 1
+        || bool_field(objective, "producer_premium_subsidy_change_in_scope")?
+        || bool_field(objective, "ao_reimbursement_reduction_in_initial_specification")?
+        || !bool_field(objective, "underwriting_gain_policy_change_in_scope")?
+        || bool_field(objective, "enactment_assumed")?
+        || bool_field(objective, "score_assumed")?
+        || bool_field(statute, "administrative_authority_alone_sufficient")?
+        || !bool_field(statute, "legislation_required")?
+        || string_field(selected, "alternative_id")? != "UW12_PROSPECTIVE"
+        || (number_field(selected, "target_percent")? - 12.0).abs() > 0.0001
+        || int_field(selected, "measurement_window_reinsurance_years")? != 10
+        || int_field(selected, "update_cycle_reinsurance_years")? != 5
+        || !bool_field(selected, "prospective_only")?
+        || bool_field(selected, "ao_reimbursement_changed")?
+        || bool_field(selected, "producer_premium_support_changed")?
+        || bool_field(selected, "historical_10_2_percent_comparator_used_as_target")?
+        || bool_field(selected, "cbo_vintage_1_5_billion_used_as_current_score")?
+        || int_field(implementation, "phase_in_years")? != 3
+        || bool_field(implementation, "closed_year_clawback_allowed")?
+        || !bool_field(implementation, "federal_administration_and_data_costs_scored")?
+        || !bool_field(implementation, "temporary_service_stabilization_payments_scored")?
+        || floors.len() != 5
+        || floor_ids.len() != 5
+        || !floor_ids.contains("nationwide_availability")
+        || !floor_ids.contains("provider_capacity")
+        || !floor_ids.contains("specialty_and_high_loss_service")
+        || !floor_ids.contains("written_agreement_quality")
+        || !floor_ids.contains("claims_and_appeals")
+        || bool_field(service, "unmeasured_floor_treated_as_pass")?
+        || bool_field(service, "temporary_stabilization_treated_as_savings")?
+        || int_field(score, "score_horizon_fiscal_years")? != 10
+        || !bool_field(score, "gross_reduction_reported_separately")?
+        || !bool_field(score, "implementation_cost_reported_separately")?
+        || !bool_field(score, "behavioral_and_service_offsets_reported_separately")?
+        || !bool_field(score, "net_mandatory_outlay_effect_required")?
+        || !bool_field(score, "uncertainty_range_required")?
+        || bool_field(score, "official_score_requested")?
+        || bool_field(score, "current_score_available")?
+        || bool_field(adaptive, "automatic_savings_claim_from_target")?
+        || int_field(readiness, "alternatives_defined")? != 4
+        || int_field(readiness, "selected_score_specification_count")? != 1
+        || int_field(readiness, "service_floor_count")? != 5
+        || !bool_field(readiness, "statutory_change_specified")?
+        || !bool_field(readiness, "implementation_rule_specified")?
+        || !bool_field(readiness, "scorekeeper_input_contract_complete")?
+        || bool_field(readiness, "public_market_data_complete")?
+        || bool_field(readiness, "current_law_score_available")?
+        || bool_field(readiness, "candidate_admitted")?
+        || number_field(readiness, "admitted_fy2026_outlay_reduction_billions")?.abs()
+            > 0.0001
+        || bool_field(readiness, "rate_recomputation_required")?
+        || bool_field(claims, "official_request_made")?
+        || bool_field(claims, "public_release_authorized")?
+        || bool_field(claims, "draft_treated_as_legislation")?
+        || bool_field(claims, "target_percent_treated_as_optimal_return")?
+        || bool_field(claims, "historical_comparator_treated_as_current_market_return")?
+        || bool_field(claims, "vintage_cbo_component_treated_as_current_score")?
+        || bool_field(claims, "service_floor_treated_as_observed_effect")?
+        || bool_field(claims, "candidate_admitted")?
+        || bool_field(claims, "spending_reduction_admitted")?
+        || bool_field(claims, "solver_run_performed")?
+        || bool_field(claims, "rate_change_allowed")?
+    {
+        return Err("AGR insurer-compensation legislative design failed".to_string());
     }
     Ok(())
 }
