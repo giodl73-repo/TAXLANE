@@ -366,6 +366,18 @@ improves the evidence, but only Trust is admission-ready; expenditure,
 contracts, design, training, and evaluation procurement remain distinct from
 completed service and durable outcomes.
 
+The [five-candidate comparison](docs/reading/verdict-five-candidate-comparison.md)
+now covers an owner mismatch, active international delivery, enacted domestic
+implementation, a veterans rights/service proposal, and a judicial-capacity
+proposal. Five of 35 gates are ready—all Trust—and no candidate supplies an
+admitted spending reduction or rate effect.
+
+The next fiscal slices are now explicit: [PAY's VA PLTSS same-cohort pilot](docs/reading/pay-va-pltss-same-cohort-pilot.md),
+the [NET baseline completion plan](docs/reading/net-current-law-baseline-completion-plan.md),
+and the [five-candidate fiscal rerun](docs/reading/verdict-five-candidate-fiscal-rerun.md).
+The rerun preserves the full $813.727B financing requirement and all three
+internal schedules because no candidate effect passed admission.
+
 ### 4. The rate followed the evidence
 
 The model used Tax-Calculator 6.5.1, the bundled CPS tax-unit input, and tax

@@ -1,0 +1,34 @@
+{
+  "record_id": "verdict-lifeline-calfresh-candidate-assessment:v1",
+  "record_family": "verdict_lifeline_calfresh_candidate_assessment",
+  "version": "v1.draft",
+  "status": "owner_aligned_candidate_handoff_one_ready_six_blocked",
+  "as_of_date": "2026-07-31",
+  "producer_input": {
+    "producer": "LIFELINE",
+    "commit": "dbef14bffb74a833b873ed9baff237994ab27c54",
+    "assessment_path": "docs/vtrace/CALFRESH_CANDIDATE_ASSESSMENT.md",
+    "machine_record_path": "fixtures/official/calfresh-verdict.v1.json",
+    "candidate_id": "california_hr1_abawd_implementation",
+    "owner_alignment": true,
+    "score_reproduced_without_drift": true
+  },
+  "scores": {"value":1,"effectiveness":1,"resilience":1,"deliverability":2,"iteration":2,"coverage_and_fair_access":2,"trust":3,"total":12,"possible":21,"minimum":1,"total_is_gate_disposition":false},
+  "candidate_gate_reviews": [
+    {"dimension":"value","gate_id":"verdict-value","disposition":"required_blocked","successor_owner":"LIFELINE","blocking_gate":"observed household outcome, lifecycle cost, oral-notice cost, and compatible alternative missing"},
+    {"dimension":"effectiveness","gate_id":"verdict-effectiveness","disposition":"required_blocked","successor_owner":"LIFELINE","blocking_gate":"candidate-coded postimplementation exposure and causal outcome missing"},
+    {"dimension":"resilience","gate_id":"verdict-resilience","disposition":"required_blocked","successor_owner":"LIFELINE","blocking_gate":"observed churn, correction, recovery, adequacy, and stress continuity missing"},
+    {"dimension":"deliverability","gate_id":"verdict-deliverability","disposition":"required_blocked","successor_owner":"LIFELINE","blocking_gate":"postimplementation staffing, queues, notice workload, county variation, and realized capacity missing"},
+    {"dimension":"iteration","gate_id":"verdict-iteration","disposition":"required_blocked","successor_owner":"LIFELINE","blocking_gate":"operational correction, outcome learning, rollback, and fiscal rebalancing not demonstrated"},
+    {"dimension":"coverage_and_fair_access","gate_id":"verdict-coverage-access","disposition":"required_blocked","successor_owner":"LIFELINE","blocking_gate":"candidate-coded protected-group, county, notice, appeal, and hardship effects missing"},
+    {"dimension":"trust","gate_id":"verdict-trust","disposition":"required_ready","evidence_path":"data/derived/breadth_benchmark_matrix/lifeline_calfresh_candidate_intake_disposition.v1.draft.json"}
+  ],
+  "taxlane_evidence_paths": [
+    "data/derived/breadth_benchmark_matrix/lifeline_calfresh_candidate_intake_disposition.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/lifeline_calfresh_level2_baseline_disposition.v1.draft.json"
+  ],
+  "accounting_boundaries": {"gross_administration_millions":86.8,"caseload_related_offset_millions":-78.6,"net_administration_millions":8.2,"projected_lost_benefits_millions":758,"offset_is_efficiency":false,"lost_benefits_are_savings":false},
+  "fiscal_decision": {"candidate_admitted":false,"admitted_fy2026_primary_reduction_billions":0.0,"rate_recomputation_required":false},
+  "next_evidence_action": "Observe one complete candidate-coded recertification cycle across exposure, service, rights, adequacy, distribution, capacity, and actual cost.",
+  "claim_booleans": {"handoff_complete":true,"ready_gate_count":1,"blocked_gate_count":6,"eligibility_action":false,"savings_admitted":false,"solver_run_performed":false,"rate_changed":false,"public_release_authorized":false}
+}

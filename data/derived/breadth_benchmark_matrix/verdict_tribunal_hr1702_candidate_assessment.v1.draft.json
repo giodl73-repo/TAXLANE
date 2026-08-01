@@ -1,0 +1,23 @@
+{
+  "record_id": "verdict-tribunal-hr1702-candidate-assessment:v1",
+  "record_family": "verdict_tribunal_hr1702_candidate_assessment",
+  "version": "v1.draft",
+  "status": "owner_aligned_candidate_handoff_one_ready_six_blocked",
+  "as_of_date": "2026-07-31",
+  "producer_input": {"producer":"TRIBUNAL","commit":"55d68a8f3db5567974437c9921dcb469c900e62c","assessment_path":"docs/vtrace/HR1702_CANDIDATE_ASSESSMENT.md","machine_record_path":"fixtures/official/hr1702-verdict.v1.json","candidate_id":"hr1702_judges_act_2025","owner_alignment":true,"score_reproduced_without_drift":true},
+  "scores": {"value":1,"effectiveness":1,"resilience":1,"deliverability":1,"iteration":1,"coverage_and_fair_access":1,"trust":3,"total":9,"possible":21,"minimum":1,"total_is_gate_disposition":false},
+  "candidate_gate_reviews": [
+    {"dimension":"value","gate_id":"verdict-value","disposition":"required_blocked","successor_owner":"TRIBUNAL","blocking_gate":"useful justice outcome denominator, lifecycle and supporting-system cost, observed benefit, and compatible alternative missing"},
+    {"dimension":"effectiveness","gate_id":"verdict-effectiveness","disposition":"required_blocked","successor_owner":"TRIBUNAL","blocking_gate":"unenacted bill has no staffed-seat exposure or matched justice effect"},
+    {"dimension":"resilience","gate_id":"verdict-resilience","disposition":"required_blocked","successor_owner":"TRIBUNAL","blocking_gate":"stress, recovery, surge, continuity, and institutional resilience missing"},
+    {"dimension":"deliverability","gate_id":"verdict-deliverability","disposition":"required_blocked","successor_owner":"TRIBUNAL","blocking_gate":"enactment, appropriation, appointment, confirmation, staff, facilities, security, technology, and operating milestones missing"},
+    {"dimension":"iteration","gate_id":"verdict-iteration","disposition":"required_blocked","successor_owner":"TRIBUNAL","blocking_gate":"operating loop, response authority, outcome learning, rollback or retirement, and fiscal rebalancing missing"},
+    {"dimension":"coverage_and_fair_access","gate_id":"verdict-coverage-access","disposition":"required_blocked","successor_owner":"TRIBUNAL","blocking_gate":"candidate-matched counsel, liberty, victim, disparity, due-process, and subgroup results missing"},
+    {"dimension":"trust","gate_id":"verdict-trust","disposition":"required_ready","evidence_path":"data/derived/breadth_benchmark_matrix/tribunal_hr1702_candidate_intake_disposition.v1.draft.json"}
+  ],
+  "taxlane_evidence_paths": ["data/derived/breadth_benchmark_matrix/tribunal_hr1702_candidate_intake_disposition.v1.draft.json","data/derived/breadth_benchmark_matrix/tribunal_hr1702_level2_baseline_disposition.v1.draft.json"],
+  "accounting_boundaries": {"judge_compensation_direct_millions":111,"court_operations_appropriated_millions":283,"combined_cost_millions":394,"capacity_is_justice_outcome":false,"workload_is_savings":false},
+  "fiscal_decision": {"candidate_admitted":false,"admitted_fy2026_primary_reduction_billions":0.0,"rate_recomputation_required":false},
+  "next_evidence_action": "After enactment and staffed delivery, follow matched districts and case types through caseflow, rights, safety, durable resolution, supporting capacity, cost, and uncertainty.",
+  "claim_booleans": {"handoff_complete":true,"ready_gate_count":1,"blocked_gate_count":6,"judicial_recommendation":false,"savings_admitted":false,"solver_run_performed":false,"rate_changed":false,"public_release_authorized":false}
+}

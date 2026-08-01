@@ -1,0 +1,22 @@
+{
+  "record_id": "verdict-five-candidate-fiscal-rerun:v1",
+  "record_family": "verdict_five_candidate_fiscal_rerun",
+  "version": "v1.draft",
+  "status": "accounting_rerun_complete_zero_admitted_effect_rates_unchanged",
+  "as_of_date": "2026-07-31",
+  "candidate_comparison_path": "data/derived/breadth_benchmark_matrix/verdict_five_candidate_comparison.v1.draft.json",
+  "prior_reconciliation_path": "data/derived/breadth_benchmark_matrix/rev_level_2_zero_admitted_spending_reconciliation.v1.draft.json",
+  "candidate_count": 5,
+  "candidate_admissions": 0,
+  "admitted_fy2026_primary_reduction_billions": 0.0,
+  "pay_additive_effect_billions": 0.0,
+  "net_primary_balance_shock_millions": 0,
+  "net_interest_recomputation_triggered": false,
+  "remaining_fy2026_financing_requirement_billions": 813.727,
+  "preferred_internal_planning_schedule_percent": [21,23,33,35,43,46,48],
+  "behavior_contingency_schedule_percent": [22,24,34,36,44,47,49],
+  "severe_stress_schedule_percent": [22.6,24.6,34.6,36.6,44.6,47.6,49.6],
+  "decision": {"accounting_rerun_complete":true,"solver_run_performed":false,"rate_recomputation_required":false,"planning_schedule_changed":false,"official_rate_ready":false,"assigned_rate_ready":false},
+  "next_rerun_trigger": "At least one owner-admitted net primary effect passes applicable service, cost, distribution, delivery, and VERDICT gates; NET then recomputes debt and interest before REV.",
+  "claim_booleans": {"savings_admitted":false,"interest_savings":false,"rate_changed":false,"official_rate_published":false,"balanced_budget_claim":false,"public_release_authorized":false}
+}

@@ -1,0 +1,20 @@
+{
+  "record_id": "pay-va-pltss-same-cohort-pilot:v1",
+  "record_family": "pay_va_pltss_same_cohort_pilot",
+  "version": "v1.draft",
+  "status": "pilot_selected_specification_ready_lineage_blocked",
+  "as_of_date": "2026-07-31",
+  "program_id": "va-pltss",
+  "overlay": "PAY",
+  "program_owner": "VET",
+  "service_evidence_owner": "COVENANT",
+  "selection_basis": "six-source custodied evidence ceiling with explicit same-cohort gaps",
+  "source_ceiling_path": "data/derived/breadth_benchmark_matrix/va_pltss_same_cohort_debt_collection_lineage_evidence_ceiling.fy2024-q4-2025.v1.draft.json",
+  "context_only": {"sample_period":"2022-10 through 2023-09","projected_overpayments_millions":218.30,"projected_overpayment_is_debt":false,"projected_overpayment_is_collection":false,"projected_overpayment_is_savings":false},
+  "required_lineage_stages": ["sampled_payment_and_projection_weight","final_payment_classification","bill_or_receivable","dispute_review_appeal","correction_or_final_disposition","collection_refund_or_offset","certified_recovered_credited_or_realized_cash"],
+  "required_service_and_cost_floors": ["eligible_payment_timeliness","care_continuity","provider_continuity","notice_and_appeal_access","false_positive_rate","correction_time","documentation_burden","provider_burden","subgroup_distribution","implementation_cost","monitoring_cost","appeal_cost","remediation_cost"],
+  "accounting_rule": "Any future net realized benefit uses certified same-cohort cash less implementation, monitoring, appeal, and remediation costs; PAY remains non-additive and the VET owner books an admitted primary effect once.",
+  "readiness": {"pilot_selected":true,"specification_ready":true,"same_cohort_source_data_ready":false,"service_floors_ready":false,"net_benefit_ready":false,"owner_admission_ready":false,"solver_ready":false},
+  "next_evidence_action": "Obtain or identify a privacy-safe same-cohort PLTSS ledger spanning sampled payment through certified cash and service/cost floors.",
+  "claim_booleans": {"fraud_finding":false,"waste_finding":false,"debt_finding":false,"recovery_claim":false,"savings_admitted":false,"external_request_authorized":false,"rate_effect":false}
+}

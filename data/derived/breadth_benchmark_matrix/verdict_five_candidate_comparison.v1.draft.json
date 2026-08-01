@@ -1,0 +1,24 @@
+{
+  "record_id": "verdict-five-candidate-comparison:v1",
+  "record_family": "verdict_five_candidate_comparison",
+  "version": "v1.draft",
+  "status": "five_candidates_compared_no_fiscal_admission",
+  "as_of_date": "2026-07-31",
+  "candidates": [
+    {"candidate_id":"hr2247_airmen_certificate_accessibility","producer":null,"owner_alignment":false,"archetype":"unenacted_cost_only_owner_mismatch","scores":{"value":1,"effectiveness":1,"resilience":1,"deliverability":2,"iteration":0,"coverage_and_fair_access":1,"trust":3,"total":9},"ready_gates":1,"blocked_gates":6},
+    {"candidate_id":"mcc_nepal_compact_implementation","producer":"ENVOY","owner_alignment":true,"archetype":"active_delivery_evaluation_readiness","scores":{"value":1,"effectiveness":1,"resilience":1,"deliverability":2,"iteration":2,"coverage_and_fair_access":1,"trust":3,"total":11},"ready_gates":1,"blocked_gates":6},
+    {"candidate_id":"california_hr1_abawd_implementation","producer":"LIFELINE","owner_alignment":true,"archetype":"enacted_implementation_preimplementation_baseline","scores":{"value":1,"effectiveness":1,"resilience":1,"deliverability":2,"iteration":2,"coverage_and_fair_access":2,"trust":3,"total":12},"ready_gates":1,"blocked_gates":6},
+    {"candidate_id":"hr2137_review_every_veterans_claim","producer":"COVENANT","owner_alignment":true,"archetype":"unenacted_rights_service_proposal","scores":{"value":1,"effectiveness":1,"resilience":1,"deliverability":1,"iteration":1,"coverage_and_fair_access":1,"trust":3,"total":9},"ready_gates":1,"blocked_gates":6},
+    {"candidate_id":"hr1702_judges_act_2025","producer":"TRIBUNAL","owner_alignment":true,"archetype":"unenacted_capacity_proposal","scores":{"value":1,"effectiveness":1,"resilience":1,"deliverability":1,"iteration":1,"coverage_and_fair_access":1,"trust":3,"total":9},"ready_gates":1,"blocked_gates":6}
+  ],
+  "summary": {"candidate_count":5,"score_total":50,"score_possible":105,"gate_count":35,"ready_gate_count":5,"blocked_gate_count":30,"ready_dimensions":["trust"],"candidate_admissions":0,"admitted_fy2026_primary_reduction_billions":0.0},
+  "validated_rules": ["owner_alignment_required","delivery_is_not_outcome","access_evidence_separate","capacity_is_not_outcome","fiscal_components_keep_semantics","numeric_score_is_not_gate_disposition"],
+  "next_evidence_actions": {
+    "calfresh":"complete candidate-coded recertification cycle",
+    "nepal_compact":"complete independently evaluated road or electricity cohort",
+    "hr2137":"observe enacted implementation and matched claimant-rights outcomes",
+    "hr1702":"observe staffed seats and matched caseflow-rights outcomes",
+    "hr2247":"assign aviation owner and establish service baseline and outcomes"
+  },
+  "claim_booleans": {"comparison_complete":true,"candidate_admitted":false,"savings_admitted":false,"solver_run_performed":false,"rate_changed":false,"public_release_authorized":false}
+}
