@@ -661,6 +661,15 @@ pub(crate) const NET_INTEREST_FORMULA_CONTRACT_SCHEMA_PATH: &str =
 pub(crate) const NET_INTEREST_FORMULA_CONTRACT_READER_PATH: &str =
     "docs/reading/net-interest-formula-contract.md";
 
+pub(crate) const NET_BASELINE_COMPATIBILITY_AUDIT_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/net_current_law_baseline_compatibility_audit.v1.draft.json";
+pub(crate) const NET_BASELINE_COMPATIBILITY_AUDIT_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/net_current_law_baseline_compatibility_audit.schema.md";
+pub(crate) const NET_BASELINE_COMPATIBILITY_AUDIT_READER_PATH: &str =
+    "docs/reading/net-current-law-baseline-compatibility-audit.md";
+pub(crate) const NET_BASELINE_COMPATIBILITY_AUDIT_REVIEW_PATH: &str =
+    "reviews/2026-07-31-net-current-law-baseline-compatibility-role-review.md";
+
 pub(crate) const NET_INTEREST_PBD_FY2025_2031_CURRENT_LAW_CONTEXT_PATH_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/net_interest_pbd_fy2025_2031_current_law_context_path.v1.draft.json";
 
 pub(crate) const NET_INTEREST_PBD_FY2025_2031_CURRENT_LAW_CONTEXT_PATH_READER_PATH: &str =
@@ -10817,6 +10826,34 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         kind: "rust",
         canonical: "supporting",
     },
+    Artifact {
+        path: NET_BASELINE_COMPATIBILITY_AUDIT_JSON_PATH,
+        role: "NET current-law baseline compatibility audit",
+        grain: "formula-input dispositions and zero-policy reconciliation",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: NET_BASELINE_COMPATIBILITY_AUDIT_SCHEMA_PATH,
+        role: "NET baseline compatibility audit schema",
+        grain: "input-admission and claim-boundary contract",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: NET_BASELINE_COMPATIBILITY_AUDIT_READER_PATH,
+        role: "NET baseline compatibility audit reader",
+        grain: "public accounting advance and remaining gaps",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: NET_BASELINE_COMPATIBILITY_AUDIT_REVIEW_PATH,
+        role: "NET baseline compatibility role review",
+        grain: "source and accounting fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
 ];
 
 pub(crate) const RECEIPT_SHARE_CATEGORIES: &[ReceiptShareCategory] = &[
@@ -10896,4 +10933,3 @@ pub(crate) const TABLE_3_2_NATIONAL_DEFENSE_LINES: &[Table32NationalDefenseLine]
 ];
 
 pub(crate) const PROGRAM_LANE_RATE_MODEL_DIR: &str = "data/derived/program_lane_rate_model";
-

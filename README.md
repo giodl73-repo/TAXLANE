@@ -374,9 +374,13 @@ admitted spending reduction or rate effect.
 
 The next fiscal slices are now explicit: [PAY's VA PLTSS same-cohort pilot](docs/reading/pay-va-pltss-same-cohort-pilot.md),
 the [NET baseline completion plan](docs/reading/net-current-law-baseline-completion-plan.md),
+its [source-compatibility audit](docs/reading/net-current-law-baseline-compatibility-audit.md),
 and the [five-candidate fiscal rerun](docs/reading/verdict-five-candidate-fiscal-rerun.md).
-The rerun preserves the full $813.727B financing requirement and all three
-internal schedules because no candidate effect passed admission.
+NET now admits three of eight formula inputs and completes four of nine baseline
+steps, including the zero-policy topline replay, while maturity-aware interest
+feedback remains blocked. The fiscal rerun still preserves the full $813.727B
+financing requirement and all three internal schedules because no candidate
+effect passed admission.
 
 ### 4. The rate followed the evidence
 

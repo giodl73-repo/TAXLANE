@@ -22,7 +22,7 @@ supporting views.
 
 | Path | Role | Grain | Rows | Canonical | SHA-256 |
 |---|---|---|---:|---|---|
-| `README.md` | Repository overview | documentation | n/a | supporting | `3f46b58da655bb8c0dc3c45d2393e934c7c86dfc214ebfa53f2e084281b2c14f` |
+| `README.md` | Repository overview | documentation | n/a | supporting | `ed73cb6404cbdc135e0c9204fb6a35c1fc1115c5efd9d286a9b55e28232ea43b` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.draft.jsonl` | Canonical annual model rows | fiscal year by broad category | 516 | yes | `01c0fec63836f3652fdd83b03a608159ad58f7614fc214ae6691421990f3a85e` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.decade-summary.jsonl` | Canonical decade summary rows | decade by broad category | 54 | yes | `088cb5d55cc6a37ab52dd543d8a92bf09908cda265e9c9f93324b840eb652fb3` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.annual-wide.csv` | Chart-ready annual wide view | fiscal year | 86 | no | `cbe6ec44a77b9ef4adebaef37acc4b55ac23fd5eb21916989ae9518cbd4e4c31` |
@@ -936,6 +936,10 @@ supporting views.
 | `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `47f4135a8d0543687379b16f7c3f06d335fabee8485f941944cb0805c9b2d941` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `b910e56a20f40547ac1e4f696e84772dde163738b03915ddbcc0d0a39427719a` |
 | `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `b23aefa861fddf70c9a41dd9d5459ee87d076e734e7573130c19197b8dabaf35` |
+| `data/derived/breadth_benchmark_matrix/net_current_law_baseline_compatibility_audit.v1.draft.json` | NET current-law baseline compatibility audit | formula-input dispositions and zero-policy reconciliation | n/a | supporting | `4adad1040e04a8d8336abf2c2ef9c9505bda20961c1117bff6030c3fb2af6094` |
+| `data/derived/breadth_benchmark_matrix/net_current_law_baseline_compatibility_audit.schema.md` | NET baseline compatibility audit schema | input-admission and claim-boundary contract | n/a | supporting | `99fc306ae81126d2cfbd54b724853b5a14c20d3721515f1cc929ee6fac66a394` |
+| `docs/reading/net-current-law-baseline-compatibility-audit.md` | NET baseline compatibility audit reader | public accounting advance and remaining gaps | n/a | supporting | `6b7026ed483b2349208570d92563f57b064d71bdcb85c8fa8640b96b50bf80b4` |
+| `reviews/2026-07-31-net-current-law-baseline-compatibility-role-review.md` | NET baseline compatibility role review | source and accounting fixed point | n/a | supporting | `347d975d2fcbeee135074c8ca741a03341ee6560a504f51f2fe70cceaec63276` |
 
 ## Regeneration Order
 

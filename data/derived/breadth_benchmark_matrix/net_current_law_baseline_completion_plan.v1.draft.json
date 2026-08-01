@@ -2,22 +2,24 @@
   "record_id": "net-current-law-baseline-completion-plan:v1",
   "record_family": "net_current_law_baseline_completion_plan",
   "version": "v1.draft",
-  "status": "seven_row_context_ready_endogenous_baseline_blocked",
+  "status": "four_of_nine_steps_ready_endogenous_baseline_blocked",
   "as_of_date": "2026-07-31",
   "context_path": "data/derived/breadth_benchmark_matrix/net_interest_pbd_fy2025_2031_current_law_context_path.v1.draft.json",
   "formula_contract_path": "data/derived/breadth_benchmark_matrix/net_interest_formula_contract.v1.draft.json",
+  "compatibility_audit_path": "data/derived/breadth_benchmark_matrix/net_current_law_baseline_compatibility_audit.v1.draft.json",
   "usable_context": {"fiscal_year_start":2025,"fiscal_year_end":2031,"row_count":7,"actual_rows":1,"projection_rows":6,"source_custody_ready":true,"is_endogenous_path":false},
   "completion_steps": [
-    {"step":1,"input":"horizon_boundary_or_extension","ready":false},
-    {"step":2,"input":"annual_debt_stock","ready":false},
+    {"step":1,"input":"horizon_boundary_or_extension","ready":true,"evidence":"CORE-G admitted FY2025-FY2035 boundary"},
+    {"step":2,"input":"annual_debt_stock","ready":true,"evidence":"CORE-G beginning and ending debt held by the public"},
     {"step":3,"input":"maturity_bucket_stock_and_rollover","ready":false},
     {"step":4,"input":"effective_rate_by_bucket_and_stress","ready":false},
     {"step":5,"input":"new_borrowing_timing","ready":false},
     {"step":6,"input":"gross_interest_receipts_net_bridge","ready":false},
-    {"step":7,"input":"explicit_other_financing","ready":false},
-    {"step":8,"input":"zero_policy_change_regression_fixture","ready":false},
+    {"step":7,"input":"explicit_other_financing","ready":true,"evidence":"CORE-G reported other financing plus timing residual"},
+    {"step":8,"input":"zero_policy_change_regression_fixture","ready":true,"evidence":"CORE-G deterministic topline and debt-identity replay"},
     {"step":9,"input":"primary_balance_shock_feedback_test","ready":false}
   ],
   "candidate_bundle_effect": {"admitted_primary_balance_delta_millions":0,"interest_recomputation_triggered":false},
-  "claim_booleans": {"completion_plan_published":true,"debt_path_ready":false,"maturity_path_ready":false,"rate_path_ready":false,"feedback_test_ready":false,"direct_interest_cut":false,"interest_savings":false,"solver_ready":false,"rate_effect":false}
+  "readiness_summary": {"steps_ready":4,"steps_total":9,"formula_inputs_ready":3,"formula_inputs_required":8},
+  "claim_booleans": {"completion_plan_published":true,"annual_debt_path_ready":true,"zero_policy_topline_reconciliation_ready":true,"endogenous_debt_interest_path_ready":false,"maturity_path_ready":false,"rate_path_ready":false,"feedback_test_ready":false,"direct_interest_cut":false,"interest_savings":false,"solver_ready":false,"rate_effect":false}
 }

@@ -5,9 +5,13 @@ Machine record:
 
 ## Current usable spine
 
-The custodied OMB PBD path provides seven net-interest context rows: FY2025
-actual and FY2026–FY2031 projections. It is a source target for reconciliation,
-not an endogenous debt model.
+The custodied OMB PBD path provides seven net-interest context rows. The
+existing CORE-G CBO spine additionally provides a hash-custodied FY2025–FY2035
+horizon, annual debt held by the public, annual net interest, explicit other
+financing and timing, and a deterministic zero-policy topline reconciliation.
+The [compatibility audit](net-current-law-baseline-compatibility-audit.md)
+therefore marks four of nine completion steps ready without treating the
+remaining Treasury context as an endogenous debt model.
 
 ## Completion sequence
 
@@ -25,4 +29,3 @@ not an endogenous debt model.
 Until all inputs reconcile, NET remains an accounting guardrail rather than a
 source of direct savings. The five candidate assessments produce no admitted
 primary-balance shock, so they trigger no interest recomputation.
-

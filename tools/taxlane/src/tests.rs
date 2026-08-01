@@ -1602,6 +1602,12 @@ mod global_country_comparison_tests {
     }
 
     #[test]
+    fn net_admits_only_compatible_baseline_inputs_and_replays_zero_policy() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_net_current_law_baseline_compatibility_audit(&root).unwrap();
+    }
+
+    #[test]
     fn trn_a_completes_bounded_baseline_without_stitching_source_gaps() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_trn_a_transportation_baseline_source_spine(&root).unwrap();

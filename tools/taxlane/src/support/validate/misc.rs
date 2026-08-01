@@ -1199,6 +1199,7 @@ pub(crate) fn validate_global_country_comparison_coverage(root: &Path) -> Result
     validate_reserve_rule_contract(root)?;
     validate_reserve_parameter_readiness_gate(root)?;
     validate_net_interest_formula_contract(root)?;
+    validate_net_current_law_baseline_compatibility_audit(root)?;
     validate_net_interest_pbd_fy2025_2031_current_law_context_path(root)?;
     validate_assigned_receipt_base_inventory(root)?;
     validate_assigned_receipt_base_source_gap(root)?;
@@ -31916,4 +31917,3 @@ pub(crate) fn validate_per_unit_display_records(root: &Path) -> Result<(), Strin
     );
     Ok(())
 }
-

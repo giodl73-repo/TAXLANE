@@ -6,6 +6,7 @@
   "as_of_date": "2026-07-31",
   "repository": "TAXLANE",
   "assessed_commit": "81b7c4acd2d1e4f785c1cdb529e1da283b1f5eca",
+  "assessment_revision": "net_baseline_compatibility_rerun_2026_07_31",
   "scoring_scale": {
     "minimum": 0,
     "maximum": 3,
@@ -37,15 +38,17 @@
       "name": "net_interest",
       "object_class": "endogenous_accounting_result",
       "additive_fiscal_lane": false,
-      "scores": {"value": 2, "effectiveness": 1, "resilience": 1, "deliverability": 1, "iteration": 1, "coverage_and_fair_access": 1, "trust": 2, "total": 9, "possible": 21, "minimum": 1},
+      "scores": {"value": 2, "effectiveness": 2, "resilience": 1, "deliverability": 1, "iteration": 2, "coverage_and_fair_access": 1, "trust": 2, "total": 11, "possible": 21, "minimum": 1},
       "evidence_paths": [
         "data/derived/breadth_benchmark_matrix/net_interest_formula_contract.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/net_current_law_baseline_compatibility_audit.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/core_g_official_current_law_solver_spine.v1.draft.json",
         "data/derived/breadth_benchmark_matrix/net_interest_outcome_floor_definition_packet.v1.draft.json",
         "data/derived/breadth_benchmark_matrix/deterministic_annual_update_simulator_contract.v1.draft.json"
       ],
-      "supported_capability": "An explicit accounting guardrail requiring primary-balance changes to recompute subsequent deficit, debt, and interest rather than treating interest as a direct cut.",
-      "binding_gap": "No admitted annual debt, maturity, effective-rate, stress-rate, or rollover path and no regression-tested interest result.",
-      "next_evidence_action": "Build a source-custodied current-law annual debt, maturity, and effective-rate path and reconcile a zero-policy-change deterministic run.",
+      "supported_capability": "An explicit accounting guardrail plus a hash-custodied FY2025-FY2035 annual CBO debt, net-interest, and other-financing baseline whose zero-policy topline identities replay deterministically.",
+      "binding_gap": "No admitted maturity-bucket stock, rollover rule, bucket-rate and stress path, borrowing timing, gross-to-net interest bridge, or primary-balance feedback result.",
+      "next_evidence_action": "Reconcile Treasury MSPD securities to CBO debt held by the public, define annual rollover and bucket-rate rules, and then prove one admitted primary-balance shock changes later debt and interest.",
       "blocked_claims": ["direct_interest_cut", "interest_savings", "solver_result", "rate_effect"]
     },
     {
@@ -79,7 +82,8 @@
     "target_cost_changed": false,
     "allocation_changed": false,
     "savings_admitted": false,
-    "debt_path_admitted": false,
+    "annual_current_law_debt_path_admitted": true,
+    "endogenous_debt_interest_path_admitted": false,
     "solver_run_performed": false,
     "rate_changed_or_published": false,
     "public_release_authorized": false

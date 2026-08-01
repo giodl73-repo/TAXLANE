@@ -11,8 +11,12 @@ Required invariants:
   guardrail, and rate-adjustment operating-model paths are explicit;
 - formula identities include primary balance, deficit, debt[t], net interest[t],
   and an iteration rule;
-- every required input has `required: true`, `ready: false`, `value: null`, and
-  at least one blocker;
+- every required input has `required: true`;
+- baseline debt stock, baseline net interest, and explicit other financing are
+  ready only through the hash-custodied CORE-G annual spine, with non-null
+  evidence pointers and no blockers;
+- the other five inputs remain `ready: false`, `value: null`, and retain at
+  least one blocker;
 - net interest is endogenous and cannot be cut directly;
 - any primary-balance change must recompute subsequent debt and interest;
 - maturity, rate, interest-receipt, and other-financing inputs must be explicit;

@@ -7,8 +7,9 @@ Machine record:
 
 PAY, NET, and REV are assessed as three different TAXLANE product capabilities.
 They are not spending lanes, reform candidates, or three amounts that can be
-added together. The assessment describes what the repository can substantiate
-at commit `81b7c4acd2d1e4f785c1cdb529e1da283b1f5eca`; it does not score the
+added together. The original assessment baseline is commit
+`81b7c4acd2d1e4f785c1cdb529e1da283b1f5eca`; the 2026-07-31 NET compatibility
+rerun incorporates the later admitted CORE-G evidence. It does not score the
 underlying federal systems.
 
 VERDICT uses seven 0–3 evidence-maturity dimensions: Value, Effectiveness,
@@ -20,7 +21,7 @@ candidate-admission disposition.
 | Overlay | Object class | V | E | R | D | I | C | T | Total | Minimum |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | PAY | measurement and control overlay | 2 | 2 | 1 | 1 | 2 | 1 | 3 | 12/21 | 1 |
-| NET | endogenous accounting result | 2 | 1 | 1 | 1 | 1 | 1 | 2 | 9/21 | 1 |
+| NET | endogenous accounting result | 2 | 2 | 1 | 1 | 2 | 1 | 2 | 11/21 | 1 |
 | REV | financing-policy overlay | 2 | 1 | 1 | 2 | 2 | 1 | 2 | 11/21 | 1 |
 
 ## PAY — payment integrity
@@ -50,15 +51,17 @@ subsequent deficits, debt, maturity, rates, and interest. The formula and annual
 update contracts make the dependency explicit and prevent a common form of
 double counting.
 
-The repo has not yet populated an admitted annual debt path, maturity path, rate
-path, stress-rate path, rollover model, or regression-tested interest result.
-The current capability is therefore a sound interface and guardrail, not an
-interest forecast or savings engine.
+The repo now admits the hash-custodied CORE-G FY2025–FY2035 annual CBO debt,
+net-interest, and other-financing path. Its deterministic validator replays all
+eleven topline and debt identities with a zero policy delta. That raises NET's
+Effectiveness and Iteration maturity and moves its program-capability score from
+9/21 to 11/21.
 
-The next substantive action is a source-custodied current-law annual debt,
-maturity, and effective-rate path with a deterministic zero-policy-change
-reconciliation test. Only then should NET accept an admitted primary-balance
-delta and recompute its downstream interest effect.
+The annual path is not yet an endogenous interest engine. Treasury MSPD still
+needs reconciliation to the CBO debt-held-by-public perimeter, followed by
+annual rollover buckets, bucket-rate and stress paths, borrowing timing, and a
+gross-to-net interest bridge. Only then should NET accept an admitted primary-
+balance delta and recompute its downstream interest effect.
 
 ## REV — revenue solvency
 
@@ -83,8 +86,8 @@ external submission is not authorized by this assessment.
 
 ## Fixed-point review
 
-- **Source Custodian:** sources and derived records remain exact and
-  source-labeled; missing inputs remain null.
+- **Source Custodian:** admitted annual inputs are hash-custodied and source-
+  labeled; incompatible maturity, bucket-rate, and feedback inputs remain null.
 - **Budget Accountant:** PAY is non-additive, NET is endogenous, and REV funds
   the remaining reconciled requirement. No amount is counted twice.
 - **Taxpayer / Public Goods:** planning schedules are not described as official
@@ -98,6 +101,6 @@ external submission is not authorized by this assessment.
 
 These are program-capability scores. Candidate admission still requires seven
 candidate-scoped CORE-M gate reviews under the VERDICT candidate-admission
-bridge. This assessment changes no target cost, allocation, savings amount,
-debt path, solver result, rate, public card, or release status.
-
+bridge. This assessment admits the annual current-law debt context but changes
+no target cost, allocation, savings amount, endogenous debt-interest result,
+solver result, rate, public card, or release status.

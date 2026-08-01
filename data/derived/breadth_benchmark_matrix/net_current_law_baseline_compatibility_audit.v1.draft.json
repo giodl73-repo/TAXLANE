@@ -1,0 +1,95 @@
+{
+  "record_id": "net-current-law-baseline-compatibility-audit:v1",
+  "record_family": "net_current_law_baseline_compatibility_audit",
+  "version": "v1.draft",
+  "status": "partial_baseline_inputs_admitted_bucket_feedback_model_blocked",
+  "as_of_date": "2026-07-31",
+  "formula_contract_path": "data/derived/breadth_benchmark_matrix/net_interest_formula_contract.v1.draft.json",
+  "completion_plan_path": "data/derived/breadth_benchmark_matrix/net_current_law_baseline_completion_plan.v1.draft.json",
+  "official_spine_path": "data/derived/breadth_benchmark_matrix/core_g_official_current_law_solver_spine.v1.draft.json",
+  "treasury_rate_context_path": "data/derived/breadth_benchmark_matrix/net_interest_treasury_average_interest_rate_context.v1.draft.json",
+  "treasury_maturity_diagnostic_path": "data/derived/breadth_benchmark_matrix/net_interest_treasury_mspd_remaining_maturity_bucket_diagnostic.v1.draft.json",
+  "purpose": "Reconcile existing CBO and Treasury custody to the NET formula input contract, admit compatible annual baseline inputs, and preserve every maturity, rate, receipt, timing, and feedback gap that prevents endogenous interest modeling.",
+  "source_compatibility": [
+    {
+      "source_object": "core_g_official_current_law_solver_spine",
+      "disposition": "compatible_annual_topline_baseline",
+      "compatible_uses": ["horizon_boundary", "baseline_debt_stock", "baseline_net_interest", "explicit_other_financing", "zero_policy_change_topline_reconciliation"],
+      "incompatible_uses": ["maturity_bucket_schedule", "effective_rate_path_by_bucket", "interest_receipts_treatment", "primary_balance_interest_feedback"],
+      "source_vintage": "2026-02",
+      "fiscal_year_start": 2025,
+      "fiscal_year_end": 2035,
+      "annual_row_count": 11,
+      "raw_sha256": "6a2d727e70fb53512e45afdcc8d145f7dc952b2d4e87ca03591cb4e5bd63f0db"
+    },
+    {
+      "source_object": "net_interest_treasury_average_interest_rate_context",
+      "disposition": "context_only_not_bucket_rate_path",
+      "compatible_uses": ["latest_month_average_rate_context"],
+      "incompatible_uses": ["effective_rate_path_by_bucket", "stress_rate_path", "fiscal_year_projection_bridge", "primary_balance_interest_feedback"],
+      "latest_record_date": "2026-06-30",
+      "total_interest_bearing_debt_average_rate_percent": 3.409
+    },
+    {
+      "source_object": "net_interest_treasury_mspd_remaining_maturity_bucket_diagnostic",
+      "disposition": "context_only_unreconciled_bucket_diagnostic",
+      "compatible_uses": ["latest_month_maturity_field_and_bucket_visibility"],
+      "incompatible_uses": ["maturity_bucket_schedule", "rollover_rule", "fiscal_year_projection_bridge", "primary_balance_interest_feedback"],
+      "latest_record_date": "2026-06-30",
+      "table_3_and_table_5_combined": false
+    }
+  ],
+  "formula_input_disposition": [
+    {"input_id":"baseline_debt_stock","ready":true,"evidence":"CORE-G FY2025-FY2035 beginning and ending debt held by the public"},
+    {"input_id":"baseline_net_interest","ready":true,"evidence":"CORE-G FY2025-FY2035 net-interest rows"},
+    {"input_id":"maturity_bucket_schedule","ready":false,"evidence":null,"blocker":"MSPD diagnostic is not reconciled to an annual debt-stock perimeter or rollover rule"},
+    {"input_id":"effective_rate_path_by_bucket","ready":false,"evidence":null,"blocker":"CBO aggregate average rates and Treasury latest-month security averages are not bucket rate paths"},
+    {"input_id":"new_borrowing_timing_rule","ready":false,"evidence":null,"blocker":"No within-year borrowing and interest-accrual convention is admitted"},
+    {"input_id":"interest_receipts_treatment","ready":false,"evidence":null,"blocker":"No gross-interest, credited-receipt, and net-interest bridge is admitted"},
+    {"input_id":"explicit_other_financing_series","ready":true,"evidence":"CORE-G FY2025-FY2035 reported other financing plus explicit timing residual"},
+    {"input_id":"primary_balance_feedback_test_fixture","ready":false,"evidence":null,"blocker":"No maturity-aware admitted primary shock can recompute subsequent interest"}
+  ],
+  "completion_step_disposition": [
+    {"step":1,"input":"horizon_boundary_or_extension","ready":true,"evidence":"CORE-G bounds the admitted baseline to FY2025-FY2035"},
+    {"step":2,"input":"annual_debt_stock","ready":true,"evidence":"CORE-G beginning and ending debt held by the public"},
+    {"step":3,"input":"maturity_bucket_stock_and_rollover","ready":false},
+    {"step":4,"input":"effective_rate_by_bucket_and_stress","ready":false},
+    {"step":5,"input":"new_borrowing_timing","ready":false},
+    {"step":6,"input":"gross_interest_receipts_net_bridge","ready":false},
+    {"step":7,"input":"explicit_other_financing","ready":true,"evidence":"CORE-G reported financing and timing residual rows"},
+    {"step":8,"input":"zero_policy_change_regression_fixture","ready":true,"evidence":"CORE-G deterministic validator recomputes all 11 topline and debt identities with zero policy delta"},
+    {"step":9,"input":"primary_balance_shock_feedback_test","ready":false}
+  ],
+  "zero_policy_change_reconciliation": {
+    "fixture_kind": "reference_backed_topline_identity_replay",
+    "policy_delta_millions": 0,
+    "annual_rows_checked": 11,
+    "topline_identity_rows_passed": 11,
+    "debt_rollforward_rows_passed": 11,
+    "maximum_identity_residual_millions": 0,
+    "validator": "core_g_admits_exact_official_spine_and_unlocks_trn_a_only",
+    "reconciles_endogenous_bucket_interest_formula": false,
+    "reconciles_primary_balance_interest_feedback": false
+  },
+  "readiness_summary": {
+    "formula_inputs_ready": 3,
+    "formula_inputs_required": 8,
+    "completion_steps_ready": 4,
+    "completion_steps_total": 9,
+    "annual_baseline_context_ready": true,
+    "endogenous_interest_path_ready": false,
+    "solver_ready": false
+  },
+  "next_evidence_action": "Reconcile Treasury MSPD securities to the CBO debt-held-by-public perimeter, define annual rollover buckets and rate mapping, then add borrowing timing and the gross-to-net interest bridge before constructing a primary-balance feedback fixture.",
+  "claim_booleans": {
+    "compatibility_audit_published": true,
+    "annual_baseline_inputs_partially_admitted": true,
+    "zero_policy_change_topline_reconciled": true,
+    "maturity_schedule_ready": false,
+    "bucket_rate_path_ready": false,
+    "interest_feedback_ready": false,
+    "solver_ready": false,
+    "interest_savings": false,
+    "rate_effect": false
+  }
+}
