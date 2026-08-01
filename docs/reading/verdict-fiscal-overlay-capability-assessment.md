@@ -1,0 +1,103 @@
+# VERDICT fiscal-overlay capability assessment
+
+Machine record:
+`data/derived/breadth_benchmark_matrix/verdict_fiscal_overlay_capability_assessment.v1.draft.json`.
+
+## Decision
+
+PAY, NET, and REV are assessed as three different TAXLANE product capabilities.
+They are not spending lanes, reform candidates, or three amounts that can be
+added together. The assessment describes what the repository can substantiate
+at commit `81b7c4acd2d1e4f785c1cdb529e1da283b1f5eca`; it does not score the
+underlying federal systems.
+
+VERDICT uses seven 0–3 evidence-maturity dimensions: Value, Effectiveness,
+Resilience, Deliverability, Iteration, Coverage and fair access, and Trust.
+Totals aid prioritization only. The lowest applicable dimension exposes the
+binding evidence weakness, and neither a total nor a minimum score is a
+candidate-admission disposition.
+
+| Overlay | Object class | V | E | R | D | I | C | T | Total | Minimum |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| PAY | measurement and control overlay | 2 | 2 | 1 | 1 | 2 | 1 | 3 | 12/21 | 1 |
+| NET | endogenous accounting result | 2 | 1 | 1 | 1 | 1 | 1 | 2 | 9/21 | 1 |
+| REV | financing-policy overlay | 2 | 1 | 1 | 2 | 2 | 1 | 2 | 11/21 | 1 |
+
+## PAY — payment integrity
+
+PAY's strongest feature is trustworthy measurement. The repository reconciles
+the FY2024 OMB payment-accuracy workbook across 68 program rows and keeps
+confirmed-fraud and agency-recovery evidence in parallel rather than treating
+them as subtractable subsets. It also preserves program measurement periods
+and has a deep, reviewable methodology-closure workflow.
+
+That capability supports bounded factual reporting, not an efficiency dividend.
+PAY has not demonstrated candidate-specific causal prevention, same-cohort
+collection lineage, implementation cost, false-positive distribution, appeal
+capacity, or reviewed floor thresholds. Owners of an admitted program effect
+must book that effect; PAY remains non-additive.
+
+The next substantive action is one candidate-scoped, same-cohort prevention or
+collection pilot with implementation cost, eligible-payment timeliness, appeal,
+false-positive, and distribution evidence. Until that closes, recoverable
+savings, fraud, waste, and solver claims remain blocked.
+
+## NET — net interest
+
+NET's product value is the accounting constraint it imposes: interest cannot be
+cut directly, and every admitted primary-balance change must flow through
+subsequent deficits, debt, maturity, rates, and interest. The formula and annual
+update contracts make the dependency explicit and prevent a common form of
+double counting.
+
+The repo has not yet populated an admitted annual debt path, maturity path, rate
+path, stress-rate path, rollover model, or regression-tested interest result.
+The current capability is therefore a sound interface and guardrail, not an
+interest forecast or savings engine.
+
+The next substantive action is a source-custodied current-law annual debt,
+maturity, and effective-rate path with a deterministic zero-policy-change
+reconciliation test. Only then should NET accept an admitted primary-balance
+delta and recompute its downstream interest effect.
+
+## REV — revenue solvency
+
+REV has a coherent internal handoff: a filing-status-complete policy
+specification, ten-year score-request workbook, nonofficial discussion draft,
+and explicit planning, behavior, and severe-stress schedules. This materially
+reduces the distance to official scoring and makes the remaining decisions
+inspectable.
+
+It is not a certified rate. Legislative Counsel text and official CBO/JCT
+conventional, interaction, macro, compliance, distribution, timing, and
+debt-service results remain absent. The broader assigned-base inventory also
+keeps matched bases, incidence, distribution, and administration fields null.
+Consequently REV can explain an internal planning schedule and the remaining
+financing requirement, but cannot publish a statutory or effective rate as an
+official result.
+
+The next substantive action is to freeze one exact policy version and complete
+an authorized official-score intake package, while separately closing matched
+receipt-base, distribution/incidence, and administration/compliance inputs. An
+external submission is not authorized by this assessment.
+
+## Fixed-point review
+
+- **Source Custodian:** sources and derived records remain exact and
+  source-labeled; missing inputs remain null.
+- **Budget Accountant:** PAY is non-additive, NET is endogenous, and REV funds
+  the remaining reconciled requirement. No amount is counted twice.
+- **Taxpayer / Public Goods:** planning schedules are not described as official
+  rates, and no receipt allocation is described as a literal tax-dollar trace.
+- **Beneficiary / Compliance Burden:** access, delay, appeal, incidence,
+  administration, and compliance gaps remain visible rather than averaged away.
+- **Fiscal Sustainability / Reform Skeptic:** no candidate, savings, solver,
+  balanced-budget, or public-release gate changes.
+
+## Admission boundary
+
+These are program-capability scores. Candidate admission still requires seven
+candidate-scoped CORE-M gate reviews under the VERDICT candidate-admission
+bridge. This assessment changes no target cost, allocation, savings amount,
+debt path, solver result, rate, public card, or release status.
+

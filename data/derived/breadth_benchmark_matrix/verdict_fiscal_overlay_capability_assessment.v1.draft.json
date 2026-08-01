@@ -1,0 +1,88 @@
+{
+  "record_id": "verdict-fiscal-overlay-capability-assessment:v1",
+  "record_family": "verdict_fiscal_overlay_capability_assessment",
+  "version": "v1.draft",
+  "status": "program_capabilities_assessed_no_fiscal_admission",
+  "as_of_date": "2026-07-31",
+  "repository": "TAXLANE",
+  "assessed_commit": "81b7c4acd2d1e4f785c1cdb529e1da283b1f5eca",
+  "scoring_scale": {
+    "minimum": 0,
+    "maximum": 3,
+    "dimensions": ["value", "effectiveness", "resilience", "deliverability", "iteration", "coverage_and_fair_access", "trust"],
+    "total_is_gate_disposition": false,
+    "minimum_is_gate_disposition": false,
+    "scores_describe": "repository_program_capability",
+    "scores_do_not_describe": ["current_federal_system", "reform_candidate", "official_fiscal_result"]
+  },
+  "assessments": [
+    {
+      "overlay_id": "PAY",
+      "name": "payment_integrity",
+      "object_class": "measurement_and_control_overlay",
+      "additive_fiscal_lane": false,
+      "scores": {"value": 2, "effectiveness": 2, "resilience": 1, "deliverability": 1, "iteration": 2, "coverage_and_fair_access": 1, "trust": 3, "total": 12, "possible": 21, "minimum": 1},
+      "evidence_paths": [
+        "data/derived/breadth_benchmark_matrix/payment_integrity_depth_card.fy2024.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/payment_integrity_outcome_floor_definition_packet.v1.draft.json",
+        "docs/reading/payment-integrity-methodology-results.md"
+      ],
+      "supported_capability": "Source-custodied, reconciled, program-period-aware payment-accuracy measurement with bounded factual reporting and explicit methodology review.",
+      "binding_gap": "No candidate-specific causal prevention or same-cohort collection lineage with cost, false-positive, appeal, access, and distribution floors.",
+      "next_evidence_action": "Run one candidate-scoped same-cohort prevention or collection pilot with implementation cost and beneficiary-protection evidence.",
+      "blocked_claims": ["fraud", "waste", "recoverable_savings", "solver_input", "rate_effect"]
+    },
+    {
+      "overlay_id": "NET",
+      "name": "net_interest",
+      "object_class": "endogenous_accounting_result",
+      "additive_fiscal_lane": false,
+      "scores": {"value": 2, "effectiveness": 1, "resilience": 1, "deliverability": 1, "iteration": 1, "coverage_and_fair_access": 1, "trust": 2, "total": 9, "possible": 21, "minimum": 1},
+      "evidence_paths": [
+        "data/derived/breadth_benchmark_matrix/net_interest_formula_contract.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/net_interest_outcome_floor_definition_packet.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/deterministic_annual_update_simulator_contract.v1.draft.json"
+      ],
+      "supported_capability": "An explicit accounting guardrail requiring primary-balance changes to recompute subsequent deficit, debt, and interest rather than treating interest as a direct cut.",
+      "binding_gap": "No admitted annual debt, maturity, effective-rate, stress-rate, or rollover path and no regression-tested interest result.",
+      "next_evidence_action": "Build a source-custodied current-law annual debt, maturity, and effective-rate path and reconcile a zero-policy-change deterministic run.",
+      "blocked_claims": ["direct_interest_cut", "interest_savings", "solver_result", "rate_effect"]
+    },
+    {
+      "overlay_id": "REV",
+      "name": "revenue_solvency",
+      "object_class": "financing_policy_overlay",
+      "additive_fiscal_lane": false,
+      "scores": {"value": 2, "effectiveness": 1, "resilience": 1, "deliverability": 2, "iteration": 2, "coverage_and_fair_access": 1, "trust": 2, "total": 11, "possible": 21, "minimum": 1},
+      "evidence_paths": [
+        "data/derived/breadth_benchmark_matrix/rev_level_7_integrated_certification_and_score_handoff.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/assigned_receipt_base_inventory.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/rate_publication_readiness_rollup.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/revenue_solvency_outcome_floor_definition_packet.v1.draft.json"
+      ],
+      "supported_capability": "A versioned internal policy and score-request handoff with planning, behavior, and stress schedules and an explicit publication gate.",
+      "binding_gap": "No official score, Legislative Counsel text, or complete matched-base, incidence, distribution, administration, compliance, interaction, macro, timing, and debt-service results.",
+      "next_evidence_action": "Freeze one policy version and complete an authorized official-score intake package while closing matched-base, distribution, and administration inputs.",
+      "blocked_claims": ["official_statutory_rate", "official_effective_rate", "tax_proposal", "balanced_budget", "public_release"]
+    }
+  ],
+  "role_fixed_point": {
+    "source_custodian": "passed_for_bounded_capability_description",
+    "budget_accountant": "passed_no_double_counting_or_fungibility_claim",
+    "taxpayer_public_goods": "passed_planning_and_official_rate_language_separated",
+    "beneficiary_compliance_burden": "open_gaps_preserved",
+    "fiscal_sustainability_reform_skeptic": "passed_no_gate_promotion"
+  },
+  "claim_booleans": {
+    "program_capabilities_assessed": true,
+    "candidate_admitted": false,
+    "target_cost_changed": false,
+    "allocation_changed": false,
+    "savings_admitted": false,
+    "debt_path_admitted": false,
+    "solver_run_performed": false,
+    "rate_changed_or_published": false,
+    "public_release_authorized": false
+  },
+  "public_warning": "These VERDICT scores describe TAXLANE repository capabilities. They are not scores of federal programs, candidate admissions, savings estimates, official fiscal scores, tax rates, or release authority."
+}

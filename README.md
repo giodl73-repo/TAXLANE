@@ -348,6 +348,13 @@ This PAY–NET–REV separation prevents double counting and keeps a trust-fund
 question, an error estimate, a debt effect, and a spending reduction from being
 collapsed into one misleading total.
 
+The [VERDICT fiscal-overlay capability assessment](docs/reading/verdict-fiscal-overlay-capability-assessment.md)
+shows what each overlay can substantiate today: PAY is strongest at trustworthy
+measurement, NET supplies the endogenous accounting guardrail, and REV supplies
+the internal policy-to-scorer handoff. Their scores describe repository
+capability only; they do not admit a candidate, savings amount, debt path, or
+official rate.
+
 ### 4. The rate followed the evidence
 
 The model used Tax-Calculator 6.5.1, the bundled CPS tax-unit input, and tax
