@@ -2,11 +2,12 @@
   "record_id": "verdict-lifeline-calfresh-candidate-assessment:v1",
   "record_family": "verdict_lifeline_calfresh_candidate_assessment",
   "version": "v1.draft",
-  "status": "owner_aligned_candidate_handoff_one_ready_six_blocked",
-  "as_of_date": "2026-07-31",
+  "status": "owner_aligned_candidate_replay_one_ready_six_blocked_source_and_time_held",
+  "as_of_date": "2026-08-01",
+  "role_review_path": "reviews/2026-08-01-verdict-lifeline-calfresh-source-replay-role-review.md",
   "producer_input": {
     "producer": "LIFELINE",
-    "commit": "dbef14bffb74a833b873ed9baff237994ab27c54",
+    "commit": "f1ca80008f0da268611a7c83cc1eceaa00ac4af6",
     "assessment_path": "docs/vtrace/CALFRESH_CANDIDATE_ASSESSMENT.md",
     "machine_record_path": "fixtures/official/calfresh-verdict.v1.json",
     "candidate_id": "california_hr1_abawd_implementation",
@@ -27,8 +28,20 @@
     "data/derived/breadth_benchmark_matrix/lifeline_calfresh_candidate_intake_disposition.v1.draft.json",
     "data/derived/breadth_benchmark_matrix/lifeline_calfresh_level2_baseline_disposition.v1.draft.json"
   ],
+  "owner_observation_update": {
+    "source_status_path": "docs/calfresh-postimplementation-source-status-2026-08-01.md",
+    "implementation_start_date": "2026-06-01",
+    "elapsed_days": 61,
+    "postimplementation_operations_rows": 0,
+    "candidate_coded_rows": 0,
+    "complete_recertification_cycles": 0,
+    "stat47_files_available": false,
+    "advisory_material_is_candidate_outcome": false,
+    "score_change": 0,
+    "gate_disposition_change": false
+  },
   "accounting_boundaries": {"gross_administration_millions":86.8,"caseload_related_offset_millions":-78.6,"net_administration_millions":8.2,"projected_lost_benefits_millions":758,"offset_is_efficiency":false,"lost_benefits_are_savings":false},
   "fiscal_decision": {"candidate_admitted":false,"admitted_fy2026_primary_reduction_billions":0.0,"rate_recomputation_required":false},
   "next_evidence_action": "Observe one complete candidate-coded recertification cycle across exposure, service, rights, adequacy, distribution, capacity, and actual cost.",
-  "claim_booleans": {"handoff_complete":true,"ready_gate_count":1,"blocked_gate_count":6,"eligibility_action":false,"savings_admitted":false,"solver_run_performed":false,"rate_changed":false,"public_release_authorized":false}
+  "claim_booleans": {"handoff_complete":true,"owner_source_replay_complete":true,"ready_gate_count":1,"blocked_gate_count":6,"eligibility_action":false,"savings_admitted":false,"solver_run_performed":false,"rate_changed":false,"public_release_authorized":false}
 }
