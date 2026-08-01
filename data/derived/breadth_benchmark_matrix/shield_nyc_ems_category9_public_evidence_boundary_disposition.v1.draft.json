@@ -1,0 +1,90 @@
+{
+  "record_id": "shield-nyc-ems-category9-public-evidence-boundary-disposition:v1",
+  "record_family": "shield_nyc_ems_category9_public_evidence_boundary_disposition",
+  "version": "v1.draft",
+  "status": "official_hlt_public_source_spine_admitted_source_difference_candidate_and_fiscal_claims_held",
+  "as_of_date": "2026-07-31",
+  "product_question": "Does the available public evidence identify a responsible Category 9 intervention or only the next acquisition boundary?",
+  "prior_record": "shield-nyc-ems-category9-operations-context-disposition:v1",
+  "producer": {
+    "repository": "SHIELD", "track": "HLT", "candidate_id": null,
+    "commit": "1ce9b742b962286df219dd2eff29a0fa70485e0c",
+    "replay_command": "cargo run --quiet -p shield-cli -- nyc-ems-category9-public-evidence-boundary-held-pack",
+    "pack_id": "shield:nyc-ems-category9-public-evidence-boundary-2025:v1",
+    "pack_bytes_utf8_without_newline": 5066,
+    "pack_sha256": "fb17e743ecc63f2a0e9d5dc9f5ab2092d140400a40341ce839c6900a8dc28378",
+    "workspace_crates": 7, "product_commands": 40, "workspace_tests": 97, "feature_tests": 63
+  },
+  "source_reconciliation": {
+    "power_bi_incidents": 216599,
+    "open_data_incidents": 216986,
+    "open_data_minus_power_bi_incidents": 387,
+    "power_bi_share": 0.3925992613111727,
+    "open_data_rounded_row_weighted_share": 0.392319104458352,
+    "difference_reason_identified": false,
+    "sources_blended": false,
+    "metadata_defect_preserved": true
+  },
+  "public_data_boundary": {
+    "source_classes_tested": 7,
+    "direct_category9_api_rows": 72,
+    "named_borough_month_join_rows": 60,
+    "mmr_2025_selected_rows": 120,
+    "mmr_borough_response_rows": 60,
+    "mmr_borough_response_published_values": 0,
+    "shared_qualifying_incident_key_found": false,
+    "definition_compatible_operations_join_found": false,
+    "definition_compatible_outcome_join_found": false,
+    "privacy_safe_disposition_source_found": true,
+    "privacy_safe_disposition_source_is_linkable_to_category9": false
+  },
+  "adjusted_descriptive_screen": {
+    "method": "unweighted borough and calendar-month two-way demeaning; ecological sensitivity only",
+    "dispatch_incidents_r": -0.3139437516319555,
+    "average_response_seconds_r": -0.1871931815996706,
+    "average_travel_seconds_r": -0.4807634708995142,
+    "average_dispatch_seconds_r": -0.09055154413718501,
+    "citywide_end_to_end_life_threatening_minutes_r_unadjusted": -0.9092700371065788,
+    "citywide_ambulance_in_service_hours_r_unadjusted": 0.6764340595440979,
+    "use_rule": "Prioritize linked-data acquisition only; do not label any association a driver or effect."
+  },
+  "taxlane_assessment": {
+    "public_source_spine_admitted": true,
+    "source_revision_difference_reconciled": false,
+    "operational_driver_identified": false,
+    "causal_effect_admitted": false,
+    "service_readiness_or_adequacy_assessed": false,
+    "bounded_intervention_candidate_ready": false,
+    "cost_or_savings_observed": false,
+    "hlt_reopen_condition_triggered": false,
+    "candidate_selected_for_fiscal_model": false,
+    "reason": "The public spine improves replay and hypothesis discipline, but the official surfaces disagree, qualifying populations do not match, no shared incident key or linkable patient outcome exists, and no treatment or comparison design is observable."
+  },
+  "next_evidence": {
+    "primary_acquisition": "Incident-linked ALS unit availability and posting exposure with privacy-safe patient outcomes.",
+    "minimum_fields": ["stable qualifying-event and incident key", "ALS unit-hours and availability by place and time", "posting or routing implementation exposure", "hospital offload interval where applicable", "privacy-safe patient outcome", "pre-period and unaffected comparison units"],
+    "pre_specification": "Register estimand, exclusion rules, comparison units, pre-period, outcome horizon, and subgroup checks before examining an implementation effect.",
+    "candidate_rule": "Do not open candidate design until a linked effect can be bounded with safety, distribution, delivery, and cost evidence."
+  },
+  "portfolio_result": {
+    "packs_replayed": 1, "packs_admitted_to_fiscal_model": 0,
+    "admitted_fy2026_primary_reduction_billions": 0.0,
+    "remaining_fy2026_revenue_target_billions": 813.727,
+    "preferred_schedule_percent": [21, 23, 33, 35, 43, 46, 48],
+    "behavior_contingency_schedule_percent": [22, 24, 34, 36, 44, 47, 49],
+    "rate_recomputation_required": false, "rate_result_changed": false
+  },
+  "role_review": {
+    "fixed_point": "pass_with_risk", "open_p1_findings": 0, "open_p2_findings": 0,
+    "deferred_claims": ["official source-revision explanation", "incident-linked ALS operations and patient outcomes", "operational driver and causal effect", "inequity and adequacy", "candidate effect, safety, delivery, cost, and savings", "HLT reopening, allocation, and rate change"]
+  },
+  "claim_booleans": {
+    "official_replay_succeeded": true, "public_source_inventory_claimed": true,
+    "source_difference_reconciled_claimed": false, "ecological_association_claimed": true,
+    "patient_outcome_claimed": false, "operational_driver_claimed": false,
+    "causal_claimed": false, "candidate_admitted": false, "savings_claimed": false,
+    "allocation_changed": false, "rate_change_claimed": false,
+    "public_release_authorized": false
+  },
+  "public_warning": "The direct Open Data replay is stronger operational custody, but it contains 387 more calendar-2025 incidents than the captured Power BI model and must not be silently blended. Adjusted ecological timing signals prioritize data acquisition; they identify no driver, patient effect, adequacy result, or intervention. HLT, the $813.727B target, and both schedules remain unchanged."
+}

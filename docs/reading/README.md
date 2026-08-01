@@ -1170,6 +1170,10 @@ It is the bounded public surface, not a performance or savings report.
 249. Read `shield-nyc-ems-category9-operations-context-disposition.md` for the
      60-row ecological operations screen, blocked outcome/driver/causal claims,
      and unchanged HLT, fiscal-target, and rate results.
+250. Read `shield-nyc-ems-category9-public-evidence-boundary-disposition.md` for
+     the direct-source reconciliation, seven-source public boundary, adjusted
+     hypothesis screen, pre-specified acquisition design, and unchanged HLT,
+     fiscal-target, and rate results.
 
 ## Public-Use Guardrail
 

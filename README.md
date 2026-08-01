@@ -11,7 +11,7 @@ internal analytical rate schedule.
 
 The result is now complete inside this repository: 21 canonical explanation
 artifacts, ten research papers, three presentation variants, a six-page local
-website, machine-readable closure records, and 419 passing tests.
+website, machine-readable closure records, and 420 passing tests.
 
 > **Repository-ready, externally blocked.** TAXLANE is not enacted law,
 > personal tax or legal advice, an official score, formal proof of balance, or
@@ -274,6 +274,14 @@ admits reproducible ecological associations for hypothesis prioritization while
 holding patient outcomes, incident linkage, operational drivers, causality,
 adequacy, candidates, costs, and savings. No fiscal or rate result changes.
 
+SHIELD has now exhausted the responsible public-data boundary for this question.
+[The public-evidence disposition](docs/reading/shield-nyc-ems-category9-public-evidence-boundary-disposition.md)
+records a direct machine-readable source, an unresolved 387-incident difference
+from Power BI, a seven-source operations/outcome inventory, and a borough/month
+sensitivity screen. It prioritizes incident-linked ALS availability/posting and
+patient-outcome acquisition; it admits no driver, intervention, savings, or rate
+change.
+
 SHIELD now adds HRSA's formal primary-care shortage registry at its true grain:
 79,150 component rows resolve to 7,682 currently designated HPSA IDs, including
 762 multi-component and 282 multi-rural-status designations. HRSA's separate
@@ -444,7 +452,7 @@ Validation currently covers:
 
 - 152 `taxlane-core` tests;
 - 259 `taxlane-tools` tests;
-- 419 workspace tests total;
+- 420 workspace tests total;
 - closure contracts for all six explanation waves;
 - headline and accounting-boundary parity;
 - nonempty PDF and presentation renders;

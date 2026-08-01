@@ -2680,6 +2680,61 @@ mod global_country_comparison_tests {
         assert_eq!(record["portfolio_result"]["remaining_fy2026_revenue_target_billions"], 813.727);
         assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
     }
+
+    #[test]
+    fn shield_nyc_ems_public_boundary_admits_acquisition_not_candidate() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let path = root.join(
+            "data/derived/breadth_benchmark_matrix/shield_nyc_ems_category9_public_evidence_boundary_disposition.v1.draft.json",
+        );
+        let text = fs::read_to_string(path).expect("read SHIELD NYC EMS public boundary");
+        let record: serde_json::Value =
+            serde_json::from_str(&text).expect("parse SHIELD NYC EMS public boundary");
+
+        assert_eq!(record["producer"]["workspace_tests"], 97);
+        assert_eq!(record["producer"]["feature_tests"], 63);
+        assert_eq!(
+            record["producer"]["pack_bytes_utf8_without_newline"],
+            5066
+        );
+        assert_eq!(
+            record["producer"]["pack_sha256"],
+            "fb17e743ecc63f2a0e9d5dc9f5ab2092d140400a40341ce839c6900a8dc28378"
+        );
+        assert_eq!(
+            record["source_reconciliation"]["open_data_minus_power_bi_incidents"],
+            387
+        );
+        assert_eq!(
+            record["source_reconciliation"]["difference_reason_identified"],
+            false
+        );
+        assert_eq!(
+            record["source_reconciliation"]["sources_blended"],
+            false
+        );
+        assert_eq!(
+            record["public_data_boundary"]["source_classes_tested"],
+            7
+        );
+        assert_eq!(
+            record["public_data_boundary"]["shared_qualifying_incident_key_found"],
+            false
+        );
+        assert_eq!(
+            record["taxlane_assessment"]["bounded_intervention_candidate_ready"],
+            false
+        );
+        assert_eq!(
+            record["portfolio_result"]["admitted_fy2026_primary_reduction_billions"],
+            0.0
+        );
+        assert_eq!(
+            record["portfolio_result"]["remaining_fy2026_revenue_target_billions"],
+            813.727
+        );
+        assert_eq!(record["claim_booleans"]["rate_change_claimed"], false);
+    }
 }
 
 fn validate_breadth_benchmark_matrix(root: &Path) -> Result<(), String> {
