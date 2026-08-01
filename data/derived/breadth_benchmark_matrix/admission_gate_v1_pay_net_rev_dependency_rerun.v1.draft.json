@@ -1,0 +1,24 @@
+{
+  "record_id":"admission-gate-v1-pay-net-rev-dependency-rerun:v1",
+  "record_family":"admission_gate_v1_pay_net_rev_dependency_rerun",
+  "version":"v1.draft",
+  "status":"ordered_dependency_rerun_complete_zero_primary_zero_pay_zero_net_rev_schedule_retained",
+  "as_of_date":"2026-08-01",
+  "admission_gate_path":"data/derived/breadth_benchmark_matrix/fifteen_lane_admission_gate_v1.v1.draft.json",
+  "pay_evidence_path":"data/derived/breadth_benchmark_matrix/pay_full_dmf_public_evidence_ceiling.v1.draft.json",
+  "net_engine_path":"data/derived/breadth_benchmark_matrix/net_level_3_zero_input_endogenous_recomputation.v1.draft.json",
+  "rev_analysis_path":"data/derived/breadth_benchmark_matrix/rev_internal_rate_analysis_completion.v1.draft.json",
+  "schema_path":"data/derived/breadth_benchmark_matrix/admission_gate_v1_pay_net_rev_dependency_rerun.schema.md",
+  "reader_path":"docs/reading/admission-gate-v1-pay-net-rev-dependency-rerun.md",
+  "role_review_path":"reviews/2026-08-01-admission-gate-v1-pay-net-rev-dependency-rerun-role-review.md",
+  "ordered_stages":[
+    {"order":1,"stage":"primary_admission","input_billions":0.0,"output_billions":0.0,"status":"fifteen_lane_sum_reconciled_zero"},
+    {"order":2,"stage":"pay_overlay","reported_calendar_2024_net_benefit_billions":0.1089,"admitted_additive_output_billions":0.0,"status":"owner_and_fiscal_disposition_blocked_no_double_count"},
+    {"order":3,"stage":"net_feedback","admitted_upstream_input_billions":0.0,"endogenous_fy2026_output_billions":0.0,"status":"zero_input_identity_no_direct_cut"},
+    {"order":4,"stage":"rev_financing","starting_need_billions":813.727,"admitted_primary_reduction_billions":0.0,"pay_additive_billions":0.0,"net_endogenous_billions":0.0,"remaining_need_billions":813.727,"status":"internal_schedule_retained_no_recomputation"}
+  ],
+  "accounting_identity":{"starting_fy2026_need_millions":813727,"minus_admitted_primary_millions":0,"minus_admitted_pay_millions":0,"minus_endogenous_net_millions":0,"equals_remaining_need_millions":813727,"identity_pass":true},
+  "rate_disposition":{"current_law_schedule_percent":[10,12,22,24,32,35,37],"preferred_internal_schedule_percent":[21,23,33,35,43,46,48],"behavior_contingency_percent":[22,24,34,36,44,47,49],"preferred_uniform_difference_points":[11,11,11,11,11,11,11],"admission_gate_change_to_preferred_points":[0,0,0,0,0,0,0],"rate_recomputation_required":false,"lower_rate_supported_by_admission_gate":false,"official_rate_certified":false,"balanced_budget_certified":false},
+  "decision":{"dependency_order_complete":true,"pay_double_count_prevented":true,"net_direct_cut_prevented":true,"rev_schedule_retained":true,"external_request_planned":false,"authorized_submission_completed":false,"next_action":"publish_internal_current_proposed_difference_scorecard"},
+  "claim_boundaries":{"official_request_made":false,"public_release_authorized":false,"reported_pay_benefit_treated_as_additive":false,"hypothetical_net_carry_treated_as_savings":false,"retained_internal_schedule_treated_as_official":false,"candidate_admitted":false,"spending_reduction_admitted":false,"rate_change_from_admission_gate":false}
+}

@@ -1354,6 +1354,8 @@ pub(crate) fn validate_global_country_comparison_coverage(root: &Path) -> Result
     validate_trn_freight_connector_lifecycle_price_stress_envelope(root)?;
     validate_isf_int_active_monitor_reconciliation(root)?;
     validate_fifteen_lane_admission_gate_v1(root)?;
+    validate_admission_gate_v1_pay_net_rev_dependency_rerun(root)?;
+    validate_admission_gate_v1_internal_scorecard(root)?;
     validate_pay_full_dmf_public_evidence_ceiling(root)?;
     validate_hlt_site_neutral_current_law_dependency_audit(root)?;
     validate_def_proportional_force_current_law_dependency_audit(root)?;
@@ -16046,6 +16048,144 @@ pub(crate) fn validate_fifteen_lane_admission_gate_v1(root: &Path) -> Result<(),
         || bool_field(claims, "rate_change_allowed")?
     {
         return Err("Fifteen-Lane Admission Gate v1 failed".to_string());
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_admission_gate_v1_pay_net_rev_dependency_rerun(
+    root: &Path,
+) -> Result<(), String> {
+    let artifact = read_json_artifact(root, ADMISSION_GATE_V1_PAY_NET_REV_DEPENDENCY_RERUN_JSON_PATH)?;
+    let stages = artifact
+        .get("ordered_stages")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("admission dependency stages")?;
+    let orders = stages
+        .iter()
+        .map(|row| int_field(row, "order"))
+        .collect::<Result<Vec<_>, _>>()?;
+    let identity = artifact
+        .get("accounting_identity")
+        .ok_or("admission dependency identity")?;
+    let rate = artifact
+        .get("rate_disposition")
+        .ok_or("admission dependency rate")?;
+    let decision = artifact
+        .get("decision")
+        .ok_or("admission dependency decision")?;
+    let claims = artifact
+        .get("claim_boundaries")
+        .ok_or("admission dependency claims")?;
+    let remaining = int_field(identity, "starting_fy2026_need_millions")?
+        - int_field(identity, "minus_admitted_primary_millions")?
+        - int_field(identity, "minus_admitted_pay_millions")?
+        - int_field(identity, "minus_endogenous_net_millions")?;
+    if stages.len() != 4
+        || orders != vec![1, 2, 3, 4]
+        || remaining != int_field(identity, "equals_remaining_need_millions")?
+        || remaining != 813_727
+        || !bool_field(identity, "identity_pass")?
+        || bool_field(rate, "rate_recomputation_required")?
+        || bool_field(rate, "lower_rate_supported_by_admission_gate")?
+        || bool_field(rate, "official_rate_certified")?
+        || bool_field(rate, "balanced_budget_certified")?
+        || !bool_field(decision, "dependency_order_complete")?
+        || !bool_field(decision, "pay_double_count_prevented")?
+        || !bool_field(decision, "net_direct_cut_prevented")?
+        || !bool_field(decision, "rev_schedule_retained")?
+        || bool_field(decision, "external_request_planned")?
+        || bool_field(decision, "authorized_submission_completed")?
+        || string_field(decision, "next_action")?
+            != "publish_internal_current_proposed_difference_scorecard"
+        || bool_field(claims, "reported_pay_benefit_treated_as_additive")?
+        || bool_field(claims, "hypothetical_net_carry_treated_as_savings")?
+        || bool_field(claims, "retained_internal_schedule_treated_as_official")?
+        || bool_field(claims, "candidate_admitted")?
+        || bool_field(claims, "spending_reduction_admitted")?
+        || bool_field(claims, "rate_change_from_admission_gate")?
+    {
+        return Err("Admission Gate v1 PAY-NET-REV dependency rerun failed".to_string());
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_admission_gate_v1_internal_scorecard(root: &Path) -> Result<(), String> {
+    let scorecard = read_json_artifact(root, ADMISSION_GATE_V1_INTERNAL_SCORECARD_JSON_PATH)?;
+    let rates = scorecard
+        .get("rate_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("admission scorecard rate rows")?;
+    for row in rates {
+        let current = int_field(row, "current_law_percent")?;
+        if int_field(row, "preferred_internal_percent")? - current
+            != int_field(row, "preferred_difference_points")?
+            || int_field(row, "behavior_contingency_percent")? - current
+                != int_field(row, "contingency_difference_points")?
+            || int_field(row, "preferred_difference_points")? != 11
+            || int_field(row, "contingency_difference_points")? != 12
+            || int_field(row, "admission_gate_difference_points")? != 0
+        {
+            return Err("admission scorecard rate arithmetic failed".to_string());
+        }
+    }
+    let fiscal = scorecard
+        .get("fiscal_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("admission scorecard fiscal rows")?;
+    for row in fiscal {
+        let before = number_field(row, "before_gate")?;
+        let after = number_field(row, "after_gate")?;
+        if (after - before - number_field(row, "difference")?).abs() > 0.0001 {
+            return Err("admission scorecard fiscal arithmetic failed".to_string());
+        }
+    }
+    let lanes = scorecard
+        .get("lane_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("admission scorecard lane rows")?;
+    let tracks = lanes
+        .iter()
+        .map(|row| string_field(row, "track"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    for row in lanes {
+        if number_field(row, "admitted_difference_billions")?.abs() > 0.0001 {
+            return Err("admission scorecard lane difference failed".to_string());
+        }
+    }
+    let expected_tracks = [
+        "AGR", "DEF", "DIS", "EDU", "HLT", "INT", "ISF", "JUS", "NET", "OAS", "PAY", "REV", "SEE",
+        "TRN", "VET",
+    ]
+    .into_iter()
+    .map(str::to_owned)
+    .collect::<BTreeSet<_>>();
+    let interpretation = scorecard
+        .get("interpretation")
+        .ok_or("admission scorecard interpretation")?;
+    let claims = scorecard
+        .get("claim_boundaries")
+        .ok_or("admission scorecard claims")?;
+    if rates.len() != 7
+        || fiscal.len() != 5
+        || lanes.len() != 15
+        || tracks != expected_tracks
+        || !bool_field(interpretation, "current_law_column_is_statutory_marginal_schedule")?
+        || !bool_field(interpretation, "preferred_column_is_internal_analytical_schedule")?
+        || !bool_field(interpretation, "contingency_column_is_internal_behavior_stress")?
+        || bool_field(interpretation, "admission_gate_changed_prior_internal_schedule")?
+        || !bool_field(interpretation, "per_lane_zero_means_no_admitted_effect_not_no_opportunity")?
+        || bool_field(interpretation, "effective_rate_or_household_liability_calculated")?
+        || bool_field(interpretation, "official_score_or_submission_exists")?
+        || !bool_field(claims, "internal_only")?
+        || bool_field(claims, "official_request_made")?
+        || bool_field(claims, "public_release_authorized")?
+        || bool_field(claims, "analytical_schedule_treated_as_law")?
+        || bool_field(claims, "rate_point_difference_treated_as_effective_rate_change")?
+        || bool_field(claims, "zero_lane_difference_treated_as_no_program_need")?
+        || bool_field(claims, "balanced_budget_claimed")?
+        || bool_field(claims, "rate_change_from_admission_gate")?
+    {
+        return Err("Admission Gate v1 internal scorecard failed".to_string());
     }
     Ok(())
 }

@@ -2286,6 +2286,10 @@ pub(crate) const ISF_INT_ACTIVE_MONITOR_RECONCILIATION_JSON_PATH: &str = "data/d
 
 pub(crate) const FIFTEEN_LANE_ADMISSION_GATE_V1_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/fifteen_lane_admission_gate_v1.v1.draft.json";
 
+pub(crate) const ADMISSION_GATE_V1_PAY_NET_REV_DEPENDENCY_RERUN_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/admission_gate_v1_pay_net_rev_dependency_rerun.v1.draft.json";
+
+pub(crate) const ADMISSION_GATE_V1_INTERNAL_SCORECARD_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/admission_gate_v1_internal_current_proposed_difference_scorecard.v1.draft.json";
+
 pub(crate) const PAY_FULL_DMF_EVIDENCE_CEILING_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/pay_full_dmf_public_evidence_ceiling.v1.draft.json";
 
@@ -11669,6 +11673,62 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         path: "reviews/2026-08-01-fifteen-lane-admission-gate-v1-role-review.md",
         role: "Fifteen-Lane Admission Gate v1 role review",
         grain: "portfolio, admission, service, fiscal, dependency, adaptation, and scope fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: ADMISSION_GATE_V1_PAY_NET_REV_DEPENDENCY_RERUN_JSON_PATH,
+        role: "Admission Gate v1 PAY-NET-REV dependency rerun",
+        grain: "ordered primary, PAY, NET, REV identity and zero-delta rate disposition",
+        kind: "json",
+        canonical: "canonical",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/admission_gate_v1_pay_net_rev_dependency_rerun.schema.md",
+        role: "Admission Gate v1 PAY-NET-REV dependency rerun schema",
+        grain: "ordered overlay, endogeneity, financing, rate, authority, and double-count firewall",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/admission-gate-v1-pay-net-rev-dependency-rerun.md",
+        role: "Admission Gate v1 PAY-NET-REV dependency rerun reader",
+        grain: "zero primary, PAY ownership hold, NET zero-input identity, and REV retention explanation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-08-01-admission-gate-v1-pay-net-rev-dependency-rerun-role-review.md",
+        role: "Admission Gate v1 PAY-NET-REV dependency rerun role review",
+        grain: "admission, payment integrity, debt, revenue, numeracy, authority, and scope fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: ADMISSION_GATE_V1_INTERNAL_SCORECARD_JSON_PATH,
+        role: "Admission Gate v1 internal current proposed difference scorecard",
+        grain: "current law, internal preferred, contingency, gate delta, fiscal delta, and all-lane dispositions",
+        kind: "json",
+        canonical: "canonical",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/admission_gate_v1_internal_current_proposed_difference_scorecard.schema.md",
+        role: "Admission Gate v1 internal scorecard schema",
+        grain: "marginal rate, effective-rate, internal authority, zero-difference, and release boundaries",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/admission-gate-v1-internal-current-proposed-difference-scorecard.md",
+        role: "Admission Gate v1 internal scorecard reader",
+        grain: "current and internal schedules, point differences, fiscal deltas, lane deltas, and caveats",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-08-01-admission-gate-v1-internal-current-proposed-difference-scorecard-role-review.md",
+        role: "Admission Gate v1 internal scorecard role review",
+        grain: "tax, fiscal, ownership, distribution, adaptation, authority, and scope fixed point",
         kind: "markdown",
         canonical: "supporting",
     },
