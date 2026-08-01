@@ -1,0 +1,90 @@
+{
+  "record_id": "edu-pell-add-on-current-law-owner-evidence-audit:v1",
+  "record_family": "edu_pell_add_on_current_law_owner_evidence_audit",
+  "version": "v1.draft",
+  "status": "current_law_identity_confirmed_legacy_score_not_current_access_and_substitution_tests_required_zero_admission",
+  "as_of_date": "2026-08-01",
+  "track": "EDU",
+  "candidate_id": "eliminate_mandatory_pell_add_on",
+  "schema_path": "data/derived/breadth_benchmark_matrix/edu_pell_add_on_current_law_owner_evidence_audit.schema.md",
+  "reader_path": "docs/reading/edu-pell-add-on-current-law-owner-evidence-audit.md",
+  "role_review_path": "reviews/2026-08-01-edu-pell-add-on-current-law-owner-evidence-audit-role-review.md",
+  "source_rows": [
+    {"source_id":"SRC-CBO-PELL-ADD-ON-OPTION-2024","publisher":"Congressional Budget Office","publication_date":"2024-12-12","url":"https://www.cbo.gov/budget-options/60895","use":"option mechanism, annual 2025-2034 score, enrollment response, and no-endorsement boundary"},
+    {"source_id":"SRC-CBO-HR4054-2025","publisher":"Congressional Budget Office","publication_date":"2025-10-24","url":"https://www.cbo.gov/publication/61826","use":"post-reconciliation confirmation of the discretionary award and mandatory add-on components"},
+    {"source_id":"SRC-FSA-GEN-26-01","publisher":"U.S. Department of Education, Federal Student Aid","publication_date":"2026-01-30","last_modified":"2026-02-18","url":"https://fsapartners.ed.gov/knowledge-center/library/dear-colleague-letters/2026-01-30/2026-27-federal-pell-grant-maximum-and-minimum-award-amounts","use":"enacted 2026-27 maximum, minimum, SAI, enrollment-intensity, and eligibility rules"},
+    {"source_id":"SRC-FSA-WORKFORCE-PELL-EFFECTIVE-DATES-2026","publisher":"U.S. Department of Education, Federal Student Aid","publication_date":"2026-06-04","url":"https://fsapartners.ed.gov/knowledge-center/library/electronic-announcements/2026-06-04/effective-dates-workforce-pell-and-federal-pell-grant-ineligibility-provisions","use":"July 1, 2026 Workforce Pell and other-aid exclusion effective date"},
+    {"source_id":"SRC-FSA-TITLE-IV-FY2024-BASELINE","publisher":"U.S. Department of Education, Federal Student Aid","publication_date":"2024","path":"data/derived/breadth_benchmark_matrix/fsa_title_iv_student_access_baseline.fy2024.v1.draft.json","use":"historical administrative scale with fiscal-year and award-year firewall"},
+    {"source_id":"SRC-NCES-BPS20-22-PELL-PERSISTENCE","publisher":"National Center for Education Statistics","publication_date":"2026 retrieval","path":"data/derived/breadth_benchmark_matrix/pell_current_entrant_persistence_baseline.bps2020-2022.v1.draft.json","use":"descriptive persistence context and causal prohibition"},
+    {"source_id":"SRC-IES-PELL-SHORT-TRAINING-2024","publisher":"Institute of Education Sciences","publication_date":"2024-11","path":"data/derived/breadth_benchmark_matrix/pell_short_training_impact_evidence.2012-2021.v1.draft.json","use":"bounded randomized offer evidence and Workforce Pell transportability limit"},
+    {"source_id":"SRC-NCES-BB16-20-PELL-OUTCOMES","publisher":"National Center for Education Statistics","publication_date":"2022-09","path":"data/derived/breadth_benchmark_matrix/pell_bachelor_recipient_outcome_baseline.bb2016-2020.v1.draft.json","use":"historical borrowing and outcome context with completer-selection firewall"}
+  ],
+  "current_law_perimeter": {
+    "award_year": "2026-27",
+    "effective_period": "2026-07-01_through_2027-06-30",
+    "maximum_scheduled_award_usd": 7395,
+    "discretionary_maximum_component_usd": 6335,
+    "mandatory_add_on_usd": 1060,
+    "minimum_award_usd": 740,
+    "add_on_share_of_maximum_percent": 14.334,
+    "sai_ineligibility_threshold_usd": 14790,
+    "workforce_pell_effective": true,
+    "other_nonfederal_grant_aid_exclusion_effective": true,
+    "identity_disposition": "mandatory_add_on_remains_in_current_award_but_recipient_rules_changed_after_option_score"
+  },
+  "legacy_cbo_score": {
+    "option_effective_date": "2025-07-01",
+    "score_window": "2025-2034",
+    "mandatory_outlay_changes_billions": [0.0,-1.4,-5.2,-5.3,-5.3,-5.4,-5.4,-5.4,-5.5,-5.5],
+    "mandatory_outlay_change_2025_2034_billions": -44.4,
+    "discretionary_outlay_change_2025_2034_billions": -0.8,
+    "combined_outlay_change_2025_2034_billions": -45.2,
+    "discretionary_effect_mechanism": "small_decline_in_enrollment_and_pell_recipient_count_attributable_to_lower_award",
+    "recommendation_status": "cbo_presents_option_and_makes_no_recommendation",
+    "current_score_status": "not_current_after_2025_reconciliation_2026_appropriation_and_workforce_pell_changes"
+  },
+  "existing_evidence_tests": [
+    {"gate_id":"low_income_access","evidence":"FY2024 FSA reports about $33.0 billion Pell disbursements, more than 6.3 million students, a $5,218 published average, and a $7,395 maximum, but fiscal-year dollars and award-year people are not one cohort.","disposition":"baseline_available_counterfactual_blocked"},
+    {"gate_id":"enrollment_and_completion","evidence":"The short-training randomized offers increased study-school enrollment and completion, but the volunteer-school adult samples tested expanded eligibility, not a nationwide $1,060 maximum-award reduction.","disposition":"causal_direction_context_available_transportability_blocked"},
+    {"gate_id":"current_entrant_persistence","evidence":"BPS:20/22 compares positive and zero Pell receipt descriptively during a pandemic-overlapping three-year window; it does not identify a Pell effect or a mature completion outcome.","disposition":"descriptive_context_available_causal_and_maturity_blocked"},
+    {"gate_id":"institutional_incidence","evidence":"No attached artifact allocates the add-on by institution sector, price, selectivity, geography, program length, or student need under 2026-27 rules.","disposition":"blocked_current_recipient_institution_microdistribution_required"},
+    {"gate_id":"borrowing_substitution","evidence":"Historical bachelor completers who ever received Pell show federal borrowing and repayment outcomes, but the cohort is selected on completion and does not estimate borrowing caused by a grant reduction.","disposition":"blocked_current_counterfactual_loan_and_unmet_need_response_required"},
+    {"gate_id":"current_law_rescore","evidence":"The option's annual score starts under a superseded July 2025 policy perimeter and cannot be rolled forward mechanically.","disposition":"blocked_cbo_or_compatible_current_law_rescore_required"}
+  ],
+  "award_reduction_claim_boundary": {
+    "maximum_scheduled_award_reduction_usd": 1060,
+    "maximum_scheduled_award_reduction_percent": 14.334,
+    "every_recipient_loses_exactly_1060": false,
+    "reason":"Awards depend on maximum, minimum, SAI, tax and family rules, cost of attendance, enrollment intensity, lifetime eligibility, special rules, and 2026-27 exclusions.",
+    "recipient_distribution_simulated": false,
+    "institution_distribution_simulated": false,
+    "borrowing_substitution_simulated": false
+  },
+  "successor_contract": {
+    "next_slice":"construct_current_2026_27_recipient_award_distribution_and_bounded_substitution_stress",
+    "required_dimensions":["maximum_minimum_or_sai_calculated_award","income_and_dependency","enrollment_intensity","institution_sector_and_program_length","workforce_pell_status","other_grant_aid","loan_takeup_and_unmet_need"],
+    "required_outputs":["recipients_affected","grant_reduction_distribution","access_and_completion_floor_exposure","institutional_incidence","loan_and_unmet_need_substitution_range","compatible_annual_fiscal_timing"],
+    "old_score_may_be_used_as":"historical_option_identity_and_scale_context_only",
+    "current_savings_available":false,
+    "admitted_savings_billions":0.0,
+    "rate_recomputation_required":false
+  },
+  "portfolio_handoff": {
+    "track_status":"active_distribution_and_substitution_test",
+    "next_track":"EDU",
+    "next_candidate":"pell_add_on_current_recipient_distribution",
+    "selection_is_admission":false
+  },
+  "claim_boundaries": {
+    "official_request_made":false,
+    "public_release_authorized":false,
+    "legacy_score_treated_as_current":false,
+    "descriptive_group_difference_treated_as_causal":false,
+    "short_training_experiment_generalized_to_all_pell":false,
+    "every_recipient_treated_as_maximum_award":false,
+    "candidate_admitted":false,
+    "spending_reduction_admitted":false,
+    "solver_run_performed":false,
+    "rate_change_allowed":false
+  }
+}

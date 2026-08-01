@@ -1342,6 +1342,7 @@ pub(crate) fn validate_global_country_comparison_coverage(root: &Path) -> Result
     validate_agr_uw12_score_sensitivity_service_stress_envelope(root)?;
     validate_see_energy_weatherization_current_law_owner_evidence_audit(root)?;
     validate_see_wap_delivery_control_public_evidence_ceiling(root)?;
+    validate_edu_pell_add_on_current_law_owner_evidence_audit(root)?;
     validate_pay_full_dmf_public_evidence_ceiling(root)?;
     validate_hlt_site_neutral_current_law_dependency_audit(root)?;
     validate_def_proportional_force_current_law_dependency_audit(root)?;
@@ -14987,6 +14988,76 @@ pub(crate) fn validate_see_wap_delivery_control_public_evidence_ceiling(
         || bool_field(claims, "rate_change_allowed")?
     {
         return Err("SEE WAP delivery-control public-evidence ceiling failed".to_string());
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_edu_pell_add_on_current_law_owner_evidence_audit(
+    root: &Path,
+) -> Result<(), String> {
+    let audit = read_json_artifact(
+        root,
+        EDU_PELL_ADD_ON_CURRENT_LAW_OWNER_EVIDENCE_AUDIT_JSON_PATH,
+    )?;
+    let law = audit
+        .get("current_law_perimeter")
+        .ok_or("EDU Pell current law")?;
+    let score = audit
+        .get("legacy_cbo_score")
+        .ok_or("EDU Pell legacy score")?;
+    let gates = audit
+        .get("existing_evidence_tests")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("EDU Pell evidence tests")?;
+    let award = audit
+        .get("award_reduction_claim_boundary")
+        .ok_or("EDU Pell award boundary")?;
+    let successor = audit
+        .get("successor_contract")
+        .ok_or("EDU Pell successor")?;
+    let claims = audit
+        .get("claim_boundaries")
+        .ok_or("EDU Pell claims")?;
+    let annual = score
+        .get("mandatory_outlay_changes_billions")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("EDU Pell annual score")?;
+    let annual_total = annual
+        .iter()
+        .map(|value| value.as_f64().ok_or("EDU Pell annual value".to_string()))
+        .collect::<Result<Vec<_>, _>>()?
+        .iter()
+        .sum::<f64>();
+    if int_field(law, "maximum_scheduled_award_usd")? != 7_395
+        || int_field(law, "discretionary_maximum_component_usd")?
+            + int_field(law, "mandatory_add_on_usd")?
+            != 7_395
+        || int_field(law, "minimum_award_usd")? != 740
+        || int_field(law, "sai_ineligibility_threshold_usd")? != 14_790
+        || !bool_field(law, "workforce_pell_effective")?
+        || annual.len() != 10
+        || (annual_total - number_field(score, "mandatory_outlay_change_2025_2034_billions")?)
+            .abs()
+            > 0.0001
+        || (number_field(score, "combined_outlay_change_2025_2034_billions")? + 45.2).abs()
+            > 0.0001
+        || string_field(score, "current_score_status")?
+            != "not_current_after_2025_reconciliation_2026_appropriation_and_workforce_pell_changes"
+        || gates.len() != 6
+        || bool_field(award, "every_recipient_loses_exactly_1060")?
+        || bool_field(award, "recipient_distribution_simulated")?
+        || bool_field(award, "institution_distribution_simulated")?
+        || bool_field(award, "borrowing_substitution_simulated")?
+        || bool_field(successor, "current_savings_available")?
+        || number_field(successor, "admitted_savings_billions")?.abs() > 0.0001
+        || bool_field(successor, "rate_recomputation_required")?
+        || bool_field(claims, "legacy_score_treated_as_current")?
+        || bool_field(claims, "candidate_admitted")?
+        || bool_field(claims, "spending_reduction_admitted")?
+        || bool_field(claims, "solver_run_performed")?
+        || bool_field(claims, "rate_change_allowed")?
+    {
+        return Err("EDU Pell add-on current-law owner-evidence audit failed".to_string());
     }
     Ok(())
 }

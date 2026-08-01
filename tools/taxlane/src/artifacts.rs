@@ -2262,6 +2262,8 @@ pub(crate) const SEE_ENERGY_WEATHERIZATION_CURRENT_LAW_OWNER_EVIDENCE_AUDIT_JSON
 
 pub(crate) const SEE_WAP_DELIVERY_CONTROL_PUBLIC_EVIDENCE_CEILING_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/see_wap_delivery_control_public_evidence_ceiling.v1.draft.json";
 
+pub(crate) const EDU_PELL_ADD_ON_CURRENT_LAW_OWNER_EVIDENCE_AUDIT_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/edu_pell_add_on_current_law_owner_evidence_audit.v1.draft.json";
+
 pub(crate) const PAY_FULL_DMF_EVIDENCE_CEILING_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/pay_full_dmf_public_evidence_ceiling.v1.draft.json";
 
@@ -11337,6 +11339,34 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         path: "reviews/2026-08-01-see-wap-delivery-control-public-evidence-ceiling-role-review.md",
         role: "SEE WAP delivery-control public-evidence role review",
         grain: "finance, delivery, household, audit, distribution, and scope fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: EDU_PELL_ADD_ON_CURRENT_LAW_OWNER_EVIDENCE_AUDIT_JSON_PATH,
+        role: "EDU Pell add-on current-law owner-evidence audit",
+        grain: "award component, legacy score, evidence gates, and successor contract",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/edu_pell_add_on_current_law_owner_evidence_audit.schema.md",
+        role: "EDU Pell add-on current-law owner-evidence schema",
+        grain: "current-law, distribution, causality, substitution, and admission boundary",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/edu-pell-add-on-current-law-owner-evidence-audit.md",
+        role: "EDU Pell add-on current-law owner-evidence reader",
+        grain: "surviving component, expired score, and next-test explanation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-08-01-edu-pell-add-on-current-law-owner-evidence-audit-role-review.md",
+        role: "EDU Pell add-on current-law owner-evidence role review",
+        grain: "finance, access, outcomes, institutions, households, law, and scope fixed point",
         kind: "markdown",
         canonical: "supporting",
     },
