@@ -1,0 +1,71 @@
+{
+  "record_id":"vet-missed-exam-review-accommodation-stress-envelope:v1",
+  "record_family":"vet_missed_exam_review_accommodation_stress_envelope",
+  "version":"v1.draft",
+  "status":"normalized_claimant_funnel_workforce_cost_and_burden_complete_observed_cohort_missing_zero_admission",
+  "as_of_date":"2026-08-01",
+  "track":"VET",
+  "predecessor_path":"data/derived/breadth_benchmark_matrix/vet_hr2137_current_law_owner_evidence_audit.v1.draft.json",
+  "schema_path":"data/derived/breadth_benchmark_matrix/vet_missed_exam_review_accommodation_stress_envelope.schema.md",
+  "reader_path":"docs/reading/vet-missed-exam-review-accommodation-stress-envelope.md",
+  "role_review_path":"reviews/2026-08-01-vet-missed-exam-review-accommodation-stress-envelope-role-review.md",
+  "engine_crate":"crates/taxlane-vet-claims",
+  "source_rows":[
+    {"source_id":"SRC-CBO-61852","url":"https://www.cbo.gov/publication/61852","use":"missed-exam mechanism, nine-processor workload estimate, and cost boundary"},
+    {"source_id":"SRC-GAO-25-107483","url":"https://www.gao.gov/products/gao-25-107483","use":"contract examination quality and oversight boundary"},
+    {"source_id":"SRC-GAO-26-109137","url":"https://www.gao.gov/products/gao-26-109137","use":"current training, IT, quality, and modernization boundary"},
+    {"source_id":"SRC-VA-MMWR-2026","url":"https://www.benefits.va.gov/reports/detailed_claims_data.asp","use":"current workload surface without a public missed-exam cohort"}
+  ],
+  "normalized_input": {
+    "missed_exam_claims":1000,
+    "notice_reach_percent":90,
+    "accommodation_offer_percent_of_reached":80,
+    "reschedule_acceptance_percent_of_offered":75,
+    "exam_completion_percent_of_accepted":80,
+    "existing_evidence_sufficiency_percent_of_reviewed":25,
+    "followup_percent_of_unresolved":50,
+    "accommodation_minutes_per_offered_claim":30,
+    "evidence_review_minutes_per_claim":90,
+    "productive_hours_per_fte_year":1500,
+    "annual_compensation_usd_per_fte":180000,
+    "annual_it_and_support_cost_usd":100000,
+    "claimant_hours_per_completed_exam":4,
+    "status":"hypothetical_accounting_fixture_not_empirical_estimate"
+  },
+  "normalized_output": {
+    "notice_reached_claims":900,
+    "accommodation_offered_claims":720,
+    "reschedule_accepted_claims":540,
+    "completed_exam_claims":432,
+    "existing_evidence_review_claims":568,
+    "existing_evidence_sufficient_claims":142,
+    "unresolved_claims":426,
+    "procedurally_reviewable_claims":574,
+    "followup_claims_stress":213,
+    "total_work_hours":1212,
+    "required_fte":0.808,
+    "staff_cost_usd":145440,
+    "total_modeled_cost_usd":245440,
+    "claimant_burden_hours":1728,
+    "modeled_cost_per_procedurally_reviewable_claim_usd":427.595818,
+    "reviewable_claim_is_grant_or_correction":false
+  },
+  "evidence_ceiling": {
+    "candidate_enacted":false,
+    "current_missed_exam_claim_count_and_reason_distribution_available":false,
+    "observed_notice_accommodation_and_reschedule_funnel_available":false,
+    "matched_evidence_sufficiency_and_decision_effect_available":false,
+    "matched_appeal_and_remand_effect_available":false,
+    "claimant_travel_disability_rural_and_caregiver_burden_available":false,
+    "current_implementation_cost_available":false,
+    "current_compatible_score_available":false
+  },
+  "successor_disposition": {
+    "normalized_engine_complete":true,
+    "candidate_status":"named_trigger_for_enactment_observed_delivery_matched_outcomes_rights_cost_and_current_score",
+    "admitted_savings_billions":0.0,
+    "rate_recomputation_required":false,
+    "next_track":"TRN"
+  },
+  "claim_boundaries":{"official_request_made":false,"public_release_authorized":false,"normalized_fixture_treated_as_forecast":false,"procedural_review_treated_as_grant_or_correction":false,"followup_stress_treated_as_observed_appeal":false,"claimant_burden_scaled_to_population":false,"candidate_admitted":false,"spending_reduction_admitted":false,"solver_run_performed":false,"rate_change_allowed":false}
+}

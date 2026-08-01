@@ -2276,6 +2276,8 @@ pub(crate) const JUS_DISTRICT_CAPACITY_DELIVERY_CASEFLOW_STRESS_ENVELOPE_JSON_PA
 
 pub(crate) const VET_HR2137_CURRENT_LAW_OWNER_EVIDENCE_AUDIT_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/vet_hr2137_current_law_owner_evidence_audit.v1.draft.json";
 
+pub(crate) const VET_MISSED_EXAM_REVIEW_ACCOMMODATION_STRESS_ENVELOPE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/vet_missed_exam_review_accommodation_stress_envelope.v1.draft.json";
+
 pub(crate) const PAY_FULL_DMF_EVIDENCE_CEILING_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/pay_full_dmf_public_evidence_ceiling.v1.draft.json";
 
@@ -11547,6 +11549,34 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         path: "reviews/2026-08-01-vet-hr2137-current-law-owner-evidence-audit-role-review.md",
         role: "VET H.R. 2137 current-law owner-evidence role review",
         grain: "fiscal, benefits, Medicaid, operations, access, technology, and scope fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: VET_MISSED_EXAM_REVIEW_ACCOMMODATION_STRESS_ENVELOPE_JSON_PATH,
+        role: "VET missed-exam review and accommodation stress envelope",
+        grain: "notice, accommodation, exam, evidence, unresolved, workforce, burden, cost, and TRN handoff",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/vet_missed_exam_review_accommodation_stress_envelope.schema.md",
+        role: "VET missed-exam review and accommodation stress schema",
+        grain: "claimant funnel, workload, cost, burden, and no-outcome boundary",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/vet-missed-exam-review-accommodation-stress-envelope.md",
+        role: "VET missed-exam review and accommodation stress reader",
+        grain: "normalized claimant funnel, workload, burden, evidence ceiling, and named triggers",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-08-01-vet-missed-exam-review-accommodation-stress-envelope-role-review.md",
+        role: "VET missed-exam review and accommodation stress role review",
+        grain: "access, operations, appeals, workforce, incidence, fiscal, and scope fixed point",
         kind: "markdown",
         canonical: "supporting",
     },

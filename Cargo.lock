@@ -344,8 +344,13 @@ dependencies = [
  "taxlane-edu-pell",
  "taxlane-jus-capacity",
  "taxlane-net-interest",
+ "taxlane-vet-claims",
  "zip",
 ]
+
+[[package]]
+name = "taxlane-vet-claims"
+version = "0.1.0"
 
 [[package]]
 name = "thiserror"

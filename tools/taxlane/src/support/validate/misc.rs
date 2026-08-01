@@ -1349,6 +1349,7 @@ pub(crate) fn validate_global_country_comparison_coverage(root: &Path) -> Result
     validate_jus_district_judgeship_capacity_current_law_owner_evidence_audit(root)?;
     validate_jus_district_capacity_delivery_caseflow_stress_envelope(root)?;
     validate_vet_hr2137_current_law_owner_evidence_audit(root)?;
+    validate_vet_missed_exam_review_accommodation_stress_envelope(root)?;
     validate_pay_full_dmf_public_evidence_ceiling(root)?;
     validate_hlt_site_neutral_current_law_dependency_audit(root)?;
     validate_def_proportional_force_current_law_dependency_audit(root)?;
@@ -15633,6 +15634,127 @@ pub(crate) fn validate_vet_hr2137_current_law_owner_evidence_audit(
         || bool_field(claims, "rate_change_allowed")?
     {
         return Err("VET H.R. 2137 current-law owner-evidence audit failed".to_string());
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_vet_missed_exam_review_accommodation_stress_envelope(
+    root: &Path,
+) -> Result<(), String> {
+    let artifact = read_json_artifact(
+        root,
+        VET_MISSED_EXAM_REVIEW_ACCOMMODATION_STRESS_ENVELOPE_JSON_PATH,
+    )?;
+    let input = artifact
+        .get("normalized_input")
+        .ok_or("VET missed-exam input")?;
+    let output = artifact
+        .get("normalized_output")
+        .ok_or("VET missed-exam output")?;
+    let stress = taxlane_vet_claims::MissedExamStressInput {
+        missed_exam_claims: i128::from(int_field(input, "missed_exam_claims")?),
+        notice_reach_ppm: i128::from(int_field(input, "notice_reach_percent")?) * 10_000,
+        accommodation_offer_ppm_of_reached: i128::from(int_field(
+            input,
+            "accommodation_offer_percent_of_reached",
+        )?) * 10_000,
+        reschedule_acceptance_ppm_of_offered: i128::from(int_field(
+            input,
+            "reschedule_acceptance_percent_of_offered",
+        )?) * 10_000,
+        exam_completion_ppm_of_accepted: i128::from(int_field(
+            input,
+            "exam_completion_percent_of_accepted",
+        )?) * 10_000,
+        existing_evidence_sufficiency_ppm_of_reviewed: i128::from(int_field(
+            input,
+            "existing_evidence_sufficiency_percent_of_reviewed",
+        )?) * 10_000,
+        followup_ppm_of_unresolved: i128::from(int_field(
+            input,
+            "followup_percent_of_unresolved",
+        )?) * 10_000,
+        accommodation_minutes_per_offered_claim: i128::from(int_field(
+            input,
+            "accommodation_minutes_per_offered_claim",
+        )?),
+        evidence_review_minutes_per_claim: i128::from(int_field(
+            input,
+            "evidence_review_minutes_per_claim",
+        )?),
+        productive_hours_per_fte_year: i128::from(int_field(
+            input,
+            "productive_hours_per_fte_year",
+        )?),
+        annual_compensation_usd_micros_per_fte: i128::from(int_field(
+            input,
+            "annual_compensation_usd_per_fte",
+        )?) * 1_000_000,
+        annual_it_and_support_cost_usd_micros: i128::from(int_field(
+            input,
+            "annual_it_and_support_cost_usd",
+        )?) * 1_000_000,
+        claimant_hours_per_completed_exam_micros: i128::from(int_field(
+            input,
+            "claimant_hours_per_completed_exam",
+        )?) * 1_000_000,
+    };
+    let result = taxlane_vet_claims::run_missed_exam_stress(&stress)?;
+    let compare = |actual_micros: i128, field: &str| -> Result<bool, String> {
+        Ok((actual_micros as f64 / 1_000_000.0 - number_field(output, field)?).abs() < 0.000001)
+    };
+    let evidence = artifact
+        .get("evidence_ceiling")
+        .ok_or("VET missed-exam evidence")?;
+    let successor = artifact
+        .get("successor_disposition")
+        .ok_or("VET missed-exam successor")?;
+    let claims = artifact
+        .get("claim_boundaries")
+        .ok_or("VET missed-exam claims")?;
+    if !compare(result.notice_reached_claims_micros, "notice_reached_claims")?
+        || !compare(
+            result.accommodation_offered_claims_micros,
+            "accommodation_offered_claims",
+        )?
+        || !compare(result.completed_exam_claims_micros, "completed_exam_claims")?
+        || !compare(
+            result.existing_evidence_review_claims_micros,
+            "existing_evidence_review_claims",
+        )?
+        || !compare(result.unresolved_claims_micros, "unresolved_claims")?
+        || !compare(
+            result.procedurally_reviewable_claims_micros,
+            "procedurally_reviewable_claims",
+        )?
+        || !compare(result.followup_claims_stress_micros, "followup_claims_stress")?
+        || !compare(result.total_work_hours_micros, "total_work_hours")?
+        || !compare(result.required_fte_micros, "required_fte")?
+        || !compare(result.staff_cost_usd_micros, "staff_cost_usd")?
+        || !compare(result.total_modeled_cost_usd_micros, "total_modeled_cost_usd")?
+        || !compare(result.claimant_burden_hours_micros, "claimant_burden_hours")?
+        || !compare(
+            result
+                .modeled_cost_per_procedurally_reviewable_claim_usd_micros
+                .ok_or("VET missed-exam unit cost")?,
+            "modeled_cost_per_procedurally_reviewable_claim_usd",
+        )?
+        || bool_field(output, "reviewable_claim_is_grant_or_correction")?
+        || bool_field(evidence, "candidate_enacted")?
+        || bool_field(evidence, "matched_evidence_sufficiency_and_decision_effect_available")?
+        || bool_field(evidence, "matched_appeal_and_remand_effect_available")?
+        || !bool_field(successor, "normalized_engine_complete")?
+        || string_field(successor, "next_track")? != "TRN"
+        || number_field(successor, "admitted_savings_billions")?.abs() > 0.0001
+        || bool_field(successor, "rate_recomputation_required")?
+        || bool_field(claims, "normalized_fixture_treated_as_forecast")?
+        || bool_field(claims, "procedural_review_treated_as_grant_or_correction")?
+        || bool_field(claims, "followup_stress_treated_as_observed_appeal")?
+        || bool_field(claims, "candidate_admitted")?
+        || bool_field(claims, "spending_reduction_admitted")?
+        || bool_field(claims, "rate_change_allowed")?
+    {
+        return Err("VET missed-exam review and accommodation stress envelope failed".to_string());
     }
     Ok(())
 }

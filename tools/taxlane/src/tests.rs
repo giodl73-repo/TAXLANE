@@ -1445,6 +1445,12 @@ mod global_country_comparison_tests {
     }
 
     #[test]
+    fn vet_claims_engine_replays_review_workload_cost_and_burden() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_vet_missed_exam_review_accommodation_stress_envelope(&root).unwrap();
+    }
+
+    #[test]
     fn pay_public_evidence_ceiling_names_owner_data_without_requesting_it() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_pay_full_dmf_public_evidence_ceiling(&root).unwrap();
