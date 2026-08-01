@@ -378,9 +378,13 @@ its [source-compatibility audit](docs/reading/net-current-law-baseline-compatibi
 and the [five-candidate fiscal rerun](docs/reading/verdict-five-candidate-fiscal-rerun.md).
 NET now admits three of eight formula inputs and completes four of nine baseline
 steps, including the zero-policy topline replay, while maturity-aware interest
-feedback remains blocked. The fiscal rerun still preserves the full $813.727B
-financing requirement and all three internal schedules because no candidate
-effect passed admission.
+feedback remains blocked. Its
+[Treasury MSPD snapshot reconciliation](docs/reading/net-interest-treasury-mspd-snapshot-reconciliation.md)
+also resolves Table 3/Table 5 units and overlap and reconciles 99.988249% future-
+maturity detail plus explicit residuals to total marketable debt. This is a
+current snapshot seed, not annual rollover. The fiscal rerun still preserves
+the full $813.727B financing requirement and all three internal schedules
+because no candidate effect passed admission.
 
 ### 4. The rate followed the evidence
 

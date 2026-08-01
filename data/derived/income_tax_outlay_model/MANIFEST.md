@@ -22,7 +22,7 @@ supporting views.
 
 | Path | Role | Grain | Rows | Canonical | SHA-256 |
 |---|---|---|---:|---|---|
-| `README.md` | Repository overview | documentation | n/a | supporting | `ed73cb6404cbdc135e0c9204fb6a35c1fc1115c5efd9d286a9b55e28232ea43b` |
+| `README.md` | Repository overview | documentation | n/a | supporting | `a6f4dd1549624d52754448ab874708b361aa4d9f6a175cfb487ae0471607580a` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.draft.jsonl` | Canonical annual model rows | fiscal year by broad category | 516 | yes | `01c0fec63836f3652fdd83b03a608159ad58f7614fc214ae6691421990f3a85e` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.decade-summary.jsonl` | Canonical decade summary rows | decade by broad category | 54 | yes | `088cb5d55cc6a37ab52dd543d8a92bf09908cda265e9c9f93324b840eb652fb3` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.annual-wide.csv` | Chart-ready annual wide view | fiscal year | 86 | no | `cbe6ec44a77b9ef4adebaef37acc4b55ac23fd5eb21916989ae9518cbd4e4c31` |
@@ -95,6 +95,10 @@ supporting views.
 | `docs/reading/net-interest-treasury-mspd-maturity-detail-context.md` | Net-interest Treasury MSPD maturity detail reader | public maturity-detail context boundary | n/a | supporting | `2f60a5391db2a805201d149b6354120b4519c52c88b4fbd64ec1c3c194b2285b` |
 | `data/derived/breadth_benchmark_matrix/net_interest_treasury_mspd_remaining_maturity_bucket_diagnostic.v1.draft.json` | Net-interest Treasury MSPD remaining-maturity bucket diagnostic | Treasury maturity-bucket diagnostic boundary | n/a | supporting | `bc99657130cf266de0255deb5dc88eb7cad58fd71e8addbaa9ac0aea10e43063` |
 | `docs/reading/net-interest-treasury-mspd-remaining-maturity-bucket-diagnostic.md` | Net-interest Treasury MSPD remaining-maturity bucket diagnostic reader | public maturity-bucket diagnostic boundary | n/a | supporting | `1c954127b2dcfedca725a588787a8044ff8294b24fb393a174dd2b3e6ef9995b` |
+| `data/derived/breadth_benchmark_matrix/net_interest_treasury_mspd_snapshot_reconciliation.v1.draft.json` | Net-interest Treasury MSPD snapshot reconciliation | units, overlap, marketable-debt identity, and snapshot seed | n/a | supporting | `47832e29b13a81d747a54da43b24bf8ba5cafdaa0c3038eab54915808b21a49d` |
+| `data/derived/breadth_benchmark_matrix/net_interest_treasury_mspd_snapshot_reconciliation.schema.md` | Net-interest Treasury MSPD snapshot reconciliation schema | snapshot identity and annual-model boundary | n/a | supporting | `2066753db94b73b41214ea85c3651bd3eb8b0d0eccfe8cf62b1b0f2819f0b1bf` |
+| `docs/reading/net-interest-treasury-mspd-snapshot-reconciliation.md` | Net-interest Treasury MSPD snapshot reconciliation reader | public snapshot result and remaining rollover gaps | n/a | supporting | `373df351df950121a6d7558d9e8dd623d272d48130aa37263c47c307d72049ad` |
+| `reviews/2026-07-31-net-interest-treasury-mspd-snapshot-reconciliation-role-review.md` | Net-interest Treasury MSPD snapshot reconciliation role review | source and accounting fixed point | n/a | supporting | `426433b0c03839b157bc51deba473f57efb7682a44747187996774d23081cde4` |
 | `data/derived/breadth_benchmark_matrix/net_interest_treasury_average_interest_rate_context.v1.draft.json` | Net-interest Treasury average-interest-rate context | Treasury average-rate context boundary | n/a | supporting | `0aea1a50cc4debf61a0d1b088ccf37cd92f8a703d52280a854ad9e47f79500d2` |
 | `docs/reading/net-interest-treasury-average-interest-rate-context.md` | Net-interest Treasury average-interest-rate context reader | public Treasury average-rate context boundary | n/a | supporting | `be2ab3b918324fa4d19ad13b1fd15a207cd6aa9f5cac8317b276d5a98052af82` |
 | `data/derived/breadth_benchmark_matrix/omb_ap13_fund_group_reconciliation_detail_fy2025_context.v1.draft.json` | OMB AP13 FY2025 fund-group reconciliation detail context | fund-group reconciliation detail boundary | n/a | supporting | `9af536fbea6c5c48b684e80710c82862c902edf13646fc6b0294aebf1220c990` |
@@ -936,9 +940,9 @@ supporting views.
 | `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `47f4135a8d0543687379b16f7c3f06d335fabee8485f941944cb0805c9b2d941` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `b910e56a20f40547ac1e4f696e84772dde163738b03915ddbcc0d0a39427719a` |
 | `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `b23aefa861fddf70c9a41dd9d5459ee87d076e734e7573130c19197b8dabaf35` |
-| `data/derived/breadth_benchmark_matrix/net_current_law_baseline_compatibility_audit.v1.draft.json` | NET current-law baseline compatibility audit | formula-input dispositions and zero-policy reconciliation | n/a | supporting | `4adad1040e04a8d8336abf2c2ef9c9505bda20961c1117bff6030c3fb2af6094` |
+| `data/derived/breadth_benchmark_matrix/net_current_law_baseline_compatibility_audit.v1.draft.json` | NET current-law baseline compatibility audit | formula-input dispositions and zero-policy reconciliation | n/a | supporting | `d6725654ec0c2d50fbec9beb9110594d1b7e6e605c8f3d391d236a83ac174c2d` |
 | `data/derived/breadth_benchmark_matrix/net_current_law_baseline_compatibility_audit.schema.md` | NET baseline compatibility audit schema | input-admission and claim-boundary contract | n/a | supporting | `99fc306ae81126d2cfbd54b724853b5a14c20d3721515f1cc929ee6fac66a394` |
-| `docs/reading/net-current-law-baseline-compatibility-audit.md` | NET baseline compatibility audit reader | public accounting advance and remaining gaps | n/a | supporting | `6b7026ed483b2349208570d92563f57b064d71bdcb85c8fa8640b96b50bf80b4` |
+| `docs/reading/net-current-law-baseline-compatibility-audit.md` | NET baseline compatibility audit reader | public accounting advance and remaining gaps | n/a | supporting | `ca549a7fdfc07f7998500b0a352613cd6636555c03c416926be7ce4db621ac83` |
 | `reviews/2026-07-31-net-current-law-baseline-compatibility-role-review.md` | NET baseline compatibility role review | source and accounting fixed point | n/a | supporting | `347d975d2fcbeee135074c8ca741a03341ee6560a504f51f2fe70cceaec63276` |
 
 ## Regeneration Order

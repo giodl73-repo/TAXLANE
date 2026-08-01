@@ -1849,6 +1849,136 @@ pub(crate) fn validate_net_interest_treasury_mspd_remaining_maturity_bucket_diag
     Ok(())
 }
 
+pub(crate) fn validate_net_interest_treasury_mspd_snapshot_reconciliation(
+    root: &Path,
+) -> Result<(), String> {
+    for path in [
+        NET_INTEREST_TREASURY_MSPD_SNAPSHOT_RECONCILIATION_JSON_PATH,
+        NET_INTEREST_TREASURY_MSPD_SNAPSHOT_RECONCILIATION_SCHEMA_PATH,
+        NET_INTEREST_TREASURY_MSPD_SNAPSHOT_RECONCILIATION_READER_PATH,
+        NET_INTEREST_TREASURY_MSPD_SNAPSHOT_RECONCILIATION_REVIEW_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing MSPD snapshot reconciliation artifact: {path}"));
+        }
+    }
+    validate_net_interest_treasury_mspd_remaining_maturity_bucket_diagnostic(root)?;
+    let record: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(
+            NET_INTEREST_TREASURY_MSPD_SNAPSHOT_RECONCILIATION_JSON_PATH,
+        ))
+        .map_err(|e| e.to_string())?,
+    )
+    .map_err(|e| e.to_string())?;
+    if string_field(&record, "record_id")?
+        != "net-interest-treasury-mspd-snapshot-reconciliation:v1"
+        || string_field(&record, "status")?
+            != "marketable_snapshot_reconciled_annual_rollover_and_public_perimeter_blocked"
+        || string_field(&record, "record_date")? != "2026-06-30"
+    {
+        return Err("MSPD snapshot reconciliation identity failed".to_string());
+    }
+    let packets = record["source_packets"].as_array().ok_or("MSPD source packets")?;
+    if packets.len() != 3 {
+        return Err("MSPD source packet count failed".to_string());
+    }
+    for packet in packets {
+        let path = string_field(packet, "path")?;
+        let raw = root.join(&path);
+        if fs::metadata(&raw).map_err(|e| e.to_string())?.len()
+            != int_field(packet, "byte_count")? as u64
+            || sha256_file(&raw)? != string_field(packet, "sha256")?
+        {
+            return Err(format!("MSPD source custody failed: {path}"));
+        }
+    }
+    let units = &record["unit_and_overlap_findings"];
+    let t3 = number_field(units, "table_3_notes_bonds_tips_musd")?;
+    let t5_raw = number_field(units, "table_5_grand_total_raw_thousands")?;
+    if bool_field(units, "table_3_and_table_5_additive")?
+        || (t3 - t5_raw / 1000.0).abs() > 0.000001
+        || number_field(units, "cross_check_residual_musd")?.abs() > 0.000001
+    {
+        return Err("MSPD Table 3/Table 5 overlap reconciliation failed".to_string());
+    }
+    let market = &record["table_1_marketability_perimeter"];
+    let market_total = number_field(market, "total_marketable_musd")?;
+    if (number_field(market, "marketable_debt_held_public_musd")?
+        + number_field(market, "marketable_intragovernmental_musd")?
+        - market_total)
+        .abs()
+        > 0.000001
+        || (number_field(market, "total_debt_held_public_musd")?
+            + number_field(market, "total_intragovernmental_musd")?
+            - number_field(market, "total_public_debt_outstanding_musd")?)
+        .abs()
+            > 0.000001
+    {
+        return Err("MSPD Table 1 perimeter identity failed".to_string());
+    }
+    let recon = &record["table_3_marketability_reconciliation"];
+    if (number_field(recon, "future_maturity_detail_musd")?
+        + number_field(recon, "federal_financing_bank_musd")?
+        + number_field(recon, "matured_or_unallocated_residual_musd")?
+        - market_total)
+        .abs()
+        > 0.000001
+        || number_field(recon, "identity_residual_musd")?.abs() > 0.000001
+    {
+        return Err("MSPD marketable total reconciliation failed".to_string());
+    }
+    let seed = &record["snapshot_maturity_stock_seed"];
+    let bucket_sum = seed["buckets"]
+        .as_array()
+        .ok_or("MSPD snapshot buckets")?
+        .iter()
+        .map(|row| number_field(row, "amount_musd"))
+        .collect::<Result<Vec<_>, _>>()?
+        .into_iter()
+        .sum::<f64>();
+    if (bucket_sum - number_field(seed, "bucket_total_musd")?).abs() > 0.000001
+        || !bool_field(seed, "snapshot_diagnostic_ready")?
+        || bool_field(seed, "formula_maturity_bucket_schedule_ready")?
+        || bool_field(seed, "annual_rollover_rule_ready")?
+        || bool_field(seed, "debt_held_public_bucket_allocation_ready")?
+    {
+        return Err("MSPD snapshot seed boundary failed".to_string());
+    }
+    let bridge = &record["cbo_temporal_perimeter_bridge"];
+    if (number_field(bridge, "cbo_projected_debt_held_public_musd")?
+        - number_field(bridge, "treasury_actual_debt_held_public_musd")?
+        - number_field(bridge, "cbo_minus_treasury_musd")?)
+        .abs()
+        > 0.000001
+        || bool_field(bridge, "same_date_reconciliation")?
+    {
+        return Err("MSPD CBO temporal bridge failed".to_string());
+    }
+    let effect = &record["readiness_effect"];
+    if int_field(effect, "formula_inputs_ready_before")? != 3
+        || int_field(effect, "formula_inputs_ready_after")? != 3
+        || int_field(effect, "completion_steps_ready_before")? != 4
+        || int_field(effect, "completion_steps_ready_after")? != 4
+        || int_field(effect, "net_verdict_score_before")? != 11
+        || int_field(effect, "net_verdict_score_after")? != 11
+    {
+        return Err("MSPD readiness effect failed".to_string());
+    }
+    let claims = record["claim_booleans"]
+        .as_object()
+        .ok_or("MSPD snapshot claims")?;
+    for (field, value) in claims {
+        let expected = matches!(
+            field.as_str(),
+            "snapshot_reconciliation_published" | "snapshot_maturity_stock_seed_ready"
+        );
+        if value.as_bool().ok_or("MSPD snapshot claim bool")? != expected {
+            return Err(format!("MSPD snapshot claim boundary failed: {field}"));
+        }
+    }
+    Ok(())
+}
+
 pub(crate) fn validate_net_interest_treasury_average_interest_rate_context(root: &Path) -> Result<(), String> {
     for path in [
         NET_INTEREST_TREASURY_AVERAGE_INTEREST_RATE_CONTEXT_JSON_PATH,

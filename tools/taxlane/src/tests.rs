@@ -1608,6 +1608,12 @@ mod global_country_comparison_tests {
     }
 
     #[test]
+    fn net_reconciles_mspd_snapshot_without_inventing_annual_rollover() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_net_interest_treasury_mspd_snapshot_reconciliation(&root).unwrap();
+    }
+
+    #[test]
     fn trn_a_completes_bounded_baseline_without_stitching_source_gaps() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_trn_a_transportation_baseline_source_spine(&root).unwrap();

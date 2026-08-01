@@ -9,6 +9,7 @@
   "official_spine_path": "data/derived/breadth_benchmark_matrix/core_g_official_current_law_solver_spine.v1.draft.json",
   "treasury_rate_context_path": "data/derived/breadth_benchmark_matrix/net_interest_treasury_average_interest_rate_context.v1.draft.json",
   "treasury_maturity_diagnostic_path": "data/derived/breadth_benchmark_matrix/net_interest_treasury_mspd_remaining_maturity_bucket_diagnostic.v1.draft.json",
+  "treasury_snapshot_reconciliation_path": "data/derived/breadth_benchmark_matrix/net_interest_treasury_mspd_snapshot_reconciliation.v1.draft.json",
   "purpose": "Reconcile existing CBO and Treasury custody to the NET formula input contract, admit compatible annual baseline inputs, and preserve every maturity, rate, receipt, timing, and feedback gap that prevents endogenous interest modeling.",
   "source_compatibility": [
     {
@@ -32,8 +33,8 @@
     },
     {
       "source_object": "net_interest_treasury_mspd_remaining_maturity_bucket_diagnostic",
-      "disposition": "context_only_unreconciled_bucket_diagnostic",
-      "compatible_uses": ["latest_month_maturity_field_and_bucket_visibility"],
+      "disposition": "units_and_total_marketable_snapshot_reconciled_annual_rollover_blocked",
+      "compatible_uses": ["latest_month_maturity_field_and_bucket_visibility", "current_snapshot_maturity_stock_seed"],
       "incompatible_uses": ["maturity_bucket_schedule", "rollover_rule", "fiscal_year_projection_bridge", "primary_balance_interest_feedback"],
       "latest_record_date": "2026-06-30",
       "table_3_and_table_5_combined": false
@@ -42,7 +43,7 @@
   "formula_input_disposition": [
     {"input_id":"baseline_debt_stock","ready":true,"evidence":"CORE-G FY2025-FY2035 beginning and ending debt held by the public"},
     {"input_id":"baseline_net_interest","ready":true,"evidence":"CORE-G FY2025-FY2035 net-interest rows"},
-    {"input_id":"maturity_bucket_schedule","ready":false,"evidence":null,"blocker":"MSPD diagnostic is not reconciled to an annual debt-stock perimeter or rollover rule"},
+    {"input_id":"maturity_bucket_schedule","ready":false,"evidence":null,"blocker":"MSPD marketable snapshot is reconciled, but buckets are not allocated to debt held by the public and no annual rollover rule exists"},
     {"input_id":"effective_rate_path_by_bucket","ready":false,"evidence":null,"blocker":"CBO aggregate average rates and Treasury latest-month security averages are not bucket rate paths"},
     {"input_id":"new_borrowing_timing_rule","ready":false,"evidence":null,"blocker":"No within-year borrowing and interest-accrual convention is admitted"},
     {"input_id":"interest_receipts_treatment","ready":false,"evidence":null,"blocker":"No gross-interest, credited-receipt, and net-interest bridge is admitted"},
@@ -52,7 +53,7 @@
   "completion_step_disposition": [
     {"step":1,"input":"horizon_boundary_or_extension","ready":true,"evidence":"CORE-G bounds the admitted baseline to FY2025-FY2035"},
     {"step":2,"input":"annual_debt_stock","ready":true,"evidence":"CORE-G beginning and ending debt held by the public"},
-    {"step":3,"input":"maturity_bucket_stock_and_rollover","ready":false},
+    {"step":3,"input":"maturity_bucket_stock_and_rollover","ready":false,"partial_evidence":"Reconciled 2026-06-30 total-marketable snapshot seed; public-holder allocation and annual rollover remain blocked"},
     {"step":4,"input":"effective_rate_by_bucket_and_stress","ready":false},
     {"step":5,"input":"new_borrowing_timing","ready":false},
     {"step":6,"input":"gross_interest_receipts_net_bridge","ready":false},
@@ -80,7 +81,7 @@
     "endogenous_interest_path_ready": false,
     "solver_ready": false
   },
-  "next_evidence_action": "Reconcile Treasury MSPD securities to the CBO debt-held-by-public perimeter, define annual rollover buckets and rate mapping, then add borrowing timing and the gross-to-net interest bridge before constructing a primary-balance feedback fixture.",
+  "next_evidence_action": "Allocate Treasury maturity detail to the debt-held-by-public perimeter without pro-rata inference, bridge the June snapshot to fiscal year end, and define annual rollover buckets before rate mapping, borrowing timing, and the gross-to-net interest bridge.",
   "claim_booleans": {
     "compatibility_audit_published": true,
     "annual_baseline_inputs_partially_admitted": true,

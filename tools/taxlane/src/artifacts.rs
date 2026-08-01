@@ -2718,6 +2718,15 @@ pub(crate) const NET_INTEREST_TREASURY_MSPD_REMAINING_MATURITY_BUCKET_DIAGNOSTIC
 pub(crate) const NET_INTEREST_TREASURY_MSPD_REMAINING_MATURITY_BUCKET_DIAGNOSTIC_READER_PATH: &str =
     "docs/reading/net-interest-treasury-mspd-remaining-maturity-bucket-diagnostic.md";
 
+pub(crate) const NET_INTEREST_TREASURY_MSPD_SNAPSHOT_RECONCILIATION_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/net_interest_treasury_mspd_snapshot_reconciliation.v1.draft.json";
+pub(crate) const NET_INTEREST_TREASURY_MSPD_SNAPSHOT_RECONCILIATION_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/net_interest_treasury_mspd_snapshot_reconciliation.schema.md";
+pub(crate) const NET_INTEREST_TREASURY_MSPD_SNAPSHOT_RECONCILIATION_READER_PATH: &str =
+    "docs/reading/net-interest-treasury-mspd-snapshot-reconciliation.md";
+pub(crate) const NET_INTEREST_TREASURY_MSPD_SNAPSHOT_RECONCILIATION_REVIEW_PATH: &str =
+    "reviews/2026-07-31-net-interest-treasury-mspd-snapshot-reconciliation-role-review.md";
+
 pub(crate) const NET_INTEREST_TREASURY_AVERAGE_INTEREST_RATE_CONTEXT_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/net_interest_treasury_average_interest_rate_context.v1.draft.json";
 
 pub(crate) const NET_INTEREST_TREASURY_AVERAGE_INTEREST_RATE_CONTEXT_READER_PATH: &str =
@@ -4936,6 +4945,34 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         path: "docs/reading/net-interest-treasury-mspd-remaining-maturity-bucket-diagnostic.md",
         role: "Net-interest Treasury MSPD remaining-maturity bucket diagnostic reader",
         grain: "public maturity-bucket diagnostic boundary",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: NET_INTEREST_TREASURY_MSPD_SNAPSHOT_RECONCILIATION_JSON_PATH,
+        role: "Net-interest Treasury MSPD snapshot reconciliation",
+        grain: "units, overlap, marketable-debt identity, and snapshot seed",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: NET_INTEREST_TREASURY_MSPD_SNAPSHOT_RECONCILIATION_SCHEMA_PATH,
+        role: "Net-interest Treasury MSPD snapshot reconciliation schema",
+        grain: "snapshot identity and annual-model boundary",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: NET_INTEREST_TREASURY_MSPD_SNAPSHOT_RECONCILIATION_READER_PATH,
+        role: "Net-interest Treasury MSPD snapshot reconciliation reader",
+        grain: "public snapshot result and remaining rollover gaps",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: NET_INTEREST_TREASURY_MSPD_SNAPSHOT_RECONCILIATION_REVIEW_PATH,
+        role: "Net-interest Treasury MSPD snapshot reconciliation role review",
+        grain: "source and accounting fixed point",
         kind: "markdown",
         canonical: "supporting",
     },

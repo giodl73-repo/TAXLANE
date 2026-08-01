@@ -57,11 +57,13 @@ eleven topline and debt identities with a zero policy delta. That raises NET's
 Effectiveness and Iteration maturity and moves its program-capability score from
 9/21 to 11/21.
 
-The annual path is not yet an endogenous interest engine. Treasury MSPD still
-needs reconciliation to the CBO debt-held-by-public perimeter, followed by
-annual rollover buckets, bucket-rate and stress paths, borrowing timing, and a
-gross-to-net interest bridge. Only then should NET accept an admitted primary-
-balance delta and recompute its downstream interest effect.
+The annual path is not yet an endogenous interest engine. Treasury MSPD units,
+STRIPS overlap, and total marketable debt now reconcile for the 2026-06-30
+snapshot, but the maturity buckets are not allocated between public and
+intragovernmental holders or bridged to fiscal year end. Annual rollover
+buckets, bucket-rate and stress paths, borrowing timing, and a gross-to-net
+interest bridge remain. Only then should NET accept an admitted primary-balance
+delta and recompute its downstream interest effect.
 
 ## REV — revenue solvency
 

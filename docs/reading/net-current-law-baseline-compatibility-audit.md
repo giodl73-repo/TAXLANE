@@ -18,14 +18,17 @@ to reconcile against rather than only a list of missing inputs.
 ## What remains incompatible
 
 The Treasury average-interest-rate artifact is latest-month aggregate context,
-not an annual effective-rate path by maturity bucket. The MSPD artifact exposes
-maturity-bearing securities and diagnostic buckets, but Table 3 and Table 5
-remain unreconciled and the amounts are not bridged to CBO debt held by the
-public. Neither artifact can yet drive rollover or interest feedback.
+not an annual effective-rate path by maturity bucket. The
+[MSPD snapshot reconciliation](net-interest-treasury-mspd-snapshot-reconciliation.md)
+now resolves Table 3 and Table 5 units and overlap and reconciles Table 3 to
+Table 1 total marketable debt. The snapshot still does not allocate buckets
+between public and intragovernmental holders or define annual rollover, so it
+cannot yet drive interest feedback.
 
 The remaining sequence is therefore substantive rather than architectural:
 
-1. reconcile the Treasury security perimeter to CBO debt held by the public;
+1. allocate Treasury maturity detail to debt held by the public without a pro-
+   rata inference and bridge June actuals to fiscal year end;
 2. define annual maturity buckets and rollover rules;
 3. map effective and stress rates to those buckets;
 4. define new-borrowing timing;

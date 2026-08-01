@@ -1,0 +1,107 @@
+{
+  "record_id": "net-interest-treasury-mspd-snapshot-reconciliation:v1",
+  "record_family": "net_interest_treasury_mspd_snapshot_reconciliation",
+  "version": "v1.draft",
+  "status": "marketable_snapshot_reconciled_annual_rollover_and_public_perimeter_blocked",
+  "as_of_date": "2026-07-31",
+  "record_date": "2026-06-30",
+  "lane_id": "net-interest",
+  "bucket_diagnostic_path": "data/derived/breadth_benchmark_matrix/net_interest_treasury_mspd_remaining_maturity_bucket_diagnostic.v1.draft.json",
+  "core_g_path": "data/derived/breadth_benchmark_matrix/core_g_official_current_law_solver_spine.v1.draft.json",
+  "source_packets": [
+    {"table":"mspd_table_1","path":"data/raw/treasury/SRC-TREASURY-FISCALDATA-MSPD-TABLE-1-2026-07-24/2026-07-24/mspd_table_1.csv","byte_count":572282,"sha256":"e69089cd531522d47e4ac9f9cbf9efc3d0328886d1d5816999cde31f4891be19","unit":"millions_usd"},
+    {"table":"mspd_table_3","path":"data/raw/treasury/SRC-TREASURY-FISCALDATA-MSPD-DETAIL-2026-07-24/2026-07-24/mspd_table_3.full.csv","byte_count":55726310,"sha256":"347ff7878822ec7cf108b575cc440fe104dea4f0f9688cc0da89f5ce815a67c4","unit":"millions_usd"},
+    {"table":"mspd_table_5","path":"data/raw/treasury/SRC-TREASURY-FISCALDATA-MSPD-DETAIL-2026-07-24/2026-07-24/mspd_table_5.full.csv","byte_count":13156635,"sha256":"801fceb68ece6ae48640697b7a6ab2dec65bcdb7c899b2b3fbe1c3bd133c5867","unit":"thousands_usd"}
+  ],
+  "unit_and_overlap_findings": {
+    "table_3_outstanding_amt_unit": "millions_usd",
+    "table_5_outstanding_amt_unit": "thousands_usd",
+    "table_5_to_table_3_conversion": "table_5_outstanding_amt / 1000",
+    "table_5_role": "STRIPS decomposition of Table 3 notes, bonds, and TIPS; cross-check only",
+    "table_3_and_table_5_additive": false,
+    "table_3_notes_bonds_tips_musd": 23685187.97223828,
+    "table_5_grand_total_raw_thousands": 23685187972.23828,
+    "table_5_converted_musd": 23685187.97223828,
+    "cross_check_residual_musd": 0.0
+  },
+  "table_1_marketability_perimeter": {
+    "total_marketable_musd": 31085831.2471383,
+    "marketable_debt_held_public_musd": 31065290.8181919,
+    "marketable_intragovernmental_musd": 20540.42894637,
+    "marketable_held_public_share_percent": 99.933923501,
+    "marketable_intragovernmental_share_percent": 0.066076499,
+    "nonmarketable_debt_held_public_musd": 616017.52498604,
+    "total_debt_held_public_musd": 31681308.3431779,
+    "total_intragovernmental_musd": 7781090.05160322,
+    "total_public_debt_outstanding_musd": 39462398.3947812
+  },
+  "table_3_marketability_reconciliation": {
+    "future_maturity_detail_musd": 31082178.32343828,
+    "federal_financing_bank_musd": 3590.9655,
+    "matured_or_unallocated_residual_musd": 61.95820002,
+    "reconciled_total_marketable_musd": 31085831.2471383,
+    "identity": "future_maturity_detail + federal_financing_bank + matured_or_unallocated_residual = total_marketable",
+    "identity_residual_musd": 0.0,
+    "future_maturity_detail_coverage_percent": 99.988248911
+  },
+  "snapshot_maturity_stock_seed": {
+    "perimeter": "total_marketable_debt_not_allocated_between_public_and_intragovernmental_holders",
+    "record_date": "2026-06-30",
+    "unit": "millions_usd",
+    "buckets": [
+      {"bucket":"lte_1y","amount_musd":10146468.31559119},
+      {"bucket":"gt_1y_lte_3y","amount_musd":6636027.78188565},
+      {"bucket":"gt_3y_lte_5y","amount_musd":4271384.57657272},
+      {"bucket":"gt_5y_lte_10y","amount_musd":4310030.81901257},
+      {"bucket":"gt_10y_lte_20y","amount_musd":2863280.78527407},
+      {"bucket":"gt_20y_lte_30y","amount_musd":2854986.04510208},
+      {"bucket":"gt_30y","amount_musd":0.0}
+    ],
+    "bucket_total_musd": 31082178.32343828,
+    "snapshot_diagnostic_ready": true,
+    "formula_maturity_bucket_schedule_ready": false,
+    "annual_rollover_rule_ready": false,
+    "debt_held_public_bucket_allocation_ready": false
+  },
+  "cbo_temporal_perimeter_bridge": {
+    "treasury_actual_record_date": "2026-06-30",
+    "treasury_actual_debt_held_public_musd": 31681308.3431779,
+    "cbo_projection_fiscal_year_end": 2026,
+    "cbo_projected_debt_held_public_musd": 32095165,
+    "cbo_minus_treasury_musd": 413856.6568221,
+    "difference_percent_of_treasury_actual": 1.306311761,
+    "same_date_reconciliation": false,
+    "bridge_disposition": "perimeter_compatible_dates_not_aligned_future_issuance_and_financing_unobserved"
+  },
+  "remaining_blockers": [
+    "allocate maturity-detail stock between debt held by the public and intragovernmental holders without pro-rata inference",
+    "bridge the June 30 Treasury snapshot to the CBO fiscal-year-end projection with issuance, redemption, and other-financing timing",
+    "define annual rollover behavior for each maturity bucket",
+    "map effective and stress rates to annual buckets",
+    "bridge gross interest, interest receipts, and net interest",
+    "validate primary-balance feedback across subsequent years"
+  ],
+  "readiness_effect": {
+    "mspd_units_reconciled": true,
+    "table_3_table_5_overlap_resolved": true,
+    "table_3_total_marketable_reconciled": true,
+    "current_snapshot_maturity_stock_seed_ready": true,
+    "formula_inputs_ready_before": 3,
+    "formula_inputs_ready_after": 3,
+    "completion_steps_ready_before": 4,
+    "completion_steps_ready_after": 4,
+    "net_verdict_score_before": 11,
+    "net_verdict_score_after": 11
+  },
+  "claim_booleans": {
+    "snapshot_reconciliation_published": true,
+    "snapshot_maturity_stock_seed_ready": true,
+    "annual_maturity_schedule_ready": false,
+    "rollover_model_ready": false,
+    "bucket_rate_path_ready": false,
+    "primary_balance_feedback_ready": false,
+    "solver_ready": false,
+    "interest_savings": false,
+    "rate_effect": false
+  }
+}
