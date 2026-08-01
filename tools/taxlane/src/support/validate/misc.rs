@@ -1336,6 +1336,7 @@ pub(crate) fn validate_global_country_comparison_coverage(root: &Path) -> Result
     validate_pay_fiscal_package_conversion(root)?;
     validate_fifteen_lane_candidate_execution_frontier(root)?;
     validate_pay_full_dmf_public_evidence_ceiling(root)?;
+    validate_hlt_site_neutral_current_law_dependency_audit(root)?;
     validate_oas_fiscal_package_conversion(root)?;
     validate_net_fiscal_package_conversion(root)?;
     validate_rev_level_2_rate_reconciliation(root)?;
@@ -14184,6 +14185,62 @@ pub(crate) fn validate_pay_full_dmf_public_evidence_ceiling(root: &Path) -> Resu
         || bool_field(claims, "rate_change_allowed")?
     {
         return Err("PAY full-DMF public evidence ceiling failed".to_string());
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_hlt_site_neutral_current_law_dependency_audit(
+    root: &Path,
+) -> Result<(), String> {
+    let audit = read_json_artifact(root, HLT_SITE_NEUTRAL_CURRENT_LAW_AUDIT_JSON_PATH)?;
+    let sources = audit
+        .get("source_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("HLT current-law audit sources")?;
+    let gates = audit
+        .get("gate_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("HLT current-law audit gates")?;
+    let dispositions = gates.iter().try_fold(BTreeMap::new(), |mut counts, row| {
+        *counts
+            .entry(string_field(row, "disposition")?)
+            .or_insert(0usize) += 1;
+        Ok::<_, String>(counts)
+    })?;
+    let law = audit
+        .get("current_law_determination")
+        .ok_or("HLT current-law determination")?;
+    let context = audit
+        .get("proposal_context")
+        .ok_or("HLT proposal context")?;
+    let decision = audit.get("decision").ok_or("HLT audit decision")?;
+    let claims = audit
+        .get("claim_boundaries")
+        .ok_or("HLT audit claim boundaries")?;
+    if sources.len() != 4
+        || gates.len() != 7
+        || dispositions.get("vintage_evidence_pass") != Some(&1)
+        || dispositions.get("current_law_evidence_pass") != Some(&1)
+        || dispositions.get("proposal_design_context_only") != Some(&2)
+        || dispositions.get("owner_outcome_required") != Some(&1)
+        || dispositions.get("owner_data_and_future_period_required") != Some(&1)
+        || dispositions.get("scorekeeper_rescore_required") != Some(&1)
+        || bool_field(law, "selected_all_off_campus_imaging_policy_enacted")?
+        || bool_field(law, "selected_all_off_campus_imaging_policy_implemented")?
+        || !bool_field(law, "cy2026_adjacent_drug_administration_policy_implemented")?
+        || string_field(law, "cy2027_partial_imaging_policy_status")? != "proposed_not_final"
+        || bool_field(law, "formal_current_law_cbo_rescore_published")?
+        || !bool_field(context, "not_admissible_as_current_law_or_observed_result")?
+        || !bool_field(decision, "dependency_audit_complete")?
+        || bool_field(decision, "candidate_admitted")?
+        || number_field(decision, "admitted_fy2026_reduction_billions")?.abs() > 0.0001
+        || string_field(decision, "next_active_dependency_track")? != "DEF"
+        || bool_field(claims, "proposal_treated_as_current_law")?
+        || bool_field(claims, "proposal_estimate_treated_as_observed")?
+        || bool_field(claims, "savings_admitted")?
+        || bool_field(claims, "rate_change_allowed")?
+    {
+        return Err("HLT site-neutral current-law dependency audit failed".to_string());
     }
     Ok(())
 }

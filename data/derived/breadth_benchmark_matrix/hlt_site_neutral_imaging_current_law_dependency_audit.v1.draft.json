@@ -1,0 +1,64 @@
+{
+  "record_id": "hlt-site-neutral-imaging-current-law-dependency-audit:v1",
+  "record_family": "hlt_site_neutral_imaging_current_law_dependency_audit",
+  "version": "v1.draft",
+  "status": "current_law_scope_closed_partial_2027_proposal_monitored_zero_admission",
+  "as_of_date": "2026-08-01",
+  "track_prefix": "HLT",
+  "candidate_id": "off_campus_hopd_imaging_site_neutral_payment",
+  "predecessor_path": "data/derived/breadth_benchmark_matrix/hlt_next_level_a_site_neutral_evidence_closure.v1.draft.json",
+  "schema_path": "data/derived/breadth_benchmark_matrix/hlt_site_neutral_imaging_current_law_dependency_audit.schema.md",
+  "reader_path": "docs/reading/hlt-site-neutral-imaging-current-law-dependency-audit.md",
+  "role_review_path": "reviews/2026-08-01-hlt-site-neutral-imaging-current-law-dependency-audit-role-review.md",
+  "source_rows": [
+    {"source_id":"CBO-60908","role":"December 2024 option identity and vintage score","finding":"The option assumes January 2026 implementation for site-neutral rates on imaging services at all off-campus HOPDs; it is not a statement of enacted law.","proposal_specific_outcome":false},
+    {"source_id":"CMS-CY2026-OPPS-FINAL-FACT-SHEET","role":"CY2026 final policy scope","finding":"CMS finalized PFS-equivalent rates for drug-administration APCs at excepted off-campus PBDs, not the selected imaging option.","proposal_specific_outcome":false},
+    {"source_id":"CMS-MM14361-JANUARY-2026-OPPS-UPDATE","role":"implemented CY2026 claims mechanics","finding":"The January 2026 update operationalizes drug-administration APCs 5691 through 5694 for excepted off-campus PBDs and does not operationalize the selected imaging option.","proposal_specific_outcome":false},
+    {"source_id":"CMS-CY2027-OPPS-PROPOSED-FACT-SHEET","role":"future partial-imaging design and estimate","finding":"CMS proposes, but has not finalized, PFS-equivalent rates for imaging-without-contrast APCs at excepted off-campus PBDs, with a rural Sole Community Hospital exemption and first-year Medicare and beneficiary estimates.","proposal_specific_outcome":false}
+  ],
+  "current_law_determination": {
+    "selected_all_off_campus_imaging_policy_enacted": false,
+    "selected_all_off_campus_imaging_policy_implemented": false,
+    "cy2026_adjacent_drug_administration_policy_implemented": true,
+    "cy2027_partial_imaging_policy_status": "proposed_not_final",
+    "cy2027_partial_imaging_scope": "imaging_without_contrast_APCs_at_excepted_off_campus_PBDs",
+    "cy2027_proposed_rural_sole_community_hospital_exemption": true,
+    "formal_current_law_cbo_rescore_published": false
+  },
+  "proposal_context": {
+    "not_admissible_as_current_law_or_observed_result": true,
+    "proposed_first_year_medicare_part_b_savings_millions": 190,
+    "proposed_first_year_reduced_beneficiary_premiums_millions": 70,
+    "proposed_first_year_reduced_beneficiary_cost_sharing_millions": 70,
+    "estimate_is_not_cbo_60908_rescore": true,
+    "estimate_is_not_all_imaging_scope": true
+  },
+  "gate_rows": [
+    {"gate_id":"candidate_identity_and_vintage_score","disposition":"vintage_evidence_pass","evidence":"CBO 60908 fixes the selected policy perimeter and ten-year score vintage without establishing enactment."},
+    {"gate_id":"current_law_scope_and_implementation","disposition":"current_law_evidence_pass","evidence":"The CY2026 final rule and claims update implement drug administration, while the CY2027 imaging-without-contrast change remains proposed."},
+    {"gate_id":"beneficiary_cost_sharing_no_regression","disposition":"proposal_design_context_only","evidence":"CMS estimates lower premiums and cost sharing for the narrower CY2027 proposal, not observed or all-imaging candidate results."},
+    {"gate_id":"provider_access_and_service_location","disposition":"owner_outcome_required","evidence":"No imaging-specific capacity, relocation, appointment, closure, or utilization outcome is published."},
+    {"gate_id":"rural_and_safety_net_protection","disposition":"proposal_design_context_only","evidence":"The proposed rural Sole Community Hospital exemption is a useful design control, not a finalized or observed access result."},
+    {"gate_id":"quality_timeliness_and_behavior","disposition":"owner_data_and_future_period_required","evidence":"Diagnostic timeliness, quality, coding, consolidation, and substitution require postimplementation candidate-coded evidence."},
+    {"gate_id":"current_law_rescore_and_overlap","disposition":"scorekeeper_rescore_required","evidence":"No current-baseline CBO rescore reconciles CBO 60908 with CY2026 policy or the narrower CY2027 proposal."}
+  ],
+  "decision": {
+    "dependency_audit_complete": true,
+    "required_gate_count": 7,
+    "evidence_pass_count": 2,
+    "proposal_design_context_only_count": 2,
+    "owner_or_future_data_required_count": 2,
+    "scorekeeper_rescore_required_count": 1,
+    "candidate_admitted": false,
+    "admitted_fy2026_reduction_billions": 0.0,
+    "next_active_dependency_track": "DEF",
+    "hlt_monitor_mode": "publication_triggered"
+  },
+  "reopen_triggers": [
+    "CMS publishes a final CY2027 imaging policy",
+    "CBO publishes a current-baseline score for the selected or finalized imaging scope",
+    "CMS publishes candidate-coded beneficiary, provider, rural, quality, or utilization results",
+    "current law changes the applicable off-campus imaging payment perimeter"
+  ],
+  "claim_boundaries": {"official_request_made":false,"public_release_authorized":false,"proposal_treated_as_current_law":false,"proposal_estimate_treated_as_observed":false,"cbo_vintage_score_admitted":false,"savings_admitted":false,"rate_change_allowed":false}
+}

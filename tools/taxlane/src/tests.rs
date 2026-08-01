@@ -1367,6 +1367,12 @@ mod global_country_comparison_tests {
     }
 
     #[test]
+    fn hlt_current_law_audit_separates_final_adjacent_and_proposed_policy() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_hlt_site_neutral_current_law_dependency_audit(&root).unwrap();
+    }
+
+    #[test]
     fn oas_option_stays_on_solvency_rail_and_out_of_spending_and_rev() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_oas_fiscal_package_conversion(&root).unwrap();

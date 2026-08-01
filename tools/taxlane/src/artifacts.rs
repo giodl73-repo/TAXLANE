@@ -2251,6 +2251,8 @@ pub(crate) const FIFTEEN_LANE_CANDIDATE_FRONTIER_JSON_PATH: &str =
 pub(crate) const PAY_FULL_DMF_EVIDENCE_CEILING_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/pay_full_dmf_public_evidence_ceiling.v1.draft.json";
 
+pub(crate) const HLT_SITE_NEUTRAL_CURRENT_LAW_AUDIT_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/hlt_site_neutral_imaging_current_law_dependency_audit.v1.draft.json";
+
 pub(crate) const FISCAL_PACKAGE_PAY_BRIDGE_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/fiscal_package_pay_contribution_bridge.v1.draft.json";
 
@@ -11135,6 +11137,34 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         path: "reviews/2026-08-01-pay-full-dmf-public-evidence-ceiling-role-review.md",
         role: "PAY full-DMF public-evidence ceiling role review",
         grain: "source, finance, rights, privacy, and scope fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: HLT_SITE_NEUTRAL_CURRENT_LAW_AUDIT_JSON_PATH,
+        role: "HLT site-neutral imaging current-law dependency audit",
+        grain: "current law, adjacent implementation, and proposed imaging scope",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/hlt_site_neutral_imaging_current_law_dependency_audit.schema.md",
+        role: "HLT site-neutral imaging current-law dependency audit schema",
+        grain: "law, proposal, outcome, and admission boundaries",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/hlt-site-neutral-imaging-current-law-dependency-audit.md",
+        role: "HLT site-neutral imaging current-law dependency audit reader",
+        grain: "dependency result and publication triggers",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-08-01-hlt-site-neutral-imaging-current-law-dependency-audit-role-review.md",
+        role: "HLT site-neutral imaging current-law dependency audit role review",
+        grain: "law, finance, beneficiary, rural, clinical, and scope fixed point",
         kind: "markdown",
         canonical: "supporting",
     },
