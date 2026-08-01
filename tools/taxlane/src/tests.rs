@@ -1409,6 +1409,12 @@ mod global_country_comparison_tests {
     }
 
     #[test]
+    fn edu_pell_engine_replays_nonuniform_awards_and_household_stress() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_edu_pell_add_on_award_substitution_stress_envelope(&root).unwrap();
+    }
+
+    #[test]
     fn pay_public_evidence_ceiling_names_owner_data_without_requesting_it() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_pay_full_dmf_public_evidence_ceiling(&root).unwrap();

@@ -1,0 +1,69 @@
+{
+  "record_id":"edu-pell-add-on-award-substitution-stress-envelope:v1",
+  "record_family":"edu_pell_add_on_award_substitution_stress_envelope",
+  "version":"v1.draft",
+  "status":"normalized_award_and_household_stress_complete_observed_distribution_and_current_score_blocked_zero_admission",
+  "as_of_date":"2026-08-01",
+  "track":"EDU",
+  "predecessor_path":"data/derived/breadth_benchmark_matrix/edu_pell_add_on_current_law_owner_evidence_audit.v1.draft.json",
+  "schema_path":"data/derived/breadth_benchmark_matrix/edu_pell_add_on_award_substitution_stress_envelope.schema.md",
+  "reader_path":"docs/reading/edu-pell-add-on-award-substitution-stress-envelope.md",
+  "role_review_path":"reviews/2026-08-01-edu-pell-add-on-award-substitution-stress-envelope-role-review.md",
+  "engine_crate":"crates/taxlane-edu-pell",
+  "source_rows":[
+    {"source_id":"SRC-FSA-GEN-26-01","url":"https://fsapartners.ed.gov/knowledge-center/library/dear-colleague-letters/2026-01-30/2026-27-federal-pell-grant-maximum-and-minimum-award-amounts","use":"current maximum, minimum, SAI award arithmetic, threshold, and enrollment-intensity boundary"},
+    {"source_id":"SRC-FSA-2026-27-SAI-GUIDE-V1.1","url":"https://fsapartners.ed.gov/sites/default/files/2025-06/202627StudentAidIndexSAIandPellGrantEligibilityGuide.pdf","use":"maximum, SAI-calculated, minimum, formula-type, poverty, and special-rule logic"},
+    {"source_id":"SRC-CBO-PELL-ADD-ON-OPTION-2024","url":"https://www.cbo.gov/budget-options/60895","use":"legislative option identity and enrollment-response warning"}
+  ],
+  "rule_sets": {
+    "current_2026_27":{"maximum_usd":7395,"minimum_usd":740,"sai_ineligibility_threshold_usd":14790,"status":"enacted_current_award_rule"},
+    "add_on_elimination_design":{"maximum_usd":6335,"minimum_usd":635,"sai_ineligibility_threshold_usd":12670,"status":"mechanical_design_sensitivity_not_enacted_or_scored","assumptions":["The discretionary maximum remains $6,335.","The statutory minimum remains 10 percent of the maximum and rounds to the nearest $5.","The general SAI prohibition remains twice the maximum.","The special-rule threshold exception remains."]}
+  },
+  "normalized_award_cases":[
+    {"case_id":"maximum_eligible","maximum_eligible":true,"minimum_eligible":false,"sai":0,"threshold_exempt":false,"current_award_usd":7395,"design_award_usd":6335,"reduction_usd":1060},
+    {"case_id":"sai_1000","maximum_eligible":false,"minimum_eligible":false,"sai":1000,"threshold_exempt":false,"current_award_usd":6395,"design_award_usd":5335,"reduction_usd":1060},
+    {"case_id":"sai_5500","maximum_eligible":false,"minimum_eligible":false,"sai":5500,"threshold_exempt":false,"current_award_usd":1895,"design_award_usd":835,"reduction_usd":1060},
+    {"case_id":"sai_6000_minimum_eligible","maximum_eligible":false,"minimum_eligible":true,"sai":6000,"threshold_exempt":false,"current_award_usd":1395,"design_award_usd":635,"reduction_usd":760},
+    {"case_id":"sai_6000_not_minimum_eligible","maximum_eligible":false,"minimum_eligible":false,"sai":6000,"threshold_exempt":false,"current_award_usd":1395,"design_award_usd":0,"reduction_usd":1395},
+    {"case_id":"sai_7000_minimum_eligible","maximum_eligible":false,"minimum_eligible":true,"sai":7000,"threshold_exempt":false,"current_award_usd":740,"design_award_usd":635,"reduction_usd":105},
+    {"case_id":"sai_13000_minimum_eligible","maximum_eligible":false,"minimum_eligible":true,"sai":13000,"threshold_exempt":false,"current_award_usd":740,"design_award_usd":0,"reduction_usd":740},
+    {"case_id":"sai_13000_special_rule","maximum_eligible":false,"minimum_eligible":true,"sai":13000,"threshold_exempt":true,"current_award_usd":740,"design_award_usd":635,"reduction_usd":105}
+  ],
+  "maximum_case_linear_intensity_exposure":[
+    {"enrollment_intensity_percent":100,"reduction_usd":1060},
+    {"enrollment_intensity_percent":75,"reduction_usd":795},
+    {"enrollment_intensity_percent":50,"reduction_usd":530},
+    {"enrollment_intensity_percent":25,"reduction_usd":265}
+  ],
+  "maximum_case_substitution_stress":[
+    {"scenario_id":"all_unmet_need","loan_share_percent":0,"institution_aid_share_percent":0,"household_work_or_transfer_share_percent":0,"loan_usd":0,"institution_aid_usd":0,"household_work_or_transfer_usd":0,"unmet_need_usd":1060},
+    {"scenario_id":"half_loan","loan_share_percent":50,"institution_aid_share_percent":0,"household_work_or_transfer_share_percent":0,"loan_usd":530,"institution_aid_usd":0,"household_work_or_transfer_usd":0,"unmet_need_usd":530},
+    {"scenario_id":"mixed_substitution","loan_share_percent":50,"institution_aid_share_percent":25,"household_work_or_transfer_share_percent":0,"loan_usd":530,"institution_aid_usd":265,"household_work_or_transfer_usd":0,"unmet_need_usd":265},
+    {"scenario_id":"fully_substituted","loan_share_percent":50,"institution_aid_share_percent":25,"household_work_or_transfer_share_percent":25,"loan_usd":530,"institution_aid_usd":265,"household_work_or_transfer_usd":265,"unmet_need_usd":0}
+  ],
+  "findings": {
+    "uniform_1060_loss_for_all_recipients":false,
+    "maximum_and_selected_sai_cases_lose_1060":true,
+    "modeled_reduction_range_usd":[105,1395],
+    "reduction_can_exceed_add_on_due_to_minimum_eligibility_cliff":true,
+    "threshold_exception_changes_exposure":true,
+    "substitution_scenarios_are_empirical_estimates":false,
+    "linear_intensity_rows_are_payment_schedules":false
+  },
+  "evidence_ceiling": {
+    "current_2026_27_observed_recipient_distribution_available":false,
+    "current_institution_distribution_available":false,
+    "causal_borrowing_substitution_elasticity_available":false,
+    "causal_enrollment_or_completion_effect_for_this_cut_available":false,
+    "current_compatible_rescore_available":false
+  },
+  "successor_disposition": {
+    "normalized_engine_complete":true,
+    "next_action":"monitor_first_2026_27_recipient_and_institution_distribution_then_weight_cases_and_request_no_data",
+    "candidate_status":"named_trigger_for_observed_distribution_and_current_rescore",
+    "admitted_savings_billions":0.0,
+    "rate_recomputation_required":false,
+    "next_track":"DIS"
+  },
+  "claim_boundaries":{"official_request_made":false,"public_release_authorized":false,"design_rules_treated_as_enacted":false,"stress_shares_treated_as_forecasts":false,"normalized_cases_scaled_to_population":false,"legacy_score_treated_as_current":false,"candidate_admitted":false,"spending_reduction_admitted":false,"solver_run_performed":false,"rate_change_allowed":false}
+}

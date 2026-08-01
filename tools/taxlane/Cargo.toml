@@ -12,4 +12,5 @@ roxmltree = "0.20"
 taxlane-core = { path = "../../crates/taxlane-core" }
 taxlane-net-interest = { path = "../../crates/taxlane-net-interest" }
 taxlane-agr-insurance = { path = "../../crates/taxlane-agr-insurance" }
+taxlane-edu-pell = { path = "../../crates/taxlane-edu-pell" }
 zip = { version = "2", default-features = false, features = ["deflate"] }

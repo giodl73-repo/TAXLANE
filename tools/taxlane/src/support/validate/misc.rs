@@ -1343,6 +1343,7 @@ pub(crate) fn validate_global_country_comparison_coverage(root: &Path) -> Result
     validate_see_energy_weatherization_current_law_owner_evidence_audit(root)?;
     validate_see_wap_delivery_control_public_evidence_ceiling(root)?;
     validate_edu_pell_add_on_current_law_owner_evidence_audit(root)?;
+    validate_edu_pell_add_on_award_substitution_stress_envelope(root)?;
     validate_pay_full_dmf_public_evidence_ceiling(root)?;
     validate_hlt_site_neutral_current_law_dependency_audit(root)?;
     validate_def_proportional_force_current_law_dependency_audit(root)?;
@@ -15058,6 +15059,97 @@ pub(crate) fn validate_edu_pell_add_on_current_law_owner_evidence_audit(
         || bool_field(claims, "rate_change_allowed")?
     {
         return Err("EDU Pell add-on current-law owner-evidence audit failed".to_string());
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_edu_pell_add_on_award_substitution_stress_envelope(
+    root: &Path,
+) -> Result<(), String> {
+    let artifact = read_json_artifact(
+        root,
+        EDU_PELL_ADD_ON_AWARD_SUBSTITUTION_STRESS_ENVELOPE_JSON_PATH,
+    )?;
+    let cases = artifact
+        .get("normalized_award_cases")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("EDU Pell normalized cases")?;
+    for row in cases {
+        let case = taxlane_edu_pell::ApplicantCase {
+            maximum_eligible: bool_field(row, "maximum_eligible")?,
+            minimum_eligible: bool_field(row, "minimum_eligible")?,
+            sai: int_field(row, "sai")?,
+            threshold_exempt: bool_field(row, "threshold_exempt")?,
+        };
+        let current =
+            taxlane_edu_pell::scheduled_award_usd(taxlane_edu_pell::CURRENT_2026_27, case)?;
+        let design =
+            taxlane_edu_pell::scheduled_award_usd(taxlane_edu_pell::ADD_ON_ELIMINATION, case)?;
+        if current != int_field(row, "current_award_usd")?
+            || design != int_field(row, "design_award_usd")?
+            || current - design != int_field(row, "reduction_usd")?
+        {
+            return Err("EDU Pell normalized award replay failed".to_string());
+        }
+    }
+    let substitutions = artifact
+        .get("maximum_case_substitution_stress")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("EDU Pell substitutions")?;
+    for row in substitutions {
+        let result =
+            taxlane_edu_pell::allocate_substitution(taxlane_edu_pell::SubstitutionInput {
+                grant_reduction_usd: 1_060,
+                loan_share_ppm: i128::from(int_field(row, "loan_share_percent")?) * 10_000,
+                institution_aid_share_ppm: i128::from(int_field(
+                    row,
+                    "institution_aid_share_percent",
+                )?) * 10_000,
+                household_work_or_transfer_share_ppm: i128::from(int_field(
+                    row,
+                    "household_work_or_transfer_share_percent",
+                )?) * 10_000,
+            })?;
+        if result.loan_usd_micros / 1_000_000 != i128::from(int_field(row, "loan_usd")?)
+            || result.institution_aid_usd_micros / 1_000_000
+                != i128::from(int_field(row, "institution_aid_usd")?)
+            || result.household_work_or_transfer_usd_micros / 1_000_000
+                != i128::from(int_field(row, "household_work_or_transfer_usd")?)
+            || result.unmet_need_usd_micros / 1_000_000
+                != i128::from(int_field(row, "unmet_need_usd")?)
+        {
+            return Err("EDU Pell substitution identity failed".to_string());
+        }
+    }
+    let evidence = artifact
+        .get("evidence_ceiling")
+        .ok_or("EDU Pell evidence ceiling")?;
+    let successor = artifact
+        .get("successor_disposition")
+        .ok_or("EDU Pell successor")?;
+    let claims = artifact.get("claim_boundaries").ok_or("EDU Pell claims")?;
+    if cases.len() != 8
+        || substitutions.len() != 4
+        || bool_field(
+            evidence,
+            "current_2026_27_observed_recipient_distribution_available",
+        )?
+        || bool_field(
+            evidence,
+            "causal_borrowing_substitution_elasticity_available",
+        )?
+        || !bool_field(successor, "normalized_engine_complete")?
+        || string_field(successor, "candidate_status")?
+            != "named_trigger_for_observed_distribution_and_current_rescore"
+        || string_field(successor, "next_track")? != "DIS"
+        || number_field(successor, "admitted_savings_billions")?.abs() > 0.0001
+        || bool_field(successor, "rate_recomputation_required")?
+        || bool_field(claims, "normalized_cases_scaled_to_population")?
+        || bool_field(claims, "candidate_admitted")?
+        || bool_field(claims, "spending_reduction_admitted")?
+        || bool_field(claims, "rate_change_allowed")?
+    {
+        return Err("EDU Pell award and substitution stress envelope failed".to_string());
     }
     Ok(())
 }

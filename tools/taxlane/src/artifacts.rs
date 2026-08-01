@@ -2264,6 +2264,8 @@ pub(crate) const SEE_WAP_DELIVERY_CONTROL_PUBLIC_EVIDENCE_CEILING_JSON_PATH: &st
 
 pub(crate) const EDU_PELL_ADD_ON_CURRENT_LAW_OWNER_EVIDENCE_AUDIT_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/edu_pell_add_on_current_law_owner_evidence_audit.v1.draft.json";
 
+pub(crate) const EDU_PELL_ADD_ON_AWARD_SUBSTITUTION_STRESS_ENVELOPE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/edu_pell_add_on_award_substitution_stress_envelope.v1.draft.json";
+
 pub(crate) const PAY_FULL_DMF_EVIDENCE_CEILING_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/pay_full_dmf_public_evidence_ceiling.v1.draft.json";
 
@@ -11366,6 +11368,34 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: "reviews/2026-08-01-edu-pell-add-on-current-law-owner-evidence-audit-role-review.md",
         role: "EDU Pell add-on current-law owner-evidence role review",
+        grain: "finance, access, outcomes, institutions, households, law, and scope fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: EDU_PELL_ADD_ON_AWARD_SUBSTITUTION_STRESS_ENVELOPE_JSON_PATH,
+        role: "EDU Pell add-on award and substitution stress envelope",
+        grain: "normalized award cases, intensity exposure, household allocation, and DIS handoff",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/edu_pell_add_on_award_substitution_stress_envelope.schema.md",
+        role: "EDU Pell add-on award and substitution stress schema",
+        grain: "award replay, substitution identity, and no-scaling boundary",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/edu-pell-add-on-award-substitution-stress-envelope.md",
+        role: "EDU Pell add-on award and substitution stress reader",
+        grain: "nonuniform exposure, household burden, evidence ceiling, and DIS handoff",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-08-01-edu-pell-add-on-award-substitution-stress-envelope-role-review.md",
+        role: "EDU Pell add-on award and substitution stress role review",
         grain: "finance, access, outcomes, institutions, households, law, and scope fixed point",
         kind: "markdown",
         canonical: "supporting",

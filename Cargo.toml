@@ -1,3 +1,3 @@
 [workspace]
-members = ["crates/taxlane-agr-insurance", "crates/taxlane-core", "crates/taxlane-net-interest", "tools/taxlane"]
+members = ["crates/taxlane-agr-insurance", "crates/taxlane-core", "crates/taxlane-edu-pell", "crates/taxlane-net-interest", "tools/taxlane"]
 resolver = "3"
