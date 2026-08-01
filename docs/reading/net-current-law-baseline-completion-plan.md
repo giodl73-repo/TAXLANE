@@ -10,7 +10,8 @@ existing CORE-G CBO spine additionally provides a hash-custodied FY2025–FY2035
 horizon, annual debt held by the public, annual net interest, explicit other
 financing and timing, and a deterministic zero-policy topline reconciliation.
 The [compatibility audit](net-current-law-baseline-compatibility-audit.md)
-therefore marks four of nine completion steps ready without treating the
+therefore marks five of nine completion steps ready, including the explicit
+new-borrowing timing convention, without treating the
 remaining Treasury context as an endogenous debt model.
 
 ## Completion sequence
@@ -19,8 +20,10 @@ remaining Treasury context as an endogenous debt model.
 2. Add source-custodied annual debt stock.
 3. Add maturity-bucket stock and rollover rules.
 4. Add effective-rate paths by bucket and a stress path.
-5. Define within-year new-borrowing timing.
-6. Reconcile gross interest, interest receipts, and net interest.
+5. Define within-year new-borrowing timing. **Ready:** midpoint central rail,
+   early/late boundaries, closed-form interest financing, and display rounding.
+6. Reconcile gross interest, interest receipts, and net interest. **Partial:**
+   OMB reconciles, but matching CBO-vintage component values remain blocked.
 7. Add explicit other-financing rows.
 8. Build a zero-policy-change regression fixture.
 9. Apply one admitted primary-balance shock and verify subsequent debt and

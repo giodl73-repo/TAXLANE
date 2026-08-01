@@ -9,13 +9,14 @@ Now admitted from the hash-custodied CORE-G CBO spine:
 
 - baseline debt stock;
 - baseline net interest;
-- explicit other financing series.
+- explicit other financing series;
+- new borrowing timing rule, using a midpoint central rail and early/late
+  sensitivity bounds.
 
 Required but still null:
 
 - maturity bucket schedule;
 - effective rate path by bucket;
-- new borrowing timing rule;
 - interest receipts treatment;
 - primary-balance feedback test fixture.
 
@@ -25,6 +26,6 @@ latest-month maturity and rate contexts cannot yet substitute for bucket paths.
 
 Net interest is endogenous. Net interest cannot be cut directly. After any primary-balance change, the solver must recompute deficit, debt, maturity-bucket debt stock, and subsequent net interest.
 
-The regression test contract is named `primary_balance_change_recomputes_debt_and_interest`, but its fixture path is still null until the maturity and bucket-rate inputs exist. The separate zero-policy topline replay is ready; it is not a primary-balance feedback test.
+The regression test contract is named `primary_balance_change_recomputes_debt_and_interest`, but its fixture path is still null until the maturity and bucket-rate inputs exist. The separate zero-policy topline replay and new-borrowing timing convention are ready; neither is a future-year primary-balance feedback test.
 
 This is a net-interest formula contract, not a net-interest path, not a solver run, not target-cost selection, not rate calculation, not a public rate card, not a tax proposal, not a savings estimate, not a waste finding, not a fraud finding, not a department-cut instruction, not a technology-savings claim, and not a balanced-budget claim.

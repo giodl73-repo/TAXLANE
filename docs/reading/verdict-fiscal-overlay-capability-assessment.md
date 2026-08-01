@@ -61,9 +61,11 @@ The annual path is not yet an endogenous interest engine. Treasury MSPD units,
 STRIPS overlap, and total marketable debt now reconcile for the 2026-06-30
 snapshot, but the maturity buckets are not allocated between public and
 intragovernmental holders or bridged to fiscal year end. Annual rollover
-buckets, bucket-rate and stress paths, borrowing timing, and a gross-to-net
-interest bridge remain. Only then should NET accept an admitted primary-balance
-delta and recompute its downstream interest effect.
+buckets and bucket-rate and stress paths remain. OMB's gross-to-net components
+reconcile and the incremental borrowing timing rule is ready, but matching CBO-
+vintage component values are not. Only after those inputs close should NET
+accept an admitted primary-balance delta and recompute its downstream interest
+effect.
 
 ## REV — revenue solvency
 

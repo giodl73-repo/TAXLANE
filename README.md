@@ -382,9 +382,14 @@ feedback remains blocked. Its
 [Treasury MSPD snapshot reconciliation](docs/reading/net-interest-treasury-mspd-snapshot-reconciliation.md)
 also resolves Table 3/Table 5 units and overlap and reconciles 99.988249% future-
 maturity detail plus explicit residuals to total marketable debt. This is a
-current snapshot seed, not annual rollover. The fiscal rerun still preserves
-the full $813.727B financing requirement and all three internal schedules
-because no candidate effect passed admission.
+current snapshot seed, not annual rollover. The
+[OMB gross-to-net bridge](docs/reading/net-interest-omb-pbd-gross-to-net-bridge.md)
+now explains gross interest and four signed receipt/offset components without
+cross-vintage stitching, while the
+[new-borrowing timing convention](docs/reading/net-interest-new-borrowing-timing-convention.md)
+raises NET readiness to 4/8 formula inputs and 5/9 baseline steps. The fiscal
+rerun still preserves the full $813.727B financing requirement and all three
+internal schedules because no candidate effect passed admission.
 
 ### 4. The rate followed the evidence
 

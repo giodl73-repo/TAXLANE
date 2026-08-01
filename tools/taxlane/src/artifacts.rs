@@ -669,6 +669,20 @@ pub(crate) const NET_BASELINE_COMPATIBILITY_AUDIT_READER_PATH: &str =
     "docs/reading/net-current-law-baseline-compatibility-audit.md";
 pub(crate) const NET_BASELINE_COMPATIBILITY_AUDIT_REVIEW_PATH: &str =
     "reviews/2026-07-31-net-current-law-baseline-compatibility-role-review.md";
+pub(crate) const NET_OMB_GROSS_TO_NET_BRIDGE_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/net_interest_omb_pbd_gross_to_net_bridge.v1.draft.json";
+pub(crate) const NET_OMB_GROSS_TO_NET_BRIDGE_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/net_interest_omb_pbd_gross_to_net_bridge.schema.md";
+pub(crate) const NET_OMB_GROSS_TO_NET_BRIDGE_READER_PATH: &str =
+    "docs/reading/net-interest-omb-pbd-gross-to-net-bridge.md";
+pub(crate) const NET_NEW_BORROWING_TIMING_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/net_interest_new_borrowing_timing_convention.v1.draft.json";
+pub(crate) const NET_NEW_BORROWING_TIMING_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/net_interest_new_borrowing_timing_convention.schema.md";
+pub(crate) const NET_NEW_BORROWING_TIMING_READER_PATH: &str =
+    "docs/reading/net-interest-new-borrowing-timing-convention.md";
+pub(crate) const NET_ACCOUNTING_BRIDGE_REVIEW_PATH: &str =
+    "reviews/2026-07-31-net-accounting-bridge-role-review.md";
 
 pub(crate) const NET_INTEREST_PBD_FY2025_2031_CURRENT_LAW_CONTEXT_PATH_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/net_interest_pbd_fy2025_2031_current_law_context_path.v1.draft.json";
 
@@ -10888,6 +10902,55 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         path: NET_BASELINE_COMPATIBILITY_AUDIT_REVIEW_PATH,
         role: "NET baseline compatibility role review",
         grain: "source and accounting fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: NET_OMB_GROSS_TO_NET_BRIDGE_JSON_PATH,
+        role: "NET OMB gross-to-net interest bridge",
+        grain: "five signed interest components and vintage boundary",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: NET_OMB_GROSS_TO_NET_BRIDGE_SCHEMA_PATH,
+        role: "NET OMB gross-to-net interest bridge schema",
+        grain: "component identity and no-stitch contract",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: NET_OMB_GROSS_TO_NET_BRIDGE_READER_PATH,
+        role: "NET OMB gross-to-net interest bridge reader",
+        grain: "public gross, receipts, offsets, and net explanation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: NET_NEW_BORROWING_TIMING_JSON_PATH,
+        role: "NET new-borrowing timing convention",
+        grain: "midpoint timing and current-year interest circularity",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: NET_NEW_BORROWING_TIMING_SCHEMA_PATH,
+        role: "NET new-borrowing timing convention schema",
+        grain: "timing rails, precision, and blocked feedback contract",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: NET_NEW_BORROWING_TIMING_READER_PATH,
+        role: "NET new-borrowing timing convention reader",
+        grain: "public timing method and mechanical example boundary",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: NET_ACCOUNTING_BRIDGE_REVIEW_PATH,
+        role: "NET accounting bridge role review",
+        grain: "source, accounting, and fiscal fixed point",
         kind: "markdown",
         canonical: "supporting",
     },

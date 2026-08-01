@@ -22,7 +22,7 @@ supporting views.
 
 | Path | Role | Grain | Rows | Canonical | SHA-256 |
 |---|---|---|---:|---|---|
-| `README.md` | Repository overview | documentation | n/a | supporting | `a6f4dd1549624d52754448ab874708b361aa4d9f6a175cfb487ae0471607580a` |
+| `README.md` | Repository overview | documentation | n/a | supporting | `bc63cbb610c39e13b054afa252a91b9f35baf8bb1759dae11963b8b9abc458f4` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.draft.jsonl` | Canonical annual model rows | fiscal year by broad category | 516 | yes | `01c0fec63836f3652fdd83b03a608159ad58f7614fc214ae6691421990f3a85e` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.decade-summary.jsonl` | Canonical decade summary rows | decade by broad category | 54 | yes | `088cb5d55cc6a37ab52dd543d8a92bf09908cda265e9c9f93324b840eb652fb3` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.annual-wide.csv` | Chart-ready annual wide view | fiscal year | 86 | no | `cbe6ec44a77b9ef4adebaef37acc4b55ac23fd5eb21916989ae9518cbd4e4c31` |
@@ -940,10 +940,17 @@ supporting views.
 | `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `47f4135a8d0543687379b16f7c3f06d335fabee8485f941944cb0805c9b2d941` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `b910e56a20f40547ac1e4f696e84772dde163738b03915ddbcc0d0a39427719a` |
 | `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `b23aefa861fddf70c9a41dd9d5459ee87d076e734e7573130c19197b8dabaf35` |
-| `data/derived/breadth_benchmark_matrix/net_current_law_baseline_compatibility_audit.v1.draft.json` | NET current-law baseline compatibility audit | formula-input dispositions and zero-policy reconciliation | n/a | supporting | `d6725654ec0c2d50fbec9beb9110594d1b7e6e605c8f3d391d236a83ac174c2d` |
-| `data/derived/breadth_benchmark_matrix/net_current_law_baseline_compatibility_audit.schema.md` | NET baseline compatibility audit schema | input-admission and claim-boundary contract | n/a | supporting | `99fc306ae81126d2cfbd54b724853b5a14c20d3721515f1cc929ee6fac66a394` |
-| `docs/reading/net-current-law-baseline-compatibility-audit.md` | NET baseline compatibility audit reader | public accounting advance and remaining gaps | n/a | supporting | `ca549a7fdfc07f7998500b0a352613cd6636555c03c416926be7ce4db621ac83` |
-| `reviews/2026-07-31-net-current-law-baseline-compatibility-role-review.md` | NET baseline compatibility role review | source and accounting fixed point | n/a | supporting | `347d975d2fcbeee135074c8ca741a03341ee6560a504f51f2fe70cceaec63276` |
+| `data/derived/breadth_benchmark_matrix/net_current_law_baseline_compatibility_audit.v1.draft.json` | NET current-law baseline compatibility audit | formula-input dispositions and zero-policy reconciliation | n/a | supporting | `1e704506ac02fd4dd280c7dc4678e494d4e76b10e72fea080785a7d10cdb709e` |
+| `data/derived/breadth_benchmark_matrix/net_current_law_baseline_compatibility_audit.schema.md` | NET baseline compatibility audit schema | input-admission and claim-boundary contract | n/a | supporting | `921c17241e0cfeba485c5ffec956348b02a8c77aa7afcdf1fce3489901544fca` |
+| `docs/reading/net-current-law-baseline-compatibility-audit.md` | NET baseline compatibility audit reader | public accounting advance and remaining gaps | n/a | supporting | `075fba2b639395f00d500f3997ae19b9faee24f62950e4fe792b5162982348a0` |
+| `reviews/2026-07-31-net-current-law-baseline-compatibility-role-review.md` | NET baseline compatibility role review | source and accounting fixed point | n/a | supporting | `c105d3f96ff73bb96f11da98d90f2930b6666d3c37b04ab5e38a1dad3b339f3d` |
+| `data/derived/breadth_benchmark_matrix/net_interest_omb_pbd_gross_to_net_bridge.v1.draft.json` | NET OMB gross-to-net interest bridge | five signed interest components and vintage boundary | n/a | supporting | `1fde54794d5cdfe2b717228893a7208d4708ea2255006e8b77abbe4f04dade9e` |
+| `data/derived/breadth_benchmark_matrix/net_interest_omb_pbd_gross_to_net_bridge.schema.md` | NET OMB gross-to-net interest bridge schema | component identity and no-stitch contract | n/a | supporting | `5f017a45e7f234c968e50f724fdfba6f16744d5962f858f9a4d3ec31ebd63898` |
+| `docs/reading/net-interest-omb-pbd-gross-to-net-bridge.md` | NET OMB gross-to-net interest bridge reader | public gross, receipts, offsets, and net explanation | n/a | supporting | `9783d19dd8127d50d121e55653c83f1e88bdc4f89e5982634141c305652c8135` |
+| `data/derived/breadth_benchmark_matrix/net_interest_new_borrowing_timing_convention.v1.draft.json` | NET new-borrowing timing convention | midpoint timing and current-year interest circularity | n/a | supporting | `ef9e7ddd4a2424927fe0a94a00c7fa17878c2a1027e4eb2da2d513cd0b63c4f1` |
+| `data/derived/breadth_benchmark_matrix/net_interest_new_borrowing_timing_convention.schema.md` | NET new-borrowing timing convention schema | timing rails, precision, and blocked feedback contract | n/a | supporting | `667df0e82628deeb77747debe9a7657f1651c748ee2c7c04c81c56c761d06e98` |
+| `docs/reading/net-interest-new-borrowing-timing-convention.md` | NET new-borrowing timing convention reader | public timing method and mechanical example boundary | n/a | supporting | `75024af646e4cf7d12b0c0fbdc6683345467a464412bda18f79d9713aaae3736` |
+| `reviews/2026-07-31-net-accounting-bridge-role-review.md` | NET accounting bridge role review | source, accounting, and fiscal fixed point | n/a | supporting | `686b87dcad643d765846d0d13057655861724acc7f7201b4478a333e18ef764a` |
 
 ## Regeneration Order
 

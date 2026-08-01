@@ -1,0 +1,53 @@
+{
+  "record_id": "net-interest-new-borrowing-timing-convention:v1",
+  "record_family": "net_interest_new_borrowing_timing_convention",
+  "version": "v1.draft",
+  "status": "internal_marginal_timing_convention_ready_future_rollover_blocked",
+  "as_of_date": "2026-07-31",
+  "lane_id": "net-interest",
+  "scope": "Incremental borrowing caused by an admitted primary-balance delta relative to the current-law baseline; not reconstruction of baseline interest and not an official score.",
+  "sign_convention": {
+    "admitted_primary_balance_improvement_musd": "positive values reduce financing need",
+    "incremental_primary_financing_musd": "negative admitted_primary_balance_improvement_musd",
+    "incremental_interest_musd": "negative values are interest savings; positive values are added interest cost"
+  },
+  "timing_rails": [
+    {"rail":"early_year_stress","exposure_fraction":1.0,"use":"upper absolute current-year interest response"},
+    {"rail":"midyear_default","exposure_fraction":0.5,"use":"central even-cash-flow convention"},
+    {"rail":"late_year_boundary","exposure_fraction":0.0,"use":"lower absolute current-year interest response"}
+  ],
+  "formula": {
+    "k": "new_borrowing_rate_decimal * exposure_fraction",
+    "incremental_primary_financing_musd": "-admitted_primary_balance_improvement_musd + explicit_policy_other_financing_delta_musd",
+    "incremental_new_borrowing_interest_musd": "k * incremental_primary_financing_musd / (1 - k)",
+    "incremental_end_debt_musd": "incremental_primary_financing_musd + incremental_new_borrowing_interest_musd",
+    "circularity_treatment": "The closed form includes current-year interest financing itself rather than applying interest only once.",
+    "validity_guard": "0 <= k < 1"
+  },
+  "other_financing_rule": {
+    "baseline_other_financing_source": "CORE-G explicit annual series",
+    "policy_delta_default_musd": 0,
+    "nonzero_policy_delta_requires_evidence": true
+  },
+  "precision_rule": {
+    "internal_unit": "millions_usd",
+    "minimum_internal_decimal_places": 6,
+    "rounding_stage": "round only published display values after debt and interest identities reconcile",
+    "published_display_unit": "nearest_million_usd"
+  },
+  "zero_delta_fixture": {"primary_balance_improvement_musd":0,"new_borrowing_rate_percent":3.404,"exposure_fraction":0.5,"incremental_interest_musd":0,"incremental_end_debt_musd":0},
+  "mechanical_example_not_admitted": {
+    "primary_balance_improvement_musd": 100000,
+    "new_borrowing_rate_percent": 3.404,
+    "other_financing_delta_musd": 0,
+    "rails": [
+      {"rail":"early_year_stress","incremental_interest_musd":-3523.955443,"incremental_end_debt_musd":-103523.955443},
+      {"rail":"midyear_default","incremental_interest_musd":-1731.469613,"incremental_end_debt_musd":-101731.469613},
+      {"rail":"late_year_boundary","incremental_interest_musd":0,"incremental_end_debt_musd":-100000}
+    ],
+    "admitted_policy_effect": false
+  },
+  "dependency_boundary": {"new_borrowing_timing_rule_ready":true,"new_borrowing_rate_path_ready":false,"future_maturity_rollover_ready":false,"primary_balance_feedback_fixture_ready":false,"solver_ready":false},
+  "readiness_effect": {"formula_inputs_ready_before":3,"formula_inputs_ready_after":4,"completion_steps_ready_before":4,"completion_steps_ready_after":5,"net_verdict_score_before":11,"net_verdict_score_after":11},
+  "claim_booleans": {"new_borrowing_timing_rule_ready":true,"timing_sensitivity_rails_ready":true,"official_timing_assumption":false,"admitted_interest_effect":false,"future_rollover_ready":false,"solver_ready":false,"interest_savings":false,"rate_effect":false}
+}

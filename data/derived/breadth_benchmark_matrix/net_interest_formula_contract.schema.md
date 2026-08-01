@@ -12,10 +12,9 @@ Required invariants:
 - formula identities include primary balance, deficit, debt[t], net interest[t],
   and an iteration rule;
 - every required input has `required: true`;
-- baseline debt stock, baseline net interest, and explicit other financing are
-  ready only through the hash-custodied CORE-G annual spine, with non-null
-  evidence pointers and no blockers;
-- the other five inputs remain `ready: false`, `value: null`, and retain at
+- baseline debt stock, baseline net interest, explicit other financing, and the
+  new-borrowing timing rule are ready with non-null evidence and no blockers;
+- the other four inputs remain `ready: false`, `value: null`, and retain at
   least one blocker;
 - net interest is endogenous and cannot be cut directly;
 - any primary-balance change must recompute subsequent debt and interest;

@@ -1,0 +1,42 @@
+{
+  "record_id": "net-interest-omb-pbd-gross-to-net-bridge:v1",
+  "record_family": "net_interest_omb_pbd_gross_to_net_bridge",
+  "version": "v1.draft",
+  "status": "omb_bridge_reconciled_cbo_vintage_values_blocked",
+  "as_of_date": "2026-07-31",
+  "lane_id": "net-interest",
+  "source_id": "SRC-OMB-PBD-OUTLAYS-FY2027",
+  "raw_artifact_path": "data/raw/omb/SRC-OMB-PBD-OUTLAYS-FY2027/2026-07-13/outlays_fy2027.xlsx",
+  "raw_byte_count": 2144756,
+  "raw_sha256": "d892f2247e6c1aed68414d3e4168f8b4ab97bcfc7acf82a6a449a3fcb1addb07",
+  "net_context_path": "data/derived/breadth_benchmark_matrix/net_interest_pbd_fy2025_2031_current_law_context_path.v1.draft.json",
+  "core_g_path": "data/derived/breadth_benchmark_matrix/core_g_official_current_law_solver_spine.v1.draft.json",
+  "aggregation_contract": {
+    "source_filter": "BEA Category == Net interest",
+    "source_row_count": 355,
+    "source_unit": "thousands_usd",
+    "published_unit": "millions_usd",
+    "subfunction_codes": ["901", "902", "903", "908", "909"],
+    "identity": "net_interest = gross_treasury_interest + on_budget_trust_interest_receipts + off_budget_trust_interest_receipts + other_interest_net + other_investment_income_net",
+    "negative_offsets_preserved": true,
+    "cross_vintage_stitching_allowed": false
+  },
+  "annual_rows": [
+    {"fiscal_year":2025,"actual_or_projection":"actual","gross_treasury_interest_musd":1215611,"on_budget_trust_interest_receipts_musd":-117535,"off_budget_trust_interest_receipts_musd":-70026,"other_interest_net_musd":-55249,"other_investment_income_net_musd":-2736,"net_interest_musd":970065,"identity_residual_musd":0,"cbo_net_interest_musd":969938,"cbo_minus_omb_net_interest_musd":-127},
+    {"fiscal_year":2026,"actual_or_projection":"projection","gross_treasury_interest_musd":1301255,"on_budget_trust_interest_receipts_musd":-135595,"off_budget_trust_interest_receipts_musd":-67838,"other_interest_net_musd":-78494,"other_investment_income_net_musd":-2678,"net_interest_musd":1016650,"identity_residual_musd":0,"cbo_net_interest_musd":1038976,"cbo_minus_omb_net_interest_musd":22326},
+    {"fiscal_year":2027,"actual_or_projection":"projection","gross_treasury_interest_musd":1345953,"on_budget_trust_interest_receipts_musd":-127434,"off_budget_trust_interest_receipts_musd":-66157,"other_interest_net_musd":-84627,"other_investment_income_net_musd":-2367,"net_interest_musd":1065368,"identity_residual_musd":0,"cbo_net_interest_musd":1107715,"cbo_minus_omb_net_interest_musd":42347},
+    {"fiscal_year":2028,"actual_or_projection":"projection","gross_treasury_interest_musd":1432321,"on_budget_trust_interest_receipts_musd":-125436,"off_budget_trust_interest_receipts_musd":-63297,"other_interest_net_musd":-75601,"other_investment_income_net_musd":-1026,"net_interest_musd":1166961,"identity_residual_musd":0,"cbo_net_interest_musd":1217824,"cbo_minus_omb_net_interest_musd":50863},
+    {"fiscal_year":2029,"actual_or_projection":"projection","gross_treasury_interest_musd":1514408,"on_budget_trust_interest_receipts_musd":-131551,"off_budget_trust_interest_receipts_musd":-59012,"other_interest_net_musd":-88209,"other_investment_income_net_musd":-992,"net_interest_musd":1234644,"identity_residual_musd":0,"cbo_net_interest_musd":1324496,"cbo_minus_omb_net_interest_musd":89852},
+    {"fiscal_year":2030,"actual_or_projection":"projection","gross_treasury_interest_musd":1579862,"on_budget_trust_interest_receipts_musd":-133335,"off_budget_trust_interest_receipts_musd":-55099,"other_interest_net_musd":-85961,"other_investment_income_net_musd":-959,"net_interest_musd":1304508,"identity_residual_musd":0,"cbo_net_interest_musd":1431836,"cbo_minus_omb_net_interest_musd":127328},
+    {"fiscal_year":2031,"actual_or_projection":"projection","gross_treasury_interest_musd":1649544,"on_budget_trust_interest_receipts_musd":-141914,"off_budget_trust_interest_receipts_musd":-51079,"other_interest_net_musd":-91841,"other_investment_income_net_musd":-941,"net_interest_musd":1363769,"identity_residual_musd":0,"cbo_net_interest_musd":1548383,"cbo_minus_omb_net_interest_musd":184614}
+  ],
+  "formula_compatibility": {
+    "interest_receipts_treatment_semantics_ready": true,
+    "omb_annual_values_ready": true,
+    "cbo_baseline_annual_gross_receipt_values_ready": false,
+    "formula_input_ready": false,
+    "blocker": "The admitted CORE-G baseline uses CBO February 2026 net interest; OMB PBD gross and receipt components are a different projection vintage and may not be stitched into it."
+  },
+  "readiness_effect": {"formula_inputs_ready_before":3,"formula_inputs_ready_after":3,"completion_steps_ready_before":4,"completion_steps_ready_after":4,"net_verdict_score_before":11,"net_verdict_score_after":11},
+  "claim_booleans": {"omb_gross_to_net_bridge_published":true,"interest_receipts_treatment_semantics_ready":true,"cbo_baseline_bridge_ready":false,"formula_input_ready":false,"solver_ready":false,"interest_savings":false,"rate_effect":false}
+}

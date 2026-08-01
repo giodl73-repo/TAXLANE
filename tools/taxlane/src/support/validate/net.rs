@@ -180,6 +180,7 @@ pub(crate) fn validate_net_interest_formula_contract(root: &Path) -> Result<(), 
         "baseline_debt_stock",
         "baseline_net_interest",
         "explicit_other_financing_series",
+        "new_borrowing_timing_rule",
     ]);
     for row in inputs {
         let input_id = string_field(row, "input_id")?;
@@ -317,7 +318,7 @@ pub(crate) fn validate_net_interest_formula_contract(root: &Path) -> Result<(), 
         "recompute deficit, debt, maturity-bucket debt stock, and subsequent net interest",
         "primary_balance_change_recomputes_debt_and_interest",
         "fixture path is still null",
-        "zero-policy topline replay is ready",
+        "zero-policy topline replay and new-borrowing timing convention are ready",
         "not a net-interest path",
         "not a solver run",
         "not target-cost selection",
@@ -351,6 +352,8 @@ pub(crate) fn validate_net_current_law_baseline_compatibility_audit(
         }
     }
     validate_core_g_official_current_law_solver_spine(root)?;
+    validate_net_interest_omb_pbd_gross_to_net_bridge(root)?;
+    validate_net_interest_new_borrowing_timing_convention(root)?;
     let audit: serde_json::Value = serde_json::from_str(
         &fs::read_to_string(root.join(NET_BASELINE_COMPATIBILITY_AUDIT_JSON_PATH))
             .map_err(|e| e.to_string())?,
@@ -379,13 +382,14 @@ pub(crate) fn validate_net_current_law_baseline_compatibility_audit(
         .collect::<Result<BTreeSet<_>, _>>()?;
     if inputs.len() != 8
         || steps.len() != 9
-        || ready_inputs != 3
-        || ready_steps != 4
+        || ready_inputs != 4
+        || ready_steps != 5
         || ready_ids
             != BTreeSet::from([
                 "baseline_debt_stock".to_string(),
                 "baseline_net_interest".to_string(),
                 "explicit_other_financing_series".to_string(),
+                "new_borrowing_timing_rule".to_string(),
             ])
     {
         return Err("NET compatibility readiness arithmetic failed".to_string());
@@ -402,9 +406,9 @@ pub(crate) fn validate_net_current_law_baseline_compatibility_audit(
         return Err("NET zero-policy reconciliation boundary failed".to_string());
     }
     let summary = &audit["readiness_summary"];
-    if int_field(summary, "formula_inputs_ready")? != 3
+    if int_field(summary, "formula_inputs_ready")? != 4
         || int_field(summary, "formula_inputs_required")? != 8
-        || int_field(summary, "completion_steps_ready")? != 4
+        || int_field(summary, "completion_steps_ready")? != 5
         || int_field(summary, "completion_steps_total")? != 9
         || !bool_field(summary, "annual_baseline_context_ready")?
         || bool_field(summary, "endogenous_interest_path_ready")?
@@ -433,6 +437,189 @@ pub(crate) fn validate_net_current_law_baseline_compatibility_audit(
         || overlay["claim_booleans"]["endogenous_debt_interest_path_admitted"] != false
     {
         return Err("NET overlay debt-path boundary failed".to_string());
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_net_interest_omb_pbd_gross_to_net_bridge(
+    root: &Path,
+) -> Result<(), String> {
+    for path in [
+        NET_OMB_GROSS_TO_NET_BRIDGE_JSON_PATH,
+        NET_OMB_GROSS_TO_NET_BRIDGE_SCHEMA_PATH,
+        NET_OMB_GROSS_TO_NET_BRIDGE_READER_PATH,
+        NET_ACCOUNTING_BRIDGE_REVIEW_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing NET gross-to-net artifact: {path}"));
+        }
+    }
+    let record: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(NET_OMB_GROSS_TO_NET_BRIDGE_JSON_PATH))
+            .map_err(|e| e.to_string())?,
+    )
+    .map_err(|e| e.to_string())?;
+    if string_field(&record, "record_id")? != "net-interest-omb-pbd-gross-to-net-bridge:v1"
+        || string_field(&record, "status")? != "omb_bridge_reconciled_cbo_vintage_values_blocked"
+        || int_field(&record, "raw_byte_count")? != 2_144_756
+        || sha256_file(&root.join(string_field(&record, "raw_artifact_path")?))?
+            != string_field(&record, "raw_sha256")?
+    {
+        return Err("NET gross-to-net identity or custody failed".to_string());
+    }
+    let rows = record["annual_rows"].as_array().ok_or("NET gross-to-net rows")?;
+    if rows.len() != 7 {
+        return Err("NET gross-to-net row count failed".to_string());
+    }
+    let pbd: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(NET_INTEREST_PBD_FY2025_2031_CURRENT_LAW_CONTEXT_PATH_JSON_PATH))
+            .map_err(|e| e.to_string())?,
+    )
+    .map_err(|e| e.to_string())?;
+    let core_g: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(CORE_G_SOLVER_SPINE_JSON_PATH)).map_err(|e| e.to_string())?,
+    )
+    .map_err(|e| e.to_string())?;
+    for (index, row) in rows.iter().enumerate() {
+        let parts = [
+            "gross_treasury_interest_musd",
+            "on_budget_trust_interest_receipts_musd",
+            "off_budget_trust_interest_receipts_musd",
+            "other_interest_net_musd",
+            "other_investment_income_net_musd",
+        ]
+        .iter()
+        .map(|field| int_field(row, field))
+        .collect::<Result<Vec<_>, _>>()?;
+        let net = int_field(row, "net_interest_musd")?;
+        let year = 2025 + index as i64;
+        let pbd_row = pbd["annual_rows"].as_array().and_then(|items| {
+            items.iter().find(|item| item["fiscal_year"].as_i64() == Some(year))
+        }).ok_or("missing matching OMB net-interest row")?;
+        let core_row = core_g["annual_rows"].as_array().and_then(|items| {
+            items.iter().find(|item| item["fiscal_year"].as_i64() == Some(year))
+        }).ok_or("missing matching CORE-G row")?;
+        if int_field(row, "fiscal_year")? != year
+            || parts.into_iter().sum::<i64>() != net
+            || int_field(row, "identity_residual_musd")? != 0
+            || int_field(pbd_row, "net_interest_millions")? != net
+            || int_field(core_row, "net_interest_musd")? != int_field(row, "cbo_net_interest_musd")?
+            || int_field(row, "cbo_net_interest_musd")? - net
+                != int_field(row, "cbo_minus_omb_net_interest_musd")?
+        {
+            return Err(format!("NET gross-to-net row failed: FY{}", 2025 + index));
+        }
+    }
+    let compatibility = &record["formula_compatibility"];
+    if !bool_field(compatibility, "interest_receipts_treatment_semantics_ready")?
+        || !bool_field(compatibility, "omb_annual_values_ready")?
+        || bool_field(compatibility, "cbo_baseline_annual_gross_receipt_values_ready")?
+        || bool_field(compatibility, "formula_input_ready")?
+    {
+        return Err("NET gross-to-net vintage boundary failed".to_string());
+    }
+    let claims = record["claim_booleans"].as_object().ok_or("NET gross-to-net claims")?;
+    for (field, value) in claims {
+        let expected = matches!(
+            field.as_str(),
+            "omb_gross_to_net_bridge_published" | "interest_receipts_treatment_semantics_ready"
+        );
+        if value.as_bool().ok_or("NET gross-to-net claim bool")? != expected {
+            return Err(format!("NET gross-to-net claim boundary failed: {field}"));
+        }
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_net_interest_new_borrowing_timing_convention(
+    root: &Path,
+) -> Result<(), String> {
+    for path in [
+        NET_NEW_BORROWING_TIMING_JSON_PATH,
+        NET_NEW_BORROWING_TIMING_SCHEMA_PATH,
+        NET_NEW_BORROWING_TIMING_READER_PATH,
+        NET_ACCOUNTING_BRIDGE_REVIEW_PATH,
+    ] {
+        if !root.join(path).exists() {
+            return Err(format!("missing NET borrowing-timing artifact: {path}"));
+        }
+    }
+    let record: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join(NET_NEW_BORROWING_TIMING_JSON_PATH))
+            .map_err(|e| e.to_string())?,
+    )
+    .map_err(|e| e.to_string())?;
+    if string_field(&record, "record_id")?
+        != "net-interest-new-borrowing-timing-convention:v1"
+        || string_field(&record, "status")?
+            != "internal_marginal_timing_convention_ready_future_rollover_blocked"
+    {
+        return Err("NET borrowing-timing identity failed".to_string());
+    }
+    let rails = record["timing_rails"].as_array().ok_or("NET timing rails")?;
+    let fractions = rails
+        .iter()
+        .map(|row| number_field(row, "exposure_fraction"))
+        .collect::<Result<Vec<_>, _>>()?;
+    if fractions != vec![1.0, 0.5, 0.0] {
+        return Err("NET timing rails failed".to_string());
+    }
+    let zero = &record["zero_delta_fixture"];
+    if int_field(zero, "primary_balance_improvement_musd")? != 0
+        || number_field(zero, "incremental_interest_musd")?.abs() > 0.000001
+        || number_field(zero, "incremental_end_debt_musd")?.abs() > 0.000001
+    {
+        return Err("NET timing zero fixture failed".to_string());
+    }
+    let example = &record["mechanical_example_not_admitted"];
+    let primary = number_field(example, "primary_balance_improvement_musd")?;
+    let rate = number_field(example, "new_borrowing_rate_percent")? / 100.0;
+    for row in example["rails"].as_array().ok_or("NET timing example rails")? {
+        let exposure = match string_field(row, "rail")?.as_str() {
+            "early_year_stress" => 1.0,
+            "midyear_default" => 0.5,
+            "late_year_boundary" => 0.0,
+            _ => return Err("unexpected NET timing example rail".to_string()),
+        };
+        let k = rate * exposure;
+        let expected_interest = if k == 0.0 { 0.0 } else { k * -primary / (1.0 - k) };
+        if (number_field(row, "incremental_interest_musd")? - expected_interest).abs() > 0.000001
+            || (number_field(row, "incremental_end_debt_musd")?
+                - (-primary + expected_interest))
+                .abs()
+                > 0.000001
+        {
+            return Err("NET timing mechanical example failed".to_string());
+        }
+    }
+    let boundary = &record["dependency_boundary"];
+    if !bool_field(boundary, "new_borrowing_timing_rule_ready")?
+        || bool_field(boundary, "new_borrowing_rate_path_ready")?
+        || bool_field(boundary, "future_maturity_rollover_ready")?
+        || bool_field(boundary, "primary_balance_feedback_fixture_ready")?
+        || bool_field(boundary, "solver_ready")?
+    {
+        return Err("NET timing dependency boundary failed".to_string());
+    }
+    let effect = &record["readiness_effect"];
+    if int_field(effect, "formula_inputs_ready_before")? != 3
+        || int_field(effect, "formula_inputs_ready_after")? != 4
+        || int_field(effect, "completion_steps_ready_before")? != 4
+        || int_field(effect, "completion_steps_ready_after")? != 5
+        || int_field(effect, "net_verdict_score_before")? != 11
+        || int_field(effect, "net_verdict_score_after")? != 11
+    {
+        return Err("NET timing readiness effect failed".to_string());
+    }
+    let claims = record["claim_booleans"].as_object().ok_or("NET timing claims")?;
+    for (field, value) in claims {
+        let expected = matches!(
+            field.as_str(),
+            "new_borrowing_timing_rule_ready" | "timing_sensitivity_rails_ready"
+        );
+        if value.as_bool().ok_or("NET timing claim bool")? != expected {
+            return Err(format!("NET timing claim boundary failed: {field}"));
+        }
     }
     Ok(())
 }

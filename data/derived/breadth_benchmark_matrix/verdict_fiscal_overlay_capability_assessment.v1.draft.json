@@ -43,13 +43,15 @@
         "data/derived/breadth_benchmark_matrix/net_interest_formula_contract.v1.draft.json",
         "data/derived/breadth_benchmark_matrix/net_current_law_baseline_compatibility_audit.v1.draft.json",
         "data/derived/breadth_benchmark_matrix/net_interest_treasury_mspd_snapshot_reconciliation.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/net_interest_omb_pbd_gross_to_net_bridge.v1.draft.json",
+        "data/derived/breadth_benchmark_matrix/net_interest_new_borrowing_timing_convention.v1.draft.json",
         "data/derived/breadth_benchmark_matrix/core_g_official_current_law_solver_spine.v1.draft.json",
         "data/derived/breadth_benchmark_matrix/net_interest_outcome_floor_definition_packet.v1.draft.json",
         "data/derived/breadth_benchmark_matrix/deterministic_annual_update_simulator_contract.v1.draft.json"
       ],
       "supported_capability": "An explicit accounting guardrail plus a hash-custodied FY2025-FY2035 annual CBO debt, net-interest, and other-financing baseline whose zero-policy topline identities replay deterministically.",
-      "binding_gap": "No admitted maturity-bucket stock, rollover rule, bucket-rate and stress path, borrowing timing, gross-to-net interest bridge, or primary-balance feedback result.",
-      "next_evidence_action": "Allocate the reconciled Treasury maturity snapshot to debt held by the public without pro-rata inference, bridge it to fiscal year end, define annual rollover and bucket-rate rules, and then prove one admitted primary-balance shock changes later debt and interest.",
+      "binding_gap": "No admitted public-holder maturity-bucket stock, rollover rule, bucket-rate and stress path, matching-CBO-vintage gross-to-net component values, or primary-balance feedback result.",
+      "next_evidence_action": "Allocate the Treasury snapshot to debt held by the public, bridge it to fiscal year end, define annual rollover and bucket-rate rules, obtain CBO-compatible gross-to-net components, and then prove one admitted primary-balance shock changes later debt and interest.",
       "blocked_claims": ["direct_interest_cut", "interest_savings", "solver_result", "rate_effect"]
     },
     {

@@ -1608,6 +1608,18 @@ mod global_country_comparison_tests {
     }
 
     #[test]
+    fn net_reconciles_omb_gross_to_net_without_stitching_cbo_values() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_net_interest_omb_pbd_gross_to_net_bridge(&root).unwrap();
+    }
+
+    #[test]
+    fn net_new_borrowing_timing_closes_only_the_timing_input() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_net_interest_new_borrowing_timing_convention(&root).unwrap();
+    }
+
+    #[test]
     fn net_reconciles_mspd_snapshot_without_inventing_annual_rollover() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_net_interest_treasury_mspd_snapshot_reconciliation(&root).unwrap();

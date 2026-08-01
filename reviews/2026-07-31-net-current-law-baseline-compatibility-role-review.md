@@ -14,6 +14,7 @@
   are not promoted to bucket paths, and the zero-policy replay is not described
   as a primary-shock feedback test.
 
-The fixed point is partial NET baseline readiness: three of eight formula
-inputs and four of nine completion steps are supported. Solver, savings,
+The fixed point is partial NET baseline readiness: four of eight formula inputs
+and five of nine completion steps are supported after the borrowing-timing
+convention. Solver, savings,
 interest-feedback, and rate claims remain blocked.

@@ -45,8 +45,8 @@
     {"input_id":"baseline_net_interest","ready":true,"evidence":"CORE-G FY2025-FY2035 net-interest rows"},
     {"input_id":"maturity_bucket_schedule","ready":false,"evidence":null,"blocker":"MSPD marketable snapshot is reconciled, but buckets are not allocated to debt held by the public and no annual rollover rule exists"},
     {"input_id":"effective_rate_path_by_bucket","ready":false,"evidence":null,"blocker":"CBO aggregate average rates and Treasury latest-month security averages are not bucket rate paths"},
-    {"input_id":"new_borrowing_timing_rule","ready":false,"evidence":null,"blocker":"No within-year borrowing and interest-accrual convention is admitted"},
-    {"input_id":"interest_receipts_treatment","ready":false,"evidence":null,"blocker":"No gross-interest, credited-receipt, and net-interest bridge is admitted"},
+    {"input_id":"new_borrowing_timing_rule","ready":true,"evidence":"Midyear central convention plus early/late sensitivity rails and closed-form current-year interest financing"},
+    {"input_id":"interest_receipts_treatment","ready":false,"evidence":null,"partial_evidence":"OMB five-subfunction gross-to-net bridge reconciles FY2025-FY2031","blocker":"Matching CBO-vintage component values are not available for the admitted baseline"},
     {"input_id":"explicit_other_financing_series","ready":true,"evidence":"CORE-G FY2025-FY2035 reported other financing plus explicit timing residual"},
     {"input_id":"primary_balance_feedback_test_fixture","ready":false,"evidence":null,"blocker":"No maturity-aware admitted primary shock can recompute subsequent interest"}
   ],
@@ -55,8 +55,8 @@
     {"step":2,"input":"annual_debt_stock","ready":true,"evidence":"CORE-G beginning and ending debt held by the public"},
     {"step":3,"input":"maturity_bucket_stock_and_rollover","ready":false,"partial_evidence":"Reconciled 2026-06-30 total-marketable snapshot seed; public-holder allocation and annual rollover remain blocked"},
     {"step":4,"input":"effective_rate_by_bucket_and_stress","ready":false},
-    {"step":5,"input":"new_borrowing_timing","ready":false},
-    {"step":6,"input":"gross_interest_receipts_net_bridge","ready":false},
+    {"step":5,"input":"new_borrowing_timing","ready":true,"evidence":"Midyear central convention with early/late sensitivity rails"},
+    {"step":6,"input":"gross_interest_receipts_net_bridge","ready":false,"partial_evidence":"OMB bridge ready; CBO-vintage bridge blocked"},
     {"step":7,"input":"explicit_other_financing","ready":true,"evidence":"CORE-G reported financing and timing residual rows"},
     {"step":8,"input":"zero_policy_change_regression_fixture","ready":true,"evidence":"CORE-G deterministic validator recomputes all 11 topline and debt identities with zero policy delta"},
     {"step":9,"input":"primary_balance_shock_feedback_test","ready":false}
@@ -73,15 +73,15 @@
     "reconciles_primary_balance_interest_feedback": false
   },
   "readiness_summary": {
-    "formula_inputs_ready": 3,
+    "formula_inputs_ready": 4,
     "formula_inputs_required": 8,
-    "completion_steps_ready": 4,
+    "completion_steps_ready": 5,
     "completion_steps_total": 9,
     "annual_baseline_context_ready": true,
     "endogenous_interest_path_ready": false,
     "solver_ready": false
   },
-  "next_evidence_action": "Allocate Treasury maturity detail to the debt-held-by-public perimeter without pro-rata inference, bridge the June snapshot to fiscal year end, and define annual rollover buckets before rate mapping, borrowing timing, and the gross-to-net interest bridge.",
+  "next_evidence_action": "Allocate Treasury maturity detail to debt held by the public, bridge June to fiscal year end, define annual rollover and bucket rates, and obtain a matching CBO-vintage gross-to-net component bridge before primary-shock feedback.",
   "claim_booleans": {
     "compatibility_audit_published": true,
     "annual_baseline_inputs_partially_admitted": true,

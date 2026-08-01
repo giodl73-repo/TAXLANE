@@ -2,7 +2,7 @@
   "record_id": "net-current-law-baseline-completion-plan:v1",
   "record_family": "net_current_law_baseline_completion_plan",
   "version": "v1.draft",
-  "status": "four_of_nine_steps_ready_endogenous_baseline_blocked",
+  "status": "five_of_nine_steps_ready_endogenous_baseline_blocked",
   "as_of_date": "2026-07-31",
   "context_path": "data/derived/breadth_benchmark_matrix/net_interest_pbd_fy2025_2031_current_law_context_path.v1.draft.json",
   "formula_contract_path": "data/derived/breadth_benchmark_matrix/net_interest_formula_contract.v1.draft.json",
@@ -13,13 +13,13 @@
     {"step":2,"input":"annual_debt_stock","ready":true,"evidence":"CORE-G beginning and ending debt held by the public"},
     {"step":3,"input":"maturity_bucket_stock_and_rollover","ready":false,"partial_evidence":"Reconciled 2026-06-30 total-marketable maturity-stock seed; public-holder allocation and annual rollover remain blocked"},
     {"step":4,"input":"effective_rate_by_bucket_and_stress","ready":false},
-    {"step":5,"input":"new_borrowing_timing","ready":false},
-    {"step":6,"input":"gross_interest_receipts_net_bridge","ready":false},
+    {"step":5,"input":"new_borrowing_timing","ready":true,"evidence":"Midyear central convention with early/late sensitivity rails, closed-form interest financing, and display-only rounding"},
+    {"step":6,"input":"gross_interest_receipts_net_bridge","ready":false,"partial_evidence":"OMB FY2025-FY2031 five-subfunction bridge reconciles; matching CBO-vintage values remain blocked"},
     {"step":7,"input":"explicit_other_financing","ready":true,"evidence":"CORE-G reported other financing plus timing residual"},
     {"step":8,"input":"zero_policy_change_regression_fixture","ready":true,"evidence":"CORE-G deterministic topline and debt-identity replay"},
     {"step":9,"input":"primary_balance_shock_feedback_test","ready":false}
   ],
   "candidate_bundle_effect": {"admitted_primary_balance_delta_millions":0,"interest_recomputation_triggered":false},
-  "readiness_summary": {"steps_ready":4,"steps_total":9,"formula_inputs_ready":3,"formula_inputs_required":8},
+  "readiness_summary": {"steps_ready":5,"steps_total":9,"formula_inputs_ready":4,"formula_inputs_required":8},
   "claim_booleans": {"completion_plan_published":true,"annual_debt_path_ready":true,"zero_policy_topline_reconciliation_ready":true,"endogenous_debt_interest_path_ready":false,"maturity_path_ready":false,"rate_path_ready":false,"feedback_test_ready":false,"direct_interest_cut":false,"interest_savings":false,"solver_ready":false,"rate_effect":false}
 }

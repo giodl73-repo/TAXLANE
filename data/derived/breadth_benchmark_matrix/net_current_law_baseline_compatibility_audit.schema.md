@@ -14,6 +14,6 @@ The zero-policy fixture is limited to replaying the published topline and debt
 identities. It may not claim that the endogenous maturity-aware interest
 formula or a primary-balance shock has been reconciled.
 
-Readiness totals must equal the underlying disposition rows: three of eight
-formula inputs and four of nine completion steps. Solver, interest-savings, and
+Readiness totals must equal the underlying disposition rows: four of eight
+formula inputs and five of nine completion steps. Solver, interest-savings, and
 rate-effect claims remain false.

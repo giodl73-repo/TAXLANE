@@ -11,7 +11,7 @@ source-custodied annual debt held by the public, net interest, and explicit
 other-financing and timing values. The existing deterministic validator also
 replays every topline and debt identity with a zero policy delta.
 
-That makes three of eight formula inputs and four of nine completion steps
+That makes four of eight formula inputs and five of nine completion steps
 ready. This is a real accounting advance: NET now has a bounded annual baseline
 to reconcile against rather than only a list of missing inputs.
 
@@ -31,9 +31,8 @@ The remaining sequence is therefore substantive rather than architectural:
    rata inference and bridge June actuals to fiscal year end;
 2. define annual maturity buckets and rollover rules;
 3. map effective and stress rates to those buckets;
-4. define new-borrowing timing;
-5. bridge gross interest, credited receipts, and net interest; and
-6. prove that an admitted primary-balance shock changes later debt and interest.
+4. obtain matching-CBO-vintage gross interest and receipt components; and
+5. prove that an admitted primary-balance shock changes later debt and interest.
 
 No savings or rate changes follow from this audit. The five current candidates
 still contribute a zero admitted primary-balance delta.
