@@ -1385,6 +1385,12 @@ mod global_country_comparison_tests {
     }
 
     #[test]
+    fn agr_uw12_envelope_recomputes_and_hands_the_frontier_to_see() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_agr_uw12_score_sensitivity_service_stress_envelope(&root).unwrap();
+    }
+
+    #[test]
     fn pay_public_evidence_ceiling_names_owner_data_without_requesting_it() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_pay_full_dmf_public_evidence_ceiling(&root).unwrap();

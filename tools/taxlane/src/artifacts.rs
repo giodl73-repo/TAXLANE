@@ -2256,6 +2256,8 @@ pub(crate) const AGR_INSURER_COMPENSATION_PUBLIC_EVIDENCE_CEILING_JSON_PATH: &st
 
 pub(crate) const AGR_INSURER_COMPENSATION_LEGISLATIVE_DESIGN_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/agr_insurer_compensation_legislative_design.v1.draft.json";
 
+pub(crate) const AGR_UW12_SCORE_SENSITIVITY_SERVICE_STRESS_ENVELOPE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/agr_uw12_score_sensitivity_service_stress_envelope.v1.draft.json";
+
 pub(crate) const PAY_FULL_DMF_EVIDENCE_CEILING_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/pay_full_dmf_public_evidence_ceiling.v1.draft.json";
 
@@ -11233,6 +11235,48 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         path: "reviews/2026-08-01-agr-insurer-compensation-legislative-design-role-review.md",
         role: "AGR insurer-compensation legislative-design role review",
         grain: "finance, agriculture, insurance, service, distribution, law, and scope fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "crates/taxlane-agr-insurance/Cargo.toml",
+        role: "AGR insurer-compensation feature crate manifest",
+        grain: "feature-owned exact sensitivity kernel boundary",
+        kind: "toml",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "crates/taxlane-agr-insurance/src/lib.rs",
+        role: "AGR insurer-compensation feature kernel",
+        grain: "checked normalized return-gap, phase-in, pause, cost, and net arithmetic",
+        kind: "rust",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: AGR_UW12_SCORE_SENSITIVITY_SERVICE_STRESS_ENVELOPE_JSON_PATH,
+        role: "AGR UW12 score-sensitivity and service-stress envelope",
+        grain: "five executable normalized scenarios and portfolio handoff",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/agr_uw12_score_sensitivity_service_stress_envelope.schema.md",
+        role: "AGR UW12 score-sensitivity and service-stress schema",
+        grain: "unit, scenario, recomputation, and admission boundary",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/agr-uw12-score-sensitivity-service-stress-envelope.md",
+        role: "AGR UW12 score-sensitivity and service-stress reader",
+        grain: "normalized result, negative cases, and SEE handoff explanation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-08-01-agr-uw12-score-sensitivity-service-stress-envelope-role-review.md",
+        role: "AGR UW12 score-sensitivity and service-stress role review",
+        grain: "finance, agriculture, insurance, service, distribution, software, and scope fixed point",
         kind: "markdown",
         canonical: "supporting",
     },

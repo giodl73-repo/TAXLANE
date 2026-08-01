@@ -1339,6 +1339,7 @@ pub(crate) fn validate_global_country_comparison_coverage(root: &Path) -> Result
     validate_agr_crop_insurance_current_law_owner_evidence_audit(root)?;
     validate_agr_insurer_compensation_public_evidence_ceiling(root)?;
     validate_agr_insurer_compensation_legislative_design(root)?;
+    validate_agr_uw12_score_sensitivity_service_stress_envelope(root)?;
     validate_pay_full_dmf_public_evidence_ceiling(root)?;
     validate_hlt_site_neutral_current_law_dependency_audit(root)?;
     validate_def_proportional_force_current_law_dependency_audit(root)?;
@@ -14610,6 +14611,132 @@ pub(crate) fn validate_agr_insurer_compensation_legislative_design(
         || bool_field(claims, "rate_change_allowed")?
     {
         return Err("AGR insurer-compensation legislative design failed".to_string());
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_agr_uw12_score_sensitivity_service_stress_envelope(
+    root: &Path,
+) -> Result<(), String> {
+    let envelope = read_json_artifact(
+        root,
+        AGR_UW12_SCORE_SENSITIVITY_SERVICE_STRESS_ENVELOPE_JSON_PATH,
+    )?;
+    let model = envelope.get("model_contract").ok_or("AGR UW12 model contract")?;
+    let scenarios = envelope
+        .get("scenario_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("AGR UW12 scenarios")?;
+    let mut scenario_ids = BTreeSet::new();
+    for row in scenarios {
+        scenario_ids.insert(string_field(row, "scenario_id")?);
+        if bool_field(row, "admitted")? {
+            return Err("AGR UW12 scenario admission boundary failed".to_string());
+        }
+        let inputs = row.get("inputs").ok_or("AGR UW12 scenario inputs")?;
+        let expected = row.get("outputs").ok_or("AGR UW12 scenario outputs")?;
+        let input = taxlane_agr_insurance::SensitivityInput {
+            horizon_years: int_field(inputs, "horizon_years")?
+                .try_into()
+                .map_err(|_| "AGR UW12 horizon conversion")?,
+            annual_retained_premium_musd_micros: int_field(
+                inputs,
+                "annual_retained_premium_musd_micros",
+            )?
+            .into(),
+            baseline_return_bps: int_field(inputs, "baseline_return_bps")?.into(),
+            target_return_bps: int_field(inputs, "target_return_bps")?.into(),
+            participation_ppm: int_field(inputs, "participation_ppm")?.into(),
+            paused_market_ppm: int_field(inputs, "paused_market_ppm")?.into(),
+            administration_cost_ppm_of_gross: int_field(
+                inputs,
+                "administration_cost_ppm_of_gross",
+            )?
+            .into(),
+            stabilization_cost_ppm_of_gross: int_field(
+                inputs,
+                "stabilization_cost_ppm_of_gross",
+            )?
+            .into(),
+        };
+        let actual = taxlane_agr_insurance::run_sensitivity(&input)?;
+        if actual.gross_reduction_musd_micros
+            != i128::from(int_field(expected, "gross_reduction_musd_micros")?)
+            || actual.administration_cost_musd_micros
+                != i128::from(int_field(expected, "administration_cost_musd_micros")?)
+            || actual.stabilization_cost_musd_micros
+                != i128::from(int_field(expected, "stabilization_cost_musd_micros")?)
+            || actual.net_reduction_musd_micros
+                != i128::from(int_field(expected, "net_reduction_musd_micros")?)
+        {
+            return Err(format!(
+                "AGR UW12 scenario {} does not recompute",
+                string_field(row, "scenario_id")?
+            ));
+        }
+    }
+    let interpretation = envelope
+        .get("interpretation")
+        .ok_or("AGR UW12 interpretation")?;
+    let disposition = envelope
+        .get("agr_disposition")
+        .ok_or("AGR UW12 disposition")?;
+    let handoff = envelope
+        .get("portfolio_handoff")
+        .ok_or("AGR UW12 handoff")?;
+    let claims = envelope
+        .get("claim_boundaries")
+        .ok_or("AGR UW12 claim boundaries")?;
+    if scenarios.len() != 5
+        || scenario_ids.len() != 5
+        || !scenario_ids.contains("CURRENT_LAW_NULL")
+        || !scenario_ids.contains("UW12_HISTORICAL_CONTEXT_NORMALIZED")
+        || !scenario_ids.contains("UW12_MARKET_STRESS_NORMALIZED")
+        || !scenario_ids.contains("UW12_FULL_SERVICE_PAUSE")
+        || !scenario_ids.contains("UW12_LOW_RETURN_NO_REDUCTION")
+        || int_field(model, "horizon_years")? != 10
+        || !bool_field(model, "positive_gap_only")?
+        || !bool_field(model, "one_reinsurance_year_to_one_fiscal_year_mapping_assumed")?
+        || bool_field(model, "mapping_is_official_score_timing")?
+        || (number_field(model, "normalized_annual_retained_premium_billions")? - 1.0).abs()
+            > 0.0001
+        || bool_field(model, "normalized_amount_is_observed_current_retained_premium")?
+        || (number_field(
+            interpretation,
+            "historical_context_normalized_net_reduction_millions_per_one_billion_annual_retained_premium",
+        )? - 399.0)
+            .abs()
+            > 0.0001
+        || (number_field(
+            interpretation,
+            "market_stress_normalized_net_reduction_millions_per_one_billion_annual_retained_premium",
+        )? - 257.04)
+            .abs()
+            > 0.0001
+        || bool_field(interpretation, "values_are_current_federal_savings_estimates")?
+        || bool_field(
+            interpretation,
+            "values_may_be_scaled_by_current_aggregate_compensation",
+        )?
+        || bool_field(interpretation, "values_may_enter_fiscal_solver")?
+        || !bool_field(disposition, "public_analytical_frontier_complete")?
+        || string_field(disposition, "status")? != "named_trigger_monitoring_zero_admission"
+        || number_field(disposition, "admitted_savings_billions")?.abs() > 0.0001
+        || bool_field(disposition, "rate_recomputation_required")?
+        || string_field(handoff, "next_track")? != "SEE"
+        || bool_field(handoff, "selection_is_admission")?
+        || bool_field(claims, "official_request_made")?
+        || bool_field(claims, "public_release_authorized")?
+        || bool_field(claims, "normalized_case_treated_as_current_baseline")?
+        || bool_field(claims, "historical_return_treated_as_current_return")?
+        || bool_field(claims, "scenario_output_treated_as_score")?
+        || bool_field(claims, "service_stress_treated_as_observed_response")?
+        || bool_field(claims, "candidate_admitted")?
+        || bool_field(claims, "spending_reduction_admitted")?
+        || bool_field(claims, "solver_run_performed")?
+        || bool_field(claims, "rate_change_allowed")?
+    {
+        return Err("AGR UW12 score-sensitivity and service-stress envelope failed".to_string());
     }
     Ok(())
 }

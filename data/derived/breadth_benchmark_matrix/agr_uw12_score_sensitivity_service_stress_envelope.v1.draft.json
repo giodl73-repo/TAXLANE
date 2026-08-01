@@ -1,0 +1,104 @@
+{
+  "record_id": "agr-uw12-score-sensitivity-service-stress-envelope:v1",
+  "record_family": "agr_uw12_score_sensitivity_service_stress_envelope",
+  "version": "v1.draft",
+  "status": "normalized_stress_envelope_complete_agr_to_named_triggers_see_next_zero_admission",
+  "as_of_date": "2026-08-01",
+  "track": "AGR",
+  "candidate_component": "UW12_PROSPECTIVE",
+  "predecessor_path": "data/derived/breadth_benchmark_matrix/agr_insurer_compensation_legislative_design.v1.draft.json",
+  "feature_crate_path": "crates/taxlane-agr-insurance",
+  "schema_path": "data/derived/breadth_benchmark_matrix/agr_uw12_score_sensitivity_service_stress_envelope.schema.md",
+  "reader_path": "docs/reading/agr-uw12-score-sensitivity-service-stress-envelope.md",
+  "role_review_path": "reviews/2026-08-01-agr-uw12-score-sensitivity-service-stress-envelope-role-review.md",
+  "model_contract": {
+    "monetary_unit": "million_USD_micros",
+    "share_unit": "parts_per_million",
+    "return_unit": "basis_points_of_retained_premium",
+    "horizon_years": 10,
+    "phase_in_ppm_by_year_1_2_3_plus": [250000, 500000, 1000000],
+    "positive_gap_only": true,
+    "gross_formula": "retained_premium * max(baseline_return-target_return,0) * participation * unpaused_market * phase_in",
+    "net_formula": "gross_reduction - administration_cost - stabilization_cost",
+    "one_reinsurance_year_to_one_fiscal_year_mapping_assumed": true,
+    "mapping_is_official_score_timing": false,
+    "normalized_annual_retained_premium_billions": 1.0,
+    "normalized_amount_is_observed_current_retained_premium": false
+  },
+  "scenario_rows": [
+    {
+      "scenario_id": "CURRENT_LAW_NULL",
+      "purpose": "prove the null path",
+      "inputs": {"horizon_years":10,"annual_retained_premium_musd_micros":1000000000,"baseline_return_bps":1680,"target_return_bps":1680,"participation_ppm":1000000,"paused_market_ppm":0,"administration_cost_ppm_of_gross":0,"stabilization_cost_ppm_of_gross":0},
+      "outputs": {"gross_reduction_musd_micros":0,"administration_cost_musd_micros":0,"stabilization_cost_musd_micros":0,"net_reduction_musd_micros":0},
+      "admitted": false
+    },
+    {
+      "scenario_id": "UW12_HISTORICAL_CONTEXT_NORMALIZED",
+      "purpose": "show the mechanical upper context if the historical 16.8-percent return applied to a normalized current cohort",
+      "inputs": {"horizon_years":10,"annual_retained_premium_musd_micros":1000000000,"baseline_return_bps":1680,"target_return_bps":1200,"participation_ppm":1000000,"paused_market_ppm":0,"administration_cost_ppm_of_gross":50000,"stabilization_cost_ppm_of_gross":0},
+      "outputs": {"gross_reduction_musd_micros":420000000,"administration_cost_musd_micros":21000000,"stabilization_cost_musd_micros":0,"net_reduction_musd_micros":399000000},
+      "admitted": false
+    },
+    {
+      "scenario_id": "UW12_MARKET_STRESS_NORMALIZED",
+      "purpose": "show participation loss, a partial service-floor pause, and stabilization cost",
+      "inputs": {"horizon_years":10,"annual_retained_premium_musd_micros":1000000000,"baseline_return_bps":1680,"target_return_bps":1200,"participation_ppm":900000,"paused_market_ppm":200000,"administration_cost_ppm_of_gross":50000,"stabilization_cost_ppm_of_gross":100000},
+      "outputs": {"gross_reduction_musd_micros":302400000,"administration_cost_musd_micros":15120000,"stabilization_cost_musd_micros":30240000,"net_reduction_musd_micros":257040000},
+      "admitted": false
+    },
+    {
+      "scenario_id": "UW12_FULL_SERVICE_PAUSE",
+      "purpose": "prove that a universal service-floor pause shuts off the modeled adjustment",
+      "inputs": {"horizon_years":10,"annual_retained_premium_musd_micros":1000000000,"baseline_return_bps":1680,"target_return_bps":1200,"participation_ppm":900000,"paused_market_ppm":1000000,"administration_cost_ppm_of_gross":50000,"stabilization_cost_ppm_of_gross":100000},
+      "outputs": {"gross_reduction_musd_micros":0,"administration_cost_musd_micros":0,"stabilization_cost_musd_micros":0,"net_reduction_musd_micros":0},
+      "admitted": false
+    },
+    {
+      "scenario_id": "UW12_LOW_RETURN_NO_REDUCTION",
+      "purpose": "prove that a reproduced return below 12 percent creates no modeled reduction",
+      "inputs": {"horizon_years":10,"annual_retained_premium_musd_micros":1000000000,"baseline_return_bps":1020,"target_return_bps":1200,"participation_ppm":1000000,"paused_market_ppm":0,"administration_cost_ppm_of_gross":50000,"stabilization_cost_ppm_of_gross":0},
+      "outputs": {"gross_reduction_musd_micros":0,"administration_cost_musd_micros":0,"stabilization_cost_musd_micros":0,"net_reduction_musd_micros":0},
+      "admitted": false
+    }
+  ],
+  "interpretation": {
+    "historical_context_normalized_net_reduction_millions_per_one_billion_annual_retained_premium": 399.0,
+    "market_stress_normalized_net_reduction_millions_per_one_billion_annual_retained_premium": 257.04,
+    "stress_reduction_from_historical_context_percent": 35.578947,
+    "values_are_current_federal_savings_estimates": false,
+    "values_may_be_scaled_by_current_aggregate_compensation": false,
+    "values_may_enter_fiscal_solver": false
+  },
+  "agr_disposition": {
+    "public_analytical_frontier_complete": true,
+    "status": "named_trigger_monitoring_zero_admission",
+    "reopen_triggers": [
+      "current AIP-specific retained premium, allowable cost, investment income, and return data",
+      "state and product market share, provider entry and exit, capital, retained risk, and agent coverage",
+      "three-year service-floor baseline and observed response to a compensation change",
+      "matching current-law legislative score including implementation and stabilization",
+      "enactment and implementation evidence"
+    ],
+    "admitted_savings_billions": 0.0,
+    "rate_recomputation_required": false
+  },
+  "portfolio_handoff": {
+    "next_track": "SEE",
+    "next_candidate": "reduce_doe_energy_conservation_weatherization_grants",
+    "next_action": "reconcile current authorization and appropriations, then test household energy burden, delivery cost, resilience, spillovers, substitution, and income-geographic incidence",
+    "selection_is_admission": false
+  },
+  "claim_boundaries": {
+    "official_request_made": false,
+    "public_release_authorized": false,
+    "normalized_case_treated_as_current_baseline": false,
+    "historical_return_treated_as_current_return": false,
+    "scenario_output_treated_as_score": false,
+    "service_stress_treated_as_observed_response": false,
+    "candidate_admitted": false,
+    "spending_reduction_admitted": false,
+    "solver_run_performed": false,
+    "rate_change_allowed": false
+  }
+}
