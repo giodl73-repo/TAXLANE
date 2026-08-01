@@ -1348,6 +1348,7 @@ pub(crate) fn validate_global_country_comparison_coverage(root: &Path) -> Result
     validate_dis_nfip_repetitive_loss_mitigation_stress_envelope(root)?;
     validate_jus_district_judgeship_capacity_current_law_owner_evidence_audit(root)?;
     validate_jus_district_capacity_delivery_caseflow_stress_envelope(root)?;
+    validate_vet_hr2137_current_law_owner_evidence_audit(root)?;
     validate_pay_full_dmf_public_evidence_ceiling(root)?;
     validate_hlt_site_neutral_current_law_dependency_audit(root)?;
     validate_def_proportional_force_current_law_dependency_audit(root)?;
@@ -15560,6 +15561,78 @@ pub(crate) fn validate_jus_district_capacity_delivery_caseflow_stress_envelope(
         || bool_field(claims, "rate_change_allowed")?
     {
         return Err("JUS district capacity delivery and caseflow stress envelope failed".to_string());
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_vet_hr2137_current_law_owner_evidence_audit(
+    root: &Path,
+) -> Result<(), String> {
+    let audit = read_json_artifact(root, VET_HR2137_CURRENT_LAW_OWNER_EVIDENCE_AUDIT_JSON_PATH)?;
+    let sources = audit
+        .get("source_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("VET H.R. 2137 sources")?;
+    let perimeter = audit
+        .get("legislative_and_score_perimeter")
+        .ok_or("VET H.R. 2137 perimeter")?;
+    let components = audit
+        .get("component_accounting")
+        .ok_or("VET H.R. 2137 components")?;
+    let baseline = audit
+        .get("current_claims_and_rights_baseline")
+        .ok_or("VET H.R. 2137 baseline")?;
+    let quality = audit
+        .get("current_quality_and_modernization_context")
+        .ok_or("VET H.R. 2137 quality")?;
+    let successor = audit
+        .get("successor_contract")
+        .ok_or("VET H.R. 2137 successor")?;
+    let claims = audit
+        .get("claim_boundaries")
+        .ok_or("VET H.R. 2137 claims")?;
+    if sources.len() != 5
+        || string_field(perimeter, "current_status")?
+            != "ordered_reported_house_committee_not_enacted"
+        || bool_field(perimeter, "assumed_enactment_occurred")?
+        || int_field(perimeter, "direct_outlays_millions")?
+            + int_field(perimeter, "appropriated_outlays_millions")?
+            != int_field(perimeter, "combined_outlays_millions")?
+        || int_field(perimeter, "fy2026_direct_outlays_millions")?
+            + int_field(perimeter, "fy2026_appropriated_outlays_millions")?
+            != int_field(perimeter, "fy2026_combined_outlays_millions")?
+        || bool_field(perimeter, "package_is_current_law")?
+        || bool_field(perimeter, "package_is_claims_efficiency_saving")?
+        || int_field(components, "claims_process_appropriated_cost_millions")?
+            + int_field(components, "claims_process_tef_direct_cost_millions")?
+            != int_field(components, "claims_appeals_process_changes_2026_2035_millions")?
+        || !bool_field(
+            components,
+            "pension_medicaid_interaction_already_in_direct_score",
+        )?
+        || bool_field(components, "pension_offset_is_claims_process_efficiency")?
+        || int_field(baseline, "rating_inventory")? != 600_878
+        || int_field(baseline, "rating_backlog_over_125_days")? != 69_481
+        || bool_field(baseline, "docket_choice_interchangeable")?
+        || bool_field(baseline, "current_baseline_is_candidate_effect")?
+        || int_field(quality, "gao_recommendations_implemented")?
+            + int_field(quality, "gao_recommendations_remaining")?
+            != int_field(quality, "gao_recommendations_since_2021")?
+        || !bool_field(quality, "contract_exam_quality_gaps_open")?
+        || !bool_field(quality, "claims_processor_training_gaps_open")?
+        || string_field(successor, "selected_component")?
+            != "missed_exam_evidence_review_and_accommodation"
+        || number_field(successor, "admitted_savings_billions")?.abs() > 0.0001
+        || bool_field(successor, "rate_recomputation_required")?
+        || bool_field(claims, "historical_score_treated_as_current")?
+        || bool_field(claims, "pension_medicaid_interaction_double_counted")?
+        || bool_field(claims, "pension_offset_treated_as_claims_efficiency")?
+        || bool_field(claims, "current_trends_attributed_to_candidate")?
+        || bool_field(claims, "candidate_admitted")?
+        || bool_field(claims, "spending_reduction_admitted")?
+        || bool_field(claims, "rate_change_allowed")?
+    {
+        return Err("VET H.R. 2137 current-law owner-evidence audit failed".to_string());
     }
     Ok(())
 }

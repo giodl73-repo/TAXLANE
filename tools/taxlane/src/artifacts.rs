@@ -2274,6 +2274,8 @@ pub(crate) const JUS_DISTRICT_JUDGESHIP_CAPACITY_CURRENT_LAW_OWNER_EVIDENCE_AUDI
 
 pub(crate) const JUS_DISTRICT_CAPACITY_DELIVERY_CASEFLOW_STRESS_ENVELOPE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/jus_district_capacity_delivery_caseflow_stress_envelope.v1.draft.json";
 
+pub(crate) const VET_HR2137_CURRENT_LAW_OWNER_EVIDENCE_AUDIT_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/vet_hr2137_current_law_owner_evidence_audit.v1.draft.json";
+
 pub(crate) const PAY_FULL_DMF_EVIDENCE_CEILING_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/pay_full_dmf_public_evidence_ceiling.v1.draft.json";
 
@@ -11517,6 +11519,34 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         path: "reviews/2026-08-01-jus-district-capacity-delivery-caseflow-stress-envelope-role-review.md",
         role: "JUS district capacity delivery and caseflow stress role review",
         grain: "operations, fiscal, caseflow, rights, workforce, distribution, and scope fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: VET_HR2137_CURRENT_LAW_OWNER_EVIDENCE_AUDIT_JSON_PATH,
+        role: "VET H.R. 2137 current-law owner-evidence audit",
+        grain: "legislative status, score timing, claims costs, pension and Medicaid interaction, baseline, and successor",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/vet_hr2137_current_law_owner_evidence_audit.schema.md",
+        role: "VET H.R. 2137 current-law owner-evidence schema",
+        grain: "claims, TEF, court, pension, Medicaid, service, and admission firewall",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/vet-hr2137-current-law-owner-evidence-audit.md",
+        role: "VET H.R. 2137 current-law owner-evidence reader",
+        grain: "expired score timing, multicomponent cost, current claims baseline, and successor explanation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-08-01-vet-hr2137-current-law-owner-evidence-audit-role-review.md",
+        role: "VET H.R. 2137 current-law owner-evidence role review",
+        grain: "fiscal, benefits, Medicaid, operations, access, technology, and scope fixed point",
         kind: "markdown",
         canonical: "supporting",
     },

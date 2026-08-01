@@ -1439,6 +1439,12 @@ mod global_country_comparison_tests {
     }
 
     #[test]
+    fn vet_audit_expires_score_timing_and_separates_pension_offset() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_vet_hr2137_current_law_owner_evidence_audit(&root).unwrap();
+    }
+
+    #[test]
     fn pay_public_evidence_ceiling_names_owner_data_without_requesting_it() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_pay_full_dmf_public_evidence_ceiling(&root).unwrap();
