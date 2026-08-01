@@ -1421,6 +1421,12 @@ mod global_country_comparison_tests {
     }
 
     #[test]
+    fn dis_nfip_engine_replays_normalized_federal_effect_without_admission() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_dis_nfip_repetitive_loss_mitigation_stress_envelope(&root).unwrap();
+    }
+
+    #[test]
     fn pay_public_evidence_ceiling_names_owner_data_without_requesting_it() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_pay_full_dmf_public_evidence_ceiling(&root).unwrap();

@@ -2268,6 +2268,8 @@ pub(crate) const EDU_PELL_ADD_ON_AWARD_SUBSTITUTION_STRESS_ENVELOPE_JSON_PATH: &
 
 pub(crate) const DIS_NFIP_CURRENT_LAW_OWNER_EVIDENCE_AUDIT_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/dis_nfip_current_law_owner_evidence_audit.v1.draft.json";
 
+pub(crate) const DIS_NFIP_REPETITIVE_LOSS_MITIGATION_STRESS_ENVELOPE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/dis_nfip_repetitive_loss_mitigation_stress_envelope.v1.draft.json";
+
 pub(crate) const PAY_FULL_DMF_EVIDENCE_CEILING_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/pay_full_dmf_public_evidence_ceiling.v1.draft.json";
 
@@ -11427,6 +11429,34 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         path: "reviews/2026-08-01-dis-nfip-current-law-owner-evidence-audit-role-review.md",
         role: "DIS NFIP current-law owner-evidence role review",
         grain: "finance, insurance, household, resilience, community, law, and scope fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: DIS_NFIP_REPETITIVE_LOSS_MITIGATION_STRESS_ENVELOPE_JSON_PATH,
+        role: "DIS NFIP repetitive-loss mitigation stress envelope",
+        grain: "public evidence ceiling, normalized cohort accounting, break-even threshold, and JUS handoff",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/dis_nfip_repetitive_loss_mitigation_stress_envelope.schema.md",
+        role: "DIS NFIP repetitive-loss mitigation stress schema",
+        grain: "cohort, investment, avoided-claim, premium, aid, administration, and no-scaling identity",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/dis-nfip-repetitive-loss-mitigation-stress-envelope.md",
+        role: "DIS NFIP repetitive-loss mitigation stress reader",
+        grain: "normalized federal effect, public evidence ceiling, and named-trigger explanation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-08-01-dis-nfip-repetitive-loss-mitigation-stress-envelope-role-review.md",
+        role: "DIS NFIP repetitive-loss mitigation stress role review",
+        grain: "fiscal, delivery, insurance, household, aid, evidence, and scope fixed point",
         kind: "markdown",
         canonical: "supporting",
     },

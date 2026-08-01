@@ -314,6 +314,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "taxlane-dis-flood"
+version = "0.1.0"
+
+[[package]]
 name = "taxlane-edu-pell"
 version = "0.1.0"
 
@@ -332,6 +336,7 @@ dependencies = [
  "sha2",
  "taxlane-agr-insurance",
  "taxlane-core",
+ "taxlane-dis-flood",
  "taxlane-edu-pell",
  "taxlane-net-interest",
  "zip",

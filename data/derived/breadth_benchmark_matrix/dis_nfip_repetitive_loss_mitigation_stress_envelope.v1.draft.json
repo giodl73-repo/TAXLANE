@@ -1,0 +1,87 @@
+{
+  "record_id":"dis-nfip-repetitive-loss-mitigation-stress-envelope:v1",
+  "record_family":"dis_nfip_repetitive_loss_mitigation_stress_envelope",
+  "version":"v1.draft",
+  "status":"public_evidence_ceiling_closed_normalized_federal_identity_complete_current_linked_cohort_missing_zero_admission",
+  "as_of_date":"2026-08-01",
+  "track":"DIS",
+  "predecessor_path":"data/derived/breadth_benchmark_matrix/dis_nfip_current_law_owner_evidence_audit.v1.draft.json",
+  "schema_path":"data/derived/breadth_benchmark_matrix/dis_nfip_repetitive_loss_mitigation_stress_envelope.schema.md",
+  "reader_path":"docs/reading/dis-nfip-repetitive-loss-mitigation-stress-envelope.md",
+  "role_review_path":"reviews/2026-08-01-dis-nfip-repetitive-loss-mitigation-stress-envelope-role-review.md",
+  "engine_crate":"crates/taxlane-dis-flood",
+  "source_rows":[
+    {"source_id":"SRC-GAO-26-109045","publisher":"U.S. Government Accountability Office","publication_date":"2026-03-26","url":"https://files.gao.gov/reports/GAO-26-109045/index.html","use":"repetitive-loss inventory and claims concentration, mitigation throughput and type, acquisition timing and cost-share context"},
+    {"source_id":"SRC-FEMA-HMA-GUIDE-2.1-2025","publisher":"Federal Emergency Management Agency","publication_date":"2025","url":"https://www.fema.gov/sites/default/files/documents/fema_hma-guide-v2.1_2025.pdf","use":"current benefit-cost requirement and BCR definition"},
+    {"source_id":"SRC-FEMA-GO-PROJECT-SUBAPPLICATION","publisher":"Federal Emergency Management Agency","publication_date":null,"accessed_date":"2026-08-01","url":"https://www.fema.gov/sites/default/files/documents/fema_go-project-subapplication-printable.pdf","use":"FMA severe-repetitive-loss and repetitive-loss maximum federal cost-share rules"},
+    {"source_id":"SRC-FEMA-FMA-FY2024-SUPPORT","publisher":"Federal Emergency Management Agency","publication_date":"2025-01","url":"https://www.fema.gov/sites/default/files/documents/fema_hma_fma_individual-flood-mitigation-projects_fy2024.pdf","use":"FY2024 individual-project priority, eligible activities, and average federal cost-share ranking thresholds"},
+    {"source_id":"SRC-GAO-23-105977","publisher":"U.S. Government Accountability Office","publication_date":"2023-07-31","status_updated_through":"2026-02","url":"https://www.gao.gov/products/gao-23-105977","use":"premium affordability, full-risk transition, and means-assistance boundary"}
+  ],
+  "public_program_rules": {
+    "fema_bcr_generally_cost_effective_at_or_above":1.0,
+    "fma_severe_repetitive_loss_max_federal_cost_share_percent":100,
+    "fma_repetitive_loss_max_federal_cost_share_percent":90,
+    "fy2024_average_elevation_federal_share_lower_priority_above_usd":250000,
+    "fy2024_average_acquisition_federal_share_lower_priority_above_usd":750000,
+    "thresholds_are_observed_unit_costs":false,
+    "thresholds_are_statutory_caps":false,
+    "social_bcr_equals_federal_budget_effect":false
+  },
+  "public_evidence_ceiling": {
+    "current_linkable_property_level_cost_completion_claim_premium_cohort_available":false,
+    "current_national_intervention_unit_cost_distribution_available":false,
+    "current_participation_and_completion_distribution_available":false,
+    "same_property_prospective_avoided_claims_distribution_available":false,
+    "post_mitigation_premium_and_coverage_retention_distribution_available":false,
+    "other_federal_disaster_aid_offset_available":false,
+    "rights_income_and_neighborhood_distribution_available":false,
+    "current_official_budget_score_available":false,
+    "claim_concentration_is_avoidable_share":false,
+    "historical_2008_2014_costs_usable_as_current_unit_costs":false
+  },
+  "normalized_stress_input": {
+    "eligible_properties":100,
+    "participation_percent":50,
+    "completion_percent_of_participants":80,
+    "unit_intervention_cost_usd":100000,
+    "federal_cost_share_percent":75,
+    "delivery_lag_years":3,
+    "horizon_years":10,
+    "annual_expected_nfip_claims_usd_per_completed_property":10000,
+    "avoided_claims_percent":50,
+    "annual_premium_reduction_usd_per_completed_property":500,
+    "annual_other_federal_aid_reduction_usd_per_completed_property":1000,
+    "annual_administration_cost_usd_per_completed_property":250,
+    "status":"hypothetical_accounting_fixture_not_empirical_estimate"
+  },
+  "normalized_stress_output": {
+    "participating_properties":50,
+    "completed_properties":40,
+    "active_benefit_years":7,
+    "federal_investment_usd":3000000,
+    "avoided_nfip_claims_usd":1400000,
+    "other_federal_aid_reduction_usd":280000,
+    "premium_revenue_reduction_usd":140000,
+    "administration_cost_usd":70000,
+    "net_federal_effect_usd":-1530000,
+    "break_even_annual_expected_nfip_claims_usd_per_completed_property":20928.571429,
+    "net_effect_is_admitted_score":false
+  },
+  "accounting_boundaries": {
+    "federal_effect_identity":"avoided_nfip_claims_plus_other_federal_aid_reduction_minus_premium_revenue_reduction_minus_administration_cost_minus_federal_investment",
+    "investment_timing":"modeled_in_year_1_for_transparency_not_an_outlay_forecast",
+    "benefit_start":"first_year_after_delivery_lag",
+    "discounting_applied":false,
+    "social_nonfederal_benefits_included":false,
+    "nonfederal_cost_share_included_in_federal_effect":false
+  },
+  "successor_disposition": {
+    "normalized_engine_complete":true,
+    "candidate_status":"named_trigger_for_current_linked_outcome_cohort_or_official_score",
+    "next_action":"monitor_public_property_level_or_official_scored_evidence_without_requesting_nonpublic_data",
+    "admitted_savings_billions":0.0,
+    "rate_recomputation_required":false,
+    "next_track":"JUS"
+  },
+  "claim_boundaries":{"official_request_made":false,"public_release_authorized":false,"normalized_fixture_treated_as_forecast":false,"national_inventory_scaled":false,"claim_concentration_treated_as_avoidable_share":false,"fema_bcr_treated_as_federal_score":false,"candidate_admitted":false,"spending_reduction_admitted":false,"solver_run_performed":false,"rate_change_allowed":false}
+}

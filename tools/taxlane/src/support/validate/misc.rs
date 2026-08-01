@@ -1345,6 +1345,7 @@ pub(crate) fn validate_global_country_comparison_coverage(root: &Path) -> Result
     validate_edu_pell_add_on_current_law_owner_evidence_audit(root)?;
     validate_edu_pell_add_on_award_substitution_stress_envelope(root)?;
     validate_dis_nfip_current_law_owner_evidence_audit(root)?;
+    validate_dis_nfip_repetitive_loss_mitigation_stress_envelope(root)?;
     validate_pay_full_dmf_public_evidence_ceiling(root)?;
     validate_hlt_site_neutral_current_law_dependency_audit(root)?;
     validate_def_proportional_force_current_law_dependency_audit(root)?;
@@ -15239,6 +15240,124 @@ pub(crate) fn validate_dis_nfip_current_law_owner_evidence_audit(
         || bool_field(claims, "rate_change_allowed")?
     {
         return Err("DIS NFIP current-law owner-evidence audit failed".to_string());
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_dis_nfip_repetitive_loss_mitigation_stress_envelope(
+    root: &Path,
+) -> Result<(), String> {
+    let artifact = read_json_artifact(
+        root,
+        DIS_NFIP_REPETITIVE_LOSS_MITIGATION_STRESS_ENVELOPE_JSON_PATH,
+    )?;
+    let rules = artifact
+        .get("public_program_rules")
+        .ok_or("DIS mitigation program rules")?;
+    let evidence = artifact
+        .get("public_evidence_ceiling")
+        .ok_or("DIS mitigation evidence ceiling")?;
+    let input = artifact
+        .get("normalized_stress_input")
+        .ok_or("DIS mitigation stress input")?;
+    let output = artifact
+        .get("normalized_stress_output")
+        .ok_or("DIS mitigation stress output")?;
+    let successor = artifact
+        .get("successor_disposition")
+        .ok_or("DIS mitigation successor")?;
+    let claims = artifact
+        .get("claim_boundaries")
+        .ok_or("DIS mitigation claims")?;
+    let stress = taxlane_dis_flood::MitigationInput {
+        eligible_properties: i128::from(int_field(input, "eligible_properties")?),
+        participation_ppm: i128::from(int_field(input, "participation_percent")?) * 10_000,
+        completion_ppm: i128::from(int_field(input, "completion_percent_of_participants")?)
+            * 10_000,
+        unit_intervention_cost_usd_micros: i128::from(int_field(
+            input,
+            "unit_intervention_cost_usd",
+        )?) * 1_000_000,
+        federal_cost_share_ppm: i128::from(int_field(input, "federal_cost_share_percent")?)
+            * 10_000,
+        delivery_lag_years: u8::try_from(int_field(input, "delivery_lag_years")?)
+            .map_err(|_| "DIS delivery lag range")?,
+        horizon_years: u8::try_from(int_field(input, "horizon_years")?)
+            .map_err(|_| "DIS horizon range")?,
+        annual_expected_nfip_claims_usd_micros_per_completed_property: i128::from(int_field(
+            input,
+            "annual_expected_nfip_claims_usd_per_completed_property",
+        )?) * 1_000_000,
+        avoided_claims_ppm: i128::from(int_field(input, "avoided_claims_percent")?) * 10_000,
+        annual_premium_reduction_usd_micros_per_completed_property: i128::from(int_field(
+            input,
+            "annual_premium_reduction_usd_per_completed_property",
+        )?) * 1_000_000,
+        annual_other_federal_aid_reduction_usd_micros_per_completed_property: i128::from(
+            int_field(
+                input,
+                "annual_other_federal_aid_reduction_usd_per_completed_property",
+            )?,
+        ) * 1_000_000,
+        annual_administration_cost_usd_micros_per_completed_property: i128::from(int_field(
+            input,
+            "annual_administration_cost_usd_per_completed_property",
+        )?) * 1_000_000,
+    };
+    let result = taxlane_dis_flood::run_mitigation_stress(&stress)?;
+    let break_even =
+        taxlane_dis_flood::break_even_annual_expected_claims_usd_micros_per_completed_property(
+            &stress,
+        )?;
+    let matches_usd = |actual: i128, field: &str| -> Result<bool, String> {
+        Ok(actual / 1_000_000 == i128::from(int_field(output, field)?))
+    };
+    if (number_field(rules, "fema_bcr_generally_cost_effective_at_or_above")? - 1.0).abs()
+        > 0.0001
+        || bool_field(rules, "thresholds_are_observed_unit_costs")?
+        || bool_field(rules, "social_bcr_equals_federal_budget_effect")?
+        || bool_field(
+            evidence,
+            "current_linkable_property_level_cost_completion_claim_premium_cohort_available",
+        )?
+        || bool_field(evidence, "current_official_budget_score_available")?
+        || bool_field(evidence, "claim_concentration_is_avoidable_share")?
+        || result.participating_properties_micros / 1_000_000
+            != i128::from(int_field(output, "participating_properties")?)
+        || result.completed_properties_micros / 1_000_000
+            != i128::from(int_field(output, "completed_properties")?)
+        || i64::from(result.active_benefit_years) != int_field(output, "active_benefit_years")?
+        || !matches_usd(result.federal_investment_usd_micros, "federal_investment_usd")?
+        || !matches_usd(result.avoided_nfip_claims_usd_micros, "avoided_nfip_claims_usd")?
+        || !matches_usd(
+            result.other_federal_aid_reduction_usd_micros,
+            "other_federal_aid_reduction_usd",
+        )?
+        || !matches_usd(
+            result.premium_revenue_reduction_usd_micros,
+            "premium_revenue_reduction_usd",
+        )?
+        || !matches_usd(result.administration_cost_usd_micros, "administration_cost_usd")?
+        || !matches_usd(result.net_federal_effect_usd_micros, "net_federal_effect_usd")?
+        || (break_even as f64 / 1_000_000.0
+            - number_field(
+                output,
+                "break_even_annual_expected_nfip_claims_usd_per_completed_property",
+            )?)
+        .abs()
+            > 0.000001
+        || bool_field(output, "net_effect_is_admitted_score")?
+        || !bool_field(successor, "normalized_engine_complete")?
+        || string_field(successor, "next_track")? != "JUS"
+        || number_field(successor, "admitted_savings_billions")?.abs() > 0.0001
+        || bool_field(successor, "rate_recomputation_required")?
+        || bool_field(claims, "normalized_fixture_treated_as_forecast")?
+        || bool_field(claims, "national_inventory_scaled")?
+        || bool_field(claims, "candidate_admitted")?
+        || bool_field(claims, "spending_reduction_admitted")?
+        || bool_field(claims, "rate_change_allowed")?
+    {
+        return Err("DIS NFIP repetitive-loss mitigation stress envelope failed".to_string());
     }
     Ok(())
 }
