@@ -1,0 +1,82 @@
+{
+  "record_id": "shield-nyc-ems-category9-source-drift-disposition:v1",
+  "record_family": "shield_nyc_ems_category9_source_drift_disposition",
+  "version": "v1.draft",
+  "status": "official_hlt_source_drift_monitor_admitted_error_blending_candidate_and_fiscal_claims_held",
+  "as_of_date": "2026-07-31",
+  "product_question": "Does the 387-incident difference reflect a localized anomaly, or a broad cross-snapshot drift that requires explicit custody rules?",
+  "prior_record": "shield-nyc-ems-category9-public-evidence-boundary-disposition:v1",
+  "producer": {
+    "repository": "SHIELD", "track": "HLT", "candidate_id": null,
+    "commit": "31f449760860ca2200f47c3132bff827b69bc5aa",
+    "replay_command": "cargo run --quiet -p shield-cli -- nyc-ems-category9-source-drift-held-pack",
+    "pack_id": "shield:nyc-ems-category9-source-drift-2025:v1",
+    "pack_bytes_utf8_without_newline": 4675,
+    "pack_sha256": "0afb1b8b7bedc5a22a32b3c7c56514df9a9c83f68d228e6b00bdcf6c7bd5a8d5",
+    "workspace_crates": 7, "product_commands": 42, "workspace_tests": 100, "feature_tests": 66
+  },
+  "snapshot_custody": {
+    "measure_definition_matches": true,
+    "open_data_updated_at": "2026-07-22T18:35:35Z",
+    "power_bi_last_refresh_at": "2026-07-27T15:07:31.633Z",
+    "power_bi_refresh_lag_after_open_data_seconds": 419516.633,
+    "open_data_incidents": 216986,
+    "power_bi_incidents": 216599,
+    "open_data_minus_power_bi_incidents": 387,
+    "snapshots_share_refresh_time": false,
+    "complete_snapshots_retained_separately": true
+  },
+  "cell_reconciliation": {
+    "joined_month_borough_cells": 72,
+    "open_data_higher_cells": 54,
+    "equal_cells": 18,
+    "open_data_lower_cells": 0,
+    "months_with_nonzero_aggregate_difference": 12,
+    "borough_labels_with_nonzero_aggregate_difference": 6,
+    "maximum_absolute_cell_count_difference": 23,
+    "monthly_differences_sum": 387,
+    "borough_differences_sum": 387,
+    "localized_anomaly_supported": false,
+    "broad_one_direction_snapshot_drift_observed": true
+  },
+  "source_precedence": {
+    "display_rule": "Use the later-refresh Power BI exact result for the captured official headline and label its refresh time.",
+    "machine_replay_rule": "Use the documented Open Data API and label its snapshot time and rounded-row precision.",
+    "revision_is_consistent_explanation": true,
+    "revision_mechanism_published_or_proven": false,
+    "official_source_error_claim_admitted": false,
+    "cell_blending_allowed": false,
+    "refresh_rule": "Rerun the complete 72-cell comparison whenever either source refreshes; never average, overwrite, or splice cells across snapshots."
+  },
+  "taxlane_assessment": {
+    "source_drift_monitor_admitted": true,
+    "source_revision_mechanism_identified": false,
+    "operational_driver_identified": false,
+    "bounded_intervention_candidate_ready": false,
+    "cost_or_savings_observed": false,
+    "hlt_reopen_condition_triggered": false,
+    "candidate_selected_for_fiscal_model": false,
+    "reason": "The complete join resolves the shape of the disagreement and supplies custody rules, but it does not identify why records changed, establish an operational effect, or bound an intervention."
+  },
+  "portfolio_result": {
+    "packs_replayed": 1, "packs_admitted_to_fiscal_model": 0,
+    "admitted_fy2026_primary_reduction_billions": 0.0,
+    "remaining_fy2026_revenue_target_billions": 813.727,
+    "preferred_schedule_percent": [21, 23, 33, 35, 43, 46, 48],
+    "behavior_contingency_schedule_percent": [22, 24, 34, 36, 44, 47, 49],
+    "rate_recomputation_required": false, "rate_result_changed": false
+  },
+  "role_review": {
+    "fixed_point": "pass_with_risk", "open_p1_findings": 0, "open_p2_findings": 0,
+    "deferred_claims": ["publisher revision mechanism and row history", "official source error", "blended snapshot", "operational driver and patient outcome", "candidate effect, safety, delivery, cost, and savings", "HLT reopening, allocation, and rate change"]
+  },
+  "claim_booleans": {
+    "official_replay_succeeded": true, "source_drift_characterized": true,
+    "revision_mechanism_claimed": false, "official_source_error_claimed": false,
+    "cells_blended": false, "operational_driver_claimed": false,
+    "candidate_admitted": false, "savings_claimed": false,
+    "allocation_changed": false, "rate_change_claimed": false,
+    "public_release_authorized": false
+  },
+  "public_warning": "The complete 72-cell comparison shows broad one-direction cross-snapshot drift, not a localized anomaly. It does not prove a revision mechanism or an error in either official surface. Keep the snapshots separate. HLT, the $813.727B target, and both schedules remain unchanged."
+}

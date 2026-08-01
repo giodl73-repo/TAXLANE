@@ -1976,6 +1976,14 @@ current hospital footprint. Taxlane admits exact identity and available-bed-use
 context while holding staffed and service-line capacity, patient access, need,
 adequacy, candidates, costs, savings, and rate changes.
 
+`shield_nyc_ems_category9_source_drift_disposition.v1.draft.json` replays
+SHIELD's complete 72-cell Open Data/Power BI Category 9 comparison. It records
+54 Open Data-higher and 18 equal cells, with every month and borough label
+contributing to the +387-incident difference. Taxlane admits a broad
+cross-snapshot drift and explicit custody rules while holding the publisher's
+revision mechanism, source-error, cell blending, operational, candidate,
+savings, allocation, and rate claims.
+
 `shield_nyc_ems_response_time_disposition.v1.draft.json` replays SHIELD's
 calendar-2025 FDNY dispatch timing baseline. It preserves 1,510,191 valid
 response-time records, the 27,540 severity-1 records, and their 421.713-second

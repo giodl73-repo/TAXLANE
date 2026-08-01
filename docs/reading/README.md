@@ -1174,6 +1174,10 @@ It is the bounded public surface, not a performance or savings report.
      the direct-source reconciliation, seven-source public boundary, adjusted
      hypothesis screen, pre-specified acquisition design, and unchanged HLT,
      fiscal-target, and rate results.
+251. Read `shield-nyc-ems-category9-source-drift-disposition.md` for the complete
+     72-cell reconciliation, broad cross-snapshot drift finding, explicit
+     display/replay precedence, and unchanged HLT, fiscal-target, and rate
+     results.
 
 ## Public-Use Guardrail
 

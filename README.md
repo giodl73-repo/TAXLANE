@@ -11,7 +11,7 @@ internal analytical rate schedule.
 
 The result is now complete inside this repository: 21 canonical explanation
 artifacts, ten research papers, three presentation variants, a six-page local
-website, machine-readable closure records, and 420 passing tests.
+website, machine-readable closure records, and 421 passing tests.
 
 > **Repository-ready, externally blocked.** TAXLANE is not enacted law,
 > personal tax or legal advice, an official score, formal proof of balance, or
@@ -282,6 +282,13 @@ sensitivity screen. It prioritizes incident-linked ALS availability/posting and
 patient-outcome acquisition; it admits no driver, intervention, savings, or rate
 change.
 
+The unresolved source difference is now characterized across every published
+calendar-2025 month/borough cell. [The source-drift disposition](docs/reading/shield-nyc-ems-category9-source-drift-disposition.md)
+records 54 Open Data-higher cells, 18 equal cells, and no Power BI-higher cells;
+both month and borough rollups close to +387 incidents. This supports explicit
+snapshot custody and precedence, not an error allegation, blended dataset,
+intervention, savings, or rate change.
+
 SHIELD now adds HRSA's formal primary-care shortage registry at its true grain:
 79,150 component rows resolve to 7,682 currently designated HPSA IDs, including
 762 multi-component and 282 multi-rural-status designations. HRSA's separate
@@ -451,8 +458,8 @@ the relevant publication-panel gates.
 Validation currently covers:
 
 - 152 `taxlane-core` tests;
-- 259 `taxlane-tools` tests;
-- 420 workspace tests total;
+- 269 `taxlane-tools` tests;
+- 421 workspace tests total;
 - closure contracts for all six explanation waves;
 - headline and accounting-boundary parity;
 - nonempty PDF and presentation renders;
