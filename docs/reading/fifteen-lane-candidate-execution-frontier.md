@@ -25,7 +25,7 @@ need owner outcome evidence or enactment. NET and REV remain downstream.
 | A | PAY | advance same-cohort accounting and beneficiary evidence now |
 | B | ISF, INT | monitor active implementation until a complete cohort exists |
 | C | HLT, DEF, OAS | resolve current-law, interaction, and service dependencies |
-| D | EDU, AGR, DIS, JUS, SEE, VET, TRN | obtain enactment or owner outcome evidence |
+| D | EDU, AGR, DIS, JUS, SEE, VET, TRN | obtain enactment or owner outcome evidence; TRN now monitors an operating freight connector rather than a credential bill |
 | E | NET, REV | recompute only after a primary candidate is admitted |
 
 The next deliverable is therefore a PAY evidence-closure result—not another
@@ -36,3 +36,11 @@ TAXLANE contribution.
 That public pass is now complete and recorded in the PAY evidence ceiling.
 PAY moves to publication-triggered monitoring; HLT is the next C-band
 dependency audit while the zero-admission result remains unchanged.
+
+The owner/outcome sequence is also materially stronger. AGR, SEE, EDU, DIS,
+JUS, and VET have bounded audits or executable stresses and named triggers.
+TRN retires H.R. 2247 and instead studies the operating Houbolt freight
+connector: its $190 million public-private capital perimeter, design traffic,
+municipal lease receipt, and a normalized lifecycle-price stress are replayable.
+Actual traffic, toll, service, cost, diversion, access, resilience, and fiscal
+records remain missing, so TRN also contributes zero admitted savings.

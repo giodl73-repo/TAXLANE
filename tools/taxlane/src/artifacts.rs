@@ -2278,6 +2278,10 @@ pub(crate) const VET_HR2137_CURRENT_LAW_OWNER_EVIDENCE_AUDIT_JSON_PATH: &str = "
 
 pub(crate) const VET_MISSED_EXAM_REVIEW_ACCOMMODATION_STRESS_ENVELOPE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/vet_missed_exam_review_accommodation_stress_envelope.v1.draft.json";
 
+pub(crate) const TRN_HOUBOLT_FREIGHT_CONNECTOR_CURRENT_OWNER_EVIDENCE_AUDIT_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/trn_houbolt_freight_connector_current_owner_evidence_audit.v1.draft.json";
+
+pub(crate) const TRN_FREIGHT_CONNECTOR_LIFECYCLE_PRICE_STRESS_ENVELOPE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/trn_freight_connector_lifecycle_price_stress_envelope.v1.draft.json";
+
 pub(crate) const PAY_FULL_DMF_EVIDENCE_CEILING_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/pay_full_dmf_public_evidence_ceiling.v1.draft.json";
 
@@ -11549,6 +11553,62 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         path: "reviews/2026-08-01-vet-hr2137-current-law-owner-evidence-audit-role-review.md",
         role: "VET H.R. 2137 current-law owner-evidence role review",
         grain: "fiscal, benefits, Medicaid, operations, access, technology, and scope fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: TRN_HOUBOLT_FREIGHT_CONNECTOR_CURRENT_OWNER_EVIDENCE_AUDIT_JSON_PATH,
+        role: "TRN Houbolt freight connector current-owner evidence audit",
+        grain: "operating owner, capital split, design traffic, lease receipt, service and price observation contract",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/trn_houbolt_freight_connector_current_owner_evidence_audit.schema.md",
+        role: "TRN Houbolt freight connector current-owner evidence schema",
+        grain: "project fact, design-versus-observed, public-private, fiscal, access, and admission firewall",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/trn-houbolt-freight-connector-current-owner-evidence-audit.md",
+        role: "TRN Houbolt freight connector current-owner evidence reader",
+        grain: "operating project replacement, owner alignment, documented perimeter, and missing outcome explanation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-08-01-trn-houbolt-freight-connector-current-owner-evidence-audit-role-review.md",
+        role: "TRN Houbolt freight connector current-owner evidence role review",
+        grain: "transportation, freight, fiscal, price, access, resilience, and scope fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: TRN_FREIGHT_CONNECTOR_LIFECYCLE_PRICE_STRESS_ENVELOPE_JSON_PATH,
+        role: "TRN freight connector lifecycle-price stress envelope",
+        grain: "utilization, traffic, capital, O&M, lease, revenue requirement, weighted price, and triggers",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/trn_freight_connector_lifecycle_price_stress_envelope.schema.md",
+        role: "TRN freight connector lifecycle-price stress schema",
+        grain: "mechanical lifecycle price and no-forecast no-toll no-fiscal-effect boundary",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/trn-freight-connector-lifecycle-price-stress-envelope.md",
+        role: "TRN freight connector lifecycle-price stress reader",
+        grain: "normalized traffic, annual requirement, equivalent price, exclusions, and observation triggers",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-08-01-trn-freight-connector-lifecycle-price-stress-envelope-role-review.md",
+        role: "TRN freight connector lifecycle-price stress role review",
+        grain: "numeracy, finance, operations, access, resilience, fiscal, and scope fixed point",
         kind: "markdown",
         canonical: "supporting",
     },

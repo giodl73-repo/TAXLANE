@@ -1,0 +1,51 @@
+{
+  "record_id":"trn-houbolt-freight-connector-current-owner-evidence-audit:v1",
+  "record_family":"trn_houbolt_freight_connector_current_owner_evidence_audit",
+  "version":"v1.draft",
+  "status":"operating_owner_aligned_connector_selected_design_and_finance_facts_bounded_outcomes_missing_zero_admission",
+  "as_of_date":"2026-08-01",
+  "track":"TRN",
+  "candidate_id":"houbolt_freight_connector_performance_and_price_audit",
+  "schema_path":"data/derived/breadth_benchmark_matrix/trn_houbolt_freight_connector_current_owner_evidence_audit.schema.md",
+  "reader_path":"docs/reading/trn-houbolt-freight-connector-current-owner-evidence-audit.md",
+  "role_review_path":"reviews/2026-08-01-trn-houbolt-freight-connector-current-owner-evidence-audit-role-review.md",
+  "source_rows":[
+    {"source_id":"SRC-FHWA-HOUBOLT-P3","publisher":"Federal Highway Administration Center for Innovative Finance Support","accessed_date":"2026-08-01","url":"https://www.fhwa.dot.gov/ipd/project_profiles/il_houbolt_road_bridge_p3_project.aspx","use":"project scope, design traffic, capital, funding, toll, delivery, and owner facts"},
+    {"source_id":"SRC-JOLIET-ACFR-2023","publisher":"City of Joliet","publication_date":"2024-12-31","url":"https://www.joliet.gov/home/showpublisheddocument/35681/638718383915900000","use":"April 2023 completion and ownership transfer, annual lease payment, term, discount rate, and lease receivable"},
+    {"source_id":"SRC-IDOT-I80-STUDY","publisher":"Illinois Department of Transportation","accessed_date":"2026-08-01","url":"https://idot.illinois.gov/transportation-system/transportation-management/featured-projects/will--kendall----grundy-counties---i-80--ridge-road-to-us-30--pr.html","use":"surrounding 16-mile I-80 corridor scope and approximately 80,000 daily vehicles with 25 percent trucks"},
+    {"source_id":"SRC-IDOT-FY2026-HIP","publisher":"Illinois Department of Transportation","publication_date":"2025-09-23","url":"https://idot.illinois.gov/content/dam/soi/en/web/idot/documents/transportation-system/reports/opp/hip/fy26-hip/FY26_Annual_Highway_Program_Combined_Final_092325.pdf","use":"current programmed I-80 Center Street and Des Plaines River work; excluded from Houbolt cost"},
+    {"source_id":"SRC-ROUTE-VERDICT-2026-07-31","publisher":"ROUTE research lab","publication_date":"2026-07-31","path":"../../applied-systems/route/docs/vtrace/CAPABILITY_ASSESSMENT.md","use":"owner-aligned corridor evidence gate and held delivery, outcome, price, and fiscal claims"}
+  ],
+  "retired_candidate":{"candidate_id":"hr2247_airmen_certificate_presentation","reason":"aviation credential presentation procedure has no Interstate 2.0 service, corridor price, infrastructure owner, or material lane-level fiscal mechanism","candidate_admitted":false},
+  "documented_project_perimeter":{
+    "facility":"Houbolt Road Extension and Des Plaines River toll bridge",
+    "location":"Joliet Illinois I-80 to CenterPoint intermodal facilities",
+    "opened_or_completed_date":"2023-04-27",
+    "facility_owner_after_completion":"City of Joliet",
+    "private_delivery_and_operating_vehicle":"Houbolt Road Extension JV LLC",
+    "delivery_model":"design_build_finance_operate_maintain",
+    "total_project_cost_millions":190,
+    "public_state_capital_millions":21,
+    "implied_private_capital_millions":169,
+    "design_daily_vehicles":11000,
+    "design_daily_trucks":6600,
+    "design_truck_share_percent":60,
+    "annual_city_lease_payment_thousands":100,
+    "lease_term_years":99,
+    "city_lease_receivable_millions":2.44852,
+    "lease_discount_rate_percent":4,
+    "design_traffic_is_observed_postopening_traffic":false,
+    "project_cost_is_federal_budget_effect":false,
+    "private_toll_receipts_are_federal_revenue":false
+  },
+  "service_price_and_access_observation_contract":{
+    "required_measures":["actual vehicle and truck trips by time band","travel time and reliability against toll-free routes","incidents safety and emergency response","posted and paid toll by vehicle class","gross toll revenue collection cost O&M debt service and reserve","public lease and tax receipts","pavement bridge and equipment condition","truck diversion to community roads","small-carrier and household incidence","intermodal gate and queue time","closure recovery and alternate capacity","emissions noise and community burden"],
+    "current_owner_data_publicly_closed":false,
+    "observed_postopening_outcome_cohort_available":false,
+    "competitive_lifecycle_price_demonstrated":false,
+    "next_action":"run_normalized_utilization_cost_and_weighted_price_stress_then_monitor_owner_observations",
+    "admitted_savings_billions":0.0,
+    "rate_recomputation_required":false
+  },
+  "claim_boundaries":{"official_request_made":false,"public_release_authorized":false,"design_traffic_treated_as_observed":false,"surrounding_i80_costs_combined_with_project":false,"private_revenue_treated_as_federal_receipt":false,"project_selected_for_replication":false,"candidate_admitted":false,"spending_reduction_admitted":false,"solver_run_performed":false,"rate_change_allowed":false}
+}

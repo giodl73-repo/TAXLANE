@@ -1451,6 +1451,18 @@ mod global_country_comparison_tests {
     }
 
     #[test]
+    fn trn_audit_replaces_credential_procedure_with_operating_connector() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_trn_houbolt_freight_connector_current_owner_evidence_audit(&root).unwrap();
+    }
+
+    #[test]
+    fn trn_corridor_engine_replays_lifecycle_price_without_toll_claim() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_trn_freight_connector_lifecycle_price_stress_envelope(&root).unwrap();
+    }
+
+    #[test]
     fn pay_public_evidence_ceiling_names_owner_data_without_requesting_it() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_pay_full_dmf_public_evidence_ceiling(&root).unwrap();

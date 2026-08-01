@@ -15,5 +15,6 @@ taxlane-agr-insurance = { path = "../../crates/taxlane-agr-insurance" }
 taxlane-edu-pell = { path = "../../crates/taxlane-edu-pell" }
 taxlane-dis-flood = { path = "../../crates/taxlane-dis-flood" }
 taxlane-jus-capacity = { path = "../../crates/taxlane-jus-capacity" }
+taxlane-trn-corridor = { path = "../../crates/taxlane-trn-corridor" }
 taxlane-vet-claims = { path = "../../crates/taxlane-vet-claims" }
 zip = { version = "2", default-features = false, features = ["deflate"] }

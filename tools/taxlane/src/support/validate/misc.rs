@@ -1350,6 +1350,8 @@ pub(crate) fn validate_global_country_comparison_coverage(root: &Path) -> Result
     validate_jus_district_capacity_delivery_caseflow_stress_envelope(root)?;
     validate_vet_hr2137_current_law_owner_evidence_audit(root)?;
     validate_vet_missed_exam_review_accommodation_stress_envelope(root)?;
+    validate_trn_houbolt_freight_connector_current_owner_evidence_audit(root)?;
+    validate_trn_freight_connector_lifecycle_price_stress_envelope(root)?;
     validate_pay_full_dmf_public_evidence_ceiling(root)?;
     validate_hlt_site_neutral_current_law_dependency_audit(root)?;
     validate_def_proportional_force_current_law_dependency_audit(root)?;
@@ -15755,6 +15757,148 @@ pub(crate) fn validate_vet_missed_exam_review_accommodation_stress_envelope(
         || bool_field(claims, "rate_change_allowed")?
     {
         return Err("VET missed-exam review and accommodation stress envelope failed".to_string());
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_trn_houbolt_freight_connector_current_owner_evidence_audit(
+    root: &Path,
+) -> Result<(), String> {
+    let audit = read_json_artifact(
+        root,
+        TRN_HOUBOLT_FREIGHT_CONNECTOR_CURRENT_OWNER_EVIDENCE_AUDIT_JSON_PATH,
+    )?;
+    let sources = audit
+        .get("source_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("TRN Houbolt sources")?;
+    let retired = audit.get("retired_candidate").ok_or("TRN retired candidate")?;
+    let project = audit
+        .get("documented_project_perimeter")
+        .ok_or("TRN Houbolt project")?;
+    let successor = audit
+        .get("service_price_and_access_observation_contract")
+        .ok_or("TRN Houbolt successor")?;
+    let claims = audit
+        .get("claim_boundaries")
+        .ok_or("TRN Houbolt claims")?;
+    if sources.len() != 5
+        || string_field(retired, "candidate_id")? != "hr2247_airmen_certificate_presentation"
+        || bool_field(retired, "candidate_admitted")?
+        || string_field(project, "facility_owner_after_completion")? != "City of Joliet"
+        || int_field(project, "total_project_cost_millions")? != 190
+        || int_field(project, "public_state_capital_millions")?
+            + int_field(project, "implied_private_capital_millions")?
+            != int_field(project, "total_project_cost_millions")?
+        || int_field(project, "design_daily_trucks")?
+            > int_field(project, "design_daily_vehicles")?
+        || bool_field(project, "design_traffic_is_observed_postopening_traffic")?
+        || bool_field(project, "project_cost_is_federal_budget_effect")?
+        || bool_field(project, "private_toll_receipts_are_federal_revenue")?
+        || bool_field(successor, "current_owner_data_publicly_closed")?
+        || bool_field(successor, "observed_postopening_outcome_cohort_available")?
+        || bool_field(successor, "competitive_lifecycle_price_demonstrated")?
+        || number_field(successor, "admitted_savings_billions")?.abs() > 0.0001
+        || bool_field(successor, "rate_recomputation_required")?
+        || bool_field(claims, "design_traffic_treated_as_observed")?
+        || bool_field(claims, "surrounding_i80_costs_combined_with_project")?
+        || bool_field(claims, "private_revenue_treated_as_federal_receipt")?
+        || bool_field(claims, "project_selected_for_replication")?
+        || bool_field(claims, "candidate_admitted")?
+        || bool_field(claims, "spending_reduction_admitted")?
+        || bool_field(claims, "rate_change_allowed")?
+    {
+        return Err("TRN Houbolt freight connector current-owner evidence audit failed".to_string());
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_trn_freight_connector_lifecycle_price_stress_envelope(
+    root: &Path,
+) -> Result<(), String> {
+    let artifact = read_json_artifact(
+        root,
+        TRN_FREIGHT_CONNECTOR_LIFECYCLE_PRICE_STRESS_ENVELOPE_JSON_PATH,
+    )?;
+    let input = artifact.get("normalized_input").ok_or("TRN stress input")?;
+    let output = artifact
+        .get("normalized_output")
+        .ok_or("TRN stress output")?;
+    let stress = taxlane_trn_corridor::FreightConnectorStressInput {
+        design_daily_vehicles: i128::from(int_field(input, "design_daily_vehicles")?),
+        design_daily_trucks: i128::from(int_field(input, "design_daily_trucks")?),
+        utilization_ppm: i128::from(int_field(input, "utilization_percent")?) * 10_000,
+        operating_days: i128::from(int_field(input, "operating_days")?),
+        total_capital_usd_micros: i128::from(int_field(input, "total_capital_usd")?) * 1_000_000,
+        public_capital_usd_micros: i128::from(int_field(input, "public_capital_usd")?) * 1_000_000,
+        recovery_years: i128::from(int_field(input, "recovery_years")?),
+        annual_om_ppm_of_total_capital: i128::from(int_field(
+            input,
+            "annual_om_percent_of_total_capital",
+        )?) * 10_000,
+        annual_public_lease_payment_usd_micros: i128::from(int_field(
+            input,
+            "annual_public_lease_payment_usd",
+        )?) * 1_000_000,
+        truck_price_weight: i128::from(int_field(input, "truck_price_weight")?),
+    };
+    let result = taxlane_trn_corridor::run_freight_connector_stress(&stress)?;
+    let compare = |actual_micros: i128, field: &str| -> Result<bool, String> {
+        Ok((actual_micros as f64 / 1_000_000.0 - number_field(output, field)?).abs() < 0.000001)
+    };
+    let evidence = artifact.get("evidence_ceiling").ok_or("TRN evidence ceiling")?;
+    let triggers = artifact.get("trigger_contract").ok_or("TRN triggers")?;
+    let claims = artifact.get("claim_boundaries").ok_or("TRN claims")?;
+    if !compare(result.private_capital_usd_micros, "private_capital_usd")?
+        || !compare(result.scenario_annual_vehicles_micros, "scenario_annual_vehicles")?
+        || !compare(result.scenario_annual_trucks_micros, "scenario_annual_trucks")?
+        || !compare(
+            result.scenario_annual_other_vehicles_micros,
+            "scenario_annual_other_vehicles",
+        )?
+        || !compare(
+            result.straight_line_annual_private_capital_usd_micros,
+            "straight_line_annual_private_capital_usd",
+        )?
+        || !compare(result.annual_om_stress_usd_micros, "annual_om_stress_usd")?
+        || !compare(
+            result.annual_revenue_requirement_usd_micros,
+            "annual_revenue_requirement_usd",
+        )?
+        || !compare(
+            result.weighted_annual_vehicle_units_micros,
+            "weighted_annual_vehicle_units",
+        )?
+        || !compare(
+            result.other_vehicle_equivalent_price_usd_micros,
+            "other_vehicle_equivalent_price_usd",
+        )?
+        || !compare(
+            result.truck_equivalent_price_usd_micros,
+            "truck_equivalent_price_usd",
+        )?
+        || (result.public_capital_share_ppm as f64 / 10_000.0
+            - number_field(output, "public_capital_share_percent")?)
+            .abs()
+            >= 0.0001
+        || bool_field(evidence, "utilization_is_observed")?
+        || bool_field(evidence, "om_rate_is_observed")?
+        || bool_field(evidence, "recovery_horizon_matches_financing_contract")?
+        || bool_field(evidence, "weighted_prices_are_actual_or_recommended_tolls")?
+        || bool_field(evidence, "travel_time_reliability_effect_available")?
+        || bool_field(evidence, "federal_fiscal_effect_available")?
+        || string_field(triggers, "status")? != "named_owner_observation_triggers"
+        || number_field(triggers, "admitted_savings_billions")?.abs() > 0.0001
+        || bool_field(triggers, "rate_recomputation_required")?
+        || bool_field(claims, "normalized_fixture_treated_as_forecast")?
+        || bool_field(claims, "equivalent_price_treated_as_actual_toll")?
+        || bool_field(claims, "straight_line_recovery_treated_as_financing_model")?
+        || bool_field(claims, "project_treated_as_replication_ready")?
+        || bool_field(claims, "candidate_admitted")?
+        || bool_field(claims, "spending_reduction_admitted")?
+        || bool_field(claims, "rate_change_allowed")?
+    {
+        return Err("TRN freight connector lifecycle-price stress envelope failed".to_string());
     }
     Ok(())
 }

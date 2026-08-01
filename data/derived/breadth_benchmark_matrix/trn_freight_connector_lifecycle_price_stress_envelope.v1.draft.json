@@ -1,0 +1,18 @@
+{
+  "record_id":"trn-freight-connector-lifecycle-price-stress-envelope:v1",
+  "record_family":"trn_freight_connector_lifecycle_price_stress_envelope",
+  "version":"v1.draft",
+  "status":"normalized_lifecycle_price_engine_complete_observed_service_price_and_fiscal_cohort_missing_zero_admission",
+  "as_of_date":"2026-08-01",
+  "track":"TRN",
+  "candidate_id":"houbolt_freight_connector_performance_and_price_audit",
+  "schema_path":"data/derived/breadth_benchmark_matrix/trn_freight_connector_lifecycle_price_stress_envelope.schema.md",
+  "reader_path":"docs/reading/trn-freight-connector-lifecycle-price-stress-envelope.md",
+  "role_review_path":"reviews/2026-08-01-trn-freight-connector-lifecycle-price-stress-envelope-role-review.md",
+  "engine_crate":"crates/taxlane-trn-corridor",
+  "normalized_input":{"design_daily_vehicles":11000,"design_daily_trucks":6600,"utilization_percent":70,"operating_days":365,"total_capital_usd":190000000,"public_capital_usd":21000000,"recovery_years":30,"annual_om_percent_of_total_capital":2,"annual_public_lease_payment_usd":100000,"truck_price_weight":3},
+  "normalized_output":{"private_capital_usd":169000000,"scenario_annual_vehicles":2810500,"scenario_annual_trucks":1686300,"scenario_annual_other_vehicles":1124200,"straight_line_annual_private_capital_usd":5633333.333333,"annual_om_stress_usd":3800000,"annual_revenue_requirement_usd":9533333.333333,"weighted_annual_vehicle_units":6183100,"other_vehicle_equivalent_price_usd":1.541837,"truck_equivalent_price_usd":4.625511,"public_capital_share_percent":11.0526},
+  "evidence_ceiling":{"utilization_is_observed":false,"om_rate_is_observed":false,"recovery_horizon_matches_financing_contract":false,"weighted_prices_are_actual_or_recommended_tolls":false,"travel_time_reliability_effect_available":false,"safety_and_diversion_effect_available":false,"federal_fiscal_effect_available":false},
+  "trigger_contract":{"status":"named_owner_observation_triggers","required_observations":["actual classed traffic and paid tolls","travel time and reliability versus toll-free alternatives","gross revenue collection O&M debt reserve and tax or lease disposition","incidents safety diversion emissions noise and community burden","asset condition downtime closure recovery and alternate capacity"],"reopen_if":["observed utilization materially misses design basis","weighted paid price fails comparable service test","community-road truck diversion or access burden worsens","lifecycle revenue or maintenance reserve is insufficient","public subsidy or fiscal disposition changes"],"admitted_savings_billions":0.0,"rate_recomputation_required":false},
+  "claim_boundaries":{"normalized_fixture_treated_as_forecast":false,"equivalent_price_treated_as_actual_toll":false,"straight_line_recovery_treated_as_financing_model":false,"project_treated_as_replication_ready":false,"candidate_admitted":false,"spending_reduction_admitted":false,"solver_run_performed":false,"rate_change_allowed":false}
+}

@@ -1,0 +1,9 @@
+[package]
+name = "taxlane-trn-corridor"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+description = "Mechanical transportation corridor lifecycle-price stress identities"
+
+[lib]
+path = "src/lib.rs"
