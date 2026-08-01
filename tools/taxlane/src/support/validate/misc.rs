@@ -1344,6 +1344,7 @@ pub(crate) fn validate_global_country_comparison_coverage(root: &Path) -> Result
     validate_see_wap_delivery_control_public_evidence_ceiling(root)?;
     validate_edu_pell_add_on_current_law_owner_evidence_audit(root)?;
     validate_edu_pell_add_on_award_substitution_stress_envelope(root)?;
+    validate_dis_nfip_current_law_owner_evidence_audit(root)?;
     validate_pay_full_dmf_public_evidence_ceiling(root)?;
     validate_hlt_site_neutral_current_law_dependency_audit(root)?;
     validate_def_proportional_force_current_law_dependency_audit(root)?;
@@ -15150,6 +15151,94 @@ pub(crate) fn validate_edu_pell_add_on_award_substitution_stress_envelope(
         || bool_field(claims, "rate_change_allowed")?
     {
         return Err("EDU Pell award and substitution stress envelope failed".to_string());
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_dis_nfip_current_law_owner_evidence_audit(
+    root: &Path,
+) -> Result<(), String> {
+    let audit = read_json_artifact(root, DIS_NFIP_CURRENT_LAW_OWNER_EVIDENCE_AUDIT_JSON_PATH)?;
+    let sources = audit
+        .get("source_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("DIS NFIP sources")?;
+    let legacy = audit
+        .get("legacy_cbo_option")
+        .ok_or("DIS NFIP legacy option")?;
+    let current = audit
+        .get("current_program_perimeter")
+        .ok_or("DIS NFIP current program")?;
+    let affordability = audit
+        .get("affordability_and_solvency")
+        .ok_or("DIS NFIP affordability")?;
+    let mitigation = audit
+        .get("repetitive_loss_and_mitigation")
+        .ok_or("DIS NFIP mitigation")?;
+    let components = audit
+        .get("component_dispositions")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("DIS NFIP components")?;
+    let component_ids = components
+        .iter()
+        .map(|row| string_field(row, "component_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let successor = audit
+        .get("successor_contract")
+        .ok_or("DIS NFIP successor")?;
+    let claims = audit.get("claim_boundaries").ok_or("DIS NFIP claims")?;
+    if sources.len() != 4
+        || (number_field(legacy, "outlay_reduction_billions")? - 1.3).abs() > 0.0001
+        || number_field(legacy, "prior_repo_rounded_headline_billions")? != 1.0
+        || string_field(legacy, "current_score_status")?
+            != "superseded_policy_perimeter_no_current_rescore"
+        || string_field(current, "authorization_through")? != "2026-09-30"
+        || (number_field(current, "policies_in_force_millions_december_2025")? - 4.58).abs()
+            > 0.0001
+        || int_field(
+            current,
+            "annual_premium_increase_cap_for_most_policyholders_percent",
+        )? != 18
+        || !bool_field(
+            current,
+            "current_outstanding_debt_not_inferred_from_cumulative_borrowing",
+        )?
+        || (number_field(
+            affordability,
+            "estimated_transition_shortfall_through_2037_billions",
+        )? - 26.7)
+            .abs()
+            > 0.0001
+        || bool_field(
+            affordability,
+            "means_based_assistance_enacted_as_of_february_2026",
+        )?
+        || int_field(
+            mitigation,
+            "insured_repetitive_loss_properties_january_2026",
+        )? != 112_640
+        || int_field(
+            mitigation,
+            "claim_dollars_to_properties_with_two_or_more_losses_percent_as_of_december_2021",
+        )? != 48
+        || bool_field(
+            mitigation,
+            "claim_concentration_is_prospective_avoided_loss_score",
+        )?
+        || components.len() != 5
+        || component_ids.len() != 5
+        || string_field(successor, "selected_component")? != "targeted_repetitive_loss_mitigation"
+        || number_field(successor, "admitted_savings_billions")?.abs() > 0.0001
+        || bool_field(successor, "rate_recomputation_required")?
+        || bool_field(claims, "cumulative_borrowing_treated_as_outstanding_debt")?
+        || bool_field(claims, "premium_shortfall_treated_as_budget_saving")?
+        || bool_field(claims, "claim_concentration_treated_as_avoidable_share")?
+        || bool_field(claims, "legacy_score_treated_as_current")?
+        || bool_field(claims, "candidate_admitted")?
+        || bool_field(claims, "spending_reduction_admitted")?
+        || bool_field(claims, "rate_change_allowed")?
+    {
+        return Err("DIS NFIP current-law owner-evidence audit failed".to_string());
     }
     Ok(())
 }

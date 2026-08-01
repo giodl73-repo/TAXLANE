@@ -2266,6 +2266,8 @@ pub(crate) const EDU_PELL_ADD_ON_CURRENT_LAW_OWNER_EVIDENCE_AUDIT_JSON_PATH: &st
 
 pub(crate) const EDU_PELL_ADD_ON_AWARD_SUBSTITUTION_STRESS_ENVELOPE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/edu_pell_add_on_award_substitution_stress_envelope.v1.draft.json";
 
+pub(crate) const DIS_NFIP_CURRENT_LAW_OWNER_EVIDENCE_AUDIT_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/dis_nfip_current_law_owner_evidence_audit.v1.draft.json";
+
 pub(crate) const PAY_FULL_DMF_EVIDENCE_CEILING_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/pay_full_dmf_public_evidence_ceiling.v1.draft.json";
 
@@ -11397,6 +11399,34 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         path: "reviews/2026-08-01-edu-pell-add-on-award-substitution-stress-envelope-role-review.md",
         role: "EDU Pell add-on award and substitution stress role review",
         grain: "finance, access, outcomes, institutions, households, law, and scope fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: DIS_NFIP_CURRENT_LAW_OWNER_EVIDENCE_AUDIT_JSON_PATH,
+        role: "DIS NFIP current-law owner-evidence audit",
+        grain: "legacy option, current pricing, affordability, debt, mitigation, and successor boundary",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/dis_nfip_current_law_owner_evidence_audit.schema.md",
+        role: "DIS NFIP current-law owner-evidence schema",
+        grain: "pricing, debt, claim, mitigation, and admission firewall",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/dis-nfip-current-law-owner-evidence-audit.md",
+        role: "DIS NFIP current-law owner-evidence reader",
+        grain: "superseded pricing option and physical-risk successor explanation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-08-01-dis-nfip-current-law-owner-evidence-audit-role-review.md",
+        role: "DIS NFIP current-law owner-evidence role review",
+        grain: "finance, insurance, household, resilience, community, law, and scope fixed point",
         kind: "markdown",
         canonical: "supporting",
     },
