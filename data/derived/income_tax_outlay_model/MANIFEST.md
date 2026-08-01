@@ -22,7 +22,7 @@ supporting views.
 
 | Path | Role | Grain | Rows | Canonical | SHA-256 |
 |---|---|---|---:|---|---|
-| `README.md` | Repository overview | documentation | n/a | supporting | `984f26632fa24bf568b367db9d2987695c5d0d1803c11818f2971651f97907d1` |
+| `README.md` | Repository overview | documentation | n/a | supporting | `1079e4e5b065075ae89926cda2b00d9fc178095c6a8de91fa74b7a56c52174d1` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.draft.jsonl` | Canonical annual model rows | fiscal year by broad category | 516 | yes | `01c0fec63836f3652fdd83b03a608159ad58f7614fc214ae6691421990f3a85e` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.decade-summary.jsonl` | Canonical decade summary rows | decade by broad category | 54 | yes | `088cb5d55cc6a37ab52dd543d8a92bf09908cda265e9c9f93324b840eb652fb3` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.annual-wide.csv` | Chart-ready annual wide view | fiscal year | 86 | no | `cbe6ec44a77b9ef4adebaef37acc4b55ac23fd5eb21916989ae9518cbd4e4c31` |
@@ -889,7 +889,7 @@ supporting views.
 | `data/derived/accountability_evidence/performance-demand-checklist.schema.md` | Accountability performance demand checklist schema | documentation | n/a | supporting | `afdcb11bb20a75709acabb690655fd03ba8d3a56df522c7b09e8d4b4ffeff6d1` |
 | `data/derived/accountability_evidence/artifact-map.md` | Accountability artifact map | documentation | n/a | supporting | `f7b17b6046644a00ef117962cf60b089747c2fec1a7f91f0e13ecf9b9dd33a7b` |
 | `docs/reading/accountability-public-brief.md` | Reader-facing accountability brief | documentation | n/a | supporting | `cc225ff43f81fa0316f85a8f8ede225f5d1a51470f81d2a296e32820e7434c35` |
-| `docs/reading/README.md` | Reading packet index | documentation | n/a | supporting | `3ff40002d1e771bb9253529d6ef843dc493b57465d6bad585aa66078bc97e0f3` |
+| `docs/reading/README.md` | Reading packet index | documentation | n/a | supporting | `bc47596313c70b9076f770e01ef4cad745cdc620590f852a4522473510f642d8` |
 | `docs/reading/placeholder-visibility-receipt.md` | Placeholder receipt reader packet | documentation | n/a | supporting | `4be976503aabb6c21ec77a553f185918190ebcb00e3300930d37e3a7a12f962e` |
 | `docs/reading/placeholder-receipt-display-packet.md` | Placeholder receipt static display packet | documentation | n/a | supporting | `aa2f3fd899fa1dd763b9482c4d4aae81fcde3e77aeb8ce01b1626d10155f35f2` |
 | `reviews/2026-06-23-placeholder-display-packet-role-review.md` | Placeholder receipt display packet role review | documentation | n/a | supporting | `1a0825afa9a4db902ea1d17a0a69443e0caeb2a6ae7c805f3718282c8806fd68` |
@@ -934,16 +934,18 @@ supporting views.
 | `docs/charts/taxpayer-receipt-model/README.md` | Taxpayer receipt chart set handoff note | documentation | n/a | supporting | `29b98ce16cccf88869779c079dc652d7da15583777e015a1d2b8481e9c63250d` |
 | `docs/charts/taxpayer-receipt-model/placeholder-lane-bars.vl.json` | Placeholder receipt lane bar chart spec | visualization spec | n/a | view | `f4233308571464bf6a58fb417803453a32c054fe43a2869d9ae93ffb616f3ccf` |
 | `docs/charts/taxpayer-receipt-model/placeholder-financing-context.vl.json` | Placeholder receipt financing context chart spec | visualization spec | n/a | view | `064cb863095eea673ac4f907f6f9e18b798ec4208c31851f3bc16a80121c395b` |
-| `Cargo.toml` | Rust workspace manifest | tooling | n/a | supporting | `405a2bba4b4deec2a77d51621f397528c0b5a86a3137df32af6633f32ffbfad0` |
-| `Cargo.lock` | Rust dependency lockfile | tooling | n/a | supporting | `44b2fcc6662f4fa3cecadbd650c7991b66e42af15dbf4efbf8ff16b832717d96` |
+| `Cargo.toml` | Rust workspace manifest | tooling | n/a | supporting | `c1fe58e4095547cad4242f436dde06739b865775a773e9fddde6417a39213a04` |
+| `Cargo.lock` | Rust dependency lockfile | tooling | n/a | supporting | `919129585bf976728de863734f569fa563d74e7c9d22576d6d67e36e9ca760fd` |
 | `crates/taxlane-core/Cargo.toml` | Rust Taxlane core crate manifest | tooling | n/a | supporting | `6469c9f3c3d01bc0c51783255082c93ed608c6c64c0d4f32f5cd2c08f2426fb9` |
 | `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `47f4135a8d0543687379b16f7c3f06d335fabee8485f941944cb0805c9b2d941` |
-| `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `b910e56a20f40547ac1e4f696e84772dde163738b03915ddbcc0d0a39427719a` |
+| `crates/taxlane-net-interest/Cargo.toml` | Rust Taxlane net-interest feature crate manifest | tooling | n/a | supporting | `de0799a15258db567f82c57147228b6a32ced546137ed55f9e39bfaf37e6c3ab` |
+| `crates/taxlane-net-interest/src/lib.rs` | Rust Taxlane signed marginal-rollover engine | library | n/a | supporting | `c140f601e9f5eb7fd4b65d0091f185179dd14f7361134c3e9caa67a7232d2a33` |
+| `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `8a40907a6ec5b5c08fa8036cdb13bcd6d328f473076f6b1b2cf9eeca7fb8daa3` |
 | `tools/taxlane/src/main.rs` | Rust validation and manifest command implementation | script | n/a | supporting | `b23aefa861fddf70c9a41dd9d5459ee87d076e734e7573130c19197b8dabaf35` |
-| `data/derived/breadth_benchmark_matrix/net_current_law_baseline_compatibility_audit.v1.draft.json` | NET current-law baseline compatibility audit | formula-input dispositions and zero-policy reconciliation | n/a | supporting | `618e8c184bea2b6ce4939708e7d92f916b211285e31ddde9d1aaff32a37b208e` |
-| `data/derived/breadth_benchmark_matrix/net_current_law_baseline_compatibility_audit.schema.md` | NET baseline compatibility audit schema | input-admission and claim-boundary contract | n/a | supporting | `edd76ac595afa951bfb848cef445aa670d250d7784cf07ec686cde62755426f8` |
-| `docs/reading/net-current-law-baseline-compatibility-audit.md` | NET baseline compatibility audit reader | public accounting advance and remaining gaps | n/a | supporting | `e634654a954aea30eead2238d64274a5ccf0715f3313f816d7ca442ffafc51e8` |
-| `reviews/2026-07-31-net-current-law-baseline-compatibility-role-review.md` | NET baseline compatibility role review | source and accounting fixed point | n/a | supporting | `0a6d17c9be5fb53b6394f2fb6c7ece5adccd861068a341511c07b4b6518cd3d6` |
+| `data/derived/breadth_benchmark_matrix/net_current_law_baseline_compatibility_audit.v1.draft.json` | NET current-law baseline compatibility audit | formula-input dispositions and zero-policy reconciliation | n/a | supporting | `ebb42c26e5ca81614dc7432c6ba32626286c26e6bfa417fa35d0fde15fa34ade` |
+| `data/derived/breadth_benchmark_matrix/net_current_law_baseline_compatibility_audit.schema.md` | NET baseline compatibility audit schema | input-admission and claim-boundary contract | n/a | supporting | `b325dbea7e91c7d153ef01051490eecbcb4c165281ff869e6348bf8f2a6db9c6` |
+| `docs/reading/net-current-law-baseline-compatibility-audit.md` | NET baseline compatibility audit reader | public accounting advance and remaining gaps | n/a | supporting | `9256b43dacefa6a73bfbc2d1dd63011afadc499f90a796db0009f60df78ae9a7` |
+| `reviews/2026-07-31-net-current-law-baseline-compatibility-role-review.md` | NET baseline compatibility role review | source and accounting fixed point | n/a | supporting | `4928d8eb95c3ee88b79b45ba61e487468bdfe36c1ab7e24f789b6ef443605ae5` |
 | `data/derived/breadth_benchmark_matrix/net_interest_omb_pbd_gross_to_net_bridge.v1.draft.json` | NET OMB gross-to-net interest bridge | five signed interest components and vintage boundary | n/a | supporting | `1fde54794d5cdfe2b717228893a7208d4708ea2255006e8b77abbe4f04dade9e` |
 | `data/derived/breadth_benchmark_matrix/net_interest_omb_pbd_gross_to_net_bridge.schema.md` | NET OMB gross-to-net interest bridge schema | component identity and no-stitch contract | n/a | supporting | `5f017a45e7f234c968e50f724fdfba6f16744d5962f858f9a4d3ec31ebd63898` |
 | `docs/reading/net-interest-omb-pbd-gross-to-net-bridge.md` | NET OMB gross-to-net interest bridge reader | public gross, receipts, offsets, and net explanation | n/a | supporting | `9783d19dd8127d50d121e55653c83f1e88bdc4f89e5982634141c305652c8135` |
@@ -959,6 +961,10 @@ supporting views.
 | `data/derived/breadth_benchmark_matrix/net_interest_mspd_public_maturity_envelope.schema.md` | NET MSPD public-maturity envelope schema | source replay, interval arithmetic, and non-additivity | n/a | supporting | `383f6cd8b974eacb0e04b634fd2bd35ee06ac056e0678787f0a5873775c43252` |
 | `docs/reading/net-interest-mspd-public-maturity-envelope.md` | NET MSPD public-maturity envelope reader | runoff results, holder uncertainty, and rollover boundary | n/a | supporting | `a0660ceb144c7a13a5db28c4cdffeab0e78603323b7ff141aad157d6a724cba1` |
 | `reviews/2026-08-01-net-public-maturity-envelope-role-review.md` | NET MSPD public-maturity envelope role review | source, accounting, service, and fiscal fixed point | n/a | supporting | `3bd5d1e566e02891c6337311092044feb0f0dd622fbd9ea19ba39a62adbd56ba` |
+| `data/derived/breadth_benchmark_matrix/net_interest_mspd_empirical_rollover_convention.v1.draft.json` | NET MSPD empirical marginal-rollover convention | source-replayed term mix and signed refinancing fixture | n/a | supporting | `1fe6b2e36588f3dd063051d2c5a96ba6c2e84cf92e3bd49cb1338463baa0822a` |
+| `data/derived/breadth_benchmark_matrix/net_interest_mspd_empirical_rollover_convention.schema.md` | NET MSPD empirical marginal-rollover schema | inclusive extraction, term mix, and model boundary | n/a | supporting | `e331a624978f1efdbd0b2f9d187e53665c2ff19760cfd8bef818e145eb0c8973` |
+| `docs/reading/net-interest-mspd-empirical-rollover-convention.md` | NET MSPD empirical marginal-rollover reader | issuance mix, fixture meaning, and claim boundary | n/a | supporting | `de964e52de99778bda77b0ac0760bb515f56dab5956f7e4dd4578744f00fb5b1` |
+| `reviews/2026-08-01-net-empirical-rollover-role-review.md` | NET MSPD empirical marginal-rollover role review | source, accounting, service, and fiscal fixed point | n/a | supporting | `88f1e5ef5dbc57c2884d500f714794bfe099036cdbb82671005ee43ef7bc5d57` |
 
 ## Regeneration Order
 

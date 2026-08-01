@@ -392,8 +392,14 @@ debt, and net interest. The [public-maturity envelope](docs/reading/net-interest
 also converts all 462 outstanding-security rows into exact FY2026–FY2056 runoff
 and bounds the public-held portion without pro-rata inference. NET remains 7/8
 formula inputs and 6/9 completion steps while rising to 13/21 VERDICT
-capability. Future issuance, annual rollover, and bucket rate stress remain
-blocked. The fiscal
+capability in that historical snapshot. The new
+[empirical marginal-rollover convention](docs/reading/net-interest-mspd-empirical-rollover-convention.md)
+then corrects a first-calendar-day extraction omission, replays 434 distinct
+issue/reopening rows totaling $31.594618 trillion of gross issuance, and drives
+a signed principal-preserving monthly refinance feature. NET now reaches 8/8
+formula inputs, 7/9 completion steps, and 14/21 capability for marginal policy-
+debt feedback. Future total issuance and bucket-rate stress remain blocked for
+a full-stock forecast. The fiscal
 rerun still preserves the full $813.727B financing requirement and all three
 internal schedules because no candidate effect passed admission.
 

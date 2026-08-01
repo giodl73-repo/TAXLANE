@@ -1638,6 +1638,12 @@ mod global_country_comparison_tests {
     }
 
     #[test]
+    fn net_replays_empirical_marginal_rollover_without_full_stock_claim() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_net_interest_mspd_empirical_rollover_convention(&root).unwrap();
+    }
+
+    #[test]
     fn trn_a_completes_bounded_baseline_without_stitching_source_gaps() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_trn_a_transportation_baseline_source_spine(&root).unwrap();

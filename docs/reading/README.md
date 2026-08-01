@@ -134,6 +134,7 @@ receipt standard.
 | `omb-receipt-amount-share-reconciliation-fy2025-2031-context.md` | OMB Table 2.1/Table 2.2 FY2025-FY2031 amount/share reconciliation; not bases, rates, yields, or solver inputs. |
 | `omb-cbo-revenue-overlap-reconciliation-fy2026-2031-context.md` | OMB Table 2.1/CBO revenue-detail overlap reconciliation context for FY2026-FY2031; exposes source-vintage differences without assigning bases or rates. |
 | `net-interest-pbd-fy2025-2031-current-law-context-path.md` | OMB PBD FY2025-FY2031 net-interest context; FY2032-FY2035, debt stock, maturity schedule, rate path, feedback, solver, rates, and savings remain blocked. |
+| `net-interest-mspd-empirical-rollover-convention.md` | Inclusive 12-month Treasury issuance mix and deterministic signed rollover for marginal policy-debt deltas; not a full-stock forecast, savings result, or rate change. |
 | `social-security-trustees-source-capture-status.md` | Social Security Trustees source-capture progress: official SSA pages and context values are browser-verified, local raw bytes are blocked by HTTP 403, and solver/rate/savings claims remain blocked. |
 | `social-security-oasdi-fy2025-2035-current-law-path.md` | Official SSA combined OASDI fiscal-year path for FY2025-FY2035, with post-depletion nulls preserved and solver/rate/savings claims blocked. |
 | `social-security-taxable-payroll-base-bridge.md` | Official SSA CY2025-CY2035 taxable payroll, wage-base, GDP, AWI, and current-law OASDI rate context; fiscal bridge, solver rows, rates, and savings remain blocked. |

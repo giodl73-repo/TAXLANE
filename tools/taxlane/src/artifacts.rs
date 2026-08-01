@@ -699,6 +699,14 @@ pub(crate) const NET_PUBLIC_MATURITY_ENVELOPE_READER_PATH: &str =
     "docs/reading/net-interest-mspd-public-maturity-envelope.md";
 pub(crate) const NET_PUBLIC_MATURITY_ENVELOPE_REVIEW_PATH: &str =
     "reviews/2026-08-01-net-public-maturity-envelope-role-review.md";
+pub(crate) const NET_EMPIRICAL_ROLLOVER_JSON_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/net_interest_mspd_empirical_rollover_convention.v1.draft.json";
+pub(crate) const NET_EMPIRICAL_ROLLOVER_SCHEMA_PATH: &str =
+    "data/derived/breadth_benchmark_matrix/net_interest_mspd_empirical_rollover_convention.schema.md";
+pub(crate) const NET_EMPIRICAL_ROLLOVER_READER_PATH: &str =
+    "docs/reading/net-interest-mspd-empirical-rollover-convention.md";
+pub(crate) const NET_EMPIRICAL_ROLLOVER_REVIEW_PATH: &str =
+    "reviews/2026-08-01-net-empirical-rollover-role-review.md";
 
 pub(crate) const NET_INTEREST_PBD_FY2025_2031_CURRENT_LAW_CONTEXT_PATH_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/net_interest_pbd_fy2025_2031_current_law_context_path.v1.draft.json";
 
@@ -10880,6 +10888,20 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         canonical: "supporting",
     },
     Artifact {
+        path: "crates/taxlane-net-interest/Cargo.toml",
+        role: "Rust Taxlane net-interest feature crate manifest",
+        grain: "tooling",
+        kind: "toml",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "crates/taxlane-net-interest/src/lib.rs",
+        role: "Rust Taxlane signed marginal-rollover engine",
+        grain: "library",
+        kind: "rust",
+        canonical: "supporting",
+    },
+    Artifact {
         path: "tools/taxlane/Cargo.toml",
         role: "Rust Taxlane tools crate manifest",
         grain: "tooling",
@@ -11022,6 +11044,34 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
     Artifact {
         path: NET_PUBLIC_MATURITY_ENVELOPE_REVIEW_PATH,
         role: "NET MSPD public-maturity envelope role review",
+        grain: "source, accounting, service, and fiscal fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: NET_EMPIRICAL_ROLLOVER_JSON_PATH,
+        role: "NET MSPD empirical marginal-rollover convention",
+        grain: "source-replayed term mix and signed refinancing fixture",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: NET_EMPIRICAL_ROLLOVER_SCHEMA_PATH,
+        role: "NET MSPD empirical marginal-rollover schema",
+        grain: "inclusive extraction, term mix, and model boundary",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: NET_EMPIRICAL_ROLLOVER_READER_PATH,
+        role: "NET MSPD empirical marginal-rollover reader",
+        grain: "issuance mix, fixture meaning, and claim boundary",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: NET_EMPIRICAL_ROLLOVER_REVIEW_PATH,
+        role: "NET MSPD empirical marginal-rollover role review",
         grain: "source, accounting, service, and fiscal fixed point",
         kind: "markdown",
         canonical: "supporting",

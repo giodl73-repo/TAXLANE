@@ -1,0 +1,106 @@
+{
+  "record_id": "net-interest-mspd-empirical-rollover-convention:v1",
+  "record_family": "net_interest_mspd_empirical_rollover_convention",
+  "version": "v1.draft",
+  "status": "empirical_marginal_rollover_ready_full_stock_forecast_blocked",
+  "as_of_date": "2026-08-01",
+  "lane_id": "net-interest",
+  "public_maturity_envelope_path": "data/derived/breadth_benchmark_matrix/net_interest_mspd_public_maturity_envelope.v1.draft.json",
+  "source_packet": {
+    "source_id": "SRC-TREASURY-FISCALDATA-MSPD-DETAIL-2026-07-24",
+    "raw_artifact_path": "data/raw/treasury/SRC-TREASURY-FISCALDATA-MSPD-DETAIL-2026-07-24/2026-07-24/mspd_table_3.full.csv",
+    "raw_byte_count": 55726310,
+    "raw_sha256": "347ff7878822ec7cf108b575cc440fe104dea4f0f9688cc0da89f5ce815a67c4",
+    "unit": "millions_usd"
+  },
+  "extraction_rule": {
+    "record_date_start": "2025-07-31",
+    "record_date_end": "2026-06-30",
+    "monthly_snapshot_count": 12,
+    "security_type_desc": "Marketable",
+    "required_numeric_field": "issued_amt",
+    "required_date_fields": ["issue_date", "maturity_date"],
+    "calendar_month_rule": "issue_date year and month equal record_date year and month, including the first calendar day",
+    "repeat_rule": "Each issue or reopening is counted once in its issue calendar month. Same-CUSIP rows remain distinct when issue date, amount, or yield differs.",
+    "exact_duplicate_key": ["record_date", "security_class2_desc", "issue_date", "maturity_date", "issued_amt", "yield_pct"],
+    "exact_duplicate_rows": 0,
+    "included_rows": 434,
+    "gross_issuance_musd": 31594618.4275,
+    "prior_working_result_correction": "The earlier 423-row working result used a strict month-start comparison and omitted 11 valid first-calendar-day issuances. This artifact uses the inclusive rule and supersedes that result."
+  },
+  "term_bucket_rule": {
+    "term_basis": "maturity_date minus issue_date in calendar days",
+    "representative_month_rule": "round(weighted_average_original_term_days / 30.4375) to nearest whole month",
+    "share_scale": 1000000000,
+    "integer_allocation_rule": "Multiply signed financing by each share_ppb and truncate toward zero; assign the exact residual to the final bucket.",
+    "principal_preserved": true
+  },
+  "central_term_mix": [
+    {"bucket_id":"lte_92d","rows":208,"gross_issuance_musd":18266397.2991,"share_percent":57.814900791,"share_ppb":578149008,"weighted_average_original_term_days":54.840837,"representative_term_months":2,"observed_monthly_share_min_percent":50.022310367,"observed_monthly_share_max_percent":65.070876976},
+    {"bucket_id":"gt_92d_lte_183d","rows":105,"gross_issuance_musd":7783163.5339,"share_percent":24.634459668,"share_ppb":246344597,"weighted_average_original_term_days":152.535668,"representative_term_months":5,"observed_monthly_share_min_percent":22.463220666,"observed_monthly_share_max_percent":27.316468986},
+    {"bucket_id":"gt_183d_lte_366d","rows":13,"gross_issuance_musd":683690.1337,"share_percent":2.163944899,"share_ppb":21639449,"weighted_average_original_term_days":363.923525,"representative_term_months":12,"observed_monthly_share_min_percent":1.827700561,"observed_monthly_share_max_percent":3.642495957},
+    {"bucket_id":"gt_1y_lte_3y","rows":36,"gross_issuance_musd":2057159.7103,"share_percent":6.511107944,"share_ppb":65111079,"weighted_average_original_term_days":865.698667,"representative_term_months":28,"observed_monthly_share_min_percent":3.009173561,"observed_monthly_share_max_percent":8.887727796},
+    {"bucket_id":"gt_3y_lte_5y","rows":16,"gross_issuance_musd":1037638.1736,"share_percent":3.284224419,"share_ppb":32842244,"weighted_average_original_term_days":1820.562043,"representative_term_months":60,"observed_monthly_share_min_percent":0.0,"observed_monthly_share_max_percent":6.848802320},
+    {"bucket_id":"gt_5y_lte_10y","rows":30,"gross_issuance_musd":1251234.8848,"share_percent":3.960278513,"share_ppb":39602785,"weighted_average_original_term_days":3122.231381,"representative_term_months":103,"observed_monthly_share_min_percent":2.483265838,"observed_monthly_share_max_percent":5.547259498},
+    {"bucket_id":"gt_10y_lte_20y","rows":12,"gross_issuance_musd":183652.1768,"share_percent":0.581276768,"share_ppb":5812768,"weighted_average_original_term_days":7261.895673,"representative_term_months":239,"observed_monthly_share_min_percent":0.0,"observed_monthly_share_max_percent":1.175344167},
+    {"bucket_id":"gt_20y_lte_30y","rows":14,"gross_issuance_musd":331682.5153,"share_percent":1.049806998,"share_ppb":10498070,"weighted_average_original_term_days":10925.263703,"representative_term_months":359,"observed_monthly_share_min_percent":0.757431984,"observed_monthly_share_max_percent":1.831240252}
+  ],
+  "observed_monthly_rails": [
+    {"rail_id":"short_heavy_observed_month","record_date":"2025-11-30","rows":30,"gross_issuance_musd":2417468.4527,"share_percent_by_bucket":[65.070876976,24.845495937,2.163965480,3.931087042,0.0,2.793716258,0.0,1.194858306]},
+    {"rail_id":"long_heavy_observed_month","record_date":"2026-06-30","rows":40,"gross_issuance_musd":2750838.9087,"share_percent_by_bucket":[50.022310367,25.274885505,1.934361926,8.887727796,6.848802320,5.092208710,1.139977797,0.799725579]}
+  ],
+  "marginal_rollover_convention": {
+    "scope": "incremental_policy_debt_delta_only",
+    "baseline_treatment": "The matching-vintage CBO debt and net-interest baseline remains unchanged.",
+    "simulation_start": "FY2026 month 0 is October 2025",
+    "maturity_rule": "A cohort matures after its representative_term_months and is immediately refinanced with the same selected term mix.",
+    "central_mix_rule": "Use the aggregate trailing-12-month term mix.",
+    "sensitivity_rails": ["short_heavy_observed_month", "long_heavy_observed_month"],
+    "public_intragovernmental_allocation_used": false,
+    "full_stock_forecast": false
+  },
+  "mechanical_fixture": {
+    "fixture_id": "one_time_fy2026_primary_improvement_100b_marginal_rollover",
+    "policy_status": "mechanical_not_admitted",
+    "financing_flow": {"month":5,"amount_musd_micros":-100000000000,"interpretation":"$100 billion of avoided public borrowing"},
+    "month_count": 120,
+    "snapshot_months": [11,23,35,47,59,71,83,95,107,119],
+    "remaining_term_bucket_labels": ["lte_3m","gt_3m_lte_6m","gt_6m_lte_12m","gt_1y_lte_3y","gt_3y_lte_5y","gt_5y_lte_10y","gt_10y_lte_20y","gt_20y"],
+    "annual_snapshots": [
+      {"fiscal_year":2026,"month":11,"total_principal_musd_micros":-100000000000,"rollover_since_prior_snapshot_musd_micros":-135199981451,"remaining_term_buckets_musd_micros":[-47891725390,-12993118659,-2925653102,-15314124571,-7724495177,-9314574296,-1367162925,-2469145880]},
+      {"fiscal_year":2027,"month":23,"total_principal_musd_micros":-100000000000,"rollover_since_prior_snapshot_musd_micros":-192664870292,"remaining_term_buckets_musd_micros":[-25593280635,-6834595054,-12013364724,-17583243683,-14052041852,-16944639726,-2487079111,-4491755215]},
+      {"fiscal_year":2028,"month":35,"total_principal_musd_micros":-100000000000,"rollover_since_prior_snapshot_musd_micros":-116488548297,"remaining_term_buckets_musd_micros":[-23416248492,-9473814251,-7973598143,-18546276262,-10153291993,-21557910654,-3164200009,-5714660196]},
+      {"fiscal_year":2029,"month":47,"total_principal_musd_micros":-100000000000,"rollover_since_prior_snapshot_musd_micros":-111156307270,"remaining_term_buckets_musd_micros":[-19929679423,-7256999522,-4692466074,-23992564355,-7476367877,-25960009987,-3810325831,-6881586931]},
+      {"fiscal_year":2030,"month":59,"total_principal_musd_micros":-100000000000,"rollover_since_prior_snapshot_musd_micros":-89960868851,"remaining_term_buckets_musd_micros":[-15148624368,-9157577694,-9008640498,-18398057199,-19718835274,-16409015011,-4333247484,-7826002472]},
+      {"fiscal_year":2031,"month":71,"total_principal_musd_micros":-100000000000,"rollover_since_prior_snapshot_musd_micros":-85289447713,"remaining_term_buckets_musd_micros":[-18965066412,-7438407550,-6590852623,-14799256830,-24703357251,-13952666976,-4829015252,-8721377106]},
+      {"fiscal_year":2032,"month":83,"total_principal_musd_micros":-100000000000,"rollover_since_prior_snapshot_musd_micros":-90158014407,"remaining_term_buckets_musd_micros":[-16601913858,-6111844293,-5638312098,-27507673120,-16087182866,-13032128601,-5353082868,-9667862296]},
+      {"fiscal_year":2033,"month":95,"total_principal_musd_micros":-100000000000,"rollover_since_prior_snapshot_musd_micros":-77440301089,"remaining_term_buckets_musd_micros":[-14468105704,-5903862629,-5630122546,-31619515941,-14121582306,-11972749471,-5803225368,-10480836035]},
+      {"fiscal_year":2034,"month":107,"total_principal_musd_micros":-100000000000,"rollover_since_prior_snapshot_musd_micros":-70204135262,"remaining_term_buckets_musd_micros":[-19695804596,-7654401740,-9218557309,-22273852585,-12157881428,-11570352622,-6211305714,-11217844006]},
+      {"fiscal_year":2035,"month":119,"total_principal_musd_micros":-100000000000,"rollover_since_prior_snapshot_musd_micros":-97165773168,"remaining_term_buckets_musd_micros":[-19747759320,-7855808038,-7335080707,-21949479676,-12370028359,-11727838959,-6776107805,-12237897136]}
+    ]
+  },
+  "readiness_effect": {
+    "formula_inputs_ready_before": 7,
+    "formula_inputs_ready_after": 8,
+    "completion_steps_ready_before": 6,
+    "completion_steps_ready_after": 7,
+    "net_verdict_score_before": 13,
+    "net_verdict_score_after": 14
+  },
+  "remaining_blockers": [
+    "No admitted owner primary-balance path exists to trigger a fiscal result.",
+    "A full-stock forecast still requires future gross issuance consistent with annual CBO debt totals.",
+    "Bucket-specific rate and stress paths remain unavailable.",
+    "Matching-CBO-vintage gross-interest and interest-receipt components remain unavailable."
+  ],
+  "claim_booleans": {
+    "empirical_issuance_mix_ready": true,
+    "marginal_rollover_convention_ready": true,
+    "mechanical_rollover_fixture_ready": true,
+    "full_stock_maturity_model_ready": false,
+    "candidate_savings_admitted": false,
+    "solver_ready": false,
+    "rate_effect": false
+  },
+  "public_warning": "This source-replayed convention describes how an incremental financing delta can be distributed and refinanced under observed Treasury term mixes. Gross issuance repeatedly rolls short bills and must not be read as debt outstanding, spending, or savings. The $100 billion fixture is mechanical, not an admitted policy effect, full-stock forecast, solver result, or rate change."
+}

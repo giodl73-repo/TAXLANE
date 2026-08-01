@@ -93,6 +93,7 @@ pub(crate) fn validate_net_interest_formula_contract(root: &Path) -> Result<(), 
     let text = fs::read_to_string(root.join(NET_INTEREST_FORMULA_CONTRACT_JSON_PATH))
         .map_err(|e| e.to_string())?;
     let contract: serde_json::Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+    validate_net_interest_mspd_empirical_rollover_convention(root)?;
 
     if string_field(&contract, "record_id")? != "net-interest-formula-contract:v1"
         || string_field(&contract, "record_family")? != "net_interest_formula_contract"
@@ -181,6 +182,7 @@ pub(crate) fn validate_net_interest_formula_contract(root: &Path) -> Result<(), 
     let ready_inputs = BTreeSet::from([
         "baseline_debt_stock",
         "baseline_net_interest",
+        "maturity_bucket_schedule",
         "explicit_other_financing_series",
         "new_borrowing_timing_rule",
         "effective_rate_path",
@@ -203,10 +205,16 @@ pub(crate) fn validate_net_interest_formula_contract(root: &Path) -> Result<(), 
         if blockers.is_empty() == !ready {
             return Err(format!("net-interest input blockers failed: {input_id}"));
         }
-        if input_id == "maturity_bucket_schedule"
-            && string_field(row, "partial_evidence_path")? != NET_PUBLIC_MATURITY_ENVELOPE_JSON_PATH
-        {
-            return Err("net-interest maturity partial evidence failed".to_string());
+        if input_id == "maturity_bucket_schedule" {
+            if string_field(&row["value"], "path")? != NET_EMPIRICAL_ROLLOVER_JSON_PATH
+                || string_field(&row["value"], "model_scope")?
+                    != "marginal incremental policy-debt feedback"
+                || row["full_stock_blockers"]
+                    .as_array()
+                    .is_none_or(|values| values.is_empty())
+            {
+                return Err("net-interest marginal maturity input failed".to_string());
+            }
         }
     }
 
@@ -223,6 +231,8 @@ pub(crate) fn validate_net_interest_formula_contract(root: &Path) -> Result<(), 
         "interest_receipts_must_be_explicit",
         "explicit_other_financing_must_be_explicit",
         "missing_values_remain_null",
+        "bounded_reduced_form_feedback_ready",
+        "marginal_maturity_rollover_ready",
     ] {
         if rules.get(required).and_then(serde_json::Value::as_bool) != Some(true) {
             return Err(format!("net-interest rule failed {required}"));
@@ -270,7 +280,7 @@ pub(crate) fn validate_net_interest_formula_contract(root: &Path) -> Result<(), 
         .filter_map(serde_json::Value::as_str)
         .collect::<BTreeSet<_>>();
     for required in [
-        "maturity_bucket_schedule",
+        "future_total_gross_issuance",
         "bucket_rate_stress_path",
     ] {
         if !blocked.contains(required) {
@@ -327,7 +337,7 @@ pub(crate) fn validate_net_interest_formula_contract(root: &Path) -> Result<(), 
         "Now admitted",
         "baseline debt stock",
         "baseline net interest",
-        "maturity bucket schedule",
+        "marginal policy-debt deltas",
         "matching-vintage CBO FY2025–FY2035 average-interest-rate path",
         "new borrowing timing rule",
         "incremental interest-receipt treatment",
@@ -339,7 +349,8 @@ pub(crate) fn validate_net_interest_formula_contract(root: &Path) -> Result<(), 
         "recompute deficit, debt, and subsequent net interest",
         "primary_balance_change_recomputes_debt_and_interest",
         "CBO average-rate feedback model",
-        "maturity-aware feedback remains blocked",
+        "marginal maturity-aware rollover",
+        "Full-stock feedback and bucket-rate stress remain blocked",
         "not a net-interest path",
         "not a solver run",
         "not target-cost selection",
@@ -377,6 +388,7 @@ pub(crate) fn validate_net_current_law_baseline_compatibility_audit(
     validate_net_interest_new_borrowing_timing_convention(root)?;
     validate_net_interest_cbo_average_rate_feedback(root)?;
     validate_net_interest_mspd_public_maturity_envelope(root)?;
+    validate_net_interest_mspd_empirical_rollover_convention(root)?;
     let audit: serde_json::Value = serde_json::from_str(
         &fs::read_to_string(root.join(NET_BASELINE_COMPATIBILITY_AUDIT_JSON_PATH))
             .map_err(|e| e.to_string())?,
@@ -384,9 +396,10 @@ pub(crate) fn validate_net_current_law_baseline_compatibility_audit(
     .map_err(|e| e.to_string())?;
     if string_field(&audit, "record_id")? != "net-current-law-baseline-compatibility-audit:v1"
         || string_field(&audit, "status")?
-            != "reduced_form_feedback_and_maturity_envelope_admitted_full_rollover_blocked"
+            != "all_formula_inputs_ready_marginal_rollover_ready_full_stock_stress_blocked"
         || string_field(&audit, "formula_contract_path")? != NET_INTEREST_FORMULA_CONTRACT_JSON_PATH
         || string_field(&audit, "official_spine_path")? != CORE_G_SOLVER_SPINE_JSON_PATH
+        || string_field(&audit, "empirical_rollover_path")? != NET_EMPIRICAL_ROLLOVER_JSON_PATH
     {
         return Err("NET baseline compatibility identity failed".to_string());
     }
@@ -405,12 +418,13 @@ pub(crate) fn validate_net_current_law_baseline_compatibility_audit(
         .collect::<Result<BTreeSet<_>, _>>()?;
     if inputs.len() != 8
         || steps.len() != 9
-        || ready_inputs != 7
-        || ready_steps != 6
+        || ready_inputs != 8
+        || ready_steps != 7
         || ready_ids
             != BTreeSet::from([
                 "baseline_debt_stock".to_string(),
                 "baseline_net_interest".to_string(),
+                "maturity_bucket_schedule".to_string(),
                 "explicit_other_financing_series".to_string(),
                 "new_borrowing_timing_rule".to_string(),
                 "effective_rate_path".to_string(),
@@ -433,12 +447,13 @@ pub(crate) fn validate_net_current_law_baseline_compatibility_audit(
         return Err("NET zero-policy reconciliation boundary failed".to_string());
     }
     let summary = &audit["readiness_summary"];
-    if int_field(summary, "formula_inputs_ready")? != 7
+    if int_field(summary, "formula_inputs_ready")? != 8
         || int_field(summary, "formula_inputs_required")? != 8
-        || int_field(summary, "completion_steps_ready")? != 6
+        || int_field(summary, "completion_steps_ready")? != 7
         || int_field(summary, "completion_steps_total")? != 9
         || !bool_field(summary, "annual_baseline_context_ready")?
-        || bool_field(summary, "endogenous_interest_path_ready")?
+        || !bool_field(summary, "marginal_maturity_feedback_ready")?
+        || bool_field(summary, "endogenous_full_stock_interest_path_ready")?
         || bool_field(summary, "solver_ready")?
     {
         return Err("NET compatibility summary failed".to_string());
@@ -451,7 +466,7 @@ pub(crate) fn validate_net_current_law_baseline_compatibility_audit(
     )
     .map_err(|e| e.to_string())?;
     let assessments = overlay["assessments"].as_array().ok_or("fiscal overlay assessments")?;
-    for (id, total) in [("PAY", 12), ("NET", 13), ("REV", 11)] {
+    for (id, total) in [("PAY", 12), ("NET", 14), ("REV", 11)] {
         let row = assessments
             .iter()
             .find(|row| row["overlay_id"] == id)
@@ -462,6 +477,7 @@ pub(crate) fn validate_net_current_law_baseline_compatibility_audit(
     }
     if overlay["claim_booleans"]["annual_current_law_debt_path_admitted"] != true
         || overlay["claim_booleans"]["reduced_form_feedback_engine_ready"] != true
+        || overlay["claim_booleans"]["marginal_rollover_engine_ready"] != true
         || overlay["claim_booleans"]["endogenous_debt_interest_path_admitted"] != false
     {
         return Err("NET overlay debt-path boundary failed".to_string());

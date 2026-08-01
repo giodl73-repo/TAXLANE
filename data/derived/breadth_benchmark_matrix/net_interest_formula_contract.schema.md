@@ -14,14 +14,17 @@ Required invariants:
 - every required input has `required: true`;
 - baseline debt stock, baseline net interest, explicit other financing,
   new-borrowing timing, the matching-vintage CBO average-rate path, incremental
-  interest-receipt treatment, and the reduced-form feedback fixture are ready;
-- the full-stock maturity-bucket schedule remains `ready: false`, `value: null`,
-  and retains its real rollover and public-holder blockers;
+  interest-receipt treatment, the reduced-form feedback fixture, and the
+  empirical marginal maturity/rollover convention are ready;
+- the maturity input is ready only for marginal incremental feedback and
+  retains explicit future-total-issuance and bucket-rate blockers for the
+  full-stock mode;
 - net interest is endogenous and cannot be cut directly;
 - any primary-balance change must recompute subsequent debt and interest;
 - maturity, rate, interest-receipt, and other-financing inputs must be explicit;
 - the regression fixture must point to the CBO average-rate feedback artifact
-  and remain explicitly reduced-form rather than maturity-aware;
+  and remain explicitly reduced-form; the separate rollover fixture proves
+  marginal maturity behavior without becoming a full-stock forecast;
 - only the formula contract and reduced-form feedback fixture publication flags
   may be true;
 - no net-interest path, solver, rate, target-cost, savings, waste, fraud,

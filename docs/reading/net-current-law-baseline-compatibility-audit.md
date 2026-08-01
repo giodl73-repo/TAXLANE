@@ -19,9 +19,9 @@ zero for a public-borrowing shock; any nonzero candidate effect requires
 evidence. A mechanical nonzero regression now proves later debt and interest
 movement.
 
-That makes seven of eight formula inputs and six of nine completion steps
-ready. The reduced-form engine is usable for a future admitted primary path,
-but it is not the full-stock maturity model.
+That now makes all eight formula inputs and seven of nine completion steps
+ready for marginal incremental feedback. The engine is usable for a future
+owner-admitted primary path, but it is not the full-stock maturity model.
 
 ## What remains incompatible
 
@@ -33,17 +33,22 @@ now resolves Table 3 and Table 5 units and overlap and reconciles Table 3 to
 Table 1 total marketable debt. The
 [public-maturity envelope](net-interest-mspd-public-maturity-envelope.md) now
 bounds public-holder uncertainty and publishes exact existing-stock fiscal-year
-runoff without pro-rata inference. Future issuance and annual rollover still
-prevent a full-stock interest result.
+runoff without pro-rata inference. The
+[empirical rollover convention](net-interest-mspd-empirical-rollover-convention.md)
+separately replays 434 issue/reopening rows from twelve snapshots into an
+observed term mix and deterministic marginal rollover rule. It closes the
+marginal input without pretending to forecast Treasury's total issuance.
+Future total issuance still prevents a full-stock interest result.
 
 The remaining sequence is therefore substantive rather than architectural:
 
-1. source future gross issuance and its term mix;
-2. define annual rollover rules;
-3. map effective and stress rates to those buckets;
-4. validate the full-stock result against the already-ready reduced-form result;
-   and
-5. run both only after an owner admits a real primary-balance path.
+1. run the matching-vintage rate and empirical rollover engines only after an
+   owner admits a real primary-balance path;
+2. independently source future total gross issuance consistent with CBO's
+   annual debt totals;
+3. map effective and stress rates to those buckets; and
+4. validate any later full-stock result against the already-ready marginal
+   result.
 
 No savings or rate changes follow from this audit. The five current candidates
 still contribute a zero admitted primary-balance delta.

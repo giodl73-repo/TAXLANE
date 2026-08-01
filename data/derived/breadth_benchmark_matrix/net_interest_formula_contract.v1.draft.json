@@ -2,7 +2,7 @@
   "record_id": "net-interest-formula-contract:v1",
   "record_family": "net_interest_formula_contract",
   "version": "v1.draft",
-  "status": "draft_contract_reduced_form_feedback_ready_full_maturity_model_blocked",
+  "status": "draft_contract_marginal_rollover_ready_full_stock_model_blocked",
   "pulse": 104,
   "solver_input_inventory_path": "data/derived/breadth_benchmark_matrix/solver_input_inventory.v1.draft.json",
   "program_lane_target_cost_contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
@@ -21,7 +21,7 @@
   "required_inputs": [
     {"input_id": "baseline_debt_stock", "required": true, "ready": true, "value": {"path":"data/derived/breadth_benchmark_matrix/core_g_official_current_law_solver_spine.v1.draft.json","fields":["debt_held_by_public_begin_musd","debt_held_by_public_end_musd"],"fiscal_year_start":2025,"fiscal_year_end":2035}, "blockers": []},
     {"input_id": "baseline_net_interest", "required": true, "ready": true, "value": {"path":"data/derived/breadth_benchmark_matrix/core_g_official_current_law_solver_spine.v1.draft.json","field":"net_interest_musd","fiscal_year_start":2025,"fiscal_year_end":2035}, "blockers": []},
-    {"input_id": "maturity_bucket_schedule", "required": true, "ready": false, "value": null, "partial_evidence_path": "data/derived/breadth_benchmark_matrix/net_interest_mspd_public_maturity_envelope.v1.draft.json", "blockers": ["future gross issuance", "future issuance term mix", "annual rollover rule"]},
+    {"input_id": "maturity_bucket_schedule", "required": true, "ready": true, "value": {"path":"data/derived/breadth_benchmark_matrix/net_interest_mspd_empirical_rollover_convention.v1.draft.json","fields":["central_term_mix","marginal_rollover_convention"],"model_scope":"marginal incremental policy-debt feedback"}, "blockers": [], "full_stock_blockers": ["future gross issuance consistent with annual CBO debt totals", "bucket-specific rate and stress paths"]},
     {"input_id": "effective_rate_path", "required": true, "ready": true, "value": {"path":"data/derived/breadth_benchmark_matrix/net_interest_cbo_average_rate_feedback.v1.draft.json","field":"annual_average_rate_path","fiscal_year_start":2025,"fiscal_year_end":2035,"model_scope":"matching-vintage reduced-form incremental feedback"}, "blockers": []},
     {"input_id": "new_borrowing_timing_rule", "required": true, "ready": true, "value": {"path":"data/derived/breadth_benchmark_matrix/net_interest_new_borrowing_timing_convention.v1.draft.json","central_exposure_fraction":0.5,"sensitivity_exposure_fractions":[1.0,0.0],"rounding":"after identity reconciliation"}, "blockers": []},
     {"input_id": "interest_receipts_treatment", "required": true, "ready": true, "value": {"path":"data/derived/breadth_benchmark_matrix/net_interest_cbo_average_rate_feedback.v1.draft.json","baseline_treatment":"embedded in admitted CBO net interest","incremental_default_musd":0,"nonzero_rule":"candidate-specific evidence required"}, "blockers": []},
@@ -39,6 +39,7 @@
     "explicit_other_financing_must_be_explicit": true,
     "missing_values_remain_null": true,
     "bounded_reduced_form_feedback_ready": true,
+    "marginal_maturity_rollover_ready": true,
     "full_stock_maturity_model_ready": false,
     "solver_ready": false
   },
@@ -48,7 +49,7 @@
     "test_name": "primary_balance_change_recomputes_debt_and_interest",
     "test_fixture_path": "data/derived/breadth_benchmark_matrix/net_interest_cbo_average_rate_feedback.v1.draft.json",
     "model_scope": "reduced_form_incremental_feedback",
-    "blocked_for_full_stock_mode": ["maturity_bucket_schedule", "bucket_rate_stress_path"]
+    "blocked_for_full_stock_mode": ["future_total_gross_issuance", "bucket_rate_stress_path"]
   },
   "claim_booleans": {
     "net_interest_formula_contract_published": true,

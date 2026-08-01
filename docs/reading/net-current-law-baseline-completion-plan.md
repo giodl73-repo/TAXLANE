@@ -10,17 +10,18 @@ existing CORE-G CBO spine additionally provides a hash-custodied FY2025–FY2035
 horizon, annual debt held by the public, annual net interest, explicit other
 financing and timing, and a deterministic zero-policy topline reconciliation.
 The [compatibility audit](net-current-law-baseline-compatibility-audit.md)
-therefore marks six of nine completion steps ready, including the explicit
-new-borrowing timing convention and reduced-form feedback fixture, without
-treating the remaining Treasury context as a full-stock debt model.
+therefore marks seven of nine completion steps ready. The explicit borrowing-
+timing convention, reduced-form feedback fixture, and source-replayed empirical
+marginal rollover are usable without treating them as a full-stock debt model.
 
 ## Completion sequence
 
 1. Extend or explicitly bound the horizon beyond FY2031.
 2. Add source-custodied annual debt stock.
-3. Add maturity-bucket stock and rollover rules. **Partial:** existing-stock
-   FY2026–FY2056 runoff and public-holder intervals are ready without pro-rata
-   inference; future issuance and rollover remain blocked.
+3. Add maturity-bucket stock and rollover rules. **Ready for marginal
+   feedback:** existing-stock runoff and public-holder intervals are paired
+   with an inclusive trailing-12-month issuance mix and deterministic monthly
+   rollover. Future total issuance remains blocked for full-stock forecasting.
 4. Add effective-rate paths by bucket and a stress path.
    **Partial:** matching-vintage CBO aggregate average rates support reduced-
    form feedback; bucket mapping and stress remain blocked.
