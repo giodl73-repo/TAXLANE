@@ -2258,6 +2258,8 @@ pub(crate) const AGR_INSURER_COMPENSATION_LEGISLATIVE_DESIGN_JSON_PATH: &str = "
 
 pub(crate) const AGR_UW12_SCORE_SENSITIVITY_SERVICE_STRESS_ENVELOPE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/agr_uw12_score_sensitivity_service_stress_envelope.v1.draft.json";
 
+pub(crate) const SEE_ENERGY_WEATHERIZATION_CURRENT_LAW_OWNER_EVIDENCE_AUDIT_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/see_energy_weatherization_current_law_owner_evidence_audit.v1.draft.json";
+
 pub(crate) const PAY_FULL_DMF_EVIDENCE_CEILING_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/pay_full_dmf_public_evidence_ceiling.v1.draft.json";
 
@@ -11277,6 +11279,34 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         path: "reviews/2026-08-01-agr-uw12-score-sensitivity-service-stress-envelope-role-review.md",
         role: "AGR UW12 score-sensitivity and service-stress role review",
         grain: "finance, agriculture, insurance, service, distribution, software, and scope fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: SEE_ENERGY_WEATHERIZATION_CURRENT_LAW_OWNER_EVIDENCE_AUDIT_JSON_PATH,
+        role: "SEE energy/weatherization current-law owner-evidence audit",
+        grain: "portfolio identity, enacted WAP perimeter, service, controls, and successor boundary",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/see_energy_weatherization_current_law_owner_evidence_audit.schema.md",
+        role: "SEE energy/weatherization current-law owner-evidence schema",
+        grain: "portfolio, program, authorization, control, and admission boundary",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/see-energy-weatherization-current-law-owner-evidence-audit.md",
+        role: "SEE energy/weatherization current-law owner-evidence reader",
+        grain: "candidate correction and delivery-control successor explanation",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-08-01-see-energy-weatherization-current-law-owner-evidence-audit-role-review.md",
+        role: "SEE energy/weatherization current-law owner-evidence role review",
+        grain: "finance, energy, household, delivery, distribution, law, and scope fixed point",
         kind: "markdown",
         canonical: "supporting",
     },

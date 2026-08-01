@@ -1,0 +1,133 @@
+{
+  "record_id": "see-energy-weatherization-current-law-owner-evidence-audit:v1",
+  "record_family": "see_energy_weatherization_current_law_owner_evidence_audit",
+  "version": "v1.draft",
+  "status": "current_law_and_component_identity_audit_complete_broad_cut_held_control_successor_selected_zero_admission",
+  "as_of_date": "2026-08-01",
+  "track": "SEE",
+  "candidate_id": "reduce_doe_energy_conservation_weatherization_grants",
+  "predecessor_paths": [
+    "data/derived/breadth_benchmark_matrix/fifteen_lane_candidate_execution_frontier.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/batch_2_eight_track_two_level_closure.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/see_d_science_energy_environment_bounded_stage_chain_closure.v1.draft.json"
+  ],
+  "schema_path": "data/derived/breadth_benchmark_matrix/see_energy_weatherization_current_law_owner_evidence_audit.schema.md",
+  "reader_path": "docs/reading/see-energy-weatherization-current-law-owner-evidence-audit.md",
+  "role_review_path": "reviews/2026-08-01-see-energy-weatherization-current-law-owner-evidence-audit-role-review.md",
+  "source_rows": [
+    {"source_id":"SRC-CBO-60935","publisher":"Congressional Budget Office","title":"Reduce Funding for Certain Grants to State and Local Governments","publication_date":"2024-12-12","url":"https://www.cbo.gov/budget-options/60935","use":"selected portfolio reduction, timing, scope, and vintage score"},
+    {"source_id":"SRC-DOE-WPN-26-2","publisher":"U.S. Department of Energy","title":"Weatherization Program Notice 26-2: Program Year 2026 Grantee Allocations","publication_date":"2026-07-09","url":"https://www.energy.gov/sites/default/files/2026-07/wap-wpn-26-2.pdf","use":"enacted FY2026 WAP funding and grantee allocations"},
+    {"source_id":"SRC-PL-119-74-STATUS","publisher":"Congress.gov, Library of Congress","title":"H.R. 6938, Commerce, Justice, Science; Energy and Water Development; and Interior and Environment Appropriations Act, 2026","publication_date":"2026-01-23","url":"https://www.congress.gov/bill/119th-congress/house-bill/6938/all-info","use":"Public Law 119-74 enactment status"},
+    {"source_id":"SRC-CBO-62020","publisher":"Congressional Budget Office","title":"H.R. 1355, Weatherization Enhancement and Readiness Act of 2025","publication_date":"2026-01-14","url":"https://www.cbo.gov/publication/62020","use":"reported reauthorization specification and cost subject to appropriation"},
+    {"source_id":"SRC-HR-1355-STATUS","publisher":"Congress.gov, Library of Congress","title":"H.R. 1355, Weatherization Enhancement and Readiness Act of 2025","publication_date":null,"accessed_date":"2026-08-01","url":"https://www.congress.gov/bill/119th-congress/house-bill/1355/all-info","use":"reported-bill status and non-enactment"},
+    {"source_id":"SRC-DOE-WAP-CURRENT","publisher":"U.S. Department of Energy","title":"Weatherization Assistance Program","publication_date":null,"accessed_date":"2026-08-01","url":"https://www.energy.gov/cmei/scep/wap/weatherization-assistance-program","use":"current reported homes, jobs, and household savings"},
+    {"source_id":"SRC-DOE-WAP-ABOUT","publisher":"U.S. Department of Energy","title":"About the Weatherization Assistance Program","publication_date":null,"accessed_date":"2026-08-01","url":"https://www.energy.gov/cmei/scep/wap/about-weatherization-assistance-program","use":"energy burden, delivery network, formula-grant coverage, and leverage context"},
+    {"source_id":"SRC-DOE-OIG-25-01","publisher":"U.S. Department of Energy Office of Inspector General","title":"Improved Oversight and Enforcement Would Help DOE Implement WAP Under IIJA","publication_date":"2024-10-24","url":"https://www.energy.gov/ig/articles/audit-doe-oig-25-01","use":"IIJA delivery, reporting, unit-cost, and completed-unit control findings"},
+    {"source_id":"SRC-DOE-OIG-26-33","publisher":"U.S. Department of Energy Office of Inspector General","title":"Additional Actions Needed to Help Ensure Wisconsin Implements WAP in Accordance With Requirements","publication_date":"2026-04-30","url":"https://www.energy.gov/ig/articles/audit-doe-oig-26-33","use":"current state-level documentation, conflict, complaint, and federal oversight findings"}
+  ],
+  "candidate_identity": {
+    "cbo_option_scope": "DOE energy conservation and weatherization grants made through the Office of State and Community Energy Programs",
+    "cbo_policy": "reduce new funding 25 percent in FY2026 and 50 percent after FY2026",
+    "cbo_fy2026_outlay_change": "between_negative_50_million_and_zero",
+    "cbo_fy2025_2034_outlay_reduction_billions": 1.8,
+    "cbo_component_program_allocation_published": false,
+    "option_is_wap_only": false,
+    "option_is_current_law": false,
+    "vintage_score_matches_fy2026_enacted_programs": false
+  },
+  "fy2026_wap_current_law": {
+    "appropriation_law": "Public_Law_119_74",
+    "law_enacted_date": "2026-01-23",
+    "program_year_notice_date": "2026-07-09",
+    "retrofit_program_millions": 329.0,
+    "grantee_program_allocation_millions": 270.6,
+    "grantee_training_and_technical_assistance_millions": 57.4,
+    "grantee_total_before_wrf_millions": 328.0,
+    "headquarters_training_and_technical_assistance_millions": 10.0,
+    "weatherization_readiness_fund_millions": 30.0,
+    "other_millions": 1.0,
+    "sustainable_energy_resources_for_consumers_millions": 0.0,
+    "total_wap_funding_millions": 369.0,
+    "state_territory_tribal_formula_program_operating": true,
+    "selected_cbo_reduction_enacted": false
+  },
+  "hr1355_context": {
+    "status_as_of_date": "reported_by_house_committee_placed_on_union_calendar_not_enacted",
+    "authorization_millions_fy2026_2030": [300,300,300,325,350],
+    "cbo_estimated_discretionary_outlays_millions_fy2026_2035": 1562,
+    "direct_spending_effect_millions": 0,
+    "authorization_equals_appropriation": false,
+    "bill_used_as_current_law": false,
+    "bill_used_as_reduction_rescore": false
+  },
+  "service_and_distribution_baseline": {
+    "low_income_household_energy_burden_percent": 13.9,
+    "other_household_energy_burden_percent": 3.0,
+    "reported_annual_doe_funded_homes": 32000,
+    "reported_jobs_supported": 8500,
+    "reported_average_annual_household_savings_dollars": 372,
+    "reported_local_delivery_organizations_approximate": 700,
+    "core_funding_reaches_all_50_states_dc_tribes_and_five_territories": true,
+    "current_matched_reduction_effect_observed": false,
+    "current_waitlist_and_eligible_population_coverage_closed": false,
+    "current_income_geographic_incidence_closed": false,
+    "current_resilience_and_health_effect_closed": false,
+    "state_local_utility_substitution_closed": false
+  },
+  "delivery_control_findings": {
+    "iija_appropriation_billions": 3.5,
+    "states_over_unit_expenditure_limit_by_more_than_50_percent": 11,
+    "states_or_territories_with_late_quarterly_reports": 21,
+    "states_or_territories_with_approved_plans_and_no_reported_completed_units": 16,
+    "wisconsin_supporting_documentation_complete": false,
+    "wisconsin_conflict_policy_sufficient": false,
+    "wisconsin_documented_complaint_resolution_procedure": false,
+    "findings_establish_recoverable_savings": false,
+    "findings_establish_programwide_failure": false
+  },
+  "component_disposition": [
+    {
+      "component_id": "broad_scep_grant_reduction",
+      "status": "held_unallocated_portfolio_option",
+      "reason": "CBO does not publish the component programs or program-level score needed to map the portfolio reduction to WAP or another live grant base.",
+      "admitted_savings_billions": 0.0
+    },
+    {
+      "component_id": "wap_funding_reduction",
+      "status": "held_no_matching_score_or_service_floor",
+      "reason": "The enacted $369 million FY2026 WAP perimeter is known, but the old portfolio score cannot be inherited and no matched evidence closes households, delivery capacity, health, resilience, distribution, or substitution effects.",
+      "admitted_savings_billions": 0.0
+    },
+    {
+      "component_id": "wap_delivery_control_modernization",
+      "status": "selected_for_next_public_analysis_not_admitted",
+      "reason": "Current OIG findings support a narrower documentation, reporting, unit-cost, completed-unit, complaint, and oversight control question without presuming a funding cut or recoverable amount.",
+      "admitted_savings_billions": 0.0
+    }
+  ],
+  "audit_decision": {
+    "source_count": 9,
+    "broad_candidate_identity_closed": true,
+    "fy2026_wap_current_law_closed": true,
+    "broad_reduction_held": true,
+    "wap_reduction_held": true,
+    "control_successor_selected": true,
+    "candidate_admitted": false,
+    "admitted_fy2026_outlay_reduction_billions": 0.0,
+    "rate_recomputation_required": false
+  },
+  "next_evidence_action": "Audit whether current WAP public control evidence can define a bounded completed-unit, allowable-cost, reporting, documentation, complaint, and federal-oversight improvement mechanism; distinguish service recovery and avoided waste from cashable savings and keep any amount at zero without a matched fiscal score.",
+  "claim_boundaries": {
+    "official_request_made": false,
+    "public_release_authorized": false,
+    "portfolio_score_assigned_to_wap": false,
+    "authorization_treated_as_appropriation": false,
+    "doe_outcome_claim_treated_as_current_cut_effect": false,
+    "oig_finding_treated_as_recoverable_savings": false,
+    "state_finding_generalized_programwide": false,
+    "candidate_admitted": false,
+    "spending_reduction_admitted": false,
+    "solver_run_performed": false,
+    "rate_change_allowed": false
+  }
+}

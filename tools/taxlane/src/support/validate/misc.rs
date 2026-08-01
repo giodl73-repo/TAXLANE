@@ -1340,6 +1340,7 @@ pub(crate) fn validate_global_country_comparison_coverage(root: &Path) -> Result
     validate_agr_insurer_compensation_public_evidence_ceiling(root)?;
     validate_agr_insurer_compensation_legislative_design(root)?;
     validate_agr_uw12_score_sensitivity_service_stress_envelope(root)?;
+    validate_see_energy_weatherization_current_law_owner_evidence_audit(root)?;
     validate_pay_full_dmf_public_evidence_ceiling(root)?;
     validate_hlt_site_neutral_current_law_dependency_audit(root)?;
     validate_def_proportional_force_current_law_dependency_audit(root)?;
@@ -14737,6 +14738,145 @@ pub(crate) fn validate_agr_uw12_score_sensitivity_service_stress_envelope(
         || bool_field(claims, "rate_change_allowed")?
     {
         return Err("AGR UW12 score-sensitivity and service-stress envelope failed".to_string());
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_see_energy_weatherization_current_law_owner_evidence_audit(
+    root: &Path,
+) -> Result<(), String> {
+    let audit = read_json_artifact(
+        root,
+        SEE_ENERGY_WEATHERIZATION_CURRENT_LAW_OWNER_EVIDENCE_AUDIT_JSON_PATH,
+    )?;
+    let sources = audit
+        .get("source_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("SEE energy/weatherization sources")?;
+    let source_ids = sources
+        .iter()
+        .map(|row| string_field(row, "source_id"))
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let identity = audit
+        .get("candidate_identity")
+        .ok_or("SEE candidate identity")?;
+    let current = audit
+        .get("fy2026_wap_current_law")
+        .ok_or("SEE FY2026 WAP current law")?;
+    let bill = audit.get("hr1355_context").ok_or("SEE H.R. 1355 context")?;
+    let service = audit
+        .get("service_and_distribution_baseline")
+        .ok_or("SEE service baseline")?;
+    let controls = audit
+        .get("delivery_control_findings")
+        .ok_or("SEE control findings")?;
+    let components = audit
+        .get("component_disposition")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("SEE component dispositions")?;
+    let component_ids = components
+        .iter()
+        .map(|row| {
+            if number_field(row, "admitted_savings_billions")?.abs() > 0.0001 {
+                return Err("SEE component savings boundary failed".to_string());
+            }
+            string_field(row, "component_id")
+        })
+        .collect::<Result<BTreeSet<_>, _>>()?;
+    let decision = audit.get("audit_decision").ok_or("SEE audit decision")?;
+    let claims = audit
+        .get("claim_boundaries")
+        .ok_or("SEE claim boundaries")?;
+    let grantee_reconciliation = number_field(current, "grantee_program_allocation_millions")?
+        + number_field(
+            current,
+            "grantee_training_and_technical_assistance_millions",
+        )?;
+    let total_reconciliation = number_field(current, "grantee_total_before_wrf_millions")?
+        + number_field(
+            current,
+            "headquarters_training_and_technical_assistance_millions",
+        )?
+        + number_field(current, "weatherization_readiness_fund_millions")?
+        + number_field(current, "other_millions")?;
+    if sources.len() != 9
+        || source_ids.len() != 9
+        || !source_ids.contains("SRC-CBO-60935")
+        || !source_ids.contains("SRC-DOE-WPN-26-2")
+        || !source_ids.contains("SRC-PL-119-74-STATUS")
+        || !source_ids.contains("SRC-CBO-62020")
+        || !source_ids.contains("SRC-HR-1355-STATUS")
+        || !source_ids.contains("SRC-DOE-OIG-25-01")
+        || !source_ids.contains("SRC-DOE-OIG-26-33")
+        || (number_field(identity, "cbo_fy2025_2034_outlay_reduction_billions")? - 1.8)
+            .abs()
+            > 0.0001
+        || bool_field(identity, "cbo_component_program_allocation_published")?
+        || bool_field(identity, "option_is_wap_only")?
+        || bool_field(identity, "option_is_current_law")?
+        || bool_field(identity, "vintage_score_matches_fy2026_enacted_programs")?
+        || string_field(current, "appropriation_law")? != "Public_Law_119_74"
+        || (grantee_reconciliation - 328.0).abs() > 0.0001
+        || (total_reconciliation - 369.0).abs() > 0.0001
+        || (number_field(current, "total_wap_funding_millions")? - 369.0).abs() > 0.0001
+        || !bool_field(current, "state_territory_tribal_formula_program_operating")?
+        || bool_field(current, "selected_cbo_reduction_enacted")?
+        || string_field(bill, "status_as_of_date")?
+            != "reported_by_house_committee_placed_on_union_calendar_not_enacted"
+        || number_field(bill, "direct_spending_effect_millions")?.abs() > 0.0001
+        || bool_field(bill, "authorization_equals_appropriation")?
+        || bool_field(bill, "bill_used_as_current_law")?
+        || bool_field(bill, "bill_used_as_reduction_rescore")?
+        || (number_field(service, "low_income_household_energy_burden_percent")? - 13.9)
+            .abs()
+            > 0.0001
+        || int_field(service, "reported_annual_doe_funded_homes")? != 32_000
+        || int_field(service, "reported_local_delivery_organizations_approximate")? != 700
+        || bool_field(service, "current_matched_reduction_effect_observed")?
+        || bool_field(service, "current_waitlist_and_eligible_population_coverage_closed")?
+        || bool_field(service, "current_income_geographic_incidence_closed")?
+        || bool_field(service, "current_resilience_and_health_effect_closed")?
+        || bool_field(service, "state_local_utility_substitution_closed")?
+        || int_field(controls, "states_over_unit_expenditure_limit_by_more_than_50_percent")?
+            != 11
+        || int_field(controls, "states_or_territories_with_late_quarterly_reports")? != 21
+        || int_field(
+            controls,
+            "states_or_territories_with_approved_plans_and_no_reported_completed_units",
+        )? != 16
+        || bool_field(controls, "wisconsin_supporting_documentation_complete")?
+        || bool_field(controls, "wisconsin_conflict_policy_sufficient")?
+        || bool_field(controls, "wisconsin_documented_complaint_resolution_procedure")?
+        || bool_field(controls, "findings_establish_recoverable_savings")?
+        || bool_field(controls, "findings_establish_programwide_failure")?
+        || components.len() != 3
+        || component_ids.len() != 3
+        || !component_ids.contains("broad_scep_grant_reduction")
+        || !component_ids.contains("wap_funding_reduction")
+        || !component_ids.contains("wap_delivery_control_modernization")
+        || int_field(decision, "source_count")? != 9
+        || !bool_field(decision, "broad_candidate_identity_closed")?
+        || !bool_field(decision, "fy2026_wap_current_law_closed")?
+        || !bool_field(decision, "broad_reduction_held")?
+        || !bool_field(decision, "wap_reduction_held")?
+        || !bool_field(decision, "control_successor_selected")?
+        || bool_field(decision, "candidate_admitted")?
+        || number_field(decision, "admitted_fy2026_outlay_reduction_billions")?.abs()
+            > 0.0001
+        || bool_field(decision, "rate_recomputation_required")?
+        || bool_field(claims, "official_request_made")?
+        || bool_field(claims, "public_release_authorized")?
+        || bool_field(claims, "portfolio_score_assigned_to_wap")?
+        || bool_field(claims, "authorization_treated_as_appropriation")?
+        || bool_field(claims, "doe_outcome_claim_treated_as_current_cut_effect")?
+        || bool_field(claims, "oig_finding_treated_as_recoverable_savings")?
+        || bool_field(claims, "state_finding_generalized_programwide")?
+        || bool_field(claims, "candidate_admitted")?
+        || bool_field(claims, "spending_reduction_admitted")?
+        || bool_field(claims, "solver_run_performed")?
+        || bool_field(claims, "rate_change_allowed")?
+    {
+        return Err("SEE energy/weatherization current-law owner-evidence audit failed".to_string());
     }
     Ok(())
 }
