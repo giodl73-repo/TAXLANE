@@ -1338,6 +1338,7 @@ pub(crate) fn validate_global_country_comparison_coverage(root: &Path) -> Result
     validate_pay_full_dmf_public_evidence_ceiling(root)?;
     validate_hlt_site_neutral_current_law_dependency_audit(root)?;
     validate_def_proportional_force_current_law_dependency_audit(root)?;
+    validate_oas_taxable_max_current_law_distribution_dependency_audit(root)?;
     validate_oas_fiscal_package_conversion(root)?;
     validate_net_fiscal_package_conversion(root)?;
     validate_rev_level_2_rate_reconciliation(root)?;
@@ -14300,6 +14301,74 @@ pub(crate) fn validate_def_proportional_force_current_law_dependency_audit(
         || bool_field(claims, "rate_change_allowed")?
     {
         return Err("DEF proportional-force current-law dependency audit failed".to_string());
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_oas_taxable_max_current_law_distribution_dependency_audit(
+    root: &Path,
+) -> Result<(), String> {
+    let audit = read_json_artifact(
+        root,
+        OAS_TAXABLE_MAX_CURRENT_LAW_DISTRIBUTION_AUDIT_JSON_PATH,
+    )?;
+    let sources = audit
+        .get("source_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("OAS dependency sources")?;
+    let gates = audit
+        .get("gate_rows")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("OAS dependency gates")?;
+    let dispositions = gates.iter().try_fold(BTreeMap::new(), |mut counts, row| {
+        *counts
+            .entry(string_field(row, "disposition")?)
+            .or_insert(0usize) += 1;
+        Ok::<_, String>(counts)
+    })?;
+    let law = audit
+        .get("current_law_determination")
+        .ok_or("OAS current law")?;
+    let distribution = audit
+        .get("bounded_cbo_distribution")
+        .ok_or("OAS bounded distribution")?;
+    let solvency = audit
+        .get("vintage_solvency_effect")
+        .ok_or("OAS vintage solvency")?;
+    let decision = audit.get("decision").ok_or("OAS dependency decision")?;
+    let claims = audit
+        .get("claim_boundaries")
+        .ok_or("OAS dependency claims")?;
+    if sources.len() != 5
+        || gates.len() != 8
+        || dispositions.get("evidence_pass") != Some(&2)
+        || dispositions.get("bounded_evidence_pass") != Some(&1)
+        || dispositions.get("owner_analysis_required") != Some(&3)
+        || dispositions.get("joint_model_required") != Some(&1)
+        || dispositions.get("scorekeeper_rescore_required") != Some(&1)
+        || bool_field(law, "candidate_enacted")?
+        || bool_field(law, "candidate_implemented")?
+        || int_field(law, "cy2026_contribution_and_benefit_base_dollars")? != 184500
+        || (number_field(law, "latest_observed_taxable_ratio_percent")? - 83.3).abs() > 0.0001
+        || !bool_field(
+            distribution,
+            "does_not_cover_all_survivor_disability_family_or_poverty_outcomes",
+        )?
+        || bool_field(solvency, "full_75_year_solvency_achieved")?
+        || bool_field(solvency, "current_2026_baseline_rescore")?
+        || !bool_field(decision, "dependency_audit_complete")?
+        || bool_field(decision, "candidate_admitted_to_spending_package")?
+        || bool_field(decision, "candidate_admitted_to_solvency_package")?
+        || string_field(decision, "next_action")? != "rerank_remaining_owner_outcome_lanes"
+        || bool_field(
+            claims,
+            "bounded_retiree_result_generalized_to_all_beneficiaries",
+        )?
+        || bool_field(claims, "deficit_effect_treated_as_spending_cut")?
+        || bool_field(claims, "candidate_admitted")?
+        || bool_field(claims, "rate_change_allowed")?
+    {
+        return Err("OAS taxable-maximum dependency audit failed".to_string());
     }
     Ok(())
 }

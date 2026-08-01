@@ -1379,6 +1379,12 @@ mod global_country_comparison_tests {
     }
 
     #[test]
+    fn oas_dependency_audit_recovers_bounded_distribution_without_admission() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        validate_oas_taxable_max_current_law_distribution_dependency_audit(&root).unwrap();
+    }
+
+    #[test]
     fn oas_option_stays_on_solvency_rail_and_out_of_spending_and_rev() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
         validate_oas_fiscal_package_conversion(&root).unwrap();

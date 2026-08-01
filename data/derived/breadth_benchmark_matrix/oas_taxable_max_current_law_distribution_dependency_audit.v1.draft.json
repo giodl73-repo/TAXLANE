@@ -1,0 +1,35 @@
+{
+  "record_id":"oas-taxable-max-current-law-distribution-dependency-audit:v1",
+  "record_family":"oas_taxable_max_current_law_distribution_dependency_audit",
+  "version":"v1.draft",
+  "status":"current_law_and_bounded_cbo_distribution_closed_five_dependencies_blocked",
+  "as_of_date":"2026-08-01",
+  "track_prefix":"OAS",
+  "candidate_id":"tax_90_percent_of_covered_earnings",
+  "predecessor_path":"data/derived/breadth_benchmark_matrix/oas_level_4_taxable_max_cohort_incidence_audit.v1.draft.json",
+  "schema_path":"data/derived/breadth_benchmark_matrix/oas_taxable_max_current_law_distribution_dependency_audit.schema.md",
+  "reader_path":"docs/reading/oas-taxable-max-current-law-distribution-dependency-audit.md",
+  "role_review_path":"reviews/2026-08-01-oas-taxable-max-current-law-distribution-dependency-audit-role-review.md",
+  "source_rows":[
+    {"source_id":"CBO-60955","role":"option score, long-range effect, and bounded distribution","finding":"CBO/JCT publish the ten-year deficit effect, higher scheduled benefits, three-year depletion delay under the vintage baseline, and retirement tax-and-benefit effects by household earnings quintile and birth cohort."},
+    {"source_id":"SSA-TRUSTEES-2026","role":"current trust-fund baseline","finding":"The 2026 report projects combined reserve depletion in 2034, 83 percent payable then, and a 4.42 percent-of-taxable-payroll 75-year deficit."},
+    {"source_id":"SSA-2026-PROGRAM-PARAMETERS","role":"current contribution and benefit rules","finding":"The 2026 contribution and benefit base is $184,500 and the combined employee-employer OASDI rate is 12.4 percent."},
+    {"source_id":"SSA-2026-TAXABLE-RATIO-ASSUMPTIONS","role":"current taxable-share baseline","finding":"The taxable ratio was 83.3 percent in 2023 and 2024 and is projected to converge to 82.5 percent by 2035 under intermediate assumptions."},
+    {"source_id":"SSA-SOLVENCY-PROVISION-E3.1-2025-BASELINE","role":"nearby phased policy context","finding":"SSA estimates a phased 2026-2035 90-percent provision with benefit credit, but it is not the immediate CBO alternative or a 2026 Trustees rescore."}
+  ],
+  "current_law_determination":{"candidate_enacted":false,"candidate_implemented":false,"cy2026_contribution_and_benefit_base_dollars":184500,"combined_oasdi_rate_percent":12.4,"latest_observed_taxable_ratio_percent":83.3,"latest_observed_taxable_ratio_year":2024,"target_taxable_ratio_percent":90.0,"oasdi_reserve_depletion_year":2034,"payable_at_depletion_percent":83,"actuarial_deficit_percent_taxable_payroll":4.42,"formal_2026_rescore_published":false},
+  "bounded_cbo_distribution":{"scope":"retired_workers_claiming_at_age_65_ranked_by_lifetime_household_earnings_quintile_and_birth_decade","birth_cohorts":["1960_1969","1970_1979","1980_1989"],"lowest_and_middle_quintile_changes_generally_below_one_percent":true,"highest_quintile_annual_benefit_change_percent":[{"cohort":"1960_1969","value_class":"between_zero_and_one_percent"},{"cohort":"1970_1979","value":4},{"cohort":"1980_1989","value":7}],"highest_quintile_lifetime_payroll_tax_relative_to_earnings_change_percent":[{"cohort":"1960_1969","value":5},{"cohort":"1970_1979","value":12},{"cohort":"1980_1989","value":18}],"does_not_cover_all_survivor_disability_family_or_poverty_outcomes":true},
+  "vintage_solvency_effect":{"actuarial_balance_improvement_percent_taxable_payroll":0.9,"depletion_delay_years":3,"projected_depletion_year":2037,"full_75_year_solvency_achieved":false,"current_2026_baseline_rescore":false},
+  "gate_rows":[
+    {"gate_id":"official_instrument_and_aggregate_score","disposition":"evidence_pass","evidence":"CBO/JCT define the immediate 90-percent alternative and publish annual deficit effects."},
+    {"gate_id":"current_trust_fund_taxable_base_and_taxable_ratio","disposition":"evidence_pass","evidence":"SSA supplies the 2026 trust-fund, $184,500 base, 12.4-percent rate, and 83.3-percent latest taxable-ratio context."},
+    {"gate_id":"bounded_retiree_birth_cohort_and_quintile_effects","disposition":"bounded_evidence_pass","evidence":"CBO publishes retirement benefit and lifetime payroll-tax effects for three birth cohorts and household-earnings quintiles."},
+    {"gate_id":"worker_employer_self_employed_economic_incidence","disposition":"owner_analysis_required","evidence":"Statutory shares and CBO household results do not identify compensation shifting, labor response, employer incidence, or self-employed administration."},
+    {"gate_id":"adequacy_poverty_survivor_disability_and_family_floors","disposition":"owner_analysis_required","evidence":"The bounded retired-worker table does not close survivor, disability, family, poverty, or vulnerable-population outcomes."},
+    {"gate_id":"administration_compliance_and_transition","disposition":"owner_analysis_required","evidence":"No current implementation plan costs payroll systems, benefit records, avoidance, compliance, or transition."},
+    {"gate_id":"rev_tax_unit_overlap_and_joint_distribution","disposition":"joint_model_required","evidence":"The official deficit score includes an income-tax offset, but no TAXLANE joint tax-unit allocation with REV is complete."},
+    {"gate_id":"current_law_rescore_and_sustainable_solvency","disposition":"scorekeeper_rescore_required","evidence":"The vintage result improves actuarial balance by 0.9 percent of payroll and delays depletion three years but does not achieve full solvency or use the 2026 Trustees baseline."}
+  ],
+  "decision":{"dependency_audit_complete":true,"required_gate_count":8,"evidence_pass_count":3,"owner_analysis_required_count":3,"joint_model_required_count":1,"scorekeeper_rescore_required_count":1,"candidate_admitted_to_spending_package":false,"candidate_admitted_to_solvency_package":false,"admitted_primary_spending_billions":0.0,"oas_monitor_mode":"policy_model_and_publication_triggered","next_action":"rerank_remaining_owner_outcome_lanes"},
+  "claim_boundaries":{"official_request_made":false,"public_release_authorized":false,"bounded_retiree_result_generalized_to_all_beneficiaries":false,"vintage_score_treated_as_current":false,"deficit_effect_treated_as_spending_cut":false,"candidate_admitted":false,"rate_change_allowed":false}
+}

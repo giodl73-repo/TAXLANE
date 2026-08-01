@@ -2255,6 +2255,8 @@ pub(crate) const HLT_SITE_NEUTRAL_CURRENT_LAW_AUDIT_JSON_PATH: &str = "data/deri
 
 pub(crate) const DEF_PROPORTIONAL_FORCE_CURRENT_LAW_AUDIT_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/def_proportional_force_current_law_dependency_audit.v1.draft.json";
 
+pub(crate) const OAS_TAXABLE_MAX_CURRENT_LAW_DISTRIBUTION_AUDIT_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/oas_taxable_max_current_law_distribution_dependency_audit.v1.draft.json";
+
 pub(crate) const FISCAL_PACKAGE_PAY_BRIDGE_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/fiscal_package_pay_contribution_bridge.v1.draft.json";
 
@@ -11195,6 +11197,34 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         path: "reviews/2026-08-01-def-proportional-force-current-law-dependency-audit-role-review.md",
         role: "DEF proportional-force current-law dependency audit role review",
         grain: "law, force, readiness, people, acquisition, budget, and scope fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: OAS_TAXABLE_MAX_CURRENT_LAW_DISTRIBUTION_AUDIT_JSON_PATH,
+        role: "OAS taxable-maximum current-law and distribution dependency audit",
+        grain: "current baseline, bounded cohorts, and remaining solvency dependencies",
+        kind: "json",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "data/derived/breadth_benchmark_matrix/oas_taxable_max_current_law_distribution_dependency_audit.schema.md",
+        role: "OAS taxable-maximum dependency audit schema",
+        grain: "bounded distribution and solvency-rail boundaries",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "docs/reading/oas-taxable-max-current-law-distribution-dependency-audit.md",
+        role: "OAS taxable-maximum dependency audit reader",
+        grain: "evidence correction and remaining gates",
+        kind: "markdown",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-08-01-oas-taxable-max-current-law-distribution-dependency-audit-role-review.md",
+        role: "OAS taxable-maximum dependency audit role review",
+        grain: "evidence, distribution, beneficiary, labor, administration, solvency, and finance fixed point",
         kind: "markdown",
         canonical: "supporting",
     },
