@@ -11653,7 +11653,7 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         role: "canonical Fifteen-Lane Admission Gate v1 frontier",
         grain: "one candidate or function and one admitted trigger monitor or downstream disposition per lane",
         kind: "json",
-        canonical: "canonical",
+        canonical: "yes",
     },
     Artifact {
         path: "data/derived/breadth_benchmark_matrix/fifteen_lane_admission_gate_v1.schema.md",
@@ -11681,7 +11681,7 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         role: "Admission Gate v1 PAY-NET-REV dependency rerun",
         grain: "ordered primary, PAY, NET, REV identity and zero-delta rate disposition",
         kind: "json",
-        canonical: "canonical",
+        canonical: "yes",
     },
     Artifact {
         path: "data/derived/breadth_benchmark_matrix/admission_gate_v1_pay_net_rev_dependency_rerun.schema.md",
@@ -11709,7 +11709,7 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         role: "Admission Gate v1 internal current proposed difference scorecard",
         grain: "current law, internal preferred, contingency, gate delta, fiscal delta, and all-lane dispositions",
         kind: "json",
-        canonical: "canonical",
+        canonical: "yes",
     },
     Artifact {
         path: "data/derived/breadth_benchmark_matrix/admission_gate_v1_internal_current_proposed_difference_scorecard.schema.md",

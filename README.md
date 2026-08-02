@@ -9,9 +9,12 @@ examines fifteen tracks through one guarded accounting spine, refuses to count
 unsupported savings, and lets the remaining financing target determine an
 internal analytical rate schedule.
 
-The result is now complete inside this repository: 21 canonical explanation
-artifacts, ten research papers, three presentation variants, a six-page local
-website, machine-readable closure records, and 421 passing tests.
+The current internal result is complete and reopenable: 21 canonical
+explanation artifacts, ten research papers, three presentation variants, a
+six-page local website, machine-readable closure records, and 484 passing
+workspace tests. Admission Gate v1 classifies every lane as a named trigger,
+active monitor, or downstream calculation; none currently supports an admitted
+FY2026 primary spending reduction.
 
 > **Repository-ready, externally blocked.** TAXLANE is not enacted law,
 > personal tax or legal advice, an official score, formal proof of balance, or
@@ -28,7 +31,7 @@ needed for the remaining scoped target.
 Across fifteen tracks, no tested FY2026 primary spending reduction cleared
 every gate. TAXLANE therefore admitted **$0.000 billion** in savings instead of
 inventing a haircut, retained a scoped **$813.727 billion** ordinary-income
-target, and selected **21/23/33/35/43/46/48** as its preferred internal
+target, and preserved **21/23/33/35/43/46/48** as its preferred internal
 analytical marginal bracket schedule. The breakthrough is the method: spending,
 payment integrity, debt cost, dedicated solvency, and revenue cannot be mixed or
 double-counted, and every simplified claim routes back to evidence.
@@ -38,9 +41,10 @@ double-counted, and every simplified claim routes back to evidence.
 | Question | TAXLANE result |
 |---|---|
 | How many tracks were examined? | 15 |
-| How many reached reviewed zero admission? | 10 |
+| How are the tracks classified now? | **0 admitted + 11 named triggers + 2 active monitors + 2 downstream** |
 | What FY2026 primary spending reduction was admitted? | **$0.000B** |
 | What scoped ordinary-income target remained? | **$813.727B** |
+| What is the current-law marginal schedule used for comparison? | **10/12/22/24/32/35/37** |
 | What is the preferred internal analytical schedule? | **21/23/33/35/43/46/48** |
 | What is the behavior-contingency schedule? | **22/24/34/36/44/47/49** |
 | What is the severe internal stress ceiling? | **22.6/24.6/34.6/36.6/44.6/47.6/49.6** |
@@ -51,6 +55,71 @@ enacted rates, personal advice, or an official score.
 
 Start with the [final briefing bundle](docs/explanation/final/briefing-bundle-index.md)
 or open the [repository-local website](docs/explanation/site/index.html).
+
+For the latest evidence state, read the
+[Fifteen-Lane Admission Gate](docs/reading/fifteen-lane-admission-gate-v1.md),
+the [ordered PAY-NET-REV rerun](docs/reading/admission-gate-v1-pay-net-rev-dependency-rerun.md),
+and the [current/proposed/difference scorecard](docs/reading/admission-gate-v1-internal-current-proposed-difference-scorecard.md).
+
+## What the full program taught us
+
+TAXLANE began as a rate question. The evidence changed it into a continuously
+reopenable public-systems question: what service is promised, what it costs,
+whether a proposed change preserves the floor, who carries the burden, and
+whether an observed fiscal effect survives accounting.
+
+The strongest lessons are:
+
+1. **A large budget is not evidence of waste.** Program scale, portfolio share,
+   utilization, backlog, or a peer-country gap can identify a question; none is
+   an admissible saving by itself.
+2. **Service improvement and booked savings are different achievements.** A
+   faster claim, safer corridor, stronger supply chain, or shorter case queue
+   has value even when no cash reduction is proved.
+3. **Cost, price, and outcome must stay connected.** A candidate needs a
+   current-law baseline, implementation cost, owner, schedule, service floors,
+   distribution, overlap treatment, and observed result.
+4. **Peer countries provide ranges, not instructions.** Definitions,
+   institutions, tax bases, demographics, benefit designs, and financing rails
+   must be normalized before a comparison can guide investigation.
+5. **The accounting order matters.** Primary program effects come first; PAY
+   remains owner-attributed and non-additive; NET follows an admitted debt path;
+   REV solves only the remaining financing requirement.
+6. **Zero is useful.** Zero admission means the current evidence supports a
+   trigger or monitor rather than a fiscal number. It prevents unsupported
+   reductions from becoming lower rates on paper.
+7. **Budgets must adapt.** Each lane has an observation cadence and reopening
+   condition so new evidence, implementation results, shocks, and changing
+   needs can revise the conclusion without rewriting history.
+
+## The Rust 2.0 evidence family
+
+TAXLANE owns fiscal admission; domain repositories own the service evidence.
+Together they cover all fifteen lanes without a new coordination framework.
+
+| Domain owner | Lane | What its executable evidence distinguishes | Current posture |
+|---|---|---|---|
+| ANCHOR | OAS | service access, adequacy, retirement/disability realization, solvency, and delivery | synthetic held candidate; official actuarial path required |
+| BASTION | DEF | purchased inventory, usable readiness, lifecycle resources, supplier resilience, and safe transition | synthetic held candidate; FYDP-mapped evidence required |
+| LIFELINE | ISF | disposable-resource cliffs, take-up, notice, appeals, adequacy, and household incidence | active monitor for a complete postimplementation cohort |
+| COVENANT | VET | claims, appeals, rural access, continuity, safety, and life-course handoffs | held pending enactment and matched observed outcomes |
+| TRIBUNAL | JUS | caseflow, counsel, victim notice, liberty, disparity, and institutional capacity | held pending implementation and matched rights outcomes |
+| ENVOY | INT | obligation, disbursement, output, durable outcome, local participation, and safeguards | active monitor for completed independent outcomes |
+| SHIELD and SLATE | HLT and EDU | access, capacity, quality, workforce, affordability, continuity, and resilience | domain baselines; candidate effects remain held |
+| ROUTE, GAUGE, TARMAC, and HARBOR | TRN | service promises, utilization, lifecycle cost, reliability, access, and ownership by mode | owner-observation triggers |
+| Existing ecology, energy, water, hazard, and production owners | AGR, DIS, SEE | source-labelled system pressure, capacity, resilience, and service-floor evidence | named evidence triggers |
+| TAXLANE | PAY, NET, REV | control attribution, endogenous debt effects, and the remaining rate requirement | downstream; cannot originate primary savings |
+
+Four owners already emit the same fourteen-section
+`taxlane.lane-evidence-pack-candidate.v1` vocabulary. ANCHOR and BASTION retain
+older held shapes until a real reopening-capable producer-consumer path
+justifies an adapter. This is deliberate: repeated JSON fields are not enough
+reason to build another framework.
+
+```text
+owner evidence -> deterministic held pack -> Taxlane admission review
+               -> primary -> PAY -> NET -> REV -> observe and reopen
+```
 
 ### First lane-owner evidence intake
 
@@ -521,9 +590,7 @@ the relevant publication-panel gates.
 
 Validation currently covers:
 
-- 152 `taxlane-core` tests;
-- 269 `taxlane-tools` tests;
-- 421 workspace tests total;
+- 484 workspace tests across the core, tools, and bounded lane feature crates;
 - closure contracts for all six explanation waves;
 - headline and accounting-boundary parity;
 - nonempty PDF and presentation renders;
