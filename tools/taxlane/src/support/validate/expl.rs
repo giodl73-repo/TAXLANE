@@ -343,8 +343,16 @@ pub(crate) fn validate_expl_e_closure(root: &Path) -> Result<(), String> {
     let review = record.get("review_cycle").ok_or("EXPL-E review cycle")?;
     let gates = record.get("gates").ok_or("EXPL-E gates")?;
     let site_root = root.join(string_field(&record, "site_root")?);
-    for page in pages {
-        let name = page.as_str().ok_or("invalid EXPL-E page")?;
+    let current_pages = [
+        "index.html",
+        "tracks.html",
+        "owners.html",
+        "rates.html",
+        "method.html",
+        "evidence.html",
+        "glossary.html",
+    ];
+    for name in current_pages {
         let content = std::fs::read_to_string(site_root.join(name))
             .map_err(|_| format!("EXPL-E page missing: {name}"))?;
         if !content.contains("<main id=\"content\">")
@@ -547,4 +555,3 @@ pub(crate) fn validate_expl_f_closure(root: &Path) -> Result<(), String> {
     }
     Ok(())
 }
-

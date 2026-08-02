@@ -10,11 +10,21 @@ nav a, main a { color:#075c78; text-underline-offset:.18em; }
 nav a[aria-current="page"] { font-weight:700; }
 a:focus-visible, summary:focus-visible { outline:.2rem solid #c85d00; outline-offset:.2rem; }
 h1, h2, h3 { color:var(--deep); line-height:1.2; }
+.eyebrow { color:var(--accent); font-size:.85rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
 .lede { font-size:1.2rem; max-width:65ch; }
 .result { border-left:.4rem solid var(--accent); background:#e8f2f5; padding:1rem 1.25rem; }
 .caveat { border-left:.4rem solid #c85d00; background:#fff2df; padding:1rem 1.25rem; }
 .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(15rem,1fr)); gap:1rem; }
 .card { background:white; border:1px solid var(--line); border-radius:.25rem; padding:1rem; }
+.stats { display:grid; grid-template-columns:repeat(4,minmax(8rem,1fr)); gap:.75rem; margin:1.25rem 0 2rem; }
+.stat { background:var(--deep); color:white; border-radius:.3rem; padding:1rem; text-align:center; }
+.stat strong { display:block; font-size:2rem; line-height:1; }
+.stat span { display:block; margin-top:.35rem; }
+.flow { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:.55rem; margin:1.75rem 0; padding:1rem; background:#e8f2f5; border:1px solid var(--line); border-radius:.3rem; }
+.status { display:inline-block; border-radius:999px; padding:.15rem .5rem; font-size:.84rem; font-weight:700; white-space:nowrap; }
+.status.trigger { background:#e8f2f5; color:#064b62; }
+.status.monitor { background:#fff2df; color:#6b3700; }
+.status.downstream { background:#eceff1; color:#35434b; }
 .table-wrap { overflow-x:auto; }
 table { border-collapse:collapse; width:100%; background:white; }
 th, td { border:1px solid var(--line); padding:.55rem; text-align:left; vertical-align:top; }
@@ -22,5 +32,5 @@ th { background:#dcecf2; }
 caption { text-align:left; font-weight:700; padding:.5rem 0; }
 code { overflow-wrap:anywhere; }
 footer { border-top:1px solid var(--line); margin-top:2rem; }
-@media (max-width:38rem) { header,main,footer { padding:.8rem; } .lede{font-size:1.05rem;} }
+@media (max-width:38rem) { header,main,footer { padding:.8rem; } .lede{font-size:1.05rem;} .stats{grid-template-columns:repeat(2,1fr);} }
 @media (prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition:none!important; } }

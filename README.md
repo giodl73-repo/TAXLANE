@@ -11,7 +11,7 @@ internal analytical rate schedule.
 
 The current internal result is complete and reopenable: 21 canonical
 explanation artifacts, ten research papers, three presentation variants, a
-six-page local website, machine-readable closure records, and 484 passing
+seven-page local website, machine-readable closure records, and 484 passing
 workspace tests. Admission Gate v1 classifies every lane as a named trigger,
 active monitor, or downstream calculation; none currently supports an admitted
 FY2026 primary spending reduction.
@@ -561,10 +561,11 @@ evidence, not real people or institutional endorsements.
 
 ## Website and visual system
 
-The repository includes a static, responsive, accessible six-page explanation:
+The repository includes a static, responsive, accessible seven-page explanation:
 
 - result overview;
 - fifteen-track explorer;
+- Rust 2.0 evidence-owner map;
 - rate and uncertainty explainer;
 - accounting method;
 - evidence routes; and

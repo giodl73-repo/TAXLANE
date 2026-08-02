@@ -45,8 +45,9 @@ Decision: repository-ready, externally blocked
 
 - four paper PDFs are nonempty repository-contained renders;
 - three presentation previews use repository-contained CSS and no remote URL;
-- six site pages have semantic navigation, skip links, focus treatment,
-  responsive table fallbacks, and reduced-motion behavior;
+- the original six EXPL-E site pages plus the current System 2.0 owner page have
+  semantic navigation, skip links, focus treatment, responsive table fallbacks,
+  and reduced-motion behavior;
 - every site link resolves to a repository-contained file;
 - the site contains no functional analytics, tracker, form, remote asset, or
   deployment configuration; and

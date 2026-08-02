@@ -11872,6 +11872,20 @@ pub(crate) const ARTIFACTS: &[Artifact] = &[
         kind: "markdown",
         canonical: "supporting",
     },
+    Artifact {
+        path: "docs/explanation/site/owners.html",
+        role: "Rust 2.0 evidence-owner explanation page",
+        grain: "owner, lane, demonstrated distinction, evidence posture, next event, and Taxlane authority boundary",
+        kind: "text",
+        canonical: "supporting",
+    },
+    Artifact {
+        path: "reviews/2026-08-01-rust-2-0-site-communication-role-review.md",
+        role: "Rust 2.0 site communication role review",
+        grain: "taxpayer, accounting, source, public-purpose, beneficiary, burden, sustainability, and skeptic fixed point",
+        kind: "markdown",
+        canonical: "supporting",
+    },
 ];
 
 pub(crate) const RECEIPT_SHARE_CATEGORIES: &[ReceiptShareCategory] = &[

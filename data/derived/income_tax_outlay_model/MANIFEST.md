@@ -22,7 +22,7 @@ supporting views.
 
 | Path | Role | Grain | Rows | Canonical | SHA-256 |
 |---|---|---|---:|---|---|
-| `README.md` | Repository overview | documentation | n/a | supporting | `3140acbe56f9e8c552b58f0d97c2dc0165b028b3666280c4ade2f31872100abd` |
+| `README.md` | Repository overview | documentation | n/a | supporting | `0d4bd4d94eb10934f95596e7b9de2b4e7a300b6cd52f9b40cacf675cb85d6c20` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.draft.jsonl` | Canonical annual model rows | fiscal year by broad category | 516 | yes | `01c0fec63836f3652fdd83b03a608159ad58f7614fc214ae6691421990f3a85e` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.decade-summary.jsonl` | Canonical decade summary rows | decade by broad category | 54 | yes | `088cb5d55cc6a37ab52dd543d8a92bf09908cda265e9c9f93324b840eb652fb3` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.annual-wide.csv` | Chart-ready annual wide view | fiscal year | 86 | no | `cbe6ec44a77b9ef4adebaef37acc4b55ac23fd5eb21916989ae9518cbd4e4c31` |
@@ -1071,6 +1071,8 @@ supporting views.
 | `data/derived/breadth_benchmark_matrix/oas_taxable_max_current_law_distribution_dependency_audit.schema.md` | OAS taxable-maximum dependency audit schema | bounded distribution and solvency-rail boundaries | n/a | supporting | `7ef0c12b2a9e0d083289315135edaa726d58764d3bf61337a0aac331f0b69b41` |
 | `docs/reading/oas-taxable-max-current-law-distribution-dependency-audit.md` | OAS taxable-maximum dependency audit reader | evidence correction and remaining gates | n/a | supporting | `82e19f6c441ab70cec8edeea9c6299bcf33dec1ad7fd3e48393aa615831c4b40` |
 | `reviews/2026-08-01-oas-taxable-max-current-law-distribution-dependency-audit-role-review.md` | OAS taxable-maximum dependency audit role review | evidence, distribution, beneficiary, labor, administration, solvency, and finance fixed point | n/a | supporting | `5563d5d98aede2a7b9918b8cac41f2bf418460914808eeff3a0351809b682056` |
+| `docs/explanation/site/owners.html` | Rust 2.0 evidence-owner explanation page | owner, lane, demonstrated distinction, evidence posture, next event, and Taxlane authority boundary | n/a | supporting | `51ded0629b4e0d2b8b69dff8f074da60e1ba2495da701fbe8370c45b923bf716` |
+| `reviews/2026-08-01-rust-2-0-site-communication-role-review.md` | Rust 2.0 site communication role review | taxpayer, accounting, source, public-purpose, beneficiary, burden, sustainability, and skeptic fixed point | n/a | supporting | `6490fe6f223a7aaff7593e6771f2b11414a02868def26e54211a179fb115938f` |
 
 ## Regeneration Order
 
