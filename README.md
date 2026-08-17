@@ -64,6 +64,15 @@ schedule remains **21/23/33/35/43/46/48**. The
 names the exact evidence each owner must supply next. Taxlane deliberately did
 not build an adapter with no admissible consumer.
 
+## Portfolio jurisdiction
+
+TAXLANE coordinates public-purpose funding lanes without owning the service,
+rights, operational, engineering, election, or policy semantics behind them.
+The [jurisdiction map](docs/jurisdiction-map.md) links all 17 active lanes to
+their bounded domain owners or to an explicit ownership gap, defines admissible
+evidence handoffs, and protects RATIFY, RCOUNT, RPLAN, and external tax-model
+authority.
+
 ## How TAXLANE solved the system
 
 “Solved” means the internal analytical system closes under explicit evidence,
