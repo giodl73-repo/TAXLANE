@@ -227,19 +227,15 @@ Validation currently covers:
 - local HTML links, accessibility markers, and remote-asset exclusions; and
 - the derived-artifact manifest.
 
-Run the full checks:
+Active maintenance owner: `@giodl73-repo`. The validation and publication
+commands are consolidated into one maintained block:
 
 ```powershell
 cargo test --workspace
 cargo run -p taxlane-tools -- income-tax-outlay validate
 cargo run -p taxlane-tools -- income-tax-outlay manifest --check
-git diff --check
-```
-
-Rebuild the paper PDFs:
-
-```powershell
 pwsh docs/papers/build.ps1
+git diff --check
 ```
 
 ## What TAXLANE does not claim
