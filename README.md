@@ -279,4 +279,12 @@ For the shortest public handoff—a concrete taxpayer example showing what is re
 
 ## License
 
-[MIT](LICENSE) — © 2026 Gio Della-Libera.
+TAXLANE uses separate licenses for software and content. Source code,
+executable scripts, tests, configuration, and ordinary software
+documentation are MIT-licensed (copyright Gio Della-Libera). Original
+non-software content is licensed CC BY-NC 4.0 (copyright Gio Della-Libera);
+commercial use of that content requires separate written permission.
+Third-party material remains under its own terms.
+Source data and derived data artifacts carry no blanket license and
+retain their source-specific rights.
+See [LICENSE](./LICENSE) for the complete notice.
