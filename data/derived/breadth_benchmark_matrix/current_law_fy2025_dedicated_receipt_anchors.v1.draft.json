@@ -31,8 +31,8 @@
       "raw_byte_count": 26752,
       "raw_sha256": "21d071576d5627a18c3f62de86bfc7faeced1a68265f2db87b4f737b2773c5bd",
       "metadata_path": "data/metadata/SRC-OMB-HIST-2-4-FY2027.2026-06-21.metadata.md",
-      "metadata_byte_count": 909,
-      "metadata_sha256": "939d86fcbe66a7c289b7e23a4a7979fbdcac030fd138cdfe0107b1aa1cfeac46",
+      "metadata_byte_count": 925,
+      "metadata_sha256": "c671d98e3a14cedc095cff0cd80eafec686cbdf4d5258276335bf99af580194f",
       "review_status": "raw_and_metadata_present_hash_matched",
       "values_may_be_populated": true
     },
@@ -45,11 +45,11 @@
       "raw_byte_count": 296958,
       "raw_sha256": "6a332e8291db7f8e6a4252c79e444c782f5cf2d369cae4b738fe63b7dc0d4437",
       "metadata_path": "data/metadata/SRC-OMB-AP-13-FUNDS-FY2027.2026-06-21.metadata.md",
-      "metadata_byte_count": 1301,
-      "metadata_sha256": "d164d2928d710b7d757509ad4bec7110b167c3e5130858977ff821668fca869a",
+      "metadata_byte_count": 1325,
+      "metadata_sha256": "9cb738470faa8a7953b2c20919be69949687be9966f12380c0371aed8448c2b9",
       "extracted_artifact_path": "data/extracted/budget_concept/SRC-OMB-AP-13-FUNDS-FY2027/budget_concept.SRC-OMB-AP-13-FUNDS-FY2027.2026-06-21.source-reviewed.jsonl",
-      "extracted_artifact_byte_count": 7377,
-      "extracted_artifact_sha256": "96f872acb7bb5dea1a7a25882921e054150634fc50ab0ddbb42fcb4c46c3a275",
+      "extracted_artifact_byte_count": 7383,
+      "extracted_artifact_sha256": "be3777a4abe4f27c0c76fbc57ba6a2d14e280bcc425de616ac473cf2befd1ac2",
       "review_status": "raw_metadata_and_concept_extract_present_hash_matched",
       "values_may_be_populated": true
     }

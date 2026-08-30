@@ -59,7 +59,7 @@
       "raw_byte_count": 19517,
       "raw_sha256": "7e345100f4d057c895dfe6a3d69e52c77f90d5e052c36f27981601a353eb14b5",
       "metadata_path": "data/metadata/SRC-OMB-HIST-1-1-FY2027.2026-06-21.metadata.md",
-      "metadata_sha256": "1aef0f4eaf59b31c22e428d7ab9527430e27bc7974f4b8b8238a5456ff97cd7c",
+      "metadata_sha256": "96ce041c19f011f2670030cd275ce8085f655bbf264e55179850f914cfd1c665",
       "extraction_method": "Used existing FY2025 actual fiscal spine for receipts, outlays, and deficit cross-checks.",
       "annual_years_covered": [2025],
       "component_mapping": "Actual FY2025 receipts, outlays, and deficit only.",

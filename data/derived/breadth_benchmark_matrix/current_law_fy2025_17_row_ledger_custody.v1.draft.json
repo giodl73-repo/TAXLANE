@@ -35,7 +35,7 @@
       "raw_byte_count": 19517,
       "raw_sha256": "7e345100f4d057c895dfe6a3d69e52c77f90d5e052c36f27981601a353eb14b5",
       "metadata_path": "data/metadata/SRC-OMB-HIST-1-1-FY2027.2026-06-21.metadata.md",
-      "metadata_sha256": "1aef0f4eaf59b31c22e428d7ab9527430e27bc7974f4b8b8238a5456ff97cd7c",
+      "metadata_sha256": "96ce041c19f011f2670030cd275ce8085f655bbf264e55179850f914cfd1c665",
       "extraction_method": "Existing controlled extraction from local captured OMB Historical Table 1.1 workbook.",
       "annual_years_covered": [2025],
       "component_mapping": "Fiscal spine for total outlays, receipts, deficit, and reconciliation checks.",
@@ -73,7 +73,7 @@
       "raw_byte_count": 60343,
       "raw_sha256": "78100f3efb1a6b08d675b24af173a57359e47dce103a2f1499d905a4bbba06ce",
       "metadata_path": "data/metadata/SRC-OMB-HIST-3-2-FY2027.2026-06-21.metadata.md",
-      "metadata_sha256": "b3b346c2b0bfd8f65ee58aebca890bfcabc7a276ff5c3a55eb266a8f7c7c3078",
+      "metadata_sha256": "bb01adf959ac2b9f4f169aa3bf30ef1730127a2a7d00ed1c0f32f7db3d076ebf",
       "extraction_method": "Existing controlled extraction from local captured OMB Historical Table 3.2 workbook and existing FY2025 program-lane rows.",
       "annual_years_covered": [2025],
       "component_mapping": "Seventeen FY2025 OMB function-derived rows, including commerce/housing credit and undistributed offsetting receipts as negative fiscal reconciliation rows.",
@@ -102,7 +102,7 @@
   ],
   "source_value_lineage": {
     "existing_local_value_artifact_path": "data/derived/program_lane_rate_model/program_lane_rate_model.fy2025.omb-fy2027-v1.draft.jsonl",
-    "existing_local_value_artifact_sha256": "de776245e6baa6802761607e334469007a92bf3082bac79a382e4f1a74e3822b",
+    "existing_local_value_artifact_sha256": "e0065d9e453402dbb9e12ba7d0b3204f284098bb587a34d5fd803b689ca26471",
     "row_count": 17,
     "source_ids": ["SRC-OMB-HIST-1-1-FY2027", "SRC-OMB-HIST-3-2-FY2027"],
     "lineage_note": "Rows are copied from the existing FY2025 program-lane current-cost artifact for baseline-year current-law ledger custody only. Prior receipt-share/rate framing in that artifact is not imported as a rate, target, solver input, or policy claim."

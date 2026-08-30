@@ -1,9 +1,8 @@
 use std::collections::{BTreeMap, BTreeSet};
 use std::fs::{self, File};
 use std::io::Read;
-use std::path::{Path, PathBuf};
+use std::path::Path;
 
-use roxmltree::Document;
 use sha2::{Digest, Sha256};
 use taxlane_core::{
     AccountabilityEvidenceRecord, ArtifactMetadata, BreadthBenchmarkRecord, CostDownBacklogRecord,
@@ -70,7 +69,6 @@ use taxlane_core::{
     PerformanceDemandResponseLogClass, PerformanceDemandResponseLogRecord,
     PerformanceDemandResponseStatus, SpendCategoryMapRecord,
 };
-use zip::ZipArchive;
 
 #[cfg(test)]
 mod global_country_comparison_tests {
@@ -24590,60 +24588,6 @@ fn format_millions_as_billions_or_trillions(value_millions: f64) -> String {
     }
 }
 
-fn decimal_string(value: f64, decimals: usize) -> String {
-    let text = format!("{value:.decimals$}");
-    let trimmed = text.trim_end_matches('0').trim_end_matches('.');
-    if trimmed == "-0" {
-        "0.0".to_string()
-    } else if trimmed.contains('.') {
-        trimmed.to_string()
-    } else {
-        format!("{trimmed}.0")
-    }
-}
-
-fn json_amount(value: f64) -> String {
-    if value == 0.0 {
-        "0".to_string()
-    } else if value.is_finite() && value.fract() == 0.0 {
-        format!("{value:.0}")
-    } else {
-        decimal_string(value, 6)
-    }
-}
-
-fn comma_number(value: f64, decimals: usize) -> String {
-    let text = format!("{value:.decimals$}");
-    let (sign, unsigned) = text
-        .strip_prefix('-')
-        .map_or(("", text.as_str()), |rest| ("-", rest));
-    let (integer, fraction) = unsigned
-        .split_once('.')
-        .map_or((unsigned, None), |(integer, fraction)| {
-            (integer, Some(fraction))
-        });
-    let mut grouped = String::new();
-    for (index, char) in integer.chars().rev().enumerate() {
-        if index > 0 && index % 3 == 0 {
-            grouped.push(',');
-        }
-        grouped.push(char);
-    }
-    let integer = grouped.chars().rev().collect::<String>();
-    match fraction {
-        Some(fraction) => format!("{sign}{integer}.{fraction}"),
-        None => format!("{sign}{integer}"),
-    }
-}
-
-fn annual_deficit_gap_string(value: f64) -> String {
-    if value == 0.0 {
-        "0".to_string()
-    } else {
-        decimal_string(value, 6)
-    }
-}
-
 fn decade_label(year: i64) -> String {
     let start = year - year % 10;
     format!("{start}s")
@@ -24655,14 +24599,6 @@ fn sum_field(rows: &[&serde_json::Value], field: &str) -> Result<f64, String> {
 
 fn json_string(value: &str) -> String {
     serde_json::to_string(value).expect("serializing string should not fail")
-}
-
-fn json_option_string(value: Option<&str>) -> String {
-    value.map_or_else(|| "null".to_string(), json_string)
-}
-
-fn json_owned_option_string(value: Option<&String>) -> String {
-    value.map_or_else(|| "null".to_string(), |value| json_string(value))
 }
 
 fn check_manifest(root: &Path) -> Result<(), String> {
