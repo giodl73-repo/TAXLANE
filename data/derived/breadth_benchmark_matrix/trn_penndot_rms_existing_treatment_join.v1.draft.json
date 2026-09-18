@@ -1,0 +1,164 @@
+{
+  "record_id": "trn-penndot-rms-existing-treatment-join:2024:v1",
+  "record_family": "trn_penndot_rms_existing_treatment_join",
+  "version": "v1.draft",
+  "status": "state_comparable_treated_footprint_ready_full_denominator_and_untreated_eligibility_blocked",
+  "as_of_date": "2026-07-28",
+  "source_custody": [
+    {
+      "path": "data/raw/penndot/SRC-PENNDOT-STATEWIDE-RUMBLE-STRIPS-2024/2026-07-28/Statewide-Rumble-Strips-03-01-2024.xlsx",
+      "sha256": "4dc717da1f71de3dec23f05039fc59bc119e7359b6afa24ec194fddb908417e4"
+    },
+    {
+      "path": "data/raw/penndot/SRC-PENNDOT-RMS-OPEN-DATA-TRN-JOIN/2026-07-28/roadwaysegments-workbook-route-universe.json",
+      "sha256": "e514fbff2c3c16a6175e0e26c38191591175768b5da178824297914c20de9251"
+    },
+    {
+      "path": "data/raw/penndot/SRC-PENNDOT-RMS-OPEN-DATA-TRN-JOIN/2026-07-28/roadwayadmin-workbook-route-universe.json",
+      "sha256": "68d9544563c23de9a3a4356fc4821d6b2958b6d13538c0fa798ccb0ed21bac2f"
+    },
+    {
+      "path": "data/raw/penndot/SRC-PENNDOT-RMS-OPEN-DATA-TRN-JOIN/2026-07-28/roadwayshoulder-workbook-route-universe.json",
+      "sha256": "32cb524020dbb947778007bee11c96a3b90f7336713f23570851901bc825c1d4"
+    },
+    {
+      "path": "data/raw/fhwa/SRC-FHWA-HPMS-SPATIAL-SECTIONS-2024-TRN-SCREEN/2026-07-28/rural-two-way-two-lane-state-totals.json",
+      "sha256": "4a4a8067aea5fc01ef55abb94e83a1f6346f5e9e22d14c8f8542cb88c3d787cd"
+    }
+  ],
+  "capture_scope": {
+    "county_route_pairs_from_workbook": 1382,
+    "roadwaysegment_features": 44180,
+    "roadwayadmin_features": 22425,
+    "roadwayshoulder_features": 56968,
+    "selection_boundary": "The capture includes only county-route pairs present in the treatment workbook. It cannot represent routes with no recorded treatment and is not a statewide denominator."
+  },
+  "join_coverage": {
+    "all_workbook_treatment_rows": 57397,
+    "all_rows_exact_segment_matches": 57173,
+    "all_rows_exact_segment_match_percent": 99.609736,
+    "candidate_setting_treatment_rows": 34544,
+    "candidate_rows_exact_segment_matches": 34513,
+    "candidate_exact_segment_match_percent": 99.910259,
+    "candidate_rows_unique_admin_interval_matches": 32832,
+    "candidate_unique_admin_match_percent": 95.044002,
+    "candidate_rows_with_both_matches": 32815,
+    "candidate_both_match_percent": 94.994789,
+    "admin_class_counts_for_unique_matches": [
+      {
+        "fhwa_functional_class": 1,
+        "functional_system": "interstate",
+        "treatment_rows": 8
+      },
+      {
+        "fhwa_functional_class": 2,
+        "functional_system": "other_freeway_expressway",
+        "treatment_rows": 14
+      },
+      {
+        "fhwa_functional_class": 3,
+        "functional_system": "other_principal_arterial",
+        "treatment_rows": 8642
+      },
+      {
+        "fhwa_functional_class": 4,
+        "functional_system": "minor_arterial",
+        "treatment_rows": 13958
+      },
+      {
+        "fhwa_functional_class": 5,
+        "functional_system": "major_collector",
+        "treatment_rows": 8219
+      },
+      {
+        "fhwa_functional_class": 6,
+        "functional_system": "minor_collector",
+        "treatment_rows": 1435
+      },
+      {
+        "fhwa_functional_class": 7,
+        "functional_system": "local",
+        "treatment_rows": 556
+      }
+    ]
+  },
+  "matched_comparable_treated_footprint": {
+    "criteria": "unique segment and admin matches; RMS jurisdiction=1, urban_rural=1, facility_type=2, lane_count=2; FHWA functional class in 3,4,5,6",
+    "treatment_rows": 24972,
+    "share_of_candidate_setting_rows_percent": 72.290412,
+    "segment_direction_keys": 11804,
+    "union_interval_footprint_miles": 4401.040152,
+    "by_functional_class": [
+      {
+        "fhwa_functional_class": 3,
+        "functional_system": "other_principal_arterial",
+        "treatment_rows": 5798,
+        "segment_direction_keys": 2089,
+        "union_interval_footprint_miles": 831.828409
+      },
+      {
+        "fhwa_functional_class": 4,
+        "functional_system": "minor_arterial",
+        "treatment_rows": 10878,
+        "segment_direction_keys": 4913,
+        "union_interval_footprint_miles": 1818.860985
+      },
+      {
+        "fhwa_functional_class": 5,
+        "functional_system": "major_collector",
+        "treatment_rows": 6898,
+        "segment_direction_keys": 3888,
+        "union_interval_footprint_miles": 1417.334848
+      },
+      {
+        "fhwa_functional_class": 6,
+        "functional_system": "minor_collector",
+        "treatment_rows": 1398,
+        "segment_direction_keys": 928,
+        "union_interval_footprint_miles": 333.015909
+      }
+    ],
+    "measurement_boundary": "This is a matched state-owned existing-treatment interval footprint, not an official route-mile total. Treatment types can overlap and the capture excludes county-route pairs with no treatment record."
+  },
+  "matched_treated_condition_availability": {
+    "iri_reported_treatment_rows": 24971,
+    "iri_le_170_treatment_rows": 23554,
+    "iri_gt_170_treatment_rows": 1417,
+    "any_shoulder_interval_match_treatment_rows": 24831,
+    "both_shoulder_sides_interval_match_treatment_rows": 24786,
+    "boundary": "These counts describe already-treated records and field availability. IRI is not structural adequacy; shoulder records do not establish usable width beyond a proposed strip or suitability of untreated roads."
+  },
+  "hpms_reconciliation": {
+    "pennsylvania_rural_two_way_two_lane_filtered_section_miles": 20851.0429,
+    "matched_treated_footprint_subtracted": false,
+    "reason": "HPMS covers the selected public-road systems, while the matched footprint is state-owned and comes from a treatment-selected county-route universe. A full state-owned RMS denominator and crosswalk to HPMS are required before subtraction."
+  },
+  "next_reduction_contract": {
+    "step": "capture the complete Pennsylvania state-owned RMS segment and admin universes, apply the same rural/two-way/two-lane/FHWA-class filter, and reconcile that denominator to HPMS before subtracting the matched treated footprint",
+    "then": "join full shoulder and pavement intervals, existing/programmed treatments, and observed target crashes; report every nonmatch and coverage rate"
+  },
+  "blocked_values": {
+    "pennsylvania_state_owned_comparable_denominator_miles": null,
+    "pennsylvania_untreated_miles": null,
+    "pennsylvania_untreated_design_eligible_miles": null,
+    "target_crash_fatalities_and_injuries": null,
+    "national_untreated_design_eligible_miles": null,
+    "candidate_cost_billions": null,
+    "candidate_outcome": null
+  },
+  "claim_boundaries": {
+    "public_rms_attributes_raw_custodied": true,
+    "inventory_segment_join_audited": true,
+    "comparable_state_owned_treated_footprint_ready": true,
+    "full_state_denominator_ready": false,
+    "hpms_subtraction_ready": false,
+    "untreated_mileage_ready": false,
+    "design_eligible_mileage_ready": false,
+    "target_crash_numerator_ready": false,
+    "national_extrapolation_allowed": false,
+    "candidate_cost_ready": false,
+    "allocation_ready": false,
+    "funding_recommended": false,
+    "public_release_authorized": false
+  }
+}

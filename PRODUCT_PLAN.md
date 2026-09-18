@@ -12,23 +12,27 @@ programs.
 
 - Citizens who want a plain-language map of how income tax works.
 - Researchers comparing general-revenue taxation with earmarked or
-program-linked taxation.
-
-## Current showable state
-
-TAXLANE is currently showable as a source-custody and readiness guardrail
-system, not as a finished solver, rate model, savings model, public rate card,
-department-cut instruction, technology-savings claim, or balanced-budget plan.
-
-The shortest current evaluator path is
-`docs/reading/taxlane-showcase-readiness-summary.md`. It points to the
-income-security/family demo trail, where FY2025 federal account-perimeter source
-custody is narrowly ready, OECD family-benefit comparator context is
-displayable, and CBO, Census, HHS/ACF, and USDA capture gaps remain documented
-and open.
+  program-linked taxation.
 - Policy designers exploring more legible fiscal systems.
 - Portfolio consumers that may later need source-backed civic or public-finance
   knowledge packets.
+
+## Current showable state
+
+TAXLANE is repository-ready as an evidence-control system, completed
+fifteen-track internal analysis, central rate model, and multi-format civic
+explainer. Its canonical result remains an internal FY2026 analytical schedule,
+not an official score, enacted rate card, complete household model, or proof of
+balance.
+
+The current extension adds peer-informed savings and reinvestment profiles plus
+a recurring needs-and-balance cycle. Reinvestment is held as an adaptive
+all-lane reserve rather than pre-committed to education or another program.
+Their rate implications are model-scored conditional results; their initiative
+amounts are goal-seeking policy envelopes with zero admitted savings. The
+shortest evaluator path is the final briefing bundle, followed by the local
+website and the profile record. Historical readiness packets remain useful for
+showing how earlier blocked gates were preserved rather than silently erased.
 
 ## Core model
 

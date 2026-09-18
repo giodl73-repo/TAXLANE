@@ -1,0 +1,46 @@
+{
+  "record_id": "adaptive-needs-scoring-allocation-contract:v1",
+  "record_family": "adaptive_needs_scoring_allocation_contract",
+  "version": "v1.draft",
+  "status": "executable_contract_ready_no_lane_inputs_admitted",
+  "as_of_date": "2026-07-28",
+  "framework_path": "data/derived/breadth_benchmark_matrix/adaptive_needs_and_balance_cycle.v1.draft.json",
+  "triage_path": "data/derived/breadth_benchmark_matrix/adaptive_needs_all_lane_triage.v1.draft.json",
+  "eligible_reserve_tracks": ["TRN","HLT","EDU","ISF","VET","AGR","DEF","DIS","JUS","SEE","INT"],
+  "separate_rails": {"OAS":"dedicated_solvency_and_adequacy","PAY":"non_additive_control_overlay","REV":"financing_constraint","NET":"endogenous_result"},
+  "admission_gates": [
+    "current or reviewed standard-lag pain measure with observation period and affected population",
+    "reviewed severity target distinct from a no-regression baseline",
+    "specific intervention and responsible owner",
+    "bounded marginal outcome estimate with time horizon",
+    "gross and net public cost with federal, state, local, household, employer, and private shifts",
+    "distribution and equity analysis",
+    "delivery-capacity and implementation schedule",
+    "overlap and non-additivity review",
+    "funding type, duration, milestones, and sunset or continuation rule",
+    "applicable outcome floors passed under policy and stress cases"
+  ],
+  "primary_score": {
+    "scale": [0,100],
+    "weighted_dimensions": {"pain_severity":0.25,"affected_population":0.15,"urgency_and_reversibility":0.15,"marginal_outcome_gain":0.25,"equity":0.10,"whole_system_net_value":0.10},
+    "confidence_multipliers": {"intervention_evidence":[0,1],"delivery_confidence":[0,1]},
+    "formula": "weighted dimension sum * intervention evidence * delivery confidence",
+    "rule": "Spending level and peer gap are diagnostic and never enter the score directly."
+  },
+  "sensitivity_profiles": [
+    {"name":"equal_dimensions","purpose":"test dependence on normative primary weights"},
+    {"name":"pain_and_urgency_heavy","purpose":"test acute-harm prioritization"},
+    {"name":"outcome_and_net_value_heavy","purpose":"test marginal-effect prioritization"}
+  ],
+  "allocation_rules": {
+    "contingency_share_percent": 10,
+    "allocatable_share_percent": 90,
+    "maximum_single_lane_share_of_allocatable_percent": 30,
+    "method": "score_proportional_iterative_cap_then_leave_unallocatable_remainder_in_reserve",
+    "candidate_cap_required": true,
+    "cross_sensitivity_stability_required_for_structural_base": true,
+    "temporary_funding_default": "automatic_sunset_unless_milestones_and_refreshed_pain_support_continuation",
+    "unallocated_funds_rule": "Remain in the profile reserve; they do not become assumed spending or savings."
+  },
+  "claim_boundaries": {"weights_are_value_neutral":false,"lane_scores_ready":false,"allocation_ready":false,"funding_recommended":false,"official_score":false,"public_release_authorized":false}
+}

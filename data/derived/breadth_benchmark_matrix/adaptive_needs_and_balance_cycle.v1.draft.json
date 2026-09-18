@@ -1,0 +1,88 @@
+{
+  "record_id": "adaptive-needs-and-balance-cycle:v1",
+  "record_family": "adaptive_needs_and_balance_cycle",
+  "version": "v1.draft",
+  "status": "allocation_method_ready_lane_scores_not_yet_populated",
+  "as_of_date": "2026-07-28",
+  "purpose": "Compare structural balance with current lived pain, fund the strongest remediable needs, and require recurring reassessment instead of permanently fixing every lane to a peer spending share.",
+  "core_rule": "Peer position is context. Allocation follows evidenced pain, the expected outcome gain from a specific intervention, urgency, equity, and the capacity to deliver without breaching a floor.",
+  "cycle": [
+    {"stage": 1, "name": "measure", "action": "Refresh the common-year baseline, outcomes, access, affordability, reliability, distribution, obligations, and peer context for every lane."},
+    {"stage": 2, "name": "protect", "action": "Fund legal commitments and minimum safety, access, readiness, adequacy, rights, and solvency floors before discretionary ranking."},
+    {"stage": 3, "name": "diagnose", "action": "Identify acute pain, structural underperformance, inefficient excess, and cost shifting; do not infer need or waste from spending level alone."},
+    {"stage": 4, "name": "rank_interventions", "action": "Compare specific interventions by pain severity, affected population, urgency, expected marginal outcome, evidence strength, equity, delivery capacity, and total public/private cost."},
+    {"stage": 5, "name": "allocate", "action": "Assign temporary repair funds or recurring structural funds; keep an explicit reserve and avoid automatic lane entitlements."},
+    {"stage": 6, "name": "deliver_and_monitor", "action": "Track outputs, outcomes, access, burden, implementation, displacement, and unintended cost shifts against dated milestones."},
+    {"stage": 7, "name": "sunset_or_continue", "action": "Expire temporary funding unless the pain persists and the intervention works; continue structural funding only when the continuing obligation or durable value is demonstrated."},
+    {"stage": 8, "name": "rebalance", "action": "Return realized savings, failed interventions, and released temporary funds to the next all-lane review, then repeat the cycle."}
+  ],
+  "evaluation_dimensions": [
+    {"dimension": "floor_risk", "question": "Is a legal, safety, access, readiness, adequacy, rights, resilience, or solvency floor breached or likely to be breached?", "role": "eligibility_and_priority_override"},
+    {"dimension": "pain_severity", "question": "How severe is the measured harm relative to an explicit threshold?", "role": "ranking"},
+    {"dimension": "population_and_distribution", "question": "How many people are affected, for how long, and which groups or places bear the burden?", "role": "ranking"},
+    {"dimension": "urgency_and_reversibility", "question": "What becomes more costly, dangerous, or irreversible if action waits?", "role": "ranking"},
+    {"dimension": "marginal_outcome_gain", "question": "What additional outcome is expected from the next dollar rather than from the program average?", "role": "ranking"},
+    {"dimension": "intervention_evidence", "question": "How strong and transferable is the causal evidence for the specific intervention?", "role": "confidence"},
+    {"dimension": "delivery_capacity", "question": "Can the responsible institutions absorb and deliver the funding on schedule?", "role": "feasibility_cap"},
+    {"dimension": "whole_system_cost", "question": "Does the change reduce federal cost by shifting cost or risk to states, households, employers, or later years?", "role": "net_value_adjustment"},
+    {"dimension": "peer_and_historical_position", "question": "Is the lane outside a definition-matched peer or historical range, and do outcomes support concern?", "role": "diagnostic_only"},
+    {"dimension": "fiscal_sustainability", "question": "Is the funding temporary, recurring, dedicated, debt-financed, or paired with a durable offset?", "role": "financing_constraint"}
+  ],
+  "funding_types": [
+    {"type": "structural_base", "use": "Continuing legal obligation or durable service whose need persists across cycles.", "review": "annual performance review plus multiyear structural review"},
+    {"type": "temporary_pain_response", "use": "Acute backlog, shock, repair, transition, capacity, or geographically concentrated harm.", "review": "dated milestones and automatic sunset"},
+    {"type": "evidence_building_pilot", "use": "Promising intervention with material uncertainty.", "review": "pre-registered evaluation and scale-or-stop decision"},
+    {"type": "stabilization_reserve", "use": "Known cyclical or contingent risks such as disasters or downturns.", "review": "trigger and replenishment rules"}
+  ],
+  "lane_roles": [
+    {"track":"TRN","lane":"transportation-infrastructure","allocation_role":"eligible_service_lane"},
+    {"track":"HLT","lane":"health-medicare","allocation_role":"eligible_service_lane_and_cost_convergence_source"},
+    {"track":"EDU","lane":"education-workforce","allocation_role":"eligible_service_lane_no_automatic_increase"},
+    {"track":"OAS","lane":"social-security","allocation_role":"dedicated_solvency_and_adequacy_overlay"},
+    {"track":"ISF","lane":"income-security-family","allocation_role":"eligible_service_lane"},
+    {"track":"VET","lane":"veterans","allocation_role":"eligible_service_lane"},
+    {"track":"AGR","lane":"agriculture","allocation_role":"eligible_service_lane"},
+    {"track":"DEF","lane":"national-defense","allocation_role":"eligible_readiness_lane_and_strategy_led_savings_source"},
+    {"track":"DIS","lane":"disaster-resilience","allocation_role":"eligible_service_lane_and_stabilization_reserve_candidate"},
+    {"track":"JUS","lane":"justice-courts-public-safety","allocation_role":"eligible_service_lane"},
+    {"track":"SEE","lane":"science-energy-environment","allocation_role":"eligible_service_lane"},
+    {"track":"INT","lane":"international-affairs","allocation_role":"eligible_service_lane"},
+    {"track":"PAY","lane":"payment-integrity","allocation_role":"non_additive_measurement_and_control_overlay"},
+    {"track":"REV","lane":"revenue-solvency","allocation_role":"financing_constraint"},
+    {"track":"NET","lane":"net-interest","allocation_role":"endogenous_result"}
+  ],
+  "current_evaluation": {
+    "triage_path": "data/derived/breadth_benchmark_matrix/adaptive_needs_all_lane_triage.v1.draft.json",
+    "scoring_contract_path": "data/derived/breadth_benchmark_matrix/adaptive_needs_scoring_allocation_contract.v1.draft.json",
+    "allocation_readiness_path": "data/derived/breadth_benchmark_matrix/adaptive_profile_reserve_allocation_readiness.v1.draft.json",
+    "initial_intervention_dossiers_path": "data/derived/breadth_benchmark_matrix/adaptive_initial_intervention_dossiers.v1.draft.json",
+    "all_lane_outcome_floor_anchors_present": true,
+    "all_lane_problem_and_response_classes_populated": true,
+    "all_lane_complete_need_scores_ready": false,
+    "ranked_reinvestment_allocation_ready": false,
+    "reason": "Each lane has a source-custodied anchor and partial outcome-floor work, but complete common-year outcomes, policy-specific marginal effects, cross-lane normalization, delivery capacity, and cost-shift evidence are not yet available.",
+    "education_precommitted_billions": 0.0
+  },
+  "same_perimeter_peer_bridge": {
+    "baseline_year": 2022,
+    "government_perimeter": "general_government_S13",
+    "transaction": "total_government_expenditure_OTE",
+    "source_path": "data/derived/breadth_benchmark_matrix/cofog_site_spending_share_calculation.data2022.v1.draft.json",
+    "us_current_percent": {"social_protection":21.6,"health":26.4,"economic_affairs":7.8,"education":14.7,"defense":7.7},
+    "displayed_peer_range_percent": {"social_protection":[36.4,40.8],"health":[14.6,21.2],"economic_affairs":[10.2,13.0],"education":[7.8,14.5],"defense":[2.2,3.4]},
+    "profile_post_policy_percent": {"focused":null,"balanced":null,"ambitious":null,"transformative":null},
+    "status": "blocked_pending_same_year_general_government_policy_crosswalk",
+    "required_inputs": ["profile changes stated on the same year and general-government perimeter", "one COFOG owner and amount for every savings and reinvestment item", "federal-state-local and private cost-shift reconciliation", "updated common denominator after each profile", "separate temporary and structural funding treatment"],
+    "interpretation": "Health and defense changes point toward the displayed peer ranges; social-protection and economic-affairs allocations may do so when current pain supports them. Education is already at the top of the displayed range and receives no automatic increase."
+  },
+  "profile_reserve_billions": {"focused":75.0,"balanced":150.0,"ambitious":250.0,"transformative":350.0},
+  "decision_rules": [
+    "No peer gap by itself creates a cut or an appropriation.",
+    "No high program total by itself proves overfunding.",
+    "No poor outcome by itself proves that more money is the best remedy.",
+    "A lane may receive zero reserve dollars in a cycle, including education.",
+    "Temporary funding sunsets unless renewed on refreshed evidence.",
+    "Savings enter the rate model only after owner attribution, overlap removal, transition costs, floor passage, and whole-system reconciliation."
+  ],
+  "claim_boundaries": {"need_ranking_published":false,"reinvestment_allocated":false,"profile_general_government_shares_calculated":false,"savings_admitted":false,"official_score":false,"public_release_authorized":false}
+}

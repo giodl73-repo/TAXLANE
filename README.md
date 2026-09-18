@@ -10,7 +10,7 @@ unsupported savings, and lets the remaining financing target determine an
 internal analytical rate schedule.
 
 The result is now complete inside this repository: 21 canonical explanation
-artifacts, ten research papers, three presentation variants, a six-page local
+artifacts, ten research papers, three presentation variants, a nine-page local
 website, machine-readable closure records, and 388 passing tests.
 
 > **Repository-ready, externally blocked.** TAXLANE is not enacted law,
@@ -168,12 +168,15 @@ evidence, not real people or institutional endorsements.
 
 ## Website and visual system
 
-The repository includes a static, responsive, accessible six-page explanation:
+The repository includes a static, responsive, accessible nine-page explanation:
 
 - result overview;
 - fifteen-track explorer;
 - rate and uncertainty explainer;
+- taxpayer and savings/reinvestment profiles with an adaptive all-lane needs reserve;
 - accounting method;
+- international and public-purpose comparison visual;
+- full corpus library;
 - evidence routes; and
 - glossary and FAQ.
 
@@ -184,9 +187,9 @@ credential. Open [`docs/explanation/site/index.html`](docs/explanation/site/inde
 locally in a browser.
 
 The shared visual grammar distinguishes facts, model results, recommendations,
-uncertainties, and blocked claims. The next visual layer can add repository-only
-SVG charts and diagrams generated from the canonical number and claim ledgers;
-those visuals must remain convenience views rather than new factual authorities.
+conditional scenarios, uncertainties, and blocked claims. Repository-only
+visuals and profile cards remain convenience views rather than new factual
+authorities.
 
 ## Review and validation
 

@@ -1,0 +1,633 @@
+{
+  "record_id": "peer-informed-savings-and-reinvestment-profiles:ty2026:v1",
+  "record_family": "peer_informed_savings_and_reinvestment_profiles",
+  "version": "v1.draft",
+  "status": "four_goal_seeking_profiles_with_model_scored_central_rate_implications",
+  "as_of_date": "2026-07-28",
+  "analysis_scope": "repository_local_independent_taxlane_scenario_analysis",
+  "model": {
+    "engine": "Tax-Calculator 6.5.1",
+    "data": "bundled CPS tax-unit file",
+    "tax_year": 2026,
+    "first_year_ratio": 0.774223895,
+    "central_substitution_elasticity": 0.25,
+    "administration_ceiling_billions": 0.077,
+    "fy2026_average_interest_rate_percent": 3.404,
+    "baseline_current_law_schedule_percent": [
+      10.0,
+      12.0,
+      22.0,
+      24.0,
+      32.0,
+      35.0,
+      37.0
+    ],
+    "baseline_fy2026_revenue_target_billions": 813.727
+  },
+  "peer_direction": {
+    "source_basis": "captured OECD COFOG general-government composition; policy envelopes remain federal FY2026 hypotheses",
+    "health": "downward cost-convergence research direction",
+    "defense": "downward share and strategy research direction",
+    "social_protection": "upward or restructuring research direction; eligible for but not guaranteed adaptive reserve funding",
+    "direct_tax_rate_comparability": false
+  },
+  "allocation_rule": {
+    "method": "recurring_needs_and_balance_cycle",
+    "framework_path": "data/derived/breadth_benchmark_matrix/adaptive_needs_and_balance_cycle.v1.draft.json",
+    "education_automatic_increase": false,
+    "peer_gap_automatic_allocation": false,
+    "reinvestment_amounts_preallocated_to_service_lanes": false,
+    "rule": "Reinvestment remains a profile-level reserve until current pain, outcome-floor risk, urgency, intervention evidence, and delivery capacity are compared across eligible service lanes."
+  },
+  "profiles": [
+    {
+      "profile_id": "focused_efficiency_and_reinvestment",
+      "label": "Focused",
+      "summary": "Pursue concentrated health, defense, and owner-attributed operating reforms while reserving funds for the strongest current all-lane needs.",
+      "gross_savings_goal_billions": 225.0,
+      "savings_initiatives": [
+        {
+          "tracks": [
+            "HLT"
+          ],
+          "initiative": "provider, pharmaceutical, and administrative cost convergence",
+          "goal_billions": 100.0
+        },
+        {
+          "tracks": [
+            "DEF"
+          ],
+          "initiative": "strategy-led procurement and force-posture reform",
+          "goal_billions": 75.0
+        },
+        {
+          "tracks": [
+            "PAY",
+            "AGR",
+            "JUS",
+            "INT"
+          ],
+          "initiative": "owner-attributed payment, procurement, subsidy, and operating reforms",
+          "goal_billions": 50.0
+        }
+      ],
+      "reinvestment_goal_billions": 75.0,
+      "reinvestment_priorities": [
+        {
+          "tracks": [
+            "TRN",
+            "HLT",
+            "EDU",
+            "ISF",
+            "VET",
+            "AGR",
+            "DEF",
+            "DIS",
+            "JUS",
+            "SEE",
+            "INT"
+          ],
+          "priority": "adaptive needs reserve allocated only after current pain, outcome, urgency, and delivery review",
+          "goal_billions": 75.0
+        }
+      ],
+      "net_savings_goal_billions": 150.0,
+      "lower_tested_uplift_points": 8.8,
+      "selected_uplift_points": 8.9,
+      "initiative_status": "goal_seeking_policy_envelopes_not_savings_estimates",
+      "admitted_savings_billions": 0.0,
+      "remaining_fy2026_revenue_target_billions": 663.727,
+      "rate_result_status": "central_rate_implication_model_scored_conditional_on_full_net_savings_goal",
+      "selected_central_rate": {
+        "uniform_uplift_points": 8.9,
+        "schedule_percent": [
+          18.9,
+          20.9,
+          30.9,
+          32.9,
+          40.9,
+          43.9,
+          45.9
+        ],
+        "first_year_cash_proxy_billions": 669.604,
+        "final_target_difference_billions": 5.8,
+        "mean_tax_change_dollars": 3928.82,
+        "after_tax_income_change_percent": -6.781
+      },
+      "lower_tested_rate": {
+        "uniform_uplift_points": 8.8,
+        "schedule_percent": [
+          18.8,
+          20.8,
+          30.8,
+          32.8,
+          40.8,
+          43.8,
+          45.8
+        ],
+        "first_year_cash_proxy_billions": 662.399,
+        "final_target_difference_billions": -1.453,
+        "target_met": false
+      },
+      "taxpayer_examples": [
+        {
+          "profile_id": "single_30k",
+          "taxable_ordinary_income_dollars": 30000,
+          "scenario_ordinary_bracket_tax_dollars": 6022.0,
+          "difference_from_current_law_dollars": 2670.0
+        },
+        {
+          "profile_id": "single_75k",
+          "taxable_ordinary_income_dollars": 75000,
+          "scenario_ordinary_bracket_tax_dollars": 17887.0,
+          "difference_from_current_law_dollars": 6675.0
+        },
+        {
+          "profile_id": "single_150k",
+          "taxable_ordinary_income_dollars": 150000,
+          "scenario_ordinary_bracket_tax_dollars": 41948.0,
+          "difference_from_current_law_dollars": 13350.0
+        },
+        {
+          "profile_id": "joint_100k",
+          "taxable_ordinary_income_dollars": 100000,
+          "scenario_ordinary_bracket_tax_dollars": 20404.0,
+          "difference_from_current_law_dollars": 8900.0
+        },
+        {
+          "profile_id": "joint_250k",
+          "taxable_ordinary_income_dollars": 250000,
+          "scenario_ordinary_bracket_tax_dollars": 67446.0,
+          "difference_from_current_law_dollars": 22250.0
+        },
+        {
+          "profile_id": "joint_600k",
+          "taxable_ordinary_income_dollars": 600000,
+          "scenario_ordinary_bracket_tax_dollars": 200938.5,
+          "difference_from_current_law_dollars": 53400.0
+        }
+      ],
+      "required_gates": [
+        "same-year federal-to-general-government crosswalk",
+        "concrete statutory and administrative policy instruments",
+        "current-law annual and ten-year score",
+        "coverage, readiness, access, quality, and beneficiary floors",
+        "federal, state, local, and private cost-shift analysis",
+        "transition, implementation, distribution, and compliance effects",
+        "owner attribution and PAY overlap removal",
+        "NET debt-service recomputation and fresh REV microsimulation"
+      ]
+    },
+    {
+      "profile_id": "balanced_peer_reallocation",
+      "label": "Balanced",
+      "summary": "Move farther toward peer health and defense composition while returning one-third of gross savings to the service lanes with the strongest current evidence of remediable pain.",
+      "gross_savings_goal_billions": 450.0,
+      "savings_initiatives": [
+        {
+          "tracks": [
+            "HLT"
+          ],
+          "initiative": "provider, pharmaceutical, and administrative cost convergence",
+          "goal_billions": 225.0
+        },
+        {
+          "tracks": [
+            "DEF"
+          ],
+          "initiative": "strategy-led procurement and force-posture reform",
+          "goal_billions": 150.0
+        },
+        {
+          "tracks": [
+            "PAY",
+            "AGR",
+            "JUS",
+            "INT"
+          ],
+          "initiative": "owner-attributed payment, procurement, subsidy, and operating reforms",
+          "goal_billions": 75.0
+        }
+      ],
+      "reinvestment_goal_billions": 150.0,
+      "reinvestment_priorities": [
+        {
+          "tracks": [
+            "TRN",
+            "HLT",
+            "EDU",
+            "ISF",
+            "VET",
+            "AGR",
+            "DEF",
+            "DIS",
+            "JUS",
+            "SEE",
+            "INT"
+          ],
+          "priority": "adaptive needs reserve allocated only after current pain, outcome, urgency, and delivery review",
+          "goal_billions": 150.0
+        }
+      ],
+      "net_savings_goal_billions": 300.0,
+      "lower_tested_uplift_points": 6.7,
+      "selected_uplift_points": 6.8,
+      "initiative_status": "goal_seeking_policy_envelopes_not_savings_estimates",
+      "admitted_savings_billions": 0.0,
+      "remaining_fy2026_revenue_target_billions": 513.727,
+      "rate_result_status": "central_rate_implication_model_scored_conditional_on_full_net_savings_goal",
+      "selected_central_rate": {
+        "uniform_uplift_points": 6.8,
+        "schedule_percent": [
+          16.8,
+          18.8,
+          28.8,
+          30.8,
+          38.8,
+          41.8,
+          43.8
+        ],
+        "first_year_cash_proxy_billions": 516.82,
+        "final_target_difference_billions": 3.016,
+        "mean_tax_change_dollars": 3032.38,
+        "after_tax_income_change_percent": -5.214
+      },
+      "lower_tested_rate": {
+        "uniform_uplift_points": 6.7,
+        "schedule_percent": [
+          16.7,
+          18.7,
+          28.7,
+          30.7,
+          38.7,
+          41.7,
+          43.7
+        ],
+        "first_year_cash_proxy_billions": 509.462,
+        "final_target_difference_billions": -4.49,
+        "target_met": false
+      },
+      "taxpayer_examples": [
+        {
+          "profile_id": "single_30k",
+          "taxable_ordinary_income_dollars": 30000,
+          "scenario_ordinary_bracket_tax_dollars": 5392.0,
+          "difference_from_current_law_dollars": 2040.0
+        },
+        {
+          "profile_id": "single_75k",
+          "taxable_ordinary_income_dollars": 75000,
+          "scenario_ordinary_bracket_tax_dollars": 16312.0,
+          "difference_from_current_law_dollars": 5100.0
+        },
+        {
+          "profile_id": "single_150k",
+          "taxable_ordinary_income_dollars": 150000,
+          "scenario_ordinary_bracket_tax_dollars": 38798.0,
+          "difference_from_current_law_dollars": 10200.0
+        },
+        {
+          "profile_id": "joint_100k",
+          "taxable_ordinary_income_dollars": 100000,
+          "scenario_ordinary_bracket_tax_dollars": 18304.0,
+          "difference_from_current_law_dollars": 6800.0
+        },
+        {
+          "profile_id": "joint_250k",
+          "taxable_ordinary_income_dollars": 250000,
+          "scenario_ordinary_bracket_tax_dollars": 62196.0,
+          "difference_from_current_law_dollars": 17000.0
+        },
+        {
+          "profile_id": "joint_600k",
+          "taxable_ordinary_income_dollars": 600000,
+          "scenario_ordinary_bracket_tax_dollars": 188338.5,
+          "difference_from_current_law_dollars": 40800.0
+        }
+      ],
+      "required_gates": [
+        "same-year federal-to-general-government crosswalk",
+        "concrete statutory and administrative policy instruments",
+        "current-law annual and ten-year score",
+        "coverage, readiness, access, quality, and beneficiary floors",
+        "federal, state, local, and private cost-shift analysis",
+        "transition, implementation, distribution, and compliance effects",
+        "owner attribution and PAY overlap removal",
+        "NET debt-service recomputation and fresh REV microsimulation"
+      ]
+    },
+    {
+      "profile_id": "ambitious_peer_reallocation",
+      "label": "Ambitious",
+      "summary": "Test a large health-price and defense-posture reset while reserving more than one-third of gross savings for the strongest current all-lane needs.",
+      "gross_savings_goal_billions": 700.0,
+      "savings_initiatives": [
+        {
+          "tracks": [
+            "HLT"
+          ],
+          "initiative": "provider, pharmaceutical, and administrative cost convergence",
+          "goal_billions": 350.0
+        },
+        {
+          "tracks": [
+            "DEF"
+          ],
+          "initiative": "strategy-led procurement and force-posture reform",
+          "goal_billions": 225.0
+        },
+        {
+          "tracks": [
+            "PAY",
+            "AGR",
+            "JUS",
+            "INT"
+          ],
+          "initiative": "owner-attributed payment, procurement, subsidy, and operating reforms",
+          "goal_billions": 125.0
+        }
+      ],
+      "reinvestment_goal_billions": 250.0,
+      "reinvestment_priorities": [
+        {
+          "tracks": [
+            "TRN",
+            "HLT",
+            "EDU",
+            "ISF",
+            "VET",
+            "AGR",
+            "DEF",
+            "DIS",
+            "JUS",
+            "SEE",
+            "INT"
+          ],
+          "priority": "adaptive needs reserve allocated only after current pain, outcome, urgency, and delivery review",
+          "goal_billions": 250.0
+        }
+      ],
+      "net_savings_goal_billions": 450.0,
+      "lower_tested_uplift_points": 4.7,
+      "selected_uplift_points": 4.8,
+      "initiative_status": "goal_seeking_policy_envelopes_not_savings_estimates",
+      "admitted_savings_billions": 0.0,
+      "remaining_fy2026_revenue_target_billions": 363.727,
+      "rate_result_status": "central_rate_implication_model_scored_conditional_on_full_net_savings_goal",
+      "selected_central_rate": {
+        "uniform_uplift_points": 4.8,
+        "schedule_percent": [
+          14.8,
+          16.8,
+          26.8,
+          28.8,
+          36.8,
+          39.8,
+          41.8
+        ],
+        "first_year_cash_proxy_billions": 368.14,
+        "final_target_difference_billions": 4.336,
+        "mean_tax_change_dollars": 2160.02,
+        "after_tax_income_change_percent": -3.704
+      },
+      "lower_tested_rate": {
+        "uniform_uplift_points": 4.7,
+        "schedule_percent": [
+          14.7,
+          16.7,
+          26.7,
+          28.7,
+          36.7,
+          39.7,
+          41.7
+        ],
+        "first_year_cash_proxy_billions": 360.662,
+        "final_target_difference_billions": -3.249,
+        "target_met": false
+      },
+      "taxpayer_examples": [
+        {
+          "profile_id": "single_30k",
+          "taxable_ordinary_income_dollars": 30000,
+          "scenario_ordinary_bracket_tax_dollars": 4792.0,
+          "difference_from_current_law_dollars": 1440.0
+        },
+        {
+          "profile_id": "single_75k",
+          "taxable_ordinary_income_dollars": 75000,
+          "scenario_ordinary_bracket_tax_dollars": 14812.0,
+          "difference_from_current_law_dollars": 3600.0
+        },
+        {
+          "profile_id": "single_150k",
+          "taxable_ordinary_income_dollars": 150000,
+          "scenario_ordinary_bracket_tax_dollars": 35798.0,
+          "difference_from_current_law_dollars": 7200.0
+        },
+        {
+          "profile_id": "joint_100k",
+          "taxable_ordinary_income_dollars": 100000,
+          "scenario_ordinary_bracket_tax_dollars": 16304.0,
+          "difference_from_current_law_dollars": 4800.0
+        },
+        {
+          "profile_id": "joint_250k",
+          "taxable_ordinary_income_dollars": 250000,
+          "scenario_ordinary_bracket_tax_dollars": 57196.0,
+          "difference_from_current_law_dollars": 12000.0
+        },
+        {
+          "profile_id": "joint_600k",
+          "taxable_ordinary_income_dollars": 600000,
+          "scenario_ordinary_bracket_tax_dollars": 176338.5,
+          "difference_from_current_law_dollars": 28800.0
+        }
+      ],
+      "required_gates": [
+        "same-year federal-to-general-government crosswalk",
+        "concrete statutory and administrative policy instruments",
+        "current-law annual and ten-year score",
+        "coverage, readiness, access, quality, and beneficiary floors",
+        "federal, state, local, and private cost-shift analysis",
+        "transition, implementation, distribution, and compliance effects",
+        "owner attribution and PAY overlap removal",
+        "NET debt-service recomputation and fresh REV microsimulation"
+      ]
+    },
+    {
+      "profile_id": "transformative_peer_reallocation",
+      "label": "Transformative",
+      "summary": "Explore the outer policy frontier: deep health-cost and defense-strategy changes, substantial reinvestment, and a remaining ordinary-income schedule much closer to current law.",
+      "gross_savings_goal_billions": 950.0,
+      "savings_initiatives": [
+        {
+          "tracks": [
+            "HLT"
+          ],
+          "initiative": "provider, pharmaceutical, and administrative cost convergence",
+          "goal_billions": 500.0
+        },
+        {
+          "tracks": [
+            "DEF"
+          ],
+          "initiative": "strategy-led procurement and force-posture reform",
+          "goal_billions": 300.0
+        },
+        {
+          "tracks": [
+            "PAY",
+            "AGR",
+            "JUS",
+            "INT"
+          ],
+          "initiative": "owner-attributed payment, procurement, subsidy, and operating reforms",
+          "goal_billions": 150.0
+        }
+      ],
+      "reinvestment_goal_billions": 350.0,
+      "reinvestment_priorities": [
+        {
+          "tracks": [
+            "TRN",
+            "HLT",
+            "EDU",
+            "ISF",
+            "VET",
+            "AGR",
+            "DEF",
+            "DIS",
+            "JUS",
+            "SEE",
+            "INT"
+          ],
+          "priority": "adaptive needs reserve allocated only after current pain, outcome, urgency, and delivery review",
+          "goal_billions": 350.0
+        }
+      ],
+      "net_savings_goal_billions": 600.0,
+      "lower_tested_uplift_points": 2.7,
+      "selected_uplift_points": 2.8,
+      "initiative_status": "goal_seeking_policy_envelopes_not_savings_estimates",
+      "admitted_savings_billions": 0.0,
+      "remaining_fy2026_revenue_target_billions": 213.727,
+      "rate_result_status": "central_rate_implication_model_scored_conditional_on_full_net_savings_goal",
+      "selected_central_rate": {
+        "uniform_uplift_points": 2.8,
+        "schedule_percent": [
+          12.8,
+          14.8,
+          24.8,
+          26.8,
+          34.8,
+          37.8,
+          39.8
+        ],
+        "first_year_cash_proxy_billions": 216.761,
+        "final_target_difference_billions": 2.957,
+        "mean_tax_change_dollars": 1271.82,
+        "after_tax_income_change_percent": -2.173
+      },
+      "lower_tested_rate": {
+        "uniform_uplift_points": 2.7,
+        "schedule_percent": [
+          12.7,
+          14.7,
+          24.7,
+          26.7,
+          34.7,
+          37.7,
+          39.7
+        ],
+        "first_year_cash_proxy_billions": 209.118,
+        "final_target_difference_billions": -4.846,
+        "target_met": false
+      },
+      "taxpayer_examples": [
+        {
+          "profile_id": "single_30k",
+          "taxable_ordinary_income_dollars": 30000,
+          "scenario_ordinary_bracket_tax_dollars": 4192.0,
+          "difference_from_current_law_dollars": 840.0
+        },
+        {
+          "profile_id": "single_75k",
+          "taxable_ordinary_income_dollars": 75000,
+          "scenario_ordinary_bracket_tax_dollars": 13312.0,
+          "difference_from_current_law_dollars": 2100.0
+        },
+        {
+          "profile_id": "single_150k",
+          "taxable_ordinary_income_dollars": 150000,
+          "scenario_ordinary_bracket_tax_dollars": 32798.0,
+          "difference_from_current_law_dollars": 4200.0
+        },
+        {
+          "profile_id": "joint_100k",
+          "taxable_ordinary_income_dollars": 100000,
+          "scenario_ordinary_bracket_tax_dollars": 14304.0,
+          "difference_from_current_law_dollars": 2800.0
+        },
+        {
+          "profile_id": "joint_250k",
+          "taxable_ordinary_income_dollars": 250000,
+          "scenario_ordinary_bracket_tax_dollars": 52196.0,
+          "difference_from_current_law_dollars": 7000.0
+        },
+        {
+          "profile_id": "joint_600k",
+          "taxable_ordinary_income_dollars": 600000,
+          "scenario_ordinary_bracket_tax_dollars": 164338.5,
+          "difference_from_current_law_dollars": 16800.0
+        }
+      ],
+      "required_gates": [
+        "same-year federal-to-general-government crosswalk",
+        "concrete statutory and administrative policy instruments",
+        "current-law annual and ten-year score",
+        "coverage, readiness, access, quality, and beneficiary floors",
+        "federal, state, local, and private cost-shift analysis",
+        "transition, implementation, distribution, and compliance effects",
+        "owner attribution and PAY overlap removal",
+        "NET debt-service recomputation and fresh REV microsimulation"
+      ]
+    }
+  ],
+  "current_taxlane_reference": {
+    "net_savings_billions": 0.0,
+    "remaining_target_billions": 813.727,
+    "uniform_uplift_points": 11.0,
+    "schedule_percent": [
+      21.0,
+      23.0,
+      33.0,
+      35.0,
+      43.0,
+      46.0,
+      48.0
+    ]
+  },
+  "full_current_law_rate_reference": {
+    "net_savings_required_to_remove_scoped_target_billions": 813.727,
+    "uniform_uplift_points": 0.0,
+    "schedule_percent": [
+      10.0,
+      12.0,
+      22.0,
+      24.0,
+      32.0,
+      35.0,
+      37.0
+    ],
+    "warning": "This arithmetic endpoint removes the scoped ordinary-income target; it is not evidence that such savings exist or that the overall federal budget is balanced."
+  },
+  "decision": {
+    "scenario_profiles_ready": true,
+    "central_rate_implications_model_scored": true,
+    "initiative_savings_estimates_ready": false,
+    "initiative_savings_admitted": false,
+    "official_score_ready": false,
+    "public_release_authorized": false
+  },
+  "public_warning": "Every spending and reinvestment amount is a goal-seeking policy envelope, not an estimate, recommendation, admitted saving, or claim that peer composition can be copied. Rate schedules are conditional central-model implications only. No profile is enacted law, an official score, a complete household tax calculation, proof of balance, or public-release authority."
+}

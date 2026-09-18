@@ -1,0 +1,259 @@
+{
+  "record_id": "trn-penndot-state-owned-untreated-screen:2026-capture:v1",
+  "record_family": "trn_penndot_state_owned_untreated_screen",
+  "version": "v1.draft",
+  "status": "same_basis_state_untreated_and_shoulder_availability_screen_ready_design_eligibility_and_target_crashes_blocked",
+  "as_of_date": "2026-07-28",
+  "source_custody": [
+    {
+      "path": "data/raw/penndot/SRC-PENNDOT-STATEWIDE-RUMBLE-STRIPS-2024/2026-07-28/Statewide-Rumble-Strips-03-01-2024.xlsx",
+      "sha256": "4dc717da1f71de3dec23f05039fc59bc119e7359b6afa24ec194fddb908417e4"
+    },
+    {
+      "path": "data/raw/penndot/SRC-PENNDOT-RMS-STATE-DENOMINATOR-TRN/2026-07-28/roadwaysegments-state-denominator-universe.json",
+      "sha256": "17eaaf80ae9fc384e95c738e62973dbbfd1c66691895201f3247345959563365"
+    },
+    {
+      "path": "data/raw/penndot/SRC-PENNDOT-RMS-STATE-DENOMINATOR-TRN/2026-07-28/roadwayadmin-state-denominator-universe.json",
+      "sha256": "2ac77e3a2753c605308cc7a04467f4f1d76d463705ff88a4a0f80d8de4630457"
+    },
+    {
+      "path": "data/raw/penndot/SRC-PENNDOT-RMS-STATE-DENOMINATOR-TRN/2026-07-28/roadwayshoulder-state-denominator-universe.json",
+      "sha256": "9545a006af188e3e73fbd729703d967fa7a9ca8be593e22278212efc51cbc28c"
+    },
+    {
+      "path": "data/derived/breadth_benchmark_matrix/trn_penndot_rms_existing_treatment_join.v1.draft.json",
+      "sha256": "fac60859ca7f8dd4948f3d43fabf3b1c8c2b7dc094311736bca4fcc32ab3b361"
+    },
+    {
+      "path": "data/raw/fhwa/SRC-FHWA-HPMS-SPATIAL-SECTIONS-2024-TRN-SCREEN/2026-07-28/rural-two-way-two-lane-state-totals.json",
+      "sha256": "4a4a8067aea5fc01ef55abb94e83a1f6346f5e9e22d14c8f8542cb88c3d787cd"
+    },
+    {
+      "path": "data/derived/breadth_benchmark_matrix/trn_hpms_two_way_two_lane_screen.v1.draft.json",
+      "sha256": "c41016d73b2ba65ebf955a8f2dfeaf80f3247e9d47e12c5267e47c9c2180527f"
+    }
+  ],
+  "filter_contract": {
+    "roadwaysegments": "JURIS='1' AND URBAN_RURAL='1' AND DIR_IND='B' AND FAC_TYPE='2' AND LANE_CNT=2",
+    "roadwayadmin": "JURIS='1' AND FHWA_FUNC_CLS IN ('3','4','5','6')",
+    "roadwayshoulder": "JURIS='1'",
+    "coordinate_basis": "PennDOT county, state route, segment, direction, and within-segment offsets",
+    "scope": "PennDOT state-jurisdiction rural two-way two-lane roadway intervals in FHWA functional classes 3 through 6"
+  },
+  "state_owned_screening_denominator": {
+    "captured_segment_rows": 58733,
+    "captured_admin_rows": 38394,
+    "captured_shoulder_rows": 124096,
+    "segments_with_selected_class_interval": 42581,
+    "fully_covered_segments": 42446,
+    "partially_covered_segments": 135,
+    "cross_class_overlap_segments": 0,
+    "miles": 20130.978409
+  },
+  "existing_treatment_subtraction": {
+    "candidate_workbook_rows": 34544,
+    "candidate_rows_intersecting_same_basis_denominator": 25631,
+    "treated_segment_direction_keys": 12112,
+    "matched_existing_treated_miles": 4595.868561,
+    "prior_full_containment_join_miles": 4401.040152,
+    "method_change": "The full-denominator method intersects and splits treatment intervals at administration-class boundaries; the prior join retained only rows wholly contained by one administration interval."
+  },
+  "untreated_screen": {
+    "untreated_segment_direction_keys": 39344,
+    "miles": 15535.109848,
+    "status": "same_basis_state_owned_untreated_screen_not_design_eligible_mileage"
+  },
+  "by_functional_class": [
+    {
+      "fhwa_functional_class": 3,
+      "functional_system": "other_principal_arterial",
+      "state_owned_screen_miles": 1433.080492,
+      "matched_existing_treated_miles": 871.835417,
+      "untreated_screening_miles": 561.245076
+    },
+    {
+      "fhwa_functional_class": 4,
+      "functional_system": "minor_arterial",
+      "state_owned_screen_miles": 4482.394508,
+      "matched_existing_treated_miles": 1899.908523,
+      "untreated_screening_miles": 2582.485985
+    },
+    {
+      "fhwa_functional_class": 5,
+      "functional_system": "major_collector",
+      "state_owned_screen_miles": 7597.291477,
+      "matched_existing_treated_miles": 1484.527462,
+      "untreated_screening_miles": 6112.764015
+    },
+    {
+      "fhwa_functional_class": 6,
+      "functional_system": "minor_collector",
+      "state_owned_screen_miles": 6618.211932,
+      "matched_existing_treated_miles": 339.597159,
+      "untreated_screening_miles": 6278.614773
+    }
+  ],
+  "untreated_iri_availability": {
+    "iri_le_170_miles": 9124.802273,
+    "iri_gt_170_miles": 6395.110417,
+    "missing_iri_miles": 15.197159,
+    "boundary": "IRI is a segment-level ride-quality proxy, not pavement structural adequacy or design eligibility."
+  },
+  "untreated_shoulder_availability": {
+    "both_current_paved_widths_ge_4_feet_miles": 2577.521402,
+    "both_current_paved_widths_ge_4_feet_share_percent": 16.591588,
+    "both_current_paved_widths_reported_one_or_both_lt_4_feet_miles": 12901.123674,
+    "both_current_paved_widths_reported_one_or_both_lt_4_feet_share_percent": 83.044947,
+    "missing_either_side_record_miles": 55.676515,
+    "ambiguous_or_missing_current_paved_width_miles": 0.788258,
+    "display_rounding_difference_miles": -1e-06,
+    "boundary": "PennDOT CURRENT_PAVE_WIDTH records are interval-level availability inputs. Four reported paved feet are not verified usable clear width beyond a proposed strip; narrower, missing, or conflicting values are not automatic ineligibility findings."
+  },
+  "untreated_pavement_availability": {
+    "surface_year_vintage_miles": {
+      "2021_to_2026": 10766.397159,
+      "2016_to_2020": 2357.348485,
+      "through_2015": 2398.10625,
+      "future_after_2026": 0.0,
+      "missing_or_invalid": 13.257955
+    },
+    "surface_year_display_rounding_difference_miles": -1e-06,
+    "condition_date_vintage_miles": {
+      "2021_to_2026": 15520.216098,
+      "2016_to_2020": 0.541477,
+      "through_2015": 2.036932,
+      "future_after_2026": 0.0,
+      "missing_or_invalid": 12.315341
+    },
+    "condition_date_display_rounding_difference_miles": 0.0,
+    "reported_opi_rating_miles": {
+      "excellent": 3161.565152,
+      "fair": 4289.341667,
+      "good": 6151.39072,
+      "poor": 1932.812311
+    },
+    "reported_opi_display_rounding_difference_miles": -2e-06,
+    "field_reported_miles": {
+      "surface_type_reported": 15535.109848,
+      "surface_year_reported": 15535.109848,
+      "legacy_year_resurfaced_reported": 15535.109848,
+      "condition_date_reported": 15522.794508,
+      "overall_pavement_index_reported": 15535.109848,
+      "pavement_condition_rating_reported": 0.0
+    },
+    "field_missing_miles": {
+      "surface_type": 0.0,
+      "surface_year": 0.0,
+      "legacy_year_resurfaced": 0.0,
+      "condition_date": 12.315341,
+      "overall_pavement_index": 0.0,
+      "pavement_condition_rating": 15535.109848
+    },
+    "shoulder_band_by_opi_rating_miles": {
+      "ambiguous_or_missing_current_width": {
+        "excellent": 0.0,
+        "fair": 0.172348,
+        "good": 0.061932,
+        "poor": 0.553977
+      },
+      "both_current_widths_ge_4_feet": {
+        "excellent": 656.477083,
+        "fair": 772.169508,
+        "good": 974.955303,
+        "poor": 173.919508
+      },
+      "both_current_widths_reported_one_or_both_lt_4_feet": {
+        "excellent": 2496.232197,
+        "fair": 3503.843182,
+        "good": 5161.793561,
+        "poor": 1739.254735
+      },
+      "missing_either_side_record": {
+        "excellent": 8.855871,
+        "fair": 13.156629,
+        "good": 14.579924,
+        "poor": 19.084091
+      }
+    },
+    "shoulder_band_by_surface_year_vintage_miles": {
+      "ambiguous_or_missing_current_width": {
+        "2016_to_2020": 0.0,
+        "2021_to_2026": 0.726326,
+        "missing_or_invalid": 0.061932,
+        "through_2015": 0.0
+      },
+      "both_current_widths_ge_4_feet": {
+        "2016_to_2020": 515.282008,
+        "2021_to_2026": 1163.282197,
+        "missing_or_invalid": 0.376894,
+        "through_2015": 898.580303
+      },
+      "both_current_widths_reported_one_or_both_lt_4_feet": {
+        "2016_to_2020": 1835.260985,
+        "2021_to_2026": 9584.113258,
+        "missing_or_invalid": 2.941667,
+        "through_2015": 1478.807765
+      },
+      "missing_either_side_record": {
+        "2016_to_2020": 6.805492,
+        "2021_to_2026": 18.275379,
+        "missing_or_invalid": 9.877462,
+        "through_2015": 20.718182
+      }
+    },
+    "cross_field_review_queue": {
+      "both_paved_widths_ge_4_and_opi_good_or_excellent_miles": 1631.432386,
+      "both_paved_widths_ge_4_and_surface_year_2021_to_2026_miles": 1163.282197,
+      "status": "field_intersection_for_engineering_record_priority_not_design_eligibility"
+    },
+    "boundary": "SURFACE_YEAR, COND_DATE, SURF_TYPE, OVERALL_PVMNT_IDX, OPI_RATING_TEXT, and legacy YR_RESURF are segment-level inventory or condition fields. They do not reveal pavement thickness, cracking, base structure, remaining structural life, resurfacing commitments, or engineering approval. PVMNT_COND_RATE is retained as missing rather than inferred from other fields."
+  },
+  "hpms_reconciliation": {
+    "pennsylvania_hpms_all_public_selected_system_section_miles": 20851.0429,
+    "pennsylvania_rms_state_owned_same_basis_screen_miles": 20130.978409,
+    "rms_to_hpms_ratio": 0.965466,
+    "difference_miles": 720.064491,
+    "status": "different_ownership_and_dataset_universes_not_forced_to_equal"
+  },
+  "historical_cost_product": {
+    "untreated_screening_miles": 15535.109848,
+    "historical_cost_per_mile": 3800.0,
+    "mechanical_product_billions": 0.059033,
+    "status": "not_candidate_cost_or_upper_bound",
+    "boundary": "The 2015 PennDOT-derived unit input excludes current prices, pavement work, accommodations, maintenance, administration, and delivery. The untreated screen is not design-eligible mileage."
+  },
+  "remaining_reductions": [
+    "current pavement structure, cracking, resurfacing schedule, and remaining life",
+    "side-specific usable shoulder geometry and bicycle accommodation",
+    "noise, residential, environmental, intersection, and driveway constraints",
+    "already-programmed projects and treatment inventory vintage changes",
+    "target head-on, opposite-direction sideswipe, and run-off-road crash exposure",
+    "current road-owner unit, maintenance, administration, and delivery costs"
+  ],
+  "blocked_values": {
+    "untreated_design_eligible_miles": null,
+    "target_crash_fatalities_and_injuries": null,
+    "current_weighted_cost_per_mile": null,
+    "candidate_cost_billions": null,
+    "candidate_outcome": null
+  },
+  "claim_boundaries": {
+    "full_state_owned_screening_denominator_ready": true,
+    "same_basis_existing_treatment_subtraction_ready": true,
+    "untreated_screening_mileage_ready": true,
+    "side_specific_current_paved_width_availability_ready": true,
+    "segment_level_pavement_field_availability_ready": true,
+    "pavement_structural_adequacy_ready": false,
+    "programmed_resurfacing_schedule_ready": false,
+    "hpms_official_mileage_reconciled": false,
+    "untreated_design_eligible_mileage_ready": false,
+    "target_crash_numerator_ready": false,
+    "current_cost_ready": false,
+    "candidate_cost_ready": false,
+    "national_extrapolation_allowed": false,
+    "allocation_ready": false,
+    "funding_recommended": false,
+    "public_release_authorized": false
+  }
+}

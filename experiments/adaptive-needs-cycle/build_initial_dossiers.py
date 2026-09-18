@@ -1,0 +1,170 @@
+"""Build the first three pain-aligned intervention dossiers."""
+
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+
+
+DOSSIERS = [
+    {
+        "dossier_id":"VET-PAIN-01","track":"VET","lane_id":"veterans","pain":"claims backlog and service timeliness",
+        "candidate_family":"claims processing modernization and workload reduction","responsible_owner":"Department of Veterans Affairs",
+        "selected_analytical_candidate":{
+            "name":"Accountable VA claims-processing modernization bundle",
+            "definition":"A bounded administrative bundle using Veterans Benefits Management System, Smart Search, and Automated Issue Management capabilities, paired with claims-processor training controls and GAO-aligned AI transparency and accountability controls.",
+            "instrument_status":"analytical_candidate_not_a_funded_or_scored_proposal",
+            "selection_reason":"It directly addresses claims-processing workflow and control quality without treating an unrelated veterans bill as backlog evidence.",
+            "transferability_boundary":"Existing system budgets and record production describe the operating base; they do not establish the bundle's incremental causal effect, cost, or unique-veteran benefit.",
+        },
+        "funding_hypothesis":"temporary_pain_response_with_milestones_and_sunset",
+        "pain_measure":{"period":"2026-06-30","value":68207,"unit":"rating_bundle_backlog_claims","affected_population_status":"claims_not_unique_veterans","source_path":"data/derived/breadth_benchmark_matrix/veterans_claims_backlog_floor_value_packet.v1.draft.json"},
+        "candidate_planning_inputs":{
+            "current_service_baseline":{"period":"2026-06","value":71.3,"unit":"average_days_to_complete_disability_related_claims","use":"secondary timeliness baseline; not a unique-claimant count or causal modernization effect"},
+            "incremental_effect":None,
+            "incremental_cost":None,
+        },
+        "official_evidence":[
+            {"evidence_role":"candidate_and_control_basis","publisher":"U.S. Government Accountability Office","title":"VA Disability Benefits: Opportunities Exist to Better Use Information Technology and Artificial Intelligence to Improve Claims Processing","date":"2026-07-13","url":"https://www.gao.gov/products/gao-26-109137","finding":"GAO identifies VA claims-planning, examination-quality, training, transparency, and accountability issues and reports that 15 of 43 recommendations made since 2021 were not fully implemented.","custody_status":"official_web_reviewed_not_raw_custodied"},
+            {"evidence_role":"base_cost_and_system_definition","publisher":"Department of Veterans Affairs","title":"FY 2026 Budget Submission, Volume V: Information Technology Programs and Electronic Health Record Modernization","date":"2025-06","url":"https://department.va.gov/wp-content/uploads/2025/06/2026-Volume-5-Information-Technology-Programs-and-Electronic-Health-Record-Modernization.pdf","finding":"The budget identifies VBMS, Smart Search, and Automated Issue Management and requests $269.028 million in FY2026 planned obligations for Benefits Claims Processing; this is base context, not an incremental candidate score.","custody_status":"official_web_reviewed_not_raw_custodied"},
+            {"evidence_role":"operating_context_not_causal_effect","publisher":"Department of Veterans Affairs","title":"VA processes one million disability claims faster than ever before","date":"2025-02-25","url":"https://news.va.gov/press-room/va-processes-one-million-disability-claims-faster-than-ever-before/","finding":"VA reported record FY2025 production amid 15.6 percent higher receipts and accuracy above 92 percent; the release does not isolate the modernization bundle's causal contribution.","custody_status":"official_web_reviewed_not_raw_custodied"},
+            {"evidence_role":"current_timeliness_baseline","publisher":"Department of Veterans Affairs","title":"The VA claim process after you file your claim","date":"2026-07-07","url":"https://www.va.gov/disability/after-you-file-claim/","finding":"VA reports 71.3 average days to complete disability-related claims in June 2026. Complexity and evidence-collection time vary, so this is a service baseline rather than a causal productivity estimate.","custody_status":"official_web_reviewed_not_raw_custodied"},
+        ],
+        "gate_overrides":{
+            "current_pain_measure_and_population":["partial","Current claim count is source-custodied, but it is not a count of unique veterans."],
+            "severity_target_distinct_from_baseline":["blocked","No reviewed backlog, decision-time, or accuracy target is selected."],
+            "specific_intervention_and_owner":["ready","The administrative bundle, named systems, control conditions, and VA owner are bounded for analysis."],
+            "bounded_marginal_outcome_and_horizon":["blocked","Production trends are not a causal incremental throughput or timeliness estimate."],
+            "whole_system_gross_and_net_cost":["partial","The FY2026 claims-processing IT request bounds the operating base but does not score incremental technology, training, transition, or oversight costs."],
+            "distribution_and_equity":["partial","GAO identifies quality and accountability concerns, but claimant subgroup and access effects are not quantified."],
+            "delivery_capacity_and_schedule":["partial","Named systems and unresolved GAO recommendations establish delivery context; a bundle schedule and capacity cap are absent."],
+            "overlap_and_non_additivity":["partial","The unrelated H.R. 2137 score is excluded; overlap among existing IT, staffing, and training budgets is not reconciled."],
+            "funding_duration_milestones_and_sunset":["partial","A temporary bundle is hypothesized, but milestones and a sunset test are not set."],
+            "policy_and_stress_floor_passage":["blocked","No timeliness, accuracy, due-process, privacy, or stress-floor result exists."],
+        },
+        "existing_candidate_reconciliation":{"candidate":"H.R. 2137 Review Every Veterans Claim Act","source_path":"data/derived/breadth_benchmark_matrix/vet_d_veterans_financing_fairness_closure.v1.draft.json","decision":"not_substitutable","reason":"Its scored pension-limit and Medicaid effects are not claims-processing productivity or backlog reduction."},
+    },
+    {
+        "dossier_id":"TRN-PAIN-01","track":"TRN","lane_id":"transportation-infrastructure","pain":"roadway deaths and serious safety risk",
+        "candidate_family":"evidence-targeted roadway safety engineering enforcement vehicle and delivery package","responsible_owner":"Federal Highway Administration with state and local road owners",
+        "selected_analytical_candidate":{
+            "name":"Systemic centerline and shoulder rumble-strip deployment",
+            "definition":"Deploy centerline and shoulder or edge-line rumble strips on eligible rural two-lane corridors, subject to pavement condition, noise, bicycle and motorcycle accommodation, and road-owner design review.",
+            "instrument_status":"analytical_candidate_not_a_funded_or_scored_proposal",
+            "selection_reason":"It is a named FHWA proven safety countermeasure with bounded crash types and implementers.",
+            "transferability_boundary":"Published crash-modification effects apply to specified roadway and crash subsets; they cannot be applied to all national roadway deaths or lane miles.",
+        },
+        "funding_hypothesis":"temporary_safety_projects_plus_structural_maintenance",
+        "pain_measure":{"period":"calendar year 2024","value":1.19,"unit":"fatalities_per_100_million_vehicle_miles_traveled","affected_population_value":39254,"affected_population_unit":"reported_fatalities","source_path":"data/derived/breadth_benchmark_matrix/transportation_roadway_fatality_rate_floor_value_packet.v1.draft.json"},
+        "candidate_planning_inputs":{
+            "historical_combined_centerline_and_shoulder_cost_per_mile":{"value":3800,"unit":"nominal_dollars_per_two_lane_road_mile","price_context":"PennDOT input published in a 2015 FHWA evaluation","included":"approximately three longitudinal lines with driveway and intersection breaks","excluded":"maintenance inflation accommodations pavement repair and state-local administration","service_life_years":7},
+            "broad_screening_frame":{"route_miles":894715,"fatalities_all_crash_types":11790,"included_rural_functional_systems":["other_principal_arterial","minor_arterial","major_collector","minor_collector"],"source_path":"data/derived/breadth_benchmark_matrix/trn_rumble_strip_screening_denominator.v1.draft.json","status":"raw_custodied_functional_system_screen_not_two_lane_or_design_eligible"},
+            "hpms_two_way_two_lane_screen":{"raw_spatial_section_miles":753112.2968,"calibrated_screen_miles":687819.6543,"states_represented":50,"source_path":"data/derived/breadth_benchmark_matrix/trn_hpms_two_way_two_lane_screen.v1.draft.json","status":"raw_custodied_section_filter_and_analytical_calibration_not_official_or_design_eligible_mileage"},
+            "hpms_suitability_availability_audit":{"reported_both_shoulders_ge_4_feet_miles":4112.3005,"reported_both_shoulders_ge_4_feet_share_percent":0.546041,"missing_either_shoulder_width_miles":724637.9135,"missing_either_shoulder_width_share_percent":96.219105,"reported_iri_le_170_miles":183425.3364,"missing_iri_miles":540826.1039,"missing_iri_share_percent":71.812146,"source_path":"data/derived/breadth_benchmark_matrix/trn_hpms_rumble_suitability_availability.v1.draft.json","status":"data_availability_and_triage_only_not_national_eligibility; missing_is_not_ineligible; reported_width_and_iri_are_not_design_approval"},
+            "penndot_existing_treatment_inventory_pilot":{"treatment_rows":57397,"counties":67,"two_way_two_lane_union_interval_footprint_miles":5702.436553,"pennsylvania_hpms_filtered_section_miles":20851.0429,"subtraction_performed":False,"source_path":"data/derived/breadth_benchmark_matrix/trn_penndot_existing_rumble_strip_inventory.v1.draft.json","status":"official_state_inventory_raw_custodied; preliminary_analytical_footprint; superseded_for_subtraction_by_same_basis_state_screen"},
+            "penndot_rms_existing_treatment_join":{"candidate_exact_segment_match_percent":99.910259,"candidate_unique_admin_interval_match_percent":95.044002,"matched_comparable_treatment_rows":24972,"matched_state_owned_rural_two_way_two_lane_selected_class_treated_footprint_miles":4401.040152,"full_state_denominator":None,"untreated_miles":None,"source_path":"data/derived/breadth_benchmark_matrix/trn_penndot_rms_existing_treatment_join.v1.draft.json","status":"comparable_existing_treated_footprint_ready; treatment_selected_capture_not_full_denominator; no_hpms_subtraction"},
+            "penndot_state_owned_untreated_screen":{"state_owned_rural_two_way_two_lane_selected_class_denominator_miles":20130.978409,"same_basis_existing_treated_miles":4595.868561,"untreated_screening_miles":15535.109848,"iri_le_170_untreated_miles":9124.802273,"iri_gt_170_untreated_miles":6395.110417,"missing_iri_untreated_miles":15.197159,"both_current_paved_widths_ge_4_feet_miles":2577.521402,"both_current_paved_widths_reported_one_or_both_lt_4_feet_miles":12901.123674,"missing_either_side_shoulder_record_miles":55.676515,"ambiguous_or_missing_current_paved_width_miles":0.788258,"surface_year_2021_to_2026_miles":10766.397159,"opi_good_or_excellent_miles":9312.955872,"both_paved_widths_ge_4_and_opi_good_or_excellent_review_miles":1631.432386,"both_paved_widths_ge_4_and_surface_year_2021_to_2026_review_miles":1163.282197,"pavement_condition_rating_missing_miles":15535.109848,"historical_mechanical_product_billions":0.059033,"source_path":"data/derived/breadth_benchmark_matrix/trn_penndot_state_owned_untreated_screen.v1.draft.json","status":"same_basis_untreated_screen_shoulder_and_pavement_availability_ready; cross_field_review_queues_not_design_eligible; structural_and_programmed_resurfacing_records_missing; historical_product_not_candidate_cost"},
+            "eligible_national_miles":None,
+            "affected_crash_count":None,
+            "national_candidate_cost":None,
+        },
+        "official_evidence":[
+            {"evidence_role":"candidate_basis","publisher":"Federal Highway Administration","title":"Proven Safety Countermeasures","date":None,"url":"https://highways.dot.gov/safety/proven-safety-countermeasures","finding":"FHWA identifies rumble strips as a proven safety countermeasure suitable for systematic implementation.","custody_status":"official_web_reviewed_not_raw_custodied"},
+            {"evidence_role":"bounded_effect","publisher":"Federal Highway Administration","title":"Rumble Strips: General Information","date":None,"url":"https://highways.dot.gov/safety/rwd/keep-vehicles-road/rumble-strips/general-information","finding":"FHWA reports a 45 percent plus or minus 6 percent reduction for head-on and opposite-direction fatal-and-injury collisions from centerline strips on rural two-lane roads, and a 36 percent plus or minus 10 percent reduction for single-vehicle run-off-road fatal-and-injury crashes from shoulder strips on rural two-lane roads.","custody_status":"official_web_reviewed_not_raw_custodied"},
+            {"evidence_role":"delivery_and_equity_boundary","publisher":"Federal Highway Administration","title":"Rumble Strips and Rumble Stripes: State of the Practice","date":"2017-01","url":"https://www.fhwa.dot.gov/publications/research/safety/17026/002.cfm","finding":"FHWA documents design and implementation tradeoffs involving bicyclists, motorcyclists, noise, pavement condition, and marking degradation.","custody_status":"official_web_reviewed_not_raw_custodied"},
+            {"evidence_role":"historical_unit_cost_and_life","publisher":"Federal Highway Administration","title":"Safety Evaluation of Centerline Plus Shoulder Rumble Strips","date":"2015-06","url":"https://www.fhwa.dot.gov/publications/research/safety/15048/005.cfm","finding":"The evaluation uses a PennDOT average of $1,267 per mile for one line, approximately $3,800 per mile for centerline plus shoulder strips on a two-lane road, no maintenance cost, and a seven-year life. It is a historical planning input, not a current national bid price.","custody_status":"official_web_reviewed_not_raw_custodied"},
+            {"evidence_role":"broad_route_mile_screen","publisher":"Federal Highway Administration","title":"Highway Statistics 2024, Table HM-20","date":"2025-10-17","url":"https://www.fhwa.dot.gov/policyinformation/statistics/2024/hm20.cfm","finding":"The four selected rural nonfreeway arterial and collector functional systems sum to 894,715 route-miles. HM-20 does not identify which sections are two-lane, untreated, or design-eligible.","custody_status":"official_html_raw_custodied_and_sha256_verified"},
+            {"evidence_role":"broad_fatality_screen","publisher":"Federal Highway Administration","title":"Highway Statistics 2024, Table FI-20","date":"2026-04","url":"https://www.fhwa.dot.gov/policyinformation/statistics/2024/fi20.cfm","finding":"The same four rural functional systems account for 11,790 fatalities of all crash types in 2024. FI-20 does not isolate rumble-strip target crashes or two-lane sections.","custody_status":"official_html_raw_custodied_and_sha256_verified"},
+            {"evidence_role":"two_way_two_lane_section_screen","publisher":"Department of Transportation Data Portal and Federal Highway Administration","title":"HPMS Spatial All Sections - 2024","date":"2025-11-10","url":"https://data.transportation.gov/Roadways-and-Bridges/HPMS-Spatial-All-Sections-2024/42um-tgh5","finding":"The documented rural, two-way, two-through-lane filter returns 753,112.2968 spatial section-miles across all 50 states; functional-system calibration to official HM-20 totals yields a 687,819.6543-mile analytical screen. FHWA warns spatial aggregation may differ from official totals, and neither result is design-eligible mileage.","custody_status":"official_api_aggregate_responses_raw_custodied_and_sha256_verified"},
+            {"evidence_role":"suitability_availability_and_design_boundary","publisher":"Federal Highway Administration","title":"Rumble-strip technical advisory, decision-support guide, FAQ, and pavement fact sheet","date":None,"url":"https://highways.dot.gov/safety/rwd/keep-vehicles-road/rumble-strips/technical-advisory-shoulder-and-edge-line-rumble-strips","finding":"FHWA requires context-specific review of pavement, geometry, users, and environment. Its four-foot reference concerns usable bicycle width beyond a strip and allows modified designs; IRI alone does not establish structural suitability. The custodied HPMS aggregates therefore measure field availability and triage bands, not eligibility.","custody_status":"hpms_api_aggregates_raw_custodied_guidance_official_web_reviewed_not_raw_custodied"},
+            {"evidence_role":"existing_treatment_inventory_pilot","publisher":"Pennsylvania Department of Transportation","title":"Statewide Rumble Strips (2024)","date":"2024-03-01","url":"https://www.pa.gov/agencies/penndot/about-penndot/strategic-planning-and-operations/safety-infrastructure-improvement-programs","finding":"PennDOT publishes a statewide workbook with 57,397 treatment records and segment-location fields. A two-way, two-lane interval union produces a 5,702.436553-mile analytical treatment footprint, but the workbook lacks the rural and federal-functional-system fields needed for direct subtraction from HPMS.","custody_status":"official_xlsx_and_landing_page_raw_custodied_and_sha256_verified"},
+            {"evidence_role":"existing_treatment_rms_join","publisher":"Pennsylvania Department of Transportation","title":"PennDOT RMS roadway segments, administration, and shoulder open-data services","date":"2026-07-28 capture","url":"https://gis.penndot.pa.gov/gis/rest/services/opendata/roadwaysegments/MapServer/0","finding":"The public RMS join matches 99.910259 percent of candidate-setting treatment rows to exact roadway segments and 95.044002 percent to unique administration intervals. Applying state-owned, rural, two-way, two-lane, and FHWA-class 3-6 criteria yields a 4,401.040152-mile existing-treatment footprint. The treatment-selected capture cannot supply the full denominator or untreated miles.","custody_status":"official_api_attribute_captures_raw_custodied_and_sha256_verified"},
+            {"evidence_role":"same_basis_state_untreated_screen","publisher":"Pennsylvania Department of Transportation","title":"PennDOT RMS complete state-owned roadway-segment, administration, and shoulder screen","date":"2026-07-28 capture","url":"https://gis.penndot.pa.gov/gis/rest/services/opendata/roadwaysegments/MapServer/0","finding":"Same-basis treatment subtraction leaves 15,535.109848 untreated screening miles. Of those, 2,577.521402 miles have unambiguous current paved-width records of at least four feet on both sides. Intersecting that field band with reported good or excellent OPI produces a 1,631.432386-mile engineering-record review queue. Neither field result verifies usable clear width, pavement structure, remaining life, or design eligibility.","custody_status":"official_filtered_api_attribute_captures_raw_custodied_and_sha256_verified"},
+        ],
+        "gate_overrides":{
+            "current_pain_measure_and_population":["ready","The national 2024 fatality rate and fatality count are source-custodied diagnostics."],
+            "severity_target_distinct_from_baseline":["blocked","No eligible-corridor crash inventory or target reduction is selected."],
+            "specific_intervention_and_owner":["ready","The countermeasure, eligible setting, FHWA oversight role, and road-owner implementers are named."],
+            "bounded_marginal_outcome_and_horizon":["partial","FHWA supplies crash-subset effects, but the eligible national exposure and implementation horizon are missing."],
+            "whole_system_gross_and_net_cost":["partial","Pennsylvania now has a same-basis 15,535.109848-mile untreated state-owned screen. Multiplying it by the historical unit input produces only a $0.059033B mechanical product, not a candidate cost: design eligibility, current prices, maintenance, accommodations, pavement work, administration, delivery, and offsets remain unscored."],
+            "distribution_and_equity":["partial","Bicycle, motorcycle, noise, and community effects are identified but not measured or mitigated in a national design."],
+            "delivery_capacity_and_schedule":["partial","Road-owner delivery and pavement constraints are known qualitatively; capacity and schedule are not quantified."],
+            "overlap_and_non_additivity":["partial","H.R. 2247 is excluded and Pennsylvania existing treatments are subtracted from a complete same-basis state-owned screen. HPMS remains a different all-public universe; other states, programmed projects, inventory-vintage changes, and overlapping countermeasures remain unreconciled."],
+            "funding_duration_milestones_and_sunset":["partial","Project funding plus maintenance is classified, but milestones, useful life, and sunset tests are absent."],
+            "policy_and_stress_floor_passage":["blocked","No corridor-level safety, accessibility, pavement, maintenance, or fiscal stress test exists."],
+        },
+        "existing_candidate_reconciliation":{"candidate":"H.R. 2247 Airmen Certificate Accessibility Act","source_path":"data/derived/breadth_benchmark_matrix/trn_c_real_reform_closure.v1.draft.json","decision":"not_substitutable","reason":"The admitted cost-only certificate-accessibility scenario is not a roadway-safety intervention."},
+    },
+    {
+        "dossier_id":"ISF-PAIN-01","track":"ISF","lane_id":"income-security-family","pain":"children living below the official poverty threshold",
+        "candidate_family":"refundable credit nutrition take-up or family-service package selected on marginal child-poverty impact","responsible_owner":"Department of the Treasury and Internal Revenue Service",
+        "selected_analytical_candidate":{
+            "name":"One-year ARPA-style advance refundable Child Tax Credit specification",
+            "definition":"Use the 2021 ARPA Child Tax Credit structure as a one-year analytical design: higher maximum credit, inclusion of age 17, full refundability, and advance payments, subject to a current-law rescore and renewed delivery and take-up design.",
+            "instrument_status":"historical_design_for_current_law_rescore_not_a_policy_recommendation",
+            "selection_reason":"It has an official historical design, implementation record, and child-poverty estimate and is more testable than an unspecified family-service package.",
+            "transferability_boundary":"The 2021 emergency-policy environment, tax base, inflation, household behavior, and interacting benefits differ from FY2026; historical effects and costs are not a current score.",
+        },
+        "funding_hypothesis":"time_limited_pain_response_then_structural_review",
+        "pain_measure":{"period":2024,"value":14.3,"unit":"percent_under_18_official_poverty","affected_population_value":10350,"affected_population_unit":"thousands_of_children_below_poverty","source_path":"data/derived/breadth_benchmark_matrix/income_security_family_child_poverty_floor_value_packet.v1.draft.json"},
+        "candidate_planning_inputs":{
+            "ty2026_current_law_comparator":{"maximum_credit_per_qualifying_child":2200,"maximum_refundable_amount_per_qualifying_child":1700,"qualifying_child_age_rule":"under_17_at_end_of_tax_year","refundability_formula":"15_percent_of_earned_income_above_2500_subject_to_per_child_cap","advance_payment":False},
+            "candidate_delta":{"maximum_credit":"historical_ARPA_3000_or_3600_by_child_age_requires_current_price_and_policy_decision","qualifying_child_age_rule":"include_age_17","refundability":"full_without_earned_income_floor","advance_payment":"periodic_during_one_year"},
+            "fy2024_additional_ctc_payment_accuracy_context":{"outlays_millions":32120.77,"improper_payment_rate":0.107300043,"sampling_timeframe":"2020-01_through_2021-12","source_path":"data/extracted/payment_accuracy/fy2024_program_results.v1.draft.jsonl","use":"delivery-control context only; not a candidate score or current take-up estimate"},
+            "current_incremental_score":None,
+        },
+        "official_evidence":[
+            {"evidence_role":"historical_outcome_and_delivery","publisher":"U.S. Government Accountability Office","title":"Automatic Fiscal Responses: Their Potential Role in the Federal Government's Efforts to Stabilize the Economy","date":"2025-06-26","url":"https://files.gao.gov/reports/GAO-25-106455/index.html","finding":"GAO reports an HHS projection that six months of advance Child Tax Credit payments reduced child poverty 23 percent and kept 1.8 million children out of poverty; IRS officials said a temporary advance credit could reuse 2021 infrastructure. This is historical transfer evidence, not a current causal score.","custody_status":"official_web_reviewed_not_raw_custodied"},
+            {"evidence_role":"historical_design_and_cost_context","publisher":"Congressional Budget Office","title":"The Distribution of Major Tax Expenditures in 2021","date":"2024-12-12","url":"https://www.cbo.gov/publication/60706","finding":"CBO describes the ARPA design changes and reports total Child Tax Credit benefits of $228 billion in 2021 compared with $119 billion without those changes; these historical totals are not a FY2026 incremental score.","custody_status":"official_web_reviewed_not_raw_custodied"},
+            {"evidence_role":"take_up_boundary","publisher":"U.S. Government Accountability Office","title":"Automatic Fiscal Responses: Their Potential Role in the Federal Government's Efforts to Stabilize the Economy","date":"2025-06-26","url":"https://files.gao.gov/reports/GAO-25-106455/index.html","finding":"GAO reports materially lower receipt rates among families with income below $25,000, so outreach and nonfiler access remain part of the candidate rather than assumed away.","custody_status":"official_web_reviewed_not_raw_custodied"},
+            {"evidence_role":"current_law_comparator","publisher":"Internal Revenue Service","title":"Internal Revenue Bulletin 2025-45, Revenue Procedure 2025-32","date":"2025-11-03","url":"https://www.irs.gov/irb/2025-45_IRB","finding":"For tax year 2026, the maximum Child Tax Credit is $2,200 and the maximum amount used to determine the refundable portion is $1,700.","custody_status":"official_html_locally_custodied_as_existing_rate_source"},
+            {"evidence_role":"current_law_eligibility_and_refundability","publisher":"Congressional Research Service","title":"The Child Tax Credit: How It Works and Who Receives It","date":"2025","url":"https://www.congress.gov/crs-product/R41873","finding":"Current law generally limits a qualifying child to under age 17 and calculates the refundable credit as 15 percent of earnings above $2,500, capped at the indexed refundable amount.","custody_status":"official_web_reviewed_not_raw_custodied"},
+            {"evidence_role":"current_baseline_budget_context","publisher":"Congressional Budget Office","title":"The Budget and Economic Outlook: 2026 to 2036","date":"2026-02","url":"https://www.cbo.gov/publication/62105","finding":"CBO's 2026 baseline incorporates Public Law 119-21 and projects refundable-credit outlays; it does not score this dossier's ARPA-style one-year delta.","custody_status":"official_web_reviewed_not_raw_custodied"},
+        ],
+        "gate_overrides":{
+            "current_pain_measure_and_population":["ready","The 2024 official child-poverty rate and affected-child count are source-custodied diagnostics."],
+            "severity_target_distinct_from_baseline":["blocked","No reviewed target poverty rate or temporary pain threshold is selected."],
+            "specific_intervention_and_owner":["ready","The one-year historical design features and Treasury/IRS ownership are named for analytical rescoring."],
+            "bounded_marginal_outcome_and_horizon":["partial","An official historical poverty estimate exists, but FY2026 transferability and interactions are not established."],
+            "whole_system_gross_and_net_cost":["partial","The TY2026 statutory comparator and official historical benefit totals now bound the delta; a current-law revenue, outlay, administration, behavior, and benefit-interaction score is absent."],
+            "distribution_and_equity":["partial","Full refundability and a documented low-income take-up gap identify the distribution question, but a current distribution table is absent."],
+            "delivery_capacity_and_schedule":["partial","IRS reports reusable 2021 infrastructure and the repository holds FY2024 ACTC payment-accuracy context, but current staffing, nonfiler outreach, error controls, and payment schedules are not tested."],
+            "overlap_and_non_additivity":["partial","Nutrition, childcare, other credits, and benefit interactions are not reconciled."],
+            "funding_duration_milestones_and_sunset":["ready","The analytical candidate is explicitly limited to one year followed by an outcome and structural review."],
+            "policy_and_stress_floor_passage":["blocked","No current-law labor-supply, error, take-up, benefit-cliff, financing, or recession stress result exists."],
+        },
+        "existing_candidate_reconciliation":{"candidate":None,"source_path":"data/derived/breadth_benchmark_matrix/isf_c_income_security_family_scenario_admission_closure.v1.draft.json","decision":"no_prior_repository_candidate_selected","reason":"The prior closure left refundable-credit, nutrition, and childcare families as source gaps; this dossier's historical CTC design is a new analytical selection and still lacks signed current annual effects."},
+    },
+]
+
+GATES = [
+    "current_pain_measure_and_population","severity_target_distinct_from_baseline","specific_intervention_and_owner",
+    "bounded_marginal_outcome_and_horizon","whole_system_gross_and_net_cost","distribution_and_equity",
+    "delivery_capacity_and_schedule","overlap_and_non_additivity","funding_duration_milestones_and_sunset","policy_and_stress_floor_passage",
+]
+
+
+def main() -> None:
+    parser=argparse.ArgumentParser()
+    parser.add_argument("--output",type=Path,required=True)
+    args=parser.parse_args()
+    rows=[]
+    for base in DOSSIERS:
+        gate_status=[]
+        for gate in GATES:
+            status,reason=base["gate_overrides"][gate]
+            gate_status.append({"gate":gate,"status":status,"reason":reason})
+        row={**{key:value for key,value in base.items() if key != "gate_overrides"},"gate_status":gate_status,"ready_gate_count":sum(g["status"]=="ready" for g in gate_status),"partial_gate_count":sum(g["status"]=="partial" for g in gate_status),"blocked_gate_count":sum(g["status"]=="blocked" for g in gate_status),
+             "scoring_inputs":{"pain_severity_score":None,"affected_population_score":None,"urgency_and_reversibility_score":None,"marginal_outcome_gain_score":None,"equity_score":None,"whole_system_net_value_score":None,"intervention_evidence_multiplier":None,"delivery_confidence_multiplier":None,"candidate_cap_billions":None},
+             "allocation_admission_gates_passed":False,"overall_need_score":None,"reserve_allocation_billions":None}
+        rows.append(row)
+    output={"record_id":"adaptive-initial-intervention-dossiers:v1","record_family":"adaptive_initial_intervention_dossiers","version":"v1.draft","status":"three_pain_aligned_dossiers_open_none_allocation_ready","as_of_date":"2026-07-28","scoring_contract_path":"data/derived/breadth_benchmark_matrix/adaptive_needs_scoring_allocation_contract.v1.draft.json","dossiers":rows,
+            "rollup":{"dossiers":3,"allocation_ready":0,"bounded_analytical_candidates":3,"named_candidate_substitution_rejections":2,"tracks":["VET","TRN","ISF"]},
+            "next_evidence":{"VET":"obtain unique claimant workload and decision-time distributions around the 71.3-day baseline, isolate incremental throughput and accuracy effects, and score technology training transition and oversight costs","TRN":"begin local engineering-record review with Pennsylvania's 1,631.432386-mile reported-width-plus-OPI queue; obtain pavement thickness, cracking, base structure, remaining life, verified usable clear width, and committed resurfacing and programmed-project records, then join bicycle/noise constraints and target crashes before current delivery and maintenance costing or any design-eligibility claim","ISF":"score the explicit ARPA-style delta from the TY2026 $2,200/$1,700 current-law comparator, produce a distribution table, model benefit and labor-supply interactions, and test current IRS delivery take-up error and outreach capacity"},
+            "claim_boundaries":{"bounded_analytical_candidates_selected":True,"policy_recommendations_made":False,"official_web_sources_raw_custodied":False,"scores_ready":False,"allocations_ready":False,"funding_recommended":False,"official_score":False,"public_release_authorized":False}}
+    args.output.write_text(json.dumps(output,indent=2)+"\n")
+    print(json.dumps({"output":str(args.output),"dossiers":3,"allocation_ready":0}))
+
+
+if __name__=="__main__": main()

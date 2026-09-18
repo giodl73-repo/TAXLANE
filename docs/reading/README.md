@@ -18,11 +18,14 @@ explainers. They should keep three labels visible:
 
 ## Start Here
 
-If you are evaluating TAXLANE, start with
-[`taxlane-showcase-readiness-summary.md`](taxlane-showcase-readiness-summary.md).
-It states the current showable posture: demo-ready as a source-custody and
-readiness guardrail system, not solver-ready, rate-ready, savings-ready, or
-balanced-budget-ready.
+If you are evaluating TAXLANE, start with the
+[`final briefing bundle`](../explanation/final/briefing-bundle-index.md), then
+open the repository-local website. The earlier
+[`taxlane-showcase-readiness-summary.md`](taxlane-showcase-readiness-summary.md)
+is a historical readiness checkpoint: it records the source and solver blocks
+that governed the corpus before the later internal rate-analysis wave. At that
+checkpoint Taxlane was explicitly **not solver-ready, rate-ready, savings-ready, or balanced-budget-ready**; later internal rate modeling did not retroactively
+change the state of those historical lane artifacts.
 
 Then use [`../showcase.md`](../showcase.md) for the ten-minute path,
 [`../demo-script.md`](../demo-script.md) for a live walkthrough, and
@@ -33,6 +36,8 @@ receipt standard.
 
 | Packet | Purpose |
 |---|---|
+| `peer-informed-savings-and-reinvestment-profiles.md` | Four goal-seeking gross-savings, reinvestment, net-savings, and central-rate profiles; rate implications are modeled while initiative savings remain unscored and unadmitted. |
+| `adaptive-needs-and-balance-cycle.md` | Recurring all-lane method for measuring pain, protecting floors, allocating structural or temporary funds, testing results, sunsetting, and rebalancing; no lane receives an automatic increase. |
 | `honest-federal-tax-receipt.md` | Flagship one-page before/after case and financing-lane receipt prototype. |
 | `current-versus-benchmark-scoreboard.md` | Breadth/depth scoreboard showing matched current-versus-benchmark values, topline-only areas, explicit gaps, and the fraud/savings firewall. |
 | `lane-full-coverage-matrix.md` | Validated all-lane matrix for the nine full-coverage gates; preserves incomplete, non-solver-ready, non-rate-ready, non-savings-ready status. |

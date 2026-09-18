@@ -1,0 +1,6870 @@
+{
+  "id" : "42um-tgh5",
+  "name" : "HPMS Spatial All Sections - 2024",
+  "assetType" : "dataset",
+  "attribution" : "Office of Highway Policy Information",
+  "attributionLink" : "https://www.fhwa.dot.gov/policyinformation/hpms.cfm",
+  "averageRating" : 0,
+  "category" : "Roadways and Bridges",
+  "createdAt" : 1759501443,
+  "description" : "A GeoJSON file with all spatial roadway data for all sections from the 2024 Highway Performance Monitoring System (HPMS) attached to the All Road Network of Linear Referenced Data (ARNOLD) network.  This file was produced using what is known as the “Spatial Full Join” process in HPMS, which is a spatial dynamic segmentation of the HPMS data to create homogeneous roadway sections.  To be included in the file, only one data item must be present on a section of road.  See attached README file for more details.",
+  "diciBackend" : false,
+  "displayType" : "table",
+  "domainCName" : "data.transportation.gov",
+  "downloadCount" : 2841,
+  "hideFromCatalog" : false,
+  "hideFromDataJson" : false,
+  "licenseId" : "USGOV_WORKS",
+  "locked" : false,
+  "newBackend" : true,
+  "numberOfComments" : 0,
+  "oid" : 41731694,
+  "provenance" : "official",
+  "publicationAppendEnabled" : false,
+  "publicationDate" : 1762971539,
+  "publicationGroup" : 20113155,
+  "publicationStage" : "published",
+  "rowsUpdatedAt" : 1762967831,
+  "rowsUpdatedBy" : "2gu3-zysa",
+  "tableId" : 20156789,
+  "totalTimesRated" : 0,
+  "viewCount" : 1189,
+  "viewLastModified" : 1766492652,
+  "viewType" : "tabular",
+  "approvals" : [ {
+    "reviewedAt" : 1763067720,
+    "reviewedAutomatically" : false,
+    "state" : "approved",
+    "submissionId" : 7200033,
+    "submissionObject" : "public_audience_request",
+    "submissionOutcome" : "change_audience",
+    "submittedAt" : 1763060216,
+    "targetAudience" : "public",
+    "workflowId" : 568,
+    "reviewer" : {
+      "id" : "a95h-dqad",
+      "displayName" : "DOT DataHub (DoNotDelete)"
+    },
+    "submissionDetails" : {
+      "permissionType" : "read"
+    },
+    "submissionOutcomeApplication" : {
+      "endedAt" : 1763067720,
+      "failureCount" : 0,
+      "startedAt" : 1763067720,
+      "status" : "success"
+    },
+    "submitter" : {
+      "id" : "d9pg-dywh",
+      "displayName" : "Dunleavy, Viktoriia (FHWA)"
+    }
+  }, {
+    "message" : "The `strict_permissions` flag must be on to enable internal approvals.",
+    "state" : "unsubmittable",
+    "targetAudience" : "internal",
+    "workflowId" : 5258
+  } ],
+  "clientContext" : {
+    "clientContextVariables" : [ ],
+    "inheritedVariables" : { }
+  },
+  "columns" : [ {
+    "id" : 620754808,
+    "name" : "AADT",
+    "dataTypeName" : "number",
+    "description" : "Annual Average Daily Traffic",
+    "fieldName" : "aadt",
+    "position" : 1,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252075,
+    "cachedContents" : {
+      "non_null" : "10680545",
+      "largest" : "405000",
+      "null" : "8893194",
+      "top" : [ {
+        "item" : "2250",
+        "count" : "79263"
+      }, {
+        "item" : "200",
+        "count" : "49452"
+      }, {
+        "item" : "259",
+        "count" : "48582"
+      }, {
+        "item" : "1750",
+        "count" : "45597"
+      }, {
+        "item" : "50",
+        "count" : "44563"
+      }, {
+        "item" : "506",
+        "count" : "43484"
+      }, {
+        "item" : "320",
+        "count" : "41167"
+      }, {
+        "item" : "140",
+        "count" : "39037"
+      }, {
+        "item" : "250",
+        "count" : "38691"
+      }, {
+        "item" : "150",
+        "count" : "38373"
+      }, {
+        "item" : "337",
+        "count" : "36048"
+      }, {
+        "item" : "341",
+        "count" : "35668"
+      }, {
+        "item" : "1015",
+        "count" : "34766"
+      }, {
+        "item" : "125",
+        "count" : "32342"
+      }, {
+        "item" : "10",
+        "count" : "31181"
+      }, {
+        "item" : "275",
+        "count" : "29708"
+      }, {
+        "item" : "67",
+        "count" : "27204"
+      }, {
+        "item" : "360",
+        "count" : "26958"
+      }, {
+        "item" : "20",
+        "count" : "25526"
+      }, {
+        "item" : "920",
+        "count" : "25299"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754809,
+    "name" : "AADT_COMBINATION",
+    "dataTypeName" : "number",
+    "description" : "Combination Truck AADT",
+    "fieldName" : "aadt_combination",
+    "position" : 2,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252056,
+    "cachedContents" : {
+      "non_null" : "6565694",
+      "largest" : "84113",
+      "null" : "13008045",
+      "top" : [ {
+        "item" : "1",
+        "count" : "415573"
+      }, {
+        "item" : "2",
+        "count" : "130249"
+      }, {
+        "item" : "0",
+        "count" : "118051"
+      }, {
+        "item" : "3",
+        "count" : "93077"
+      }, {
+        "item" : "4",
+        "count" : "88165"
+      }, {
+        "item" : "5",
+        "count" : "72264"
+      }, {
+        "item" : "7",
+        "count" : "68694"
+      }, {
+        "item" : "6",
+        "count" : "62143"
+      }, {
+        "item" : "8",
+        "count" : "59274"
+      }, {
+        "item" : "12",
+        "count" : "48911"
+      }, {
+        "item" : "11",
+        "count" : "45978"
+      }, {
+        "item" : "10",
+        "count" : "44822"
+      }, {
+        "item" : "9",
+        "count" : "44573"
+      }, {
+        "item" : "13",
+        "count" : "41633"
+      }, {
+        "item" : "15",
+        "count" : "38501"
+      }, {
+        "item" : "17",
+        "count" : "37880"
+      }, {
+        "item" : "14",
+        "count" : "37195"
+      }, {
+        "item" : "22",
+        "count" : "36018"
+      }, {
+        "item" : "31",
+        "count" : "35914"
+      }, {
+        "item" : "20",
+        "count" : "34687"
+      } ],
+      "smallest" : "0",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754810,
+    "name" : "AADT_D",
+    "dataTypeName" : "calendar_date",
+    "description" : "Date of AADT Collection",
+    "fieldName" : "aadt_d",
+    "position" : 3,
+    "renderTypeName" : "calendar_date",
+    "tableColumnId" : 162252021,
+    "cachedContents" : {
+      "non_null" : "10680545",
+      "largest" : "2025-10-07T00:00:00.000",
+      "null" : "8893194",
+      "top" : [ {
+        "item" : "2024-01-01T00:00:00.000",
+        "count" : "5796385"
+      }, {
+        "item" : "2023-01-01T00:00:00.000",
+        "count" : "927983"
+      }, {
+        "item" : "2024-12-31T00:00:00.000",
+        "count" : "743184"
+      }, {
+        "item" : "2022-01-01T00:00:00.000",
+        "count" : "724954"
+      }, {
+        "item" : "2024-11-01T00:00:00.000",
+        "count" : "445630"
+      }, {
+        "item" : "2021-01-01T00:00:00.000",
+        "count" : "224232"
+      }, {
+        "item" : "2020-01-01T00:00:00.000",
+        "count" : "178368"
+      }, {
+        "item" : "2023-12-31T00:00:00.000",
+        "count" : "140216"
+      }, {
+        "item" : "2024-12-01T00:00:00.000",
+        "count" : "136109"
+      }, {
+        "item" : "2022-12-31T00:00:00.000",
+        "count" : "134439"
+      }, {
+        "item" : "2019-01-01T00:00:00.000",
+        "count" : "94172"
+      }, {
+        "item" : "2018-01-01T00:00:00.000",
+        "count" : "81549"
+      }, {
+        "item" : "2016-01-01T00:00:00.000",
+        "count" : "64688"
+      }, {
+        "item" : "2023-06-01T00:00:00.000",
+        "count" : "53507"
+      }, {
+        "item" : "2024-07-01T00:00:00.000",
+        "count" : "50198"
+      }, {
+        "item" : "2001-01-01T00:00:00.000",
+        "count" : "50091"
+      }, {
+        "item" : "2017-01-01T00:00:00.000",
+        "count" : "49888"
+      }, {
+        "item" : "2015-01-01T00:00:00.000",
+        "count" : "45167"
+      }, {
+        "item" : "2024-06-01T00:00:00.000",
+        "count" : "43727"
+      }, {
+        "item" : "2014-01-01T00:00:00.000",
+        "count" : "33782"
+      } ],
+      "smallest" : "1900-01-01T00:00:00.000",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "view" : "date_my"
+    }
+  }, {
+    "id" : 620754811,
+    "name" : "AADT_SINGLE_UNIT",
+    "dataTypeName" : "number",
+    "description" : "Single-Unit Truck and Bus AADT",
+    "fieldName" : "aadt_single_unit",
+    "position" : 4,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252036,
+    "cachedContents" : {
+      "non_null" : "6682957",
+      "largest" : "84670",
+      "null" : "12890782",
+      "top" : [ {
+        "item" : "11",
+        "count" : "95610"
+      }, {
+        "item" : "9",
+        "count" : "94856"
+      }, {
+        "item" : "7",
+        "count" : "75125"
+      }, {
+        "item" : "13",
+        "count" : "69668"
+      }, {
+        "item" : "12",
+        "count" : "67555"
+      }, {
+        "item" : "20",
+        "count" : "41749"
+      }, {
+        "item" : "8",
+        "count" : "41236"
+      }, {
+        "item" : "15",
+        "count" : "41173"
+      }, {
+        "item" : "10",
+        "count" : "39497"
+      }, {
+        "item" : "17",
+        "count" : "38909"
+      }, {
+        "item" : "6",
+        "count" : "38380"
+      }, {
+        "item" : "22",
+        "count" : "36851"
+      }, {
+        "item" : "21",
+        "count" : "32558"
+      }, {
+        "item" : "16",
+        "count" : "31197"
+      }, {
+        "item" : "14",
+        "count" : "31147"
+      }, {
+        "item" : "5",
+        "count" : "29672"
+      }, {
+        "item" : "40",
+        "count" : "26728"
+      }, {
+        "item" : "675",
+        "count" : "25639"
+      }, {
+        "item" : "18",
+        "count" : "25238"
+      }, {
+        "item" : "55",
+        "count" : "24847"
+      } ],
+      "smallest" : "0",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754812,
+    "name" : "ACCESS_CONTROL",
+    "dataTypeName" : "number",
+    "description" : "Access Control",
+    "fieldName" : "access_control",
+    "position" : 5,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252011,
+    "cachedContents" : {
+      "non_null" : "10131142",
+      "largest" : "3",
+      "null" : "9442597",
+      "top" : [ {
+        "item" : "3",
+        "count" : "8027940"
+      }, {
+        "item" : "1",
+        "count" : "1521956"
+      }, {
+        "item" : "2",
+        "count" : "581246"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754813,
+    "name" : "AT_GRADE_OTHER",
+    "dataTypeName" : "number",
+    "description" : "Number of Intersections, Type-Other",
+    "fieldName" : "at_grade_other",
+    "position" : 6,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252001,
+    "cachedContents" : {
+      "non_null" : "1885608",
+      "largest" : "73",
+      "null" : "17688131",
+      "top" : [ {
+        "item" : "0",
+        "count" : "646015"
+      }, {
+        "item" : "1",
+        "count" : "313167"
+      }, {
+        "item" : "2",
+        "count" : "171974"
+      }, {
+        "item" : "3",
+        "count" : "139939"
+      }, {
+        "item" : "4",
+        "count" : "114873"
+      }, {
+        "item" : "5",
+        "count" : "93488"
+      }, {
+        "item" : "6",
+        "count" : "76459"
+      }, {
+        "item" : "7",
+        "count" : "64370"
+      }, {
+        "item" : "8",
+        "count" : "51058"
+      }, {
+        "item" : "9",
+        "count" : "39167"
+      }, {
+        "item" : "10",
+        "count" : "31566"
+      }, {
+        "item" : "11",
+        "count" : "25491"
+      }, {
+        "item" : "12",
+        "count" : "21538"
+      }, {
+        "item" : "13",
+        "count" : "14868"
+      }, {
+        "item" : "14",
+        "count" : "13039"
+      }, {
+        "item" : "15",
+        "count" : "12635"
+      }, {
+        "item" : "16",
+        "count" : "9018"
+      }, {
+        "item" : "17",
+        "count" : "7377"
+      }, {
+        "item" : "18",
+        "count" : "5778"
+      }, {
+        "item" : "19",
+        "count" : "4480"
+      } ],
+      "smallest" : "0",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754814,
+    "name" : "BASE_THICKNESS",
+    "dataTypeName" : "number",
+    "description" : "Base Pavement Thickness",
+    "fieldName" : "base_thickness",
+    "position" : 7,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252015,
+    "cachedContents" : {
+      "non_null" : "2424640",
+      "largest" : "116",
+      "null" : "17149099",
+      "top" : [ {
+        "item" : "6",
+        "count" : "389425"
+      }, {
+        "item" : "4",
+        "count" : "326276"
+      }, {
+        "item" : "8",
+        "count" : "268133"
+      }, {
+        "item" : "12",
+        "count" : "234422"
+      }, {
+        "item" : "5",
+        "count" : "120759"
+      }, {
+        "item" : "10",
+        "count" : "115563"
+      }, {
+        "item" : "18",
+        "count" : "106993"
+      }, {
+        "item" : "16",
+        "count" : "88078"
+      }, {
+        "item" : "1",
+        "count" : "87166"
+      }, {
+        "item" : "9",
+        "count" : "78383"
+      }, {
+        "item" : "7",
+        "count" : "78248"
+      }, {
+        "item" : "3",
+        "count" : "55411"
+      }, {
+        "item" : "11",
+        "count" : "53368"
+      }, {
+        "item" : "2",
+        "count" : "48734"
+      }, {
+        "item" : "22",
+        "count" : "47986"
+      }, {
+        "item" : "14",
+        "count" : "45578"
+      }, {
+        "item" : "15",
+        "count" : "38592"
+      }, {
+        "item" : "24",
+        "count" : "38471"
+      }, {
+        "item" : "13",
+        "count" : "36856"
+      }, {
+        "item" : "21",
+        "count" : "34167"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754815,
+    "name" : "BASE_TYPE",
+    "dataTypeName" : "number",
+    "description" : "Base Pavement Type",
+    "fieldName" : "base_type",
+    "position" : 8,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252045,
+    "cachedContents" : {
+      "non_null" : "2607467",
+      "largest" : "8",
+      "null" : "16966272",
+      "top" : [ {
+        "item" : "2",
+        "count" : "1555829"
+      }, {
+        "item" : "3",
+        "count" : "374274"
+      }, {
+        "item" : "1",
+        "count" : "311680"
+      }, {
+        "item" : "5",
+        "count" : "251450"
+      }, {
+        "item" : "6",
+        "count" : "46621"
+      }, {
+        "item" : "8",
+        "count" : "37851"
+      }, {
+        "item" : "7",
+        "count" : "29762"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754816,
+    "name" : "BEGIN_POINT",
+    "dataTypeName" : "number",
+    "description" : "Beginning Milepoint",
+    "fieldName" : "begin_point",
+    "position" : 9,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252053,
+    "cachedContents" : {
+      "non_null" : "19573739",
+      "largest" : "1366.3612",
+      "null" : "0",
+      "top" : [ {
+        "item" : "0.0",
+        "count" : "7737471"
+      }, {
+        "item" : "0.1",
+        "count" : "108119"
+      }, {
+        "item" : "0.2",
+        "count" : "88929"
+      }, {
+        "item" : "0.3",
+        "count" : "75539"
+      }, {
+        "item" : "0.4",
+        "count" : "66270"
+      }, {
+        "item" : "0.5",
+        "count" : "62000"
+      }, {
+        "item" : "0.6",
+        "count" : "52549"
+      }, {
+        "item" : "0.7",
+        "count" : "47926"
+      }, {
+        "item" : "0.8",
+        "count" : "44761"
+      }, {
+        "item" : "1.0",
+        "count" : "44395"
+      }, {
+        "item" : "0.9",
+        "count" : "41689"
+      }, {
+        "item" : "1.1",
+        "count" : "36150"
+      }, {
+        "item" : "1.2",
+        "count" : "34390"
+      }, {
+        "item" : "1.3",
+        "count" : "32635"
+      }, {
+        "item" : "1.4",
+        "count" : "31337"
+      }, {
+        "item" : "1.5",
+        "count" : "31027"
+      }, {
+        "item" : "1.6",
+        "count" : "28970"
+      }, {
+        "item" : "0.06",
+        "count" : "28184"
+      }, {
+        "item" : "1.7",
+        "count" : "27782"
+      }, {
+        "item" : "2.0",
+        "count" : "27779"
+      } ],
+      "smallest" : "-8.15",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754817,
+    "name" : "COUNTER_PEAK_LANES",
+    "dataTypeName" : "number",
+    "description" : "Counter-Peak Lanes",
+    "fieldName" : "counter_peak_lanes",
+    "position" : 10,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252065,
+    "cachedContents" : {
+      "non_null" : "2051584",
+      "largest" : "15",
+      "null" : "17522155",
+      "top" : [ {
+        "item" : "1",
+        "count" : "1152923"
+      }, {
+        "item" : "2",
+        "count" : "750261"
+      }, {
+        "item" : "3",
+        "count" : "116735"
+      }, {
+        "item" : "4",
+        "count" : "24908"
+      }, {
+        "item" : "5",
+        "count" : "4462"
+      }, {
+        "item" : "6",
+        "count" : "1627"
+      }, {
+        "item" : "7",
+        "count" : "337"
+      }, {
+        "item" : "8",
+        "count" : "278"
+      }, {
+        "item" : "12",
+        "count" : "19"
+      }, {
+        "item" : "9",
+        "count" : "14"
+      }, {
+        "item" : "10",
+        "count" : "10"
+      }, {
+        "item" : "15",
+        "count" : "9"
+      }, {
+        "item" : "11",
+        "count" : "1"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754818,
+    "name" : "COUNTY_ID",
+    "dataTypeName" : "number",
+    "description" : "County FIPS Code",
+    "fieldName" : "county_id",
+    "position" : 11,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252046,
+    "cachedContents" : {
+      "non_null" : "18299478",
+      "largest" : "840",
+      "null" : "1274261",
+      "top" : [ {
+        "item" : "3",
+        "count" : "514401"
+      }, {
+        "item" : "1",
+        "count" : "410333"
+      }, {
+        "item" : "13",
+        "count" : "395439"
+      }, {
+        "item" : "5",
+        "count" : "378115"
+      }, {
+        "item" : "19",
+        "count" : "371349"
+      }, {
+        "item" : "31",
+        "count" : "339503"
+      }, {
+        "item" : "17",
+        "count" : "334668"
+      }, {
+        "item" : "25",
+        "count" : "320005"
+      }, {
+        "item" : "9",
+        "count" : "313828"
+      }, {
+        "item" : "11",
+        "count" : "297802"
+      }, {
+        "item" : "35",
+        "count" : "295943"
+      }, {
+        "item" : "37",
+        "count" : "293657"
+      }, {
+        "item" : "27",
+        "count" : "290147"
+      }, {
+        "item" : "21",
+        "count" : "286020"
+      }, {
+        "item" : "15",
+        "count" : "285069"
+      }, {
+        "item" : "71",
+        "count" : "283509"
+      }, {
+        "item" : "29",
+        "count" : "282399"
+      }, {
+        "item" : "7",
+        "count" : "275761"
+      }, {
+        "item" : "59",
+        "count" : "268063"
+      }, {
+        "item" : "49",
+        "count" : "238210"
+      } ],
+      "smallest" : "0",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754819,
+    "name" : "CRACKING_PERCENT",
+    "dataTypeName" : "number",
+    "description" : "Cracking Percent",
+    "fieldName" : "cracking_percent",
+    "position" : 12,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252006,
+    "cachedContents" : {
+      "non_null" : "6541861",
+      "largest" : "100.0",
+      "null" : "13031878",
+      "top" : [ {
+        "item" : "0.0",
+        "count" : "2918634"
+      }, {
+        "item" : "1.0",
+        "count" : "541939"
+      }, {
+        "item" : "2.0",
+        "count" : "319486"
+      }, {
+        "item" : "3.0",
+        "count" : "250234"
+      }, {
+        "item" : "4.0",
+        "count" : "191662"
+      }, {
+        "item" : "5.0",
+        "count" : "159964"
+      }, {
+        "item" : "6.0",
+        "count" : "133905"
+      }, {
+        "item" : "7.0",
+        "count" : "114376"
+      }, {
+        "item" : "8.0",
+        "count" : "104956"
+      }, {
+        "item" : "9.0",
+        "count" : "92653"
+      }, {
+        "item" : "10.0",
+        "count" : "88221"
+      }, {
+        "item" : "11.0",
+        "count" : "78887"
+      }, {
+        "item" : "12.0",
+        "count" : "74272"
+      }, {
+        "item" : "13.0",
+        "count" : "66389"
+      }, {
+        "item" : "14.0",
+        "count" : "64205"
+      }, {
+        "item" : "15.0",
+        "count" : "60124"
+      }, {
+        "item" : "16.0",
+        "count" : "54800"
+      }, {
+        "item" : "17.0",
+        "count" : "51420"
+      }, {
+        "item" : "18.0",
+        "count" : "49037"
+      }, {
+        "item" : "20.0",
+        "count" : "45841"
+      } ],
+      "smallest" : "0.0",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754820,
+    "name" : "CRACKING_PERCENT_D",
+    "dataTypeName" : "calendar_date",
+    "description" : "Date of Cracking Percent Collection",
+    "fieldName" : "cracking_percent_d",
+    "position" : 13,
+    "renderTypeName" : "calendar_date",
+    "tableColumnId" : 162252042,
+    "cachedContents" : {
+      "non_null" : "6543941",
+      "largest" : "2025-11-21T00:00:00.000",
+      "null" : "13029798",
+      "top" : [ {
+        "item" : "2024-11-01T00:00:00.000",
+        "count" : "523473"
+      }, {
+        "item" : "2024-05-01T00:00:00.000",
+        "count" : "331265"
+      }, {
+        "item" : "2024-12-01T00:00:00.000",
+        "count" : "324764"
+      }, {
+        "item" : "2024-06-01T00:00:00.000",
+        "count" : "309079"
+      }, {
+        "item" : "2024-06-24T00:00:00.000",
+        "count" : "289773"
+      }, {
+        "item" : "2024-07-01T00:00:00.000",
+        "count" : "242570"
+      }, {
+        "item" : "2024-08-01T00:00:00.000",
+        "count" : "240498"
+      }, {
+        "item" : "2024-04-01T00:00:00.000",
+        "count" : "209107"
+      }, {
+        "item" : "2024-10-01T00:00:00.000",
+        "count" : "178468"
+      }, {
+        "item" : "2023-05-01T00:00:00.000",
+        "count" : "143871"
+      }, {
+        "item" : "2024-09-01T00:00:00.000",
+        "count" : "135049"
+      }, {
+        "item" : "2023-06-01T00:00:00.000",
+        "count" : "107936"
+      }, {
+        "item" : "2024-02-01T00:00:00.000",
+        "count" : "107726"
+      }, {
+        "item" : "2024-03-01T00:00:00.000",
+        "count" : "90944"
+      }, {
+        "item" : "2024-01-01T00:00:00.000",
+        "count" : "84409"
+      }, {
+        "item" : "2023-04-01T00:00:00.000",
+        "count" : "83823"
+      }, {
+        "item" : "2023-07-01T00:00:00.000",
+        "count" : "60883"
+      }, {
+        "item" : "2023-08-01T00:00:00.000",
+        "count" : "53693"
+      }, {
+        "item" : "2023-01-01T00:00:00.000",
+        "count" : "46363"
+      }, {
+        "item" : "2023-03-01T00:00:00.000",
+        "count" : "44695"
+      } ],
+      "smallest" : "1900-01-01T00:00:00.000",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "view" : "date_my"
+    }
+  }, {
+    "id" : 620754821,
+    "name" : "CURVES_A",
+    "dataTypeName" : "number",
+    "description" : "Curve Class A (< 3.5 degrees)",
+    "fieldName" : "curves_a",
+    "position" : 14,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252022,
+    "cachedContents" : {
+      "non_null" : "1880586",
+      "largest" : "66.15",
+      "null" : "17693153",
+      "top" : [ {
+        "item" : "0.1",
+        "count" : "548049"
+      }, {
+        "item" : "1.0",
+        "count" : "16850"
+      }, {
+        "item" : "0.5",
+        "count" : "13126"
+      }, {
+        "item" : "2.0",
+        "count" : "9086"
+      }, {
+        "item" : "0.01",
+        "count" : "6189"
+      }, {
+        "item" : "0.02",
+        "count" : "5155"
+      }, {
+        "item" : "3.0",
+        "count" : "4198"
+      }, {
+        "item" : "0.03",
+        "count" : "3955"
+      }, {
+        "item" : "0.04",
+        "count" : "3471"
+      }, {
+        "item" : "0.05",
+        "count" : "3052"
+      }, {
+        "item" : "0.07",
+        "count" : "2866"
+      }, {
+        "item" : "0.06",
+        "count" : "2774"
+      }, {
+        "item" : "0.3",
+        "count" : "2614"
+      }, {
+        "item" : "0.09",
+        "count" : "2592"
+      }, {
+        "item" : "0.2",
+        "count" : "2582"
+      }, {
+        "item" : "0.25",
+        "count" : "2534"
+      }, {
+        "item" : "0.08",
+        "count" : "2495"
+      }, {
+        "item" : "0.12",
+        "count" : "2446"
+      }, {
+        "item" : "0.13",
+        "count" : "2432"
+      }, {
+        "item" : "0.4",
+        "count" : "2367"
+      } ],
+      "smallest" : "0.0",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754822,
+    "name" : "CURVES_B",
+    "dataTypeName" : "number",
+    "description" : "Curve Class B (3.5 – 5.4 degrees)",
+    "fieldName" : "curves_b",
+    "position" : 15,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252061,
+    "cachedContents" : {
+      "non_null" : "412618",
+      "largest" : "7.8111",
+      "null" : "19161121",
+      "top" : [ {
+        "item" : "0.1",
+        "count" : "25044"
+      }, {
+        "item" : "0.2",
+        "count" : "4600"
+      }, {
+        "item" : "0.009",
+        "count" : "4506"
+      }, {
+        "item" : "0.015",
+        "count" : "3604"
+      }, {
+        "item" : "0.018",
+        "count" : "3265"
+      }, {
+        "item" : "0.013",
+        "count" : "3246"
+      }, {
+        "item" : "0.03",
+        "count" : "3149"
+      }, {
+        "item" : "0.05",
+        "count" : "3069"
+      }, {
+        "item" : "0.016",
+        "count" : "3013"
+      }, {
+        "item" : "0.3",
+        "count" : "3006"
+      }, {
+        "item" : "0.014",
+        "count" : "2969"
+      }, {
+        "item" : "0.017",
+        "count" : "2859"
+      }, {
+        "item" : "0.028",
+        "count" : "2685"
+      }, {
+        "item" : "0.02",
+        "count" : "2526"
+      }, {
+        "item" : "0.027",
+        "count" : "2451"
+      }, {
+        "item" : "0.012",
+        "count" : "2424"
+      }, {
+        "item" : "0.09",
+        "count" : "2401"
+      }, {
+        "item" : "0.04",
+        "count" : "2301"
+      }, {
+        "item" : "0.019",
+        "count" : "2255"
+      }, {
+        "item" : "0.08",
+        "count" : "2228"
+      } ],
+      "smallest" : "0.0",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754823,
+    "name" : "CURVES_C",
+    "dataTypeName" : "text",
+    "description" : "Curve Class C (5.5 – 8.4 degrees)",
+    "fieldName" : "curves_c",
+    "position" : 16,
+    "renderTypeName" : "text",
+    "tableColumnId" : 162252054,
+    "cachedContents" : {
+      "non_null" : "285590",
+      "largest" : "9.781",
+      "null" : "19288149",
+      "top" : [ {
+        "item" : "0.1",
+        "count" : "16490"
+      }, {
+        "item" : "0.009",
+        "count" : "4174"
+      }, {
+        "item" : "0.018",
+        "count" : "3085"
+      }, {
+        "item" : "0.015",
+        "count" : "3083"
+      }, {
+        "item" : "0.013",
+        "count" : "2875"
+      }, {
+        "item" : "0.016",
+        "count" : "2742"
+      }, {
+        "item" : "0.014",
+        "count" : "2469"
+      }, {
+        "item" : "0.03",
+        "count" : "2438"
+      }, {
+        "item" : "0.2",
+        "count" : "2396"
+      }, {
+        "item" : "0.017",
+        "count" : "2276"
+      }, {
+        "item" : "0.012",
+        "count" : "2211"
+      }, {
+        "item" : "0.027",
+        "count" : "2192"
+      }, {
+        "item" : "0.06",
+        "count" : "2147"
+      }, {
+        "item" : "0.028",
+        "count" : "2075"
+      }, {
+        "item" : "0.3",
+        "count" : "2065"
+      }, {
+        "item" : "0.011",
+        "count" : "2012"
+      }, {
+        "item" : "0.08",
+        "count" : "1956"
+      }, {
+        "item" : "0.04",
+        "count" : "1851"
+      }, {
+        "item" : "0.026",
+        "count" : "1820"
+      }, {
+        "item" : "0.05",
+        "count" : "1788"
+      } ],
+      "smallest" : "0.0001",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : { }
+  }, {
+    "id" : 620754824,
+    "name" : "CURVES_D",
+    "dataTypeName" : "text",
+    "description" : "Curve Class D (8.5 – 13.9 degrees)",
+    "fieldName" : "curves_d",
+    "position" : 17,
+    "renderTypeName" : "text",
+    "tableColumnId" : 162252068,
+    "cachedContents" : {
+      "non_null" : "221421",
+      "largest" : "4.166",
+      "null" : "19352318",
+      "top" : [ {
+        "item" : "0.1",
+        "count" : "10072"
+      }, {
+        "item" : "0.009",
+        "count" : "4117"
+      }, {
+        "item" : "0.018",
+        "count" : "2564"
+      }, {
+        "item" : "0.002",
+        "count" : "2415"
+      }, {
+        "item" : "0.016",
+        "count" : "2353"
+      }, {
+        "item" : "0.013",
+        "count" : "2341"
+      }, {
+        "item" : "0.015",
+        "count" : "2246"
+      }, {
+        "item" : "0.008",
+        "count" : "2113"
+      }, {
+        "item" : "0.012",
+        "count" : "2084"
+      }, {
+        "item" : "0.014",
+        "count" : "2028"
+      }, {
+        "item" : "0.03",
+        "count" : "2021"
+      }, {
+        "item" : "0.006",
+        "count" : "1753"
+      }, {
+        "item" : "0.05",
+        "count" : "1680"
+      }, {
+        "item" : "0.028",
+        "count" : "1651"
+      }, {
+        "item" : "0.011",
+        "count" : "1647"
+      }, {
+        "item" : "0.037",
+        "count" : "1633"
+      }, {
+        "item" : "0.017",
+        "count" : "1610"
+      }, {
+        "item" : "0.06",
+        "count" : "1577"
+      }, {
+        "item" : "0.2",
+        "count" : "1502"
+      }, {
+        "item" : "0.026",
+        "count" : "1498"
+      } ],
+      "smallest" : "0.0001",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : { }
+  }, {
+    "id" : 620754825,
+    "name" : "CURVES_E",
+    "dataTypeName" : "text",
+    "description" : "Curve Class E (14.0 – 27.9 degrees)",
+    "fieldName" : "curves_e",
+    "position" : 18,
+    "renderTypeName" : "text",
+    "tableColumnId" : 162252039,
+    "cachedContents" : {
+      "non_null" : "167776",
+      "largest" : "5.554",
+      "null" : "19405963",
+      "top" : [ {
+        "item" : "0.1",
+        "count" : "7002"
+      }, {
+        "item" : "0.009",
+        "count" : "3470"
+      }, {
+        "item" : "0.002",
+        "count" : "2658"
+      }, {
+        "item" : "0.006",
+        "count" : "2114"
+      }, {
+        "item" : "0.008",
+        "count" : "2066"
+      }, {
+        "item" : "0.015",
+        "count" : "1941"
+      }, {
+        "item" : "0.012",
+        "count" : "1750"
+      }, {
+        "item" : "0.018",
+        "count" : "1604"
+      }, {
+        "item" : "0.011",
+        "count" : "1557"
+      }, {
+        "item" : "0.06",
+        "count" : "1360"
+      }, {
+        "item" : "0.017",
+        "count" : "1335"
+      }, {
+        "item" : "0.028",
+        "count" : "1293"
+      }, {
+        "item" : "0.014",
+        "count" : "1260"
+      }, {
+        "item" : "0.17",
+        "count" : "1255"
+      }, {
+        "item" : "0.01",
+        "count" : "1169"
+      }, {
+        "item" : "0.023",
+        "count" : "1160"
+      }, {
+        "item" : "0.013",
+        "count" : "1159"
+      }, {
+        "item" : "0.04",
+        "count" : "1156"
+      }, {
+        "item" : "0.02",
+        "count" : "1145"
+      }, {
+        "item" : "0.016",
+        "count" : "1109"
+      } ],
+      "smallest" : "0.0001",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : { }
+  }, {
+    "id" : 620754826,
+    "name" : "CURVES_F",
+    "dataTypeName" : "text",
+    "description" : "Curve Class F (>=28.0 degrees)",
+    "fieldName" : "curves_f",
+    "position" : 19,
+    "renderTypeName" : "text",
+    "tableColumnId" : 162252013,
+    "cachedContents" : {
+      "non_null" : "121519",
+      "largest" : "9.25",
+      "null" : "19452220",
+      "top" : [ {
+        "item" : "0.1",
+        "count" : "2639"
+      }, {
+        "item" : "0.002",
+        "count" : "2275"
+      }, {
+        "item" : "0.008",
+        "count" : "1811"
+      }, {
+        "item" : "0.009",
+        "count" : "1583"
+      }, {
+        "item" : "0.038",
+        "count" : "1494"
+      }, {
+        "item" : "0.015",
+        "count" : "1485"
+      }, {
+        "item" : "0.018",
+        "count" : "1371"
+      }, {
+        "item" : "0.023",
+        "count" : "1208"
+      }, {
+        "item" : "0.03",
+        "count" : "1197"
+      }, {
+        "item" : "0.01",
+        "count" : "1094"
+      }, {
+        "item" : "0.011",
+        "count" : "1078"
+      }, {
+        "item" : "0.012",
+        "count" : "1076"
+      }, {
+        "item" : "0.006",
+        "count" : "1056"
+      }, {
+        "item" : "0.02",
+        "count" : "1030"
+      }, {
+        "item" : "0.014",
+        "count" : "975"
+      }, {
+        "item" : "0.013",
+        "count" : "966"
+      }, {
+        "item" : "0.016",
+        "count" : "946"
+      }, {
+        "item" : "0.017",
+        "count" : "902"
+      }, {
+        "item" : "0.024",
+        "count" : "902"
+      }, {
+        "item" : "0.007",
+        "count" : "875"
+      } ],
+      "smallest" : "0.0001",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : { }
+  }, {
+    "id" : 620754827,
+    "name" : "DIR_FACTOR",
+    "dataTypeName" : "number",
+    "description" : "Directional Factor",
+    "fieldName" : "dir_factor",
+    "position" : 20,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252019,
+    "cachedContents" : {
+      "non_null" : "4230750",
+      "largest" : "100",
+      "null" : "15342989",
+      "top" : [ {
+        "item" : "58",
+        "count" : "398674"
+      }, {
+        "item" : "65",
+        "count" : "365502"
+      }, {
+        "item" : "55",
+        "count" : "351073"
+      }, {
+        "item" : "56",
+        "count" : "328818"
+      }, {
+        "item" : "57",
+        "count" : "326172"
+      }, {
+        "item" : "51",
+        "count" : "279078"
+      }, {
+        "item" : "60",
+        "count" : "255140"
+      }, {
+        "item" : "52",
+        "count" : "254424"
+      }, {
+        "item" : "53",
+        "count" : "229135"
+      }, {
+        "item" : "54",
+        "count" : "225774"
+      }, {
+        "item" : "50",
+        "count" : "187096"
+      }, {
+        "item" : "59",
+        "count" : "184763"
+      }, {
+        "item" : "61",
+        "count" : "125009"
+      }, {
+        "item" : "100",
+        "count" : "109442"
+      }, {
+        "item" : "62",
+        "count" : "99086"
+      }, {
+        "item" : "63",
+        "count" : "90025"
+      }, {
+        "item" : "64",
+        "count" : "79679"
+      }, {
+        "item" : "67",
+        "count" : "51763"
+      }, {
+        "item" : "66",
+        "count" : "44559"
+      }, {
+        "item" : "70",
+        "count" : "39842"
+      } ],
+      "smallest" : "50",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754828,
+    "name" : "DIR_THROUGH_LANES",
+    "dataTypeName" : "number",
+    "description" : "Directional Through Lanes",
+    "fieldName" : "dir_through_lanes",
+    "position" : 21,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252009,
+    "cachedContents" : {
+      "non_null" : "1013556",
+      "largest" : "13",
+      "null" : "18560183",
+      "top" : [ {
+        "item" : "1",
+        "count" : "577202"
+      }, {
+        "item" : "2",
+        "count" : "338265"
+      }, {
+        "item" : "3",
+        "count" : "74418"
+      }, {
+        "item" : "4",
+        "count" : "18471"
+      }, {
+        "item" : "5",
+        "count" : "3592"
+      }, {
+        "item" : "6",
+        "count" : "1150"
+      }, {
+        "item" : "7",
+        "count" : "412"
+      }, {
+        "item" : "8",
+        "count" : "38"
+      }, {
+        "item" : "12",
+        "count" : "3"
+      }, {
+        "item" : "9",
+        "count" : "2"
+      }, {
+        "item" : "11",
+        "count" : "2"
+      }, {
+        "item" : "13",
+        "count" : "1"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754829,
+    "name" : "END_POINT",
+    "dataTypeName" : "number",
+    "description" : "Ending Milepoint",
+    "fieldName" : "end_point",
+    "position" : 22,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252076,
+    "cachedContents" : {
+      "non_null" : "19573739",
+      "largest" : "1366.3945",
+      "null" : "0",
+      "top" : [ {
+        "item" : "0.1",
+        "count" : "170558"
+      }, {
+        "item" : "0.06",
+        "count" : "144010"
+      }, {
+        "item" : "0.07",
+        "count" : "124169"
+      }, {
+        "item" : "0.2",
+        "count" : "121556"
+      }, {
+        "item" : "0.05",
+        "count" : "102378"
+      }, {
+        "item" : "0.08",
+        "count" : "96759"
+      }, {
+        "item" : "0.3",
+        "count" : "94371"
+      }, {
+        "item" : "0.5",
+        "count" : "86382"
+      }, {
+        "item" : "0.09",
+        "count" : "84340"
+      }, {
+        "item" : "0.04",
+        "count" : "80465"
+      }, {
+        "item" : "0.4",
+        "count" : "78663"
+      }, {
+        "item" : "0.12",
+        "count" : "78071"
+      }, {
+        "item" : "0.11",
+        "count" : "72248"
+      }, {
+        "item" : "0.13",
+        "count" : "72024"
+      }, {
+        "item" : "0.03",
+        "count" : "67726"
+      }, {
+        "item" : "0.14",
+        "count" : "63120"
+      }, {
+        "item" : "1.0",
+        "count" : "61523"
+      }, {
+        "item" : "0.15",
+        "count" : "59744"
+      }, {
+        "item" : "0.6",
+        "count" : "58761"
+      }, {
+        "item" : "0.16",
+        "count" : "54184"
+      } ],
+      "smallest" : "-8.1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754830,
+    "name" : "FACILITY_TYPE",
+    "dataTypeName" : "number",
+    "description" : "Facility Type",
+    "fieldName" : "facility_type",
+    "position" : 23,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252067,
+    "cachedContents" : {
+      "non_null" : "18123777",
+      "largest" : "7",
+      "null" : "1449962",
+      "top" : [ {
+        "item" : "2",
+        "count" : "15884452"
+      }, {
+        "item" : "6",
+        "count" : "1414760"
+      }, {
+        "item" : "1",
+        "count" : "450555"
+      }, {
+        "item" : "4",
+        "count" : "190146"
+      }, {
+        "item" : "5",
+        "count" : "141167"
+      }, {
+        "item" : "7",
+        "count" : "42697"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754831,
+    "name" : "FAULTING",
+    "dataTypeName" : "text",
+    "description" : "Faulting",
+    "fieldName" : "faulting",
+    "position" : 24,
+    "renderTypeName" : "text",
+    "tableColumnId" : 162252064,
+    "cachedContents" : {
+      "non_null" : "1623196",
+      "largest" : "3.31",
+      "null" : "17950543",
+      "top" : [ {
+        "item" : "0.0",
+        "count" : "1111878"
+      }, {
+        "item" : "0.03",
+        "count" : "104489"
+      }, {
+        "item" : "0.02",
+        "count" : "88503"
+      }, {
+        "item" : "0.04",
+        "count" : "68822"
+      }, {
+        "item" : "0.01",
+        "count" : "52198"
+      }, {
+        "item" : "0.05",
+        "count" : "42594"
+      }, {
+        "item" : "0.06",
+        "count" : "31264"
+      }, {
+        "item" : "0.07",
+        "count" : "22657"
+      }, {
+        "item" : "0.08",
+        "count" : "17072"
+      }, {
+        "item" : "0.09",
+        "count" : "13378"
+      }, {
+        "item" : "0.1",
+        "count" : "10962"
+      }, {
+        "item" : "0.11",
+        "count" : "9101"
+      }, {
+        "item" : "0.12",
+        "count" : "7646"
+      }, {
+        "item" : "0.13",
+        "count" : "6341"
+      }, {
+        "item" : "0.14",
+        "count" : "5117"
+      }, {
+        "item" : "0.15",
+        "count" : "4294"
+      }, {
+        "item" : "0.16",
+        "count" : "3568"
+      }, {
+        "item" : "0.17",
+        "count" : "2839"
+      }, {
+        "item" : "0.18",
+        "count" : "2529"
+      }, {
+        "item" : "0.19",
+        "count" : "2088"
+      } ],
+      "smallest" : "0.0",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : { }
+  }, {
+    "id" : 620754832,
+    "name" : "FAULTING_D",
+    "dataTypeName" : "text",
+    "description" : "Date of Faulting Collection",
+    "fieldName" : "faulting_d",
+    "position" : 25,
+    "renderTypeName" : "text",
+    "tableColumnId" : 162252000,
+    "cachedContents" : {
+      "non_null" : "1623196",
+      "largest" : "2025-07-01",
+      "null" : "17950543",
+      "top" : [ {
+        "item" : "2024-06-24",
+        "count" : "285375"
+      }, {
+        "item" : "2024-11-01",
+        "count" : "275099"
+      }, {
+        "item" : "2024-05-01",
+        "count" : "88765"
+      }, {
+        "item" : "2024-04-01",
+        "count" : "44705"
+      }, {
+        "item" : "2024-06-01",
+        "count" : "44246"
+      }, {
+        "item" : "2023-01-01",
+        "count" : "40866"
+      }, {
+        "item" : "2024-08-01",
+        "count" : "35368"
+      }, {
+        "item" : "2023-02-01",
+        "count" : "33097"
+      }, {
+        "item" : "2024-12-01",
+        "count" : "31914"
+      }, {
+        "item" : "2023-05-01",
+        "count" : "29716"
+      }, {
+        "item" : "2023-03-01",
+        "count" : "20585"
+      }, {
+        "item" : "2024-07-01",
+        "count" : "18216"
+      }, {
+        "item" : "2024-10-01",
+        "count" : "16991"
+      }, {
+        "item" : "2023-04-01",
+        "count" : "15291"
+      }, {
+        "item" : "2023-06-01",
+        "count" : "13725"
+      }, {
+        "item" : "2024-09-01",
+        "count" : "13459"
+      }, {
+        "item" : "2024-03-06",
+        "count" : "9081"
+      }, {
+        "item" : "2024-03-07",
+        "count" : "8729"
+      }, {
+        "item" : "2024-05-02",
+        "count" : "8682"
+      }, {
+        "item" : "2024-03-12",
+        "count" : "7868"
+      } ],
+      "smallest" : "2017-06-01",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : { }
+  }, {
+    "id" : 620754833,
+    "name" : "FUTURE_AADT_YEAR",
+    "dataTypeName" : "calendar_date",
+    "description" : "Year of Forecasted AADT",
+    "fieldName" : "future_aadt_year",
+    "position" : 26,
+    "renderTypeName" : "calendar_date",
+    "tableColumnId" : 162252049,
+    "cachedContents" : {
+      "non_null" : "4343173",
+      "largest" : "2049-01-01T00:00:00.000",
+      "null" : "15230566",
+      "top" : [ {
+        "item" : "2044-01-01T00:00:00.000",
+        "count" : "3350685"
+      }, {
+        "item" : "2043-01-01T00:00:00.000",
+        "count" : "452074"
+      }, {
+        "item" : "2045-01-01T00:00:00.000",
+        "count" : "316172"
+      }, {
+        "item" : "2044-12-31T00:00:00.000",
+        "count" : "80745"
+      }, {
+        "item" : "2048-01-01T00:00:00.000",
+        "count" : "55848"
+      }, {
+        "item" : "2049-01-01T00:00:00.000",
+        "count" : "39978"
+      }, {
+        "item" : "2047-01-01T00:00:00.000",
+        "count" : "29720"
+      }, {
+        "item" : "2042-01-01T00:00:00.000",
+        "count" : "17951"
+      } ],
+      "smallest" : "2042-01-01T00:00:00.000",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "view" : "date_y"
+    }
+  }, {
+    "id" : 620754834,
+    "name" : "F_SYSTEM",
+    "dataTypeName" : "number",
+    "description" : "Functional Classification",
+    "fieldName" : "f_system",
+    "position" : 27,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252091,
+    "cachedContents" : {
+      "non_null" : "18373423",
+      "largest" : "7",
+      "null" : "1200316",
+      "top" : [ {
+        "item" : "7",
+        "count" : "9656778"
+      }, {
+        "item" : "3",
+        "count" : "2430418"
+      }, {
+        "item" : "5",
+        "count" : "2363987"
+      }, {
+        "item" : "4",
+        "count" : "1866532"
+      }, {
+        "item" : "1",
+        "count" : "1009904"
+      }, {
+        "item" : "6",
+        "count" : "647940"
+      }, {
+        "item" : "2",
+        "count" : "397864"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754835,
+    "name" : "Future_AADT",
+    "dataTypeName" : "number",
+    "description" : "Forecasted AADT",
+    "fieldName" : "future_aadt",
+    "position" : 28,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252027,
+    "cachedContents" : {
+      "non_null" : "4343173",
+      "largest" : "469000",
+      "null" : "15230566",
+      "top" : [ {
+        "item" : "380",
+        "count" : "46403"
+      }, {
+        "item" : "494",
+        "count" : "39642"
+      }, {
+        "item" : "430",
+        "count" : "23962"
+      }, {
+        "item" : "615",
+        "count" : "19426"
+      }, {
+        "item" : "357",
+        "count" : "17285"
+      }, {
+        "item" : "941",
+        "count" : "14412"
+      }, {
+        "item" : "554",
+        "count" : "13060"
+      }, {
+        "item" : "442",
+        "count" : "11948"
+      }, {
+        "item" : "675",
+        "count" : "10106"
+      }, {
+        "item" : "931",
+        "count" : "9892"
+      }, {
+        "item" : "319",
+        "count" : "9306"
+      }, {
+        "item" : "314",
+        "count" : "9146"
+      }, {
+        "item" : "127",
+        "count" : "9075"
+      }, {
+        "item" : "157963",
+        "count" : "8422"
+      }, {
+        "item" : "420",
+        "count" : "8041"
+      }, {
+        "item" : "221",
+        "count" : "7611"
+      }, {
+        "item" : "677",
+        "count" : "7469"
+      }, {
+        "item" : "483",
+        "count" : "6699"
+      }, {
+        "item" : "514",
+        "count" : "6476"
+      }, {
+        "item" : "344",
+        "count" : "6308"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754836,
+    "name" : "GRADES_A",
+    "dataTypeName" : "number",
+    "description" : "Grade Class A (0.0 – 0.4%)",
+    "fieldName" : "grades_a",
+    "position" : 29,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252025,
+    "cachedContents" : {
+      "non_null" : "1565818",
+      "largest" : "38.8494",
+      "null" : "18007921",
+      "top" : [ {
+        "item" : "0.1",
+        "count" : "275179"
+      }, {
+        "item" : "0.5",
+        "count" : "12550"
+      }, {
+        "item" : "0.01",
+        "count" : "9942"
+      }, {
+        "item" : "1.0",
+        "count" : "9100"
+      }, {
+        "item" : "0.2",
+        "count" : "8692"
+      }, {
+        "item" : "0.02",
+        "count" : "8090"
+      }, {
+        "item" : "0.03",
+        "count" : "7049"
+      }, {
+        "item" : "0.3",
+        "count" : "6984"
+      }, {
+        "item" : "0.05",
+        "count" : "6172"
+      }, {
+        "item" : "0.04",
+        "count" : "5965"
+      }, {
+        "item" : "0.4",
+        "count" : "5686"
+      }, {
+        "item" : "0.06",
+        "count" : "5463"
+      }, {
+        "item" : "0.001",
+        "count" : "5237"
+      }, {
+        "item" : "0.002",
+        "count" : "5109"
+      }, {
+        "item" : "0.003",
+        "count" : "4867"
+      }, {
+        "item" : "0.004",
+        "count" : "4810"
+      }, {
+        "item" : "0.099",
+        "count" : "4762"
+      }, {
+        "item" : "0.07",
+        "count" : "4630"
+      }, {
+        "item" : "0.09",
+        "count" : "4590"
+      }, {
+        "item" : "0.08",
+        "count" : "4509"
+      } ],
+      "smallest" : "0.0",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754837,
+    "name" : "GRADES_B",
+    "dataTypeName" : "text",
+    "description" : "Grade Class B (0.5 – 2.4%)",
+    "fieldName" : "grades_b",
+    "position" : 30,
+    "renderTypeName" : "text",
+    "tableColumnId" : 162252074,
+    "cachedContents" : {
+      "non_null" : "1181439",
+      "largest" : "9.9997",
+      "null" : "18392300",
+      "top" : [ {
+        "item" : "0.1",
+        "count" : "90375"
+      }, {
+        "item" : "1.0",
+        "count" : "18778"
+      }, {
+        "item" : "0.2",
+        "count" : "7720"
+      }, {
+        "item" : "0.5",
+        "count" : "6318"
+      }, {
+        "item" : "0.3",
+        "count" : "6074"
+      }, {
+        "item" : "2.0",
+        "count" : "6037"
+      }, {
+        "item" : "0.06",
+        "count" : "4986"
+      }, {
+        "item" : "0.05",
+        "count" : "4649"
+      }, {
+        "item" : "0.07",
+        "count" : "4383"
+      }, {
+        "item" : "0.001",
+        "count" : "4368"
+      }, {
+        "item" : "0.4",
+        "count" : "4354"
+      }, {
+        "item" : "0.03",
+        "count" : "4340"
+      }, {
+        "item" : "0.08",
+        "count" : "4322"
+      }, {
+        "item" : "0.04",
+        "count" : "4140"
+      }, {
+        "item" : "0.02",
+        "count" : "4063"
+      }, {
+        "item" : "0.09",
+        "count" : "3913"
+      }, {
+        "item" : "0.01",
+        "count" : "3758"
+      }, {
+        "item" : "0.002",
+        "count" : "3654"
+      }, {
+        "item" : "0.003",
+        "count" : "3405"
+      }, {
+        "item" : "0.099",
+        "count" : "3394"
+      } ],
+      "smallest" : "0.0",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : { }
+  }, {
+    "id" : 620754838,
+    "name" : "GRADES_C",
+    "dataTypeName" : "text",
+    "description" : "Grade Class C (2.5 – 4.4%)",
+    "fieldName" : "grades_c",
+    "position" : 31,
+    "renderTypeName" : "text",
+    "tableColumnId" : 162252055,
+    "cachedContents" : {
+      "non_null" : "694579",
+      "largest" : "9.016",
+      "null" : "18879160",
+      "top" : [ {
+        "item" : "0.1",
+        "count" : "32628"
+      }, {
+        "item" : "0.2",
+        "count" : "9064"
+      }, {
+        "item" : "0.3",
+        "count" : "8184"
+      }, {
+        "item" : "1.0",
+        "count" : "7836"
+      }, {
+        "item" : "0.4",
+        "count" : "5498"
+      }, {
+        "item" : "0.5",
+        "count" : "5230"
+      }, {
+        "item" : "0.02",
+        "count" : "4207"
+      }, {
+        "item" : "0.002",
+        "count" : "3925"
+      }, {
+        "item" : "0.03",
+        "count" : "3236"
+      }, {
+        "item" : "0.04",
+        "count" : "3177"
+      }, {
+        "item" : "0.7",
+        "count" : "3050"
+      }, {
+        "item" : "0.01",
+        "count" : "3025"
+      }, {
+        "item" : "0.06",
+        "count" : "2977"
+      }, {
+        "item" : "0.6",
+        "count" : "2973"
+      }, {
+        "item" : "0.05",
+        "count" : "2943"
+      }, {
+        "item" : "0.004",
+        "count" : "2745"
+      }, {
+        "item" : "0.001",
+        "count" : "2709"
+      }, {
+        "item" : "0.15",
+        "count" : "2658"
+      }, {
+        "item" : "0.11",
+        "count" : "2639"
+      }, {
+        "item" : "0.003",
+        "count" : "2548"
+      } ],
+      "smallest" : "0.0",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : { }
+  }, {
+    "id" : 620754839,
+    "name" : "GRADES_D",
+    "dataTypeName" : "text",
+    "description" : "Grade Class D (4.5 – 6.4%)",
+    "fieldName" : "grades_d",
+    "position" : 32,
+    "renderTypeName" : "text",
+    "tableColumnId" : 162252028,
+    "cachedContents" : {
+      "non_null" : "378667",
+      "largest" : "9.9158",
+      "null" : "19195072",
+      "top" : [ {
+        "item" : "0.1",
+        "count" : "20853"
+      }, {
+        "item" : "0.2",
+        "count" : "5267"
+      }, {
+        "item" : "0.002",
+        "count" : "4706"
+      }, {
+        "item" : "0.3",
+        "count" : "4418"
+      }, {
+        "item" : "0.06",
+        "count" : "2886"
+      }, {
+        "item" : "0.4",
+        "count" : "2722"
+      }, {
+        "item" : "0.05",
+        "count" : "2704"
+      }, {
+        "item" : "0.02",
+        "count" : "2546"
+      }, {
+        "item" : "0.004",
+        "count" : "2079"
+      }, {
+        "item" : "0.5",
+        "count" : "2037"
+      }, {
+        "item" : "0.08",
+        "count" : "1894"
+      }, {
+        "item" : "0.15",
+        "count" : "1838"
+      }, {
+        "item" : "0.12",
+        "count" : "1828"
+      }, {
+        "item" : "0.14",
+        "count" : "1792"
+      }, {
+        "item" : "0.04",
+        "count" : "1786"
+      }, {
+        "item" : "0.03",
+        "count" : "1721"
+      }, {
+        "item" : "0.18",
+        "count" : "1686"
+      }, {
+        "item" : "0.16",
+        "count" : "1386"
+      }, {
+        "item" : "0.11",
+        "count" : "1385"
+      }, {
+        "item" : "0.01",
+        "count" : "1269"
+      } ],
+      "smallest" : "0.0002",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : { }
+  }, {
+    "id" : 620754840,
+    "name" : "GRADES_E",
+    "dataTypeName" : "text",
+    "description" : "Grade Class E (6.5 – 8.4%)",
+    "fieldName" : "grades_e",
+    "position" : 33,
+    "renderTypeName" : "text",
+    "tableColumnId" : 162252010,
+    "cachedContents" : {
+      "non_null" : "152730",
+      "largest" : "7.1215",
+      "null" : "19421009",
+      "top" : [ {
+        "item" : "0.1",
+        "count" : "7000"
+      }, {
+        "item" : "0.002",
+        "count" : "4975"
+      }, {
+        "item" : "0.02",
+        "count" : "2487"
+      }, {
+        "item" : "0.004",
+        "count" : "2025"
+      }, {
+        "item" : "0.2",
+        "count" : "1790"
+      }, {
+        "item" : "0.06",
+        "count" : "1363"
+      }, {
+        "item" : "0.04",
+        "count" : "1341"
+      }, {
+        "item" : "0.12",
+        "count" : "1300"
+      }, {
+        "item" : "0.14",
+        "count" : "1086"
+      }, {
+        "item" : "0.16",
+        "count" : "1071"
+      }, {
+        "item" : "0.05",
+        "count" : "951"
+      }, {
+        "item" : "0.08",
+        "count" : "913"
+      }, {
+        "item" : "0.15",
+        "count" : "887"
+      }, {
+        "item" : "0.007",
+        "count" : "850"
+      }, {
+        "item" : "0.006",
+        "count" : "811"
+      }, {
+        "item" : "0.4",
+        "count" : "804"
+      }, {
+        "item" : "0.003",
+        "count" : "761"
+      }, {
+        "item" : "0.03",
+        "count" : "760"
+      }, {
+        "item" : "0.008",
+        "count" : "742"
+      }, {
+        "item" : "0.059",
+        "count" : "716"
+      } ],
+      "smallest" : "0.0002",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : { }
+  }, {
+    "id" : 620754841,
+    "name" : "GRADES_F",
+    "dataTypeName" : "text",
+    "description" : "Grade Class F (>= 8.5%)",
+    "fieldName" : "grades_f",
+    "position" : 34,
+    "renderTypeName" : "text",
+    "tableColumnId" : 162252014,
+    "cachedContents" : {
+      "non_null" : "100817",
+      "largest" : "7.52",
+      "null" : "19472922",
+      "top" : [ {
+        "item" : "0.1",
+        "count" : "1610"
+      }, {
+        "item" : "0.02",
+        "count" : "1603"
+      }, {
+        "item" : "0.009",
+        "count" : "1294"
+      }, {
+        "item" : "0.06",
+        "count" : "1093"
+      }, {
+        "item" : "0.04",
+        "count" : "1093"
+      }, {
+        "item" : "0.011",
+        "count" : "1047"
+      }, {
+        "item" : "0.015",
+        "count" : "873"
+      }, {
+        "item" : "0.013",
+        "count" : "807"
+      }, {
+        "item" : "0.008",
+        "count" : "801"
+      }, {
+        "item" : "0.03",
+        "count" : "777"
+      }, {
+        "item" : "0.007",
+        "count" : "697"
+      }, {
+        "item" : "0.002",
+        "count" : "646"
+      }, {
+        "item" : "0.019",
+        "count" : "635"
+      }, {
+        "item" : "0.035",
+        "count" : "627"
+      }, {
+        "item" : "0.039",
+        "count" : "613"
+      }, {
+        "item" : "0.017",
+        "count" : "601"
+      }, {
+        "item" : "0.028",
+        "count" : "595"
+      }, {
+        "item" : "0.118",
+        "count" : "545"
+      }, {
+        "item" : "0.018",
+        "count" : "521"
+      }, {
+        "item" : "0.024",
+        "count" : "518"
+      } ],
+      "smallest" : "0.0001",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : { }
+  }, {
+    "id" : 620754842,
+    "name" : "IRI",
+    "dataTypeName" : "number",
+    "description" : "International Roughness Index",
+    "fieldName" : "iri",
+    "position" : 35,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252041,
+    "cachedContents" : {
+      "non_null" : "6953704",
+      "largest" : "4486.0",
+      "null" : "12620035",
+      "top" : [ {
+        "item" : "60.0",
+        "count" : "52913"
+      }, {
+        "item" : "62.0",
+        "count" : "52720"
+      }, {
+        "item" : "58.0",
+        "count" : "52672"
+      }, {
+        "item" : "70.0",
+        "count" : "52559"
+      }, {
+        "item" : "56.0",
+        "count" : "52375"
+      }, {
+        "item" : "66.0",
+        "count" : "52273"
+      }, {
+        "item" : "64.0",
+        "count" : "52268"
+      }, {
+        "item" : "68.0",
+        "count" : "52176"
+      }, {
+        "item" : "72.0",
+        "count" : "52135"
+      }, {
+        "item" : "54.0",
+        "count" : "51861"
+      }, {
+        "item" : "61.0",
+        "count" : "51732"
+      }, {
+        "item" : "74.0",
+        "count" : "51727"
+      }, {
+        "item" : "63.0",
+        "count" : "51189"
+      }, {
+        "item" : "67.0",
+        "count" : "51125"
+      }, {
+        "item" : "76.0",
+        "count" : "50872"
+      }, {
+        "item" : "52.0",
+        "count" : "50857"
+      }, {
+        "item" : "65.0",
+        "count" : "50729"
+      }, {
+        "item" : "71.0",
+        "count" : "50721"
+      }, {
+        "item" : "69.0",
+        "count" : "50674"
+      }, {
+        "item" : "55.0",
+        "count" : "50599"
+      } ],
+      "smallest" : "1.0",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754843,
+    "name" : "IRI_D",
+    "dataTypeName" : "calendar_date",
+    "description" : "Date of IRI Collection",
+    "fieldName" : "iri_d",
+    "position" : 36,
+    "renderTypeName" : "calendar_date",
+    "tableColumnId" : 162252077,
+    "cachedContents" : {
+      "non_null" : "6958914",
+      "largest" : "2025-11-21T00:00:00.000",
+      "null" : "12614825",
+      "top" : [ {
+        "item" : "2024-11-01T00:00:00.000",
+        "count" : "526840"
+      }, {
+        "item" : "2024-06-01T00:00:00.000",
+        "count" : "356749"
+      }, {
+        "item" : "2024-05-01T00:00:00.000",
+        "count" : "355624"
+      }, {
+        "item" : "2024-12-01T00:00:00.000",
+        "count" : "324797"
+      }, {
+        "item" : "2024-07-01T00:00:00.000",
+        "count" : "297673"
+      }, {
+        "item" : "2024-08-01T00:00:00.000",
+        "count" : "286374"
+      }, {
+        "item" : "2024-06-24T00:00:00.000",
+        "count" : "284239"
+      }, {
+        "item" : "2024-04-01T00:00:00.000",
+        "count" : "221200"
+      }, {
+        "item" : "2024-09-01T00:00:00.000",
+        "count" : "185753"
+      }, {
+        "item" : "2024-10-01T00:00:00.000",
+        "count" : "182805"
+      }, {
+        "item" : "2023-06-01T00:00:00.000",
+        "count" : "172991"
+      }, {
+        "item" : "2023-05-01T00:00:00.000",
+        "count" : "156044"
+      }, {
+        "item" : "2023-07-01T00:00:00.000",
+        "count" : "121321"
+      }, {
+        "item" : "2024-02-01T00:00:00.000",
+        "count" : "108936"
+      }, {
+        "item" : "2024-03-01T00:00:00.000",
+        "count" : "92384"
+      }, {
+        "item" : "2024-01-01T00:00:00.000",
+        "count" : "84363"
+      }, {
+        "item" : "2023-04-01T00:00:00.000",
+        "count" : "84099"
+      }, {
+        "item" : "2023-08-01T00:00:00.000",
+        "count" : "83004"
+      }, {
+        "item" : "2023-09-01T00:00:00.000",
+        "count" : "46531"
+      }, {
+        "item" : "2023-01-01T00:00:00.000",
+        "count" : "45829"
+      } ],
+      "smallest" : "1990-06-01T00:00:00.000",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "view" : "date_my"
+    }
+  }, {
+    "id" : 620754903,
+    "name" : "IS_RESTRICTED",
+    "dataTypeName" : "checkbox",
+    "description" : "Public Travel Restricted",
+    "fieldName" : "is_restricted",
+    "position" : 37,
+    "renderTypeName" : "checkbox",
+    "tableColumnId" : 163170398,
+    "cachedContents" : {
+      "non_null" : "13762",
+      "null" : "19559977",
+      "top" : [ {
+        "item" : true,
+        "count" : "13762"
+      } ],
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : { }
+  }, {
+    "id" : 620754845,
+    "name" : "K_FACTOR",
+    "dataTypeName" : "number",
+    "description" : "K-Factor",
+    "fieldName" : "k_factor",
+    "position" : 38,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162251997,
+    "cachedContents" : {
+      "non_null" : "4230491",
+      "largest" : "135",
+      "null" : "15343248",
+      "top" : [ {
+        "item" : "10",
+        "count" : "960410"
+      }, {
+        "item" : "11",
+        "count" : "784552"
+      }, {
+        "item" : "9",
+        "count" : "708639"
+      }, {
+        "item" : "12",
+        "count" : "452159"
+      }, {
+        "item" : "8",
+        "count" : "347134"
+      }, {
+        "item" : "15",
+        "count" : "321892"
+      }, {
+        "item" : "13",
+        "count" : "212316"
+      }, {
+        "item" : "7",
+        "count" : "115686"
+      }, {
+        "item" : "14",
+        "count" : "115243"
+      }, {
+        "item" : "16",
+        "count" : "62352"
+      }, {
+        "item" : "17",
+        "count" : "28416"
+      }, {
+        "item" : "19",
+        "count" : "24216"
+      }, {
+        "item" : "6",
+        "count" : "21406"
+      }, {
+        "item" : "18",
+        "count" : "20744"
+      }, {
+        "item" : "21",
+        "count" : "9249"
+      }, {
+        "item" : "20",
+        "count" : "8962"
+      }, {
+        "item" : "5",
+        "count" : "6437"
+      }, {
+        "item" : "25",
+        "count" : "5085"
+      }, {
+        "item" : "23",
+        "count" : "5075"
+      }, {
+        "item" : "24",
+        "count" : "4607"
+      } ],
+      "smallest" : "4",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754846,
+    "name" : "LANE_WIDTH",
+    "dataTypeName" : "number",
+    "description" : "Lane Width",
+    "fieldName" : "lane_width",
+    "position" : 39,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252043,
+    "cachedContents" : {
+      "non_null" : "3470579",
+      "largest" : "30",
+      "null" : "16103160",
+      "top" : [ {
+        "item" : "12",
+        "count" : "1868360"
+      }, {
+        "item" : "11",
+        "count" : "520810"
+      }, {
+        "item" : "10",
+        "count" : "456503"
+      }, {
+        "item" : "8",
+        "count" : "207800"
+      }, {
+        "item" : "9",
+        "count" : "149673"
+      }, {
+        "item" : "13",
+        "count" : "73822"
+      }, {
+        "item" : "18",
+        "count" : "38004"
+      }, {
+        "item" : "14",
+        "count" : "35744"
+      }, {
+        "item" : "15",
+        "count" : "33563"
+      }, {
+        "item" : "6",
+        "count" : "27341"
+      }, {
+        "item" : "7",
+        "count" : "22917"
+      }, {
+        "item" : "16",
+        "count" : "17742"
+      }, {
+        "item" : "17",
+        "count" : "12566"
+      }, {
+        "item" : "20",
+        "count" : "1621"
+      }, {
+        "item" : "19",
+        "count" : "1553"
+      }, {
+        "item" : "22",
+        "count" : "837"
+      }, {
+        "item" : "24",
+        "count" : "687"
+      }, {
+        "item" : "21",
+        "count" : "284"
+      }, {
+        "item" : "23",
+        "count" : "172"
+      }, {
+        "item" : "25",
+        "count" : "152"
+      } ],
+      "smallest" : "6",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754847,
+    "name" : "LAST_OVERLAY_THICKNESS",
+    "dataTypeName" : "number",
+    "description" : "Most Recent Overlay Thickness",
+    "fieldName" : "last_overlay_thickness",
+    "position" : 40,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252004,
+    "cachedContents" : {
+      "non_null" : "2520848",
+      "largest" : "71.0",
+      "null" : "17052891",
+      "top" : [ {
+        "item" : "2.0",
+        "count" : "671660"
+      }, {
+        "item" : "1.5",
+        "count" : "528861"
+      }, {
+        "item" : "3.0",
+        "count" : "268913"
+      }, {
+        "item" : "1.0",
+        "count" : "265232"
+      }, {
+        "item" : "0.5",
+        "count" : "174462"
+      }, {
+        "item" : "4.0",
+        "count" : "93309"
+      }, {
+        "item" : "3.5",
+        "count" : "76030"
+      }, {
+        "item" : "2.5",
+        "count" : "70564"
+      }, {
+        "item" : "5.0",
+        "count" : "36623"
+      }, {
+        "item" : "10.0",
+        "count" : "33838"
+      }, {
+        "item" : "4.5",
+        "count" : "33086"
+      }, {
+        "item" : "6.0",
+        "count" : "28008"
+      }, {
+        "item" : "8.0",
+        "count" : "23801"
+      }, {
+        "item" : "9.0",
+        "count" : "23523"
+      }, {
+        "item" : "7.0",
+        "count" : "22745"
+      }, {
+        "item" : "1.8",
+        "count" : "13258"
+      }, {
+        "item" : "2.4",
+        "count" : "12255"
+      }, {
+        "item" : "1.2",
+        "count" : "11791"
+      }, {
+        "item" : "0.7",
+        "count" : "11031"
+      }, {
+        "item" : "12.0",
+        "count" : "9547"
+      } ],
+      "smallest" : "0.1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754848,
+    "name" : "MAINTENANCE_OPERATIONS",
+    "dataTypeName" : "number",
+    "description" : "Maintenance and Operations Entity",
+    "fieldName" : "maintenance_operations",
+    "position" : 41,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252087,
+    "cachedContents" : {
+      "non_null" : "4149662",
+      "largest" : "80",
+      "null" : "15424077",
+      "top" : [ {
+        "item" : "1",
+        "count" : "1581384"
+      }, {
+        "item" : "4",
+        "count" : "931720"
+      }, {
+        "item" : "2",
+        "count" : "915538"
+      }, {
+        "item" : "25",
+        "count" : "322871"
+      }, {
+        "item" : "3",
+        "count" : "310390"
+      }, {
+        "item" : "31",
+        "count" : "24450"
+      }, {
+        "item" : "80",
+        "count" : "18598"
+      }, {
+        "item" : "26",
+        "count" : "11288"
+      }, {
+        "item" : "21",
+        "count" : "7804"
+      }, {
+        "item" : "32",
+        "count" : "5418"
+      }, {
+        "item" : "11",
+        "count" : "4206"
+      }, {
+        "item" : "70",
+        "count" : "3130"
+      }, {
+        "item" : "64",
+        "count" : "2906"
+      }, {
+        "item" : "66",
+        "count" : "2142"
+      }, {
+        "item" : "62",
+        "count" : "1565"
+      }, {
+        "item" : "63",
+        "count" : "1303"
+      }, {
+        "item" : "40",
+        "count" : "1188"
+      }, {
+        "item" : "74",
+        "count" : "1111"
+      }, {
+        "item" : "60",
+        "count" : "701"
+      }, {
+        "item" : "73",
+        "count" : "644"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754849,
+    "name" : "MANAGED_LANES",
+    "dataTypeName" : "text",
+    "description" : "Number of Managed Lanes",
+    "fieldName" : "managed_lanes",
+    "position" : 42,
+    "renderTypeName" : "text",
+    "tableColumnId" : 162251999,
+    "cachedContents" : {
+      "non_null" : "62112",
+      "largest" : "9",
+      "null" : "19511627",
+      "top" : [ {
+        "item" : "2",
+        "count" : "44363"
+      }, {
+        "item" : "1",
+        "count" : "13165"
+      }, {
+        "item" : "4",
+        "count" : "3224"
+      }, {
+        "item" : "3",
+        "count" : "955"
+      }, {
+        "item" : "6",
+        "count" : "346"
+      }, {
+        "item" : "5",
+        "count" : "50"
+      }, {
+        "item" : "9",
+        "count" : "8"
+      }, {
+        "item" : "7",
+        "count" : "1"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : { }
+  }, {
+    "id" : 620754850,
+    "name" : "MANAGED_LANES_TYPE",
+    "dataTypeName" : "text",
+    "description" : "Managed Lane Operations Type",
+    "fieldName" : "managed_lanes_type",
+    "position" : 43,
+    "renderTypeName" : "text",
+    "tableColumnId" : 162252088,
+    "cachedContents" : {
+      "non_null" : "62230",
+      "largest" : "3",
+      "null" : "19511509",
+      "top" : [ {
+        "item" : "1",
+        "count" : "38417"
+      }, {
+        "item" : "2",
+        "count" : "22455"
+      }, {
+        "item" : "3",
+        "count" : "1358"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : { }
+  }, {
+    "id" : 620754851,
+    "name" : "MEDIAN_TYPE",
+    "dataTypeName" : "number",
+    "description" : "Median Type",
+    "fieldName" : "median_type",
+    "position" : 44,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252030,
+    "cachedContents" : {
+      "non_null" : "4229807",
+      "largest" : "7",
+      "null" : "15343932",
+      "top" : [ {
+        "item" : "1",
+        "count" : "3280035"
+      }, {
+        "item" : "2",
+        "count" : "493646"
+      }, {
+        "item" : "3",
+        "count" : "153100"
+      }, {
+        "item" : "7",
+        "count" : "97511"
+      }, {
+        "item" : "4",
+        "count" : "84322"
+      }, {
+        "item" : "5",
+        "count" : "66220"
+      }, {
+        "item" : "6",
+        "count" : "54973"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754852,
+    "name" : "MEDIAN_WIDTH",
+    "dataTypeName" : "number",
+    "description" : "Median Width",
+    "fieldName" : "median_width",
+    "position" : 45,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252031,
+    "cachedContents" : {
+      "non_null" : "1489012",
+      "largest" : "99",
+      "null" : "18084727",
+      "top" : [ {
+        "item" : "0",
+        "count" : "515842"
+      }, {
+        "item" : "99",
+        "count" : "86334"
+      }, {
+        "item" : "40",
+        "count" : "48857"
+      }, {
+        "item" : "60",
+        "count" : "46164"
+      }, {
+        "item" : "16",
+        "count" : "35347"
+      }, {
+        "item" : "20",
+        "count" : "32775"
+      }, {
+        "item" : "30",
+        "count" : "31171"
+      }, {
+        "item" : "4",
+        "count" : "28273"
+      }, {
+        "item" : "12",
+        "count" : "26736"
+      }, {
+        "item" : "50",
+        "count" : "25383"
+      }, {
+        "item" : "64",
+        "count" : "24541"
+      }, {
+        "item" : "10",
+        "count" : "22413"
+      }, {
+        "item" : "36",
+        "count" : "21553"
+      }, {
+        "item" : "1",
+        "count" : "21481"
+      }, {
+        "item" : "46",
+        "count" : "19398"
+      }, {
+        "item" : "14",
+        "count" : "18275"
+      }, {
+        "item" : "6",
+        "count" : "17517"
+      }, {
+        "item" : "62",
+        "count" : "17227"
+      }, {
+        "item" : "24",
+        "count" : "15061"
+      }, {
+        "item" : "8",
+        "count" : "14726"
+      } ],
+      "smallest" : "0",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754853,
+    "name" : "NHFN",
+    "dataTypeName" : "text",
+    "description" : "National Highway Freight Network",
+    "fieldName" : "nhfn",
+    "position" : 46,
+    "renderTypeName" : "text",
+    "tableColumnId" : 162252034,
+    "cachedContents" : {
+      "non_null" : "943034",
+      "largest" : "3",
+      "null" : "18630705",
+      "top" : [ {
+        "item" : "1",
+        "count" : "750146"
+      }, {
+        "item" : "3",
+        "count" : "124379"
+      }, {
+        "item" : "2",
+        "count" : "68509"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : { }
+  }, {
+    "id" : 620754854,
+    "name" : "NHS",
+    "dataTypeName" : "number",
+    "description" : "National Highway System",
+    "fieldName" : "nhs",
+    "position" : 47,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252012,
+    "cachedContents" : {
+      "non_null" : "3665240",
+      "largest" : "9",
+      "null" : "15908499",
+      "top" : [ {
+        "item" : "1",
+        "count" : "3622383"
+      }, {
+        "item" : "3",
+        "count" : "9591"
+      }, {
+        "item" : "2",
+        "count" : "8791"
+      }, {
+        "item" : "7",
+        "count" : "8160"
+      }, {
+        "item" : "5",
+        "count" : "6593"
+      }, {
+        "item" : "9",
+        "count" : "5021"
+      }, {
+        "item" : "4",
+        "count" : "1791"
+      }, {
+        "item" : "8",
+        "count" : "1683"
+      }, {
+        "item" : "6",
+        "count" : "1227"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754855,
+    "name" : "NN",
+    "dataTypeName" : "text",
+    "description" : "National Truck Network",
+    "fieldName" : "nn",
+    "position" : 48,
+    "renderTypeName" : "text",
+    "tableColumnId" : 162252017,
+    "cachedContents" : {
+      "non_null" : "2587561",
+      "largest" : "1",
+      "null" : "16986178",
+      "top" : [ {
+        "item" : "1",
+        "count" : "2587561"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : { }
+  }, {
+    "id" : 620754856,
+    "name" : "NUMBER_SIGNALS",
+    "dataTypeName" : "number",
+    "description" : "Number of Signalized Intersections",
+    "fieldName" : "number_signals",
+    "position" : 49,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252037,
+    "cachedContents" : {
+      "non_null" : "1543908",
+      "largest" : "27",
+      "null" : "18029831",
+      "top" : [ {
+        "item" : "0",
+        "count" : "1187353"
+      }, {
+        "item" : "1",
+        "count" : "238207"
+      }, {
+        "item" : "2",
+        "count" : "60686"
+      }, {
+        "item" : "3",
+        "count" : "27566"
+      }, {
+        "item" : "4",
+        "count" : "13313"
+      }, {
+        "item" : "5",
+        "count" : "6965"
+      }, {
+        "item" : "6",
+        "count" : "3911"
+      }, {
+        "item" : "7",
+        "count" : "1613"
+      }, {
+        "item" : "8",
+        "count" : "1271"
+      }, {
+        "item" : "9",
+        "count" : "1141"
+      }, {
+        "item" : "10",
+        "count" : "806"
+      }, {
+        "item" : "13",
+        "count" : "355"
+      }, {
+        "item" : "11",
+        "count" : "328"
+      }, {
+        "item" : "12",
+        "count" : "144"
+      }, {
+        "item" : "18",
+        "count" : "63"
+      }, {
+        "item" : "15",
+        "count" : "45"
+      }, {
+        "item" : "14",
+        "count" : "42"
+      }, {
+        "item" : "25",
+        "count" : "40"
+      }, {
+        "item" : "27",
+        "count" : "30"
+      }, {
+        "item" : "21",
+        "count" : "15"
+      } ],
+      "smallest" : "0",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754857,
+    "name" : "OWNERSHIP",
+    "dataTypeName" : "number",
+    "description" : "Ownership",
+    "fieldName" : "ownership",
+    "position" : 50,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252090,
+    "cachedContents" : {
+      "non_null" : "18905198",
+      "largest" : "80",
+      "null" : "668541",
+      "top" : [ {
+        "item" : "1",
+        "count" : "7144624"
+      }, {
+        "item" : "4",
+        "count" : "5471773"
+      }, {
+        "item" : "2",
+        "count" : "3646216"
+      }, {
+        "item" : "3",
+        "count" : "1656220"
+      }, {
+        "item" : "26",
+        "count" : "228815"
+      }, {
+        "item" : "68",
+        "count" : "193983"
+      }, {
+        "item" : "64",
+        "count" : "126481"
+      }, {
+        "item" : "80",
+        "count" : "113029"
+      }, {
+        "item" : "11",
+        "count" : "79402"
+      }, {
+        "item" : "31",
+        "count" : "58501"
+      }, {
+        "item" : "40",
+        "count" : "37731"
+      }, {
+        "item" : "25",
+        "count" : "36187"
+      }, {
+        "item" : "21",
+        "count" : "27022"
+      }, {
+        "item" : "66",
+        "count" : "14607"
+      }, {
+        "item" : "62",
+        "count" : "11588"
+      }, {
+        "item" : "50",
+        "count" : "11191"
+      }, {
+        "item" : "74",
+        "count" : "8789"
+      }, {
+        "item" : "60",
+        "count" : "7271"
+      }, {
+        "item" : "72",
+        "count" : "6662"
+      }, {
+        "item" : "32",
+        "count" : "6228"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754858,
+    "name" : "PCT_DH_COMBINATION",
+    "dataTypeName" : "number",
+    "description" : "Percent Design Hour Combination Trucks",
+    "fieldName" : "pct_dh_combination",
+    "position" : 51,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252003,
+    "cachedContents" : {
+      "non_null" : "4253616",
+      "largest" : "90.0",
+      "null" : "15320123",
+      "top" : [ {
+        "item" : "0.0",
+        "count" : "370055"
+      }, {
+        "item" : "0.8",
+        "count" : "178374"
+      }, {
+        "item" : "2.22",
+        "count" : "132684"
+      }, {
+        "item" : "1.0",
+        "count" : "111046"
+      }, {
+        "item" : "0.1",
+        "count" : "61842"
+      }, {
+        "item" : "3.02",
+        "count" : "60175"
+      }, {
+        "item" : "2.0",
+        "count" : "59874"
+      }, {
+        "item" : "2.01",
+        "count" : "57818"
+      }, {
+        "item" : "0.49",
+        "count" : "55886"
+      }, {
+        "item" : "0.6",
+        "count" : "52854"
+      }, {
+        "item" : "0.2",
+        "count" : "50778"
+      }, {
+        "item" : "0.55",
+        "count" : "50106"
+      }, {
+        "item" : "0.3",
+        "count" : "46327"
+      }, {
+        "item" : "0.5",
+        "count" : "39907"
+      }, {
+        "item" : "2.46",
+        "count" : "38507"
+      }, {
+        "item" : "0.4",
+        "count" : "37652"
+      }, {
+        "item" : "0.03",
+        "count" : "33548"
+      }, {
+        "item" : "4.55",
+        "count" : "33528"
+      }, {
+        "item" : "0.48",
+        "count" : "27815"
+      }, {
+        "item" : "0.02",
+        "count" : "27571"
+      } ],
+      "smallest" : "0.0",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754859,
+    "name" : "PCT_DH_SINGLE_UNIT",
+    "dataTypeName" : "number",
+    "description" : "Percent Design-Hour Single-Unit Trucks and Buses",
+    "fieldName" : "pct_dh_single_unit",
+    "position" : 52,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252024,
+    "cachedContents" : {
+      "non_null" : "4213628",
+      "largest" : "100.0",
+      "null" : "15360111",
+      "top" : [ {
+        "item" : "0.0",
+        "count" : "79485"
+      }, {
+        "item" : "5.56",
+        "count" : "68664"
+      }, {
+        "item" : "5.64",
+        "count" : "60150"
+      }, {
+        "item" : "7.97",
+        "count" : "57813"
+      }, {
+        "item" : "2.79",
+        "count" : "51195"
+      }, {
+        "item" : "2.74",
+        "count" : "50747"
+      }, {
+        "item" : "0.2",
+        "count" : "43100"
+      }, {
+        "item" : "2.0",
+        "count" : "41451"
+      }, {
+        "item" : "0.3",
+        "count" : "40292"
+      }, {
+        "item" : "1.8",
+        "count" : "39530"
+      }, {
+        "item" : "4.73",
+        "count" : "38059"
+      }, {
+        "item" : "2.2",
+        "count" : "37150"
+      }, {
+        "item" : "1.31",
+        "count" : "37077"
+      }, {
+        "item" : "0.1",
+        "count" : "33623"
+      }, {
+        "item" : "8.06",
+        "count" : "33071"
+      }, {
+        "item" : "3.0",
+        "count" : "31234"
+      }, {
+        "item" : "0.4",
+        "count" : "30379"
+      }, {
+        "item" : "0.6",
+        "count" : "29243"
+      }, {
+        "item" : "2.1",
+        "count" : "29081"
+      }, {
+        "item" : "1.0",
+        "count" : "28807"
+      } ],
+      "smallest" : "0.0",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754860,
+    "name" : "PCT_GREEN_TIME",
+    "dataTypeName" : "number",
+    "description" : "Percent Green Time",
+    "fieldName" : "pct_green_time",
+    "position" : 53,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252072,
+    "cachedContents" : {
+      "non_null" : "396478",
+      "largest" : "100",
+      "null" : "19177261",
+      "top" : [ {
+        "item" : "100",
+        "count" : "73988"
+      }, {
+        "item" : "50",
+        "count" : "54292"
+      }, {
+        "item" : "60",
+        "count" : "45472"
+      }, {
+        "item" : "70",
+        "count" : "21332"
+      }, {
+        "item" : "40",
+        "count" : "13841"
+      }, {
+        "item" : "65",
+        "count" : "10438"
+      }, {
+        "item" : "91",
+        "count" : "10069"
+      }, {
+        "item" : "93",
+        "count" : "9431"
+      }, {
+        "item" : "45",
+        "count" : "8646"
+      }, {
+        "item" : "55",
+        "count" : "8167"
+      }, {
+        "item" : "76",
+        "count" : "6837"
+      }, {
+        "item" : "35",
+        "count" : "5967"
+      }, {
+        "item" : "89",
+        "count" : "5013"
+      }, {
+        "item" : "30",
+        "count" : "4659"
+      }, {
+        "item" : "75",
+        "count" : "4581"
+      }, {
+        "item" : "1",
+        "count" : "4435"
+      }, {
+        "item" : "64",
+        "count" : "4227"
+      }, {
+        "item" : "38",
+        "count" : "4215"
+      }, {
+        "item" : "48",
+        "count" : "3737"
+      }, {
+        "item" : "68",
+        "count" : "3596"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754861,
+    "name" : "PCT_PASS_SIGHT",
+    "dataTypeName" : "number",
+    "description" : "Percent Passing Sight Distance",
+    "fieldName" : "pct_pass_sight",
+    "position" : 54,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252052,
+    "cachedContents" : {
+      "non_null" : "1115714",
+      "largest" : "100",
+      "null" : "18458025",
+      "top" : [ {
+        "item" : "0",
+        "count" : "353534"
+      }, {
+        "item" : "100",
+        "count" : "284740"
+      }, {
+        "item" : "50",
+        "count" : "37299"
+      }, {
+        "item" : "42",
+        "count" : "20625"
+      }, {
+        "item" : "80",
+        "count" : "18712"
+      }, {
+        "item" : "60",
+        "count" : "18367"
+      }, {
+        "item" : "40",
+        "count" : "18283"
+      }, {
+        "item" : "90",
+        "count" : "18004"
+      }, {
+        "item" : "99",
+        "count" : "17996"
+      }, {
+        "item" : "20",
+        "count" : "17870"
+      }, {
+        "item" : "10",
+        "count" : "16318"
+      }, {
+        "item" : "70",
+        "count" : "13758"
+      }, {
+        "item" : "30",
+        "count" : "13608"
+      }, {
+        "item" : "75",
+        "count" : "12453"
+      }, {
+        "item" : "25",
+        "count" : "9859"
+      }, {
+        "item" : "85",
+        "count" : "8841"
+      }, {
+        "item" : "95",
+        "count" : "7785"
+      }, {
+        "item" : "65",
+        "count" : "7773"
+      }, {
+        "item" : "5",
+        "count" : "7648"
+      }, {
+        "item" : "15",
+        "count" : "6766"
+      } ],
+      "smallest" : "0",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754862,
+    "name" : "PEAK_LANES",
+    "dataTypeName" : "number",
+    "description" : "Number of Peak Lanes",
+    "fieldName" : "peak_lanes",
+    "position" : 55,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252050,
+    "cachedContents" : {
+      "non_null" : "2473393",
+      "largest" : "22",
+      "null" : "17100346",
+      "top" : [ {
+        "item" : "2",
+        "count" : "1284063"
+      }, {
+        "item" : "1",
+        "count" : "980145"
+      }, {
+        "item" : "3",
+        "count" : "137601"
+      }, {
+        "item" : "4",
+        "count" : "61250"
+      }, {
+        "item" : "5",
+        "count" : "5880"
+      }, {
+        "item" : "6",
+        "count" : "3824"
+      }, {
+        "item" : "7",
+        "count" : "352"
+      }, {
+        "item" : "8",
+        "count" : "133"
+      }, {
+        "item" : "10",
+        "count" : "109"
+      }, {
+        "item" : "9",
+        "count" : "14"
+      }, {
+        "item" : "11",
+        "count" : "10"
+      }, {
+        "item" : "15",
+        "count" : "9"
+      }, {
+        "item" : "22",
+        "count" : "2"
+      }, {
+        "item" : "12",
+        "count" : "1"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754863,
+    "name" : "PEAK_PARKING",
+    "dataTypeName" : "number",
+    "description" : "Peak Parking",
+    "fieldName" : "peak_parking",
+    "position" : 56,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252073,
+    "cachedContents" : {
+      "non_null" : "1777849",
+      "largest" : "3",
+      "null" : "17795890",
+      "top" : [ {
+        "item" : "3",
+        "count" : "1638189"
+      }, {
+        "item" : "2",
+        "count" : "73323"
+      }, {
+        "item" : "1",
+        "count" : "66337"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754864,
+    "name" : "PSR",
+    "dataTypeName" : "text",
+    "description" : "Present Serviceability Rating",
+    "fieldName" : "psr",
+    "position" : 57,
+    "renderTypeName" : "text",
+    "tableColumnId" : 162252057,
+    "cachedContents" : {
+      "non_null" : "301527",
+      "largest" : "5.0",
+      "null" : "19272212",
+      "top" : [ {
+        "item" : "3.0",
+        "count" : "78269"
+      }, {
+        "item" : "5.0",
+        "count" : "58282"
+      }, {
+        "item" : "4.0",
+        "count" : "43710"
+      }, {
+        "item" : "2.0",
+        "count" : "31782"
+      }, {
+        "item" : "3.5",
+        "count" : "17117"
+      }, {
+        "item" : "2.5",
+        "count" : "5420"
+      }, {
+        "item" : "4.1",
+        "count" : "4636"
+      }, {
+        "item" : "4.2",
+        "count" : "4184"
+      }, {
+        "item" : "3.2",
+        "count" : "3931"
+      }, {
+        "item" : "1.0",
+        "count" : "3922"
+      }, {
+        "item" : "4.5",
+        "count" : "3841"
+      }, {
+        "item" : "3.8",
+        "count" : "3688"
+      }, {
+        "item" : "3.9",
+        "count" : "3418"
+      }, {
+        "item" : "3.6",
+        "count" : "3203"
+      }, {
+        "item" : "3.7",
+        "count" : "2583"
+      }, {
+        "item" : "3.4",
+        "count" : "2523"
+      }, {
+        "item" : "2.8",
+        "count" : "2327"
+      }, {
+        "item" : "2.4",
+        "count" : "2185"
+      }, {
+        "item" : "2.3",
+        "count" : "2088"
+      }, {
+        "item" : "3.1",
+        "count" : "2065"
+      } ],
+      "smallest" : "0.2",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : { }
+  }, {
+    "id" : 620754865,
+    "name" : "PSR_D",
+    "dataTypeName" : "text",
+    "description" : "Date of PSR Collection",
+    "fieldName" : "psr_d",
+    "position" : 58,
+    "renderTypeName" : "text",
+    "tableColumnId" : 162252080,
+    "cachedContents" : {
+      "non_null" : "301527",
+      "largest" : "2025-11-14",
+      "null" : "19272212",
+      "top" : [ {
+        "item" : "2022-12-01",
+        "count" : "40640"
+      }, {
+        "item" : "2024-01-01",
+        "count" : "26168"
+      }, {
+        "item" : "2024-03-01",
+        "count" : "20762"
+      }, {
+        "item" : "2024-02-01",
+        "count" : "20269"
+      }, {
+        "item" : "2024-12-01",
+        "count" : "17086"
+      }, {
+        "item" : "2024-08-24",
+        "count" : "7333"
+      }, {
+        "item" : "2024-08-17",
+        "count" : "7192"
+      }, {
+        "item" : "2023-01-01",
+        "count" : "6882"
+      }, {
+        "item" : "2024-08-22",
+        "count" : "6828"
+      }, {
+        "item" : "2024-10-02",
+        "count" : "5183"
+      }, {
+        "item" : "2024-10-16",
+        "count" : "4507"
+      }, {
+        "item" : "2024-10-11",
+        "count" : "4043"
+      }, {
+        "item" : "2024-08-21",
+        "count" : "3683"
+      }, {
+        "item" : "2024-10-09",
+        "count" : "3429"
+      }, {
+        "item" : "2024-10-12",
+        "count" : "3366"
+      }, {
+        "item" : "2024-10-08",
+        "count" : "3314"
+      }, {
+        "item" : "2024-10-15",
+        "count" : "3303"
+      }, {
+        "item" : "2024-08-20",
+        "count" : "3055"
+      }, {
+        "item" : "2024-10-17",
+        "count" : "3026"
+      }, {
+        "item" : "2024-10-31",
+        "count" : "2964"
+      } ],
+      "smallest" : "1979-01-01",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : { }
+  }, {
+    "id" : 620754866,
+    "name" : "ROUTE_ID",
+    "dataTypeName" : "text",
+    "description" : "Route ID",
+    "fieldName" : "route_id",
+    "position" : 59,
+    "renderTypeName" : "text",
+    "tableColumnId" : 162252059,
+    "cachedContents" : {
+      "non_null" : "19573739",
+      "largest" : "ZIP_H2_SB_1",
+      "null" : "0",
+      "top" : [ {
+        "item" : "SHS_101._P",
+        "count" : "17694"
+      }, {
+        "item" : "SHS_005._P",
+        "count" : "17109"
+      }, {
+        "item" : "0001X",
+        "count" : "12634"
+      }, {
+        "item" : "IH0010-KG",
+        "count" : "12201"
+      }, {
+        "item" : "SHS_001._P",
+        "count" : "11015"
+      }, {
+        "item" : "11",
+        "count" : "10362"
+      }, {
+        "item" : "020",
+        "count" : "9384"
+      }, {
+        "item" : "20000000410000001",
+        "count" : "9111"
+      }, {
+        "item" : "IH0020-KG",
+        "count" : "8762"
+      }, {
+        "item" : "SHS_099._P",
+        "count" : "8653"
+      }, {
+        "item" : "US0067-KG",
+        "count" : "8509"
+      }, {
+        "item" : "19",
+        "count" : "8253"
+      }, {
+        "item" : "US0087-KG",
+        "count" : "8225"
+      }, {
+        "item" : "080",
+        "count" : "8122"
+      }, {
+        "item" : "US0059-KG",
+        "count" : "8051"
+      }, {
+        "item" : "10000000690000001",
+        "count" : "8037"
+      }, {
+        "item" : "SHS_395._P",
+        "count" : "8025"
+      }, {
+        "item" : "US0090-KG",
+        "count" : "7869"
+      }, {
+        "item" : "20000000310000001",
+        "count" : "7839"
+      }, {
+        "item" : "080D",
+        "count" : "7794"
+      } ],
+      "smallest" : "00000001__",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : { }
+  }, {
+    "id" : 620754867,
+    "name" : "ROUTE_NUMBER",
+    "dataTypeName" : "number",
+    "description" : "Signed Route Number",
+    "fieldName" : "route_number",
+    "position" : 60,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252071,
+    "cachedContents" : {
+      "non_null" : "8398653",
+      "largest" : "999000773",
+      "null" : "11175086",
+      "top" : [ {
+        "item" : "1",
+        "count" : "106630"
+      }, {
+        "item" : "20",
+        "count" : "98718"
+      }, {
+        "item" : "10",
+        "count" : "88839"
+      }, {
+        "item" : "40",
+        "count" : "78159"
+      }, {
+        "item" : "2",
+        "count" : "77455"
+      }, {
+        "item" : "5",
+        "count" : "73165"
+      }, {
+        "item" : "15",
+        "count" : "70647"
+      }, {
+        "item" : "70",
+        "count" : "68971"
+      }, {
+        "item" : "95",
+        "count" : "68963"
+      }, {
+        "item" : "90",
+        "count" : "67441"
+      }, {
+        "item" : "30",
+        "count" : "64492"
+      }, {
+        "item" : "80",
+        "count" : "64303"
+      }, {
+        "item" : "9",
+        "count" : "63864"
+      }, {
+        "item" : "11",
+        "count" : "63396"
+      }, {
+        "item" : "3",
+        "count" : "61165"
+      }, {
+        "item" : "6",
+        "count" : "59319"
+      }, {
+        "item" : "25",
+        "count" : "58704"
+      }, {
+        "item" : "12",
+        "count" : "57499"
+      }, {
+        "item" : "50",
+        "count" : "56828"
+      }, {
+        "item" : "29",
+        "count" : "55561"
+      } ],
+      "smallest" : "0",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754868,
+    "name" : "ROUTE_QUALIFIER",
+    "dataTypeName" : "number",
+    "description" : "Route Signing Qualifier",
+    "fieldName" : "route_qualifier",
+    "position" : 61,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252029,
+    "cachedContents" : {
+      "non_null" : "14248770",
+      "largest" : "10",
+      "null" : "5324969",
+      "top" : [ {
+        "item" : "1",
+        "count" : "12936496"
+      }, {
+        "item" : "10",
+        "count" : "936179"
+      }, {
+        "item" : "3",
+        "count" : "99328"
+      }, {
+        "item" : "4",
+        "count" : "87775"
+      }, {
+        "item" : "6",
+        "count" : "79896"
+      }, {
+        "item" : "2",
+        "count" : "48558"
+      }, {
+        "item" : "9",
+        "count" : "26031"
+      }, {
+        "item" : "8",
+        "count" : "25619"
+      }, {
+        "item" : "5",
+        "count" : "8543"
+      }, {
+        "item" : "7",
+        "count" : "345"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754869,
+    "name" : "ROUTE_SIGNING",
+    "dataTypeName" : "number",
+    "description" : "Route Signing Type",
+    "fieldName" : "route_signing",
+    "position" : 62,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252085,
+    "cachedContents" : {
+      "non_null" : "14265501",
+      "largest" : "10",
+      "null" : "5308238",
+      "top" : [ {
+        "item" : "1",
+        "count" : "4912800"
+      }, {
+        "item" : "4",
+        "count" : "3149247"
+      }, {
+        "item" : "6",
+        "count" : "1888534"
+      }, {
+        "item" : "3",
+        "count" : "1455811"
+      }, {
+        "item" : "8",
+        "count" : "1159777"
+      }, {
+        "item" : "2",
+        "count" : "867842"
+      }, {
+        "item" : "10",
+        "count" : "563143"
+      }, {
+        "item" : "7",
+        "count" : "248931"
+      }, {
+        "item" : "9",
+        "count" : "10236"
+      }, {
+        "item" : "5",
+        "count" : "9180"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754870,
+    "name" : "RUTTING",
+    "dataTypeName" : "number",
+    "description" : "Rutting",
+    "fieldName" : "rutting",
+    "position" : 63,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252060,
+    "cachedContents" : {
+      "non_null" : "6048894",
+      "largest" : "3.15",
+      "null" : "13524845",
+      "top" : [ {
+        "item" : "0.1",
+        "count" : "400201"
+      }, {
+        "item" : "0.11",
+        "count" : "382990"
+      }, {
+        "item" : "0.08",
+        "count" : "359359"
+      }, {
+        "item" : "0.12",
+        "count" : "355313"
+      }, {
+        "item" : "0.09",
+        "count" : "352692"
+      }, {
+        "item" : "0.13",
+        "count" : "331740"
+      }, {
+        "item" : "0.14",
+        "count" : "315946"
+      }, {
+        "item" : "0.07",
+        "count" : "307400"
+      }, {
+        "item" : "0.15",
+        "count" : "289267"
+      }, {
+        "item" : "0.06",
+        "count" : "243572"
+      }, {
+        "item" : "0.16",
+        "count" : "242004"
+      }, {
+        "item" : "0.17",
+        "count" : "228987"
+      }, {
+        "item" : "0.18",
+        "count" : "197070"
+      }, {
+        "item" : "0.05",
+        "count" : "165813"
+      }, {
+        "item" : "0.2",
+        "count" : "155678"
+      }, {
+        "item" : "0.19",
+        "count" : "154769"
+      }, {
+        "item" : "0.21",
+        "count" : "137088"
+      }, {
+        "item" : "0.04",
+        "count" : "120668"
+      }, {
+        "item" : "0.22",
+        "count" : "117612"
+      }, {
+        "item" : "0.23",
+        "count" : "105644"
+      } ],
+      "smallest" : "0.0",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754871,
+    "name" : "RUTTING_D",
+    "dataTypeName" : "calendar_date",
+    "description" : "Date of Rutting Collection",
+    "fieldName" : "rutting_d",
+    "position" : 64,
+    "renderTypeName" : "calendar_date",
+    "tableColumnId" : 162252032,
+    "cachedContents" : {
+      "non_null" : "6048894",
+      "largest" : "2025-11-21T00:00:00.000",
+      "null" : "13524845",
+      "top" : [ {
+        "item" : "2024-11-01T00:00:00.000",
+        "count" : "513098"
+      }, {
+        "item" : "2024-05-01T00:00:00.000",
+        "count" : "300929"
+      }, {
+        "item" : "2024-06-01T00:00:00.000",
+        "count" : "292501"
+      }, {
+        "item" : "2024-06-24T00:00:00.000",
+        "count" : "289801"
+      }, {
+        "item" : "2024-12-01T00:00:00.000",
+        "count" : "267771"
+      }, {
+        "item" : "2024-07-01T00:00:00.000",
+        "count" : "224053"
+      }, {
+        "item" : "2024-08-01T00:00:00.000",
+        "count" : "216481"
+      }, {
+        "item" : "2024-04-01T00:00:00.000",
+        "count" : "187848"
+      }, {
+        "item" : "2024-10-01T00:00:00.000",
+        "count" : "160491"
+      }, {
+        "item" : "2023-05-01T00:00:00.000",
+        "count" : "132180"
+      }, {
+        "item" : "2024-09-01T00:00:00.000",
+        "count" : "128877"
+      }, {
+        "item" : "2023-06-01T00:00:00.000",
+        "count" : "102305"
+      }, {
+        "item" : "2024-02-01T00:00:00.000",
+        "count" : "99444"
+      }, {
+        "item" : "2024-03-01T00:00:00.000",
+        "count" : "85166"
+      }, {
+        "item" : "2024-01-01T00:00:00.000",
+        "count" : "79813"
+      }, {
+        "item" : "2023-04-01T00:00:00.000",
+        "count" : "75415"
+      }, {
+        "item" : "2023-07-01T00:00:00.000",
+        "count" : "59515"
+      }, {
+        "item" : "2023-08-01T00:00:00.000",
+        "count" : "51618"
+      }, {
+        "item" : "2023-01-01T00:00:00.000",
+        "count" : "46276"
+      }, {
+        "item" : "2023-03-01T00:00:00.000",
+        "count" : "43802"
+      } ],
+      "smallest" : "1900-01-01T00:00:00.000",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "view" : "date_my"
+    }
+  }, {
+    "id" : 620754872,
+    "name" : "RouteName",
+    "dataTypeName" : "text",
+    "description" : "Road Name",
+    "fieldName" : "routename",
+    "position" : 65,
+    "renderTypeName" : "text",
+    "tableColumnId" : 162252051,
+    "cachedContents" : {
+      "non_null" : "12089878",
+      "largest" : "Z & Z ROAD",
+      "null" : "7483861",
+      "top" : [ {
+        "item" : "Unknown",
+        "count" : "29491"
+      }, {
+        "item" : "MAIN ST",
+        "count" : "26323"
+      }, {
+        "item" : "UNNAMEDPVT",
+        "count" : "15119"
+      }, {
+        "item" : "US 2",
+        "count" : "13638"
+      }, {
+        "item" : "US 1",
+        "count" : "13482"
+      }, {
+        "item" : "I-10",
+        "count" : "12881"
+      }, {
+        "item" : "I-80",
+        "count" : "12467"
+      }, {
+        "item" : "US 41",
+        "count" : "10921"
+      }, {
+        "item" : "B",
+        "count" : "10615"
+      }, {
+        "item" : "C",
+        "count" : "10513"
+      }, {
+        "item" : "D",
+        "count" : "10442"
+      }, {
+        "item" : "E",
+        "count" : "10326"
+      }, {
+        "item" : "A",
+        "count" : "10320"
+      }, {
+        "item" : "H",
+        "count" : "10253"
+      }, {
+        "item" : "CH-00",
+        "count" : "10064"
+      }, {
+        "item" : "US 30",
+        "count" : "9844"
+      }, {
+        "item" : "I-70",
+        "count" : "9669"
+      }, {
+        "item" : "I-69",
+        "count" : "9556"
+      }, {
+        "item" : "US 31",
+        "count" : "9404"
+      }, {
+        "item" : "M",
+        "count" : "9207"
+      } ],
+      "smallest" : ";",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : { }
+  }, {
+    "id" : 620754873,
+    "name" : "SAMPLE_ID",
+    "dataTypeName" : "text",
+    "description" : "Sample ID",
+    "fieldName" : "sample_id",
+    "position" : 66,
+    "renderTypeName" : "text",
+    "tableColumnId" : 162252016,
+    "cachedContents" : {
+      "non_null" : "1883907",
+      "largest" : "ZZYILCJSTHNN",
+      "null" : "17689832",
+      "top" : [ {
+        "item" : "360x5p86",
+        "count" : "1931"
+      }, {
+        "item" : "11x65p83",
+        "count" : "1132"
+      }, {
+        "item" : "450x14p02",
+        "count" : "796"
+      }, {
+        "item" : "11x30p65",
+        "count" : "757"
+      }, {
+        "item" : "510116020182",
+        "count" : "714"
+      }, {
+        "item" : "8D0322977732",
+        "count" : "699"
+      }, {
+        "item" : "250x1p749",
+        "count" : "626"
+      }, {
+        "item" : "190x10p93",
+        "count" : "617"
+      }, {
+        "item" : "19x28p07",
+        "count" : "611"
+      }, {
+        "item" : "200x22p27",
+        "count" : "608"
+      }, {
+        "item" : "19x13p29",
+        "count" : "597"
+      }, {
+        "item" : "3700x28p8",
+        "count" : "581"
+      }, {
+        "item" : "3100x0p0",
+        "count" : "534"
+      }, {
+        "item" : "R00008186201",
+        "count" : "532"
+      }, {
+        "item" : "R00008338201",
+        "count" : "531"
+      }, {
+        "item" : "270x2p44",
+        "count" : "503"
+      }, {
+        "item" : "SPX202402795",
+        "count" : "493"
+      }, {
+        "item" : "5EF66EFFF0B4",
+        "count" : "492"
+      }, {
+        "item" : "R00008460401",
+        "count" : "482"
+      }, {
+        "item" : "200x2p338",
+        "count" : "470"
+      } ],
+      "smallest" : "000000000064",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : { }
+  }, {
+    "id" : 620754874,
+    "name" : "SHOULDER_TYPE",
+    "dataTypeName" : "number",
+    "description" : "Shoulder Type",
+    "fieldName" : "shoulder_type",
+    "position" : 67,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252082,
+    "cachedContents" : {
+      "non_null" : "3659005",
+      "largest" : "6",
+      "null" : "15914734",
+      "top" : [ {
+        "item" : "2",
+        "count" : "1272438"
+      }, {
+        "item" : "1",
+        "count" : "981665"
+      }, {
+        "item" : "6",
+        "count" : "608550"
+      }, {
+        "item" : "5",
+        "count" : "508011"
+      }, {
+        "item" : "4",
+        "count" : "181219"
+      }, {
+        "item" : "3",
+        "count" : "107122"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754875,
+    "name" : "SHOULDER_WIDTH_L",
+    "dataTypeName" : "number",
+    "description" : "Left Shoulder Width",
+    "fieldName" : "shoulder_width_l",
+    "position" : 68,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252040,
+    "cachedContents" : {
+      "non_null" : "1577123",
+      "largest" : "68",
+      "null" : "17996616",
+      "top" : [ {
+        "item" : "0",
+        "count" : "513604"
+      }, {
+        "item" : "4",
+        "count" : "272261"
+      }, {
+        "item" : "2",
+        "count" : "145701"
+      }, {
+        "item" : "10",
+        "count" : "125357"
+      }, {
+        "item" : "3",
+        "count" : "93903"
+      }, {
+        "item" : "6",
+        "count" : "92457"
+      }, {
+        "item" : "8",
+        "count" : "78358"
+      }, {
+        "item" : "1",
+        "count" : "75653"
+      }, {
+        "item" : "5",
+        "count" : "73293"
+      }, {
+        "item" : "12",
+        "count" : "49358"
+      }, {
+        "item" : "7",
+        "count" : "13908"
+      }, {
+        "item" : "9",
+        "count" : "12821"
+      }, {
+        "item" : "14",
+        "count" : "9990"
+      }, {
+        "item" : "11",
+        "count" : "7545"
+      }, {
+        "item" : "15",
+        "count" : "2837"
+      }, {
+        "item" : "13",
+        "count" : "2583"
+      }, {
+        "item" : "16",
+        "count" : "1998"
+      }, {
+        "item" : "18",
+        "count" : "1225"
+      }, {
+        "item" : "20",
+        "count" : "1105"
+      }, {
+        "item" : "17",
+        "count" : "708"
+      } ],
+      "smallest" : "0",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754876,
+    "name" : "SHOULDER_WIDTH_R",
+    "dataTypeName" : "number",
+    "description" : "Right Shoulder Width",
+    "fieldName" : "shoulder_width_r",
+    "position" : 69,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252020,
+    "cachedContents" : {
+      "non_null" : "3369094",
+      "largest" : "108",
+      "null" : "16204645",
+      "top" : [ {
+        "item" : "0",
+        "count" : "583937"
+      }, {
+        "item" : "10",
+        "count" : "492213"
+      }, {
+        "item" : "4",
+        "count" : "419925"
+      }, {
+        "item" : "2",
+        "count" : "373985"
+      }, {
+        "item" : "3",
+        "count" : "303134"
+      }, {
+        "item" : "6",
+        "count" : "291452"
+      }, {
+        "item" : "8",
+        "count" : "264556"
+      }, {
+        "item" : "5",
+        "count" : "153024"
+      }, {
+        "item" : "12",
+        "count" : "133511"
+      }, {
+        "item" : "1",
+        "count" : "114223"
+      }, {
+        "item" : "9",
+        "count" : "52216"
+      }, {
+        "item" : "7",
+        "count" : "50157"
+      }, {
+        "item" : "11",
+        "count" : "47914"
+      }, {
+        "item" : "14",
+        "count" : "21712"
+      }, {
+        "item" : "13",
+        "count" : "15366"
+      }, {
+        "item" : "15",
+        "count" : "12304"
+      }, {
+        "item" : "16",
+        "count" : "11705"
+      }, {
+        "item" : "17",
+        "count" : "6187"
+      }, {
+        "item" : "22",
+        "count" : "5216"
+      }, {
+        "item" : "20",
+        "count" : "4422"
+      } ],
+      "smallest" : "0",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754877,
+    "name" : "SIGNAL_TYPE",
+    "dataTypeName" : "number",
+    "description" : "Signal Type",
+    "fieldName" : "signal_type",
+    "position" : 70,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252079,
+    "cachedContents" : {
+      "non_null" : "1510576",
+      "largest" : "5",
+      "null" : "18063163",
+      "top" : [ {
+        "item" : "5",
+        "count" : "1154825"
+      }, {
+        "item" : "2",
+        "count" : "182821"
+      }, {
+        "item" : "1",
+        "count" : "67419"
+      }, {
+        "item" : "3",
+        "count" : "59273"
+      }, {
+        "item" : "4",
+        "count" : "46238"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754878,
+    "name" : "SOIL_TYPE",
+    "dataTypeName" : "text",
+    "description" : "Soil Type",
+    "fieldName" : "soil_type",
+    "position" : 71,
+    "renderTypeName" : "text",
+    "tableColumnId" : 162252035,
+    "cachedContents" : {
+      "non_null" : "72271",
+      "largest" : "2",
+      "null" : "19501468",
+      "top" : [ {
+        "item" : "1",
+        "count" : "48796"
+      }, {
+        "item" : "2",
+        "count" : "23475"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : { }
+  }, {
+    "id" : 620754879,
+    "name" : "SPEED_LIMIT",
+    "dataTypeName" : "number",
+    "description" : "Speed Limit",
+    "fieldName" : "speed_limit",
+    "position" : 72,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252048,
+    "cachedContents" : {
+      "non_null" : "5532372",
+      "largest" : "999",
+      "null" : "14041367",
+      "top" : [ {
+        "item" : "55",
+        "count" : "1481483"
+      }, {
+        "item" : "65",
+        "count" : "728103"
+      }, {
+        "item" : "45",
+        "count" : "563442"
+      }, {
+        "item" : "35",
+        "count" : "518609"
+      }, {
+        "item" : "70",
+        "count" : "449468"
+      }, {
+        "item" : "25",
+        "count" : "421946"
+      }, {
+        "item" : "30",
+        "count" : "328104"
+      }, {
+        "item" : "40",
+        "count" : "267821"
+      }, {
+        "item" : "60",
+        "count" : "212527"
+      }, {
+        "item" : "50",
+        "count" : "210686"
+      }, {
+        "item" : "75",
+        "count" : "192995"
+      }, {
+        "item" : "80",
+        "count" : "53249"
+      }, {
+        "item" : "999",
+        "count" : "49094"
+      }, {
+        "item" : "20",
+        "count" : "38722"
+      }, {
+        "item" : "15",
+        "count" : "10456"
+      }, {
+        "item" : "0",
+        "count" : "3644"
+      }, {
+        "item" : "10",
+        "count" : "1483"
+      }, {
+        "item" : "5",
+        "count" : "361"
+      }, {
+        "item" : "85",
+        "count" : "141"
+      }, {
+        "item" : "24",
+        "count" : "16"
+      } ],
+      "smallest" : "0",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754880,
+    "name" : "SRID",
+    "dataTypeName" : "number",
+    "description" : "",
+    "fieldName" : "srid",
+    "position" : 73,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252089,
+    "cachedContents" : {
+      "non_null" : "19573739",
+      "largest" : "4326",
+      "null" : "0",
+      "top" : [ {
+        "item" : "4326",
+        "count" : "19573739"
+      } ],
+      "smallest" : "4326",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "noCommas" : "true"
+    }
+  }, {
+    "id" : 620754881,
+    "name" : "STOP_SIGNS",
+    "dataTypeName" : "number",
+    "description" : "Number of Stop Sign-Controlled Intersections",
+    "fieldName" : "stop_signs",
+    "position" : 74,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252083,
+    "cachedContents" : {
+      "non_null" : "1823175",
+      "largest" : "64",
+      "null" : "17750564",
+      "top" : [ {
+        "item" : "0",
+        "count" : "1553214"
+      }, {
+        "item" : "1",
+        "count" : "188011"
+      }, {
+        "item" : "2",
+        "count" : "32040"
+      }, {
+        "item" : "3",
+        "count" : "13432"
+      }, {
+        "item" : "4",
+        "count" : "7901"
+      }, {
+        "item" : "5",
+        "count" : "5084"
+      }, {
+        "item" : "6",
+        "count" : "3939"
+      }, {
+        "item" : "7",
+        "count" : "3311"
+      }, {
+        "item" : "8",
+        "count" : "2586"
+      }, {
+        "item" : "9",
+        "count" : "2072"
+      }, {
+        "item" : "10",
+        "count" : "1678"
+      }, {
+        "item" : "11",
+        "count" : "1484"
+      }, {
+        "item" : "12",
+        "count" : "1196"
+      }, {
+        "item" : "16",
+        "count" : "965"
+      }, {
+        "item" : "14",
+        "count" : "953"
+      }, {
+        "item" : "15",
+        "count" : "950"
+      }, {
+        "item" : "13",
+        "count" : "847"
+      }, {
+        "item" : "19",
+        "count" : "513"
+      }, {
+        "item" : "17",
+        "count" : "437"
+      }, {
+        "item" : "33",
+        "count" : "352"
+      } ],
+      "smallest" : "0",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754882,
+    "name" : "STRAHNET_TYPE",
+    "dataTypeName" : "number",
+    "description" : "Strategic Highway Network Type",
+    "fieldName" : "strahnet_type",
+    "position" : 75,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252008,
+    "cachedContents" : {
+      "non_null" : "918487",
+      "largest" : "2",
+      "null" : "18655252",
+      "top" : [ {
+        "item" : "1",
+        "count" : "882772"
+      }, {
+        "item" : "2",
+        "count" : "35715"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754883,
+    "name" : "STRUCTURE_TYPE",
+    "dataTypeName" : "number",
+    "description" : "Structure Type",
+    "fieldName" : "structure_type",
+    "position" : 76,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252066,
+    "cachedContents" : {
+      "non_null" : "605443",
+      "largest" : "3",
+      "null" : "18968296",
+      "top" : [ {
+        "item" : "1",
+        "count" : "603461"
+      }, {
+        "item" : "2",
+        "count" : "1429"
+      }, {
+        "item" : "3",
+        "count" : "553"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754884,
+    "name" : "SURFACE_TYPE",
+    "dataTypeName" : "number",
+    "description" : "Surface Type",
+    "fieldName" : "surface_type",
+    "position" : 77,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252005,
+    "cachedContents" : {
+      "non_null" : "7594543",
+      "largest" : "11",
+      "null" : "11979196",
+      "top" : [ {
+        "item" : "2",
+        "count" : "4054544"
+      }, {
+        "item" : "6",
+        "count" : "1664948"
+      }, {
+        "item" : "7",
+        "count" : "768676"
+      }, {
+        "item" : "3",
+        "count" : "390183"
+      }, {
+        "item" : "1",
+        "count" : "278723"
+      }, {
+        "item" : "5",
+        "count" : "163862"
+      }, {
+        "item" : "4",
+        "count" : "139613"
+      }, {
+        "item" : "8",
+        "count" : "102429"
+      }, {
+        "item" : "11",
+        "count" : "23141"
+      }, {
+        "item" : "9",
+        "count" : "6736"
+      }, {
+        "item" : "10",
+        "count" : "1688"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754885,
+    "name" : "SectionLength",
+    "dataTypeName" : "number",
+    "description" : "Section Length (miles)",
+    "fieldName" : "sectionlength",
+    "position" : 78,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252081,
+    "cachedContents" : {
+      "non_null" : "19573739",
+      "largest" : "635.865",
+      "null" : "0",
+      "top" : [ {
+        "item" : "0.1",
+        "count" : "4040926"
+      }, {
+        "item" : "0.06",
+        "count" : "271203"
+      }, {
+        "item" : "0.01",
+        "count" : "252753"
+      }, {
+        "item" : "0.07",
+        "count" : "242023"
+      }, {
+        "item" : "0.05",
+        "count" : "236196"
+      }, {
+        "item" : "0.0001",
+        "count" : "228037"
+      }, {
+        "item" : "0.03",
+        "count" : "221713"
+      }, {
+        "item" : "0.04",
+        "count" : "219670"
+      }, {
+        "item" : "0.02",
+        "count" : "211230"
+      }, {
+        "item" : "0.08",
+        "count" : "185050"
+      }, {
+        "item" : "0.001",
+        "count" : "165709"
+      }, {
+        "item" : "0.09",
+        "count" : "159829"
+      }, {
+        "item" : "0.002",
+        "count" : "102610"
+      }, {
+        "item" : "0.004",
+        "count" : "96371"
+      }, {
+        "item" : "0.11",
+        "count" : "86893"
+      }, {
+        "item" : "0.12",
+        "count" : "86073"
+      }, {
+        "item" : "0.003",
+        "count" : "86063"
+      }, {
+        "item" : "0.0002",
+        "count" : "83676"
+      }, {
+        "item" : "0.005",
+        "count" : "83249"
+      }, {
+        "item" : "0.0003",
+        "count" : "81513"
+      } ],
+      "smallest" : "0.0001",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754886,
+    "name" : "ShapeId",
+    "dataTypeName" : "number",
+    "description" : "",
+    "fieldName" : "shapeid",
+    "position" : 79,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252070,
+    "cachedContents" : {
+      "non_null" : "19573739",
+      "largest" : "468167646",
+      "null" : "0",
+      "top" : [ {
+        "item" : "332838163",
+        "count" : "1"
+      }, {
+        "item" : "332838164",
+        "count" : "1"
+      }, {
+        "item" : "332838165",
+        "count" : "1"
+      }, {
+        "item" : "332838166",
+        "count" : "1"
+      }, {
+        "item" : "332838167",
+        "count" : "1"
+      }, {
+        "item" : "332838168",
+        "count" : "1"
+      }, {
+        "item" : "332838169",
+        "count" : "1"
+      }, {
+        "item" : "332838170",
+        "count" : "1"
+      }, {
+        "item" : "332838171",
+        "count" : "1"
+      }, {
+        "item" : "332838172",
+        "count" : "1"
+      }, {
+        "item" : "332838173",
+        "count" : "1"
+      }, {
+        "item" : "332838174",
+        "count" : "1"
+      }, {
+        "item" : "332838175",
+        "count" : "1"
+      }, {
+        "item" : "332838176",
+        "count" : "1"
+      }, {
+        "item" : "332838177",
+        "count" : "1"
+      }, {
+        "item" : "332838178",
+        "count" : "1"
+      }, {
+        "item" : "332838179",
+        "count" : "1"
+      }, {
+        "item" : "332838180",
+        "count" : "1"
+      }, {
+        "item" : "332838181",
+        "count" : "1"
+      }, {
+        "item" : "332838162",
+        "count" : "1"
+      } ],
+      "smallest" : "332838162",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "noCommas" : "true"
+    }
+  }, {
+    "id" : 620754887,
+    "name" : "StateID",
+    "dataTypeName" : "number",
+    "description" : "State FIPS Code",
+    "fieldName" : "stateid",
+    "position" : 80,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252086,
+    "cachedContents" : {
+      "non_null" : "19573739",
+      "largest" : "72",
+      "null" : "0",
+      "top" : [ {
+        "item" : "48",
+        "count" : "1192329"
+      }, {
+        "item" : "29",
+        "count" : "1146699"
+      }, {
+        "item" : "42",
+        "count" : "1042201"
+      }, {
+        "item" : "6",
+        "count" : "958293"
+      }, {
+        "item" : "36",
+        "count" : "941721"
+      }, {
+        "item" : "55",
+        "count" : "902611"
+      }, {
+        "item" : "12",
+        "count" : "657418"
+      }, {
+        "item" : "41",
+        "count" : "576259"
+      }, {
+        "item" : "51",
+        "count" : "565356"
+      }, {
+        "item" : "40",
+        "count" : "546661"
+      }, {
+        "item" : "18",
+        "count" : "530981"
+      }, {
+        "item" : "31",
+        "count" : "516834"
+      }, {
+        "item" : "27",
+        "count" : "509570"
+      }, {
+        "item" : "13",
+        "count" : "499372"
+      }, {
+        "item" : "39",
+        "count" : "487411"
+      }, {
+        "item" : "4",
+        "count" : "487034"
+      }, {
+        "item" : "37",
+        "count" : "471691"
+      }, {
+        "item" : "17",
+        "count" : "445757"
+      }, {
+        "item" : "19",
+        "count" : "431327"
+      }, {
+        "item" : "25",
+        "count" : "406076"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754888,
+    "name" : "TERRAIN_TYPE",
+    "dataTypeName" : "number",
+    "description" : "Terrain Type",
+    "fieldName" : "terrain_type",
+    "position" : 81,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252038,
+    "cachedContents" : {
+      "non_null" : "1628815",
+      "largest" : "3",
+      "null" : "17944924",
+      "top" : [ {
+        "item" : "1",
+        "count" : "877060"
+      }, {
+        "item" : "2",
+        "count" : "644929"
+      }, {
+        "item" : "3",
+        "count" : "106826"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754889,
+    "name" : "THICKNESS_FLEXIBLE",
+    "dataTypeName" : "number",
+    "description" : "Thickness of Flexible Pavement",
+    "fieldName" : "thickness_flexible",
+    "position" : 82,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252063,
+    "cachedContents" : {
+      "non_null" : "2452472",
+      "largest" : "45.5",
+      "null" : "17121267",
+      "top" : [ {
+        "item" : "6.0",
+        "count" : "356928"
+      }, {
+        "item" : "4.0",
+        "count" : "225431"
+      }, {
+        "item" : "3.0",
+        "count" : "184136"
+      }, {
+        "item" : "12.0",
+        "count" : "167880"
+      }, {
+        "item" : "5.0",
+        "count" : "154387"
+      }, {
+        "item" : "7.0",
+        "count" : "139589"
+      }, {
+        "item" : "8.0",
+        "count" : "139565"
+      }, {
+        "item" : "2.0",
+        "count" : "128035"
+      }, {
+        "item" : "10.0",
+        "count" : "83248"
+      }, {
+        "item" : "4.5",
+        "count" : "82516"
+      }, {
+        "item" : "9.0",
+        "count" : "78511"
+      }, {
+        "item" : "14.0",
+        "count" : "64149"
+      }, {
+        "item" : "1.0",
+        "count" : "58178"
+      }, {
+        "item" : "1.5",
+        "count" : "49784"
+      }, {
+        "item" : "11.0",
+        "count" : "48088"
+      }, {
+        "item" : "5.5",
+        "count" : "45036"
+      }, {
+        "item" : "2.5",
+        "count" : "43492"
+      }, {
+        "item" : "6.5",
+        "count" : "41082"
+      }, {
+        "item" : "7.5",
+        "count" : "39765"
+      }, {
+        "item" : "3.5",
+        "count" : "37721"
+      } ],
+      "smallest" : "0.3",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754890,
+    "name" : "THICKNESS_RIGID",
+    "dataTypeName" : "text",
+    "description" : "Thickness of Rigid Pavement",
+    "fieldName" : "thickness_rigid",
+    "position" : 83,
+    "renderTypeName" : "text",
+    "tableColumnId" : 162252084,
+    "cachedContents" : {
+      "non_null" : "621541",
+      "largest" : "9.9",
+      "null" : "18952198",
+      "top" : [ {
+        "item" : "10.0",
+        "count" : "149549"
+      }, {
+        "item" : "11.0",
+        "count" : "76610"
+      }, {
+        "item" : "8.0",
+        "count" : "76068"
+      }, {
+        "item" : "9.0",
+        "count" : "73570"
+      }, {
+        "item" : "7.0",
+        "count" : "55518"
+      }, {
+        "item" : "6.0",
+        "count" : "47501"
+      }, {
+        "item" : "12.0",
+        "count" : "34332"
+      }, {
+        "item" : "14.0",
+        "count" : "22242"
+      }, {
+        "item" : "4.0",
+        "count" : "11107"
+      }, {
+        "item" : "13.0",
+        "count" : "10284"
+      }, {
+        "item" : "5.0",
+        "count" : "9076"
+      }, {
+        "item" : "16.0",
+        "count" : "8031"
+      }, {
+        "item" : "2.0",
+        "count" : "7098"
+      }, {
+        "item" : "3.0",
+        "count" : "3847"
+      }, {
+        "item" : "9.5",
+        "count" : "3198"
+      }, {
+        "item" : "10.5",
+        "count" : "2721"
+      }, {
+        "item" : "7.5",
+        "count" : "2676"
+      }, {
+        "item" : "8.5",
+        "count" : "2584"
+      }, {
+        "item" : "15.0",
+        "count" : "2536"
+      }, {
+        "item" : "17.0",
+        "count" : "2521"
+      } ],
+      "smallest" : "0.5",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : { }
+  }, {
+    "id" : 620754891,
+    "name" : "THROUGH_LANES",
+    "dataTypeName" : "number",
+    "description" : "Number of Through Lanes",
+    "fieldName" : "through_lanes",
+    "position" : 84,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252002,
+    "cachedContents" : {
+      "non_null" : "12098663",
+      "largest" : "17",
+      "null" : "7475076",
+      "top" : [ {
+        "item" : "2",
+        "count" : "9156530"
+      }, {
+        "item" : "4",
+        "count" : "2072731"
+      }, {
+        "item" : "6",
+        "count" : "327377"
+      }, {
+        "item" : "1",
+        "count" : "238374"
+      }, {
+        "item" : "3",
+        "count" : "122045"
+      }, {
+        "item" : "8",
+        "count" : "77573"
+      }, {
+        "item" : "5",
+        "count" : "45605"
+      }, {
+        "item" : "10",
+        "count" : "23417"
+      }, {
+        "item" : "7",
+        "count" : "14407"
+      }, {
+        "item" : "9",
+        "count" : "7286"
+      }, {
+        "item" : "12",
+        "count" : "7028"
+      }, {
+        "item" : "11",
+        "count" : "3493"
+      }, {
+        "item" : "14",
+        "count" : "1452"
+      }, {
+        "item" : "13",
+        "count" : "899"
+      }, {
+        "item" : "15",
+        "count" : "237"
+      }, {
+        "item" : "16",
+        "count" : "190"
+      }, {
+        "item" : "17",
+        "count" : "19"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754892,
+    "name" : "TOLL_ID",
+    "dataTypeName" : "text",
+    "description" : "FHWA Toll ID Number",
+    "fieldName" : "toll_id",
+    "position" : 85,
+    "renderTypeName" : "text",
+    "tableColumnId" : 162251998,
+    "cachedContents" : {
+      "non_null" : "89114",
+      "largest" : "99",
+      "null" : "19484625",
+      "top" : [ {
+        "item" : "183",
+        "count" : "7718"
+      }, {
+        "item" : "103",
+        "count" : "3934"
+      }, {
+        "item" : "208",
+        "count" : "3641"
+      }, {
+        "item" : "90",
+        "count" : "3397"
+      }, {
+        "item" : "46",
+        "count" : "3308"
+      }, {
+        "item" : "196",
+        "count" : "2993"
+      }, {
+        "item" : "78",
+        "count" : "2733"
+      }, {
+        "item" : "83",
+        "count" : "2710"
+      }, {
+        "item" : "154",
+        "count" : "2262"
+      }, {
+        "item" : "288",
+        "count" : "2088"
+      }, {
+        "item" : "152",
+        "count" : "1637"
+      }, {
+        "item" : "324",
+        "count" : "1415"
+      }, {
+        "item" : "210",
+        "count" : "1297"
+      }, {
+        "item" : "290",
+        "count" : "1241"
+      }, {
+        "item" : "200",
+        "count" : "1234"
+      }, {
+        "item" : "267",
+        "count" : "1226"
+      }, {
+        "item" : "199",
+        "count" : "1141"
+      }, {
+        "item" : "197",
+        "count" : "1103"
+      }, {
+        "item" : "198",
+        "count" : "1092"
+      }, {
+        "item" : "76",
+        "count" : "1079"
+      } ],
+      "smallest" : "100",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : { }
+  }, {
+    "id" : 620754893,
+    "name" : "TRAVEL_TIME_CODE",
+    "dataTypeName" : "text",
+    "description" : "Travel Time Code for PM3 Reporting",
+    "fieldName" : "travel_time_code",
+    "position" : 86,
+    "renderTypeName" : "text",
+    "tableColumnId" : 162252018,
+    "cachedContents" : {
+      "non_null" : "10157",
+      "largest" : "996",
+      "null" : "19563582",
+      "top" : [ {
+        "item" : "335",
+        "count" : "116"
+      }, {
+        "item" : "3843",
+        "count" : "102"
+      }, {
+        "item" : "247",
+        "count" : "93"
+      }, {
+        "item" : "57",
+        "count" : "85"
+      }, {
+        "item" : "1122",
+        "count" : "84"
+      }, {
+        "item" : "552",
+        "count" : "78"
+      }, {
+        "item" : "1164",
+        "count" : "76"
+      }, {
+        "item" : "334",
+        "count" : "73"
+      }, {
+        "item" : "3805",
+        "count" : "68"
+      }, {
+        "item" : "3737",
+        "count" : "67"
+      }, {
+        "item" : "796",
+        "count" : "65"
+      }, {
+        "item" : "517",
+        "count" : "64"
+      }, {
+        "item" : "550",
+        "count" : "64"
+      }, {
+        "item" : "3830",
+        "count" : "63"
+      }, {
+        "item" : "3855",
+        "count" : "62"
+      }, {
+        "item" : "644",
+        "count" : "62"
+      }, {
+        "item" : "4273",
+        "count" : "61"
+      }, {
+        "item" : "621",
+        "count" : "61"
+      }, {
+        "item" : "3718",
+        "count" : "61"
+      }, {
+        "item" : "2628",
+        "count" : "61"
+      } ],
+      "smallest" : "100",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : { }
+  }, {
+    "id" : 620754894,
+    "name" : "TURN_LANES_L",
+    "dataTypeName" : "number",
+    "description" : "Presence of Left Turn Lanes",
+    "fieldName" : "turn_lanes_l",
+    "position" : 87,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252026,
+    "cachedContents" : {
+      "non_null" : "1796521",
+      "largest" : "6",
+      "null" : "17777218",
+      "top" : [ {
+        "item" : "5",
+        "count" : "827711"
+      }, {
+        "item" : "1",
+        "count" : "489496"
+      }, {
+        "item" : "4",
+        "count" : "310621"
+      }, {
+        "item" : "3",
+        "count" : "89796"
+      }, {
+        "item" : "2",
+        "count" : "67697"
+      }, {
+        "item" : "6",
+        "count" : "11200"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754895,
+    "name" : "TURN_LANES_R",
+    "dataTypeName" : "number",
+    "description" : "Presence of Right Turn Lanes",
+    "fieldName" : "turn_lanes_r",
+    "position" : 88,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252007,
+    "cachedContents" : {
+      "non_null" : "1787319",
+      "largest" : "6",
+      "null" : "17786420",
+      "top" : [ {
+        "item" : "5",
+        "count" : "997755"
+      }, {
+        "item" : "1",
+        "count" : "468179"
+      }, {
+        "item" : "4",
+        "count" : "258955"
+      }, {
+        "item" : "2",
+        "count" : "36564"
+      }, {
+        "item" : "6",
+        "count" : "13623"
+      }, {
+        "item" : "3",
+        "count" : "12243"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754896,
+    "name" : "URBAN_ID",
+    "dataTypeName" : "number",
+    "description" : "Census Urban Area Code",
+    "fieldName" : "urban_id",
+    "position" : 89,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252023,
+    "cachedContents" : {
+      "non_null" : "18340293",
+      "largest" : "99999",
+      "null" : "1233446",
+      "top" : [ {
+        "item" : "99999",
+        "count" : "9236009"
+      }, {
+        "item" : "99998",
+        "count" : "1846327"
+      }, {
+        "item" : "63217",
+        "count" : "251988"
+      }, {
+        "item" : "69076",
+        "count" : "198400"
+      }, {
+        "item" : "51445",
+        "count" : "193543"
+      }, {
+        "item" : "9271",
+        "count" : "190860"
+      }, {
+        "item" : "3817",
+        "count" : "158633"
+      }, {
+        "item" : "16264",
+        "count" : "150466"
+      }, {
+        "item" : "92242",
+        "count" : "132260"
+      }, {
+        "item" : "22042",
+        "count" : "128658"
+      }, {
+        "item" : "77770",
+        "count" : "127135"
+      }, {
+        "item" : "40429",
+        "count" : "126653"
+      }, {
+        "item" : "57628",
+        "count" : "126473"
+      }, {
+        "item" : "57466",
+        "count" : "109144"
+      }, {
+        "item" : "69697",
+        "count" : "106082"
+      }, {
+        "item" : "43912",
+        "count" : "99052"
+      }, {
+        "item" : "23824",
+        "count" : "82130"
+      }, {
+        "item" : "79093",
+        "count" : "74564"
+      }, {
+        "item" : "72505",
+        "count" : "67094"
+      }, {
+        "item" : "80389",
+        "count" : "66913"
+      } ],
+      "smallest" : "280",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "noCommas" : "true"
+    }
+  }, {
+    "id" : 620754897,
+    "name" : "WIDENING_OBSTACLE",
+    "dataTypeName" : "text",
+    "description" : "Widening Obstacles ",
+    "fieldName" : "widening_obstacle",
+    "position" : 90,
+    "renderTypeName" : "text",
+    "tableColumnId" : 162252047,
+    "cachedContents" : {
+      "non_null" : "1889265",
+      "largest" : "X",
+      "null" : "17684474",
+      "top" : [ {
+        "item" : "X",
+        "count" : "612997"
+      }, {
+        "item" : "A",
+        "count" : "445533"
+      }, {
+        "item" : "D",
+        "count" : "151028"
+      }, {
+        "item" : "F",
+        "count" : "87265"
+      }, {
+        "item" : "B",
+        "count" : "74852"
+      }, {
+        "item" : "x",
+        "count" : "30683"
+      }, {
+        "item" : "AC",
+        "count" : "29354"
+      }, {
+        "item" : "E",
+        "count" : "29002"
+      }, {
+        "item" : "BF",
+        "count" : "27783"
+      }, {
+        "item" : "AD",
+        "count" : "26478"
+      }, {
+        "item" : "DF",
+        "count" : "24578"
+      }, {
+        "item" : "AF",
+        "count" : "22131"
+      }, {
+        "item" : "AE",
+        "count" : "20904"
+      }, {
+        "item" : "FE",
+        "count" : "20345"
+      }, {
+        "item" : "C",
+        "count" : "19031"
+      }, {
+        "item" : "AB",
+        "count" : "18941"
+      }, {
+        "item" : "FEG",
+        "count" : "11498"
+      }, {
+        "item" : "G",
+        "count" : "9994"
+      }, {
+        "item" : "FG",
+        "count" : "9536"
+      }, {
+        "item" : "BD",
+        "count" : "8774"
+      } ],
+      "smallest" : "a",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : { }
+  }, {
+    "id" : 620754898,
+    "name" : "WIDENING_POTENTIAL",
+    "dataTypeName" : "number",
+    "description" : "Widening Potential (Number of Lanes)",
+    "fieldName" : "widening_potential",
+    "position" : 91,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252058,
+    "cachedContents" : {
+      "non_null" : "1935975",
+      "largest" : "4",
+      "null" : "17637764",
+      "top" : [ {
+        "item" : "4",
+        "count" : "838859"
+      }, {
+        "item" : "2",
+        "count" : "530457"
+      }, {
+        "item" : "1",
+        "count" : "321536"
+      }, {
+        "item" : "3",
+        "count" : "245123"
+      } ],
+      "smallest" : "1",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 620754899,
+    "name" : "YEAR_LAST_CONSTRUCTION",
+    "dataTypeName" : "calendar_date",
+    "description" : "Date of Last Construction",
+    "fieldName" : "year_last_construction",
+    "position" : 92,
+    "renderTypeName" : "calendar_date",
+    "tableColumnId" : 163104900,
+    "cachedContents" : {
+      "non_null" : "2504906",
+      "largest" : "2024-01-01T00:00:00.000",
+      "null" : "17068833",
+      "top" : [ {
+        "item" : "1902-01-01T00:00:00.000",
+        "count" : "104873"
+      }, {
+        "item" : "1987-01-01T00:00:00.000",
+        "count" : "75559"
+      }, {
+        "item" : "1998-01-01T00:00:00.000",
+        "count" : "65600"
+      }, {
+        "item" : "2024-01-01T00:00:00.000",
+        "count" : "51761"
+      }, {
+        "item" : "2000-01-01T00:00:00.000",
+        "count" : "46219"
+      }, {
+        "item" : "1900-01-01T00:00:00.000",
+        "count" : "41395"
+      }, {
+        "item" : "1995-01-01T00:00:00.000",
+        "count" : "40919"
+      }, {
+        "item" : "1989-01-01T00:00:00.000",
+        "count" : "40659"
+      }, {
+        "item" : "1993-01-01T00:00:00.000",
+        "count" : "39576"
+      }, {
+        "item" : "1952-01-01T00:00:00.000",
+        "count" : "38897"
+      }, {
+        "item" : "2015-01-01T00:00:00.000",
+        "count" : "38371"
+      }, {
+        "item" : "2020-01-01T00:00:00.000",
+        "count" : "36559"
+      }, {
+        "item" : "1975-01-01T00:00:00.000",
+        "count" : "35965"
+      }, {
+        "item" : "2012-01-01T00:00:00.000",
+        "count" : "35944"
+      }, {
+        "item" : "2010-01-01T00:00:00.000",
+        "count" : "35579"
+      }, {
+        "item" : "1950-01-01T00:00:00.000",
+        "count" : "35173"
+      }, {
+        "item" : "1997-01-01T00:00:00.000",
+        "count" : "33154"
+      }, {
+        "item" : "2017-01-01T00:00:00.000",
+        "count" : "32515"
+      }, {
+        "item" : "1970-01-01T00:00:00.000",
+        "count" : "32289"
+      }, {
+        "item" : "1988-01-01T00:00:00.000",
+        "count" : "31657"
+      } ],
+      "smallest" : "1753-01-01T00:00:00.000",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "view" : "date_y"
+    }
+  }, {
+    "id" : 620754900,
+    "name" : "YEAR_LAST_IMPROVEMENT",
+    "dataTypeName" : "calendar_date",
+    "description" : "Date of Last Improvement",
+    "fieldName" : "year_last_improvement",
+    "position" : 93,
+    "renderTypeName" : "calendar_date",
+    "tableColumnId" : 162252033,
+    "cachedContents" : {
+      "non_null" : "2973902",
+      "largest" : "2024-01-01T00:00:00.000",
+      "null" : "16599837",
+      "top" : [ {
+        "item" : "2017-01-01T00:00:00.000",
+        "count" : "247805"
+      }, {
+        "item" : "2020-01-01T00:00:00.000",
+        "count" : "155954"
+      }, {
+        "item" : "2018-01-01T00:00:00.000",
+        "count" : "153908"
+      }, {
+        "item" : "2019-01-01T00:00:00.000",
+        "count" : "145003"
+      }, {
+        "item" : "2016-01-01T00:00:00.000",
+        "count" : "132868"
+      }, {
+        "item" : "2021-01-01T00:00:00.000",
+        "count" : "128141"
+      }, {
+        "item" : "2015-01-01T00:00:00.000",
+        "count" : "126303"
+      }, {
+        "item" : "2012-01-01T00:00:00.000",
+        "count" : "122875"
+      }, {
+        "item" : "2014-01-01T00:00:00.000",
+        "count" : "122760"
+      }, {
+        "item" : "2024-01-01T00:00:00.000",
+        "count" : "120806"
+      }, {
+        "item" : "2022-01-01T00:00:00.000",
+        "count" : "113468"
+      }, {
+        "item" : "2013-01-01T00:00:00.000",
+        "count" : "103205"
+      }, {
+        "item" : "2023-01-01T00:00:00.000",
+        "count" : "99762"
+      }, {
+        "item" : "2011-01-01T00:00:00.000",
+        "count" : "99733"
+      }, {
+        "item" : "2010-01-01T00:00:00.000",
+        "count" : "97544"
+      }, {
+        "item" : "2008-01-01T00:00:00.000",
+        "count" : "80119"
+      }, {
+        "item" : "2009-01-01T00:00:00.000",
+        "count" : "73948"
+      }, {
+        "item" : "2000-01-01T00:00:00.000",
+        "count" : "54881"
+      }, {
+        "item" : "2007-01-01T00:00:00.000",
+        "count" : "54708"
+      }, {
+        "item" : "1988-01-01T00:00:00.000",
+        "count" : "54502"
+      } ],
+      "smallest" : "1893-01-01T00:00:00.000",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "view" : "date_y"
+    }
+  }, {
+    "id" : 620754901,
+    "name" : "YEAR_RECORD",
+    "dataTypeName" : "number",
+    "description" : "Record Year",
+    "fieldName" : "year_record",
+    "position" : 94,
+    "renderTypeName" : "number",
+    "tableColumnId" : 162252062,
+    "cachedContents" : {
+      "non_null" : "19573739",
+      "largest" : "2024",
+      "null" : "0",
+      "top" : [ {
+        "item" : "2024",
+        "count" : "19573739"
+      } ],
+      "smallest" : "2024",
+      "count" : "19573739",
+      "cardinality" : "19573739"
+    },
+    "format" : {
+      "noCommas" : "true"
+    }
+  }, {
+    "id" : 620754902,
+    "name" : "line",
+    "dataTypeName" : "line",
+    "description" : "",
+    "fieldName" : "line",
+    "position" : 95,
+    "renderTypeName" : "line",
+    "tableColumnId" : 162252069,
+    "format" : { }
+  } ],
+  "grants" : [ {
+    "inherited" : false,
+    "type" : "viewer",
+    "flags" : [ "public" ]
+  } ],
+  "license" : {
+    "name" : "Public Domain U.S. Government",
+    "termsLink" : "https://www.usa.gov/government-works"
+  },
+  "metadata" : {
+    "attachments" : [ {
+      "filename" : "README_2024_HPMS_All.md",
+      "assetId" : "4adc6967-ce30-434e-b02d-7393b97ee673",
+      "name" : "README_2024_HPMS_All.md"
+    }, {
+      "filename" : "HPMS_Geospatial_Data_Extractor_V1.1.zip",
+      "assetId" : "92554e8a-2382-462b-b1d9-0ecd173d9b6c",
+      "name" : "HPMS_Geospatial_Data_Extractor_V1.1.zip"
+    } ],
+    "custom_fields" : {
+      "Common Core Extensions" : {
+        "agencyDataSeriesURL" : "https://github.com/FHWA/HPMS/blob/2024-HPMS/README_2024_HPMS_All.md"
+      },
+      "Common Core" : {
+        "Homepage" : "https://www.fhwa.dot.gov/policyinformation/",
+        "Primary IT Investment UII" : "021-099281808",
+        "Contact Name" : "Highway System Performance Division",
+        "License" : "http://www.usa.gov/publicdomain/label/1.0/",
+        "Program Code" : "021:000",
+        "Publisher" : "Federal Highway Administration",
+        "System of Records" : "https://www.govinfo.gov/content/pkg/FR-2006-05-03/pdf/E6-6510.pdf",
+        "Is Quality Data" : "true",
+        "Bureau Code" : "021:15",
+        "Contact Email" : "PolicyInfoFeedback@dot.gov",
+        "Language" : "en-US",
+        "Described By" : "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+        "Update Frequency\t" : "R/P1Y",
+        "Issued" : "11/10/2025",
+        "Theme" : "Roads and Highways",
+        "Public Access Level" : "public"
+      }
+    },
+    "rowLabel" : "Roadway Section",
+    "availableDisplayTypes" : [ "table", "fatrow", "page" ]
+  },
+  "owner" : {
+    "id" : "56x8-w9tb",
+    "createdAt" : 1713444993,
+    "displayName" : "FHWA-Data Team",
+    "screenName" : "FHWA-Data Team",
+    "type" : "team",
+    "members" : [ {
+      "id" : "ffdv-8yek",
+      "createdAt" : 1687443402,
+      "displayName" : "Tyagi, Ankur CTR (FHWA)",
+      "screenName" : "Tyagi, Ankur CTR (FHWA)",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "qpit-wmnt",
+      "createdAt" : 1521204172,
+      "displayName" : "Brian Brotsos",
+      "profileImageUrlLarge" : "/api/users/qpit-wmnt/profile_images/LARGE",
+      "profileImageUrlMedium" : "/api/users/qpit-wmnt/profile_images/THUMB",
+      "profileImageUrlSmall" : "/api/users/qpit-wmnt/profile_images/TINY",
+      "screenName" : "Brian Brotsos",
+      "teamId" : 1596954,
+      "teamRole" : "owner",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "kge8-yk5p",
+      "createdAt" : 1758917188,
+      "displayName" : "Cade McAfee",
+      "screenName" : "Cade McAfee",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "pcuz-ijc9",
+      "createdAt" : 1617047185,
+      "displayName" : "Allen, Chris (FHWA)",
+      "screenName" : "Allen, Chris (FHWA)",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "2gu3-zysa",
+      "createdAt" : 1531916529,
+      "displayName" : "Winter, David (FHWA)",
+      "profileImageUrlLarge" : "/api/users/2gu3-zysa/profile_images/LARGE",
+      "profileImageUrlMedium" : "/api/users/2gu3-zysa/profile_images/THUMB",
+      "profileImageUrlSmall" : "/api/users/2gu3-zysa/profile_images/TINY",
+      "screenName" : "Winter, David (FHWA)",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "i7va-seiz",
+      "createdAt" : 1685981249,
+      "displayName" : "Phillips, Deborah (FHWA)",
+      "screenName" : "Phillips, Deborah (FHWA)",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "qyns-w4cs",
+      "createdAt" : 1662479411,
+      "displayName" : "Duncan, Gary (FHWA)",
+      "screenName" : "Duncan, Gary (FHWA)",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "kdmh-ts7e",
+      "createdAt" : 1714518106,
+      "displayName" : "Getachew Mekonnen",
+      "screenName" : "Getachew Mekonnen",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "tgc3-5j4z",
+      "createdAt" : 1713477861,
+      "displayName" : "FHWA Data Team",
+      "screenName" : "FHWA Data Team",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "xht9-gq8f",
+      "createdAt" : 1670012307,
+      "displayName" : "Applewhite, Kimberly (FHWA)",
+      "screenName" : "Applewhite, Kimberly (FHWA)",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "gd3c-f8ei",
+      "createdAt" : 1602087613,
+      "displayName" : "Dawkins, Matthew (FHWA)",
+      "screenName" : "Dawkins, Matthew (FHWA)",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "ug3c-v6dq",
+      "createdAt" : 1590599537,
+      "displayName" : "Spiel, Matthew (FHWA)",
+      "screenName" : "Spiel, Matthew (FHWA)",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "3bdu-prhk",
+      "createdAt" : 1746462962,
+      "displayName" : "michael.latuszek@dot.gov michael.latuszek@dot.gov",
+      "screenName" : "michael.latuszek@dot.gov michael.latuszek@dot.gov",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "6b35-3ksb",
+      "createdAt" : 1600709833,
+      "displayName" : "Banihashemi, Mohamadreza (FHWA)",
+      "screenName" : "Banihashemi, Mohamadreza (FHWA)",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "pe7w-2945",
+      "createdAt" : 1727099105,
+      "displayName" : "Ali",
+      "screenName" : "Ali",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "bu98-a9du",
+      "createdAt" : 1709217218,
+      "displayName" : "Rory Austin",
+      "screenName" : "Rory Austin",
+      "teamId" : 1596954,
+      "teamRole" : "owner",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "jdxj-me32",
+      "createdAt" : 1727899386,
+      "displayName" : "Samuel-Kei Goon",
+      "screenName" : "Samuel-Kei Goon",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "5wwz-d8fr",
+      "createdAt" : 1676637618,
+      "displayName" : "Wang, Shuqing (FHWA)",
+      "screenName" : "Wang, Shuqing (FHWA)",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "qwh9-e3z3",
+      "createdAt" : 1741295129,
+      "displayName" : "Stephen Hickok",
+      "screenName" : "Stephen Hickok",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "d9pg-dywh",
+      "createdAt" : 1583421727,
+      "displayName" : "Dunleavy, Viktoriia (FHWA)",
+      "screenName" : "Dunleavy, Viktoriia (FHWA)",
+      "teamId" : 1596954,
+      "teamRole" : "owner",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "qjj7-pipg",
+      "createdAt" : 1783629272,
+      "displayName" : "YonasTewachew",
+      "screenName" : "YonasTewachew",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    } ]
+  },
+  "query" : { },
+  "rights" : [ "read" ],
+  "tableAuthor" : {
+    "id" : "56x8-w9tb",
+    "createdAt" : 1713444993,
+    "displayName" : "FHWA-Data Team",
+    "screenName" : "FHWA-Data Team",
+    "type" : "team",
+    "members" : [ {
+      "id" : "ffdv-8yek",
+      "createdAt" : 1687443402,
+      "displayName" : "Tyagi, Ankur CTR (FHWA)",
+      "screenName" : "Tyagi, Ankur CTR (FHWA)",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "qpit-wmnt",
+      "createdAt" : 1521204172,
+      "displayName" : "Brian Brotsos",
+      "profileImageUrlLarge" : "/api/users/qpit-wmnt/profile_images/LARGE",
+      "profileImageUrlMedium" : "/api/users/qpit-wmnt/profile_images/THUMB",
+      "profileImageUrlSmall" : "/api/users/qpit-wmnt/profile_images/TINY",
+      "screenName" : "Brian Brotsos",
+      "teamId" : 1596954,
+      "teamRole" : "owner",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "kge8-yk5p",
+      "createdAt" : 1758917188,
+      "displayName" : "Cade McAfee",
+      "screenName" : "Cade McAfee",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "pcuz-ijc9",
+      "createdAt" : 1617047185,
+      "displayName" : "Allen, Chris (FHWA)",
+      "screenName" : "Allen, Chris (FHWA)",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "2gu3-zysa",
+      "createdAt" : 1531916529,
+      "displayName" : "Winter, David (FHWA)",
+      "profileImageUrlLarge" : "/api/users/2gu3-zysa/profile_images/LARGE",
+      "profileImageUrlMedium" : "/api/users/2gu3-zysa/profile_images/THUMB",
+      "profileImageUrlSmall" : "/api/users/2gu3-zysa/profile_images/TINY",
+      "screenName" : "Winter, David (FHWA)",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "i7va-seiz",
+      "createdAt" : 1685981249,
+      "displayName" : "Phillips, Deborah (FHWA)",
+      "screenName" : "Phillips, Deborah (FHWA)",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "qyns-w4cs",
+      "createdAt" : 1662479411,
+      "displayName" : "Duncan, Gary (FHWA)",
+      "screenName" : "Duncan, Gary (FHWA)",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "kdmh-ts7e",
+      "createdAt" : 1714518106,
+      "displayName" : "Getachew Mekonnen",
+      "screenName" : "Getachew Mekonnen",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "tgc3-5j4z",
+      "createdAt" : 1713477861,
+      "displayName" : "FHWA Data Team",
+      "screenName" : "FHWA Data Team",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "xht9-gq8f",
+      "createdAt" : 1670012307,
+      "displayName" : "Applewhite, Kimberly (FHWA)",
+      "screenName" : "Applewhite, Kimberly (FHWA)",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "gd3c-f8ei",
+      "createdAt" : 1602087613,
+      "displayName" : "Dawkins, Matthew (FHWA)",
+      "screenName" : "Dawkins, Matthew (FHWA)",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "ug3c-v6dq",
+      "createdAt" : 1590599537,
+      "displayName" : "Spiel, Matthew (FHWA)",
+      "screenName" : "Spiel, Matthew (FHWA)",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "3bdu-prhk",
+      "createdAt" : 1746462962,
+      "displayName" : "michael.latuszek@dot.gov michael.latuszek@dot.gov",
+      "screenName" : "michael.latuszek@dot.gov michael.latuszek@dot.gov",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "6b35-3ksb",
+      "createdAt" : 1600709833,
+      "displayName" : "Banihashemi, Mohamadreza (FHWA)",
+      "screenName" : "Banihashemi, Mohamadreza (FHWA)",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "pe7w-2945",
+      "createdAt" : 1727099105,
+      "displayName" : "Ali",
+      "screenName" : "Ali",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "bu98-a9du",
+      "createdAt" : 1709217218,
+      "displayName" : "Rory Austin",
+      "screenName" : "Rory Austin",
+      "teamId" : 1596954,
+      "teamRole" : "owner",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "jdxj-me32",
+      "createdAt" : 1727899386,
+      "displayName" : "Samuel-Kei Goon",
+      "screenName" : "Samuel-Kei Goon",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "5wwz-d8fr",
+      "createdAt" : 1676637618,
+      "displayName" : "Wang, Shuqing (FHWA)",
+      "screenName" : "Wang, Shuqing (FHWA)",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "qwh9-e3z3",
+      "createdAt" : 1741295129,
+      "displayName" : "Stephen Hickok",
+      "screenName" : "Stephen Hickok",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "d9pg-dywh",
+      "createdAt" : 1583421727,
+      "displayName" : "Dunleavy, Viktoriia (FHWA)",
+      "screenName" : "Dunleavy, Viktoriia (FHWA)",
+      "teamId" : 1596954,
+      "teamRole" : "owner",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    }, {
+      "id" : "qjj7-pipg",
+      "createdAt" : 1783629272,
+      "displayName" : "YonasTewachew",
+      "screenName" : "YonasTewachew",
+      "teamId" : 1596954,
+      "teamRole" : "member",
+      "type" : "interactive",
+      "flags" : [ "siteMember" ]
+    } ]
+  },
+  "tags" : [ "hpms", "highway performance monitoring system", "vehicle miles traveled", "lane miles", "mileage", "miles", "functional system", "functional classification", "pavement condition", "nhs", "ownership", "hppi", "vmt", "fhwa" ],
+  "flags" : [ "default", "federated", "internalToPublicFederatedView", "ownerMayBeContacted", "restorable", "restorePossibleForType" ]
+}

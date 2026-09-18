@@ -1482,6 +1482,7 @@ const EXPL_D_CLOSURE_JSON_PATH: &str =
 const EXPL_E_CLOSURE_JSON_PATH: &str =
     "data/derived/breadth_benchmark_matrix/expl_e_local_html_experience_closure.v1.draft.json";
 const EXPL_F_CLOSURE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/expl_f_integrated_repository_readiness_closure.v1.draft.json";
+const PEER_SAVINGS_PROFILES_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/peer_informed_savings_and_reinvestment_profiles.ty2026.v1.draft.json";
 const FIFTEEN_TRACK_NEXT_TWO_LEVEL_WAVE_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/fifteen_track_next_two_level_advancement_wave.v1.draft.json";
 const HLT_NEXT_LEVEL_A_JSON_PATH: &str = "data/derived/breadth_benchmark_matrix/hlt_next_level_a_site_neutral_evidence_closure.v1.draft.json";
 const HLT_NEXT_LEVEL_B_JSON_PATH: &str =
@@ -15374,6 +15375,7 @@ fn validate_global_country_comparison_coverage(root: &Path) -> Result<(), String
     validate_expl_d_closure(root)?;
     validate_expl_e_closure(root)?;
     validate_expl_f_closure(root)?;
+    validate_peer_savings_and_reinvestment_profiles(root)?;
     validate_fifteen_track_next_two_level_advancement_wave(root)?;
     validate_rev_level_1_individual_income_rate_candidate_start(root)?;
     validate_health_floor_source_capture_status(root)?;
@@ -63227,6 +63229,159 @@ fn validate_expl_f_closure(root: &Path) -> Result<(), String> {
             .is_some_and(serde_json::Value::is_null)
     {
         return Err("EXPL-F closure failed".to_string());
+    }
+    Ok(())
+}
+
+fn validate_peer_savings_and_reinvestment_profiles(root: &Path) -> Result<(), String> {
+    for path in [
+        PEER_SAVINGS_PROFILES_JSON_PATH,
+        "data/derived/breadth_benchmark_matrix/peer_informed_savings_and_reinvestment_profiles.schema.md",
+        "docs/reading/peer-informed-savings-and-reinvestment-profiles.md",
+        "experiments/rev-level-3-taxcalc/build_peer_savings_profiles.py",
+        "docs/explanation/site/profiles.html",
+    ] {
+        if !root.join(path).is_file() {
+            return Err(format!("missing peer savings profile artifact: {path}"));
+        }
+    }
+    let record = read_json_artifact(root, PEER_SAVINGS_PROFILES_JSON_PATH)?;
+    let model = record.get("model").ok_or("peer savings profile model")?;
+    let decision = record
+        .get("decision")
+        .ok_or("peer savings profile decision")?;
+    let profiles = record
+        .get("profiles")
+        .and_then(serde_json::Value::as_array)
+        .ok_or("peer savings profiles")?;
+    let expected = [
+        (
+            "focused_efficiency_and_reinvestment",
+            225.0,
+            75.0,
+            150.0,
+            663.727,
+            8.9,
+        ),
+        (
+            "balanced_peer_reallocation",
+            450.0,
+            150.0,
+            300.0,
+            513.727,
+            6.8,
+        ),
+        (
+            "ambitious_peer_reallocation",
+            700.0,
+            250.0,
+            450.0,
+            363.727,
+            4.8,
+        ),
+        (
+            "transformative_peer_reallocation",
+            950.0,
+            350.0,
+            600.0,
+            213.727,
+            2.8,
+        ),
+    ];
+    let expected_taxpayers = [
+        ("single_30k", 30_000.0, 3_352.0),
+        ("single_75k", 75_000.0, 11_212.0),
+        ("single_150k", 150_000.0, 28_598.0),
+        ("joint_100k", 100_000.0, 11_504.0),
+        ("joint_250k", 250_000.0, 45_196.0),
+        ("joint_600k", 600_000.0, 147_538.5),
+    ];
+    if string_field(&record, "status")?
+        != "four_goal_seeking_profiles_with_model_scored_central_rate_implications"
+        || string_field(model, "engine")? != "Tax-Calculator 6.5.1"
+        || (number_field(model, "baseline_fy2026_revenue_target_billions")? - 813.727).abs()
+            > 0.0001
+        || profiles.len() != expected.len()
+        || !bool_field(decision, "scenario_profiles_ready")?
+        || !bool_field(decision, "central_rate_implications_model_scored")?
+        || bool_field(decision, "initiative_savings_estimates_ready")?
+        || bool_field(decision, "initiative_savings_admitted")?
+        || bool_field(decision, "official_score_ready")?
+        || bool_field(decision, "public_release_authorized")?
+    {
+        return Err("peer savings profile top-level boundary failed".to_string());
+    }
+    for (profile, expected_row) in profiles.iter().zip(expected) {
+        let savings = profile
+            .get("savings_initiatives")
+            .and_then(serde_json::Value::as_array)
+            .ok_or("peer savings initiatives")?;
+        let reinvestments = profile
+            .get("reinvestment_priorities")
+            .and_then(serde_json::Value::as_array)
+            .ok_or("peer reinvestment priorities")?;
+        let selected = profile
+            .get("selected_central_rate")
+            .ok_or("peer selected central rate")?;
+        let lower = profile
+            .get("lower_tested_rate")
+            .ok_or("peer lower tested rate")?;
+        let taxpayer_examples = profile
+            .get("taxpayer_examples")
+            .and_then(serde_json::Value::as_array)
+            .ok_or("peer taxpayer examples")?;
+        let gross = number_field(profile, "gross_savings_goal_billions")?;
+        let reinvestment = number_field(profile, "reinvestment_goal_billions")?;
+        let net = number_field(profile, "net_savings_goal_billions")?;
+        let target = number_field(profile, "remaining_fy2026_revenue_target_billions")?;
+        let savings_sum = savings
+            .iter()
+            .map(|row| number_field(row, "goal_billions"))
+            .collect::<Result<Vec<_>, _>>()?
+            .iter()
+            .sum::<f64>();
+        let reinvestment_sum = reinvestments
+            .iter()
+            .map(|row| number_field(row, "goal_billions"))
+            .collect::<Result<Vec<_>, _>>()?
+            .iter()
+            .sum::<f64>();
+        if string_field(profile, "profile_id")? != expected_row.0
+            || (gross - expected_row.1).abs() > 0.0001
+            || (reinvestment - expected_row.2).abs() > 0.0001
+            || (net - expected_row.3).abs() > 0.0001
+            || (target - expected_row.4).abs() > 0.0001
+            || (gross - reinvestment - net).abs() > 0.0001
+            || (813.727 - net - target).abs() > 0.0001
+            || (savings_sum - gross).abs() > 0.0001
+            || (reinvestment_sum - reinvestment).abs() > 0.0001
+            || number_field(profile, "admitted_savings_billions")? != 0.0
+            || (number_field(selected, "uniform_uplift_points")? - expected_row.5).abs() > 0.0001
+            || number_field(selected, "final_target_difference_billions")? < 0.0
+            || number_field(lower, "final_target_difference_billions")? >= 0.0
+            || bool_field(lower, "target_met")?
+            || taxpayer_examples.len() != expected_taxpayers.len()
+        {
+            return Err(format!(
+                "peer savings profile identity failed: {}",
+                expected_row.0
+            ));
+        }
+        for (taxpayer, expected_taxpayer) in taxpayer_examples.iter().zip(expected_taxpayers) {
+            let income = number_field(taxpayer, "taxable_ordinary_income_dollars")?;
+            let scenario_tax = number_field(taxpayer, "scenario_ordinary_bracket_tax_dollars")?;
+            let difference = number_field(taxpayer, "difference_from_current_law_dollars")?;
+            if string_field(taxpayer, "profile_id")? != expected_taxpayer.0
+                || (income - expected_taxpayer.1).abs() > 0.001
+                || (difference - income * expected_row.5 / 100.0).abs() > 0.01
+                || (scenario_tax - difference - expected_taxpayer.2).abs() > 0.01
+            {
+                return Err(format!(
+                    "peer savings taxpayer example failed: {} / {}",
+                    expected_row.0, expected_taxpayer.0
+                ));
+            }
+        }
     }
     Ok(())
 }

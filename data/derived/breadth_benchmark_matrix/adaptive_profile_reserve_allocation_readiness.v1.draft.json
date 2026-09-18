@@ -1,0 +1,328 @@
+{
+  "record_id": "adaptive-profile-reserve-allocation-readiness:v1",
+  "record_family": "adaptive_profile_reserve_allocation_readiness",
+  "version": "v1.draft",
+  "status": "four_profiles_audited_zero_provisional_allocation",
+  "as_of_date": "2026-07-28",
+  "contract_path": "data/derived/breadth_benchmark_matrix/adaptive_needs_scoring_allocation_contract.v1.draft.json",
+  "triage_path": "data/derived/breadth_benchmark_matrix/adaptive_needs_all_lane_triage.v1.draft.json",
+  "profiles_path": "data/derived/breadth_benchmark_matrix/peer_informed_savings_and_reinvestment_profiles.ty2026.v1.draft.json",
+  "dossiers_path": "data/derived/breadth_benchmark_matrix/adaptive_initial_intervention_dossiers.v1.draft.json",
+  "lane_admission_audit": [
+    {
+      "track": "HLT",
+      "lane_id": "health-medicare",
+      "reserve_role": "eligible_service_lane",
+      "dossier_id": null,
+      "allocation_ready": false,
+      "missing_inputs": [
+        "pain_severity_score",
+        "affected_population_score",
+        "urgency_and_reversibility_score",
+        "marginal_outcome_gain_score",
+        "equity_score",
+        "whole_system_net_value_score",
+        "intervention_evidence_multiplier",
+        "delivery_confidence_multiplier",
+        "candidate_cap_billions",
+        "pain_aligned_intervention_dossier",
+        "allocation_admission_gates_passed"
+      ],
+      "priority_score": null
+    },
+    {
+      "track": "OAS",
+      "lane_id": "social-security",
+      "reserve_role": "separate_rail",
+      "allocation_ready": false,
+      "missing_inputs": [],
+      "priority_score": null
+    },
+    {
+      "track": "DEF",
+      "lane_id": "national-defense",
+      "reserve_role": "eligible_service_lane",
+      "dossier_id": null,
+      "allocation_ready": false,
+      "missing_inputs": [
+        "pain_severity_score",
+        "affected_population_score",
+        "urgency_and_reversibility_score",
+        "marginal_outcome_gain_score",
+        "equity_score",
+        "whole_system_net_value_score",
+        "intervention_evidence_multiplier",
+        "delivery_confidence_multiplier",
+        "candidate_cap_billions",
+        "pain_aligned_intervention_dossier",
+        "allocation_admission_gates_passed"
+      ],
+      "priority_score": null
+    },
+    {
+      "track": "ISF",
+      "lane_id": "income-security-family",
+      "reserve_role": "eligible_service_lane",
+      "dossier_id": "ISF-PAIN-01",
+      "allocation_ready": false,
+      "missing_inputs": [
+        "pain_severity_score",
+        "affected_population_score",
+        "urgency_and_reversibility_score",
+        "marginal_outcome_gain_score",
+        "equity_score",
+        "whole_system_net_value_score",
+        "intervention_evidence_multiplier",
+        "delivery_confidence_multiplier",
+        "candidate_cap_billions",
+        "allocation_admission_gates_passed"
+      ],
+      "priority_score": null
+    },
+    {
+      "track": "EDU",
+      "lane_id": "education-workforce",
+      "reserve_role": "eligible_service_lane",
+      "dossier_id": null,
+      "allocation_ready": false,
+      "missing_inputs": [
+        "pain_severity_score",
+        "affected_population_score",
+        "urgency_and_reversibility_score",
+        "marginal_outcome_gain_score",
+        "equity_score",
+        "whole_system_net_value_score",
+        "intervention_evidence_multiplier",
+        "delivery_confidence_multiplier",
+        "candidate_cap_billions",
+        "pain_aligned_intervention_dossier",
+        "allocation_admission_gates_passed"
+      ],
+      "priority_score": null
+    },
+    {
+      "track": "VET",
+      "lane_id": "veterans",
+      "reserve_role": "eligible_service_lane",
+      "dossier_id": "VET-PAIN-01",
+      "allocation_ready": false,
+      "missing_inputs": [
+        "pain_severity_score",
+        "affected_population_score",
+        "urgency_and_reversibility_score",
+        "marginal_outcome_gain_score",
+        "equity_score",
+        "whole_system_net_value_score",
+        "intervention_evidence_multiplier",
+        "delivery_confidence_multiplier",
+        "candidate_cap_billions",
+        "allocation_admission_gates_passed"
+      ],
+      "priority_score": null
+    },
+    {
+      "track": "DIS",
+      "lane_id": "disaster-resilience",
+      "reserve_role": "eligible_service_lane",
+      "dossier_id": null,
+      "allocation_ready": false,
+      "missing_inputs": [
+        "pain_severity_score",
+        "affected_population_score",
+        "urgency_and_reversibility_score",
+        "marginal_outcome_gain_score",
+        "equity_score",
+        "whole_system_net_value_score",
+        "intervention_evidence_multiplier",
+        "delivery_confidence_multiplier",
+        "candidate_cap_billions",
+        "pain_aligned_intervention_dossier",
+        "allocation_admission_gates_passed"
+      ],
+      "priority_score": null
+    },
+    {
+      "track": "JUS",
+      "lane_id": "justice-courts-public-safety",
+      "reserve_role": "eligible_service_lane",
+      "dossier_id": null,
+      "allocation_ready": false,
+      "missing_inputs": [
+        "pain_severity_score",
+        "affected_population_score",
+        "urgency_and_reversibility_score",
+        "marginal_outcome_gain_score",
+        "equity_score",
+        "whole_system_net_value_score",
+        "intervention_evidence_multiplier",
+        "delivery_confidence_multiplier",
+        "candidate_cap_billions",
+        "pain_aligned_intervention_dossier",
+        "allocation_admission_gates_passed"
+      ],
+      "priority_score": null
+    },
+    {
+      "track": "SEE",
+      "lane_id": "science-energy-environment",
+      "reserve_role": "eligible_service_lane",
+      "dossier_id": null,
+      "allocation_ready": false,
+      "missing_inputs": [
+        "pain_severity_score",
+        "affected_population_score",
+        "urgency_and_reversibility_score",
+        "marginal_outcome_gain_score",
+        "equity_score",
+        "whole_system_net_value_score",
+        "intervention_evidence_multiplier",
+        "delivery_confidence_multiplier",
+        "candidate_cap_billions",
+        "pain_aligned_intervention_dossier",
+        "allocation_admission_gates_passed"
+      ],
+      "priority_score": null
+    },
+    {
+      "track": "AGR",
+      "lane_id": "agriculture",
+      "reserve_role": "eligible_service_lane",
+      "dossier_id": null,
+      "allocation_ready": false,
+      "missing_inputs": [
+        "pain_severity_score",
+        "affected_population_score",
+        "urgency_and_reversibility_score",
+        "marginal_outcome_gain_score",
+        "equity_score",
+        "whole_system_net_value_score",
+        "intervention_evidence_multiplier",
+        "delivery_confidence_multiplier",
+        "candidate_cap_billions",
+        "pain_aligned_intervention_dossier",
+        "allocation_admission_gates_passed"
+      ],
+      "priority_score": null
+    },
+    {
+      "track": "INT",
+      "lane_id": "international-affairs",
+      "reserve_role": "eligible_service_lane",
+      "dossier_id": null,
+      "allocation_ready": false,
+      "missing_inputs": [
+        "pain_severity_score",
+        "affected_population_score",
+        "urgency_and_reversibility_score",
+        "marginal_outcome_gain_score",
+        "equity_score",
+        "whole_system_net_value_score",
+        "intervention_evidence_multiplier",
+        "delivery_confidence_multiplier",
+        "candidate_cap_billions",
+        "pain_aligned_intervention_dossier",
+        "allocation_admission_gates_passed"
+      ],
+      "priority_score": null
+    },
+    {
+      "track": "TRN",
+      "lane_id": "transportation-infrastructure",
+      "reserve_role": "eligible_service_lane",
+      "dossier_id": "TRN-PAIN-01",
+      "allocation_ready": false,
+      "missing_inputs": [
+        "pain_severity_score",
+        "affected_population_score",
+        "urgency_and_reversibility_score",
+        "marginal_outcome_gain_score",
+        "equity_score",
+        "whole_system_net_value_score",
+        "intervention_evidence_multiplier",
+        "delivery_confidence_multiplier",
+        "candidate_cap_billions",
+        "allocation_admission_gates_passed"
+      ],
+      "priority_score": null
+    },
+    {
+      "track": "REV",
+      "lane_id": "revenue-solvency",
+      "reserve_role": "separate_rail",
+      "allocation_ready": false,
+      "missing_inputs": [],
+      "priority_score": null
+    },
+    {
+      "track": "PAY",
+      "lane_id": "payment-integrity",
+      "reserve_role": "separate_rail",
+      "allocation_ready": false,
+      "missing_inputs": [],
+      "priority_score": null
+    },
+    {
+      "track": "NET",
+      "lane_id": "net-interest",
+      "reserve_role": "separate_rail",
+      "allocation_ready": false,
+      "missing_inputs": [],
+      "priority_score": null
+    }
+  ],
+  "profile_results": [
+    {
+      "profile_id": "focused_efficiency_and_reinvestment",
+      "label": "Focused",
+      "reserve_billions": 75.0,
+      "contingency_billions": 7.5,
+      "provisionally_allocated_billions": 0,
+      "unallocated_pending_evidence_billions": 75.0,
+      "lane_allocations": [],
+      "status": "no_lane_clears_allocation_admission_gates"
+    },
+    {
+      "profile_id": "balanced_peer_reallocation",
+      "label": "Balanced",
+      "reserve_billions": 150.0,
+      "contingency_billions": 15.0,
+      "provisionally_allocated_billions": 0,
+      "unallocated_pending_evidence_billions": 150.0,
+      "lane_allocations": [],
+      "status": "no_lane_clears_allocation_admission_gates"
+    },
+    {
+      "profile_id": "ambitious_peer_reallocation",
+      "label": "Ambitious",
+      "reserve_billions": 250.0,
+      "contingency_billions": 25.0,
+      "provisionally_allocated_billions": 0,
+      "unallocated_pending_evidence_billions": 250.0,
+      "lane_allocations": [],
+      "status": "no_lane_clears_allocation_admission_gates"
+    },
+    {
+      "profile_id": "transformative_peer_reallocation",
+      "label": "Transformative",
+      "reserve_billions": 350.0,
+      "contingency_billions": 35.0,
+      "provisionally_allocated_billions": 0,
+      "unallocated_pending_evidence_billions": 350.0,
+      "lane_allocations": [],
+      "status": "no_lane_clears_allocation_admission_gates"
+    }
+  ],
+  "rollup": {
+    "eligible_service_lanes": 11,
+    "allocation_ready_lanes": 0,
+    "profiles_audited": 4,
+    "total_provisionally_allocated_billions": 0
+  },
+  "claim_boundaries": {
+    "provisional_allocation_ready": false,
+    "funding_recommended": false,
+    "savings_admitted": false,
+    "official_score": false,
+    "public_release_authorized": false
+  }
+}

@@ -59,6 +59,11 @@ p { max-width:76ch; }
 .scenario { background:white; border:1px solid var(--line); border-radius:12px; padding:1rem; }
 .scenario.featured { border:3px solid var(--cyan); }
 .scenario .schedule { display:block; color:var(--deep); font-size:1.08rem; font-weight:900; overflow-wrap:anywhere; }
+.profile-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1rem; margin:1rem 0 1.5rem; }
+.profile-card { background:white; border:1px solid var(--line); border-top:6px solid var(--cyan); border-radius:14px; padding:1rem; box-shadow:var(--shadow); }
+.profile-card.featured { border-top-color:var(--green); }
+.profile-card p { margin:.45rem 0; }
+.profile-rate { color:var(--blue); font-size:1.8rem; font-weight:900; line-height:1; }
 .status { display:inline-block; margin:.45rem 0; padding:.18rem .45rem; border-radius:999px; background:#dcecf2; color:var(--deep); font-size:.72rem; font-weight:900; text-transform:uppercase; }
 .status.open { background:#fff0d9; color:#753600; }
 .delta { color:var(--red); font-weight:900; white-space:nowrap; }
@@ -90,6 +95,7 @@ footer { border-top:1px solid var(--line); margin-top:2rem; padding:1.2rem 0 3re
   .spine article:not(:last-child)::after { content:"↓"; left:1.2rem; right:auto; top:auto; bottom:-.72rem; }
   .investment { grid-template-columns:repeat(2,1fr); }
   .scenario-grid { grid-template-columns:repeat(2,1fr); }
+  .profile-grid { grid-template-columns:1fr; }
   .truth-grid { grid-template-columns:1fr; }
 }
 @media (max-width:38rem) {

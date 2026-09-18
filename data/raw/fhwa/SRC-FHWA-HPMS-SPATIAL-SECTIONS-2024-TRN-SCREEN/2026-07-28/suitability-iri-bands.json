@@ -1,0 +1,3 @@
+[{"iri_band":"iri_gt_170","rows":"409215","miles":"28860.8565"}
+,{"iri_band":"iri_le_170","rows":"2287889","miles":"183425.3364"}
+,{"iri_band":"missing","rows":"731517","miles":"540826.1039"}]

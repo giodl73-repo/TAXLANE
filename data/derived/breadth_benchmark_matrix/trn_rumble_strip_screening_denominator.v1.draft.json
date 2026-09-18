@@ -1,0 +1,90 @@
+{
+  "record_id": "trn-rumble-strip-screening-denominator:2024:v1",
+  "record_family": "trn_rumble_strip_screening_denominator",
+  "version": "v1.draft",
+  "status": "broad_screening_frame_ready_segment_eligibility_blocked",
+  "as_of_date": "2026-07-28",
+  "source_custody": [
+    {
+      "source_id": "SRC-FHWA-HIGHWAY-STATISTICS-2024-HM20",
+      "path": "data/raw/fhwa/SRC-FHWA-HIGHWAY-STATISTICS-2024-HM20/2026-07-28/hm20.html",
+      "sha256": "bd260aa79cfee7affe8bc221d76abde38ebb1525d16eeb433e620017c0ab3e27"
+    },
+    {
+      "source_id": "SRC-FHWA-HIGHWAY-STATISTICS-2024-FI20",
+      "path": "data/raw/fhwa/SRC-FHWA-HIGHWAY-STATISTICS-2024-FI20/2026-07-28/fi20.html",
+      "sha256": "c790d93c809a2642fcd4eed0fd76aaa9c4dc39c2fa84f619768a1b4c729066a7"
+    }
+  ],
+  "screening_definition": {
+    "geography": "United States excluding Puerto Rico",
+    "year": 2024,
+    "included_rural_functional_systems": [
+      "other_principal_arterial",
+      "minor_arterial",
+      "major_collector",
+      "minor_collector"
+    ],
+    "excluded_rural_functional_systems": [
+      "interstate",
+      "other_freeways_and_expressways",
+      "local"
+    ],
+    "reason": "A broad nonfreeway arterial-and-collector screen for a rural two-lane candidate; it is not a two-lane or design-eligible inventory."
+  },
+  "rural_source_values": {
+    "route_miles": {
+      "interstate": 29462,
+      "other_freeways_and_expressways": 6580,
+      "other_principal_arterial": 92319,
+      "minor_arterial": 135392,
+      "major_collector": 408309,
+      "minor_collector": 258695,
+      "local": 2025860,
+      "total": 2956618
+    },
+    "fatalities": {
+      "interstate": 1783,
+      "other_freeways_and_expressways": 260,
+      "other_principal_arterial": 3811,
+      "minor_arterial": 3189,
+      "major_collector": 3822,
+      "minor_collector": 968,
+      "local": 2081,
+      "total": 15914
+    }
+  },
+  "screening_results": {
+    "route_miles": 894715,
+    "fatalities_all_crash_types": 11790,
+    "share_of_rural_route_miles_percent": 30.261434,
+    "share_of_rural_fatalities_percent": 74.085711,
+    "mechanical_historical_cost_product_billions": 3.399917,
+    "mechanical_product_status": "not_a_candidate_cost_or_upper_bound"
+  },
+  "eligibility_reduction_sequence": [
+    "obtain HPMS or road-owner section records and retain rural two-way undivided sections with exactly two through lanes",
+    "remove sections already treated or programmed for treatment",
+    "remove or redesign sections failing pavement condition width bicycle motorcycle noise or environmental criteria",
+    "join the remaining sections to target head-on opposite-direction sideswipe and single-vehicle run-off-road fatal-and-injury crash exposure",
+    "apply current jurisdiction-specific bid maintenance accommodation administration and delivery-capacity costs"
+  ],
+  "blocked_values": {
+    "two_lane_route_miles": null,
+    "design_eligible_untreated_route_miles": null,
+    "target_crash_fatalities_and_injuries": null,
+    "current_weighted_cost_per_mile": null,
+    "candidate_cost_billions": null,
+    "candidate_outcome": null
+  },
+  "claim_boundaries": {
+    "screening_frame_ready": true,
+    "eligible_denominator_ready": false,
+    "affected_crash_numerator_ready": false,
+    "candidate_cost_ready": false,
+    "candidate_outcome_ready": false,
+    "allocation_ready": false,
+    "funding_recommended": false,
+    "public_release_authorized": false
+  }
+}

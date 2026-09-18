@@ -35,3 +35,11 @@ expand or restructure protection than produce a simple cut.
 
 This is independent, repository-local analysis. It is not enacted law, an
 official score, personal advice, or authorization for public release.
+
+## Savings and reinvestment extension
+
+The separate
+[`peer-informed-savings-and-reinvestment-profiles.md`](peer-informed-savings-and-reinvestment-profiles.md)
+packet adds four goal-seeking policy profiles. It preserves null direct
+country-share rates while modeling the conditional central schedule associated
+with explicit net-savings goals after reinvestment.

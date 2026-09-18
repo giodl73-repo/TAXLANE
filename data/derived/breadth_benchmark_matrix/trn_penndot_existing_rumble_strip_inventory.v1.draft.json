@@ -1,0 +1,177 @@
+{
+  "record_id": "trn-penndot-existing-rumble-strip-inventory:2024:v1",
+  "record_family": "trn_penndot_existing_rumble_strip_inventory",
+  "version": "v1.draft",
+  "status": "state_inventory_custodied_join_to_hpms_and_untreated_mileage_blocked",
+  "as_of_date": "2026-07-28",
+  "pilot_scope": "Pennsylvania road-owner inventory pilot",
+  "source_custody": [
+    {
+      "path": "data/raw/penndot/SRC-PENNDOT-STATEWIDE-RUMBLE-STRIPS-2024/2026-07-28/Statewide-Rumble-Strips-03-01-2024.xlsx",
+      "sha256": "4dc717da1f71de3dec23f05039fc59bc119e7359b6afa24ec194fddb908417e4"
+    },
+    {
+      "path": "data/raw/penndot/SRC-PENNDOT-STATEWIDE-RUMBLE-STRIPS-2024/2026-07-28/safety-infrastructure-improvement-programs.html",
+      "sha256": "9df162ce5ec7eeb8384e33c1bd51dca1fe4dd4d1e9abfb927d259b5a2cf422a5"
+    },
+    {
+      "path": "data/raw/fhwa/SRC-FHWA-HPMS-SPATIAL-SECTIONS-2024-TRN-SCREEN/2026-07-28/rural-two-way-two-lane-state-totals.json",
+      "sha256": "4a4a8067aea5fc01ef55abb94e83a1f6346f5e9e22d14c8f8542cb88c3d787cd"
+    }
+  ],
+  "workbook_contract": {
+    "sheets": [
+      "tblRumbleStrips",
+      "Definitions"
+    ],
+    "treatment_rows": 57397,
+    "districts": 11,
+    "counties": 67,
+    "required_headers": [
+      "District",
+      "County",
+      "County #",
+      "State Route #",
+      "Segment #",
+      "Direction",
+      "Segment Length (ft)",
+      "# of Lanes",
+      "Business Plan",
+      "AADT",
+      "Truck %",
+      "Speed Limit (MPH)",
+      "Begin Offset (ft)",
+      "End Offset (ft)",
+      "Location",
+      "Type",
+      "Pattern",
+      "Test Date"
+    ],
+    "test_or_entry_year_rows": [
+      {
+        "year": 2022,
+        "rows": 45278
+      },
+      {
+        "year": 2023,
+        "rows": 12110
+      },
+      {
+        "year": 2024,
+        "rows": 9
+      }
+    ],
+    "date_boundary": "The workbook defines Test Date as either original video-log collection or district data-entry date; it is not necessarily installation date."
+  },
+  "inventory_measures": {
+    "all_treatment_rows_summed_interval_line_miles": 13181.335606,
+    "by_treatment_type": [
+      {
+        "type_code": "CL",
+        "type": "centerline",
+        "treatment_rows": 28921,
+        "summed_interval_line_miles": 5837.499432,
+        "segment_direction_keys": 16501,
+        "within_type_union_miles": 5836.024242
+      },
+      {
+        "type_code": "SH",
+        "type": "shoulder",
+        "treatment_rows": 21898,
+        "summed_interval_line_miles": 6058.035227,
+        "segment_direction_keys": 9332,
+        "within_type_union_miles": 3692.85928
+      },
+      {
+        "type_code": "EL",
+        "type": "edgeline",
+        "treatment_rows": 6494,
+        "summed_interval_line_miles": 1278.447348,
+        "segment_direction_keys": 2778,
+        "within_type_union_miles": 990.385795
+      },
+      {
+        "type_code": "TR",
+        "type": "transverse",
+        "treatment_rows": 84,
+        "summed_interval_line_miles": 7.353598,
+        "segment_direction_keys": 65,
+        "within_type_union_miles": 7.353598
+      }
+    ],
+    "measurement_boundary": "Summed interval line-miles count separate centerline, shoulder, and edgeline records and are not roadway route-miles. Within-type unions remove interval overlap only inside each treatment type."
+  },
+  "candidate_setting_triage": {
+    "filter": "Direction=B (workbook definition: both/two-way traffic), # of Lanes=2, Type in (CL,SH,EL)",
+    "treatment_rows": 34544,
+    "segment_direction_keys": 15408,
+    "union_interval_footprint_miles": 5702.436553,
+    "measurement_boundary": "The union removes overlap among treatment records sharing district, county, route, segment, and direction. It is an analytical treatment footprint, not official route-mile total, rural mileage, functional-system match, or untreated subtraction."
+  },
+  "quality_audit": {
+    "reverse_offset_rows_normalized_with_absolute_interval": 412,
+    "interval_exceeds_reported_segment_length_rows": 8,
+    "status": "anomalies_disclosed_not_silently_discarded"
+  },
+  "published_context_not_reconciled": {
+    "value": 6800,
+    "unit": "more_than_centerline_rumble_strip_miles",
+    "as_of": "2022-09",
+    "associated_claim": "PennDOT reports a 47 percent decline in head-on/opposite-direction sideswipe fatalities since 2002 alongside installation of more than 6,800 miles of centerline rumble strips.",
+    "boundary": "The public statement is descriptive attribution, not a controlled causal estimate. Its mileage definition and coverage do not reconcile directly to workbook interval sums, so it is not substituted for the workbook-derived measures."
+  },
+  "hpms_pennsylvania_comparison": {
+    "state_id": 42,
+    "rural_two_way_two_lane_filtered_rows": 268196,
+    "rural_two_way_two_lane_filtered_section_miles": 20851.0429,
+    "subtraction_performed": false,
+    "join_status": "blocked",
+    "reason": "The PennDOT workbook lacks rural/urban and federal functional-system fields and a documented direct key to the HPMS spatial records. It may also differ in road ownership and coverage. Subtracting its footprint from HPMS would mix universes."
+  },
+  "next_join_contract": {
+    "owner_system": "PennDOT Roadway Management System and Location Reference System",
+    "keys_available_in_workbook": [
+      "district",
+      "county_number",
+      "state_route_number",
+      "segment_number",
+      "direction",
+      "begin_offset_feet",
+      "end_offset_feet"
+    ],
+    "fields_required": [
+      "urban_or_rural",
+      "federal_functional_system",
+      "facility_type",
+      "through_lanes",
+      "road_ownership",
+      "pavement_condition_and_structure",
+      "usable_shoulder_geometry",
+      "bicycle_and_noise_constraints",
+      "observed_target_crashes_by_severity_and_period"
+    ],
+    "required_result": "matched treated and untreated Pennsylvania rural two-way two-lane corridor inventory with coverage and nonmatch diagnostics"
+  },
+  "blocked_values": {
+    "pennsylvania_comparable_treated_miles": null,
+    "pennsylvania_untreated_design_eligible_miles": null,
+    "national_untreated_design_eligible_miles": null,
+    "target_crash_fatalities_and_injuries": null,
+    "candidate_cost_billions": null,
+    "candidate_outcome": null
+  },
+  "claim_boundaries": {
+    "official_state_inventory_raw_custodied": true,
+    "state_inventory_structure_audited": true,
+    "analytical_treatment_footprint_ready": true,
+    "inventory_to_hpms_join_ready": false,
+    "comparable_treated_mileage_ready": false,
+    "untreated_mileage_ready": false,
+    "published_decline_treated_as_causal": false,
+    "national_extrapolation_allowed": false,
+    "candidate_cost_ready": false,
+    "allocation_ready": false,
+    "funding_recommended": false,
+    "public_release_authorized": false
+  }
+}

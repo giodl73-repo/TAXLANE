@@ -1,0 +1,209 @@
+{
+  "record_id": "trn-hpms-rumble-suitability-availability:2024:v1",
+  "record_family": "trn_hpms_rumble_suitability_availability",
+  "version": "v1.draft",
+  "status": "suitability_data_availability_audited_national_eligibility_blocked",
+  "as_of_date": "2026-07-28",
+  "dataset": {
+    "id": "42um-tgh5",
+    "name": "HPMS Spatial All Sections - 2024",
+    "filter_contract_source": "trn-hpms-two-way-two-lane-screen:2024:v1",
+    "filtered_section_rows": 3428621,
+    "filtered_section_miles": 753112.2968
+  },
+  "source_custody": [
+    {
+      "path": "data/raw/fhwa/SRC-FHWA-HPMS-SPATIAL-SECTIONS-2024-TRN-SCREEN/2026-07-28/dataset-metadata.json",
+      "sha256": "8a30f0f063a4cfd713bbf53da78521e762a3c1c77cf697ea7c28b31d97635cf7"
+    },
+    {
+      "path": "data/derived/breadth_benchmark_matrix/trn_hpms_two_way_two_lane_screen.v1.draft.json",
+      "sha256": "c41016d73b2ba65ebf955a8f2dfeaf80f3247e9d47e12c5267e47c9c2180527f"
+    },
+    {
+      "path": "data/raw/fhwa/SRC-FHWA-HPMS-SPATIAL-SECTIONS-2024-TRN-SCREEN/2026-07-28/suitability-field-completeness.json",
+      "sha256": "2a0aeea54e3d7f073ff328bf591e13d82d248bac940128ead36268caa2d66f2b"
+    },
+    {
+      "path": "data/raw/fhwa/SRC-FHWA-HPMS-SPATIAL-SECTIONS-2024-TRN-SCREEN/2026-07-28/suitability-shoulder-bands.json",
+      "sha256": "f1a83d7082a306b986353a5a381384193e0001013ea76a497fa891c1b2e0a395"
+    },
+    {
+      "path": "data/raw/fhwa/SRC-FHWA-HPMS-SPATIAL-SECTIONS-2024-TRN-SCREEN/2026-07-28/suitability-iri-bands.json",
+      "sha256": "488907c87d77abcfaae61934a9c263f443b477862d7824b4ceecbfc7bc027eb9"
+    },
+    {
+      "path": "data/raw/fhwa/SRC-FHWA-HPMS-SPATIAL-SECTIONS-2024-TRN-SCREEN/2026-07-28/suitability-by-functional-system.json",
+      "sha256": "b34e893d817732633fc6503fe6a4ce7e99fdd510eb77a6faf2c27bab3de6fda8"
+    }
+  ],
+  "official_guidance_sources": [
+    {
+      "title": "Technical Advisory: Shoulder and Edge Line Rumble Strips",
+      "url": "https://highways.dot.gov/safety/rwd/keep-vehicles-road/rumble-strips/technical-advisory-shoulder-and-edge-line-rumble-strips",
+      "use": "requires context-specific consideration of roadway condition, environment, and all users"
+    },
+    {
+      "title": "Decision Support Guide for the Installation of Shoulder and Center Line Rumble Strips",
+      "url": "https://highways.dot.gov/safety/rwd/keep-vehicles-road/rumble-strips/decision-support-guide-installation-shoulder-and-4",
+      "use": "pavement, bicycle, noise, and modified-design decision boundary"
+    },
+    {
+      "title": "Rumble Strips Frequently Asked Questions",
+      "url": "https://highways.dot.gov/safety/rwd/keep-vehicles-road/rumble-strips/frequently-asked-questions",
+      "use": "usable-width reference and warning against a single shoulder-width rule"
+    },
+    {
+      "title": "Fact Sheet: Rumble Strips and Pavement",
+      "url": "https://highways.dot.gov/safety/rwd/keep-vehicles-road/rumble-strips/fact-sheet-rumble-strips-and-pavement",
+      "use": "pavement structure and condition boundary"
+    },
+    {
+      "title": "Using LTPP Data to Understand Trends in Pavement Condition",
+      "url": "https://www.fhwa.dot.gov/publications/research/infrastructure/pavements/ltpp/17090/001.cfm",
+      "use": "IRI good, fair, and poor reporting thresholds"
+    }
+  ],
+  "field_availability": {
+    "left_shoulder_width": {
+      "reported_section_rows": 421534,
+      "row_coverage_percent": 12.294564
+    },
+    "right_shoulder_width": {
+      "reported_section_rows": 1148435,
+      "row_coverage_percent": 33.495537
+    },
+    "iri": {
+      "reported_section_rows": 2697104,
+      "row_coverage_percent": 78.664396
+    },
+    "psr": {
+      "reported_section_rows": 38539,
+      "row_coverage_percent": 1.124038
+    },
+    "cracking_percent": {
+      "reported_section_rows": 2451118,
+      "row_coverage_percent": 71.489908
+    },
+    "surface_type": {
+      "reported_section_rows": 2585654,
+      "row_coverage_percent": 75.413818
+    },
+    "lane_width": {
+      "reported_section_rows": 1228711,
+      "row_coverage_percent": 35.836886
+    }
+  },
+  "shoulder_width_triage": {
+    "guidance_reference": "FHWA's FAQ cites four feet of usable shoulder width beyond the rumble strip as the AASHTO minimum for bicycle accommodation, with an additional foot by a barrier; FHWA also describes modified designs for constrained settings.",
+    "measurement_boundary": "HPMS shoulder_width_l and shoulder_width_r are reported shoulder-width fields, not verified usable clear width beyond a proposed strip. The bands audit availability and identify records for local review; they do not classify design eligibility.",
+    "reported_both_ge_4_feet": {
+      "section_rows": 65358,
+      "section_miles": 4112.3005,
+      "share_of_filtered_section_miles_percent": 0.546041
+    },
+    "reported_one_or_both_lt_4_feet": {
+      "section_rows": 355520,
+      "section_miles": 24362.0828,
+      "share_of_filtered_section_miles_percent": 3.234854
+    },
+    "missing_either_side": {
+      "section_rows": 3007743,
+      "section_miles": 724637.9135,
+      "share_of_filtered_section_miles_percent": 96.219105
+    }
+  },
+  "iri_triage": {
+    "guidance_reference": "FHWA condition reporting labels IRI at or below 170 inches per mile good or fair and values above 170 poor.",
+    "measurement_boundary": "IRI is a ride-quality proxy, not structural adequacy. Rumble-strip review still requires cracking, pavement type and depth, joints, remaining service life, and road-owner engineering judgment.",
+    "reported_good_or_fair_proxy_iri_le_170": {
+      "section_rows": 2287889,
+      "section_miles": 183425.3364,
+      "share_of_filtered_section_miles_percent": 24.355642
+    },
+    "reported_poor_proxy_iri_gt_170": {
+      "section_rows": 409215,
+      "section_miles": 28860.8565,
+      "share_of_filtered_section_miles_percent": 3.832212
+    },
+    "missing": {
+      "section_rows": 731517,
+      "section_miles": 540826.1039,
+      "share_of_filtered_section_miles_percent": 71.812146
+    }
+  },
+  "functional_system_availability": [
+    {
+      "f_system": 3,
+      "functional_system": "other_principal_arterial",
+      "section_rows": 781053,
+      "section_miles": 62648.4177,
+      "both_shoulders_reported_miles": 8550.0143,
+      "iri_reported_miles": 61860.1051,
+      "cracking_reported_miles": 61470.5422,
+      "surface_type_reported_miles": 61497.2772
+    },
+    {
+      "f_system": 4,
+      "functional_system": "minor_arterial",
+      "section_rows": 887439,
+      "section_miles": 130047.1284,
+      "both_shoulders_reported_miles": 8937.7821,
+      "iri_reported_miles": 57514.5917,
+      "cracking_reported_miles": 53047.6853,
+      "surface_type_reported_miles": 66835.4925
+    },
+    {
+      "f_system": 5,
+      "functional_system": "major_collector",
+      "section_rows": 1455353,
+      "section_miles": 405614.1261,
+      "both_shoulders_reported_miles": 10386.3908,
+      "iri_reported_miles": 78559.8612,
+      "cracking_reported_miles": 70671.4214,
+      "surface_type_reported_miles": 138421.6338
+    },
+    {
+      "f_system": 6,
+      "functional_system": "minor_collector",
+      "section_rows": 304776,
+      "section_miles": 154802.6246,
+      "both_shoulders_reported_miles": 600.1961,
+      "iri_reported_miles": 14351.6349,
+      "cracking_reported_miles": 7717.4395,
+      "surface_type_reported_miles": 56545.1994
+    }
+  ],
+  "national_existing_treatment_inventory": {
+    "installed_untreated_miles": null,
+    "hpms_rumble_named_fields": [],
+    "status": "not_present_in_hpms_schema_and_not_identified_in_this_review",
+    "boundary": "No rumble-named field appears in this HPMS dataset metadata, and this review did not identify a national installed-mile inventory. That is not proof that no inventory exists elsewhere; road-owner and program records remain required."
+  },
+  "required_local_reduction": [
+    "road-owner inventory of existing and already-programmed treatments",
+    "section-level pavement structure, cracking, remaining service life, and resurfacing schedule",
+    "usable shoulder and lane geometry plus bicycle and motorcycle accommodation",
+    "residential noise, environmental, intersection, driveway, and other design constraints",
+    "target-crash exposure and corridor-level safety diagnosis"
+  ],
+  "blocked_values": {
+    "design_eligible_miles": null,
+    "untreated_design_eligible_miles": null,
+    "target_crash_fatalities_and_injuries": null,
+    "candidate_cost_billions": null,
+    "candidate_outcome": null
+  },
+  "claim_boundaries": {
+    "data_availability_audited": true,
+    "national_design_eligibility_estimated": false,
+    "missing_values_treated_as_ineligible": false,
+    "reported_four_foot_shoulders_treated_as_eligible": false,
+    "iri_treated_as_structural_adequacy": false,
+    "existing_treatments_reconciled": false,
+    "candidate_cost_ready": false,
+    "allocation_ready": false,
+    "funding_recommended": false,
+    "public_release_authorized": false
+  }
+}

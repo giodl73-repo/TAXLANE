@@ -1,0 +1,127 @@
+{
+  "record_id": "trn-hpms-two-way-two-lane-screen:2024:v1",
+  "record_family": "trn_hpms_two_way_two_lane_screen",
+  "version": "v1.draft",
+  "status": "section_filter_and_calibration_ready_design_eligibility_blocked",
+  "as_of_date": "2026-07-28",
+  "dataset": {
+    "id": "42um-tgh5",
+    "name": "HPMS Spatial All Sections - 2024",
+    "issued": "2025-11-10"
+  },
+  "query_contract": {
+    "rural_rule": "urban_id=99999",
+    "geography_rule": "stateid != 72; 50 states represented; District of Columbia has no rural row",
+    "functional_system_rule": "f_system in (3,4,5,6)",
+    "two_way_rule": "facility_type=2",
+    "two_lane_rule": "through_lanes=2; for two-way roads HPMS reports both directions"
+  },
+  "source_custody": [
+    {
+      "path": "data/raw/fhwa/SRC-FHWA-HPMS-SPATIAL-SECTIONS-2024-TRN-SCREEN/2026-07-28/dataset-metadata.json",
+      "sha256": "8a30f0f063a4cfd713bbf53da78521e762a3c1c77cf697ea7c28b31d97635cf7"
+    },
+    {
+      "path": "data/raw/fhwa/SRC-FHWA-HPMS-SPATIAL-SECTIONS-2024-TRN-SCREEN/2026-07-28/rural-screening-functional-system-totals.json",
+      "sha256": "59193568c0eb760f4fab7778d12580a21ae4022fa3f09016a211884421ce8c43"
+    },
+    {
+      "path": "data/raw/fhwa/SRC-FHWA-HPMS-SPATIAL-SECTIONS-2024-TRN-SCREEN/2026-07-28/rural-two-way-two-lane-functional-system-totals.json",
+      "sha256": "b5869277c6a326bfed5aab6db6d1c8cd080e367426dd7e7f8fbdf6c60c68f82a"
+    },
+    {
+      "path": "data/raw/fhwa/SRC-FHWA-HPMS-SPATIAL-SECTIONS-2024-TRN-SCREEN/2026-07-28/rural-two-way-two-lane-state-totals.json",
+      "sha256": "4a4a8067aea5fc01ef55abb94e83a1f6346f5e9e22d14c8f8542cb88c3d787cd"
+    },
+    {
+      "path": "data/derived/breadth_benchmark_matrix/trn_rumble_strip_screening_denominator.v1.draft.json",
+      "sha256": "8e0dfc3d6a3ff38d0ec19d2fb798597a0839de703029e1b7eb421e37a522a42a"
+    }
+  ],
+  "raw_hpms_filter": {
+    "section_rows": 3428621,
+    "section_miles": 753112.2968,
+    "states_represented": 50
+  },
+  "official_table_reconciliation": {
+    "hpms_spatial_all_section_miles_in_four_systems": 983391.8479,
+    "official_hm20_route_miles_in_four_systems": 894715,
+    "spatial_to_official_ratio": 1.099112,
+    "status": "not_directly_reconciled",
+    "reason": "FHWA warns that spatial full-join aggregation may differ from official Highway Statistics enterprise totals."
+  },
+  "functional_system_calibration": [
+    {
+      "f_system": 3,
+      "functional_system": "other_principal_arterial",
+      "official_hm20_route_miles": 92319,
+      "hpms_spatial_all_section_miles": 114663.6988,
+      "hpms_two_way_two_lane_section_miles": 62648.4177,
+      "within_hpms_two_way_two_lane_share_percent": 54.636662,
+      "calibrated_screen_miles": 50440.0201
+    },
+    {
+      "f_system": 4,
+      "functional_system": "minor_arterial",
+      "official_hm20_route_miles": 135392,
+      "hpms_spatial_all_section_miles": 152244.4879,
+      "hpms_two_way_two_lane_section_miles": 130047.1284,
+      "within_hpms_two_way_two_lane_share_percent": 85.419926,
+      "calibrated_screen_miles": 115651.7458
+    },
+    {
+      "f_system": 5,
+      "functional_system": "major_collector",
+      "official_hm20_route_miles": 408309,
+      "hpms_spatial_all_section_miles": 438560.2867,
+      "hpms_two_way_two_lane_section_miles": 405614.1261,
+      "within_hpms_two_way_two_lane_share_percent": 92.487655,
+      "calibrated_screen_miles": 377635.4203
+    },
+    {
+      "f_system": 6,
+      "functional_system": "minor_collector",
+      "official_hm20_route_miles": 258695,
+      "hpms_spatial_all_section_miles": 277923.3745,
+      "hpms_two_way_two_lane_section_miles": 154802.6246,
+      "within_hpms_two_way_two_lane_share_percent": 55.69975,
+      "calibrated_screen_miles": 144092.4681
+    }
+  ],
+  "calibrated_screen": {
+    "method": "apply each HPMS within-system two-way two-lane share to the corresponding official HM-20 route miles, then sum",
+    "miles": 687819.6543,
+    "status": "analytical_screen_not_official_mileage_or_design_eligible_inventory"
+  },
+  "historical_cost_products": {
+    "cost_per_mile": 3800,
+    "raw_hpms_product_billions": 2.861827,
+    "calibrated_product_billions": 2.613715,
+    "status": "neither_value_is_a_candidate_cost_or_upper_bound"
+  },
+  "remaining_filters": [
+    "existing or already-programmed rumble strips",
+    "pavement condition and remaining service life",
+    "shoulder and lane width plus bicycle and motorcycle accommodation",
+    "residential noise and environmental constraints",
+    "target head-on opposite-direction sideswipe and single-vehicle run-off-road crash exposure",
+    "current road-owner installation maintenance administration and delivery costs"
+  ],
+  "blocked_values": {
+    "design_eligible_untreated_miles": null,
+    "target_crash_fatalities_and_injuries": null,
+    "current_weighted_cost_per_mile": null,
+    "candidate_cost_billions": null,
+    "candidate_outcome": null
+  },
+  "claim_boundaries": {
+    "section_filter_ready": true,
+    "official_mileage_reconciled": false,
+    "design_eligible_denominator_ready": false,
+    "affected_crash_numerator_ready": false,
+    "candidate_cost_ready": false,
+    "allocation_ready": false,
+    "funding_recommended": false,
+    "public_release_authorized": false
+  }
+}

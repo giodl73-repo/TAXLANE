@@ -12,6 +12,129 @@ remains unchanged. The substantive policy specification and ten-year score
 workbook are also complete; authorized submission and formal external
 certification remain blocked.
 
+`peer_informed_savings_and_reinvestment_profiles.ty2026.v1.draft.json` extends
+that completed basis with four goal-seeking policy profiles. It models the
+central rate implication of $150B, $300B, $450B, and $600B in assumed net
+savings after explicit reinvestment. The spending amounts are not estimates or
+admitted savings; every profile keeps admission at zero and lists the evidence
+gates required before it can alter the canonical package.
+
+`adaptive_needs_and_balance_cycle.v1.draft.json` replaces fixed lane-level
+reinvestment assumptions with a recurring all-lane reserve process. It keeps
+peer composition diagnostic, distinguishes structural funding from temporary
+pain response, gives education no automatic increase, and leaves post-profile
+general-government percentages null until a common-year COFOG crosswalk and
+cost-shift reconciliation exist.
+
+`adaptive_needs_all_lane_triage.v1.draft.json` populates a provisional problem,
+response, and funding-type class for all fifteen tracks from existing Wave D
+anchors and breadth benchmarks. It is reproducible from
+`experiments/adaptive-needs-cycle/build_triage.py`. Incomparable pain indicators
+are not collapsed into an opaque score; all need scores and reserve allocations
+remain null.
+
+`adaptive_needs_scoring_allocation_contract.v1.draft.json` defines the ten
+admission gates, disclosed weights, confidence discounts, sensitivity cases,
+contingency, caps, and sunset rules. The generated
+`adaptive_profile_reserve_allocation_readiness.v1.draft.json` applies that
+contract to all four profiles. Zero lanes currently clear every gate, so all
+four reserves remain unallocated rather than being filled with invented scores.
+
+`adaptive_initial_intervention_dossiers.v1.draft.json` opens the first three
+ten-gate dossiers for VET claims backlog, TRN roadway safety, and ISF child
+poverty. It now selects one bounded analytical candidate per pain: an
+accountable VA claims-processing modernization bundle, systemic rural
+centerline and shoulder rumble strips, and a one-year ARPA-style advance
+refundable Child Tax Credit specification for current-law rescoring. Reviewed
+official web evidence advances candidate-definition and selected evidence
+gates, while raw source custody, current costs, delivery limits, transferability,
+and floor tests remain explicit gaps. These are research candidates, not policy
+recommendations; no dossier is allocation-ready.
+
+The next evidence pass adds a June 2026 VA 71.3-day average completion-time
+baseline, a historical FHWA combined-rumble-strip input of about $3,800 per
+two-lane road mile with a seven-year life, and the TY2026 Child Tax Credit
+current-law comparator of $2,200 maximum and $1,700 maximum refundable. These
+values narrow the missing calculations. They do not supply a modernization
+effect, eligible national road miles, current bid prices, or an incremental CTC
+score.
+
+`trn_rumble_strip_screening_denominator.v1.draft.json` extracts custodied FHWA
+HM-20 and FI-20 national totals. Rural nonfreeway arterials and collectors form
+a broad 894,715-route-mile screen with 11,790 fatalities of all crash types.
+The screen is not two-lane, untreated, design-eligible mileage and does not
+identify rumble-strip target crashes. Multiplying it by the historical unit
+cost produces a $3.399917B mechanical product that is explicitly neither a
+candidate cost nor an upper bound.
+
+`trn_hpms_two_way_two_lane_screen.v1.draft.json` then applies the documented
+2024 HPMS section filter across all 50 states. The raw spatial full-join result
+is 753,112.2968 section-miles. Because the corresponding spatial totals exceed
+official HM-20 route miles, a functional-system calibration produces a
+687,819.6543-mile analytical screen. Neither value is official or
+design-eligible mileage; both historical cost products remain blocked.
+
+`trn_hpms_rumble_suitability_availability.v1.draft.json` audits the next
+reduction layer without manufacturing an eligibility estimate. Of the
+753,112.2968 filtered section-miles, 724,637.9135 (96.219105%) lack one or both
+reported shoulder widths and 540,826.1039 (71.812146%) lack IRI. Only
+4,112.3005 miles report at least four feet on both sides, but reported HPMS
+width is not verified usable width beyond a strip. Likewise, IRI is a
+ride-quality proxy, not structural adequacy. Missing records remain unknown,
+not ineligible, and an existing-treatment subtraction still requires
+road-owner inventories.
+
+`trn_penndot_existing_rumble_strip_inventory.v1.draft.json` proves the
+road-owner path with PennDOT's official 2024 workbook: 57,397 treatment rows
+cover all 67 counties. Normalizing direction and interval overlap yields a
+5,702.436553-mile analytical footprint for records marked two-way, two-lane,
+and centerline/shoulder/edgeline. That value is not subtracted from
+Pennsylvania's 20,851.0429 HPMS screening miles. The workbook lacks the
+rural/urban and federal-functional-system fields and a documented direct HPMS
+key, so the next step is an RMS/LRS join with explicit match and nonmatch
+diagnostics. The pilot advances existing-treatment custody without fabricating
+untreated or eligible mileage.
+
+`trn_penndot_rms_existing_treatment_join.v1.draft.json` executes that public
+RMS join. Exact roadway-segment coverage reaches 99.910259% of candidate-
+setting treatment rows and unique administration-interval coverage reaches
+95.044002%. Requiring state jurisdiction, rural status, two-way facility, two
+lanes, and FHWA functional classes 3 through 6 leaves 24,972 treatment rows and
+a 4,401.040152-mile unioned existing-treatment footprint. Public RMS shoulder
+intervals match both sides for 24,786 of those rows, and IRI is reported for
+24,971. These condition counts describe already-treated roads; they do not
+establish suitability elsewhere. Because the API capture includes only county-
+route pairs already present in the treatment workbook, it is selection-biased
+and cannot be the full state denominator. No HPMS subtraction is performed.
+
+`trn_penndot_state_owned_untreated_screen.v1.draft.json` replaces that
+selection-biased universe with complete filtered PennDOT RMS captures. The
+state-owned rural, two-way, two-lane, FHWA-class 3–6 denominator is
+20,130.978409 miles. Splitting treatment records at administration boundaries
+and unioning them on the same segment-offset basis identifies 4,595.868561
+treated miles and 15,535.109848 untreated screening miles. The nearby HPMS
+screen covers all public ownership and is retained as a reconciliation check,
+not forced to equal the PennDOT state-owned universe. The untreated remainder
+is not design-eligible mileage or a cost estimate; pavement structure,
+side-specific usable shoulder, bicycles, noise, programmed work, target
+crashes, current delivery prices, and maintenance still require screening.
+The complete shoulder capture adds a field-availability layer: 2,577.521402
+untreated miles have unambiguous `CURRENT_PAVE_WIDTH` values of at least four
+feet on both sides, 12,901.123674 have both sides reported with one or both
+below four feet, 55.676515 lack a record on at least one side, and 0.788258
+have missing or conflicting current-width values. These are paved-width bands,
+not a pass/fail design screen; usable clear width beyond a proposed strip still
+requires road-owner review.
+The segment-level pavement fields add a second triage layer. Reported surface
+years place 10,766.397159 untreated miles in 2021–2026, while OPI labels place
+9,312.955872 miles in good or excellent bands. Intersecting good/excellent OPI
+with the both-sides four-foot paved-width band yields a 1,631.432386-mile
+engineering-record review queue; intersecting the width band with 2021–2026
+surface years yields 1,163.282197 miles. These are field intersections, not
+design eligibility. The capture does not supply pavement thickness, cracking,
+base structure, remaining structural life, resurfacing commitments, or project
+schedules, and `PVMNT_COND_RATE` is missing across the untreated screen.
+
 This family answers three portfolio questions in one controlled record set:
 
 1. Are the important fiscal lanes covered?
