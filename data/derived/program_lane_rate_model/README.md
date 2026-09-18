@@ -80,3 +80,10 @@ pass.
 - Not a statutory rate on income; that framing awaits the aggregate base.
 - Not a balanced-budget assertion; the borrowed share is shown, not hidden.
 - Not a fraud finding; efficiency targets are argued, not alleged.
+
+## Legacy health arithmetic
+
+`health_efficiency_scenarios.fy2025.draft.jsonl` is legacy illustrative only.
+Its flat 10/20/30-percent federal Health+Medicare arithmetic is not a target or
+score. In particular, the $395.046B flat 20-percent result is prohibited from
+every solver and savings output.

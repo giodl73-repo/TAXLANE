@@ -1,0 +1,110 @@
+{
+  "record_id": "health:target-cost-scenario-boundary:cy2024:v1",
+  "record_family": "health_target_cost_scenario",
+  "schema_version": "v1.draft",
+  "as_of_date": "2026-07-17",
+  "lane_id": "health-medicare",
+  "contract_path": "data/derived/breadth_benchmark_matrix/program_lane_target_cost_contract.v1.draft.json",
+  "rubric_path": "data/derived/breadth_benchmark_matrix/international_comparator_target_rubric.v1.draft.json",
+  "evidence_chain_paths": [
+    "data/derived/breadth_benchmark_matrix/health_cost_decomposition.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/health_service_price_volume_bridge.cy2024.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/health_category_benchmark_ladder.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/health_target_admissibility.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/health_medicare_relative_scenarios.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/health_commercial_sample_sensitivity.v1.draft.json",
+    "data/derived/breadth_benchmark_matrix/health_national_phi_sensitivity.v1.draft.json"
+  ],
+  "source_custody": {
+    "status": "captured_in_existing_repo_evidence_chain",
+    "complete": true,
+    "source_ids": ["SRC-CMS-NHE-TABLES-2024", "SRC-RAND-HOSPITAL-PRICES-R5-1", "SRC-MILLIMAN-COMMERCIAL-REIMBURSEMENT-2023", "SRC-MEDPAC-MARCH-2026"],
+    "missing_source_ids": []
+  },
+  "payer_payment_base": {
+    "reference_period": "CY2024",
+    "scope": "CMS NHE private health insurance source-of-funds payments",
+    "total_private_health_insurance_usd_billions": 1644.6,
+    "covered_private_health_insurance_usd_billions": 1064.0,
+    "covered_share_formula": "covered_private_health_insurance_usd_billions / total_private_health_insurance_usd_billions * 100",
+    "covered_share_percent": 64.696583,
+    "exclusions": ["separately reported patient out-of-pocket payments", "private-insurance service categories outside hospital and physician/clinical services"]
+  },
+  "category_formula": "payer_payment_base_usd_billions * (target_percent_medicare / reference_percent_medicare - 1)",
+  "categories": [
+    {
+      "category": "hospital care",
+      "payer_payment_base_usd_billions": 558.9,
+      "base_reference_period": "CY2024",
+      "reference_percent_medicare": 253,
+      "reference_ratio_period": "2022",
+      "reference_source_id": "SRC-RAND-HOSPITAL-PRICES-R5-1",
+      "scenario_changes_usd_billions": {"current_reference": 0.0, "modest_sensitivity": -61.854545, "central_sensitivity": -117.081818, "aggressive_sensitivity": -172.309091}
+    },
+    {
+      "category": "physician and clinical services",
+      "payer_payment_base_usd_billions": 505.1,
+      "base_reference_period": "CY2024",
+      "reference_percent_medicare": 139,
+      "reference_ratio_period": "2023 valuation using 2021 claims trended forward",
+      "reference_source_id": "SRC-MILLIMAN-COMMERCIAL-REIMBURSEMENT-2023",
+      "scenario_changes_usd_billions": {"current_reference": 0.0, "modest_sensitivity": -14.535252, "central_sensitivity": -32.704317, "aggressive_sensitivity": -50.873381}
+    }
+  ],
+  "payment_paths": [
+    {"scenario_id": "current_reference", "label": "current reference", "hospital_target_percent_medicare": 253, "professional_target_percent_medicare": 139, "combined_mechanical_change_usd_billions": 0.0, "use": "reference_only"},
+    {"scenario_id": "modest_sensitivity", "label": "modest sensitivity", "hospital_target_percent_medicare": 225, "professional_target_percent_medicare": 135, "combined_mechanical_change_usd_billions": -76.389797, "use": "private_insurance_payer_payment_sensitivity"},
+    {"scenario_id": "central_sensitivity", "label": "central sensitivity", "hospital_target_percent_medicare": 200, "professional_target_percent_medicare": 130, "combined_mechanical_change_usd_billions": -149.786135, "use": "strongest_bounded_central_private_insurance_payer_payment_sensitivity"},
+    {"scenario_id": "aggressive_sensitivity", "label": "aggressive sensitivity", "hospital_target_percent_medicare": 175, "professional_target_percent_medicare": 125, "combined_mechanical_change_usd_billions": -223.182472, "use": "sensitivity_only_not_fiscal_stress"}
+  ],
+  "category_reconciliation": {
+    "central_hospital_change_usd_billions": -117.081818,
+    "central_professional_change_usd_billions": -32.704317,
+    "central_category_sum_usd_billions": -149.786135,
+    "reconciliation_status": "reconciles_within_rounding_tolerance"
+  },
+  "perimeter": {
+    "base_perimeter": "CY2024 private health-insurance payer payments",
+    "reference_perimeter": "commercial-to-Medicare price ratios from cross-source claims analyses",
+    "federal_budget_perimeter": "not modeled",
+    "perimeter_match_for_federal_translation": false,
+    "comparison_grade": "C_directional_cross_source"
+  },
+  "unmodeled_fields": {
+    "behavioral_response": null,
+    "utilization_and_volume_response": null,
+    "coding_and_site_of_care_response": null,
+    "network_and_consolidation_response": null,
+    "transition_cost_usd_billions": null,
+    "administration_monitoring_enforcement_cost_usd_billions": null,
+    "premium_incidence": null,
+    "employer_incidence": null,
+    "household_incidence": null,
+    "wage_and_tax_incidence": null
+  },
+  "federal_translation": {
+    "policy_instrument": null,
+    "matched_federal_payment_base_usd_billions": null,
+    "gross_federal_budget_effect_usd_billions": null,
+    "net_federal_budget_effect_usd_billions": null,
+    "medicare_effect_usd_billions": null,
+    "medicaid_effect_usd_billions": null,
+    "subsidy_tax_effect_usd_billions": null,
+    "ten_year_score_usd_billions": null,
+    "translation_status": "blocked_perimeter_mismatch_and_no_policy_score"
+  },
+  "outcome_floors": {"access_coverage": "blocked_not_tested", "quality_safety": "blocked_not_tested", "equity_distribution": "blocked_not_tested", "adequacy_resilience": "blocked_not_tested", "fiscal_delivery_feasibility": "blocked_not_tested"},
+  "admissibility_gates": {"A1_source_and_measure": false, "A2_universe_and_statistic": false, "A3_outcome_and_direction": false, "A4_floors": false, "A5_transferability": false, "A6_stability_and_uncertainty": false, "A7_causal_and_fiscal": false},
+  "blockers": ["comparison_grade_below_A_or_B", "mixed_reference_periods_and_category_perimeters", "commercial_allowed_claims_base_not_reconciled", "service_provider_geography_case_mix_segmentation_missing", "behavioral_response_missing", "transition_administration_monitoring_and_enforcement_costs_missing", "premium_employer_household_wage_tax_incidence_missing", "all_outcome_floors_untested", "specific_federal_policy_instrument_and_score_missing", "federal_state_private_translation_missing"],
+  "claim_readiness": {"target_cost_ready": false, "federal_effect_ready": false, "gross_savings_ready": false, "net_savings_ready": false, "balanced_rate_ready": false, "solver_eligible": false},
+  "legacy_flat_federal_arithmetic": {
+    "path": "data/derived/program_lane_rate_model/health_efficiency_scenarios.fy2025.draft.jsonl",
+    "flat_twenty_percent_result_usd_billions": 395.046,
+    "classification": "legacy_illustrative_only",
+    "solver_eligible": false,
+    "savings_output_eligible": false
+  },
+  "stress_semantics": "Fiscal stress must be an adverse realization of a selected, policy-scored central reform. The aggressive private-insurance payment sensitivity is not the fiscal solver stress scenario.",
+  "required_warning": "The $149.786 billion result is a mechanical CY2024 private-insurance payer-payment sensitivity. It is not gross savings, net savings, a premium forecast, provider revenue forecast, federal budget effect, or target for Medicare or Medicaid.",
+  "status": "draft_boundary_only_not_target_cost_or_federal_score"
+}

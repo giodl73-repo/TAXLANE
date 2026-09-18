@@ -97,6 +97,13 @@ blocking national and net-savings claims.
 CY2024 private-insurance hospital and physician/clinical payments, labels the
 cross-source result Grade C, and blocks savings and federal-budget claims.
 
+`health_target_cost_scenario.v1.draft.json` hardens that Grade C result as a
+private-insurance payer-payment sensitivity. It adds exact reconciliation,
+null behavior/transition/incidence/federal fields, all outcome floors, A1-A7,
+and all-false target, savings, solver, federal-effect, and balanced-rate gates.
+Its aggressive sensitivity is not fiscal stress, and the legacy $395.046B flat
+federal illustration is excluded from solvers and savings outputs.
+
 `fiscal_path_scenarios.v1.draft.json` translates CBO's 2036 primary-deficit
 baseline into partial-closure, balance, and surplus adjustment equivalents
 without claiming that primary balance automatically stabilizes debt.
