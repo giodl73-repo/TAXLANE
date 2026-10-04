@@ -1,8 +1,9 @@
 # Browser budget explorer
 
 Status: native/WASM/site build, browser checks, visual inspection, and final
-code review passed; hosted publication pending. No new admitted research
-scenario results claimed.
+code review passed. Hosted CI passed for the implementation; default-branch
+Pages workflow receipts and TRACKER's adoption snapshot track publication.
+No new admitted research scenario results claimed.
 
 Build a small interactive GitHub Pages front door using TAXLANE's Rust accounting
 core compiled to WebAssembly. Readers adjust spending assumptions and compare
@@ -23,4 +24,8 @@ Evidence: 152 existing core tests plus 3 adapter tests passed; scoped fmt and
 strict Clippy passed; full site 180,975 bytes; three real browser tests passed
 again after the mobile sticky-summary correction (6.2 seconds). Pinned local
 Playwright 1.58.2 used Chromium revision 1243. Final bounded built-in Codex
-review was clean. Hosted browser installation and deployment remain release gates.
+review was clean. [Hosted CI run 37239516690](https://github.com/giodl73-repo/TAXLANE/actions/runs/37239516690)
+passed for implementation `cd9c0766`, including the pinned browser installation.
+[PR #10](https://github.com/giodl73-repo/TAXLANE/pull/10) owns release to `main`;
+the default-branch Pages workflow owns deployment receipts, and TRACKER's wave
+records the final child SHA and live verification.
