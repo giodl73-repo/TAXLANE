@@ -4,6 +4,11 @@ Work is organized into small waves and pulses.
 
 ## Active wave
 
+- [Browser budget explorer](2026-10-04-budget-explorer/README.md): a separately
+  scoped hypothetical accounting sandbox; native/WASM/browser checks passed,
+  review and hosted CI passed. Pages receipts and TRACKER's adoption snapshot
+  track publication. Does not advance research admission gates.
+
 - `2026-07-18-adaptive-rate-performance-system` (next-phase plan reviewed; contract-building phase ready)
 - `2026-07-12-breadth-depth-benchmark-matrix` (breadth closed at 17/17; prioritized depth and benchmark work active)
 - `2026-06-28-efficiency-pressure-system` (pulses 01-04 done; attach reviewed evidence one lever at a time)
