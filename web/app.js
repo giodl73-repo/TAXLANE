@@ -2,12 +2,12 @@ const $ = selector => document.querySelector(selector);
 const money = value => `$${(Math.abs(value)/1000).toLocaleString('en-US',{minimumFractionDigits:1,maximumFractionDigits:3})}B`;
 const percent = value => `${value > 0 ? '+' : ''}${value}%`;
 let baseline, ready=false, request=0, timer;
-let scenario={lane_change_bps:{},receipts_change_bps:0};
+let scenario={lane_change_bps:{},receipts_change_bps:0,transit_share_bps:0,transit_area:0};
 const controls=new Map();
 const worker=new Worker(new URL('./worker.js',import.meta.url),{type:'module'});
 function fail(message='Budget explorer could not load. Reload to retry, or use the research link above.') {
   ready=false; $('#status').textContent=message;
-  document.querySelectorAll('button,input').forEach(control=>control.disabled=true);
+  document.querySelectorAll('button,input,select').forEach(control=>control.disabled=true);
 }
 function changed() {
   request++;
@@ -20,6 +20,7 @@ function syncControls() {
     input.value=(scenario.lane_change_bps[id]||0)/100;
     output.textContent=percent(Number(input.value));
   }
+  $('#transit-share').value=scenario.transit_share_bps/100;$('#transit-area').value=scenario.transit_area;$('#transit-share-value').textContent=(scenario.transit_share_bps/100)+'%';
   $('#receipts').value=scenario.receipts_change_bps/100;
   $('#receipts-value').textContent=percent(Number($('#receipts').value));
 }
@@ -29,9 +30,11 @@ function loadScenario() {
   try {
     if(raw.length>5000) throw new Error();
     const candidate=JSON.parse(raw);
-    if(!candidate || Object.keys(candidate).some(key=>!['lane_change_bps','receipts_change_bps'].includes(key)) || !candidate.lane_change_bps || typeof candidate.lane_change_bps!=='object' || Array.isArray(candidate.lane_change_bps)) throw new Error();
+    if(!candidate || Object.keys(candidate).some(key=>!['lane_change_bps','receipts_change_bps','transit_share_bps','transit_area'].includes(key)) || !candidate.lane_change_bps || typeof candidate.lane_change_bps!=='object' || Array.isArray(candidate.lane_change_bps)) throw new Error();
     const valid=value=>Number.isInteger(value) && value>=-10000 && value<=10000 && value%100===0;
     if(!valid(candidate.receipts_change_bps) || Object.entries(candidate.lane_change_bps).some(([id,value])=>!controls.has(id)||!valid(value))) throw new Error();
+    candidate.transit_share_bps??=0;candidate.transit_area??=0;
+    if(!Number.isInteger(candidate.transit_share_bps)||candidate.transit_share_bps<0||candidate.transit_share_bps>10000||candidate.transit_share_bps%100!==0||!Number.isInteger(candidate.transit_area)||candidate.transit_area<0||candidate.transit_area>3)throw Error();
     scenario=candidate;
   } catch { $('#status').textContent='Invalid shared scenario; showing the baseline.'; }
 }
@@ -54,11 +57,11 @@ worker.onmessage=({data})=>{
       input.oninput=()=>{scenario.lane_change_bps[lane.id]=Number(input.value)*100;output.textContent=percent(Number(input.value));changed();};
       controls.set(lane.id,{input,output});article.append(head,input,amount,source);$('#lanes').append(article);
     }
-    ready=true;document.querySelectorAll('button,input').forEach(control=>control.disabled=false);
+    ready=true;document.querySelectorAll('button,input,select').forEach(control=>control.disabled=false);
     $('#status').textContent='Ready · calculations stay on your device';
     loadScenario();syncControls();changed();
   } else if(data.type==='result' && data.id===request) {
-    const result=data.result;
+    const result=data.result;const t=result.transit;$('#transit-hours').textContent=Math.round(t.vehicle_revenue_hours).toLocaleString('en-US')+' vehicle revenue hours';$('#transit-detail').textContent=`$${t.allocation_musd.toLocaleString('en-US',{maximumFractionDigits:3})}M illustrative allocation ÷ $${t.operating_dollars_per_hour.toFixed(2)}/hour (${t.area}, ${t.price_year} dollars).`;
     $('#outlays').textContent=money(result.outlays_musd);$('#revenue').textContent=money(result.receipts_musd);
     $('#gap-label').textContent=result.deficit_musd<0?'Annual surplus':'Annual financing gap';$('#gap').textContent=money(result.deficit_musd);
     $('#mobile-gap').textContent=`${money(result.deficit_musd)} ${result.deficit_musd<0?'surplus':'gap'}`;
@@ -75,8 +78,11 @@ worker.onmessage=({data})=>{
     $('#fixed-accounting').textContent=`Net interest: ${money(result.net_interest_musd)}. Negative offsets: ${money(baseline.lanes.filter(lane=>lane.amount_musd<0).reduce((sum,lane)=>sum+lane.amount_musd,0))} reduction in net outlays.`;
   }
 };
+$('#transit-share').oninput=()=>{scenario.transit_share_bps=Number($('#transit-share').value)*100;$('#transit-share-value').textContent=$('#transit-share').value+'%';changed();};
+$('#transit-area').onchange=()=>{scenario.transit_area=Number($('#transit-area').value);changed();};
+$('#transit-example').onclick=()=>{scenario.lane_change_bps.transportation=1000;scenario.transit_share_bps=1000;scenario.transit_area=2;syncControls();changed();};
 $('#receipts').oninput=()=>{scenario.receipts_change_bps=Number($('#receipts').value)*100;$('#receipts-value').textContent=percent(Number($('#receipts').value));changed();};
-$('#reset').onclick=()=>{scenario={lane_change_bps:{},receipts_change_bps:0};history.replaceState(null,'',location.pathname);syncControls();$('#status').textContent='Reset to baseline';changed();};
+$('#reset').onclick=()=>{scenario={lane_change_bps:{},receipts_change_bps:0,transit_share_bps:0,transit_area:0};history.replaceState(null,'',location.pathname);syncControls();$('#status').textContent='Reset to baseline';changed();};
 $('#share').onclick=async()=>{const url=new URL(location.href);url.searchParams.set('scenario',JSON.stringify(scenario));history.replaceState(null,'',url);try{await navigator.clipboard.writeText(url.href);$('#status').textContent='Scenario link copied.';}catch{$('#status').textContent='Copy the scenario link from your address bar.';}};
 $('#download').onclick=()=>{const blob=new Blob([JSON.stringify({baseline_version:baseline.version,fiscal_year:baseline.fiscal_year,hypothetical:true,scenario},null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download='taxlane-scenario.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
 worker.postMessage({type:'init'});

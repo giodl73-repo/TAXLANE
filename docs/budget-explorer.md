@@ -44,3 +44,7 @@ Three browser checks passed with pinned Playwright 1.58.2 and Chromium revision
 1243: actual WASM accounting, keyboard controls, share/reload/reset/download,
 mobile overflow, malformed input, and failed baseline download. Code review,
 hosted installation, and deployment evidence are recorded in the local wave.
+
+## Transportation operating-cost equivalents
+
+The optional `transit_share_bps` (0–10000) and `transit_area` (0–3) inputs default to zero, preserving old links. Rust multiplies only the positive transportation increment by that share, then divides dollar allocation by the selected FTA 2024 fixed-route bus average operating expense per vehicle revenue hour. It does not add a second budget outlay. Price year, source and nonforecast basis are included in the comparison result. Export/share retain the assumptions. Review and exact reference values: [acceptance](../reviews/2026-10-05-transit-cost-equivalents.md). This is ratio arithmetic owned by TAXLANE; domain service models remain with the jurisdiction-map owners.
