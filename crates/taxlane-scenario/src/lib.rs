@@ -29,6 +29,10 @@ pub struct Scenario {
     /// Integer basis points: -10000..=10000 means -100%..=+100%.
     pub lane_change_bps: BTreeMap<String, i32>,
     pub receipts_change_bps: i32,
+    #[serde(default)]
+    pub transit_share_bps: u16,
+    #[serde(default)]
+    pub transit_area: usize,
 }
 
 #[derive(Clone, Debug, Serialize)]
@@ -51,6 +55,50 @@ pub struct Comparison {
     pub baseline_deficit_musd: i64,
     pub deficit_change_musd: i64,
     pub lanes: Vec<ResultLane>,
+    pub transit: TransitEquivalent,
+}
+
+/// Historical averages, FTA 2024 NTST v1.2, Exhibit 15.3, pp150–151.
+const TRANSIT_COSTS: [(&str, f64); 4] = [
+    ("New York urbanized area", 265.30),
+    ("Next seven largest urbanized areas", 226.93),
+    ("All other urbanized areas", 160.84),
+    ("Rural areas", 534.97),
+];
+#[derive(Clone, Debug, Serialize)]
+pub struct TransitEquivalent {
+    pub allocation_musd: f64,
+    pub vehicle_revenue_hours: f64,
+    pub operating_dollars_per_hour: f64,
+    pub area: &'static str,
+    pub price_year: u16,
+    pub basis: &'static str,
+    pub source_url: &'static str,
+}
+fn transit_equivalent(
+    lanes: &[ResultLane],
+    scenario: &Scenario,
+) -> Result<TransitEquivalent, String> {
+    if scenario.transit_share_bps > 10000 {
+        return Err("Transit share must be 0–100%".into());
+    }
+    let (area, cost) = TRANSIT_COSTS
+        .get(scenario.transit_area)
+        .ok_or("Unknown transit reference area")?;
+    let increment = lanes
+        .iter()
+        .find(|lane| lane.id == "transportation")
+        .map_or(0, |lane| lane.change_musd.max(0));
+    let allocation = increment as f64 * f64::from(scenario.transit_share_bps) / 10000.;
+    Ok(TransitEquivalent {
+        allocation_musd: allocation,
+        vehicle_revenue_hours: allocation * 1_000_000. / cost,
+        operating_dollars_per_hour: *cost,
+        area,
+        price_year: 2024,
+        basis: "Illustrative cost-equivalent; not predicted service",
+        source_url: "https://www.transit.dot.gov/sites/fta.dot.gov/files/2026-04/2024%20National%20Transit%20Summaries%20and%20Trends_1.2.pdf",
+    })
 }
 
 fn scale(amount: i64, change: i32) -> Result<i64, String> {
@@ -129,6 +177,7 @@ pub fn compare(baseline: &Baseline, scenario: &Scenario) -> Result<Comparison, S
         .outlays_musd
         .checked_sub(baseline.receipts_musd)
         .ok_or("Baseline deficit overflow")?;
+    let transit = transit_equivalent(&lanes, scenario)?;
     Ok(Comparison {
         fiscal_year: baseline.fiscal_year,
         baseline_outlays_musd: baseline.outlays_musd,
@@ -143,6 +192,7 @@ pub fn compare(baseline: &Baseline, scenario: &Scenario) -> Result<Comparison, S
             .checked_sub(baseline_deficit)
             .ok_or("Deficit change overflow")?,
         lanes,
+        transit,
     })
 }
 
@@ -200,6 +250,7 @@ mod tests {
         let scenario = Scenario {
             lane_change_bps: BTreeMap::from([("service".into(), -2000)]),
             receipts_change_bps: 2500,
+            ..Default::default()
         };
         let changed = compare(&base, &scenario).unwrap();
         assert_eq!(
@@ -244,6 +295,41 @@ mod tests {
         let mut base = baseline();
         base.lanes.push(base.lanes[0].clone());
         assert!(compare(&base, &Scenario::default()).is_err());
+    }
+    #[test]
+    fn transit_suballocation_never_changes_federal_accounting() {
+        let mut base = baseline();
+        base.lanes[0].id = "transportation".into();
+        let mut scenario = Scenario {
+            lane_change_bps: BTreeMap::from([("transportation".into(), 1000)]),
+            transit_share_bps: 1000,
+            transit_area: 2,
+            ..Default::default()
+        };
+        let out = compare(&base, &scenario).unwrap();
+        assert_eq!(out.transit.allocation_musd, 1.);
+        assert!((out.transit.vehicle_revenue_hours - 1_000_000. / 160.84).abs() < 1e-6);
+        scenario.transit_share_bps = 0;
+        assert_eq!(
+            compare(&base, &scenario).unwrap().deficit_musd,
+            out.deficit_musd
+        );
+        scenario.transit_share_bps = 10000;
+        scenario
+            .lane_change_bps
+            .insert("transportation".into(), -1000);
+        assert_eq!(
+            compare(&base, &scenario)
+                .unwrap()
+                .transit
+                .vehicle_revenue_hours,
+            0.
+        );
+        scenario.transit_share_bps = 10001;
+        assert!(compare(&base, &scenario).is_err());
+        scenario.transit_share_bps = 0;
+        scenario.transit_area = 4;
+        assert!(compare(&base, &scenario).is_err());
     }
     #[test]
     fn full_cut_and_rounding_are_explicit() {

@@ -1,3 +1,4 @@
+import fs from 'node:fs/promises';
 import {test,expect} from '@playwright/test';
 
 test('real Rust accounting changes a budget and shares a reproducible scenario',async({page})=>{
@@ -38,4 +39,15 @@ test('failed baseline download offers a readable research route',async({page})=>
   await expect(page.locator('#status')).toContainText('Reload to retry');
   await expect(page.getByRole('link',{name:'Research & sources'})).toBeVisible();
   await expect(page.locator('#reset')).toBeDisabled();
+});
+
+test('transit cost equivalents preserve suballocation, source, sharing and cuts',async({page})=>{
+ await page.goto('/TAXLANE/');await expect(page.locator('#gap')).toHaveText('$1,774.684B');
+ await page.locator('#transit-example').click();await expect(page.locator('#transit-detail')).toContainText('$160.84/hour');
+ const expected=await page.locator('#transit-hours').textContent();expect(expected).not.toBe('0 vehicle revenue hours');
+ const gap=await page.locator('#gap').textContent();await page.locator('#transit-share').fill('50');await expect(page.locator('#transit-share-value')).toHaveText('50%');await expect(page.locator('#transit-hours')).not.toHaveText(expected);await expect(page.locator('#gap')).toHaveText(gap);
+ await page.locator('#share').click();const hours=await page.locator('#transit-hours').textContent();await page.reload();await expect(page.locator('#transit-hours')).toHaveText(hours);
+ const pending=page.waitForEvent('download');await page.locator('#download').click();const file=await pending;const json=JSON.parse(await fs.readFile(await file.path(),'utf8'));expect(json.scenario.transit_share_bps).toBe(5000);expect(json.scenario.transit_area).toBe(2);
+ await page.locator('#lane-transportation').fill('-10');await expect(page.locator('#transit-hours')).toHaveText('0 vehicle revenue hours');
+ await page.locator('#reset').click();await expect(page.locator('#transit-share')).toHaveValue('0');await expect(page.locator('#gap')).toHaveText('$1,774.684B');
 });

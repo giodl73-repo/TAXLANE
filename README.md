@@ -294,3 +294,7 @@ Third-party material remains under its own terms.
 Source data and derived data artifacts carry no blanket license and
 retain their source-specific rights.
 See [LICENSE](./LICENSE) for the complete notice.
+
+## Transportation cost-equivalent example
+
+The [budget explorer](https://giodl73-repo.github.io/TAXLANE/#transportation-example) now lets you allocate a share of a positive transportation spending increment to illustrative bus operations. Rust divides that allocation by a selected FTA2024 average operating cost, preserving the original federal budget total. The result is a historical cost-equivalent, not predicted service delivered. [Source and acceptance](reviews/2026-10-05-transit-cost-equivalents.md).
