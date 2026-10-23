@@ -4,6 +4,9 @@ Work is organized into small waves and pulses.
 
 ## Active wave
 
+- [Lane evidence navigation](2026-10-23-lane-evidence/README.md): per-row domain
+  ownership, source context, direct satellite tools and research explanation.
+
 - [Browser budget explorer](2026-10-04-budget-explorer/README.md): a separately
   scoped hypothetical accounting sandbox; native/WASM/browser checks passed,
   review and hosted CI passed. Pages receipts and TRACKER's adoption snapshot

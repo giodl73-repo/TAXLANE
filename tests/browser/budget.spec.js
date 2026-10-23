@@ -1,6 +1,30 @@
 import fs from 'node:fs/promises';
 import {test,expect} from '@playwright/test';
 
+test('each budget row exposes scoped evidence and existing satellite tools without changing accounting',async({page})=>{
+  await page.goto('/TAXLANE/#evidence-income-security');
+  await expect(page.locator('#gap')).toHaveText('$1,774.684B');
+  await expect(page.locator('#evidence-income-security')).toHaveAttribute('open','');
+  await expect(page.locator('.lane-evidence')).toHaveCount(17);
+  const transport=page.locator('#evidence-transportation');
+  await transport.locator('summary').focus();await page.keyboard.press('Enter');
+  await expect(transport).toHaveAttribute('open','');
+  await expect(transport.getByRole('link',{name:'Open ROUTE workbench'})).toHaveAttribute('href','https://giodl73-repo.github.io/ROUTE/');
+  await expect(transport.getByRole('link',{name:'Open GAUGE workbench'})).toHaveAttribute('href','https://giodl73-repo.github.io/GAUGE/');
+  await expect(transport).toContainText('FY2025');
+  await expect(transport).toContainText('hypothetical accounting inputs');
+  const income=page.locator('#evidence-income-security');
+  await expect(income.getByRole('link',{name:'LIFELINE research & evidence'})).toHaveAttribute('href','https://github.com/giodl73-repo/LIFELINE');
+  await expect(income).toContainText('cannot be relabeled as savings');
+  const science=page.locator('#evidence-science-space-technology');await science.locator('summary').click();
+  await expect(science).toContainText('Domain owner unassigned');
+  await page.locator('#evidence-net-interest summary').click();
+  await expect(page.locator('#evidence-net-interest')).toContainText('Held fixed');
+  await expect(page.locator('#gap')).toHaveText('$1,774.684B');
+  await page.setViewportSize({width:390,height:844});
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
+});
+
 test('real Rust accounting changes a budget and shares a reproducible scenario',async({page})=>{
   const errors=[];page.on('pageerror',error=>errors.push(error.message));
   const wasm=page.waitForResponse(response=>response.url().endsWith('.wasm'));
