@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -26,7 +26,7 @@ jobs:
           rustup show
           cargo install wasm-bindgen-cli --version 0.2.127 --locked
           npm ci
-          npx playwright install --with-deps chromium
+          npx playwright install chromium
       - name: Validate Rust
         run: |
           cargo fmt -p taxlane-scenario --check

@@ -32,5 +32,21 @@ inspected. The pinned wasm-bindgen prebuilt archive matched its upstream SHA-256
 The initial browser launch failed because its expected revision was absent;
 final tests used already-installed Windows Chromium 1243. No browser download.
 
-Publication: pending hosted checks and a separate release decision. No new
-fiscal admission or satellite-to-rate adapter is introduced.
+## Release follow-through
+
+The owner authorized continuation through merge and publication. PR #13 merged
+at `02302a316751e7c2aa0e15c58149ae5cda8f6b20`; its default-branch deployment
+is recorded separately from the earlier PR build receipt.
+
+LIFELINE's separately scoped synthetic resource-path explorer is now deployed
+and live verified at `https://giodl73-repo.github.io/LIFELINE/` (main
+`c31d1c8ddf62b01380d8d127ca130d0490375272`, successful build/deploy
+40042844311). This follow-up adds its direct workbench link to the income-security
+disclosure while retaining its synthetic label and independent fiscal boundary.
+All five local real-WASM browser checks pass again. CI uses the same hosted
+Ubuntu 24.04/Chromium setup already validated by LIFELINE, without broad system
+package upgrades. Native accounting, ledger and rate code remain unchanged.
+
+No new fiscal admission or satellite-to-rate adapter is introduced. Final
+default-head deployment/live verification and the portfolio snapshot are
+recorded by TRACKER after this follow-up merges.
