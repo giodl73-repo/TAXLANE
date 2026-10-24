@@ -25,6 +25,10 @@ test('each budget row exposes scoped evidence and existing satellite tools witho
     await expect(panel.getByRole('link',{name:`Open ${repo} workbench`})).toHaveAttribute('href',`https://giodl73-repo.github.io/${repo}/`);
     await expect(panel).toContainText('synthetic aggregate');
   }
+  for(const [lane,repos] of [['national-defense',['BASTION']],['environment-energy-natural-resources',['PYLON','BASIN','DRAIN']],['transportation',['TARMAC','HARBOR']],['community-regional-development',['ZONES']],['education-training-employment-social-services',['SLATE']],['health',['SHIELD']],['medicare',['SHIELD']],['income-security',['LIFELINE']]]) {
+    const panel=page.locator(`#evidence-${lane}`);await panel.evaluate(element=>element.open=true);
+    for(const repo of repos) await expect(panel.getByRole('link',{name:`Open ${repo} workbench`})).toHaveAttribute('href',`https://giodl73-repo.github.io/${repo}/`);
+  }
   const science=page.locator('#evidence-science-space-technology');await science.locator('summary').click();
   await expect(science).toContainText('Domain owner unassigned');
   await page.locator('#evidence-net-interest summary').click();
