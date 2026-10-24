@@ -50,3 +50,21 @@ package upgrades. Native accounting, ledger and rate code remain unchanged.
 No new fiscal admission or satellite-to-rate adapter is introduced. Final
 default-head deployment/live verification and the portfolio snapshot are
 recorded by TRACKER after this follow-up merges.
+
+## ANCHOR browser route
+
+ANCHOR PR #2 published its synthetic service/adequacy comparison at
+`https://giodl73-repo.github.io/ANCHOR/`, main
+`114930490b2baa0f918d5731948d509a4ffb4337`, successful build/deploy
+[40047939801](https://github.com/giodl73-repo/ANCHOR/actions/runs/40047939801).
+All 14 public artifact files matched live bytes; live Chromium confirmed all
+11 service facets, 18 cohort adequacy observations, held/null downloads, reset,
+390px layout and keyboard return to the Social Security disclosure.
+
+This follow-up links that task from Social Security with an explicit synthetic
+label. Source Custodian and Budget Accountant lenses pass: no source-ledger or
+accounting change. Reform Skeptic passes: service, adequacy, dedicated solvency
+and fiscal admission remain separate. Taxpayer Advocate passes: direct keyboard
+navigation now has a working return route. These are implementing-agent role
+lenses, not independent endorsements. All five local actual-WASM browser checks
+pass, including the new link assertions and unchanged baseline financing gap.
