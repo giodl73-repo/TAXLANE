@@ -34,6 +34,8 @@ test('each budget row exposes scoped evidence and existing satellite tools witho
   const science=page.locator('#evidence-science-space-technology');await science.locator('summary').click();
   await expect(page.locator('#evidence-education-training-employment-social-services')).toContainText('Frozen school-year counts');
   await expect(page.locator('#evidence-education-training-employment-social-services')).toContainText('fictional topology is separate');
+  await expect(page.locator('#evidence-environment-energy-natural-resources')).toContainText('frozen Lees Ferry daily discharge');
+  await expect(page.locator('#evidence-environment-energy-natural-resources')).toContainText('conveyance graph remains fictional');
   await expect(science).toContainText('Domain owner unassigned');
   await page.locator('#evidence-net-interest summary').click();
   await expect(page.locator('#evidence-net-interest')).toContainText('Held fixed');
