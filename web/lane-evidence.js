@@ -3,7 +3,7 @@ const owner = (name, scope, demo = null) => ({name, scope, source:repo(name), de
 const site = name => `https://giodl73-repo.github.io/${name}/`;
 export const laneEvidence = {
   'national-defense': {owners:[owner('BASTION','aggregate readiness and lifecycle evidence')], note:'Readiness is not established by spending or inventory.'},
-  'international-affairs': {owners:[owner('ENVOY','assistance realization and safeguards')], note:'Obligations and disbursements do not by themselves establish delivered outcomes.'},
+  'international-affairs': {owners:[owner('ENVOY','assistance realization and safeguards',site('ENVOY'))], note:'The workbench uses synthetic aggregate portfolios. Obligations and disbursements do not by themselves establish delivered outcomes.'},
   'science-space-technology': {owners:[], note:'Domain owner unassigned. Fiscal records do not establish science or space program performance.'},
   'environment-energy-natural-resources': {owners:[owner('PYLON','transmission graph arithmetic',site('PYLON')),owner('BASIN','water supply and conveyance'),owner('DRAIN','sanitation and receiving-water impacts')], note:'These owners cover narrower domains, not the whole environment/energy lane. PYLON uses a synthetic topology.'},
   'agriculture': {owners:[], note:'Domain owner unassigned. Agriculture program outcomes remain outside the budget calculation.'},
@@ -15,8 +15,8 @@ export const laneEvidence = {
   'medicare': {owners:[owner('SHIELD','care delivery only')], note:'TAXLANE retains financing distinctions. SHIELD does not own Medicare eligibility or payer policy.'},
   'income-security': {owners:[owner('LIFELINE','aggregate household resources, access and benefit continuity',site('LIFELINE'))], note:'The workbench uses synthetic aggregate paths. Lower participation or benefits cannot be relabeled as savings. No individual eligibility decision is made.'},
   'social-security': {owners:[owner('ANCHOR','aggregate retirement and disability service access and adequacy',site('ANCHOR'))], note:'The workbench compares synthetic aggregate service and adequacy examples. Service access, benefit adequacy and dedicated solvency remain separate. Research candidates require fiscal admission.'},
-  'veterans': {owners:[owner('COVENANT','aggregate service handoffs and continuity')], note:'Authorization does not establish completed care or benefits. No individual claims decision is made.'},
-  'justice-general-government': {owners:[owner('TRIBUNAL','justice caseflow and rights floors')], note:'General-government performance remains unassigned. Throughput does not establish rights-compliant outcomes.'},
+  'veterans': {owners:[owner('COVENANT','aggregate service handoffs and continuity',site('COVENANT'))], note:'The workbench uses synthetic aggregate handoffs. Authorization does not establish completed care or benefits. No individual claims decision is made.'},
+  'justice-general-government': {owners:[owner('TRIBUNAL','justice caseflow and rights floors',site('TRIBUNAL'))], note:'The workbench uses synthetic aggregate caseflow. General-government performance remains unassigned. Throughput does not establish rights-compliant outcomes.'},
   'net-interest': {owners:[owner('TAXLANE','source-custodied financing accounting')], note:'Held fixed: financing cost, not a service outcome or assumed interest saving.'},
   'undistributed-offsetting-receipts': {owners:[owner('TAXLANE','source-custodied offset accounting')], note:'Held fixed: offsets reduce net outlays. They are not automatically efficiency, fraud reduction or program savings.'},
 };
