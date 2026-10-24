@@ -13,6 +13,8 @@ test('each budget row exposes scoped evidence and existing satellite tools witho
   await expect(transport.getByRole('link',{name:'Open GAUGE workbench'})).toHaveAttribute('href','https://giodl73-repo.github.io/GAUGE/');
   await expect(transport).toContainText('FY2025');
   await expect(transport).toContainText('hypothetical accounting inputs');
+  await expect(transport).toContainText('January–August reporting-carrier arrivals');
+  await expect(transport).toContainText('fictional graph is separate');
   const income=page.locator('#evidence-income-security');
   await expect(income.getByRole('link',{name:'LIFELINE research & evidence'})).toHaveAttribute('href','https://github.com/giodl73-repo/LIFELINE');
   await expect(income).toContainText('cannot be relabeled as savings');
