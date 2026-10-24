@@ -1,3 +1,4 @@
+import {evidencePanel} from './lane-evidence.js';
 const $ = selector => document.querySelector(selector);
 const money = value => `$${(Math.abs(value)/1000).toLocaleString('en-US',{minimumFractionDigits:1,maximumFractionDigits:3})}B`;
 const percent = value => `${value > 0 ? '+' : ''}${value}%`;
@@ -5,6 +6,11 @@ let baseline, ready=false, request=0, timer;
 let scenario={lane_change_bps:{},receipts_change_bps:0,transit_share_bps:0,transit_area:0};
 const controls=new Map();
 const worker=new Worker(new URL('./worker.js',import.meta.url),{type:'module'});
+function openEvidenceHash() {
+  const target=document.getElementById(location.hash.slice(1));
+  if(target?.classList.contains('lane-evidence')) {target.open=true;target.scrollIntoView({block:'start'});}
+}
+addEventListener('hashchange',openEvidenceHash);
 function fail(message='Budget explorer could not load. Reload to retry, or use the research link above.') {
   ready=false; $('#status').textContent=message;
   document.querySelectorAll('button,input,select').forEach(control=>control.disabled=true);
@@ -53,10 +59,11 @@ worker.onmessage=({data})=>{
       const input=document.createElement('input');Object.assign(input,{type:'range',min:'-100',max:'100',step:'1',value:'0',id:label.htmlFor});
       const amount=document.createElement('p');amount.className='amount';amount.id=`amount-${lane.id}`;amount.textContent=`Baseline ${money(lane.amount_musd)}`;
       input.setAttribute('aria-describedby',amount.id);
-      const source=document.createElement('a');source.href='https://github.com/giodl73-repo/TAXLANE/blob/main/docs/jurisdiction-map.md';source.textContent='Inspect purpose, service owner, and evidence ↗';
       input.oninput=()=>{scenario.lane_change_bps[lane.id]=Number(input.value)*100;output.textContent=percent(Number(input.value));changed();};
-      controls.set(lane.id,{input,output});article.append(head,input,amount,source);$('#lanes').append(article);
+      controls.set(lane.id,{input,output});article.append(head,input,amount,evidencePanel(lane));$('#lanes').append(article);
     }
+    $('#fixed-evidence').replaceChildren(...baseline.lanes.filter(lane=>!lane.adjustable).map(evidencePanel));
+    openEvidenceHash();
     ready=true;document.querySelectorAll('button,input,select').forEach(control=>control.disabled=false);
     $('#status').textContent='Ready · calculations stay on your device';
     loadScenario();syncControls();changed();

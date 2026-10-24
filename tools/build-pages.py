@@ -52,7 +52,7 @@ def main():
     metadata = json.loads(subprocess.check_output(["cargo", "metadata", "--no-deps", "--format-version", "1"], cwd=ROOT))
     wasm = Path(metadata["target_directory"]) / "wasm32-unknown-unknown/release/taxlane_scenario.wasm"
     run("wasm-bindgen", str(wasm), "--target", "web", "--out-dir", str(output / "pkg"))
-    for name in ("index.html", "style.css", "app.js", "worker.js"):
+    for name in ("index.html", "style.css", "app.js", "worker.js", "lane-evidence.js"):
         shutil.copy2(ROOT / "web" / name, output / name)
     shutil.copy2(ROOT / "LICENSE", output / "LICENSE")
     (output / ".nojekyll").touch()
