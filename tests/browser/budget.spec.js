@@ -16,6 +16,10 @@ test('each budget row exposes scoped evidence and existing satellite tools witho
   const income=page.locator('#evidence-income-security');
   await expect(income.getByRole('link',{name:'LIFELINE research & evidence'})).toHaveAttribute('href','https://github.com/giodl73-repo/LIFELINE');
   await expect(income).toContainText('cannot be relabeled as savings');
+  const retirement=page.locator('#evidence-social-security');await retirement.locator('summary').click();
+  await expect(retirement.getByRole('link',{name:'Open ANCHOR workbench'})).toHaveAttribute('href','https://giodl73-repo.github.io/ANCHOR/');
+  await expect(retirement).toContainText('synthetic aggregate');
+  await expect(retirement).toContainText('dedicated solvency remain separate');
   const science=page.locator('#evidence-science-space-technology');await science.locator('summary').click();
   await expect(science).toContainText('Domain owner unassigned');
   await page.locator('#evidence-net-interest summary').click();
