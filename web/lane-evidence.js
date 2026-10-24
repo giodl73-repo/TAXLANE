@@ -13,7 +13,7 @@ export const laneEvidence = {
   'education-training-employment-social-services': {owners:[owner('SLATE','education access and pathways')], note:'Employment and general social-service semantics remain unassigned.'},
   'health': {owners:[owner('SHIELD','aggregate care access and delivery')], note:'Funding is not evidence of clinical outcomes, patient eligibility or quality.'},
   'medicare': {owners:[owner('SHIELD','care delivery only')], note:'TAXLANE retains financing distinctions. SHIELD does not own Medicare eligibility or payer policy.'},
-  'income-security': {owners:[owner('LIFELINE','aggregate household resources, access and benefit continuity')], note:'Lower participation or benefits cannot be relabeled as savings. No individual eligibility decision is made.'},
+  'income-security': {owners:[owner('LIFELINE','aggregate household resources, access and benefit continuity',site('LIFELINE'))], note:'The workbench uses synthetic aggregate paths. Lower participation or benefits cannot be relabeled as savings. No individual eligibility decision is made.'},
   'social-security': {owners:[owner('ANCHOR','aggregate retirement and disability realization and adequacy')], note:'Service access, benefit adequacy and dedicated solvency remain separate. Research candidates require fiscal admission.'},
   'veterans': {owners:[owner('COVENANT','aggregate service handoffs and continuity')], note:'Authorization does not establish completed care or benefits. No individual claims decision is made.'},
   'justice-general-government': {owners:[owner('TRIBUNAL','justice caseflow and rights floors')], note:'General-government performance remains unassigned. Throughput does not establish rights-compliant outcomes.'},
