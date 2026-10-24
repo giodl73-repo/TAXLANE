@@ -20,6 +20,11 @@ test('each budget row exposes scoped evidence and existing satellite tools witho
   await expect(retirement.getByRole('link',{name:'Open ANCHOR workbench'})).toHaveAttribute('href','https://giodl73-repo.github.io/ANCHOR/');
   await expect(retirement).toContainText('synthetic aggregate');
   await expect(retirement).toContainText('dedicated solvency remain separate');
+  for(const [lane,repo] of [['international-affairs','ENVOY'],['veterans','COVENANT'],['justice-general-government','TRIBUNAL']]) {
+    const panel=page.locator(`#evidence-${lane}`);await panel.locator('summary').click();
+    await expect(panel.getByRole('link',{name:`Open ${repo} workbench`})).toHaveAttribute('href',`https://giodl73-repo.github.io/${repo}/`);
+    await expect(panel).toContainText('synthetic aggregate');
+  }
   const science=page.locator('#evidence-science-space-technology');await science.locator('summary').click();
   await expect(science).toContainText('Domain owner unassigned');
   await page.locator('#evidence-net-interest summary').click();
