@@ -31,6 +31,8 @@ test('each budget row exposes scoped evidence and existing satellite tools witho
     const panel=page.locator(`#evidence-${lane}`);await panel.evaluate(element=>element.open=true);
     for(const repo of repos) await expect(panel.getByRole('link',{name:`Open ${repo} workbench`})).toHaveAttribute('href',`https://giodl73-repo.github.io/${repo}/`);
   }
+  await expect(page.locator('#evidence-justice-general-government')).toContainText('frozen AOUSC national caseflow');
+  await expect(page.locator('#evidence-justice-general-government')).toContainText('Cases and criminal defendants stay separate');
   const science=page.locator('#evidence-science-space-technology');await science.locator('summary').click();
   await expect(page.locator('#evidence-education-training-employment-social-services')).toContainText('Frozen school-year counts');
   await expect(page.locator('#evidence-education-training-employment-social-services')).toContainText('fictional topology is separate');
