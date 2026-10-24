@@ -36,6 +36,8 @@ test('each budget row exposes scoped evidence and existing satellite tools witho
   await expect(page.locator('#evidence-education-training-employment-social-services')).toContainText('fictional topology is separate');
   await expect(page.locator('#evidence-environment-energy-natural-resources')).toContainText('frozen Lees Ferry daily discharge');
   await expect(page.locator('#evidence-environment-energy-natural-resources')).toContainText('conveyance graph remains fictional');
+  await expect(page.locator('#evidence-environment-energy-natural-resources')).toContainText('January 2022-dollar reported capital needs');
+  await expect(page.locator('#evidence-environment-energy-natural-resources')).toContainText('not annual spending or savings');
   await expect(science).toContainText('Domain owner unassigned');
   await page.locator('#evidence-net-interest summary').click();
   await expect(page.locator('#evidence-net-interest')).toContainText('Held fixed');
