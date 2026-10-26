@@ -39,6 +39,9 @@ test('each budget row exposes scoped evidence and existing satellite tools witho
   await expect(page.locator('#evidence-social-security')).toContainText('separate from annual 2024 payments');
   await expect(page.locator('#evidence-veterans')).toContainText('frozen FY2025 VBA program obligations');
   await expect(page.locator('#evidence-veterans')).toContainText('not cash outlays or total VA spending');
+  await expect(page.locator('#evidence-international-affairs')).toContainText('frozen FY2024 regional obligations and disbursements');
+  await expect(page.locator('#evidence-international-affairs')).toContainText('not unspent balances');
+  await expect(page.locator('#evidence-international-affairs')).toContainText('one-dollar source difference');
   const science=page.locator('#evidence-science-space-technology');await science.locator('summary').click();
   await expect(page.locator('#evidence-education-training-employment-social-services')).toContainText('Frozen school-year counts');
   await expect(page.locator('#evidence-education-training-employment-social-services')).toContainText('fictional topology is separate');
