@@ -39,6 +39,9 @@ test('each budget row exposes scoped evidence and existing satellite tools witho
   await expect(page.locator('#evidence-social-security')).toContainText('separate from annual 2024 payments');
   await expect(page.locator('#evidence-veterans')).toContainText('frozen FY2025 VBA program obligations');
   await expect(page.locator('#evidence-veterans')).toContainText('not cash outlays or total VA spending');
+  await expect(page.locator('#evidence-national-defense')).toContainText('frozen 2025 NATO expenditure estimates');
+  await expect(page.locator('#evidence-national-defense')).toContainText('different denominators');
+  await expect(page.locator('#evidence-national-defense')).toContainText('not readiness, a target or savings');
   await expect(page.locator('#evidence-international-affairs')).toContainText('frozen FY2024 regional obligations and disbursements');
   await expect(page.locator('#evidence-international-affairs')).toContainText('not unspent balances');
   await expect(page.locator('#evidence-international-affairs')).toContainText('one-dollar source difference');
