@@ -15,6 +15,9 @@ test('each budget row exposes scoped evidence and existing satellite tools witho
   await expect(transport).toContainText('hypothetical accounting inputs');
   await expect(transport).toContainText('January–August reporting-carrier arrivals');
   await expect(transport).toContainText('fictional graph is separate');
+  await expect(transport).toContainText('twelve source-needed frequency inputs');
+  await expect(transport).toContainText('without original timetable custody');
+  await expect(transport).toContainText('Frequency does not establish measured span, operating days');
   await expect(transport).toContainText('frozen 2023 Los Angeles loaded and total TEU');
   await expect(transport).toContainText('publisher table/news discrepancy');
   await expect(transport).toContainText('Throughput does not establish capacity, dwell or navigation clearance');
