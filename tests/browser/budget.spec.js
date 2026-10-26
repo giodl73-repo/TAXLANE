@@ -35,6 +35,8 @@ test('each budget row exposes scoped evidence and existing satellite tools witho
   await expect(page.locator('#evidence-justice-general-government')).toContainText('Cases and criminal defendants stay separate');
   await expect(page.locator('#evidence-income-security')).toContainText('frozen FY2024/FY2025 SNAP national monthly averages');
   await expect(page.locator('#evidence-income-security')).toContainText('Participation is not take-up');
+  await expect(page.locator('#evidence-social-security')).toContainText('frozen SSA 2025 Supplement highlights');
+  await expect(page.locator('#evidence-social-security')).toContainText('separate from annual 2024 payments');
   const science=page.locator('#evidence-science-space-technology');await science.locator('summary').click();
   await expect(page.locator('#evidence-education-training-employment-social-services')).toContainText('Frozen school-year counts');
   await expect(page.locator('#evidence-education-training-employment-social-services')).toContainText('fictional topology is separate');
