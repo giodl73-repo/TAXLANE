@@ -15,6 +15,9 @@ test('each budget row exposes scoped evidence and existing satellite tools witho
   await expect(transport).toContainText('hypothetical accounting inputs');
   await expect(transport).toContainText('January–August reporting-carrier arrivals');
   await expect(transport).toContainText('fictional graph is separate');
+  await expect(transport).toContainText('frozen 2023 Los Angeles loaded and total TEU');
+  await expect(transport).toContainText('publisher table/news discrepancy');
+  await expect(transport).toContainText('Throughput does not establish capacity, dwell or navigation clearance');
   const income=page.locator('#evidence-income-security');
   await expect(income.getByRole('link',{name:'LIFELINE research & evidence'})).toHaveAttribute('href','https://github.com/giodl73-repo/LIFELINE');
   await expect(income).toContainText('cannot be relabeled as savings');
