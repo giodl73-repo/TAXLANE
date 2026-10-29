@@ -51,6 +51,9 @@ test('each budget row exposes scoped evidence and existing satellite tools witho
   await expect(page.locator('#evidence-international-affairs')).toContainText('frozen FY2024 regional obligations and disbursements');
   await expect(page.locator('#evidence-international-affairs')).toContainText('not unspent balances');
   await expect(page.locator('#evidence-international-affairs')).toContainText('one-dollar source difference');
+  await expect(page.locator('#evidence-health')).toContainText('status rows and designation IDs distinct');
+  await expect(page.locator('#evidence-health')).toContainText('June 30 quarterly report is separately dated');
+  await expect(page.locator('#evidence-medicare')).toContainText('A shortage registry is not Medicare eligibility');
   const science=page.locator('#evidence-science-space-technology');await science.locator('summary').click();
   await expect(page.locator('#evidence-education-training-employment-social-services')).toContainText('Frozen school-year counts');
   await expect(page.locator('#evidence-education-training-employment-social-services')).toContainText('fictional topology is separate');
