@@ -57,6 +57,9 @@ test('each budget row exposes scoped evidence and existing satellite tools witho
   await expect(page.locator('#evidence-health')).toContainText('18 invalid county-key residuals');
   await expect(page.locator('#evidence-health')).toContainText('county keys overlap');
   await expect(page.locator('#evidence-medicare')).toContainText('county keys do not identify CMS hospitals');
+  await expect(page.locator('#evidence-health')).toContainText('policy-excluded values are absent, not zero');
+  await expect(page.locator('#evidence-health')).toContainText('NP/PA services are omitted');
+  await expect(page.locator('#evidence-medicare')).toContainText('Designation formulas do not establish staffed hospital services');
   const science=page.locator('#evidence-science-space-technology');await science.locator('summary').click();
   await expect(page.locator('#evidence-education-training-employment-social-services')).toContainText('Frozen school-year counts');
   await expect(page.locator('#evidence-education-training-employment-social-services')).toContainText('fictional topology is separate');
