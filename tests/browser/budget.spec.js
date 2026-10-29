@@ -11,6 +11,9 @@ test('each budget row exposes scoped evidence and existing satellite tools witho
   await expect(transport).toHaveAttribute('open','');
   await expect(transport.getByRole('link',{name:'Open ROUTE workbench'})).toHaveAttribute('href','https://giodl73-repo.github.io/ROUTE/');
   await expect(transport.getByRole('link',{name:'Open GAUGE workbench'})).toHaveAttribute('href','https://giodl73-repo.github.io/GAUGE/');
+  await expect(transport).toContainText('4 ready, 2 blocked and 6 excluded source entries');
+  await expect(transport).toContainText('vintage discrepancy remains unresolved');
+  await expect(transport).toContainText('Ready does not establish current cache readiness, primary-byte verification or packet regeneration');
   await expect(transport).toContainText('FY2025');
   await expect(transport).toContainText('hypothetical accounting inputs');
   await expect(transport).toContainText('January–August reporting-carrier arrivals');
