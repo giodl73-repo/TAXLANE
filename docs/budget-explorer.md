@@ -48,3 +48,17 @@ hosted installation, and deployment evidence are recorded in the local wave.
 ## Transportation operating-cost equivalents
 
 The optional `transit_share_bps` (0–10000) and `transit_area` (0–3) inputs default to zero, preserving old links. Rust multiplies only the positive transportation increment by that share, then divides dollar allocation by the selected FTA 2024 fixed-route bus average operating expense per vehicle revenue hour. It does not add a second budget outlay. Price year, source and nonforecast basis are included in the comparison result. Export/share retain the assumptions. Review and exact reference values: [acceptance](../reviews/2026-10-05-transit-cost-equivalents.md). This is ratio arithmetic owned by TAXLANE; domain service models remain with the jurisdiction-map owners.
+
+
+## Retry without losing the scenario
+
+Use Retry explorer after a baseline/WASM download, engine or calculation failure.
+Loading has a fifteen-second deadline; calculation has ten seconds, distinct from
+the input debounce. Retry retains the current lane/receipts/transit assumptions,
+including changes newer than a loaded shared URL. Reset is still explicit.
+Stale totals, cost equivalents and exports remain unavailable until a fresh Rust
+result succeeds. Controls/evidence panels rebuild once and old worker callbacks
+cannot restore results. No automatic loop or saved/uploaded personal data.
+Full page reload still reads the URL rather than saving unshared session edits.
+[Interface acceptance](../reviews/2026-10-30-budget-recovery.md) preserves all
+existing ledger, integer-rounding, fungibility, source and authority boundaries.
