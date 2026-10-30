@@ -127,9 +127,10 @@ test('mobile controls fit and malformed shared input safely returns to baseline'
 test('failed baseline download offers a readable research route',async({page})=>{
   await page.route('**/baseline.json',route=>route.fulfill({status:503,body:'unavailable'}));
   await page.goto('/TAXLANE/');
-  await expect(page.locator('#status')).toContainText('Reload to retry');
+  await expect(page.locator('#status')).toContainText('Retry the explorer');
   await expect(page.getByRole('link',{name:'Research & sources'})).toBeVisible();
   await expect(page.locator('#reset')).toBeDisabled();
+  await expect(page.locator('#retry')).toBeVisible();
 });
 
 test('transit cost equivalents preserve suballocation, source, sharing and cuts',async({page})=>{

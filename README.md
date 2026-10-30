@@ -4,7 +4,8 @@ Try the [interactive budget explorer](https://giodl73-repo.github.io/TAXLANE/):
 adjust hypothetical spending and receipts, compare the annual financing gap,
 and share a scenario. This separately scoped sandbox uses the Rust accounting
 core; it does not publish a new research savings result or tax-rate recommendation.
-See [build and validation](docs/budget-explorer.md).
+Retry a failed engine in place while keeping your current scenario; Reset remains
+explicit. See [build and validation](docs/budget-explorer.md).
 
 **What should income-tax rates be if government spending claims have to prove
 themselves first?**
