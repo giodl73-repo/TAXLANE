@@ -15,7 +15,7 @@ test('malformed baseline rows fail safely and retry the actual dated ledger',asy
 test('baseline 503 retries by keyboard and loads the shared scenario once',async({page})=>{
  let fail=true;await page.route('**/baseline.json',r=>fail?r.fulfill({status:503,body:'Unavailable'}):r.continue());
  await page.setViewportSize({width:390,height:844});await page.goto(base+'?scenario='+encodeURIComponent(JSON.stringify(shared)));
- await expect(page.locator('#retry')).toBeVisible();await expect(page.locator('#gap')).toHaveText('—');await expect(page.locator('#download')).toBeDisabled();
+ await expect(page.locator('#retry')).toBeVisible();await expect(page.locator('#baseline-label')).toHaveText('Dated baseline unavailable');await expect(page.locator('#gap')).toHaveText('—');await expect(page.locator('#download')).toBeDisabled();
  fail=false;await page.locator('#retry').focus();await page.keyboard.press('Enter');await expect(page.locator('#gap')).toHaveText('$1,676.833B');
  expect((await exported(page)).scenario).toEqual(shared);await expect(page.locator('.lane')).toHaveCount(14);await expect(page.locator('.lane-evidence')).toHaveCount(17);
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);

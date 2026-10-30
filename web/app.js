@@ -22,6 +22,7 @@ function clearResults() {
 function disableControls() {document.querySelectorAll('button,input,select').forEach(control=>control.disabled=true);}
 function fail(message='Budget explorer could not load.') {
   clearTimers();attempt++;ready=false;worker?.terminate();clearResults();disableControls();
+  if(!baseline)$('#baseline-label').textContent='Dated baseline unavailable';
   $('#status').textContent=message+' Retry the explorer when you are ready, or use the research link above.';
   $('#retry').hidden=false;$('#retry').disabled=false;
 }
@@ -112,6 +113,7 @@ function receive(data) {
 function start() {
   clearTimers();const generation=++attempt;ready=false;worker?.terminate();clearResults();disableControls();
   $('#retry').hidden=true;$('#status').textContent='Loading Rust accounting engine…';
+  if(!baseline)$('#baseline-label').textContent='Loading the dated baseline…';
   try{
     worker=new Worker(new URL('./worker.js',import.meta.url),{type:'module'});
     loadingTimer=setTimeout(()=>{if(generation===attempt)fail('Budget engine loading timed out.');},15000);
