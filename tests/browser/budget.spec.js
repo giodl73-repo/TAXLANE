@@ -3,6 +3,16 @@ import {test,expect} from '@playwright/test';
 
 test('each budget row exposes scoped evidence and existing satellite tools without changing accounting',async({page})=>{
   await page.goto('/TAXLANE/#evidence-income-security');
+  const provenanceLink=page.getByRole('link',{name:'Build provenance',exact:true});
+  await expect(provenanceLink).toHaveAttribute('href','provenance.json');
+  const provenanceResponse=await page.request.get('/TAXLANE/provenance.json');
+  expect(provenanceResponse.ok()).toBe(true);
+  const provenance=await provenanceResponse.json();
+  expect(provenance.commit).toMatch(/^[0-9a-f]{40}$/);
+  expect(provenance.dirty).toBe(false);
+  expect(provenance.bindings).toBe('wasm-bindgen 0.2.127');
+  expect(provenance.rust).toMatch(/^rustc 1\.95\.0 /);
+  expect(provenance.source).toBe('https://github.com/giodl73-repo/TAXLANE');
   await expect(page.locator('#gap')).toHaveText('$1,774.684B');
   await expect(page.locator('#evidence-income-security')).toHaveAttribute('open','');
   await expect(page.locator('.lane-evidence')).toHaveCount(17);
