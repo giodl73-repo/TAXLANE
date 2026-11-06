@@ -29,3 +29,10 @@ Hosted proposal adds these receiver/flag controls and uses the verified official
 wasm-bindgen0.2.127 prebuilt rather than rebuilding the CLI. Existing documented
 native/browser accounting gates remain; full source publication/receive/rebuild
 and direct native/WASM output proof remain later gates.
+
+
+The hosted validation proposal also runs the complete existing income-tax-outlay
+guardrail, so the repaired artifact checksum index remains checked on Linux.
+This checks current source/artifact consistency and retains all held/admission
+labels; it does not admit a new fiscal/model result. Local full guardrail already
+passes with exactly the three checksum-cell updates documented in pulse01.
