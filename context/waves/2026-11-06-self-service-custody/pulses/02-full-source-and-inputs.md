@@ -30,6 +30,31 @@ wasm-bindgen0.2.127 prebuilt rather than rebuilding the CLI. Existing documented
 native/browser accounting gates remain; full source publication/receive/rebuild
 and direct native/WASM output proof remain later gates.
 
+## Complete-source transport implementation checkpoint
+
+Add the original public LATTICE/WITNESS/TERRAIN complete-source receiver and
+preserve each original MIT grant separately. TAXLANE's original split LICENSE
+and source-specific data terms remain unchanged. The full-source profile permits
+256,000,000 packed bytes,512,000,000 decoded tar bytes and6,000 original files,
+based on the measured original420 MB/3,073-file tree. Rust dependency receiver
+limits stay unchanged. This is a bounded in-memory verifier; several GB of free
+RAM and separate source/build disk space are explicit prerequisites.
+
+`tools/package-source.py --output NEW` packages every committed regular Git file
+(no filtered subset), canonical Git modes, commit bytes/tree and per-file hashes,
+plus a separately trusted Python-only receiver and complete applicable grants.
+It reads Git objects in one verified batch, verifies its own complete archive
+before writing and publishes nothing. Received source can regenerate the archive
+from its manifest without Git. Source destinations are new-only and must avoid
+download/helper/compiled-target/protected paths; links, unsafe paths, aliases,
+duplicates, unexpected entries, changed Git identities and oversized/trailing/
+truncated archives reject. Source availability is not research admission.
+
+Small-fixture controls pass locally; complete-tree measurement/reception/replay
+will be recorded separately. Final runtime integration, outside-Git offline
+build and source publication are still open. Pulse03 now supplies the original
+5,615-case native/WASM parity baseline, not final rebuilt/live qualification.
+
 
 The hosted validation proposal also runs the complete existing income-tax-outlay
 guardrail, so the repaired artifact checksum index remains checked on Linux.
