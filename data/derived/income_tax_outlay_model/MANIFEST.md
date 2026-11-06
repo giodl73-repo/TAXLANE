@@ -22,7 +22,7 @@ supporting views.
 
 | Path | Role | Grain | Rows | Canonical | SHA-256 |
 |---|---|---|---:|---|---|
-| `README.md` | Repository overview | documentation | n/a | supporting | `19a15e6a606884a1ae42e7537f0fe3401de565c01fa81760ff1b8c15fb89afad` |
+| `README.md` | Repository overview | documentation | n/a | supporting | `3ce003886c225d15edbd1dc6de9d0b79bad015cb87cdae05d8147471c7d72133` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.draft.jsonl` | Canonical annual model rows | fiscal year by broad category | 516 | yes | `01c0fec63836f3652fdd83b03a608159ad58f7614fc214ae6691421990f3a85e` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.decade-summary.jsonl` | Canonical decade summary rows | decade by broad category | 54 | yes | `088cb5d55cc6a37ab52dd543d8a92bf09908cda265e9c9f93324b840eb652fb3` |
 | `data/derived/income_tax_outlay_model/income_tax_outlay_model.omb-fy2027.2026-06-21.annual-wide.csv` | Chart-ready annual wide view | fiscal year | 86 | no | `cbe6ec44a77b9ef4adebaef37acc4b55ac23fd5eb21916989ae9518cbd4e4c31` |
@@ -930,8 +930,8 @@ supporting views.
 | `docs/charts/taxpayer-receipt-model/README.md` | Taxpayer receipt chart set handoff note | documentation | n/a | supporting | `29b98ce16cccf88869779c079dc652d7da15583777e015a1d2b8481e9c63250d` |
 | `docs/charts/taxpayer-receipt-model/placeholder-lane-bars.vl.json` | Placeholder receipt lane bar chart spec | visualization spec | n/a | view | `f4233308571464bf6a58fb417803453a32c054fe43a2869d9ae93ffb616f3ccf` |
 | `docs/charts/taxpayer-receipt-model/placeholder-financing-context.vl.json` | Placeholder receipt financing context chart spec | visualization spec | n/a | view | `064cb863095eea673ac4f907f6f9e18b798ec4208c31851f3bc16a80121c395b` |
-| `Cargo.toml` | Rust workspace manifest | tooling | n/a | supporting | `405a2bba4b4deec2a77d51621f397528c0b5a86a3137df32af6633f32ffbfad0` |
-| `Cargo.lock` | Rust dependency lockfile | tooling | n/a | supporting | `44b2fcc6662f4fa3cecadbd650c7991b66e42af15dbf4efbf8ff16b832717d96` |
+| `Cargo.toml` | Rust workspace manifest | tooling | n/a | supporting | `a40133dd8d9f992ab852f76c1d7ecf7b7e1072edee835d29a908fe9b6ae3281a` |
+| `Cargo.lock` | Rust dependency lockfile | tooling | n/a | supporting | `30557f40a98fdb5eaea36faa01141db2613f57bdfa6c4ceeb026093dec83a7cc` |
 | `crates/taxlane-core/Cargo.toml` | Rust Taxlane core crate manifest | tooling | n/a | supporting | `6469c9f3c3d01bc0c51783255082c93ed608c6c64c0d4f32f5cd2c08f2426fb9` |
 | `crates/taxlane-core/src/lib.rs` | Rust Taxlane core domain library | library | n/a | supporting | `47f4135a8d0543687379b16f7c3f06d335fabee8485f941944cb0805c9b2d941` |
 | `tools/taxlane/Cargo.toml` | Rust Taxlane tools crate manifest | tooling | n/a | supporting | `b910e56a20f40547ac1e4f696e84772dde163738b03915ddbcc0d0a39427719a` |

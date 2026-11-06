@@ -4,6 +4,10 @@ Work is organized into small waves and pulses.
 
 ## Active wave
 
+- [Self-service custody](2026-11-06-self-service-custody/WAVE.md): preserve the full
+  source/data and accounting contract while qualifying offline inputs, immutable
+  source downloads and exact runtime/source rebuild; research holds stay separate.
+
 - [Lane evidence navigation](2026-10-23-lane-evidence/README.md): per-row domain
   ownership, source context, direct satellite tools and research explanation.
 

@@ -22,11 +22,23 @@ jobs:
           node-version: '22'
           cache: npm
       - name: Install tools
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           rustup show
-          cargo install wasm-bindgen-cli --version 0.2.127 --locked
+          archive="wasm-bindgen-0.2.127-x86_64-unknown-linux-musl.tar.gz"
+          install_dir="${RUNNER_TEMP}/wasm-bindgen-0.2.127"
+          gh release download 0.2.127 --repo wasm-bindgen/wasm-bindgen --pattern "${archive}" --dir "${RUNNER_TEMP}"
+          echo "61d4a7dc85acfa0d2354ccc0b8361928c7e52a746d17f28ebaa795ed3dc1614a  ${RUNNER_TEMP}/${archive}" | sha256sum --check
+          mkdir -p "${install_dir}"
+          tar --extract --gzip --file "${RUNNER_TEMP}/${archive}" --directory "${install_dir}" --strip-components=1
+          echo "${install_dir}" >> "${GITHUB_PATH}"
           npm ci
           npx playwright install chromium
+      - name: Verify original dependency custody
+        run: |
+          python -B -m unittest discover -s tools -p 'test_input_custody.py' -v
+          python -B -m unittest discover -s tools -p 'test_rust_build.py' -v
       - name: Validate Rust
         run: |
           cargo fmt -p taxlane-scenario --check

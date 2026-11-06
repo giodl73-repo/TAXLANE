@@ -2,3 +2,8 @@
 *.pdf binary
 *.xlsx binary
 data/raw/** binary
+
+cargo-inputs/*.zip binary
+DEPENDENCY-NOTICES.txt -text whitespace=cr-at-eol,-blank-at-eof
+notices/*.txt -text whitespace=cr-at-eol,-blank-at-eof
+*.gz -text
