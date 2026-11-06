@@ -1,0 +1,35 @@
+{
+  "files": [
+    {
+      "path": "unit-command.json.gz",
+      "original_bytes": 180,
+      "sha256": "9ac9075a95bc0801cc7458ea815a8ca4b4684f15811f076abdfb5acefd6db0f8"
+    },
+    {
+      "path": "unit-stderr.gz",
+      "original_bytes": 2128,
+      "sha256": "c1deb2b7e54e1632f43afa0d738d3057897e9b4e436fd3437cc9cb7d594bc5db"
+    },
+    {
+      "path": "unit-stdout.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "actual-api-local-input-preflight.json.gz",
+      "original_bytes": 704,
+      "sha256": "272c8a787ac8cb86a8010ae80cdda5fe78812ba981c8e17031aabeb37d81eafb"
+    },
+    {
+      "path": "actual-anonymous-sdk-stream.json.gz",
+      "original_bytes": 473,
+      "sha256": "7add8b79e21c3ebf0f6e2e07122c749e58d677036ccf7b58964304391a0bc998"
+    },
+    {
+      "path": "actual-local-grants-and-api-binary-fallback.json.gz",
+      "original_bytes": 784,
+      "sha256": "2e4d5d68a56ee7d717ca1d2b9c986c2a08a0ae2e73f885962a545bc833555038"
+    }
+  ],
+  "scope": "Fourteen mocked publication-state/control test methods; actual full c03 source/runtime/archive validation and real hosted source/API read-only preflight. Real anonymous11,451,273-byte pinned bindgen SDK stream verifies generic redirect/byte path. No TAXLANE source release or tag has been created or published by these controls. Updated full local provenance/runtime/input/grant validation and actual authenticated pinned SDK asset API binary fallback also pass; source verifier hash retained. No TAXLANE publication performed."
+}

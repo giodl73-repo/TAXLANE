@@ -1,0 +1,40 @@
+{
+  "files": [
+    {
+      "path": "command.json.gz",
+      "original_bytes": 182,
+      "sha256": "92826b15b629b374ad2c49c925c19a67b2ed4efce60fdeb3988c6c0784a39c2a"
+    },
+    {
+      "path": "receipt.json.gz",
+      "original_bytes": 678,
+      "sha256": "c2de99a451d5de4cc5ab0aaff0df6fb6c2f3524f31d004553ecb4d33f54dd1b6"
+    },
+    {
+      "path": "unit.stderr.gz",
+      "original_bytes": 1022,
+      "sha256": "318c38a30658cf1751f14257814efb63802eb8abf03dc9656509aed166e976e6"
+    },
+    {
+      "path": "unit.stdout.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "predecessor-receiver-diagnosis.json.gz",
+      "original_bytes": 7025,
+      "sha256": "0837ce104f74129d2c5b63908ad5339568c6691db2ea1c3dcdc9290ce5fe57d2"
+    },
+    {
+      "path": "predecessor-run.json.gz",
+      "original_bytes": 14586,
+      "sha256": "0332de1e9cd03db4834152604553d4a10041fdc70dc5a58e06ddb609bad72edb"
+    },
+    {
+      "path": "predecessor-jobs.json.gz",
+      "original_bytes": 5947,
+      "sha256": "21129ab2b0326c8a0093b287d5b51a24650cc9d2244482a379e3dbfffbefa4c5"
+    }
+  ],
+  "scope": "Actual predecessor wire mismatch diagnosed before merge; fixed wire preserves every helper/grant byte. New-head hosted wire readback still required."
+}

@@ -1,0 +1,210 @@
+{
+  "files": [
+    {
+      "path": "adapter-clippy.stderr.gz",
+      "original_bytes": 978,
+      "sha256": "82298df0bfaa04e614f98f39ed1af9ed6ac691a5cb42495e4a1202d7f8b7acaa"
+    },
+    {
+      "path": "adapter-clippy.stdout.gz",
+      "original_bytes": 1514,
+      "sha256": "395e521ba347dff1a904a134aa9d698c0aec14992b234fc94288c447981cc4eb"
+    },
+    {
+      "path": "adapter-format.stderr.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "adapter-format.stdout.gz",
+      "original_bytes": 1514,
+      "sha256": "395e521ba347dff1a904a134aa9d698c0aec14992b234fc94288c447981cc4eb"
+    },
+    {
+      "path": "browser.json.gz",
+      "original_bytes": 21256,
+      "sha256": "c45ca537d217eb3550076cf8eae3f4fda439bbd46b6400c80db50150b51365d9"
+    },
+    {
+      "path": "browser.stderr.gz",
+      "original_bytes": 24182,
+      "sha256": "0a78ea027d9e354c5dc42c62502ef53ea4ce765f18f961e36a9d096b702952fb"
+    },
+    {
+      "path": "browser.stdout.gz",
+      "original_bytes": 2493,
+      "sha256": "0253cae96b4f7c443b353a04b0eea63a6fe7a4977b6eb6c7480d77953aed2328"
+    },
+    {
+      "path": "commands.json.gz",
+      "original_bytes": 6866,
+      "sha256": "e229e54a2359493c4371cfba5749f1e43c20e7872822558cebac74d2079d6154"
+    },
+    {
+      "path": "full-data-guardrail.stderr.gz",
+      "original_bytes": 1521,
+      "sha256": "5a6db28091317402e608880345a206e7615336237f595ad446e6287c5641c28c"
+    },
+    {
+      "path": "full-data-guardrail.stdout.gz",
+      "original_bytes": 8939,
+      "sha256": "7ca91889ed479678861d29c626d1b9388ae809b986b93a67cc99081fd3a2d2e6"
+    },
+    {
+      "path": "full-native-wasm.stderr.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "full-native-wasm.stdout.gz",
+      "original_bytes": 1152,
+      "sha256": "fe1e96708e53029c90b51da6fc170259f7a4de01e9ee314e0ad326830144a75f"
+    },
+    {
+      "path": "independent-empty-target-build.stderr.gz",
+      "original_bytes": 1649,
+      "sha256": "eccecb18af17ec525b5700a791db35eb3a4b320c155d115d5e36fa444657d99c"
+    },
+    {
+      "path": "independent-empty-target-build.stdout.gz",
+      "original_bytes": 193,
+      "sha256": "7b679c340dc0c4090c541c3aa367057628820e071517f1a201c030110054b881"
+    },
+    {
+      "path": "native-tests.stderr.gz",
+      "original_bytes": 960,
+      "sha256": "bfde04a1580e91ab36bfe7484ebae1d77fd20cf676e853c58f702a10a49b38f0"
+    },
+    {
+      "path": "native-tests.stdout.gz",
+      "original_bytes": 13716,
+      "sha256": "22fd1ee185a8926f2287299ace150822f42fc21a0b20f952c01eaaf5fdedd732"
+    },
+    {
+      "path": "original-response-preservation.json.gz",
+      "original_bytes": 1508,
+      "sha256": "c6493ac8757f2f0001148239674a8d71165e8b6cbe8b74fed9a6d5b4c9de4071"
+    },
+    {
+      "path": "owned-input-readback.stderr.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "owned-input-readback.stdout.gz",
+      "original_bytes": 192,
+      "sha256": "ac53bf6bd1a471706fb6c9db6b2317f9bff621877c6859654a4d9db01807a84d"
+    },
+    {
+      "path": "receipt.json.gz",
+      "original_bytes": 12594,
+      "sha256": "b71805059e8aee6fad7bb3567bd3bb2fa217c51fd8f792eb931f36a26ac2d71b"
+    },
+    {
+      "path": "receive-without-git-cargo-path.stderr.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "receive-without-git-cargo-path.stdout.gz",
+      "original_bytes": 159,
+      "sha256": "763c5bb56472d48b44d63affc725a81c1050860c9cc6a2e2bd2d66b30b38ee27"
+    },
+    {
+      "path": "scenario-baseline.json.gz",
+      "original_bytes": 3498,
+      "sha256": "239112764a847be9c1992710b28544449881576e2a57304992b05ced4b266a71"
+    },
+    {
+      "path": "scenario-commands.json.gz",
+      "original_bytes": 3401,
+      "sha256": "4bb28509efd8b2de6dafae8e24b3e3b61eddbb0c5e3ced9907852e4519b6e65b"
+    },
+    {
+      "path": "scenario-controls-native.jsonl.gz",
+      "original_bytes": 13083626,
+      "sha256": "b5be2b606ae39231dbe512d94028a5ce969e6a8ba7a81f37adf5ca213c92f615"
+    },
+    {
+      "path": "scenario-controls-native.stderr.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "scenario-controls-wasm.jsonl.gz",
+      "original_bytes": 13083626,
+      "sha256": "b5be2b606ae39231dbe512d94028a5ce969e6a8ba7a81f37adf5ca213c92f615"
+    },
+    {
+      "path": "scenario-controls-wasm.stderr.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "scenario-controls-wasm.stdout.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "scenario-controls.jsonl.gz",
+      "original_bytes": 22642863,
+      "sha256": "256b04fa3dd29b90884551e03f9eab6ee75600e94e3f17e14418c30dab6b7aee"
+    },
+    {
+      "path": "scenario-owned-input-readback.json.gz",
+      "original_bytes": 1934,
+      "sha256": "60dc06cb85f0320709557dd8487e2c5a4c4e921a29e048c95b99c4d37dbabbad"
+    },
+    {
+      "path": "scenario-receipt.json.gz",
+      "original_bytes": 754,
+      "sha256": "8c474fecbceaf53f353ec5c4d906d5eff6eb7940b7c428652bda47b5a3a679b6"
+    },
+    {
+      "path": "scenario-target-width-controls-native.jsonl.gz",
+      "original_bytes": 82,
+      "sha256": "6c834d3efd93026be8977096fb920be7cb14052d8f14f564261a49a281fd6617"
+    },
+    {
+      "path": "scenario-target-width-controls-native.stderr.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "scenario-target-width-controls-wasm.jsonl.gz",
+      "original_bytes": 175,
+      "sha256": "9dda64ac191cf4295128b6527a119175d7f5b7bb11100636e77cef60857974ec"
+    },
+    {
+      "path": "scenario-target-width-controls-wasm.stderr.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "scenario-target-width-controls-wasm.stdout.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "scenario-target-width-controls.jsonl.gz",
+      "original_bytes": 8032,
+      "sha256": "b5fbdc8e0bc5e194abaa6d0fa32f9e2ea75d4aaeeca2adb6c4ca9cbacdcac12d"
+    },
+    {
+      "path": "scenario-verification.stderr.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "scenario-verification.stdout.gz",
+      "original_bytes": 756,
+      "sha256": "f095bf6c4758bc4d9f97feb10491140efeb0b8a62f368a25227dca8f9c51499c"
+    },
+    {
+      "path": "invocation.json.gz",
+      "original_bytes": 931,
+      "sha256": "865bbb38274d7b7219d5e650e9a38816fcedbd0f344f30d6f18fb67b56f41752"
+    }
+  ],
+  "scope": "Complete c03f727 source restored without Git/Cargo on PATH, new owned offline inputs/home/initially absent target. All runtime/source artifact bytes and manifests exact;156native/18browser/5615completecontrols/fmt/Clippy/fullguard/readback pass. Same installed platform/tools. External implementing-agent harness hash/invocation retained; the identical helper is now shipped in tools/check-source-replay.py. No current new-head/default/publication/live claim."
+}

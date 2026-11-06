@@ -1,0 +1,65 @@
+{
+  "files": [
+    {
+      "path": "browser.json.gz",
+      "original_bytes": 19016,
+      "sha256": "b1fb24c81b7d21bfa05246b9d69fdcee91dc333d286644596ba0fc5b98a01e1a"
+    },
+    {
+      "path": "browser.stderr.gz",
+      "original_bytes": 16285,
+      "sha256": "e2335f0322816518a59cdf2eb342985cd8934d39d82e00b7f9766f9db9fb3670"
+    },
+    {
+      "path": "browser.stdout.gz",
+      "original_bytes": 2223,
+      "sha256": "ce488a260cfa95bbb36ee3ebc98c5aa957ecb2a5337c736bcd657d3a678ff900"
+    },
+    {
+      "path": "commands.json.gz",
+      "original_bytes": 289,
+      "sha256": "e2021e4c38432cbd68c1262cc80bdac088ef476e08066d0cc5bed58ebf93bfb7"
+    },
+    {
+      "path": "receipt.json.gz",
+      "original_bytes": 753,
+      "sha256": "c0a50fb7de4ec414d7bcc0aa9c602de8014ce3104074cc50cb45cd70a8c65179"
+    },
+    {
+      "path": "site.stderr.gz",
+      "original_bytes": 62,
+      "sha256": "0d5e27bbd7fe41f2c6a97d7e96cea3ea4e97f6cbb0aba2f605111e3444d01678"
+    },
+    {
+      "path": "site.stdout.gz",
+      "original_bytes": 143,
+      "sha256": "bb26a651b31a6cb4d5f2b700ac22301457644087b420db5ee69456e087139a9b"
+    },
+    {
+      "path": "hosted-artifacts.json.gz",
+      "original_bytes": 1453,
+      "sha256": "90ac9a6778728b8af55e4e487b6495cf3a83efd14acd5208d33c2d01bc5130c3"
+    },
+    {
+      "path": "hosted-independent-local-verification.json.gz",
+      "original_bytes": 754,
+      "sha256": "8c474fecbceaf53f353ec5c4d906d5eff6eb7940b7c428652bda47b5a3a679b6"
+    },
+    {
+      "path": "hosted-jobs.json.gz",
+      "original_bytes": 4336,
+      "sha256": "4d2801c5bb535a930edfdb699b862ce97bb175f65f9ec40cdeb9ffe7fc69224f"
+    },
+    {
+      "path": "hosted-run.json.gz",
+      "original_bytes": 12791,
+      "sha256": "b9b4a6c92d4eed071f7c9a233fce3be32f41fa9049d4fb1ce057cfb3b0b6d107"
+    }
+  ],
+  "original_browser_cases": 13,
+  "new_browser_cases": 3,
+  "total_browser_cases": 16,
+  "head": "a4b4e4db55dd2cb7ca1d555795a75bd89f4de0d3",
+  "hosted_predecessor": "42217625958 at3cb731a: success, all full portable response/input hashes equal local Windows proof",
+  "scope": "Current reader/worker with original Rust and local reused build inputs/target; complete-source transport proof is separately source-bound tob7b3509. No current source/runtime empty-target or release/live claim."
+}

@@ -1,0 +1,287 @@
+{
+  "schema": "taxlane.self-service-audit-custody.v1",
+  "original_source": "367f3f2516c8ef95684b30542047a3f424f184d6",
+  "records": [
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/original-git-inventory.json.gz",
+      "raw_bytes": 632684,
+      "raw_sha256": "c8c33386cedf937fc08a12bd1b795207eb535754bbbdcd80398705e26b84f45b",
+      "gzip_bytes": 136835,
+      "gzip_sha256": "9699e7d6e7286444ef24b005ec966c0229a1098dc4b8211f32f83dab18dcb317"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/original-full-source-size-probe.json.gz",
+      "raw_bytes": 752,
+      "raw_sha256": "944b0d9ffef008af0039f2295408179eb09d822e381288244cd25cc617a8014f",
+      "gzip_bytes": 468,
+      "gzip_sha256": "72cf24da3ba2572c6a375a8f431c0a447f4e9e136652e33cb60fa171efb70754"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/source-publication-capabilities.json.gz",
+      "raw_bytes": 584,
+      "raw_sha256": "7035183c73075534123c889a00197d8a5146af896e38174a7f744ec67a5a2144",
+      "gzip_bytes": 325,
+      "gzip_sha256": "dd8f18102585d6b0c87484e2e0b7fc687cb0ab8b55cbb011085ae45d05d9022c"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/original-baseline-v1-receipt.json.gz",
+      "raw_bytes": 2754,
+      "raw_sha256": "1f7f624c950aa67c8c7b19fb985d6425580330880575e3e488dfa5e271f04a69",
+      "gzip_bytes": 786,
+      "gzip_sha256": "e67cbf019c5cf1d1461d6b0c535000f8b4c639fd67468669ac92bafb0a592461"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/original-baseline-v1-commands.json.gz",
+      "raw_bytes": 1915,
+      "raw_sha256": "c8c16d8a795f382c8e45590b2a702fd7a5e2b3b354c097cb137037427e82ba1b",
+      "gzip_bytes": 458,
+      "gzip_sha256": "b5bb6bdda3a424c91edca6f5af16a11562b00c514c0d546188c41dd68e2b91e1"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/original-baseline-v1-metadata.stdout.gz",
+      "raw_bytes": 220615,
+      "raw_sha256": "14d8576aab141ce92f49e98f62d3c0ff9bfa9d9dbec751534d09f3913f7c3ad6",
+      "gzip_bytes": 19531,
+      "gzip_sha256": "9749bca66157b8a4956de216389e08e4149e8a3037c1d72d18ba7ec1a50d7001"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/original-baseline-v1-native-tests.stdout.gz",
+      "raw_bytes": 12202,
+      "raw_sha256": "0b5c01ee4c89f6a217217b21c8e7a1b017bf4ce0a4bbe7cde18f684b3531a680",
+      "gzip_bytes": 2137,
+      "gzip_sha256": "20ba1787f98c3a12f9e2144934321fe95f2ce0a04e571e4724344803828b0ddb"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/original-baseline-v1-native-tests.stderr.gz",
+      "raw_bytes": 922,
+      "raw_sha256": "735aa2d382ff3c0c9dfbcfd97e8b3ddb4616aa4223087483500ba083402a67a4",
+      "gzip_bytes": 377,
+      "gzip_sha256": "7f31cc36b10cfe6d350d98beb72edafc6f1a776f1f384ed01d9a01aacdbdec0e"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/original-baseline-v1-full-format-observation.stdout.gz",
+      "raw_bytes": 141735,
+      "raw_sha256": "4fcdd69fd5399aed3f68588f555c207d71faccfe74b0d9c62c0a3f1393fe8f53",
+      "gzip_bytes": 15461,
+      "gzip_sha256": "a9c08c608f1bbe86dce9b278d5b6a5442649787d330e0d5c983697bebec1c075"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/original-baseline-v1-scoped-format.stdout.gz",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip_bytes": 20,
+      "gzip_sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/original-baseline-v1-scoped-format.stderr.gz",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip_bytes": 20,
+      "gzip_sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/original-baseline-v1-scoped-clippy.stdout.gz",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip_bytes": 20,
+      "gzip_sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/original-baseline-v1-scoped-clippy.stderr.gz",
+      "raw_bytes": 768,
+      "raw_sha256": "98c38fbf8d943bf7c223d241feaa8b6391ce206fa31f1ee1775a116fd190e99e",
+      "gzip_bytes": 330,
+      "gzip_sha256": "654024ab9c8516a890358441c967db9dfe6d4d7e418d510110436f2133e037c7"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/original-baseline-v1-data-guardrail.stdout.gz",
+      "raw_bytes": 189,
+      "raw_sha256": "4fc602d56f19624467db1bf04a10188ff8cab7ce9d076d29484b2bc47daaa165",
+      "gzip_bytes": 134,
+      "gzip_sha256": "864fa485c92aa9a1416f976648f0a190ff6cbd0ad389c4974c90c6f16562b61c"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/original-baseline-v1-data-guardrail.stderr.gz",
+      "raw_bytes": 974,
+      "raw_sha256": "4e671da3fc5c55a380e699a15366a6c1afa69cc2279e1ecdb6b811228621eecc",
+      "gzip_bytes": 418,
+      "gzip_sha256": "66a6e838af2a579e8f86c730e1ecc52d79c05e4d4fbf47b3ae25ac8c314c9176"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/original-baseline-v1-site.stdout.gz",
+      "raw_bytes": 143,
+      "raw_sha256": "0db3589a7ca15d2dd271692a2a0b614e83e19cf7a4f974fa00634ce5ef6bce57",
+      "gzip_bytes": 152,
+      "gzip_sha256": "358f19dd4957bdfa8003124ba75bf9631564769c7a3846ff5d76129f2a178c35"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/original-baseline-v1-site.stderr.gz",
+      "raw_bytes": 815,
+      "raw_sha256": "139b0a58650661755233bf61a1bb8a55c70707778dd04d8d01c17d36f5dbc106",
+      "gzip_bytes": 330,
+      "gzip_sha256": "4b5eecfb0f9972d3fe61d9dc380eae60c16f4e1e9a34fcfae6c80b7859fd5cdb"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/original-baseline-v1-browser.stdout.gz",
+      "raw_bytes": 17500,
+      "raw_sha256": "863d3f888e783ec9955fdcf2031d9d6067cdf57cf2cea633f816267b6b65bcff",
+      "gzip_bytes": 2289,
+      "gzip_sha256": "823b18795a49ba5c54e553c9b5a6f294c6b84dbb92432c247951d71ca02463c2"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/original-baseline-v1-browser.stderr.gz",
+      "raw_bytes": 13716,
+      "raw_sha256": "f2b1692a74a52361589016668ef06d453dcb925ea6e213611613d11b15326201",
+      "gzip_bytes": 724,
+      "gzip_sha256": "3c6e01808677252003404030e60b3f2b2c92b5711f22c39ba7be0155029aa5b9"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/manifest-diagnosis-v1-diff.patch.gz",
+      "raw_bytes": 2929,
+      "raw_sha256": "bd17e1aa6e6d8fedffdbf919a7f5e0d10bf8102bf2e3add2ebb1b8e2e9462126",
+      "gzip_bytes": 1267,
+      "gzip_sha256": "b0338a6d295dc3bde11d6558dc9e2b01282ed084b21cd1b2b1aad81e600dc2ca"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/manifest-diagnosis-v1-receipt.json.gz",
+      "raw_bytes": 213,
+      "raw_sha256": "b3ca7fd7c0f6c518ef9d07eaa74aa9d72b22185684d2332bd7e70d941af985c9",
+      "gzip_bytes": 165,
+      "gzip_sha256": "7195b663eae5c6e08fb4d65e63047c1d90df51e3839bc8c59a0ec6f7d8b6277f"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/manifest-diagnosis-v1-generate.stdout.gz",
+      "raw_bytes": 55,
+      "raw_sha256": "ea4a5135cb1e14282f74f729aef8480024e7201d3b0e15025c8977441597302f",
+      "gzip_bytes": 75,
+      "gzip_sha256": "3a2bb39184ceb6b98b302e3825fd29fc1de1bc59b4f9e0c4d24096e755fab61f"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/manifest-diagnosis-v1-generate.stderr.gz",
+      "raw_bytes": 167,
+      "raw_sha256": "a616ddd43aeccffd9231258af08874968ad25a4764e955fc8396491d296ef517",
+      "gzip_bytes": 156,
+      "gzip_sha256": "9c01e42e3342713a4ad16d0992506ac692b2b0adc4c6ef70798c7aa4d49efcda"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/manifest-diagnosis-v1-validation.stdout.gz",
+      "raw_bytes": 7425,
+      "raw_sha256": "c7eaae313e9300609fa9139a4fc3feb88b748e81e5178c524f9840371a8ec900",
+      "gzip_bytes": 1393,
+      "gzip_sha256": "ed2e59492c6bd534d89e670877afc24aedb8520d17e3dbe6fd4dc4bd989fa83a"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/manifest-diagnosis-v1-validation.stderr.gz",
+      "raw_bytes": 167,
+      "raw_sha256": "7b7eee6416038a304f0009f3af8fba42be725bc7b0f7f5cdeae75f1ffdc839b5",
+      "gzip_bytes": 156,
+      "gzip_sha256": "6995eef9df87f0b2a889a4048903ff10cbe89cd74a1663552cc0b9d13668e899"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/original-locked-inputs-v1-author.stdout.gz",
+      "raw_bytes": 248,
+      "raw_sha256": "fce839ca64e36ac272bbf5faa2dff4435bd9735ca66a1c352f3cba130333d837",
+      "gzip_bytes": 204,
+      "gzip_sha256": "6b44fab37016fd003ebf1c862802b3f7ce3cdad6e021fb9ff6032248fbb7bb47"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/original-locked-inputs-v1-author.stderr.gz",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip_bytes": 20,
+      "gzip_sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/original-input-tests-v1-commands.json.gz",
+      "raw_bytes": 252,
+      "raw_sha256": "77ba700d9590da50eb9b7ddab908ac26c05515d19745cc3eca323681019073c4",
+      "gzip_bytes": 151,
+      "gzip_sha256": "326e48f0e430d809b6f985f2933c709a83498e4e451c36df0173c9d58d97d3a2"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/original-input-tests-v1-inputs.stderr.gz",
+      "raw_bytes": 4043,
+      "raw_sha256": "ff04991d7142d23f6f39188d4c80dcbb7564dc365a6e6df8a6ca0d9f3df9ecf1",
+      "gzip_bytes": 1055,
+      "gzip_sha256": "42db1105cc4e91c64352d760dba5ebd338fd96a22238c7bde10abc89e7b11e30"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/original-input-tests-v2-commands.json.gz",
+      "raw_bytes": 495,
+      "raw_sha256": "940b0a16324ed08a83c880a44fe89a69703cd501669ae06a27f11f968610c166",
+      "gzip_bytes": 173,
+      "gzip_sha256": "700aa7adbc0fd0e2b9a7f94f67f6878d96583a6cad209c16fedc7c7a779f63ec"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/original-input-tests-v2-inputs.stderr.gz",
+      "raw_bytes": 3341,
+      "raw_sha256": "b5bebaaa2875e61661d9e576549c3b98b9b61f39f2044cbff2130b49ff756297",
+      "gzip_bytes": 839,
+      "gzip_sha256": "0c230c7fcd8971885b3b7550879938d73e1d0c38c41fa5ea800a62a0ce6f499b"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/original-input-tests-v2-flags.stderr.gz",
+      "raw_bytes": 367,
+      "raw_sha256": "900b8cf3e99e922201ce24db3db89bfc26129f63c6460795c49fdab03f20c9da",
+      "gzip_bytes": 164,
+      "gzip_sha256": "ede5ea98ff01f5f40650dbb1c6078f4d9615e2993ec9830bf2137070e97189c5"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/owned-input-baseline-v1-receipt.json.gz",
+      "raw_bytes": 3514,
+      "raw_sha256": "17a0db29b152d5059b52cf906094f1970c9ee8b318a0f3061741dad288a51a58",
+      "gzip_bytes": 1315,
+      "gzip_sha256": "4210763987d01019b1922aafafae148a7ed166742dd56401f2bae30faab509db"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/owned-input-baseline-v1-commands.json.gz",
+      "raw_bytes": 596,
+      "raw_sha256": "22a1e5af7b23f8d99065a53d0e625aa930497beaf73d4e6ec51f9ba8e4cc0049",
+      "gzip_bytes": 225,
+      "gzip_sha256": "f58cc2367f2ac698ef4ee0cdaf3da16073507a17fd14680998c599839d32e296"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/owned-input-baseline-v1-native-tests.stdout.gz",
+      "raw_bytes": 12202,
+      "raw_sha256": "34c9c10e372747172308f1e57d34f0fdf950d9b8820e62a6449b6ccacb6ebebc",
+      "gzip_bytes": 2141,
+      "gzip_sha256": "ef752a48895a5153df001cd5b1f383c356e94bcd613cb0016d449f5dc5983977"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/owned-input-baseline-v1-native-tests.stderr.gz",
+      "raw_bytes": 1009,
+      "raw_sha256": "88dec806076778fc7d89e78eab60517e71ce6dc7bc5e08ec5505419d797174be",
+      "gzip_bytes": 396,
+      "gzip_sha256": "e03ce8351b9da651c2705dfc19c7ab16468cba0deb2a61b37dbd0831300595c8"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/owned-input-baseline-v1-scoped-clippy.stdout.gz",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip_bytes": 20,
+      "gzip_sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/owned-input-baseline-v1-scoped-clippy.stderr.gz",
+      "raw_bytes": 882,
+      "raw_sha256": "10dadc5dd7c358ad2684c8a45091bf2538d5e17d3075cb8f0ae40f02574f57a1",
+      "gzip_bytes": 365,
+      "gzip_sha256": "bc5863b27a803f3b8f62d0a0c59dae60fcdf31541ccb351c62d12753692dbb97"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/manifest-diagnosis-v1-final-validation.stdout.gz",
+      "raw_bytes": 7425,
+      "raw_sha256": "c7eaae313e9300609fa9139a4fc3feb88b748e81e5178c524f9840371a8ec900",
+      "gzip_bytes": 1393,
+      "gzip_sha256": "ed2e59492c6bd534d89e670877afc24aedb8520d17e3dbe6fd4dc4bd989fa83a"
+    },
+    {
+      "path": "context/waves/2026-11-06-self-service-custody/validation/pulse01/manifest-diagnosis-v1-final-validation.stderr.gz",
+      "raw_bytes": 167,
+      "raw_sha256": "cc286048eec9e196e08608fd46ac5ab90f60f0b76bc8357e619ced65d77094e7",
+      "gzip_bytes": 156,
+      "gzip_sha256": "1610980f2a2b5bbaf80350bba4eab05697319362423c476ae19e36566d72fa28"
+    }
+  ],
+  "scope": "Exact original3073-file Git inventory, full source/archive identity probe,156 scoped native/13 actual browser checks, original stale manifest and deterministic3-checksum repair/full validator pass, original49-package capsule and23+2 controls, new-owned-input/home156 native/strict scoped Clippy. Full source archive/generated site/targets outside Git. Shared target/tools reused; no native/WASM full strings, managed source/empty-target/publication/default/live claim."
+}

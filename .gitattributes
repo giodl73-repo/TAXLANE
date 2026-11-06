@@ -2,3 +2,9 @@
 *.pdf binary
 *.xlsx binary
 data/raw/** binary
+
+cargo-inputs/*.zip binary
+DEPENDENCY-NOTICES.txt -text whitespace=cr-at-eol,-blank-at-eof
+notices/*.txt -text whitespace=cr-at-eol,-blank-at-eof
+notices/rust-1.95.0-COPYRIGHT-library.html -text whitespace=-blank-at-eol,-blank-at-eof
+*.gz -text

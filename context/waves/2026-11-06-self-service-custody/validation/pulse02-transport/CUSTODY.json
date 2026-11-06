@@ -1,0 +1,90 @@
+{
+  "files": [
+    {
+      "path": "commands.json.gz",
+      "original_bytes": 2094,
+      "sha256": "1e2fb4a6a3a21df6d04edfe86ee8c3e54c9546a2456e7dcd6369768ae534df11"
+    },
+    {
+      "path": "measured-container.json.gz",
+      "original_bytes": 71,
+      "sha256": "da13fcc7a96b59eff2bfdb19ad1986787a5d606c610a476e1cb5bb10040258e9"
+    },
+    {
+      "path": "package-full-tree.stderr.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "package-full-tree.stdout.gz",
+      "original_bytes": 1495,
+      "sha256": "bc434fa0a8bf1fe479eb136a72228b5e44a0c70f47aa64c5df2b2e6ecf44d537"
+    },
+    {
+      "path": "receipt.json.gz",
+      "original_bytes": 3945,
+      "sha256": "ba92ca4ca24399abcfed32b8f0276f60cdafbe778176774d1f1613c0ab0b6381"
+    },
+    {
+      "path": "receive-without-git-cargo-path.stderr.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "receive-without-git-cargo-path.stdout.gz",
+      "original_bytes": 159,
+      "sha256": "fee4f7ee59bca0a8379a9ecbc3bdb7e202c4572effcbc34056cc2c539c814855"
+    },
+    {
+      "path": "regenerate-all-source-artifacts.stderr.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "regenerate-all-source-artifacts.stdout.gz",
+      "original_bytes": 1495,
+      "sha256": "bc434fa0a8bf1fe479eb136a72228b5e44a0c70f47aa64c5df2b2e6ecf44d537"
+    },
+    {
+      "path": "repackage-received-without-git-cargo-path.stderr.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "repackage-received-without-git-cargo-path.stdout.gz",
+      "original_bytes": 160,
+      "sha256": "83148bf16028ebd257853ea4b83b2dda320f372122255edc1d8b2966f428f52e"
+    },
+    {
+      "path": "SOURCE-ARTIFACTS.json.gz",
+      "original_bytes": 1180,
+      "sha256": "19ae4209bf846627fc5daf30fa770207c56ad995b2a864b32807a1b42dbf4451"
+    },
+    {
+      "path": "SOURCE-MANIFEST.json.gz",
+      "original_bytes": 620591,
+      "sha256": "5acce1aefbc585a27b4598521701667d3355313f759ec7c461ccacfe5c928e70"
+    },
+    {
+      "path": "unit-command.json.gz",
+      "original_bytes": 195,
+      "sha256": "f7bd280506a82b31144ccb6986491e65a10eccea8e2cb0914478b3fe1c1dbdf8"
+    },
+    {
+      "path": "unit-stderr.gz",
+      "original_bytes": 1628,
+      "sha256": "5c495731cdc43c4c77e08d5faac66e6955664276f6193a5e75f074992a58570f"
+    },
+    {
+      "path": "unit-stdout.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "source_commit": "b7b350966745b801892ab48474e474af9cbd4396",
+  "source_files": 3161,
+  "source_bytes": 425889123,
+  "decoded_tar_bytes": 430192640,
+  "scope": "Complete current source transport only; not independent compiled Rust/runtime or published release/live qualification",
+  "complete_source_archive_retained": "C:\\src\\taxlane-self-service-qualification-20261106\\full-source-transport-v1\\artifacts\\source.tar.xz"
+}

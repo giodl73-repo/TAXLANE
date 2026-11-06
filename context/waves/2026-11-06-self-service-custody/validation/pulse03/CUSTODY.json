@@ -1,0 +1,108 @@
+{
+  "files": [
+    {
+      "name": "baseline.json.gz",
+      "original_bytes": 3498,
+      "sha256": "239112764a847be9c1992710b28544449881576e2a57304992b05ced4b266a71"
+    },
+    {
+      "name": "commands.json.gz",
+      "original_bytes": 2703,
+      "sha256": "6dbc8c4d2294650c0c606b4134e0e9a986c44f384d878a16c079d83dc493f110"
+    },
+    {
+      "name": "controls-native.jsonl.gz",
+      "original_bytes": 13083626,
+      "sha256": "b5be2b606ae39231dbe512d94028a5ce969e6a8ba7a81f37adf5ca213c92f615"
+    },
+    {
+      "name": "controls-native.stderr.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "controls-wasm.jsonl.gz",
+      "original_bytes": 13083626,
+      "sha256": "b5be2b606ae39231dbe512d94028a5ce969e6a8ba7a81f37adf5ca213c92f615"
+    },
+    {
+      "name": "controls-wasm.stderr.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "controls-wasm.stdout.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "controls.jsonl.gz",
+      "original_bytes": 22642863,
+      "sha256": "256b04fa3dd29b90884551e03f9eab6ee75600e94e3f17e14418c30dab6b7aee"
+    },
+    {
+      "name": "receipt.json.gz",
+      "original_bytes": 754,
+      "sha256": "8c474fecbceaf53f353ec5c4d906d5eff6eb7940b7c428652bda47b5a3a679b6"
+    },
+    {
+      "name": "target-width-controls-native.jsonl.gz",
+      "original_bytes": 82,
+      "sha256": "6c834d3efd93026be8977096fb920be7cb14052d8f14f564261a49a281fd6617"
+    },
+    {
+      "name": "target-width-controls-native.stderr.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "target-width-controls-wasm.jsonl.gz",
+      "original_bytes": 175,
+      "sha256": "9dda64ac191cf4295128b6527a119175d7f5b7bb11100636e77cef60857974ec"
+    },
+    {
+      "name": "target-width-controls-wasm.stderr.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "target-width-controls-wasm.stdout.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "target-width-controls.jsonl.gz",
+      "original_bytes": 8032,
+      "sha256": "b5fbdc8e0bc5e194abaa6d0fa32f9e2ea75d4aaeeca2adb6c4ca9cbacdcac12d"
+    },
+    {
+      "name": "verification.stderr.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "verification.stdout.gz",
+      "original_bytes": 756,
+      "sha256": "f095bf6c4758bc4d9f97feb10491140efeb0b8a62f368a25227dca8f9c51499c"
+    }
+  ],
+  "baseline": "Original main 367f3f2516c8ef95684b30542047a3f424f184d6; unchanged Rust implementation/manifests/lock and original built site",
+  "qualification": "Local default-cache/reused-target native controls; not owned-source empty-target replay or live worker qualification",
+  "fixture_correction": "Pre-execution v1 had two net-interest mutations at wrong hardcoded index14. v2/v3 locate by id. No implementation change; v1 generated controls retained locally.",
+  "hosted_predecessor": {
+    "run": 42215526725,
+    "head": "5adb3998d1a80178a5aed9d51d13da8d8228df29",
+    "conclusion": "success"
+  },
+  "native_wasm_counts": {
+    "total": 5615,
+    "successful": 5525,
+    "rejected": 90,
+    "separate_target_width_rejections": 2
+  },
+  "checks": [
+    "Complete returned strings/errors identical, without rounding or field selection",
+    "Independent integer accounting, lane order and transit arithmetic/labels",
+    "Five verifier negative controls reject"
+  ]
+}
