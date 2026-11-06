@@ -156,3 +156,23 @@ control methods pass, including reconstruction with no deflate backend. Original
 Rust input archives and the complete source tar/XZ are unchanged formats. The
 runtime/source full replay remains byte-exact on the declared installed platform;
 new-head hosted wire/artifact/default/live qualification is still required.
+
+## Draft release lookup correction
+
+Default41f2528's full build/replay and all downloaded runtime/source/grant artifacts
+qualify. Its first publisher creates draft436623492, then receives404 from the
+published-release-by-tag endpoint. It uploads nothing and Pages deployment is
+skipped, preserving the previous live delivery. Actual authenticated list/ID
+lookup finds the exact same draft/body with zero assets; raw failure and read-only
+preflight are retained in `validation/pulse04-draft-lookup/` of the custody wave.
+
+Creation now retains the REST create response's draft ID. Resume uses bounded,
+paginated authenticated release listing plus direct ID lookup when the published
+tag endpoint has no result. Duplicate matching drafts reject without mutation.
+Draft asset verification uses state/size/digest or authenticated binary bytes;
+the exact public route is required after publication, with every anonymous binary
+still checked completely. Eighteen regression/control methods pass, including the
+actual published-only tag lookup behavior, pagination, duplicate drafts and the
+draft-to-public route transition. No tag/asset overwrite or byte check is relaxed.
+The corrected source revision still needs complete hosted/default/publication/
+live qualification before TRACKER advances.

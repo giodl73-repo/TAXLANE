@@ -1,0 +1,45 @@
+{
+  "files": [
+    {
+      "path": "unit-command.json.gz",
+      "original_bytes": 180,
+      "sha256": "9ac9075a95bc0801cc7458ea815a8ca4b4684f15811f076abdfb5acefd6db0f8"
+    },
+    {
+      "path": "unit-stderr.gz",
+      "original_bytes": 2766,
+      "sha256": "5db9553607228fd4a7df26eaf0a9164124d95a04386f2bdea9e8aa5036f62b26"
+    },
+    {
+      "path": "unit-stdout.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "actual-draft.json.gz",
+      "original_bytes": 3616,
+      "sha256": "b417a8e8a4601abcd5bba48077dd19d5a157807941e8a62294f893eaf8604271"
+    },
+    {
+      "path": "actual-receipt.json.gz",
+      "original_bytes": 658,
+      "sha256": "9104cbf2c01022e0d5a1d89faaffc5077a77e76794f2989bd49f469675adbde1"
+    },
+    {
+      "path": "failed-default-publisher.stdout.gz",
+      "original_bytes": 4508,
+      "sha256": "f1ca500545d0b1a09a40231af7e3f9da5d30786645be7867eb4ce2990fda4bf5"
+    },
+    {
+      "path": "failed-default-draft-list.json.gz",
+      "original_bytes": 3419,
+      "sha256": "0315d1a1038fedd6b7cf097e74ccfe44c5be757bbccf716fe76f03379d1185ac"
+    },
+    {
+      "path": "qualified-default-build.json.gz",
+      "original_bytes": 1176,
+      "sha256": "6c0f58d3eb61e5aaa4c72328a724374029d5b4681d1efa387571a6f459db6eba"
+    }
+  ],
+  "scope": "Actual default41f2528 source/runtime/replay artifacts qualify; publication fails after creating unpublished draft436623492 with0assets because published-by-tag cannot return it. New lookup/create-ID flow passes18 control methods and actual read-only same-draft list/ID/body preflight. No publication/deployment or final new-head qualification claim."
+}

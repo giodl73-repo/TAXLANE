@@ -151,11 +151,11 @@ class GitHub:
                        stdout=subprocess.DEVNULL)
 
     def create(self, package):
-        with tempfile.TemporaryDirectory(prefix='taxlane-release-') as temp:
-            body = Path(temp)/'notes.md'
-            body.write_bytes(package['body'].encode())
-            self.command('release', 'create', package['tag'], '--draft', '--latest=false',
-                '--target', package['commit'], '--title', package['title'], '--notes-file', str(body))
+        # The tag endpoint returns published releases. Retain the create
+        # response's ID to address this unpublished draft directly.
+        return self.api('releases', method='POST', payload=dict(tag_name=package['tag'],
+            target_commitish=package['commit'], name=package['title'], body=package['body'],
+            draft=True, prerelease=False, make_latest='false'))
 
     def upload(self, package, name):
         self.command('release', 'upload', package['tag'], str(package['artifacts']/name))
@@ -219,15 +219,34 @@ def assets_for(client, release, package, anonymous=False):
     return result
 
 
-def check_asset(client, asset, expected, package, name, anonymous=False):
-    require(asset['state'] == 'uploaded' and asset['size'] == expected['bytes']
-            and asset['browser_download_url'] == package['base']+name, 'Existing asset size/state/route differs; no overwrite')
+def check_asset(client, asset, expected, package, name, anonymous=False, published=True):
+    require(asset['state'] == 'uploaded' and asset['size'] == expected['bytes'], 'Existing asset size/state differs; no overwrite')
+    if published:
+        require(asset['browser_download_url'] == package['base']+name, 'Published asset route differs; no overwrite')
     if asset.get('digest'):
         require(asset['digest'] == 'sha256:'+expected['sha256'], 'Existing asset digest differs; no overwrite')
     else:
         actual = client.public_bytes(package['base']+name, expected) if anonymous else client.draft_bytes(asset, expected)
         require(actual == expected, 'Existing asset complete bytes differ; no overwrite')
         return actual
+
+
+def find_release(client, package, include_drafts):
+    release = client.api('releases/tags/'+package['tag'], missing=True)
+    if release is not None or not include_drafts:
+        return release
+    # Authenticated list responses include drafts; do not assume that a draft
+    # appears in the published-by-tag endpoint, or create a duplicate on resume.
+    matches = []
+    for page in range(1, 101):
+        rows = client.api('releases?per_page=100&page='+str(page))
+        matches.extend(row for row in rows if row['tag_name'] == package['tag'])
+        if len(rows) < 100:
+            break
+    else:
+        raise ValueError('Release listing exceeds lookup bound')
+    require(len(matches) <= 1, 'Multiple matching source drafts; no mutation')
+    return client.api('releases/'+str(matches[0]['id'])) if matches else None
 
 
 def publish_or_verify(package, client, publish=False):
@@ -243,11 +262,10 @@ def publish_or_verify(package, client, publish=False):
         current_default()
     target = tag_commit(client, package['tag'])
     require(target in (None, package['commit']), 'Existing source tag points elsewhere; no movement')
-    release = client.api('releases/tags/'+package['tag'], missing=True)
+    release = find_release(client, package, include_drafts=publish)
     if release is None:
         require(publish, 'Source release is not published')
-        client.create(package)
-        release = client.api('releases/tags/'+package['tag'])
+        release = client.create(package)
     check_release(release, package)
     assets = assets_for(client, release, package)
     for name, expected in package['files'].items():
@@ -255,7 +273,7 @@ def publish_or_verify(package, client, publish=False):
             require(publish and release['draft'], 'Missing asset on published/read-only release; no overwrite')
             client.upload(package, name)
             assets = assets_for(client, release, package)
-        check_asset(client, assets[name], expected, package, name, anonymous=not release['draft'])
+        check_asset(client, assets[name], expected, package, name, anonymous=not release['draft'], published=not release['draft'])
     require(set(assets) == set(package['files']), 'Incomplete source asset set')
     if release['draft']:
         require(publish, 'Source release is still a draft')

@@ -99,3 +99,18 @@ Use a deterministic stored-entry ZIP for this small receiver, preserving all byt
 and fixed metadata while removing deflate encoder variance. All six source-artifact
 controls pass, including a no-deflate-backend reconstruction case. The corrected
 revision needs its own exact-head hosted/full-artifact/default/live qualification.
+
+Corrected3578e73's exact hosted artifacts validate on Windows; its37,438-byte
+stored receiver is byte-identical. PR39 squashes to41f2528 with the same qualified
+tree. Actual default build/replay and full downloaded artifact/source/grant checks
+pass. Publication then creates draft436623492 but fails on a published-by-tag404;
+zero assets are uploaded and deploy is skipped. Preserve raw failure and actual
+authenticated list/ID/body preflight, which finds that same unpublished draft.
+
+Retain the create response's ID; resolve resumable drafts through bounded
+paginated listing and direct ID lookup. Reject duplicates/conflicts; verify draft
+assets via state/size/hash or authenticated bytes, then require the final public
+routes and full anonymous bytes after publication. All18 publisher control methods
+pass, including tag lookup hiding drafts, pagination, duplicates and route stages.
+The initial empty draft remains untouched/unpublished. New-head full CI/artifact/
+default publication/live gates remain open; canonical pointer stays367f3f2.

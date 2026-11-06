@@ -82,3 +82,14 @@ stored-entry ZIP to remove compressor variance. No source subset or relaxed byte
 comparison is substituted. Six source-artifact controls now pass. T-2/T-8 preserve
 all original Rust/data and platform-scope boundaries; new hosted wire readback is
 required. No release/publication/delivery or research admission follows the fix alone.
+
+Draft correction: T-3 actual3578e73 cross-platform artifact readback and41f2528
+default build/replay/grants pass. The publication gate correctly prevents Pages
+deployment after draft lookup404, before any upload/publication. Retain that
+failure; actual authenticated list/ID lookup validates the existing empty draft's
+exact source/body. New creation/lookup is ID-based and bounded;18 controls pass,
+including hidden drafts, pagination, duplicates and draft/public route stages.
+All asset bytes/hashes, public routes, no-overwrite and exact default checks stay.
+T-2/T-8: no fiscal/source/data/grant change; actual new-default publication/live
+qualification remains open. No research admission or canonical snapshot follows
+the code fix alone. These remain implementing-agent checks, not outside approval.
