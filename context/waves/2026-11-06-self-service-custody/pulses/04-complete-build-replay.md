@@ -90,3 +90,12 @@ hash is retained in pulse04-publisher. No TAXLANE release is created by these te
 The new source revision's hosted replay, real default source publication,
 anonymous TAXLANE asset readback, default/live worker/files/downloads and explicit
 TRACKER promotion remain open. No final delivery or research admission is claimed.
+
+Hosted172581c CI passes full source/runtime replay, but cross-platform artifact
+readback finds a different deflate representation of the identical trusted-helper
+ZIP (Linux14,548 bytes / Windows14,578). Preserve that actual failure and logical
+entry/mode/grant diagnosis in pulse04-portability; do not merge the predecessor.
+Use a deterministic stored-entry ZIP for this small receiver, preserving all bytes
+and fixed metadata while removing deflate encoder variance. All six source-artifact
+controls pass, including a no-deflate-backend reconstruction case. The corrected
+revision needs its own exact-head hosted/full-artifact/default/live qualification.

@@ -37,13 +37,15 @@ def receiver_bundle(files):
         'Python, Rust1.95.0, wasm-bindgen0.2.127, browser/npm and research-model\n'
         'tools are external prerequisites, not installed by this receiver.\n').encode()
     output = io.BytesIO()
-    with zipfile.ZipFile(output, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as bundle:
+    # This small trusted-helper bundle must reproduce across the supported
+    # Python/platform versions without depending on their deflate encoders.
+    with zipfile.ZipFile(output, 'w', compression=zipfile.ZIP_STORED) as bundle:
         for name, value in sorted(entries.items()):
             item = zipfile.ZipInfo(name, (1980, 1, 1, 0, 0, 0))
             item.create_system = 3
             item.external_attr = 0o100644 << 16
-            item.compress_type = zipfile.ZIP_DEFLATED
-            bundle.writestr(item, value, compresslevel=9)
+            item.compress_type = zipfile.ZIP_STORED
+            bundle.writestr(item, value)
     return output.getvalue()
 
 

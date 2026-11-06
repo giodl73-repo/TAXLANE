@@ -139,3 +139,20 @@ and [release creation/update](https://docs.github.com/en/rest/releases/releases)
 The actual TAXLANE publication/default/live gates still require execution after
 the qualified new revision reaches default; mocked publication controls are not
 treated as evidence of an actual source release.
+
+## Receiver portability correction
+
+Exact hosted172581c artifact readback on Windows caught a receiver ZIP wire
+difference before merge: Linux produced14,548 bytes; Windows deflate produced
+14,578 bytes. Every entry's code/grant bytes and metadata matched. Same-platform
+source/runtime replay passed, but the independent publication verifier correctly
+refused the different re-encoded wire representation. Raw diagnosis is retained
+under the custody wave's `validation/pulse04-portability/`.
+
+The small trusted-helper ZIP now stores entries without compression, using fixed
+timestamps/modes/order. This preserves every code/grant byte and removes the
+deflate encoder dependency from receiver wire reconstruction. Six source-artifact
+control methods pass, including reconstruction with no deflate backend. Original
+Rust input archives and the complete source tar/XZ are unchanged formats. The
+runtime/source full replay remains byte-exact on the declared installed platform;
+new-head hosted wire/artifact/default/live qualification is still required.

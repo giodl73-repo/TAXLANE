@@ -75,3 +75,10 @@ complete anonymous actual bytes before deployment. T-1/T-4 retain an optional
 large complete-source download and small runtime. Fourteen mocked publication
 control methods and real read-only API/SDK stream preflights do not stand in for
 actual TAXLANE release/default/live qualification; those gates remain open.
+
+Portability correction: T-3 actual hosted receiver wire mismatch blocks merge;
+all entries/grants/modes were identical, so preserve the diagnosis and choose a
+stored-entry ZIP to remove compressor variance. No source subset or relaxed byte
+comparison is substituted. Six source-artifact controls now pass. T-2/T-8 preserve
+all original Rust/data and platform-scope boundaries; new hosted wire readback is
+required. No release/publication/delivery or research admission follows the fix alone.

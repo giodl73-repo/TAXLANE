@@ -46,6 +46,12 @@ class SourceArtifacts(unittest.TestCase):
             for entry in bundle.infolist():
                 self.assertEqual(entry.external_attr >> 16, 0o100644)
                 self.assertEqual(entry.date_time, (1980, 1, 1, 0, 0, 0))
+                self.assertEqual(entry.compress_type, zipfile.ZIP_STORED)
+
+    def test_trusted_receiver_wire_does_not_depend_on_deflate_backend(self):
+        expected = receiver_bundle(self.files)
+        with patch.object(zipfile, 'zlib', None):
+            self.assertEqual(receiver_bundle(self.files), expected)
 
     def test_existing_and_source_destinations_preserved(self):
         with tempfile.TemporaryDirectory() as temp:
