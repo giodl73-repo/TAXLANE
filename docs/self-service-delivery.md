@@ -1,9 +1,9 @@
 # Self-service delivery contract under review
 
 Status: current original software baseline and locked input custody are measured;
-complete managed source transport now passes a separately source-bound noGit
-round trip. Owned-input runtime rebuild and current release/live qualification
-remain open. This document defines the next delivery gates.
+complete managed source/runtime replay now passes at the separately named c03
+checkpoint below. New-revision hosted replay, actual source publication/default/
+live qualification remain open. This document defines the remaining delivery gates.
 
 The accounting/scenario/ledger/research/source-rights contract in
 budget-explorer.md and the existing recovery acceptance remains authoritative.
@@ -88,3 +88,54 @@ absent. Evidence: `validation/pulse02-transport/` in the current custody wave.
 This is a transport checkpoint at the named commit, not final current runtime
 reproduction, a published source release, or source/research admission. Later
 source revisions require their own complete archive/runtime qualification.
+
+## Complete runtime/source replay checkpoint
+
+At `c03f7274f5d1acb367f53a24f63c9606f26ca2af`, complete source is3,199 files /
+426,558,333 file bytes. Its180,283,652-byte source archive has SHA256
+`567e440098b3ba31c5428413510ee4b0efbf7a3f0ee3449a065e86a7b7bc63ff`.
+The runtime is1,173,893 bytes, including complete original dependency/helper/Rust
+runtime notices. It independently regenerates every runtime/source artifact and
+manifest byte from received source outside Git, new owned offline input/home and
+an initially absent compiled target. All156 native/18 browser/5,615 complete
+response controls, scoped formatting/Clippy and the full data guardrail pass.
+Full matrix input/native/WASM hashes equal the original adapter baseline.
+This proves the named source revision's replay on the installed platform/tools;
+it does not qualify every later source revision or a live release automatically.
+
+After building a new runtime/source artifact pair, reproduce the full check:
+
+```sh
+python -B tools/check-source-replay.py --site dist/TAXLANE --source-artifacts dist/source-artifacts --output ../new-taxlane-replay --browser
+```
+
+Install the declared Node/Playwright/browser prerequisites before `--browser`;
+the original root's exact test sources/npm packages drive the rebuilt site.
+The replay's own Rust sources/home/compiled target must start absent; installed
+compiler/linker/bindgen/browser tools are reused. All raw commands/logs and final
+complete artifact/metadata/source readbacks remain in the new replay directory.
+
+## Default-only source publication
+
+`tools/publish-source.py` verifies the complete runtime/source inventory,
+canonical archive/Git identity, original locked input capsule, provenance and all
+source/runtime grants before any mutation. `--publish` requires the exact current
+default source commit. It creates or resumes only an exactly matching draft,
+never moves a tag or clobbers an existing asset, verifies every attached asset,
+publishes, and reads the complete public metadata/tag/binary bytes without account
+authentication. `--verify-published` performs no publication or replacement.
+Source and runtime artifacts remain separate measured outputs. Use a new receipt
+outside both artifact directories; SHA and Git identity do not attest authorship.
+
+CI's publication job has Contents write only on default-main runs. PR builds
+exercise full source/runtime replay and publication controls without publishing.
+Pages deployment needs a successful publication receipt for the exact source
+commit, including complete anonymous binary readback. Matching asset retries do
+not overwrite content. Host-enforced release immutability is separate and is not
+enabled or promised by this implementation.
+
+GitHub documents [release assets, public binary responses and digests](https://docs.github.com/en/rest/releases/assets)
+and [release creation/update](https://docs.github.com/en/rest/releases/releases).
+The actual TAXLANE publication/default/live gates still require execution after
+the qualified new revision reaches default; mocked publication controls are not
+treated as evidence of an actual source release.

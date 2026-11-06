@@ -28,10 +28,14 @@ are implementing-agent checks, not independent endorsements or fiscal advice.
 Original native core152+scenario4=156 passes; documented scenario formatting
 and strict adapter all-target/all-feature Clippy pass. All13 original actual-WASM
 browser cases pass. Original208,249-byte site uses a local default Cargo cache,
-mutable main.zip source link and Git-dependent provenance builder. Complete
-owned dependency/source/empty-target rebuild remains open. Pulse03 records5,615
+mutable main.zip source link and Git-dependent provenance builder. Pulse04 now
+proves complete owned-input/noGit/initially-empty-target source and runtime replay
+atc03f727; all artifacts/manifests/grants match byte-for-byte. Pulse03 records5,615
 original-adapter full native/WASM string/error controls and independent accounting
-checks; final rebuilt/live-worker parity remains open. Full-workspace formatting has preexisting differences outside the
+checks, also passing on the rebuilt source with identical original stream hashes.
+All156 native and18 browser cases pass at that checkpoint. New publisher-revision
+hosted replay and final default/published/live qualification remain open.
+Full-workspace formatting has preexisting differences outside the
 documented scenario check. The data guardrail stops at a stale generated artifact
 manifest after earlier annual/decade/subfunction checks pass. Regeneration changes
 only the recorded hashes of existing README/Cargo.toml/Cargo.lock; the full data
@@ -55,12 +59,13 @@ must wait for source publication/readback. Keep that larger download explicit;
 no smaller source subset, hidden omission, blanket license or unmeasured claim.
 This is an architecture candidate, not an already published/qualified route.
 
-The complete source receiver will verify bounded archive resources, safe paths,
+The complete source receiver verifies bounded archive resources, safe paths,
 original Git commit/tree/blob/modes and a trusted external archive hash before
 new-only extraction. Original locked Cargo archives and complete grant texts
 must restore offline to owned inputs/home. The original five-reader32MB source
-bound cannot cover this420MB tree; choose explicit per-repo limits from measured
-full inputs without weakening path/identity/existing-data controls. Installed
+bound cannot cover this420MB tree; the measured full-source profile is256 MB
+packed/512 MB decoded tar/6,000 original files, without weakening path/identity/
+existing-data controls. Original Rust input limits remain unchanged. Installed
 compiler/browser/Python/model tools remain explicit external prerequisites.
 
 Rebuild the runtime and complete source artifact independently from received

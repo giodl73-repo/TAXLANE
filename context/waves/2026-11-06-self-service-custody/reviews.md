@@ -59,3 +59,19 @@ T-1/T-4 require noJS/mobile build/download commands and current worker output.
 T-8 retains source/runtime distinction and no host-immutability or research claim.
 T-5/T-6/T-7: no benefits, services, compliance or debt-policy semantics change.
 Current full owned-input build/replay and final publication remain validation gates.
+
+Pulse04 executed review atc03: T-2 full156 native and original exact response
+streams are preserved; the full data guardrail passes from restored source with
+owned offline dependencies. T-3 every runtime/source file, manifest and grant is
+byte-identical after noGit/new-input/home/empty-target replay; source transport
+alone is no longer substituted for runtime reproduction. T-1/T-4 all18 actual
+browser cases and inspected desktop/mobile/noJS views pass. T-8 keeps platform/
+tool scope, source availability, research admission and host immutability separate.
+T-5/T-6/T-7: no policy or service change. These remain implementing-agent checks.
+
+Publication candidate review: T-3 requires exact default source identity and
+all source/runtime grants before release mutation, no tag/asset overwrite, and
+complete anonymous actual bytes before deployment. T-1/T-4 retain an optional
+large complete-source download and small runtime. Fourteen mocked publication
+control methods and real read-only API/SDK stream preflights do not stand in for
+actual TAXLANE release/default/live qualification; those gates remain open.

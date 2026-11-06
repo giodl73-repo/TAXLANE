@@ -1,0 +1,140 @@
+{
+  "files": [
+    {
+      "path": "adapter-clippy.stderr.gz",
+      "original_bytes": 882,
+      "sha256": "83769eeb18fb386db7f76825e40c80b28554a8d1498b9b4c2ac6b98742b6f10d"
+    },
+    {
+      "path": "adapter-clippy.stdout.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "adapter-format.stderr.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "adapter-format.stdout.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "browser.json.gz",
+      "original_bytes": 21255,
+      "sha256": "bf246d6c0e12c2d858941bb180ee3fd91b5d4ba502ac97ab0200d56d8a942a89"
+    },
+    {
+      "path": "browser.stderr.gz",
+      "original_bytes": 24180,
+      "sha256": "368661d2df826c9374e30042d63303fad2ef5082a77789f3837949a67974eb4b"
+    },
+    {
+      "path": "browser.stdout.gz",
+      "original_bytes": 2494,
+      "sha256": "2640259d8e8a9c297864f69fb983c84c426ea22400085d055f9dd5dad4a9ca92"
+    },
+    {
+      "path": "commands.json.gz",
+      "original_bytes": 2401,
+      "sha256": "cefa586f37da372db88792b98b95c73038a8dac143f12911ead5afce015e0519"
+    },
+    {
+      "path": "complete-native-wasm.stderr.gz",
+      "original_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "complete-native-wasm.stdout.gz",
+      "original_bytes": 1152,
+      "sha256": "fe1e96708e53029c90b51da6fc170259f7a4de01e9ee314e0ad326830144a75f"
+    },
+    {
+      "path": "full-data-guardrail.stderr.gz",
+      "original_bytes": 1363,
+      "sha256": "c60e40fb24ea8772acb719ef570d4f4e079438abf89f751b471e555f6af0cf21"
+    },
+    {
+      "path": "full-data-guardrail.stdout.gz",
+      "original_bytes": 7425,
+      "sha256": "c7eaae313e9300609fa9139a4fc3feb88b748e81e5178c524f9840371a8ec900"
+    },
+    {
+      "path": "managed-build.stderr.gz",
+      "original_bytes": 1457,
+      "sha256": "eecbb6f6fa9c8cfc56a8f4a054cbb5ada616c839f370792591311f2aa984452c"
+    },
+    {
+      "path": "managed-build.stdout.gz",
+      "original_bytes": 156,
+      "sha256": "f4b7899a2d62a51a02a8c23454a924322067ff193657b6437082f75f53eaf5c1"
+    },
+    {
+      "path": "native-tests.stderr.gz",
+      "original_bytes": 678,
+      "sha256": "214e6fa68e55615d4d99d2dbd04e58b0e605fe4afe6dabf9f3b20884e82f13ea"
+    },
+    {
+      "path": "native-tests.stdout.gz",
+      "original_bytes": 12202,
+      "sha256": "7a0774e244d6bce7692fe4c03dfad232c21357ec3fd0b751f9b5e303f92d8bc4"
+    },
+    {
+      "path": "receipt.json.gz",
+      "original_bytes": 9858,
+      "sha256": "250f704697173e8726acaebacbfd0356de6c48e83a4ed7cb3dbbec67e27301f3"
+    },
+    {
+      "path": "first-failure-commands.json.gz",
+      "original_bytes": 676,
+      "sha256": "edab2a539c01a7ece5d290f620350d45631548f59248bb638c10dfbd148b2278"
+    },
+    {
+      "path": "first-failure-managed-build.stderr.gz",
+      "original_bytes": 1959,
+      "sha256": "1c66b76a488c022081044ede4eae3ec3a2e153f7ad661d0cfa6fa590c9a46625"
+    },
+    {
+      "path": "first-failure-managed-build.stdout.gz",
+      "original_bytes": 59,
+      "sha256": "b39568c3badb5ddf0fe6b6d19b97ea56c3e1dd6442b173199b96b25c25fc4a35"
+    },
+    {
+      "path": "SOURCE-ARTIFACTS.json.gz",
+      "original_bytes": 1180,
+      "sha256": "30a1ea34d077e2f6ce872419101bb051130093cdd3c44151aa055f54baecd099"
+    },
+    {
+      "path": "SOURCE-MANIFEST.json.gz",
+      "original_bytes": 628139,
+      "sha256": "c36e0c838bdf111cce6ed9b22f53329d59fef3f28ca6600e6be6b99c96f333da"
+    },
+    {
+      "path": "BUILD-MANIFEST.json.gz",
+      "original_bytes": 6911,
+      "sha256": "b4d7114d102055cd9c243c56849a2fcdb7d5664750b17bda4343d6a536b590f6"
+    },
+    {
+      "path": "visual-explorer-desktop.png.gz",
+      "original_bytes": 96200,
+      "sha256": "9aa34c427dff5811f648a84244e39802df72eea7a5c5f607639bd0df655f6d3c"
+    },
+    {
+      "path": "visual-guide-desktop.png.gz",
+      "original_bytes": 79736,
+      "sha256": "ddc1b5be0ec8a3d5f626f80ae11bb193d72731d634799d89753f5c858298ca72"
+    },
+    {
+      "path": "visual-guide-mobile-commands.png.gz",
+      "original_bytes": 42565,
+      "sha256": "3c82ca3c06e7da0489b22055255c232ac5e4ac71d9c8333bef2ef829526d5eef"
+    },
+    {
+      "path": "visual-guide-mobile.png.gz",
+      "original_bytes": 50416,
+      "sha256": "a2c28b31c3d9d7ba84407e41e12d50a5c2c864320cb66ba30ca2ed7ea4a53489"
+    }
+  ],
+  "scope": "Actual managed c03f727 source/runtime build, fresh owned49-package/2049-file offline inputs/home; shared compiled target/tools reused. All156native/18browser/5615controls/fmt/Clippy/fullguard pass. First5ee context-shadow failure retained and corrected; native accounting unchanged."
+}

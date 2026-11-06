@@ -12,8 +12,13 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-24.04
+    env:
+      CARGO_INCREMENTAL: '0'
+      CARGO_BUILD_JOBS: '2'
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -41,6 +46,7 @@ jobs:
           python -B -m unittest discover -s tools -p 'test_rust_build.py' -v
           python -B -m unittest discover -s tools -p 'test_source_custody.py' -v
           python -B -m unittest discover -s tools -p 'test_source_artifacts.py' -v
+          python -B -m unittest discover -s tools -p 'test_source_release.py' -v
       - name: Validate Rust
         run: |
           cargo fmt -p taxlane-scenario --check
@@ -52,24 +58,81 @@ jobs:
           python tools/build-pages.py --inputs "${RUNNER_TEMP}/taxlane-inputs" --cargo-home "${RUNNER_TEMP}/taxlane-cargo-home" --target "${RUNNER_TEMP}/taxlane-target"
           npm test
       - name: Compare original native and WASM response strings
-        run: python tools/check-scenario-controls.py dist/TAXLANE test-results/scenario-controls --inputs "${RUNNER_TEMP}/taxlane-inputs" --cargo-home "${RUNNER_TEMP}/taxlane-cargo-home" --target "${RUNNER_TEMP}/taxlane-target"
+        run: python tools/check-scenario-controls.py dist/TAXLANE "${RUNNER_TEMP}/taxlane-scenario-controls" --inputs "${RUNNER_TEMP}/taxlane-inputs" --cargo-home "${RUNNER_TEMP}/taxlane-cargo-home" --target "${RUNNER_TEMP}/taxlane-target"
+      - name: Receive full source and independently rebuild source and runtime
+        run: python tools/check-source-replay.py --site dist/TAXLANE --source-artifacts dist/source-artifacts --output "${RUNNER_TEMP}/taxlane-source-replay" --browser
       - uses: actions/upload-artifact@v4
         with:
           name: complete-source-artifacts
           path: dist/source-artifacts
           compression-level: 0
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        with:
+          name: runtime-files
+          path: dist/TAXLANE
+          include-hidden-files: true
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: complete-source-replay-evidence
+          path: |
+            ${{ runner.temp }}/taxlane-source-replay/*.json
+            ${{ runner.temp }}/taxlane-source-replay/*.stdout
+            ${{ runner.temp }}/taxlane-source-replay/*.stderr
+            ${{ runner.temp }}/taxlane-source-replay/scenario-controls
+          if-no-files-found: ignore
+          retention-days: 7
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: scenario-controls
-          path: test-results/scenario-controls
+          path: ${{ runner.temp }}/taxlane-scenario-controls
           if-no-files-found: ignore
+          retention-days: 7
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist/TAXLANE
-  deploy:
+  publish_source:
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    outputs:
+      commit: ${{ steps.source.outputs.commit }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: complete-source-artifacts
+          path: ${{ runner.temp }}/taxlane-source-artifacts
+      - uses: actions/download-artifact@v4
+        with:
+          name: runtime-files
+          path: ${{ runner.temp }}/taxlane-runtime
+      - name: Publish exact complete source and verify anonymous bytes
+        id: source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python -B tools/publish-source.py --site "${RUNNER_TEMP}/taxlane-runtime" --artifacts "${RUNNER_TEMP}/taxlane-source-artifacts" --expected-commit "${GITHUB_SHA}" --publish --receipt "${RUNNER_TEMP}/source-publication.json"
+          echo "commit=${GITHUB_SHA}" >> "${GITHUB_OUTPUT}"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: source-publication-evidence
+          path: ${{ runner.temp }}/source-publication.json
+          if-no-files-found: ignore
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && needs.publish_source.outputs.commit == github.sha
+    needs: [build, publish_source]
     runs-on: ubuntu-latest
     permissions:
       pages: write
