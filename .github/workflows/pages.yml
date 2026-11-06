@@ -49,6 +49,14 @@ jobs:
         run: |
           python tools/build-pages.py
           npm test
+      - name: Compare original native and WASM response strings
+        run: python tools/check-scenario-controls.py dist/TAXLANE scenario-controls
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: scenario-controls
+          path: scenario-controls
+          if-no-files-found: ignore
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist/TAXLANE

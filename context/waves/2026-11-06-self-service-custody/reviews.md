@@ -28,7 +28,15 @@ T-5/T-6/T-7: no program, benefit, compliance burden, debt/continuity or research
 policy semantics change. Existing16 owner/17 repository boundaries and holds stay.
 
 Open publication gates: bounded complete source receiver and source/runtime
-reproduction; exact original native/WASM string controls; source release and
+reproduction; final rebuilt/live native/WASM controls; source release and
 current source/default/hosted/live/download/browser/module proof. Existing broader
 formatting differences are an observed preexisting scope, not silently repaired
 or called green. No portfolio delivery promotion follows this baseline pulse.
+
+Pulse03 implementing-agent review: T-2 independent accounting checks pass for all
+5,525 successful cases, including fixed offsets, rounded integer amounts and
+negative primary-outlay cases the original core accepts. T-3 retains complete
+5,615-case input/native/WASM streams and exact hashes; target-width rejections
+are recorded separately. T-8 keeps fixture sweeps separate from fiscal evidence.
+T-1/T-4/T-5/T-6/T-7: no reader or policy behavior changed. These checks are not
+independent reviewer endorsement. Full delivery gates above remain open.

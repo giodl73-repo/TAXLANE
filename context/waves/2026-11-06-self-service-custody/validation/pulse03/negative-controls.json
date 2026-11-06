@@ -1,0 +1,22 @@
+{
+  "string-mismatch": {
+    "returncode": 1,
+    "diagnostic": "ValueError: Native/WASM string or error differs: 1 default"
+  },
+  "matching-wrong-accounting": {
+    "returncode": 1,
+    "diagnostic": "ValueError: Independent accounting differs: deficit_musd"
+  },
+  "missing-record": {
+    "returncode": 1,
+    "diagnostic": "ValueError: Record count differs"
+  },
+  "empty-matrix": {
+    "returncode": 1,
+    "diagnostic": "ValueError: No controls"
+  },
+  "wrong-expectation": {
+    "returncode": 1,
+    "diagnostic": "ValueError: Unexpected result: default"
+  }
+}
