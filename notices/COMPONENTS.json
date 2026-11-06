@@ -26,7 +26,9 @@
       "adapted_paths": [
         "tools/source_custody.py",
         "tools/receive-source.py",
-        "tools/test_source_custody.py"
+        "tools/test_source_custody.py",
+        "tools/source_artifacts.py",
+        "tools/build-pages.py"
       ],
       "scope": "Public complete-source custody helpers and tests. Per-TAXLANE complete-source bounds are separate from unchanged Rust dependency bounds. WITNESS/TERRAIN ancestry grants and original TAXLANE split/source-specific licenses retained."
     }

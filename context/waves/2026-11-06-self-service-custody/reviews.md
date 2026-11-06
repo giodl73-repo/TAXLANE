@@ -49,3 +49,13 @@ input-only scenario export and research admission. T-1/T-4 check all16 actual
 browser cases, including keyboard Stop/Retry and mobile inspection; stale
 responses/rejections cannot revive retired output. T-5/T-6/T-7: no policy change.
 Full current source/runtime replay/publication/live gates remain open.
+
+Pulse04 candidate review: T-3 requires every committed research/data/software
+file in the separately measured source artifacts, complete dependency/helper/
+Rust runtime grants, original Git identities and no new source admission. T-2
+keeps the original baseline generator and native Rust comparison unchanged;
+three published native examples are complete responses, not a new fiscal model.
+T-1/T-4 require noJS/mobile build/download commands and current worker output.
+T-8 retains source/runtime distinction and no host-immutability or research claim.
+T-5/T-6/T-7: no benefits, services, compliance or debt-policy semantics change.
+Current full owned-input build/replay and final publication remain validation gates.

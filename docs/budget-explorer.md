@@ -20,17 +20,24 @@ cargo test --locked -p taxlane-core -p taxlane-scenario
 cargo fmt -p taxlane-scenario --check
 cargo clippy --locked --no-deps -p taxlane-scenario --all-targets --all-features -- -D warnings
 cargo install wasm-bindgen-cli --version 0.2.127 --locked
-python tools/build-pages.py
+python tools/build-pages.py --inputs ../taxlane-rust-inputs --cargo-home ../taxlane-cargo-home
 npm ci
 npx playwright install chromium
 npm test
 ```
 
 Rust 1.95.0 and the WASM target are declared in `rust-toolchain.toml`. The site
-build writes only inside `dist/`, enforces a 5 MB delivery budget, and never
+build writes its runtime and separate complete-source artifacts inside `dist/`,
+uses verified owned offline Rust sources/home, enforces a 5 MB runtime budget, and never
 rewrites canonical research artifacts. The workflow validates PRs and deploys
 the tested artifact only from `main`. Local tests serve `/TAXLANE/` on port 8766.
 For an existing browser binary, set `TAXLANE_BROWSER_PATH` when testing locally.
+Use new output directories; `--target` can select an existing compiled cache or
+an initially absent directory for an independent rebuild. Source and input/home
+paths must not overlap. `--source-output` can select a new external source-artifact
+directory. For an alternate build tree, set `TAXLANE_DIST` to its parent containing
+`TAXLANE/`; the browser server always starts fresh. `TAXLANE_SITE_URL` selects an
+existing HTTP(S) origin for live qualification, with no local server reuse.
 
 Share links hold percent changes, which replay against the named FY2025 baseline.
 Download JSON includes the baseline version and year. Source/WASM downloads and

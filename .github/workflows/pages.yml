@@ -40,6 +40,7 @@ jobs:
           python -B -m unittest discover -s tools -p 'test_input_custody.py' -v
           python -B -m unittest discover -s tools -p 'test_rust_build.py' -v
           python -B -m unittest discover -s tools -p 'test_source_custody.py' -v
+          python -B -m unittest discover -s tools -p 'test_source_artifacts.py' -v
       - name: Validate Rust
         run: |
           cargo fmt -p taxlane-scenario --check
@@ -48,15 +49,20 @@ jobs:
           cargo clippy --locked --no-deps -p taxlane-scenario --all-targets --all-features -- -D warnings
       - name: Build Pages and test browser
         run: |
-          python tools/build-pages.py
+          python tools/build-pages.py --inputs "${RUNNER_TEMP}/taxlane-inputs" --cargo-home "${RUNNER_TEMP}/taxlane-cargo-home" --target "${RUNNER_TEMP}/taxlane-target"
           npm test
       - name: Compare original native and WASM response strings
-        run: python tools/check-scenario-controls.py dist/TAXLANE scenario-controls
+        run: python tools/check-scenario-controls.py dist/TAXLANE test-results/scenario-controls --inputs "${RUNNER_TEMP}/taxlane-inputs" --cargo-home "${RUNNER_TEMP}/taxlane-cargo-home" --target "${RUNNER_TEMP}/taxlane-target"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: complete-source-artifacts
+          path: dist/source-artifacts
+          compression-level: 0
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: scenario-controls
-          path: scenario-controls
+          path: test-results/scenario-controls
           if-no-files-found: ignore
       - uses: actions/upload-pages-artifact@v3
         with:

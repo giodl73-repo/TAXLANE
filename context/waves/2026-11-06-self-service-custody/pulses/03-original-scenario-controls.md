@@ -42,7 +42,7 @@ adds the matrix and retains its raw evidence as an artifact.
 With declared Rust/Node/Python/bindgen prerequisites and the original site built:
 
 ```sh
-python tools/build-pages.py
+python tools/build-pages.py --inputs ../taxlane-rust-inputs --cargo-home ../taxlane-cargo-home
 python tools/check-scenario-controls.py dist/TAXLANE new-scenario-controls
 ```
 
