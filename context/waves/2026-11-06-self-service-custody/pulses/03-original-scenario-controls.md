@@ -75,4 +75,9 @@ fatal to their current worker generation. Production Rust remains unchanged.
 Add actual-worker browser cases for exact inspection/export bytes, retained input
 export, unrounded transit values, mobile overflow, keyboard Stop/Retry, retired
 worker callbacks and stale/current rejection correlation. Validation outcome is
-recorded separately after executing the full existing and new browser suite.
+recorded in `validation/pulse03-reader/`: all16 cases pass at a4b4e4d, including
+all13 original cases. The current local site uses original Rust with installed
+tools/cache/shared target reused; this is not final source/runtime replay.
+Hosted run42217625958 at3cb731a also passed; download and independently verify
+its entire portable matrix. All input/native/WASM hashes match the Windows
+baseline exactly. Its original13 browser cases and full data guardrail passed.

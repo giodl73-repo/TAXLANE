@@ -1,7 +1,8 @@
 # Pulse02: complete source and original input custody
 
 Status: original49 registry archives/2049 files/501414 notice bytes captured,
-checksummed and all23 custody and2 flag controls pass; full source transport pending.
+checksummed and all23 custody and2 flag controls pass. A separately source-bound
+complete source transport now passes; final runtime/publication integration remains open.
 Capsule4316190 bytes, SHA256
 e4bc423f03554e3b53771b5f131ba3eec89fbd2b987c983eebac45c0ebb8b7ec.
 
@@ -50,8 +51,13 @@ download/helper/compiled-target/protected paths; links, unsafe paths, aliases,
 duplicates, unexpected entries, changed Git identities and oversized/trailing/
 truncated archives reject. Source availability is not research admission.
 
-Small-fixture controls pass locally; complete-tree measurement/reception/replay
-will be recorded separately. Final runtime integration, outside-Git offline
+All14 small-fixture control methods pass locally. Complete-tree transport at
+b7b350966745b801892ab48474e474af9cbd4396 passes:3,161 files /425,889,123 file
+bytes; archive180,068,400 bytes; decoded tar430,192,640 bytes. Receive and
+regenerate all eight source artifacts with Git/Cargo absent from PATH; every
+artifact is byte-identical, including complete source and grants. Raw receipt,
+full inventory, commands/logs and hashes are in `validation/pulse02-transport/`.
+This is the named source revision's transport proof. Final runtime integration, outside-Git offline
 build and source publication are still open. Pulse03 now supplies the original
 5,615-case native/WASM parity baseline, not final rebuilt/live qualification.
 

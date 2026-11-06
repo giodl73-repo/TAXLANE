@@ -40,3 +40,12 @@ negative primary-outlay cases the original core accepts. T-3 retains complete
 are recorded separately. T-8 keeps fixture sweeps separate from fiscal evidence.
 T-1/T-4/T-5/T-6/T-7: no reader or policy behavior changed. These checks are not
 independent reviewer endorsement. Full delivery gates above remain open.
+
+Transport/reader checkpoint: T-3 checks a complete3,161-file source round trip at
+b7b3509, with exact archive/receiver/manifest/grant regeneration outside Git.
+All original research/data remains included and independently source-specific.
+T-2/T-8 keep raw comparison export hypothetical and separate from the preserved
+input-only scenario export and research admission. T-1/T-4 check all16 actual
+browser cases, including keyboard Stop/Retry and mobile inspection; stale
+responses/rejections cannot revive retired output. T-5/T-6/T-7: no policy change.
+Full current source/runtime replay/publication/live gates remain open.

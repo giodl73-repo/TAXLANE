@@ -1,8 +1,9 @@
 # Self-service delivery contract under review
 
 Status: current original software baseline and locked input custody are measured;
-complete managed source transport, outside-Git rebuild and current release/live
-qualification remain open. This document defines the next delivery gates.
+complete managed source transport now passes a separately source-bound noGit
+round trip. Owned-input runtime rebuild and current release/live qualification
+remain open. This document defines the next delivery gates.
 
 The accounting/scenario/ledger/research/source-rights contract in
 budget-explorer.md and the existing recovery acceptance remains authoritative.
@@ -68,3 +69,22 @@ original browser cases; add complete source/download/native-output/recovery/
 keyboard/mobile controls. Current source/default/deploy/published-source/live
 identities and every hosted file must qualify before TRACKER advances its pointer.
 Broader research/admission/rights/source/service gates remain separately labeled.
+
+## Measured complete-source transport checkpoint
+
+At commit `b7b350966745b801892ab48474e474af9cbd4396`, the complete tree is
+3,161 files /425,889,123 file bytes. The deterministic archive is180,068,400 bytes,
+SHA256 `4d6bb245db409bd104c61a1db7cad410256ab6ff08a4e8fb79ea856b9ad94f88`;
+its decoded tar container is430,192,640 bytes. Full-source limits are separately
+256,000,000 packed bytes,512,000,000 decoded bytes and6,000 original files.
+Verification is bounded but in-memory; several GB of available RAM are required.
+Original Rust dependency limits are unchanged. Fourteen receiver test methods
+pass, including aliases, duplicate/file-directory collisions and archive bounds.
+
+The trusted receiver restores into a new folder with Git/Cargo absent from PATH.
+All eight source artifacts, including archive, manifest, receiver and complete
+grants, regenerate byte-for-byte from the restored tree with Git/Cargo still
+absent. Evidence: `validation/pulse02-transport/` in the current custody wave.
+This is a transport checkpoint at the named commit, not final current runtime
+reproduction, a published source release, or source/research admission. Later
+source revisions require their own complete archive/runtime qualification.
