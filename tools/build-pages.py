@@ -58,15 +58,15 @@ def main():
     contexts = [row["solvency_context"] for row in rows]
     if any(context != contexts[0] for context in contexts):
         raise ValueError("Budget rows have inconsistent accounting context")
-    context = contexts[0]
+    accounting = contexts[0]
     def integer(value):
         if int(value) != value:
             raise ValueError("Baseline amounts must be integer millions")
         return int(value)
     baseline = {
         "version": 1, "fiscal_year": 2025,
-        "receipts_musd": integer(context["total_receipts_musd"]),
-        "outlays_musd": integer(context["total_outlays_musd"]),
+        "receipts_musd": integer(accounting["total_receipts_musd"]),
+        "outlays_musd": integer(accounting["total_outlays_musd"]),
         "lanes": [{"id": row["lane_id"], "label": row["public_label"],
                    "amount_musd": integer(row["current_cost_amount_musd"]),
                    "adjustable": row["current_cost_amount_musd"] >= 0 and row["lane_id"] != "net-interest",
