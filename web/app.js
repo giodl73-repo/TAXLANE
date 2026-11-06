@@ -2,7 +2,7 @@ import {evidencePanel} from './lane-evidence.js';
 const $ = selector => document.querySelector(selector);
 const money = value => `$${(Math.abs(value)/1000).toLocaleString('en-US',{minimumFractionDigits:1,maximumFractionDigits:3})}B`;
 const percent = value => `${value > 0 ? '+' : ''}${value}%`;
-let baseline, worker, ready=false, request=0, timer, loadingTimer, calculationTimer, attempt=0, scenarioLoaded=false;
+let baseline, worker, ready=false, request=0, timer, loadingTimer, calculationTimer, attempt=0, scenarioLoaded=false, latestRaw=null;
 let scenario={lane_change_bps:{},receipts_change_bps:0,transit_share_bps:0,transit_area:0};
 const controls=new Map();
 
@@ -13,6 +13,7 @@ function openEvidenceHash() {
 addEventListener('hashchange',openEvidenceHash);
 function clearTimers() {clearTimeout(timer);clearTimeout(loadingTimer);clearTimeout(calculationTimer);}
 function clearResults() {
+  latestRaw=null;$('#raw-json').textContent='';$('#raw-comparison').hidden=true;$('#download-comparison').disabled=true;
   $('.summary').hidden=true;$('#share').disabled=true;$('#download').disabled=true;
   for(const id of ['outlays','revenue','gap','mobile-gap','transit-hours']) $('#'+id).textContent='—';
   for(const id of ['delta','coverage','fixed-accounting','transit-detail']) $('#'+id).textContent='';
@@ -61,7 +62,7 @@ function loadScenario() {
   } catch { $('#status').textContent='Invalid shared scenario; showing the baseline.'; }
 }
 function receive(data) {
-  if(data.type==='error') {fail();return;}
+  if(data.type==='error') {if(data.fatal||data.id===request)fail();return;}
   if(data.type==='ready') {
     if(ready)return;
     clearTimeout(loadingTimer);
@@ -92,7 +93,8 @@ function receive(data) {
     $('#retry').hidden=true;$('#retry').disabled=true;
   } else if(ready && data.type==='result' && data.id===request) {
     clearTimeout(calculationTimer);
-    const result=data.result;const t=result.transit;$('#transit-hours').textContent=Math.round(t.vehicle_revenue_hours).toLocaleString('en-US')+' vehicle revenue hours';$('#transit-detail').textContent=`$${t.allocation_musd.toLocaleString('en-US',{maximumFractionDigits:3})}M illustrative allocation ÷ $${t.operating_dollars_per_hour.toFixed(2)}/hour (${t.area}, ${t.price_year} dollars).`;
+    if(typeof data.raw!=='string')throw Error('Missing native comparison string');
+    const result=JSON.parse(data.raw);const t=result.transit;$('#transit-hours').textContent=Math.round(t.vehicle_revenue_hours).toLocaleString('en-US')+' vehicle revenue hours';$('#transit-detail').textContent=`$${t.allocation_musd.toLocaleString('en-US',{maximumFractionDigits:3})}M illustrative allocation ÷ $${t.operating_dollars_per_hour.toFixed(2)}/hour (${t.area}, ${t.price_year} dollars).`;
     $('#outlays').textContent=money(result.outlays_musd);$('#revenue').textContent=money(result.receipts_musd);
     $('#gap-label').textContent=result.deficit_musd<0?'Annual surplus':'Annual financing gap';$('#gap').textContent=money(result.deficit_musd);
     $('#mobile-gap').textContent=`${money(result.deficit_musd)} ${result.deficit_musd<0?'surplus':'gap'}`;
@@ -108,11 +110,13 @@ function receive(data) {
     if(!$('#changes').children.length) {const li=document.createElement('li');li.textContent='Spending priorities match the baseline.';$('#changes').append(li);}
     $('#fixed-accounting').textContent=`Net interest: ${money(result.net_interest_musd)}. Negative offsets: ${money(baseline.lanes.filter(lane=>lane.amount_musd<0).reduce((sum,lane)=>sum+lane.amount_musd,0))} reduction in net outlays.`;
     $('.summary').hidden=false;$('#share').disabled=false;$('#download').disabled=false;
+    latestRaw=data.raw;$('#raw-json').textContent=latestRaw;$('#raw-comparison').hidden=false;$('#download-comparison').disabled=false;
   }
 }
 function start() {
   clearTimers();const generation=++attempt;ready=false;worker?.terminate();clearResults();disableControls();
   $('#retry').hidden=true;$('#status').textContent='Loading Rust accounting engine…';
+  $('#stop').disabled=false;
   if(!baseline)$('#baseline-label').textContent='Loading the dated baseline…';
   try{
     worker=new Worker(new URL('./worker.js',import.meta.url),{type:'module'});
@@ -123,6 +127,7 @@ function start() {
   }catch{fail('Unable to start the budget engine.');}
 }
 $('#retry').onclick=start;
+$('#stop').onclick=()=>fail('Budget explorer stopped.');
 $('#transit-share').oninput=()=>{scenario.transit_share_bps=Number($('#transit-share').value)*100;$('#transit-share-value').textContent=$('#transit-share').value+'%';changed();};
 $('#transit-area').onchange=()=>{scenario.transit_area=Number($('#transit-area').value);changed();};
 $('#transit-example').onclick=()=>{scenario.lane_change_bps.transportation=1000;scenario.transit_share_bps=1000;scenario.transit_area=2;syncControls();changed();};
@@ -130,4 +135,5 @@ $('#receipts').oninput=()=>{scenario.receipts_change_bps=Number($('#receipts').v
 $('#reset').onclick=()=>{scenario={lane_change_bps:{},receipts_change_bps:0,transit_share_bps:0,transit_area:0};history.replaceState(null,'',location.pathname);syncControls();$('#status').textContent='Reset to baseline';changed();};
 $('#share').onclick=async()=>{const url=new URL(location.href);url.searchParams.set('scenario',JSON.stringify(scenario));history.replaceState(null,'',url);try{await navigator.clipboard.writeText(url.href);$('#status').textContent='Scenario link copied.';}catch{$('#status').textContent='Copy the scenario link from your address bar.';}};
 $('#download').onclick=()=>{const blob=new Blob([JSON.stringify({baseline_version:baseline.version,fiscal_year:baseline.fiscal_year,hypothetical:true,scenario},null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download='taxlane-scenario.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+$('#download-comparison').onclick=()=>{if(latestRaw===null)return;const url=URL.createObjectURL(new Blob([latestRaw],{type:'application/json'}));const link=document.createElement('a');link.href=url;link.download='taxlane-comparison.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
 start();

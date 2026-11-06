@@ -62,3 +62,18 @@ cannot restore results. No automatic loop or saved/uploaded personal data.
 Full page reload still reads the URL rather than saving unshared session edits.
 [Interface acceptance](../reviews/2026-10-30-budget-recovery.md) preserves all
 existing ledger, integer-rounding, fungibility, source and authority boundaries.
+
+## Inspect or save the complete comparison
+
+Download comparison saves the exact Rust response as `taxlane-comparison.json`.
+Inspect complete comparison JSON shows the same unrounded string, including
+integer amounts in millions, fixed accounting rows and transit source/price-year/
+nonforecast labels. Download scenario retains its original input-only format and
+filename; comparison output is a separate artifact, not admitted fiscal evidence.
+
+Stop explorer terminates the current worker and clears displayed/exportable
+results. Retry explorer retains lane, receipts and transit assumptions and open
+evidence panels; Reset remains explicit. Changed inputs and failures immediately
+clear comparison JSON as well as totals. Only the current request may supply
+results or a calculation rejection; late responses from retired workers and
+obsolete requests cannot restore results or retire a newer comparison.

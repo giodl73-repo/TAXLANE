@@ -60,3 +60,19 @@ source/empty-target replay or source release. Full-source receiver/publication,
 raw result inspection/export, request/recovery qualification, hosted final
 artifacts, anonymous release/live readback and portfolio pointer promotion remain
 open. Existing research/source/admission holds and split licenses are unchanged.
+
+## Reader integration checkpoint
+
+Worker messages now carry the exact `compare_json` return string; the interface
+parses that string for presentation and exposes it unchanged for optional
+inspection and comparison download. Original scenario export remains input-only
+with the same filename/schema. Input changes, errors and Stop clear raw output
+and disable its download immediately. Stop terminates the worker; Retry retains
+current assumptions/evidence. Calculation rejections include a request ID so an
+obsolete rejection cannot retire newer output. Initialization failures remain
+fatal to their current worker generation. Production Rust remains unchanged.
+
+Add actual-worker browser cases for exact inspection/export bytes, retained input
+export, unrounded transit values, mobile overflow, keyboard Stop/Retry, retired
+worker callbacks and stale/current rejection correlation. Validation outcome is
+recorded separately after executing the full existing and new browser suite.
