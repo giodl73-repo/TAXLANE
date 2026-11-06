@@ -23,6 +23,7 @@ class FakeGitHub:
         self.events = [];self.default = data['commit'];self.default_reads = 0
         self.advance_before_publish = False;self.corrupt_public = False;self.wrong_public_body = False
         self.missing_digest = False;self.draft_reads = 0;self.public_reads = []
+        self.extra_drafts = [];self.list_pages = None;self.temporary_draft_urls = False
 
     def api(self, route, anonymous=False, missing=False, method='GET', payload=None):
         p = self.package
@@ -35,13 +36,21 @@ class FakeGitHub:
         if route == 'git/ref/tags/'+p['tag']:
             return dict(object=dict(sha=self.tag, type='commit')) if self.tag else None
         if route == 'releases/tags/'+p['tag']:
+            if self.release is None or self.release['draft']:return None
             value = copy.deepcopy(self.release)
             if anonymous and self.wrong_public_body:value['body'] += 'different'
             return value
+        if route.startswith('releases?per_page=100&page='):
+            page = int(route.rsplit('=',1)[1])
+            if self.list_pages is not None:return copy.deepcopy(self.list_pages.get(page, []))
+            return copy.deepcopy(([self.release] if self.release else [])+self.extra_drafts)
+        if route == 'releases/1' and method == 'GET':return copy.deepcopy(self.release)
         if route == 'releases/1/assets?per_page=100':return copy.deepcopy(list(self.assets.values()))
         if route == 'releases/1' and method == 'PATCH':
             assert payload == {'draft':False, 'make_latest':'false'}
             assert set(self.assets) == set(p['files'])
+            if self.temporary_draft_urls:
+                for name,asset in self.assets.items():asset['browser_download_url']=p['base']+name
             self.release['draft'] = False;self.tag = p['commit'];self.events.append('publish')
             return copy.deepcopy(self.release)
         raise AssertionError('Unexpected API route '+route)
@@ -51,11 +60,13 @@ class FakeGitHub:
         self.release = dict(id=1, tag_name=p['tag'], target_commitish=p['commit'], name=p['title'],
                             body=p['body'], draft=True, prerelease=False, immutable=False)
         self.events.append('create')
+        return copy.deepcopy(self.release)
 
     def upload(self, p, name):
         assert self.release['draft'] and name not in self.assets
         self.assets[name] = dict(id=len(self.assets)+1, name=name, state='uploaded', size=p['files'][name]['bytes'],
             digest=None if self.missing_digest else 'sha256:'+p['files'][name]['sha256'], browser_download_url=p['base']+name)
+        if self.temporary_draft_urls:self.assets[name]['browser_download_url']='https://github.com/'+REPO+'/releases/download/draft-placeholder/'+name
         self.events.append('upload:'+name)
 
     def draft_bytes(self, asset, expected):
@@ -119,12 +130,38 @@ class SourceRelease(unittest.TestCase):
         self.assertEqual(self.client.events, [])
 
     def test_asset_conflicts_refuse_overwrite(self):
-        for field, value in [('size',0), ('digest','sha256:'+'0'*64), ('state','starter'), ('browser_download_url','https://invalid.example/file')]:
+        for field, value in [('size',0), ('digest','sha256:'+'0'*64), ('state','starter')]:
             with self.subTest(field=field):
                 self.setUp();self.complete_draft()
                 self.client.assets[next(iter(self.package['files']))][field] = value
                 with self.assertRaises(ValueError):publish_or_verify(self.package, self.client, publish=True)
                 self.assertEqual(self.client.events, [])
+
+    def test_draft_is_found_by_list_and_id_when_tag_endpoint_hides_it(self):
+        self.complete_draft()
+        self.assertIsNone(self.client.api('releases/tags/'+self.package['tag'],missing=True))
+        publish_or_verify(self.package,self.client,publish=True)
+        self.assertEqual(self.client.events,['publish'])
+
+    def test_matching_draft_lookup_paginates_and_preserves_other_releases(self):
+        self.complete_draft()
+        self.client.list_pages={1:[dict(tag_name='other-'+str(n),id=n+10)for n in range(100)],2:[copy.deepcopy(self.client.release)]}
+        publish_or_verify(self.package,self.client,publish=True)
+        self.assertEqual(self.client.events,['publish'])
+
+    def test_duplicate_matching_drafts_refuse_mutation(self):
+        self.complete_draft();self.client.extra_drafts=[dict(self.client.release,id=2)]
+        with self.assertRaises(ValueError):publish_or_verify(self.package,self.client,publish=True)
+        self.assertEqual(self.client.events,[])
+
+    def test_public_routes_are_required_after_draft_publication(self):
+        self.client.temporary_draft_urls=True
+        result=publish_or_verify(self.package,self.client,publish=True)
+        self.assertTrue(result['anonymous_complete_readback'])
+        self.client.events.clear()
+        self.client.assets[next(iter(self.package['files']))]['browser_download_url']='https://invalid.example/file'
+        with self.assertRaises(ValueError):publish_or_verify(self.package,self.client,publish=True)
+        self.assertEqual(self.client.events,[])
 
     def test_unexpected_existing_asset_is_preserved_and_rejected(self):
         self.complete_draft();self.client.assets['unrelated'] = dict(name='unrelated')
